@@ -127,7 +127,7 @@ manifest.json       dataVersion, generatorVersion, generatedOn(日付のみ),
 - `poemId` は `"p" + ゼロ埋め 3 桁の cardNo`（例 `p001`）。
 - `text` は `ku[5]` の連結。`kami` は初句＋二句＋三句、`shimo` は四句＋五句。
 - `author.aliases` と `author.confirmed` は、この発注の範囲では**空配列と `false`** でよい。人確認台帳（`review/authors.yaml`）は別発注で作る。
-- `reading.status` は、`変異同確認.md` に読みの異同が記録されている首を `"review"`、それ以外を `"confirmed"` とする。判定根拠をコメントではなくコードで表現すること。
+- `reading.status` は、`異同確認.md` に読みの異同が記録されている首を `"review"`、それ以外を `"confirmed"` とする。判定根拠をコメントではなくコードで表現すること。
 - `generatedOn` は**日付のみ**（`YYYY-MM-DD`）。時刻を出力しない。再現性が壊れるため。
 - `dataVersion` は `paths.ts` に定数として置く。初版は `1`。
 
