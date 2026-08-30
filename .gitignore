@@ -1,0 +1,39 @@
+# 初版。P0（境界固定と公開衛生）で完成させる。
+# docs/IMPLEMENTATION_PLAN.md §10 の P0 ブロックを参照。
+#
+# 注意: このリポジトリは非公開の作業用・Codex 共有用である。
+# 公開リポジトリへ何を移すかは .gitignore ではなく
+# docs/PUBLISH_MANIFEST.md の許可リストで決める（P0 で作成）。
+# したがって docs/ 配下の内部資料はここでは除外しない。追跡して Codex と共有する。
+
+# 依存とビルド成果物
+node_modules/
+dist/
+.vite/
+coverage/
+
+# 環境設定・秘密情報
+.env
+.env.*
+!.env.example
+*.local
+secrets/
+**/service-account*.json
+**/*serviceaccount*.json
+**/*credentials*.json
+*.pem
+*.key
+
+# 実利用データ・バックアップ・未集計の報告
+user-data/
+backups/
+reports-raw/
+*.backup
+*.bak
+
+# OS・エディタ
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
