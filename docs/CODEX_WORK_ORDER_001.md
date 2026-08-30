@@ -14,7 +14,7 @@
 1. **古典学習帳**（百人一首アプリ）— [`docs/IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md)
 2. **歴史的仮名遣い確認ツール** — [`docs/superpowers/specs/2026-08-30-歴史的仮名遣い確認ツール-design.md`](superpowers/specs/2026-08-30-歴史的仮名遣い確認ツール-design.md)
 
-両者のディレクトリ構成（裁定 D-06）は**未決**であり、UI とアプリ足場の実装はまだ出せない。
+両者のディレクトリ構成（裁定 D-06）には推奨案があるが（`docs/IMPLEMENTATION_PLAN.md` §4.4）、依頼者の確認前である。したがって UI とアプリ足場の実装はまだ出せない。
 
 一方、本発注の**一次資料パーサと validator は、構成が決まる前でも書ける**。入力は確定した Markdown、出力はスキーマが定義済みだからである。しかも両プロダクトが依存する。
 
@@ -57,7 +57,9 @@ tests/data/           ← テスト
 package.json          ← 無ければ最小構成で新規作成してよい
 ```
 
-`tools/` と `tests/` はリポジトリ直下に置く。裁定 D-06 の後に移動する可能性があるため、**パスをコードへ直書きせず、1 つの設定モジュールに集約すること。**
+`tools/` と `tests/` はリポジトリ直下に置く。これは裁定 D-06 の推奨構成（`docs/IMPLEMENTATION_PLAN.md` §4.4）でも直下のままである。ただしアプリ側は `packages/{shared,hyakunin,kanazukai}` になる見込みで、生成 JSON の最終的な配置先はまだ決まっていない。したがって **入出力パスをコードへ直書きせず、`paths.ts` 1 箇所に集約すること。**
+
+生成 JSON の暫定置き場は `tools/build-data/generated/` とする。D-06 の確定後に `packages/hyakunin/src/data/generated/` 等へ移すが、そのとき変えるのは `paths.ts` だけで済むようにする。
 
 ---
 
