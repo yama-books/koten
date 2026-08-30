@@ -14,7 +14,9 @@
 1. **古典学習帳**（百人一首アプリ）— [`docs/IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md)
 2. **歴史的仮名遣い確認ツール** — [`docs/superpowers/specs/2026-08-30-歴史的仮名遣い確認ツール-design.md`](superpowers/specs/2026-08-30-歴史的仮名遣い確認ツール-design.md)
 
-両者のディレクトリ構成（裁定 D-06）には推奨案があるが（`docs/IMPLEMENTATION_PLAN.md` §4.4）、依頼者の確認前である。したがって UI とアプリ足場の実装はまだ出せない。
+両者のディレクトリ構成は**裁定 D-06 で決着済み**である（`docs/ADR/0004-two-products-layout.md`）。共有層 `packages/shared` と、公開単位 `packages/hyakunin` / `packages/kanazukai` に分ける。
+
+UI とアプリ足場は**別発注**とする（本発注に含めない。理由は §10）。
 
 一方、本発注の**一次資料パーサと validator は、構成が決まる前でも書ける**。入力は確定した Markdown、出力はスキーマが定義済みだからである。しかも両プロダクトが依存する。
 
@@ -46,7 +48,7 @@ CONSTITUTION.md
 - `git push`、リモート操作、公開リポジトリの作成
 - 秘密情報・API キー・ローカル絶対パス（利用者名を含む）のコミット
 - 生成 AI による正本・正解の確定
-- UI・アプリ本体の実装（構成裁定 D-06 が未決のため）
+- UI・アプリ本体・Vite 足場の実装（別発注のため。§10）
 
 **作成してよい場所**
 
@@ -57,9 +59,11 @@ tests/data/           ← テスト
 package.json          ← 無ければ最小構成で新規作成してよい
 ```
 
-`tools/` と `tests/` はリポジトリ直下に置く。これは裁定 D-06 の推奨構成（`docs/IMPLEMENTATION_PLAN.md` §4.4）でも直下のままである。ただしアプリ側は `packages/{shared,hyakunin,kanazukai}` になる見込みで、生成 JSON の最終的な配置先はまだ決まっていない。したがって **入出力パスをコードへ直書きせず、`paths.ts` 1 箇所に集約すること。**
+`tools/` と `tests/` はリポジトリ直下に置く（裁定 D-06 の構成でも直下のままである）。
 
-生成 JSON の暫定置き場は `tools/build-data/generated/` とする。D-06 の確定後に `packages/hyakunin/src/data/generated/` 等へ移すが、そのとき変えるのは `paths.ts` だけで済むようにする。
+**生成 JSON の出力先は `packages/hyakunin/src/data/generated/` とする。** 裁定 D-06 が決着し、配置先が確定した。暫定置き場を経由せず、最初からここへ出すこと。ディレクトリが存在しなければ作成してよい。
+
+それでも **入出力パスをコードへ直書きせず、`paths.ts` 1 箇所に集約すること。** 百人一首の正本はリポジトリ直下、出力は `packages/hyakunin/` 配下と離れており、相対パスが散らばると壊れやすいためである。
 
 ---
 
@@ -119,7 +123,7 @@ package.json          ← 無ければ最小構成で新規作成してよい
 
 | ファイル | 責務 |
 |---|---|
-| `tools/build-data/paths.ts` | 入出力パスの単一定義（D-06 後の移動に備える） |
+| `tools/build-data/paths.ts` | 入出力パスの単一定義。入力はリポジトリ直下、出力は `packages/hyakunin/src/data/generated/` |
 | `tools/build-data/parse-table.ts` | Markdown パイプ表の汎用パーサ。列数・番号の連続・空セルの異常で**例外を投げる**（読み飛ばさない） |
 | `tools/build-data/parse-poems.ts` | 本文・作者一次データ → 中間表現 |
 | `tools/build-data/parse-readings.ts` | 歴史的／現代仮名遣い → 中間表現 |
@@ -269,6 +273,6 @@ tests/data/variants-fixture.test.ts V-04（§5 の 10 件）
 | 人確認台帳 `review/*.yaml` と `apply-review` | 別発注。裁定 D-05 の運用（`confirmationMode`）を反映する必要がある |
 | 穴埋め・作者問題の生成 | 上に依存する |
 | `layout-hints.json` | 実機確認（H-03）の結果が要る |
-| アプリ本体・UI・Vite 足場 | 構成裁定 D-06 が未決 |
+| アプリ本体・UI・Vite 足場 | 別発注。P1（最小実行基盤）として D-06 の構成に沿って出す |
 | 仮名遣い規則コンバータ | 別プロダクト。設計書 §10.2 の分担表に従う |
 | `git push` | 依頼者の指示があるまで行わない |
