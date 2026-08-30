@@ -1,0 +1,152 @@
+[
+  {
+    "adopted": "柿本人麻呂",
+    "alternatives": [
+      "嵯峨嵐山文華館・文化ネットは「柿本人麻呂」。Wikisourceは「柿本人麿」。読みはいずれも「かきのもとのひとまろ」。"
+    ],
+    "cardNo": 3,
+    "decision": "PDFの「柿本人麻呂」を採用。「柿本人麿」は別表記として注記に保持。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=3",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/3/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "author",
+    "kind": "異表記"
+  },
+  {
+    "adopted": "PDFは「猿丸大夫」。現行転記は「猿丸太夫」。",
+    "alternatives": [
+      "嵯峨嵐山文華館は「猿丸大夫」、読み「さるまるだゆう」。文化ネットは「猿丸太夫」。"
+    ],
+    "cardNo": 5,
+    "decision": "PDF一次データ欄は「猿丸大夫」へ訂正を推奨。「猿丸太夫」は異表記として保持。作者読みは `さるまるだいふ`（歴史的仮名遣い）／`さるまるだゆう`（現代仮名遣い）を用途別に保持。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=5",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/5/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "author",
+    "kind": "異表記"
+  },
+  {
+    "adopted": "PDFは「安倍仲麿」。現行転記は「安倍仲麻呂」。",
+    "alternatives": [
+      "嵯峨嵐山文華館は「安倍仲麿」、文化ネットは「安倍仲麻呂」、Wikisourceは「阿倍仲麻呂」。読みはいずれも「あべのなかまろ」。"
+    ],
+    "cardNo": 7,
+    "decision": "高解像度切り出しでもPDFの「安倍仲麿」を確認。一次データは「安倍仲麿」へ訂正を推奨。検索別名として「安倍仲麻呂」「阿倍仲麻呂」を保持。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=7",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/7/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "author",
+    "kind": "異表記"
+  },
+  {
+    "adopted": "つくばねの",
+    "alternatives": [
+      "PDF画像を再確認し「つくばねの」。嵯峨嵐山文華館・文化ネット・Wikisourceも「つくばねの」。漢字表記は「筑波嶺の」とする資料がある。"
+    ],
+    "cardNo": 13,
+    "decision": "読みは「つくばねの」で確定。現行転記を維持。漢字表記「筑波嶺の」は参照表記であり、PDFの仮名表記を置換しない。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=13",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/13/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "ku1",
+    "kind": "読み方式"
+  },
+  {
+    "adopted": "源宗于朝臣",
+    "alternatives": [
+      "嵯峨嵐山文華館は「源宗于朝臣」、読み「みなもとのむねゆきあそん」。Wikisource本文は「源宗行朝臣」とするが、同じ欄の読みは「みなもとのむねゆきあそん」。文化ネットは「源宗干朝臣」と表示され、字形上の不一致がある。"
+    ],
+    "cardNo": 28,
+    "decision": "PDFの「源宗于朝臣」を採用。公開資料2件の「宗行」「宗干」は採用せず、異同として記録。読みは「みなもとのむねゆきあそん」。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=28",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/28/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "author",
+    "kind": "異表記"
+  },
+  {
+    "adopted": "山川に",
+    "alternatives": [
+      "嵯峨嵐山文華館・文化ネットも漢字は「山川に」。歴史的仮名遣いの読みは `やまがはに`、現代仮名遣いは `やまがわに`。Wikisourceは本文を「山がはに」と開いている。"
+    ],
+    "cardNo": 32,
+    "decision": "PDFの「山川に」を維持。読み欄で `やまがはに`／`やまがわに` を分ける。Wikisource本文は読みを仮名表記した別表現として扱う。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=32",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/32/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "ku1",
+    "kind": "読み方式"
+  },
+  {
+    "adopted": "由良の門を／曾禰好忠",
+    "alternatives": [
+      "嵯峨嵐山文華館は本文「由良のとを」、作者「曾禰好忠」。文化ネットも同じ。Wikisourceは本文「由良の戸を」、作者「曽根好忠」。読みは各資料とも `ゆらのとを`、`そねのよしただ`。"
+    ],
+    "cardNo": 46,
+    "decision": "PDFの「門」「曾禰」を維持し、`戸`・`と`、`曽根`を異表記として保持。漢字表記が違っても読みは同一。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=46",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/46/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "author",
+    "kind": "異表記"
+  },
+  {
+    "adopted": "由良の門を／曾禰好忠",
+    "alternatives": [
+      "嵯峨嵐山文華館は本文「由良のとを」、作者「曾禰好忠」。文化ネットも同じ。Wikisourceは本文「由良の戸を」、作者「曽根好忠」。読みは各資料とも `ゆらのとを`、`そねのよしただ`。"
+    ],
+    "cardNo": 46,
+    "decision": "PDFの「門」「曾禰」を維持し、`戸`・`と`、`曽根`を異表記として保持。漢字表記が違っても読みは同一。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=46",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/46/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "ku1",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "前大僧正行尊",
+    "alternatives": [
+      "嵯峨嵐山文華館は「前大僧正行尊」、文化ネットとWikisourceは「大僧正行尊」。"
+    ],
+    "cardNo": 66,
+    "decision": "PDFの「前大僧正行尊」を維持。「大僧正行尊」は別称として保持。歴史的仮名遣いの読みは `さきのだいそうじやうぎやうそん`、現代仮名遣いは `さきのだいそうじょうぎょうそん`。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=66",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/66/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "author",
+    "kind": "異表記"
+  },
+  {
+    "adopted": "いづこも同じ",
+    "alternatives": [
+      "嵯峨嵐山文華館・文化ネットは「いづこも同じ」。Wikisourceは「いづくも同じ」。"
+    ],
+    "cardNo": 70,
+    "decision": "PDFの「いづこも」を維持し、`いづくも`を本文異同として保持。現代仮名遣いは採用本文に対応させて `いずこもおなじ`。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=70",
+      "https://www.bunkanet.jp/manabi/hyakunin-isshu-karuta/element/70/",
+      "https://ja.wikisource.org/wiki/小倉百人一首"
+    ],
+    "field": "ku4",
+    "kind": "異本文"
+  }
+]

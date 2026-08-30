@@ -1,0 +1,15 @@
+{
+  "counts": {
+    "poems": 100,
+    "variants": 10
+  },
+  "dataVersion": 1,
+  "generatedOn": "2026-08-30",
+  "generatorVersion": "1.0.0",
+  "sourceHashes": {
+    "百人一首_読み_異同確認.md": "78953678a9bc5a1fece11da15c2bf166e1d7b542a3646f1f6e8ab4fe1a7a4b54",
+    "百人一首_読み_現代仮名遣い.md": "a728c9ba261319c2042e22d91800313f4af7c1c450614641007a1a7d09b73ec5",
+    "百人一首_読み_歴史的仮名遣い.md": "8d9e58aeffde10998ee037d57af4b281faca3a0a0ee15915168a91cda9a6ec8a",
+    "百人一首_本文・作者_一次データ.md": "291388671528cb9b81a6bc82821f243f609aee871fcaa10a4ce09d8b1f64c586"
+  }
+}

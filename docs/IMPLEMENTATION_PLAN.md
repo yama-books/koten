@@ -89,11 +89,23 @@
 | 番号の範囲と欠番 | いずれも 1〜100、欠番なし、重複なし |
 | 列数 | いずれも全行 7 列 |
 | 空セル | なし |
-| `異同確認.md` の判定と本文一次データの一致 | 9 件すべて一致（3 = 柿本人麻呂 ／ 5 = 猿丸大夫 ／ 7 = 安倍仲麿 ／ 13 = つくばねの ／ 28 = 源宗于朝臣 ／ 32 = 山川に ／ 46 = 曾禰好忠 ／ 66 = 前大僧正行尊 ／ 70 = いづこも同じ ／ 74 = 山おろしよ） |
+| `異同確認.md` の判定と本文一次データの一致 | 9 行すべて一致（3 = 柿本人麻呂 ／ 5 = 猿丸大夫 ／ 7 = 安倍仲麿 ／ 13 = つくばねの ／ 28 = 源宗于朝臣 ／ 32 = 山川に ／ 46 = 曾禰好忠・由良の門を ／ 66 = 前大僧正行尊 ／ 70 = いづこも同じ） |
 
 **注意すべき文書上のずれ（データ不整合ではない）**: `百人一首_読み_異同確認.md` は第 5 首・第 7 首を「現行転記は猿丸太夫／安倍仲麻呂であり、PDF どおりに直す候補」と記述しているが、`百人一首_本文・作者_一次データ.md` はすでに `猿丸大夫` ／ `安倍仲麿` に修正済みである。異同確認文書側の「現行転記」欄が古い。
 
-**一次資料は変更しない。** この 9 件を P2 の validator の固定 fixture として取り込み、「異同確認の判定値と本文一次データが一致していること」を CI で恒久的に検査する。文書側の表現を直すかどうかは人間の裁量とし、本計画は判断しない（人間確認 H-07）。
+**訂正（2026-08-30 実測）**: 本表は以前、上の一致リストに「74 = 山おろしよ」を含めて
+10 番号を並べながら件数を「9 件」と書いていた。**第 74 首は `異同確認.md` に存在しない。**
+同文書の表は 9 行（3・5・7・13・28・32・46・66・70）で、74 の行も注記もない。
+第 74 首（源俊頼朝臣「憂かりける／人を初瀬の／山おろしよ／…」）は 3 ファイルとも一致しており、
+異同ではない。上のリストから 74 を削除した。**この件で調査をやり直さないこと。**
+
+**`variants.json` の件数は 10 である（9 ではない）。** 一次資料の 9 行のうち第 46 首の行だけが
+`初句・作者名` という複合欄であり、パーサがこれを `field: "author"` と `field: "ku1"` の
+2 件に分けて出力するため、9 行 → 10 件になる。**これは正しい挙動である。**
+件数を数える受入条件は「一次資料 9 行」と「出力 10 件」を区別して書くこと。
+2026-08-30 に生成物を実測して確認した。
+
+**一次資料は変更しない。** この 9 行を P2 の validator の固定 fixture として取り込み、「異同確認の判定値と本文一次データが一致していること」を CI で恒久的に検査する。文書側の表現を直すかどうかは人間の裁量とし、本計画は判断しない（人間確認 H-07）。
 
 ### 2.2 レイアウト設計に効く実測値
 
@@ -192,7 +204,7 @@ commit 数     : 2（4a61a65, d001ce5）
                                   ├─→ tools/build-data（Node/TS。ローカル＋CI）
                                   │      parse → normalize → apply-review → validate → emit
                                   │
-                                  └─→ app/src/data/generated/*.json（再生成可能な派生物）
+                                  └─→ packages/hyakunin/src/data/generated/*.json（再生成可能な派生物）
                                              │
                                              ↓ 静的同梱
                                     [Vite + TS + Preact SPA]
@@ -213,7 +225,7 @@ commit 数     : 2（4a61a65, d001ce5）
 | IndexedDB を唯一の履歴正本とし、統計送信キューを物理的に別ストアにする | 送信失敗が履歴に触れない。「統計送信の失敗は学習を妨げない」を設計で保証する | 憲章 §5, §6 |
 | 習熟度を保存値ではなくイベント列からの導出値にする | 規則版を上げても過去イベントから再計算でき、統合時に保存値を盲目的に上書きしない | 憲章 §5、`APP_SPEC` §9.2 |
 | 管理確認ページを公開ビルドとは別の Vite エントリにする | `import.meta.env.DEV` のツリーシェイキング頼みにせず、公開ビルドに物理的に含めない | 憲章 §4 |
-| 公開対象ツリーを `app/` に隔離する | 移管時に「移す対象だけをコピーする」が機械的に決まる。内部資料の混入を人の注意力に頼らない | 憲章 §4、F-17 |
+| 公開対象ツリーを `packages/` ＋ `tools/` / `tests/` / `firebase/` / `.github/` に限る（裁定 D-06） | 移管時に「移す対象だけをコピーする」が機械的に決まる。内部資料の混入を人の注意力に頼らない | 憲章 §4、F-17 |
 | Preact ＋ 素の CSS（トークンは CSS 変数） | バンドルを小さく保ち、`writing-mode` と `prefers-reduced-motion` を CSS で直接扱う。UI フレームワークの既定デザインが `DESIGN_SYSTEM` の禁止事項と衝突しない | `DESIGN_SYSTEM` 禁止事項 |
 | ルーティングは URL クエリのみ | GitHub Pages の base path 下で 404 を作らない。`?from=10&to=20` が仕様の主入口である | `APP_SPEC` §4 |
 | 統計は Firestore REST 直書き＋匿名アカウント使い捨て（`shukudai-kanri` 実績） | Functions を持たず無料枠を守れる。トークンを永続化しない。詳細は §7 と裁定 D-02 | F-04、憲章 §6 |
@@ -236,6 +248,8 @@ commit 数     : 2（4a61a65, d001ce5）
 
 ### 4.1 リポジトリ全体（現・非公開作業リポジトリ）
 
+**2 プロダクト構成（裁定 D-06・2026-08-30 確定。詳細は `docs/ADR/0004-two-products-layout.md`）を反映したツリー。**
+
 ```text
 koten/                                   ← 非公開の作業リポジトリ（現状）
 ├─ .gitignore                            ← P0 で新規作成
@@ -244,47 +258,95 @@ koten/                                   ← 非公開の作業リポジトリ�
 ├─ README.md                             ← 公開用に再構成して移す（P12）
 ├─ LICENSE / LICENSE-CONTENT.md / NOTICE ← 公開側へコピー
 ├─ USB-*.pdf                             ← 移管対象外（F-17）
-├─ 百人一首_*.md / 古典文法_*.md          ← 正本。読み取り専用。公開側へコピー
+├─ 百人一首_*.md / 古典文法_*.md          ← プロダクト1（古典学習帳）の正本。読み取り専用。公開側へコピー
+├─ 仮名遣い規則_一次データ.md             ← プロダクト2（歴史的仮名遣い確認ツール）の正本（未作成）。読み取り専用。公開側へコピー
+├─ 仮名遣い語彙_一次データ.md             ← プロダクト2の正本（未作成）。読み取り専用。公開側へコピー
 ├─ 古典関係アプリ_設計計画書_2026-08-29.md ← 内部資料。移管対象外
-├─ docs/                                 ← 内部資料。移管対象外
+├─ docs/                                 ← 内部資料（両プロダクト共通）。移管対象外
 │   ├─ APP_SPEC.md / DESIGN_SYSTEM.md / LEARNING_SCIENCE_AUDIT.md / DESIGN_AUDIT.md
 │   ├─ OPUS_PLANNING_WORK_ORDER.md / OPUS_IMPLEMENTATION_PLAN.md
 │   ├─ SHUKUDAI_KANRI_IMPROVEMENT_ORDER.md
 │   ├─ IMPLEMENTATION_PLAN.md            ← 本書
-│   ├─ ADR/                              ← P0 で新規
+│   ├─ ADR/                              ← P0 で新規（0004 は 2 プロダクト構成・習熟度蓄積単位の裁定記録）
 │   ├─ PUBLISH_MANIFEST.md               ← P0 で新規（移管対象の唯一の正本リスト）
 │   └─ HANDOFF.md                        ← 作成済み。追跡する（Codex と共有するため）
 ├─ assets/feedback/*.png                 ← 公開側へコピー
 ├─ review/                               ← P2 / P6 で新規。人確認台帳（YAML）。公開側へコピー
-└─ app/                                  ← ★ここだけが公開対象ツリー
+│   ├─ hyakunin/                         プロダクト1の人確認台帳
+│   └─ kanazukai/                        プロダクト2の人確認台帳
+├─ packages/                             ★公開対象は下記 2 パッケージ（4.2 参照）
+│   ├─ shared/                           非公開・共有パッケージ（各公開単位にバンドルされる。単体では公開しない）
+│   ├─ hyakunin/                         ★公開対象ツリー（古典学習帳／百人一首アプリ）
+│   └─ kanazukai/                        ★公開対象ツリー（歴史的仮名遣い確認ツール）
+├─ tools/                                build-data / review-page / overflow-check / scan-publish（両プロダクト共通）
+├─ tests/                                unit / data / screen / rules（両プロダクト共通）
+└─ firebase/                             firestore.rules / firestore.indexes.json / firebase.json（両プロダクト共通）
 ```
 
-### 4.2 公開対象ツリー `app/`
+### 4.2 公開対象ツリー `packages/` の内訳（裁定 D-06・2026-08-30 確定）
+
+`app/` 単一ツリー時代のモジュール一覧を、共有層 `packages/shared` と公開単位 `packages/hyakunin`・`packages/kanazukai` に振り分ける。振り分けの方針は `docs/ADR/0004-two-products-layout.md` の D-06 に従う。`.github/workflows/`（`ci.yml` / `deploy-pages.yml`）はリポジトリ直下に 1 組だけ置く（公開リポジトリは 1 つ。デプロイ先は `/hyakunin/`・`/kanazukai/` の別パス）。
+
+#### packages/shared（非公開・共有パッケージ）
 
 ```text
-app/
+packages/shared/
+├─ package.json / tsconfig.json          npm workspace のローカルパッケージ。ランタイム依存として配布しない
+├─ src/
+│   ├─ app-config.ts                     ★仮称・公開名義・各種版・機能フラグの単一定義（F-18。詳細は 4.3）
+│   ├─ styles/
+│   │   ├─ tokens.css                    DESIGN_SYSTEM のトークンをそのまま写す
+│   │   ├─ base.css                      reset、lang、フォント読込、44px 最小タップ
+│   │   └─ motion.css                    prefers-reduced-motion 分岐
+│   ├─ domain/
+│   │   ├─ ids.ts                        CardNo / PoemId / QuestionId / SessionId / ItemKey のブランド型
+│   │   │                                （`ItemKey` の生成規則は裁定 D-01 により製品ごとに異なる。6.2 参照）
+│   │   ├─ event.ts                      Event 型、kind、method、delta の定義（`product` 判別子つき。6.2 参照）
+│   │   └─ mastery/
+│   │       ├─ rules.v1.ts               イベント表・上限・減点・同一回半分・別日 90 超（規則版 1・両製品共通）
+│   │       ├─ compute.ts                イベント列 → 習熟度（純関数）
+│   │       └─ color.ts                  5 色境界と％・メーター表示値
+│   ├─ storage/
+│   │   ├─ db.ts                         IndexedDB open / upgrade / トランザクション
+│   │   ├─ schema.ts                     ストア定義とスキーマ版
+│   │   ├─ repo/                         events / sessions / settings / reports / outbox
+│   │   ├─ fallback.ts                   IndexedDB 不可時の LocalStorage フォールバック
+│   │   ├─ export.ts                     書き出し（JSON ファイル／貼付文字列）
+│   │   ├─ import.ts                     検証 → プレビュー → 統合
+│   │   ├─ merge.ts                      重複排除（eventId / sessionId / reportId）
+│   │   └─ reset.ts                      初期化（プロダクト単位で対象を選べる。表示設定・学年は残す）
+│   ├─ telemetry/
+│   │   ├─ registry.ts                   ★送信イベント定義と許可フィールドの allowlist
+│   │   ├─ client-number.ts              無作為な利用番号の生成・保持（2 製品で共有。ADR-0004 補正 1）
+│   │   ├─ sanitize.ts                   allowlist 外・自由文・時刻の除去（違反は例外）
+│   │   ├─ queue.ts                      outbox とリトライ（学習を妨げない）
+│   │   └─ transport.ts                  匿名認証と送信。公開 Web 設定のみを扱う
+│   ├─ reports/
+│   │   ├─ form.ts                       報告カテゴリと任意注記（ローカル保持）
+│   │   └─ send.ts                       統計とは別経路。注記の送信前確認
+│   └─ ui/
+│       ├─ components/                   Button / TextField / ChoiceList / Meter / VerticalPoem /
+│       │                                FeedbackMark / LiveRegion / ConfirmDialog / ErrorNotice
+│       └─ a11y/                         focus 管理、読み上げ順、aria-live
+```
+
+※要確認: `public/fonts/`（self-host WOFF2）・`public/feedback/`（correct-maru.png 等）・`public/404.html` を共有アセットとしてここに置き各公開単位がビルド時に取り込むか、公開単位ごとに複製するかは、ADR-0004・先方設計書のいずれにも記載がない。ここでは暫定的に共有層に属するものとして扱う。
+
+#### packages/hyakunin（公開単位 1・古典学習帳／百人一首アプリ）
+
+```text
+packages/hyakunin/
 ├─ package.json                    scripts: dev / build / preview / test / test:rules /
-│                                           data:build / data:check / overflow:check /
-│                                           review:dev / scan:publish
+│                                           data:build / data:check / overflow:check / review:dev
 ├─ tsconfig.json / tsconfig.node.json
-├─ vite.config.ts                  base は環境変数から。公開ビルドの入口は index.html のみ
+├─ vite.config.ts                  base は `/hyakunin/`。公開ビルドの入口は index.html のみ
 ├─ vitest.config.ts / eslint.config.js
 ├─ index.html
-├─ .github/workflows/
-│   ├─ ci.yml                      typecheck / lint / unit / data:check / scan:publish
-│   └─ deploy-pages.yml            main への push で build → Pages（P12 で有効化）
-├─ public/
-│   ├─ fonts/                      self-host WOFF2（サブセット）
-│   ├─ feedback/                   correct-maru.png / needs-review-check.png / perfect-hanamaru.png
-│   └─ 404.html                    Pages 用（index.html へ委譲）
+├─ public/                         404.html ほか（配置は上記※要確認のとおり暫定）
 ├─ src/
 │   ├─ main.tsx                    エントリ。ルート描画とグローバルエラー境界
-│   ├─ app-config.ts               ★仮称・公開名義・各種版・機能フラグの単一定義（F-18）
 │   ├─ styles/
-│   │   ├─ tokens.css              DESIGN_SYSTEM のトークンをそのまま写す
-│   │   ├─ base.css                reset、lang、フォント読込、44px 最小タップ
-│   │   ├─ vertical.css            .poem / .question-text の writing-mode と列制御
-│   │   └─ motion.css              prefers-reduced-motion 分岐
+│   │   └─ vertical.css            .poem / .question-text の writing-mode と列制御
 │   ├─ data/
 │   │   ├─ generated/              ★build-data の出力。手編集禁止（CI で検査）
 │   │   │   ├─ poems.json / variants.json / layout-hints.json
@@ -292,58 +354,66 @@ app/
 │   │   │   └─ manifest.json
 │   │   └─ load.ts                 生成 JSON の読込と実行時スキーマ検査
 │   ├─ domain/
-│   │   ├─ ids.ts                  CardNo / PoemId / QuestionId / SessionId / ItemKey のブランド型
 │   │   ├─ poem.ts                 Poem 型と参照ヘルパ
 │   │   ├─ question.ts             Question 型、normalization 規則、正誤判定
 │   │   ├─ range.ts                URL 範囲の解析・正規化・20 首分割・残り優先
 │   │   ├─ order.ts                番順／ランダム、seed 生成と固定
-│   │   ├─ event.ts                Event 型、kind、method、delta の定義
-│   │   ├─ mastery/
-│   │   │   ├─ rules.v1.ts         イベント表・上限・減点・同一回半分・別日 90 超（規則版 1）
-│   │   │   ├─ compute.ts          イベント列 → 首の習熟度（純関数）
-│   │   │   └─ color.ts            5 色境界と％・メーター表示値
 │   │   ├─ recommend.ts            次の一件（LEARNING_SCIENCE_AUDIT の優先順 4 段）
 │   │   └─ session.ts              回の状態機械
-│   ├─ storage/
-│   │   ├─ db.ts                   IndexedDB open / upgrade / トランザクション
-│   │   ├─ schema.ts               ストア定義とスキーマ版
-│   │   ├─ repo/                   events / sessions / settings / reports / outbox
-│   │   ├─ fallback.ts             IndexedDB 不可時の LocalStorage フォールバック
-│   │   ├─ export.ts               書き出し（JSON ファイル／貼付文字列）
-│   │   ├─ import.ts               検証 → プレビュー → 統合
-│   │   ├─ merge.ts                重複排除（eventId / sessionId / reportId）
-│   │   └─ reset.ts                初期化（表示設定・学年は残す）
-│   ├─ telemetry/
-│   │   ├─ registry.ts             ★送信イベント定義と許可フィールドの allowlist
-│   │   ├─ client-number.ts        無作為な利用番号の生成・保持
-│   │   ├─ sanitize.ts             allowlist 外・自由文・時刻の除去（違反は例外）
-│   │   ├─ queue.ts                outbox とリトライ（学習を妨げない）
-│   │   └─ transport.ts            匿名認証と送信。公開 Web 設定のみを扱う
-│   ├─ reports/
-│   │   ├─ form.ts                 報告カテゴリと任意注記（ローカル保持）
-│   │   └─ send.ts                 統計とは別経路。注記の送信前確認
 │   └─ ui/
-│       ├─ components/             Button / TextField / ChoiceList / Meter / VerticalPoem /
-│       │                          FeedbackMark / LiveRegion / ConfirmDialog / ErrorNotice
-│       ├─ screens/                Home / RangePicker / Session / Result / History /
-│       │                          Settings / Transfer / Guide / ErrorScreen
-│       └─ a11y/                   focus 管理、読み上げ順、aria-live
-├─ tools/
-│   ├─ build-data/                 parse-poems / parse-readings / parse-variants /
-│   │                              apply-review / validate / emit / hash
-│   ├─ review-page/                ★非公開の管理確認ページ（別 Vite エントリ）
-│   ├─ overflow-check/             Playwright で 100 首 × 4 幅の機械あふれ検査
-│   └─ scan-publish/               秘密情報・内部資料・除外対象の混入検査
-├─ tests/
-│   ├─ unit/                       domain / storage / telemetry の単体
-│   ├─ data/                       生成物の参照整合・再現性・fixture
-│   ├─ screen/                     代表画面のレンダリングと a11y スモーク
-│   └─ rules/                      Firestore ルールのテスト
-└─ firebase/
-    ├─ firestore.rules
-    ├─ firestore.indexes.json
-    └─ firebase.json               Emulator 設定。実プロジェクト ID は環境変数
+│       └─ screens/                Home / RangePicker / Session / Result / History /
+│                                  Settings / Transfer / Guide / ErrorScreen
 ```
+
+これらの `ui/screens/` は範囲 URL・首単位の出題・習熟度表示など百人一首固有の状態機械に紐づくため、公開単位 1 に置く。歴史的仮名遣い確認ツール側の画面構成は先方設計書（`docs/superpowers/specs/2026-08-30-歴史的仮名遣い確認ツール-design.md`）に従う（下記 kanazukai 節）。
+
+#### packages/kanazukai（公開単位 2・歴史的仮名遣い確認ツール）
+
+```text
+packages/kanazukai/
+├─ package.json / tsconfig.json / tsconfig.node.json
+├─ vite.config.ts                  base は `/kanazukai/`
+├─ vitest.config.ts / eslint.config.js
+├─ index.html
+└─ src/
+    ├─ main.tsx                    エントリ
+    └─ data/                       ★build-data の出力（仮名遣いの生成 JSON）。手編集禁止（CI で検査）
+```
+
+先方設計書に従い、次を実装する（具体的なファイル分割は先方設計書の管轄であり、本書では固定しない）。
+
+- 横書き単語モード（縦書きではない）
+- 規則診断
+- 3 モード（通し練習・規則別・まちがい直し）
+- `?rule=` / `?set=` の URL 解析
+
+#### tools/・tests/・firebase/（リポジトリ直下・両プロダクト共通）
+
+```text
+tools/
+├─ build-data/                     parse-poems / parse-readings / parse-variants /
+│                                  apply-review / validate / emit / hash（百人一首側）
+├─ review-page/                    ★非公開の管理確認ページ（別 Vite エントリ）
+├─ overflow-check/                 Playwright によるあふれ検査
+└─ scan-publish/                   秘密情報・内部資料・除外対象の混入検査
+
+tests/
+├─ unit/                           domain / storage / telemetry の単体
+├─ data/                           生成物の参照整合・再現性・fixture
+├─ screen/                         代表画面のレンダリングと a11y スモーク
+└─ rules/                          Firestore ルールのテスト
+
+firebase/
+├─ firestore.rules
+├─ firestore.indexes.json
+└─ firebase.json                   Emulator 設定。実プロジェクト ID は環境変数
+```
+
+※要確認: `tools/build-data/` は現状は百人一首側のパイプライン（`parse-poems` 等）のみを列挙している。仮名遣いツールの一次データ（`仮名遣い規則_一次データ.md`・`仮名遣い語彙_一次データ.md`）に対応するパイプライン構成は、ADR-0004・先方設計書のいずれにも具体的な記載がない。
+
+※要確認: `tools/overflow-check/` は「100 首 × 4 幅」という百人一首前提の検査として作られている。仮名遣いツール（横書き単語モード）に同種の機械あふれ検査が要るか、要るとすればどう構成するかは未確認。
+
+※要確認: `packages/hyakunin/src/data/load.ts`（生成 JSON の読込と実行時スキーマ検査）のロジックを共有層に置き製品ごとにスキーマだけ渡す形にするか、公開単位ごとに個別実装として持つかは、ADR-0004・先方設計書のいずれにも記載がない。上記ツリーでは暫定的に `packages/hyakunin` 側にのみ明記している。
 
 ### 4.3 `app-config.ts` が一箇所で持つもの（F-18）
 
@@ -351,7 +421,9 @@ app/
 
 画面と README の文言は必ずここを参照し、文字列を直書きしない。名称確定時の変更点をこの 1 ファイルと文言リソースに閉じ込める。CI に「`src/ui/` 配下に仮称の文字列リテラルが現れないこと」の grep 型否定アサーションを置く。
 
-### 4.4 2 プロダクト構成（裁定 D-06 の推奨案）
+この定義は `packages/shared` に置き、`packages/hyakunin`・`packages/kanazukai` の各公開単位がそれぞれ自分の値を持つ設定として参照する。表示名・リポジトリ URL・base path（`/hyakunin/` ／ `/kanazukai/`）は公開単位ごとに異なる値を持つ。
+
+### 4.4 2 プロダクト構成（裁定 D-06・2026-08-30 確定）
 
 依頼者の指示により、このリポジトリには**並行プロダクト**が同居する。
 
@@ -360,41 +432,18 @@ app/
 | 1 | 古典学習帳（百人一首アプリ） | 本書と `docs/APP_SPEC.md` |
 | 2 | 歴史的仮名遣い確認ツール | `docs/superpowers/specs/2026-08-30-歴史的仮名遣い確認ツール-design.md` |
 
-先方設計書は「`CONSTITUTION.md`、`docs/DESIGN_SYSTEM.md`、習熟度モデル、保存スキーマを共有し、公開単位とデータだけを分ける」と定めている。§4.1〜§4.2 の単一プロダクト構成をこれに合わせて組み替える。
+先方設計書は「`CONSTITUTION.md`、`docs/DESIGN_SYSTEM.md`、習熟度モデル、保存スキーマを共有し、公開単位とデータだけを分ける」と定めている。2026-08-30、依頼者は本節の構成案を補正 3 点つきで裁定した（**裁定 D-06**）。決定の全文・却下案・変更条件は `docs/ADR/0004-two-products-layout.md` にある。§4.1〜§4.2 はこの裁定を反映済み。
 
-#### 推奨する構成
+#### 確定した構成
 
-```text
-koten/                                  ← 非公開の作業リポジトリ
-├─ docs/                                内部資料（両プロダクト共通。移管対象外）
-├─ 百人一首_*.md                         プロダクト 1 の正本（読み取り専用）
-├─ 仮名遣い規則_一次データ.md             プロダクト 2 の正本（未作成。先方設計書 §4.1）
-├─ 仮名遣い語彙_一次データ.md             プロダクト 2 の正本（未作成。先方設計書 §4.2）
-├─ review/
-│   ├─ hyakunin/                        プロダクト 1 の人確認台帳
-│   └─ kanazukai/                       プロダクト 2 の人確認台帳
-├─ packages/
-│   ├─ shared/                          ★共有層（どちらの公開単位にも入る）
-│   │   ├─ src/domain/mastery/          習熟度の係数・計算・色（両者共通）
-│   │   ├─ src/domain/event.ts          Event 型（product 判別子つき）
-│   │   ├─ src/storage/                 IndexedDB / export / import / merge / reset
-│   │   ├─ src/telemetry/               利用番号 / registry / sanitize / queue
-│   │   ├─ src/ui/components/           DESIGN_SYSTEM の部品と 8 状態
-│   │   └─ src/styles/                  tokens.css / base.css / motion.css
-│   ├─ hyakunin/                        公開単位 1
-│   │   ├─ index.html / vite.config.ts / src/（縦書き・範囲 URL・5 入口・出題）
-│   └─ kanazukai/                       公開単位 2
-│       ├─ index.html / vite.config.ts / src/（横書き単語・規則診断・3 モード）
-├─ tools/                               build-data / review-page / overflow-check / scan-publish
-├─ tests/
-└─ firebase/                            共通（コレクション設計は下記）
-```
+構成の詳細ツリーは §4.1（リポジトリ全体）・§4.2（`packages/` の内訳）に反映済み。要点は次のとおり。
 
-`packages/shared` は npm workspace のローカルパッケージとし、公開ビルド時は各公開単位にバンドルする。ランタイム依存として配布しない。
+- 共有層 `packages/shared` を置き、公開単位を `packages/hyakunin`（古典学習帳／百人一首アプリ）と `packages/kanazukai`（歴史的仮名遣い確認ツール）に分ける。
+- `packages/shared` は npm workspace のローカルパッケージとし、公開ビルド時に各公開単位（`packages/hyakunin`、`packages/kanazukai`）へバンドルする。ランタイム依存として配布しない。
 
-#### 公開の単位
+#### 公開の単位（確定）
 
-**推奨: 公開リポジトリは 1 つ。GitHub Pages の別パスで 2 つを配信する**（`/hyakunin/`、`/kanazukai/`）。
+**公開リポジトリは 1 つ。GitHub Pages の別パスで 2 つを配信する**（`/hyakunin/`、`/kanazukai/`）。
 
 理由:
 
@@ -402,40 +451,48 @@ koten/                                  ← 非公開の作業リポジトリ
 - 相互リンク（先方設計書「百人一首アプリからリンクしてよい」）が同一オリジンで完結する。
 - 先方設計書が「分離が必要になった時点で別リポジトリへ切り出す」としており、初手で分けない方針と整合する。
 
-代替案は公開リポジトリを 2 つに分ける案だが、共有層の複製かパッケージ公開が必要になり、初回公開の作業量が増える。採らない。
+公開リポジトリを 2 つに分ける案は却下した。共有層の複製かパッケージ公開が必要になり、初回公開の作業量が増えるためである（`docs/ADR/0004-two-products-layout.md` 却下案 #1）。
 
 `docs/PUBLISH_MANIFEST.md` の許可リストは、共通部（正本 Markdown、LICENSE 一式、`review/`）と公開単位別部（`packages/*`）に分けて書く。
 
-#### 共有スキーマで決めておくこと
+#### 共有スキーマで決めておくこと（確定）
 
 先方設計書 §8 は「同じ書き出しファイルで両方の履歴を運べる。`itemKey` のみ異なる」としている。これを成立させるために次を固定する。
 
 | # | 決めること | 内容 |
 |---|---|---|
-| 1 | `Event` に `product` を足す | `"hyakunin"` / `"kanazukai"`。`itemKey` は前者が `poemId × skill`、後者が `wordId × rule` であり、判別子がないと衝突する |
+| 1 | `Event` に `product` を足す | `"hyakunin"` / `"kanazukai"`。~~`itemKey` は前者が `poemId × skill`、後者が `wordId × rule` であり、判別子がないと衝突する~~ **（この記述は取消。裁定 D-01 により、歴史的仮名遣い確認ツールの `itemKey = wordId` である。詳細は §6.3）** |
 | 2 | IndexedDB は **1 つの DB** | `events` ストアに `product` インデックスを足す。DB を分けると 1 ファイルでの書き出しができない |
-| 3 | 書き出し形式 | `APP_SPEC` §9.1 は `schemaVersion: 1` で `product` を持たない。**仕様改訂が必要**（人間確認 H-13）。`schemaVersion: 2` へ上げ、`events[].product` を必須にする案を推奨 |
+| 3 | 書き出し形式 | `APP_SPEC` §9.1 は `schemaVersion: 1` で `product` を持たない。仕様改訂の要否（`schemaVersion: 2` へ上げるか）は **H-13** とし、P4（保存・移行）の着手までに決める（ADR-0004 補正 3） |
 | 4 | 初期化（reset） | 対象をプロダクト単位で選べるようにする。「百人一首の履歴だけ消す」ができないと、片方の利用者が困る |
-| 5 | 無作為な利用番号 | **1 つを共有する。** 同じブラウザ保存領域で継続する番号を 2 つ持つ理由がない。統計案内の表示も 1 回でよい |
+| 5 | 無作為な利用番号 | **1 つを共有する。** これはプライバシー境界の判断として決定する（ADR-0004 補正 1）。番号は同じブラウザ保存領域に置かれる以上、分けても技術的な分離の実態はなく、分けることはかえって「分離している」という誤った説明になる。統計案内の表示も 1 回でよい |
 | 6 | 統計 payload | `stats_days_{env}` の 1 ドキュメント（1 利用番号 × 1 日）を維持し、**その中に product 別の集計を持つ**。コレクションを product ごとに分けると書込回数が倍増し、無料枠の余裕（§7.7）を削る |
 | 7 | 習熟度の係数 | 共有。先方設計書 §6 が「ヒント段階を方式の軸に読み替えて既存係数をそのまま適用する」としており、`rules.v1.ts` を 1 本で保てる |
 | 8 | 問題報告 | 共有。報告に `product` と対象 ID を持たせる |
 
-#### 本計画への影響
+裁定 D-06 の補正 3 点（詳細は `docs/ADR/0004-two-products-layout.md`）:
 
-| 節 | 変更 |
+- **補正 1（利用番号共有はプライバシー境界の判断）**: 上表 5 項目目のとおり。共有した結果として統計文書が「1 人の利用者が両プロダクトを使っている」という情報を持つことを明示的な受容事項として記録する。受容できなくなる条件（別オリジン配信への移行など）は ADR-0004 の「変更条件」にある。
+- **補正 2（`itemKey` の定義は D-01 の結論に差し替え）**: 上表 1 項目目のとおり。「本ツールが `wordId × rule`」という記述は取消し、`itemKey = wordId` に差し替える。
+- **補正 3（H-13 は P0 の阻害要因ではない）**: 上表 3 項目目のとおり。H-13 は **P4（保存・移行）の着手までに**決める。
+
+#### 本計画への反映状況
+
+| 節 | 状態 |
 |---|---|
-| §4.1、§4.2 | 上記構成へ置き換える（`app/` → `packages/{shared,hyakunin,kanazukai}`） |
-| §6.1 | `events` ストアに `product` インデックスを足す |
-| §6.2 | `Event` に `product` を足す |
-| §6.6 | 書き出し `schemaVersion` を 2 へ（H-13 の決着後）。初期化をプロダクト単位で選べるようにする |
-| §7.4 | コレクションは env のみで分け、product はドキュメント内の次元とする |
-| §14.2 | 許可リストを共通部と公開単位別部に分ける |
-| P1 | 足場を 3 パッケージ分作る。規模が「小〜中」から「中」へ上がる |
-| P3 | 共有層に置く。プロダクト 2 は単語モードが横書きのため、縦書き部品は `packages/hyakunin` 側 |
-| P5 | 共有層に置く。係数は 1 本 |
+| §4.1、§4.2 | 本改定で反映済み（`app/` → `packages/{shared,hyakunin,kanazukai}`） |
+| §6.1 | 本改定で反映済み（`events` ストアに `product` インデックスを追加） |
+| §6.2 | 本改定で反映済み（`Event` に `product` を追加） |
+| §6.3 | 本改定で反映済み（裁定 D-01 の結論を記載） |
+| §6.6 | 未反映。書き出し `schemaVersion` を 2 へ上げるかは H-13 の決着後（P4 着手までに決める） |
+| §7.4 | 未反映。コレクションは env のみで分け、product はドキュメント内の次元とする方針 |
+| §14.2 | 未反映。許可リストを共通部と公開単位別部に分ける |
+| P1 | 未反映。足場を 3 パッケージ分作る。規模区分が「小〜中」から「中」へ上がる |
+| P2 | 未反映。仮名遣いツールの一次データと `review/kanazukai/` が加わる |
+| P3 | 未反映。共有層に UI 部品を置く。プロダクト 2 は単語モードが横書きのため、縦書き部品は `packages/hyakunin` 側 |
+| P5 | 未反映。係数を共有層に 1 本で持つ。蓄積単位は D-01 に従う |
 
-**裁定 D-01 は実質決着した。** 先方設計書が `itemKey` を前提としており、§6.3 の推奨案（イベントは `itemKey` で記録、表示は首単位）と一致する。D-06 と同時に正式裁定してよい。
+**裁定 D-01（`itemKey` の粒度）は D-06 と同時に確定した。** 結論は §6.3 に反映済み。
 
 ---
 
@@ -545,7 +602,7 @@ validator は、`confirmationMode: "batch"` かつ `batchEvidenceRef` が空の�
 
 | ストア | keyPath | インデックス | 用途 |
 |---|---|---|---|
-| `events` | `eventId` | `poemId`, `sessionId`, `localDate`, `itemKey` | 学習イベント（追記のみ） |
+| `events` | `eventId` | `poemId`, `sessionId`, `localDate`, `itemKey`, `product` | 学習イベント（追記のみ） |
 | `sessions` | `sessionId` | `startedOn` | 回。範囲・入口・順序・seed・完了状態 |
 | `settings` | `key`（単一レコード `"user"`） | — | 読み表示・縦横・順序・効果音・学年・案内確認 |
 | `reports` | `reportId` | `status` | 問題報告（ローカル保持） |
@@ -554,12 +611,16 @@ validator は、`confirmationMode: "batch"` かつ `batchEvidenceRef` が空の�
 
 **`events` は追記のみ**とする。訂正は打ち消しイベントを足す形にし、既存レコードを書き換えない。これにより統合時の重複排除が `eventId` の一致判定だけで済む。
 
+`product` インデックスは裁定 D-06（`docs/ADR/0004-two-products-layout.md`）により追加した。IndexedDB は 2 プロダクトで **1 つの DB** を共有するため、プロダクト単位の絞り込み・初期化（reset）にこのインデックスを使う。
+
 ### 6.2 Event の形（`APP_SPEC` §10.2 準拠）
 
 ```text
 Event {
   eventId, poemId, questionId?, sessionId,
-  itemKey,                        // `${poemId}:${skill}`
+  product,                        // "hyakunin" | "kanazukai"（裁定 D-06）
+  itemKey,                        // 1 想起行為 = 1 問の単位。hyakunin: `${poemId}:${skill}`、
+                                  // kanazukai: `wordId`（裁定 D-01。詳細は 6.3）
   kind,                           // view | self-rate | answer
   method,                         // view | self-x | self-tri | self-o |
                                   // choice | kanji-to-kana | free-input | paper-handwriting
@@ -567,6 +628,7 @@ Event {
   hintUsed,                       // boolean（読み表示の使用）
   effectiveMethod,                // hintUsed 適用後の一段軽い method
   delta,                          // 規則版から算出した増減
+  analysisKeys?,                  // string[]。診断された ruleId の列（分析専用。習熟度の加点対象にしない。裁定 D-01）
   localDate,                      // YYYY-MM-DD
   sameSessionRepeat,              // boolean
   appVersion, dataVersion, masteryRulesVersion
@@ -575,18 +637,23 @@ Event {
 
 生の入力文、紙の内容、画面文言、正確な時刻は保存しない。誤答時の入力文字列も保存しない（`APP_SPEC` §10.2 の「生の入力文を送らない」を、ローカル保存にも広げる。結果画面の「入力」表示は保存せず、その回のメモリ内でのみ扱う）。
 
-### 6.3 習熟度の粒度（**裁定 D-01 が必要**）
+`analysisKeys?: string[]` は ADR-0004 が「分析用のキー配列」としか定めていないための暫定名であり、**※命名は P4 で確定する**。
 
-`APP_SPEC` §8 は「習熟度は首単位の内部指標」と定める。`LEARNING_SCIENCE_AUDIT` は「`itemKey = poemId × skill` を独立した履歴単位にし、歌全体の正解を作者の正解に流用しない」を実装前に固定すべき未確定事項として挙げている。
+### 6.3 習熟度の粒度（裁定 D-01・2026-08-30 確定）
 
-**本計画の設計（裁定待ちの推奨案）**:
+`APP_SPEC` §8 は「習熟度は首単位の内部指標」と定める。`LEARNING_SCIENCE_AUDIT` は「`itemKey = poemId × skill` を独立した履歴単位にし、歌全体の正解を作者の正解に流用しない」を実装前に固定すべき未確定事項として挙げていた。2026-08-30、依頼者はこの粒度を裁定した（**裁定 D-01**）。決定の全文・却下案は `docs/ADR/0004-two-products-layout.md` にある。
 
-- イベントは常に `itemKey = poemId × skill` を持って記録する（監査の要求を満たす）。
-- **表示・上限・5 色は首単位**とし、`APP_SPEC` §8.1 の上限表をそのまま首の値に適用する（仕様を満たす）。
+**確定した設計**:
+
+- `itemKey` の単位は「1 つの想起行為 = 1 つの問」とする。
+- 古典学習帳（百人一首アプリ）: `itemKey = poemId × skill`（監査の要求を満たす。本文と作者は別の問として扱う）。
+- 歴史的仮名遣い確認ツール: `itemKey = wordId`。出題形式は自由入力に一本化済みであり、形式の軸が立たないため、`skill` に相当する第二の軸を持たない。
+- `ruleId`（規則）は習熟度の加点対象に**しない**。`Event` には分析用のキー配列（`analysisKeys`。6.2 参照）として持たせ、推薦・規則別モード・「誤答が集中している規則」の集計に使う。
+- **表示・上限・5 色は首単位（百人一首）／語単位（仮名遣い）**とし、`APP_SPEC` §8.1 の上限表をそのまま適用する（仕様を満たす）。`itemKey` 単位ではない。
 - **おすすめと「要確認一覧」は `itemKey` 単位**で選ぶ。これにより「本文は言えるが作者が出てこない」を推薦できる。
-- 首の習熟度は `itemKey` 別スコアの平均ではなく、首単位の累積計算とする。`skill` は分析・推薦の副次キーに留める。
+- 首・語の習熟度は `itemKey` 別スコアの平均ではなく、単位ごとの累積計算とする。`skill`・`ruleId` は分析・推薦の副次キーに留める。
 
-この設計なら仕様と監査の両方を満たすが、「首の値と `itemKey` 別の値が食い違って見える」表示上の課題が残る。裁定 D-01 で確定させる。
+この設計により仕様と監査の両方を満たすが、「首（または語）の値と `itemKey` 別の値が食い違って見える」という表示上の課題は残る。裁定 D-01 で確定した設計であり、この表示上の課題そのものへの対応は別途検討する。
 
 ### 6.4 習熟度計算（規則版 1・純関数）
 
@@ -824,6 +891,26 @@ P11 ──────→ P12 公開移管とロールバック
 
 「概算規模」は実装者日数の幅であり、確定納期ではない。
 
+### 実施状況（2026-08-30 時点）
+
+以後のフェーズ記述は「これから行うこと」として書かれている。実際にどこまで済んでいるかは
+この表を正とする。**着手前に必ずここを見ること。**
+
+| フェーズ | 状態 | 根拠・成果物 |
+|---|---|---|
+| P0 境界固定と公開衛生 | **完了・commit 済み** | `.gitignore` / `.gitattributes` / `docs/PUBLISH_MANIFEST.md` / `docs/ADR/0001〜0004` / `docs/LICENSE_AUDIT.md` |
+| P1 最小実行基盤 | **未着手** | 裁定 D-06 により 3 パッケージ分に拡大。次に行うのはこれ |
+| P2 一次資料パイプライン | **完了・未 commit** | `tools/build-data/` 9 本、`tests/data/` 4 本、`packages/hyakunin/src/data/generated/` 3 本。`docs/CODEX_WORK_ORDER_001.md` による発注 |
+| P3 以降 | 未着手 | — |
+
+**P2 が P1 に先行した。** パイプラインは公開単位の足場に依存せず、生成物の置き場
+（`packages/hyakunin/src/data/generated/`）が裁定 D-06 の構成と一致しているため、
+この順序逆転は不整合を生んでいない。P1 はルート `package.json` を**新規作成せず**、
+P2 が作った既存のものに `workspaces` を足す形で進めること。
+
+P2 の受入条件は 2026-08-30 に実測で確認した（`npm test` 7 件緑、`npm run data:check` 終了コード 0、
+生成物 100 首・異同 10 件）。§2.1 も参照。
+
 ### P0 境界固定と公開衛生
 
 ```text
@@ -844,7 +931,7 @@ P11 ──────→ P12 公開移管とロールバック
      除外リストではなく許可リストにする（列挙漏れが公開側に出ない向きに倒す）。
   4. `docs/ADR/0001-frontend-stack.md`（Vite+TS+Preact の決定・却下案・変更条件）
      `docs/ADR/0002-data-pipeline.md`（正本を書き換えない一方向生成）
-     `docs/ADR/0003-publish-boundary.md`（app/ 隔離と新規履歴での移管）を書く。
+     `docs/ADR/0003-publish-boundary.md`（公開対象ツリーの隔離と新規履歴での移管）を書く。
   5. ライセンス確認表 `docs/LICENSE_AUDIT.md` を作る。
      コード Apache-2.0 / 独自コンテンツ CC BY 4.0 / フォント（Zen Maru Gothic,
      Klee One）の元ライセンスと再配布条件 / assets/feedback の権利表示 /
@@ -885,26 +972,51 @@ P11 ──────→ P12 公開移管とロールバック
       型・Lint・テスト・CI が回る土台を作る。仮称を一箇所で差し替えられる状態にする。
 前提: P0 完了。
 実施内容:
-  1. `app/` を作り、package.json / tsconfig / vite.config / vitest.config /
-     eslint.config を置く。base は環境変数から読む。
-  2. `src/app-config.ts` に表示名・公開名義・appVersion・dataVersion・
-     masteryRulesVersion・isOfficial・機能フラグを定義する。
-  3. `src/main.tsx` と最小の Home 画面、グローバルエラー境界、ErrorScreen。
-  4. `public/404.html`（Pages でのリロード対策）。
-  5. CI（typecheck / lint / unit / scan:publish）。この時点で scan:publish は
-     「app/ 配下に禁止パターンがないこと」だけを見る。
-  6. `tools/scan-publish/` の初版: 秘密情報らしき文字列、ローカル絶対パス
+  1. リポジトリ直下を **npm workspaces のルート**にする。ルート `package.json` は
+     すでに存在する（P2 の先行着手により `koten-data-pipeline` として作られている）。
+     これを破棄せず、`workspaces: ["packages/*"]` を足して土台へ育てる。
+     既存の `data:build` / `data:check` / `test` スクリプトを壊さないこと。
+  2. `packages/{shared,hyakunin,kanazukai}` の 3 パッケージを作る。
+     公開単位 2 つ（hyakunin / kanazukai）にだけ vite.config / vitest.config /
+     eslint.config / index.html を置く。base は環境変数から読み、
+     既定は `/hyakunin/`・`/kanazukai/`（裁定 D-06）。
+     `packages/shared` はビルド対象ではなくローカル依存として解決する。
+  3. `packages/shared/src/app-config.ts` に表示名・公開名義・appVersion・dataVersion・
+     masteryRulesVersion・isOfficial・機能フラグを定義する。**2 製品で 1 ファイル**。
+     製品ごとに異なる値（base path・公開単位名）は同ファイル内の製品別セクションに置く。
+  4. 各公開単位に `src/main.tsx` と最小の Home 画面、グローバルエラー境界、ErrorScreen。
+     ErrorScreen とエラー境界は共有層に置き、各公開単位から呼ぶ。
+  5. 各公開単位に `public/404.html`（Pages でのリロード対策）。
+  6. CI（typecheck / lint / unit / scan:publish）。ワークフローは**リポジトリ直下に 1 組**。
+     この時点で scan:publish は「`packages/` 配下に禁止パターンがないこと」だけを見る。
+  7. `tools/scan-publish/` の初版: 秘密情報らしき文字列、ローカル絶対パス
      （利用者名を含む）、内部資料ファイル名の混入を検出する。
 作成・変更予定ファイル:
-  作成: app/package.json / app/tsconfig.json / app/tsconfig.node.json /
-        app/vite.config.ts / app/vitest.config.ts / app/eslint.config.js /
-        app/index.html / app/public/404.html /
-        app/src/main.tsx / app/src/app-config.ts /
-        app/src/ui/screens/Home.tsx / app/src/ui/screens/ErrorScreen.tsx /
-        app/tools/scan-publish/index.ts /
-        app/.github/workflows/ci.yml /
-        app/tests/unit/app-config.test.ts
+  作成: packages/shared/package.json / packages/shared/tsconfig.json /
+        packages/shared/src/app-config.ts /
+        packages/shared/src/ui/screens/ErrorScreen.tsx /
+        packages/hyakunin/package.json / packages/hyakunin/tsconfig.json /
+        packages/hyakunin/tsconfig.node.json /
+        packages/hyakunin/vite.config.ts / packages/hyakunin/vitest.config.ts /
+        packages/hyakunin/eslint.config.js /
+        packages/hyakunin/index.html / packages/hyakunin/public/404.html /
+        packages/hyakunin/src/main.tsx /
+        packages/hyakunin/src/ui/screens/Home.tsx /
+        packages/kanazukai/package.json / packages/kanazukai/tsconfig.json /
+        packages/kanazukai/tsconfig.node.json /
+        packages/kanazukai/vite.config.ts / packages/kanazukai/vitest.config.ts /
+        packages/kanazukai/eslint.config.js /
+        packages/kanazukai/index.html / packages/kanazukai/public/404.html /
+        packages/kanazukai/src/main.tsx /
+        packages/kanazukai/src/ui/screens/Home.tsx /
+        tools/scan-publish/index.ts /
+        .github/workflows/ci.yml /
+        tests/unit/app-config.test.ts
+  変更: package.json（ルート。workspaces の追加。既存スクリプトは残す）/
+        tsconfig.base.json（新設し 3 パッケージから継承させる）
 変更しないファイル: P0 と同じ読み取り専用群。docs/ 配下の既存文書。
+              **`packages/hyakunin/src/data/generated/`（P2 の成果物）**、
+              `tools/build-data/`、`tests/data/`。P1 はこれらに触れない。
 依存関係: P0
 人間確認: なし
 対象テスト:
@@ -912,14 +1024,20 @@ P11 ──────→ P12 公開移管とロールバック
   - 静的: `src/ui/` に仮称の文字列リテラルが現れないこと（grep 型否定アサーション）。
   - 手動: base path 付きでビルドし、サブパス配信でリロードできること。
 受入条件:
-  - `npm run build` が通り、`npm run preview` をサブパス配信してリロードで 404 に
-    ならない。
+  - **2 公開単位それぞれで** `npm run build` が通り、`npm run preview` を
+    サブパス配信（`/hyakunin/`・`/kanazukai/`）してリロードで 404 にならない。
   - 320 / 375 / 414 / 768px で Home に横あふれがなく、キーボードで可視フォーカスが
     見え、操作領域が 44px 以上ある。
-  - Home の第一操作が「とりあえず始める」である。
+  - hyakunin の Home の第一操作が「とりあえず始める」である。
   - CI が typecheck / lint / unit / scan:publish を実行して緑になる。
-  - 仮称を app-config.ts の 1 箇所で変えると全画面の表示が変わる。
-ロールバック: `app/` を削除する。一次資料と docs/ に影響しない。
+    既存の data:check（P2 で追加済み）も引き続き緑であること。
+  - 仮称を `packages/shared/src/app-config.ts` の 1 箇所で変えると
+    **両公開単位の**全画面の表示が変わる。
+ロールバック: P1 が作ったファイルだけを削除し、ルート `package.json` から workspaces を外す。
+              **`packages/` を丸ごと削除しないこと。**
+              `packages/hyakunin/src/data/generated/` は P2 の成果物であり、
+              消すと `npm run data:build` の再実行が必要になる。
+              一次資料・docs/・`tools/build-data/`・`tests/data/` には影響しない。
 停止条件: GitHub Pages の base path で SPA が配信できない構成的な問題が出た場合
           （その場合は配信方式を裁定に上げる）。
 概算規模: 小〜中（2〜4 日）
@@ -931,30 +1049,34 @@ P11 ──────→ P12 公開移管とロールバック
 フェーズ名: P2 一次資料パイプライン
 目的: 正本 Markdown と人確認台帳から、検証済みの型付き JSON を再現可能に生成する。
       正本は一切書き換えない。
-前提: P1 完了。
+前提: P1 完了。**ただし実際には P1 に先行して着手された**（2026-08-30。
+      §10 冒頭の「実施状況」を参照）。
+      パイプラインは公開単位の足場に依存しないため、この順序逆転は問題を生じていない。
 実施内容:
   1. `tools/build-data/parse-*.ts`: 3 つの Markdown 表を厳密パースする。
      列数・番号の連続・空セルの異常は即エラーにする（黙って読み飛ばさない）。
   2. `normalize`: NFC 正規化、全角空白・長音・小書きの扱いを固定。
      踊り字は正本側で展開済みのため、追加の展開は行わない。
   3. `parse-variants`: `百人一首_読み_異同確認.md` の表と末尾の注記を読み、
-     `variants.json` を作る。§2.1 の 9 件を固定 fixture にする。
+     `variants.json` を作る。§2.1 の 9 行を固定 fixture にする
+     （出力件数は 10。第 46 首の複合欄が 2 件に分かれるため。§2.1 参照）。
   4. `review/` の初期 YAML を作る（authors / readings / kugire / layout / blanks）。
      この時点では authors と readings のみ埋め、blanks は P6 で埋める。
   5. `apply-review` → `validate`（§5.3 の V-01〜V-14）→ `emit`。
   6. `manifest.json` に sourceHashes（sha256）と各種件数を書く。
-  7. `src/data/load.ts` に実行時スキーマ検査を置く（生成物が壊れていたら
-     ErrorScreen へ）。
+  7. `packages/hyakunin/src/data/load.ts` に実行時スキーマ検査を置く（生成物が壊れて
+     いたら ErrorScreen へ）。
 作成・変更予定ファイル:
-  作成: app/tools/build-data/{parse-poems,parse-readings,parse-variants,
+  作成: tools/build-data/{parse-poems,parse-readings,parse-variants,
         normalize,apply-review,validate,emit,hash}.ts /
         review/{authors,readings,kugire,layout,blanks}.yaml /
-        app/src/data/load.ts /
-        app/src/domain/{ids,poem}.ts /
-        app/tests/data/{parse,validate,reproducibility,variants-fixture}.test.ts
-  変更: app/package.json（data:build / data:check スクリプト追加）/
-        app/.github/workflows/ci.yml（data:check 追加）
-  生成: app/src/data/generated/*.json（手編集禁止）
+        packages/hyakunin/src/data/load.ts /
+        packages/shared/src/domain/ids.ts /
+        packages/hyakunin/src/domain/poem.ts /
+        tests/data/{parse,validate,reproducibility,variants-fixture}.test.ts
+  変更: package.json（ルート。data:build / data:check スクリプト追加）/
+        .github/workflows/ci.yml（data:check 追加）
+  生成: packages/hyakunin/src/data/generated/*.json（手編集禁止）
 変更しないファイル:
   百人一首_本文・作者_一次データ.md / 百人一首_読み_歴史的仮名遣い.md /
   百人一首_読み_現代仮名遣い.md / 百人一首_読み_異同確認.md /
@@ -971,8 +1093,9 @@ P11 ──────→ P12 公開移管とロールバック
   - V-01〜V-14 のいずれかを故意に壊した fixture で `data:check` が失敗する
     （検査が実際に効いていることを確認する）。
   - `reviewStatus !== "human-confirmed"` の項目が `questions.*.json` に入らない。
-  - `variants.json` に 9 件の異同が primary / alternatives / 根拠 URL つきで残る。
-ロールバック: `app/src/data/generated/` と `app/tools/build-data/` を削除する。
+  - `variants.json` に一次資料 9 行分の異同が primary / alternatives / 根拠 URL つきで
+    残る。**出力の件数は 10 である**（9 行ではなく 10 件が正しい。§2.1 を参照）。
+ロールバック: `packages/hyakunin/src/data/generated/` と `tools/build-data/` を削除する。
               `review/*.yaml` は人の作業結果なので削除しない。
 停止条件: S-3（正本と異同記録の不一致を、根拠なしに一方へ潰す必要が生じた）。
           S-4（100 首の番・本文・作者・読みの参照整合が取れない）。
@@ -1002,13 +1125,16 @@ P11 ──────→ P12 公開移管とロールバック
      自動で改行位置を決めない。
   7. 作者名の表示は横書きに固定する（§2.2 の実測値による）。
 作成・変更予定ファイル:
-  作成: app/src/styles/{tokens,base,vertical,motion}.css /
-        app/src/ui/components/*.tsx /
-        app/src/ui/a11y/{focus,LiveRegion}.ts /
-        app/public/fonts/*.woff2 /
-        app/tools/overflow-check/index.ts /
-        app/tests/screen/{components,vertical}.test.tsx
-  変更: app/src/main.tsx（スタイル読込）/ app/package.json（overflow:check）
+  作成: packages/shared/src/styles/{tokens,base,motion}.css /
+        packages/hyakunin/src/styles/vertical.css（縦書きは百人一首固有）/
+        packages/shared/src/ui/components/*.tsx /
+        packages/shared/src/ui/a11y/{focus,LiveRegion}.ts /
+        packages/shared/public/fonts/*.woff2（共有アセット。§4.2 の裁定に従う）/
+        tools/overflow-check/index.ts /
+        tests/screen/{components,vertical}.test.tsx
+  変更: packages/hyakunin/src/main.tsx（スタイル読込）/
+        packages/kanazukai/src/main.tsx（スタイル読込。vertical.css は読まない）/
+        package.json（ルート。overflow:check）
   追記: review/layout.yaml（機械検出したあふれ候補。人が確認して確定させる）
 変更しないファイル: 一次資料一式、docs/DESIGN_SYSTEM.md
 依存関係: P1, P2
@@ -1054,13 +1180,14 @@ P11 ──────→ P12 公開移管とロールバック
   8. `storage/reset.ts`: events / sessions / reports のみを対象。settings は残す。
   9. `ui/screens/Transfer.tsx` と ConfirmDialog（対象と件数を示す）。
 作成・変更予定ファイル:
-  作成: app/src/storage/{schema,db,fallback,export,import,merge,reset}.ts /
-        app/src/storage/repo/{events,sessions,settings,reports,outbox}.ts /
-        app/src/domain/event.ts /
-        app/src/ui/screens/Transfer.tsx /
-        app/tests/unit/storage/{db,merge,import,export,reset,fallback}.test.ts
-  変更: app/src/ui/screens/Home.tsx（データの移動への導線）
-変更しないファイル: 一次資料一式、app/src/data/generated/
+  作成: packages/shared/src/storage/{schema,db,fallback,export,import,merge,reset}.ts /
+        packages/shared/src/storage/repo/{events,sessions,settings,reports,outbox}.ts /
+        packages/shared/src/domain/event.ts（`product` 判別子を含む。H-13 の裁定が先）/
+        packages/shared/src/ui/screens/Transfer.tsx（書き出し・取り込みは 2 製品共通）/
+        tests/unit/storage/{db,merge,import,export,reset,fallback}.test.ts
+  変更: packages/hyakunin/src/ui/screens/Home.tsx（データの移動への導線）/
+        packages/kanazukai/src/ui/screens/Home.tsx（同上）
+変更しないファイル: 一次資料一式、packages/hyakunin/src/data/generated/
 依存関係: P1
 人間確認: なし
 対象テスト:
@@ -1092,7 +1219,7 @@ P11 ──────→ P12 公開移管とロールバック
 フェーズ名: P5 習熟度エンジン
 目的: APP_SPEC §8.1 のイベント表を純関数として実装し、上限・減点・同一回半分・
       別日 90 超・ヒント一段軽いを自動テストで固定する。
-前提: P4 完了（Event 型の確定）。裁定 D-01 の決着。
+前提: P4 完了（Event 型の確定）。裁定 D-01 は 2026-08-30 に決着済み（§6.3）。
 実施内容:
   1. `domain/mastery/rules.v1.ts`: イベント表・上限・減点値を定数として持つ。
      APP_SPEC の値をそのまま写し、コード側で係数を再定義しない。
@@ -1102,14 +1229,14 @@ P11 ──────→ P12 公開移管とロールバック
      一度に 1 件だけ返す。
   5. 規則版更新時の全再計算と `meta.backup` への退避。
 作成・変更予定ファイル:
-  作成: app/src/domain/mastery/{rules.v1,compute,color}.ts /
-        app/src/domain/recommend.ts /
-        app/tests/unit/mastery/{increments,caps,decrements,same-session,
+  作成: packages/shared/src/domain/mastery/{rules.v1,compute,color}.ts /
+        packages/hyakunin/src/domain/recommend.ts（推薦は首単位。製品固有）/
+        tests/unit/mastery/{increments,caps,decrements,same-session,
         hint-downgrade,over-90,recompute}.test.ts /
-        app/tests/unit/recommend.test.ts
-  変更: app/src/storage/repo/events.ts（itemKey インデックス）
+        tests/unit/recommend.test.ts
+  変更: packages/shared/src/storage/repo/events.ts（itemKey インデックス）
 変更しないファイル: docs/APP_SPEC.md, docs/LEARNING_SCIENCE_AUDIT.md
-依存関係: P4、裁定 D-01
+依存関係: P4（裁定 D-01 は決着済み）
 人間確認: H-06（習熟度係数・色境界・おすすめ順の試験運用）
 対象テスト（suite を目的別に分ける。1 本に集約しない）:
   - increments: 閲覧 +1 / 見るだけ ×△○ +1/+2/+3 / 選択式 +5 /
@@ -1134,7 +1261,7 @@ P11 ──────→ P12 公開移管とロールバック
     存在しないことを静的検査で確認）。
   - 時間経過だけで％が下がらない。
 ロールバック: `domain/mastery/` を削除する。イベントは残るため再実装で復元できる。
-停止条件: 裁定 D-01 が未決のまま実装を進める必要が生じた場合。
+停止条件: なし（裁定 D-01 は決着済み）。ただし D-01 の結論と食い違う実装が要ると判明した場合は止める。
 概算規模: 中（3〜5 日）
 ```
 
@@ -1160,12 +1287,12 @@ P11 ──────→ P12 公開移管とロールバック
      作者の別名照合は確認済み別名のみ。不一致は不正解または要確認。
   6. 候補数不足時は水増しせず別形式へ切り替える。
 作成・変更予定ファイル:
-  作成: app/src/domain/{range,order,question,session}.ts /
-        app/tools/build-data/{emit-blanks,emit-authors}.ts /
-        app/tests/unit/{range,order,question}.test.ts /
-        app/tests/data/questions.test.ts
+  作成: packages/hyakunin/src/domain/{range,order,question,session}.ts /
+        tools/build-data/{emit-blanks,emit-authors}.ts /
+        tests/unit/{range,order,question}.test.ts /
+        tests/data/questions.test.ts
   変更: review/blanks.yaml（人確認の追記）/ review/authors.yaml /
-        app/src/data/generated/questions.*.json（再生成）
+        packages/hyakunin/src/data/generated/questions.*.json（再生成）
 変更しないファイル: 一次資料一式
 依存関係: P2, P5（裁定 D-05 は 2026-08-30 に決着済み。§15.1 の一括承認運用で実装する）
 人間確認: H-04（出題機構の妥当性確認）、H-05（作者名の異形・別称・有職読みの正答範囲）
@@ -1213,12 +1340,14 @@ P11 ──────→ P12 公開移管とロールバック
   6. 「問題を報告」を各問・閲覧画面に置く（送信は P9）。
   7. 中断からの復元と、復元しない選択。
 作成・変更予定ファイル:
-  作成: app/src/ui/screens/{Session,RangePicker,Settings,Guide}.tsx /
-        app/src/ui/components/{ReadingToggle,WritingModeToggle,HandwritingPad}.tsx /
-        app/tests/screen/session.test.tsx /
-        app/tests/unit/session-flow.test.ts
-  変更: app/src/ui/screens/Home.tsx / app/src/domain/session.ts /
-        app/src/storage/repo/events.ts（イベント書込の呼び出し）
+  作成: packages/hyakunin/src/ui/screens/{Session,RangePicker,Settings,Guide}.tsx /
+        packages/hyakunin/src/ui/components/{ReadingToggle,WritingModeToggle,
+        HandwritingPad}.tsx（縦書き・読み切替は百人一首固有）/
+        tests/screen/session.test.tsx /
+        tests/unit/session-flow.test.ts
+  変更: packages/hyakunin/src/ui/screens/Home.tsx /
+        packages/hyakunin/src/domain/session.ts /
+        packages/shared/src/storage/repo/events.ts（イベント書込の呼び出し）
 変更しないファイル: 一次資料一式、生成 JSON
 依存関係: P3, P6
 人間確認: なし（実機確認は P11）
@@ -1257,10 +1386,12 @@ P11 ──────→ P12 公開移管とロールバック
   5. History 画面: 本人の習熟度（％・メーター・5 色）と要確認一覧。
      全体・学年別の集計はここに出さない。
 作成・変更予定ファイル:
-  作成: app/src/ui/screens/{Result,History}.tsx /
-        app/src/ui/components/{MasteryMeter,ReviewList,Recommendation}.tsx /
-        app/tests/screen/{result,history}.test.tsx
-  変更: app/src/domain/session.ts（完了状態）/ app/src/domain/recommend.ts
+  作成: packages/hyakunin/src/ui/screens/{Result,History}.tsx /
+        packages/shared/src/ui/components/MasteryMeter.tsx（習熟度表示は 2 製品共通）/
+        packages/hyakunin/src/ui/components/{ReviewList,Recommendation}.tsx /
+        tests/screen/{result,history}.test.tsx
+  変更: packages/hyakunin/src/domain/session.ts（完了状態）/
+        packages/hyakunin/src/domain/recommend.ts
 変更しないファイル: 一次資料一式
 依存関係: P5, P7
 人間確認: H-06（おすすめ順の試験運用）
@@ -1306,15 +1437,19 @@ P11 ──────→ P12 公開移管とロールバック
      ＋版固定 ＋ map サイズ上限 ＋ TTL 用 expiresAt。
  10. App Check の有効化。
 作成・変更予定ファイル:
-  作成: app/src/telemetry/{registry,client-number,sanitize,queue,transport}.ts /
-        app/src/reports/{form,send}.ts /
-        app/src/ui/components/{StatsNotice,GradePicker,ReportForm}.tsx /
-        app/firebase/{firestore.rules,firestore.indexes.json,firebase.json} /
-        app/tests/unit/telemetry/{registry,sanitize,queue,client-number}.test.ts /
-        app/tests/rules/{stats,reports}.test.ts /
-        app/tests/unit/telemetry/allowlist-parity.test.ts
-  変更: app/src/app-config.ts（isOfficial、正式公開日時、Firebase 使用フラグ）/
-        app/src/storage/repo/outbox.ts
+  作成: packages/shared/src/telemetry/{registry,client-number,sanitize,queue,
+        transport}.ts /
+        packages/shared/src/reports/{form,send}.ts /
+        packages/shared/src/ui/components/{StatsNotice,GradePicker,ReportForm}.tsx /
+        firebase/{firestore.rules,firestore.indexes.json,firebase.json} /
+        tests/unit/telemetry/{registry,sanitize,queue,client-number}.test.ts /
+        tests/rules/{stats,reports}.test.ts /
+        tests/unit/telemetry/allowlist-parity.test.ts
+  変更: packages/shared/src/app-config.ts（isOfficial、正式公開日時、Firebase 使用フラグ）/
+        packages/shared/src/storage/repo/outbox.ts
+
+  注記（裁定 D-06 補正 1）: 無作為な利用番号は 2 製品で共有する。したがって
+  `client-number.ts` は共有層に 1 つだけ置き、製品ごとに別番号を振らない。
 変更しないファイル: 一次資料一式
 依存関係: P4, P7、裁定 D-02
 人間確認: H-05（Firebase プロジェクト作成・予算アラート・App Check 登録）
@@ -1371,13 +1506,13 @@ P11 ──────→ P12 公開移管とロールバック
   5. `tools/scan-publish/` に「dist/ に review-page の識別子が現れないこと」の
      検査を足す。
 作成・変更予定ファイル:
-  作成: app/tools/review-page/{index.html,main.tsx,*.tsx} /
-        app/tools/review-page/vite.config.ts /
-        app/tests/unit/publish-exclusion.test.ts
-  変更: app/package.json（review:dev）/ app/tools/scan-publish/index.ts /
+  作成: tools/review-page/{index.html,main.tsx,*.tsx} /
+        tools/review-page/vite.config.ts /
+        tests/unit/publish-exclusion.test.ts
+  変更: package.json（ルート。review:dev）/ tools/scan-publish/index.ts /
         docs/PUBLISH_MANIFEST.md（review-page を除外対象と明記）
   追記: review/*.yaml（人の確認結果）
-変更しないファイル: 一次資料一式、app/src/ 配下（公開アプリ）
+変更しないファイル: 一次資料一式、packages/ 配下（公開アプリ）
 依存関係: P2, P9
 人間確認: H-04, H-05（このページを使って行う）
 対象テスト:
@@ -1412,8 +1547,8 @@ P11 ──────→ P12 公開移管とロールバック
   7. 確認結果を `docs/RELEASE_CHECK.md` に記録する（内部資料）。
 作成・変更予定ファイル:
   作成: docs/RELEASE_CHECK.md（内部資料。移管対象外）/
-        app/src/ui/screens/Guide.tsx の既知の制約セクション
-  変更: README.md（公開用の内容へ）/ app/src/app-config.ts（appVersion）
+        packages/hyakunin/src/ui/screens/Guide.tsx の既知の制約セクション
+  変更: README.md（公開用の内容へ）/ packages/shared/src/app-config.ts（appVersion）
 変更しないファイル: 一次資料一式、CONSTITUTION.md、docs/APP_SPEC.md
 依存関係: P0〜P10 すべて
 人間確認: H-03, H-08（実機一巡）
@@ -1447,7 +1582,8 @@ P11 ──────→ P12 公開移管とロールバック
      理由: §2.3 のとおり現履歴に許可未確認の原資料 PDF が含まれるため、
      `git filter-repo` での除去よりも、新規履歴のほうが漏えい経路が少ない。
   3. `docs/PUBLISH_MANIFEST.md` の許可リストに従って、対象ファイルだけを
-     新ツリーへコピーする（`app/`、一次データ Markdown、LICENSE 一式、
+     新ツリーへコピーする（`packages/`、`tools/`（`review-page/` を除く）、
+     `tests/`、`firebase/`、`.github/`、一次データ Markdown、LICENSE 一式、
      NOTICE、assets/feedback、review/*.yaml、公開用 README）。
   4. コピー後に `npm run scan:publish` を実行し、内部資料・秘密情報・
      ローカル絶対パス（利用者名を含む）・原資料 PDF の混入がゼロであることを
@@ -1463,8 +1599,8 @@ P11 ──────→ P12 公開移管とロールバック
 作成・変更予定ファイル:
   作成: （新リポジトリ側）公開ツリー一式 /
         docs/ROLLBACK.md（内部資料）/ docs/MIGRATION_LOG.md（内部資料）
-  変更: app/src/app-config.ts（公開名義・リポジトリ URL・正式公開日時）/
-        app/.github/workflows/deploy-pages.yml（有効化）
+  変更: packages/shared/src/app-config.ts（公開名義・リポジトリ URL・正式公開日時）/
+        .github/workflows/deploy-pages.yml（有効化）
 変更しないファイル:
   現リポジトリの一次資料・docs/・原資料 PDF（そのまま非公開側に残す）
 依存関係: P11
@@ -1684,11 +1820,11 @@ Rules は map 内の各値の型を走査できない。したがって `stats_d
 
 | 移す | 移さない |
 |---|---|
-| `app/` 一式（`tools/review-page/` を除く） | `USB-*.pdf`（F-17） |
+| `packages/` 一式、`tools/`（`review-page/` を除く）、`tests/`、`firebase/`、`.github/` | `USB-*.pdf`（F-17） |
 | 一次データ Markdown 5 点 | `docs/` 一式（本書・発注書・仕様・監査・叩き台） |
 | `LICENSE` / `LICENSE-CONTENT.md` / `NOTICE` | `古典関係アプリ_設計計画書_2026-08-29.md` |
 | `assets/feedback/*.png` ＋ その README | `docs/HANDOFF.md` / `docs/RELEASE_CHECK.md` / `docs/MIGRATION_LOG.md` |
-| `review/*.yaml`（判断の根拠） | `app/tools/review-page/`（管理確認ページ） |
+| `review/*.yaml`（判断の根拠） | `tools/review-page/`（管理確認ページ） |
 | 公開用に書き直した `README.md` | 実利用データ・未集計報告・バックアップ |
 | `firebase/firestore.rules`（実値なし） | サービスアカウント鍵・管理者認証情報・API 秘密鍵 |
 | 第三者ライセンス一覧（`THIRD_PARTY_NOTICES.md`） | ローカル絶対パス（利用者名を含む） |
@@ -1818,27 +1954,46 @@ Secrets には **Firebase の公開 Web 設定のみ**を置く。サービス�
 
 ## 17. 最初の実装 PR で行う範囲
 
-**最初の PR は P0 と P1 のみとする。** データもUI も入れない。
+**当初の方針は「最初の PR は P0 と P1 のみ」であった。** 理由: P0 が終わるまで、以後どのファイルを作っても「公開してよいものかどうか」を機械的に判定できない。とくに H-01 の結果によっては、リポジトリの扱い自体が変わる。
 
-理由: P0 が終わるまで、以後どのファイルを作っても「公開してよいものかどうか」を機械的に判定できない。とくに H-01 の結果によっては、リポジトリの扱い自体が変わる。
+### 実際の経過（2026-08-30・§10 冒頭の「実施状況」も参照）
 
-### 含めるもの
+| 区分 | 状態 |
+|---|---|
+| P0 | **完了・commit 済み**（下記 1〜5） |
+| P2 | **完了・未 commit。**`docs/CODEX_WORK_ORDER_001.md` により P1 に先行して実施された |
+| P1 | **未着手。** 下記 6〜11 が残っている |
+
+P2 がパイプライン（`tools/build-data/`・`tests/data/`・生成 JSON）だけで完結し、
+公開単位の足場に依存しないため、この順序逆転は不整合を生んでいない。
+**残りの実装 PR は P1（3 パッケージの足場）である。**
+
+### P0 で含めたもの（commit 済み）
 
 1. `.gitignore` / `.gitattributes`
 2. `docs/PUBLISH_MANIFEST.md`（許可リスト形式）
-3. `docs/ADR/0001-frontend-stack.md` / `0002-data-pipeline.md` / `0003-publish-boundary.md`
+3. `docs/ADR/0001-frontend-stack.md` / `0002-data-pipeline.md` / `0003-publish-boundary.md` / `0004-two-products-layout.md`
 4. `docs/LICENSE_AUDIT.md`
 5. `docs/HANDOFF.md` を追跡対象として commit する（作成済み）
-6. `app/` の骨格: `package.json` / `tsconfig` / `vite.config.ts` / `vitest.config.ts` / `eslint.config.js` / `index.html` / `public/404.html`
-7. `app/src/app-config.ts`（仮称・各種版・機能フラグをすべて false で）
-8. `app/src/main.tsx` / `Home.tsx`（第一操作＝「とりあえず始める」。押しても未実装の案内を出すだけ） / `ErrorScreen.tsx`
-9. `app/tools/scan-publish/index.ts`（初版）
-10. `app/.github/workflows/ci.yml`
-11. `app/tests/unit/app-config.test.ts`（機能フラグが全 false、仮称が 1 箇所であること）
+
+### P1 で含めるもの（未着手。裁定 D-06 により 3 パッケージ分）
+
+6. ルート `package.json` に `workspaces: ["packages/*"]` を足す（**新規作成ではない**。
+   P2 の先行着手により `koten-data-pipeline` として既存。既存スクリプトを壊さない）と
+   `tsconfig.base.json` の新設
+7. `packages/shared` の骨格: `package.json` / `tsconfig.json`
+8. `packages/{hyakunin,kanazukai}` の骨格（各 2 組）: `package.json` / `tsconfig.json` /
+   `tsconfig.node.json` / `vite.config.ts`（base は `/hyakunin/`・`/kanazukai/`） /
+   `vitest.config.ts` / `eslint.config.js` / `index.html` / `public/404.html`
+9. `packages/shared/src/app-config.ts`（仮称・各種版・機能フラグをすべて false で。**2 製品で 1 ファイル**） /
+   `packages/shared/src/ui/screens/ErrorScreen.tsx`
+10. `packages/{hyakunin,kanazukai}/src/main.tsx` と各 `Home.tsx`
+    （hyakunin の第一操作＝「とりあえず始める」。押しても未実装の案内を出すだけ）
+11. `tools/scan-publish/index.ts`（初版） / `.github/workflows/ci.yml` /
+    `tests/unit/app-config.test.ts`（機能フラグが全 false、仮称が 1 箇所であること）
 
 ### 含めないもの
 
-- 一次資料の変換（P2）
 - デザイントークンとフォント（P3。P1 では最小の素の CSS のみ）
 - IndexedDB（P4）
 - 習熟度（P5）
@@ -1848,8 +2003,9 @@ Secrets には **Firebase の公開 Web 設定のみ**を置く。サービス�
 
 ### この PR の受入条件
 
-- `npm run build` が通り、サブパス配信でリロードしても 404 にならない。
+- **2 公開単位それぞれで** `npm run build` が通り、サブパス配信でリロードしても 404 にならない。
 - CI が typecheck / lint / unit / scan:publish を実行して緑になる。
+  P2 で追加済みの `data:check` も引き続き緑であること。
 - 320 / 375 / 414 / 768px で Home に横あふれがなく、可視フォーカスがあり、操作領域が 44px 以上。
 - 仮称を `app-config.ts` の 1 箇所で変えると表示が変わる。
 - `PUBLISH_MANIFEST.md` に、原資料 PDF・`docs/`・旧設計書が含まれていない。
@@ -1862,15 +2018,20 @@ Secrets には **Firebase の公開 Web 設定のみ**を置く。サービス�
 
 ## 付録: 裁定が必要な事項
 
-発注書 §10 の形式に従う。5 件。うち **D-03 と D-05 は 2026-08-30 に裁定済み**、**D-01・D-02・D-04 が未決**である。
+発注書 §10 の形式に従う。5 件（加えて D-06）。うち **D-01・D-03・D-05・D-06 は 2026-08-30 に裁定済み**、**D-02・D-04 が未決**である。
 
 | 番号 | 論点 | 状態 |
 |---|---|---|
-| D-01 | 習熟度の粒度（首単位 / 首 × 学習項目） | **未決**。P5 が止まる |
+| D-01 | 習熟度の粒度（首単位 / 首 × 学習項目） | **裁定済み（2026-08-30）**。`itemKey` は「1 想起行為 = 1 問」の単位。百人一首 `poemId × skill`／仮名遣い `wordId`。`ruleId` は加点対象にせず分析次元。表示・上限・5 色は首単位／語単位。§6.3、`docs/ADR/0004-two-products-layout.md` |
 | D-02 | 統計・報告の受け口（Firestore 直書き / Functions / 混合） | **未決**。P9 が止まる |
 | D-03 | 公開移管の方式 | **裁定済み**。新規履歴。現リポジトリは非公開のまま存続させる |
 | D-04 | 本文用書体（Klee One / 比較候補） | **未決**。P3 が止まる |
 | D-05 | 穴埋め候補の人確認スコープ | **裁定済み**。機構確認を主目的とする。§15.1 |
+| D-06 | 2 プロダクトの構成・共有層・公開単位・保存スキーマ共有 | **裁定済み（2026-08-30）**。共有層 ＋ 公開単位 2 つ、公開リポジトリは 1 つ。補正 3 点つき。§4.4、`docs/ADR/0004-two-products-layout.md` |
+
+> **この D-01 の記述は裁定前の検討記録である。2026-08-30 に裁定が下り、結論は上表と §6.3 に記載した。
+> 以下は判断の経緯として残す。推奨案がそのまま採択されたわけではない点に注意すること**
+> （仮名遣いツールの `itemKey` は `wordId` であり、`wordId × rule` ではない）。
 
 ```text
 裁定番号: D-01
@@ -2051,6 +2212,6 @@ Secrets には **Firebase の公開 Web 設定のみ**を置く。サービス�
 - **作成したファイル**: `docs/IMPLEMENTATION_PLAN.md`（本書）のみ。
 - **調査した主要資料**: `CONSTITUTION.md`、`docs/APP_SPEC.md`、`docs/DESIGN_SYSTEM.md`、`docs/LEARNING_SCIENCE_AUDIT.md`、`docs/DESIGN_AUDIT.md`、`README.md`、`docs/OPUS_IMPLEMENTATION_PLAN.md`、百人一首の本文・作者／歴史的仮名遣い／現代仮名遣い／異同確認の 4 点、`古典文法_一次データ索引.md`、`古典関係アプリ_設計計画書_2026-08-29.md`、および `shukudai-kanri` の `AGENTS.md` / `PRODUCT_POLICY.md` / `metrics.js` / `firestore.rules` / `sync-regression.test.js`（読み取りのみ）。
 - **初回公開までのフェーズ数**: 13（P0〜P12）。最初のフェーズは **P0 境界固定と公開衛生**（コードを書かない準備フェーズ）。
-- **裁定が必要な件数**: 5 件（D-01〜D-05）。加えて人間確認 10 件（H-01〜H-10）。**H-01 は全作業に先行する。**
+- **裁定が必要な件数**: 6 件（D-01〜D-06）。うち残る未決は **D-02・D-04 の 2 件**。加えて人間確認 14 件（H-01〜H-14）。**H-01 は完了済み。**
 - **実装は開始していない。** アプリコード、設定ファイル、CI のいずれも作成していない。
 - **一次資料を変更していない。** 百人一首・古典文法の Markdown 5 点、原資料 PDF 3 点、旧設計書、既存の仕様・監査・叩き台文書のいずれにも書き込んでいない。コミット・push も行っていない。

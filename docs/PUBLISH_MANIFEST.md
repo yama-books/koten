@@ -98,14 +98,14 @@ P0 時点ではアプリコードが 1 行も存在しない。したがって�
 
 | パス | 状態 | 条件 |
 |---|---|---|
-| `assets/feedback/correct-maru.png` | 条件つき | **H-02 未了。停止条件 S-2 の対象** |
-| `assets/feedback/needs-review-check.png` | 条件つき | 同上 |
-| `assets/feedback/perfect-hanamaru.png` | 条件つき | 同上 |
-| `assets/feedback/README.md` | 条件つき | 同上。権利表示を確認結果に合わせて更新 |
+| `assets/feedback/correct-maru.png` | 現存 | **2026-08-30 に H-02 解消。** 依頼者の手書きオリジナル。CC BY 4.0 |
+| `assets/feedback/needs-review-check.png` | 現存 | 同上 |
+| `assets/feedback/perfect-hanamaru.png` | 現存 | 同上 |
+| `assets/feedback/README.md` | 要書換 | 権利表示を確定表示（`© 2026 koten contributors / CC BY 4.0`）へ更新してから移す |
 
-`assets/feedback/README.md` は 3 点を「依頼者提供画像を参考に」作成したものと記す。
-参考元の権利関係が未確認であるため、`LICENSE-CONTENT.md` が主張する CC BY 4.0 の根拠が現時点で立っていない。
-**H-02 の確認が済むまで移さない。**（詳細は `docs/LICENSE_AUDIT.md`）
+2026-08-30、依頼者より 3 点は**手書きオリジナル**であるとの回答を得た。
+元画像が依頼者自身の著作物であるため、`LICENSE-CONTENT.md` が主張する CC BY 4.0 の根拠が成立する。
+**停止条件 S-2 は画像については解除した。**（詳細は `docs/LICENSE_AUDIT.md` §3.1.1）
 
 ### 3.6 フォント
 

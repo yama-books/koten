@@ -1,0 +1,10 @@
+{
+  "name": "koten-data-pipeline",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "data:build": "node --experimental-strip-types tools/build-data/index.ts",
+    "data:check": "node --experimental-strip-types tools/build-data/index.ts --check",
+    "test": "node --experimental-strip-types --test tests/data/*.test.ts"
+  }
+}
