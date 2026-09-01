@@ -46,6 +46,8 @@ export const HINT_METHOD_DOWNGRADE: Readonly<Partial<Record<EventMethod, EventMe
   choice: 'self-tri',
   'kanji-to-kana': 'choice',
   'free-input': 'kanji-to-kana',
+  // APP_SPEC §7.1.1 D-26: 紙手書き自己申告も自由入力と同じ一段下げ先にする。
+  'paper-handwriting': 'kanji-to-kana',
 };
 
 export function downgradeForHint(method: EventMethod): EventMethod | undefined {

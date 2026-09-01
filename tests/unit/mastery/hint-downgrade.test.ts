@@ -12,7 +12,7 @@ test('hint-downgrade: 仕様に明記された写像とview下限だけを返す
   assert.equal(downgradeForHint('view'), 'view');
   assert.equal(downgradeForHint('self-x'), undefined);
   assert.equal(downgradeForHint('self-o'), undefined);
-  assert.equal(downgradeForHint('paper-handwriting'), undefined);
+  assert.equal(downgradeForHint('paper-handwriting'), 'kanji-to-kana');
 });
 
 test('hint-downgrade: 計算はeffectiveMethodを唯一の係数として使う', () => {

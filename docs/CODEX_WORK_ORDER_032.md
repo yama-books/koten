@@ -118,10 +118,10 @@ fixture だけでは縮退が一度も通らない。**両方を必ず試験す�
 | 書いてはならないもの | 呼ぶべきもの |
 |---|---|
 | 正誤の判定 | `judge()`（`domain/question.ts`） |
-| 部分正解の文言の組み立て | `buildFeedback()`（`domain/flow.ts`） |
+| 部分正解の文言の組み立て | `buildFeedback(forms, judgement)`（`domain/flow.ts`）。**`forms` は `{ historical: q.answerHistorical, kanji: q.answer }` を画面が渡す**（030 検収で署名を訂正した。§3 の裁定 11） |
 | 方式の一段下げ | `effectiveMethodFor()`（`domain/record.ts`） |
 | 増減の値 | `deltaFor()`（`domain/record.ts`） |
-| 入口ごとの問数・混ぜ方 | `ENTRY_RULES` / `planQuestions()`（`domain/entry.ts`） |
+| 入口ごとの問数・混ぜ方 | `ENTRY_RULES` / `planQuestions(entry, available, cardNumbers, seed, mode)`（`domain/entry.ts`）。**第5引数の `mode` に番号順／ランダムを渡す**（030 検収で追加した。§3 の裁定 11） |
 | 並び順 | `orderCardNumbers()`（`domain/order.ts`） |
 | 進捗の文言 | `progressLabel()`（`domain/flow.ts`） |
 | 20 首分割 | `splitIntoChunks()`（`domain/range.ts`） |
@@ -218,6 +218,19 @@ Codex が単独で決めてよい範囲に入らない。
 
 `docs/IMPLEMENTATION_PLAN.md` §8.5 は「代替テキストまたは**隣接する状態文を必ず置く**」と
 定めており、**文言だけで受入条件を満たせる。**
+
+### 裁定 11: **030 の検収で 2 件を訂正した。訂正後の署名を使う。**
+
+**2026-09-01 の 030 検収で、親担当が実装の欠陥 2 件を見つけて直した。**
+**発注書の起草時の署名が原因であり、Codex の誤りではない。** 訂正後は次のとおりである。
+
+| 記号 | 訂正後 | なぜ訂正したか |
+|---|---|---|
+| `buildFeedback(forms: AnswerForms, judgement)` | 第1引数は **`{ historical, kanji }` の 2 表記**。`Question` を渡さない | `Question` は判定に要る面しか持たず**歴史的仮名遣いを運ばない**。旧実装は `acceptedAnswers.at(0)` から推測していたが、**生成器は `[漢字, 歴史的読み]` の順で作る**ため、実データでは**両方とも漢字表記**になっていた（2番3句で `歴史的仮名遣い: 白妙の` / `漢字: 白妙の`）。D-29 の目的が達成されない |
+| `planQuestions(entry, available, cardNumbers, seed, mode)` | **第5引数 `mode`**（`'number'` / `'random'`。既定は `'number'`） | 旧実装は `orderCardNumbers` に `'number'` を直書きしており、**ランダム順へ到達できなかった**（`seed` が飾りになっていた）。`APP_SPEC` §5.1 の「一巡後に番号順／ランダムを選べる」を画面から実現できない |
+
+**画面は `PublishedQuestion` を持っているので、`answerHistorical` と `answer` をそのまま渡せばよい。**
+**`acceptedAnswers` から推測しないこと。**
 
 ### 裁定 10: **`tests/screen/` の fixture は、`data/generated/` を読まずに作る。**
 
@@ -336,7 +349,7 @@ Home（第一操作＝とりあえず始める）
 | A-11 | **送信経路が無い**（裁定 7） | `grep -rnE "fetch\(\|XMLHttpRequest\|sendBeacon" packages/hyakunin/src/ui/` の出力を貼る（**0 件であること**） |
 | A-12 | **「次へ」と Enter の両方で進む**（裁定 4） | 2 本の試験。**1 本にまとめない** |
 | A-13 | **読み表示を使うと `hintUsed` が立ち、正解が変わらない**（裁定 5） | port に記録されたイベントの `hintUsed` と、`judge` の結果が切替前後で同じであることの**両方** |
-| A-14 | **部分正解で歴史的仮名遣いと漢字が画面に出る**（030 の裁定 2・D-29） | fixture で部分正解を起こし、**2 つの表記が両方 DOM に現れる**こと。**丸印の文言が出ないこと** |
+| A-14 | **部分正解で歴史的仮名遣いと漢字が画面に出る**（030 の裁定 2・D-29） | fixture で部分正解を起こし、**2 つの表記が両方 DOM に現れ、かつ互いに異なる**こと。**「空でない」だけを見ない**——030 の検収で、両方が同じ漢字表記になっていても「空でない」検査は通ってしまうことが実測された。**丸印の文言が出ないこと** |
 | A-15 | **中断復元に「復元しない」がある**（裁定 8） | 未完了の回を持つ port を渡し、両方の選択肢が押せること |
 | A-16 | **順位・連続日数の表示が存在しない**（N-3） | `no-pressure.test.tsx`。**検査対象が空でないことを先に assert**（§5.3） |
 | A-17 | **`packages/shared/` と `packages/hyakunin/src/domain/` と `data/` に差分が無い** | `git status --porcelain packages/shared packages/hyakunin/src/domain packages/hyakunin/src/data` が空 |
@@ -359,7 +372,7 @@ Home（第一操作＝とりあえず始める）
 | **B-6** | 入力中の Enter でも進むようにする | 「入力中の Enter で飛ばない」ことを見る試験だけ |
 | **B-7** | 読み表示の切替で `hintUsed` を立てない | **A-13 のうち `hintUsed` を見る半分だけ**が赤くなり、正解が変わらないことを見る半分は**緑のまま** |
 | **B-8** | 読み表示の切替が `judge` の引数を変えるようにする | A-13 の**もう半分だけ** |
-| **B-9** | 部分正解の表示から歴史的仮名遣いを落とす | **A-14 のうち歴史的仮名遣いを見る部分だけ**。漢字を見る部分は緑のまま |
+| **B-9** | **部分正解の歴史的仮名遣いの欄へ漢字表記を入れる**（落とすのではなく、取り違える） | **A-14 の「互いに異なる」を見る試験が赤くなること。** 落とす（空にする）反転より弱い変更で赤くなることを確かめる——**030 で実際に起きた欠陥の形がこれである** |
 | **B-10** | 復元の問いかけを飛ばして常に復元する | **A-15 だけ** |
 | **B-11** | `progressLabel()` を使わず「3/8」と直に書く | 進捗の形を見る試験だけ。**番・首・問の区別が失われることを検出できるか** |
 | **B-12** | `Session.tsx` に `setTimeout` を 1 件足す | **A-10 と N-1 の試験だけ**が赤くなること |
@@ -385,6 +398,10 @@ B-13 で赤くならなかった場合、`no-pressure.test.tsx` は嘘をつい�
 
 - **歴史的仮名遣いと現代仮名遣いが一致する語**を部分正解の fixture に使うと、
   **部分正解が一度も起きない。** A-14 と B-9 が空振りする。**両者が異なる語を選ぶこと。**
+- **`acceptedAnswers` を `['<歴史的読み>']` だけにしないこと。**
+  **生成器は必ず `unique([answer, ...aliases, historical])` を作るので先頭は漢字表記である。**
+  030 の fixture がこれを外しており、**実データで壊れている実装が全試験を通った。**
+  **`tests/unit/flow.test.ts` の現在の fixture（`['白妙の', 'しろたへの']`）を手本にすること。**
 - **範囲を `?from=1&to=100` にすると、範囲が失われても気づけない。**
   A-6 は**狭い範囲**（例 `?from=10&to=20`）で試験すること。
 - **1 問だけの fixture では「次へ」が一度も効かない。** A-12 は **2 問以上**で試験すること。
