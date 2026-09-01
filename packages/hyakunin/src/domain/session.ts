@@ -33,3 +33,8 @@ export function resolveActiveRange(
   if (session !== null && !session.completed) return { from: session.from, to: session.to };
   return urlRange;
 }
+
+/** Marks a saved learning session as complete without changing its other details. */
+export function completeSession(session: Session): Session {
+  return { ...session, completed: true };
+}

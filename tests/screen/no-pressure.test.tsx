@@ -7,7 +7,7 @@ const uiRoot = join(process.cwd(), 'packages/hyakunin/src/ui');
 function collectUiSources(directory = uiRoot): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => entry.isDirectory() ? collectUiSources(join(directory, entry.name)) : entry.name.endsWith('.tsx') || entry.name.endsWith('.ts') ? [join(directory, entry.name)] : []);
 }
-const forbidden = [/setTimeout/, /setInterval/, /fetch\(/, /XMLHttpRequest/, /sendBeacon/, /順位|偏差値|ランキング|連続日数|他の人/, /MASTERY_RULES|INCORRECT_DECREMENT|normalizeAnswer/];
+const forbidden = [/setTimeout/, /setInterval/, /fetch\(/, /XMLHttpRequest/, /sendBeacon/, /順位|偏差値|ランキング|連続日数|他の人/, /平均|学年別|みんなの/, /MASTERY_RULES|INCORRECT_DECREMENT|normalizeAnswer/];
 
 test('no-pressure: UI source targets are non-empty and include Session', () => {
   const files = collectUiSources();

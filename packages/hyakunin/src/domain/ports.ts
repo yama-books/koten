@@ -6,6 +6,7 @@ export type SaveFailure = Readonly<{ reason: 'write-failed'; error?: unknown }>;
 
 export type SessionPort = Readonly<{
   appendEvent(event: Event): Promise<SaveReceipt | SaveFailure>;
+  listEvents(): Promise<readonly Event[]>;
   saveSession(session: Session): Promise<SaveReceipt | SaveFailure>;
   loadLastSession(): Promise<Session | null>;
   saveSettings(settings: UserSettings): Promise<SaveReceipt | SaveFailure>;
@@ -25,6 +26,9 @@ export function createMemoryPort(): SessionPort & { readonly events: readonly Ev
     async appendEvent(event) {
       events.push(event);
       return receipt(event.eventId);
+    },
+    async listEvents() {
+      return events;
     },
     async saveSession(session) {
       lastSession = session;

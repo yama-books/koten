@@ -1,7 +1,7 @@
 import type { Report, Session, UserSettings } from '@koten/shared/domain/event';
 import { openDatabase } from '@koten/shared/storage/db';
 import { writeFallback, readFallback } from '@koten/shared/storage/fallback';
-import { appendEvent } from '@koten/shared/storage/repo/events';
+import { appendEvent, listEvents } from '@koten/shared/storage/repo/events';
 import { saveReport } from '@koten/shared/storage/repo/reports';
 import { listSessions, saveSession } from '@koten/shared/storage/repo/sessions';
 import { getSettings, saveSettings } from '@koten/shared/storage/repo/settings';
@@ -26,6 +26,12 @@ export function createIndexedDbPort(): ApplicationPort {
   }
   return {
     async appendEvent(event) { return withDatabase((db) => appendEvent(db, event), `hyakunin:event:${event.eventId}`, event, event.eventId); },
+    async listEvents() {
+      const opened = await database;
+      if (!opened.ok) return [];
+      const result = await listEvents(opened.value);
+      return result.ok ? result.value : [];
+    },
     async saveSession(session) { return withDatabase((db) => saveSession(db, session), 'hyakunin:last-session', session, session.sessionId); },
     async loadLastSession() {
       const opened = await database;
