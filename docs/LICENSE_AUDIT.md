@@ -175,6 +175,17 @@ CC BY 4.0 での提供は、権利者である依頼者自身が `LICENSE-CONTEN
 
 P1以降、依存関係が確定した時点で `THIRD_PARTY_NOTICES.md` を生成し、各ライブラリのライセンス種別・著作権表示・原文リンクを機械的に列挙する（`docs/IMPLEMENTATION_PLAN.md` §14.3）。
 
+### 6.1 jsdom（画面テスト基盤）
+
+| 項目 | 内容 |
+|---|---|
+| 用途 | 開発時の Vitest 画面テスト用 DOM 環境（devDependency、公開物には含めない） |
+| バージョン | 30.0.1 |
+| ライセンス | MIT License |
+| 著作権表示 | Copyright (c) 2010 Elijah Insua |
+| 一次情報 | `node_modules/jsdom/LICENSE.txt`（ローカルにインストールされた配布物の原文） |
+| 確認日 | 2026-09-01 |
+
 ---
 
 ## 7. 人間確認 H-02 の一覧と停止条件

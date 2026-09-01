@@ -14,7 +14,8 @@ function stable(value: unknown): unknown {
 }
 export const serialize = (value: unknown) => `${JSON.stringify(stable(value), null, 2)}\n`;
 export function outputFiles(directory: string, data: Record<string, unknown>) {
-  return Object.entries(data).filter(([name]) => name !== 'review').map(([name, value]) => ({ file: path.join(directory, `${name === 'layoutHints' ? 'layout-hints' : name}.json`), content: serialize(value) }));
+  const fileNames: Record<string, string> = { layoutHints: 'layout-hints', questionsBlank: 'questions.blank', questionsAuthor: 'questions.author' };
+  return Object.entries(data).filter(([name]) => name !== 'review').map(([name, value]) => ({ file: path.join(directory, `${fileNames[name] ?? name}.json`), content: serialize(value) }));
 }
 export function emit(directory: string, data: Record<string, unknown>) {
   mkdirSync(directory, { recursive: true });

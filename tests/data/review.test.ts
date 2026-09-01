@@ -13,7 +13,7 @@ test('review ledgers are parseable skeletons and generated review output stays p
     readings: { pending: 100, approved: 0, rejected: 0, hold: 0 },
     kugire: { pending: 100, approved: 0, rejected: 0, hold: 0 },
     layout: { pending: 100, approved: 0, rejected: 0, hold: 0 },
-    blanks: { pending: 0, approved: 0, rejected: 0, hold: 0 },
+    blanks: { pending: 500, approved: 0, rejected: 0, hold: 0 },
   });
   for (const [name, entries] of Object.entries(data.review)) assert.equal(entries.length, name === 'blanks' ? 0 : 100);
 });

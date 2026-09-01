@@ -29,3 +29,40 @@ export function normalizeRange(from: number, to: number): Omit<CardRange, 'hadIn
   const safeTo = Number.isInteger(to) && to >= 1 && to <= 100 ? to : 100;
   return { from: Math.min(safeFrom, safeTo), to: Math.max(safeFrom, safeTo) };
 }
+
+const MAX_CHUNK_SIZE = 20;
+
+export function splitIntoChunks(range: Pick<CardRange, 'from' | 'to'>): number[][] {
+  const cardNumbers = Array.from({ length: range.to - range.from + 1 }, (_, index) => range.from + index);
+  const chunks: number[][] = [];
+  for (let index = 0; index < cardNumbers.length; index += MAX_CHUNK_SIZE) {
+    chunks.push(cardNumbers.slice(index, index + MAX_CHUNK_SIZE));
+  }
+  return chunks;
+}
+
+export function chunkProgress(
+  range: Pick<CardRange, 'from' | 'to'>,
+  chunkIndex: number,
+  confirmed: Set<number>,
+): { remainingInRange: number; chunkIndex: number; chunkCount: number } {
+  const chunks = splitIntoChunks(range);
+  const remainingInRange = chunks.flat().filter((cardNo) => !confirmed.has(cardNo)).length;
+  return { remainingInRange, chunkIndex, chunkCount: chunks.length };
+}
+
+export function nextChunkIndex(range: Pick<CardRange, 'from' | 'to'>, confirmed: Set<number>): number {
+  const chunks = splitIntoChunks(range);
+  let selectedIndex = 0;
+  let mostUnconfirmed = -1;
+
+  chunks.forEach((chunk, index) => {
+    const unconfirmed = chunk.filter((cardNo) => !confirmed.has(cardNo)).length;
+    if (unconfirmed > mostUnconfirmed) {
+      selectedIndex = index;
+      mostUnconfirmed = unconfirmed;
+    }
+  });
+
+  return selectedIndex;
+}

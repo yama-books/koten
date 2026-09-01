@@ -1,6 +1,10 @@
 {
   "counts": {
+    "authorCandidates": 300,
+    "blankCandidates": 500,
     "poems": 100,
+    "questionsAuthor": 0,
+    "questionsBlank": 0,
     "variants": 10
   },
   "dataVersion": 1,
@@ -32,7 +36,7 @@
       "hold": 0
     },
     "blanks": {
-      "pending": 0,
+      "pending": 500,
       "approved": 0,
       "rejected": 0,
       "hold": 0

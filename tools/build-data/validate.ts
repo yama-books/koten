@@ -10,7 +10,7 @@ export const FIXTURE_VALUES = [
 ] as const;
 const kana = /^[ぁ-ゖゝゞー]+$/u;
 
-export function validateData(data: { poems: any[]; layoutHints?: any[]; review?: any; manifest: any }, sourceFiles = paths.sources) {
+export function validateData(data: { poems: any[]; layoutHints?: any[]; questionsBlank?: any[]; questionsAuthor?: any[]; review?: any; manifest: any }, sourceFiles = paths.sources) {
   if (data.poems.length !== 100) throw new Error('V-01: expected 100 poems');
   const cards = data.poems.map((poem) => poem.cardNo);
   if (new Set(cards).size !== 100 || cards.some((card, index) => card !== index + 1)) throw new Error('V-01: output card numbers invalid');
@@ -39,6 +39,18 @@ export function validateData(data: { poems: any[]; layoutHints?: any[]; review?:
     for (const poem of data.poems) for (const alias of poem.author.aliases) if (!approvedAliases.has(`${poem.cardNo}:${alias}`)) throw new Error(`V-10: authors cardNo ${poem.cardNo} lacks approved alias ${alias}`);
   }
   for (const hint of data.layoutHints ?? []) if (!hint.confirmedBy || !hint.confirmedOn) throw new Error(`V-08: layout cardNo ${hint.cardNo} lacks confirmation`);
+  for (const [file, questions] of [['questions.blank.json', data.questionsBlank ?? []], ['questions.author.json', data.questionsAuthor ?? []] as const]) {
+    for (const question of questions) if (question.reviewStatus !== 'human-confirmed') throw new Error(`V-07: ${file} ${question.questionId} is not human-confirmed`);
+  }
+  for (const question of data.questionsAuthor ?? []) {
+    if (!question.candidates.length) continue;
+    const unique = new Set(question.candidates);
+    if (unique.size !== question.candidates.length) throw new Error(`V-13: ${question.questionId} has duplicate candidates`);
+    const correctCandidate = data.poems.find((poem) => poem.poemId === question.poemId)?.author.canonical;
+    if (!unique.has(correctCandidate)) throw new Error(`V-13: ${question.questionId} has no correct candidate`);
+    const distractors = question.candidates.filter((candidate: string) => candidate !== correctCandidate).length;
+    if (distractors < 4) throw new Error(`V-13: ${question.questionId} has ${distractors} distractors`);
+  }
 }
 export function assertGeneratedCurrent(data: Record<string, unknown>, directory = paths.generated) {
   for (const { file, content } of outputFiles(directory, data)) {

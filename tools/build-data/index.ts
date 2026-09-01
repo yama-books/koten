@@ -6,9 +6,10 @@ import { sourceHashes } from './hash.ts';
 import { emit } from './emit.ts';
 import { assertGeneratedCurrent, validateData } from './validate.ts';
 import { applyReview } from './apply-review.ts';
+import { generateQuestions } from './questions.ts';
 import { fileURLToPath } from 'node:url';
 
-export function buildData() {
+export function buildData(reviewDirectory = paths.review) {
   const source = parsePoems(); const readings = parseAllReadings(); const variants = parseVariants(); const reviewCards = readingReviewCardNumbers(variants);
   assertCardAlignment(source, readings);
   const poems = source.map((poem, index) => {
@@ -18,9 +19,10 @@ export function buildData() {
       reading: { historical: { ku: historical.ku, author: historical.author }, modern: { ku: modern.ku, author: modern.author }, status: reviewCards.has(poem.cardNo) ? 'review' : 'confirmed' },
       sourceRef: '百人一首_本文・作者_一次データ.md', dataVersion: DATA_VERSION };
   });
-  const reviewed = applyReview(poems);
-  const manifest = { dataVersion: DATA_VERSION, generatorVersion: GENERATOR_VERSION, generatedOn: new Date().toISOString().slice(0, 10), sourceHashes: sourceHashes(Object.values(paths.sources)), counts: { poems: poems.length, variants: variants.length }, reviewCounts: reviewed.reviewCounts };
-  const data = { poems: reviewed.poems, variants, layoutHints: reviewed.layoutHints, manifest, review: reviewed.review };
+  const reviewed = applyReview(poems, reviewDirectory, poems.length * 5);
+  const questions = generateQuestions(reviewed.poems, reviewed.review);
+  const manifest = { dataVersion: DATA_VERSION, generatorVersion: GENERATOR_VERSION, generatedOn: new Date().toISOString().slice(0, 10), sourceHashes: sourceHashes(Object.values(paths.sources)), counts: { poems: poems.length, variants: variants.length, blankCandidates: questions.blankCandidates, authorCandidates: questions.authorCandidates, questionsBlank: questions.questionsBlank.length, questionsAuthor: questions.questionsAuthor.length }, reviewCounts: reviewed.reviewCounts };
+  const data = { poems: reviewed.poems, variants, layoutHints: reviewed.layoutHints, questionsBlank: questions.questionsBlank, questionsAuthor: questions.questionsAuthor, manifest, review: reviewed.review };
   validateData(data); return data;
 }
 export function assertCardAlignment(source: { cardNo: number }[], readings: { historical: { cardNo: number }[]; modern: { cardNo: number }[] }) {

@@ -8,7 +8,9 @@
   "scripts": {
     "data:build": "node --experimental-strip-types tools/build-data/index.ts",
     "data:check": "node --experimental-strip-types tools/build-data/index.ts --check",
-    "test": "node --experimental-strip-types --test \"tests/**/*.test.ts\"",
+    "test": "npm run test:node && npm run test:screen",
+    "test:node": "node --experimental-strip-types --test \"tests/**/*.test.ts\"",
+    "test:screen": "vitest run",
     "build": "npm run build --workspace=@koten/hyakunin && npm run build --workspace=@koten/kanazukai",
     "typecheck": "tsc -b packages/shared packages/hyakunin packages/kanazukai",
     "lint": "npm run lint --workspace=@koten/hyakunin && npm run lint --workspace=@koten/kanazukai",
@@ -24,6 +26,7 @@
     "@preact/preset-vite": "^2.10.6",
     "@types/node": "^26.4.0",
     "eslint": "^10.9.1",
+    "jsdom": "30.0.1",
     "playwright": "^1.62.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.68.0",

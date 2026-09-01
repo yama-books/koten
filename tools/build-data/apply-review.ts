@@ -15,15 +15,16 @@ export function readReviewLedgers(directory = paths.review): ReviewLedgers {
   })) as ReviewLedgers;
 }
 
-export function reviewCounts(ledgers: ReviewLedgers) {
+export function reviewCounts(ledgers: ReviewLedgers, blankCandidates = 0) {
   return Object.fromEntries(names.map((name) => {
     const entries = ledgers[name];
-    const missing = name === 'blanks' ? 0 : Math.max(0, 100 - entries.length);
+    const expected = name === 'blanks' ? blankCandidates : 100;
+    const missing = Math.max(0, expected - entries.length);
     return [name, Object.fromEntries(statuses.map((status) => [status, entries.filter((entry) => entry.status === status).length + (status === 'pending' ? missing : 0)]))];
   }));
 }
 
-export function applyReview(poems: any[], directory = paths.review) {
+export function applyReview(poems: any[], directory = paths.review, blankCandidates = 0) {
   const review = readReviewLedgers(directory);
   for (const entry of review.authors.filter((item) => item.status === 'approved')) {
     const poem = poems.find((item) => item.cardNo === entry.cardNo);
@@ -34,5 +35,5 @@ export function applyReview(poems: any[], directory = paths.review) {
     if (poem) poem.reading.status = 'confirmed';
   }
   const layoutHints = review.layout.filter((entry) => entry.status === 'approved').map((entry) => ({ cardNo: entry.cardNo, breaks: entry.breaks, confirmedBy: entry.confirmedBy, confirmedOn: entry.confirmedOn, device: entry.device }));
-  return { poems, layoutHints, review, reviewCounts: reviewCounts(review) };
+  return { poems, layoutHints, review, reviewCounts: reviewCounts(review, blankCandidates) };
 }
