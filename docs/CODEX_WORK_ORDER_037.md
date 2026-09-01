@@ -64,7 +64,7 @@ P8（結果・おすすめ）の 2 本目である。**発注034・036 で作っ
 |---|---|
 | `packages/hyakunin/src/ui/screens/Result.tsx` | **新規作成** |
 | `packages/hyakunin/src/main.tsx` | **変更**（`result` 画面の追加と配線） |
-| `packages/hyakunin/src/ui/screens/Session.tsx` | **変更**（`onComplete` の署名だけ。§3 の裁定 1） |
+| `packages/hyakunin/src/ui/screens/Session.tsx` | **変更**（`onComplete` の署名と、完了画面のボタン文言だけ。§3 の裁定 1・11） |
 | `packages/hyakunin/src/styles.css` | **追記のみ**（既存の class を書き換えない） |
 | `tests/screen/result.test.tsx` | **新規作成** |
 | `tests/screen/session.test.tsx` | **追記のみ**（既存の assert を書き換えない） |
@@ -190,6 +190,58 @@ Array.from({ length: range.to - range.from + 1 }, (_, index) => `p${String(range
 **そこへ配線するのは別の発注である。** 迷ったら S-5 で報告すること。
 
 ---
+### 裁定 10: **`main.tsx` は `createSession()` が返した `Session` を state に保持する。作り直さない。**
+
+**実測（2026-09-02）: 現在の `main.tsx` は `Session` オブジェクトを捨てている。**
+`onStart` の中で `void port.saveSession(createSession({ ... }))` と書き、
+`Selection` へ入れているのは `sessionId` だけである。
+
+**したがって `completeSession(session)` へ渡すものが存在しない。**
+
+- `createSession()` の戻り値を変数へ受け、**`Selection` に `session` として持たせること。**
+- **完了時に作り直してはならない。** `startedOn` と `seed` と `questionCount` を失う
+  （作り直した値は「学習を始めた日」ではなく「終えた日」になる）。
+- `sessionId` を別に持つ必要は無くなる。**`session.sessionId` を使うこと。**
+
+### 裁定 11: **完了画面のボタン文言を変える。これは「表示を変えない」の例外である。**
+
+現在の `Session.tsx` の完了画面は次である。
+
+```tsx
+<h1>今回の範囲を確認しました</h1><button type="button" onClick={onComplete}>ホームへ戻る</button>
+```
+
+**このボタンは本発注で結果画面へ進むようになる。「ホームへ戻る」のままにすると嘘になる**
+（憲章 §1 の優先順 3「表示上の誠実さ」）。**文言を「結果を見る」に変えること。**
+
+- **見出し「今回の範囲を確認しました」は変えない。** `tests/screen/session.test.tsx` の
+  `session: completing the last question shows completion` がこの文字列を assert している。
+- **実測: 「ホームへ戻る」を assert している試験は 1 本も無い**（`grep -rn "ホームへ戻る" tests/` が 0 件）。
+  したがって文言の変更で既存試験は赤くならない。
+- **変えてよいのはこのボタンの文言だけである。** 他の画面の文言・クラス名・構造は 1 文字も触らない。
+
+### 裁定 12: **規則や署名を変えたら、それに依存する試験を grep で数える。名前で数えない。**
+
+**発注036 で親担当が踏んだ穴である。** `recommend.test.ts` の変更禁止を「A-7 の 1 本だけ」と
+書いたが、**帯の境界を見る試験が名前に規則を出さないまま期待値を通じて同じ規則に依存しており**、
+Terra は着手前に S-5 で停止した（停止は正当だった）。
+
+**本発注で同じ形になりうるのは次である。着手前に自分で確かめること。**
+
+| 変えるもの | 依存しうる試験を探すコマンド |
+|---|---|
+| `Session` の `onComplete` の署名 | `grep -rn "onComplete" tests/ packages/` |
+| 完了画面の文言 | `grep -rn "ホームへ戻る\|今回の範囲を確認しました" tests/` |
+| `main.tsx` の画面遷移 | `grep -rn "setScreen\|screen ===" tests/ packages/hyakunin/src` |
+
+**親担当は上の 3 つを実測済みで、いずれも本発注の変更で赤くならない。**
+`onComplete={() => {}}` は引数つきの署名へそのまま代入できる。
+**それでも着手前に自分で確かめること。** 数えずに始めて途中で気づくと、
+どこまでが自分の変更か切り分けられなくなる。
+
+**新たに依存が見つかったら S-5 で停止して報告すること。** 黙って期待値を書き換えないこと。
+
+
 
 ## 4. 実装範囲
 
@@ -255,6 +307,8 @@ type Props = {
 | A-16 | `package.json` を 1 つも変えていない | `git diff --exit-code -- package.json "packages/*/package.json"` が終了コード 0 |
 | A-17 | `review/` と生成物に差分が無い | `git status --porcelain review packages/hyakunin/src/data/generated` が**空** |
 | A-18 | 一次資料のハッシュが不変 | `sha256sum 百人一首_*.md 古典文法_一次データ索引.md` が着手前と一致 |
+| A-19 | **`Session` を作り直していない**（裁定 10） | `grep -c "createSession(" packages/hyakunin/src/main.tsx` が **1** |
+| A-20 | **完了画面のボタンが結果へ進むと言っている**（裁定 11） | `grep -c "ホームへ戻る" packages/hyakunin/src/ui/screens/Session.tsx` が **0**、かつ対応する試験がある |
 
 ### 5.0 grep で判定する条件（**表の外に置く。表の中では `|` が壊れる**）
 
@@ -346,7 +400,7 @@ C-1 は**実在する欠陥の再発防止**であり、C-8 は**「空の入力
 | **S-2** | 新しい依存を入れる必要が出た |
 | **S-3** | `packages/hyakunin/src/domain/` または `packages/shared/src/` を変更する必要が出た（**判断ロジックが足りないなら、それは発注036 側の穴である。画面に書かずに報告すること**） |
 | **S-4** | 保存形式（`EventOutcome`）が部分正解を持たないことが障害になった（§0.3。**本発注の範囲外である**） |
-| **S-5** | 裁定 9 の範囲（再確認の導線）を超える必要が出たと判断した |
+| **S-5** | 裁定 9 の範囲（再確認の導線）を超える必要が出たと判断した。**または裁定 12 の grep で、本発注の変更に依存する既存試験が新たに見つかった** |
 | **S-6** | `Home.tsx` または既存の画面部品を触らないと受入条件を満たせないと判断した |
 | **S-7** | **破壊試験のどれかが「1 本も赤くならない」または「予告より多くを赤にする」** |
 | **S-8** | 着手時に `git log --oneline -1` が発注036 の検収コミットより前だった（§0.2） |
