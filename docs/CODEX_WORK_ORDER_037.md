@@ -3,7 +3,10 @@
 発注先: **Terra**
 親担当: Claude Opus（第16回セッション）
 発注日: 2026-09-02
-着手条件: **発注036 の検収完了後**（検収コミット `ed84a0b`）。**並行して走らせてはならない**（理由は §0.2）。
+発行日: 2026-09-02（第17回セッションで発行）
+基準となるコミット: **`cfb3f8d`**（発注036 の検収と、本発注の穴埋めまでが済んだ最終コミット。作業ツリー clean）。
+着手条件: **`git log --oneline -1` が `cfb3f8d` 以降であり、`git status --porcelain` が空であること。**
+**並行して走らせてはならない**（理由は §0.2）。着手前に **§0.4 の基準線を照合すること。**
 
 ---
 
@@ -19,7 +22,7 @@ P8（結果・おすすめ）の 2 本目である。**発注034・036 で作っ
   「前回の学習を復元しますか」が**一度学習すると永久に出続ける**）
 
 **判断ロジックを画面に書かない。** `summarizeSession()` が返したものを表示するだけである。
-**画面に規則を書けば `test:node` の 294 件で守られなくなる。**
+**画面に規則を書けば `test:node` の 310 件で守られなくなる。**
 
 ### 0.2 発注036 と並行してはならない理由
 
@@ -28,7 +31,8 @@ P8（結果・おすすめ）の 2 本目である。**発注034・036 で作っ
 本発注の画面試験は `summarizeSession()` を呼び、**発注036 が変える `SessionResult` / `PoemOutcome` の形に依存する。**
 036 の作業中に走らせると、赤が「本発注の欠陥」なのか「036 が途中である」ためなのか**区別できない。**
 
-**着手前に `git log --oneline -1` が `ed84a0b`（発注036 の検収）以降であり、`git status --porcelain` が空であることを確かめること。**
+**発注036 は検収済みである**（検収コミット `ed84a0b`。以後の記録が `b547cb5`・`cfb3f8d`）。**基準線は静止している。**
+**着手前に `git log --oneline -1` が `cfb3f8d` 以降であり、`git status --porcelain` が空であることを確かめること。**
 空でなければ S-8 で停止する。
 
 ### 0.3 実測で確かめた構造上の制約（**設計の前提。読み飛ばさないこと**）
@@ -53,6 +57,49 @@ P8（結果・おすすめ）の 2 本目である。**発注034・036 で作っ
 `listEvents()` から 5 区分を組み立てる実装を書いたら**不合格**とする（部分正解が正答として表示される）。
 
 **この制約自体（保存形式が部分正解を持たない）は本発注の範囲外である。** 触らない。S-4 で報告するに留める。
+
+### 0.4 基準線（**着手前に照合すること**）
+
+**親担当が `cfb3f8d`・作業ツリー clean で自分で実測した値である。報告からの転記ではない。**
+
+| 検査 | 実測値（2026-09-02） |
+|---|---|
+| `npm run typecheck` / `npm run lint` / `npm run data:check` / `npm run build` | すべて終了コード 0 |
+| `npm run test:node` | **tests 310 / pass 310 / fail 0** |
+| `npm run test:screen` | **Test Files 10 / Tests 45 passed** |
+| `npm run scan:publish` | **走査 751 件、違反 0 件** |
+
+```
+6d5c29cbdde2afb855e6fab999235fe685eb2390edd21ab0e24029127903be01 *packages/hyakunin/src/main.tsx
+66176c12f9e858aaf61f85894bd320beb19667410f7c4b2b4db0f799afa4e47e *packages/hyakunin/src/ui/screens/Session.tsx
+2a7f81c820b92fb8c28c99a15c49bbd57a5ad88a59faa52176b56dd1f307dcd4 *packages/hyakunin/src/styles.css
+9bfbd8f740c147925a6fc3f5a324abf16e4e2fad02d572e889ade94e5f865099 *tests/screen/session.test.tsx
+71e980f10ea6c0b86c010c37e76b67fc034c7f40cdcbb1668246f57f0a5bd484 *tests/screen/main-wiring.test.tsx
+4efeccdad601cf7b1b20434e8b670ab4eaefce2b39a02d9b93c72284a39b3b35 *packages/hyakunin/src/domain/result.ts
+17f9d3e9e40c63b4d11c578cd5c7c7817c2123372768da4b078e682c59a3fd28 *packages/hyakunin/src/domain/session.ts
+67ce2284b71d57d1865f034ab5838f973c486d747fa959df33dd04e8935b0789 *packages/hyakunin/src/domain/ports.ts
+fc1a2027172a9ed87cfe91d4a683a6345c7e67142631b1204eb38a684bf45973 *packages/shared/src/domain/mastery/poem.ts
+443b4c062359636981fe034de5bd6942850946469ee6d2260279b99bc36e7b5b *packages/shared/src/domain/mastery/color.ts
+```
+
+**上 5 件は本発注で変えるファイルである**（`Result.tsx` はまだ存在しない）。
+**下 5 件は 1 バイトも変えてはならないファイルである。** 完了時に同じ値であることを示すこと
+（A-15 は `git diff` で見る。**ハッシュと 2 通りで見る**——`git diff` は改行の食い違いで嘘をつくことがある。§5.3）。
+
+**1 件でも食い違ったら着手せず S-8 で報告すること。**
+誰かが触った状態で始めると、赤の原因があなたの変更なのか他人の変更なのか切り分けられない。
+
+一次資料（A-18 の照合先）:
+
+```
+291388671528cb9b81a6bc82821f243f609aee871fcaa10a4ce09d8b1f64c586 *百人一首_本文・作者_一次データ.md
+8d9e58aeffde10998ee037d57af4b281faca3a0a0ee15915168a91cda9a6ec8a *百人一首_読み_歴史的仮名遣い.md
+a728c9ba261319c2042e22d91800313f4af7c1c450614641007a1a7d09b73ec5 *百人一首_読み_現代仮名遣い.md
+78953678a9bc5a1fece11da15c2bf166e1d7b542a3646f1f6e8ab4fe1a7a4b54 *百人一首_読み_異同確認.md
+30a7f7c9a5deb48263a8b3f46dcc2ee52364c16e4c55a287faf0e3e48ea7a69f *古典文法_一次データ索引.md
+```
+
+---
 
 ---
 
@@ -175,6 +222,12 @@ Array.from({ length: range.to - range.from + 1 }, (_, index) => `p${String(range
 
 **色だけに依存しないこと**（`APP_SPEC` §8）。**数値と文言を必ず併記する。**
 
+**その「文言」は `percent` から作れる。新しい情報は要らない。**
+`masteryDisplay()` は `description`（`習熟度 n%`）を返すが、**`PoemOutcome` には載っていない**（実測）。
+**載せるために `domain/` や `shared/` を触ってはならない（S-3）。** 画面が `習熟度 {percent}%` と書けば足りる。
+**色の名前を日本語へ訳す表を画面に書かないこと**（A-8 の `'gray'` 等に当たる）。
+`color` は `` class={`…--${poem.color}`} `` の形で class 名にだけ使い、見た目は `styles.css` へ書く。
+
 ### 裁定 8: **`APP_SPEC` §7.3 の「出さないもの」を守る。**
 
 - **順位・他者比較・平均・学年別・連続日数を出さない**（`no-pressure.test.tsx` の禁止語）
@@ -241,6 +294,41 @@ Terra は着手前に S-5 で停止した（停止は正当だった）。
 
 **新たに依存が見つかったら S-5 で停止して報告すること。** 黙って期待値を書き換えないこと。
 
+### 裁定 13: **C-1 の試験は「保存された `Session` の `completed`」を見る。「復元の誘いが消える」を画面で見ようとしない。**
+
+**実測（2026-09-02）: `createMemoryPort()` は `completed` で絞らない。**
+`packages/hyakunin/src/domain/ports.ts` の `loadLastSession()` は最後に保存した `Session` をそのまま返す。
+`!session.completed` で絞っているのは `packages/hyakunin/src/ui/adapters/indexeddb-port.ts` **だけ**である。
+`Home.tsx` は `loadLastSession()` が `null` かどうかしか見ていない。
+
+**したがって `createMemoryPort()` のまま「学習を終えると `Home` に復元の誘いが出ない」を書くと、
+実装が正しくても赤くなる。** そして `createMemoryPort()` を直すのは `domain/` の変更である（**S-3**）。**直さないこと。**
+
+**次の形で書くこと。**
+
+```ts
+// 試験名は、実際に assert しているものに合わせる（§5.2-2）
+test('main: 学習を終えると completed: true で保存される', async () => {
+  // …最後の問まで進めて完了させる…
+  expect((await port.loadLastSession())?.completed).toBe(true);
+});
+```
+
+- `tests/screen/main-wiring.test.tsx` は既に `(await base.loadLastSession())?.sessionId` を見ている。**同じ流儀である。**
+- 置き場所は `tests/screen/result.test.tsx` でも `tests/screen/main-wiring.test.tsx` でもよい。**ただし 1 本だけにすること**（C-1 は「1 本だけ赤くなる」で判定する）。
+- **「復元の誘いが出なくなる」という試験名を付けないこと。** その画面挙動は assert していない（憲章 §1 の優先順 3「表示上の誠実さ」）。
+
+### 裁定 14: **再確認のボタンは、実際に起きることだけを名乗る。**
+
+裁定 9 のとおり `RangePicker` へ戻す。**しかし `RangePicker` が受け取るのは `{ from, to }` の連続した範囲だけである。**
+`retryCardNumbers` は飛び飛びになりうる（例: 3・17・42）。
+
+- 要確認の側は **`from = Math.min(...retryCardNumbers)` / `to = Math.max(...retryCardNumbers)`** を渡す。**間の首も入る。**
+- **したがってボタンに「まちがえた首だけ」と書いてはならない。嘘になる。**
+  文言は **「要確認の首をふくむ範囲をもう一度」** と **「同じ範囲をもう一度」** の 2 つとする。
+- **`retryCardNumbers` が空のときは要確認のボタンを出さない**（押しても何も起きないボタンを置かない）。
+- **飛び飛びの首だけを出題する仕組みは作らない。** それは `planQuestions` の `review` 入口の話であり、**別の発注である**（裁定 9）。
+
 
 
 ## 4. 実装範囲
@@ -291,10 +379,10 @@ type Props = {
 |---|---|---|
 | A-1 | 型・書式・生成物の検査が通る | `npm run typecheck` / `npm run lint` / `npm run data:check` がすべて終了コード 0 |
 | A-2 | `result.test.tsx` の試験が **10 件以上**ある | `npx vitest run tests/screen/result.test.tsx` |
-| A-3 | 画面試験が**減っていない**（**45 件以上**・fail 0） | `npm run test:screen` |
-| A-4 | Node 試験が**変わっていない**（fail 0） | `npm run test:node` |
+| A-3 | 画面試験が**減っていない**（着手前 **45 件**。**55 件以上**・fail 0） | `npm run test:screen` |
+| A-4 | Node 試験が**1 件も増減していない**（**tests 310 / fail 0**） | `npm run test:node` |
 | A-5 | 2 製品の build が通る | `npm run build` が終了コード 0 |
-| A-6 | 公開物が増えていない | `npm run scan:publish` の件数が着手前と一致し、違反 0 |
+| A-6 | 公開物が増えていない | `npm run scan:publish` が **走査 751 件・違反 0 件**（§0.4 と一致） |
 | A-7 | **禁止語を入れていない** | `npm run test:screen` の `no-pressure` 3 件が緑 |
 | A-8 | **判断ロジックを画面へ写していない** | §5.0 の A-8 が **0 件** |
 | A-9 | **色の境界を書き写していない** | §5.0 の A-9 が **0 件** |
@@ -358,7 +446,7 @@ rm probe.txt
 
 | # | 壊し方（**論理を 1 箇所だけ反転させる**） | 赤くなるべき試験 |
 |---|---|---|
-| **C-1** | `main.tsx` から `completeSession()` の呼び出しを外す | **「学習を終えると復元の誘いが出なくなる」1 本だけ。****これが受入の中心である** |
+| **C-1** | `main.tsx` から `completeSession()` の呼び出しを外す（`session` をそのまま保存する） | **裁定 13 の 1 本だけ。****これが受入の中心である** |
 | **C-2** | `Result.tsx` が `allCorrect` を無視して常に花丸を出す | 「部分正解を含む回に花丸が出ない」1 本 |
 | **C-3** | `Result.tsx` が `allCorrect` を無視して花丸を出さない | 「全問正解の回に花丸が出る」1 本 |
 | **C-4** | 内訳の `partial` を表示から落とす（4 区分にする） | 5 区分を見る 1 本 |
@@ -403,7 +491,7 @@ C-1 は**実在する欠陥の再発防止**であり、C-8 は**「空の入力
 | **S-5** | 裁定 9 の範囲（再確認の導線）を超える必要が出たと判断した。**または裁定 12 の grep で、本発注の変更に依存する既存試験が新たに見つかった** |
 | **S-6** | `Home.tsx` または既存の画面部品を触らないと受入条件を満たせないと判断した |
 | **S-7** | **破壊試験のどれかが「1 本も赤くならない」または「予告より多くを赤にする」** |
-| **S-8** | 着手時に `git log --oneline -1` が発注036 の検収コミットより前だった（§0.2） |
+| **S-8** | 着手時に `git log --oneline -1` が `cfb3f8d` より前だった、`git status --porcelain` が空でなかった、または **§0.4 の基準線が 1 件でも食い違った** |
 
 **S-7 は不合格ではない。** 発注書の予告が誤っていた例が過去に 5 件ある。
 **隠さずに報告すれば、それは正しい仕事である。**
@@ -414,11 +502,12 @@ C-1 は**実在する欠陥の再発防止**であり、C-8 は**「空の入力
 
 **次の 8 項目をすべて書くこと。欠けた完了報告は差し戻す。**
 
-1. §5 の A-1〜A-18 の**実測値**（「成功しました」ではなく、コマンドの出力の数値）
+1. §5 の A-1〜A-20 の**実測値**（「成功しました」ではなく、コマンドの出力の数値）
 2. §5.1 の破壊試験 C-1〜C-10 について、**壊し方・赤くなった試験名・復元後のハッシュ一致**の 3 点を 1 件ずつ
 3. **C-1 と C-8 の結果を独立の節に書くこと**（受入の中心のため）
 4. `git status --porcelain` の全文
-5. `sha256sum packages/hyakunin/src/ui/screens/Result.tsx packages/hyakunin/src/main.tsx packages/hyakunin/src/ui/screens/Session.tsx` の値
+5. `sha256sum packages/hyakunin/src/ui/screens/Result.tsx packages/hyakunin/src/main.tsx packages/hyakunin/src/ui/screens/Session.tsx packages/hyakunin/src/styles.css` の値と、
+   **§0.4 の「触ってはならない 5 件」のハッシュが着手前と一致していること**
 6. **独自に決めたことを 1 件残らず列挙する**（本発注書が指定していない判断をした箇所すべて）
 7. **できなかったことがあれば、隠さずに書く。**「できませんでした」も実測で検証される
 8. `tests/screen/result.test.tsx` の**試験名の一覧**
