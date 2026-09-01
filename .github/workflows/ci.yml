@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run data:check
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      # ports: overflow=4173 font-weight=4174,4175 storage=4176
+      - run: npm run check:font
+      - run: npm run check:font-assets
+      - run: npm run check:font-weight
+      - run: npm run check:overflow
+      - run: npm run check:storage
+      - run: npm run scan:publish

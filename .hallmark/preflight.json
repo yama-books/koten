@@ -1,0 +1,8 @@
+{
+  "date": "2026-08-31",
+  "framework": "Vite 8 + Preact 10 + TypeScript",
+  "fonts": "Zen Maru Gothic 500/700 + Klee One 600 with local fallbacks",
+  "palette": "Existing OKLCH koten design system",
+  "motion": "motion-cut; CSS state feedback only",
+  "spacing": "4pt semantic scale"
+}

@@ -72,7 +72,7 @@
 3. **「一巡」の定義**: 指定範囲に属する全首が、その範囲について 1 回以上「出題された」状態。まとまり（最大 20 首）単位ではなく範囲単位で判定する。`APP_SPEC` §5 の「最初の一巡は番号順」はこの意味とする。
 4. **「別の日」の判定**は端末ローカル日付（`YYYY-MM-DD`）の文字列不一致とする。正確な時刻は保存も送信もしない（`APP_SPEC` §2 の「日」定義に従う）。
 5. **「同一回半分」の適用単位**は `(sessionId, questionId)` とする。同じ回で同じ問に 2 回目以降回答したとき、加点を切り捨てで半分にする（+5→+2、+7→+3、+9→+4）。減点は半分にしない。
-6. **「ヒント一段軽い」の適用順**は `free-input → kanji-to-kana → choice → self-o → view` とし、下限は `view`。読み表示を回の中で一度でも開いたら、その問はヒント使用として記録する（`APP_SPEC` §6 末尾の「答えの箇所に直接関係するかを問わず」に従う）。
+6. **「ヒント一段軽い」の適用順**は `free-input → kanji-to-kana → choice → self-tri → view` とし、下限は `view`。読み表示を回の中で一度でも開いたら、その問はヒント使用として記録する（`APP_SPEC` §6 末尾の「答えの箇所に直接関係するかを問わず」に従う）。
 7. **`dataVersion` と `appVersion` を分離する**。`dataVersion` は生成データの版、`appVersion` は配信ビルドの版。イベントには両方を保存し、規則版 `masteryRulesVersion` はさらに別に持つ。
 
 ---
@@ -679,10 +679,10 @@ Event {
 
 1. イベントを `localDate` → `eventId` の安定順に並べる。
 2. `hintUsed` なら `effectiveMethod` を一段軽くする（下限 `view`）。
-3. `sameSessionRepeat` なら加点を切り捨てで半分（減点は半分にしない）。
-4. `delta` を累積する。減点は選択式・ヒント後 −3、漢字候補→ひらがな −4、自由入力・紙手書き −5。
-5. 各イベントの `method` に対応する上限を、そのイベントによる到達上限として適用する。
-6. 90 を超える値は、`localDate` が既存の 90 到達日と異なり、かつ `method ∈ {free-input, paper-handwriting}` かつ `outcome === "correct"` のイベントでのみ付与する。
+3. `sameSessionRepeat` が真なら加点を切り捨てで半分にする。偽でも `questionId` がある場合は同一 `(sessionId, questionId)` の既出から補完する。`questionId` が無いイベント同士を反復と推測しない（減点は半分にしない）。
+4. 保存済み `delta` は使わず、規則版1の係数を `effectiveMethod` から再導出する。減点は選択式・ヒント後 −3、漢字候補→ひらがな −4、自由入力・紙手書き −5。
+5. 各イベントの `effectiveMethod` に対応する上限を、そのイベントの**加点可能幅**へ適用する。既に上限を超えている値を低い方式の正答で下げない。
+6. 90 を超える値は、`localDate` が既存の 90 到達日と異なり、かつ `effectiveMethod ∈ {free-input, paper-handwriting}` かつ `outcome === "correct"` のイベントでのみ付与する。
 7. 最後に 0〜100 へ収める。
 
 **時間経過だけで％を下げない**（`LEARNING_SCIENCE_AUDIT`）。「そろそろ確認」は推薦側で別に扱う。
@@ -907,7 +907,7 @@ P11 ──────→ P12 公開移管とロールバック
 
 「概算規模」は実装者日数の幅であり、確定納期ではない。
 
-### 実施状況（2026-08-30 時点）
+### 実施状況（2026-08-31 時点）
 
 以後のフェーズ記述は「これから行うこと」として書かれている。実際にどこまで済んでいるかは
 この表を正とする。**着手前に必ずここを見ること。**
@@ -915,17 +915,18 @@ P11 ──────→ P12 公開移管とロールバック
 | フェーズ | 状態 | 根拠・成果物 |
 |---|---|---|
 | P0 境界固定と公開衛生 | **完了・commit 済み** | `.gitignore` / `.gitattributes` / `docs/PUBLISH_MANIFEST.md` / `docs/ADR/0001〜0004` / `docs/LICENSE_AUDIT.md` |
-| P1 最小実行基盤 | **未着手** | 裁定 D-06 により 3 パッケージ分に拡大。次に行うのはこれ |
-| P2 一次資料パイプライン | **完了・未 commit** | `tools/build-data/` 9 本、`tests/data/` 4 本、`packages/hyakunin/src/data/generated/` 3 本。`docs/CODEX_WORK_ORDER_001.md` による発注 |
-| P3 以降 | 未着手 | — |
+| P1 最小実行基盤 | **完了・未 commit** | 3パッケージ、共有ErrorBoundary、CI、型・Lint・test・build・scanを受入済み |
+| P2 一次資料パイプライン | **発注001の範囲完了・未 commit。正式P2は一部残件あり** | `tools/build-data/` 9 本、`tests/data/` 4 本、生成JSON 3 本、D-08ローダーと製品schema。review台帳・公開問題JSON・`reviewCounts` は未実装 |
+| P3 表示基盤 | **部分着手・未 commit** | D-09の先行実機確認版として、100首閲覧・読み3表示・縦横切替・4幅の代表確認まで完了。フォントself-hostと全件overflow検査は未完了 |
+| P4 以降 | 未着手 | — |
 
 **P2 が P1 に先行した。** パイプラインは公開単位の足場に依存せず、生成物の置き場
 （`packages/hyakunin/src/data/generated/`）が裁定 D-06 の構成と一致しているため、
 この順序逆転は不整合を生んでいない。P1 はルート `package.json` を**新規作成せず**、
 P2 が作った既存のものに `workspaces` を足す形で進めること。
 
-P2 の受入条件は 2026-08-30 に実測で確認した（`npm test` 7 件緑、`npm run data:check` 終了コード 0、
-生成物 100 首・異同 10 件）。§2.1 も参照。
+発注001の受入条件は 2026-08-30 に実測で確認した（`npm test` 7 件緑、`npm run data:check` 終了コード 0、
+生成物 100 首・異同 10 件）。これは正式P2全体の完了を意味しない。§2.1 と `docs/HANDOFF.md` §8 も参照。
 
 ### P0 境界固定と公開衛生
 
@@ -1177,6 +1178,13 @@ P2 の受入条件は 2026-08-30 に実測で確認した（`npm test` 7 件緑�
 
 ### P4 保存・移行（IndexedDB / export / import / 初期化）
 
+**実施状況（2026-08-31・第7回）:** 発注009（前半）と発注012（後半）で実装済みだが、
+**取り込みが原子的でないという欠陥が第6回の検収で見つかった**（`import.ts` の `replaceStore` が
+レコード 1 件ごとに別トランザクションを張り、復旧経路も同じ実装を使う）。
+**停止条件 S-7（既存記録の消失）に直結する。** 裁定 **D-18**（4 ストアを 1 トランザクションにまとめ、
+手作りの復旧経路を削除する。ADR-0004 追補）のもとで**発注019（Terra）を出した**。
+**この検収が済むまで P4 は完了扱いにしない。**
+
 ```text
 フェーズ名: P4 保存・移行
 目的: 学習イベントを端末内に確実に残し、書き出し・読み込み・重複排除統合・初期化が
@@ -1198,7 +1206,7 @@ P2 の受入条件は 2026-08-30 に実測で確認した（`npm test` 7 件緑�
 作成・変更予定ファイル:
   作成: packages/shared/src/storage/{schema,db,fallback,export,import,merge,reset}.ts /
         packages/shared/src/storage/repo/{events,sessions,settings,reports,outbox}.ts /
-        packages/shared/src/domain/event.ts（`product` 判別子を含む。H-13 の裁定が先）/
+        packages/shared/src/domain/event.ts（`product` 判別子を含む。H-13 は 2026-08-31 解消済み。ADR-0004 追補に従う）/
         packages/shared/src/ui/screens/Transfer.tsx（書き出し・取り込みは 2 製品共通）/
         tests/unit/storage/{db,merge,import,export,reset,fallback}.test.ts
   変更: packages/hyakunin/src/ui/screens/Home.tsx（データの移動への導線）/
@@ -1231,6 +1239,17 @@ P2 の受入条件は 2026-08-30 に実測で確認した（`npm test` 7 件緑�
 
 ### P5 習熟度エンジン
 
+**実施状況（2026-08-31）:** 計算コア018A（`rules.v1.ts` / `compute.ts` / `color.ts` と目的別テスト）は
+実装・親検収済み。保存層の `itemKey` インデックスは性能上必要になるまで見送り、推薦はH-16
+（§8.2の3軸と監査の4段、期間閾値の確定）待ち。したがってP5全体は未完了である（裁定D-15）。
+
+**追記（2026-08-31・第7回）:** **H-16 は裁定した（D-17）。** 推薦は 5 段（期限超過かつ別日想起なし →
+直近 3 日の要確認 → 別日想起なし → 未着手 → 期限超過の再確認）とし、復習期限は §8 の色帯を再利用して
+赤 1・黄 3・青 7・緑 14 日、同点は期限超過日数の降順→習熟度の昇順→番の昇順、該当なしなら提案しない。
+首の習熟度は属する項目スコアの**最小値**。仕様は `docs/APP_SPEC.md` §8.2、根拠は ADR-0004 追補 D-17。
+**発注020（Terra）を出した。これが検収されれば P5 は完了する。** 日数は `recommend/rules.v1.ts` に
+`RECOMMEND_RULES_VERSION` つきで持たせ、H-06 の試験運用で校正する。
+
 ```text
 フェーズ名: P5 習熟度エンジン
 目的: APP_SPEC §8.1 のイベント表を純関数として実装し、上限・減点・同一回半分・
@@ -1250,7 +1269,8 @@ P2 の受入条件は 2026-08-30 に実測で確認した（`npm test` 7 件緑�
         tests/unit/mastery/{increments,caps,decrements,same-session,
         hint-downgrade,over-90,recompute}.test.ts /
         tests/unit/recommend.test.ts
-  変更: packages/shared/src/storage/repo/events.ts（itemKey インデックス）
+  変更: packages/shared/src/storage/repo/events.ts（itemKey インデックス）はD-15により本発注から除外。
+        性能上必要になった時点で別発注する
 変更しないファイル: docs/APP_SPEC.md, docs/LEARNING_SCIENCE_AUDIT.md
 依存関係: P4（裁定 D-01 は決着済み）
 人間確認: H-06（習熟度係数・色境界・おすすめ順の試験運用）
@@ -1263,7 +1283,7 @@ P2 の受入条件は 2026-08-30 に実測で確認した（`npm test` 7 件緑�
     −5（自由入力・紙手書き）。0 未満にならない。
   - same-session: 同一 (sessionId, questionId) の 2 回目以降が切り捨て半分。
     減点は半分にならない。別問題は通常どおり加算される。
-  - hint-downgrade: free-input → kanji-to-kana → choice → self-o → view の
+  - hint-downgrade: free-input → kanji-to-kana → choice → self-tri → view の
     一段下げ。下限が view。ヒントだけの正答が自力正答の加分にならない。
   - over-90: 同一日の想起では 90 を超えない。別日かつ自由入力／紙手書きの
     正答でのみ超える。表示上限 100。
@@ -1972,17 +1992,18 @@ Secrets には **Firebase の公開 Web 設定のみ**を置く。サービス�
 
 **当初の方針は「最初の PR は P0 と P1 のみ」であった。** 理由: P0 が終わるまで、以後どのファイルを作っても「公開してよいものかどうか」を機械的に判定できない。とくに H-01 の結果によっては、リポジトリの扱い自体が変わる。
 
-### 実際の経過（2026-08-30・§10 冒頭の「実施状況」も参照）
+### 実際の経過（2026-08-31・§10 冒頭の「実施状況」も参照）
 
 | 区分 | 状態 |
 |---|---|
 | P0 | **完了・commit 済み**（下記 1〜5） |
-| P2 | **完了・未 commit。**`docs/CODEX_WORK_ORDER_001.md` により P1 に先行して実施された |
-| P1 | **未着手。** 下記 6〜11 が残っている |
+| P2 | **発注001の範囲完了・未 commit。** 正式P2のreview台帳・公開問題等は残る |
+| P1 | **完了・未 commit。** 下記6〜11を実装・検証済み |
+| P3 | **部分着手・未 commit。** D-09の先行実機確認版を実装。残件は§10の実施状況とHANDOFF §8を参照 |
 
 P2 がパイプライン（`tools/build-data/`・`tests/data/`・生成 JSON）だけで完結し、
 公開単位の足場に依存しないため、この順序逆転は不整合を生んでいない。
-**残りの実装 PR は P1（3 パッケージの足場）である。**
+**次の実装単位は、先行実機確認版のフォントself-host・全件overflow検査・公開staging検査である。**
 
 ### P0 で含めたもの（commit 済み）
 
@@ -1992,7 +2013,7 @@ P2 がパイプライン（`tools/build-data/`・`tests/data/`・生成 JSON）�
 4. `docs/LICENSE_AUDIT.md`
 5. `docs/HANDOFF.md` を追跡対象として commit する（作成済み）
 
-### P1 で含めるもの（未着手。裁定 D-06 により 3 パッケージ分）
+### P1 で含めたもの（完了・未 commit。裁定 D-06 により 3 パッケージ分）
 
 6. ルート `package.json` に `workspaces: ["packages/*"]` を足す（**新規作成ではない**。
    P2 の先行着手により `koten-data-pipeline` として既存。既存スクリプトを壊さない）と

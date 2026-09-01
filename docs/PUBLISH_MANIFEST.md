@@ -48,7 +48,7 @@ P0 時点ではアプリコードが 1 行も存在しない。したがって�
 |---|---|---|
 | `LICENSE` | 現存 | Apache-2.0 原文。改変しない |
 | `LICENSE-CONTENT.md` | 現存 | CC BY 4.0。公開リポジトリ URL を確定後に追記（H-09） |
-| `NOTICE` | 現存 | 正式名称の確定後に更新（H-10） |
+| `NOTICE` | 現存 | **2026-08-31 に H-10 解消**（正式名称「古典学習帳」確定）。公開URL確定後に再確認（H-09） |
 | `THIRD_PARTY_NOTICES.md` | 未作成 | P1 以降に依存が確定してから生成 |
 
 ### 3.2 一次資料（正本 Markdown）
@@ -78,18 +78,18 @@ P0 時点ではアプリコードが 1 行も存在しない。したがって�
 
 | パス | 状態 | 条件 |
 |---|---|---|
-| `package.json`（workspace 根） | 未作成 | P1 |
-| `tsconfig.json` / `tsconfig.node.json` | 未作成 | P1 |
-| `eslint.config.js` / `vitest.config.ts` | 未作成 | P1 |
-| `packages/shared/**` | 未作成 | P1〜。共有層（習熟度・保存・統計・共通部品・トークン） |
-| `tools/build-data/**` | 未作成 | P2。生成の再現性のため公開する |
+| `package.json`（workspace 根） | 現存 | P1完了。公開移管時に依存を再検査 |
+| `tsconfig.json` / `tsconfig.node.json` | 現存 | P1完了。公開単位別に配置 |
+| `eslint.config.js` / `vitest.config.ts` | 現存 | P1完了。公開単位別に配置 |
+| `packages/shared/**` | 一部現存 | P1、共有ErrorBoundary、D-08ローダー、トークンまで。保存・統計等は未実装 |
+| `tools/build-data/**` | 現存 | 発注001。生成の再現性のため公開する |
 | `tools/overflow-check/**` | 未作成 | P3 |
-| `tools/scan-publish/**` | 未作成 | P0 後に発注。この許可リストを入力とする |
-| `tests/**` | 未作成 | P1〜。`tools/review-page` に依存する試験を含めない |
+| `tools/scan-publish/**` | 初版現存 | 最終staging全体と許可リストの1対1検査は未実装 |
+| `tests/**` | 一部現存 | data/unit 16件。`tools/review-page` に依存する試験を含めない |
 | `firebase/firestore.rules` | 未作成 | P9。**実プロジェクト ID・鍵・実値を含まないこと** |
 | `firebase/firestore.indexes.json` | 未作成 | 同上 |
 | `firebase/firebase.json` | 未作成 | Emulator 設定のみ。実プロジェクト ID は環境変数 |
-| `.github/workflows/ci.yml` | 未作成 | P1 |
+| `.github/workflows/ci.yml` | 現存 | P1完了。typecheck / lint / unit / data / build / scan |
 | `.github/workflows/deploy-pages.yml` | 未作成 | P12 で有効化 |
 | `.gitignore` / `.gitattributes` | 要書換 | 公開側の構成に合わせて作り直す。現物をそのまま移さない |
 | `README.md` | 要書換 | **公開用に書き直したものを移す。** 現行 README は内部向け |
@@ -111,7 +111,7 @@ P0 時点ではアプリコードが 1 行も存在しない。したがって�
 
 | パス | 状態 | 条件 |
 |---|---|---|
-| `packages/*/public/fonts/**`（WOFF2 サブセット） | 現存 | **2026-08-30 に H-02 完了。停止条件 S-2 は全面解除**。SIL OFL 1.1 の一般条件で self-host・同梱・サブセット化とも可 |
+| `packages/*/public/fonts/**`（WOFF2 サブセット） | 未作成 | **2026-08-30 に H-02 完了。停止条件 S-2 は全面解除**。SIL OFL 1.1 の一般条件で self-host・同梱・サブセット化とも可。実ファイルの作成・容量検査はP3残件 |
 | 各フォントのライセンス原文ファイル | 条件つき | 同梱義務の有無を H-02 で確認。同梱が必要なら必ず同梱する |
 
 self-host・サブセット化・同梱物の 3 点が確認できるまで移さない。
@@ -123,25 +123,25 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 裁定 D-06 により、**公開リポジトリは 1 つ**とし、GitHub Pages の別パスで 2 つを配信する。
 共有層（§3.4）は両方から参照されるため共通部に置き、以下は各公開単位に固有のものだけを挙げる。
 
-### 4.1 公開単位 1: 古典学習帳（百人一首）— `/hyakunin/`
+### 4.1 公開単位 1: 百人一首練習帳 — `/hyakunin/`
 
 | パス | 状態 | 条件 |
 |---|---|---|
-| `packages/hyakunin/index.html` | 未作成 | P1 |
-| `packages/hyakunin/vite.config.ts` | 未作成 | `base` は環境変数から。実値を書かない |
-| `packages/hyakunin/src/**` | 未作成 | 縦書き・範囲 URL・5 入口・出題・結果 |
-| `packages/hyakunin/src/data/generated/**` | 未作成 | P2 の出力。**手編集禁止。CI で検査** |
-| `packages/hyakunin/public/**` | 未作成 | `404.html` を含む。フォントは §3.6 の条件に従う |
+| `packages/hyakunin/index.html` | 現存 | P1完了 |
+| `packages/hyakunin/vite.config.ts` | 現存 | `base` は環境変数から。実値を書かない |
+| `packages/hyakunin/src/**` | 一部現存 | 先行実機確認版は100首閲覧・縦横・範囲URLまで。5入口・出題・結果は未実装 |
+| `packages/hyakunin/src/data/generated/**` | 現存 | 発注001の出力。**手編集禁止。CI で検査** |
+| `packages/hyakunin/public/**` | 一部現存 | `404.html` は現存。フォントは未作成で§3.6の条件に従う |
 
 ### 4.2 公開単位 2: 歴史的仮名遣い確認ツール — `/kanazukai/`
 
 | パス | 状態 | 条件 |
 |---|---|---|
-| `packages/kanazukai/index.html` | 未作成 | 設計書 §7 |
-| `packages/kanazukai/vite.config.ts` | 未作成 | `base` は環境変数から |
-| `packages/kanazukai/src/**` | 未作成 | 横書き単語・規則診断・3 モード |
+| `packages/kanazukai/index.html` | 現存 | P1足場のみ |
+| `packages/kanazukai/vite.config.ts` | 現存 | `base` は環境変数から |
+| `packages/kanazukai/src/**` | 足場のみ現存 | 「準備中」Homeのみ。横書き単語・規則診断・3モードは未実装 |
 | `packages/kanazukai/src/data/generated/**` | 未作成 | **手編集禁止。CI で検査** |
-| `packages/kanazukai/public/**` | 未作成 | §3.6 の条件に従う |
+| `packages/kanazukai/public/**` | 一部現存 | `404.html`のみ。フォントは§3.6の条件に従う |
 
 ---
 
@@ -188,6 +188,47 @@ packages/hyakunin/**
 # unit:kanazukai
 packages/kanazukai/**
 ```
+
+
+### 5.1 公開staging（ビルド成果物）の機械可読な許可リスト
+
+§5 のブロックは**リポジトリ内のソース**に対する許可リストである。`tools/scan-publish` が
+`packages/*/dist/**` を走査するときは、ソースのパス形ではなくビルド後の成果物を見るため、
+別の根拠が要る。**2026-08-31、親担当が次を裁定した。**
+
+`tools/scan-publish` はビルド成果物の各ファイルの拡張子を、次のブロックだけを根拠に照合する。
+ここに無い拡張子は一致しないものとして違反にする。ツール側に許可を書き込まない。
+
+```text
+# build-artifact extensions
+.html
+.js
+.css
+.json
+.woff2
+.txt
+.svg
+.png
+.ico
+```
+
+裁定の根拠と意図:
+
+| 拡張子 | 根拠 |
+|---|---|
+| `.html` / `.js` / `.css` | §4.1・§4.2 の公開単位が Vite の静的ビルドである以上、必ず出る |
+| `.json` | `packages/*/src/data/generated/**` がアセットとして出る（`dist/assets/poems-*.json` を実測） |
+| `.woff2` | §3.6。H-02 完了により self-host が可能。実ファイル作成は P3 残件 |
+| `.txt` | §3.6 の「各フォントのライセンス原文ファイル」（`OFL.txt`）の同梱義務に対応 |
+| `.svg` / `.png` / `.ico` | `packages/*/public/**` と `assets/feedback/**`。現時点で実体は `404.html` のみ |
+
+**意図してここに載せなかったもの（載せれば違反として検出される）:**
+
+- `.map` — ソースマップは公開しない。内部のファイル構成と未公開コードが露出するため。
+- `.md` — ビルド成果物に一次データやドキュメントが混入した状態を検出するため。
+- 拡張子なしのファイル — 想定外の混入を必ず気づけるようにするため。
+
+この表と上のブロックが食い違った場合は**表が正**であり、ブロックを表へ合わせる。
 
 ---
 
@@ -254,9 +295,14 @@ packages/kanazukai/**
 6. 新しい作業ツリーの全ファイル一覧を出し、§5 のブロックと**1 対 1 で突き合わせる**。
    ブロックにないファイルが 1 つでもあれば、その場で止めて原因を調べる。
 7. `git config user.name` / `user.email` を公開名義に設定してから最初のコミットを作る（§14.4・H-09）。
+   **`user.email` は `<ID>+<アカウント名>@users.noreply.github.com` とする（裁定 D-10、ADR-0003 追補）。実メールアドレスを設定しない。**
+   アカウント側で `Keep my email addresses private` と `Block command line pushes that expose my email` を有効にしておくこと。
 
 ## 9. 変更履歴
 
 | 日付 | 内容 |
 |---|---|
+| 2026-08-31 | 正式名称を確定（H-10 解消）。プロジェクト名「古典学習帳」、公開単位1「百人一首練習帳」、公開単位2「歴史的仮名遣い確認ツール」。§4.1 の見出しと `NOTICE` を更新 |
+| 2026-08-31 | 裁定 D-10（公開名義は noreply アドレス、実メール不可）を §8 手順 7 に反映。根拠は ADR-0003 追補 |
+| 2026-08-31 | P1・発注001・先行実機確認版の実体に状態欄を同期。フォントはライセンス確認済みだが実ファイル未作成であること、`scan:publish` 初版は最終staging検査を満たさないことを明記 |
 | 2026-08-30 | 初版。P0 で作成。裁定 D-06 に従い共通部と公開単位別部に分けた。`古典文法_一次データ索引.md` を初回公開から外し H-14 として起票 |

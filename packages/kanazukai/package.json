@@ -1,0 +1,1 @@
+{"name":"@koten/kanazukai","private":true,"type":"module","scripts":{"dev":"vite","build":"vite build","preview":"vite preview","lint":"eslint src vite.config.ts"},"dependencies":{"@koten/shared":"*","preact":"*"},"devDependencies":{"@preact/preset-vite":"*","vite":"*","vitest":"*"}}

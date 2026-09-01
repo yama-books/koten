@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { paths } from './paths.ts';
 import { sha256 } from './hash.ts';
-import { outputFiles } from './emit.ts';
+import { outputFiles, serialize } from './emit.ts';
 
 export const FIXTURE_VALUES = [
   [3, 'author', '柿本人麻呂'], [5, 'author', '猿丸大夫'], [7, 'author', '安倍仲麿'], [13, 'ku1', 'つくばねの'], [28, 'author', '源宗于朝臣'],
@@ -28,5 +28,33 @@ export function validateData(data: { poems: any[]; manifest: any }, sourceFiles 
   }
 }
 export function assertGeneratedCurrent(data: Record<string, unknown>, directory = paths.generated) {
-  for (const { file, content } of outputFiles(directory, data)) if (!existsSync(file) || readFileSync(file, 'utf8') !== content) throw new Error(`V-14: stale generated file ${path.basename(file)}`);
+  for (const { file, content } of outputFiles(directory, data)) {
+    if (!existsSync(file)) throw new Error(`V-14: stale generated file ${path.basename(file)} (file is missing)`);
+    const actual = readFileSync(file, 'utf8');
+    if (path.basename(file) !== 'manifest.json') {
+      if (actual !== content) throw new Error(`V-14: stale generated file ${path.basename(file)} (content differs)`);
+      continue;
+    }
+
+    let actualManifest: Record<string, unknown>;
+    try {
+      actualManifest = JSON.parse(actual) as Record<string, unknown>;
+    } catch {
+      throw new Error('V-14: stale generated file manifest.json (invalid JSON)');
+    }
+    if (!Object.prototype.hasOwnProperty.call(actualManifest, 'generatedOn')) {
+      throw new Error('V-14: stale generated file manifest.json (field generatedOn is missing)');
+    }
+    if (typeof actualManifest.generatedOn !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(actualManifest.generatedOn)) {
+      throw new Error('V-14: stale generated file manifest.json (field generatedOn must be YYYY-MM-DD)');
+    }
+    const expectedManifest = JSON.parse(content) as Record<string, unknown>;
+    const actualComparable = { ...actualManifest }; delete actualComparable.generatedOn;
+    const expectedComparable = { ...expectedManifest }; delete expectedComparable.generatedOn;
+    if (serialize(actualComparable) !== serialize(expectedComparable)) {
+      const fields = new Set([...Object.keys(actualComparable), ...Object.keys(expectedComparable)]);
+      const differing = [...fields].filter((field) => serialize(actualComparable[field]) !== serialize(expectedComparable[field]));
+      throw new Error(`V-14: stale generated file manifest.json (field differs: ${differing.join(', ') || 'unknown'})`);
+    }
+  }
 }
