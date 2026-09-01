@@ -558,7 +558,10 @@ variants.json[]     cardNo, field, adopted, alternatives[], kind("異本文"|"�
 layout-hints.json[] cardNo, breaks[]（人確認済みの改行位置）, confirmedBy, confirmedOn, device
 
 questions.*.json[]  questionId, poemId, skill, type, blankUnit, prompt, answer,
-                    candidates[], normalization, reviewStatus, sourceRef,
+                    answerHistorical, answerModern,
+                    acceptedAnswers[], partialAnswers[],
+                    candidates[], normalization("exact"|"kana"),
+                    reviewStatus, sourceRef,
                     confirmationMode("individual"|"batch"), confirmedBy, confirmedOn,
                     proposedBy("human"|"ai"), batchEvidenceRef?
 
@@ -1354,6 +1357,39 @@ P2 が作った既存のものに `workspaces` を足す形で進めること。
 停止条件: S-8（人確認のない助詞境界・句切れ・別名を正解として公開する必要が生じた）。
 概算規模: 大（7〜12 日。人確認の待ち時間が支配的）
 ```
+
+#### P6 の発注分割と裁定（2026-09-01・第13回）
+
+**P6 は 3 本の発注へ分けた。対象ファイルが重ならないので並行して走らせてよい。**
+
+| 発注 | 範囲 | 対象 | 依存 |
+|---|---|---|---|
+| 026 | 出題列の決定（範囲の 20 首分割・順序・回） | `domain/{range,order,session}.ts`、`tests/unit/` 3 本 | 無し |
+| 027 | 出題データの生成（`questions.*.json`・V-07・V-13） | `tools/build-data/`、`tests/data/questions.test.ts`、生成物 | 発注023（検収済み） |
+| 028 | 正誤判定 | `domain/question.ts`、`tests/unit/question.test.ts` | 無し |
+
+**依頼者裁定（2026-09-01）により `review/*.yaml` は全件 `pending` のまま進める。**
+したがって V-07 により **`questions.*.json` は当面 `[]`（空）である。これは仕様どおりで故障ではない。**
+**空の生成物は壊れた生成器でも空になる**ため、受入は必ず両方向で行う
+（承認済み fixture で**非空**を証明してから、実台帳で **0 件**を主張する）。詳細は `docs/CODEX_WORK_ORDER_027.md` §0.2。
+
+**裁定 D-22（穴埋めの機械生成は句単位に限る）。** `APP_SPEC` §7.1 の 3 単位のうち、
+**機械生成してよいのは句だけ**である。句境界は `poems.json` の `ku[5]` として既にデータであるのに対し、
+古文の語境界・文節境界はデータとして存在しない。§7.1 自身が「**確認済みの**文節境界で隠す」と定めている。
+`blankUnit` の型は 3 値のままとし（機構は 3 種に対応する）、単語・文節は
+`review/blanks.yaml` に人が書いた項目からのみ作る。**文字列から推測する処理を書いた時点で S-8 に当たる。**
+
+**裁定 D-26（正解基準・依頼者裁定）。** **正解基準は「歴史的仮名遣い、あるいは漢字ですべて書く」。**
+現代仮名遣い（ひらがな）は**部分正解**とし、習熟度にはプラスに反映するが**方式を一段下げて記録する**
+（§8.1 のヒントと同じ表を使い、新しい係数を作らない）。**部分正解のときは歴史的仮名遣いと漢字の表記を
+必ずフィードバックする。** 「試験前の確認」も同じ扱い。設定で正解基準を段階から選ぶ機能は**初回公開では作らない**。
+詳細は `APP_SPEC` §7.1.1。これにより `Question` は `answerHistorical` / `answerModern` /
+`partialAnswers[]` を持つ。
+
+**裁定 D-24（作者 4〜5 択の誤答は乱数を使わず決定的に選ぶ）。** V-11（2 回生成してバイト一致）と
+乱数は両立しない。正解の番 N に対し `|cardNo − N|` の昇順・同値なら `cardNo` の昇順に走査し、
+`author.canonical` が正解と異なり既選と重複しないものを先頭から 4 件取る。
+**4 件に満たない首では 4〜5 択を作らず、自由入力形式へ切り替える**（§7.2・重点シナリオ R-14）。
 
 ### P7 学習画面（5 入口・回の流れ）
 

@@ -18,12 +18,28 @@ test('review ledgers are parseable skeletons and generated review output stays p
   for (const [name, entries] of Object.entries(data.review)) assert.equal(entries.length, name === 'blanks' ? 0 : 100);
 });
 
-test('V-08, V-09, V-10, V-15 and V-16 reject broken review fixtures', () => {
+test('V-08 rejects an unconfirmed layout hint', () => {
   const data = buildData();
   const layout = structuredClone(data); layout.layoutHints = [{ cardNo: 1, breaks: [], confirmedBy: null, confirmedOn: null, device: null }]; assert.throws(() => validateData(layout), /V-08: layout cardNo 1/);
+});
+
+test('V-09 rejects a kugire entry without displayConvenienceOnly', () => {
+  const data = buildData();
   const kugire = structuredClone(data); kugire.review.kugire[0].displayConvenienceOnly = false; assert.throws(() => validateData(kugire), /V-09: kugire cardNo 1/);
+});
+
+test('V-10 rejects an alias without an approved author record', () => {
+  const data = buildData();
   const alias = structuredClone(data); alias.poems[0].author.aliases = ['未確認別名']; assert.throws(() => validateData(alias), /V-10: authors cardNo 1/);
+});
+
+test('V-15 rejects a batch confirmation without evidence', () => {
+  const data = buildData();
   const batch = structuredClone(data); batch.review.readings[0].confirmationMode = 'batch'; assert.throws(() => validateData(batch), /V-15: readings cardNo 1/);
+});
+
+test('V-16 rejects an AI proposal approved without a confirmer', () => {
+  const data = buildData();
   const ai = structuredClone(data); ai.review.blanks.push({ cardNo: 1, status: 'approved', confirmationMode: 'individual', batchEvidenceRef: null, proposedBy: 'ai', confirmedBy: null, confirmedOn: null, note: null }); assert.throws(() => validateData(ai), /V-16: blanks cardNo 1/);
 });
 

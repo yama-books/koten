@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { buildData } from '../../tools/build-data/index.ts';
@@ -51,4 +51,14 @@ test('V-14 keeps poems.json as a full-content comparison', () => {
   const content = readFileSync(file, 'utf8');
   writeFileSync(file, `${content.slice(0, -2)}X}\n`);
   assert.throws(() => assertGeneratedCurrent(data, directory), /poems\.json \(content differs\)/);
+});
+
+test('V-14 detects a missing generated file', () => {
+  const directory = mkdtempSync(path.join(os.tmpdir(), 'koten-data-'));
+  const data = buildData(); emit(directory, data);
+  const missingFile = path.join(directory, 'poems.json');
+  const missingFileName = path.basename(missingFile);
+  // Leave the temporary fixture incomplete to exercise the missing-file branch.
+  unlinkSync(missingFile);
+  assert.throws(() => assertGeneratedCurrent(data, directory), new RegExp(`V-14: stale generated file ${missingFileName} \\(file is missing\\)`));
 });
