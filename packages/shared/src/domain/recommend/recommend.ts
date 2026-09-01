@@ -1,5 +1,6 @@
 import type { Event } from '../event.ts';
 import { masteryDisplay, type MasteryColor } from '../mastery/color.ts';
+import { poemMastery } from '../mastery/poem.ts';
 import { isRecallMethod } from '../mastery/rules.v1.ts';
 import { RECENT_TROUBLE_DAYS, REVIEW_INTERVAL_DAYS } from './rules.v1.ts';
 
@@ -59,14 +60,9 @@ export function recommendNext(input: RecommendInput): Recommendation | undefined
 
 function poemStatus(poemId: string, index: number, input: RecommendInput): PoemStatus {
   const events = input.events.filter((event) => event.poemId === poemId);
-  const itemKeys = new Set<string>([
-    ...events.map((event) => event.itemKey),
-    ...Object.keys(input.scores).filter((itemKey) => itemKey.startsWith(`${poemId}:`)),
-  ]);
-  const hasEvents = events.length > 0;
-  const percent = itemKeys.size === 0
-    ? 0
-    : Math.min(...[...itemKeys].map((itemKey) => input.scores[itemKey] ?? 0));
+  const mastery = poemMastery(poemId, input.events, input.scores);
+  const hasEvents = !mastery.untouched;
+  const percent = masteryDisplay(mastery.score).percent;
   const lastLearnedOn = events.reduce<string | undefined>((latest, event) =>
     latest === undefined || event.localDate > latest ? event.localDate : latest, undefined);
   const recallDates = new Set(events
@@ -83,7 +79,7 @@ function poemStatus(poemId: string, index: number, input: RecommendInput): PoemS
   return {
     poemId,
     index,
-    percent: masteryDisplay(percent).percent,
+    percent,
     hasEvents,
     hasDifferentDayRecall: recallDates.size >= 2,
     hasRecentTrouble,

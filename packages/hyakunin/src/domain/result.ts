@@ -1,6 +1,7 @@
 import type { Event } from '@koten/shared/domain/event';
 import { masteryDisplay, type MasteryColor } from '@koten/shared/domain/mastery/color';
 import { computeMastery } from '@koten/shared/domain/mastery/compute';
+import { poemMastery } from '@koten/shared/domain/mastery/poem';
 import { recommendNext, type Recommendation } from '@koten/shared/domain/recommend/recommend';
 
 export type OutcomeKind = 'viewed' | 'correct' | 'partial' | 'needs-review' | 'incorrect';
@@ -21,12 +22,14 @@ export type PoemOutcome = Readonly<{
   kind: OutcomeKind | null;
   percent: number;
   color: MasteryColor;
+  untouched: boolean;
+  authorUnconfirmed: boolean;
 }>;
 
 export type SummarizeInput = Readonly<{
   sessionId: string;
   range: Readonly<{ from: number; to: number }>;
-  outcomes: readonly Readonly<{ poemId: string; kind: OutcomeKind }>[];
+  outcomes: readonly Readonly<{ poemId: string; kind: Exclude<OutcomeKind, 'viewed'> }>[];
   allEvents: readonly Event[];
   poemIds: readonly string[];
   today: string;
@@ -57,14 +60,18 @@ export function summarizeSession(input: SummarizeInput): SessionResult {
   const viewed = sessionEvents
     .filter((event) => event.outcome === 'viewed')
     .map((event) => ({ poemId: event.poemId, kind: 'viewed' as const }));
-  const answers = input.outcomes.filter((outcome) => outcome.kind !== 'viewed');
+  const answers = input.outcomes;
   const attempts = [...answers, ...viewed];
   const breakdown = countBreakdown(attempts);
   const before = computeMastery(input.allEvents.filter((event) => event.sessionId !== input.sessionId));
   const after = computeMastery(input.allEvents);
   const poems = input.poemIds.map((poemId) => poemOutcome(poemId, attempts, input.allEvents, after.scores));
   const changes = input.poemIds
-    .map((poemId) => ({ poemId, before: poemScore(poemId, input.allEvents, before.scores), after: poemScore(poemId, input.allEvents, after.scores) }))
+    .map((poemId) => ({
+      poemId,
+      before: poemMastery(poemId, input.allEvents.filter((event) => event.sessionId !== input.sessionId), before.scores).score,
+      after: poemMastery(poemId, input.allEvents, after.scores).score,
+    }))
     .filter((change) => change.before !== change.after);
   const retryCardNumbers = [...new Set(attempts
     .filter((attempt) => attempt.kind === 'partial' || attempt.kind === 'needs-review' || attempt.kind === 'incorrect')
@@ -94,20 +101,21 @@ function countBreakdown(attempts: readonly Readonly<{ kind: OutcomeKind }>[]): B
 
 function poemOutcome(poemId: string, attempts: readonly Readonly<{ poemId: string; kind: OutcomeKind }>[], events: readonly Event[], scores: Readonly<Record<string, number>>): PoemOutcome {
   const kinds = attempts.filter((attempt) => attempt.poemId === poemId).map((attempt) => attempt.kind);
-  const display = masteryDisplay(poemScore(poemId, events, scores));
-  return { poemId, cardNo: cardNo(poemId), kind: kinds.length === 0 ? null : kinds.reduce(weaker), percent: display.percent, color: display.color };
+  const mastery = poemMastery(poemId, events, scores);
+  const display = masteryDisplay(mastery.score);
+  return {
+    poemId,
+    cardNo: cardNo(poemId),
+    kind: kinds.length === 0 ? null : kinds.reduce(weaker),
+    percent: display.percent,
+    color: display.color,
+    untouched: mastery.untouched,
+    authorUnconfirmed: mastery.authorUnconfirmed,
+  };
 }
 
 function weaker(left: OutcomeKind, right: OutcomeKind): OutcomeKind {
   return weakness[left] <= weakness[right] ? left : right;
-}
-
-function poemScore(poemId: string, events: readonly Event[], scores: Readonly<Record<string, number>>): number {
-  const itemKeys = new Set([
-    ...events.filter((event) => event.poemId === poemId).map((event) => event.itemKey),
-    ...Object.keys(scores).filter((itemKey) => itemKey.startsWith(`${poemId}:`)),
-  ]);
-  return itemKeys.size === 0 ? 0 : Math.min(...[...itemKeys].map((itemKey) => scores[itemKey] ?? 0));
 }
 
 function cardNo(poemId: string): number {

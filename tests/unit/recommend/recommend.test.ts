@@ -10,7 +10,10 @@ function input(overrides: Partial<RecommendInput> = {}): RecommendInput {
 }
 
 function learned(poemId: string, localDate: string, score: number, overrides: Partial<ReturnType<typeof event>> = {}) {
-  return { event: event({ poemId, itemKey: `${poemId}:text`, localDate, ...overrides }), scores: { [`${poemId}:text`]: score } };
+  return {
+    event: event({ poemId, itemKey: `${poemId}:text`, localDate, ...overrides }),
+    scores: { [`${poemId}:text`]: score, [`${poemId}:author`]: score },
+  };
 }
 
 test('A-1: 段1は段2より優先される', () => {
@@ -61,12 +64,17 @@ test('A-6: 同日の想起成功を重ねても別日の想起成功にはなら
   assert.equal(recommendNext(input({ events: [first.event, second], scores: first.scores }))?.tier, 3);
 });
 
-test('A-7: 首の習熟度には属する項目の最小値を使う', () => {
+test('A-7: 首の習熟度は本文8割と作者2割の和になる', () => {
   const item = learned('p001', today, 90);
   const author = event({ eventId: 'event-002', poemId: 'p001', itemKey: 'p001:author', localDate: today, outcome: 'viewed', method: 'view', effectiveMethod: 'view' });
   const result = recommendNext(input({ events: [item.event, author], scores: { 'p001:text': 90, 'p001:author': 10 } }));
-  assert.equal(result?.percent, 10);
+  assert.equal(result?.percent, 74);
   assert.equal(result?.tier, 3);
+});
+
+test('作者に一度も当たっていない首は本文の8割になる', () => {
+  const item = event({ poemId: 'p001', itemKey: 'p001:text', localDate: today });
+  assert.equal(recommendNext(input({ events: [item], scores: { 'p001:text': 90 } }))?.percent, 72);
 });
 
 test('A-8: 同点は期限超過日数、習熟度、番順で安定して決まる', () => {

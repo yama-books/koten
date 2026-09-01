@@ -23,6 +23,10 @@ test('0問の回に花丸が出ない', () => {
   assert.equal(summarizeSession(input()).allCorrect, false);
 });
 
+test('閲覧だけの回に花丸が出ない', () => {
+  assert.equal(summarizeSession(input({ allEvents: [event({ outcome: 'viewed', kind: 'view', questionId: undefined })] })).allCorrect, false);
+});
+
 test('全問正解の回に花丸が出る', () => {
   assert.equal(summarizeSession(input({ outcomes: [{ poemId: 'p010', kind: 'correct' }] })).allCorrect, true);
 });
@@ -54,17 +58,34 @@ test('閲覧イベントを閲覧の内訳へ入れる', () => {
 
 test('習熟度が回の前後で変化する首だけを返す', () => {
   const result = summarizeSession(input({ allEvents: [event()] }));
-  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 0, after: 9 }]);
+  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 0, after: 7.2 }]);
 });
 
 test('同じ回以外のイベントは習熟度の前の値に含める', () => {
   const result = summarizeSession(input({ allEvents: [event({ eventId: 'before', sessionId: 'before' }), event()] }));
-  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 9, after: 18 }]);
+  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 7.2, after: 14.4 }]);
 });
 
-test('複数項目を持つ首の習熟度は最小値になる', () => {
-  const result = summarizeSession(input({ allEvents: [event(), event({ eventId: 'author', itemKey: 'p010:author', method: 'choice', effectiveMethod: 'choice', delta: 5 })] }));
-  assert.equal(result.poems[0].percent, 4);
+test('複数項目を持つ首の習熟度は本文80pt・作者20ptで配分する', () => {
+  const result = summarizeSession(input({ allEvents: [event(), event({ eventId: 'author', questionId: 'q-author', itemKey: 'p010:author', method: 'choice', effectiveMethod: 'choice', delta: 5 })] }));
+  assert.equal(result.poems[0].percent, 8);
+});
+
+test('作者の問だけを解いた回でも習熟度の変化が出る', () => {
+  const result = summarizeSession(input({ allEvents: [event({ itemKey: 'p010:author', method: 'choice', effectiveMethod: 'choice', delta: 5 })] }));
+  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 0, after: 1 }]);
+});
+
+test('未着手と作者未確認を首の状態へ返す', () => {
+  const result = summarizeSession(input({ allEvents: [event()] }));
+  assert.deepEqual(
+    result.poems.map(({ poemId, untouched, authorUnconfirmed }) => ({ poemId, untouched, authorUnconfirmed })),
+    [
+      { poemId: 'p010', untouched: false, authorUnconfirmed: true },
+      { poemId: 'p011', untouched: true, authorUnconfirmed: true },
+      { poemId: 'p012', untouched: true, authorUnconfirmed: true },
+    ],
+  );
 });
 
 test('回に出なかった首の状態はnullになる', () => {
