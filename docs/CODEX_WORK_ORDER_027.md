@@ -81,6 +81,7 @@ fixture は `tests/data/` の中の一時ディレクトリに作る。**`review
 | `tools/build-data/validate.ts` | **追加のみ。** V-07 と V-13 を足す。**既存の V-01〜V-16 を 1 文字も緩めない** |
 | `tools/build-data/apply-review.ts` | 変更。`reviewCounts.blanks` の `missing` を候補数から数える（§4.4） |
 | `tests/data/questions.test.ts` | 新規 |
+| `tests/data/review.test.ts` | **既存期待値の追随のみ。** `reviewCounts.blanks.pending` を旧仕様の `0` から §4.4 の `500` へ変更する。試験名・その他の期待値・試験構造は変更しない |
 | `packages/hyakunin/src/data/generated/questions.blank.json` | **新規（`data:build` の出力）** |
 | `packages/hyakunin/src/data/generated/questions.author.json` | **新規（`data:build` の出力）** |
 | `packages/hyakunin/src/data/generated/manifest.json` | 再生成 |
@@ -91,7 +92,7 @@ fixture は `tests/data/` の中の一時ディレクトリに作る。**`review
 - **`packages/**` を変更しない。ただし `packages/hyakunin/src/data/generated/` だけは `data:build` の出力として変わる。**
   **手で編集しない**（V-14 が検出する）。
 - **`packages/hyakunin/src/domain/`** — 発注026・028 の範囲である。**1 本も作らない。**
-- `tests/data/parse.test.ts` / `validate.test.ts` / `review.test.ts` / `reproducibility.test.ts` /
+- `tests/data/parse.test.ts` / `validate.test.ts` / `reproducibility.test.ts` /
   `variants-fixture.test.ts`、`tests/unit/**`、`docs/**`、`.github/**`
 - **一次資料 Markdown 5 本と PDF。読み取りは既存パーサ経由のみ。新しい読み取り経路を作らない。**
 - **`package.json`。スクリプトも依存も足さない。新しい npm 依存を入れない。**
@@ -283,13 +284,13 @@ export function buildData(reviewDirectory = paths.review)
 | A-4 | **【陽性】承認済み fixture 台帳で生成すると `questions.*.json` が非空になる** | `tests/data/questions.test.ts` が一時ディレクトリに `status: approved` の台帳を作り、`buildData(dir)` を呼ぶ。**穴埋めが 5 件以上、作者が 3 件以上**であることを assert する |
 | A-5 | **【陰性】実台帳（全件 `pending`）で生成すると両ファイルが `[]`** | 生成物を直接読み、`length === 0` を assert する。**A-4 が緑であることが前提**（§0.2） |
 | A-6 | **`data:build` を 2 回続けて実行し、`questions.*.json` がバイト一致する** | `data:build` → sha256 → `data:build` → sha256。V-11 の実地確認 |
-| A-7 | **既存の V-01〜V-16 の試験（`tests/data/` の 26 件）が名前も内容も変わらず全部緑** | `grep -n "^test(" tests/data/*.test.ts` の出力を報告に貼る |
+| A-7 | **既存の V-01〜V-16 の試験（`tests/data/` の 26 件）が全部緑** | 試験名は変えない。内容の変更は `review.test.ts` の `reviewCounts.blanks.pending` を §4.4 に合わせて `0` → `500` とする 1 箇所だけ。`grep -n "^test(" tests/data/*.test.ts` の出力を報告に貼る |
 | A-8 | **`"word"` / `"bunsetsu"` を文字列から推測する処理が無い** | `grep -nE '"word"\|"bunsetsu"\|bunsetsu' tools/build-data/*.ts` の出力を報告に貼る。**型定義以外に出現しないこと**（裁定 1） |
 | A-9 | **`tools/` に `Math.random` が 0 件、かつ仮名の畳み込み処理が無い** | `grep -nE "Math\.random\|カタカナ\|katakana\|0x30A1\|\\\\u30A1" tools/build-data/*.ts` の出力を貼る（**0 件**。裁定 2・3） |
 | A-10 | **`review/` に差分が無い** | `git status --porcelain review` が空（§0.3・S-1） |
 | A-11 | **`packages/` の差分が `src/data/generated/` の中だけ** | `git status --porcelain packages` の出力を貼る |
 | A-12 | `manifest.json` の `reviewCounts.blanks.pending` が **500** | 生成物を読んで確認。§4.4 |
-| A-13 | **完全正解と部分正解が入れ替わっていない**（D-26） | 陽性 fixture の出力について、**`acceptedAnswers` に `reading.modern` が 1 件も入っていない**こと、**`partialAnswers` が `reading.modern` だけである**ことを assert する試験があること。**穴埋めと作者形式 3 の両方で確かめる** |
+| A-13 | **完全正解と部分正解が入れ替わっていない**（D-26） | 陽性 fixture の出力について、**`acceptedAnswers` に `reading.modern` が 1 件も入っていない**こと、**`partialAnswers` が空でなく `reading.modern` と完全一致する**ことを assert する試験があること。`every()` だけでは空配列が真になるため不可。**穴埋めと作者形式 3 の両方で確かめる** |
 | A-14 | **形式 2 の `answer` が歴史的仮名遣いである**（D-26） | 陽性 fixture の出力を assert する試験があること |
 
 ### 5.1 破壊試験（**受入の中心。ここが本題である**）
@@ -301,16 +302,16 @@ export function buildData(reviewDirectory = paths.review)
 |---|---|---|
 | **B-1** | V-07 の判定を `if (false)` にする | **陽性 fixture に `pending` を混ぜた試験**が赤くなること。**実台帳だけの試験では捕まらないことを確認し、報告に書くこと**（§0.2 の証明） |
 | **B-2** | §4.3 の `reviewStatus` 決定で `approved` 以外も `"human-confirmed"` にする | **A-5（陰性）の試験**が赤くなること |
-| **B-3** | §4.3 の `reviewStatus` 決定で `approved` を `"review"` にする | **A-4（陽性）の試験**が赤くなること。**B-2 と B-3 の両方が赤くなって初めて、判定が両方向に効いている** |
-| **B-4** | 裁定 3 の誤答選択で `author.canonical` の比較を外し、正解と同じ作者を誤答に入れる | **V-13 の試験だけ** |
-| **B-5** | 誤答を 4 件でなく 3 件取る | **V-13 の試験だけ**。「4 件未満なら形式 1 を作らない」を見る試験（R-14）とは**別の試験**であること |
-| **B-6** | 裁定 3 の走査順を `cardNo` の昇順のみ（距離を見ない）に変える | **誤答の決定性を見る試験だけ。** 並びが変わるので、期待値を固定した試験が赤くなる |
-| **B-7** | `partialAnswers` に `reading.modern` でなく `reading.historical` を入れる | **`acceptedAnswers` と `partialAnswers` の分離を見る試験だけ。** 完全正解と部分正解が入れ替わっていないことの証明である（D-26） |
+| **B-3** | §4.3 の `reviewStatus` 決定で `approved` を `"review"` にする | **承認済み fixture の非空出力に依存する陽性試験がすべて赤くなること。** 実測上は A-4 の陽性件数、V-07 陽性、V-13 の重複・候補不足、誤答決定性の 5 本。承認判定を壊すと fixture 自体が空になるため、1 本だけに限定しない。**B-2 と B-3 の両方が赤くなって初めて、判定が両方向に効いている** |
+| **B-4** | 裁定 3 の誤答選択で `author.canonical` の比較を外し、正解と同じ作者を誤答に入れる | `buildData()` 内の fail-fast な V-13 が発火し、**承認済み fixture に依存する陽性試験 5 本が同じ V-13 重複候補エラーで赤くなること。** V-13 を生成後まで遅らせて 1 本だけに限定しない |
+| **B-5** | 誤答を 4 件でなく 3 件取る | `buildData()` 内の fail-fast な V-13 が発火し、**承認済み fixture に依存する陽性試験 5 本が同じ V-13 候補数エラーで赤くなること。** 「4 件未満なら形式 1 を作らない」を見る試験（R-14）とは別の規則だが、生成器全体は不正出力を即時拒否する |
+| **B-6** | 裁定 3 の走査順を `cardNo` の昇順のみ（距離を見ない）に変える | **誤答の決定性を見る試験だけ。** 第1首では距離順と番号順が一致して破壊を検出できないため、中央付近（例: 第50首）の承認済み fixture を対象にし、期待値を固定する。並びが変わって試験が赤くなること |
+| **B-7** | `partialAnswers` に `reading.modern` でなく `reading.historical` を入れる | **`acceptedAnswers` と `partialAnswers` の分離を見る試験だけ。** `partialAnswers` の非空と現代表記との完全一致を固定し、空配列でも緑になる `every()` の偽合格を許さない。完全正解と部分正解が入れ替わっていないことの証明である（D-26） |
 | **B-7b** | 形式 2 の `answer` を `reading.modern.author` に変える | **形式 2 の `answer` を見る試験だけ**（D-26。正解基準は歴史的仮名遣いである） |
 | **B-8** | §4.5 の `emit.ts` の対応表から `questionsBlank` を消す | **V-14 か V-11 の試験が赤くなること**（生成物が出なくなる） |
 | **B-9** | §4.4 の `missing` を 0 に戻す | **A-12 を見る試験だけ** |
 
-**「他は緑のまま」を必ず併記すること。** 複数本が同時に赤くなった場合、試験が集約されすぎている（計画 §12.3 違反）。
+**「他は緑のまま」を必ず併記すること。** 各行で複数本を明示した場合を除き、複数本が同時に赤くなった場合は試験が集約されすぎている（計画 §12.3 違反）。
 
 **どれかが期待どおりにならなかった場合、「全部緑でした」と報告せず、
 どれがどうならなかったかを報告して止まること。**
