@@ -10,7 +10,7 @@ export const FIXTURE_VALUES = [
 ] as const;
 const kana = /^[ぁ-ゖゝゞー]+$/u;
 
-export function validateData(data: { poems: any[]; manifest: any }, sourceFiles = paths.sources) {
+export function validateData(data: { poems: any[]; layoutHints?: any[]; review?: any; manifest: any }, sourceFiles = paths.sources) {
   if (data.poems.length !== 100) throw new Error('V-01: expected 100 poems');
   const cards = data.poems.map((poem) => poem.cardNo);
   if (new Set(cards).size !== 100 || cards.some((card, index) => card !== index + 1)) throw new Error('V-01: output card numbers invalid');
@@ -26,6 +26,19 @@ export function validateData(data: { poems: any[]; manifest: any }, sourceFiles 
   for (const [name, expected] of Object.entries(data.manifest.sourceHashes)) {
     if (sha256(path.join(path.dirname(sourceFiles.poems), name)) !== expected) throw new Error(`V-12: hash mismatch for ${name}`);
   }
+  const review = data.review;
+  if (review) {
+    for (const [name, entries] of Object.entries(review) as [string, any[]][]) {
+      for (const entry of entries) {
+        if (entry.confirmationMode === 'batch' && !entry.batchEvidenceRef) throw new Error(`V-15: ${name} cardNo ${entry.cardNo ?? 'none'} lacks batchEvidenceRef`);
+        if (entry.proposedBy === 'ai' && entry.status === 'approved' && (!entry.confirmedBy || !entry.confirmedOn)) throw new Error(`V-16: ${name} cardNo ${entry.cardNo ?? 'none'} lacks confirmation`);
+      }
+    }
+    for (const entry of review.kugire) if (entry.displayConvenienceOnly !== true) throw new Error(`V-09: kugire cardNo ${entry.cardNo} lacks displayConvenienceOnly`);
+    const approvedAliases = new Set(review.authors.filter((entry: any) => entry.status === 'approved').flatMap((entry: any) => (entry.aliases ?? []).map((alias: string) => `${entry.cardNo}:${alias}`)));
+    for (const poem of data.poems) for (const alias of poem.author.aliases) if (!approvedAliases.has(`${poem.cardNo}:${alias}`)) throw new Error(`V-10: authors cardNo ${poem.cardNo} lacks approved alias ${alias}`);
+  }
+  for (const hint of data.layoutHints ?? []) if (!hint.confirmedBy || !hint.confirmedOn) throw new Error(`V-08: layout cardNo ${hint.cardNo} lacks confirmation`);
 }
 export function assertGeneratedCurrent(data: Record<string, unknown>, directory = paths.generated) {
   for (const { file, content } of outputFiles(directory, data)) {

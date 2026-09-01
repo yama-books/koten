@@ -908,7 +908,7 @@ P11 ──────→ P12 公開移管とロールバック
 
 「概算規模」は実装者日数の幅であり、確定納期ではない。
 
-### 実施状況（2026-08-31 時点）
+### 実施状況（2026-09-01 時点）
 
 以後のフェーズ記述は「これから行うこと」として書かれている。実際にどこまで済んでいるかは
 この表を正とする。**着手前に必ずここを見ること。**
@@ -916,10 +916,12 @@ P11 ──────→ P12 公開移管とロールバック
 | フェーズ | 状態 | 根拠・成果物 |
 |---|---|---|
 | P0 境界固定と公開衛生 | **完了・commit 済み** | `.gitignore` / `.gitattributes` / `docs/PUBLISH_MANIFEST.md` / `docs/ADR/0001〜0004` / `docs/LICENSE_AUDIT.md` |
-| P1 最小実行基盤 | **完了・未 commit** | 3パッケージ、共有ErrorBoundary、CI、型・Lint・test・build・scanを受入済み |
-| P2 一次資料パイプライン | **発注001の範囲完了・未 commit。正式P2は一部残件あり** | `tools/build-data/` 9 本、`tests/data/` 4 本、生成JSON 3 本、D-08ローダーと製品schema。review台帳・公開問題JSON・`reviewCounts` は未実装 |
-| P3 表示基盤 | **部分着手・未 commit** | D-09の先行実機確認版として、100首閲覧・読み3表示・縦横切替・4幅の代表確認まで完了。フォントself-hostと全件overflow検査は未完了 |
-| P4 以降 | 未着手 | — |
+| P1 最小実行基盤 | **完了・commit 済み**（2026-08-31 `e907c43` で作業ツリーを版管理下へ入れた） | 3パッケージ、共有ErrorBoundary、CI、型・Lint・test・build・scanを受入済み |
+| P2 一次資料パイプライン | **発注001の範囲は完了・commit 済み。正式P2の残件は発注023 が実装中**（2026-09-01） | `tools/build-data/`、`tests/data/`、生成JSON 3 本、D-08ローダーと製品schema。**review台帳・`apply-review`・V-03/08/09/10/15/16・`layout-hints.json`・`reviewCounts` は発注023 の範囲。公開問題JSON（`questions.*.json`）と V-07・V-13 は P6 の範囲**（発注023 §0 の S-7・S-8） |
+| P3 表示基盤 | **先行実機確認版は完了・commit 済み。残件は実機一巡（H-08）のみ** | 100首閲覧・読み3表示・縦横切替。**フォント self-host は発注008 で決着（`check:font` 471/471）。全件 overflow 検査は発注004・005/006 で決着（`check:overflow` 1200/1200）。** `tools/` に `overflow-check` / `font-check` / `font-assets-check` / `font-weight-check` が実在する |
+| P4 保存・移行 | **完了・commit 済み** | 発注009（前半）・012（後半）・019（取り込みの原子性）・021（試験の証明力）を検収。`packages/shared/src/storage/` 実在 |
+| P5 習熟度エンジン | **完了・commit 済み** | 発注018A（計算コア）・020（推薦）・022（試験の証明力）を検収。`packages/shared/src/domain/mastery/`・`recommend/` 実在 |
+| P6 以降 | 未着手 | **P6 は「発注023 の検収」と「`review/*.yaml` の人確認（H-04・H-05）」の両方が済むまで開かない。発注023 の完了は P6 の解放を意味しない** |
 
 **P2 が P1 に先行した。** パイプラインは公開単位の足場に依存せず、生成物の置き場
 （`packages/hyakunin/src/data/generated/`）が裁定 D-06 の構成と一致しているため、
@@ -1998,13 +2000,13 @@ Secrets には **Firebase の公開 Web 設定のみ**を置く。サービス�
 | 区分 | 状態 |
 |---|---|
 | P0 | **完了・commit 済み**（下記 1〜5） |
-| P2 | **発注001の範囲完了・未 commit。** 正式P2のreview台帳・公開問題等は残る |
-| P1 | **完了・未 commit。** 下記6〜11を実装・検証済み |
-| P3 | **部分着手・未 commit。** D-09の先行実機確認版を実装。残件は§10の実施状況とHANDOFF §8を参照 |
+| P2 | **発注001の範囲完了・commit 済み。** 正式P2の残件は発注023（2026-09-01 実装中） |
+| P1 | **完了・commit 済み。** 下記6〜11を実装・検証済み |
+| P3 | **先行実機確認版は完了・commit 済み。** 残件は実機一巡（H-08）のみ。**§10 冒頭の実施状況表を正とする**（HANDOFF §8 へ回さない） |
 
 P2 がパイプライン（`tools/build-data/`・`tests/data/`・生成 JSON）だけで完結し、
 公開単位の足場に依存しないため、この順序逆転は不整合を生んでいない。
-**次の実装単位は、先行実機確認版のフォントself-host・全件overflow検査・公開staging検査である。**
+**次の実装単位は発注023（P2 の残件）であり、その検収後は `review/*.yaml` の人確認（H-04・H-05）を経て P6 へ進む。**
 
 ### P0 で含めたもの（commit 済み）
 

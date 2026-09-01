@@ -1,0 +1,4 @@
+# 穴埋め候補の確認台帳（人が書き込む唯一の場所）
+# 状態: pending | approved | rejected | hold
+version: 1
+entries: []

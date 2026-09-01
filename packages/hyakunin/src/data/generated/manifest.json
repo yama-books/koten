@@ -4,8 +4,40 @@
     "variants": 10
   },
   "dataVersion": 1,
-  "generatedOn": "2026-08-30",
+  "generatedOn": "2026-09-01",
   "generatorVersion": "1.0.0",
+  "reviewCounts": {
+    "authors": {
+      "pending": 100,
+      "approved": 0,
+      "rejected": 0,
+      "hold": 0
+    },
+    "readings": {
+      "pending": 100,
+      "approved": 0,
+      "rejected": 0,
+      "hold": 0
+    },
+    "kugire": {
+      "pending": 100,
+      "approved": 0,
+      "rejected": 0,
+      "hold": 0
+    },
+    "layout": {
+      "pending": 100,
+      "approved": 0,
+      "rejected": 0,
+      "hold": 0
+    },
+    "blanks": {
+      "pending": 0,
+      "approved": 0,
+      "rejected": 0,
+      "hold": 0
+    }
+  },
   "sourceHashes": {
     "百人一首_読み_異同確認.md": "78953678a9bc5a1fece11da15c2bf166e1d7b542a3646f1f6e8ab4fe1a7a4b54",
     "百人一首_読み_現代仮名遣い.md": "a728c9ba261319c2042e22d91800313f4af7c1c450614641007a1a7d09b73ec5",

@@ -13,4 +13,6 @@ export const paths = {
     variants: path.join(root, '百人一首_読み_異同確認.md'),
   },
   generated: path.join(root, 'packages', 'hyakunin', 'src', 'data', 'generated'),
+  review: path.join(root, 'review'),
+  reviewFile: (directory: string, name: string) => path.join(directory, `${name}.yaml`),
 };
