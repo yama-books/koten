@@ -585,8 +585,9 @@ manifest.json       dataVersion, generatorVersion, generatedOn(日付のみ),
 | V-13 | 作者 4〜5 択の誤答候補が、正解と同一表記でない・重複しない・4 件以上ある | 出題の破綻 |
 | V-14 | `generated/` 配下に Git 差分があるのに `data:build` を通っていない | 生成物の手編集 |
 | V-15 | `confirmationMode: "batch"` の項目に `batchEvidenceRef` がある（§5.5） | 根拠のない一括承認 |
+| V-16 | `proposedBy: "ai"` かつ `approved` の項目に `confirmedBy` と `confirmedOn` がある（§5.5） | 生成 AI の案を人の確認なしに採用した（F-07）。**裁定 D-20（2026-09-01）で採番した**。§5.5 は「V-07 とは別に validator が失敗する」と定めていたが番号が無かった |
 
-V-01〜V-15 はすべて CI の `data:check` で走らせ、1 件でも失敗したらビルドを止める。
+V-01〜V-16 はすべて CI の `data:check` で走らせ、1 件でも失敗したらビルドを止める。
 
 ### 5.4 人間確認結果を JSON へ戻す手順
 
