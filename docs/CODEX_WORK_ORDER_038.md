@@ -89,28 +89,39 @@
 
 ### 0.4 基準線（**着手前に照合すること**）
 
-> ## ⚠ **この節が空のまま発行してはならない**
->
-> **発注037 の検収が終わった時点で、親担当が `git status --porcelain` を空にしてから自分で実測し、**
-> **次を埋めること。報告からの転記は禁止する。**
->
-> - 基準となるコミット: `________`
-> - `npm run typecheck` / `npm run lint` / `npm run data:check` / `npm run build`: すべて終了コード 0
-> - `npm run test:node`: **tests `____` / fail 0**
-> - `npm run test:screen`: **Tests `____` passed**
-> - `npm run scan:publish`: **走査 `____` 件、違反 0 件**
-> - **触ってはならないファイルの SHA-256**（下の 6 件。`sha256sum` の出力をそのまま貼る）
->
-> ```
-> ____ *packages/hyakunin/src/domain/range.ts
-> ____ *packages/hyakunin/src/domain/order.ts
-> ____ *packages/hyakunin/src/domain/entry.ts
-> ____ *packages/hyakunin/src/domain/session.ts
-> ____ *packages/shared/src/domain/event.ts
-> ____ *packages/hyakunin/src/main.tsx
-> ```
->
-> - 一次資料（A-12 の照合先）の SHA-256 5 件も同様に貼ること。
+**親担当が `3901c37`・作業ツリー clean で自分で実測した値である（2026-09-02・第19回）。報告からの転記ではない。**
+
+| 検査 | 実測値 |
+|---|---|
+| 基準となるコミット | **`3901c37`**（発注037 の検収コミット） |
+| `npm run typecheck` / `npm run lint` / `npm run data:check` / `npm run build` | すべて終了コード **0** |
+| `npm run test:node` | **tests 310 / pass 310 / fail 0** |
+| `npm run test:screen` | **Test Files 11 / Tests 61 passed** |
+| `npm run scan:publish` | **走査 751 件、違反 0 件** |
+
+**触ってはならない 6 件の SHA-256**（本発注は**新規 2 ファイルしか作らない**。この 6 件は 1 バイトも変えない）:
+
+```
+a667bd6e97627b1061cce5a66c0f764190a6cb8f653cfb9e9f9b82abec278449 *packages/hyakunin/src/domain/range.ts
+7250bdb250f2b97351ba76c2a8bb17438176c60d235f48b3f7fd3936283cb3eb *packages/hyakunin/src/domain/order.ts
+9b8fbe5506c361f650a606df1f5523ece6b2673d497cfebee349c05958c49a02 *packages/hyakunin/src/domain/entry.ts
+17f9d3e9e40c63b4d11c578cd5c7c7817c2123372768da4b078e682c59a3fd28 *packages/hyakunin/src/domain/session.ts
+207ac60c33d467651919ffd6549ba062cc12b2485d59be44862f558efca017e0 *packages/shared/src/domain/event.ts
+b72f815bdcd39f760eb0025aea889e9f1ba6f34a46bbb0f965fc647dfe584bbd *packages/hyakunin/src/main.tsx
+```
+
+一次資料（A-12 の照合先）:
+
+```
+291388671528cb9b81a6bc82821f243f609aee871fcaa10a4ce09d8b1f64c586 *百人一首_本文・作者_一次データ.md
+8d9e58aeffde10998ee037d57af4b281faca3a0a0ee15915168a91cda9a6ec8a *百人一首_読み_歴史的仮名遣い.md
+a728c9ba261319c2042e22d91800313f4af7c1c450614641007a1a7d09b73ec5 *百人一首_読み_現代仮名遣い.md
+78953678a9bc5a1fece11da15c2bf166e1d7b542a3646f1f6e8ab4fe1a7a4b54 *百人一首_読み_異同確認.md
+30a7f7c9a5deb48263a8b3f46dcc2ee52364c16e4c55a287faf0e3e48ea7a69f *古典文法_一次データ索引.md
+```
+
+**注意: `packages/shared/src/domain/event.ts` を §0.3-4 の「`product` で絞っていない」問題のために直しに行かないこと。**
+**絞るのは `resume.ts` だけである**（裁定 5）。触れたら S-3。
 
 **1 件でも食い違ったら着手せず S-8 で報告すること。**
 
