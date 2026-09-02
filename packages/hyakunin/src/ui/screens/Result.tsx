@@ -36,7 +36,7 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
       <ul class="result-poems">{result.poems.map((poem) => <li key={poem.poemId} class={`result-poem result-poem--${poem.color}`}><strong>{poem.cardNo}番</strong><span>{poem.untouched ? '未着手' : `習熟度 ${poem.percent}%`}</span>{poem.authorUnconfirmed && <span>作者 未確認</span>}</li>)}</ul>
     </section>
     <section class="result-actions" aria-label="次の操作">
-      {result.retryCardNumbers.length > 0 && <button type="button" onClick={() => onRetryWeak(result.retryCardNumbers)}>要確認の首をふくむ範囲をもう一度</button>}
+      {result.retryCardNumbers.length > 0 && <button type="button" onClick={() => onRetryWeak(result.retryCardNumbers)}>まちがえた歌だけをもう一度</button>}
       <button class="primary" type="button" onClick={onRetrySame}>同じ範囲をもう一度</button>
     </section>
   </main>;

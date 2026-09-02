@@ -9,6 +9,7 @@ import { Result } from './ui/screens/Result.tsx';
 import { createIndexedDbPort } from './ui/adapters/indexeddb-port.ts';
 import type { ApplicationPort } from './ui/adapters/indexeddb-port.ts';
 import { completeSession, createSession } from './domain/session.ts';
+import { planResume } from './domain/resume.ts';
 import { summarizeSession, type SessionResult } from './domain/result.ts';
 import type { Session as LearningSession } from '@koten/shared/domain/event';
 import { createSeed } from './domain/order.ts';
@@ -34,31 +35,52 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   const [settings, setSettings] = useState(defaults);
   const [result, setResult] = useState<SessionResult | null>(null);
   const [saveFailure, setSaveFailure] = useState(false);
-  if (screen === 'picker' && selected) return <RangePicker entry={selected.entry} range={selected.range} order={settings.order} onBack={() => setScreen('home')} onStart={(range, order) => {
-    const seed = createSeed(Math.random);
-    const planned = planQuestions(selected.entry, selected.questions, Array.from({ length: range.to - range.from + 1 }, (_, index) => range.from + index), seed, order);
-    const sessionId = crypto.randomUUID();
-    const session = createSession({ sessionId, range, entry: selected.entry, order, seed, startedOn: new Date().toISOString().slice(0, 10), questionCount: planned.length });
-    void port.saveSession(session);
-    setSelected({ ...selected, range, planned, session });
-    setSettings({ ...settings, order });
+
+  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[] }) {
+    const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order);
+    setSelected((current) => current ? { ...current, range: { from: input.session.from, to: input.session.to }, questions: input.questions, planned, session: input.session } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, planned, session: input.session });
     setScreen('session');
+  }
+
+  function newSession(input: { entry: EntryId; range: { from: number; to: number }; order: UserSettings['order']; seed: string; cardNumbers: readonly number[]; questions: PublishedQuestion[] }) {
+    const questionCount = planQuestions(input.entry, input.questions, input.cardNumbers, input.seed, input.order).length;
+    return createSession({ sessionId: crypto.randomUUID(), range: input.range, entry: input.entry, order: input.order, seed: input.seed, startedOn: new Date().toISOString().slice(0, 10), questionCount });
+  }
+
+  async function startNew(entry: EntryId, range: { from: number; to: number }, order: UserSettings['order'], questions: PublishedQuestion[]) {
+    const plan = planResume(range, await port.listEvents());
+    const seed = createSeed(Math.random);
+    const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions });
+    void port.saveSession(session);
+    startPlanned({ session, cardNumbers: plan.cardNumbers, questions });
+  }
+
+  if (screen === 'picker' && selected) return <RangePicker entry={selected.entry} range={selected.range} order={settings.order} onBack={() => setScreen('home')} onStart={(range, order) => {
+    void startNew(selected.entry, range, order, selected.questions);
+    setSettings({ ...settings, order });
   }} />;
   if (screen === 'session' && selected?.planned && selected.session) {
     const session = selected.session;
     return <Session questions={selected.planned} sessionId={session.sessionId} port={port} settings={settings} onSettings={setSettings} onComplete={async (outcomes) => {
-    setScreen('result-loading');
-    const saved = await port.saveSession(completeSession(session));
-    setSaveFailure('reason' in saved);
-    const allEvents = await port.listEvents();
-    const poemIds = Array.from({ length: selected.range.to - selected.range.from + 1 }, (_, index) => `p${String(selected.range.from + index).padStart(3, '0')}`);
-    setResult(summarizeSession({ sessionId: session.sessionId, range: selected.range, outcomes, allEvents, poemIds, today: new Date().toISOString().slice(0, 10) }));
-    setScreen('result');
+      setScreen('result-loading');
+      const saved = await port.saveSession(completeSession(session));
+      setSaveFailure('reason' in saved);
+      const allEvents = await port.listEvents();
+      const poemIds = Array.from({ length: selected.range.to - selected.range.from + 1 }, (_, index) => `p${String(selected.range.from + index).padStart(3, '0')}`);
+      setResult(summarizeSession({ sessionId: session.sessionId, range: selected.range, outcomes, allEvents, poemIds, today: new Date().toISOString().slice(0, 10) }));
+      setScreen('result');
     }} />;
   }
   if (screen === 'result-loading') return <main class="loading" aria-live="polite">結果を読み込んでいます。</main>;
-  if (screen === 'result' && result && selected) return <><>{saveFailure && <p class="result-save-failure" role="alert">保存に失敗しました。結果は表示しています。</p>}</><Result result={result} onRetryWeak={(cards) => { setSelected({ ...selected, range: { from: Math.min(...cards), to: Math.max(...cards) } }); setScreen('picker'); }} onRetrySame={() => setScreen('picker')} onHome={() => setScreen('home')} /></>;
-  return <Home port={port} onPickEntry={(entry, range, questions) => { setSelected({ entry, range, questions }); setScreen('picker'); }} />;
+  if (screen === 'result' && result && selected) return <><>{saveFailure && <p class="result-save-failure" role="alert">保存に失敗しました。結果は表示しています。</p>}</><Result result={result} onRetryWeak={(cards) => {
+    const seed = createSeed(Math.random);
+    const session = newSession({ entry: 'review', range: selected.range, order: selected.session?.order ?? settings.order, seed, cardNumbers: cards, questions: selected.questions });
+    void port.saveSession(session);
+    startPlanned({ session, cardNumbers: cards, questions: selected.questions });
+  }} onRetrySame={() => {
+    void startNew(selected.entry, selected.range, settings.order, selected.questions);
+  }} onHome={() => setScreen('home')} /></>;
+  return <Home port={port} onPickEntry={(entry, range, questions) => { setSelected({ entry, range, questions }); setScreen('picker'); }} onResume={(session, cardNumbers, questions) => startPlanned({ session, cardNumbers, questions })} />;
 }
 
 const mount = document.getElementById('app');
