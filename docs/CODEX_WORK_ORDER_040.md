@@ -148,7 +148,7 @@ a728c9ba261319c2042e22d91800313f4af7c1c450614641007a1a7d09b73ec5 *百人一首_�
 | `packages/hyakunin/src/ui/screens/{Session,RangePicker}.tsx` | 検収済み（032・033・035・037・039） |
 | `packages/hyakunin/src/ui/components/**` | 検収済み。**新しい部品が要るなら `History.tsx` の中に閉じて書く**（メーターだけが共有層へ出る例外） |
 | `packages/hyakunin/src/ui/adapters/indexeddb-port.ts` | 検収済み。`listEvents()` は既にある |
-| `tests/screen/{harness,home,entries,range-picker,restore,viewer,settings-migration,session,main-wiring}.test.tsx` | 検収済み。**1 行も触らない** |
+| `tests/screen/{harness,home,entries,range-picker,restore,viewer,settings-migration,session,main-wiring}.test.tsx` | 検収済み。**1 行も触らない**。**ただし `history.test.tsx` から `App`（`main.tsx`）を mount することは許可する**——file を触るわけではない（訂正 3） |
 | `tests/unit/` の**既存ファイル** | 純関数の試験。**新規 2 本だけが例外** |
 | `packages/hyakunin/src/data/generated/**` / `review/**` / `docs/**` | 生成物・台帳・文書 |
 | ルート `package.json` / `packages/hyakunin/package.json` / `packages/kanazukai/package.json` / `vitest.config.ts` / `tsconfig.base.json` | 依存も設定も増やさない |
@@ -513,6 +513,8 @@ C-13/C-14 は検査自身の両方向テスト、C-15 は「0 件だから緑」
    列は **「試験名」「名前が名乗る対象」「assert が実際に触っている変数・DOM」** の 3 つとする。
    **3 列目が 2 列目を含んでいない行があれば、その試験は書き直すこと。**
 3. **`vi.mock` を使わない**（D-35）。保存への接続は port で差し替える。
+   **回数依存の stub を書かないこと**（訂正 3）。`if (calls <= 2) return []` の形は、
+   **無関係な場所が `listEvents` を 1 回増やしただけで壊れる。** test 側の真偽値で門を開閉する形にする。
 4. **否定アサーションは、対象が空でも緑になる形にしないこと。** C-15 がこれを実測で確かめる。
 
 ---
@@ -677,3 +679,96 @@ npm run test:screen                                # ← 期待: 全件緑。末
 **破壊試験の各行について、「その操作をしたとき、自分が課した受入条件のうち何が赤くなるか」を書き出す。**
 **狙った試験以外が赤くなる行があれば、それは破壊試験ではなく発注書の欠陥である。**
 本発注では C-14 がそれだった。**件数と参照先を数える検算ではこの型は出ない。**
+
+---
+
+### 訂正 3（2026-09-03・着手後。**C-11 の裁定。ブロックの解除**）
+
+**Terra が C-11 の回帰試験を安定して成立させられず、ゴールをブロックにした。**
+**判断は妥当である。無理に通る形を作れば、それは偽合格になる。**
+
+#### 詰まりの実体（**親担当が実測した。報告の推測ではない**）
+
+1. **`tests/screen/history.test.tsx` は `App` を一度も mount していない。**
+   `History` と `Home` を直接 mount している。**したがって `main.tsx` の `history-loading` を消しても、この file は何も感じない。**
+2. **`App` を回す土台は `tests/screen/main-wiring.test.tsx` にしか無い**
+   （`fetch` の差し替え・`poems.json` の読み込み・`act` の二重フラッシュ）。
+   **そして §1 はその file を「1 行も触らない」としている。**
+3. **既存の `result-loading` の試験は、`listEvents` の呼び出し回数を数えて 3 回目だけ止めている**
+   （`main-wiring.test.tsx` の `if (calls <= 2) return []`）。
+   **回数依存は、無関係な場所が `listEvents` を 1 回増やしただけで壊れる。**
+   History は呼び出し順序が違うので、この手法をそのまま持ってこられない。**ここが「安定しない」の正体である。**
+
+**したがって C-11 は Terra の力量の問題ではない。発注書が土台を用意していなかった。私の誤りである。**
+
+#### 裁定: **`history.test.tsx` の中で `App` を mount してよい。回数ではなく「門」で止める。**
+
+**§1 は `main-wiring.test.tsx` を触ることを禁じているだけで、`history.test.tsx`（本発注の新規 file）が
+`App` を mount することは禁じていない。禁じる意図も無い。** 明示的に許可する。
+
+**呼び出し回数を数えないこと。** 代わりに、**test 側が持つ真偽値で門を開閉する。**
+mount 中の `listEvents` は素通しし、**ボタンを押す直前に門を閉じる。**
+これで「Home が mount 時に何回 `listEvents` を呼ぶか」に依存しなくなる。
+
+#### 親担当が実測で確かめた成立する形（**そのまま使ってよい。動くことを 2 方向で確認済み**）
+
+```tsx
+const base = createMemoryPort();
+let gate = false;
+let release: (() => void) | undefined;
+const port = { ...base, listEvents: async () => {
+  if (!gate) return [];                                    // mount 中は素通し
+  return new Promise<readonly []>((resolve) => { release = () => resolve([]); });
+}, saveLocalReport: async () => true };
+
+// fetch を差し替えて App を mount する（poems.json だけあれば足りる。
+// 問題データは空配列でよい——「これまでの記録」は entry-actions の外にあるので
+// 問が 0 件でも描画される。裁定 10）
+// ... render(<App port={port} />, root) と act の二重フラッシュ ...
+
+const button = Array.from(root.querySelectorAll('button')).find((b) => b.textContent === 'これまでの記録');
+expect(button).toBeTruthy();                               // ← 導線が無ければ先へ進めない
+
+gate = true;                                               // ここで門を閉じる
+await act(async () => { button!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
+expect(root.textContent).toContain('記録を読み込んでいます。');   // ← C-11 が守る対象
+
+await act(async () => { release!(); await Promise.resolve(); });
+expect(root.textContent).toContain('まだ記録がありません');       // ← 解放後は History が出る
+```
+
+**親担当が実測した 2 方向の結果**（`d96ea116…` の `main.tsx` に対して）:
+
+| 状態 | 結果 |
+|---|---|
+| `history-loading` の行がある | **緑** |
+| `history-loading` の行を削除（C-11 の破壊） | **赤**（`記録を読み込んでいます。` の assert で落ちる） |
+
+**破壊後の `main.tsx` は `cp` で復元し、`d96ea116dbaadeff43e3b3c9efaf90ccd60081e288dc0cbc9f978621a69cde2b` に戻ることを確認した。**
+**使い捨ての試験 file は削除済みで、作業ツリーは Terra が残した 14 件のままである。**
+
+**最後の assert が「まだ記録がありません」なのは正しい。** `listEvents` が空配列を返すので
+`summarizeHistory` は `isEmpty: true` を返し、History は空状態を描く（裁定 9）。
+**「全100首」を期待すると落ちる**——親担当も最初これで 1 回落とした。**イベントを積みたいなら `release` で
+返す配列に入れること。**
+
+#### 変更点
+
+| 箇所 | 変更 |
+|---|---|
+| §1 の「絶対に変更しない」 | `main-wiring.test.tsx` は引き続き変更禁止。**ただし `history.test.tsx` から `App` を mount することは許可する**（file を触るわけではない） |
+| §5.1 の C-11 | 内容は変わらない。**土台の作り方を上に示した** |
+| §5.2 | **回数依存の stub を書かないこと**を追加。`if (calls <= 2)` の形は、無関係な変更で壊れる |
+
+#### 親担当の記録（訂正 3）
+
+**訂正 1・2 と同じ型が 3 度出た。** 今回は「破壊試験が要求する観測点」と
+「その観測点を持つ file を触ることの禁止」の衝突である。
+
+**次の発注書で必ずやること（訂正 2 の手順に 1 行足す）。**
+**破壊試験の各行について、「それを赤にする試験は、どの file に書けるか」を書き出す。**
+**書ける file が §1 で禁止されていたら、その時点で発注書の欠陥である。**
+**本発注では C-11 がそれだった。**
+
+**なお、既存の `main-wiring.test.tsx` の `if (calls <= 2)` は壊れやすい。**
+**本発注の対象外である**（変更禁止）。**次の発注で門方式へ移すこと。**
