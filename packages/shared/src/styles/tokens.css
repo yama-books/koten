@@ -17,6 +17,12 @@
   --color-focus: oklch(47% 0.16 300);
   --color-accent-ink: oklch(98% 0.008 80);
   --color-danger: oklch(52% 0.15 28);
+  --color-coral: oklch(66% 0.16 32);
+  --mastery-gray:   oklch(54% 0.012 75);
+  --mastery-red:    oklch(56% 0.16 28);
+  --mastery-yellow: oklch(78% 0.15 86);
+  --mastery-blue:   oklch(56% 0.14 250);
+  --mastery-green:  oklch(56% 0.14 145);
 
   --font-ui: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
   --font-poem: "Klee One", "Yu Mincho", serif;

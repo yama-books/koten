@@ -6,11 +6,13 @@ import { Home } from './ui/screens/Home.tsx';
 import { RangePicker } from './ui/screens/RangePicker.tsx';
 import { Session } from './ui/screens/Session.tsx';
 import { Result } from './ui/screens/Result.tsx';
+import { History } from './ui/screens/History.tsx';
 import { createIndexedDbPort } from './ui/adapters/indexeddb-port.ts';
 import type { ApplicationPort } from './ui/adapters/indexeddb-port.ts';
 import { completeSession, createSession } from './domain/session.ts';
 import { planResume } from './domain/resume.ts';
 import { summarizeSession, type SessionResult } from './domain/result.ts';
+import { summarizeHistory, type HistorySummary } from './domain/history.ts';
 import type { Session as LearningSession } from '@koten/shared/domain/event';
 import { createSeed } from './domain/order.ts';
 import { planQuestions, type EntryId } from './domain/entry.ts';
@@ -30,10 +32,11 @@ type Selection = {
 };
 
 export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
-  const [screen, setScreen] = useState<'home' | 'picker' | 'session' | 'result-loading' | 'result'>('home');
+  const [screen, setScreen] = useState<'home' | 'picker' | 'session' | 'result-loading' | 'result' | 'history-loading' | 'history'>('home');
   const [selected, setSelected] = useState<Selection | null>(null);
   const [settings, setSettings] = useState(defaults);
   const [result, setResult] = useState<SessionResult | null>(null);
+  const [history, setHistory] = useState<HistorySummary | null>(null);
   const [saveFailure, setSaveFailure] = useState(false);
 
   function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[] }) {
@@ -72,6 +75,8 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     }} />;
   }
   if (screen === 'result-loading') return <main class="loading" aria-live="polite">結果を読み込んでいます。</main>;
+  if (screen === 'history-loading') return <main class="loading" aria-live="polite">記録を読み込んでいます。</main>;
+  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} />;
   if (screen === 'result' && result && selected) return <><>{saveFailure && <p class="result-save-failure" role="alert">保存に失敗しました。結果は表示しています。</p>}</><Result result={result} onRetryWeak={(cards) => {
     const seed = createSeed(Math.random);
     const session = newSession({ entry: 'review', range: selected.range, order: selected.session?.order ?? settings.order, seed, cardNumbers: cards, questions: selected.questions });
@@ -80,7 +85,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   }} onRetrySame={() => {
     void startNew(selected.entry, selected.range, settings.order, selected.questions);
   }} onHome={() => setScreen('home')} /></>;
-  return <Home port={port} onPickEntry={(entry, range, questions) => { setSelected({ entry, range, questions }); setScreen('picker'); }} onResume={(session, cardNumbers, questions) => startPlanned({ session, cardNumbers, questions })} />;
+  return <Home port={port} onPickEntry={(entry, range, questions) => { setSelected({ entry, range, questions }); setScreen('picker'); }} onResume={(session, cardNumbers, questions) => startPlanned({ session, cardNumbers, questions })} onOpenHistory={() => { setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarizeHistory({ events, poemIds: Array.from({ length: 100 }, (_, index) => `p${String(index + 1).padStart(3, '0')}`) })); setScreen('history'); }); }} />;
 }
 
 const mount = document.getElementById('app');

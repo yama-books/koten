@@ -1,4 +1,5 @@
 import type { SessionResult } from '../../domain/result.ts';
+import { MasteryMeter } from '@koten/shared/mastery-meter';
 
 type Props = {
   result: SessionResult;
@@ -33,7 +34,7 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
     {result.recommendation && <section class="result-section" aria-labelledby="recommend-heading"><h2 id="recommend-heading">次に確認する</h2><p>{result.recommendation.poemId}（習熟度 {result.recommendation.percent}%）</p><p>{result.recommendation.reason}</p></section>}
     <section class="result-section" aria-labelledby="poems-heading">
       <h2 id="poems-heading">首ごとの状態</h2>
-      <ul class="result-poems">{result.poems.map((poem) => <li key={poem.poemId} class={`result-poem result-poem--${poem.color}`}><strong>{poem.cardNo}番</strong><span>{poem.untouched ? '未着手' : `習熟度 ${poem.percent}%`}</span>{poem.authorUnconfirmed && <span>作者 未確認</span>}</li>)}</ul>
+      <ul class="result-poems">{result.poems.map((poem) => <li key={poem.poemId} class={`result-poem result-poem--${poem.color}`}><strong>{poem.cardNo}番</strong>{poem.untouched ? <span>未着手</span> : <MasteryMeter label={`${poem.cardNo}番`} percent={poem.percent} color={poem.color} />}{poem.authorUnconfirmed && <span>作者 未確認</span>}</li>)}</ul>
     </section>
     <section class="result-actions" aria-label="次の操作">
       {result.retryCardNumbers.length > 0 && <button type="button" onClick={() => onRetryWeak(result.retryCardNumbers)}>まちがえた歌だけをもう一度</button>}
