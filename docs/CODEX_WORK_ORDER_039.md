@@ -311,6 +311,8 @@ function startPlanned(input: {
 | A-18 | **`vi.mock` を使っていない**（D-35） | `grep -rn "vi\.mock" tests/screen/` が **0 件** |
 | A-19 | `package.json` を 1 つも変えていない | `git diff --exit-code -- package.json "packages/*/package.json"` が終了コード 0 |
 | A-20 | `review/` と生成物に差分が無い | `git status --porcelain review packages/hyakunin/src/data/generated` が**空** |
+| **A-21** | **保存失敗の一行を守る試験がある**（発注037 の検収で見つかった穴。下の §5.4） | `main.tsx` から `result-save-failure` の一行を削除すると **`test:screen` が赤になる**ことを実測して示す（C-11） |
+| **A-22** | **読み込み中の表示を守る試験がある**（同上） | `main.tsx` から `result-loading` の行を削除すると **`test:screen` が赤になる**ことを実測して示す（C-12） |
 
 ### 5.0 grep で判定する条件（**表の外に置く。表の中では `|` が壊れる**）
 
@@ -368,10 +370,33 @@ grep -nE "saveSession|createSession|randomUUID" packages/hyakunin/src/ui/screens
 | **C-8** | 裁定 3 を破り「復元しない」で `completed: true` を保存する | 「保存を書き換えない」試験**だけ**が赤 |
 | **C-9** | 「あと○首」をまとまり内の数に変える | 「範囲全体の残り」試験**だけ**が赤 |
 | **C-10** | **否定アサーションの偽合格封じ。** 検査対象を空配列（`questions={[]}`）に差し替える | **緑のままの試験があってはならない。** あればその試験は何も検査していない |
+| **C-11** | `main.tsx` から保存失敗の一行（`result-save-failure`）を削除する | **保存失敗を見る試験だけ**が赤。**現状は全緑のままである** |
+| **C-12** | `main.tsx` から読み込み中の表示（`result-loading`）を削除する | **読み込み中を見る試験だけ**が赤。**現状は全緑のままである** |
 
 **C-0 と C-10 と C-2 が本発注の中心である。**
 C-0 は「守っているつもりの試験が守っていない」ことの実証、
 C-10 は「0 件だから緑」の偽合格封じ、C-2 は**依頼者の目的そのもの**（未習の取りこぼし防止）の回帰試験である。
+
+### 5.1.1 C-11・C-12 の出所（**発注037 の検収で親担当が実測した穴**。推測ではない）
+
+**実装はすでに正しい。足りないのは試験だけである。**
+発注037 は `main.tsx` に次の 2 つを作らせ、Terra は規定どおり実装した（発注037 §4.2・裁定 3、`APP_SPEC` §8.4）。
+
+- `<p class="result-save-failure" role="alert">保存に失敗しました。結果は表示しています。</p>`
+- `<main class="loading" aria-live="polite">結果を読み込んでいます。</main>`
+
+**その上で、親担当が 2026-09-02（第19回）にこの 2 行をそれぞれ丸ごと削除して `npm run test:screen` を回したところ、
+**61 件すべて緑のままだった**。発注037 の受入条件も破壊試験 10 本もこれを要求していなかった——**発注書の穴であって、受注側の不履行ではない。**
+
+**本発注で埋める。** 試験は `tests/screen/main-wiring.test.tsx` へ**追記**する（既存の assert を書き換えない）。
+
+- **保存失敗**: `saveSession` が失敗を返す port を渡し、**結果が表示されることと、失敗の一行が出ることの両方**を assert する。
+  **片方だけにしない**——「失敗を出す」だけでは、結果を見せずにエラー画面へ逃げる実装が緑になる。
+- **読み込み中**: `listEvents` が解決する前の瞬間に `結果を読み込んでいます。` が出ていることを assert する。
+  **文言を名指しする**。画面の存在だけを見ない。
+
+**`vi.mock` を使わない（D-35）。** `createMemoryPort()` を包んで `saveSession` だけ差し替える
+（発注037 の `main-wiring.test.tsx` に `{ ...base, saveLocalReport: async () => true }` の先例がある）。
 
 ### 5.2 試験の書き方（**この 6 点を守ること**）
 

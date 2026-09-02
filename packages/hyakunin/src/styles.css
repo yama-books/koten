@@ -182,3 +182,25 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-controls input { min-height: 44px; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding-inline: var(--space-sm); }
 .answer-feedback { margin-block: var(--space-md); border-inline-start: 4px solid var(--color-wisteria); padding-inline: var(--space-md); }
 .report-control { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs); }
+
+.result-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); overflow-wrap: anywhere; }
+.result-summary { padding-block: var(--space-xl); }
+.result-summary h1, .result-section h2 { margin: 0; }
+.result-summary p { margin-block: var(--space-xs); }
+.result-hanamaru { color: var(--color-wisteria); font-family: var(--font-poem); font-size: var(--text-lg); font-weight: 600; }
+.result-section { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
+.result-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: var(--space-sm); margin: var(--space-md) 0 0; }
+.result-breakdown div { border-inline-start: 3px solid var(--color-rule); padding-inline-start: var(--space-sm); }
+.result-breakdown dt { color: var(--color-ink-muted); font-size: var(--text-sm); }
+.result-breakdown dd { margin: 0; font-variant-numeric: tabular-nums; }
+.result-section table { width: 100%; border-collapse: collapse; margin-block-start: var(--space-md); }
+.result-section th, .result-section td { border-bottom: var(--rule-thin) solid var(--color-rule); padding: var(--space-xs); text-align: start; }
+.result-poems { display: grid; gap: var(--space-sm); margin: var(--space-md) 0 0; padding: 0; list-style: none; }
+.result-poem { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); border-inline-start: 4px solid var(--color-rule); padding-inline-start: var(--space-sm); }
+.result-poem--gray { border-color: var(--mastery-gray); }
+.result-poem--red { border-color: var(--mastery-red); }
+.result-poem--yellow { border-color: var(--mastery-yellow); }
+.result-poem--blue { border-color: var(--mastery-blue); }
+.result-poem--green { border-color: var(--mastery-green); }
+.result-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); padding-block: var(--space-xl); }
+.result-save-failure { box-sizing: border-box; width: min(100%, 62rem); margin: var(--space-md) auto 0; border: var(--rule-thin) solid var(--color-coral); padding: var(--space-sm) var(--space-md); }

@@ -85,3 +85,33 @@ test('main-wiring: the session id does not change when settings change mid-sessi
   expect(sessions).toHaveLength(1);
   expect(sessions[0]).toBe((await base.loadLastSession())?.sessionId);
 });
+
+async function finish() {
+  const input = root!.querySelector('input[placeholder]') as HTMLInputElement;
+  await act(() => { input.value = '白妙の'; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: '白妙の', inputType: 'insertText' })); });
+  await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
+  await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+  await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '結果を見る')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); await Promise.resolve(); });
+}
+
+test('main: 学習を終えると completed: true で保存される', async () => {
+  const base = createMemoryPort();
+  await mount('?from=10&to=10', { ...base, saveLocalReport: async () => true });
+  await start();
+  await finish();
+  expect((await base.loadLastSession())?.completed).toBe(true);
+});
+
+test('main: セッションの判定が結果の内訳へ渡る', async () => {
+  await mount('?from=10&to=10');
+  await start();
+  await finish();
+  expect(root!.textContent).toContain('正答1問');
+});
+
+test('main: 保存されたイベントから習熟度の変化を表示する', async () => {
+  await mount('?from=10&to=10');
+  await start();
+  await finish();
+  expect(root!.textContent).toContain('0%7.2%');
+});
