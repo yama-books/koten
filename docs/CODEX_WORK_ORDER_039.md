@@ -297,7 +297,7 @@ function startPlanned(input: {
 | A-5 | 2 製品の build が通る | `npm run build` が終了コード 0 |
 | A-6 | 公開物が増えていない | `npm run scan:publish` が §0.4 の件数・違反 0 件 |
 | A-7 | **禁止語を入れていない** | `npm run test:screen` の `no-pressure` が全件緑 |
-| A-8 | **判断ロジックを画面へ写していない**（裁定 9） | §5.0 の A-8 が **0 件** |
+| A-8 | **判断ロジックを画面へ写していない**（裁定 9） | §5.0 の **A-8a と A-8b がどちらも 0 件**。**`untouched` を `Result.tsx` へ適用しないこと**（§5.0 の注記） |
 | A-9 | **`domain/` と `shared/` を触っていない** | `git diff --exit-code packages/hyakunin/src/domain packages/shared/src` が終了コード 0 |
 | A-10 | **`Session.tsx` と `RangePicker.tsx` を触っていない** | `git diff --exit-code packages/hyakunin/src/ui/screens/Session.tsx packages/hyakunin/src/ui/screens/RangePicker.tsx` が終了コード 0 |
 | A-11 | **新しい回を作っているのは 1 箇所だけ**（裁定 1） | `grep -c "createSession(" packages/hyakunin/src/main.tsx` が **1** |
@@ -315,8 +315,11 @@ function startPlanned(input: {
 ### 5.0 grep で判定する条件（**表の外に置く。表の中では `|` が壊れる**）
 
 ```bash
-# A-8 判断ロジックを画面へ写していない
-grep -nE "MAX_CHUNK_SIZE|mostUnconfirmed|untouched|splitIntoChunks|nextChunkIndex" packages/hyakunin/src/ui/screens/Home.tsx packages/hyakunin/src/ui/screens/Result.tsx
+# A-8a まとまりの選択規則を画面へ写していない（2 ファイル共通）
+grep -nE "MAX_CHUNK_SIZE|mostUnconfirmed|splitIntoChunks|nextChunkIndex" packages/hyakunin/src/ui/screens/Home.tsx packages/hyakunin/src/ui/screens/Result.tsx
+
+# A-8b 未着手の判定を Home.tsx へ写していない（Result.tsx は対象外。下の注記を読むこと）
+grep -nE "untouched" packages/hyakunin/src/ui/screens/Home.tsx
 
 # A-13 範囲の全首を作る古い書き方が残っていない
 grep -nE "range\.to - range\.from \+ 1" packages/hyakunin/src/main.tsx
@@ -331,11 +334,22 @@ grep -nE "useEffect|useLayoutEffect" packages/hyakunin/src/main.tsx
 grep -nE "saveSession|createSession|randomUUID" packages/hyakunin/src/ui/screens/Home.tsx
 ```
 
-**5 本とも 0 件でなければならない。** 1 件でも出たら、その行を完了報告に貼って理由を書くこと。
+**6 本とも 0 件でなければならない。** 1 件でも出たら、その行を完了報告に貼って理由を書くこと。
 
-**この 5 本は「何を渡しても 0 件を返す検査」ではない。** 着手前の実測でいずれも 0 件だが、
+**この 6 本は「何を渡しても 0 件を返す検査」ではない。** 着手前の実測でいずれも 0 件だが、
 **裁定に反する実装を書けば陽性になる**——A-13 は現在の `main.tsx` で **1 件出る**（裁定 4 で消す対象である）。
 **A-13 が着手前に 1 件出ることを、着手時に自分で確かめること。** 出なければ §0.4 の照合が間違っている。
+
+> **訂正（2026-09-02・第19回。発行前に親担当が実測して直した）**
+>
+> **起草時の A-8 は `untouched` を `Result.tsx` にも適用していたが、これは正しい実装を必ず不合格にする検査である。**
+> 発注037 の裁定 7（D-48）が「未着手」と「0%」の書き分けを義務づけており、
+> `domain/result.ts` はその手掛かりを `PoemOutcome.untouched: boolean` でしか公開していない。
+> **実測**: 037 の `Result.tsx` は 36 行目で `poem.untouched ? '未着手' : ...` と書いている。これは裏切りではなく規定通りである。
+> 「着手前の実測で 0 件」という上の記述は、**`Result.tsx` がまだ存在しなかった第18回時点の値**であった。
+> したがって A-8 を A-8a（まとまりの選択規則・2 ファイル）と A-8b（`untouched`・`Home.tsx` のみ）へ割った。
+> **`Result.tsx` の `untouched` を理由に不合格にしてはならない。**
+> （同じ回に発注038 の A-14 でも同種の欠陥を直した——`port` が部分一致で `import` / `export` 全行に当たっていた）
 
 ### 5.1 破壊試験（**受入の中心**）
 

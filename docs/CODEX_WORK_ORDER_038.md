@@ -288,7 +288,7 @@ export function planResume(
 grep -nE "mostUnconfirmed|MAX_CHUNK_SIZE|slice\(0, 20\)" packages/hyakunin/src/domain/resume.ts
 
 # A-14 時刻・乱数・保存層に触っていない
-grep -nE "Date|Math\.random|port|localStorage|indexedDB" packages/hyakunin/src/domain/resume.ts
+grep -nE "\bDate\b|Math\.random|\bport\b|SessionPort|EventPort|localStorage|indexedDB" packages/hyakunin/src/domain/resume.ts
 
 # A-15 outcome の値で選り分けていない
 grep -nE "outcome|viewed|correct|incorrect|skipped" packages/hyakunin/src/domain/resume.ts
