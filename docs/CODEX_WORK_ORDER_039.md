@@ -3,8 +3,8 @@
 発注先: **Terra**
 親担当: Claude Opus（第18回セッション）
 起草日: 2026-09-02
-発行日: **未発行。§0.4 が空のまま発行してはならない。**
-基準となるコミット: **発注038 の検収コミット**（§0.4 に記す）。
+発行日: **2026-09-02（第20回セッション）。§0.4 は実測して充填済み。**
+基準となるコミット: **`48227c2`**（発注038 の検収コミット。§0.4 に実測値を記した）。
 着手条件: **`git log --oneline -1` が §0.4 のコミット以降であり、`git status --porcelain` が空であること。**
 **並行して走らせてはならない**（理由は §0.2）。着手前に **§0.4 の基準線を照合すること。**
 
@@ -70,41 +70,52 @@ assert していない。**`onClick` を空関数に書き換えても緑のま�
 
 ### 0.4 基準線（**着手前に照合すること**）
 
-> ## ⚠ **この節が空のまま発行してはならない**
->
-> **発注038 の検収が終わった時点で、親担当が `git status --porcelain` を空にしてから自分で実測し、**
-> **次を埋めること。報告からの転記は禁止する。**
->
-> - 基準となるコミット: `________`
-> - `npm run typecheck` / `npm run lint` / `npm run data:check` / `npm run build`: すべて終了コード 0
-> - `npm run test:node`: **tests `____` / fail 0**
-> - `npm run test:screen`: **Tests `____` passed**
-> - `npm run scan:publish`: **走査 `____` 件、違反 0 件**
->
-> **変更する 7 ファイルの SHA-256**（着手前の値。完了時の差分を切り分けるため）
->
-> ```
-> ____ *packages/hyakunin/src/main.tsx
-> ____ *packages/hyakunin/src/ui/screens/Home.tsx
-> ____ *packages/hyakunin/src/ui/screens/Result.tsx
-> ____ *packages/hyakunin/src/styles.css
-> ____ *tests/screen/restore.test.tsx
-> ____ *tests/screen/main-wiring.test.tsx
-> ____ *tests/screen/result.test.tsx
-> ```
->
-> **1 バイトも変えてはならない 6 ファイルの SHA-256**
->
-> ```
-> ____ *packages/hyakunin/src/domain/resume.ts
-> ____ *packages/hyakunin/src/domain/range.ts
-> ____ *packages/hyakunin/src/domain/entry.ts
-> ____ *packages/hyakunin/src/domain/session.ts
-> ____ *packages/hyakunin/src/ui/screens/Session.tsx
-> ____ *packages/hyakunin/src/ui/screens/RangePicker.tsx
-> ```
->
-> - 一次資料（A-14 の照合先）の SHA-256 5 件も同様に貼ること。
+**親担当が `48227c2`・作業ツリー clean で自分で実測した値である（2026-09-02・第20回）。報告からの転記ではない。**
+
+| 検査 | 実測値 |
+|---|---|
+| 基準となるコミット | **`48227c2`**（発注038 の検収コミット） |
+| `npm run typecheck` / `npm run lint` / `npm run data:check` / `npm run build` | すべて終了コード **0** |
+| `npm run test:node` | **tests 322 / pass 322 / fail 0** |
+| `npm run test:screen` | **Test Files 11 / Tests 61 passed** |
+| `npm run scan:publish` | **走査 751 件、違反 0 件** |
+
+**変更する 7 ファイルの SHA-256**（着手前の値。完了時の差分を切り分けるため。**7 件とも既存ファイルである。新規作成ではない**）:
+
+```
+b72f815bdcd39f760eb0025aea889e9f1ba6f34a46bbb0f965fc647dfe584bbd *packages/hyakunin/src/main.tsx
+0f6e47111c2e0de6afffd18db59a7fda196143bd82bd9a2e3178598eecefd999 *packages/hyakunin/src/ui/screens/Home.tsx
+7fa6f01bb3b9cbff1d2a989e4ff6033706f51d28a6ad119c422a94758dfcbaa5 *packages/hyakunin/src/ui/screens/Result.tsx
+40d41a6d77059c3272683ea7e08fea5f621aeaeed922b03205f9bff58a24e14c *packages/hyakunin/src/styles.css
+8ff016b9027287b5958563aa23a49cbceea8267f710d6d7368ec9055f36cc72b *tests/screen/restore.test.tsx
+2f3628ac3e34be54196a94420dd583478ed33c9a17ba21262254c313199dd818 *tests/screen/main-wiring.test.tsx
+d8d8f174f36050d71e565dca9e3b4914465b9350e69aa63328a7f9ce39a0470c *tests/screen/result.test.tsx
+```
+
+**1 バイトも変えてはならない 6 ファイルの SHA-256**:
+
+```
+6b1b7f397e182c09bd31f34902ebc0718a784d07be19c66fd2db01b199900416 *packages/hyakunin/src/domain/resume.ts
+a667bd6e97627b1061cce5a66c0f764190a6cb8f653cfb9e9f9b82abec278449 *packages/hyakunin/src/domain/range.ts
+9b8fbe5506c361f650a606df1f5523ece6b2673d497cfebee349c05958c49a02 *packages/hyakunin/src/domain/entry.ts
+17f9d3e9e40c63b4d11c578cd5c7c7817c2123372768da4b078e682c59a3fd28 *packages/hyakunin/src/domain/session.ts
+08a857d9154f63c88b7bc8c0c4e41434bb062b54bfc0742610d764445683f34f *packages/hyakunin/src/ui/screens/Session.tsx
+18f1c6d7ba2aee74af63c7e98ca40abec8e9962594855684a909569a689c84c3 *packages/hyakunin/src/ui/screens/RangePicker.tsx
+```
+
+一次資料（A-14 の照合先）:
+
+```
+291388671528cb9b81a6bc82821f243f609aee871fcaa10a4ce09d8b1f64c586 *百人一首_本文・作者_一次データ.md
+8d9e58aeffde10998ee037d57af4b281faca3a0a0ee15915168a91cda9a6ec8a *百人一首_読み_歴史的仮名遣い.md
+a728c9ba261319c2042e22d91800313f4af7c1c450614641007a1a7d09b73ec5 *百人一首_読み_現代仮名遣い.md
+78953678a9bc5a1fece11da15c2bf166e1d7b542a3646f1f6e8ab4fe1a7a4b54 *百人一首_読み_異同確認.md
+30a7f7c9a5deb48263a8b3f46dcc2ee52364c16e4c55a287faf0e3e48ea7a69f *古典文法_一次データ索引.md
+```
+
+**着手前の追加確認（発注038 の検収時に親担当が確認済み。着手時にもう一度見ること）**:
+`grep -cE "range\.to - range\.from \+ 1" packages/hyakunin/src/main.tsx` が **1** を返すこと。
+
 
 **1 件でも食い違ったら着手せず S-8 で報告すること。**
 
