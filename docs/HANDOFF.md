@@ -726,6 +726,9 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 ### 発注037 の走行中に 038・039 の受入条件を監査し、欠陥 2 件を直した（2026-09-02・第19回）—— **これが §8 の最新である**
 
 **実装コードは 1 行も変更していない。** 変更は `docs/CODEX_WORK_ORDER_038.md`・`docs/CODEX_WORK_ORDER_039.md`・本ファイルだけである。
+**`17589bb` で docs の 3 ファイルだけを commit した（push はしていない）。**
+**037 の走行中に commit したのは、`git status --porcelain` を Terra の差分だけに保つためである**
+（検収で見る値であり、発注037 の完了報告 §7 の項目 4 でもある）。
 
 **手順 0 の結果: 037 は走行中であり、検収はしていない。**
 HEAD は `a41bf9a`、作業ツリーに 6 件の変化（`main.tsx`・`styles.css`・`Session.tsx`・`main-wiring.test.tsx` の変更と、
