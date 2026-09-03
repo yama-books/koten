@@ -55,3 +55,60 @@ test('transfer: reset cannot run without a confirmation', async () => {
   assert.equal(result.ok, false);
   assert.equal(transactions, 0);
 });
+
+// 種別: 弁別的
+test('AA-14 transfer: reports は reportId で重複を判定する', () => {
+  const incoming = { ...report, product: 'kanazukai' as const };
+  assert.deepEqual(mergeReports([report], [incoming]), { records: [report], counts: { added: 0, duplicates: 1 } });
+});
+
+// 種別: 弁別的
+test('AA-15 transfer: events の件数上限を超える import を弾く', () => {
+  assert.equal(parseImport(JSON.stringify({ ...document, events: [event, event] }), 1).ok, false);
+});
+
+// 種別: 弁別的
+test('AA-16 transfer: reports の件数上限を超える import を弾く', () => {
+  assert.equal(parseImport(JSON.stringify({ ...document, reports: [report, report] }), 1).ok, false);
+});
+
+// 種別: 弁別的
+test('AA-17 transfer: sessions の product が不正なら import を弾く', () => {
+  assert.equal(parseImport(JSON.stringify({ ...document, sessions: [{ ...session, product: 'other' }] }), 100).ok, false);
+});
+
+// 種別: 弁別的
+test('AA-18 transfer: sessions が配列でなければ import を弾く', () => {
+  assert.equal(parseImport(JSON.stringify({ ...document, sessions: {} }), 100).ok, false);
+});
+
+// 種別: 弁別的
+test('AA-19 transfer: events が配列でなければ import を弾く', () => {
+  assert.equal(parseImport(JSON.stringify({ ...document, events: {} }), 100).ok, false);
+});
+
+// 種別: 弁別的
+test('AA-20 transfer: reports が配列でなければ import を弾く', () => {
+  assert.equal(parseImport(JSON.stringify({ ...document, reports: {} }), 100).ok, false);
+});
+
+// 種別: 弁別的
+test('AA-21 transfer: 最上位キーが余分でも欠けても import を弾く', () => {
+  const extra = { ...document, extra: true };
+  const missing = { ...document } as Record<string, unknown>;
+  delete missing.deviceId;
+  assert.equal(parseImport(JSON.stringify(extra), 100).ok, false);
+  assert.equal(parseImport(JSON.stringify(missing), 100).ok, false);
+});
+
+// 種別: 弁別的
+test('AA-22 transfer: preview の件数は各配列に対応する', () => {
+  const imported = {
+    ...document,
+    events: [event, { ...event, eventId: 'e2' }],
+    reports: [report, { ...report, reportId: 'r2' }, { ...report, reportId: 'r3' }],
+  };
+  const result = parseImport(JSON.stringify(imported), 100);
+  assert.equal(result.ok, true);
+  if (result.ok) assert.deepEqual(result.value.preview.counts, { sessions: 1, events: 2, reports: 3 });
+});

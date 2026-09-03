@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { appConfig } from '../../../packages/shared/src/app-config.ts';
 import { isEvent, type Event } from '../../../packages/shared/src/domain/event.ts';
 import { dbVersion } from '../../../packages/shared/src/storage/schema.ts';
-import { writeFallback } from '../../../packages/shared/src/storage/fallback.ts';
+import { readFallback, writeFallback } from '../../../packages/shared/src/storage/fallback.ts';
 import { openDatabase } from '../../../packages/shared/src/storage/db.ts';
 import * as eventsRepository from '../../../packages/shared/src/storage/repo/events.ts';
 
@@ -81,6 +81,66 @@ test('storage: events are appended and duplicate event IDs are rejected', async 
   assert.equal(second.ok, false);
   if (!second.ok) assert.equal(second.reason, 'transaction-failed');
   assert.deepEqual(records.get(event.eventId), event);
+});
+
+function mapStorage(values = new Map<string, string>()): Storage {
+  return {
+    getItem(key: string) { return values.get(key) ?? null; },
+    setItem(key: string, value: string) { values.set(key, value); },
+  } as unknown as Storage;
+}
+
+function domExceptionWith(name: string, code: number): DOMException {
+  const error = Object.create(DOMException.prototype) as DOMException;
+  Object.defineProperty(error, 'name', { value: name });
+  Object.defineProperty(error, 'code', { value: code });
+  return error;
+}
+
+// 種別: 弁別的
+test('AA-7 storage: fallback の成功は値を返す', () => {
+  const result = writeFallback(mapStorage(), 'answers', event);
+  assert.deepEqual(result, { ok: true, value: event });
+});
+
+// 種別: 弁別的
+test('AA-8 storage: fallback は接頭辞付きの鍵へ JSON を書く', () => {
+  const values = new Map<string, string>();
+  writeFallback(mapStorage(values), 'answers', event);
+  assert.equal(values.get('koten:answers'), JSON.stringify(event));
+  assert.equal(values.has('answers'), false);
+});
+
+// 種別: 弁別的
+test('AA-9 storage: fallback は接頭辞付きの鍵から読む', () => {
+  const values = new Map([['koten:answers', JSON.stringify(event)]]);
+  assert.deepEqual(readFallback(mapStorage(values), 'answers'), event);
+});
+
+// 種別: 弁別的
+test('AA-10 storage: fallback は保存がなければ undefined を返す', () => {
+  assert.equal(readFallback(mapStorage(), 'answers'), undefined);
+});
+
+// 種別: 弁別的
+test('AA-11 storage: fallback は壊れた JSON なら undefined を返す', () => {
+  assert.equal(readFallback(mapStorage(new Map([['koten:answers', '{']])), 'answers'), undefined);
+});
+
+// 種別: 弁別的
+test('AA-12 storage: 容量超過は name の枝だけでも判定する', () => {
+  const storage = { setItem() { throw domExceptionWith('QuotaExceededError', 0); } } as unknown as Storage;
+  const result = writeFallback(storage, 'answers', event);
+  assert.equal(result.ok, false);
+  if (!result.ok) assert.equal(result.reason, 'capacity-exceeded');
+});
+
+// 種別: 弁別的
+test('AA-13 storage: 容量超過は code の枝だけでも判定する', () => {
+  const storage = { setItem() { throw domExceptionWith('NS_ERROR_DOM_QUOTA_REACHED', 22); } } as unknown as Storage;
+  const result = writeFallback(storage, 'answers', event);
+  assert.equal(result.ok, false);
+  if (!result.ok) assert.equal(result.reason, 'capacity-exceeded');
 });
 
 function createFailingUpgradeFactory(existingEvents: { eventId: string }[]): IDBFactory {

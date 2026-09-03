@@ -67,3 +67,29 @@ test('W-28 sanitize: 通った payload は 17 キーだけを持つ新しい物�
     'isOfficial', 'appVersion', 'dataVersion', 'masteryRulesVersion', 'expiresAt',
   ]);
 });
+
+// 種別: 弁別的
+test('AA-1 queue: 文書 ID は端末番号が違えば異なる', () => {
+  const first = payload();
+  const second = { ...payload(), clientNumber: 'b'.repeat(20) };
+  assert.notEqual(statsDocumentId(first), statsDocumentId(second));
+});
+
+// 種別: 弁別的
+test('AA-2 queue: 文書 ID は日付が違えば異なる', () => {
+  const first = payload();
+  const second = { ...payload(), localDate: '2026-09-04' };
+  assert.notEqual(statsDocumentId(first), statsDocumentId(second));
+});
+
+// 種別: 弁別的
+test('AA-3 sanitize: 通った payload の値をそのまま写す', () => {
+  const original = payload();
+  assert.deepEqual(sanitizeStats(original, { strict: true }), original);
+});
+
+// 種別: 弁別的
+test('AA-4 sanitize: strict でなくても有効な payload を返す', () => {
+  const original = payload();
+  assert.deepEqual(sanitizeStats(original, { strict: false }), original);
+});

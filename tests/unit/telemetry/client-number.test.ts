@@ -51,3 +51,23 @@ test('X-2 client-number: [a-z0-9] 以外を含む値と文字列でない値を�
     assert.equal(isClientNumber(value), false);
   }
 });
+
+// 種別: 弁別的
+test('AA-5 client-number: 受理範囲内の境界バイト 251 を採用する', () => {
+  let calls = 0;
+  const random = (length: number) => {
+    calls += 1;
+    return calls === 1 ? new Uint8Array(length).fill(251) : new Uint8Array(length).fill(7);
+  };
+  assert.equal(createClientNumber(random), '9'.repeat(CLIENT_NUMBER_LENGTH));
+});
+
+// 種別: 弁別的
+test('AA-6 client-number: 受理範囲外の境界バイト 252 を捨てる', () => {
+  let calls = 0;
+  const random = (length: number) => {
+    calls += 1;
+    return calls === 1 ? new Uint8Array(length).fill(252) : new Uint8Array(length).fill(7);
+  };
+  assert.equal(createClientNumber(random), 'h'.repeat(CLIENT_NUMBER_LENGTH));
+});
