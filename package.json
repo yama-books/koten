@@ -11,6 +11,7 @@
     "test": "npm run test:node && npm run test:screen",
     "test:node": "node --experimental-strip-types --test \"tests/**/*.test.ts\"",
     "test:screen": "vitest run",
+    "test:rules": "npm test --prefix tests/rules",
     "build": "npm run build --workspace=@koten/hyakunin && npm run build --workspace=@koten/kanazukai",
     "typecheck": "tsc -b packages/shared packages/hyakunin packages/kanazukai",
     "lint": "npm run lint --workspace=@koten/hyakunin && npm run lint --workspace=@koten/kanazukai",

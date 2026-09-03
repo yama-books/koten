@@ -291,6 +291,7 @@ github.com/moyashimisosoup/koten                                      → HTTP 4
 | **D-69** | **P9-B3 の rules 挙動試験は通常の `npm test` から分離し、専用の `test:rules` と自動 CI で実行する（依頼者了承・2026-09-03・第30回）。** **実行基準は「約4回」ではなく、Rules の意味・試験器・依存・実行器が変わるとき**である。「4回前後」は現在の計画から得た参考見積もりにすぎず、受入条件に使わない。**自動実行の契機**は `push` と `pull_request` の双方で、少なくとも `firebase/**`、rules 挙動試験、`packages/shared/src/telemetry/registry.ts`、rules 用 `package.json` / lockfile、rules workflow 自身の変更を含める。公開前の再確認用に `workflow_dispatch` も持つ。**依存は rules 専用の小さな独立 package に devDependency として版固定する**——`@firebase/rules-unit-testing`、`firebase-tools`、実測で必要なら `firebase`。これにより通常のルート `npm ci` を重くしない。`npx` で毎回取得する案は D-68 の「devDependency に限る」を字義どおり満たさず、lockfile にも閉じないので採らない。**開発機での実行は任意、初回検収・問題調査時だけでよい。正式な自動検査は GitHub Actions が担う。** D-68 の「CI に Java を別途入れる」は補正する——現在の `ubuntu-latest`（Ubuntu 24.04）には JDK 11/17/21 等が入り既定は 17 なので追加導入は不要。ただし暗黙依存にせず `java -version` を前置して要件を機械確認する。workflow 全体の path filter は、必須チェック化した場合に対象外 PR が Pending のままになるため、必須化するなら workflow は起動して重い job だけを条件付きにする。**エミュレータ実行が主に消費するのは CPU・メモリ・ディスク・Actions 時間であり、モデルの推論資源ではない。** Luna は確定済みの導入・配線を担当できるが、挙動表と破壊試験の裁定、最終検収は Sol/Terra が持つ | 2026-09-03 | 依頼者の第30回了承。D-68 の補正。GitHub runner image、GitHub Actions path filter、Firebase Emulator Suite の一次資料を親担当が再確認 |
 | **D-70** | **`expiresAt` は端末内の統計 payload では引き続き `YYYY-MM-DD` の日付文字列とし、Firestore REST 表現でだけ UTC 00:00:00 の `timestampValue` へ変換する（親担当裁定・2026-09-03・第30回）。Rules は `timestamp` を要求する。** 発注047・048は `expiresAt` を Firestore の `string` としていたが、Firestore Standard edition の TTL は `Date and time` 型以外では無効になることを公式 TTL 資料で確認した。文字列のままでは「400日で消す」という設計が実行されない。**正確な利用時刻を新たに送る変更ではない**——既に持つ失効日だけを固定の UTC 午前0時に写し、端末の時刻・タイムゾーン・利用時刻は送らない。`registry.ts` の公開型と日付書式検査は変えず、発注048の encoder が `YYYY-MM-DDT00:00:00.000Z` を作る。P9-B3 は Rules の timestamp 型と `firestore.indexes.json` の TTL 指定を検査する。TTL 削除自体はエミュレータの責務外なので「400日後に消えた」と報告してはならない | 2026-09-03 | Firestore 公式「Manage data retention with TTL policies」を親担当が再確認。D-58、発注047・048の補正 |
 | **D-71** | **P9-B3 で Rules を `registry.ts` の値制約と文書ID・環境境界まで一致させる（親担当裁定・2026-09-03・第30回）。** 047 はキー集合の parity だけを作ったため、現 Rules には 3 種の穴が残る。(1) `buttonCounts`・`entryCounts`・`questionTypeCounts` はキーだけを見て値の非負整数を見ない、`masteryDistribution` は長さだけを見て要素を見ない、版番号も負数を許す。(2) D-59 の文書ID `${clientNumber}_${localDate}_${product}` を Rules が照合せず、任意IDで create を繰り返せる。(3) `stats_days_test` と `stats_days_official` が `isOfficial` の真偽を照合しない。**P9-B3 は実挙動試験を先に赤くし、Rules を直す。** 文書ID照合は重複送信排除と書込数抑制、環境照合は test/official の物理分離を Rules 境界でも守るためであり、送信項目やプライバシー境界を増やさない | 2026-09-03 | D-58・D-59、`registry.ts` と `firestore.rules` の親担当比較、計画 §7.4〜§7.6 |
+| **D-72** | **P9-B3のCIはTemurin JDK 21を明示する（親担当補正・2026-09-03・第30回）。** Firebase一般文書にはJDK 11以上とあるが、固定した`firebase-tools 15.29.0`をJDK 17で実行すると「21未満は非対応」と実際に停止した。CLIソースも`MIN_SUPPORTED_JAVA_MAJOR_VERSION = 21`である。Ubuntu runnerがJDK 21を内蔵することと、既定Javaが21であることは同義ではないため、`actions/setup-java@v5`でTemurin 21を選ぶ。開発PCにはsystem-wide installせず、検収中だけ照合済みportable JDK 21を使用する | 2026-09-03 | [firebase-tools commandUtils.ts](https://github.com/firebase/firebase-tools/blob/main/src/emulator/commandUtils.ts)、発注049 §11の実測 |
 ### 4.2 未決（着手前に決める必要があるもの）
 
 | 番号 | 論点 | 止まるフェーズ | 推奨案 |
@@ -808,19 +809,19 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 
 ## 8. 進行中の作業
 
-### 発注049（P9-B3）を Luna へ発行した（2026-09-03・第30回）—— **これが §8 の最新である**
+### 発注049（P9-B3）を親検収し、合格とした（2026-09-03・第30回）—— **これが §8 の最新である**
 
-`docs/CODEX_WORK_ORDER_049.md`。発注047を `1ec279a` で確定した後、依頼者の「資源最小化」の指示に従い、
-**Sol が挙動表と停止条件を固定し、Luna が機械的な導入・配線を実装し、Sol が独立検収する**分担にした。
-通常の `npm test` には入れず、隔離した `tests/rules` package と変更時だけ走る専用 CI を作る（D-69）。
+`docs/CODEX_WORK_ORDER_049.md`。Solが設計、Lunaが許可範囲だけを実装し、Solが実Emulatorと全破壊試験を独立再実行した。
+通常の`npm test`から分離した`tests/rules` packageと変更時だけ走る専用CIを導入した（D-69）。
+固定版は`@firebase/rules-unit-testing 5.0.2`、`firebase-tools 15.29.0`、`firebase 12.18.0`。
+実容量はnode_modules 342.9 MiB、lockfile 340,013 bytes、初回Emulator JAR 130.4 MiB。
 
-起票前の実測: `@firebase/rules-unit-testing 5.0.2` は `firebase ^12.0.0` を peer 要求。
-`firebase-tools 15.29.0`・`firebase 12.18.0` と合わせ、Node 26・scripts無効の隔離導入で
-**730 packages / node_modules 342.9 MiB / lockfile 340,152 bytes**。推移依存がNode 26を警告したため rules CIはNode 24固定。
-
-**設計欠陥を3件、エミュレータ導入前に発見した。** (1) `expiresAt` が文字列ではFirestore TTLが無効になる（D-70）。
-(2) 現Rulesは入れ子count値・分布要素・版番号の非負整数を守らない。(3) 文書IDとtest/officialフラグを照合しない（D-71）。
-049は赤い挙動試験を先に置き、Rulesを補強する。発注048は未発行のまま保持し、D-70のtimestamp変換を反映済み。
+E-1〜E-21は21/21合格。M-1〜M-13は全件で予定の防護を赤にした。ただしM-8は正常fixtureもtimestampなので
+E-16・E-17だけでなくE-1・E-2・E-5も赤になるのが正しく、発注書を訂正した。M-12の初版検査には
+push側pathを消してもpull_request側の1件を見て緑になる穴があり、各pathが2回あることを要求してから赤を確認した。
+`firebase-tools 15.29.0`はJDK 17を実測で拒否したため、CIをTemurin 21固定へ補正した（D-72）。
+通常ゲートもnode 420/420・screen 88/88を含め全緑、scan:publishは751件/違反0。
+実Firebase・login・資格情報は使用していない。検収後、local node_modules・portable JDK・ログ・Emulator JARは資源最小化のため削除した（lockfileとworkflowから再生成可能）。発注048は未発行のまま保持する。
 
 ### 発注047（P9-B1）を親検収し、合格とした（2026-09-03・第30回）—— **古い。`1ec279a` で確定**
 
@@ -2824,15 +2825,15 @@ P1cの600件検証が終わるまで語彙収集は開始しない。
 
 ## 9. 次セッションの開始手順
 
-**2026-09-03 の第30回セッション進行中。以下が最新。**
+**2026-09-03 の第30回セッション終了時点。以下が最新。**
 
 > ## ⚠ 現在の状態（第30回）
 >
-> **発注049（P9-B3）がLunaで走行中。前提コミットは `1ec279a`。**
-> 許可ファイルは `docs/CODEX_WORK_ORDER_049.md` §1だけ。`packages/**`・既存試験・既存CIは変更禁止。
-> 次の仕事は049の親検収であり、E-1〜E-21とM-1〜M-13を報告から転記せず再実行する。
-> このPCには system Java が無い。system-wide installはせず、必要なら一時的なportable JDKで検収する。
-> 発注048は起票済み・未発行。049と並行して発行しない。
+> **発注049（P9-B3）は親検収合格。実装開始時HEADは`e23422c`、成果は次のコミットで確定する。**
+> E-1〜E-21は21/21、M-1〜M-13は全件赤、通常ゲートも全緑。詳細は発注049 §11と§8最新を読む。
+> このPCへsystem Javaは導入していない。検収には一時portable JDK 21だけを使い、終了後に削除する。
+> rules依存は通常の`npm test`とroot lockfileから隔離した。正式な反復実行は対象変更時の専用CIが担う。
+> **次の作業候補は、起票済み・未発行の発注048（P9-B2）を最新基準線で検算・発行すること。**
 
 ---
 

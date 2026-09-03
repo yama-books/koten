@@ -1,0 +1,7 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    { "collectionGroup": "stats_days_test", "fieldPath": "expiresAt", "ttl": true, "indexes": [] },
+    { "collectionGroup": "stats_days_official", "fieldPath": "expiresAt", "ttl": true, "indexes": [] }
+  ]
+}

@@ -189,7 +189,7 @@
      map のキーは重複しないので、この組は `hasOnly([...])` と同値である。
 4. **`match /stats_days_test/{docId}`** と **`match /stats_days_official/{docId}`** の 2 ブロック。
    どちらも:
-   - `allow create: if isValidStats(request.resource.data);`
+   - 発注047時点では `allow create: if isValidStats(request.resource.data);`。P9-B3（発注049）以後は、文書IDと official/test の対応も検査する引数を加えた呼出しを両ブロックで要求する。
    - `allow get, list, update, delete: if false;`
 5. **包括 `match`（`{document=**}`）を書かない**（裁定 7）。
 6. **管理者判定をルールに書かない**（計画 §7.4）。`request.auth` の中身で分岐しない。
@@ -213,7 +213,7 @@
 | **R-3** | `hasAll` の引数集合も `STATS_KEYS` と一致する | 過不足の両方 |
 | **R-4** | `buttonCounts`・`entryCounts`・`questionTypeCounts` の許可キーが `BUTTON_KEYS`・`ENTRY_KEYS`・`QUESTION_TYPE_KEYS` と一致する | D-58 の抜け道封じ |
 | **R-5** | `stats_days_test` と `stats_days_official` の **両方**の `match` が存在する | 裁定 2 |
-| **R-6** | **両方**のブロックが `allow create` を持ち、`get, list, update, delete` を `false` にしている | 裁定 2。**片方だけ見る書き方を禁じる** |
+| **R-6** | **両方**のブロックが検証済み `allow create` を持ち、`get, list, update, delete` を `false` にしている。発注049以後は test=`false` / official=`true` の引数まで照合する | 裁定 2。**片方だけ見る書き方を禁じる** |
 | **R-7** | 包括 `match`（`{document=**}`）と `request.auth` による分岐が現れない | 裁定 7・計画 §7.4 |
 | **R-8** | `packages/` 配下の `.ts`・`.tsx` に `getAnalytics`・`firebase/analytics`・`gtag`・`measurementId` が現れない。**かつ走査したファイルが 50 件以上ある** | **D-63。** 裁定 5 |
 

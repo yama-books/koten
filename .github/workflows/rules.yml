@@ -1,0 +1,39 @@
+name: Firestore Rules
+
+on:
+  push:
+    paths:
+      - 'firebase/**'
+      - 'tests/rules/**'
+      - 'packages/shared/src/telemetry/registry.ts'
+      - 'package.json'
+      - '.github/workflows/rules.yml'
+  pull_request:
+    paths:
+      - 'firebase/**'
+      - 'tests/rules/**'
+      - 'packages/shared/src/telemetry/registry.ts'
+      - 'package.json'
+      - '.github/workflows/rules.yml'
+  workflow_dispatch:
+
+jobs:
+  rules:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: tests/rules/package-lock.json
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Verify Java
+        run: java -version
+      - name: Install rules dependencies
+        run: npm ci --prefix tests/rules
+      - name: Run rules tests
+        run: npm run test:rules

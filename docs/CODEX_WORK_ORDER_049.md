@@ -3,9 +3,10 @@
 - **宛先**: Luna（Codex）
 - **起票**: 2026-09-03・第30回・親担当（Codex Sol）
 - **前提コミット**: `1ec279a`
+- **発注書を含む実装開始時 HEAD**: `e23422c`（前提コミットは047の実装基準線を指す）
 - **フェーズ**: P9-B3（D-65）
 - **規模**: 中（試験専用環境＋Rules 補強。アプリ実装・送信経路は触らない）
-- **状態**: **発行済み。Luna 実装後に Sol が全破壊試験を独立検収する**
+- **状態**: **親検収合格（2026-09-03・第30回）**
 
 ---
 
@@ -31,6 +32,7 @@ App Check キーを要求しない。プロジェクト ID は `demo-koten-rules
 
 - `firebase/firestore.rules`
 - ルート `package.json`（依存は足さず、`test:rules` script だけ）
+- `tests/unit/telemetry/rules-parity.test.ts`（D-71で増えた引数にR-6を追随させる親検収時の補正だけ）
 
 ### 新規作成してよいファイル
 
@@ -143,7 +145,7 @@ Rules が `expiresAt is timestamp` を要求することだけを検査する。
 | E-17 | expiresAt が `YYYY-MM-DD` 文字列 | 失敗 |
 | E-18 | 未定義 collection へのcreate | 失敗 |
 | E-19 | indexes設定が test/official 両方の expiresAt TTL と index無効を持つ | 成功 |
-| E-20 | rules workflow が3イベント・対象paths・Node 24・Java確認・専用 `npm ci` を持つ | 成功 |
+| E-20 | rules workflow が3イベント・対象paths・Node 24・JDK 21固定・Java確認・専用 `npm ci` を持つ | 成功 |
 | E-21 | 標準 fixture の13 count値と分布5値がすべて同じ値ではない | 成功 |
 
 **E-14 と E-15 は代表1件で済ませない。** 全キー・全5位置を候補表で回す。
@@ -168,7 +170,8 @@ Rules が `expiresAt is timestamp` を要求することだけを検査する。
 - `ubuntu-24.04`
 - Node 24
 - npm cache は `tests/rules/package-lock.json`
-- `java -version` を実行し、JDK 11+ が無ければ失敗
+- `actions/setup-java@v5` で Temurin JDK 21を固定
+- `java -version` を実行し、JDK 21が無ければ失敗
 - `npm ci --prefix tests/rules`
 - `npm run test:rules`
 
@@ -184,7 +187,7 @@ Rules が `expiresAt is timestamp` を要求することだけを検査する。
 4. ルート `package-lock.json` は byte 不変。ルート `node_modules` に Firebase を足さない。
 5. `tests/rules/package-lock.json` の direct devDependency は §2 の3件だけ。
 6. `firebase login`、実プロジェクトID、秘密値、外部Firestore URLの出現が0。
-7. `packages/**`、既存 tests、既存 CI workflow の差分が0。
+7. `packages/**`、既存 CI workflow の差分が0。既存 tests は§1で許可した `rules-parity.test.ts` のR-6追随だけ。
 8. rules workflow の YAML 構文と paths を静的に検査し、`push` / `pull_request` / `workflow_dispatch` を確認する。
 
 ---
@@ -202,7 +205,7 @@ Rules が `expiresAt is timestamp` を要求することだけを検査する。
 | M-5 | entryCounts.exam の値検査を外す | E-14 |
 | M-6 | questionTypeCounts.author の値検査を外す | E-14 |
 | M-7 | distribution の4番目の値検査を外す | E-15 |
-| M-8 | `expiresAt is timestamp` を `string` に戻す | E-16・E-17 |
+| M-8 | `expiresAt is timestamp` を `string` に戻す | E-1・E-2・E-5・E-16・E-17（正常fixtureもtimestampなので陽性側も赤になる） |
 | M-9 | test collection の get を許可する | E-6 |
 | M-10 | official collection の delete を許可する | E-7 |
 | M-11 | indexes設定から official のTTLだけを消す | E-19 |
@@ -233,3 +236,21 @@ Rules が `expiresAt is timestamp` を要求することだけを検査する。
 5. 全ゲートの終了コードと試験数。
 6. 実Firebase・資格情報へ接続していない証拠。
 7. 独自判断、未実施、停止条件。無ければ「無し」。
+
+---
+
+## 11. 親検収結果（2026-09-03・第30回）
+
+**合格。** Luna の報告値は転記せず、Sol が Microsoft OpenJDK のportable ZIPを照合して一時利用し、
+Firestore Emulator を実際に起動して再検査した。Windowsへのsystem-wide Java導入、永続的な環境変数変更、
+Firebase login、実プロジェクト、資格情報の追加は行っていない。
+
+- 固定版: `@firebase/rules-unit-testing 5.0.2`、`firebase-tools 15.29.0`、`firebase 12.18.0`
+- 実容量: `tests/rules/node_modules` 342.9 MiB、lockfile 340,013 bytes、Emulator JAR 130.4 MiB
+- 実行要件補正: `firebase-tools 15.29.0` はJDK 17を拒否し、JDK 21以上を要求した。workflowはTemurin 21を明示する形へ補正
+- E-1〜E-21: 21/21合格
+- M-1→E-3、M-2→E-4、M-3→E-12、M-4〜M-6→E-14、M-7→E-15、M-8→E-1・E-2・E-5・E-16・E-17、M-9→E-6、M-10→E-7、M-11→E-19、M-12→E-20、M-13→E-21
+- M-12の初版はpathが片方に1件残っても緑になる穴があったため、E-20を「pushとpull_requestの双方＝各pathが2回」に補強してから赤を確認
+- 既存R-6はD-71の3引数化に追随し、test=`false` / official=`true`まで静的照合するよう補正
+- 通常ゲート: typecheck、lint、node 420/420、screen 88/88、data:check、build、scan:publish 751件/違反0——すべて終了コード0
+- 資源最小化のため、検収後にlocal `node_modules`、portable JDK 17/21、試験ログ、Emulator JARを削除した。いずれもlockfileとworkflowから再取得可能

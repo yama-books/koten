@@ -70,7 +70,8 @@ test('R-5 rules: test と official の両方の統計コレクションを定義
 test('R-6 rules: 両方の統計コレクションで create のみを許可する', () => {
   for (const collection of ['test', 'official'] as const) {
     const block = statsMatch(rulesText(), collection);
-    assert.match(block, /allow create: if isValidStats\(request\.resource\.data\);/, `R-6: ${collection} must allow validated create`);
+    const official = collection === 'official' ? 'true' : 'false';
+    assert.match(block, new RegExp(`allow create: if isValidStats\\(request\\.resource\\.data, docId, ${official}\\);`), `R-6: ${collection} must allow validated create with matching official flag`);
     assert.match(block, /allow get, list, update, delete: if false;/, `R-6: ${collection} must deny non-create operations`);
   }
 });
