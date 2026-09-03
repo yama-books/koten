@@ -6,7 +6,7 @@
 - **発注書を含む実装開始時 HEAD**: `e23422c`（前提コミットは047の実装基準線を指す）
 - **フェーズ**: P9-B3（D-65）
 - **規模**: 中（試験専用環境＋Rules 補強。アプリ実装・送信経路は触らない）
-- **状態**: **親検収合格（2026-09-03・第30回）**
+- **状態**: **親検収合格（2026-09-03・第30回）→ 第二検収で条件付き合格（第31回・§12）。補修は発注050**
 
 ---
 
@@ -254,3 +254,54 @@ Firebase login、実プロジェクト、資格情報の追加は行っていな
 - 既存R-6はD-71の3引数化に追随し、test=`false` / official=`true`まで静的照合するよう補正
 - 通常ゲート: typecheck、lint、node 420/420、screen 88/88、data:check、build、scan:publish 751件/違反0——すべて終了コード0
 - 資源最小化のため、検収後にlocal `node_modules`、portable JDK 17/21、試験ログ、Emulator JARを削除した。いずれもlockfileとworkflowから再取得可能
+
+---
+
+## 12. 第二検収結果（2026-09-03・第31回・別担当 Claude Opus 5）
+
+**条件付き合格。** §11 の合格を取り消すものではないが、**次の 2 点を補って初めて合格とする。**
+
+### 12.1 再実行できた範囲（数値は第二検収側の実測。§11 からの転記ではない）
+
+node 420/420、screen 88/88、typecheck・lint・data:check・build は exit 0、`scan:publish` 751 件/違反 0、
+作業ツリー clean（破壊試験後も clean を確認）。
+`tests/rules` の lockfile は 732 entries・全件 integrity 付きで 3 依存が固定。root の `workspaces` は `packages/*` のみ。
+依存の無い状態の `npm run test:rules` は **exit 1**（黙って緑にならない）。
+D-72 の JDK 21 は**固定版 v15.29.0 のタグ**の `commandUtils.ts` で `MIN_SUPPORTED_JAVA_MAJOR_VERSION = 21` を確認。
+
+### 12.2 再実行できなかった範囲（**D-74 の発端**）
+
+**E-1〜E-21 の 21/21 と M-1〜M-13 は再実行できない。**
+§11 の最終行のとおり検収後に依存・JDK・Emulator JAR が削除されており、
+`java` 無し・`~/.cache/firebase/emulators` 空・`tests/rules/node_modules` 無しであるため。
+**加えて `rules.yml` は一度も実行されていない**（ローカル履歴は remote へ push されていない）。
+E-20 はワークフローの**本文**を読むだけなので、CI が動く保証にはならない。
+**以後、親検収の完了前に実行環境を削除しない（D-74）。**
+
+### 12.3 見つけた欠陥（**D-73 の発端。補修は発注050**）
+
+**E-9 は名乗った 3 節を一つも守っていない。**
+`ref()` が固定の正しい文書 ID を使うため、payload 側だけを壊した 3 件は
+**すべて `docId == clientNumber + '_' + localDate + '_' + product` に拒否されていた。**
+したがって次の 3 節を Rules から**全部消しても E-1〜E-21 は全緑**になる。
+
+- `data.clientNumber is string && data.clientNumber.matches('^[a-z0-9]{20}$')`
+- `data.localDate is string && data.localDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')`
+- `data.product in ['hyakunin', 'kanazukai']`
+
+**§8 の M-1〜M-13 はこの 3 節を一つも狙っていない。**
+「M 全件が異常を検出した」は真のまま、この穴を素通りした。
+併せて **`data.grade is string` と `data.appVersion is string` には試験が 1 本も無い。**
+（`data.isOfficial is bool` は `data.isOfficial == official` に包含されるので実害無し。足さない。）
+
+### 12.4 所見（欠陥ではないが記録する）
+
+- **静的試験 R-1〜R-8 は D-71 の追加分を一切守らない。** `docId ==` の節、入れ子 count 値、
+  `expiresAt is timestamp`、分布要素の検査を消しても `npm test` は全緑。
+  **`nonNegativeInt` を `return true` に変えると 1 行で 18 節が無効になるのに全緑**である。
+  D-69 の設計どおりだが、その 18 節は **CI だけ**に守られている。E-14・E-15 は全子キー・全位置を回すので、CI が走れば捕まる。
+- `rules.yml` の path filter は **workflow 単位**。D-69 自身が「必須化するなら重い job だけを条件付きに」と書いている。
+  必須化した日に無関係な PR が Pending で止まる。いまは必須化していないので害は無い。
+- **E-21（fixture の値が退化していないことの検査）と、M-12 で path を 2 回要求へ補強した判断は正しい。**
+  どちらもこのリポジトリが積み上げてきた教訓が効いている。
+- 発注047 の検収時に残っていた穴（Rules の型検査の節に釘が 1 本も無い）は、**D-71 と E-10〜E-15 が正面から塞いだ。**

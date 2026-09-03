@@ -292,6 +292,8 @@ github.com/moyashimisosoup/koten                                      → HTTP 4
 | **D-70** | **`expiresAt` は端末内の統計 payload では引き続き `YYYY-MM-DD` の日付文字列とし、Firestore REST 表現でだけ UTC 00:00:00 の `timestampValue` へ変換する（親担当裁定・2026-09-03・第30回）。Rules は `timestamp` を要求する。** 発注047・048は `expiresAt` を Firestore の `string` としていたが、Firestore Standard edition の TTL は `Date and time` 型以外では無効になることを公式 TTL 資料で確認した。文字列のままでは「400日で消す」という設計が実行されない。**正確な利用時刻を新たに送る変更ではない**——既に持つ失効日だけを固定の UTC 午前0時に写し、端末の時刻・タイムゾーン・利用時刻は送らない。`registry.ts` の公開型と日付書式検査は変えず、発注048の encoder が `YYYY-MM-DDT00:00:00.000Z` を作る。P9-B3 は Rules の timestamp 型と `firestore.indexes.json` の TTL 指定を検査する。TTL 削除自体はエミュレータの責務外なので「400日後に消えた」と報告してはならない | 2026-09-03 | Firestore 公式「Manage data retention with TTL policies」を親担当が再確認。D-58、発注047・048の補正 |
 | **D-71** | **P9-B3 で Rules を `registry.ts` の値制約と文書ID・環境境界まで一致させる（親担当裁定・2026-09-03・第30回）。** 047 はキー集合の parity だけを作ったため、現 Rules には 3 種の穴が残る。(1) `buttonCounts`・`entryCounts`・`questionTypeCounts` はキーだけを見て値の非負整数を見ない、`masteryDistribution` は長さだけを見て要素を見ない、版番号も負数を許す。(2) D-59 の文書ID `${clientNumber}_${localDate}_${product}` を Rules が照合せず、任意IDで create を繰り返せる。(3) `stats_days_test` と `stats_days_official` が `isOfficial` の真偽を照合しない。**P9-B3 は実挙動試験を先に赤くし、Rules を直す。** 文書ID照合は重複送信排除と書込数抑制、環境照合は test/official の物理分離を Rules 境界でも守るためであり、送信項目やプライバシー境界を増やさない | 2026-09-03 | D-58・D-59、`registry.ts` と `firestore.rules` の親担当比較、計画 §7.4〜§7.6 |
 | **D-72** | **P9-B3のCIはTemurin JDK 21を明示する（親担当補正・2026-09-03・第30回）。** Firebase一般文書にはJDK 11以上とあるが、固定した`firebase-tools 15.29.0`をJDK 17で実行すると「21未満は非対応」と実際に停止した。CLIソースも`MIN_SUPPORTED_JAVA_MAJOR_VERSION = 21`である。Ubuntu runnerがJDK 21を内蔵することと、既定Javaが21であることは同義ではないため、`actions/setup-java@v5`でTemurin 21を選ぶ。開発PCにはsystem-wide installせず、検収中だけ照合済みportable JDK 21を使用する | 2026-09-03 | [firebase-tools commandUtils.ts](https://github.com/firebase/firebase-tools/blob/main/src/emulator/commandUtils.ts)、発注049 §11の実測 |
+| **D-73** | **拒否を期待する試験（`assertFails` 型・陰性試験）は、狙った節以外がすべて通る入力で書く（親担当裁定・2026-09-03・第31回）。** 陰性試験は「**どの節が拒否したか**」を問わないため、狙った節を消しても別の節が同じ入力を弾いていれば**緑のまま通る**。陽性試験（`assertSucceeds`）は 1 節でも落ちれば赤くなるので過検出しないが、陰性試験は逆向きに壊れ、**被覆を過大に見積もる**。実例——発注049 の E-9 は `clientNumber` の正規表現・`localDate` の書式・`product` の許可リストを検査すると名乗っていたが、文書 ID を固定したまま payload だけを壊していたため、**全件が `docId` 照合に拒否されていた。この 3 節を Rules から全部消しても E-1〜E-21 は全緑になる。**「破壊試験は全件で何かを赤くした」は「**狙った節が赤くした**」を意味しない。**破壊試験表は症状からではなく、検証関数の節を機械的に列挙して各節に M を割り当てて起こす。** 併せて、節を 1 つ消したとき**それを名乗る試験だけが赤くなること**（特異度）と、**その試験が緑のままであるべき破壊**（M-6 型）を対で置く | 2026-09-03 | 発注049 の親検収で実測。発注050 で補修。記憶「陰性試験は別の節に拒否されても緑」 |
+| **D-74** | **親検収の完了前に、試験の実行環境（依存・JDK・エミュレータ本体・ログ）を削除しない（親担当裁定・2026-09-03・第31回）。** 資源最小化は**検収後の別工程**とし、発注書の停止条件に明記する。発注049 では作業側が検収の**前に** node_modules 342.9 MiB・一時 JDK・Emulator JAR 130.4 MiB を削除したため、**E-1〜E-21 の 21/21 と M-1〜M-13 は報告文しか残らず、再実行で確かめられなくなった。** lockfile から再取得できることは「いま検証できる」ことと同じではない。**「CI が正式な実行者」と書く場合、その CI が実際に走った証跡が揃って初めて検証済みである**——本リポジトリの `rules.yml` は起票時点で一度も実行されていない | 2026-09-03 | 発注049 の親検収。記憶「検収前に実行環境を消さない」 |
 ### 4.2 未決（着手前に決める必要があるもの）
 
 | 番号 | 論点 | 止まるフェーズ | 推奨案 |
@@ -809,7 +811,46 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 
 ## 8. 進行中の作業
 
-### 発注049（P9-B3）を親検収し、合格とした（2026-09-03・第30回）—— **これが §8 の最新である**
+### 発注049（P9-B3）を第二検収し、**条件付き合格**とした。補修を発注050 に切り出した（2026-09-03・第31回）—— **これが §8 の最新である**
+
+**別担当（Claude Opus 5）が `6bc84ce` を独立に検収した。再実行できた範囲はすべて報告どおりだった**——
+node 420/420、screen 88/88、typecheck・lint・data:check・build は exit 0、`scan:publish` は 751 件/違反 0、作業ツリー clean。
+`tests/rules` の lockfile は 732 entries・全件 integrity 付きで 3 依存が固定されており、`npm ci --prefix tests/rules` で再現できる。
+root の `workspaces` は `packages/*` のみなので、通常の `npm ci` は重くなっていない（D-69 の隔離目的は達成）。
+依存が無い状態の `npm run test:rules` は **exit 1** で、黙って緑にならないことも確認した。
+D-72 の JDK 21 は、**固定版 v15.29.0 のタグ**の `commandUtils.ts` を直接引いて `MIN_SUPPORTED_JAVA_MAJOR_VERSION = 21` を確認した。
+
+**しかし、中心的な証拠である Emulator 21/21 と M-1〜M-13 は再実行できなかった**（D-74）。
+`java` 無し、`~/.cache/firebase/emulators` 空、`tests/rules/node_modules` 無し。
+かつ `rules.yml` は**一度も実行されていない**（ローカル履歴は remote へ push されていない）。
+E-20 はワークフローの**本文**を読むだけなので、CI が動く保証にはならない。
+
+**そのうえで、挙動試験に実在の欠陥を 1 件見つけた（D-73）。**
+**E-9 は名乗った 3 節（`clientNumber` の正規表現・`localDate` の書式・`product` の許可リスト）を一つも守っていない。**
+`ref()` が固定の正しい文書 ID を使うため、3 件とも `docId == clientNumber + '_' + localDate + '_' + product` に拒否されていた。
+**この 3 節を Rules から全部消しても E-1〜E-21 は全緑になる。** 識別フィールドに掛かる唯一の値制約である。
+発注049 の M-1〜M-13 はこの 3 節を一つも狙っていなかったので、「M 全件が異常を検出した」は真のまま穴を素通りした。
+併せて **`data.grade is string` と `data.appVersion is string` には試験が 1 本も無い。**
+（`data.isOfficial is bool` にも独立試験は無いが、`data.isOfficial == official` が真偽値以外を必ず落とすので実害は無い。）
+
+**静的試験（R-1〜R-8）は D-71 の追加分を一切守らない。** 別担当が実測した——
+`docId ==` の節、入れ子 count 値、`expiresAt is timestamp`、分布要素の検査を消しても `npm test` は全緑で、
+**`nonNegativeInt` を `return true` に変えると 1 行で 18 節が無効になるのに全緑**である。
+これは D-69 の設計どおりで欠陥ではないが、**その 18 節が「一度も走ったことのない CI」だけに守られている**ことは記録しておく。
+E-14・E-15 は全子キー・全位置を回しているので、CI が走りさえすれば捕まる。
+なお `rules.yml` の path filter は **workflow 単位**である。D-69 自身が「必須チェック化するなら重い job だけを条件付きに」と書いており、
+**必須化した日に無関係な PR が Pending で止まる**。いまは必須化していないので害は無い。
+
+**良かった点**——E-21（fixture の値が退化していないことの検査）と、M-12 で path を 2 回要求へ補強した判断は、
+どちらもこのリポジトリが積み上げてきた教訓が正しく効いている。
+発注047 の検収時に別担当が見つけていた穴（Rules の型検査の節に釘が 1 本も無い）は、**D-71 と E-10〜E-15 が正面から塞いだ。**
+
+**補修は発注050（`docs/CODEX_WORK_ORDER_050.md`、起票済み・未発行）に切り出した。**
+変更してよいのは `tests/rules/stats.test.mjs` の 1 ファイルだけで、**Rules は 1 バイトも触らない**（ルールは正しい）。
+心臓は **M-6**——`docId ==` の節を消したとき **E-4 だけが赤くなり E-9a〜E-9c は緑のまま**であること。
+逆向きの **M-7** で、旧版の E-9c が緑のまま通ることを再現させる。
+
+### 発注049（P9-B3）を親検収し、合格とした（2026-09-03・第30回）—— **古い。第31回の第二検収で条件付き合格へ改めた**
 
 `docs/CODEX_WORK_ORDER_049.md`。Solが設計、Lunaが許可範囲だけを実装し、Solが実Emulatorと全破壊試験を独立再実行した。
 通常の`npm test`から分離した`tests/rules` packageと変更時だけ走る専用CIを導入した（D-69）。
@@ -2825,15 +2866,34 @@ P1cの600件検証が終わるまで語彙収集は開始しない。
 
 ## 9. 次セッションの開始手順
 
-**2026-09-03 の第30回セッション終了時点。以下が最新。**
+**2026-09-03 の第31回セッション進行中。以下が最新。**
 
-> ## ⚠ 現在の状態（第30回）
+> ## ⚠ 現在の状態（第31回。**次の担当者はここを最初に読む**）
 >
-> **発注049（P9-B3）は親検収合格。実装開始時HEADは`e23422c`、成果は次のコミットで確定する。**
-> E-1〜E-21は21/21、M-1〜M-13は全件赤、通常ゲートも全緑。詳細は発注049 §11と§8最新を読む。
-> このPCへsystem Javaは導入していない。検収には一時portable JDK 21だけを使い、終了後に削除する。
-> rules依存は通常の`npm test`とroot lockfileから隔離した。正式な反復実行は対象変更時の専用CIが担う。
-> **次の作業候補は、起票済み・未発行の発注048（P9-B2）を最新基準線で検算・発行すること。**
+> **基準線は `6bc84ce`。⚠ 作業ツリーは clean ではない——発注048（P9-B2）が走行中である。**
+> 他者が `packages/shared/src/telemetry/transport.ts`（新規）、`packages/shared/src/app-config.ts`、
+> `tests/unit/telemetry/fixtures.ts`、`tests/unit/telemetry/static.test.ts` を触っている。
+> **`test:node` / `test:screen` の件数は判定材料にならない**（記憶: 並行発注中は基準線が取れない）。
+> **`firebase/` と `tests/rules/` は `6bc84ce` のまま動いていない**ので、発注050 はこのまま着手できる。
+>
+> **発注049（P9-B3）は第二検収で条件付き合格。** 再実行できた通常ゲートは全緑
+> （node 420/420・screen 88/88・scan:publish 751件/違反0）。
+> **ただし Emulator 21/21 と M-1〜M-13 は再実行できない**——検収前に依存・JDK・Emulator JAR が
+> 削除されたため（D-74）。`rules.yml` も**一度も実行されていない**。ここは未検証のまま残っている。
+>
+> **挙動試験に実在の欠陥が 1 件ある（D-73）。** E-9 は名乗った 3 節を一つも守っておらず、
+> `clientNumber` の正規表現・`localDate` の書式・`product` の許可リストを Rules から全部消しても
+> E-1〜E-21 は全緑になる。**補修は発注050 に切り出した（起票済み・Codex へ依頼予定）。**
+>
+> **並行して 2 件が走る。衝突しない。**
+> - **発注050**（`docs/CODEX_WORK_ORDER_050.md`）—— 触るのは `tests/rules/stats.test.mjs` **だけ**。
+> - **発注048（P9-B2）の検算・発行** —— 別セッションが担当。触るのは `packages/` 側と発注書。
+>
+> **050 が着地すると rules 試験の件数が 21→23 に変わる。**
+> **048 の基準線は「現在」ではなく必ずコミット名（`6bc84ce`）で固定すること**（記憶: 並行発注中は基準線が取れない）。
+>
+> このPCへ system Java は導入していない。Emulator を回すときだけ一時 portable JDK 21 を使う。
+> **今後は、親検収が終わるまで実行環境を消さない（D-74）。**
 
 ---
 
