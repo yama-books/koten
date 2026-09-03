@@ -299,6 +299,7 @@ github.com/moyashimisosoup/koten                                      → HTTP 4
 | 番号 | 論点 | 止まるフェーズ | 推奨案 |
 |---|---|---|---|
 | **D-02** | 統計・報告の受け口（Firestore 直書き / Functions / 混合） | **P9** | 混合。統計と注記なし報告は直書き＋App Check、注記付き報告のみ Functions |
+| **H-19** | **`npm run data:check` は新しい clone で必ず失敗する。** 一次資料 4 本は作業ツリーで **CRLF**（`git ls-files --eol` が `i/lf w/crlf`）だが、`.gitattributes` の `* text=auto eol=lf` により**どの新規 checkout でも LF になる**。`manifest.json` の `sourceHashes` は CRLF 版の sha256 なので、CI でも他の PC でも `V-14: stale generated file manifest.json (field differs: sourceHashes)` で落ちる。**手元だけが通る。** 2026-09-04 に初 push で発覚（run 33811338509）。**推奨**——4 本を LF へ正規化し、`npm run data:build` で manifest を作り直して commit する。破壊試験は「CRLF に戻すと `data:check` が赤くなること」と「LF のまま別ディレクトリへ clone しても緑であること」の 2 本 | **P9 と無関係に常時** | 発注を 1 本立てて直す。**生成物に触るので、生成データの差分が `sourceHashes` 以外に出ないことを受入条件に置く** |
 
 **D-01・D-04 は 2026-08-30 に裁定済み。D-11〜D-18 は 2026-08-31 に裁定済み**（いずれも §4.1 へ移動）。
 ~~**未決の裁定番号は D-02 の 1 件のみ。D-02 は P9 まで着手を妨げない。**~~
@@ -2906,9 +2907,14 @@ P1cの600件検証が終わるまで語彙収集は開始しない。
 > `tests/rules/node_modules`、Emulator JAR `cloud-firestore-emulator-v1.22.0.jar`。
 > **`java` は PATH に無い。** 使うときはそのシェルの中だけで `JAVA_HOME` と `PATH` を設定する。
 >
-> **残る穴——`rules.yml` は一度も実行されていない。** ローカル履歴は remote へ push されていない。
-> E-20 はワークフローの**本文**を読むだけで、CI が動く保証にはならない。
-> **push の可否は依頼者裁定であり、発注では閉じられない。**
+> **`rules.yml` は 2026-09-04 に初めて実行され、合格した（この穴は閉じた）。**
+> private repo の branch `p9-b3-rules` へ push した（`main` は触っていない。remote の `main` は `f5f61f2` で
+> ローカル履歴と乖離しており、`main` を狙うと force push になるため**やらない**）。
+> run 33811338571: JDK 21.0.12.1、`npm ci` で 729 packages、**`test:rules` 25/25**。**lockfile は clean runner で再現した。**
+>
+> **⚠ かわりに新しい欠陥が 1 件出た（H-19）。** 同じ push で `ci.yml` が初実行され、**`data:check` が落ちた。**
+> 一次資料 4 本が手元だけ CRLF で、`manifest.json` の `sourceHashes` が CRLF 版の sha256 になっている。
+> **新しい clone では必ず落ちる。** 次にやるのはこれである。
 >
 > **次の作業候補は、別セッションが進めている発注048（P9-B2）の検算・発行の結果を受けること。**
 > 048 の参照実装は破棄済みで、作業ツリーは発注050 の成果を除いて基準線に戻っている。
