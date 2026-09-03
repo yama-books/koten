@@ -101,3 +101,21 @@ test('X-7 fixtures: 標準 payload は境界と非整数を含んでいる', () 
   assert.equal(Number.isInteger(standard.masteryAvg), false);
   assert.equal(new Set(standard.masteryDistribution).size, 5);
 });
+
+// 種別: 弁別的
+test('Y-1 registry: 利用番号の形が違う payload を弾く', () => {
+  const candidates = [
+    '',
+    'a'.repeat(19),
+    'a'.repeat(21),
+    'A'.repeat(20),
+    `${'a'.repeat(19)}-`,
+  ];
+  for (const clientNumber of candidates) assert.equal(isStatsPayload({ ...payload(), clientNumber }), false);
+});
+
+// 種別: 弁別的
+test('Y-2 registry: expiresAt が日付書式でなければ弾く', () => {
+  const candidates = ['', '2027-10-08T00:00:00Z', '2027-10-8', '2027/10/08'];
+  for (const expiresAt of candidates) assert.equal(isStatsPayload({ ...payload(), expiresAt }), false);
+});
