@@ -57,3 +57,11 @@ export function downgradeForHint(method: EventMethod): EventMethod | undefined {
 export function isRecallMethod(method: EventMethod): boolean {
   return method === 'free-input' || method === 'paper-handwriting';
 }
+
+/**
+ * 想起を伴わない接触。既存 8 方式のうち、学習者が何も思い出そうとしていない唯一の方式が 'view'。
+ * 自己評価（self-x / self-tri / self-o）は「思い出せたか」の申告なので想起である。
+ */
+export function isViewOnly(method: EventMethod): boolean {
+  return method === 'view';
+}

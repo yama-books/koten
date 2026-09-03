@@ -1,7 +1,7 @@
 import type { Event } from '../event.ts';
 import { masteryDisplay, type MasteryColor } from '../mastery/color.ts';
 import { poemMastery } from '../mastery/poem.ts';
-import { isRecallMethod } from '../mastery/rules.v1.ts';
+import { isRecallMethod, isViewOnly } from '../mastery/rules.v1.ts';
 import { RECENT_TROUBLE_DAYS, REVIEW_INTERVAL_DAYS } from './rules.v1.ts';
 
 export type RecommendTier = 1 | 2 | 3 | 4 | 5;
@@ -63,7 +63,7 @@ function poemStatus(poemId: string, index: number, input: RecommendInput): PoemS
   const mastery = poemMastery(poemId, input.events, input.scores);
   const hasEvents = !mastery.untouched;
   const percent = masteryDisplay(mastery.score).percent;
-  const lastLearnedOn = events.reduce<string | undefined>((latest, event) =>
+  const lastLearnedOn = events.filter((event) => !isViewOnly(event.method)).reduce<string | undefined>((latest, event) =>
     latest === undefined || event.localDate > latest ? event.localDate : latest, undefined);
   const recallDates = new Set(events
     .filter((event) => event.outcome === 'correct' && isRecallMethod(event.effectiveMethod))

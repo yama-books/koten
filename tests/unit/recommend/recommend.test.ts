@@ -142,6 +142,24 @@ test('C-4: 段2・段3・段5の理由文は仕様の正本と一致する', () 
   assert.equal(recommendNext(input({ events: [firstRecall.event, secondRecall], scores: firstRecall.scores }))?.reason, '前回から間隔が空いたため');
 });
 
+test('V-5: 期限超過の歌を閲覧しても段1に残る', () => {
+  const answered = learned('p001', '2026-08-25', 20);
+  const viewed = event({ eventId: 'viewed', poemId: 'p001', itemKey: 'p001:text', localDate: today, kind: 'view', method: 'view', effectiveMethod: 'view', outcome: 'viewed' });
+  assert.equal(recommendNext(input({ events: [answered.event], scores: answered.scores }))?.tier, 1);
+  assert.equal(recommendNext(input({ events: [answered.event, viewed], scores: answered.scores }))?.tier, 1);
+});
+
+test('V-6: 閲覧しかしていない歌は段3に留まる', () => {
+  const viewed = event({ kind: 'view', method: 'view', effectiveMethod: 'view', outcome: 'viewed' });
+  assert.equal(recommendNext(input({ events: [viewed] }))?.tier, 3);
+});
+
+test('V-7: ヒント後の自己評価△は復習の時計を進める', () => {
+  const answered = learned('p001', '2026-08-25', 20);
+  const selfTri = event({ eventId: 'self-tri', poemId: 'p001', itemKey: 'p001:text', localDate: today, kind: 'self-rate', method: 'self-tri', effectiveMethod: 'view', hintUsed: true, outcome: 'correct' });
+  assert.equal(recommendNext(input({ events: [answered.event, selfTri], scores: answered.scores }))?.tier, 3);
+});
+
 function dateDaysAgo(days: number): string {
   const day = 31 - days;
   return `2026-08-${String(day).padStart(2, '0')}`;

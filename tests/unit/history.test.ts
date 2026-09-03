@@ -36,3 +36,42 @@ test('history: 同日の追記順はUUID文字列の順に左右されない', (
 });
 test('history: 作者イベントがなければ未確認である', () => assert.equal(summarizeHistory({ events: [event()], poemIds: ['p012'] }).entries[0].authorUnconfirmed, true));
 test('history: 作者イベントがあれば確認済みである', () => assert.equal(summarizeHistory({ events: [event({ itemKey: 'p012:author' })], poemIds: ['p012'] }).entries[0].authorUnconfirmed, false));
+
+test('V-1: 誤答した歌を翌日閲覧しても要確認に残す', () => {
+  const summary = summarizeHistory({
+    events: [
+      event({ eventId: 'incorrect', outcome: 'incorrect', localDate: '2026-09-01' }),
+      event({ eventId: 'viewed', kind: 'view', method: 'view', effectiveMethod: 'view', outcome: 'viewed', localDate: '2026-09-02' }),
+    ],
+    poemIds: ['p012'],
+  });
+  assert.deepEqual(summary.needsReview.map((entry) => entry.cardNo), [12]);
+});
+
+test('V-2: 閲覧しかしていない歌は要確認に入らない', () => {
+  const summary = summarizeHistory({
+    events: [event({ kind: 'view', method: 'view', effectiveMethod: 'view', outcome: 'viewed' })],
+    poemIds: ['p012'],
+  });
+  assert.deepEqual(summary.needsReview, []);
+});
+
+test('V-3: ヒント後の自己評価△は判定材料から外れない', () => {
+  const summary = summarizeHistory({
+    events: [event({ kind: 'self-rate', method: 'self-tri', effectiveMethod: 'view', hintUsed: true, outcome: 'incorrect' })],
+    poemIds: ['p012'],
+  });
+  assert.deepEqual(summary.needsReview.map((entry) => entry.cardNo), [12]);
+});
+
+test('V-4: 最新の正答があれば、そのあと閲覧しても要確認に戻らない', () => {
+  const summary = summarizeHistory({
+    events: [
+      event({ eventId: 'incorrect', outcome: 'incorrect', localDate: '2026-09-01' }),
+      event({ eventId: 'correct', localDate: '2026-09-02' }),
+      event({ eventId: 'viewed', kind: 'view', method: 'view', effectiveMethod: 'view', outcome: 'viewed', localDate: '2026-09-03' }),
+    ],
+    poemIds: ['p012'],
+  });
+  assert.deepEqual(summary.needsReview, []);
+});
