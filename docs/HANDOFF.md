@@ -289,6 +289,8 @@ github.com/moyashimisosoup/koten                                      → HTTP 4
 | **D-67** | **`telemetry/` の免除一覧は単一の出所（`TELEMETRY_EXEMPT_FILES`）に置き、免除されたファイルは別の禁止語検査が必ず拾う（親担当裁定・2026-09-03・第29回）。** **D-60 が残した穴である**——D-60 は禁止語検査を名指しの 4 ファイルに固定し、`transport.ts` は免除一覧へ 1 行足して外に出すと決めた。**外に出た瞬間、`transport.ts` は W-10〜W-14 のどれからも見られなくなる。** `localStorage` でトークンを保存しても、`Date.now()` で正確な時刻を載せても、`poemId` を混ぜても、**全部緑のまま通る。** **裁定**: 免除一覧を X-9 の中のローカル定数から `fixtures.ts` の export へ移し、**X-9 と、免除ファイル向けの禁止語検査（発注048 の T-16）の両方が同じ一覧を読む。** **こうすると、2 つ目の免除ファイルが増えた日、その 2 つ目も自動で禁止語検査の対象になる。** **足す禁止語は 047 の R-8（Analytics 系を `packages/` 全体で走査）と重ならない別の語にする**——保存（`localStorage`・`sessionStorage`・`indexedDB`・`document.cookie`）・時刻・DOM・個別履歴・`console`。**同じ語をもう 1 本書けば、同じ制約が 2 箇所に書かれて片方しか釘が刺さらない配置を自分で作ることになる**（記憶 `duplicated-constraint-only-one-nailed`） | 2026-09-03 | 親担当裁定。`docs/CODEX_WORK_ORDER_048.md` §0.3・§3 裁定 4・5、D-60、D-63 |
 | **D-68** | **P9-B3 のために Firestore エミュレータの新規依存を入れてよい。ただし devDependency に限る（依頼者裁定・2026-09-03・第29回）。** **問うた理由**——このリポジトリの実行時依存は `preact` 1 件だけで、**新規依存を入れる決定は Codex の領分ではない**（B1・B2 が依存 0 で書けたのは、この論点を切り離すために P9-B を 3 本に割ったからである。D-65）。**親担当が一次情報で確かめた前提**（転記ではなく実測。2026-09-03）——(1) **エミュレータ本体の要件は Node.js 16 以上・JDK 11 以上・firebase-tools 8.14.0 以上**（[Emulator Suite のインストールと設定](https://firebase.google.com/docs/emulator-suite/install_and_configure)）。**Java は npm では入らない。開発機と CI の両方に別途要る。**(2) **Rules の単体試験に使うのは `@firebase/rules-unit-testing`。プロジェクト ID を `demo-` で始めれば、資格情報も `firebase login` も要らず、本番資源に一切触れない**（[Rules の単体試験](https://firebase.google.com/docs/rules/unit-tests)）。**この 2 点により、鍵が 1 本も増えない**——D-62 が「増えうる秘密の本数そのものを減らす」を選んだ方針と矛盾しない。**起票時に実測で確かめること 2 件**——**(a) `@firebase/rules-unit-testing` が `firebase` 本体を peer として要求するか**（公式ページは「必須ではない」と読めるが、Firestore を触る書き方では実質要る可能性がある。**`npm install` して peer 警告の有無を実測する**）。**(b) 実際のインストール容量**（「数百 MB」は親担当の見積もりであって実測ではない）。**ここに書いた理解を転記しない。** **未決のまま残る設計判断が 1 つある**——**rules 試験を `npm test` に入れるか、`test:rules` として分けるか。** 入れると全ゲートの実行に Java とエミュレータの起動が要り、検収のたびに重くなる。分けると**誰も走らせない試験になりうる**（緑にすらならない検査は、常に合格する検査より悪い）。**P9-B3 の起票でここを裁定し、分ける場合は「走らせたことを機械判定する手段」を必ず添えること** | 2026-09-03 | 依頼者の第29回裁定。一次情報は上記 2 ページ。D-62・D-65 |
 | **D-69** | **P9-B3 の rules 挙動試験は通常の `npm test` から分離し、専用の `test:rules` と自動 CI で実行する（依頼者了承・2026-09-03・第30回）。** **実行基準は「約4回」ではなく、Rules の意味・試験器・依存・実行器が変わるとき**である。「4回前後」は現在の計画から得た参考見積もりにすぎず、受入条件に使わない。**自動実行の契機**は `push` と `pull_request` の双方で、少なくとも `firebase/**`、rules 挙動試験、`packages/shared/src/telemetry/registry.ts`、rules 用 `package.json` / lockfile、rules workflow 自身の変更を含める。公開前の再確認用に `workflow_dispatch` も持つ。**依存は rules 専用の小さな独立 package に devDependency として版固定する**——`@firebase/rules-unit-testing`、`firebase-tools`、実測で必要なら `firebase`。これにより通常のルート `npm ci` を重くしない。`npx` で毎回取得する案は D-68 の「devDependency に限る」を字義どおり満たさず、lockfile にも閉じないので採らない。**開発機での実行は任意、初回検収・問題調査時だけでよい。正式な自動検査は GitHub Actions が担う。** D-68 の「CI に Java を別途入れる」は補正する——現在の `ubuntu-latest`（Ubuntu 24.04）には JDK 11/17/21 等が入り既定は 17 なので追加導入は不要。ただし暗黙依存にせず `java -version` を前置して要件を機械確認する。workflow 全体の path filter は、必須チェック化した場合に対象外 PR が Pending のままになるため、必須化するなら workflow は起動して重い job だけを条件付きにする。**エミュレータ実行が主に消費するのは CPU・メモリ・ディスク・Actions 時間であり、モデルの推論資源ではない。** Luna は確定済みの導入・配線を担当できるが、挙動表と破壊試験の裁定、最終検収は Sol/Terra が持つ | 2026-09-03 | 依頼者の第30回了承。D-68 の補正。GitHub runner image、GitHub Actions path filter、Firebase Emulator Suite の一次資料を親担当が再確認 |
+| **D-70** | **`expiresAt` は端末内の統計 payload では引き続き `YYYY-MM-DD` の日付文字列とし、Firestore REST 表現でだけ UTC 00:00:00 の `timestampValue` へ変換する（親担当裁定・2026-09-03・第30回）。Rules は `timestamp` を要求する。** 発注047・048は `expiresAt` を Firestore の `string` としていたが、Firestore Standard edition の TTL は `Date and time` 型以外では無効になることを公式 TTL 資料で確認した。文字列のままでは「400日で消す」という設計が実行されない。**正確な利用時刻を新たに送る変更ではない**——既に持つ失効日だけを固定の UTC 午前0時に写し、端末の時刻・タイムゾーン・利用時刻は送らない。`registry.ts` の公開型と日付書式検査は変えず、発注048の encoder が `YYYY-MM-DDT00:00:00.000Z` を作る。P9-B3 は Rules の timestamp 型と `firestore.indexes.json` の TTL 指定を検査する。TTL 削除自体はエミュレータの責務外なので「400日後に消えた」と報告してはならない | 2026-09-03 | Firestore 公式「Manage data retention with TTL policies」を親担当が再確認。D-58、発注047・048の補正 |
+| **D-71** | **P9-B3 で Rules を `registry.ts` の値制約と文書ID・環境境界まで一致させる（親担当裁定・2026-09-03・第30回）。** 047 はキー集合の parity だけを作ったため、現 Rules には 3 種の穴が残る。(1) `buttonCounts`・`entryCounts`・`questionTypeCounts` はキーだけを見て値の非負整数を見ない、`masteryDistribution` は長さだけを見て要素を見ない、版番号も負数を許す。(2) D-59 の文書ID `${clientNumber}_${localDate}_${product}` を Rules が照合せず、任意IDで create を繰り返せる。(3) `stats_days_test` と `stats_days_official` が `isOfficial` の真偽を照合しない。**P9-B3 は実挙動試験を先に赤くし、Rules を直す。** 文書ID照合は重複送信排除と書込数抑制、環境照合は test/official の物理分離を Rules 境界でも守るためであり、送信項目やプライバシー境界を増やさない | 2026-09-03 | D-58・D-59、`registry.ts` と `firestore.rules` の親担当比較、計画 §7.4〜§7.6 |
 ### 4.2 未決（着手前に決める必要があるもの）
 
 | 番号 | 論点 | 止まるフェーズ | 推奨案 |
@@ -806,7 +808,21 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 
 ## 8. 進行中の作業
 
-### 発注047（P9-B1）を親検収し、合格とした（2026-09-03・第30回）—— **これが §8 の最新である**
+### 発注049（P9-B3）を Luna へ発行した（2026-09-03・第30回）—— **これが §8 の最新である**
+
+`docs/CODEX_WORK_ORDER_049.md`。発注047を `1ec279a` で確定した後、依頼者の「資源最小化」の指示に従い、
+**Sol が挙動表と停止条件を固定し、Luna が機械的な導入・配線を実装し、Sol が独立検収する**分担にした。
+通常の `npm test` には入れず、隔離した `tests/rules` package と変更時だけ走る専用 CI を作る（D-69）。
+
+起票前の実測: `@firebase/rules-unit-testing 5.0.2` は `firebase ^12.0.0` を peer 要求。
+`firebase-tools 15.29.0`・`firebase 12.18.0` と合わせ、Node 26・scripts無効の隔離導入で
+**730 packages / node_modules 342.9 MiB / lockfile 340,152 bytes**。推移依存がNode 26を警告したため rules CIはNode 24固定。
+
+**設計欠陥を3件、エミュレータ導入前に発見した。** (1) `expiresAt` が文字列ではFirestore TTLが無効になる（D-70）。
+(2) 現Rulesは入れ子count値・分布要素・版番号の非負整数を守らない。(3) 文書IDとtest/officialフラグを照合しない（D-71）。
+049は赤い挙動試験を先に置き、Rulesを補強する。発注048は未発行のまま保持し、D-70のtimestamp変換を反映済み。
+
+### 発注047（P9-B1）を親検収し、合格とした（2026-09-03・第30回）—— **古い。`1ec279a` で確定**
 
 **並行セッションの完了報告は残っていなかったため、数値を転記せず全件を親担当が測り直した。**
 
@@ -858,7 +874,7 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 
 1. **047 の検収**（走行中。着手の有無を確かめるところから）。**報告の数値を転記しない。M-1〜M-10 を自分で回す。**
 2. **047 の確定後に、048 の §8 を埋めて発行する**——前提コミット・SHA-256 一覧・基準線（**047 で +8 されているはず**）。
-   **あわせて参照実装で M-1〜M-14 を実測する**（D-61 条件 3）。**特に M-2 の道連れ（T-5・T-6 が一緒に赤くなるか）は書き方で変わる。**
+   **あわせて参照実装で M-1〜M-15 を実測する**（D-61 条件 3）。**特に M-2 の道連れ（T-5・T-6 が一緒に赤くなるか）は書き方で変わる。**
 3. **P9-B3 の是非は依頼者へ上げてある**（新規依存 `firebase-tools` ＋ Java）。**裁定が出るまで起票しない。**
 
 ---
@@ -2808,6 +2824,18 @@ P1cの600件検証が終わるまで語彙収集は開始しない。
 
 ## 9. 次セッションの開始手順
 
+**2026-09-03 の第30回セッション進行中。以下が最新。**
+
+> ## ⚠ 現在の状態（第30回）
+>
+> **発注049（P9-B3）がLunaで走行中。前提コミットは `1ec279a`。**
+> 許可ファイルは `docs/CODEX_WORK_ORDER_049.md` §1だけ。`packages/**`・既存試験・既存CIは変更禁止。
+> 次の仕事は049の親検収であり、E-1〜E-21とM-1〜M-13を報告から転記せず再実行する。
+> このPCには system Java が無い。system-wide installはせず、必要なら一時的なportable JDKで検収する。
+> 発注048は起票済み・未発行。049と並行して発行しない。
+
+---
+
 **2026-09-03 の第29回セッション終了時点に合わせて更新した。**
 
 > ## ⚠ 現在の状態（2026-09-03・第29回終了時。**次の担当者はここを最初に読む**）
@@ -2831,7 +2859,7 @@ P1cの600件検証が終わるまで語彙収集は開始しない。
 > **`docs/CODEX_WORK_ORDER_048.md`（P9-B2・`transport.ts` ＋ `app-config.ts` の配線）。**
 > **047 の検収・確定後にしか発行できない**（D-61 条件 2）。
 > **発行前に §8 の 3 項目を埋めること**——**前提コミット・SHA-256 一覧・基準線**（**047 で +8 されているはず**）。
-> **あわせて D-61 条件 3（参照実装で M-1〜M-14 を実測する）を行うこと。**
+> **あわせて D-61 条件 3（参照実装で M-1〜M-15 を実測する）を行うこと。**
 > **048 の裁定は D-66・D-67 として §4.1 に記録済みである。**
 >
 > ### P9-B3 の依存は**裁定が出た**（D-68・依頼者・第29回）

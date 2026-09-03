@@ -230,10 +230,11 @@ export function interpretCreateStatus(status: number): SendOutcome;
 
 1. `statsCollection(true)` は `'stats_days_official'`、`statsCollection(false)` は `'stats_days_test'`（計画 §7.4）。
 2. `encodeStatsFields` は **`STATS_KEYS` の 17 個をちょうど**返す。型の対応は**裁定 8** と次のとおり。
-   - `stringValue`: `clientNumber`・`localDate`・`product`・`grade`・`appVersion`・`expiresAt`（**6 つ**）
+   - `stringValue`: `clientNumber`・`localDate`・`product`・`grade`・`appVersion`（**5 つ**）
    - `integerValue`（**文字列**）: `pageViews`・`attemptCount`・`dataVersion`・`masteryRulesVersion`（**4 つ**）
    - `doubleValue`（**数値**）: `masteryAvg`・`masteryMax`（**2 つ**）
    - `booleanValue`: `isOfficial`
+   - `timestampValue`: `expiresAt` の `YYYY-MM-DD` に **`T00:00:00.000Z` を付けた固定 UTC 午前0時**（D-70）。端末時刻・タイムゾーンを読まない
    - `mapValue.fields`: `buttonCounts`・`entryCounts`・`questionTypeCounts`（**各値は `integerValue` の文字列**）
    - `arrayValue.values`: `masteryDistribution`（**5 要素・各 `integerValue` の文字列**）
 3. `statsCreateRequest` の URL は
@@ -287,7 +288,7 @@ export function interpretCreateStatus(status: number): SendOutcome;
 | **T-7** | **整数 4 つ**（`pageViews`・`attemptCount`・`dataVersion`・`masteryRulesVersion`）が `integerValue` を持ち、**値が `string` 型**である。**4 つを個別に assert する** | 裁定 8 |
 | **T-8** | **`masteryAvg` と `masteryMax`** が `doubleValue` を持ち、**値が `number` 型**で、`integerValue` を持たない。**2 つを個別に** | 裁定 8 |
 | **T-9** | `masteryDistribution` が `arrayValue.values` で長さ 5、**各要素が `integerValue` の文字列** | D-58 |
-| **T-10** | **文字列 6 つ**（`clientNumber`・`localDate`・`product`・`grade`・`appVersion`・`expiresAt`）が `stringValue`、**`isOfficial` が `booleanValue`**。**7 つを個別に** | §4.1 の 2 |
+| **T-10** | **文字列 5 つ**（`clientNumber`・`localDate`・`product`・`grade`・`appVersion`）が `stringValue`、`expiresAt` が元の日付に対応する固定UTC午前0時の `timestampValue`、**`isOfficial` が `booleanValue`**。**7 つを個別に** | §4.1 の 2・D-70 |
 | **T-11** | `statsCreateRequest` の URL が、**`payload.isOfficial` に対応するコレクション**と `statsDocumentId(payload)` を含む。**`isOfficial` を `true`／`false` の両方で確かめる** | **裁定 3 の心臓** |
 | **T-12** | `appCheckToken` が文字列なら `X-Firebase-AppCheck` ヘッダが付き、**`null` なら付かない**。**両方向** | §4.1 の 3 |
 | **T-13** | **`statsCreateRequest` の** `Authorization` が `Bearer {idToken}` である。**かつ、その `body` に `idToken` が現れない**（**`anonymousDeleteRequest` の body には現れる。そちらは §4.1 の 5 のとおりで正しい**） | トークンを本文へ漏らさない |
@@ -372,6 +373,7 @@ export function telemetryExemptSources(): Array<{ file: string; text: string }>;
 | **M-12** | `package.json` の `dependencies` に `"firebase": "^11.0.0"` を足す（**`npm install` はしない**） | **T-18 だけ** |
 | **M-13** | **検査自身を壊す。** `telemetryExemptSources()` を空配列を返す形に変える | **T-16 の件数 assert が赤**（記憶: 否定の検査は走査対象の実在を確かめる） |
 | **M-14** | **検査自身を壊す。** T-11 から `isOfficial: false` の側の assert を消したうえで **M-7 を当て直す** | **T-11 が緑のまま通ってしまうこと**（＝この破壊は**試験の弱さを可視化する**。**通ってしまったら S-6**） |
+| **M-15** | `expiresAt` を `timestampValue` ではなく `stringValue` に戻す | **T-10 だけ**（TTL が無効になる退行を分離して検出する。D-70） |
 
 **M-14 は「壊したら赤くなる」ではなく「試験が片方しか見ていないと何が起きるか」を見る破壊である。**
 **報告には M-14 の結果を必ず書くこと。**
@@ -403,7 +405,7 @@ export function telemetryExemptSources(): Array<{ file: string; text: string }>;
 
 1. **§5.0 の A-1〜A-9 の実測値**（数値をそのまま）
 2. **§5.1 の全ゲートの終了コードと `test:node` の総数**（着手前と着手後の両方）
-3. **§5.2 の M-1〜M-14 を 1 件ずつ当てた結果**——**どの試験が赤くなったかを名前で書く。**
+3. **§5.2 の M-1〜M-15 を 1 件ずつ当てた結果**——**どの試験が赤くなったかを名前で書く。**
    **「期待どおり」と書かない。実際に赤くなった試験名を列挙する。**
    **M-2 で T-5・T-6 も赤くなったかどうかを明記する**（道連れは被覆の粗さの兆候である）
 4. **M-13・M-14 の結果**（S-6 に当たったかどうか）
@@ -422,6 +424,6 @@ export function telemetryExemptSources(): Array<{ file: string; text: string }>;
 - [ ] **§5.1 の基準線**（`test:node` / `test:screen` / `scan:publish` の件数。**047 で +8 されているはずである**）
 
 **あわせて、発行前に親担当が行うこと（D-61 条件 3）**——
-**参照実装を書いて M-1〜M-14 を実測し、この表と食い違わないことを確かめ、破棄して基準線へ戻す。**
+**参照実装を書いて M-1〜M-15 を実測し、この表と食い違わないことを確かめ、破棄して基準線へ戻す。**
 **この工程を飛ばして発行しない。**
 **特に M-2 の道連れ（T-5・T-6 が一緒に赤くなるか）は、参照実装の書き方で結果が変わる。実測して表を直すこと。**
