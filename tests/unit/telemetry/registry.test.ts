@@ -119,3 +119,63 @@ test('Y-2 registry: expiresAt が日付書式でなければ弾く', () => {
   const candidates = ['', '2027-10-08T00:00:00Z', '2027-10-8', '2027/10/08'];
   for (const expiresAt of candidates) assert.equal(isStatsPayload({ ...payload(), expiresAt }), false);
 });
+
+// 種別: 弁別的
+test('Z-1 registry: entryCounts に一覧外のキーがあれば弾く', () => {
+  assert.equal(isStatsPayload({ ...payload(), entryCounts: { ...payload().entryCounts, custom: 0 } }), false);
+});
+
+// 種別: 弁別的
+test('Z-2 registry: entryCounts の計数が負または非整数なら弾く', () => {
+  for (const quick of [-1, 0.5]) assert.equal(isStatsPayload({ ...payload(), entryCounts: { ...payload().entryCounts, quick } }), false);
+});
+
+// 種別: 弁別的
+test('Z-3 registry: questionTypeCounts に一覧外のキーがあれば弾く', () => {
+  assert.equal(isStatsPayload({ ...payload(), questionTypeCounts: { ...payload().questionTypeCounts, custom: 0 } }), false);
+});
+
+// 種別: 弁別的
+test('Z-4 registry: questionTypeCounts の計数が負または非整数なら弾く', () => {
+  for (const blank of [-1, 0.5]) assert.equal(isStatsPayload({ ...payload(), questionTypeCounts: { ...payload().questionTypeCounts, blank } }), false);
+});
+
+// 種別: 弁別的
+test('Z-5 registry: masteryRulesVersion が負または非整数なら弾く', () => {
+  for (const masteryRulesVersion of [-1, 0.5]) assert.equal(isStatsPayload({ ...payload(), masteryRulesVersion }), false);
+});
+
+// 種別: 弁別的
+test('Z-6 registry: product が定められた 2 値でなければ弾く', () => {
+  for (const product of ['', 'HYAKUNIN', 'hyakunin ', 'other', 1, null]) assert.equal(isStatsPayload({ ...payload(), product }), false);
+});
+
+// 種別: 弁別的
+test('Z-7 registry: isOfficial が真偽値でなければ弾く', () => {
+  for (const isOfficial of ['true', 1, 0, null]) assert.equal(isStatsPayload({ ...payload(), isOfficial }), false);
+});
+
+// 種別: 弁別的
+test('Z-8 registry: appVersion が文字列でなければ弾く', () => {
+  for (const appVersion of [1, null, true]) assert.equal(isStatsPayload({ ...payload(), appVersion }), false);
+});
+
+// 種別: 弁別的
+test('Z-9 registry: grade が文字列でなければ弾く', () => {
+  for (const grade of [1, null, true]) assert.equal(isStatsPayload({ ...payload(), grade }), false);
+});
+
+// 種別: 弁別的
+test('Z-10 registry: masteryAvg が数値でなければ弾く', () => {
+  for (const masteryAvg of ['50', null, true]) assert.equal(isStatsPayload({ ...payload(), masteryAvg }), false);
+});
+
+// 種別: 弁別的
+test('Z-11 registry: masteryMax が数値でなければ弾く', () => {
+  for (const masteryMax of ['50', null, true]) assert.equal(isStatsPayload({ ...payload(), masteryMax }), false);
+});
+
+// 種別: 弁別的
+test('Z-12 registry: masteryDistribution が配列でなければ弾く', () => {
+  for (const masteryDistribution of [null, '43125', { length: 5 }]) assert.equal(isStatsPayload({ ...payload(), masteryDistribution }), false);
+});
