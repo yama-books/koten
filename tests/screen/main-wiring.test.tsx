@@ -180,19 +180,16 @@ test('main: 保存失敗でも結果と失敗の一行を表示する', async ()
 
 test('main: 結果の読み込み中は完了前に文言を表示する', async () => {
   const base = createMemoryPort();
-  let calls = 0;
+  let gate = false;
   let resolveEvents: ((events: readonly []) => void) | undefined;
-  const port = { ...base, listEvents: async () => {
-    calls += 1;
-    if (calls <= 2) return [];
-    return new Promise<readonly []>((resolve) => { resolveEvents = resolve; });
-  }, saveLocalReport: async () => true };
+  const port = { ...base, listEvents: async () => !gate ? [] : new Promise<readonly []>((resolve) => { resolveEvents = resolve; }), saveLocalReport: async () => true };
   await mount('?from=10&to=10', port);
   await start();
   const input = root!.querySelector('input[placeholder]') as HTMLInputElement;
   await act(() => { input.value = '白妙の'; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: '白妙の', inputType: 'insertText' })); });
   await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
   await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+  gate = true;
   await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '結果を見る')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
   expect(root!.textContent).toContain('結果を読み込んでいます。');
   await act(async () => { resolveEvents!([]); await Promise.resolve(); });
