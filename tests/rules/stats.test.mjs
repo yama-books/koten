@@ -9,6 +9,7 @@ setLogLevel('silent');
 const projectId = 'demo-koten-rules';
 let env;
 const id = 'abcdefghijklmnopqrst_2026-09-03_hyakunin';
+const idFor = (d) => `${d.clientNumber}_${d.localDate}_${d.product}`;
 
 function fixture(official = false) {
   return {
@@ -34,7 +35,9 @@ test('E-5 second set/create is rejected as update', async () => { await assertSu
 test('E-6 get and list are rejected', async () => { await assertFails(getDoc(ref('stats_days_test'))); await assertFails(getDocs(collection(env.authenticatedContext('client').firestore(),'stats_days_test'))); });
 test('E-7 update and delete are rejected', async () => { await env.withSecurityRulesDisabled(async (ctx) => { await setDoc(doc(ctx.firestore(),'stats_days_test',id), fixture(false)); await setDoc(doc(ctx.firestore(),'stats_days_official',id), fixture(true)); }); await assertFails(updateDoc(ref('stats_days_test'), { grade: '上級' })); await assertFails(deleteDoc(ref('stats_days_official'))); });
 test('E-8 missing and extra keys are rejected in both collections', async () => { for (const c of ['stats_days_test','stats_days_official']) { const d=fixture(c.endsWith('official')); delete d.grade; await assertFails(setDoc(ref(c),d)); const e=fixture(c.endsWith('official')); e.extra=true; await assertFails(setDoc(ref(c),e)); } });
-test('E-9 client number, date, and product constraints', async () => { for (const [key,value] of [['clientNumber','ABC'],['localDate','2026-09-03T00:00:00Z'],['product','other']]) { const d=fixture(); d[key]=value; await assertFails(setDoc(ref('stats_days_test'),d)); } });
+test('E-9a clientNumber must match the 20-character lowercase alphanumeric constraint', async () => { const d=fixture(); d.clientNumber='ABC'; await assertFails(setDoc(doc(env.authenticatedContext('client').firestore(),'stats_days_test',idFor(d)),d), 'clientNumber matches'); });
+test('E-9b localDate must match the YYYY-MM-DD constraint', async () => { const d=fixture(); d.localDate='2026-09-03T00:00:00Z'; await assertFails(setDoc(doc(env.authenticatedContext('client').firestore(),'stats_days_test',idFor(d)),d), 'localDate matches'); });
+test('E-9c product must be hyakunin or kanazukai', async () => { const d=fixture(); d.product='other'; await assertFails(setDoc(doc(env.authenticatedContext('client').firestore(),'stats_days_test',idFor(d)),d), 'product allowlist'); });
 test('E-10 pageViews and attemptCount constraints', async () => { for (const key of ['pageViews','attemptCount']) for (const value of [-1,1.5,'1']) { const d=fixture(); d[key]=value; await assertFails(setDoc(ref('stats_days_test'),d)); } });
 test('E-11 mastery bounds and type', async () => { for (const key of ['masteryAvg','masteryMax']) for (const value of [-1,101,'50']) { const d=fixture(); d[key]=value; await assertFails(setDoc(ref('stats_days_test'),d)); } });
 test('E-12 version values are non-negative integers', async () => { for (const key of ['dataVersion','masteryRulesVersion']) for (const value of [-1,1.5]) { const d=fixture(); d[key]=value; await assertFails(setDoc(ref('stats_days_test'),d)); } });
@@ -47,3 +50,5 @@ test('E-18 unknown collection rejected', async () => assertFails(setDoc(doc(env.
 test('E-19 indexes configure TTL and disable single-field indexes for both collections', async () => { const x=JSON.parse(await fs.readFile('../../firebase/firestore.indexes.json','utf8')); assert.deepEqual(x.indexes,[]); assert.deepEqual(x.fieldOverrides.map(v=>[v.collectionGroup,v.fieldPath,v.ttl,v.indexes]), [['stats_days_test','expiresAt',true,[]],['stats_days_official','expiresAt',true,[]]]); });
 test('E-20 workflow has required triggers, paths, Node 24, Java 21, and npm ci', async () => { const y=await fs.readFile('../../.github/workflows/rules.yml','utf8'); for (const s of ['push:','pull_request:','workflow_dispatch:','ubuntu-24.04','node-version: 24','distribution: temurin','java-version: 21','java -version','npm ci --prefix tests/rules']) assert.match(y,new RegExp(s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'))); for (const path of ['firebase/**','tests/rules/**','packages/shared/src/telemetry/registry.ts','package.json','.github/workflows/rules.yml']) assert.equal(y.split(path).length - 1, 2, `${path} must be present under push and pull_request`); });
 test('E-21 fixture count and distribution values are not all identical', () => { const d=fixture(); assert.equal(new Set(Object.values(d.buttonCounts).concat(Object.values(d.entryCounts),Object.values(d.questionTypeCounts))).size > 1,true); assert.equal(new Set(d.masteryDistribution).size > 1,true); });
+test('E-22 grade must be a string', async () => { const d=fixture(); d.grade=123; await assertFails(setDoc(ref('stats_days_test'),d), 'grade is string'); });
+test('E-23 appVersion must be a string', async () => { const d=fixture(); d.appVersion=5; await assertFails(setDoc(ref('stats_days_test'),d), 'appVersion is string'); });
