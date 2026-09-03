@@ -54,3 +54,50 @@ test('W-9 registry: 学年区分の具体値を持たない', () => {
   const registry = telemetrySources().find(({ file }) => file === 'registry.ts')?.text ?? '';
   for (const value of ['中一', '中二', '中三', '小学生', '高一', '高二', '高三', '大人']) assert.equal(registry.includes(value), false);
 });
+
+// 種別: 弁別的
+test('X-3 registry: 負の計数を弾く', () => {
+  const candidates = [
+    { ...payload(), pageViews: -1 },
+    { ...payload(), attemptCount: -1 },
+    { ...payload(), buttonCounts: { ...payload().buttonCounts, start: -1 } },
+    { ...payload(), masteryDistribution: [4, 3, 2, 1, -1] },
+    { ...payload(), dataVersion: -1 },
+  ];
+  for (const candidate of candidates) assert.equal(isStatsPayload(candidate), false);
+});
+
+// 種別: 弁別的
+test('X-4 registry: 整数でない計数を弾く', () => {
+  const candidates = [
+    { ...payload(), pageViews: 0.5 },
+    { ...payload(), attemptCount: 1.5 },
+    { ...payload(), buttonCounts: { ...payload().buttonCounts, start: 2.5 } },
+    { ...payload(), masteryDistribution: [4, 3, 2, 1, 0.5] },
+  ];
+  for (const candidate of candidates) assert.equal(isStatsPayload(candidate), false);
+});
+
+// 種別: 弁別的
+test('X-5 registry: 習熟度は 0 以上 100 以下である', () => {
+  const baseline = { ...payload(), masteryAvg: 50, masteryMax: 50 };
+  for (const key of ['masteryAvg', 'masteryMax'] as const) {
+    assert.equal(isStatsPayload({ ...baseline, [key]: 100 }), true);
+    assert.equal(isStatsPayload({ ...baseline, [key]: 0 }), true);
+    assert.equal(isStatsPayload({ ...baseline, [key]: 101 }), false);
+    assert.equal(isStatsPayload({ ...baseline, [key]: -1 }), false);
+  }
+});
+
+// 種別: 固定ピン
+test('X-6 registry: 習熟度の平均は整数でなくてよい', () => {
+  assert.equal(isStatsPayload({ ...payload(), masteryAvg: 62.5 }), true);
+});
+
+// 種別: 固定ピン
+test('X-7 fixtures: 標準 payload は境界と非整数を含んでいる', () => {
+  const standard = payload();
+  assert.equal(standard.masteryMax, 100);
+  assert.equal(Number.isInteger(standard.masteryAvg), false);
+  assert.equal(new Set(standard.masteryDistribution).size, 5);
+});

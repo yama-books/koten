@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { telemetrySources } from './fixtures.ts';
+import { TELEMETRY_FILES, telemetryDirectoryFiles, telemetrySources } from './fixtures.ts';
 
 function sourceText(): string { return telemetrySources().map(({ text }) => text).join('\n'); }
 
@@ -28,4 +28,21 @@ test('W-13 static: client-number が crypto を直接呼ばない', () => {
 // 種別: 弁別的
 test('W-14 static: telemetry に個別履歴の識別子が現れない', () => {
   for (const word of ['poemId', 'questionId', 'sessionId', 'eventId']) assert.equal(sourceText().includes(word), false);
+});
+
+// 種別: 固定ピン
+test('X-8 static: 禁止語の検査対象が名指しの 4 ファイルに固定されている', () => {
+  assert.deepEqual(telemetrySources().map(({ file }) => file), [
+    'client-number.ts', 'queue.ts', 'registry.ts', 'sanitize.ts',
+  ]);
+  assert.equal(TELEMETRY_FILES.length, 4);
+});
+
+// 種別: 弁別的
+test('X-9 static: 検査対象にも免除一覧にも無い実装が増えていない', () => {
+  const exemptFiles: string[] = [];
+  assert.deepEqual(
+    [...telemetryDirectoryFiles()].sort(),
+    [...TELEMETRY_FILES, ...exemptFiles].sort(),
+  );
 });

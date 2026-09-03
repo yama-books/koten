@@ -39,3 +39,15 @@ test('W-19 client-number: 同じ乱数なら時間が経っても同じ番号に
   const second = createClientNumber(bytes(12));
   assert.equal(first, second);
 });
+
+// 種別: 弁別的
+test('X-1 client-number: 長さが 20 でない文字列を弾く', () => {
+  for (const value of ['', 'a'.repeat(19), 'a'.repeat(21)]) assert.equal(isClientNumber(value), false);
+});
+
+// 種別: 弁別的
+test('X-2 client-number: [a-z0-9] 以外を含む値と文字列でない値を弾く', () => {
+  for (const value of ['A'.repeat(20), `${'a'.repeat(19)}-`, undefined, null, 20, [], { length: 20 }]) {
+    assert.equal(isClientNumber(value), false);
+  }
+});
