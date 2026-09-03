@@ -120,10 +120,12 @@
 **`test` 側だけを壊しても `official` 側だけを壊しても、それぞれ赤くなること**を試験で守る。
 **「代表 1 つを見て済ませる」書き方を禁じる**（記憶: 同じ制約が 2 箇所にあると片方しか刺さらない）。
 
-### 裁定 3: `hasOnly` の引数は 1 箇所にだけ書く
+### 裁定 3: 外側の `data.keys().hasOnly` の引数は 1 箇所にだけ書く
 
-ルール中に `hasOnly([...])` が**複数現れてはならない。** 抽出器が「どれを見たか」で結果が変わるため。
-**試験は「`hasOnly` の出現がちょうど 1 回であること」を先に確かめる。**
+統計 payload 全体を制限する `data.keys().hasOnly([...])` は**1 回だけ**書く。
+抽出器が「どれを見たか」で結果が変わらないよう、試験はこの主語まで含めて抽出する。
+入れ子 3 map は裁定 4.1 のとおり `hasAll` と `size()` の組で完全一致を表し、
+外側の `hasOnly` と同じメソッド名を重ねない。
 
 ### 裁定 4: 抽出器は、見つからなかったら例外を投げる。既定値を返さない
 
@@ -181,8 +183,10 @@
      `masteryDistribution` は `is list` かつ `size() == 5`、
      `isOfficial` は `bool`、`appVersion` は `string`、
      `dataVersion`・`masteryRulesVersion` は `int`（**値を固定しない。裁定 8**）、
-     `buttonCounts`・`entryCounts`・`questionTypeCounts` は `is map` かつ
-     **それぞれ `keys().hasOnly([...])` で `BUTTON_KEYS` 6 個 / `ENTRY_KEYS` 5 個 / `QUESTION_TYPE_KEYS` 2 個に限る**（D-58）。
+     `buttonCounts`・`entryCounts`・`questionTypeCounts` は `is map` かつ、
+     **それぞれ `keys().hasAll([...])` と `keys().size()` の組で
+     `BUTTON_KEYS` 6 個 / `ENTRY_KEYS` 5 個 / `QUESTION_TYPE_KEYS` 2 個への完全一致を表す**（D-58）。
+     map のキーは重複しないので、この組は `hasOnly([...])` と同値である。
 4. **`match /stats_days_test/{docId}`** と **`match /stats_days_official/{docId}`** の 2 ブロック。
    どちらも:
    - `allow create: if isValidStats(request.resource.data);`
@@ -197,7 +201,7 @@
 まず、ルールを読む道具を書く。
 
 - `rulesText(): string` … `firebase/firestore.rules` を `readFileSync` で読む。
-- `hasOnlyArgs(text): string[]` … `hasOnly([...])` の**最初の引数リスト**を取り出して配列で返す。
+- `hasOnlyArgs(text): string[]` … `data.keys().hasOnly([...])` の引数リストを取り出して配列で返す。
   **一致しなければ `throw`（裁定 4）。**
 
 **足す試験は 8 本。**
@@ -231,7 +235,7 @@ D-60 の「名指しにせよ」は当たらない。**むしろ増えたファ�
 
 | # | 条件 |
 |---|---|
-| A-1 | `firebase/firestore.rules` に `hasOnly` が**ちょうど 1 回**現れる |
+| A-1 | `firebase/firestore.rules` に外側の `data.keys().hasOnly` が**ちょうど 1 回**現れる |
 | A-2 | `firebase/firestore.rules` に `document=**` が**現れない** |
 | A-3 | `firebase/firestore.rules` に `request.auth` が**現れない** |
 | A-4 | `packages/` 配下の差分が**0 バイト**（`git diff --numstat -- packages/` が空） |
@@ -263,7 +267,7 @@ D-60 の「名指しにせよ」は当たらない。**むしろ増えたファ�
 | **M-6** | **`stats_days_test` の側だけ** `allow get, list, update, delete: if false;` を消す | **R-6 だけ**（**片方しか見ていなければ緑になる。ここが裁定 2 の心臓**） |
 | **M-7** | `match /{document=**} { allow read: if true; }` を足す | **R-7 だけ** |
 | **M-8** | `packages/shared/src/app-config.ts` に `// getAnalytics` と 1 行足す | **R-8 だけ** |
-| **M-9** | **検査自身を壊す。** `hasOnlyArgs` を「一致しなければ `[...STATS_KEYS]` を返す」に変える | **M-1 を当て直したとき R-2 が赤くならなくなること**（＝この破壊は**検査の嘘を検出する**。裁定 4 の心臓） |
+| **M-9** | **検査自身を壊す。** `hasOnlyArgs` を「一致しなければ `[...STATS_KEYS]` を返す」に変え、続けて rules の外側の `data.keys().hasOnly` だけを `data.keys().hasO_nly` に変える | **R-1 は赤、R-2 は緑のままになること**（＝壊した抽出器が「対象を見つけていないのに正解を返す」嘘を実際につけることを確認する。元の抽出器なら R-2 も例外で赤になる。裁定 4 の心臓） |
 | **M-10** | **検査自身を壊す。** R-8 の走査対象を空配列に差し替える | **R-8 の件数 assert が赤**（裁定 5） |
 
 **M-9 と M-10 は「壊したら赤くなる」ではなく「検査が嘘をつけないこと」を見る破壊である。**
@@ -286,7 +290,7 @@ D-60 の「名指しにせよ」は当たらない。**むしろ増えたファ�
 | **S-3** | **`firestore.rules` が公開ビルドに入る** | 公開範囲の話であり**依頼者裁定**である |
 | **S-4** | **「Rules が動作することを確認した」と書きたくなった** | **テキスト検査は挙動を証明しない**（§0.2）。書かない |
 | **S-5** | **新規依存を入れたくなった** | この発注は依存を 1 つも増やさない。エミュレータは P9-B3 |
-| **S-6** | **M-9 で R-2 が緑のまま通った** | **検査が嘘をついている。** 直してから報告する |
+| **S-6** | **元の抽出器のまま rules の外側の `data.keys().hasOnly` を見つからなくしても R-2 が緑のまま通った** | **検査が嘘をついている。** 直してから報告する |
 
 ---
 
@@ -302,13 +306,22 @@ D-60 の「名指しにせよ」は当たらない。**むしろ増えたファ�
 
 ---
 
-## 8. 発行時に親担当が埋めるもの（**起票の時点では埋められない**）
+## 8. 発行・検収時に親担当が確定したもの
 
-**別セッションが `tests/unit/telemetry/` を走行中のため、次の 3 つは発行時に確定する。**
+並行セッションから完了報告が残らなかったため、発行時の空欄を推測で埋めず、
+親検収時に次の事実を独立に確定した（2026-09-03・第30回）。
 
-- [ ] **前提コミット**
-- [ ] **§0.4 の SHA-256 一覧**（変更してはならないファイル）
-- [ ] **§5.1 の基準線**（`test:node` / `test:screen` / `scan:publish` の件数）
+- [x] **親検収の前提コミット**: `05b21b9`
+- [x] **変更禁止 17 ファイル**: `docs/CODEX_WORK_ORDER_046.md` §0.3 の SHA-256 を使用し、**17/17 一致**
+- [x] **着手前の基準線**: `test:node` **412/412/0**、`test:screen` **12 files / 88**、`scan:publish` **751 / 違反 0**
+- [x] **検収後**: `test:node` **420/420/0**（+8）、`test:screen` **12 files / 88**、`scan:publish` **751 / 違反 0**
+
+発注書内にあった 2 件の衝突も親検収で補正した。
+
+1. 裁定 3 の「`hasOnly` は 1 回」と、入れ子 3 map にも `hasOnly` を要求する記述が衝突していた。
+   外側の `data.keys().hasOnly` を 1 回、入れ子は `hasAll + size` の完全一致とした。
+2. M-9 は `hasOnly` のキーを 1 個消すだけでは抽出自体に成功し、壊した既定値が使われなかった。
+   抽出対象のメソッド名を壊す形へ直し、嘘をつく抽出器では R-2 が緑、元の抽出器では R-2 も赤になることを実測した。
 
 **あわせて、発行前に親担当が行うこと（D-61 条件 3）**——
 **参照実装を書いて M-1〜M-10 を実測し、この表と食い違わないことを確かめ、破棄して基準線へ戻す。**
