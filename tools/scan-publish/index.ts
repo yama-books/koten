@@ -1,18 +1,12 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readAllowlist } from './allowlist.ts';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const manifest = readFileSync(path.join(root, 'docs', 'PUBLISH_MANIFEST.md'), 'utf8');
-const sourceBlock = manifest.match(/^## 5\. この許可リスト[\s\S]*?```text\r?\n([\s\S]*?)```/m)?.[1] ?? '';
-const allowedEntries = new Set(sourceBlock.split(/\r?\n/).map((line) => line.trim()).filter(Boolean));
-const buildExtensionsBlock = manifest.match(/### 5\.1\b[\s\S]*?```text\r?\n([\s\S]*?)```/)?.[1];
-const allowedBuildExtensions = new Set(
-  (buildExtensionsBlock ?? '')
-    .split(/\r?\n/)
-    .map((line) => line.trim().toLowerCase())
-    .filter((line) => line.length > 0 && !line.startsWith('#')),
-);
+const { sources: allowedSources, buildExtensions } = readAllowlist();
+const allowedEntries = new Set(allowedSources);
+const allowedBuildExtensions = new Set(buildExtensions);
 const stagingRoots = process.env.PUBLISH_STAGING_DIR
   ? [{ directory: path.resolve(root, process.env.PUBLISH_STAGING_DIR), label: 'staging' }]
   : [
@@ -24,8 +18,8 @@ let scanned = 0;
 // 2 つの公開単位の dist が揃っていれば 500 件を十分に上回る。
 const minimumScanned = 500;
 
-if (buildExtensionsBlock === undefined || allowedBuildExtensions.size === 0) {
-  console.error('scan:publish: §5.1 のビルド成果物拡張子許可リストを読み取れない（設定異常）');
+if (allowedBuildExtensions.size === 0) {
+  console.error('scan:publish: publish-allowlist.txt の [build-extensions] を読み取れない（設定異常）');
   process.exitCode = 1;
 } else {
   for (const staging of stagingRoots) {

@@ -60,7 +60,7 @@ P0 時点ではアプリコードが 1 行も存在しない。したがって�
 | `百人一首_読み_現代仮名遣い.md` | 現存 | 同上 |
 | `百人一首_読み_異同確認.md` | 現存 | 同上 |
 | `仮名遣い規則_一次データ.md` | 未作成 | 仮名遣いツールの正本。設計書 §4.1 |
-| `仮名遣い語彙_一次データ.md` | 未作成 | 仮名遣いツールの正本。設計書 §4.2 |
+| `仮名遣い語彙_一次データ.md` | **未作成。§5 のブロックからは外してある** | 仮名遣いツールの正本。設計書 §4.2。**作成したら §5 にも足すこと**——ブロックは「実在するものだけ」を載せる（実体に解決しない行は複写を中止させるため） |
 
 > **`古典文法_一次データ索引.md` は、初回公開の許可リストに含めない。** 判断の根拠は §6 を参照。
 
@@ -152,74 +152,28 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 
 ## 5. この許可リストの機械可読版
 
-`tools/scan-publish` はこのブロックを唯一の入力とする。表と食い違った場合は**表が正**であり、
-このブロックを表に合わせて直す。ブロックだけを直して表を放置しない。
+**機械可読な唯一の入力は、リポジトリ直下の [`publish-allowlist.txt`](../publish-allowlist.txt) である。**
+`tools/scan-publish`・`tools/publish-transfer`・`tests/unit/scan-publish-allowlist.test.ts` はそれだけを読む。
+**表と食い違った場合は表が正**であり、`publish-allowlist.txt` を表に合わせて直す。
 
-```text
-# common
-LICENSE
-LICENSE-CONTENT.md
-NOTICE
-THIRD_PARTY_NOTICES.md
-README.md
-.gitignore
-.gitattributes
-package.json
-package-lock.json
-tsconfig.base.json
-vitest.config.ts
-百人一首_本文・作者_一次データ.md
-百人一首_読み_歴史的仮名遣い.md
-百人一首_読み_現代仮名遣い.md
-百人一首_読み_異同確認.md
-仮名遣い規則_一次データ.md
-仮名遣い語彙_一次データ.md
-review/*.yaml
-packages/shared/**
-tools/build-data/**
-tools/check-storage/**
-tools/eol-check/**
-tools/font-assets-check/**
-tools/font-check/**
-tools/font-weight-check/**
-tools/overflow-check/**
-tools/review-approve/**
-tools/scan-publish/**
-tests/**
-firebase/firestore.rules
-firebase/firestore.indexes.json
-firebase/firebase.json
-.github/workflows/ci.yml
-.github/workflows/deploy-pages.yml
-assets/feedback/**
-# unit:hyakunin
-packages/hyakunin/**
-# unit:kanazukai
-packages/kanazukai/**
-```
+> **2026-09-04 訂正。ここには許可リストの実体（`text` ブロック）が置かれていた。**
+> **`docs/` は公開対象外なので、公開版では `tools/scan-publish` がこの文書を開けず、**
+> **`npm run scan:publish` と `npm test` が初回から落ちていた。** 移管ツリーを実際に作って
+> `npm ci && npm test` を走らせるまで、この欠陥はどの検査にも掛からなかった
+> （`scan:publish` は「入ってはいけないもの」だけを見るため）。**実体を公開側へ移し、ここは参照に改めた。**
+
+**`publish-allowlist.txt` は 2 つの節を持つ。** `[sources]` がリポジトリ内のソースの許可リスト、
+`[build-extensions]` がビルド成果物の拡張子の許可リストである（旧 §5.1）。
+**`publish-allowlist.txt` 自身も許可リストに載っている**——載せないと移管先へ複写されず、公開版で同じ事故が再発する。
 
 
-### 5.1 公開staging（ビルド成果物）の機械可読な許可リスト
 
-§5 のブロックは**リポジトリ内のソース**に対する許可リストである。`tools/scan-publish` が
-`packages/*/dist/**` を走査するときは、ソースのパス形ではなくビルド後の成果物を見るため、
-別の根拠が要る。**2026-08-31、親担当が次を裁定した。**
+### 5.1 公開staging（ビルド成果物）の許可リスト
 
-`tools/scan-publish` はビルド成果物の各ファイルの拡張子を、次のブロックだけを根拠に照合する。
-ここに無い拡張子は一致しないものとして違反にする。ツール側に許可を書き込まない。
+**実体は [`publish-allowlist.txt`](../publish-allowlist.txt) の `[build-extensions]` 節にある。**
+§5 のブロックは**リポジトリ内のソース**に対する許可リストであり、`tools/scan-publish` が
+`packages/*/dist/**` を走査するときは、ソースのパス形ではなくビルド後の成果物を見るため、拡張子で判定する。
 
-```text
-# build-artifact extensions
-.html
-.js
-.css
-.json
-.woff2
-.txt
-.svg
-.png
-.ico
-```
 
 裁定の根拠と意図:
 

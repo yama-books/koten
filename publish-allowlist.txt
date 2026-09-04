@@ -1,0 +1,62 @@
+# 公開許可リスト（機械可読な唯一の入力）
+#
+# tools/scan-publish と tools/publish-transfer、および tests/unit/scan-publish-allowlist.test.ts が
+# このファイルだけを読む。人間向けの説明と除外理由は非公開の docs/PUBLISH_MANIFEST.md にあり、
+# 表と食い違った場合は表が正である。表を直したらこのファイルも直すこと。
+#
+# このファイル自体が公開対象である。docs/ は公開しないので、
+# 許可リストを docs/ の中に置くと公開版で scan:publish と npm test が動かない。
+
+[sources]
+# common
+LICENSE
+LICENSE-CONTENT.md
+NOTICE
+THIRD_PARTY_NOTICES.md
+README.md
+.gitignore
+.gitattributes
+package.json
+package-lock.json
+publish-allowlist.txt
+tsconfig.base.json
+vitest.config.ts
+百人一首_本文・作者_一次データ.md
+百人一首_読み_歴史的仮名遣い.md
+百人一首_読み_現代仮名遣い.md
+百人一首_読み_異同確認.md
+仮名遣い規則_一次データ.md
+review/*.yaml
+packages/shared/**
+tools/build-data/**
+tools/check-storage/**
+tools/eol-check/**
+tools/font-assets-check/**
+tools/font-check/**
+tools/font-weight-check/**
+tools/overflow-check/**
+tools/review-approve/**
+tools/scan-publish/**
+tests/**
+firebase/firestore.rules
+firebase/firestore.indexes.json
+firebase/firebase.json
+.github/workflows/ci.yml
+.github/workflows/deploy-pages.yml
+assets/feedback/**
+# unit:hyakunin
+packages/hyakunin/**
+# unit:kanazukai
+packages/kanazukai/**
+
+[build-extensions]
+# build-artifact extensions
+.html
+.js
+.css
+.json
+.woff2
+.txt
+.svg
+.png
+.ico
