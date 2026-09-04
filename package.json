@@ -16,6 +16,7 @@
     "typecheck": "tsc -b packages/shared packages/hyakunin packages/kanazukai",
     "lint": "npm run lint --workspace=@koten/hyakunin && npm run lint --workspace=@koten/kanazukai",
     "scan:publish": "node --experimental-strip-types tools/scan-publish/index.ts",
+    "check:eol": "node --experimental-strip-types tools/eol-check/index.ts",
     "check:overflow": "node --experimental-strip-types tools/overflow-check/index.ts",
     "check:font": "node --experimental-strip-types tools/font-check/index.ts",
     "check:font-weight": "node --experimental-strip-types tools/font-weight-check/index.ts",

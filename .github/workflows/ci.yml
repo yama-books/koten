@@ -11,6 +11,7 @@ jobs:
         with:
           node-version: 26
           cache: npm
+      - run: npm run check:eol
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint

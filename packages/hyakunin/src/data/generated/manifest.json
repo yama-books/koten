@@ -8,7 +8,7 @@
     "variants": 10
   },
   "dataVersion": 1,
-  "generatedOn": "2026-09-01",
+  "generatedOn": "2026-09-03",
   "generatorVersion": "1.0.0",
   "reviewCounts": {
     "authors": {
@@ -43,9 +43,9 @@
     }
   },
   "sourceHashes": {
-    "百人一首_読み_異同確認.md": "78953678a9bc5a1fece11da15c2bf166e1d7b542a3646f1f6e8ab4fe1a7a4b54",
-    "百人一首_読み_現代仮名遣い.md": "a728c9ba261319c2042e22d91800313f4af7c1c450614641007a1a7d09b73ec5",
-    "百人一首_読み_歴史的仮名遣い.md": "8d9e58aeffde10998ee037d57af4b281faca3a0a0ee15915168a91cda9a6ec8a",
-    "百人一首_本文・作者_一次データ.md": "291388671528cb9b81a6bc82821f243f609aee871fcaa10a4ce09d8b1f64c586"
+    "百人一首_読み_異同確認.md": "e386e4a92d7e1acc7e13fb3386a8f617308a061a269c0df59e52ff0d58f6b2ef",
+    "百人一首_読み_現代仮名遣い.md": "636e5353f7de0416b666e2b59f6743f311e35253d41f082cb19607bc0990b76d",
+    "百人一首_読み_歴史的仮名遣い.md": "883585f80c43ad84650e20a2ff125479cb2ce215bff5f0a1a084eb0c71c0dcfc",
+    "百人一首_本文・作者_一次データ.md": "3c078862d12a48cfaafe0e0f5c8423bbc4c9c70695d856191781754d51d04ab4"
   }
 }
