@@ -898,10 +898,41 @@ batch 行が batchEvidenceRef を持つ。**試験の本数は 420 のまま増�
 `packages/hyakunin/src/data/question-schema.ts:41` は `'word'|'phrase'|'ku'|null`。
 **いまは `ku` しか作らないので無害だが、語単位を作り始めた日に片方が弾かれる。** どちらへ寄せるかは裁定が要る。
 
+**(14) P11 を進めた。実際に走らせたことで欠陥が 2 件出た。**
+
+**(a) `check:overflow` が動かなくなっていた。** 「とりあえず始める」を押して `.poem-sheet--vertical` を待つ作りだが、
+**台帳を承認した瞬間からそのボタンは開始前の確認画面へ行く。** 閲覧画面へ入るのは `choose('view')`＝「見るだけ」だけである。
+**修正して 1200/1200 に復旧した。**
+> **親担当の誤り 1 件。** 「終了コード 0 を返している＝常に合格する検査だ」と書いたが、**誤りである。**
+> `| tail -20` がパイプ末尾の終了コードを返していただけで、**検査は正しく 1 を返していた。**
+> **パイプを通した終了コードを検査の合否として読まないこと。**
+
+**(b) 320px 幅・文字 200% で横に 96px あふれ、`.range-panel` が切れていた**（WCAG 1.4.4・`APP_SPEC` §15 項目 11）。
+**原因は `button { white-space: nowrap }` と日本語である**——日本語のボタン文字は空白を含まない 1 かたまりなので折り返せず、
+「とりあえず始める」の min-content が 322px、器は 256px になる。`.entry-actions .primary { min-width: 12rem }` も 200% で 384px になる。
+**修正後は 100%/200%/400% すべてあふれ 0・切れ 0。**
+**この欠陥はどの検査にも掛かっていなかった**——**1200 件は閲覧画面の歌だけを見ており、ホームの操作面は一度も測られていなかった。**
+**`check:overflow` に拡大走査 8 件（4 幅 × 文字 100%/200%）を足した。** 修正を戻すと終了コード 1 で要素を名指しし、歌の 1200 件は緑のままである。
+
+**(15) 画面が自分の版を名乗るようにした。** **README は利用者の目に入らない。**
+ホームの footer に **「テスト公開版 0.1.0・正式公開ではありません」** と、畳んだ `<details>` で制約 7 件を出す。
+**文言の出所は `packages/shared/src/release-notes.ts` 1 箇所**で、
+`tests/unit/readme-claims.test.ts` が**「画面に出る各行が README にも書いてあること」**を検査する（憲章 §10 項目 7）。
+**二重に書くと必ずずれるので、出所を 1 つにして釘を打つ形にした。**
+
+**(16) キーボードの測り方に落とし穴がある。** **`element.focus()` をプログラムから呼んでも `:focus-visible` は立たない。**
+**その方法で測ると「9 件に輪郭が無い」という誤った結論が出る**（親担当が実際に一度誤った）。
+**実際に Tab キーを送ってから `matches(':focus-visible')` を見ること。** 実測では 3px の輪郭が正しく出る。
+**新設した `summary` だけが UA 既定の `1px auto`・高さ 28px だったので、アプリの規則へ入れて `min-height: 44px` を与えた。**
+**実測は [`docs/RELEASE_CHECK.md`](RELEASE_CHECK.md) に記録した。**
+
 **(12) 次にやること。** **`.claude/launch.json` を作ったので `preview_start` で dev 起動できる。**
-残りは P12 の足回りである——`docs/ROLLBACK.md`、`.github/workflows/deploy-pages.yml`、
-`app-config.ts` の `repositoryUrl` と `officialReleaseDate`、`vite.config.ts` の `base`（リポジトリ名に依存）、
-移管の複写と `scan:publish` の再実行。**アカウント名とリポジトリ名が決まるまで着手できないのは base とURLだけである。**
+**P12 の足回りは済んだ**——`docs/ROLLBACK.md`、`.github/workflows/deploy-pages.yml`（サブパスは
+`github.event.repository.name` から読むのでリポジトリ名を書かない）、`tools/publish-transfer`、
+`publish-allowlist.txt`、`docs/RELEASE_CHECK.md`。**移管ツリーで全ゲートを通すところまで確認済みである。**
+**残るのは 5 手だけで、すべてアカウント名とリポジトリ名が決まってからである**——
+`app-config.ts` の `repositoryUrl` を入れる／`--write` で新ツリーを書き出す／`git init`・commit・remote・push／
+**依頼者が Settings → Pages → Source を「GitHub Actions」にする**／公開 URL で `?from=10&to=20` から 1 問目まで通す。
 
 ### 発注051（H-19 補修）を**検収して合格とした。H-19・H-20 はどちらも閉じた**（2026-09-04・第33回）—— **古い。上の第34回の節が最新である**
 
