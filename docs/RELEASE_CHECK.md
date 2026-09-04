@@ -3,7 +3,7 @@
 計画 P11 の項目 7。**この文書は「合格した」ではなく「何をどう測ったか」を残すためのものである。**
 数値は報告の転記ではなく、親担当がこの機械で実行して採ったものである。
 
-- **対象**: テスト公開版 `0.1.0`（`isOfficial: false` / `firebaseEnabled: false`）
+- **対象**: テスト公開版 `0.1.0`（`isOfficial: false` / `firebaseEnabled: false`）。公開段は `/100/` と `/kana/`
 - **測定日**: 2026-09-04（第34回）
 - **前提コミット**: この文書を含む commit の 1 つ前
 
@@ -13,18 +13,20 @@
 
 | ゲート | 実測 |
 |---|---|
-| `test:node` | **430 / 430 / 失敗 0** |
-| `test:screen` | **12 files / 89** |
+| `test:node` | **450 / 450 / 失敗 0** |
+| `test:screen` | **12 files / 90** |
 | `data:check` | **終了コード 0** |
-| `check:eol` | 走査 **1041**、違反 **0** |
+| `check:eol` | 走査 **1045**、違反 **0** |
 | `scan:publish` | 走査 **753**、違反 **0** |
 | `check:font` | Zen Maru Gothic **471/471**、未対応 **0** |
 | `check:font-assets` | 合格 |
+| `check:font-weight` | **2026-09-04 に修正。**「とりあえず始める」で閲覧画面を待っていた（`check:overflow` と同じ欠陥の 2 件目） |
+| `check:storage` | **未完走。H-21 として記録し、CI から外した**（§6） |
 | `check:overflow` | 歌の表示 **1200/1200**、拡大時 **8/8**、違反 **0** |
 | `typecheck` / `lint` / `build` | すべて **0** |
 
 **移管ツリー（960 ファイル）でも同じ手順を通した**——`npm ci` / `check:eol` 957・違反 0 /
-`data:check` 0 / `typecheck` 0 / `lint` 0 / `test:node` 428 → 430 / `test:screen` 89 /
+`data:check` 0 / `typecheck` 0 / `lint` 0 / `test:node` / `test:screen` /
 両パッケージのサブパスビルド / `scan:publish` 753・違反 0。
 
 ---
@@ -90,12 +92,13 @@
 | **iOS Safari / Android Chrome / iPad Safari の実機一巡** | **未実施。** H-08 は 2026-09-01 に LAN preview で「とりあえず合格」を得たが、**機種・ブラウザ別の網羅記録は取っていない** |
 | **読み上げ（スクリーンリーダ）の実機確認** | **未実施。** `aria-label` と読み上げ順は実装されているが、実機で聞いていない |
 | **`prefers-reduced-motion`** | 未確認 |
+| **`npm run check:storage`** | **壊れている（H-21）。**「未知 product の拒否」シナリオで止まる。**改名より前からで、watchdog を入れて有限時間で失敗するようにしたうえで `ci.yml` から外した。** 保存の往復自体は `tests/unit/storage/` と §5 の実ブラウザ確認が覆っている |
 | **匿名統計（P9）** | 未実装。送信経路そのものが無効 |
 | **読みの異同 10 首・改行位置・作者別名の校正** | 未実施（H-07・H-03・H-05） |
 | **穴埋めの語単位・文節単位** | 未実装（`blankUnit` は `ku` のみ） |
 
-**上の 6 件はすべて README の「まだできないこと」に書いてあり、画面の
-「この版でまだできないこと」にも出る**（`packages/shared/src/release-notes.ts` が唯一の出所で、
+**利用者から見える制約（実機記録・読み上げ・統計・校正・穴埋めの単位）は、すべて README の
+「まだできないこと」に書いてあり、画面の「この版でまだできないこと」にも出る**（`packages/shared/src/release-notes.ts` が唯一の出所で、
 `tests/unit/readme-claims.test.ts` が README と画面の一致を検査する）。
 
 ---

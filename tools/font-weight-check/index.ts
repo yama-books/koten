@@ -29,12 +29,14 @@ try {
 
 const products: Product[] = [
   {
-    name: 'hyakunin', port: 4174, basePath: '/hyakunin/',
+    name: 'hyakunin', port: 4174, basePath: '/100/',
     async pages(page) {
-      await page.goto('http://localhost:4174/hyakunin/?from=57&to=57', { waitUntil: 'domcontentloaded' });
+      await page.goto('http://localhost:4174/100/?from=57&to=57', { waitUntil: 'domcontentloaded' });
       await page.waitForSelector('button.primary');
       await scan(page, 'hyakunin:範囲選択');
-      await page.getByRole('button', { name: 'とりあえず始める' }).click();
+      // 閲覧画面（.poem-sheet）へ入るのは choose('view') だけである。台帳を承認した 2026-09-04 以降、
+      // 「とりあえず始める」は開始前の確認画面へ行く。overflow-check と同じ修正である。
+      await page.getByRole('button', { name: '見るだけ' }).click();
       await page.waitForSelector('.poem-sheet--vertical');
       await scan(page, 'hyakunin:歌の表示（縦書き）');
       await page.getByLabel('横書き').check();
@@ -43,9 +45,9 @@ const products: Product[] = [
     },
   },
   {
-    name: 'kanazukai', port: 4175, basePath: '/kanazukai/',
+    name: 'kanazukai', port: 4175, basePath: '/kana/',
     async pages(page) {
-      await page.goto('http://localhost:4175/kanazukai/', { waitUntil: 'domcontentloaded' });
+      await page.goto('http://localhost:4175/kana/', { waitUntil: 'domcontentloaded' });
       await page.waitForSelector('main.home');
       await scan(page, 'kanazukai:準備画面');
     },

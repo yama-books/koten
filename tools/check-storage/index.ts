@@ -10,7 +10,7 @@ type ScenarioResult = { name: string; count: number; pass: boolean };
 
 const root = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const port = Number(process.env.STORAGE_CHECK_PORT ?? 4176);
-const baseUrl = process.env.STORAGE_CHECK_URL ?? `http://localhost:${port}/hyakunin/`;
+const baseUrl = process.env.STORAGE_CHECK_URL ?? `http://localhost:${port}/100/`;
 const viteBin = fileURLToPath(new URL('../../node_modules/vite/bin/vite.js', import.meta.url));
 const browserEntry = fileURLToPath(new URL('./browser-entry.ts', import.meta.url));
 const browserEntryUrl = `${baseUrl.replace(/\/$/, '')}/@fs${pathToFileURL(browserEntry).pathname}`;
@@ -43,6 +43,16 @@ const server = spawn(process.execPath, [viteBin, '--port', String(port), '--stri
 });
 server.stdout.on('data', (chunk) => { serverLog += chunk; });
 server.stderr.on('data', (chunk) => { serverLog += chunk; });
+
+// ハングする検査は、失敗する検査より悪い。CI を上限まで占有し、どこで止まったかも残さない。
+// 到達したシナリオ名を添えて必ず終わらせる（2026-09-04・H-21）。
+const deadlineMs = Number(process.env.STORAGE_CHECK_TIMEOUT_MS ?? 180_000);
+const watchdog = setTimeout(() => {
+  console.error(`check:storage: ${deadlineMs}ms 以内に完走しませんでした。完了したシナリオ: ${results.map((r) => r.name).join(" / ") || "なし"}`);
+  console.error("check:storage: 検査は完走していません。合否を判定できません。");
+  try { server.kill(); } catch { /* already gone */ }
+  process.exit(1);
+}, deadlineMs);
 
 try {
   await waitForServer(baseUrl);
@@ -81,6 +91,7 @@ try {
   console.error(`check:storage: 検査を起動できません。${details ? ` ${sanitizeOutput(details)}` : ''}`);
   if (serverLog.trim()) console.error(`check:storage: 開発サーバーの出力: ${sanitizeOutput(serverLog.trim().slice(-600))}`);
 } finally {
+  clearTimeout(watchdog);
   server.kill();
   if (profileDir) await removeProfile(profileDir);
 }

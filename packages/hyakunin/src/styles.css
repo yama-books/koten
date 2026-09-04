@@ -218,7 +218,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .history-entry { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-sm); }
 
 /* 憲章 §10 項目 8: 既知の制約を隠さない。既定で畳むが、目に入る位置に置く。 */
-.release-stage { font-weight: 600; color: var(--color-ink); }
+/* Zen Maru Gothic は 500 と 700 だけ self-host している。600 を指定すると合成太字になる。 */
+.release-stage { font-weight: 700; color: var(--color-ink); }
 .known-limits { margin-block: var(--space-sm); }
 .known-limits summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; }
 .known-limits ul { margin: var(--space-2xs, 0.25rem) 0 0; padding-inline-start: 1.25em; }

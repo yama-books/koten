@@ -8,7 +8,7 @@ type Finding = { cardNo: number; reading: ReadingMode; width: number; key: strin
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const port = Number(process.env.OVERFLOW_CHECK_PORT ?? 4173);
 // vite preview は localhost に束縛される。Windows では ::1 のみのため 127.0.0.1 では応答しない。
-const baseUrl = process.env.OVERFLOW_CHECK_URL ?? `http://localhost:${port}/hyakunin/`;
+const baseUrl = process.env.OVERFLOW_CHECK_URL ?? `http://localhost:${port}/100/`;
 const widths = [320, 375, 414, 768];
 const readings: ReadingMode[] = ['none', 'historical', 'modern'];
 const findings: Finding[] = [];

@@ -299,6 +299,7 @@ github.com/moyashimisosoup/koten                                      → HTTP 4
 | 番号 | 論点 | 止まるフェーズ | 推奨案 |
 |---|---|---|---|
 | **D-02** | 統計・報告の受け口（Firestore 直書き / Functions / 混合） | **P9** | 混合。統計と注記なし報告は直書き＋App Check、注記付き報告のみ Functions |
+| **H-21** | **`npm run check:storage` が「未知 product の拒否」シナリオで止まる。** 2026-09-04 に切り分けた。**公開段の改名（`/100/`）より前から壊れており、原因はそれではない**——`git stash` で改名前の状態に戻して走らせても同じく止まる。**5 シナリオ中 4 つ（ページ再読み込み・ブラウザ文脈再作成・DB upgrade・容量不足）は完了する。** 個別に probe した範囲では `launchPersistentContext` の再利用・`/@fs` の動的 import・`openDatabase`・`appendEvent` はいずれも数百 ms で正常に返る。**`appendEvent` は不正 product を `Promise.resolve` で即返すので、そこではない。** **処置**——(a) **watchdog を入れて、`STORAGE_CHECK_TIMEOUT_MS`（既定 180 秒）で到達シナリオ名を添えて必ず終わるようにした。ハングする検査は失敗する検査より悪い。**(b) **`ci.yml` から外した**（記憶 `recorded-hash-carries-machine-state`: 常に落ちる検査は検査が無いより悪い）。**スクリプトは残してある。****次に見るところ**——`runUnknownProductScenario` の `openDatabase(undefined, { version: dbVersion + 1 })` と 2 回の `listEvents`。`db.ts` の `runWriteTransaction` に **`if (!activeTransaction) return;` という resolve しない経路がある**（到達しないはずだが、同種の穴を疑う価値はある） | **常時。CI の緑を保つため外してある** | **新規（2026-09-04・第34回）。保存の往復自体は `tests/unit/storage/` と `docs/RELEASE_CHECK.md` §5 の実ブラウザ確認が覆っている** |
 | **H-19** | **`npm run data:check` は新しい clone で必ず失敗する。** 一次資料 4 本は作業ツリーで **CRLF**（`git ls-files --eol` が `i/lf w/crlf`）だが、`.gitattributes` の `* text=auto eol=lf` により**どの新規 checkout でも LF になる**。`manifest.json` の `sourceHashes` は CRLF 版の sha256 なので、CI でも他の PC でも `V-14: stale generated file manifest.json (field differs: sourceHashes)` で落ちる。**手元だけが通る。** 2026-09-04 に初 push で発覚（run 33811338509）。**推奨**——4 本を LF へ正規化し、`npm run data:build` で manifest を作り直して commit する。破壊試験は「CRLF に戻すと `data:check` が赤くなること」と「LF のまま別ディレクトリへ clone しても緑であること」の 2 本 | **P9 と無関係に常時** | **2026-09-04・第32回に発注051 として起票した（未発行）。§8 を読むこと。** CRLF は 4 本ではなく **13 本**だった。再発防止の `check:eol` も同じ発注に入れる（依頼者裁定） |
 | **H-20** | **変更境界の 17 ハッシュのうち 1 件が CRLF 版で、どの機械でも落ちる。** 発注042〜046 の §0.3 に載る `packages/shared/src/app-config.ts` の値 `cdd20f59…` は CRLF 版の sha256 である。実際の中身は `e0ec5cdb…` で、このファイルは `e907c43` で 1 回 commit されたきり**一度も変わっていない**（作業ツリー＝索引＝HEAD）。**変更境界の逸脱ではない。** 042 で採取され 043〜046 へ書き写された。**原因は H-19 と同一**（作業ツリーの CRLF）。**常に落ちる 1 行を含む検査は、検査が無いより悪い**——次の担当者は `sha256sum -c` の出力を見なくなる | **常時。発注の着手判定に使われる** | **発注051 に含めた。**046 の冒頭に訂正節を足す（**042〜045 は記録なので書き換えない**）。**「現在値はこれである」と書かない**——発注048 がこのファイルを正当に変えうる |
 
@@ -813,7 +814,64 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 
 ## 8. 進行中の作業
 
-### 台帳を一括承認し、公開経路の欠陥 5 件を潰した（2026-09-04・第34回）—— **これが §8 の最新である**
+### 発注048 を検収して合格とした。公開段を `/100/` `/kana/` へ改めた（2026-09-04・第34回の続き）—— **これが §8 の最新である**
+
+**(1) 親担当が Codex の作業中ファイルを誤って消した。事故の記録として残す。**
+発注048 を発行した直後に Codex が着手したが、**親担当はそれを想定しておらず、作業ツリーの差分を
+「自分が残した参照実装の残骸」と誤認して `git checkout` と `rm` で消した。**
+**消したもの**——`transport.ts`・`transport.test.ts`（削除）、`app-config.ts`・`fixtures.ts`・`static.test.ts`（HEAD へ巻き戻し）。
+**Codex 側も「外部から戻された」と検知していた。**
+**教訓は 2 つ。** **(a) 作業ツリーが想定と違ったら、まず並行作業を疑う**（記憶 `parallel-order-invalidates-baseline` は
+まさにこの状況を書いているのに、親担当は自分の残骸だと決めつけた）。
+**(b) 停止条件は「発注書に書く」だけでは届かない。** 発注書 §8.1 に「着手は公開 push 完了後」と書いてあったが、
+**発注書を渡す時点の指示に含めなければ守られない。** 記憶 `stop-conditions-must-ride-with-the-handoff` に落とした。
+
+**(2) 検収は全項目を採り直した。報告の数値は 1 つも転記していない。**
+**変更境界**——許可 5 ファイルのみ、禁止 **18 ハッシュ 18/18**。**A-1〜A-9 すべて OK**
+（`static.test.ts` の差分は import 行・X-9 の付け替え・X-10 の追加だけで、**W-10〜W-14 と X-8 は 1 文字も動いていない**）。
+**ゲート**——`test:node` **449/449/0**（430＋19）、`test:screen` **12 files/89**、`scan:publish` **753/違反 0**、
+`check:eol` 違反 **0**、`data:check`・`typecheck`・`lint`・`build` **すべて 0**。
+
+**(3) M-1〜M-15 を自分で当て直し、15/15 が発注書の予測どおりだった。**
+**M-2 の道連れは起きなかった**——Codex は §8.2 が薦めた「共通ヘルパに `KEYS` を引数で渡す」形を採った。
+**M-14 も再現した**——T-11 を片側にすると M-7 が **84/84 緑のまま通る。**
+
+**(4) 型で探して、緑のまま通る破壊を 3 件見つけた**（記憶 `find-defects-by-error-type`。症状で探せば 1 件だった）。
+
+| 破壊 | 結果 | 帰属 |
+|---|---|---|
+| **M-16** signUp の URL から `key={apiKey}` を落とす | **全緑** | **Codex の欠陥。** §4.3 の T-15 が明記していた検査が未実装 |
+| **M-17** delete の URL から `key={apiKey}` を落とす | **全緑** | **発注書の穴。** この URL を見る T-row が無い |
+| **M-18** create URL の `projectId` を誤値にする | **全緑** | **発注書の穴。** 同上 |
+
+**3 件とも実害は同じで、裁定 D-66 が名指しで警告していたものである**——
+**URL が黙って壊れ、全リクエストが失敗し、計画 §7.6 の設計により失敗は画面にも `console` にも出ない。**
+**統計が永久に 1 件も送られないのに誰も気づかない。**
+
+**補修は試験側だけで行った。実装は正しいので触っていない。**
+**T-11 に `projectId`、T-13 に delete URL の `apiKey`、T-15 に signUp URL の `apiKey` を足した。**
+**既存の試験を伸ばして新設していないので、`test:node` は 449 のまま＝A-8（＋19 ちょうど）が成り立つ。**
+**補修後に 3 件とも 1 件ずつ赤くなることと、M-7・M-9・M-15 が依然分離することを実測した。**
+
+**(5) 公開段を改めた（依頼者裁定）。** アカウント **`yama-books`**、リポジトリ **`koten`**。
+**公開 URL は `https://yama-books.github.io/koten/100/` と `/koten/kana/`。**
+**`unitName`（`packages/<名前>` の置き場）と `basePath`（公開される URL の段）は意図的に食い違わせた**——
+ソースの置き場は `packages/hyakunin`・`packages/kanazukai` のままである。`app-config.ts` に理由を書いた。
+
+> **⚠ 一括置換で事故を 1 件起こしかけた。** `sed s|/hyakunin/|/100/|g` は
+> **`packages/hyakunin/dist` という「パッケージの置き場」まで置換して `packages/100/dist` にした**（deploy ワークフロー）。
+> **公開パスとパッケージパスが同じ文字列を含むためである。** 差分を全部読んで気づいた。**置換のあとは差分を読むこと。**
+
+**改めた箇所**——`vite.config.ts` × 2、`public/404.html` × 2、`app-config.ts` の `basePath` × 2、
+`tools/{overflow-check,check-storage,font-weight-check}`、`.github/workflows/deploy-pages.yml`。
+**あわせて Pages の 404 を直した**——**ソースの 404 は `/100/` を指すがこれはローカル開発用で、
+Pages では `/koten/100/` でなければならない。** ワークフローの組み立てでリポジトリ名込みに書き換える形にした。
+
+**(6) `check:storage` が失敗ではなく無応答になる事故が起きた。** 原因は**ポート 4176 の占有**で、
+**`timeout` が npm を kill しても、その子である `vite preview` が生き残る**ためである。
+**検査ポート 4173〜4176 を掃除してから走らせること。** `npm run check:*` を中断したら、必ずポートを確認する。
+
+### 台帳を一括承認し、公開経路の欠陥 5 件を潰した（2026-09-04・第34回）—— **古い。上の節が最新である**
 
 **依頼者の指示は「今日中に一次公開まで到達したい」。** 工程を実測して指標を出し、順序を組み替えた。
 **commit は `0bbb494` と `d1268df` の 2 本。作業ツリーは clean。**
