@@ -27,6 +27,7 @@ button {
 }
 
 button:focus-visible,
+summary:focus-visible,
 input:focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 3px;
@@ -215,3 +216,22 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .history-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); }
 .history-list { display: grid; gap: var(--space-sm); padding: 0; list-style: none; }
 .history-entry { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-sm); }
+
+/* 憲章 §10 項目 8: 既知の制約を隠さない。既定で畳むが、目に入る位置に置く。 */
+.release-stage { font-weight: 600; color: var(--color-ink); }
+.known-limits { margin-block: var(--space-sm); }
+.known-limits summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; }
+.known-limits ul { margin: var(--space-2xs, 0.25rem) 0 0; padding-inline-start: 1.25em; }
+.known-limits li { margin-block: var(--space-2xs, 0.25rem); }
+
+/*
+ * WCAG 1.4.4（文字 200%）と APP_SPEC §15 項目 11。
+ * 日本語のボタン文字は空白を含まない 1 かたまりなので、`button { white-space: nowrap }`
+ * のままだと min-content が器を超え、320px 幅・200% 拡大でページが横にあふれる。
+ * 実測: 修正前は 320px@200% で 96px あふれ、`.range-panel` が切れていた。
+ */
+.range-fields { flex-wrap: wrap; }
+.range-fields label { min-width: 0; flex: 1 1 8ch; }
+.range-panel > * { min-width: 0; }
+.home button { box-sizing: border-box; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.entry-actions .primary { min-width: min(12rem, 100%); }

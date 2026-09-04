@@ -12,6 +12,12 @@ const baseUrl = process.env.OVERFLOW_CHECK_URL ?? `http://localhost:${port}/hyak
 const widths = [320, 375, 414, 768];
 const readings: ReadingMode[] = ['none', 'historical', 'modern'];
 const findings: Finding[] = [];
+// ホームの操作面を、文字 100% と 200% の両方で測る（WCAG 1.4.4）。
+type ReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
+const zoomLevels = [1, 2];
+const reflowFindings: ReflowFinding[] = [];
+const expectedReflowCases = widths.length * zoomLevels.length;
+let reflowCases = 0;
 let aborted = false;
 // 100 首 × 3 表示 × 4 幅は設計上固定で、過不足とも検査不全である。
 const expectedCases = 1200;
@@ -59,7 +65,10 @@ try {
         await page.goto(`${baseUrl}?from=${cardNo}&to=${cardNo}`, { waitUntil: 'domcontentloaded' });
         await page.waitForSelector('button.primary');
         await page.evaluate(() => window.localStorage.setItem('hyakunin:orientation', 'vertical'));
-        await page.getByRole('button', { name: 'とりあえず始める' }).click();
+        // 閲覧画面（`.poem-sheet`）へ入るのは `choose('view')` だけである。
+        // 「とりあえず始める」は出題が 1 問でもあれば開始前の確認画面へ行くので、
+        // 台帳を承認した 2026-09-04 以降このボタンでは閲覧画面に到達しない。
+        await page.getByRole('button', { name: '見るだけ' }).click();
         await page.waitForSelector('.poem-sheet--vertical');
         for (const reading of readings) {
           await page.locator('input[name="reading"]').nth(readings.indexOf(reading)).check();
@@ -98,6 +107,33 @@ try {
         }
       }
     }
+    // WCAG 1.4.4 / APP_SPEC §15 項目 11: 文字を 200% にしても器を超えない。
+    // 上の 1200 件は閲覧画面の歌だけを見ており、ホームの操作面は 1 度も測っていなかった。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        await page.setViewportSize({ width, height: 800 });
+        await page.goto(`${baseUrl}?from=1&to=100`, { waitUntil: 'domcontentloaded' });
+        await page.waitForSelector('.entry-actions button');
+        const measured = await page.evaluate((rootFontSize) => {
+          document.documentElement.style.fontSize = rootFontSize;
+          const details = document.querySelector<HTMLDetailsElement>('.known-limits');
+          if (details) details.open = true;
+          document.documentElement.getBoundingClientRect();
+          const clipped = [...document.querySelectorAll<HTMLElement>('main *')]
+            .filter((element) => element.scrollWidth > element.clientWidth + 1)
+            .map((element) => element.className || element.tagName);
+          const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+          document.documentElement.style.fontSize = '';
+          if (details) details.open = false;
+          return { clipped, overflow, hasLimitations: Boolean(details) };
+        }, `${16 * zoom}px`);
+        reflowCases += 1;
+        // 制約の一覧が無いと、開いた状態を測ったつもりで何も測っていない。
+        if (!measured.hasLimitations) reflowFindings.push({ width, zoom, key: 'knownLimitationsPresent', observed: false });
+        if (measured.overflow > 1) reflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
+        if (measured.clipped.length) reflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+      }
+    }
     await context.close();
   } finally { await browser.close(); }
 } catch (error) {
@@ -117,6 +153,15 @@ if (scannedCases !== expectedCases) {
   console.error(`check:overflow: 検査対象が不足または過剰です（走査 ${scannedCases} 件、必要 ${expectedCases} 件ちょうど）`);
   process.exit(1);
 }
+
+if (reflowCases !== expectedReflowCases) {
+  console.error(`check:overflow: 拡大時の走査が不足または過剰です（走査 ${reflowCases} 件、必要 ${expectedReflowCases} 件ちょうど）`);
+  process.exit(1);
+}
+
+console.log(`check:overflow: 拡大時の走査 ${reflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${reflowFindings.length} 件`);
+for (const finding of reflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (reflowFindings.length) process.exitCode = 1;
 
 const failedCases = new Set(findings.map((f) => `${f.cardNo}/${f.reading}/${f.width}`)).size;
 console.log(`check:overflow: 合計 ${expectedCases} 件、合格 ${expectedCases - failedCases} 件、不合格 ${failedCases} 件（違反 ${findings.length} 件）`);
