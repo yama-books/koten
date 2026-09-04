@@ -18,7 +18,7 @@ async function mount(customPort = port()) { root = document.createElement('div')
 async function answer(value: string) { const input = root!.querySelector('input[placeholder]') as HTMLInputElement; await act(() => { input.value = value; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: value, inputType: 'insertText' })); }); await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); }
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });
 
-test('session: fixture reaches the first question in the narrow range', async () => { const view = await mount(); expect(view.textContent).toContain('p010'); });
+test('session: fixture reaches the first question in the narrow range', async () => { const view = await mount(); expect(view.querySelector('.question-number')?.textContent).toBe('10'); expect(view.textContent).not.toContain('p010'); });
 test('session: answer is revealed after saving', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).toContain('○ 正解'); });
 test('session: next button advances to the second question', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });
 test('session: Enter advances after reveal', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });
@@ -31,7 +31,7 @@ test('session: the saved event carries the versions from app-config, not a liter
   // A placeholder version silently breaks the mastery recompute and the export migration.
   expect(p.events[0].appVersion).not.toBe('0');
 });
-test('session: reading toggle records hint use', async () => { const p = port(); await mount(p); await act(() => { const radio = root!.querySelectorAll('input[type="radio"]')[1]; radio.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); await answer('白妙の'); expect(p.events[0].hintUsed).toBe(true); });
+test('session: reading toggle records hint use', async () => { const p = port(); await mount(p); await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '読みを確認する')!.click(); }); await answer('白妙の'); expect(p.events[0].hintUsed).toBe(true); });
 test('session: saving failure does not reveal', async () => { const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) }; await mount(failing); await answer('白妙の'); expect(root!.textContent).toContain('保存失敗'); expect(root!.textContent).not.toContain('○ 正解'); });
 test('session: saving failure keeps the input', async () => { const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) }; await mount(failing); await answer('白妙の'); expect((root!.querySelector('input[placeholder]') as HTMLInputElement).value).toBe('白妙の'); });
 function StatefulSession({ port: customPort, initialReading }: { port: ReturnType<typeof port>; initialReading: 'no-ruby' | 'historical' | 'modern' }) {
@@ -48,7 +48,7 @@ test('session: reading toggle does not change the judgement', async () => {
 
   const toggled = document.createElement('div'); document.body.append(toggled);
   await act(async () => { render(<StatefulSession port={port()} initialReading="no-ruby" />, toggled); });
-  await act(() => { toggled.querySelectorAll('input[type="radio"]')[1].dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+  await act(() => { Array.from(toggled.querySelectorAll('button')).find((button) => button.textContent === '読みを確認する')!.click(); });
   await (async () => { const input = toggled.querySelector('input[placeholder]') as HTMLInputElement; await act(() => { input.value = 'しろたえの'; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: 'しろたえの', inputType: 'insertText' })); }); await act(async () => { toggled.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); })();
   const toggledMark = toggled.querySelector('.answer-feedback p')!.textContent;
   render(null, toggled);
@@ -57,9 +57,9 @@ test('session: reading toggle does not change the judgement', async () => {
   expect(toggledMark).toBe(baselineMark);
 });
 test('session: progress distinguishes card and question', async () => { const view = await mount(); expect(view.textContent).toContain('10番・1問目/2'); });
-test('session: writing setting is saved', async () => { const p = port(); await mount(p); await act(() => { root!.querySelectorAll('input[type="radio"]')[4].dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect((await p.loadSettings())?.writing).toBe('horizontal'); });
-test('session: local report button uses the port', async () => { let reported = false; const p = { ...port(), saveLocalReport: async () => (reported = true) }; await mount(p); await act(async () => { Array.from(root!.querySelectorAll('button')).find((item) => item.textContent === '問題を報告')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); expect(reported).toBe(true); });
+test('session: writing setting is saved', async () => { const p = port(); await mount(p); await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '横書きにする')!.click(); }); expect((await p.loadSettings())?.writing).toBe('horizontal'); });
+test('session: local report button uses the port', async () => { let reported = false; const p = { ...port(), saveLocalReport: async () => (reported = true) }; await mount(p); await answer('白妙の'); await act(async () => { Array.from(root!.querySelectorAll('button')).find((item) => item.textContent === '問題を報告')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); expect(reported).toBe(true); });
 test('session: completing the last question shows completion', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); await answer('衣干す'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('今回の範囲を確認しました'); });
 test('session: feedback waits for an explicit action', async () => { await mount(); expect(root!.textContent).not.toContain('○ 正解'); });
 test('session: answer field has a label and example', async () => { await mount(); expect(root!.textContent).toContain('答え'); expect(root!.textContent).toContain('歴史的仮名遣いまたは漢字で入力します。'); });
-test('session: report confirmation is announced', async () => { await mount(); await act(async () => { Array.from(root!.querySelectorAll('button')).find((item) => item.textContent === '問題を報告')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); expect(root!.textContent).toContain('この端末に保存しました'); });
+test('session: report confirmation is announced', async () => { await mount(); await answer('白妙の'); await act(async () => { Array.from(root!.querySelectorAll('button')).find((item) => item.textContent === '問題を報告')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); expect(root!.textContent).toContain('この端末に保存しました'); });

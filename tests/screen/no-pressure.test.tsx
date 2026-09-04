@@ -15,6 +15,8 @@ test('no-pressure: UI source targets are non-empty and include Session', () => {
   assert.ok(files.length > 0, '検査対象が空では検査にならない');
   assert.ok(files.some((file) => file.endsWith('Session.tsx')), 'Session.tsx が対象に入っていない');
   assert.ok(files.some((file) => file.endsWith('MasteryMeter.tsx')), 'MasteryMeter.tsx が対象に入っていない');
+  assert.ok(files.some((file) => file.endsWith('StatsNotice.tsx')), 'StatsNotice.tsx が対象に入っていない');
+  assert.ok(files.some((file) => file.endsWith('GradePicker.tsx')), 'GradePicker.tsx が対象に入っていない');
   for (const file of files) for (const pattern of forbidden) assert.equal(pattern.test(readFileSync(file, 'utf8')), false, `${file} contains ${pattern}`);
 });
 

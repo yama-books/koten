@@ -38,3 +38,16 @@ export function buildEvent(input: BuildEventInput): Event {
     masteryRulesVersion: MASTERY_RULES_VERSION,
   };
 }
+
+export type BuildViewEventInput = Omit<Event, 'effectiveMethod' | 'delta' | 'outcome' | 'masteryRulesVersion' | 'method'>;
+
+export function buildViewEvent(input: BuildViewEventInput): Event {
+  return {
+    ...input,
+    method: 'view',
+    outcome: 'viewed',
+    effectiveMethod: 'view',
+    delta: deltaFor('view', 'viewed', 0, input.sameSessionRepeat),
+    masteryRulesVersion: MASTERY_RULES_VERSION,
+  };
+}

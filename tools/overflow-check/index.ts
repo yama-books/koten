@@ -59,6 +59,7 @@ try {
   try {
     const context = await browser.newContext();
     const page = await context.newPage();
+    page.setDefaultNavigationTimeout(120_000);
     for (let cardNo = 1; cardNo <= 100; cardNo += 1) {
       for (const width of widths) {
         await page.setViewportSize({ width, height: 800 });
@@ -68,10 +69,12 @@ try {
         // 閲覧画面（`.poem-sheet`）へ入るのは `choose('view')` だけである。
         // 「とりあえず始める」は出題が 1 問でもあれば開始前の確認画面へ行くので、
         // 台帳を承認した 2026-09-04 以降このボタンでは閲覧画面に到達しない。
-        await page.getByRole('button', { name: '見るだけ' }).click();
+        await page.getByRole('button', { name: '歌を確認する' }).click();
         await page.waitForSelector('.poem-sheet--vertical');
         for (const reading of readings) {
-          await page.locator('input[name="reading"]').nth(readings.indexOf(reading)).check();
+          const targetLabel = reading === 'none' ? '読みを確認する' : reading === 'historical' ? '現代仮名遣いで見る' : '読みを閉じる';
+          for (let attempt = 0; attempt < 3 && await page.locator('button.reading-toggle').textContent() !== targetLabel; attempt += 1) await page.locator('button.reading-toggle').click();
+          if (await page.locator('button.reading-toggle').textContent() !== targetLabel) throw new Error(`読み表示を ${reading} に切り替えられません`);
           const measured = await page.evaluate(() => {
             const spans = [...document.querySelectorAll<HTMLElement>('.poem__half span')];
             const poem = document.querySelector<HTMLElement>('.poem');

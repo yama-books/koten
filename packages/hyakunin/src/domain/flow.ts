@@ -66,7 +66,12 @@ export function advance(state: FlowState): FlowState {
   if (state.phase !== 'revealed') return state;
   const nextIndex = state.questionIndex + 1;
   if (nextIndex >= state.questionCount) return { ...state, phase: 'complete', questionIndex: nextIndex };
-  return { ...state, phase: 'prompt', questionIndex: nextIndex, submitted: null, judgement: null, saveFailure: null };
+  return { ...state, phase: 'prompt', questionIndex: nextIndex, hintUsed: false, submitted: null, judgement: null, saveFailure: null };
+}
+
+export function submitSelfGrade(state: FlowState, judgement: Judgement): FlowState {
+  if (state.phase !== 'prompt') return state;
+  return { ...state, phase: 'answered', submitted: { input: '', context: { readingStatus: 'confirmed' } }, judgement };
 }
 
 export function progressLabel(state: FlowState): string {

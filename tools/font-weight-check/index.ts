@@ -36,10 +36,10 @@ const products: Product[] = [
       await scan(page, 'hyakunin:範囲選択');
       // 閲覧画面（.poem-sheet）へ入るのは choose('view') だけである。台帳を承認した 2026-09-04 以降、
       // 「とりあえず始める」は開始前の確認画面へ行く。overflow-check と同じ修正である。
-      await page.getByRole('button', { name: '見るだけ' }).click();
+      await page.getByRole('button', { name: '歌を確認する' }).click();
       await page.waitForSelector('.poem-sheet--vertical');
       await scan(page, 'hyakunin:歌の表示（縦書き）');
-      await page.getByLabel('横書き').check();
+      await page.getByRole('button', { name: '横書きにする' }).click();
       await page.waitForSelector('.poem-sheet--horizontal');
       await scan(page, 'hyakunin:歌の表示（横書き）');
     },
