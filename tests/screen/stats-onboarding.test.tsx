@@ -136,6 +136,22 @@ test('N-11: 新しい共有 UI は通信と直接ストレージと時刻を参�
 
 test('N-12: telemetry 配下は学年区分の具体値を持たない', () => {
   const root = join(process.cwd(), 'packages/shared/src/telemetry');
-  const source = collectFiles(root).map((file) => readFileSync(file, 'utf8')).join('\n');
+  const files = collectFiles(root);
+  expect(files.length).toBeGreaterThan(0);
+  const source = files.map((file) => readFileSync(file, 'utf8')).join('\n');
   for (const grade of [...PRIMARY_GRADES, ...SECONDARY_GRADES]) expect(source).not.toContain(grade);
+});
+
+test('N-13: 統計案内の確定文を持つ packages 配下の原本は StatsNotice 1件だけ', () => {
+  const packagesRoot = join(process.cwd(), 'packages');
+  const files = collectFiles(packagesRoot).filter((file) => /\.(?:ts|tsx|json)$/.test(file) && !/[\\/](?:dist|node_modules)[\\/]/.test(file));
+  expect(files.length).toBeGreaterThan(0);
+  const matches = files.filter((file) => readFileSync(file, 'utf8').includes(STATS_NOTICE_TEXT));
+  expect(matches).toHaveLength(1);
+  expect(matches[0].endsWith('StatsNotice.tsx')).toBe(true);
+});
+
+test('N-14: 統計案内と学年選択は StatsPayload を組み立てない', () => {
+  const files = ['StatsNotice.tsx', 'GradePicker.tsx'].map((name) => readFileSync(join(process.cwd(), 'packages/shared/src/ui/components', name), 'utf8'));
+  for (const source of files) expect(source).not.toContain('StatsPayload');
 });

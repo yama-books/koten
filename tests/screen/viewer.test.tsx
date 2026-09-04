@@ -12,7 +12,7 @@ const poems = [poem(10), poem(11), poem(12)] as never[];
 const port = () => ({ ...createMemoryPort(), saveLocalReport: async () => true });
 async function mount() { root = document.createElement('div'); document.body.append(root); await act(() => { render(<Home port={port()} poems={poems} questions={[]} onPickEntry={() => {}} />, root!); }); return root; }
 async function enterViewer(view: HTMLDivElement) {
-  await act(async () => { Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '見るだけ')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
+  await act(async () => { Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '歌を確認する')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
 }
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });
 

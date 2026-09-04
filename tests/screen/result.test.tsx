@@ -32,10 +32,10 @@ test('result: 対象範囲と問題数を表示する', () => { const view = mou
 test('result: 5区分の内訳を表示する', () => { const view = mount(); for (const text of ['閲覧1問', '正答1問', '部分正解1問', '要確認0問', '誤答1問']) expect(view.textContent).toContain(text); });
 test('result: 全問正解の回に花丸が出る', () => { const view = mount({ ...base, allCorrect: true }); expect(view.textContent).toContain('全問花丸'); });
 test('result: 部分正解を含む回に花丸が出ない', () => { const view = mount(); expect(view.textContent).not.toContain('全問花丸'); });
-test('result: 変化がある首を表に表示する', () => { const view = mount(); expect(view.textContent).toContain('p003'); expect(view.textContent).toContain('12%'); expect(view.textContent).toContain('21%'); });
+test('result: 変化がある歌を表に表示する', () => { const view = mount(); expect(view.textContent).toContain('3'); expect(view.textContent).not.toContain('p003'); expect(view.textContent).toContain('12%'); expect(view.textContent).toContain('21%'); });
 test('result: 変化がないとき表の代わりに文言を表示する', () => { const view = mount({ ...base, changes: [] }); expect(view.textContent).toContain('変化はありません'); expect(view.querySelector('table')).toBeNull(); });
 test('result: 該当なしのとき提案を出さない', () => { const view = mount({ ...base, recommendation: undefined }); expect(view.textContent).not.toContain('次に確認する'); });
-test('result: 次のおすすめ一件を理由とともに表示する', () => { const view = mount(); expect(view.textContent).toContain('p004（習熟度 0%）'); expect(view.textContent).toContain('まだ確認していない歌です'); });
+test('result: 次のおすすめ一件を理由とともに表示する', () => { const view = mount(); expect(view.textContent).toContain('4（習熟度 0%）'); expect(view.textContent).toContain('まだ確認していない歌です'); });
 test('result: 未着手は0%と書かない', () => { const view = mount(); const item = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('4番'))!; expect(item.textContent).toContain('未着手'); expect(item.textContent).not.toContain('0%'); });
 test('result: 学習済みで0%の首は0%と書く', () => { const view = mount(); const item = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('5番'))!; expect(item.textContent).toContain('習熟度 0%'); });
 test('result: 作者未確認を併記する', () => { const view = mount(); expect(view.textContent).toContain('作者 未確認'); });

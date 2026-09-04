@@ -17,7 +17,9 @@ import type { Session as LearningSession } from '@koten/shared/domain/event';
 import { createSeed } from './domain/order.ts';
 import { planQuestions, type EntryId } from './domain/entry.ts';
 import type { PublishedQuestion } from './data/question-schema.ts';
+import type { Poem } from './data/schema.ts';
 import type { UserSettings } from '@koten/shared/domain/event';
+import type { AnswerMode } from './ui/screens/RangePicker.tsx';
 import './styles.css';
 
 const defaultPort = createIndexedDbPort();
@@ -27,6 +29,8 @@ type Selection = {
   entry: EntryId;
   range: { from: number; to: number };
   questions: PublishedQuestion[];
+  poems: Poem[];
+  answerMode: AnswerMode;
   planned?: PublishedQuestion[];
   session?: LearningSession;
 };
@@ -39,9 +43,9 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   const [history, setHistory] = useState<HistorySummary | null>(null);
   const [saveFailure, setSaveFailure] = useState(false);
 
-  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[] }) {
+  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode }) {
     const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order);
-    setSelected((current) => current ? { ...current, range: { from: input.session.from, to: input.session.to }, questions: input.questions, planned, session: input.session } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, planned, session: input.session });
+    setSelected((current) => current ? { ...current, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session });
     setScreen('session');
   }
 
@@ -50,21 +54,21 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     return createSession({ sessionId: crypto.randomUUID(), range: input.range, entry: input.entry, order: input.order, seed: input.seed, startedOn: new Date().toISOString().slice(0, 10), questionCount });
   }
 
-  async function startNew(entry: EntryId, range: { from: number; to: number }, order: UserSettings['order'], questions: PublishedQuestion[]) {
+  async function startNew(entry: EntryId, range: { from: number; to: number }, order: UserSettings['order'], questions: PublishedQuestion[], poems: Poem[], answerMode: AnswerMode) {
     const plan = planResume(range, await port.listEvents());
     const seed = createSeed(Math.random);
     const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions });
     void port.saveSession(session);
-    startPlanned({ session, cardNumbers: plan.cardNumbers, questions });
+    startPlanned({ session, cardNumbers: plan.cardNumbers, questions, poems, answerMode });
   }
 
-  if (screen === 'picker' && selected) return <RangePicker entry={selected.entry} range={selected.range} order={settings.order} onBack={() => setScreen('home')} onStart={(range, order) => {
-    void startNew(selected.entry, range, order, selected.questions);
+  if (screen === 'picker' && selected) return <RangePicker entry={selected.entry} range={selected.range} order={settings.order} onBack={() => setScreen('home')} onStart={(range, order, answerMode) => {
+    void startNew(selected.entry, range, order, selected.questions, selected.poems, answerMode);
     setSettings({ ...settings, order });
   }} />;
   if (screen === 'session' && selected?.planned && selected.session) {
     const session = selected.session;
-    return <Session questions={selected.planned} sessionId={session.sessionId} port={port} settings={settings} onSettings={setSettings} onComplete={async (outcomes) => {
+    return <Session questions={selected.planned} poems={selected.poems} entry={selected.entry} answerMode={selected.answerMode} sessionId={session.sessionId} port={port} settings={settings} onSettings={setSettings} onBack={() => setScreen('home')} onComplete={async (outcomes) => {
       setScreen('result-loading');
       const saved = await port.saveSession(completeSession(session));
       setSaveFailure('reason' in saved);
@@ -81,11 +85,11 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     const seed = createSeed(Math.random);
     const session = newSession({ entry: 'review', range: selected.range, order: selected.session?.order ?? settings.order, seed, cardNumbers: cards, questions: selected.questions });
     void port.saveSession(session);
-    startPlanned({ session, cardNumbers: cards, questions: selected.questions });
+    startPlanned({ session, cardNumbers: cards, questions: selected.questions, poems: selected.poems, answerMode: 'screen' });
   }} onRetrySame={() => {
-    void startNew(selected.entry, selected.range, settings.order, selected.questions);
+    void startNew(selected.entry, selected.range, settings.order, selected.questions, selected.poems, selected.answerMode);
   }} onHome={() => setScreen('home')} /></>;
-  return <Home port={port} onPickEntry={(entry, range, questions) => { setSelected({ entry, range, questions }); setScreen('picker'); }} onResume={(session, cardNumbers, questions) => startPlanned({ session, cardNumbers, questions })} onOpenHistory={() => { setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarizeHistory({ events, poemIds: Array.from({ length: 100 }, (_, index) => `p${String(index + 1).padStart(3, '0')}`) })); setScreen('history'); }); }} />;
+  return <Home port={port} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen' })} onOpenHistory={() => { setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarizeHistory({ events, poemIds: Array.from({ length: 100 }, (_, index) => `p${String(index + 1).padStart(3, '0')}`) })); setScreen('history'); }); }} />;
 }
 
 const mount = document.getElementById('app');

@@ -29,11 +29,11 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
     </section>
     <section class="result-section" aria-labelledby="changes-heading">
       <h2 id="changes-heading">習熟度の変化</h2>
-      {result.changes.length === 0 ? <p>変化はありません</p> : <table><thead><tr><th scope="col">首</th><th scope="col">前</th><th scope="col">後</th></tr></thead><tbody>{result.changes.map((change) => <tr key={change.poemId}><th scope="row">{change.poemId}</th><td>{change.before}%</td><td>{change.after}%</td></tr>)}</tbody></table>}
+      {result.changes.length === 0 ? <p>変化はありません</p> : <table><thead><tr><th scope="col">歌</th><th scope="col">前</th><th scope="col">後</th></tr></thead><tbody>{result.changes.map((change) => <tr key={change.poemId}><th scope="row">{Number(change.poemId.slice(1))}</th><td>{change.before}%</td><td>{change.after}%</td></tr>)}</tbody></table>}
     </section>
-    {result.recommendation && <section class="result-section" aria-labelledby="recommend-heading"><h2 id="recommend-heading">次に確認する</h2><p>{result.recommendation.poemId}（習熟度 {result.recommendation.percent}%）</p><p>{result.recommendation.reason}</p></section>}
+    {result.recommendation && <section class="result-section" aria-labelledby="recommend-heading"><h2 id="recommend-heading">次に確認する</h2><p>{Number(result.recommendation.poemId.slice(1))}（習熟度 {result.recommendation.percent}%）</p><p>{result.recommendation.reason}</p></section>}
     <section class="result-section" aria-labelledby="poems-heading">
-      <h2 id="poems-heading">首ごとの状態</h2>
+      <h2 id="poems-heading">歌ごとの状態</h2>
       <ul class="result-poems">{result.poems.map((poem) => <li key={poem.poemId} class={`result-poem result-poem--${poem.color}`}><strong>{poem.cardNo}番</strong>{poem.untouched ? <span>未着手</span> : <MasteryMeter label={`${poem.cardNo}番`} percent={poem.percent} color={poem.color} />}{poem.authorUnconfirmed && <span>作者 未確認</span>}</li>)}</ul>
     </section>
     <section class="result-actions" aria-label="次の操作">

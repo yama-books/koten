@@ -9,12 +9,11 @@ const poems = [{ cardNo: 10, ku: ['a', 'b', 'c', 'd', 'e'], author: { canonical:
 const port = () => ({ ...createMemoryPort(), saveLocalReport: async () => true });
 async function mount() { root = document.createElement('div'); document.body.append(root); await act(() => { render(<Home port={port()} poems={poems} questions={[]} onPickEntry={() => {}} />, root!); }); return root; }
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });
-test('entries: view is enabled with real empty questions', async () => { const view = await mount(); expect(Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '見るだけ')?.disabled).toBe(false); });
-test('entries: quick is disabled with real empty questions', async () => { const view = await mount(); expect(Array.from(view.querySelectorAll('button')).find((item) => item.textContent === 'とりあえず始める')?.disabled).toBe(true); });
-test('entries: learn is disabled with real empty questions', async () => { const view = await mount(); expect(Array.from(view.querySelectorAll('button')).find((item) => item.textContent === 'おぼえる')?.disabled).toBe(true); });
-test('entries: review is disabled with real empty questions', async () => { const view = await mount(); expect(Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '全体確認')?.disabled).toBe(true); });
-test('entries: exam is disabled with real empty questions', async () => { const view = await mount(); expect(Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '試験前の確認')?.disabled).toBe(true); });
-test('entries: preparation message is honest and not an error', async () => { const view = await mount(); expect(view.textContent).toContain('問題はまだ準備中です。いまは「見るだけ」を使えます。'); expect(view.textContent).not.toMatch(/エラー|失敗/); });
+test('entries: view is enabled with real empty questions', async () => { const view = await mount(); expect(Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '歌を確認する')?.disabled).toBe(false); });
+test('entries: practice is disabled with real empty questions', async () => { const view = await mount(); expect(Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '穴埋めに取り組む')?.disabled).toBe(true); });
+test('entries: old five-way choices are not shown', async () => { const view = await mount(); expect(view.textContent).not.toMatch(/とりあえず始める|おぼえる|全体確認|試験前の確認/); });
+test('entries: practice choices stay hidden until requested', async () => { const view = await mount(); expect(view.textContent).not.toContain('本番のように解く'); });
+test('entries: preparation message is honest and not an error', async () => { const view = await mount(); expect(view.textContent).toContain('問題はまだ準備中です。いまは「歌を確認する」を使えます。'); expect(view.textContent).not.toMatch(/エラー|失敗/); });
 
 // 出題が入った 2026-09-04 以降、実際に効くのはこちらの向きである。
 // 空配列の側だけを見ていると、isEntryAvailable が常に false を返しても全部緑になる。
@@ -24,9 +23,13 @@ async function mountWithQuestions() {
   await act(() => { render(<Home port={port()} poems={poems} questions={questions} onPickEntry={() => {}} />, root!); });
   return root;
 }
-test('entries: every entry is enabled once questions exist', async () => {
+test('entries: practice is enabled once questions exist', async () => {
   const view = await mountWithQuestions();
-  for (const label of ['とりあえず始める', '見るだけ', 'おぼえる', '全体確認', '試験前の確認']) {
-    expect(Array.from(view.querySelectorAll('button')).find((item) => item.textContent === label)?.disabled).toBe(false);
-  }
+  expect(Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '穴埋めに取り組む')?.disabled).toBe(false);
+});
+test('entries: practice expands to practice and exam choices', async () => {
+  const view = await mountWithQuestions();
+  await act(() => { Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '穴埋めに取り組む')!.click(); });
+  expect(view.textContent).toContain('練習する');
+  expect(view.textContent).toContain('本番のように解く');
 });

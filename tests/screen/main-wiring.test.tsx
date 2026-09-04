@@ -38,9 +38,12 @@ async function mount(search: string, customPort = { ...createMemoryPort(), saveL
 }
 
 async function start() {
-  await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-  await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '穴埋めに取り組む')!.click(); });
+  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '練習する')!.click(); });
+  await act(async () => { root!.querySelector('button.primary')!.click(); await Promise.resolve(); });
 }
+
+const currentNumber = () => root!.querySelector('.question-number')?.textContent;
 
 afterEach(() => {
   if (root) {
@@ -60,14 +63,14 @@ test('main-wiring: importing the entry does not require an app mount', async () 
 test('main-wiring: the range in the URL reaches the first question', async () => {
   const { view } = await mount('?from=10&to=20');
   await start();
-  expect(view.textContent).toContain('対象: p010');
+  expect(currentNumber()).toBe('10');
 });
 
 test('main-wiring: the range in the URL is not widened to the whole set', async () => {
   const { view } = await mount('?from=10&to=20');
   await start();
-  expect(view.textContent).not.toContain('対象: p001');
-  expect(view.textContent).not.toContain('対象: p100');
+  expect(currentNumber()).not.toBe('1');
+  expect(currentNumber()).not.toBe('100');
 });
 
 test('main-wiring: 21首の新規開始は最初の20首だけを出す', async () => {
@@ -75,8 +78,8 @@ test('main-wiring: 21首の新規開始は最初の20首だけを出す', async 
   const base = createMemoryPort();
   const { view } = await mount('?from=1&to=21', { ...base, listEvents: async () => events, saveLocalReport: async () => true });
   await start();
-  expect(view.textContent).toContain('対象: p021');
-  expect(view.textContent).not.toContain('対象: p001');
+  expect(currentNumber()).toBe('21');
+  expect(currentNumber()).not.toBe('1');
 });
 
 test('main-wiring: 復元は保存済みの回を新規保存せず再開する', async () => {
@@ -87,7 +90,7 @@ test('main-wiring: 復元は保存済みの回を新規保存せず再開する'
   const port = { ...base, saveSession: async (session: typeof saved) => { savedIds.push(session.sessionId); return base.saveSession(session); }, saveLocalReport: async () => true };
   const { view } = await mount('?from=1&to=1', port);
   await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '復元する')!.click(); });
-  expect(view.textContent).toContain('対象: p010');
+  expect(currentNumber()).toBe('10');
   expect(savedIds).toEqual([]);
 });
 
@@ -98,7 +101,7 @@ test('main-wiring: 復元は保存済みseedのランダム順を再現する', 
   const { view } = await mount('?from=50&to=60', { ...base, saveLocalReport: async () => true });
   await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '復元する')!.click(); });
   const expected = planQuestions('review', question, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], saved.seed, 'random')[0]!;
-  expect(view.textContent).toContain(`対象: ${expected.poemId}`);
+  expect(currentNumber()).toBe(String(Number(expected.poemId.slice(1))));
 });
 
 test('main-wiring: an invalid range falls back to the whole set and says so', async () => {
@@ -115,7 +118,7 @@ test('main-wiring: the session id does not change when settings change mid-sessi
   await mount('?from=10&to=20', port);
   await start();
   await act(async () => {
-    (root!.querySelectorAll('input[name="reading"]')[1] as HTMLInputElement).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '読みを確認する')!.click();
     await Promise.resolve();
   });
   expect(sessions).toHaveLength(1);
@@ -164,7 +167,7 @@ test('main: 再確認はまちがえた歌だけを出す', async () => {
   }
   await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '結果を見る')!.click(); await Promise.resolve(); await Promise.resolve(); });
   await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'まちがえた歌だけをもう一度')!.click(); });
-  expect(root!.textContent).toContain('対象: p010');
+  expect(currentNumber()).toBe('10');
   expect(root!.textContent).toContain('1問目/1');
 });
 

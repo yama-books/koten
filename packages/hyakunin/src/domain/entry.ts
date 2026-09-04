@@ -26,16 +26,23 @@ function inCardOrder(available: readonly PublishedQuestion[], cardNumbers: reado
   return orderedCards.flatMap((cardNo) => available.filter((question) => cardNumber(question) === cardNo));
 }
 
-function takeWeighted(questions: readonly PublishedQuestion[], rule: EntryRule): PublishedQuestion[] {
-  const blanks = questions.filter((question) => question.type === 'blank');
-  const authors = questions.filter((question) => question.type === 'author');
+function takeAcrossCards(available: readonly PublishedQuestion[], cardNumbers: readonly number[], seed: string, mode: OrderMode, rule: EntryRule): PublishedQuestion[] {
+  const orderedCards = orderCardNumbers([...cardNumbers], mode, seed);
   const cycleLength = rule.blankWeight + rule.authorWeight;
-  return Array.from({ length: rule.questionCount }, (_, index) => {
+  const used = new Set<string>();
+  const selected: PublishedQuestion[] = [];
+  for (let index = 0; index < rule.questionCount; index += 1) {
+    const cardNo = orderedCards[index % orderedCards.length];
+    if (cardNo === undefined) break;
     const isBlank = index % cycleLength < rule.blankWeight;
-    const prior = Array.from({ length: index }, (_, priorIndex) => priorIndex % cycleLength < rule.blankWeight)
-      .filter((value) => value === isBlank).length;
-    return isBlank ? blanks[prior] : authors[prior];
-  }).filter((question): question is PublishedQuestion => question !== undefined);
+    const cardQuestions = available.filter((question) => cardNumber(question) === cardNo && !used.has(question.questionId));
+    const preferred = cardQuestions.find((question) => question.type === (isBlank ? 'blank' : 'author')) ?? cardQuestions[0];
+    if (preferred) {
+      used.add(preferred.questionId);
+      selected.push(preferred);
+    }
+  }
+  return selected;
 }
 
 /** APP_SPEC §5.1: 最初の一巡は番号順。一巡後に呼び出し側が 'random' を渡す。 */
@@ -51,6 +58,6 @@ export function planQuestions(
   const rule = ENTRY_RULES[entry];
   if (entry === 'review') return ordered;
   if (entry === 'view') return [];
-  if (entry === 'learn') return ordered.filter((question) => question.type === 'blank').slice(undefined, rule.questionCount);
-  return takeWeighted(ordered, rule);
+  if (entry === 'learn' || entry === 'exam') return takeAcrossCards(available.filter((question) => question.type === 'blank'), cardNumbers, seed, mode, rule);
+  return takeAcrossCards(available, cardNumbers, seed, mode, rule);
 }
