@@ -84,7 +84,7 @@ export function buildFeedback(forms: AnswerForms, judgement: Judgement): Feedbac
       mark: 'none',
       historical: `歴史的仮名遣い: ${forms.historical}`,
       kanji: `漢字: ${forms.kanji}`,
-      mastery: '習熟度は一段軽く加算されます',
+      mastery: '',
     };
   }
   if (judgement === 'correct') return { mark: 'maru', historical: '', kanji: '', mastery: '' };

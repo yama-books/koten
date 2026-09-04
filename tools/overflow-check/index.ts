@@ -72,7 +72,7 @@ try {
         await page.getByRole('button', { name: '歌を確認する' }).click();
         await page.waitForSelector('.poem-sheet--vertical');
         for (const reading of readings) {
-          const targetLabel = reading === 'none' ? '読みを確認する' : reading === 'historical' ? '現代仮名遣いで見る' : '読みを閉じる';
+          const targetLabel = reading === 'none' ? '読みを確認する' : reading === 'historical' ? '現代仮名遣いで見る' : '原文に戻す';
           for (let attempt = 0; attempt < 3 && await page.locator('button.reading-toggle').textContent() !== targetLabel; attempt += 1) await page.locator('button.reading-toggle').click();
           if (await page.locator('button.reading-toggle').textContent() !== targetLabel) throw new Error(`読み表示を ${reading} に切り替えられません`);
           const measured = await page.evaluate(() => {

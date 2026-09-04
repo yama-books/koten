@@ -38,7 +38,7 @@ async function mount(search: string, customPort = { ...createMemoryPort(), saveL
 }
 
 async function start() {
-  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '穴埋めに取り組む')!.click(); });
+  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'とりあえず始める')!.click(); });
   await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '練習する')!.click(); });
   await act(async () => { root!.querySelector('button.primary')!.click(); await Promise.resolve(); });
 }
