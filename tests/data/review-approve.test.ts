@@ -23,6 +23,8 @@ function dispose(directory: string) { rmSync(directory, { recursive: true, force
 function candidates(directory: string): BlankCandidate[] { return buildData(directory).poems.flatMap((poem: any) => poem.ku.map((_: string, index: number) => ({ cardNo: poem.cardNo, ku: index + 1 }))); }
 function invoke(directory: string, args: string[]) { return spawnSync(process.execPath, ['--experimental-strip-types', cli, ...args, '--dir', directory], { encoding: 'utf8' }); }
 function blankHash(directory: string) { return readFileSync(path.join(directory, 'blanks.yaml'), 'utf8'); }
+/** The tool tests must not depend on how much of the live ledger happens to be approved. */
+function emptyBlanks(directory: string) { writeFileSync(path.join(directory, 'blanks.yaml'), emitLedger('blanks', [])); return directory; }
 function seed(directory: string) { return planSeed('blanks', candidates(directory), readReviewLedgers(directory).blanks); }
 function approvedFields() { return ['--status', 'approved', '--mode', 'individual', '--proposed-by', 'human', '--confirmed-by', 'reviewer', '--confirmed-on', '2026-09-01']; }
 
@@ -41,7 +43,7 @@ test('all five emitted ledgers round-trip through parseYaml', () => {
 });
 
 test('seed adds every generated candidate as pending without opening public questions', () => {
-  const directory = fixture();
+  const directory = emptyBlanks(fixture());
   try {
     const plan = seed(directory); assert.equal(plan.entries.length, candidates(directory).length, '台帳が空では検査にならない');
     assert.equal(plan.entries.filter((entry) => entry.status !== 'pending').length, 0);
@@ -88,7 +90,7 @@ test('CLI rejects missing confirmation date without writing', () => {
 });
 
 test('CLI rejects a batch without evidence before V-15-invalid YAML is written', () => {
-  const directory = fixture();
+  const directory = emptyBlanks(fixture());
   try { invoke(directory, ['seed', '--ledger', 'blanks', '--write']); const before = blankHash(directory); const result = invoke(directory, ['set', '--ledger', 'blanks', '--cards', '1', '--status', 'approved', '--mode', 'batch', '--proposed-by', 'human', '--confirmed-by', 'reviewer', '--confirmed-on', '2026-09-01', '--write']); assert.equal(result.status, 1); assert.match(result.stderr, /不足: batchEvidenceRef/); assert.equal(blankHash(directory), before); const broken = buildData(directory); broken.review.blanks[0].confirmationMode = 'batch'; assert.throws(() => validateData(broken), /V-15/); } finally { dispose(directory); }
 });
 

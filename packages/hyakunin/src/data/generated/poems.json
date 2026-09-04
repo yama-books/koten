@@ -3,7 +3,7 @@
     "author": {
       "aliases": [],
       "canonical": "天智天皇",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 1,
     "dataVersion": 1,
@@ -47,7 +47,7 @@
     "author": {
       "aliases": [],
       "canonical": "持統天皇",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 2,
     "dataVersion": 1,
@@ -91,7 +91,7 @@
     "author": {
       "aliases": [],
       "canonical": "柿本人麻呂",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 3,
     "dataVersion": 1,
@@ -135,7 +135,7 @@
     "author": {
       "aliases": [],
       "canonical": "山部赤人",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 4,
     "dataVersion": 1,
@@ -179,7 +179,7 @@
     "author": {
       "aliases": [],
       "canonical": "猿丸大夫",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 5,
     "dataVersion": 1,
@@ -223,7 +223,7 @@
     "author": {
       "aliases": [],
       "canonical": "中納言家持",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 6,
     "dataVersion": 1,
@@ -267,7 +267,7 @@
     "author": {
       "aliases": [],
       "canonical": "安倍仲麿",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 7,
     "dataVersion": 1,
@@ -311,7 +311,7 @@
     "author": {
       "aliases": [],
       "canonical": "喜撰法師",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 8,
     "dataVersion": 1,
@@ -355,7 +355,7 @@
     "author": {
       "aliases": [],
       "canonical": "小野小町",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 9,
     "dataVersion": 1,
@@ -399,7 +399,7 @@
     "author": {
       "aliases": [],
       "canonical": "蝉丸",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 10,
     "dataVersion": 1,
@@ -443,7 +443,7 @@
     "author": {
       "aliases": [],
       "canonical": "参議篁",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 11,
     "dataVersion": 1,
@@ -487,7 +487,7 @@
     "author": {
       "aliases": [],
       "canonical": "僧正遍昭",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 12,
     "dataVersion": 1,
@@ -531,7 +531,7 @@
     "author": {
       "aliases": [],
       "canonical": "陽成院",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 13,
     "dataVersion": 1,
@@ -575,7 +575,7 @@
     "author": {
       "aliases": [],
       "canonical": "河原左大臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 14,
     "dataVersion": 1,
@@ -619,7 +619,7 @@
     "author": {
       "aliases": [],
       "canonical": "光孝天皇",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 15,
     "dataVersion": 1,
@@ -663,7 +663,7 @@
     "author": {
       "aliases": [],
       "canonical": "中納言行平",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 16,
     "dataVersion": 1,
@@ -707,7 +707,7 @@
     "author": {
       "aliases": [],
       "canonical": "在原業平朝臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 17,
     "dataVersion": 1,
@@ -751,7 +751,7 @@
     "author": {
       "aliases": [],
       "canonical": "藤原敏行朝臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 18,
     "dataVersion": 1,
@@ -795,7 +795,7 @@
     "author": {
       "aliases": [],
       "canonical": "伊勢",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 19,
     "dataVersion": 1,
@@ -839,7 +839,7 @@
     "author": {
       "aliases": [],
       "canonical": "元良親王",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 20,
     "dataVersion": 1,
@@ -883,7 +883,7 @@
     "author": {
       "aliases": [],
       "canonical": "素性法師",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 21,
     "dataVersion": 1,
@@ -927,7 +927,7 @@
     "author": {
       "aliases": [],
       "canonical": "文屋康秀",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 22,
     "dataVersion": 1,
@@ -971,7 +971,7 @@
     "author": {
       "aliases": [],
       "canonical": "大江千里",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 23,
     "dataVersion": 1,
@@ -1015,7 +1015,7 @@
     "author": {
       "aliases": [],
       "canonical": "菅家",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 24,
     "dataVersion": 1,
@@ -1059,7 +1059,7 @@
     "author": {
       "aliases": [],
       "canonical": "三条右大臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 25,
     "dataVersion": 1,
@@ -1103,7 +1103,7 @@
     "author": {
       "aliases": [],
       "canonical": "貞信公",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 26,
     "dataVersion": 1,
@@ -1147,7 +1147,7 @@
     "author": {
       "aliases": [],
       "canonical": "中納言兼輔",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 27,
     "dataVersion": 1,
@@ -1191,7 +1191,7 @@
     "author": {
       "aliases": [],
       "canonical": "源宗于朝臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 28,
     "dataVersion": 1,
@@ -1235,7 +1235,7 @@
     "author": {
       "aliases": [],
       "canonical": "凡河内躬恒",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 29,
     "dataVersion": 1,
@@ -1279,7 +1279,7 @@
     "author": {
       "aliases": [],
       "canonical": "壬生忠岑",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 30,
     "dataVersion": 1,
@@ -1323,7 +1323,7 @@
     "author": {
       "aliases": [],
       "canonical": "坂上是則",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 31,
     "dataVersion": 1,
@@ -1367,7 +1367,7 @@
     "author": {
       "aliases": [],
       "canonical": "春道列樹",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 32,
     "dataVersion": 1,
@@ -1411,7 +1411,7 @@
     "author": {
       "aliases": [],
       "canonical": "紀友則",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 33,
     "dataVersion": 1,
@@ -1455,7 +1455,7 @@
     "author": {
       "aliases": [],
       "canonical": "藤原興風",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 34,
     "dataVersion": 1,
@@ -1499,7 +1499,7 @@
     "author": {
       "aliases": [],
       "canonical": "紀貫之",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 35,
     "dataVersion": 1,
@@ -1543,7 +1543,7 @@
     "author": {
       "aliases": [],
       "canonical": "清原深養父",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 36,
     "dataVersion": 1,
@@ -1587,7 +1587,7 @@
     "author": {
       "aliases": [],
       "canonical": "文屋朝康",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 37,
     "dataVersion": 1,
@@ -1631,7 +1631,7 @@
     "author": {
       "aliases": [],
       "canonical": "右近",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 38,
     "dataVersion": 1,
@@ -1675,7 +1675,7 @@
     "author": {
       "aliases": [],
       "canonical": "参議等",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 39,
     "dataVersion": 1,
@@ -1719,7 +1719,7 @@
     "author": {
       "aliases": [],
       "canonical": "平兼盛",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 40,
     "dataVersion": 1,
@@ -1763,7 +1763,7 @@
     "author": {
       "aliases": [],
       "canonical": "壬生忠見",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 41,
     "dataVersion": 1,
@@ -1807,7 +1807,7 @@
     "author": {
       "aliases": [],
       "canonical": "清原元輔",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 42,
     "dataVersion": 1,
@@ -1851,7 +1851,7 @@
     "author": {
       "aliases": [],
       "canonical": "権中納言敦忠",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 43,
     "dataVersion": 1,
@@ -1895,7 +1895,7 @@
     "author": {
       "aliases": [],
       "canonical": "中納言朝忠",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 44,
     "dataVersion": 1,
@@ -1939,7 +1939,7 @@
     "author": {
       "aliases": [],
       "canonical": "謙徳公",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 45,
     "dataVersion": 1,
@@ -1983,7 +1983,7 @@
     "author": {
       "aliases": [],
       "canonical": "曾禰好忠",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 46,
     "dataVersion": 1,
@@ -2027,7 +2027,7 @@
     "author": {
       "aliases": [],
       "canonical": "恵慶法師",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 47,
     "dataVersion": 1,
@@ -2071,7 +2071,7 @@
     "author": {
       "aliases": [],
       "canonical": "源重之",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 48,
     "dataVersion": 1,
@@ -2115,7 +2115,7 @@
     "author": {
       "aliases": [],
       "canonical": "大中臣能宣朝臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 49,
     "dataVersion": 1,
@@ -2159,7 +2159,7 @@
     "author": {
       "aliases": [],
       "canonical": "藤原義孝",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 50,
     "dataVersion": 1,
@@ -2203,7 +2203,7 @@
     "author": {
       "aliases": [],
       "canonical": "藤原実方朝臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 51,
     "dataVersion": 1,
@@ -2247,7 +2247,7 @@
     "author": {
       "aliases": [],
       "canonical": "藤原道信朝臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 52,
     "dataVersion": 1,
@@ -2291,7 +2291,7 @@
     "author": {
       "aliases": [],
       "canonical": "右大将道綱母",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 53,
     "dataVersion": 1,
@@ -2335,7 +2335,7 @@
     "author": {
       "aliases": [],
       "canonical": "儀同三司母",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 54,
     "dataVersion": 1,
@@ -2379,7 +2379,7 @@
     "author": {
       "aliases": [],
       "canonical": "大納言公任",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 55,
     "dataVersion": 1,
@@ -2423,7 +2423,7 @@
     "author": {
       "aliases": [],
       "canonical": "和泉式部",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 56,
     "dataVersion": 1,
@@ -2467,7 +2467,7 @@
     "author": {
       "aliases": [],
       "canonical": "紫式部",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 57,
     "dataVersion": 1,
@@ -2511,7 +2511,7 @@
     "author": {
       "aliases": [],
       "canonical": "大弐三位",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 58,
     "dataVersion": 1,
@@ -2555,7 +2555,7 @@
     "author": {
       "aliases": [],
       "canonical": "赤染衛門",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 59,
     "dataVersion": 1,
@@ -2599,7 +2599,7 @@
     "author": {
       "aliases": [],
       "canonical": "小式部内侍",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 60,
     "dataVersion": 1,
@@ -2643,7 +2643,7 @@
     "author": {
       "aliases": [],
       "canonical": "伊勢大輔",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 61,
     "dataVersion": 1,
@@ -2687,7 +2687,7 @@
     "author": {
       "aliases": [],
       "canonical": "清少納言",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 62,
     "dataVersion": 1,
@@ -2731,7 +2731,7 @@
     "author": {
       "aliases": [],
       "canonical": "左京大夫道雅",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 63,
     "dataVersion": 1,
@@ -2775,7 +2775,7 @@
     "author": {
       "aliases": [],
       "canonical": "権中納言定頼",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 64,
     "dataVersion": 1,
@@ -2819,7 +2819,7 @@
     "author": {
       "aliases": [],
       "canonical": "相模",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 65,
     "dataVersion": 1,
@@ -2863,7 +2863,7 @@
     "author": {
       "aliases": [],
       "canonical": "前大僧正行尊",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 66,
     "dataVersion": 1,
@@ -2907,7 +2907,7 @@
     "author": {
       "aliases": [],
       "canonical": "周防内侍",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 67,
     "dataVersion": 1,
@@ -2951,7 +2951,7 @@
     "author": {
       "aliases": [],
       "canonical": "三条院",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 68,
     "dataVersion": 1,
@@ -2995,7 +2995,7 @@
     "author": {
       "aliases": [],
       "canonical": "能因法師",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 69,
     "dataVersion": 1,
@@ -3039,7 +3039,7 @@
     "author": {
       "aliases": [],
       "canonical": "良暹法師",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 70,
     "dataVersion": 1,
@@ -3083,7 +3083,7 @@
     "author": {
       "aliases": [],
       "canonical": "大納言経信",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 71,
     "dataVersion": 1,
@@ -3127,7 +3127,7 @@
     "author": {
       "aliases": [],
       "canonical": "祐子内親王家紀伊",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 72,
     "dataVersion": 1,
@@ -3171,7 +3171,7 @@
     "author": {
       "aliases": [],
       "canonical": "権中納言匡房",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 73,
     "dataVersion": 1,
@@ -3215,7 +3215,7 @@
     "author": {
       "aliases": [],
       "canonical": "源俊頼朝臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 74,
     "dataVersion": 1,
@@ -3259,7 +3259,7 @@
     "author": {
       "aliases": [],
       "canonical": "藤原基俊",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 75,
     "dataVersion": 1,
@@ -3303,7 +3303,7 @@
     "author": {
       "aliases": [],
       "canonical": "法性寺入道前関白太政大臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 76,
     "dataVersion": 1,
@@ -3347,7 +3347,7 @@
     "author": {
       "aliases": [],
       "canonical": "崇徳院",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 77,
     "dataVersion": 1,
@@ -3391,7 +3391,7 @@
     "author": {
       "aliases": [],
       "canonical": "源兼昌",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 78,
     "dataVersion": 1,
@@ -3435,7 +3435,7 @@
     "author": {
       "aliases": [],
       "canonical": "左京大夫顕輔",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 79,
     "dataVersion": 1,
@@ -3479,7 +3479,7 @@
     "author": {
       "aliases": [],
       "canonical": "待賢門院堀河",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 80,
     "dataVersion": 1,
@@ -3523,7 +3523,7 @@
     "author": {
       "aliases": [],
       "canonical": "後徳大寺左大臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 81,
     "dataVersion": 1,
@@ -3567,7 +3567,7 @@
     "author": {
       "aliases": [],
       "canonical": "道因法師",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 82,
     "dataVersion": 1,
@@ -3611,7 +3611,7 @@
     "author": {
       "aliases": [],
       "canonical": "皇太后宮大夫俊成",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 83,
     "dataVersion": 1,
@@ -3655,7 +3655,7 @@
     "author": {
       "aliases": [],
       "canonical": "藤原清輔朝臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 84,
     "dataVersion": 1,
@@ -3699,7 +3699,7 @@
     "author": {
       "aliases": [],
       "canonical": "俊恵法師",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 85,
     "dataVersion": 1,
@@ -3743,7 +3743,7 @@
     "author": {
       "aliases": [],
       "canonical": "西行法師",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 86,
     "dataVersion": 1,
@@ -3787,7 +3787,7 @@
     "author": {
       "aliases": [],
       "canonical": "寂蓮法師",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 87,
     "dataVersion": 1,
@@ -3831,7 +3831,7 @@
     "author": {
       "aliases": [],
       "canonical": "皇嘉門院別当",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 88,
     "dataVersion": 1,
@@ -3875,7 +3875,7 @@
     "author": {
       "aliases": [],
       "canonical": "式子内親王",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 89,
     "dataVersion": 1,
@@ -3919,7 +3919,7 @@
     "author": {
       "aliases": [],
       "canonical": "殷富門院大輔",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 90,
     "dataVersion": 1,
@@ -3963,7 +3963,7 @@
     "author": {
       "aliases": [],
       "canonical": "後京極摂政前太政大臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 91,
     "dataVersion": 1,
@@ -4007,7 +4007,7 @@
     "author": {
       "aliases": [],
       "canonical": "二条院讃岐",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 92,
     "dataVersion": 1,
@@ -4051,7 +4051,7 @@
     "author": {
       "aliases": [],
       "canonical": "鎌倉右大臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 93,
     "dataVersion": 1,
@@ -4095,7 +4095,7 @@
     "author": {
       "aliases": [],
       "canonical": "参議雅経",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 94,
     "dataVersion": 1,
@@ -4139,7 +4139,7 @@
     "author": {
       "aliases": [],
       "canonical": "前大僧正慈円",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 95,
     "dataVersion": 1,
@@ -4183,7 +4183,7 @@
     "author": {
       "aliases": [],
       "canonical": "入道前太政大臣",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 96,
     "dataVersion": 1,
@@ -4227,7 +4227,7 @@
     "author": {
       "aliases": [],
       "canonical": "権中納言定家",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 97,
     "dataVersion": 1,
@@ -4271,7 +4271,7 @@
     "author": {
       "aliases": [],
       "canonical": "従二位家隆",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 98,
     "dataVersion": 1,
@@ -4315,7 +4315,7 @@
     "author": {
       "aliases": [],
       "canonical": "後鳥羽院",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 99,
     "dataVersion": 1,
@@ -4359,7 +4359,7 @@
     "author": {
       "aliases": [],
       "canonical": "順徳院",
-      "confirmed": false
+      "confirmed": true
     },
     "cardNo": 100,
     "dataVersion": 1,

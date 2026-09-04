@@ -28,15 +28,22 @@ test('approved fixture produces reviewed blank and author questions with D-26 an
   assert.equal(kana.answer, kana.answerHistorical);
 });
 
-test('real pending ledgers emit no public questions', () => {
-  const data = buildData(); assert.deepEqual(data.questionsBlank, []); assert.deepEqual(data.questionsAuthor, []);
+test('real ledgers emit only human-confirmed questions', () => {
+  const data = buildData();
+  // A count of zero would satisfy the loop below without proving anything.
+  assert.ok(data.questionsBlank.length > 0, '公開出題が 0 件では検査にならない');
+  assert.ok(data.questionsAuthor.length > 0, '公開出題が 0 件では検査にならない');
+  for (const question of [...data.questionsBlank, ...data.questionsAuthor]) assert.equal(question.reviewStatus, 'human-confirmed', question.questionId);
+  assert.equal(data.questionsBlank.length, data.manifest.reviewCounts.blanks.approved);
 });
 
 test('missing blank ledger candidates count as pending', () => {
-  assert.equal(buildData().manifest.reviewCounts.blanks.pending, 500);
+  const directory = fixture(false);
+  writeFileSync(path.join(directory, 'blanks.yaml'), ledger(''));
+  assert.deepEqual(buildData(directory).manifest.reviewCounts.blanks, { pending: 500, approved: 0, rejected: 0, hold: 0 });
 });
 
-test('V-07 rejects a pending question while a real empty output cannot expose that broken gate', () => {
+test('V-07 rejects a pending question, and the real non-empty output passes the same gate', () => {
   const positive = buildData(fixture()); const pending = structuredClone(positive); pending.questionsBlank[0].reviewStatus = 'review';
   assert.throws(() => validateData(pending), /V-07: questions\.blank\.json/);
   assert.doesNotThrow(() => validateData(buildData()));

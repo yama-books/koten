@@ -3,17 +3,17 @@
     "authorCandidates": 300,
     "blankCandidates": 500,
     "poems": 100,
-    "questionsAuthor": 0,
-    "questionsBlank": 0,
+    "questionsAuthor": 300,
+    "questionsBlank": 500,
     "variants": 10
   },
   "dataVersion": 1,
-  "generatedOn": "2026-09-03",
+  "generatedOn": "2026-09-04",
   "generatorVersion": "1.0.0",
   "reviewCounts": {
     "authors": {
-      "pending": 100,
-      "approved": 0,
+      "pending": 0,
+      "approved": 100,
       "rejected": 0,
       "hold": 0
     },
@@ -36,8 +36,8 @@
       "hold": 0
     },
     "blanks": {
-      "pending": 500,
-      "approved": 0,
+      "pending": 0,
+      "approved": 500,
       "rejected": 0,
       "hold": 0
     }

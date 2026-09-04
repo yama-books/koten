@@ -5,17 +5,32 @@ import { buildData, assertCardAlignment } from '../../tools/build-data/index.ts'
 import { parseYaml } from '../../tools/build-data/parse-yaml.ts';
 import { validateData } from '../../tools/build-data/validate.ts';
 
-test('review ledgers are parseable skeletons and generated review output stays pending', () => {
+/**
+ * Nails what must hold whatever the ledgers currently say, so a legitimate approval
+ * (H-04) cannot turn a correct implementation red. The counts themselves move; the
+ * relations between the ledger, the tally and the confirmation fields do not.
+ */
+test('review tallies match the ledgers and every approved row carries its confirmation', () => {
   const data = buildData();
-  assert.deepEqual(data.layoutHints, []);
-  assert.deepEqual(data.manifest.reviewCounts, {
-    authors: { pending: 100, approved: 0, rejected: 0, hold: 0 },
-    readings: { pending: 100, approved: 0, rejected: 0, hold: 0 },
-    kugire: { pending: 100, approved: 0, rejected: 0, hold: 0 },
-    layout: { pending: 100, approved: 0, rejected: 0, hold: 0 },
-    blanks: { pending: 500, approved: 0, rejected: 0, hold: 0 },
-  });
-  for (const [name, entries] of Object.entries(data.review)) assert.equal(entries.length, name === 'blanks' ? 0 : 100);
+  const candidates = { authors: 100, readings: 100, kugire: 100, layout: 100, blanks: 500 } as const;
+  assert.equal(data.layoutHints.length, data.manifest.reviewCounts.layout.approved);
+  let approvedSeen = 0;
+  for (const name of Object.keys(candidates) as (keyof typeof candidates)[]) {
+    const entries = data.review[name] as any[];
+    const counts = data.manifest.reviewCounts[name];
+    assert.equal(counts.pending + counts.approved + counts.rejected + counts.hold, candidates[name], `${name}: 集計が候補数と合わない`);
+    for (const status of ['approved', 'rejected', 'hold'] as const) {
+      assert.equal(counts[status], entries.filter((entry) => entry.status === status).length, `${name}: ${status} の数が台帳と合わない`);
+    }
+    for (const entry of entries.filter((item) => item.status === 'approved')) {
+      approvedSeen += 1;
+      assert.ok(entry.confirmedBy, `${name} cardNo ${entry.cardNo}: confirmedBy が無い`);
+      assert.ok(entry.confirmedOn, `${name} cardNo ${entry.cardNo}: confirmedOn が無い`);
+      if (entry.confirmationMode === 'batch') assert.ok(entry.batchEvidenceRef, `${name} cardNo ${entry.cardNo}: batchEvidenceRef が無い`);
+    }
+  }
+  // Without an approved row the confirmation loop above never runs.
+  assert.ok(approvedSeen > 0, '承認済みが 0 件では検査にならない');
 });
 
 test('V-08 rejects an unconfirmed layout hint', () => {
