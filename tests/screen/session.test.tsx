@@ -4,6 +4,7 @@ import { act } from 'preact/test-utils';
 import { afterEach, expect, test } from 'vitest';
 import { parseQuestions, type PublishedQuestion } from '../../packages/hyakunin/src/data/question-schema.ts';
 import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
+import { appConfig } from '../../packages/shared/src/app-config.ts';
 import { Session } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
 
 let root: HTMLDivElement | undefined;
@@ -23,6 +24,13 @@ test('session: next button advances to the second question', async () => { await
 test('session: Enter advances after reveal', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });
 test('session: Enter while answering does not advance', async () => { await mount(); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('白妙の'); });
 test('session: partial feedback contains different historical and kanji forms', async () => { await mount(); await answer('しろたえの'); expect(root!.textContent).toContain('歴史的仮名遣い: しろたへの'); expect(root!.textContent).toContain('漢字: 白妙の'); });
+test('session: the saved event carries the versions from app-config, not a literal', async () => {
+  const p = port(); await mount(p); await answer('白妙の');
+  expect(p.events[0].appVersion).toBe(appConfig.appVersion);
+  expect(p.events[0].dataVersion).toBe(appConfig.dataVersion);
+  // A placeholder version silently breaks the mastery recompute and the export migration.
+  expect(p.events[0].appVersion).not.toBe('0');
+});
 test('session: reading toggle records hint use', async () => { const p = port(); await mount(p); await act(() => { const radio = root!.querySelectorAll('input[type="radio"]')[1]; radio.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); await answer('白妙の'); expect(p.events[0].hintUsed).toBe(true); });
 test('session: saving failure does not reveal', async () => { const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) }; await mount(failing); await answer('白妙の'); expect(root!.textContent).toContain('保存失敗'); expect(root!.textContent).not.toContain('○ 正解'); });
 test('session: saving failure keeps the input', async () => { const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) }; await mount(failing); await answer('白妙の'); expect((root!.querySelector('input[placeholder]') as HTMLInputElement).value).toBe('白妙の'); });

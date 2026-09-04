@@ -68,8 +68,13 @@ P0 時点ではアプリコードが 1 行も存在しない。したがって�
 
 | パス | 状態 | 条件 |
 |---|---|---|
-| `review/hyakunin/**/*.yaml` | 未作成 | P2 / P6。**氏名・連絡先・自由文の個人情報を含まないこと**を移管前に確認 |
-| `review/kanazukai/**/*.yaml` | 未作成 | 同上 |
+| `review/*.yaml` | **現存 5 本**（`authors` / `readings` / `kugire` / `layout` / `blanks`） | P2 / P6。**氏名・連絡先・自由文の個人情報を含まないこと**を移管前に確認 |
+
+> **2026-09-04 訂正。** ここは長く `review/hyakunin/**` と `review/kanazukai/**` の 2 行だったが、
+> **実体は `review/` 直下の平置き 5 本**である（製品ごとの下位ディレクトリは作られなかった）。
+> **この食い違いは危険な向きに倒れていた**——許可リストに従って複写すると台帳が 1 本も移らず、
+> **公開版だけ `questions.*.json` が `[]` になる。** しかも `scan:publish` は「入ってはいけないもの」を見る検査なので、
+> **抜けは緑のまま通る。** 仮名遣い側の台帳が将来できたら、そのときに行を足すこと。
 
 台帳は「なぜその判断になったか」の根拠であり、公開データの信頼性の裏づけとして移す。
 確認者を記録する場合は**個人名を使わず役割表記にする**（例: `reviewer: "human-01"`）。
@@ -160,9 +165,8 @@ README.md
 .gitignore
 .gitattributes
 package.json
-tsconfig.json
-tsconfig.node.json
-eslint.config.js
+package-lock.json
+tsconfig.base.json
 vitest.config.ts
 百人一首_本文・作者_一次データ.md
 百人一首_読み_歴史的仮名遣い.md
@@ -170,11 +174,16 @@ vitest.config.ts
 百人一首_読み_異同確認.md
 仮名遣い規則_一次データ.md
 仮名遣い語彙_一次データ.md
-review/hyakunin/**
-review/kanazukai/**
+review/*.yaml
 packages/shared/**
 tools/build-data/**
+tools/check-storage/**
+tools/eol-check/**
+tools/font-assets-check/**
+tools/font-check/**
+tools/font-weight-check/**
 tools/overflow-check/**
+tools/review-approve/**
 tools/scan-publish/**
 tests/**
 firebase/firestore.rules

@@ -1,3 +1,4 @@
+import { appConfig } from '@koten/shared/app-config';
 import type { UserSettings } from '@koten/shared/domain/event';
 import { useMemo, useState } from 'preact/hooks';
 import { buildFeedback, beginQuestion, reveal, submitAnswer, useHint, advance, progressLabel, failSave, type FlowState } from '../../domain/flow.ts';
@@ -26,7 +27,7 @@ export function Session({ questions, sessionId, port, settings, onSettings, onCo
   async function submit() {
     const answered = submitAnswer(displayFlow, toQuestion(question), input, { readingStatus: 'confirmed' });
     setFlow(answered);
-    const event = buildEvent({ eventId: crypto.randomUUID(), product: 'hyakunin', poemId: question.poemId, questionId: question.questionId, sessionId, itemKey: `${question.poemId}:${question.skill}`, kind: 'answer', method: 'free-input', hintUsed: answered.hintUsed, judgement: answered.judgement ?? 'incorrect', currentScore: 0, sameSessionRepeat: false, localDate: today(), appVersion: '0', dataVersion: 1 });
+    const event = buildEvent({ eventId: crypto.randomUUID(), product: 'hyakunin', poemId: question.poemId, questionId: question.questionId, sessionId, itemKey: `${question.poemId}:${question.skill}`, kind: 'answer', method: 'free-input', hintUsed: answered.hintUsed, judgement: answered.judgement ?? 'incorrect', currentScore: 0, sameSessionRepeat: false, localDate: today(), appVersion: appConfig.appVersion, dataVersion: appConfig.dataVersion });
     const result = await port.appendEvent(event);
     if (!('reason' in result)) setOutcomes((items) => [...items, { poemId: question.poemId, kind: answered.judgement! }]);
     setFlow((state) => 'reason' in result ? failSave(state, result) : reveal(state, result));
