@@ -2,7 +2,8 @@
 
 - **宛先**: Terra（Codex）
 - **起票**: 2026-09-03・第29回・親担当（Claude Opus 5）
-- **前提コミット**: **§8 で発行時に確定する。起票の時点では発注047 が走行中である**
+- **前提コミット**: **`9f53fd4`**（2026-09-04・第33回に確定。§8）
+- **状態**: **起票のみ。未発行。** **§8 の 3 項目は記入済みで、残るのは D-61 条件 3（参照実装で M-1〜M-15 を実測）だけである。§8.1 を読むこと**
 - **フェーズ**: **P9-B を 3 本に割った 2 本目**（D-65）
 - **規模**: 中（**新規 2 ファイル＋既存 3 ファイルの小改修。ネットワークを 1 回も呼ばない**）
 
@@ -65,9 +66,41 @@ D-60 は `telemetry/` の禁止語検査を名指しの 4 ファイルに固定�
 **送信失敗は画面にも `console` にも出さない設計なので、誰も気づかない**（計画 §7.6）。
 **だから型の対応を 1 つずつ釘で留める**（§4.3 の T-7〜T-10。**代表 1 本で済ませない**）。
 
-### 0.4 変更してはならないファイルの SHA-256
+### 0.4 変更してはならないファイルの SHA-256（**2026-09-04・第33回に `9f53fd4`・clean で実測。18 件**）
 
-**§8 で発行時に確定する。起票の時点では発注047 が走行中で、`tests/unit/telemetry/` と `firebase/` が動いている。**
+**着手前に `sha256sum -c` へ流して 18/18 OK を確かめ、完了報告に再掲すること。**
+**1 件でも FAILED なら S-1 である**（並行作業か、想定外の状態）。
+
+**この一覧は発注051 の 17 件とは別物である。**
+**外した 3 件**——`packages/shared/src/app-config.ts`・`tests/unit/telemetry/fixtures.ts`・`tests/unit/telemetry/static.test.ts`。
+**この発注が正当に変更するファイルである**（§1 の「変更してよい既存ファイル」）。**禁止一覧に入れてはならない。**
+**足した 4 件**——`firebase/firestore.rules` と `tests/unit/telemetry/rules-parity.test.ts`（**047 の成果**）、
+`tests/unit/telemetry/queue.test.ts` と `tests/unit/telemetry/client-number.test.ts`（**§1 が名指しで禁止している試験**）。
+
+```
+4026c77a2c36bbc0ec4568e409227039701da54c7d550f3df0db0e3eb3d8fbe2 *packages/shared/src/telemetry/client-number.ts
+bfd407bbf800dfec761cbdc1771f47f1ab7c299f58da6a61f465b876550feb20 *packages/shared/src/telemetry/queue.ts
+bb6014014d6960c0da2ade7c1e27bec77efcb3c8630ff02263d569b09179e8b7 *packages/shared/src/telemetry/registry.ts
+73891ee555ce19ca540bf6cb87508ff3c5ccabd738fd93e4da9e3d6344f1faf7 *packages/shared/src/telemetry/sanitize.ts
+b56794121cb90ff3748b7388a86f8bf817a0bda689e92330f61b7afd6fb4a263 *packages/shared/src/storage/fallback.ts
+1cef3022f7f2c1625d3fe52391339932538fc3aa7164cf5c65aa941d3d406fc2 *packages/shared/src/storage/merge.ts
+69c1228a3013669baee2230c1268feaeefa0b8ea61bbd4b18e194f13e9b00697 *packages/shared/src/storage/import.ts
+e84602e0e5026b8747fcf311a4b949a28079c87b943f3f3a7f4034471590a94b *packages/shared/src/storage/export.ts
+038d0588fd71f056a6065a870205bfe1587f1ed6cd7d106a3e0e5789f37c9a3a *packages/shared/src/storage/reset.ts
+66abc9e04ae15b7a64463da6aeded1b687c097d0a80e5ff09c5e64807cbd278a *packages/shared/src/storage/schema.ts
+3da6d3793101ef8035a742f9a73014f2fa47d48385ae8f397e41829f56c64402 *packages/shared/src/storage/db.ts
+207ac60c33d467651919ffd6549ba062cc12b2485d59be44862f558efca017e0 *packages/shared/src/domain/event.ts
+29e9f4c48cafd35dcec1617249be2030d7534587e124faad5eeceec983382285 *firebase/firestore.rules
+1dacc5ac92579c1a6af65b223d220fa84ad9b1d942724c56c88ff80141c192e5 *tests/unit/telemetry/rules-parity.test.ts
+0e85229b93398e286f29085929883308f23ba8c0ef4b86ce3bb4be6fe9b6c197 *tests/unit/telemetry/registry.test.ts
+dc592cbbc006ddd6a05f1a46685fa1063386dd2fa44f53f4e5152e30e78186ee *tests/unit/telemetry/queue.test.ts
+14ec9948de871e8435dac08c2e4d6f2ccd1901fe53e501e0e75adfff61740209 *tests/unit/telemetry/client-number.test.ts
+d9e2ed84804b336af3f086b6f4bf2ce5fa5f9d1e5e1e4b71323be3129221a8c6 *tests/unit/storage/atomicity.test.ts
+```
+
+> **この 18 値は改行コードに依存しない。** **発注051 で作業ツリーの CRLF 13 本を LF へ直し、`check:eol` を新設した**ので、
+> **どの機械でも同じ値が出る。** 042〜046 の `app-config.ts` で起きた事故（**CRLF 版の値を記録して二度と一致しなくなる**）は
+> もう起きない。**記憶 `recorded-hash-carries-machine-state`。**
 
 ### 0.5 着手前の状態
 
@@ -347,7 +380,21 @@ export function telemetryExemptSources(): Array<{ file: string; text: string }>;
 
 `npm run typecheck` / `npm run lint` / `npm test` / `npm run data:check` / `npm run build` /
 `npm run scan:publish` が**すべて終了コード 0**。
-**`test:node` の総数は着手前の基準線 ＋ 19 になること**（基準線は §8 で確定する）。
+**`test:node` の総数は着手前の基準線 420 ＋ 19 ＝ 439 になること。**
+
+**基準線（2026-09-04・第33回に `9f53fd4`・clean で親担当が実測した値）**
+
+| 検査 | 着手前 | 着手後 |
+|---|---|---|
+| `npm run test:node` | **tests 420 / pass 420 / fail 0** | **439 / 439 / 0** |
+| `npm run test:screen` | **12 files / 88 passed** | **同数**（この発注は screen 試験を足さない） |
+| `npm run scan:publish` | **走査 751 件 / 違反 0 件** | **同数・違反 0** |
+| `npm run check:eol` | **走査 1032 件 / 違反 0 件** | **違反 0 件**（**新設。自分が書くファイルを CRLF で保存すると赤くなる**） |
+| `npm run data:check` | **終了コード 0** | **0** |
+| `typecheck` / `lint` / `build` | **すべて 0** | **すべて 0** |
+
+> **⚠ `test:node` の基準線は 412 ではなく 420 である。** 発注049・050 で +8 された。
+> **`check:eol` は発注051 で新設された検査である。** `npm test` には入っていないので、**着手後に別途走らせること。**
 
 > **`scan:publish` について。** Web 設定 7 項目は**公開バンドルに入ってよい**（`H05_FIREBASE_BRIEF` §2.1）。
 > **違反が 1 件でも出たら S-3 で止まること**（基準線は走査 751 件・違反 0 件）。
@@ -415,13 +462,36 @@ export function telemetryExemptSources(): Array<{ file: string; text: string }>;
 
 ---
 
-## 8. 発行時に親担当が埋めるもの（**起票の時点では埋められない**）
+## 8. 発行時に親担当が埋めるもの（**3 項目は記入済み。残るのは D-61 条件 3 だけである**）
 
-**発注047 が走行中のため、次の 3 つは発行時に確定する。**
+- [x] **前提コミット**——**`9f53fd4`（`Accept order 051: data:check now passes on a machine that never saw this tree`）。**
+      **047 の検収・確定（`6bc84ce`）より後であり、発注050・051 も確定済みである。**
+      **2026-09-04・第33回に記入した。**
+- [x] **§0.4 の SHA-256 一覧**——**18 件。`9f53fd4`・clean で実測した。**
+      **047 の 2 ファイル（`firestore.rules`・`rules-parity.test.ts`）を含む。**
+      **051 の 17 件から、この発注が正当に変更する 3 件を外してある**（§0.4 に理由を書いた）。
+- [x] **§5.1 の基準線**——**`test:node` 420（＋19 で 439）、`test:screen` 12 files / 88、`scan:publish` 751 / 違反 0。**
+      **`check:eol`（発注051 で新設）走査 1032 / 違反 0 も足した。**
+- [ ] **⚠ D-61 条件 3——参照実装で M-1〜M-15 を実測すること。これだけが残っている。発行しない。**
 
-- [ ] **前提コミット**（**047 の検収・確定後のコミット**）
-- [ ] **§0.4 の SHA-256 一覧**（変更してはならないファイル。**047 が作った 2 ファイルを必ず含める**）
-- [ ] **§5.1 の基準線**（`test:node` / `test:screen` / `scan:publish` の件数。**047 で +8 されているはずである**）
+### 8.1 ⚠ 次の担当者への申し送り（**2026-09-04・第33回。ここから読む**）
+
+**この発注は「あと 1 工程で発行できる」状態である。残っているのは D-61 条件 3 だけである。**
+
+**やること**——**参照実装（`transport.ts`＋`transport.test.ts`＋`app-config.ts` の 7 項目＋`fixtures.ts`／`static.test.ts` の改修）を
+自分で書き、§5.2 の M-1〜M-15 を 1 件ずつ当てて期待値を実測し、表と食い違ったら表を直す。**
+**そのあと参照実装を破棄し、基準線（`test:node` 420/420・18 ハッシュ 18/18）へ戻してから発行する。**
+
+**とくに実測しないと決まらない行が 1 つある**——**M-2 の道連れである。**
+**`T-5`・`T-6` が一緒に赤くなるかは参照実装の書き方で変わる。** 起票時の表は推測を含む。**実測して直すこと。**
+
+**第33回がこの工程をここで止めた理由**（記憶 `split-work-by-startup-cost`）——
+**§8 の 3 項目は、発注051 の検収で測った値がそのまま使えるので、その context を持っているセッションで埋めるのが最も安い。**
+**参照実装は `transport.ts` 周辺と `IMPLEMENTATION_PLAN` §7.4・§7.6 を一から読む工程で、起動コストが独立している。**
+**だから境界をここに引いた。やり残しではなく、意図して次へ送った工程である。**
+
+**着手前に確かめること**——**作業ツリーが clean で、`git log -1` が `9f53fd4` であること。**
+**動いていたら §0.4 の 18 値と §5.1 の基準線を採り直すこと**（**記録された数値をそのまま信じない**）。
 
 **あわせて、発行前に親担当が行うこと（D-61 条件 3）**——
 **参照実装を書いて M-1〜M-15 を実測し、この表と食い違わないことを確かめ、破棄して基準線へ戻す。**
