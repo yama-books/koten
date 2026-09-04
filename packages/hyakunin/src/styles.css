@@ -236,3 +236,26 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .range-panel > * { min-width: 0; }
 .home button { box-sizing: border-box; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 .entry-actions .primary { min-width: min(12rem, 100%); }
+
+.onboarding {
+  box-sizing: border-box;
+  border-bottom: var(--rule-thin) solid var(--color-rule);
+  padding-block: var(--space-lg);
+}
+.onboarding__panel {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-xl);
+}
+.stats-notice,
+.grade-picker { display: grid; min-width: 0; gap: var(--space-md); }
+.stats-notice h1,
+.stats-notice p,
+.grade-picker h2,
+.grade-picker p { margin: 0; }
+.stats-notice__confirm { justify-self: start; background: var(--color-ink); color: var(--color-paper); font-weight: 700; }
+.grade-picker { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
+.grade-picker__options { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.grade-picker__options button { flex: 1 1 7rem; min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.grade-picker__options button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
+.grade-picker__secondary { display: grid; min-width: 0; gap: var(--space-sm); }

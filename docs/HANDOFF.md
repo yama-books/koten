@@ -814,7 +814,45 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 
 ## 8. 進行中の作業
 
-### 発注052（P9-D1・統計案内と学年選択）を発行した。参照実装の工程を担当側へ移した（2026-09-04・第34回の続き）—— **これが §8 の最新である**
+### テスト公開が成立した（2026-09-04・第34回）—— **これが §8 の最新である**
+
+**`https://yama-books.github.io/koten/` で配信されている。** アカウント `yama-books`、リポジトリ `koten`、
+公開段は `/koten/100/`（百人一首）と `/koten/kana/`（仮名遣い）。**公開リポジトリのコミットは `472f98a` の 1 本だけである。**
+
+**(1) 実測で確かめた**（`docs/RELEASE_CHECK.md` §6.5 に全項目）。
+`CI` と `Deploy Pages` はどちらも **success**。**公開版で `?from=10&to=20` から 1 問目へ到達し、`これやこの` で ○ 正解、
+IndexedDB `koten` が作られるところまで確認した。** 仮名遣い側は「準備中」と正直に表示している。
+
+**(2) push が 3 回失敗した。原因は 2 つで、どちらも認証の話ではなかった。**
+
+**(a) 貼り付けたトークンに書き込み権限が無かった。** `gh auth login` で
+`Paste an authentication token` を選んだためである。**`gh auth login --web` で入れ直したら通った**
+（`gho_` で始まる OAuth トークンになり、scope に `repo` と `workflow` が入る）。
+**`gh auth switch` が切り替えるのは gh 自身の資格情報で、`git push` が使う `git:https://github.com` は別系統である**
+（`cmdkey /list` で 2 系統が並んで見える）。
+
+**(b) 10 MiB の push が `HTTP 408` で切れた。** Windows の HTTPS ＋ HTTP/2 の既知の症状で、
+**`git config --global http.version HTTP/1.1` で通った**（512 KiB/s → 16.06 MiB/s）。
+
+**(3) 親担当が同じ型の誤りを 3 回続けた。記録しておく。**
+**`gh repo view` の成功・`permissions.push: true`・`denied to yama-books` という主体名——
+いずれも肯定的な観測だが、権限の証拠にはならなかった**（public は誰でも読める／`permissions` はトークンではなくユーザの役割／
+主体が正しくても scope 不足なら拒否される）。**認証の切り分けでは、成功した観測がほぼ何も証明しない。**
+**`gh auth status` の scope 行 1 本に絞るべきだった。** 記憶 `positive-observations-do-not-prove-permission` に落とした。
+
+**(4) push の成否は出力ではなくリモートで判定すること。**
+2 回目の push は `fatal: the remote end hung up unexpectedly` のあとに `Everything up-to-date` と出たため
+**「完了した」と読めたが、`git ls-remote origin` は 1 行も返さず、API も `size: 0` だった。**
+**`git ls-remote origin` が `refs/heads/main` を返すかどうかで判定する。**
+
+**(5) 公開後に見つかった小さな欠陥**——**`/koten/100/存在しないパス` が GitHub の既定 404 を返す。**
+自前の 404 は `_site/100/404.html` に置いたが、**Pages が使うのはサイト直下の `404.html` だけである。**
+**実害は小さい**（このアプリは経路でなく問い合わせ文字列で状態を持つ）。**次の公開のついでに `_site/404.html` を 1 枚置く。**
+
+**(6) 残っている人の作業**——実機一巡（H-08。**公開 URL ができたので、これ以降は Pages で行える**）、
+読み上げ確認、`prefers-reduced-motion`、台帳の校正（H-03・H-05・H-07）。**いずれも README と画面に「まだできないこと」として明記済みである。**
+
+### 発注052（P9-D1・統計案内と学年選択）を発行した。参照実装の工程を担当側へ移した（2026-09-04・第34回の続き）—— **古い。上の節が最新である**
 
 **依頼者の指示**——「Codex は週次リセット 1 回分が残り、こちらは週次 30% を切っている。負担する部分をなるべく減らして切り出してほしい」。
 

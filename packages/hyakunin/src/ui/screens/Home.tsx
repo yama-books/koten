@@ -3,6 +3,8 @@ import { KNOWN_LIMITATIONS, releaseStageLabel } from '@koten/shared/release-note
 import type { Session, UserSettings } from '@koten/shared/domain/event';
 import { loadJson } from '@koten/shared/data/load';
 import { ErrorScreen } from '@koten/shared/error-screen';
+import { GradePicker } from '@koten/shared/grade-picker';
+import { StatsNotice } from '@koten/shared/stats-notice';
 import { useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks';
 import { parsePoems, type Poem } from '../../data/schema.ts';
 import { parseQuestions, type PublishedQuestion } from '../../data/question-schema.ts';
@@ -46,6 +48,8 @@ export function Home({ port, onPickEntry, onResume, onOpenHistory, poems: suppli
   const [current, setCurrent] = useState(initialRange.from);
   const [viewing, setViewing] = useState(false);
   const [settings, setSettings] = useState<UserSettings>(defaults);
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
+  const [pendingGrade, setPendingGrade] = useState<string | undefined>();
   const [restorable, setRestorable] = useState<Restorable | null>(null);
   const [restoring, setRestoring] = useState(true);
 
@@ -62,6 +66,8 @@ export function Home({ port, onPickEntry, onResume, onOpenHistory, poems: suppli
     activePort.loadSettings().then((saved) => {
       const migrated = saved ?? { ...defaults, writing: window.localStorage?.getItem('hyakunin:orientation') === 'horizontal' ? 'horizontal' : 'vertical' };
       setSettings(migrated);
+      setPendingGrade(migrated.grade);
+      setSettingsLoaded(true);
       if (!saved) { void activePort.saveSettings(migrated); window.localStorage?.removeItem('hyakunin:orientation'); }
     });
     Promise.all([activePort.loadLastSession(), activePort.listEvents()]).then(([session, events]) => {
@@ -74,6 +80,12 @@ export function Home({ port, onPickEntry, onResume, onOpenHistory, poems: suppli
   const poem = selected[index];
   const shouldOfferRestore = restorable !== null && !restorable.session.completed && restorable.plan.remainingInRange > 0 && restoring;
   const persist = async (next: UserSettings) => { setSettings(next); await activePort.saveSettings(next); };
+  function confirmNotice() {
+    const withoutGrade = { ...settings };
+    delete withoutGrade.grade;
+    const next = pendingGrade === undefined ? { ...withoutGrade, noticeConfirmed: true } : { ...settings, grade: pendingGrade, noticeConfirmed: true };
+    void persist(next);
+  }
   function returnToRangeSelection() {
     setViewing(false);
   }
@@ -93,5 +105,5 @@ export function Home({ port, onPickEntry, onResume, onOpenHistory, poems: suppli
     const authorReading = settings.reading === 'no-ruby' ? null : poem.reading[settings.reading].author;
     return <main class="viewer"><header class="nav-edge"><span class="wordmark">{appConfig.products.hyakunin.displayName}</span><span class="progress" aria-live="polite">{poem.cardNo}番 · {index + 1}/{selected.length}首</span><button type="button" onClick={returnToRangeSelection}>範囲を選び直す</button></header><section class="reading-controls"><ReadingToggle value={settings.reading} onChange={(reading) => persist({ ...settings, reading })} /><WritingModeToggle value={settings.writing} onChange={(writing) => persist({ ...settings, writing })} /></section><article class={`poem-sheet poem-sheet--${settings.writing}`} aria-labelledby="poem-title"><h1 id="poem-title" class="sr-only">{poem.cardNo}番 {poem.author.canonical}</h1><div class="poem" lang="ja"><div class="poem__half" aria-label={`上の句 ${ku.slice(0, 3).join(' ')}`}>{ku.slice(0, 3).map((line) => <span key={line}>{line}</span>)}</div><div class="poem__half" aria-label={`下の句 ${ku.slice(3).join(' ')}`}>{ku.slice(3).map((line) => <span key={line}>{line}</span>)}</div></div><div class="author"><strong>{poem.author.canonical}</strong>{authorReading && <span>{authorReading}</span>}</div></article>{poem.reading.status === 'review' && <p class="review-note" role="note">この歌の読みには異同の確認記録があります。表示は採用済みの読みです。</p>}<ReportButton onReport={() => activePort.saveLocalReport(`p${String(poem.cardNo).padStart(3, '0')}`)} /><nav class="pager" aria-label="歌を移動"><button type="button" disabled={index === 0} onClick={() => setCurrent(selected[index - 1].cardNo)}>前の歌</button><button type="button" disabled={index === selected.length - 1} onClick={() => setCurrent(selected[index + 1].cardNo)}>次の歌</button></nav></main>;
   }
-  return <main class="home"><header class="nav-edge"><span class="wordmark">{appConfig.products.hyakunin.displayName}</span></header><section class="intro"><h1>まず、歌を読む。</h1><p>範囲を選び、見るだけでも、準備ができた問題からでも始められます。</p></section>{initialRange.hadInvalidQuery && <p class="review-note" role="status">範囲を読み込めなかったため、全範囲を表示しています。</p>}{shouldOfferRestore && <section class="review-note restore-offer"><p>前回の学習を復元しますか。</p><p>あと{restorable.plan.remainingInRange}首 · {restorable.plan.chunkIndex + 1}/{restorable.plan.chunkCount}まとまり</p><button type="button" onClick={() => { onResume?.(restorable.session, restorable.plan.cardNumbers, questions); setRestoring(false); }}>復元する</button><button type="button" onClick={() => setRestoring(false)}>復元しない</button></section>}<section class="range-panel"><h2>見る範囲</h2><div class="range-fields"><label>最初の番<input type="number" min="1" max="100" value={from} onInput={(event) => setFrom(Number(event.currentTarget.value))} /></label><span aria-hidden="true">〜</span><label>最後の番<input type="number" min="1" max="100" value={to} onInput={(event) => setTo(Number(event.currentTarget.value))} /></label></div><div class="entry-actions">{(Object.keys(labels) as EntryId[]).map((entry) => <button class={entry === 'quick' ? 'primary' : ''} type="button" disabled={!isEntryAvailable(entry, questions.length)} aria-disabled={!isEntryAvailable(entry, questions.length)} onClick={() => choose(entry)}>{labels[entry]}</button>)}</div>{questions.length === 0 && <p role="status">問題はまだ準備中です。いまは「見るだけ」を使えます。</p>}</section><button type="button" onClick={onOpenHistory}>これまでの記録</button><footer class="foot-line"><p class="release-stage">{releaseStageLabel}</p><details class="known-limits"><summary>この版でまだできないこと</summary><ul>{KNOWN_LIMITATIONS.map((limitation) => <li key={limitation}>{limitation}</li>)}</ul></details><p>{appConfig.publisher} · 100首収録</p></footer></main>;
+  return <main class="home">{settingsLoaded && !settings.noticeConfirmed && <div class="onboarding" role="region" aria-label="初回設定"><div class="onboarding__panel"><StatsNotice onConfirm={confirmNotice} /><GradePicker value={pendingGrade} onChange={setPendingGrade} /></div></div>}<header class="nav-edge"><span class="wordmark">{appConfig.products.hyakunin.displayName}</span></header><section class="intro"><h1>まず、歌を読む。</h1><p>範囲を選び、見るだけでも、準備ができた問題からでも始められます。</p></section>{initialRange.hadInvalidQuery && <p class="review-note" role="status">範囲を読み込めなかったため、全範囲を表示しています。</p>}{shouldOfferRestore && <section class="review-note restore-offer"><p>前回の学習を復元しますか。</p><p>あと{restorable.plan.remainingInRange}首 · {restorable.plan.chunkIndex + 1}/{restorable.plan.chunkCount}まとまり</p><button type="button" onClick={() => { onResume?.(restorable.session, restorable.plan.cardNumbers, questions); setRestoring(false); }}>復元する</button><button type="button" onClick={() => setRestoring(false)}>復元しない</button></section>}<section class="range-panel"><h2>見る範囲</h2><div class="range-fields"><label>最初の番<input type="number" min="1" max="100" value={from} onInput={(event) => setFrom(Number(event.currentTarget.value))} /></label><span aria-hidden="true">〜</span><label>最後の番<input type="number" min="1" max="100" value={to} onInput={(event) => setTo(Number(event.currentTarget.value))} /></label></div><div class="entry-actions">{(Object.keys(labels) as EntryId[]).map((entry) => <button class={entry === 'quick' ? 'primary' : ''} type="button" disabled={!isEntryAvailable(entry, questions.length)} aria-disabled={!isEntryAvailable(entry, questions.length)} onClick={() => choose(entry)}>{labels[entry]}</button>)}</div>{questions.length === 0 && <p role="status">問題はまだ準備中です。いまは「見るだけ」を使えます。</p>}</section><button type="button" onClick={onOpenHistory}>これまでの記録</button><footer class="foot-line"><p class="release-stage">{releaseStageLabel}</p><details class="known-limits"><summary>この版でまだできないこと</summary><ul>{KNOWN_LIMITATIONS.map((limitation) => <li key={limitation}>{limitation}</li>)}</ul></details><p>{appConfig.publisher} · 100首収録</p></footer></main>;
 }
