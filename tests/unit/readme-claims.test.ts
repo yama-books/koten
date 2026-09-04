@@ -33,3 +33,11 @@ test('README does not promise telemetry while the transport is disabled', () => 
   assert.match(readme, /匿名(の利用)?統計(の送信)?は\*\*行いません\*\*|統計は送信しません|送信しません/, 'README が統計を送らないことを明記していない');
   assert.equal(/統計を(送信|送り)ます/.test(readme), false, 'README が送らない統計を送ると書いている');
 });
+
+test('README names the blank-unit limitation while only one unit is generated', () => {
+  const blanks = JSON.parse(readFileSync(path.join(root, 'packages/hyakunin/src/data/generated/questions.blank.json'), 'utf8'));
+  const units = new Set(blanks.map((question: { blankUnit: string }) => question.blankUnit));
+  assert.ok(units.size > 0, '穴埋めが 0 件では検査にならない');
+  // APP_SPEC §15 item 5 asks for three units. Until all three exist, the README must say so.
+  if (units.size === 1) assert.match(readme, /句を丸ごと隠す形だけ|「句」単位だけ/, `生成は ${[...units]} だけなのに README が制約を書いていない`);
+});

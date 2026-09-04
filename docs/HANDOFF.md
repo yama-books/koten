@@ -890,6 +890,14 @@ batch 行が batchEvidenceRef を持つ。**試験の本数は 420 のまま増�
 **§5.1 の助言（試験運用は LAN preview、Pages 公開は新アカウントが決まってから一度だけ）と一致する。**
 **H-09 は「検討中」から「新規アカウントで進める」へ確定した。**
 
+**(13) 追加で見つけた 2 件（記録のみ。今日は直さない）。**
+**(a) 穴埋めは 500 問すべて `blankUnit: 'ku'` である**（実測）。`APP_SPEC` §15 の項目 5 は**穴埋め 3 単位**を求めており、
+**語単位・文節単位は 1 問も作られていない。** `tools/build-data/questions.ts` が `'ku'` を直書きしている。
+**README に制約として明記し、釘も打った**（`tests/unit/readme-claims.test.ts`。単位が 1 種類の間だけ README の記述を要求する条件付き試験）。
+**(b) 仕様と実装で単位の名前が違う**——`APP_SPEC.md:312` は `"word"|"bunsetsu"|"ku"|null`、
+`packages/hyakunin/src/data/question-schema.ts:41` は `'word'|'phrase'|'ku'|null`。
+**いまは `ku` しか作らないので無害だが、語単位を作り始めた日に片方が弾かれる。** どちらへ寄せるかは裁定が要る。
+
 **(12) 次にやること。** **`.claude/launch.json` を作ったので `preview_start` で dev 起動できる。**
 残りは P12 の足回りである——`docs/ROLLBACK.md`、`.github/workflows/deploy-pages.yml`、
 `app-config.ts` の `repositoryUrl` と `officialReleaseDate`、`vite.config.ts` の `base`（リポジトリ名に依存）、
