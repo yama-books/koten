@@ -1,0 +1,14 @@
+古典学習帳 (Koten Gakushucho)
+Copyright 2026 koten contributors
+
+Program source code is licensed under the Apache License, Version 2.0.
+Project-owned content is licensed separately under CC BY 4.0; see LICENSE-CONTENT.md.
+
+This project publishes two applications: 百人一首練習帳 (Hyakunin Isshu practice
+book) and 歴史的仮名遣い確認ツール (historical kana orthography checker).
+
+The public repository URL will be confirmed before the first public release.
+
+Third-party libraries, fonts, source materials, and other separately identified
+works remain under their respective licenses and notices.
+

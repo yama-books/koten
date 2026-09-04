@@ -1,0 +1,1004 @@
+# 縦書き改行候補の確認台帳（人が書き込む唯一の場所）
+# 状態: pending | approved | rejected | hold
+version: 1
+entries:
+  - cardNo: 1
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 2
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 3
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 4
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 5
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 6
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 7
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 8
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 9
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 10
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 11
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 12
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 13
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 14
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 15
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 16
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 17
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 18
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 19
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 20
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 21
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 22
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 23
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 24
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 25
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 26
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 27
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 28
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 29
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 30
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 31
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 32
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 33
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 34
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 35
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 36
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 37
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 38
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 39
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 40
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 41
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 42
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 43
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 44
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 45
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 46
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 47
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 48
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 49
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 50
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 51
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 52
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 53
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 54
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 55
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 56
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 57
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 58
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 59
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 60
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 61
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 62
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 63
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 64
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 65
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 66
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 67
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 68
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 69
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 70
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 71
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 72
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 73
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 74
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 75
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 76
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 77
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 78
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 79
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 80
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 81
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 82
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 83
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 84
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 85
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 86
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 87
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 88
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 89
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 90
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 91
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 92
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 93
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 94
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 95
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 96
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 97
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 98
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 99
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null
+  - cardNo: 100
+    status: pending
+    confirmationMode: individual
+    batchEvidenceRef: null
+    proposedBy: human
+    confirmedBy: null
+    confirmedOn: null
+    note: null
+    breaks: []
+    device: null

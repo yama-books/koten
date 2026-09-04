@@ -1,0 +1,41 @@
+{
+  "name": "koten-data-pipeline",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "data:build": "node --experimental-strip-types tools/build-data/index.ts",
+    "data:check": "node --experimental-strip-types tools/build-data/index.ts --check",
+    "test": "npm run test:node && npm run test:screen",
+    "test:node": "node --experimental-strip-types --test \"tests/**/*.test.ts\"",
+    "test:screen": "vitest run",
+    "test:rules": "npm test --prefix tests/rules",
+    "build": "npm run build --workspace=@koten/hyakunin && npm run build --workspace=@koten/kanazukai",
+    "typecheck": "tsc -b packages/shared packages/hyakunin packages/kanazukai",
+    "lint": "npm run lint --workspace=@koten/hyakunin && npm run lint --workspace=@koten/kanazukai",
+    "scan:publish": "node --experimental-strip-types tools/scan-publish/index.ts",
+    "check:eol": "node --experimental-strip-types tools/eol-check/index.ts",
+    "check:overflow": "node --experimental-strip-types tools/overflow-check/index.ts",
+    "check:font": "node --experimental-strip-types tools/font-check/index.ts",
+    "check:font-weight": "node --experimental-strip-types tools/font-weight-check/index.ts",
+    "check:font-assets": "node --experimental-strip-types tools/font-assets-check/index.ts",
+    "check:storage": "node --experimental-strip-types tools/check-storage/index.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@preact/preset-vite": "^2.10.6",
+    "@types/node": "^26.4.0",
+    "eslint": "^10.9.1",
+    "jsdom": "30.0.1",
+    "playwright": "^1.62.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.68.0",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  },
+  "dependencies": {
+    "preact": "^10.29.8"
+  }
+}

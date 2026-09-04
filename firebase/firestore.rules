@@ -1,0 +1,77 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function nonNegativeInt(value) {
+      return value is int && value >= 0;
+    }
+
+    function isValidStats(data, docId, official) {
+      return data.keys().hasOnly([
+        'clientNumber', 'localDate', 'product', 'grade', 'pageViews', 'buttonCounts',
+        'entryCounts', 'questionTypeCounts', 'attemptCount', 'masteryAvg', 'masteryMax',
+        'masteryDistribution', 'isOfficial', 'appVersion', 'dataVersion',
+        'masteryRulesVersion', 'expiresAt'
+      ])
+        && data.keys().hasAll([
+          'clientNumber', 'localDate', 'product', 'grade', 'pageViews', 'buttonCounts',
+          'entryCounts', 'questionTypeCounts', 'attemptCount', 'masteryAvg', 'masteryMax',
+          'masteryDistribution', 'isOfficial', 'appVersion', 'dataVersion',
+          'masteryRulesVersion', 'expiresAt'
+        ])
+        && data.clientNumber is string && data.clientNumber.matches('^[a-z0-9]{20}$')
+        && data.localDate is string && data.localDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && data.expiresAt is timestamp
+        && data.product in ['hyakunin', 'kanazukai']
+        && data.grade is string
+        && data.pageViews is int && data.pageViews >= 0
+        && data.attemptCount is int && data.attemptCount >= 0
+        && data.masteryAvg is number && data.masteryAvg >= 0 && data.masteryAvg <= 100
+        && data.masteryMax is number && data.masteryMax >= 0 && data.masteryMax <= 100
+        && data.masteryDistribution is list && data.masteryDistribution.size() == 5
+        && data.isOfficial is bool
+        && data.appVersion is string
+        && nonNegativeInt(data.dataVersion)
+        && nonNegativeInt(data.masteryRulesVersion)
+        && data.buttonCounts is map
+        && data.buttonCounts.keys().hasAll(['start', 'answer', 'hint', 'reveal', 'history', 'report'])
+        && data.buttonCounts.keys().size() == 6
+        && nonNegativeInt(data.buttonCounts.start)
+        && nonNegativeInt(data.buttonCounts.answer)
+        && nonNegativeInt(data.buttonCounts.hint)
+        && nonNegativeInt(data.buttonCounts.reveal)
+        && nonNegativeInt(data.buttonCounts.history)
+        && nonNegativeInt(data.buttonCounts.report)
+        && data.entryCounts is map
+        && data.entryCounts.keys().hasAll(['quick', 'view', 'learn', 'review', 'exam'])
+        && data.entryCounts.keys().size() == 5
+        && nonNegativeInt(data.entryCounts.quick)
+        && nonNegativeInt(data.entryCounts.view)
+        && nonNegativeInt(data.entryCounts.learn)
+        && nonNegativeInt(data.entryCounts.review)
+        && nonNegativeInt(data.entryCounts.exam)
+        && data.questionTypeCounts is map
+        && data.questionTypeCounts.keys().hasAll(['blank', 'author'])
+        && data.questionTypeCounts.keys().size() == 2
+        && nonNegativeInt(data.questionTypeCounts.blank)
+        && nonNegativeInt(data.questionTypeCounts.author)
+        && nonNegativeInt(data.masteryDistribution[0])
+        && nonNegativeInt(data.masteryDistribution[1])
+        && nonNegativeInt(data.masteryDistribution[2])
+        && nonNegativeInt(data.masteryDistribution[3])
+        && nonNegativeInt(data.masteryDistribution[4])
+        && data.isOfficial == official
+        && docId == data.clientNumber + '_' + data.localDate + '_' + data.product;
+    }
+
+    match /stats_days_test/{docId} {
+      allow create: if isValidStats(request.resource.data, docId, false);
+      allow get, list, update, delete: if false;
+    }
+
+    match /stats_days_official/{docId} {
+      allow create: if isValidStats(request.resource.data, docId, true);
+      allow get, list, update, delete: if false;
+    }
+  }
+}

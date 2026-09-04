@@ -1,0 +1,4 @@
+:root { font-family: sans-serif; font-weight: 500; color: #222; background: #fff; }
+body { margin: 0; }
+.home, .error-screen { box-sizing: border-box; max-width: 44rem; margin: 0 auto; padding: 2rem 1rem; overflow-wrap: anywhere; }
+:focus-visible { outline: 3px solid #005fcc; outline-offset: 3px; }

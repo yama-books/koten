@@ -1,0 +1,13 @@
+{
+  "name": "koten-rules-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "firebase emulators:exec --only firestore --project demo-koten-rules --config ../../firebase/firebase.json \"node stats.test.mjs\""
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "5.0.2",
+    "firebase-tools": "15.29.0",
+    "firebase": "12.18.0"
+  }
+}

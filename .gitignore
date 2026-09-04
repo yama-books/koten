@@ -1,0 +1,89 @@
+# P0（境界固定と公開衛生）で完成させた。
+# docs/IMPLEMENTATION_PLAN.md §10 の P0 ブロックを参照。
+#
+# 役割の分担（混同しないこと）:
+#   .gitignore              … このリポジトリで「追跡しないもの」を決める。
+#   docs/PUBLISH_MANIFEST.md … 公開リポジトリへ「移すもの」を決める（許可リスト）。
+#
+# このリポジトリは非公開の作業用・Codex 共有用である。
+# したがって docs/ 配下の内部資料はここでは除外しない。追跡して Codex と共有する。
+# docs/HANDOFF.md も除外しない（除外すると Codex から読めない。§2.3.1）。
+# 公開側への流出は PUBLISH_MANIFEST の許可リストで防ぐ。
+
+# ---- 依存とビルド成果物 ----
+node_modules/
+dist/
+dist-*/
+build/
+.vite/
+.turbo/
+.cache/
+coverage/
+*.tsbuildinfo
+
+# ---- 環境設定・秘密情報 ----
+# .env.example だけは追跡する（設定項目の一覧として必要）。
+.env
+.env.*
+!.env.example
+*.local
+secrets/
+
+# npm の認証トークンが入りうる。レジストリ設定を共有したい場合は .npmrc.example を使う。
+.npmrc
+!.npmrc.example
+
+**/service-account*.json
+**/*serviceaccount*.json
+**/*credentials*.json
+**/*-firebase-adminsdk-*.json
+*.pem
+*.key
+*.p12
+*.keystore
+
+# ---- Firebase ----
+# 実プロジェクト ID・エミュレータの書き出し・デバッグログを追跡しない。
+.firebase/
+.firebaserc
+.runtimeconfig.json
+firebase-debug.log*
+firestore-debug.log*
+database-debug.log*
+pubsub-debug.log*
+ui-debug.log*
+emulator-data/
+
+# ---- 実利用データ・バックアップ・未集計の報告 ----
+# アプリの書き出し JSON（学習履歴）はここへ置く。リポジトリに入れない。
+user-data/
+backups/
+reports-raw/
+*.backup
+*.bak
+*.sqlite
+*.sqlite3
+
+# ---- テスト成果物 ----
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+tools/overflow-check/output/
+
+# ---- ログ ----
+*.log
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ---- OS・エディタ ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+*.swp
+*~

@@ -1,0 +1,53 @@
+# 改行コードを LF に固定する。
+# Windows と他環境で作業したときに、内容が同じファイルが差分として出るのを防ぐ。
+# 後の行が勝つため、順序を変えないこと。
+#
+# P0（境界固定と公開衛生）で完成させた。
+# 目的は「改行コード由来の不安定なテスト失敗を、実装に入る前に潰す」ことである。
+# docs/IMPLEMENTATION_PLAN.md §10 の P0 ブロックを参照。
+
+* text=auto eol=lf
+
+# ---- Windows 専用スクリプトだけは CRLF を保つ ----
+# cmd.exe と PowerShell は LF 改行のスクリプトで誤動作することがある。
+# 開発環境が Windows のため、この 2 種だけ例外にする。
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# ---- バイナリ（差分を取らない・改行変換をしない） ----
+# `binary` は `-text -diff` の別名である。
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.avif binary
+*.pdf  binary
+
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+
+*.zip binary
+*.gz  binary
+*.mp3 binary
+*.mp4 binary
+
+# ---- ライセンス原文は原本のまま保持する ----
+# 改行の正規化も含めて手を入れない。再配布時に原文一致が求められるため。
+
+LICENSE      -text
+licenses/**  -text
+**/OFL.txt   -text
+**/LICENSE.txt -text
+
+# ---- 生成物 ----
+# tools/build-data の出力。手編集禁止（CI で検査する。§5.1）。
+# レビュー時に差分が畳まれるよう generated 印を付ける。内容は通常のテキストとして扱う。
+
+packages/*/src/data/generated/** linguist-generated=true

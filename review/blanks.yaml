@@ -1,0 +1,4504 @@
+# blanks の確認台帳（人が書き込む唯一の場所）
+# 状態: pending | approved | rejected | hold
+version: 1
+entries:
+  - cardNo: 1
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 1
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 1
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 1
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 1
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 2
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 2
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 2
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 2
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 2
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 3
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 3
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 3
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 3
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 3
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 4
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 4
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 4
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 4
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 4
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 5
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 5
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 5
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 5
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 5
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 6
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 6
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 6
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 6
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 6
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 7
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 7
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 7
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 7
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 7
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 8
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 8
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 8
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 8
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 8
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 9
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 9
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 9
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 9
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 9
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 10
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 10
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 10
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 10
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 10
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 11
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 11
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 11
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 11
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 11
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 12
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 12
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 12
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 12
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 12
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 13
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 13
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 13
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 13
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 13
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 14
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 14
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 14
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 14
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 14
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 15
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 15
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 15
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 15
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 15
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 16
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 16
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 16
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 16
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 16
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 17
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 17
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 17
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 17
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 17
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 18
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 18
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 18
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 18
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 18
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 19
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 19
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 19
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 19
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 19
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 20
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 20
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 20
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 20
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 20
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 21
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 21
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 21
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 21
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 21
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 22
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 22
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 22
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 22
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 22
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 23
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 23
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 23
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 23
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 23
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 24
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 24
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 24
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 24
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 24
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 25
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 25
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 25
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 25
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 25
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 26
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 26
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 26
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 26
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 26
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 27
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 27
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 27
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 27
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 27
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 28
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 28
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 28
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 28
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 28
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 29
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 29
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 29
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 29
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 29
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 30
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 30
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 30
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 30
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 30
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 31
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 31
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 31
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 31
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 31
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 32
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 32
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 32
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 32
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 32
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 33
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 33
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 33
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 33
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 33
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 34
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 34
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 34
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 34
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 34
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 35
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 35
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 35
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 35
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 35
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 36
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 36
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 36
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 36
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 36
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 37
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 37
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 37
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 37
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 37
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 38
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 38
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 38
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 38
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 38
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 39
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 39
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 39
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 39
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 39
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 40
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 40
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 40
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 40
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 40
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 41
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 41
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 41
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 41
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 41
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 42
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 42
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 42
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 42
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 42
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 43
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 43
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 43
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 43
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 43
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 44
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 44
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 44
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 44
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 44
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 45
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 45
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 45
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 45
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 45
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 46
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 46
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 46
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 46
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 46
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 47
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 47
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 47
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 47
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 47
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 48
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 48
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 48
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 48
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 48
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 49
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 49
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 49
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 49
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 49
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 50
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 50
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 50
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 50
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 50
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 51
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 51
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 51
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 51
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 51
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 52
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 52
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 52
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 52
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 52
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 53
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 53
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 53
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 53
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 53
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 54
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 54
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 54
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 54
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 54
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 55
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 55
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 55
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 55
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 55
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 56
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 56
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 56
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 56
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 56
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 57
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 57
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 57
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 57
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 57
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 58
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 58
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 58
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 58
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 58
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 59
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 59
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 59
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 59
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 59
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 60
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 60
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 60
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 60
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 60
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 61
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 61
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 61
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 61
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 61
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 62
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 62
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 62
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 62
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 62
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 63
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 63
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 63
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 63
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 63
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 64
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 64
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 64
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 64
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 64
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 65
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 65
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 65
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 65
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 65
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 66
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 66
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 66
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 66
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 66
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 67
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 67
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 67
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 67
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 67
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 68
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 68
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 68
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 68
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 68
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 69
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 69
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 69
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 69
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 69
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 70
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 70
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 70
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 70
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 70
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 71
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 71
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 71
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 71
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 71
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 72
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 72
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 72
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 72
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 72
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 73
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 73
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 73
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 73
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 73
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 74
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 74
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 74
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 74
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 74
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 75
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 75
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 75
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 75
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 75
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 76
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 76
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 76
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 76
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 76
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 77
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 77
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 77
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 77
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 77
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 78
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 78
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 78
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 78
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 78
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 79
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 79
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 79
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 79
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 79
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 80
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 80
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 80
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 80
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 80
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 81
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 81
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 81
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 81
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 81
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 82
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 82
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 82
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 82
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 82
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 83
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 83
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 83
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 83
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 83
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 84
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 84
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 84
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 84
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 84
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 85
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 85
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 85
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 85
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 85
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 86
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 86
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 86
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 86
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 86
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 87
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 87
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 87
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 87
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 87
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 88
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 88
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 88
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 88
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 88
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 89
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 89
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 89
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 89
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 89
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 90
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 90
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 90
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 90
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 90
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 91
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 91
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 91
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 91
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 91
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 92
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 92
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 92
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 92
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 92
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 93
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 93
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 93
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 93
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 93
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 94
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 94
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 94
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 94
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 94
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 95
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 95
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 95
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 95
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 95
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 96
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 96
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 96
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 96
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 96
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 97
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 97
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 97
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 97
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 97
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 98
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 98
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 98
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 98
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 98
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 99
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 99
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 99
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 99
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 99
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 100
+    ku: 1
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 100
+    ku: 2
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 100
+    ku: 3
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 100
+    ku: 4
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null
+  - cardNo: 100
+    ku: 5
+    status: approved
+    confirmationMode: batch
+    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    proposedBy: human
+    confirmedBy: human-01
+    confirmedOn: 2026-09-04
+    note: null

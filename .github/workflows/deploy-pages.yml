@@ -1,0 +1,76 @@
+name: Deploy Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# The repository name decides the Pages sub-path, so it is read from the event
+# rather than written down here. Renaming the repository must not need an edit.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      # The generated JSON is committed; this proves it still matches the sources.
+      - run: npm run data:check
+      - name: Build each unit at its own sub-path
+        env:
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          VITE_BASE_PATH="/$REPO/100/" npm run build --workspace=@koten/hyakunin
+          VITE_BASE_PATH="/$REPO/kana/" npm run build --workspace=@koten/kanazukai
+      - name: Refuse to publish anything the manifest does not allow
+        run: npm run scan:publish
+      - name: Assemble the site
+        env:
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          # 公開パス（/100/ /kana/）とパッケージの置き場（packages/hyakunin packages/kanazukai）は別物である。
+          mkdir -p _site/100 _site/kana
+          cp -r packages/hyakunin/dist/. _site/100/
+          cp -r packages/kanazukai/dist/. _site/kana/
+          # 404 はリポジトリ名を含む本物の base へ向ける。ソースの 404 はローカル開発用で /100/ を指す。
+          printf %s "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/$REPO/100/\">" > _site/100/404.html
+          printf %s "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/$REPO/kana/\">" > _site/kana/404.html
+          cat > _site/index.html <<HTML
+          <!doctype html>
+          <html lang="ja"><head><meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1">
+          <title>古典学習帳（テスト公開版）</title></head>
+          <body style="font-family:system-ui,sans-serif;max-width:34rem;margin:3rem auto;padding:0 1rem;line-height:1.9">
+          <h1>古典学習帳（テスト公開版）</h1>
+          <p>正式公開ではありません。動作を確かめていただくための版です。</p>
+          <ul>
+            <li><a href="/$REPO/100/">百人一首練習帳</a></li>
+            <li><a href="/$REPO/kana/">歴史的仮名遣い確認ツール（準備中）</a></li>
+          </ul>
+          <p><a href="https://github.com/${{ github.repository }}">ソースと既知の制約</a></p>
+          </body></html>
+          HTML
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

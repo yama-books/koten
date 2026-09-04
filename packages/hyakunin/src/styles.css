@@ -1,0 +1,238 @@
+html { background: var(--color-paper); }
+
+body {
+  margin: 0;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+button,
+input { font: inherit; }
+
+button {
+  min-width: 44px;
+  min-height: 44px;
+  border: var(--rule-thin) solid var(--color-ink);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-md);
+  color: var(--color-ink);
+  background: var(--color-surface);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+}
+
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+button:active { transform: translateY(1px); }
+button:disabled { cursor: not-allowed; opacity: 0.5; }
+
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):hover { background: var(--color-surface-soft); }
+}
+
+.home,
+.viewer,
+.loading,
+.error-screen {
+  box-sizing: border-box;
+  width: min(100%, 62rem);
+  margin-inline: auto;
+  padding: var(--space-md) max(var(--space-md), env(safe-area-inset-left));
+  overflow-wrap: anywhere;
+}
+
+.nav-edge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 44px;
+  border-bottom: var(--rule-thin) solid var(--color-rule);
+  padding-block: var(--space-xs) var(--space-sm);
+}
+
+.wordmark {
+  min-width: 0;
+  color: var(--color-ink);
+  font-family: var(--font-poem);
+  font-size: var(--text-md);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.progress { color: var(--color-ink-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.return-to-range { margin-inline-start: auto; }
+
+.intro { display: grid; gap: var(--space-md); padding-block: var(--space-xl) var(--space-2xl); }
+.intro h1 { margin: 0; font-family: var(--font-poem); font-size: clamp(var(--text-xl), 8vw, 3rem); font-style: normal; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; }
+.intro p { max-width: 42rem; margin: 0; color: var(--color-ink-muted); }
+
+.range-panel { display: grid; gap: var(--space-lg); border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-xl); }
+.range-panel h2 { margin: 0; font-size: var(--text-md); }
+.range-fields { display: flex; align-items: end; gap: var(--space-sm); }
+.range-fields label { display: grid; flex: 1; gap: var(--space-2xs); font-size: var(--text-sm); }
+.range-fields input { box-sizing: border-box; width: 100%; min-height: 44px; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); outline: 3px solid transparent; outline-offset: 1px; padding: var(--space-xs) var(--space-sm); color: var(--color-ink); background: var(--color-surface); font-variant-numeric: tabular-nums; }
+.range-fields input:disabled { cursor: not-allowed; opacity: 0.55; }
+.primary { justify-self: start; min-width: 12rem; background: var(--color-ink); color: var(--color-paper); font-weight: 700; }
+@media (hover: hover) and (pointer: fine) {
+  .range-fields input:hover { background: var(--color-surface-soft); }
+  .primary:hover { background: var(--color-ink-muted); color: var(--color-paper); }
+}
+
+.reading-controls { display: grid; gap: var(--space-md); padding-block: var(--space-lg); }
+.reading-controls fieldset { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); min-width: 0; margin: 0; border: 0; padding: 0; }
+.reading-controls legend { margin-block-end: var(--space-xs); color: var(--color-ink-muted); font-size: var(--text-sm); }
+.reading-controls label { display: inline-flex; align-items: center; min-height: 44px; gap: var(--space-xs); white-space: nowrap; }
+.reading-controls input { width: 1.1rem; height: 1.1rem; accent-color: var(--color-focus); }
+
+.poem-sheet {
+  display: grid;
+  gap: var(--space-lg);
+  min-height: 25rem;
+  border-block: var(--rule-thin) solid var(--color-rule);
+  padding-block: var(--space-xl);
+  background: var(--color-surface);
+}
+
+.poem { display: flex; gap: var(--space-xl); justify-content: center; min-width: 0; font-family: var(--font-poem); font-size: clamp(1.2rem, 5vw, 1.65rem); font-weight: 600; line-height: 1.9; }
+.poem__half { display: flex; gap: var(--space-xs); }
+.poem__half span { display: block; }
+.poem-sheet--vertical .poem {
+  align-items: flex-start;
+  flex-direction: row;
+  direction: rtl;
+  gap: var(--space-lg);
+  writing-mode: horizontal-tb;
+}
+.poem-sheet--vertical .poem__half {
+  flex-direction: row;
+  gap: var(--space-xs);
+  writing-mode: horizontal-tb;
+}
+.poem-sheet--vertical .poem__half span {
+  display: inline-block;
+  direction: ltr;
+  text-orientation: mixed;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+}
+.poem-sheet--horizontal .poem { flex-direction: column; align-items: flex-start; padding-inline: var(--space-md); }
+.poem-sheet--horizontal .poem__half { flex-wrap: wrap; }
+.author { display: flex; flex-direction: column; flex-wrap: wrap; justify-content: center; gap: var(--space-xs) var(--space-md); min-height: 6rem; padding-inline: var(--space-md); font-family: var(--font-poem); font-weight: 600; writing-mode: vertical-rl; }
+.author strong { font-weight: 600; }
+.author span { color: var(--color-ink-muted); }
+.poem-sheet--horizontal .author { flex-direction: row; min-height: auto; writing-mode: horizontal-tb; }
+
+.review-note { border: var(--rule-thin) solid var(--color-wisteria); border-radius: var(--radius-sm); padding: var(--space-sm); background: var(--color-wisteria-soft); }
+.pager { display: flex; justify-content: space-between; gap: var(--space-md); padding-block: var(--space-lg); }
+.foot-line { border-top: var(--rule-thin) solid var(--color-rule); margin-block-start: var(--space-xl); padding-block: var(--space-sm) max(var(--space-md), env(safe-area-inset-bottom)); color: var(--color-ink-muted); font-size: var(--text-sm); }
+.foot-line p { margin: 0; }
+.loading { min-height: 12rem; display: grid; place-items: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (min-width: 40rem) {
+  .home,
+  .viewer,
+  .loading,
+  .error-screen { padding-inline: var(--space-xl); }
+  .reading-controls { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+  .poem-sheet { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .author { min-height: 12rem; justify-content: flex-start; }
+  .poem-sheet--horizontal .author { writing-mode: horizontal-tb; min-height: auto; }
+}
+
+@media (max-width: 31rem) {
+  .viewer .nav-edge { flex-wrap: wrap; }
+  .viewer .return-to-range { order: 3; margin-inline-start: 0; }
+  .poem-sheet { gap: var(--space-md); padding-block: var(--space-lg); }
+  .poem-sheet--vertical .poem { gap: var(--space-md); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after { animation-duration: var(--dur-micro) !important; animation-iteration-count: 1 !important; transition-duration: var(--dur-micro) !important; }
+}
+
+.range-picker,
+.session { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); }
+.range-picker h1,
+.session h1 { overflow-wrap: anywhere; }
+.entry-actions,
+.session-controls,
+.answer-controls { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end; }
+.entry-actions .primary { min-width: 12rem; }
+.session-controls fieldset,
+.range-picker fieldset { display: flex; flex-wrap: wrap; gap: var(--space-sm); border: 0; }
+.session-controls label,
+.range-picker label { min-height: 44px; }
+.question-text { min-height: 14rem; margin-block: var(--space-lg); border-block: var(--rule-thin) solid var(--color-rule); padding: var(--space-lg); font-family: var(--font-poem); font-weight: 600; }
+.question-text--vertical { writing-mode: vertical-rl; text-orientation: mixed; }
+.question-text--horizontal { writing-mode: horizontal-tb; }
+.answer-controls label { display: grid; gap: var(--space-2xs); }
+.answer-controls input { min-height: 44px; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding-inline: var(--space-sm); }
+.answer-feedback { margin-block: var(--space-md); border-inline-start: 4px solid var(--color-wisteria); padding-inline: var(--space-md); }
+.report-control { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs); }
+
+.result-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); overflow-wrap: anywhere; }
+.result-summary { padding-block: var(--space-xl); }
+.result-summary h1, .result-section h2 { margin: 0; }
+.result-summary p { margin-block: var(--space-xs); }
+.result-hanamaru { color: var(--color-wisteria); font-family: var(--font-poem); font-size: var(--text-lg); font-weight: 600; }
+.result-section { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
+.result-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: var(--space-sm); margin: var(--space-md) 0 0; }
+.result-breakdown div { border-inline-start: 3px solid var(--color-rule); padding-inline-start: var(--space-sm); }
+.result-breakdown dt { color: var(--color-ink-muted); font-size: var(--text-sm); }
+.result-breakdown dd { margin: 0; font-variant-numeric: tabular-nums; }
+.result-section table { width: 100%; border-collapse: collapse; margin-block-start: var(--space-md); }
+.result-section th, .result-section td { border-bottom: var(--rule-thin) solid var(--color-rule); padding: var(--space-xs); text-align: start; }
+.result-poems { display: grid; gap: var(--space-sm); margin: var(--space-md) 0 0; padding: 0; list-style: none; }
+.result-poem { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); border-inline-start: 4px solid var(--color-rule); padding-inline-start: var(--space-sm); }
+.result-poem--gray { border-color: var(--mastery-gray); }
+.result-poem--red { border-color: var(--mastery-red); }
+.result-poem--yellow { border-color: var(--mastery-yellow); }
+.result-poem--blue { border-color: var(--mastery-blue); }
+.result-poem--green { border-color: var(--mastery-green); }
+.result-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); padding-block: var(--space-xl); }
+.result-save-failure { box-sizing: border-box; width: min(100%, 62rem); margin: var(--space-md) auto 0; border: var(--rule-thin) solid var(--color-coral); padding: var(--space-sm) var(--space-md); }
+.mastery-meter { display: inline-flex; align-items: center; gap: var(--space-xs); }
+.mastery-meter [role="meter"] { width: 6rem; height: 0.75rem; overflow: hidden; background: var(--color-surface-soft); }
+.mastery-meter__fill { display: block; height: 100%; background: currentColor; }
+.mastery-meter--gray { color: var(--mastery-gray); }
+.mastery-meter--red { color: var(--mastery-red); }
+.mastery-meter--yellow { color: var(--mastery-yellow); }
+.mastery-meter--blue { color: var(--mastery-blue); }
+.mastery-meter--green { color: var(--mastery-green); }
+.history-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); }
+.history-list { display: grid; gap: var(--space-sm); padding: 0; list-style: none; }
+.history-entry { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-sm); }
+
+/* 憲章 §10 項目 8: 既知の制約を隠さない。既定で畳むが、目に入る位置に置く。 */
+/* Zen Maru Gothic は 500 と 700 だけ self-host している。600 を指定すると合成太字になる。 */
+.release-stage { font-weight: 700; color: var(--color-ink); }
+.known-limits { margin-block: var(--space-sm); }
+.known-limits summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; }
+.known-limits ul { margin: var(--space-2xs, 0.25rem) 0 0; padding-inline-start: 1.25em; }
+.known-limits li { margin-block: var(--space-2xs, 0.25rem); }
+
+/*
+ * WCAG 1.4.4（文字 200%）と APP_SPEC §15 項目 11。
+ * 日本語のボタン文字は空白を含まない 1 かたまりなので、`button { white-space: nowrap }`
+ * のままだと min-content が器を超え、320px 幅・200% 拡大でページが横にあふれる。
+ * 実測: 修正前は 320px@200% で 96px あふれ、`.range-panel` が切れていた。
+ */
+.range-fields { flex-wrap: wrap; }
+.range-fields label { min-width: 0; flex: 1 1 8ch; }
+.range-panel > * { min-width: 0; }
+.home button { box-sizing: border-box; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.entry-actions .primary { min-width: min(12rem, 100%); }
