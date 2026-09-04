@@ -25,7 +25,7 @@
 
 | 検査 | 値 |
 |---|---|
-| `git log --oneline -1` | **`17d7d52`** |
+| `git diff --stat b1fbc29 HEAD -- packages tests` | **0 行。** 実装が最後に動いたのは `b1fbc29` で、以後の commit は `docs/` だけである。**`docs/` の commit は基準線を動かさない**（発行の前後で親担当が本書を書き換えるため、`git log -1` を基準にすると必ずずれる） |
 | `git status --porcelain -uall` | **0 行** |
 | `npm run test:node` | **450 / 450 / 0** |
 | `npm run test:screen` | **13 files / 102** |
