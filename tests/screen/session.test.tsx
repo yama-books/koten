@@ -24,6 +24,7 @@ test('session: next button advances to the second question', async () => { await
 test('session: Enter advances after reveal', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });
 test('session: Enter while answering does not advance', async () => { await mount(); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('白妙の'); });
 test('session: partial feedback contains different historical and kanji forms', async () => { await mount(); await answer('しろたえの'); expect(root!.textContent).toContain('歴史的仮名遣い: しろたへの'); expect(root!.textContent).toContain('漢字: 白妙の'); });
+test('session: partial feedback does not expose a mastery increment', async () => { await mount(); await answer('しろたえの'); expect(root!.textContent).not.toContain('習熟度は一段軽く加算されます'); });
 test('session: the saved event carries the versions from app-config, not a literal', async () => {
   const p = port(); await mount(p); await answer('白妙の');
   expect(p.events[0].appVersion).toBe(appConfig.appVersion);
@@ -58,8 +59,7 @@ test('session: reading toggle does not change the judgement', async () => {
 });
 test('session: progress distinguishes card and question', async () => { const view = await mount(); expect(view.textContent).toContain('10番・1問目/2'); });
 test('session: writing setting is saved', async () => { const p = port(); await mount(p); await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '横書きにする')!.click(); }); expect((await p.loadSettings())?.writing).toBe('horizontal'); });
-test('session: local report button uses the port', async () => { let reported = false; const p = { ...port(), saveLocalReport: async () => (reported = true) }; await mount(p); await answer('白妙の'); await act(async () => { Array.from(root!.querySelectorAll('button')).find((item) => item.textContent === '問題を報告')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); expect(reported).toBe(true); });
+test('session: local-only report action stays hidden', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).not.toContain('問題を報告'); });
 test('session: completing the last question shows completion', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); await answer('衣干す'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('今回の範囲を確認しました'); });
 test('session: feedback waits for an explicit action', async () => { await mount(); expect(root!.textContent).not.toContain('○ 正解'); });
 test('session: answer field has a label and example', async () => { await mount(); expect(root!.textContent).toContain('答え'); expect(root!.textContent).toContain('歴史的仮名遣いまたは漢字で入力します。'); });
-test('session: report confirmation is announced', async () => { await mount(); await answer('白妙の'); await act(async () => { Array.from(root!.querySelectorAll('button')).find((item) => item.textContent === '問題を報告')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); expect(root!.textContent).toContain('この端末に保存しました'); });

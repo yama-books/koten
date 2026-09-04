@@ -36,6 +36,12 @@ test('R-1: 範囲の10歌を一巡してから同じ歌を再出題する', () =
   expect(planQuestions('learn', many, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'seed').map((item) => item.poemId)).toEqual(['p001', 'p002', 'p003', 'p004', 'p005', 'p006', 'p007', 'p008', 'p009', 'p010']);
 });
 
+test('R-1b: 歌の番号順とは独立して隠す句を種ごとに変える', () => {
+  const fiveKu = Array.from({ length: 5 }, (_, index) => ({ ...questions[0], questionId: `p010-ku${index + 1}` }));
+  const firstQuestions = ['session-a', 'session-b', 'session-c', 'session-d'].map((seed) => planQuestions('learn', fiveKu, [10], seed, 'number')[0]?.questionId);
+  expect(new Set(firstQuestions).size).toBeGreaterThan(1);
+});
+
 test('R-2: 練習は穴埋めだけを選び未入力では採点できない', async () => {
   const author = { ...questions[0], questionId: 'author', type: 'author' as const };
   expect(planQuestions('learn', [author, questions[0]], [10], 'seed').every((item) => item.type === 'blank')).toBe(true);
@@ -53,16 +59,15 @@ test('R-3: 丸角空欄と五つの句を保ち開示時に正解を空欄へ入
   expect(view.querySelector('.blank-slot--filled')?.textContent).toBe('白妙の');
 });
 
-test('R-4: 問題報告は開示後だけ補助操作として現れ次問へ残らない', async () => {
-  const two = [...questions, { ...questions[0], questionId: 'p010-ku4', answer: '衣ほすてふ' }];
-  const view = await mountSession({ questions: two });
-  expect(view.textContent).not.toContain('問題を報告');
+test('R-4: 端末内に保存するだけの問題報告は学習画面と歌の確認画面に出さない', async () => {
+  const view = await mountSession();
   await enterAnswer(view);
-  expect(view.querySelector('button.report-link')).not.toBeNull();
-  await act(async () => { (view.querySelector('button.report-link') as HTMLButtonElement).click(); await Promise.resolve(); });
-  expect(view.textContent).toContain('この端末に保存しました');
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '次へ')!.click(); });
-  expect(view.textContent).not.toContain('この端末に保存しました');
+  expect(view.textContent).not.toContain('問題を報告');
+  const reviewPoem = { ...poem, reading: { ...poem.reading, status: 'review' } } as never;
+  render(<Home port={makePort()} poems={[reviewPoem]} questions={[]} />, view);
+  await act(async () => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '歌を確認する')!.click(); await Promise.resolve(); });
+  expect(view.textContent).not.toContain('問題を報告');
+  expect(view.textContent).not.toContain('異同の確認記録');
 });
 
 test('R-5: 歌の確認画面は表示した歌の閲覧イベントを保存する', async () => {
@@ -79,6 +84,11 @@ test('R-6: 読みと向きは単一ボタンで巡回し次問はヒント未使
   await act(() => { render(<><ReadingToggle value="no-ruby" onChange={(value) => { reading = value; }} /><WritingModeToggle value="vertical" onChange={(value) => { writing = value; }} /></>, view); });
   await act(() => { (view.querySelector('.reading-toggle') as HTMLButtonElement).click(); (view.querySelector('.writing-toggle') as HTMLButtonElement).click(); });
   expect({ reading, writing }).toEqual({ reading: 'historical', writing: 'horizontal' });
+  render(<ReadingToggle value="historical" onChange={() => {}} />, view);
+  expect(view.textContent).toContain('歴史的仮名遣いを表示中');
+  render(<ReadingToggle value="modern" onChange={() => {}} />, view);
+  expect(view.textContent).toContain('現代仮名遣いを表示中');
+  expect(view.textContent).toContain('原文に戻す');
   const state = { phase: 'revealed', questionIndex: 0, questionCount: 2, cardNo: 1, cardIndex: 0, cardCount: 2, hintUsed: true, submitted: null, judgement: 'correct', saveFailure: null } as FlowState;
   expect(advance(state).hintUsed).toBe(false);
 });
@@ -86,10 +96,11 @@ test('R-6: 読みと向きは単一ボタンで巡回し次問はヒント未使
 test('R-7: トップは二入口で穴埋め内に練習と本番の短い説明を出す', async () => {
   const view = container();
   await act(() => { render(<Home port={makePort()} poems={[poem]} questions={questions} />, view); });
-  expect(['歌を確認する', '穴埋めに取り組む'].every((label) => Array.from(view.querySelectorAll('button')).some((button) => button.textContent === label))).toBe(true);
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '穴埋めに取り組む')!.click(); });
-  expect(view.textContent).toContain('読みを確かめ、1問ずつ答え合わせします。');
-  expect(view.textContent).toContain('歌番号と読みを隠して解きます。');
+  expect(['歌を確認する', 'とりあえず始める'].every((label) => Array.from(view.querySelectorAll('button')).some((button) => button.textContent === label))).toBe(true);
+  expect(view.textContent).not.toContain('まず、歌を確かめる。');
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === 'とりあえず始める')!.click(); });
+  expect(view.textContent).toContain('1問ずつ答え合わせ');
+  expect(view.textContent).toContain('歌番号・読みなし');
 });
 
 test('R-8: 本番だけ紙回答を選べ紙では開示後に自己採点する', async () => {

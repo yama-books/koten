@@ -21,6 +21,15 @@ function cardNumber(question: PublishedQuestion): number {
   return Number(question.poemId.slice('p'.length));
 }
 
+function seededQuestionIndex(seed: string, cardNo: number, questionIndex: number, length: number): number {
+  let hash = 2166136261;
+  for (const character of `${seed}:${cardNo}:${questionIndex}`) {
+    hash ^= character.charCodeAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0) % length;
+}
+
 function inCardOrder(available: readonly PublishedQuestion[], cardNumbers: readonly number[], seed: string, mode: OrderMode): PublishedQuestion[] {
   const orderedCards = orderCardNumbers([...cardNumbers], mode, seed);
   return orderedCards.flatMap((cardNo) => available.filter((question) => cardNumber(question) === cardNo));
@@ -36,7 +45,10 @@ function takeAcrossCards(available: readonly PublishedQuestion[], cardNumbers: r
     if (cardNo === undefined) break;
     const isBlank = index % cycleLength < rule.blankWeight;
     const cardQuestions = available.filter((question) => cardNumber(question) === cardNo && !used.has(question.questionId));
-    const preferred = cardQuestions.find((question) => question.type === (isBlank ? 'blank' : 'author')) ?? cardQuestions[0];
+    const preferredType = isBlank ? 'blank' : 'author';
+    const preferredQuestions = cardQuestions.filter((question) => question.type === preferredType);
+    const candidates = preferredQuestions.length > 0 ? preferredQuestions : cardQuestions;
+    const preferred = candidates[seededQuestionIndex(seed, cardNo, index, candidates.length)];
     if (preferred) {
       used.add(preferred.questionId);
       selected.push(preferred);

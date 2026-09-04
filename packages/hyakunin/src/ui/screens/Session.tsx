@@ -11,7 +11,6 @@ import type { ApplicationPort } from '../adapters/indexeddb-port.ts';
 import { AnswerFeedback } from '../components/AnswerFeedback.tsx';
 import { ReadingToggle } from '../components/ReadingToggle.tsx';
 import { WritingModeToggle } from '../components/WritingModeToggle.tsx';
-import { ReportButton } from '../components/ReportButton.tsx';
 import type { AnswerMode } from './RangePicker.tsx';
 
 type Props = { questions: readonly PublishedQuestion[]; poems?: readonly Poem[]; entry?: EntryId; answerMode?: AnswerMode; sessionId: string; port: ApplicationPort; settings: UserSettings; onSettings: (settings: UserSettings) => void; onBack?: () => void; onComplete: (outcomes: readonly Readonly<{ poemId: string; kind: Exclude<OutcomeKind, 'viewed'> }>[]) => void };
@@ -84,7 +83,7 @@ export function Session({ questions, poems = [], entry = 'learn', answerMode = '
     {displayFlow.phase === 'prompt' && answerMode === 'paper' && !paperOpen && <button class="primary" type="button" onClick={() => setPaperOpen(true)}>答えを確認する</button>}
     {displayFlow.phase === 'prompt' && answerMode === 'paper' && paperOpen && <section class="self-grade" aria-label="自己採点"><p>書いた答えを選んでください。</p><button type="button" onClick={() => gradePaper('correct')}>漢字・歴史的仮名遣いで書けた</button><button type="button" onClick={() => gradePaper('partial')}>現代仮名遣いで書けた</button><button type="button" onClick={() => gradePaper('incorrect')}>書けなかった</button></section>}
     {displayFlow.phase === 'save-failed' && <p class="review-note" aria-live="assertive">保存失敗。答えは残っています。もう一度お試しください。</p>}
-    {displayFlow.phase === 'revealed' && <section><AnswerFeedback feedback={feedback!} /><ReportButton key={question.questionId} onReport={() => port.saveLocalReport(question.poemId, question.questionId)} /><button class="primary" type="button" onClick={next}>次へ</button></section>}
+    {displayFlow.phase === 'revealed' && <section><AnswerFeedback feedback={feedback!} /><button class="primary" type="button" onClick={next}>次へ</button></section>}
     {confirmExit && <section class="interrupt-dialog" role="dialog" aria-modal="true" aria-labelledby="interrupt-title"><h2 id="interrupt-title">練習を中断しますか？</h2><p>入力途中の答えは保存されません。ここまでの記録は残ります。</p><div><button class="primary" type="button" onClick={() => setConfirmExit(false)}>練習を続ける</button><button type="button" onClick={onBack}>トップへ戻る</button></div></section>}
   </main>;
 }
