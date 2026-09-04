@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { TELEMETRY_FILES, telemetryDirectoryFiles, telemetrySources } from './fixtures.ts';
+import { TELEMETRY_EXEMPT_FILES, TELEMETRY_FILES, telemetryDirectoryFiles, telemetrySources } from './fixtures.ts';
 
 function sourceText(): string { return telemetrySources().map(({ text }) => text).join('\n'); }
 
@@ -40,9 +40,10 @@ test('X-8 static: 禁止語の検査対象が名指しの 4 ファイルに固�
 
 // 種別: 弁別的
 test('X-9 static: 検査対象にも免除一覧にも無い実装が増えていない', () => {
-  const exemptFiles: string[] = [];
   assert.deepEqual(
     [...telemetryDirectoryFiles()].sort(),
-    [...TELEMETRY_FILES, ...exemptFiles].sort(),
+    [...TELEMETRY_FILES, ...TELEMETRY_EXEMPT_FILES].sort(),
   );
 });
+
+test('X-10 static: 免除一覧は transport.ts だけである', () => { assert.deepEqual(TELEMETRY_EXEMPT_FILES, ['transport.ts']); });

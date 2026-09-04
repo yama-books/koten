@@ -4,10 +4,12 @@ import type { StatsPayload } from '../../../packages/shared/src/telemetry/regist
 
 const telemetryDirectory = join(process.cwd(), 'packages', 'shared', 'src', 'telemetry');
 export const TELEMETRY_FILES = ['client-number.ts', 'queue.ts', 'registry.ts', 'sanitize.ts'] as const;
+export const TELEMETRY_EXEMPT_FILES = ['transport.ts'] as const;
 
 export function telemetrySources(): Array<{ file: string; text: string }> {
   return TELEMETRY_FILES.map((file) => ({ file, text: readFileSync(join(telemetryDirectory, file), 'utf8') }));
 }
+export function telemetryExemptSources(): Array<{ file: string; text: string }> { return TELEMETRY_EXEMPT_FILES.map((file) => ({ file, text: readFileSync(join(telemetryDirectory, file), 'utf8') })); }
 
 export function telemetryDirectoryFiles(): string[] {
   return readdirSync(telemetryDirectory).filter((file) => file.endsWith('.ts'));
