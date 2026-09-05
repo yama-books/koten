@@ -93,17 +93,17 @@ test('R-6: 読みと向きは単一ボタンで巡回し次問はヒント未使
   expect(advance(state).hintUsed).toBe(false);
 });
 
-test('R-7: トップは二入口で穴埋め内に練習と本番の短い説明を出す', async () => {
+test('R-7: トップは二入口で閲覧側に作者確認を置き穴埋め内に本番の説明を出す', async () => {
   const view = container();
   await act(() => { render(<Home port={makePort()} poems={[poem]} questions={questions} />, view); });
   expect(['歌を確認する', 'とりあえず始める'].every((label) => Array.from(view.querySelectorAll('button')).some((button) => button.textContent === label))).toBe(true);
   expect(view.textContent).not.toContain('まず、歌を確かめる。');
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '学習方法を選ぶ')!.click(); });
   expect(view.textContent).toContain('作者名を確認する');
-  expect(view.textContent).toContain('歌番号と読みを隠して力試し。');
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '学習方法を選ぶ')!.click(); });
+  expect(view.textContent).toContain('試験のように解いて採点');
 });
 
-test('R-8: 本番だけ紙回答を選べ紙では開示後に自己採点する', async () => {
+test('R-8: 本番だけ紙回答を選べ解き終えた後に自己採点する', async () => {
   const picker = container(); let answerMode = '';
   await act(() => { render(<RangePicker entry="exam" range={{ from: 10, to: 10 }} order="number" onBack={() => {}} onStart={(_range, _order, mode) => { answerMode = mode; }} />, picker); });
   await act(() => { Array.from(picker.querySelectorAll('button')).find((button) => button.textContent === '紙に書く')!.click(); });
@@ -112,8 +112,8 @@ test('R-8: 本番だけ紙回答を選べ紙では開示後に自己採点する
   render(null, picker);
   await act(() => { render(<Session questions={questions} poems={[poem]} entry="exam" answerMode="paper" sessionId="s" port={makePort()} settings={settings} onSettings={() => {}} onComplete={() => {}} />, picker); });
   expect(picker.querySelector('input[placeholder]')).toBeNull();
-  await act(() => { Array.from(picker.querySelectorAll('button')).find((button) => button.textContent === '答えを確認する')!.click(); });
-  expect(picker.querySelector('[aria-label="自己採点"]')).not.toBeNull();
+  await act(() => { Array.from(picker.querySelectorAll('button')).find((button) => button.textContent === '次へ')!.click(); });
+  expect(picker.querySelector('[aria-label="10番の自己採点"]')).not.toBeNull();
 });
 
 test('R-9: 公開表示は通常数字と歌表記を使い本番では番号を隠す', async () => {

@@ -206,6 +206,10 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-mode h2, .answer-mode p { margin: 0; }
 .answer-mode div { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .answer-mode button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
+.grade-list { display: grid; gap: var(--space-sm); margin: var(--space-lg) 0; padding: 0; list-style: none; }
+.grade-list li { display: grid; gap: var(--space-xs); border-block-end: var(--rule-thin) solid var(--color-rule); padding-block-end: var(--space-sm); }
+.grade-choice { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.grade-choice button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
 
 .result-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); overflow-wrap: anywhere; }
 .result-summary { padding-block: var(--space-xl); }
