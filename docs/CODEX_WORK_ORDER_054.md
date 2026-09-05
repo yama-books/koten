@@ -176,7 +176,7 @@ exam に作者問題が入った数: 0 / 10
 | `packages/hyakunin/src/domain/flow.ts` | **触らずに済むはずである**（裁定 10）。**新しい `FlowPhase` を足さない。** 足す必要があると判断したら S-9 で先に報告する |
 | `packages/hyakunin/src/styles.css` | 新しい class の CSS |
 | `README.md` | 5 つの入口の名前を新しいものに直す（**現在の記載は古い**） |
-| `tests/screen/**` | 釘 `T-1`〜`T-9` を置く |
+| `tests/screen/**` | **釘 `T-1`〜`T-11` を置く**（§5 が正本。`T-1`〜`T-9` と書いていたのは起草時の書き損じで、2026-09-05 に訂正した）。**`T-11` は `README.md` を読む静的な釘だが、これも `tests/screen/**` に置く**——発注052 の `N-1` が `tests/screen` から `docs/APP_SPEC.md` を読んでいる前例がある。**`tests/unit/**` へ広げない** |
 | `tools/overflow-check/index.ts` ・ `tools/font-weight-check/index.ts` | 画面が増えたときの走査対象の追加のみ |
 | `docs/CODEX_WORK_ORDER_054.md` | §6 の表を埋める（**この発注書だけは書いてよい**） |
 
