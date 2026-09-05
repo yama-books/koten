@@ -1,13 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { advance, beginQuestion, buildFeedback, failSave, progressLabel, reveal, submitAnswer, useHint, type FlowState } from '../../packages/hyakunin/src/domain/flow.ts';
+import { advance, beginQuestion, buildFeedback, failSave, hasKanji, progressLabel, reveal, submitAnswer, useHint, type FlowState } from '../../packages/hyakunin/src/domain/flow.ts';
 import { createMemoryPort, type SaveFailure } from '../../packages/hyakunin/src/domain/ports.ts';
 import type { Question } from '../../packages/hyakunin/src/domain/question.ts';
 
 // 生成器（tools/build-data/questions.ts）が実際に作る形に合わせる。
 // acceptedAnswers は unique([answer, ...aliases, historical]) なので **先頭は漢字表記** である。
 const question: Question = { questionId: 'q', answer: '白妙の', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: ['しろたえの'], normalization: 'kana' };
-const forms = { historical: 'しろたへの', kanji: '白妙の' } as const;
+const forms = { historical: 'しろたへの', answer: '白妙の' } as const;
 const initial: FlowState = { phase: 'prompt', questionIndex: 2, questionCount: 8, cardNo: 12, cardIndex: 1, cardCount: 2, hintUsed: false, submitted: null, judgement: null, saveFailure: null };
 const failure: SaveFailure = { reason: 'write-failed' };
 
@@ -35,11 +35,25 @@ test('flow: 開示後は次問へ進む', async () => {
 test('flow: 最後の開示後は完了になる', () => assert.equal(advance({ ...initial, phase: 'revealed', questionIndex: 7 }).phase, 'complete'));
 test('flow: 進捗は番と問を区別する', () => assert.equal(progressLabel(initial), '12番・3問目/8'));
 test('flow: 部分正解は歴史的仮名遣いを返す', () => assert.match(buildFeedback(forms, 'partial').historical, /しろたへの/));
-test('flow: 部分正解は漢字を返す', () => assert.match(buildFeedback(forms, 'partial').kanji, /白妙の/));
+test('flow: 部分正解は原文を返す', () => assert.match(buildFeedback(forms, 'partial').answer, /白妙の/));
 test('flow: 部分正解の2表記は互いに異なる', () => {
   const feedback = buildFeedback(forms, 'partial');
-  assert.notEqual(feedback.historical.replace('歴史的仮名遣い: ', ''), feedback.kanji.replace('漢字: ', ''));
+  assert.notEqual(feedback.historical.replace('歴史的仮名遣い：', ''), feedback.answer);
 });
 test('flow: 部分正解の歴史的仮名遣いは漢字表記を混ぜない', () => assert.doesNotMatch(buildFeedback(forms, 'partial').historical, /白妙/));
 test('flow: 部分正解は記号なしにする', () => assert.equal(buildFeedback(forms, 'partial').mark, 'none'));
 test('flow: 正解は丸印にする', () => assert.equal(buildFeedback(forms, 'correct').mark, 'maru'));
+
+// --- 発注057 R4：括弧行は `question.answer` に漢字があるときだけ ---
+test('flow: 漢字の判定は原文1字で足りる', () => {
+  assert.equal(hasKanji('白妙の'), true);
+  assert.equal(hasKanji('衣'), true);
+  assert.equal(hasKanji('しろたへの'), false);
+  assert.equal(hasKanji('ゆふぐれ'), false);
+  assert.equal(hasKanji(''), false);
+});
+test('flow: 仮名だけの原文では括弧行の材料を返さない', () => {
+  const kana = buildFeedback({ historical: 'ゆふぐれ', answer: 'ゆふぐれ' }, 'partial');
+  assert.equal(kana.answer, '');
+  assert.match(kana.historical, /歴史的仮名遣い：ゆふぐれ/);
+});

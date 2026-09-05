@@ -409,6 +409,7 @@ packages/hyakunin/src/domain/range.ts
 packages/hyakunin/src/domain/record.ts
 packages/hyakunin/src/domain/result.ts
 packages/hyakunin/src/domain/resume.ts
+packages/hyakunin/src/domain/review.ts
 packages/hyakunin/src/domain/session.ts
 packages/hyakunin/src/main.tsx
 packages/hyakunin/src/styles.css
@@ -860,8 +861,10 @@ review/blanks.yaml
 review/kugire.yaml
 review/layout.yaml
 review/readings.yaml
+tests/data/also-partial.test.ts
 tests/data/parse.test.ts
 tests/data/questions.test.ts
+tests/data/reading-review.test.ts
 tests/data/reproducibility.test.ts
 tests/data/review-approve.test.ts
 tests/data/review.test.ts
@@ -873,6 +876,7 @@ tests/rules/package.json
 tests/rules/stats.test.mjs
 tests/screen/device-findings.test.tsx
 tests/screen/entries.test.tsx
+tests/screen/feedback-timing.test.tsx
 tests/screen/harness.test.tsx
 tests/screen/history.test.tsx
 tests/screen/home.test.tsx
@@ -881,6 +885,7 @@ tests/screen/no-pressure.test.tsx
 tests/screen/range-picker.test.tsx
 tests/screen/restore.test.tsx
 tests/screen/result.test.tsx
+tests/screen/review-flow.test.tsx
 tests/screen/session.test.tsx
 tests/screen/settings-migration.test.tsx
 tests/screen/stats-onboarding.test.tsx
@@ -919,6 +924,7 @@ tests/unit/recommend/recommend.test.ts
 tests/unit/record.test.ts
 tests/unit/result.test.ts
 tests/unit/resume.test.ts
+tests/unit/review.test.ts
 tests/unit/sanitize-output.test.ts
 tests/unit/scan-publish-allowlist.test.ts
 tests/unit/session.test.ts

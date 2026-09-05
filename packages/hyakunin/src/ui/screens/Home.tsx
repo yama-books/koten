@@ -1,51 +1,109 @@
-import { appConfig } from '@koten/shared/app-config';
-import { KNOWN_LIMITATIONS, releaseStageLabel } from '@koten/shared/release-notes';
-import type { Session, UserSettings } from '@koten/shared/domain/event';
-import { loadJson } from '@koten/shared/data/load';
-import { ErrorScreen } from '@koten/shared/error-screen';
-import { GradePicker } from '@koten/shared/grade-picker';
-import { StatsNotice } from '@koten/shared/stats-notice';
-import { useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks';
-import { parsePoems, type Poem } from '../../data/schema.ts';
-import { parseQuestions, type PublishedQuestion } from '../../data/question-schema.ts';
-import { isEntryAvailable, type EntryId } from '../../domain/entry.ts';
-import { buildViewEvent } from '../../domain/record.ts';
-import { normalizeRange, parseRange } from '../../domain/range.ts';
-import { planResume, type ResumePlan } from '../../domain/resume.ts';
-import { resolveActiveRange } from '../../domain/session.ts';
-import { createMemoryPort } from '../../domain/ports.ts';
-import type { ApplicationPort } from '../adapters/indexeddb-port.ts';
-import { ReadingToggle } from '../components/ReadingToggle.tsx';
-import { WritingModeToggle } from '../components/WritingModeToggle.tsx';
+import { appConfig } from "@koten/shared/app-config";
+import {
+  KNOWN_LIMITATIONS,
+  releaseStageLabel,
+} from "@koten/shared/release-notes";
+import type { Session, UserSettings } from "@koten/shared/domain/event";
+import { loadJson } from "@koten/shared/data/load";
+import { ErrorScreen } from "@koten/shared/error-screen";
+import { GradePicker } from "@koten/shared/grade-picker";
+import { StatsNotice } from "@koten/shared/stats-notice";
+import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks";
+import { parsePoems, type Poem } from "../../data/schema.ts";
+import {
+  parseQuestions,
+  type PublishedQuestion,
+} from "../../data/question-schema.ts";
+import {
+  CHUNK_CARD_COUNT,
+  ENTRY_LABELS,
+  ENTRY_RULES,
+  isEntryAvailable,
+  type EntryId,
+} from "../../domain/entry.ts";
+import { buildViewEvent } from "../../domain/record.ts";
+import { normalizeRange, parseRange, splitIntoChunks } from "../../domain/range.ts";
+import { planResume, type ResumePlan } from "../../domain/resume.ts";
+import { resolveActiveRange } from "../../domain/session.ts";
+import { createMemoryPort } from "../../domain/ports.ts";
+import type { ApplicationPort } from "../adapters/indexeddb-port.ts";
+import { ReadingToggle } from "../components/ReadingToggle.tsx";
+import { WritingModeToggle } from "../components/WritingModeToggle.tsx";
 
 type Props = {
   port?: ApplicationPort;
-  onPickEntry?: (entry: EntryId, range: { from: number; to: number }, questions: PublishedQuestion[], poems: Poem[]) => void;
-  onResume?: (session: Session, cardNumbers: readonly number[], questions: PublishedQuestion[], poems: Poem[]) => void;
+  onPickEntry?: (
+    entry: EntryId,
+    range: { from: number; to: number },
+    questions: PublishedQuestion[],
+    poems: Poem[],
+  ) => void;
+  onQuickStart?: (
+    range: { from: number; to: number },
+    questions: PublishedQuestion[],
+    poems: Poem[],
+  ) => void;
+  onResume?: (
+    session: Session,
+    cardNumbers: readonly number[],
+    questions: PublishedQuestion[],
+    poems: Poem[],
+  ) => void;
   onOpenHistory?: () => void;
   poems?: Poem[];
   questions?: PublishedQuestion[];
 };
 type Restorable = { session: Session; plan: ResumePlan };
-const defaults: UserSettings = { key: 'user', reading: 'no-ruby', writing: 'vertical', order: 'number', soundEnabled: false, noticeConfirmed: false };
+const defaults: UserSettings = {
+  key: "user",
+  reading: "no-ruby",
+  writing: "vertical",
+  order: "number",
+  soundEnabled: false,
+  noticeConfirmed: false,
+};
 // 読み込み先は静的な文字列で書くこと。テンプレートリテラルにすると、バンドラが
 // data/generated/ を丸ごと走査して全ファイルを公開成果物へ出力する（HANDOFF §8 の F-4）。
-const poemsUrl = new URL('../../data/generated/poems.json', import.meta.url);
-const blankQuestionsUrl = new URL('../../data/generated/questions.blank.json', import.meta.url);
-const authorQuestionsUrl = new URL('../../data/generated/questions.author.json', import.meta.url);
-const memoryPort = { ...createMemoryPort(), saveLocalReport: async () => true } as ApplicationPort;
+const poemsUrl = new URL("../../data/generated/poems.json", import.meta.url);
+const blankQuestionsUrl = new URL(
+  "../../data/generated/questions.blank.json",
+  import.meta.url,
+);
+const authorQuestionsUrl = new URL(
+  "../../data/generated/questions.author.json",
+  import.meta.url,
+);
+const memoryPort = {
+  ...createMemoryPort(),
+  saveLocalReport: async () => true,
+} as ApplicationPort;
 
-export function Home({ port, onPickEntry, onResume, onOpenHistory, poems: suppliedPoems, questions: suppliedQuestions }: Props) {
+export function Home({
+  port,
+  onPickEntry,
+  onQuickStart,
+  onResume,
+  onOpenHistory,
+  poems: suppliedPoems,
+  questions: suppliedQuestions,
+}: Props) {
   const activePort = port ?? memoryPort;
   const initialRange = parseRange(window.location.search);
   const [poems, setPoems] = useState<Poem[] | null>(suppliedPoems ?? null);
-  const [questions, setQuestions] = useState<PublishedQuestion[]>(suppliedQuestions ?? []);
+  const [questions, setQuestions] = useState<PublishedQuestion[]>(
+    suppliedQuestions ?? [],
+  );
   const [failed, setFailed] = useState(false);
   const [from, setFrom] = useState(initialRange.from);
   const [to, setTo] = useState(initialRange.to);
-  const [activeRange, setActiveRange] = useState({ from: initialRange.from, to: initialRange.to });
+  const [activeRange, setActiveRange] = useState({
+    from: initialRange.from,
+    to: initialRange.to,
+  });
   const [current, setCurrent] = useState(initialRange.from);
   const [viewing, setViewing] = useState(false);
+  const [authorPractice, setAuthorPractice] = useState(false);
+  const [authorOpen, setAuthorOpen] = useState(false);
   const [practiceOpen, setPracticeOpen] = useState(false);
   const [viewSessionId] = useState(() => crypto.randomUUID());
   const [settings, setSettings] = useState<UserSettings>(defaults);
@@ -57,58 +115,407 @@ export function Home({ port, onPickEntry, onResume, onOpenHistory, poems: suppli
   useEffect(() => {
     if (suppliedPoems) return;
     let active = true;
-    loadJson(poemsUrl, parsePoems).then((loaded) => { if (active) setPoems(loaded); }).catch(() => { if (active) setFailed(true); });
-    Promise.all([loadJson(blankQuestionsUrl, parseQuestions), loadJson(authorQuestionsUrl, parseQuestions)]).then(([blanks, authors]) => { if (active) setQuestions([...blanks, ...authors]); }).catch(() => { if (active) setFailed(true); });
-    return () => { active = false; };
+    loadJson(poemsUrl, parsePoems)
+      .then((loaded) => {
+        if (active) setPoems(loaded);
+      })
+      .catch(() => {
+        if (active) setFailed(true);
+      });
+    Promise.all([
+      loadJson(blankQuestionsUrl, parseQuestions),
+      loadJson(authorQuestionsUrl, parseQuestions),
+    ])
+      .then(([blanks, authors]) => {
+        if (active) setQuestions([...blanks, ...authors]);
+      })
+      .catch(() => {
+        if (active) setFailed(true);
+      });
+    return () => {
+      active = false;
+    };
   }, [suppliedPoems]);
 
   useLayoutEffect(() => {
     document.title = appConfig.products.hyakunin.displayName;
     activePort.loadSettings().then((saved) => {
-      const migrated = saved ?? { ...defaults, writing: window.localStorage?.getItem('hyakunin:orientation') === 'horizontal' ? 'horizontal' : 'vertical' };
+      const migrated = saved ?? {
+        ...defaults,
+        writing:
+          window.localStorage?.getItem("hyakunin:orientation") === "horizontal"
+            ? "horizontal"
+            : "vertical",
+      };
       setSettings(migrated);
       setPendingGrade(migrated.grade);
       setSettingsLoaded(true);
-      if (!saved) { void activePort.saveSettings(migrated); window.localStorage?.removeItem('hyakunin:orientation'); }
+      if (!saved) {
+        void activePort.saveSettings(migrated);
+        window.localStorage?.removeItem("hyakunin:orientation");
+      }
     });
-    Promise.all([activePort.loadLastSession(), activePort.listEvents()]).then(([session, events]) => {
-      if (session !== null) setRestorable({ session, plan: planResume(resolveActiveRange(session, initialRange), events) });
-    });
+    Promise.all([activePort.loadLastSession(), activePort.listEvents()]).then(
+      ([session, events]) => {
+        if (session !== null)
+          setRestorable({
+            session,
+            plan: planResume(resolveActiveRange(session, initialRange), events),
+          });
+      },
+    );
   }, [activePort]);
 
-  const selected = useMemo(() => poems?.filter((poem) => poem.cardNo >= activeRange.from && poem.cardNo <= activeRange.to) ?? [], [poems, activeRange]);
-  const index = Math.max(0, selected.findIndex((poem) => poem.cardNo === current));
+  // 「全◯回」は 20 首ずつの分割数。選んでいる範囲から先に出しておく。
+  const plannedChunkCount = useMemo(
+    () => splitIntoChunks(normalizeRange(from, to)).length,
+    [from, to],
+  );
+  const selected = useMemo(
+    () =>
+      poems?.filter(
+        (poem) =>
+          poem.cardNo >= activeRange.from && poem.cardNo <= activeRange.to,
+      ) ?? [],
+    [poems, activeRange],
+  );
+  const index = Math.max(
+    0,
+    selected.findIndex((poem) => poem.cardNo === current),
+  );
   const poem = selected[index];
-  const shouldOfferRestore = restorable !== null && !restorable.session.completed && restorable.plan.remainingInRange > 0 && restoring;
-  const persist = async (next: UserSettings) => { setSettings(next); await activePort.saveSettings(next); };
+  // 再確認は厳密な問題ID列を保存しないため途中から再開できない（発注057 R2）。
+  // 誘いを出してから断るより、最初から出さない。ここが唯一の関門である。
+  const shouldOfferRestore =
+    restorable !== null &&
+    restorable.session.entry !== "review" &&
+    !restorable.session.completed &&
+    restorable.plan.remainingInRange > 0 &&
+    restoring;
+  const persist = async (next: UserSettings) => {
+    setSettings(next);
+    await activePort.saveSettings(next);
+  };
   useEffect(() => {
     if (!viewing || !poem) return;
-    void activePort.appendEvent(buildViewEvent({ eventId: crypto.randomUUID(), product: 'hyakunin', poemId: `p${String(poem.cardNo).padStart(3, '0')}`, sessionId: viewSessionId, itemKey: `p${String(poem.cardNo).padStart(3, '0')}:text`, kind: 'view', hintUsed: false, localDate: new Date().toISOString().slice(0, 10), sameSessionRepeat: false, appVersion: appConfig.appVersion, dataVersion: appConfig.dataVersion }));
+    void activePort.appendEvent(
+      buildViewEvent({
+        eventId: crypto.randomUUID(),
+        product: "hyakunin",
+        poemId: `p${String(poem.cardNo).padStart(3, "0")}`,
+        sessionId: viewSessionId,
+        itemKey: `p${String(poem.cardNo).padStart(3, "0")}:text`,
+        kind: "view",
+        hintUsed: false,
+        localDate: new Date().toISOString().slice(0, 10),
+        sameSessionRepeat: false,
+        appVersion: appConfig.appVersion,
+        dataVersion: appConfig.dataVersion,
+      }),
+    );
   }, [activePort, poem, viewSessionId, viewing]);
   function confirmNotice() {
     const withoutGrade = { ...settings };
     delete withoutGrade.grade;
-    const next = pendingGrade === undefined ? { ...withoutGrade, noticeConfirmed: true } : { ...settings, grade: pendingGrade, noticeConfirmed: true };
+    const next =
+      pendingGrade === undefined
+        ? { ...withoutGrade, noticeConfirmed: true }
+        : { ...settings, grade: pendingGrade, noticeConfirmed: true };
     void persist(next);
   }
   function returnToRangeSelection() {
     setViewing(false);
   }
-  function startView() {
+  function startView(authors = false) {
+    setAuthorPractice(authors);
+    setAuthorOpen(false);
     const range = normalizeRange(from, to);
-    setFrom(range.from); setTo(range.to); setActiveRange(range); setCurrent(range.from); setViewing(true);
-    window.history.replaceState(null, '', `${window.location.pathname}?${new URLSearchParams({ from: String(range.from), to: String(range.to) })}`);
+    setFrom(range.from);
+    setTo(range.to);
+    setActiveRange(range);
+    setCurrent(range.from);
+    setViewing(true);
+    window.history.replaceState(
+      null,
+      "",
+      `${window.location.pathname}?${new URLSearchParams({ from: String(range.from), to: String(range.to) })}`,
+    );
   }
   function choose(entry: EntryId) {
-    if (entry === 'view') { startView(); return; }
+    if (entry === "view") {
+      startView();
+      return;
+    }
     onPickEntry?.(entry, normalizeRange(from, to), questions, poems ?? []);
   }
-  if (failed) return <ErrorScreen>100首のデータを読み込めませんでした。ページを再読み込みしてください。</ErrorScreen>;
-  if (!poems) return <main class="loading" aria-busy="true"><p>100首を読み込んでいます…</p></main>;
+  if (failed)
+    return (
+      <ErrorScreen>
+        100首のデータを読み込めませんでした。ページを再読み込みしてください。
+      </ErrorScreen>
+    );
+  if (!poems)
+    return (
+      <main class="loading" aria-busy="true">
+        <p>100首を読み込んでいます…</p>
+      </main>
+    );
   if (viewing && poem) {
-    const ku = settings.reading === 'no-ruby' ? poem.ku : poem.reading[settings.reading].ku;
-    const authorReading = settings.reading === 'no-ruby' ? null : poem.reading[settings.reading].author;
-    return <main class="viewer"><header class="nav-edge"><span class="wordmark">歌を確認する</span><span class="progress" aria-live="polite"><span class="poem-number">{poem.cardNo}</span> · {index + 1}/{selected.length}歌</span><button type="button" onClick={returnToRangeSelection}>範囲を選び直す</button></header><section class="reading-controls"><ReadingToggle value={settings.reading} onChange={(reading) => persist({ ...settings, reading })} /><WritingModeToggle value={settings.writing} onChange={(writing) => persist({ ...settings, writing })} /></section><article class={`poem-sheet poem-sheet--${settings.writing}`} aria-labelledby="poem-title"><h1 id="poem-title" class="sr-only">{poem.cardNo} {poem.author.canonical}</h1><div class="poem" lang="ja"><div class="poem__half" aria-label={`上の句 ${ku.slice(0, 3).join(' ')}`}>{ku.slice(0, 3).map((line) => <span key={line}>{line}</span>)}</div><div class="poem__half" aria-label={`下の句 ${ku.slice(3).join(' ')}`}>{ku.slice(3).map((line) => <span key={line}>{line}</span>)}</div></div><div class="author"><strong>{poem.author.canonical}</strong>{authorReading && <span>{authorReading}</span>}</div></article><nav class="pager" aria-label="歌を移動"><button type="button" disabled={index === 0} onClick={() => setCurrent(selected[index - 1].cardNo)}>前の歌</button><button type="button" disabled={index === selected.length - 1} onClick={() => setCurrent(selected[index + 1].cardNo)}>次の歌</button></nav></main>;
+    const ku =
+      settings.reading === "no-ruby"
+        ? poem.ku
+        : poem.reading[settings.reading].ku;
+    const authorReading =
+      settings.reading === "no-ruby"
+        ? null
+        : poem.reading[settings.reading].author;
+    return (
+      <main class="viewer">
+        <header class="nav-edge">
+          <span class="wordmark">
+            {authorPractice ? "作者名を確認する" : "歌を確認する"}
+          </span>
+          <span class="progress" aria-live="polite">
+            <span class="poem-number">{poem.cardNo}</span> · {index + 1}/
+            {selected.length}歌
+          </span>
+          <button type="button" onClick={returnToRangeSelection}>範囲を選び直す</button>
+        </header>
+        <section class="reading-controls">
+          <ReadingToggle
+            value={settings.reading}
+            onChange={(reading) => persist({ ...settings, reading })}
+          />
+          <WritingModeToggle
+            value={settings.writing}
+            onChange={(writing) => persist({ ...settings, writing })}
+          />
+        </section>
+        <article
+          class={`poem-sheet poem-sheet--${settings.writing}`}
+          aria-labelledby="poem-title"
+        >
+          <h1 id="poem-title" class="sr-only">
+            {poem.cardNo}
+            {!authorPractice && ` ${poem.author.canonical}`}
+          </h1>
+          <div class="poem" lang="ja">
+            <div
+              class="poem__half"
+              aria-label={`上の句 ${ku.slice(0, 3).join(" ")}`}
+            >
+              {ku.slice(0, 3).map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </div>
+            <div
+              class="poem__half"
+              aria-label={`下の句 ${ku.slice(3).join(" ")}`}
+            >
+              {ku.slice(3).map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </div>
+          </div>
+          <div class="author">
+            {!authorPractice || authorOpen ? (
+              <>
+                <strong>{poem.author.canonical}</strong>
+                {authorReading && <span>{authorReading}</span>}
+              </>
+            ) : (
+              <button type="button" onClick={() => setAuthorOpen(true)}>
+                作者名を見る
+              </button>
+            )}
+          </div>
+        </article>
+        <nav class="pager" aria-label="歌を移動">
+          <button
+            type="button"
+            disabled={index === 0}
+            onClick={() => {
+              setCurrent(selected[index - 1].cardNo);
+              setAuthorOpen(false);
+            }}
+          >
+            前の歌
+          </button>
+          <button
+            type="button"
+            disabled={index === selected.length - 1}
+            onClick={() => {
+              setCurrent(selected[index + 1].cardNo);
+              setAuthorOpen(false);
+            }}
+          >
+            次の歌
+          </button>
+        </nav>
+      </main>
+    );
   }
-  return <main class="home">{settingsLoaded && !settings.noticeConfirmed && <div class="onboarding" role="region" aria-label="初回設定"><div class="onboarding__panel"><StatsNotice onConfirm={confirmNotice} /><GradePicker value={pendingGrade} onChange={setPendingGrade} /></div></div>}<header class="nav-edge"><span class="wordmark">{appConfig.products.hyakunin.displayName}</span></header>{initialRange.hadInvalidQuery && <p class="review-note" role="status">範囲を読み込めなかったため、全範囲を表示しています。</p>}{shouldOfferRestore && <section class="review-note restore-offer"><p>前回の学習を復元しますか。</p><p>あと{restorable.plan.remainingInRange}首 · {restorable.plan.chunkIndex + 1}回目 / 全{restorable.plan.chunkCount}回</p><button type="button" onClick={() => { onResume?.(restorable.session, restorable.plan.cardNumbers, questions, poems); setRestoring(false); }}>復元する</button><button type="button" onClick={() => setRestoring(false)}>復元しない</button></section>}<section class="range-panel"><h2>範囲</h2><div class="range-fields"><label>最初の番<input type="number" min="1" max="100" value={from} onInput={(event) => setFrom(Number(event.currentTarget.value))} /></label><span aria-hidden="true">〜</span><label>最後の番<input type="number" min="1" max="100" value={to} onInput={(event) => setTo(Number(event.currentTarget.value))} /></label></div><div class="entry-actions"><button class="primary" type="button" disabled={!isEntryAvailable('learn', questions.length)} aria-disabled={!isEntryAvailable('learn', questions.length)} aria-expanded={practiceOpen} onClick={() => setPracticeOpen((open) => !open)}>とりあえず始める</button><button type="button" onClick={() => choose('view')}>歌を確認する</button></div>{practiceOpen && <div class="practice-choices" aria-label="穴埋めの方法"><div class="practice-choice"><button type="button" onClick={() => choose('learn')}>練習する</button><p><strong>1問ずつ答え合わせ</strong><span>読みも確認できます。</span></p></div><div class="practice-choice"><button type="button" onClick={() => choose('exam')}>本番のように解く</button><p><strong>歌番号・読みなし</strong><span>画面または紙で答えます。</span></p></div></div>}{questions.length === 0 && <p role="status">問題はまだ準備中です。いまは「歌を確認する」を使えます。</p>}</section><button type="button" onClick={onOpenHistory}>これまでの記録</button><footer class="foot-line"><p class="release-stage">{releaseStageLabel}</p><details class="known-limits"><summary>この版でまだできないこと</summary><ul>{KNOWN_LIMITATIONS.map((limitation) => <li key={limitation}>{limitation}</li>)}</ul></details><p>{appConfig.publisher} · 100首収録</p></footer></main>;
+  return (
+    <main class="home">
+      {settingsLoaded && !settings.noticeConfirmed && (
+        <div class="onboarding" role="region" aria-label="初回設定">
+          <div class="onboarding__panel">
+            <StatsNotice onConfirm={confirmNotice} />
+            <GradePicker value={pendingGrade} onChange={setPendingGrade} />
+          </div>
+        </div>
+      )}
+      <header class="nav-edge">
+        <span class="wordmark">{appConfig.products.hyakunin.displayName}</span>
+      </header>
+      {initialRange.hadInvalidQuery && (
+        <p class="review-note" role="status">
+          範囲を読み込めなかったため、全範囲を表示しています。
+        </p>
+      )}
+      {shouldOfferRestore && (
+        <section class="review-note restore-offer">
+          <h2 class="restore-title">
+            前回の「{ENTRY_LABELS[restorable.session.entry]}」の続きがあります
+          </h2>
+          <p>
+            範囲 {restorable.session.from}番〜{restorable.session.to}番 ·{" "}
+            {CHUNK_CARD_COUNT}首ずつに分けて全{restorable.plan.chunkCount}回
+          </p>
+          <p>
+            いまは{restorable.plan.chunkIndex + 1}回目（このまとまりはあと
+            {restorable.plan.chunkFullyConfirmed
+              ? 0
+              : restorable.plan.cardNumbers.length}
+            首） · 範囲全体であと{restorable.plan.remainingInRange}首
+          </p>
+          <p class="restore-detail">
+            続きから始めると、この{restorable.plan.chunkIndex + 1}回目のなかから
+            {ENTRY_RULES[restorable.session.entry].questionCount}問を出題します。
+          </p>
+          <div class="restore-actions">
+            <button
+              type="button"
+              onClick={() => {
+                onResume?.(
+                  restorable.session,
+                  restorable.plan.cardNumbers,
+                  questions,
+                  poems,
+                );
+                setRestoring(false);
+              }}
+            >
+              続きから始める
+            </button>
+            <button type="button" onClick={() => setRestoring(false)}>
+              最初から選び直す
+            </button>
+          </div>
+        </section>
+      )}
+      <section class="range-panel">
+        <h2>範囲</h2>
+        <div class="range-fields">
+          <label>
+            <input
+              aria-label="最初の番"
+              type="number"
+              min="1"
+              max="100"
+              value={from}
+              onInput={(event) => setFrom(Number(event.currentTarget.value))}
+            />
+            <span aria-hidden="true">番</span>
+          </label>
+          <span aria-hidden="true">〜</span>
+          <label>
+            <input
+              aria-label="最後の番"
+              type="number"
+              min="1"
+              max="100"
+              value={to}
+              onInput={(event) => setTo(Number(event.currentTarget.value))}
+            />
+            <span aria-hidden="true">番</span>
+          </label>
+        </div>
+        <div class="entry-actions">
+          <button
+            class="primary entry-start"
+            type="button"
+            disabled={!isEntryAvailable("learn", questions.length)}
+            aria-disabled={!isEntryAvailable("learn", questions.length)}
+            onClick={() =>
+              onQuickStart?.(normalizeRange(from, to), questions, poems)
+            }
+          >
+            とりあえず始める
+          </button>
+          <div class="entry-secondary">
+            <button type="button" onClick={() => choose("view")}>
+              歌を確認する
+            </button>
+            <button type="button" onClick={() => startView(true)}>
+              作者名を確認する
+            </button>
+          </div>
+        </div>
+        <p class="entry-help">
+          穴埋め問題から始めます。1回の学習は
+          {ENTRY_RULES.learn.questionCount}問です。
+        </p>
+        {plannedChunkCount > 1 && (
+          <p class="entry-help">
+            {normalizeRange(from, to).from}番〜{normalizeRange(from, to).to}番は
+            {CHUNK_CARD_COUNT}首ずつ全{plannedChunkCount}回に分かれます。まず1回目から始めます。
+          </p>
+        )}
+        <button
+          type="button"
+          aria-expanded={practiceOpen}
+          onClick={() => setPracticeOpen((open) => !open)}
+        >
+          学習方法を選ぶ
+        </button>
+        {practiceOpen && (
+          <div class="practice-choices" aria-label="穴埋めの方法">
+            <div class="practice-choice">
+              <button type="button" onClick={() => choose("learn")}>
+                練習する
+              </button>
+              <p>一問一答で確認</p>
+            </div>
+            <div class="practice-choice">
+              <button type="button" onClick={() => choose("exam")}>
+                本番のように解く
+              </button>
+              <p>試験のように解いて採点</p>
+            </div>
+          </div>
+        )}
+        {questions.length === 0 && (
+          <p role="status">
+            問題はまだ準備中です。いまは「歌を確認する」を使えます。
+          </p>
+        )}
+      </section>
+      <button type="button" onClick={onOpenHistory}>
+        これまでの記録
+      </button>
+      <footer class="foot-line">
+        <p class="release-stage">{releaseStageLabel}</p>
+        <details class="known-limits">
+          <summary>この版でまだできないこと</summary>
+          <ul>
+            {KNOWN_LIMITATIONS.map((limitation) => (
+              <li key={limitation}>{limitation}</li>
+            ))}
+          </ul>
+        </details>
+        <p>{appConfig.publisher} · 100首収録</p>
+      </footer>
+    </main>
+  );
 }

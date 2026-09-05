@@ -18,7 +18,7 @@
     "poemId": "p001",
     "reading": {
       "historical": {
-        "author": "てんちてんわう",
+        "author": "てんぢてんわう",
         "ku": [
           "あきのたの",
           "かりほのいほの",
@@ -565,7 +565,7 @@
           "ふちとなりぬる"
         ]
       },
-      "status": "review"
+      "status": "confirmed"
     },
     "shimo": "恋ぞつもりて淵となりぬる",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
@@ -1401,7 +1401,7 @@
           "もみじなりけり"
         ]
       },
-      "status": "review"
+      "status": "confirmed"
     },
     "shimo": "流れもあへぬ紅葉なりけり",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
@@ -2114,7 +2114,7 @@
   {
     "author": {
       "aliases": [],
-      "canonical": "大中臣能宣朝臣",
+      "canonical": "大中臣能宣",
       "confirmed": true
     },
     "cardNo": 49,
@@ -2130,7 +2130,7 @@
     "poemId": "p049",
     "reading": {
       "historical": {
-        "author": "おほなかとみのよしのぶあそん",
+        "author": "おほなかとみのよしのぶ",
         "ku": [
           "みかきもり",
           "ゑじのたくひの",
@@ -2140,7 +2140,7 @@
         ]
       },
       "modern": {
-        "author": "おおなかとみのよしのぶあそん",
+        "author": "おおなかとみのよしのぶ",
         "ku": [
           "みかきもり",
           "えじのたくひの",
@@ -3170,7 +3170,7 @@
   {
     "author": {
       "aliases": [],
-      "canonical": "権中納言匡房",
+      "canonical": "前中納言匡房",
       "confirmed": true
     },
     "cardNo": 73,
@@ -3186,7 +3186,7 @@
     "poemId": "p073",
     "reading": {
       "historical": {
-        "author": "ごんちゆうなごんまさふさ",
+        "author": "さきのちゆうなごんまさふさ",
         "ku": [
           "たかさごの",
           "をのへのさくら",
@@ -3196,7 +3196,7 @@
         ]
       },
       "modern": {
-        "author": "ごんちゅうなごんまさふさ",
+        "author": "さきのちゅうなごんまさふさ",
         "ku": [
           "たかさごの",
           "おのえのさくら",
@@ -3890,7 +3890,7 @@
     "poemId": "p089",
     "reading": {
       "historical": {
-        "author": "しきしないしんわう",
+        "author": "しよくしないしんわう",
         "ku": [
           "たまのをよ",
           "たえなばたえね",
@@ -3900,7 +3900,7 @@
         ]
       },
       "modern": {
-        "author": "しきしないしんのう",
+        "author": "しょくしないしんのう",
         "ku": [
           "たまのおよ",
           "たえなばたえね",

@@ -23,46 +23,42 @@ test('未着手の首は0%で灰帯になる', () => {
   assert.equal(masteryDisplay(result.score).color, 'gray');
 });
 
-test('本文35・作者0は28%で赤帯になる', () => {
-  const result = mastery(35, 0);
+// 初回公開は作者を出題しないため、配点は本文だけで100%（依頼者裁定・2026-09-05）。
+// 作者を出題へ戻すときは poem.ts の 2 値と下の期待値を同時に戻す。
+
+test('本文28・作者0は28%で赤帯になる', () => {
+  const result = mastery(28, 0);
   assert.equal(result.score, 28);
   assert.equal(masteryDisplay(result.score).color, 'red');
 });
 
-test('本文65・作者0は52%で黄帯になる', () => {
-  const result = mastery(65, 0);
+test('本文52・作者0は52%で黄帯になる', () => {
+  const result = mastery(52, 0);
   assert.equal(result.score, 52);
   assert.equal(masteryDisplay(result.score).color, 'yellow');
 });
 
-test('本文90・作者0は72%で青帯になる', () => {
-  const result = mastery(90, 0);
+test('本文72・作者0は72%で青帯になる', () => {
+  const result = mastery(72, 0);
   assert.equal(result.score, 72);
   assert.equal(masteryDisplay(result.score).color, 'blue');
 });
 
-test('本文100・作者0は80%で止まり緑にならない', () => {
-  const result = mastery(100, 0);
-  assert.equal(result.score, 80);
-  assert.equal(masteryDisplay(result.score).color, 'blue');
-});
-
-test('本文90・作者65は85%で緑帯になる', () => {
-  const result = mastery(90, 65);
+test('本文85・作者0でも緑帯へ届く', () => {
+  const result = mastery(85, 0);
   assert.equal(result.score, 85);
   assert.equal(masteryDisplay(result.score).color, 'green');
 });
 
-test('本文0・作者90は18%で赤帯になる', () => {
-  const result = mastery(0, 90);
-  assert.equal(result.score, 18);
-  assert.equal(masteryDisplay(result.score).color, 'red');
-});
-
-test('本文100・作者100は100%で緑帯になる', () => {
-  const result = mastery(100, 100);
+test('本文100・作者0は100%になる', () => {
+  const result = mastery(100, 0);
   assert.equal(result.score, 100);
   assert.equal(masteryDisplay(result.score).color, 'green');
+});
+
+test('作者の素点は習熟度へ入らない', () => {
+  assert.equal(mastery(0, 90).score, 0);
+  assert.equal(mastery(50, 100).score, mastery(50, 0).score);
 });
 
 test('未着手と着手済み0%をイベントの有無で書き分ける', () => {
@@ -79,5 +75,5 @@ test('作者イベントがあれば作者未確認を外す', () => {
 });
 
 test('素点を丸めずに返す', () => {
-  assert.equal(mastery(1, 0).score, 0.8);
+  assert.equal(mastery(0.8, 0).score, 0.8);
 });

@@ -81,9 +81,9 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 
 .range-panel { display: grid; gap: var(--space-lg); border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-xl); }
 .range-panel h2 { margin: 0; font-size: var(--text-md); }
-.range-fields { display: flex; align-items: end; gap: var(--space-sm); max-width: 25rem; }
-.range-fields label { display: grid; flex: 1; gap: var(--space-2xs); font-size: var(--text-sm); }
-.range-fields input { box-sizing: border-box; width: 100%; max-width: 7rem; min-height: 44px; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); outline: 3px solid transparent; outline-offset: 1px; padding: var(--space-xs) var(--space-sm); color: var(--color-ink); background: var(--color-surface); font-variant-numeric: tabular-nums; }
+.range-fields { display: flex; align-items: center; gap: var(--space-sm); max-width: 25rem; }
+.range-fields label { display: flex; align-items: center; gap: var(--space-2xs); font-size: var(--text-sm); }
+.range-fields input { box-sizing: border-box; width: 100%; max-width: 7rem; min-height: 56px; font-size: var(--text-lg); border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); outline: 3px solid transparent; outline-offset: 1px; padding: var(--space-xs) var(--space-sm); color: var(--color-ink); background: var(--color-surface); font-variant-numeric: tabular-nums; }
 .range-fields input:disabled { cursor: not-allowed; opacity: 0.55; }
 .primary { justify-self: start; min-width: 12rem; background: var(--color-ink); color: var(--color-paper); font-weight: 700; }
 @media (hover: hover) and (pointer: fine) {
@@ -91,7 +91,9 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   .primary:hover { background: var(--color-ink-muted); color: var(--color-paper); }
 }
 
-.reading-controls { display: flex; flex-wrap: wrap; gap: var(--space-sm); padding-block: var(--space-md); }
+.reading-controls { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-sm); padding-block: var(--space-md); }
+.writing-toggle { flex: 0 0 auto; align-self: end; }
+.entry-help { margin: 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
 .reading-control { display: inline-flex; flex-direction: column; align-items: flex-start; gap: var(--space-3xs); }
 .reading-state { color: var(--color-ink-muted); font-size: var(--text-sm); }
 .reading-controls fieldset { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); min-width: 0; margin: 0; border: 0; padding: 0; }
@@ -171,10 +173,12 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .session { box-sizing: border-box; width: min(100%, 62rem); min-height: 100dvh; margin-inline: auto; padding: var(--space-md); }
 .range-picker h1,
 .session h1 { overflow-wrap: anywhere; }
-.entry-actions,
 .session-controls,
 .answer-controls { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end; }
-.entry-actions .primary { min-width: 12rem; }
+.entry-actions { display: grid; gap: var(--space-md); }
+.entry-actions .entry-start { width: 100%; min-height: 64px; font-size: var(--text-lg); }
+.entry-secondary { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.entry-secondary button { flex: 1 1 12rem; min-width: 0; }
 .session-controls fieldset,
 .range-picker fieldset { display: flex; flex-wrap: wrap; gap: var(--space-sm); border: 0; }
 .session-controls label,
@@ -192,6 +196,18 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-controls label { display: grid; min-width: 0; gap: var(--space-2xs); }
 .answer-controls input { box-sizing: border-box; width: 100%; min-height: 44px; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding-inline: var(--space-sm); }
 .answer-feedback { margin-block: var(--space-md); border-inline-start: 4px solid var(--color-wisteria); padding-inline: var(--space-md); }
+.answer-retained { display: grid; min-width: 0; gap: var(--space-3xs); margin-block: var(--space-md); }
+.kana-supplement { margin-block: var(--space-2xs); overflow-wrap: anywhere; }
+.question-note { margin-block: var(--space-2xs); color: var(--color-ink-muted); font-size: var(--text-sm); overflow-wrap: anywhere; }
+.review-note--persistent { margin-block: var(--space-sm); }
+.answer-retained input { box-sizing: border-box; width: 100%; min-width: 0; min-height: 44px; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding-inline: var(--space-sm); background: var(--color-surface); }
+.answer-retained--attention input { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); }
+.restore-offer { display: grid; gap: var(--space-2xs); }
+.restore-title { margin: 0; font-size: var(--text-md); }
+.restore-detail { color: var(--color-ink-muted); }
+.restore-offer p { margin: 0; }
+.restore-actions { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-block-start: var(--space-sm); }
+.restore-actions button { flex: 1 1 12rem; min-width: 0; }
 .report-control { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs); }
 .report-link { border-color: transparent; padding-inline: var(--space-xs); color: var(--color-ink-muted); background: transparent; font-size: var(--text-sm); text-decoration: underline; text-underline-offset: var(--space-3xs); }
 .self-grade { display: grid; gap: var(--space-sm); margin-block: var(--space-md); }
@@ -204,6 +220,18 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-mode h2, .answer-mode p { margin: 0; }
 .answer-mode div { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .answer-mode button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
+.grade-list { display: grid; gap: var(--space-sm); margin: var(--space-lg) 0; padding: 0; list-style: none; }
+.grade-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-2xs) var(--space-sm); border-block-end: var(--rule-thin) solid var(--color-rule); padding-block-end: var(--space-sm); }
+/* 既定で行いっぱい。番号と判定記号だけを 1 行目の左右へ置く。 */
+.grade-list li > * { grid-column: 1 / -1; min-width: 0; }
+.grade-number { grid-column: 1; grid-row: 1; font-size: var(--text-md); font-weight: 700; }
+.grade-mark { grid-column: 2; grid-row: 1; justify-self: end; font-size: var(--text-lg); line-height: 1; }
+.grade-mark-note { color: var(--color-ink-muted); font-size: var(--text-sm); }
+.grade-line { display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+.grade-label { flex: 0 0 auto; color: var(--color-ink-muted); font-size: var(--text-sm); }
+.grade-value { min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+.grade-choice { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.grade-choice button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
 
 .result-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); overflow-wrap: anywhere; }
 .result-summary { padding-block: var(--space-xl); }
@@ -253,12 +281,13 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
  * 実測: 修正前は 320px@200% で 96px あふれ、`.range-panel` が切れていた。
  */
 .range-fields { flex-wrap: wrap; }
-.range-fields label { min-width: 0; flex: 1 1 8ch; }
+.range-fields label { min-width: 0; flex: 0 1 8rem; }
 .range-panel > * { min-width: 0; }
 .home button { box-sizing: border-box; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 .entry-actions .primary { min-width: min(12rem, 100%); }
 .entry-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
 .entry-actions button { width: 100%; }
+.entry-secondary { display: grid; grid-template-columns: minmax(0, 1fr); }
 .practice-choices { display: grid; gap: var(--space-md); }
 .practice-choice { display: grid; gap: var(--space-2xs); }
 .practice-choice p { margin: 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
@@ -269,7 +298,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .range-summary { margin-block: var(--space-xs); font-family: var(--font-poem); font-size: var(--text-lg); font-variant-numeric: tabular-nums; }
 
 @media (min-width: 40rem) {
-  .entry-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* 入口は縦積みのまま。「とりあえず始める」を上に大きく置き、確認系2つをその下へ並べる。 */
+  .entry-secondary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .practice-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 

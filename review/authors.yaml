@@ -885,6 +885,7 @@ entries:
   - cardNo: 89
     canonical: 式子内親王
     aliases: []
+    alsoAccepted: しきしないしんわう、しきしないしんのう
     status: approved
     confirmationMode: batch
     batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md

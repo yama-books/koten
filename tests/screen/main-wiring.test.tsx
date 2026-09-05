@@ -8,7 +8,7 @@ import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
 import { planQuestions } from '../../packages/hyakunin/src/domain/entry.ts';
 
 const poems = readFileSync(join(process.cwd(), 'packages/hyakunin/src/data/generated/poems.json'), 'utf8');
-const question = ['p001', 'p010', 'p011', 'p012', 'p021', 'p100'].map((poemId) => ({ questionId: `q${poemId.slice(1)}`, poemId, skill: 'text' as const, type: 'blank' as const, blankUnit: 'word' as const, prompt: poemId === 'p010' ? '白妙の' : poemId, answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: [], candidates: [], normalization: 'kana' as const, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }));
+const question = ['p001', 'p010', 'p011', 'p012', 'p021', 'p100'].map((poemId) => ({ questionId: `q${poemId.slice(1)}`, poemId, skill: 'text' as const, type: 'blank' as const, blankUnit: 'word' as const, prompt: '＿', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: [], candidates: [], normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }));
 const originalFetch = globalThis.fetch;
 let root: HTMLDivElement | undefined;
 
@@ -38,9 +38,9 @@ async function mount(search: string, customPort = { ...createMemoryPort(), saveL
 }
 
 async function start() {
-  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'とりあえず始める')!.click(); });
-  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '練習する')!.click(); });
-  await act(async () => { root!.querySelector('button.primary')!.click(); await Promise.resolve(); });
+  await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'とりあえず始める')!.click(); await Promise.resolve(); });
+  expect(root!.querySelector('input[placeholder]')).not.toBeNull();
+  expect(root!.textContent).not.toContain('開始前の確認');
 }
 
 const currentNumber = () => root!.querySelector('.question-number')?.textContent;
@@ -89,19 +89,30 @@ test('main-wiring: 復元は保存済みの回を新規保存せず再開する'
   const savedIds: string[] = [];
   const port = { ...base, saveSession: async (session: typeof saved) => { savedIds.push(session.sessionId); return base.saveSession(session); }, saveLocalReport: async () => true };
   const { view } = await mount('?from=1&to=1', port);
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '復元する')!.click(); });
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '続きから始める')!.click(); });
   expect(currentNumber()).toBe('10');
   expect(savedIds).toEqual([]);
 });
 
 test('main-wiring: 復元は保存済みseedのランダム順を再現する', async () => {
   const base = createMemoryPort();
-  const saved = { sessionId: 'random-resume', product: 'hyakunin' as const, from: 1, to: 21, entry: 'review' as const, order: 'random' as const, seed: 'fixed-resume-seed', startedOn: '2026-09-01', completed: false, questionCount: 5 };
+  const saved = { sessionId: 'random-resume', product: 'hyakunin' as const, from: 1, to: 21, entry: 'learn' as const, order: 'random' as const, seed: 'fixed-resume-seed', startedOn: '2026-09-01', completed: false, questionCount: 5 };
   await base.saveSession(saved);
   const { view } = await mount('?from=50&to=60', { ...base, saveLocalReport: async () => true });
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '復元する')!.click(); });
-  const expected = planQuestions('review', question, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], saved.seed, 'random')[0]!;
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '続きから始める')!.click(); });
+  const expected = planQuestions('learn', question, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], saved.seed, 'random')[0]!;
+  expect(expected).toBeDefined();
   expect(currentNumber()).toBe(String(Number(expected.poemId.slice(1))));
+});
+
+test('main-wiring: 保存済みの未完了な再確認には復元の誘いを出さない', async () => {
+  const base = createMemoryPort();
+  const saved = { sessionId: 'old-review', product: 'hyakunin' as const, from: 1, to: 21, entry: 'review' as const, order: 'number' as const, seed: 'old-review-seed', startedOn: '2026-09-01', completed: false, questionCount: 5 };
+  await base.saveSession(saved);
+  const { view } = await mount('?from=1&to=21', { ...base, saveLocalReport: async () => true });
+  expect(view.textContent).not.toContain('続きから始める');
+  expect(view.textContent).not.toContain('の続きがあります');
+  expect(view.textContent).toContain('とりあえず始める');
 });
 
 test('main-wiring: an invalid range falls back to the whole set and says so', async () => {
@@ -152,7 +163,7 @@ test('main: 保存されたイベントから習熟度の変化を表示する',
   await mount('?from=10&to=10');
   await start();
   await finish();
-  expect(root!.textContent).toContain('0%7.2%');
+  expect(root!.textContent).toContain('0%9%');
 });
 
 test('main: 再確認はまちがえた歌だけを出す', async () => {

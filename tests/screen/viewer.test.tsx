@@ -22,6 +22,22 @@ test('viewer: entering view mode shows the first poem in range', async () => {
   expect(view.textContent).toContain('k10-1');
 });
 
+test('viewer: author recall hides the name until revealed and hides it again for the next poem', async () => {
+  const view = await mount();
+  const click = async (label: string) => act(async () => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === label)!.click(); await Promise.resolve(); });
+  await click('学習方法を選ぶ');
+  await click('作者名を確認する');
+  expect(view.textContent).toContain('k10-1');
+  expect(view.textContent).not.toContain('作者10');
+  await click('作者名を見る');
+  expect(view.textContent).toContain('作者10');
+  await click('次の歌');
+  expect(view.textContent).toContain('k11-1');
+  expect(view.textContent).not.toContain('作者11');
+  await click('作者名を見る');
+  expect(view.textContent).toContain('作者11');
+});
+
 test('viewer: next poem button moves forward', async () => {
   const view = await mount();
   await enterViewer(view);

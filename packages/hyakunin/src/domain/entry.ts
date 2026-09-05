@@ -13,6 +13,21 @@ export const ENTRY_RULES: Readonly<Record<EntryId, EntryRule>> = {
   exam: { questionCount: 10, blankWeight: 1, authorWeight: 1 },
 };
 
+/**
+ * 学習者に見せる入口の名前。復元カードと出題画面の見出しが同じ語を使うために 1 か所へ置く。
+ * 別々に書くと、片方だけ直った状態が試験を通ってしまう。
+ */
+export const ENTRY_LABELS: Readonly<Record<EntryId, string>> = {
+  quick: '練習する',
+  view: '歌を確認する',
+  learn: '練習する',
+  review: 'もう一度確認する',
+  exam: '本番のように解く',
+};
+
+/** まとまり 1 つの首数。復元カードの案内はこの値を名指しで出す。 */
+export { MAX_CHUNK_SIZE as CHUNK_CARD_COUNT } from './range.ts';
+
 export function isEntryAvailable(entry: EntryId, availableQuestionCount: number): boolean {
   return entry === 'view' || availableQuestionCount > ENTRY_RULES.review.questionCount;
 }

@@ -14,6 +14,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p001",
     "prompt": "＿＿＿かりほの庵のとまをあらみわが衣手は露にぬれつつ",
@@ -39,8 +40,10 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": "「かりほ」は「刈穂」と「仮庵」の掛詞です。現代仮名遣いは「かりほ」「かりお」どちらでもかまいません。",
     "partialAnswers": [
-      "かりおのいおの"
+      "かりおのいおの",
+      "かりほのいおの"
     ],
     "poemId": "p001",
     "prompt": "秋の田の＿＿＿とまをあらみわが衣手は露にぬれつつ",
@@ -65,6 +68,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p001",
     "prompt": "秋の田のかりほの庵の＿＿＿わが衣手は露にぬれつつ",
@@ -90,6 +94,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p001",
     "prompt": "秋の田のかりほの庵のとまをあらみ＿＿＿露にぬれつつ",
@@ -115,6 +120,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p001",
     "prompt": "秋の田のかりほの庵のとまをあらみわが衣手は＿＿＿",
@@ -140,6 +146,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p002",
     "prompt": "＿＿＿夏来にけらし白妙の衣ほすてふ天の香具山",
@@ -165,6 +172,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p002",
     "prompt": "春すぎて＿＿＿白妙の衣ほすてふ天の香具山",
@@ -190,6 +198,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しろたえの"
     ],
@@ -217,6 +226,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ころもほすちょう"
     ],
@@ -244,6 +254,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p002",
     "prompt": "春すぎて夏来にけらし白妙の衣ほすてふ＿＿＿",
@@ -268,6 +279,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p003",
     "prompt": "＿＿＿山鳥の尾のしだり尾のながながし夜をひとりかもねむ",
@@ -293,6 +305,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "やまどりのおの"
     ],
@@ -320,6 +333,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しだりおの"
     ],
@@ -347,6 +361,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p003",
     "prompt": "あしびきの山鳥の尾のしだり尾の＿＿＿ひとりかもねむ",
@@ -371,6 +386,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ひとりかもねん"
     ],
@@ -398,6 +414,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p004",
     "prompt": "＿＿＿うちいでて見れば白妙のふじの高嶺に雪はふりつつ",
@@ -423,6 +440,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p004",
     "prompt": "田子の浦に＿＿＿白妙のふじの高嶺に雪はふりつつ",
@@ -448,6 +466,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しろたえの"
     ],
@@ -475,6 +494,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p004",
     "prompt": "田子の浦にうちいでて見れば白妙の＿＿＿雪はふりつつ",
@@ -500,6 +520,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p004",
     "prompt": "田子の浦にうちいでて見れば白妙のふじの高嶺に＿＿＿",
@@ -525,6 +546,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p005",
     "prompt": "＿＿＿紅葉ふみ分けなく鹿の声きく時ぞ秋は悲しき",
@@ -550,6 +572,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "もみじふみわけ"
     ],
@@ -577,6 +600,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p005",
     "prompt": "奥山に紅葉ふみ分け＿＿＿声きく時ぞ秋は悲しき",
@@ -602,6 +626,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "こえきくときぞ"
     ],
@@ -629,6 +654,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p005",
     "prompt": "奥山に紅葉ふみ分けなく鹿の声きく時ぞ＿＿＿",
@@ -654,6 +680,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p006",
     "prompt": "＿＿＿渡せる橋におく霜の白きを見れば夜ぞふけにける",
@@ -679,6 +706,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p006",
     "prompt": "かさゝぎの＿＿＿おく霜の白きを見れば夜ぞふけにける",
@@ -704,6 +732,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p006",
     "prompt": "かさゝぎの渡せる橋に＿＿＿白きを見れば夜ぞふけにける",
@@ -729,6 +758,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p006",
     "prompt": "かさゝぎの渡せる橋におく霜の＿＿＿夜ぞふけにける",
@@ -754,6 +784,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p006",
     "prompt": "かさゝぎの渡せる橋におく霜の白きを見れば＿＿＿",
@@ -779,6 +810,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p007",
     "prompt": "＿＿＿ふりさけ見れば春日なる三笠の山に出でし月かも",
@@ -804,6 +836,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p007",
     "prompt": "天の原＿＿＿春日なる三笠の山に出でし月かも",
@@ -829,6 +862,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p007",
     "prompt": "天の原ふりさけ見れば＿＿＿三笠の山に出でし月かも",
@@ -854,6 +888,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p007",
     "prompt": "天の原ふりさけ見れば春日なる＿＿＿出でし月かも",
@@ -879,6 +914,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p007",
     "prompt": "天の原ふりさけ見れば春日なる三笠の山に＿＿＿",
@@ -904,6 +940,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "わがいおは"
     ],
@@ -931,6 +968,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p008",
     "prompt": "わが庵は＿＿＿しかぞ住む世をうぢ山と人はいふなり",
@@ -956,6 +994,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p008",
     "prompt": "わが庵は都のたつみ＿＿＿世をうぢ山と人はいふなり",
@@ -981,6 +1020,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "よをうじやまと"
     ],
@@ -1008,6 +1048,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ひとはいうなり"
     ],
@@ -1035,6 +1076,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p009",
     "prompt": "＿＿＿うつりにけりな徒にわが身世にふるながめせしまに",
@@ -1059,6 +1101,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p009",
     "prompt": "花の色は＿＿＿徒にわが身世にふるながめせしまに",
@@ -1084,6 +1127,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いたずらに"
     ],
@@ -1111,6 +1155,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p009",
     "prompt": "花の色はうつりにけりな徒に＿＿＿ながめせしまに",
@@ -1135,6 +1180,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p009",
     "prompt": "花の色はうつりにけりな徒にわが身世にふる＿＿＿",
@@ -1159,6 +1205,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p010",
     "prompt": "＿＿＿行くも帰るも別れては知るも知らぬも逢坂の関",
@@ -1184,6 +1231,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ゆくもかえるも"
     ],
@@ -1211,6 +1259,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p010",
     "prompt": "これやこの行くも帰るも＿＿＿知るも知らぬも逢坂の関",
@@ -1236,6 +1285,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p010",
     "prompt": "これやこの行くも帰るも別れては＿＿＿逢坂の関",
@@ -1261,6 +1311,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おうさかのせき"
     ],
@@ -1288,6 +1339,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p011",
     "prompt": "＿＿＿八十島かけて漕ぎ出でぬと人にはつげよあまの釣舟",
@@ -1313,6 +1365,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p011",
     "prompt": "わたの原＿＿＿漕ぎ出でぬと人にはつげよあまの釣舟",
@@ -1338,6 +1391,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p011",
     "prompt": "わたの原八十島かけて＿＿＿人にはつげよあまの釣舟",
@@ -1363,6 +1417,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p011",
     "prompt": "わたの原八十島かけて漕ぎ出でぬと＿＿＿あまの釣舟",
@@ -1388,6 +1443,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p011",
     "prompt": "わたの原八十島かけて漕ぎ出でぬと人にはつげよ＿＿＿",
@@ -1413,6 +1469,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p012",
     "prompt": "＿＿＿雲のかよひぢ吹きとぢよをとめの姿しばしとどめむ",
@@ -1438,6 +1495,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "くものかよいじ"
     ],
@@ -1465,6 +1523,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ふきとじよ"
     ],
@@ -1492,6 +1551,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おとめのすがた"
     ],
@@ -1518,6 +1578,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しばしとどめん"
     ],
@@ -1544,6 +1605,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p013",
     "prompt": "＿＿＿峯より落つるみなの川恋ぞつもりて淵となりぬる",
@@ -1569,6 +1631,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p013",
     "prompt": "つくばねの＿＿＿みなの川恋ぞつもりて淵となりぬる",
@@ -1594,6 +1657,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "みなのがわ"
     ],
@@ -1621,6 +1685,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "こいぞつもりて"
     ],
@@ -1648,6 +1713,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p013",
     "prompt": "つくばねの峯より落つるみなの川恋ぞつもりて＿＿＿",
@@ -1673,6 +1739,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p014",
     "prompt": "＿＿＿しのぶもぢずり誰ゆゑにみだれそめにし我ならなくに",
@@ -1697,6 +1764,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しのぶもじずり"
     ],
@@ -1724,6 +1792,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "たれゆえに"
     ],
@@ -1750,6 +1819,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p014",
     "prompt": "陸奥のしのぶもぢずり誰ゆゑに＿＿＿我ならなくに",
@@ -1775,6 +1845,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p014",
     "prompt": "陸奥のしのぶもぢずり誰ゆゑにみだれそめにし＿＿＿",
@@ -1800,6 +1871,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p015",
     "prompt": "＿＿＿春の野に出でて若菜つむわが衣手に雪はふりつつ",
@@ -1825,6 +1897,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p015",
     "prompt": "君がため＿＿＿若菜つむわが衣手に雪はふりつつ",
@@ -1850,6 +1923,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p015",
     "prompt": "君がため春の野に出でて＿＿＿わが衣手に雪はふりつつ",
@@ -1875,6 +1949,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p015",
     "prompt": "君がため春の野に出でて若菜つむ＿＿＿雪はふりつつ",
@@ -1900,6 +1975,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p015",
     "prompt": "君がため春の野に出でて若菜つむわが衣手に＿＿＿",
@@ -1925,6 +2001,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p016",
     "prompt": "＿＿＿いなばの山の峯に生ふるまつとし聞かば今帰り来む",
@@ -1950,6 +2027,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p016",
     "prompt": "立ち別れ＿＿＿峯に生ふるまつとし聞かば今帰り来む",
@@ -1975,6 +2053,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "みねにおうる"
     ],
@@ -2002,6 +2081,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p016",
     "prompt": "立ち別れいなばの山の峯に生ふる＿＿＿今帰り来む",
@@ -2027,6 +2107,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いまかえりこん"
     ],
@@ -2053,6 +2134,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p017",
     "prompt": "＿＿＿神代も聞かず竜田川からくれなゐに水くくるとは",
@@ -2078,6 +2160,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p017",
     "prompt": "ちはやぶる＿＿＿竜田川からくれなゐに水くくるとは",
@@ -2103,6 +2186,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "たつたがわ"
     ],
@@ -2129,6 +2213,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "からくれないに"
     ],
@@ -2156,6 +2241,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "みずくくるとは"
     ],
@@ -2183,6 +2269,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p018",
     "prompt": "＿＿＿岸による波よるさへや夢のかよひ路人目よくらむ",
@@ -2208,6 +2295,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p018",
     "prompt": "すみの江の＿＿＿よるさへや夢のかよひ路人目よくらむ",
@@ -2232,6 +2320,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "よるさえや"
     ],
@@ -2259,6 +2348,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ゆめのかよいじ"
     ],
@@ -2286,6 +2376,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ひとめよくらん"
     ],
@@ -2312,6 +2403,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なにわがた"
     ],
@@ -2339,6 +2431,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p019",
     "prompt": "なにはがた＿＿＿ふしの間もあはでこの世をすぐしてよとや",
@@ -2364,6 +2457,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p019",
     "prompt": "なにはがた短き芦の＿＿＿あはでこの世をすぐしてよとや",
@@ -2389,6 +2483,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あわでこのよを"
     ],
@@ -2415,6 +2510,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p019",
     "prompt": "なにはがた短き芦のふしの間もあはでこの世を＿＿＿",
@@ -2439,6 +2535,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p020",
     "prompt": "＿＿＿今はた同じなにはなるみをつくしてもあはむとぞ思ふ",
@@ -2464,6 +2561,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p020",
     "prompt": "わびぬれば＿＿＿なにはなるみをつくしてもあはむとぞ思ふ",
@@ -2488,6 +2586,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なにわなる"
     ],
@@ -2514,6 +2613,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p020",
     "prompt": "わびぬれば今はた同じなにはなる＿＿＿あはむとぞ思ふ",
@@ -2539,6 +2639,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あわんとぞおもう"
     ],
@@ -2566,6 +2667,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いまこんと"
     ],
@@ -2592,6 +2694,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いいしばかりに"
     ],
@@ -2619,6 +2722,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p021",
     "prompt": "今来むといひしばかりに＿＿＿有明の月を待ち出でつるかな",
@@ -2644,6 +2748,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p021",
     "prompt": "今来むといひしばかりに長月の＿＿＿待ち出でつるかな",
@@ -2669,6 +2774,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p021",
     "prompt": "今来むといひしばかりに長月の有明の月を＿＿＿",
@@ -2694,6 +2800,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p022",
     "prompt": "＿＿＿秋の草木のしをるればむべ山風を嵐といふらむ",
@@ -2719,6 +2826,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p022",
     "prompt": "吹くからに＿＿＿しをるればむべ山風を嵐といふらむ",
@@ -2743,6 +2851,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しおるれば"
     ],
@@ -2770,6 +2879,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p022",
     "prompt": "吹くからに秋の草木のしをるれば＿＿＿嵐といふらむ",
@@ -2795,6 +2905,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あらしというらん"
     ],
@@ -2822,6 +2933,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p023",
     "prompt": "＿＿＿ちぢにものこそ悲しけれわが身ひとつの秋にはあらねど",
@@ -2846,6 +2958,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p023",
     "prompt": "月見れば＿＿＿悲しけれわが身ひとつの秋にはあらねど",
@@ -2871,6 +2984,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p023",
     "prompt": "月見ればちぢにものこそ＿＿＿わが身ひとつの秋にはあらねど",
@@ -2896,6 +3010,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p023",
     "prompt": "月見ればちぢにものこそ悲しけれ＿＿＿秋にはあらねど",
@@ -2921,6 +3036,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p023",
     "prompt": "月見ればちぢにものこそ悲しけれわが身ひとつの＿＿＿",
@@ -2945,6 +3061,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p024",
     "prompt": "＿＿＿ぬさも取りあへず手向山紅葉のにしき神のまにまに",
@@ -2970,6 +3087,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ぬさもとりあえず"
     ],
@@ -2997,6 +3115,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p024",
     "prompt": "このたびはぬさも取りあへず＿＿＿紅葉のにしき神のまにまに",
@@ -3022,6 +3141,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "もみじのにしき"
     ],
@@ -3049,6 +3169,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p024",
     "prompt": "このたびはぬさも取りあへず手向山紅葉のにしき＿＿＿",
@@ -3074,6 +3195,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なにしおわば"
     ],
@@ -3101,6 +3223,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おうさかやまの"
     ],
@@ -3127,6 +3250,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "さねかずら"
     ],
@@ -3154,6 +3278,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p025",
     "prompt": "名にし負はば逢坂山のさねかづら＿＿＿来るよしもがな",
@@ -3179,6 +3304,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p025",
     "prompt": "名にし負はば逢坂山のさねかづら人に知られで＿＿＿",
@@ -3204,6 +3330,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おぐらやま"
     ],
@@ -3231,6 +3358,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "みねのもみじば"
     ],
@@ -3258,6 +3386,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p026",
     "prompt": "小倉山峯の紅葉葉＿＿＿今ひとたびのみゆき待たなむ",
@@ -3283,6 +3412,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p026",
     "prompt": "小倉山峯の紅葉葉心あらば＿＿＿みゆき待たなむ",
@@ -3308,6 +3438,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "みゆきまたなん"
     ],
@@ -3335,6 +3466,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p027",
     "prompt": "＿＿＿わきて流るる泉川いつ見きとてか恋しかるらむ",
@@ -3360,6 +3492,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p027",
     "prompt": "みかの原＿＿＿泉川いつ見きとてか恋しかるらむ",
@@ -3385,6 +3518,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いずみがわ"
     ],
@@ -3412,6 +3546,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p027",
     "prompt": "みかの原わきて流るる泉川＿＿＿恋しかるらむ",
@@ -3437,6 +3572,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "こいしかるらん"
     ],
@@ -3464,6 +3600,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p028",
     "prompt": "＿＿＿冬ぞ寂しさまさりける人目も草もかれぬと思へば",
@@ -3489,6 +3626,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p028",
     "prompt": "山里は＿＿＿まさりける人目も草もかれぬと思へば",
@@ -3513,6 +3651,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p028",
     "prompt": "山里は冬ぞ寂しさ＿＿＿人目も草もかれぬと思へば",
@@ -3538,6 +3677,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p028",
     "prompt": "山里は冬ぞ寂しさまさりける＿＿＿かれぬと思へば",
@@ -3563,6 +3703,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "かれぬとおもえば"
     ],
@@ -3590,6 +3731,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p029",
     "prompt": "＿＿＿折らばや折らむ初霜のおきまどはせる白菊の花",
@@ -3615,6 +3757,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おらばやおらん"
     ],
@@ -3642,6 +3785,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p029",
     "prompt": "心あてに折らばや折らむ＿＿＿おきまどはせる白菊の花",
@@ -3666,6 +3810,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おきまどわせる"
     ],
@@ -3693,6 +3838,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p029",
     "prompt": "心あてに折らばや折らむ初霜のおきまどはせる＿＿＿",
@@ -3718,6 +3864,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p030",
     "prompt": "＿＿＿つれなく見えし別れより暁ばかり憂きものはなし",
@@ -3743,6 +3890,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p030",
     "prompt": "有明の＿＿＿別れより暁ばかり憂きものはなし",
@@ -3768,6 +3916,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p030",
     "prompt": "有明のつれなく見えし＿＿＿暁ばかり憂きものはなし",
@@ -3793,6 +3942,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p030",
     "prompt": "有明のつれなく見えし別れより＿＿＿憂きものはなし",
@@ -3818,6 +3968,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p030",
     "prompt": "有明のつれなく見えし別れより暁ばかり＿＿＿",
@@ -3843,6 +3994,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p031",
     "prompt": "＿＿＿有明の月と見るまでに吉野の里にふれる白雪",
@@ -3868,6 +4020,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p031",
     "prompt": "朝ぼらけ＿＿＿見るまでに吉野の里にふれる白雪",
@@ -3893,6 +4046,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p031",
     "prompt": "朝ぼらけ有明の月と＿＿＿吉野の里にふれる白雪",
@@ -3918,6 +4072,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p031",
     "prompt": "朝ぼらけ有明の月と見るまでに＿＿＿ふれる白雪",
@@ -3943,6 +4098,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p031",
     "prompt": "朝ぼらけ有明の月と見るまでに吉野の里に＿＿＿",
@@ -3968,6 +4124,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "やまがわに"
     ],
@@ -3995,6 +4152,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p032",
     "prompt": "山川に＿＿＿しがらみは流れもあへぬ紅葉なりけり",
@@ -4019,6 +4177,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p032",
     "prompt": "山川に風のかけたる＿＿＿流れもあへぬ紅葉なりけり",
@@ -4044,6 +4203,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ながれもあえぬ"
     ],
@@ -4071,6 +4231,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "もみじなりけり"
     ],
@@ -4097,6 +4258,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p033",
     "prompt": "＿＿＿光のどけき春の日にしづ心なく花の散るらむ",
@@ -4122,6 +4284,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p033",
     "prompt": "ひさかたの＿＿＿春の日にしづ心なく花の散るらむ",
@@ -4147,6 +4310,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p033",
     "prompt": "ひさかたの光のどけき＿＿＿しづ心なく花の散るらむ",
@@ -4172,6 +4336,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しずごころなく"
     ],
@@ -4199,6 +4364,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "はなのちるらん"
     ],
@@ -4226,6 +4392,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p034",
     "prompt": "＿＿＿知る人にせむ高砂の松も昔の友ならなくに",
@@ -4251,6 +4418,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しるひとにせん"
     ],
@@ -4278,6 +4446,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p034",
     "prompt": "誰をかも知る人にせむ＿＿＿松も昔の友ならなくに",
@@ -4303,6 +4472,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p034",
     "prompt": "誰をかも知る人にせむ高砂の＿＿＿友ならなくに",
@@ -4328,6 +4498,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p034",
     "prompt": "誰をかも知る人にせむ高砂の松も昔の＿＿＿",
@@ -4353,6 +4524,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p035",
     "prompt": "＿＿＿心も知らずふる里は花ぞ昔の香ににほひける",
@@ -4378,6 +4550,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p035",
     "prompt": "人はいさ＿＿＿ふる里は花ぞ昔の香ににほひける",
@@ -4403,6 +4576,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p035",
     "prompt": "人はいさ心も知らず＿＿＿花ぞ昔の香ににほひける",
@@ -4428,6 +4602,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p035",
     "prompt": "人はいさ心も知らずふる里は＿＿＿香ににほひける",
@@ -4453,6 +4628,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "かににおいける"
     ],
@@ -4480,6 +4656,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p036",
     "prompt": "＿＿＿まだ宵ながら明けぬるを雲のいづこに月やどるらむ",
@@ -4505,6 +4682,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "まだよいながら"
     ],
@@ -4532,6 +4710,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p036",
     "prompt": "夏の夜はまだ宵ながら＿＿＿雲のいづこに月やどるらむ",
@@ -4557,6 +4736,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "くものいずこに"
     ],
@@ -4584,6 +4764,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "つきやどるらん"
     ],
@@ -4611,6 +4792,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p037",
     "prompt": "＿＿＿風の吹きしく秋の野はつらぬきとめぬ玉ぞ散りける",
@@ -4636,6 +4818,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p037",
     "prompt": "白露に＿＿＿秋の野はつらぬきとめぬ玉ぞ散りける",
@@ -4661,6 +4844,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p037",
     "prompt": "白露に風の吹きしく＿＿＿つらぬきとめぬ玉ぞ散りける",
@@ -4685,6 +4869,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p037",
     "prompt": "白露に風の吹きしく秋の野は＿＿＿玉ぞ散りける",
@@ -4710,6 +4895,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p037",
     "prompt": "白露に風の吹きしく秋の野はつらぬきとめぬ＿＿＿",
@@ -4735,6 +4921,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p038",
     "prompt": "＿＿＿身をば思はず誓ひてし人の命の惜しくもあるかな",
@@ -4760,6 +4947,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "みをばおもわず"
     ],
@@ -4787,6 +4975,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ちかいてし"
     ],
@@ -4814,6 +5003,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p038",
     "prompt": "忘らるる身をば思はず誓ひてし＿＿＿惜しくもあるかな",
@@ -4839,6 +5029,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おしくもあるかな"
     ],
@@ -4866,6 +5057,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あさじうの"
     ],
@@ -4893,6 +5085,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おののしのはら"
     ],
@@ -4919,6 +5112,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p039",
     "prompt": "浅茅生の小野の篠原＿＿＿あまりてなどか人の恋しき",
@@ -4943,6 +5137,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p039",
     "prompt": "浅茅生の小野の篠原しのぶれど＿＿＿人の恋しき",
@@ -4968,6 +5163,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ひとのこいしき"
     ],
@@ -4995,6 +5191,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p040",
     "prompt": "＿＿＿色に出でにけりわが恋はものや思ふと人の問ふまで",
@@ -5020,6 +5217,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p040",
     "prompt": "忍ぶれど＿＿＿わが恋はものや思ふと人の問ふまで",
@@ -5045,6 +5243,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "わがこいは"
     ],
@@ -5072,6 +5271,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ものやおもうと"
     ],
@@ -5099,6 +5299,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ひとのとうまで"
     ],
@@ -5126,6 +5327,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "こいすちょう"
     ],
@@ -5153,6 +5355,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p041",
     "prompt": "恋すてふ＿＿＿立ちにけり人知れずこそ思ひそめしか",
@@ -5178,6 +5381,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p041",
     "prompt": "恋すてふわが名はまだき＿＿＿人知れずこそ思ひそめしか",
@@ -5203,6 +5407,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p041",
     "prompt": "恋すてふわが名はまだき立ちにけり＿＿＿思ひそめしか",
@@ -5228,6 +5433,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもいそめしか"
     ],
@@ -5255,6 +5461,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p042",
     "prompt": "＿＿＿かたみに袖をしぼりつつ末の松山波こさじとは",
@@ -5280,6 +5487,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p042",
     "prompt": "契りきな＿＿＿しぼりつつ末の松山波こさじとは",
@@ -5304,6 +5512,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p042",
     "prompt": "契りきなかたみに袖を＿＿＿末の松山波こさじとは",
@@ -5329,6 +5538,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "すえのまつやま"
     ],
@@ -5356,6 +5566,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p042",
     "prompt": "契りきなかたみに袖をしぼりつつ末の松山＿＿＿",
@@ -5381,6 +5592,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あいみての"
     ],
@@ -5408,6 +5620,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p043",
     "prompt": "逢ひ見ての＿＿＿くらぶれば昔はものを思はざりけり",
@@ -5432,6 +5645,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p043",
     "prompt": "逢ひ見てののちの心に＿＿＿昔はものを思はざりけり",
@@ -5457,6 +5671,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p043",
     "prompt": "逢ひ見てののちの心にくらぶれば＿＿＿思はざりけり",
@@ -5482,6 +5697,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもわざりけり"
     ],
@@ -5509,6 +5725,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おうことの"
     ],
@@ -5536,6 +5753,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "たえてしなくば"
     ],
@@ -5562,6 +5780,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p044",
     "prompt": "逢ふことの絶えてしなくは＿＿＿人をも身をも恨みざらまし",
@@ -5587,6 +5806,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p044",
     "prompt": "逢ふことの絶えてしなくはなかなかに＿＿＿恨みざらまし",
@@ -5612,6 +5832,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p044",
     "prompt": "逢ふことの絶えてしなくはなかなかに人をも身をも＿＿＿",
@@ -5636,6 +5857,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あわれとも"
     ],
@@ -5663,6 +5885,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いうべきひとは"
     ],
@@ -5690,6 +5913,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもおえで"
     ],
@@ -5717,6 +5941,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "みのいたずらに"
     ],
@@ -5743,6 +5968,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p045",
     "prompt": "あはれともいふべき人は思ほえで身のいたづらに＿＿＿",
@@ -5768,6 +5994,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p046",
     "prompt": "＿＿＿渡る舟人かぢを絶え行方も知らぬ恋の道かな",
@@ -5793,6 +6020,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p046",
     "prompt": "由良の門を＿＿＿かぢを絶え行方も知らぬ恋の道かな",
@@ -5818,6 +6046,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "かじをたえ"
     ],
@@ -5845,6 +6074,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ゆくえもしらぬ"
     ],
@@ -5872,6 +6102,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "こいのみちかな"
     ],
@@ -5899,6 +6130,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "やえむぐら"
     ],
@@ -5926,6 +6158,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p047",
     "prompt": "八重むぐら＿＿＿さびしきに人こそ見えね秋は来にけり",
@@ -5950,6 +6183,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p047",
     "prompt": "八重むぐらしげれる宿の＿＿＿人こそ見えね秋は来にけり",
@@ -5975,6 +6209,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p047",
     "prompt": "八重むぐらしげれる宿のさびしきに＿＿＿秋は来にけり",
@@ -6000,6 +6235,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p047",
     "prompt": "八重むぐらしげれる宿のさびしきに人こそ見えね＿＿＿",
@@ -6025,6 +6261,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p048",
     "prompt": "＿＿＿岩うつ波のおのれのみくだけてものを思ふ頃かな",
@@ -6050,6 +6287,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いわうつなみの"
     ],
@@ -6076,6 +6314,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p048",
     "prompt": "風をいたみ岩うつ波の＿＿＿くだけてものを思ふ頃かな",
@@ -6100,6 +6339,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p048",
     "prompt": "風をいたみ岩うつ波のおのれのみ＿＿＿思ふ頃かな",
@@ -6125,6 +6365,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもうころかな"
     ],
@@ -6151,6 +6392,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p049",
     "prompt": "＿＿＿衛士のたく火の夜はもえ昼は消えつつものをこそ思へ",
@@ -6176,6 +6418,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "えじのたくひの"
     ],
@@ -6203,6 +6446,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p049",
     "prompt": "みかきもり衛士のたく火の＿＿＿昼は消えつつものをこそ思へ",
@@ -6228,6 +6472,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p049",
     "prompt": "みかきもり衛士のたく火の夜はもえ＿＿＿ものをこそ思へ",
@@ -6253,6 +6498,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ものをこそおもえ"
     ],
@@ -6280,6 +6526,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p050",
     "prompt": "＿＿＿惜しからざりし命さへ長くもがなと思ひけるかな",
@@ -6305,6 +6552,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おしからざりし"
     ],
@@ -6332,6 +6580,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いのちさえ"
     ],
@@ -6359,6 +6608,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p050",
     "prompt": "君がため惜しからざりし命さへ＿＿＿思ひけるかな",
@@ -6384,6 +6634,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもいけるかな"
     ],
@@ -6410,6 +6661,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p051",
     "prompt": "＿＿＿えやはいぶきのさしも草さしも知らじなもゆる思ひを",
@@ -6434,6 +6686,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p051",
     "prompt": "かくとだに＿＿＿さしも草さしも知らじなもゆる思ひを",
@@ -6459,6 +6712,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p051",
     "prompt": "かくとだにえやはいぶきの＿＿＿さしも知らじなもゆる思ひを",
@@ -6484,6 +6738,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p051",
     "prompt": "かくとだにえやはいぶきのさしも草＿＿＿もゆる思ひを",
@@ -6509,6 +6764,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "もゆるおもいを"
     ],
@@ -6536,6 +6792,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p052",
     "prompt": "＿＿＿暮るるものとは知りながらなほ恨めしき朝ぼらけかな",
@@ -6561,6 +6818,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p052",
     "prompt": "明けぬれば＿＿＿知りながらなほ恨めしき朝ぼらけかな",
@@ -6586,6 +6844,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p052",
     "prompt": "明けぬれば暮るるものとは＿＿＿なほ恨めしき朝ぼらけかな",
@@ -6611,6 +6870,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なおうらめしき"
     ],
@@ -6638,6 +6898,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p052",
     "prompt": "明けぬれば暮るるものとは知りながらなほ恨めしき＿＿＿",
@@ -6662,6 +6923,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p053",
     "prompt": "＿＿＿ひとりぬる夜の明くる間はいかに久しきものとかは知る",
@@ -6687,6 +6949,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p053",
     "prompt": "なげきつつ＿＿＿明くる間はいかに久しきものとかは知る",
@@ -6712,6 +6975,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p053",
     "prompt": "なげきつつひとりぬる夜の＿＿＿いかに久しきものとかは知る",
@@ -6737,6 +7001,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p053",
     "prompt": "なげきつつひとりぬる夜の明くる間は＿＿＿ものとかは知る",
@@ -6762,6 +7027,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p053",
     "prompt": "なげきつつひとりぬる夜の明くる間はいかに久しき＿＿＿",
@@ -6787,6 +7053,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p054",
     "prompt": "＿＿＿行く末まではかたければ今日を限りの命ともがな",
@@ -6812,6 +7079,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ゆくすえまでは"
     ],
@@ -6838,6 +7106,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p054",
     "prompt": "忘れじの行く末までは＿＿＿今日を限りの命ともがな",
@@ -6863,6 +7132,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "きょうをかぎりの"
     ],
@@ -6890,6 +7160,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p054",
     "prompt": "忘れじの行く末まではかたければ今日を限りの＿＿＿",
@@ -6915,6 +7186,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p055",
     "prompt": "＿＿＿絶えて久しくなりぬれど名こそ流れてなほ聞こえけれ",
@@ -6940,6 +7212,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p055",
     "prompt": "滝の音は＿＿＿なりぬれど名こそ流れてなほ聞こえけれ",
@@ -6964,6 +7237,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p055",
     "prompt": "滝の音は絶えて久しく＿＿＿名こそ流れてなほ聞こえけれ",
@@ -6989,6 +7263,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p055",
     "prompt": "滝の音は絶えて久しくなりぬれど＿＿＿なほ聞こえけれ",
@@ -7014,6 +7289,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なおきこえけれ"
     ],
@@ -7040,6 +7316,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あらざらん"
     ],
@@ -7067,6 +7344,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p056",
     "prompt": "あらざらむ＿＿＿思ひ出に今ひとたびの逢ふこともがな",
@@ -7092,6 +7370,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもいでに"
     ],
@@ -7119,6 +7398,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p056",
     "prompt": "あらざらむこの世のほかの思ひ出に＿＿＿逢ふこともがな",
@@ -7144,6 +7424,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おうこともがな"
     ],
@@ -7171,6 +7452,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "めぐりあいて"
     ],
@@ -7198,6 +7480,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p057",
     "prompt": "めぐり逢ひて＿＿＿わかぬ間に雲がくれにし夜半の月かな",
@@ -7223,6 +7506,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p057",
     "prompt": "めぐり逢ひて見しやそれとも＿＿＿雲がくれにし夜半の月かな",
@@ -7248,6 +7532,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p057",
     "prompt": "めぐり逢ひて見しやそれともわかぬ間に＿＿＿夜半の月かな",
@@ -7273,6 +7558,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "よわのつきかな"
     ],
@@ -7300,6 +7586,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p058",
     "prompt": "＿＿＿ゐなの笹原風吹けばいでそよ人を忘れやはする",
@@ -7325,6 +7612,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いなのささはら"
     ],
@@ -7352,6 +7640,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p058",
     "prompt": "有馬山ゐなの笹原＿＿＿いでそよ人を忘れやはする",
@@ -7377,6 +7666,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p058",
     "prompt": "有馬山ゐなの笹原風吹けば＿＿＿忘れやはする",
@@ -7402,6 +7692,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p058",
     "prompt": "有馬山ゐなの笹原風吹けばいでそよ人を＿＿＿",
@@ -7426,6 +7717,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "やすらわで"
     ],
@@ -7453,6 +7745,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p059",
     "prompt": "やすらはで＿＿＿さ夜ふけてかたぶくまでの月を見しかな",
@@ -7478,6 +7771,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p059",
     "prompt": "やすらはで寝なましものを＿＿＿かたぶくまでの月を見しかな",
@@ -7502,6 +7796,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p059",
     "prompt": "やすらはで寝なましものをさ夜ふけて＿＿＿月を見しかな",
@@ -7527,6 +7822,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p059",
     "prompt": "やすらはで寝なましものをさ夜ふけてかたぶくまでの＿＿＿",
@@ -7552,6 +7848,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おおえやま"
     ],
@@ -7579,6 +7876,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p060",
     "prompt": "大江山＿＿＿遠ければまだふみも見ず天の橋立",
@@ -7604,6 +7902,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "とおければ"
     ],
@@ -7631,6 +7930,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p060",
     "prompt": "大江山いく野の道の遠ければ＿＿＿天の橋立",
@@ -7656,6 +7956,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p060",
     "prompt": "大江山いく野の道の遠ければまだふみも見ず＿＿＿",
@@ -7680,6 +7981,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いにしえの"
     ],
@@ -7707,6 +8009,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p061",
     "prompt": "いにしへの＿＿＿八重桜今日九重ににほひぬるかな",
@@ -7732,6 +8035,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "やえざくら"
     ],
@@ -7759,6 +8063,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "きょうここのえに"
     ],
@@ -7785,6 +8090,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "においぬるかな"
     ],
@@ -7812,6 +8118,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p062",
     "prompt": "＿＿＿鳥のそらねははかるとも世に逢坂の関は許さじ",
@@ -7837,6 +8144,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p062",
     "prompt": "夜をこめて＿＿＿はかるとも世に逢坂の関は許さじ",
@@ -7861,6 +8169,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p062",
     "prompt": "夜をこめて鳥のそらねは＿＿＿世に逢坂の関は許さじ",
@@ -7886,6 +8195,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "よにおうさかの"
     ],
@@ -7913,6 +8223,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p062",
     "prompt": "夜をこめて鳥のそらねははかるとも世に逢坂の＿＿＿",
@@ -7938,6 +8249,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p063",
     "prompt": "＿＿＿思ひ絶えなむとばかりを人づてならでいふよしもがな",
@@ -7963,6 +8275,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもいたえなん"
     ],
@@ -7989,6 +8302,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p063",
     "prompt": "今はただ思ひ絶えなむ＿＿＿人づてならでいふよしもがな",
@@ -8014,6 +8328,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p063",
     "prompt": "今はただ思ひ絶えなむとばかりを＿＿＿いふよしもがな",
@@ -8038,6 +8353,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いうよしもがな"
     ],
@@ -8065,6 +8381,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p064",
     "prompt": "＿＿＿宇治の川霧たえだえにあらはれわたる瀬々の網代木",
@@ -8090,6 +8407,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "うじのかわぎり"
     ],
@@ -8116,6 +8434,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p064",
     "prompt": "朝ぼらけ宇治の川霧＿＿＿あらはれわたる瀬々の網代木",
@@ -8140,6 +8459,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あらわれわたる"
     ],
@@ -8167,6 +8487,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p064",
     "prompt": "朝ぼらけ宇治の川霧たえだえにあらはれわたる＿＿＿",
@@ -8192,6 +8513,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p065",
     "prompt": "＿＿＿ほさぬ袖だにあるものを恋にくちなむ名こそ惜しけれ",
@@ -8217,6 +8539,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p065",
     "prompt": "恨みわび＿＿＿あるものを恋にくちなむ名こそ惜しけれ",
@@ -8241,6 +8564,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p065",
     "prompt": "恨みわびほさぬ袖だに＿＿＿恋にくちなむ名こそ惜しけれ",
@@ -8266,6 +8590,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "こいにくちなん"
     ],
@@ -8293,6 +8618,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なこそおしけれ"
     ],
@@ -8319,6 +8645,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p066",
     "prompt": "＿＿＿あはれと思へ山桜花よりほかに知る人もなし",
@@ -8344,6 +8671,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あわれとおもえ"
     ],
@@ -8371,6 +8699,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p066",
     "prompt": "もろともにあはれと思へ＿＿＿花よりほかに知る人もなし",
@@ -8396,6 +8725,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p066",
     "prompt": "もろともにあはれと思へ山桜＿＿＿知る人もなし",
@@ -8421,6 +8751,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p066",
     "prompt": "もろともにあはれと思へ山桜花よりほかに＿＿＿",
@@ -8446,6 +8777,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p067",
     "prompt": "＿＿＿夢ばかりなる手枕にかひなく立たむ名こそ惜しけれ",
@@ -8471,6 +8803,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p067",
     "prompt": "春の夜の＿＿＿手枕にかひなく立たむ名こそ惜しけれ",
@@ -8496,6 +8829,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p067",
     "prompt": "春の夜の夢ばかりなる＿＿＿かひなく立たむ名こそ惜しけれ",
@@ -8521,6 +8855,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "かいなくたたん"
     ],
@@ -8548,6 +8883,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なこそおしけれ"
     ],
@@ -8575,6 +8911,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p068",
     "prompt": "＿＿＿あらでうき世にながらへば恋しかるべき夜半の月かな",
@@ -8600,6 +8937,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p068",
     "prompt": "心にも＿＿＿ながらへば恋しかるべき夜半の月かな",
@@ -8624,6 +8962,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ながらえば"
     ],
@@ -8651,6 +8990,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "こいしかるべき"
     ],
@@ -8678,6 +9018,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "よわのつきかな"
     ],
@@ -8705,6 +9046,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p069",
     "prompt": "＿＿＿三室の山のもみぢ葉は竜田の川の錦なりけり",
@@ -8730,6 +9072,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p069",
     "prompt": "あらし吹く＿＿＿もみぢ葉は竜田の川の錦なりけり",
@@ -8755,6 +9098,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "もみじばは"
     ],
@@ -8782,6 +9126,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "たつたのかわの"
     ],
@@ -8809,6 +9154,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p069",
     "prompt": "あらし吹く三室の山のもみぢ葉は竜田の川の＿＿＿",
@@ -8833,6 +9179,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p070",
     "prompt": "＿＿＿宿を立ち出でてながむればいづこも同じ秋の夕暮",
@@ -8858,6 +9205,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p070",
     "prompt": "さびしさに＿＿＿ながむればいづこも同じ秋の夕暮",
@@ -8882,6 +9230,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p070",
     "prompt": "さびしさに宿を立ち出でて＿＿＿いづこも同じ秋の夕暮",
@@ -8907,6 +9256,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いずこもおなじ"
     ],
@@ -8934,6 +9284,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あきのゆうぐれ"
     ],
@@ -8961,6 +9312,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ゆうされば"
     ],
@@ -8988,6 +9340,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p071",
     "prompt": "夕されば＿＿＿おとづれて葦のまろ屋に秋風ぞ吹く",
@@ -9012,6 +9365,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おとずれて"
     ],
@@ -9039,6 +9393,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p071",
     "prompt": "夕されば門田の稲葉おとづれて＿＿＿秋風ぞ吹く",
@@ -9064,6 +9419,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p071",
     "prompt": "夕されば門田の稲葉おとづれて葦のまろ屋に＿＿＿",
@@ -9089,6 +9445,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p072",
     "prompt": "＿＿＿高師の浜のあだ波はかけじや袖のぬれもこそすれ",
@@ -9114,6 +9471,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p072",
     "prompt": "音に聞く＿＿＿あだ波はかけじや袖のぬれもこそすれ",
@@ -9139,6 +9497,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p072",
     "prompt": "音に聞く高師の浜の＿＿＿かけじや袖のぬれもこそすれ",
@@ -9164,6 +9523,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p072",
     "prompt": "音に聞く高師の浜のあだ波は＿＿＿ぬれもこそすれ",
@@ -9188,6 +9548,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p072",
     "prompt": "音に聞く高師の浜のあだ波はかけじや袖の＿＿＿",
@@ -9213,6 +9574,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p073",
     "prompt": "＿＿＿尾の上の桜咲きにけり外山の霞立たずもあらなむ",
@@ -9238,6 +9600,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おのえのさくら"
     ],
@@ -9265,6 +9628,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p073",
     "prompt": "高砂の尾の上の桜＿＿＿外山の霞立たずもあらなむ",
@@ -9290,6 +9654,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p073",
     "prompt": "高砂の尾の上の桜咲きにけり＿＿＿立たずもあらなむ",
@@ -9315,6 +9680,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "たたずもあらなん"
     ],
@@ -9342,6 +9708,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p074",
     "prompt": "＿＿＿人を初瀬の山おろしよはげしかれとは祈らぬものを",
@@ -9367,6 +9734,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p074",
     "prompt": "憂かりける＿＿＿山おろしよはげしかれとは祈らぬものを",
@@ -9392,6 +9760,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p074",
     "prompt": "憂かりける人を初瀬の＿＿＿はげしかれとは祈らぬものを",
@@ -9416,6 +9785,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p074",
     "prompt": "憂かりける人を初瀬の山おろしよ＿＿＿祈らぬものを",
@@ -9441,6 +9811,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p074",
     "prompt": "憂かりける人を初瀬の山おろしよはげしかれとは＿＿＿",
@@ -9466,6 +9837,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p075",
     "prompt": "＿＿＿させもが露を命にてあはれ今年の秋もいぬめり",
@@ -9491,6 +9863,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p075",
     "prompt": "契りおきし＿＿＿命にてあはれ今年の秋もいぬめり",
@@ -9516,6 +9889,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p075",
     "prompt": "契りおきしさせもが露を＿＿＿あはれ今年の秋もいぬめり",
@@ -9541,6 +9915,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あわれことしの"
     ],
@@ -9568,6 +9943,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p075",
     "prompt": "契りおきしさせもが露を命にてあはれ今年の＿＿＿",
@@ -9593,6 +9969,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p076",
     "prompt": "＿＿＿こぎ出でて見れば久方の雲居にまがふ沖つ白波",
@@ -9618,6 +9995,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p076",
     "prompt": "わたの原＿＿＿久方の雲居にまがふ沖つ白波",
@@ -9643,6 +10021,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p076",
     "prompt": "わたの原こぎ出でて見れば＿＿＿雲居にまがふ沖つ白波",
@@ -9668,6 +10047,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "くもいにまごう"
     ],
@@ -9695,6 +10075,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p076",
     "prompt": "わたの原こぎ出でて見れば久方の雲居にまがふ＿＿＿",
@@ -9720,6 +10101,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p077",
     "prompt": "＿＿＿岩にせかるる滝川のわれても末に逢はむとぞ思ふ",
@@ -9745,6 +10127,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いわにせかるる"
     ],
@@ -9772,6 +10155,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "たきがわの"
     ],
@@ -9799,6 +10183,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "われてもすえに"
     ],
@@ -9826,6 +10211,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あわんとぞおもう"
     ],
@@ -9853,6 +10239,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あわじしま"
     ],
@@ -9880,6 +10267,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "かようちどりの"
     ],
@@ -9907,6 +10295,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なくこえに"
     ],
@@ -9934,6 +10323,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p078",
     "prompt": "淡路島かよふ千鳥の鳴く声に＿＿＿須磨の関守",
@@ -9959,6 +10349,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p078",
     "prompt": "淡路島かよふ千鳥の鳴く声に幾夜寝覚めぬ＿＿＿",
@@ -9984,6 +10375,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p079",
     "prompt": "＿＿＿たなびく雲の絶え間よりもれ出づる月の影のさやけさ",
@@ -10009,6 +10401,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p079",
     "prompt": "秋風に＿＿＿絶え間よりもれ出づる月の影のさやけさ",
@@ -10034,6 +10427,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p079",
     "prompt": "秋風にたなびく雲の＿＿＿もれ出づる月の影のさやけさ",
@@ -10059,6 +10453,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "もれいずるつきの"
     ],
@@ -10086,6 +10481,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p079",
     "prompt": "秋風にたなびく雲の絶え間よりもれ出づる月の＿＿＿",
@@ -10111,6 +10507,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ながからん"
     ],
@@ -10138,6 +10535,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p080",
     "prompt": "長からむ＿＿＿黒髪の乱れて今朝はものをこそ思へ",
@@ -10163,6 +10561,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p080",
     "prompt": "長からむ心も知らず＿＿＿乱れて今朝はものをこそ思へ",
@@ -10188,6 +10587,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p080",
     "prompt": "長からむ心も知らず黒髪の＿＿＿ものをこそ思へ",
@@ -10213,6 +10613,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ものをこそおもえ"
     ],
@@ -10239,6 +10640,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p081",
     "prompt": "＿＿＿鳴きつる方をながむればただ有明の月ぞ残れる",
@@ -10264,6 +10666,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p081",
     "prompt": "ほととぎす＿＿＿ながむればただ有明の月ぞ残れる",
@@ -10288,6 +10691,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p081",
     "prompt": "ほととぎす鳴きつる方を＿＿＿ただ有明の月ぞ残れる",
@@ -10313,6 +10717,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p081",
     "prompt": "ほととぎす鳴きつる方をながむれば＿＿＿月ぞ残れる",
@@ -10338,6 +10743,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p081",
     "prompt": "ほととぎす鳴きつる方をながむればただ有明の＿＿＿",
@@ -10363,6 +10769,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもいわび"
     ],
@@ -10390,6 +10797,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p082",
     "prompt": "思ひわび＿＿＿あるものを憂きにたへぬは涙なりけり",
@@ -10414,6 +10822,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p082",
     "prompt": "思ひわびさても命は＿＿＿憂きにたへぬは涙なりけり",
@@ -10439,6 +10848,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "うきにたえぬは"
     ],
@@ -10466,6 +10876,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p082",
     "prompt": "思ひわびさても命はあるものを憂きにたへぬは＿＿＿",
@@ -10491,6 +10902,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p083",
     "prompt": "＿＿＿道こそなけれ思ひ入る山の奥にも鹿ぞ鳴くなる",
@@ -10516,6 +10928,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p083",
     "prompt": "世の中よ＿＿＿思ひ入る山の奥にも鹿ぞ鳴くなる",
@@ -10541,6 +10954,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもいいる"
     ],
@@ -10568,6 +10982,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p083",
     "prompt": "世の中よ道こそなけれ思ひ入る＿＿＿鹿ぞ鳴くなる",
@@ -10593,6 +11008,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p083",
     "prompt": "世の中よ道こそなけれ思ひ入る山の奥にも＿＿＿",
@@ -10618,6 +11034,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ながらえば"
     ],
@@ -10645,6 +11062,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p084",
     "prompt": "長らへば＿＿＿しのばれむ憂しと見し世ぞ今は恋しき",
@@ -10669,6 +11087,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しのばれん"
     ],
@@ -10696,6 +11115,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p084",
     "prompt": "長らへばまたこの頃やしのばれむ＿＿＿今は恋しき",
@@ -10721,6 +11141,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いまはこいしき"
     ],
@@ -10748,6 +11169,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p085",
     "prompt": "＿＿＿物思ふ頃は明けやらで閨のひまさへつれなかりけり",
@@ -10773,6 +11195,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ものおもうころは"
     ],
@@ -10800,6 +11223,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p085",
     "prompt": "夜もすがら物思ふ頃は＿＿＿閨のひまさへつれなかりけり",
@@ -10825,6 +11249,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ねやのひまさえ"
     ],
@@ -10851,6 +11276,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p085",
     "prompt": "夜もすがら物思ふ頃は明けやらで閨のひまさへ＿＿＿",
@@ -10875,6 +11301,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p086",
     "prompt": "＿＿＿月やはものを思はするかこち顔なるわが涙かな",
@@ -10900,6 +11327,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p086",
     "prompt": "なげけとて＿＿＿思はするかこち顔なるわが涙かな",
@@ -10925,6 +11353,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おもわする"
     ],
@@ -10952,6 +11381,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "かこちがおなる"
     ],
@@ -10979,6 +11409,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p086",
     "prompt": "なげけとて月やはものを思はするかこち顔なる＿＿＿",
@@ -11004,6 +11435,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p087",
     "prompt": "＿＿＿露もまだひぬまきの葉に霧立ちのぼる秋の夕暮",
@@ -11029,6 +11461,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p087",
     "prompt": "村雨の＿＿＿まきの葉に霧立ちのぼる秋の夕暮",
@@ -11054,6 +11487,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p087",
     "prompt": "村雨の露もまだひぬ＿＿＿霧立ちのぼる秋の夕暮",
@@ -11079,6 +11513,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p087",
     "prompt": "村雨の露もまだひぬまきの葉に＿＿＿秋の夕暮",
@@ -11104,6 +11539,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あきのゆうぐれ"
     ],
@@ -11131,6 +11567,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なにわえの"
     ],
@@ -11158,6 +11595,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p088",
     "prompt": "難波江の＿＿＿ひとよゆゑみをつくしてや恋ひわたるべき",
@@ -11182,6 +11620,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ひとよゆえ"
     ],
@@ -11208,6 +11647,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p088",
     "prompt": "難波江の葦のかりねのひとよゆゑ＿＿＿恋ひわたるべき",
@@ -11233,6 +11673,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "こいわたるべき"
     ],
@@ -11260,6 +11701,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "たまのおよ"
     ],
@@ -11287,6 +11729,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p089",
     "prompt": "玉の緒よ＿＿＿ながらへば忍ぶることの弱りもぞする",
@@ -11311,6 +11754,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ながらえば"
     ],
@@ -11338,6 +11782,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p089",
     "prompt": "玉の緒よ絶えなば絶えねながらへば＿＿＿弱りもぞする",
@@ -11363,6 +11808,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "よわりもぞする"
     ],
@@ -11390,6 +11836,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p090",
     "prompt": "＿＿＿雄島のあまの袖だにもぬれにぞぬれし色は変はらず",
@@ -11415,6 +11862,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おじまのあまの"
     ],
@@ -11442,6 +11890,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p090",
     "prompt": "見せばやな雄島のあまの＿＿＿ぬれにぞぬれし色は変はらず",
@@ -11466,6 +11915,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p090",
     "prompt": "見せばやな雄島のあまの袖だにも＿＿＿色は変はらず",
@@ -11491,6 +11941,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "いろはかわらず"
     ],
@@ -11517,6 +11968,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p091",
     "prompt": "＿＿＿鳴くや霜夜のさむしろに衣かたしきひとりかも寝む",
@@ -11542,6 +11994,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p091",
     "prompt": "きりぎりす＿＿＿さむしろに衣かたしきひとりかも寝む",
@@ -11566,6 +12019,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p091",
     "prompt": "きりぎりす鳴くや霜夜の＿＿＿衣かたしきひとりかも寝む",
@@ -11591,6 +12045,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p091",
     "prompt": "きりぎりす鳴くや霜夜のさむしろに＿＿＿ひとりかも寝む",
@@ -11616,6 +12071,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ひとりかもねん"
     ],
@@ -11643,6 +12099,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p092",
     "prompt": "＿＿＿潮干に見えぬ沖の石の人こそ知らねかわく間もなし",
@@ -11668,6 +12125,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "しおひにみえぬ"
     ],
@@ -11695,6 +12153,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p092",
     "prompt": "わが袖は潮干に見えぬ＿＿＿人こそ知らねかわく間もなし",
@@ -11720,6 +12179,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p092",
     "prompt": "わが袖は潮干に見えぬ沖の石の＿＿＿かわく間もなし",
@@ -11745,6 +12205,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p092",
     "prompt": "わが袖は潮干に見えぬ沖の石の人こそ知らね＿＿＿",
@@ -11770,6 +12231,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p093",
     "prompt": "＿＿＿常にもがもななぎさこぐあまの小舟の綱手かなしも",
@@ -11795,6 +12257,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p093",
     "prompt": "世の中は＿＿＿なぎさこぐあまの小舟の綱手かなしも",
@@ -11819,6 +12282,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p093",
     "prompt": "世の中は常にもがもな＿＿＿あまの小舟の綱手かなしも",
@@ -11844,6 +12308,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あまのおぶねの"
     ],
@@ -11871,6 +12336,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p093",
     "prompt": "世の中は常にもがもななぎさこぐあまの小舟の＿＿＿",
@@ -11896,6 +12362,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p094",
     "prompt": "＿＿＿山の秋風さ夜ふけてふるさと寒く衣うつなり",
@@ -11921,6 +12388,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p094",
     "prompt": "み吉野の＿＿＿さ夜ふけてふるさと寒く衣うつなり",
@@ -11946,6 +12414,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p094",
     "prompt": "み吉野の山の秋風＿＿＿ふるさと寒く衣うつなり",
@@ -11971,6 +12440,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p094",
     "prompt": "み吉野の山の秋風さ夜ふけて＿＿＿衣うつなり",
@@ -11996,6 +12466,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p094",
     "prompt": "み吉野の山の秋風さ夜ふけてふるさと寒く＿＿＿",
@@ -12020,6 +12491,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おおけなく"
     ],
@@ -12047,6 +12519,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p095",
     "prompt": "おほけなく＿＿＿おほふかなわが立つ杣に墨染の袖",
@@ -12071,6 +12544,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "おおうかな"
     ],
@@ -12098,6 +12572,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p095",
     "prompt": "おほけなくうき世の民におほふかな＿＿＿墨染の袖",
@@ -12123,6 +12598,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p095",
     "prompt": "おほけなくうき世の民におほふかなわが立つ杣に＿＿＿",
@@ -12148,6 +12624,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "はなさそう"
     ],
@@ -12175,6 +12652,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あらしのにわの"
     ],
@@ -12202,6 +12680,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p096",
     "prompt": "花さそふ嵐の庭の＿＿＿ふりゆくものはわが身なりけり",
@@ -12226,6 +12705,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p096",
     "prompt": "花さそふ嵐の庭の雪ならで＿＿＿わが身なりけり",
@@ -12251,6 +12731,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p096",
     "prompt": "花さそふ嵐の庭の雪ならでふりゆくものは＿＿＿",
@@ -12276,6 +12757,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p097",
     "prompt": "＿＿＿まつほの浦の夕なぎに焼くやもしほの身もこがれつつ",
@@ -12301,6 +12783,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p097",
     "prompt": "来ぬ人を＿＿＿夕なぎに焼くやもしほの身もこがれつつ",
@@ -12326,6 +12809,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ゆうなぎに"
     ],
@@ -12353,6 +12837,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "やくやもしおの"
     ],
@@ -12380,6 +12865,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p097",
     "prompt": "来ぬ人をまつほの浦の夕なぎに焼くやもしほの＿＿＿",
@@ -12405,6 +12891,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p098",
     "prompt": "＿＿＿ならの小川の夕暮はみそぎぞ夏のしるしなりける",
@@ -12430,6 +12917,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ならのおがわの"
     ],
@@ -12457,6 +12945,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ゆうぐれは"
     ],
@@ -12484,6 +12973,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p098",
     "prompt": "風そよぐならの小川の夕暮は＿＿＿しるしなりける",
@@ -12508,6 +12998,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p098",
     "prompt": "風そよぐならの小川の夕暮はみそぎぞ夏の＿＿＿",
@@ -12533,6 +13024,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ひともおし"
     ],
@@ -12560,6 +13052,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p099",
     "prompt": "人もをし＿＿＿あぢきなく世を思ふゆゑにもの思ふ身は",
@@ -12584,6 +13077,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "あじきなく"
     ],
@@ -12611,6 +13105,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "よをおもうゆえに"
     ],
@@ -12638,6 +13133,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "ものおもうみは"
     ],
@@ -12664,6 +13160,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p100",
     "prompt": "＿＿＿ふるき軒端のしのぶにもなほあまりある昔なりけり",
@@ -12689,6 +13186,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p100",
     "prompt": "ももしきや＿＿＿しのぶにもなほあまりある昔なりけり",
@@ -12713,6 +13211,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p100",
     "prompt": "ももしきやふるき軒端の＿＿＿なほあまりある昔なりけり",
@@ -12737,6 +13236,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [
       "なおあまりある"
     ],
@@ -12764,6 +13264,7 @@
     "confirmedBy": "human-01",
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
+    "note": null,
     "partialAnswers": [],
     "poemId": "p100",
     "prompt": "ももしきやふるき軒端のしのぶにもなほあまりある＿＿＿",

@@ -21,7 +21,8 @@ afterEach(() => { root?.remove(); root = undefined; });
 test('history: 全首の記録を表示する', () => { const view = mount(); expect(view.textContent).toContain('全100首'); for (const card of ['12番', '45番', '99番']) expect(view.querySelectorAll('.history-list')[1]?.textContent).toContain(card); });
 test('history: メーターと数値を表示する', () => { const view = mount(); expect(view.querySelectorAll('[role="meter"]')).toHaveLength(4); expect(view.textContent).toContain('習熟度 90%'); });
 test('history: 未着手にはメーターを出さない', () => { const item = Array.from(mount().querySelectorAll('li')).find((node) => node.textContent?.includes('99番'))!; expect(item.textContent).toContain('未着手'); expect(item.querySelector('[role="meter"]')).toBeNull(); });
-test('history: 作者未確認を併記する', () => expect(mount().textContent).toContain('作者 未確認'));
+// 初回公開では作者を出題しないため、外しようのない印を出さない（依頼者裁定・2026-09-05）。
+test('history: 作者未確認を併記しない', () => { expect(mount().textContent).not.toContain('作者 未確認'); expect(summary.entries.some((entry) => entry.authorUnconfirmed)).toBe(true); });
 test('history: 要確認を番号順で表示する', () => { const text = mount().querySelector('.history-list')!.textContent!; expect(text.indexOf('12番')).toBeLessThan(text.indexOf('45番')); });
 test('history: 要確認なしの文言を表示する', () => expect(mount({ ...summary, needsReview: [] }).textContent).toContain('要確認の歌はありません'));
 test('history: 空状態に始める導線がある', () => { const view = mount({ ...summary, isEmpty: true, entries: [], needsReview: [], touchedCount: 0 }); expect(view.textContent).toContain('まだ記録がありません'); expect(view.textContent).toContain('始める'); });

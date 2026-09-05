@@ -15,7 +15,7 @@ import { Session } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
 let root: HTMLDivElement | undefined;
 const settings = { key: 'user' as const, reading: 'no-ruby' as const, writing: 'vertical' as const, order: 'number' as const, soundEnabled: false, noticeConfirmed: true };
 const poem = { cardNo: 10, ku: ['春すぎて', '夏来にけらし', '白妙の', '衣ほすてふ', '天の香具山'], author: { canonical: '持統天皇' }, reading: { status: 'confirmed', historical: { ku: ['はるすぎて', 'なつきにけらし', 'しろたへの', 'ころもほすてふ', 'あまのかぐやま'], author: 'ぢとうてんわう' }, modern: { ku: ['はるすぎて', 'なつきにけらし', 'しろたえの', 'ころもほすちょう', 'あまのかぐやま'], author: 'じとうてんのう' } } } as never;
-const questions = parseQuestions([{ questionId: 'p010-ku3', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '春すぎて夏来にけらし＿＿＿衣ほすてふ天の香具山', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: ['しろたえの'], candidates: [], normalization: 'kana', sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }] as PublishedQuestion[]);
+const questions = parseQuestions([{ questionId: 'p010-ku3', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '春すぎて夏来にけらし＿＿＿衣ほすてふ天の香具山', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: ['しろたえの'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }] as PublishedQuestion[]);
 const makePort = () => ({ ...createMemoryPort(), saveLocalReport: async () => true });
 
 function container() { root = document.createElement('div'); document.body.append(root); return root; }
@@ -93,17 +93,17 @@ test('R-6: 読みと向きは単一ボタンで巡回し次問はヒント未使
   expect(advance(state).hintUsed).toBe(false);
 });
 
-test('R-7: トップは二入口で穴埋め内に練習と本番の短い説明を出す', async () => {
+test('R-7: トップは二入口で閲覧側に作者確認を置き穴埋め内に本番の説明を出す', async () => {
   const view = container();
   await act(() => { render(<Home port={makePort()} poems={[poem]} questions={questions} />, view); });
   expect(['歌を確認する', 'とりあえず始める'].every((label) => Array.from(view.querySelectorAll('button')).some((button) => button.textContent === label))).toBe(true);
   expect(view.textContent).not.toContain('まず、歌を確かめる。');
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === 'とりあえず始める')!.click(); });
-  expect(view.textContent).toContain('1問ずつ答え合わせ');
-  expect(view.textContent).toContain('歌番号・読みなし');
+  expect(view.textContent).toContain('作者名を確認する');
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '学習方法を選ぶ')!.click(); });
+  expect(view.textContent).toContain('試験のように解いて採点');
 });
 
-test('R-8: 本番だけ紙回答を選べ紙では開示後に自己採点する', async () => {
+test('R-8: 本番だけ紙回答を選べ解き終えた後に自己採点する', async () => {
   const picker = container(); let answerMode = '';
   await act(() => { render(<RangePicker entry="exam" range={{ from: 10, to: 10 }} order="number" onBack={() => {}} onStart={(_range, _order, mode) => { answerMode = mode; }} />, picker); });
   await act(() => { Array.from(picker.querySelectorAll('button')).find((button) => button.textContent === '紙に書く')!.click(); });
@@ -112,15 +112,15 @@ test('R-8: 本番だけ紙回答を選べ紙では開示後に自己採点する
   render(null, picker);
   await act(() => { render(<Session questions={questions} poems={[poem]} entry="exam" answerMode="paper" sessionId="s" port={makePort()} settings={settings} onSettings={() => {}} onComplete={() => {}} />, picker); });
   expect(picker.querySelector('input[placeholder]')).toBeNull();
-  await act(() => { Array.from(picker.querySelectorAll('button')).find((button) => button.textContent === '答えを確認する')!.click(); });
-  expect(picker.querySelector('[aria-label="自己採点"]')).not.toBeNull();
+  await act(() => { Array.from(picker.querySelectorAll('button')).find((button) => button.textContent === '次へ')!.click(); });
+  expect(picker.querySelector('[aria-label="10番の自己採点"]')).not.toBeNull();
 });
 
 test('R-9: 公開表示は通常数字と歌表記を使い本番では番号を隠す', async () => {
   const view = await mountSession({ entry: 'exam' });
   expect(view.textContent).not.toMatch(/p010|対象:/);
   expect(view.querySelector('.question-number')).toBeNull();
-  render(<Result result={{ range: { from: 10, to: 10 }, questionCount: 1, breakdown: { viewed: 0, correct: 1, partial: 0, needsReview: 0, incorrect: 0 }, allCorrect: true, changes: [{ poemId: 'p010', before: 0, after: 1 }], poems: [], retryCardNumbers: [] }} onRetryWeak={() => {}} onRetrySame={() => {}} onHome={() => {}} />, view);
+  render(<Result result={{ range: { from: 10, to: 10 }, questionCount: 1, breakdown: { viewed: 0, correct: 1, partial: 0, needsReview: 0, incorrect: 0 }, allCorrect: true, changes: [{ poemId: 'p010', before: 0, after: 1 }], poems: [], retryCardNumbers: [], retryQuestionIds: [] }} onRetryWeak={() => {}} onRetrySame={() => {}} onHome={() => {}} />, view);
   expect(view.textContent).toContain('歌ごとの状態');
   expect(view.textContent).not.toContain('p010');
 });

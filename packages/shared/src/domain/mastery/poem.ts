@@ -5,13 +5,21 @@ export type PoemMastery = Readonly<{
   score: number;
   /** 裁定 2。その首のイベントが 1 件も無い。 */
   untouched: boolean;
-  /** 裁定 2。その首の作者イベントが 1 件も無い。 */
+  /**
+   * 裁定 2。その首の作者イベントが 1 件も無い。
+   * 初回公開では作者を出題しないため常に true になる。画面には出さない（依頼者裁定・2026-09-05）。
+   */
   authorUnconfirmed: boolean;
 }>;
 
-// 20pt は §8.1 の閲覧・自己評価×の上限として既にある定数である。
-const TEXT_WEIGHT = 0.8;
-const AUTHOR_WEIGHT = 0.2;
+/**
+ * 初回公開では作者問題を出題しない（依頼者裁定・2026-09-05）。
+ * 出題されない項目に配点を残すと、作者の素点が上がりようがないぶん、
+ * どの首も 80% 止まりで緑（85% 以上）へ到達できない。配点は本文だけで 100% とする。
+ * 作者問題を出題へ戻すときは、この 2 値を 0.8 / 0.2 へ戻す。
+ */
+const TEXT_WEIGHT = 1;
+const AUTHOR_WEIGHT = 0;
 
 export function poemMastery(
   poemId: string,

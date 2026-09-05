@@ -30,7 +30,7 @@ export function normalizeRange(from: number, to: number): Omit<CardRange, 'hadIn
   return { from: Math.min(safeFrom, safeTo), to: Math.max(safeFrom, safeTo) };
 }
 
-const MAX_CHUNK_SIZE = 20;
+export const MAX_CHUNK_SIZE = 20;
 
 export function splitIntoChunks(range: Pick<CardRange, 'from' | 'to'>): number[][] {
   const cardNumbers = Array.from({ length: range.to - range.from + 1 }, (_, index) => range.from + index);

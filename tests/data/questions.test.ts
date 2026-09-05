@@ -61,7 +61,8 @@ test('V-13 rejects fewer than four distractors', () => {
 
 test('author distractors use card distance with a fixed expected order', () => {
   const question = buildData(fixture()).questionsAuthor.find((item: any) => item.questionId === 'p050-author-choice');
-  assert.deepEqual(question.candidates, ['源重之', '大中臣能宣朝臣', '藤原義孝', '藤原実方朝臣', '藤原道信朝臣']);
+  // 49番の名義を「大中臣能宣朝臣」→「大中臣能宣」へ訂正（依頼者提供の訂正版・2026-09-05）。並びの規則は変えていない。
+  assert.deepEqual(question.candidates, ['源重之', '大中臣能宣', '藤原義孝', '藤原実方朝臣', '藤原道信朝臣']);
 });
 
 test('V-14 tracks generated blank question output', () => {
