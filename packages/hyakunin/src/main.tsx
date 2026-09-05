@@ -45,7 +45,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
 
   function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode }) {
     const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order);
-    setSelected((current) => current ? { ...current, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session });
+    setSelected((current) => current ? { ...current, entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session });
     setScreen('session');
   }
 
@@ -89,7 +89,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   }} onRetrySame={() => {
     void startNew(selected.entry, selected.range, settings.order, selected.questions, selected.poems, selected.answerMode);
   }} onHome={() => setScreen('home')} /></>;
-  return <Home port={port} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen' })} onOpenHistory={() => { setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarizeHistory({ events, poemIds: Array.from({ length: 100 }, (_, index) => `p${String(index + 1).padStart(3, '0')}`) })); setScreen('history'); }); }} />;
+  return <Home port={port} onQuickStart={(range, questions, poems) => { setSettings({ ...settings, reading: 'no-ruby' }); void startNew('learn', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen' })} onOpenHistory={() => { setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarizeHistory({ events, poemIds: Array.from({ length: 100 }, (_, index) => `p${String(index + 1).padStart(3, '0')}`) })); setScreen('history'); }); }} />;
 }
 
 const mount = document.getElementById('app');

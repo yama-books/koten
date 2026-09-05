@@ -38,9 +38,9 @@ async function mount(search: string, customPort = { ...createMemoryPort(), saveL
 }
 
 async function start() {
-  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'とりあえず始める')!.click(); });
-  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '練習する')!.click(); });
-  await act(async () => { root!.querySelector('button.primary')!.click(); await Promise.resolve(); });
+  await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'とりあえず始める')!.click(); await Promise.resolve(); });
+  expect(root!.querySelector('input[placeholder]')).not.toBeNull();
+  expect(root!.textContent).not.toContain('開始前の確認');
 }
 
 const currentNumber = () => root!.querySelector('.question-number')?.textContent;

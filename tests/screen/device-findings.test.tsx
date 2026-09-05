@@ -98,9 +98,9 @@ test('R-7: トップは二入口で穴埋め内に練習と本番の短い説明
   await act(() => { render(<Home port={makePort()} poems={[poem]} questions={questions} />, view); });
   expect(['歌を確認する', 'とりあえず始める'].every((label) => Array.from(view.querySelectorAll('button')).some((button) => button.textContent === label))).toBe(true);
   expect(view.textContent).not.toContain('まず、歌を確かめる。');
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === 'とりあえず始める')!.click(); });
-  expect(view.textContent).toContain('1問ずつ答え合わせ');
-  expect(view.textContent).toContain('歌番号・読みなし');
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '学習方法を選ぶ')!.click(); });
+  expect(view.textContent).toContain('作者名を確認する');
+  expect(view.textContent).toContain('歌番号と読みを隠して力試し。');
 });
 
 test('R-8: 本番だけ紙回答を選べ紙では開示後に自己採点する', async () => {
