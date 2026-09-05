@@ -129,6 +129,15 @@ test('R-10: 戻る操作は中断確認を経て続行かトップ復帰を選�
   let backed = false; const view = await mountSession({ onBack: () => { backed = true; } });
   await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '戻る')!.click(); });
   expect(view.querySelector('[role="dialog"]')).not.toBeNull();
+  expect(document.activeElement?.textContent).toBe('練習を続ける');
+  await act(() => { view.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true })); });
+  expect(document.activeElement?.textContent).toBe('トップへ戻る');
+  await act(() => { view.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true })); });
+  expect(document.activeElement?.textContent).toBe('練習を続ける');
+  await act(() => { view.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
+  expect(view.querySelector('[role="dialog"]')).toBeNull();
+  expect(document.activeElement?.textContent).toBe('戻る');
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '戻る')!.click(); });
   await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '練習を続ける')!.click(); });
   expect(view.querySelector('[role="dialog"]')).toBeNull();
   await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '戻る')!.click(); });

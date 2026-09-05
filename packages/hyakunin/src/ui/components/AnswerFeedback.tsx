@@ -1,4 +1,5 @@
 import { buildFeedback, type Feedback } from '../../domain/flow.ts';
+import { FeedbackMark } from './FeedbackMark.tsx';
 
 export const PARTIAL_MARK = '△';
 export const PARTIAL_NOTE = '仮名遣い確認';
@@ -27,8 +28,12 @@ export function PartialSupplement({ answerHistorical, answer }: { answerHistoric
 }
 
 export function AnswerFeedback({ feedback, note = null }: { feedback: Feedback; note?: string | null }) {
-  const label = feedback.mark === 'maru' ? '○ 正解' : feedback.mark === 'check' ? '✓ もう一度！' : PARTIAL_LABEL;
-  return <section class="answer-feedback" aria-live="polite"><p>{label}</p>
+  const label = feedback.mark === 'maru' ? '正解' : feedback.mark === 'check' ? '要確認！' : PARTIAL_LABEL;
+  return <section class="answer-feedback" aria-live="polite"><p>{feedback.mark === 'maru'
+    ? <FeedbackMark kind="correct" label={label} />
+    : feedback.mark === 'check'
+      ? <FeedbackMark kind="incorrect" label={label} />
+      : label}</p>
     <KanaSupplement historical={feedback.historical} answer={feedback.answer} />
     <QuestionNote note={note} />
   </section>;

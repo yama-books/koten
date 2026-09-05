@@ -1,6 +1,6 @@
 import { appConfig } from "@koten/shared/app-config";
 import type { UserSettings } from "@koten/shared/domain/event";
-import { useMemo, useState } from "preact/hooks";
+import { useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import {
   buildFeedback,
   beginQuestion,
@@ -14,7 +14,7 @@ import {
   type FlowState,
 } from "../../domain/flow.ts";
 import type { Judgement } from "../../domain/question.ts";
-import { buildEvent } from "../../domain/record.ts";
+import { buildEvent, buildViewEvent } from "../../domain/record.ts";
 import type { OutcomeKind } from "../../domain/result.ts";
 import {
   toQuestion,
@@ -29,6 +29,7 @@ import {
   QuestionNote,
   PARTIAL_NOTE,
 } from "../components/AnswerFeedback.tsx";
+import { FeedbackMark } from "../components/FeedbackMark.tsx";
 import { ReadingToggle } from "../components/ReadingToggle.tsx";
 import { WritingModeToggle } from "../components/WritingModeToggle.tsx";
 import type { AnswerMode } from "./RangePicker.tsx";
@@ -60,7 +61,7 @@ const blankPattern = /＿+/;
 type ExamAnswer = Readonly<{
   question: PublishedQuestion;
   input: string;
-  judgement: Judgement;
+  judgement: Judgement | "viewed";
 }>;
 
 function questionKuIndex(question: PublishedQuestion, poem: Poem): number {
@@ -142,6 +143,19 @@ export function Session({
   >({});
   const [savingGrades, setSavingGrades] = useState(false);
   const [gradeSaveFailed, setGradeSaveFailed] = useState(false);
+  const [unknownSaveFailed, setUnknownSaveFailed] = useState(false);
+  const backButtonRef = useRef<HTMLButtonElement>(null);
+  const continueButtonRef = useRef<HTMLButtonElement>(null);
+  const exitButtonRef = useRef<HTMLButtonElement>(null);
+  const wasConfirmExit = useRef(false);
+  useLayoutEffect(() => {
+    if (confirmExit) {
+      continueButtonRef.current?.focus();
+    } else if (wasConfirmExit.current) {
+      backButtonRef.current?.focus();
+    }
+    wasConfirmExit.current = confirmExit;
+  }, [confirmExit]);
   const question =
     questions[Math.min(flow.questionIndex, questions.length - 1)];
   const isExam = entry === "exam";
@@ -163,23 +177,28 @@ export function Session({
     setGradeSaveFailed(false);
     const saved = await Promise.all(
       answers.map(async ({ question: answeredQuestion, judgement }) => {
-        const event = buildEvent({
+        const common = {
           eventId: crypto.randomUUID(),
           product: "hyakunin",
           poemId: answeredQuestion.poemId,
           questionId: answeredQuestion.questionId,
           sessionId,
           itemKey: `${answeredQuestion.poemId}:${answeredQuestion.skill}`,
-          kind: "answer",
-          method: answerMode === "paper" ? "paper-handwriting" : "free-input",
           hintUsed: false,
-          judgement,
-          currentScore: 0,
           sameSessionRepeat: false,
           localDate: today(),
           appVersion: appConfig.appVersion,
           dataVersion: appConfig.dataVersion,
-        });
+        } as const;
+        const event = judgement === "viewed"
+          ? buildViewEvent({ ...common, kind: "view" })
+          : buildEvent({
+              ...common,
+              kind: "answer",
+              method: answerMode === "paper" ? "paper-handwriting" : "free-input",
+              judgement,
+              currentScore: 0,
+            });
         return {
           question: answeredQuestion,
           judgement,
@@ -192,11 +211,11 @@ export function Session({
       setGradeSaveFailed(true);
       return;
     }
-    const nextOutcomes = saved.map(
+    const nextOutcomes = saved.filter(({ judgement }) => judgement !== "viewed").map(
       ({ question: answeredQuestion, judgement }) => ({
         questionId: answeredQuestion.questionId,
         poemId: answeredQuestion.poemId,
-        kind: judgement,
+        kind: judgement as Judgement,
       }),
     );
     setOutcomes(nextOutcomes);
@@ -250,17 +269,21 @@ export function Session({
                     class={`grade-mark grade-mark--${judgement}`}
                     aria-label={
                       judgement === "correct"
-                        ? "○"
+                        ? "正解"
                         : judgement === "partial"
                           ? "△"
-                          : "×"
+                          : judgement === "viewed"
+                            ? "閲覧"
+                            : "要確認"
                     }
                   >
                     {judgement === "correct"
-                      ? "○"
+                      ? <FeedbackMark kind="correct" label="正解" />
                       : judgement === "partial"
                         ? "△"
-                        : "×"}
+                        : judgement === "viewed"
+                          ? "答えを確認"
+                          : <FeedbackMark kind="incorrect" label="要確認！" />}
                   </span>
                   {judgement === "partial" && (
                     <>
@@ -423,6 +446,44 @@ export function Session({
     }
     await saveAnswered(answered, "free-input");
   }
+  async function showUnknown() {
+    if (isExam) {
+      setExamAnswers((answers) => [
+        ...answers,
+        { question, input: "", judgement: "viewed" },
+      ]);
+      nextExam(displayFlow);
+      return;
+    }
+    setUnknownSaveFailed(false);
+    const result = await port.appendEvent(
+      buildViewEvent({
+        eventId: crypto.randomUUID(),
+        product: "hyakunin",
+        poemId: question.poemId,
+        questionId: question.questionId,
+        sessionId,
+        itemKey: `${question.poemId}:${question.skill}`,
+        kind: "view",
+        hintUsed: displayFlow.hintUsed,
+        localDate: today(),
+        sameSessionRepeat: false,
+        appVersion: appConfig.appVersion,
+        dataVersion: appConfig.dataVersion,
+      }),
+    );
+    if ("reason" in result) {
+      setUnknownSaveFailed(true);
+      return;
+    }
+    setFlow({
+      ...displayFlow,
+      phase: "revealed",
+      submitted: null,
+      judgement: null,
+      saveFailure: null,
+    });
+  }
   async function gradePaper(judgement: "correct" | "partial" | "incorrect") {
     setPaperOpen(false);
     await saveAnswered(
@@ -444,6 +505,7 @@ export function Session({
     );
     setInput("");
     setPaperOpen(false);
+    setUnknownSaveFailed(false);
   }
   function nextExam(answered: FlowState) {
     const advanced = advance({ ...answered, phase: "revealed" });
@@ -456,6 +518,22 @@ export function Session({
     setInput("");
   }
   function keyDown(event: KeyboardEvent) {
+    if (confirmExit) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setConfirmExit(false);
+      } else if (event.key === "Tab") {
+        event.preventDefault();
+        const buttons = [continueButtonRef.current, exitButtonRef.current].filter(
+          (button): button is HTMLButtonElement => Boolean(button),
+        );
+        const activeIndex = buttons.indexOf(document.activeElement as HTMLButtonElement);
+        const direction = event.shiftKey ? -1 : 1;
+        const nextIndex = (activeIndex + direction + buttons.length) % buttons.length;
+        buttons[nextIndex]?.focus();
+      }
+      return;
+    }
     if (
       event.key === "Enter" &&
       !event.isComposing &&
@@ -483,6 +561,7 @@ export function Session({
     <main class="session" onKeyDown={keyDown}>
       <header class="nav-edge">
         <button
+          ref={backButtonRef}
           class="back-link"
           type="button"
           onClick={() => setConfirmExit(true)}
@@ -563,17 +642,27 @@ export function Session({
                 placeholder="答えを入力"
               />
             </label>
-            <p id="answer-help">歴史的仮名遣いまたは漢字で入力します。</p>
-            <button
-              class="primary"
-              type="button"
-              disabled={input.trim() === ""}
-              onClick={submit}
-            >
-              {displayFlow.phase === "save-failed"
-                ? "もう一度保存する"
-                : "答え合わせ"}
-            </button>
+            <p id="answer-help">歴史的仮名遣いまたは漢字で回答してください。</p>
+            <div class="answer-actions">
+              <button
+                class="primary"
+                type="button"
+                disabled={input.trim() === ""}
+                onClick={submit}
+              >
+                {displayFlow.phase === "save-failed"
+                  ? "もう一度保存する"
+                  : "答え合わせ"}
+              </button>
+              <button type="button" onClick={() => void showUnknown()}>
+                わからない
+              </button>
+            </div>
+            {unknownSaveFailed && (
+              <p class="review-note" role="alert">
+                保存に失敗しました。もう一度お試しください。
+              </p>
+            )}
           </section>
         )}
       {displayFlow.phase === "prompt" &&
@@ -612,35 +701,47 @@ export function Session({
       )}
       {displayFlow.phase === "revealed" && (
         <section>
-          {answerMode === "screen" && <label class={displayFlow.judgement === "correct" ? "answer-retained" : "answer-retained answer-retained--attention"}>自分の答え<input value={displayFlow.submitted?.input ?? ""} readOnly /></label>}
-          <AnswerFeedback feedback={feedback!} note={question.note} />
+          {feedback ? (
+            <AnswerFeedback feedback={feedback} note={question.note} />
+          ) : (
+            <p class="answer-feedback unknown-feedback">答えを確認しました。</p>
+          )}
+          {answerMode === "screen" && displayFlow.submitted && (
+            <label class={displayFlow.judgement === "correct" ? "answer-retained" : "answer-retained answer-retained--attention"}>
+              自分の答え
+              <input value={displayFlow.submitted.input} readOnly />
+            </label>
+          )}
           <button class="primary" type="button" onClick={next}>
             次へ
           </button>
         </section>
       )}
       {confirmExit && (
-        <section
-          class="interrupt-dialog"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="interrupt-title"
-        >
-          <h2 id="interrupt-title">練習を中断しますか？</h2>
-          <p>{entry === "review" ? REVIEW_INTERRUPT_NOTE : "入力途中の答えは保存されません。ここまでの記録は残ります。"}</p>
-          <div>
-            <button
-              class="primary"
-              type="button"
-              onClick={() => setConfirmExit(false)}
-            >
-              練習を続ける
-            </button>
-            <button type="button" onClick={onBack}>
-              トップへ戻る
-            </button>
-          </div>
-        </section>
+        <div class="interrupt-layer">
+          <section
+            class="interrupt-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="interrupt-title"
+          >
+            <h2 id="interrupt-title">練習を中断しますか？</h2>
+            <p>{entry === "review" ? REVIEW_INTERRUPT_NOTE : "入力途中の答えは保存されません。ここまでの記録は残ります。"}</p>
+            <div class="interrupt-actions">
+              <button
+                ref={continueButtonRef}
+                class="primary"
+                type="button"
+                onClick={() => setConfirmExit(false)}
+              >
+                練習を続ける
+              </button>
+              <button ref={exitButtonRef} type="button" onClick={onBack}>
+                トップへ戻る
+              </button>
+            </div>
+          </section>
+        </div>
       )}
     </main>
   );

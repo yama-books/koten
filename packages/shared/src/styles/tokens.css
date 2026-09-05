@@ -17,6 +17,7 @@
   --color-focus: oklch(47% 0.16 300);
   --color-accent-ink: oklch(98% 0.008 80);
   --color-danger: oklch(52% 0.15 28);
+  --color-overlay: oklch(22% 0.018 55 / 0.32);
   --color-coral: oklch(66% 0.16 32);
   --mastery-gray:   oklch(54% 0.012 75);
   --mastery-red:    oklch(56% 0.16 28);

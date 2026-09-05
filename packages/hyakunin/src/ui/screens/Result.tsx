@@ -1,5 +1,6 @@
 import type { SessionResult } from '../../domain/result.ts';
 import { MasteryMeter } from '@koten/shared/mastery-meter';
+import { PerfectMark } from '../components/FeedbackMark.tsx';
 
 type Props = {
   result: SessionResult;
@@ -15,7 +16,7 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
       <h1>今回の結果</h1>
       <p>対象範囲: {result.range.from}番〜{result.range.to}番</p>
       <p>問題数: {result.questionCount}問</p>
-      {result.allCorrect && <p class="result-hanamaru">全問花丸</p>}
+      {result.allCorrect && <p class="result-hanamaru"><PerfectMark /></p>}
     </section>
     <section class="result-section" aria-labelledby="breakdown-heading">
       <h2 id="breakdown-heading">内訳</h2>

@@ -183,7 +183,7 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 | `.json` | `packages/*/src/data/generated/**` がアセットとして出る（`dist/assets/poems-*.json` を実測） |
 | `.woff2` | §3.6。H-02 完了により self-host が可能。実ファイル作成は P3 残件 |
 | `.txt` | §3.6 の「各フォントのライセンス原文ファイル」（`OFL.txt`）の同梱義務に対応 |
-| `.svg` / `.png` / `.ico` | `packages/*/public/**` と `assets/feedback/**`。現時点で実体は `404.html` のみ |
+| `.svg` / `.png` / `.webp` / `.ico` | `packages/*/public/**` と `assets/feedback/**`。回答フィードバック画像は元PNGを保持し、画面では軽量なWebP派生を使う |
 
 **意図してここに載せなかったもの（載せれば違反として検出される）:**
 

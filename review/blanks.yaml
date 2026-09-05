@@ -545,6 +545,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 13
+    alsoAccepted: 筑波嶺の
     ku: 1
     status: approved
     confirmationMode: batch
@@ -1400,6 +1401,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 32
+    alsoAccepted: 山がはに
     ku: 1
     status: approved
     confirmationMode: batch

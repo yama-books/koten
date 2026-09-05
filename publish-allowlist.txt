@@ -59,4 +59,5 @@ packages/kanazukai/**
 .txt
 .svg
 .png
+.webp
 .ico

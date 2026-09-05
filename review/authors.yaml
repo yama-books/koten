@@ -23,6 +23,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 3
+    alsoAccepted: 柿本人麿
     canonical: 柿本人麻呂
     aliases: []
     status: approved
@@ -43,6 +44,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 5
+    alsoAccepted: 猿丸太夫
     canonical: 猿丸大夫
     aliases: []
     status: approved
@@ -63,6 +65,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 7
+    alsoAccepted: 阿倍仲麻呂
     canonical: 安倍仲麿
     aliases: []
     status: approved
@@ -453,6 +456,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 46
+    alsoAccepted: 曽禰好忠
     canonical: 曾禰好忠
     aliases: []
     status: approved
@@ -723,6 +727,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 73
+    alsoAccepted: 権中納言匡房
     canonical: 権中納言匡房
     aliases: []
     status: approved

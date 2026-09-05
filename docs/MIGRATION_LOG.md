@@ -176,10 +176,11 @@ git ls-remote origin
 **`fatal: the remote end hung up unexpectedly` のあとに `Everything up-to-date` と出て、
 それでも 1 バイトも上がっていなかった実績がある。** **push の成否はリモートで見る。**
 
-### 7.6 公開の確認（**ワークフローのバッジで判定しない**）
+### 7.6 公開の確認（**Pages のバッジだけで判定しない**）
 
 **Pages の Source は「GitHub Actions」に設定済みである。** push すると `CI` と `Deploy Pages` が走る。
-**緑を確認したあと、公開 URL を自分で開いて実測する。**
+**push 後、GitHub Actions で `CI` と `Deploy Pages` の両方が成功したことを確認する。** Pages の緑だけで公開を合格にしてはならない。
+**両方の緑を確認したあと、公開 URL を自分で開いて実測する。**
 
 ```
 https://yama-books.github.io/koten/100/?from=10&to=20

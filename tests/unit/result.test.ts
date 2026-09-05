@@ -35,12 +35,12 @@ test('部分正解を含む回に花丸が出ない', () => {
   assert.equal(summarizeSession(input({ outcomes: [{ poemId: 'p010', kind: 'correct' }, { poemId: 'p011', kind: 'partial' }] })).allCorrect, false);
 });
 
-test('閲覧記録があっても回答した全問が正答なら花丸が出る', () => {
+test('答えを閲覧した問があれば回答した問が正答でも花丸は出ない', () => {
   const result = summarizeSession(input({
     outcomes: [{ poemId: 'p010', kind: 'correct' }],
     allEvents: [event({ outcome: 'viewed', kind: 'view', questionId: undefined })],
   }));
-  assert.equal(result.allCorrect, true);
+  assert.equal(result.allCorrect, false);
 });
 
 test('5区分の内訳とquestionCountが一致する', () => {
