@@ -15,6 +15,8 @@ export type PublishedQuestion = Readonly<{
   partialAnswers: readonly string[];
   candidates: readonly string[];
   normalization: Normalization;
+  /** 学習者へ見せる一言。掛詞のように、正誤だけでは伝わらない事情がある問題にだけ入る。 */
+  note: string | null;
   sourceRef: string;
   reviewStatus: 'human-confirmed';
   confirmationMode: 'individual' | 'batch';
@@ -47,6 +49,7 @@ function isPublishedQuestion(value: unknown): value is PublishedQuestion {
     && isStrings(value.partialAnswers)
     && isStrings(value.candidates)
     && (value.normalization === 'exact' || value.normalization === 'kana')
+    && (value.note === null || typeof value.note === 'string')
     && typeof value.sourceRef === 'string'
     && value.reviewStatus === 'human-confirmed'
     && (value.confirmationMode === 'individual' || value.confirmationMode === 'batch')

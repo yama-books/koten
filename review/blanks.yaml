@@ -19,7 +19,9 @@ entries:
     proposedBy: human
     confirmedBy: human-01
     confirmedOn: 2026-09-04
-    note: null
+    alsoPartial: かりほのいおの
+    learnerNote: 「かりほ」は「刈穂」と「仮庵」の掛詞です。現代仮名遣いは「かりほ」「かりお」どちらでもかまいません。
+    note: 「かりほ」は刈穂と仮庵の掛詞のため、現代仮名遣いは「かりほ」「かりお」どちらも可（依頼者裁定 2026-09-05）。庵の歴史的仮名遣いは必ず「いほ」
   - cardNo: 1
     ku: 3
     status: approved

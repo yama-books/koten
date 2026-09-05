@@ -14,9 +14,15 @@ import {
   parseQuestions,
   type PublishedQuestion,
 } from "../../data/question-schema.ts";
-import { isEntryAvailable, type EntryId } from "../../domain/entry.ts";
+import {
+  CHUNK_CARD_COUNT,
+  ENTRY_LABELS,
+  ENTRY_RULES,
+  isEntryAvailable,
+  type EntryId,
+} from "../../domain/entry.ts";
 import { buildViewEvent } from "../../domain/record.ts";
-import { normalizeRange, parseRange } from "../../domain/range.ts";
+import { normalizeRange, parseRange, splitIntoChunks } from "../../domain/range.ts";
 import { planResume, type ResumePlan } from "../../domain/resume.ts";
 import { resolveActiveRange } from "../../domain/session.ts";
 import { createMemoryPort } from "../../domain/ports.ts";
@@ -160,6 +166,11 @@ export function Home({
     );
   }, [activePort]);
 
+  // 「全◯回」は 20 首ずつの分割数。選んでいる範囲から先に出しておく。
+  const plannedChunkCount = useMemo(
+    () => splitIntoChunks(normalizeRange(from, to)).length,
+    [from, to],
+  );
   const selected = useMemo(
     () =>
       poems?.filter(
@@ -173,8 +184,11 @@ export function Home({
     selected.findIndex((poem) => poem.cardNo === current),
   );
   const poem = selected[index];
+  // 再確認は厳密な問題ID列を保存しないため途中から再開できない（発注057 R2）。
+  // 誘いを出してから断るより、最初から出さない。ここが唯一の関門である。
   const shouldOfferRestore =
     restorable !== null &&
+    restorable.session.entry !== "review" &&
     !restorable.session.completed &&
     restorable.plan.remainingInRange > 0 &&
     restoring;
@@ -361,29 +375,43 @@ export function Home({
       )}
       {shouldOfferRestore && (
         <section class="review-note restore-offer">
-          <p>前回の学習を復元しますか。</p>
+          <h2 class="restore-title">
+            前回の「{ENTRY_LABELS[restorable.session.entry]}」の続きがあります
+          </h2>
           <p>
-            あと{restorable.plan.remainingInRange}首 ·{" "}
-            {restorable.plan.chunkIndex + 1}回目 / 全
-            {restorable.plan.chunkCount}回
+            範囲 {restorable.session.from}番〜{restorable.session.to}番 ·{" "}
+            {CHUNK_CARD_COUNT}首ずつに分けて全{restorable.plan.chunkCount}回
           </p>
-          <button
-            type="button"
-            onClick={() => {
-              onResume?.(
-                restorable.session,
-                restorable.plan.cardNumbers,
-                questions,
-                poems,
-              );
-              setRestoring(false);
-            }}
-          >
-            復元する
-          </button>
-          <button type="button" onClick={() => setRestoring(false)}>
-            復元しない
-          </button>
+          <p>
+            いまは{restorable.plan.chunkIndex + 1}回目（このまとまりはあと
+            {restorable.plan.chunkFullyConfirmed
+              ? 0
+              : restorable.plan.cardNumbers.length}
+            首） · 範囲全体であと{restorable.plan.remainingInRange}首
+          </p>
+          <p class="restore-detail">
+            続きから始めると、この{restorable.plan.chunkIndex + 1}回目のなかから
+            {ENTRY_RULES[restorable.session.entry].questionCount}問を出題します。
+          </p>
+          <div class="restore-actions">
+            <button
+              type="button"
+              onClick={() => {
+                onResume?.(
+                  restorable.session,
+                  restorable.plan.cardNumbers,
+                  questions,
+                  poems,
+                );
+                setRestoring(false);
+              }}
+            >
+              続きから始める
+            </button>
+            <button type="button" onClick={() => setRestoring(false)}>
+              最初から選び直す
+            </button>
+          </div>
         </section>
       )}
       <section class="range-panel">
@@ -415,7 +443,7 @@ export function Home({
         </div>
         <div class="entry-actions">
           <button
-            class="primary"
+            class="primary entry-start"
             type="button"
             disabled={!isEntryAvailable("learn", questions.length)}
             aria-disabled={!isEntryAvailable("learn", questions.length)}
@@ -425,14 +453,25 @@ export function Home({
           >
             とりあえず始める
           </button>
-          <button type="button" onClick={() => choose("view")}>
-            歌を確認する
-          </button>
-          <button type="button" onClick={() => startView(true)}>
-            作者名を確認する
-          </button>
+          <div class="entry-secondary">
+            <button type="button" onClick={() => choose("view")}>
+              歌を確認する
+            </button>
+            <button type="button" onClick={() => startView(true)}>
+              作者名を確認する
+            </button>
+          </div>
         </div>
-        <p class="entry-help">穴埋め問題から始めます。</p>
+        <p class="entry-help">
+          穴埋め問題から始めます。1回の学習は
+          {ENTRY_RULES.learn.questionCount}問です。
+        </p>
+        {plannedChunkCount > 1 && (
+          <p class="entry-help">
+            {normalizeRange(from, to).from}番〜{normalizeRange(from, to).to}番は
+            {CHUNK_CARD_COUNT}首ずつ全{plannedChunkCount}回に分かれます。まず1回目から始めます。
+          </p>
+        )}
         <button
           type="button"
           aria-expanded={practiceOpen}

@@ -18,6 +18,15 @@ const zoomLevels = [1, 2];
 const reflowFindings: ReflowFinding[] = [];
 const expectedReflowCases = widths.length * zoomLevels.length;
 let reflowCases = 0;
+type ExamReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
+const examReflowFindings: ExamReflowFinding[] = [];
+const expectedExamReflowCases = widths.length * zoomLevels.length;
+let examReflowCases = 0;
+// 発注057 で増えた表示——開示後に残る入力欄と、△ の仮名遣い補足——を同じ幅・拡大率で測る。
+type NewDisplayFinding = { width: number; zoom: number; key: string; observed: unknown };
+const newDisplayFindings: NewDisplayFinding[] = [];
+const expectedNewDisplayCases = widths.length * zoomLevels.length * 2;
+let newDisplayCases = 0;
 let aborted = false;
 // 100 首 × 3 表示 × 4 幅は設計上固定で、過不足とも検査不全である。
 const expectedCases = 1200;
@@ -137,6 +146,123 @@ try {
         if (measured.clipped.length) reflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
       }
     }
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        await page.setViewportSize({ width, height: 800 });
+        await page.goto(`${baseUrl}?from=1&to=10`, { waitUntil: 'domcontentloaded' });
+        await page.getByRole('button', { name: '学習方法を選ぶ' }).click();
+        await page.getByRole('button', { name: '本番のように解く' }).click();
+        await page.waitForSelector('.range-picker');
+        await page.getByRole('button', { name: 'この範囲で始める' }).click();
+        for (let question = 0; question < 10; question += 1) {
+          const input = page.locator('input[placeholder]');
+          await input.fill('あ');
+          await page.getByRole('button', { name: '答え合わせ' }).click();
+        }
+        await page.waitForSelector('.grade-list > li');
+        const measured = await page.evaluate((rootFontSize) => {
+          document.documentElement.style.fontSize = rootFontSize;
+          document.documentElement.getBoundingClientRect();
+          const elements = [...document.querySelectorAll<HTMLElement>('main *')];
+          const clipped = elements.filter((element) => element.scrollWidth > element.clientWidth + 1
+            || (element.matches('.grade-list') && element.style.minWidth !== ''))
+            .map((element) => element.className || element.tagName);
+          const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+          const rows = document.querySelectorAll('.grade-list > li').length;
+          document.documentElement.style.fontSize = '';
+          return { clipped, overflow, rows, measuredElements: elements.length, heading: document.querySelector('h1')?.textContent };
+        }, `${16 * zoom}px`);
+        if (measured.heading !== '採点する') examReflowFindings.push({ width, zoom, key: 'gradeScreenReached', observed: measured.heading });
+        if (measured.rows !== 10) examReflowFindings.push({ width, zoom, key: 'gradeRowCount', observed: measured.rows });
+        if (measured.measuredElements === 0) examReflowFindings.push({ width, zoom, key: 'measuredElements', observed: measured.measuredElements });
+        if (measured.overflow > 1) examReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
+        if (measured.clipped.length) examReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+        examReflowCases += 1;
+        console.log(`check:overflow: 本番採点一覧 ${width}px 文字${zoom * 100}% 予定10行 実測${measured.rows}行 要素${measured.measuredElements}件 違反 ${examReflowFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
+      }
+    }
+    // 発注057 R3: 練習の開示後は原入力が readOnly で残る。要素が出ていなければ測れていない。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        await page.setViewportSize({ width, height: 800 });
+        // 1番だけに絞る。掛詞の一言を持つのは 1 番の句 2 で、この範囲なら 5 句すべてが出る。
+        // 種によってどの句が先に来るかは変わるので、一言が出るまで進める。出なければ下で違反にする。
+        await page.goto(`${baseUrl}?from=1&to=1`, { waitUntil: 'domcontentloaded' });
+        await page.getByRole('button', { name: '学習方法を選ぶ' }).click();
+        await page.getByRole('button', { name: '練習する' }).click();
+        await page.waitForSelector('.range-picker');
+        await page.getByRole('button', { name: 'この範囲で始める' }).click();
+        for (let attempt = 0; attempt < 5; attempt += 1) {
+          await page.locator('input[placeholder]').fill('あいうえおかきくけこ');
+          await page.getByRole('button', { name: '答え合わせ' }).click();
+          await page.waitForSelector('.answer-retained input');
+          if (await page.locator('.question-note').count() > 0) break;
+          if (attempt < 4) await page.getByRole('button', { name: '次へ' }).click();
+        }
+        const measured = await page.evaluate((rootFontSize) => {
+          document.documentElement.style.fontSize = rootFontSize;
+          document.documentElement.getBoundingClientRect();
+          const retained = document.querySelector<HTMLInputElement>('.answer-retained input');
+          // 057 が足した表示だけを見る。session 画面の既存要素（nav-edge・縦書きの器・sr-only）は本発注の変更外で、
+          // ここで拾うと 057 の緑と無関係な既存条件が混ざる。
+          const scope = [...document.querySelectorAll<HTMLElement>('.answer-retained, .answer-feedback, .kana-supplement, .question-note')];
+          // input は値が幅を超えると自分の中を横スクロールする。R3 は「readonly の通常 input を使う」と定めており、
+          // これは器の切れではない。器そのものの幅は下の retainedWidthRatio で別に測る。
+          const elements = scope.flatMap((element) => [element, ...element.querySelectorAll<HTMLElement>('*')])
+            .filter((element) => !element.classList.contains('sr-only') && element.tagName !== 'INPUT');
+          const clipped = elements.filter((element) => element.scrollWidth > element.clientWidth + 1).map((element) => element.className || element.tagName);
+          const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+          document.documentElement.style.fontSize = '';
+          const label = retained?.closest<HTMLElement>('.answer-retained');
+          const retainedWidthRatio = retained && label && label.clientWidth > 0 ? retained.clientWidth / label.clientWidth : 0;
+          return { clipped, overflow, measuredElements: elements.length, retainedWidthRatio, retainedValue: retained?.value ?? null, retainedReadOnly: retained?.readOnly ?? null, feedback: Boolean(document.querySelector('.answer-feedback')), note: document.querySelector('.question-note')?.textContent ?? null };
+        }, `${16 * zoom}px`);
+        newDisplayCases += 1;
+        if (measured.retainedValue !== 'あいうえおかきくけこ') newDisplayFindings.push({ width, zoom, key: 'retainedInputPresent', observed: measured.retainedValue });
+        if (measured.retainedReadOnly !== true) newDisplayFindings.push({ width, zoom, key: 'retainedInputReadOnly', observed: measured.retainedReadOnly });
+        if (!measured.feedback) newDisplayFindings.push({ width, zoom, key: 'feedbackPresent', observed: false });
+        // 一言が出ていなければ、その行を 1 度も測っていない。緑は証拠にならない。
+        if (!measured.note?.includes('掛詞')) newDisplayFindings.push({ width, zoom, key: 'questionNoteMeasured', observed: measured.note });
+        if (measured.measuredElements === 0) newDisplayFindings.push({ width, zoom, key: 'measuredElements', observed: 0 });
+        // 器いっぱいに置かれていること。狭い器へ縮むと、残した入力の見える範囲が減る。
+        if (measured.retainedWidthRatio < 0.9) newDisplayFindings.push({ width, zoom, key: 'retainedInputFillsRow', observed: measured.retainedWidthRatio });
+        if (measured.overflow > 1) newDisplayFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
+        if (measured.clipped.length) newDisplayFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+      }
+    }
+    // 発注057 R4: 紙の採点で △ を選んだ行の補足を測る。選ばなければ補足は DOM に無く、緑は証拠にならない。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        await page.setViewportSize({ width, height: 800 });
+        await page.goto(`${baseUrl}?from=1&to=10`, { waitUntil: 'domcontentloaded' });
+        await page.getByRole('button', { name: '学習方法を選ぶ' }).click();
+        await page.getByRole('button', { name: '本番のように解く' }).click();
+        await page.waitForSelector('.range-picker');
+        await page.getByRole('button', { name: '紙に書く' }).click();
+        await page.getByRole('button', { name: 'この範囲で始める' }).click();
+        for (let question = 0; question < 10; question += 1) await page.getByRole('button', { name: '次へ' }).click();
+        await page.waitForSelector('.grade-list > li');
+        await page.locator('.grade-list > li').first().getByRole('button', { name: '△' }).click();
+        const measured = await page.evaluate((rootFontSize) => {
+          document.documentElement.style.fontSize = rootFontSize;
+          document.documentElement.getBoundingClientRect();
+          const first = document.querySelector<HTMLElement>('.grade-list > li');
+          const elements = [...document.querySelectorAll<HTMLElement>('.grade-list, .grade-list *, .kana-supplement')].filter((element) => !element.classList.contains('sr-only'));
+          const clipped = elements.filter((element) => element.scrollWidth > element.clientWidth + 1).map((element) => element.className || element.tagName);
+          const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+          const supplements = first?.querySelectorAll('.kana-supplement').length ?? 0;
+          const noteCount = [...document.querySelectorAll<HTMLElement>('main p')].filter((element) => element.textContent === '△は現代仮名遣いで書けた場合です。').length;
+          document.documentElement.style.fontSize = '';
+          return { clipped, overflow, measuredElements: elements.length, supplements, noteCount, historical: first?.textContent?.includes('歴史的仮名遣い：') ?? false };
+        }, `${16 * zoom}px`);
+        newDisplayCases += 1;
+        if (measured.noteCount !== 1) newDisplayFindings.push({ width, zoom, key: 'paperPartialNoteOnce', observed: measured.noteCount });
+        if (!measured.historical) newDisplayFindings.push({ width, zoom, key: 'paperPartialSupplement', observed: measured.supplements });
+        if (measured.measuredElements === 0) newDisplayFindings.push({ width, zoom, key: 'measuredElements', observed: 0 });
+        if (measured.overflow > 1) newDisplayFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
+        if (measured.clipped.length) newDisplayFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+      }
+    }
     await context.close();
   } finally { await browser.close(); }
 } catch (error) {
@@ -162,9 +288,27 @@ if (reflowCases !== expectedReflowCases) {
   process.exit(1);
 }
 
+if (examReflowCases !== expectedExamReflowCases) {
+  console.error(`check:overflow: 本番採点一覧の走査が不足または過剰です（走査 ${examReflowCases} 件、必要 ${expectedExamReflowCases} 件ちょうど）`);
+  process.exit(1);
+}
+
 console.log(`check:overflow: 拡大時の走査 ${reflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${reflowFindings.length} 件`);
 for (const finding of reflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
 if (reflowFindings.length) process.exitCode = 1;
+
+if (newDisplayCases !== expectedNewDisplayCases) {
+  console.error(`check:overflow: 057の新しい表示の走査が不足または過剰です（走査 ${newDisplayCases} 件、必要 ${expectedNewDisplayCases} 件ちょうど）`);
+  process.exit(1);
+}
+
+console.log(`check:overflow: 057の新しい表示の走査 ${newDisplayCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')} × 開示/紙△）、違反 ${newDisplayFindings.length} 件`);
+for (const finding of newDisplayFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (newDisplayFindings.length) process.exitCode = 1;
+
+console.log(`check:overflow: 本番採点一覧の走査 ${examReflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${examReflowFindings.length} 件`);
+for (const finding of examReflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (examReflowFindings.length) process.exitCode = 1;
 
 const failedCases = new Set(findings.map((f) => `${f.cardNo}/${f.reading}/${f.width}`)).size;
 console.log(`check:overflow: 合計 ${expectedCases} 件、合格 ${expectedCases - failedCases} 件、不合格 ${failedCases} 件（違反 ${findings.length} 件）`);

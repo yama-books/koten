@@ -15,7 +15,7 @@ import { Session } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
 let root: HTMLDivElement | undefined;
 const settings = { key: 'user' as const, reading: 'no-ruby' as const, writing: 'vertical' as const, order: 'number' as const, soundEnabled: false, noticeConfirmed: true };
 const poem = { cardNo: 10, ku: ['春すぎて', '夏来にけらし', '白妙の', '衣ほすてふ', '天の香具山'], author: { canonical: '持統天皇' }, reading: { status: 'confirmed', historical: { ku: ['はるすぎて', 'なつきにけらし', 'しろたへの', 'ころもほすてふ', 'あまのかぐやま'], author: 'ぢとうてんわう' }, modern: { ku: ['はるすぎて', 'なつきにけらし', 'しろたえの', 'ころもほすちょう', 'あまのかぐやま'], author: 'じとうてんのう' } } } as never;
-const questions = parseQuestions([{ questionId: 'p010-ku3', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '春すぎて夏来にけらし＿＿＿衣ほすてふ天の香具山', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: ['しろたえの'], candidates: [], normalization: 'kana', sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }] as PublishedQuestion[]);
+const questions = parseQuestions([{ questionId: 'p010-ku3', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '春すぎて夏来にけらし＿＿＿衣ほすてふ天の香具山', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: ['しろたえの'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }] as PublishedQuestion[]);
 const makePort = () => ({ ...createMemoryPort(), saveLocalReport: async () => true });
 
 function container() { root = document.createElement('div'); document.body.append(root); return root; }
@@ -120,7 +120,7 @@ test('R-9: 公開表示は通常数字と歌表記を使い本番では番号を
   const view = await mountSession({ entry: 'exam' });
   expect(view.textContent).not.toMatch(/p010|対象:/);
   expect(view.querySelector('.question-number')).toBeNull();
-  render(<Result result={{ range: { from: 10, to: 10 }, questionCount: 1, breakdown: { viewed: 0, correct: 1, partial: 0, needsReview: 0, incorrect: 0 }, allCorrect: true, changes: [{ poemId: 'p010', before: 0, after: 1 }], poems: [], retryCardNumbers: [] }} onRetryWeak={() => {}} onRetrySame={() => {}} onHome={() => {}} />, view);
+  render(<Result result={{ range: { from: 10, to: 10 }, questionCount: 1, breakdown: { viewed: 0, correct: 1, partial: 0, needsReview: 0, incorrect: 0 }, allCorrect: true, changes: [{ poemId: 'p010', before: 0, after: 1 }], poems: [], retryCardNumbers: [], retryQuestionIds: [] }} onRetryWeak={() => {}} onRetrySame={() => {}} onHome={() => {}} />, view);
   expect(view.textContent).toContain('歌ごとの状態');
   expect(view.textContent).not.toContain('p010');
 });

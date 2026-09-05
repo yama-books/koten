@@ -3,6 +3,7 @@ import { masteryDisplay, type MasteryColor } from '@koten/shared/domain/mastery/
 import { computeMastery } from '@koten/shared/domain/mastery/compute';
 import { poemMastery } from '@koten/shared/domain/mastery/poem';
 import { recommendNext, type Recommendation } from '@koten/shared/domain/recommend/recommend';
+import { reviewQuestionIds } from './review.ts';
 
 export type OutcomeKind = 'viewed' | 'correct' | 'partial' | 'needs-review' | 'incorrect';
 
@@ -29,7 +30,7 @@ export type PoemOutcome = Readonly<{
 export type SummarizeInput = Readonly<{
   sessionId: string;
   range: Readonly<{ from: number; to: number }>;
-  outcomes: readonly Readonly<{ poemId: string; kind: Exclude<OutcomeKind, 'viewed'> }>[];
+  outcomes: readonly Readonly<{ questionId: string; poemId: string; kind: Exclude<OutcomeKind, 'viewed'> }>[];
   allEvents: readonly Event[];
   poemIds: readonly string[];
   today: string;
@@ -43,6 +44,7 @@ export type SessionResult = Readonly<{
   changes: readonly MasteryChange[];
   poems: readonly PoemOutcome[];
   retryCardNumbers: readonly number[];
+  retryQuestionIds: readonly string[];
   recommendation: Recommendation | undefined;
 }>;
 
@@ -86,6 +88,7 @@ export function summarizeSession(input: SummarizeInput): SessionResult {
     changes,
     poems,
     retryCardNumbers,
+    retryQuestionIds: reviewQuestionIds(answers),
     recommendation: recommendNext({ today: input.today, poemIds: input.poemIds, events: input.allEvents, scores: after.scores }),
   };
 }

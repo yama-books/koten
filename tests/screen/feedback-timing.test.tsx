@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import ts from "typescript";
 import { render } from "preact";
 import { act } from "preact/test-utils";
 import { expect, test } from "vitest";
@@ -39,6 +40,7 @@ const question = (id = "p001-ku1") => ({
   partialAnswers: [],
   candidates: [],
   normalization: "kana" as const,
+  note: null,
   sourceRef: "fixture",
   reviewStatus: "human-confirmed" as const,
   confirmationMode: "individual" as const,
@@ -305,4 +307,64 @@ test("T-11: READMEに新しい二つのモード名と説明がある", () => {
   const readme = readFileSync("README.md", "utf8");
   expect(readme).toContain("練習する（一問一答で確認）");
   expect(readme).toContain("本番のように解く（試験のように解いて採点）");
+});
+
+test("F-1: 本番の画面入力と紙の採点前に中断時の注意書きを出す", async () => {
+  for (const answerMode of ["screen", "paper"] as const) {
+    const node = root();
+    await act(() => render(<Session entry="exam" answerMode={answerMode} questions={[question()]} poems={[poem]} sessionId={`f1-${answerMode}`} port={createMemoryPort()} settings={settings} onSettings={() => {}} onComplete={() => {}} />, node));
+    if (answerMode === "screen") await answer(node);
+    else await act(() => { Array.from(node.querySelectorAll("button")).find((button) => button.textContent === "次へ")!.click(); });
+    expect(node.querySelector(".grade-list")).not.toBeNull();
+    expect(node.textContent).toContain("採点が確定するまで習熟度には反映されません。途中で閉じた場合は記録されません。");
+    node.remove();
+  }
+});
+
+test("F-2: FlowPhaseは五つの文字列リテラルだけ", () => {
+  const source = ts.createSourceFile("flow.ts", readFileSync("packages/hyakunin/src/domain/flow.ts", "utf8"), ts.ScriptTarget.Latest, true);
+  const declarations = source.statements.filter((statement): statement is ts.TypeAliasDeclaration => ts.isTypeAliasDeclaration(statement) && statement.name.text === "FlowPhase");
+  expect(declarations).toHaveLength(1);
+  const members = declarations[0].type;
+  expect(ts.isUnionTypeNode(members)).toBe(true);
+  if (!ts.isUnionTypeNode(members)) return;
+  expect(members.types).toHaveLength(5);
+  const values = members.types.map((member) => {
+    expect(ts.isLiteralTypeNode(member) && ts.isStringLiteral(member.literal)).toBe(true);
+    return ts.isLiteralTypeNode(member) && ts.isStringLiteral(member.literal) ? member.literal.text : "";
+  });
+  expect(new Set(values)).toEqual(new Set(["prompt", "answered", "revealed", "save-failed", "complete"]));
+});
+
+test("F-3: 紙の採点一覧は問題ごとの歌番号と正答を結び付けて出す", async () => {
+  const node = root();
+  const secondPoem = { ...poem, cardNo: 2, ku: ["か", "き", "く", "け", "こ"] } as never;
+  const questions = [question("p001-ku1"), { ...question("p002-ku1"), poemId: "p002", answer: "か", answerHistorical: "か", answerModern: "か", acceptedAnswers: ["か"] }];
+  await act(() => render(<Session entry="exam" answerMode="paper" questions={questions} poems={[poem, secondPoem]} sessionId="f3" port={createMemoryPort()} settings={settings} onSettings={() => {}} onComplete={() => {}} />, node));
+  for (let index = 0; index < questions.length; index += 1) await act(() => { Array.from(node.querySelectorAll("button")).find((button) => button.textContent === "次へ")!.click(); });
+  const rows = Array.from(node.querySelectorAll(".grade-list > li"));
+  expect(questions.length).toBeGreaterThan(0);
+  expect(rows).toHaveLength(questions.length);
+  expect(rows.map((row) => row.textContent)).toEqual(expect.arrayContaining([expect.stringContaining("1番"), expect.stringContaining("正答: あ"), expect.stringContaining("2番"), expect.stringContaining("正答: か")]));
+  expect(rows[0].textContent).toContain("1番");
+  expect(rows[0].textContent).toContain("正答: あ");
+  expect(rows[1].textContent).toContain("2番");
+  expect(rows[1].textContent).toContain("正答: か");
+  node.remove();
+});
+
+test("F-4: 本番の採点一覧は実入力から○・△・×を行ごとに出す", async () => {
+  const node = root();
+  const secondPoem = { ...poem, cardNo: 2 } as never;
+  const thirdPoem = { ...poem, cardNo: 3 } as never;
+  const questions = [question("p001-ku1"), { ...question("p002-ku1"), poemId: "p002", answer: "う", answerHistorical: "ゑ", answerModern: "え", acceptedAnswers: ["う", "ゑ"], partialAnswers: ["え"] }, { ...question("p003-ku1"), poemId: "p003", answer: "お", answerHistorical: "お", answerModern: "お", acceptedAnswers: ["お"] }];
+  await act(() => render(<Session entry="exam" questions={questions} poems={[poem, secondPoem, thirdPoem]} sessionId="f4" port={createMemoryPort()} settings={settings} onSettings={() => {}} onComplete={() => {}} />, node));
+  await answer(node, "あ");
+  await answer(node, "え");
+  await answer(node, "ちがう");
+  const rows = Array.from(node.querySelectorAll(".grade-list > li"));
+  expect(rows).toHaveLength(3);
+  expect(rows.map((row) => row.querySelector('[aria-label]')?.getAttribute("aria-label"))).toEqual(["○", "△", "×"]);
+  expect(rows.map((row) => row.textContent)).toEqual(expect.arrayContaining([expect.stringContaining("○"), expect.stringContaining("△"), expect.stringContaining("×")]));
+  node.remove();
 });

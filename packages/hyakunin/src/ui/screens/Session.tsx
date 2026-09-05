@@ -21,9 +21,14 @@ import {
   type PublishedQuestion,
 } from "../../data/question-schema.ts";
 import type { Poem } from "../../data/schema.ts";
-import type { EntryId } from "../../domain/entry.ts";
+import { ENTRY_LABELS, type EntryId } from "../../domain/entry.ts";
 import type { ApplicationPort } from "../adapters/indexeddb-port.ts";
-import { AnswerFeedback } from "../components/AnswerFeedback.tsx";
+import {
+  AnswerFeedback,
+  PartialSupplement,
+  QuestionNote,
+  PARTIAL_NOTE,
+} from "../components/AnswerFeedback.tsx";
 import { ReadingToggle } from "../components/ReadingToggle.tsx";
 import { WritingModeToggle } from "../components/WritingModeToggle.tsx";
 import type { AnswerMode } from "./RangePicker.tsx";
@@ -40,12 +45,17 @@ type Props = {
   onBack?: () => void;
   onComplete: (
     outcomes: readonly Readonly<{
+      questionId: string;
       poemId: string;
       kind: Exclude<OutcomeKind, "viewed">;
     }>[],
   ) => void;
 };
 const today = () => new Date().toISOString().slice(0, 10);
+/** R2: 再確認は途中保存しないので、中断ダイアログを開く前から画面に出しておく。 */
+export const REVIEW_INTERRUPT_NOTE =
+  "途中で終了すると、この再確認の続きは再開できません。（答え合わせ済みの記録は残ります）";
+const PAPER_PARTIAL_NOTE = "△は現代仮名遣いで書けた場合です。";
 const blankPattern = /＿+/;
 type ExamAnswer = Readonly<{
   question: PublishedQuestion;
@@ -121,6 +131,7 @@ export function Session({
   const [confirmExit, setConfirmExit] = useState(false);
   const [outcomes, setOutcomes] = useState<
     readonly Readonly<{
+      questionId: string;
       poemId: string;
       kind: Exclude<OutcomeKind, "viewed">;
     }>[]
@@ -183,6 +194,7 @@ export function Session({
     }
     const nextOutcomes = saved.map(
       ({ question: answeredQuestion, judgement }) => ({
+        questionId: answeredQuestion.questionId,
         poemId: answeredQuestion.poemId,
         kind: judgement,
       }),
@@ -215,17 +227,27 @@ export function Session({
       <main class="session">
         <h1>採点する</h1>
         <p class="review-note">
-          採点が確定するまで習熟度は保存されません。途中で閉じた場合は記録されません。
+          採点が確定するまで習熟度には反映されません。途中で閉じた場合は記録されません。
         </p>
+        {answerMode === "paper" && (
+          <p class="review-note">{PAPER_PARTIAL_NOTE}</p>
+        )}
         <ol class="grade-list">
           {rows.map(({ question: item, input: answer, judgement }) => (
             <li key={item.questionId}>
-              <span>{Number(item.poemId.slice(1))}番</span>
+              <span class="grade-number">{Number(item.poemId.slice(1))}番</span>
               {answerMode === "screen" ? (
                 <>
-                  <span>自分の答え: {answer || "（未入力）"}</span>
-                  <span>正答: {item.answer}</span>
+                  <span class="grade-line">
+                    <span class="grade-label">{"自分の答え: "}</span>
+                    <span class="grade-value">{answer || "（未入力）"}</span>
+                  </span>
+                  <span class="grade-line">
+                    <span class="grade-label">{"正答: "}</span>
+                    <span class="grade-value">{item.answer}</span>
+                  </span>
                   <span
+                    class={`grade-mark grade-mark--${judgement}`}
                     aria-label={
                       judgement === "correct"
                         ? "○"
@@ -240,10 +262,23 @@ export function Session({
                         ? "△"
                         : "×"}
                   </span>
+                  {judgement === "partial" && (
+                    <>
+                      <span class="grade-mark-note">{PARTIAL_NOTE}</span>
+                      <PartialSupplement
+                        answerHistorical={item.answerHistorical}
+                        answer={item.answer}
+                      />
+                    </>
+                  )}
+                  <QuestionNote note={item.note} />
                 </>
               ) : (
                 <>
-                  <span>正答: {item.answer}</span>
+                  <span class="grade-line">
+                    <span class="grade-label">{"正答: "}</span>
+                    <span class="grade-value">{item.answer}</span>
+                  </span>
                   <div
                     class="grade-choice"
                     aria-label={`${Number(item.poemId.slice(1))}番の自己採点`}
@@ -285,6 +320,13 @@ export function Session({
                       ×
                     </button>
                   </div>
+                  {judgement === "partial" && (
+                    <PartialSupplement
+                      answerHistorical={item.answerHistorical}
+                      answer={item.answer}
+                    />
+                  )}
+                  <QuestionNote note={item.note} />
                 </>
               )}
             </li>
@@ -356,7 +398,7 @@ export function Session({
     if (!("reason" in result))
       setOutcomes((items) => [
         ...items,
-        { poemId: question.poemId, kind: answered.judgement! },
+        { questionId: question.questionId, poemId: question.poemId, kind: answered.judgement! },
       ]);
     setFlow((state) =>
       "reason" in result ? failSave(state, result) : reveal(state, result),
@@ -366,6 +408,8 @@ export function Session({
     const answered =
       displayFlow.phase === "save-failed"
         ? displayFlow
+        // 未配線：歌の `reading.status` を渡していない。2026-09-05 時点で正本の100首はすべて confirmed
+        // なので実害は無いが、将来どれかの読みが「保留」になっても判定へ届かない。別件として記録済み。
         : submitAnswer(displayFlow, toQuestion(question), input, {
             readingStatus: "confirmed",
           });
@@ -423,7 +467,7 @@ export function Session({
   }
   const feedback = displayFlow.judgement
     ? buildFeedback(
-        { historical: question.answerHistorical, kanji: question.answer },
+        { historical: question.answerHistorical, answer: question.answer },
         displayFlow.judgement,
       )
     : null;
@@ -445,15 +489,16 @@ export function Session({
         >
           戻る
         </button>
-        <span class="wordmark">
-          {entry === "exam" ? "本番のように解く" : "練習する"}
-        </span>
+        <span class="wordmark">{ENTRY_LABELS[entry]}</span>
         <span class="progress" aria-live="polite">
           {entry === "exam"
             ? `${displayFlow.questionIndex + 1}問目/${displayFlow.questionCount}`
             : progressLabel(displayFlow)}
         </span>
       </header>
+      {entry === "review" && (
+        <p class="review-note review-note--persistent">{REVIEW_INTERRUPT_NOTE}</p>
+      )}
       <section class="session-controls">
         {entry !== "exam" && (
           <ReadingToggle
@@ -567,7 +612,8 @@ export function Session({
       )}
       {displayFlow.phase === "revealed" && (
         <section>
-          <AnswerFeedback feedback={feedback!} />
+          {answerMode === "screen" && <label class={displayFlow.judgement === "correct" ? "answer-retained" : "answer-retained answer-retained--attention"}>自分の答え<input value={displayFlow.submitted?.input ?? ""} readOnly /></label>}
+          <AnswerFeedback feedback={feedback!} note={question.note} />
           <button class="primary" type="button" onClick={next}>
             次へ
           </button>
@@ -581,7 +627,7 @@ export function Session({
           aria-labelledby="interrupt-title"
         >
           <h2 id="interrupt-title">練習を中断しますか？</h2>
-          <p>入力途中の答えは保存されません。ここまでの記録は残ります。</p>
+          <p>{entry === "review" ? REVIEW_INTERRUPT_NOTE : "入力途中の答えは保存されません。ここまでの記録は残ります。"}</p>
           <div>
             <button
               class="primary"

@@ -22,12 +22,12 @@ export type FlowState = Readonly<{
  * `Question` は判定に要る面しか持たず歴史的仮名遣いを運ばないため、呼び出し側が明示的に渡す。
  * `acceptedAnswers` から推測してはならない——生成器は `[漢字, 歴史的読み]` の順で作るので先頭は漢字である。
  */
-export type AnswerForms = Readonly<{ historical: string; kanji: string }>;
+export type AnswerForms = Readonly<{ historical: string; answer: string }>;
 
 export type Feedback = Readonly<{
   mark: 'maru' | 'check' | 'none';
   historical: string;
-  kanji: string;
+  answer: string;
   mastery: string;
 }>;
 
@@ -78,15 +78,23 @@ export function progressLabel(state: FlowState): string {
   return `${state.cardNo}番・${state.questionIndex + 1}問目/${state.questionCount}`;
 }
 
+/**
+ * D-26 の括弧行は「漢字表記があるときだけ」。判定は歌全体でも入力でもなく `question.answer` の1字でよい。
+ * 表示側で同じ正規表現を書き直すと、片方だけ直った状態が試験を通ってしまうので、ここだけに置く。
+ */
+export function hasKanji(answer: string): boolean {
+  return /\p{Script=Han}/u.test(answer);
+}
+
 export function buildFeedback(forms: AnswerForms, judgement: Judgement): Feedback {
   if (judgement === 'partial') {
     return {
       mark: 'none',
-      historical: `歴史的仮名遣い: ${forms.historical}`,
-      kanji: `漢字: ${forms.kanji}`,
+      historical: `歴史的仮名遣い：${forms.historical}`,
+      answer: hasKanji(forms.answer) ? forms.answer : '',
       mastery: '',
     };
   }
-  if (judgement === 'correct') return { mark: 'maru', historical: '', kanji: '', mastery: '' };
-  return { mark: 'check', historical: '', kanji: '', mastery: '要確認' };
+  if (judgement === 'correct') return { mark: 'maru', historical: '', answer: '', mastery: '' };
+  return { mark: 'check', historical: '', answer: '', mastery: '' };
 }

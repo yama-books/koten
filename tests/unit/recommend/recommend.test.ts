@@ -64,17 +64,18 @@ test('A-6: 同日の想起成功を重ねても別日の想起成功にはなら
   assert.equal(recommendNext(input({ events: [first.event, second], scores: first.scores }))?.tier, 3);
 });
 
-test('A-7: 首の習熟度は本文8割と作者2割の和になる', () => {
+// 初回公開は作者を出題しないため配点は本文だけ（依頼者裁定・2026-09-05）。作者を戻すときは 74 / 72 へ戻す。
+test('A-7: 首の習熟度は本文の素点をそのまま使い、作者の素点を混ぜない', () => {
   const item = learned('p001', today, 90);
   const author = event({ eventId: 'event-002', poemId: 'p001', itemKey: 'p001:author', localDate: today, outcome: 'viewed', method: 'view', effectiveMethod: 'view' });
   const result = recommendNext(input({ events: [item.event, author], scores: { 'p001:text': 90, 'p001:author': 10 } }));
-  assert.equal(result?.percent, 74);
+  assert.equal(result?.percent, 90);
   assert.equal(result?.tier, 3);
 });
 
-test('作者に一度も当たっていない首は本文の8割になる', () => {
+test('作者に一度も当たっていない首でも本文の素点がそのまま出る', () => {
   const item = event({ poemId: 'p001', itemKey: 'p001:text', localDate: today });
-  assert.equal(recommendNext(input({ events: [item], scores: { 'p001:text': 90 } }))?.percent, 72);
+  assert.equal(recommendNext(input({ events: [item], scores: { 'p001:text': 90 } }))?.percent, 90);
 });
 
 test('A-8: 同点は期限超過日数、習熟度、番順で安定して決まる', () => {
