@@ -1,6 +1,6 @@
 import { appConfig } from '@koten/shared/app-config';
 import { sanitizeStats } from '@koten/shared/telemetry/sanitize';
-import { anonymousSignUpRequest, interpretCreateStatus, statsCreateRequest, type HttpRequestSpec } from '@koten/shared/telemetry/transport';
+import { interpretCreateStatus, statsCreateRequest, type HttpRequestSpec } from '@koten/shared/telemetry/transport';
 import { getAppCheckToken } from './app-check.ts';
 
 /**
@@ -41,12 +41,7 @@ export async function sendStats(input: { payload: unknown; allowed: boolean; sen
 
   try {
     const appCheckToken = await (input.getToken ?? getAppCheckToken)();
-    const signUp = await input.send(anonymousSignUpRequest(appConfig.firebase));
-    if (signUp.status !== 200) return 'retry';
-    const idToken: unknown = (JSON.parse(signUp.text) as { idToken?: unknown }).idToken;
-    if (typeof idToken !== 'string' || idToken === '') return 'retry';
-
-    const created = await input.send(statsCreateRequest(appConfig.firebase, { payload, idToken, appCheckToken }));
+    const created = await input.send(statsCreateRequest(appConfig.firebase, { payload, appCheckToken }));
     return interpretCreateStatus(created.status);
   } catch {
     // 圏外・遮断・JSON の破損。すべて再送へ回す。画面にはエラーを出さない。
