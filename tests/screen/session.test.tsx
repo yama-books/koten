@@ -79,7 +79,7 @@ test('session: all four entries show question progress from zero', async () => {
     const header = view.querySelector('.session .nav-edge')!;
     const progress = view.querySelector('.session-progress')!;
     const controls = view.querySelector('.session-controls')!;
-    expect(header.compareDocumentPosition(progress) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(header.nextElementSibling).toBe(progress);
     expect(progress.compareDocumentPosition(controls) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   }
 });

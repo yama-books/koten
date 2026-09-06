@@ -141,6 +141,7 @@ test('N-10a: 学年を選ぶまで確認できず、理由を読むことがで�
   expect(mounted.root.textContent).toContain('学年を選ぶと確認できます。');
   await act(() => { clickButton(mounted.root, '中一'); });
   expect(confirm.disabled).toBe(false);
+  expect(mounted.root.textContent).not.toContain('学年を選ぶと確認できます。');
 });
 
 test('N-10b: 学年を選んで確認すると、学年を含む設定を保存し再表示しない', async () => {
