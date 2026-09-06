@@ -926,6 +926,14 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 
 ## 8. 進行中の作業
 
+2026-09-07・**発注071を実装。検収待ち。**
+
+- `reading.status: 'confirmed'` は人の台帳承認ではなく、異同確認資料に未決着の読み方式が無いことを表す、と読み台帳と生成箇所に明記した。
+- `kugire.yaml` は未使用（生成物へ適用する経路なし）と明記した。台帳の `entries` と生成JSONは変更していない。
+- 新設した `tests/unit/review-ledger-contract.test.ts` は、一時コピーした全100行の台帳で、(1) 読み台帳が `poems.json` を変えない、(2) 句切れ台帳が `poems.json`・問題JSON・`layout-hints.json` を変えない、(3) layout 台帳の1件承認が `layout-hints.json` を変える、を確認する。各試験は空でない100行を先に検査する。
+- 破壊試験は各回 **1件赤・2件緑**：読み承認を `review` に反転→釘1、layout の `approved` 絞り込み除去→釘3、`kugire` を layout と同様に流す→釘2。すべて復元済み。
+- 実測：node試験 **527件**、画面試験を含む `npm test`、`data:check`、`scan:publish`（758件・違反0）、`check:eol`（1106件・違反0）はすべて終了0。
+
 2026-09-07・**公開した（`2f8e1d2`）。実機確認15件を発注073へまとめた。** —— **これが §8 の最新である。**
 
 - **公開**：`yama-books/koten` を `ce1c596` → **`2f8e1d2`** へ。067・068・069 の25ファイル。

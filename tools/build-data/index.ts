@@ -16,6 +16,7 @@ export function buildData(reviewDirectory = paths.review) {
     const historical = readings.historical[index], modern = readings.modern[index];
     return { cardNo: poem.cardNo, poemId: `p${String(poem.cardNo).padStart(3, '0')}`, ku: poem.ku, text: poem.ku.join(''), kami: poem.ku.slice(0, 3).join(''), shimo: poem.ku.slice(3).join(''),
       author: { canonical: poem.author, aliases: [], confirmed: false },
+      // confirmed means the variant record has no unsettled reading, not that a human approved a review ledger.
       reading: { historical: { ku: historical.ku, author: historical.author }, modern: { ku: modern.ku, author: modern.author }, status: reviewCards.has(poem.cardNo) ? 'review' : 'confirmed' },
       sourceRef: '百人一首_本文・作者_一次データ.md', dataVersion: DATA_VERSION };
   });
