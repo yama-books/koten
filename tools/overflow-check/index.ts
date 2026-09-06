@@ -18,6 +18,11 @@ const zoomLevels = [1, 2];
 const reflowFindings: ReflowFinding[] = [];
 const expectedReflowCases = widths.length * zoomLevels.length;
 let reflowCases = 0;
+// 発注068: 初回設定のダイアログはホーム本体と別の優先表示であり、開いた状態を名指しで測る。
+type OnboardingReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
+const onboardingReflowFindings: OnboardingReflowFinding[] = [];
+const expectedOnboardingReflowCases = widths.length * zoomLevels.length;
+let onboardingReflowCases = 0;
 type ExamReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
 const examReflowFindings: ExamReflowFinding[] = [];
 const expectedExamReflowCases = widths.length * zoomLevels.length;
@@ -165,6 +170,37 @@ try {
         if (!measured.hasLimitations) reflowFindings.push({ width, zoom, key: 'knownLimitationsPresent', observed: false });
         if (measured.overflow > 1) reflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) reflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+      }
+    }
+    // 発注068: ダイアログが実際に出ている初回状態を別コンテキストで測る。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        const onboardingContext = await browser.newContext();
+        const onboardingPage = await onboardingContext.newPage();
+        try {
+          await onboardingPage.setViewportSize({ width, height: 800 });
+          await onboardingPage.goto(`${baseUrl}?from=1&to=100`, { waitUntil: 'domcontentloaded' });
+          await onboardingPage.waitForSelector('.onboarding__dialog');
+          const measured = await onboardingPage.evaluate((rootFontSize) => {
+            document.documentElement.style.fontSize = rootFontSize;
+            document.documentElement.getBoundingClientRect();
+            const dialog = document.querySelector<HTMLElement>('.onboarding__dialog');
+            const scope = dialog ? [dialog, ...dialog.querySelectorAll<HTMLElement>('*')] : [];
+            const clipped = scope.filter((element) => !element.classList.contains('sr-only') && (element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1))
+              .map((element) => element.className || element.tagName);
+            const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+            const confirm = dialog?.querySelector<HTMLButtonElement>('.stats-notice__confirm');
+            document.documentElement.style.fontSize = '';
+            return { dialog: Boolean(dialog), clipped, overflow, confirmDisabled: confirm?.disabled ?? null };
+          }, `${16 * zoom}px`);
+          onboardingReflowCases += 1;
+          if (!measured.dialog) onboardingReflowFindings.push({ width, zoom, key: 'dialogPresent', observed: false });
+          if (measured.confirmDisabled !== true) onboardingReflowFindings.push({ width, zoom, key: 'confirmRequiresGrade', observed: measured.confirmDisabled });
+          if (measured.overflow > 1) onboardingReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
+          if (measured.clipped.length) onboardingReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+        } finally {
+          await onboardingContext.close();
+        }
       }
     }
     // 発注066: 復元カードは、実際に入口から回を始めて保存済みの中断状態を作らなければ現れない。
@@ -499,6 +535,15 @@ if (reflowCases !== expectedReflowCases) {
   console.error(`check:overflow: 拡大時の走査が不足または過剰です（走査 ${reflowCases} 件、必要 ${expectedReflowCases} 件ちょうど）`);
   process.exit(1);
 }
+
+if (onboardingReflowCases !== expectedOnboardingReflowCases) {
+  console.error(`check:overflow: 初回設定ダイアログの走査が不足または過剰です（走査 ${onboardingReflowCases} 件、必要 ${expectedOnboardingReflowCases} 件ちょうど）`);
+  process.exit(1);
+}
+
+console.log(`check:overflow: 初回設定ダイアログの走査 ${onboardingReflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${onboardingReflowFindings.length} 件`);
+for (const finding of onboardingReflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (onboardingReflowFindings.length) process.exitCode = 1;
 
 if (examReflowCases !== expectedExamReflowCases) {
   console.error(`check:overflow: 本番採点一覧の走査が不足または過剰です（走査 ${examReflowCases} 件、必要 ${expectedExamReflowCases} 件ちょうど）`);

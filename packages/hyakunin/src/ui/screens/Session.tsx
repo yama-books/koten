@@ -601,7 +601,7 @@ export function Session({
             : progressLabel(displayFlow)}
         </span>
       </header>
-      {progressMeter}
+      <div class="session-progress">{progressMeter}</div>
       {entry === "review" && (
         <p class="review-note review-note--persistent">{REVIEW_INTERRUPT_NOTE}</p>
       )}

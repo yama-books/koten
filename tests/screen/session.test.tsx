@@ -76,6 +76,11 @@ test('session: all four entries show question progress from zero', async () => {
     expect(meter?.getAttribute('aria-label')).toBe('セッションの進捗');
     expect(meter?.getAttribute('aria-valuenow')).toBe('0');
     expect(view.textContent).toContain(`進み 0問/${questions.length}問`);
+    const header = view.querySelector('.session .nav-edge')!;
+    const progress = view.querySelector('.session-progress')!;
+    const controls = view.querySelector('.session-controls')!;
+    expect(header.compareDocumentPosition(progress) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(progress.compareDocumentPosition(controls) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   }
 });
 test('session: completing the last question shows 100 percent progress', async () => {
