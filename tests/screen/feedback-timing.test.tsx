@@ -156,7 +156,7 @@ test("T-5: 本番は答えた直後に正誤を出さず練習は出す", async 
     ),
   );
   await answer(exam);
-  expect(exam.textContent).not.toContain("○ 正解");
+  expect(exam.querySelector('.answer-feedback')).toBeNull();
   expect(exam.textContent).toContain("採点する");
   exam.remove();
   const learn = root();
@@ -175,7 +175,7 @@ test("T-5: 本番は答えた直後に正誤を出さず練習は出す", async 
     ),
   );
   await answer(learn);
-  expect(learn.textContent).toContain("○ 正解");
+  expect(learn.textContent).toContain("正解");
   learn.remove();
 });
 test("T-6: 本番の完了局面は問題数と同じ採点行を出す", async () => {
@@ -364,7 +364,7 @@ test("F-4: 本番の採点一覧は実入力から○・△・×を行ごとに�
   await answer(node, "ちがう");
   const rows = Array.from(node.querySelectorAll(".grade-list > li"));
   expect(rows).toHaveLength(3);
-  expect(rows.map((row) => row.querySelector('[aria-label]')?.getAttribute("aria-label"))).toEqual(["○", "△", "×"]);
-  expect(rows.map((row) => row.textContent)).toEqual(expect.arrayContaining([expect.stringContaining("○"), expect.stringContaining("△"), expect.stringContaining("×")]));
+  expect(rows.map((row) => row.querySelector('.grade-mark')?.getAttribute("aria-label"))).toEqual(["正解", "△", "要確認"]);
+  expect(rows.map((row) => row.textContent)).toEqual(expect.arrayContaining([expect.stringContaining("正解"), expect.stringContaining("△"), expect.stringContaining("要確認！")]));
   node.remove();
 });

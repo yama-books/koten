@@ -62,6 +62,9 @@ const defaults: UserSettings = {
   soundEnabled: false,
   noticeConfirmed: false,
 };
+// 統計を実際に送信する導線ができるまで、同意と学年選択は表示しない。
+// 部品・設定値は、その導線を実装するときに同じ契約のまま再利用する。
+const statsCollectionEnabled = false;
 // 読み込み先は静的な文字列で書くこと。テンプレートリテラルにすると、バンドラが
 // data/generated/ を丸ごと走査して全ファイルを公開成果物へ出力する（HANDOFF §8 の F-4）。
 const poemsUrl = new URL("../../data/generated/poems.json", import.meta.url);
@@ -357,7 +360,7 @@ export function Home({
   }
   return (
     <main class="home">
-      {settingsLoaded && !settings.noticeConfirmed && (
+      {statsCollectionEnabled && settingsLoaded && !settings.noticeConfirmed && (
         <div class="onboarding" role="region" aria-label="初回設定">
           <div class="onboarding__panel">
             <StatsNotice onConfirm={confirmNotice} />
@@ -366,7 +369,7 @@ export function Home({
         </div>
       )}
       <header class="nav-edge">
-        <span class="wordmark">{appConfig.products.hyakunin.displayName}</span>
+        <h1 class="wordmark">{appConfig.products.hyakunin.displayName}</h1>
       </header>
       {initialRange.hadInvalidQuery && (
         <p class="review-note" role="status">
@@ -441,6 +444,18 @@ export function Home({
             <span aria-hidden="true">番</span>
           </label>
         </div>
+        <div class="entry-introduction">
+          <p class="entry-help">
+            穴埋め問題から始めます。1回の学習は
+            {ENTRY_RULES.learn.questionCount}問です。
+          </p>
+          {plannedChunkCount > 1 && (
+            <p class="entry-help">
+              {normalizeRange(from, to).from}番〜{normalizeRange(from, to).to}番は
+              {CHUNK_CARD_COUNT}首ずつ全{plannedChunkCount}回に分かれます。まず1回目から始めます。
+            </p>
+          )}
+        </div>
         <div class="entry-actions">
           <button
             class="primary entry-start"
@@ -453,26 +468,9 @@ export function Home({
           >
             とりあえず始める
           </button>
-          <div class="entry-secondary">
-            <button type="button" onClick={() => choose("view")}>
-              歌を確認する
-            </button>
-            <button type="button" onClick={() => startView(true)}>
-              作者名を確認する
-            </button>
-          </div>
         </div>
-        <p class="entry-help">
-          穴埋め問題から始めます。1回の学習は
-          {ENTRY_RULES.learn.questionCount}問です。
-        </p>
-        {plannedChunkCount > 1 && (
-          <p class="entry-help">
-            {normalizeRange(from, to).from}番〜{normalizeRange(from, to).to}番は
-            {CHUNK_CARD_COUNT}首ずつ全{plannedChunkCount}回に分かれます。まず1回目から始めます。
-          </p>
-        )}
         <button
+          class="entry-method-toggle"
           type="button"
           aria-expanded={practiceOpen}
           onClick={() => setPracticeOpen((open) => !open)}
@@ -495,6 +493,14 @@ export function Home({
             </div>
           </div>
         )}
+        <div class="entry-secondary" aria-label="確認して学ぶ">
+          <button type="button" onClick={() => choose("view")}>
+            歌を確認する
+          </button>
+          <button type="button" onClick={() => startView(true)}>
+            作者名を確認する
+          </button>
+        </div>
         {questions.length === 0 && (
           <p role="status">
             問題はまだ準備中です。いまは「歌を確認する」を使えます。
@@ -505,6 +511,14 @@ export function Home({
         これまでの記録
       </button>
       <footer class="foot-line">
+        <details class="install-guide">
+          <summary>ホーム画面に追加する</summary>
+          <p>よく使う場合は、このページを端末のホーム画面へ追加できます。</p>
+          <ul>
+            <li>iPhone・iPad（Safari）：共有ボタンから「ホーム画面に追加」</li>
+            <li>Android：ブラウザのメニューに表示される場合は「ホーム画面に追加」</li>
+          </ul>
+        </details>
         <p class="release-stage">{releaseStageLabel}</p>
         <details class="known-limits">
           <summary>この版でまだできないこと</summary>

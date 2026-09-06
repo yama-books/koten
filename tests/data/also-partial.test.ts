@@ -119,3 +119,52 @@ test('作者名の訂正が公開データへ届いている', () => {
   assert.equal(byCard(73).author.canonical, '前中納言匡房');
   assert.equal(byCard(73).reading.modern.author, 'さきのちゅうなごんまさふさ');
 });
+
+// 表示はPDF準拠のまま、別称だけを正解として受ける（依頼者裁定・2026-09-05）。
+// 「〜のみ可」と指定された首は、別称を足さないことをここで押さえる。
+const AUTHOR_RULES: readonly [string, readonly string[], readonly string[]][] = [
+  ['p003-author-free', ['柿本人麻呂', '柿本人麿'], ['柿本人丸']],
+  ['p005-author-free', ['猿丸大夫', '猿丸太夫'], []],
+  // 百人一首では「安倍仲麿」が正式。歴史表記の「阿倍仲麻呂」だけを別称として認め、
+  // 安/阿 と 麿/麻呂 を組み替えた形は認めない（依頼者裁定・2026-09-06）。
+  ['p007-author-free', ['安倍仲麿', '阿倍仲麻呂'], ['安倍仲麻呂', '阿倍仲麿', '阿部仲麿', '阿部仲麻呂']],
+  ['p028-author-free', ['源宗于朝臣'], ['源宗行朝臣', '源宗干朝臣']],
+  ['p046-author-free', ['曾禰好忠', '曽禰好忠'], ['曽根好忠']],
+  ['p066-author-free', ['前大僧正行尊'], ['大僧正行尊']],
+  ['p073-author-free', ['前中納言匡房', '権中納言匡房'], []],
+];
+
+test('作者の別称は認めた分だけを正解にする', () => {
+  for (const [questionId, accepted, rejected] of AUTHOR_RULES) {
+    const question = authorOf(questionId);
+    for (const input of accepted) assert.equal(judge(question, input, { readingStatus: 'confirmed' }), 'correct', `${questionId} / ${input}`);
+    for (const input of rejected) assert.equal(judge(question, input, { readingStatus: 'confirmed' }), 'incorrect', `${questionId} / ${input}`);
+  }
+});
+
+test('穴埋めの別表記は認めた分だけを正解にする', () => {
+  const blankOf = (questionId: string) => {
+    const found = (blankQuestions as { questionId: string }[]).find((question) => question.questionId === questionId) as never as {
+      questionId: string; answer: string; acceptedAnswers: string[]; partialAnswers: string[]; normalization: 'kana';
+    };
+    assert.ok(found, `${questionId} が公開データに無い`);
+    return { questionId: found.questionId, answer: found.answer, acceptedAnswers: found.acceptedAnswers, partialAnswers: found.partialAnswers, normalization: found.normalization };
+  };
+  const of = (questionId: string, input: string) => judge(blankOf(questionId), input, { readingStatus: 'confirmed' });
+
+  assert.equal(of('p013-blank-ku1', '筑波嶺の'), 'correct');
+  assert.equal(of('p032-blank-ku1', '山がはに'), 'correct');
+  // 「やま川」は不可。漢字と仮名を混ぜた形まで広げない。
+  assert.equal(of('p032-blank-ku1', 'やま川に'), 'incorrect');
+  // 70番は「いづこ」のみ正解。異本文の「いづく」へ広げない。
+  assert.equal(of('p070-blank-ku4', 'いづくも同じ'), 'incorrect');
+});
+
+test('表示はPDF準拠のまま（別称を正本へ混ぜない）', () => {
+  const canonical = (cardNo: number) => (poems as { cardNo: number; author: { canonical: string } }[]).find((item) => item.cardNo === cardNo)!.author.canonical;
+  assert.equal(canonical(3), '柿本人麻呂');
+  assert.equal(canonical(5), '猿丸大夫');
+  assert.equal(canonical(7), '安倍仲麿');
+  assert.equal(canonical(46), '曾禰好忠');
+  assert.equal(canonical(73), '前中納言匡房');
+});

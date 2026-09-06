@@ -9,8 +9,11 @@ README.md
 THIRD_PARTY_NOTICES.md
 assets/feedback/README.md
 assets/feedback/correct-maru.png
+assets/feedback/correct-maru.webp
 assets/feedback/needs-review-check.png
+assets/feedback/needs-review-check.webp
 assets/feedback/perfect-hanamaru.png
+assets/feedback/perfect-hanamaru.webp
 firebase/firebase.json
 firebase/firestore.indexes.json
 firebase/firestore.rules
@@ -415,7 +418,9 @@ packages/hyakunin/src/main.tsx
 packages/hyakunin/src/styles.css
 packages/hyakunin/src/ui/adapters/indexeddb-port.ts
 packages/hyakunin/src/ui/components/AnswerFeedback.tsx
+packages/hyakunin/src/ui/components/FeedbackMark.tsx
 packages/hyakunin/src/ui/components/ReadingToggle.tsx
+packages/hyakunin/src/ui/components/RecordTransfer.tsx
 packages/hyakunin/src/ui/components/ReportButton.tsx
 packages/hyakunin/src/ui/components/WritingModeToggle.tsx
 packages/hyakunin/src/ui/screens/History.tsx
@@ -878,6 +883,7 @@ tests/screen/device-findings.test.tsx
 tests/screen/entries.test.tsx
 tests/screen/feedback-timing.test.tsx
 tests/screen/harness.test.tsx
+tests/screen/history-transfer.test.tsx
 tests/screen/history.test.tsx
 tests/screen/home.test.tsx
 tests/screen/main-wiring.test.tsx

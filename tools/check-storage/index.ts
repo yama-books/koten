@@ -60,7 +60,9 @@ try {
   const first = await playwright.chromium.launchPersistentContext(profileDir, { headless: true });
   try {
     const page = await first.newPage();
-    await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+    // 製品画面を開くと、その画面自身も IndexedDB 接続を保持する。検査用モジュールを
+    // 文書として開き、検査対象と同じDBを別のアプリ接続が塞がない状態で測る。
+    await page.goto(browserEntryUrl, { waitUntil: 'domcontentloaded' });
     await installStorageApi(page);
     const wrote = await page.evaluate(async (event) => {
       const api = (window as any).__kotenStorageCheck;
@@ -78,7 +80,7 @@ try {
   const restarted = await playwright.chromium.launchPersistentContext(profileDir, { headless: true });
   try {
     const page = await restarted.newPage();
-    await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+    await page.goto(browserEntryUrl, { waitUntil: 'domcontentloaded' });
     await installStorageApi(page);
     await recordEventCount(page, 'ブラウザ文脈再作成', 1);
     await runUpgradeScenario(page);
@@ -202,4 +204,3 @@ async function removeProfile(directory: string): Promise<void> {
     }
   }
 }
-

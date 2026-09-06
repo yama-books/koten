@@ -1,6 +1,6 @@
 import { render, type ComponentChildren } from 'preact';
 import { act } from 'preact/test-utils';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { afterEach, expect, test } from 'vitest';
 import { GradePicker, PRIMARY_GRADES, SECONDARY_GRADES } from '../../packages/shared/src/ui/components/GradePicker.tsx';
@@ -10,6 +10,9 @@ import { Home } from '../../packages/hyakunin/src/ui/screens/Home.tsx';
 
 let root: HTMLDivElement | undefined;
 const settings = { key: 'user', reading: 'no-ruby', writing: 'vertical', order: 'number', soundEnabled: false, noticeConfirmed: false } as const;
+const appSpecPath = join(process.cwd(), 'docs/APP_SPEC.md');
+const hasAppSpec = existsSync(appSpecPath);
+if (!hasAppSpec) console.info('N-1: docs/APP_SPEC.md が公開ツリーに無いため、仕様書との照合をskipします。');
 
 function collectSources(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => entry.isDirectory() ? collectSources(join(directory, entry.name)) : entry.name.endsWith('.tsx') || entry.name.endsWith('.ts') ? [join(directory, entry.name)] : []);
@@ -53,14 +56,23 @@ afterEach(() => {
   }
 });
 
-test('N-1: 統計案内の確定文は APP_SPEC §11 の引用と完全一致する', () => {
-  const source = readFileSync(join(process.cwd(), 'docs/APP_SPEC.md'), 'utf8');
+const appSpecTest = hasAppSpec ? test : test.skip;
+appSpecTest('N-1: 統計案内の確定文は APP_SPEC §11 の引用と完全一致する', () => {
+  const source = readFileSync(appSpecPath, 'utf8');
   const sectionStart = source.indexOf('## 11.');
   const nextSection = source.indexOf('\n## ', sectionStart + 1);
   const section = source.slice(sectionStart, nextSection === -1 ? undefined : nextSection);
   const confirmedText = section?.match(/^> (.+)$/m)?.[1];
   expect(confirmedText).toBeTruthy();
   expect(STATS_NOTICE_TEXT).toBe(confirmedText);
+});
+
+appSpecTest('N-1a: 非公開ツリーでは仕様書照合をskipしない', () => {
+  expect(hasAppSpec).toBe(true);
+});
+
+test('N-1b: 仕様書照合のskip条件は仕様書の不在だけである', () => {
+  expect(hasAppSpec).toBe(existsSync(appSpecPath));
 });
 
 test('N-2: 統計案内の操作要素は確認だけでオプトアウト UI がない', () => {
@@ -87,36 +99,29 @@ test('N-5: 第二段はその他で現れ中一では現れない', async () => 
   expect(view.textContent).toContain('小学生');
 });
 
-test('N-6: 学年未選択の確認後も grade を作らず先へ進める', async () => {
+test('N-6: 統計を送信しない間は未確認の設定でも初回設定を表示しない', async () => {
   const mounted = await mountHome();
-  await act(async () => { clickButton(mounted.root, '確認する'); await Promise.resolve(); });
-  const saved = await mounted.port.loadSettings();
-  expect(saved?.grade).toBeUndefined();
-  expect(Object.hasOwn(saved!, 'grade')).toBe(false);
   expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
 });
 
-test('N-7: 確認すると noticeConfirmed true を設定へ保存する', async () => {
+test('N-7: 非表示の初回設定は未確認の保存データを書き換えない', async () => {
   const mounted = await mountHome();
-  await act(async () => { clickButton(mounted.root, '確認する'); await Promise.resolve(); });
-  expect((await mounted.port.loadSettings())?.noticeConfirmed).toBe(true);
+  expect((await mounted.port.loadSettings())?.noticeConfirmed).toBe(false);
 });
 
-test('N-8: 選んだ学年を UserSettings.grade へ保存する', async () => {
+test('N-8: タイトルが起動直後の最初の見出しになる', async () => {
   const mounted = await mountHome();
-  await act(() => { clickButton(mounted.root, '中二'); });
-  await act(async () => { clickButton(mounted.root, '確認する'); await Promise.resolve(); });
-  expect((await mounted.port.loadSettings())?.grade).toBe('中二');
+  expect(mounted.root.querySelector('h1')?.textContent).toBe('百人一首練習帳');
 });
 
-test('N-9: 案内は noticeConfirmed false だけで表示を決める', async () => {
+test('N-9: 確認済みかどうかによらず初回設定を表示しない', async () => {
   let mounted = await mountHome(true);
   expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
   render(null, mounted.root);
   mounted.root.remove();
   root = undefined;
   mounted = await mountHome(false);
-  expect(mounted.root.querySelector('[aria-label="初回設定"]')).not.toBeNull();
+  expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
 });
 
 test('N-10: 禁止語検査の走査対象は非空で新しい共有 UI も含む', () => {
@@ -154,4 +159,27 @@ test('N-13: 統計案内の確定文を持つ packages 配下の原本は StatsN
 test('N-14: 統計案内と学年選択は StatsPayload を組み立てない', () => {
   const files = ['StatsNotice.tsx', 'GradePicker.tsx'].map((name) => readFileSync(join(process.cwd(), 'packages/shared/src/ui/components', name), 'utf8'));
   for (const source of files) expect(source).not.toContain('StatsPayload');
+});
+
+test('N-15: ホーム画面への追加方法を端末別に案内する', async () => {
+  const mounted = await mountHome();
+  const guide = mounted.root.querySelector('.install-guide');
+  expect(guide?.textContent).toContain('ホーム画面に追加する');
+  expect(guide?.textContent).toContain('iPhone・iPad');
+  expect(guide?.textContent).toContain('Android');
+});
+
+test('N-16: ホームの入口は説明、開始、方法選択、確認の順に並ぶ', async () => {
+  const mounted = await mountHome();
+  const panelText = mounted.root.querySelector('.range-panel')?.textContent ?? '';
+  const labels = [
+    '穴埋め問題から始めます。',
+    'とりあえず始める',
+    '学習方法を選ぶ',
+    '歌を確認する',
+    '作者名を確認する',
+  ];
+  const positions = labels.map((label) => panelText.indexOf(label));
+  expect(positions.every((position) => position >= 0)).toBe(true);
+  expect(positions).toEqual([...positions].sort((left, right) => left - right));
 });

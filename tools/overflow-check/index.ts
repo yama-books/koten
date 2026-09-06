@@ -27,6 +27,11 @@ type NewDisplayFinding = { width: number; zoom: number; key: string; observed: u
 const newDisplayFindings: NewDisplayFinding[] = [];
 const expectedNewDisplayCases = widths.length * zoomLevels.length * 2;
 let newDisplayCases = 0;
+// 発注059: 出題中のヘッダと操作面を、幅4通り・文字2通りで測る。
+type SessionReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
+const sessionReflowFindings: SessionReflowFinding[] = [];
+const expectedSessionReflowCases = widths.length * zoomLevels.length;
+let sessionReflowCases = 0;
 let aborted = false;
 // 100 首 × 3 表示 × 4 幅は設計上固定で、過不足とも検査不全である。
 const expectedCases = 1200;
@@ -144,6 +149,57 @@ try {
         if (!measured.hasLimitations) reflowFindings.push({ width, zoom, key: 'knownLimitationsPresent', observed: false });
         if (measured.overflow > 1) reflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) reflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+      }
+    }
+    // 発注059 F-2: session はホームや採点画面と別の DOM なので、必ず出題まで遷移して測る。
+    // .sr-only は視覚的に隠すため1pxへ縮める要素であり、器の切れではない。
+    // .question-text--vertical は縦書きの列を横にたどるための横スクロール領域で、下の名指し対象には含めない。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        await page.setViewportSize({ width, height: 800 });
+        await page.goto(`${baseUrl}?from=1&to=1`, { waitUntil: 'domcontentloaded' });
+        await page.getByRole('button', { name: '学習方法を選ぶ' }).click();
+        await page.getByRole('button', { name: '練習する' }).click();
+        await page.waitForSelector('.range-picker');
+        await page.getByRole('button', { name: 'この範囲で始める' }).click();
+        await page.waitForSelector('.session-controls');
+        const measured = await page.evaluate((rootFontSize) => {
+          document.documentElement.style.fontSize = rootFontSize;
+          document.documentElement.getBoundingClientRect();
+          const targets = [
+            ['nav-edge', document.querySelector<HTMLElement>('.session .nav-edge')],
+            ['back-link', document.querySelector<HTMLElement>('.session .back-link')],
+            ['wordmark', document.querySelector<HTMLElement>('.session .wordmark')],
+            ['session-controls', document.querySelector<HTMLElement>('.session-controls')],
+          ] as const;
+          // 文字拡大時の Chromium は flex 境界で最大2pxの整数丸め差を返す。
+          // 2px超は内容が隠れるため違反にする。ここは session の名指し対象だけの許容である。
+          const clipped = targets.filter(([, element]) => !element || element.scrollWidth > element.clientWidth + 2 || element.scrollHeight > element.clientHeight + 2)
+            .map(([name, element]) => ({ name, width: element?.clientWidth ?? null, scrollWidth: element?.scrollWidth ?? null, height: element?.clientHeight ?? null, scrollHeight: element?.scrollHeight ?? null }));
+          const verticalQuestion = document.querySelector<HTMLElement>('.question-text--vertical');
+          const verticalScrollIsAvailable = Boolean(verticalQuestion && getComputedStyle(verticalQuestion).overflowX !== 'visible');
+          const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+          document.documentElement.style.fontSize = '';
+          return { clipped, overflow, verticalQuestionPresent: Boolean(verticalQuestion), verticalScrollIsAvailable };
+        }, `${16 * zoom}px`);
+        await page.getByRole('button', { name: '横書きにする' }).click();
+        const horizontalNumberOverlap = await page.evaluate(() => {
+          const number = document.querySelector<HTMLElement>('.question-number');
+          const firstLine = document.querySelector<HTMLElement>('.question-text--horizontal .question-line');
+          if (!number || !firstLine) return null;
+          const numberRect = number.getBoundingClientRect();
+          const lineRect = firstLine.getBoundingClientRect();
+          return numberRect.left < lineRect.right && numberRect.right > lineRect.left
+            && numberRect.top < lineRect.bottom && numberRect.bottom > lineRect.top;
+        });
+        await page.getByRole('button', { name: '縦書きにする' }).click();
+        sessionReflowCases += 1;
+        if (!measured.verticalQuestionPresent) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionPresent', observed: false });
+        if (!measured.verticalScrollIsAvailable) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionScrollAvailable', observed: false });
+        if (horizontalNumberOverlap !== false) sessionReflowFindings.push({ width, zoom, key: 'horizontalNumberDoesNotOverlapFirstLine', observed: horizontalNumberOverlap });
+        if (measured.overflow > 1) sessionReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
+        if (measured.clipped.length) sessionReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped });
+        console.log(`check:overflow: 出題画面 ${width}px 文字${zoom * 100}% 違反 ${sessionReflowFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
       }
     }
     for (const width of widths) {
@@ -301,6 +357,15 @@ if (newDisplayCases !== expectedNewDisplayCases) {
   console.error(`check:overflow: 057の新しい表示の走査が不足または過剰です（走査 ${newDisplayCases} 件、必要 ${expectedNewDisplayCases} 件ちょうど）`);
   process.exit(1);
 }
+
+if (sessionReflowCases !== expectedSessionReflowCases) {
+  console.error(`check:overflow: 出題画面の走査が不足または過剰です（走査 ${sessionReflowCases} 件、必要 ${expectedSessionReflowCases} 件ちょうど）`);
+  process.exit(1);
+}
+
+console.log(`check:overflow: 出題画面の走査 ${sessionReflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${sessionReflowFindings.length} 件`);
+for (const finding of sessionReflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (sessionReflowFindings.length) process.exitCode = 1;
 
 console.log(`check:overflow: 057の新しい表示の走査 ${newDisplayCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')} × 開示/紙△）、違反 ${newDisplayFindings.length} 件`);
 for (const finding of newDisplayFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);

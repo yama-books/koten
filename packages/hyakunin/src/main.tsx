@@ -93,7 +93,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   if (screen === 'result-loading') return <main class="loading" aria-live="polite">結果を読み込んでいます。</main>;
   if (screen === 'review-error') return <main class="session"><p role="alert">この問題は表示できません。ホームに戻ってやり直してください。</p><button type="button" onClick={() => setScreen('home')}>ホームへ戻る</button></main>;
   if (screen === 'history-loading') return <main class="loading" aria-live="polite">記録を読み込んでいます。</main>;
-  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} />;
+  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} />;
   if (screen === 'result' && result && selected) return <><>{saveFailure && <p class="result-save-failure" role="alert">保存に失敗しました。結果は表示しています。</p>}</><Result result={result} onRetryWeak={startReview} onRetrySame={() => {
     const origin = selected.origin ?? { entry: selected.entry, answerMode: selected.answerMode };
     void startNew(origin.entry, selected.range, settings.order, selected.questions, selected.poems, origin.answerMode);

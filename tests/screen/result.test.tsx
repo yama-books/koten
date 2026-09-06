@@ -33,7 +33,7 @@ test('result: 対象範囲と問題数を表示する', () => { const view = mou
 test('result: 内訳を表示する', () => { const view = mount(); for (const text of ['閲覧1問', '正答1問', '△ 仮名遣い確認1問', '誤答1問']) expect(view.textContent).toContain(text); });
 // 「要確認」は読み未確認の内部区分で、学習者には誤答の意味に読まれる（実機確認・2026-09-05）。内部の5区分は維持し、表示から落とす。
 test('result: 内訳に「要確認」を出さない', () => { const view = mount({ ...base, breakdown: { ...base.breakdown, needsReview: 3 } }); expect(view.textContent).not.toContain('要確認'); });
-test('result: 全問正解の回に花丸が出る', () => { const view = mount({ ...base, allCorrect: true }); expect(view.textContent).toContain('全問花丸'); });
+test('result: 全問正解の回に花丸画像が出る', () => { const view = mount({ ...base, allCorrect: true }); expect(view.textContent).toContain('全問花丸'); expect(view.querySelector('img[src*="perfect-hanamaru"]')).not.toBeNull(); });
 test('result: 部分正解を含む回に花丸が出ない', () => { const view = mount(); expect(view.textContent).not.toContain('全問花丸'); });
 test('result: 変化がある歌を表に表示する', () => { const view = mount(); expect(view.textContent).toContain('3'); expect(view.textContent).not.toContain('p003'); expect(view.textContent).toContain('12%'); expect(view.textContent).toContain('21%'); });
 test('result: 変化がないとき表の代わりに文言を表示する', () => { const view = mount({ ...base, changes: [] }); expect(view.textContent).toContain('変化はありません'); expect(view.querySelector('table')).toBeNull(); });

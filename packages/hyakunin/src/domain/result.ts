@@ -84,7 +84,7 @@ export function summarizeSession(input: SummarizeInput): SessionResult {
     range: input.range,
     questionCount: attempts.length,
     breakdown,
-    allCorrect: answers.length > 0 && answers.every((attempt) => attempt.kind === 'correct'),
+    allCorrect: answers.length > 0 && viewed.length === 0 && answers.every((attempt) => attempt.kind === 'correct'),
     changes,
     poems,
     retryCardNumbers,

@@ -19,7 +19,7 @@ async function answer(value: string) { const input = root!.querySelector('input[
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });
 
 test('session: fixture reaches the first question in the narrow range', async () => { const view = await mount(); expect(view.querySelector('.question-number')?.textContent).toBe('10'); expect(view.textContent).not.toContain('p010'); });
-test('session: answer is revealed after saving', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).toContain('○ 正解'); });
+test('session: answer is revealed after saving', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).toContain('正解'); });
 test('session: next button advances to the second question', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });
 test('session: Enter advances after reveal', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });
 test('session: Enter while answering does not advance', async () => { await mount(); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('白妙の'); });
@@ -33,7 +33,7 @@ test('session: the saved event carries the versions from app-config, not a liter
   expect(p.events[0].appVersion).not.toBe('0');
 });
 test('session: reading toggle records hint use', async () => { const p = port(); await mount(p); await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '読みを確認する')!.click(); }); await answer('白妙の'); expect(p.events[0].hintUsed).toBe(true); });
-test('session: saving failure does not reveal', async () => { const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) }; await mount(failing); await answer('白妙の'); expect(root!.textContent).toContain('保存失敗'); expect(root!.textContent).not.toContain('○ 正解'); });
+test('session: saving failure does not reveal', async () => { const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) }; await mount(failing); await answer('白妙の'); expect(root!.textContent).toContain('保存失敗'); expect(root!.textContent).not.toContain('正解'); });
 test('session: saving failure keeps the input', async () => { const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) }; await mount(failing); await answer('白妙の'); expect((root!.querySelector('input[placeholder]') as HTMLInputElement).value).toBe('白妙の'); });
 function StatefulSession({ port: customPort, initialReading }: { port: ReturnType<typeof port>; initialReading: 'no-ruby' | 'historical' | 'modern' }) {
   const [live, setLive] = useState({ ...settings, reading: initialReading });
@@ -61,8 +61,40 @@ test('session: progress distinguishes card and question', async () => { const vi
 test('session: writing setting is saved', async () => { const p = port(); await mount(p); await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '横書きにする')!.click(); }); expect((await p.loadSettings())?.writing).toBe('horizontal'); });
 test('session: local-only report action stays hidden', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).not.toContain('問題を報告'); });
 test('session: completing the last question shows completion', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); await answer('衣干す'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('今回の範囲を確認しました'); });
-test('session: feedback waits for an explicit action', async () => { await mount(); expect(root!.textContent).not.toContain('○ 正解'); });
-test('session: answer field has a label and example', async () => { await mount(); expect(root!.textContent).toContain('答え'); expect(root!.textContent).toContain('歴史的仮名遣いまたは漢字で入力します。'); });
+test('session: feedback waits for an explicit action', async () => { await mount(); expect(root!.textContent).not.toContain('正解'); });
+test('session: answer field has a label and example', async () => { await mount(); expect(root!.textContent).toContain('答え'); expect(root!.textContent).toContain('歴史的仮名遣いまたは漢字で回答してください。'); });
+
+test('session: 正誤画像と文言は解答欄より上に出る', async () => {
+  await mount(); await answer('白妙の');
+  const feedback = root!.querySelector('.answer-feedback')!;
+  const answerField = root!.querySelector('.answer-retained')!;
+  expect(feedback.compareDocumentPosition(answerField) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
+  expect(feedback.querySelector('img[src*="correct-maru"]')).not.toBeNull();
+});
+
+test('session: 空欄の「わからない」は誤答でなく閲覧として保存して答えを開く', async () => {
+  const p = port(); await mount(p);
+  await act(async () => {
+    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない')!.click();
+    await Promise.resolve();
+  });
+  expect(root!.textContent).toContain('答えを確認しました');
+  expect(root!.textContent).not.toContain('自分の答え');
+  expect(p.events).toHaveLength(1);
+  expect(p.events[0].outcome).toBe('viewed');
+  expect(p.events[0].questionId).toBe('q10a');
+});
+
+test('session: 「わからない」の保存失敗時は答えを開かない', async () => {
+  const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) };
+  await mount(failing);
+  await act(async () => {
+    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない')!.click();
+    await Promise.resolve();
+  });
+  expect(root!.textContent).toContain('保存に失敗しました');
+  expect(root!.textContent).not.toContain('答えを確認しました');
+});
 
 // --- 発注057 R3/R4：開示後の入力保持と仮名遣い補足 ---
 const kanaOnly = parseQuestions([
@@ -85,11 +117,11 @@ test('session: 開示後も送信した入力がそのまま readOnly で残る'
   expect(retained()!.value).not.toBe('白妙の');
 });
 
-test('session: 不正解の「もう一度」は画面に1回だけ出す', async () => {
+test('session: 不正解の「要確認」は画面に1回だけ出す', async () => {
   await mount(); await answer('まったくちがう');
-  expect(root!.textContent).toContain('✓ もう一度！');
-  expect(countOf('もう一度！')).toBe(1);
-  expect(root!.textContent).not.toContain('要確認');
+  expect(root!.textContent).toContain('要確認！');
+  expect(countOf('要確認！')).toBe(1);
+  expect(root!.querySelector('img[src*="needs-review-check"]')).not.toBeNull();
   expect(retained()!.value).toBe('まったくちがう');
 });
 
@@ -125,7 +157,7 @@ async function finishExamOnScreen(first: string, second: string) {
 test('session: 本番の採点一覧は△の行に仮名遣いの補足を出す', async () => {
   const rows = await finishExamOnScreen('しろたえの', '衣干す');
   expect(rows).toHaveLength(2);
-  expect(rows[0].querySelector('[aria-label]')?.getAttribute('aria-label')).toBe('△');
+  expect(rows[0].querySelector('.grade-mark')?.getAttribute('aria-label')).toBe('△');
   expect(rows[0].textContent).toContain('仮名遣い確認');
   expect(rows[0].textContent).toContain('歴史的仮名遣い：しろたへの');
   expect(rows[0].textContent).toContain('（白妙の）');
@@ -135,8 +167,24 @@ test('session: 本番の採点一覧は△の行に仮名遣いの補足を出�
 
 test('session: 本番の採点一覧は正答の行に補足を出さない', async () => {
   const rows = await finishExamOnScreen('白妙の', '衣干す');
-  expect(rows[0].querySelector('[aria-label]')?.getAttribute('aria-label')).toBe('○');
+  expect(rows[0].querySelector('.grade-mark')?.getAttribute('aria-label')).toBe('正解');
+  expect(rows[0].querySelector('img[src*="correct-maru"]')).not.toBeNull();
   expect(root!.textContent).not.toContain('歴史的仮名遣い：');
+});
+
+test('session: 本番の「わからない」は途中開示せず採点一覧と結果で閲覧になる', async () => {
+  const p = port();
+  await mountWith({ entry: 'exam', port: p });
+  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない')!.click(); });
+  expect(root!.textContent).not.toContain('答えを確認しました');
+  const input = root!.querySelector('input[placeholder]') as HTMLInputElement;
+  await act(() => { input.value = '衣干す'; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: '衣干す', inputType: 'insertText' })); });
+  await act(async () => { root!.querySelector('button.primary')!.click(); await Promise.resolve(); });
+  const rows = Array.from(root!.querySelectorAll('.grade-list > li'));
+  expect(rows[0].querySelector('.grade-mark')?.getAttribute('aria-label')).toBe('閲覧');
+  expect(rows[0].textContent).toContain('答えを確認');
+  await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '結果へ')!.click(); await Promise.resolve(); });
+  expect(p.events.map((event) => event.outcome)).toEqual(['viewed', 'correct']);
 });
 
 test('session: 紙の採点は△の意味を一度添え、選んだ行だけに補足を出す', async () => {
@@ -168,7 +216,7 @@ test('session: 一言を持つ問題は答え合わせのあとにそれを出�
 test('session: 一言は正解でも出す', async () => {
   await mountWith({ questions: withNote });
   await answer('ゆふぐれ');
-  expect(root!.textContent).toContain('○ 正解');
+  expect(root!.textContent).toContain('正解');
   expect(root!.textContent).toContain('掛詞');
 });
 
