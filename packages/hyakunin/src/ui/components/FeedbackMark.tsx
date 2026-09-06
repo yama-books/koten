@@ -4,10 +4,10 @@ const imageUrls = {
   perfect: new URL('../../../../../assets/feedback/perfect-hanamaru.webp', import.meta.url).href,
 } as const;
 
-export function FeedbackMark({ kind, label }: { kind: 'correct' | 'incorrect'; label: string }) {
-  return <span class={`feedback-mark feedback-mark--${kind}`}>
+export function FeedbackMark({ kind, label, visualOnly = false }: { kind: 'correct' | 'incorrect'; label: string; visualOnly?: boolean }) {
+  return <span class={`feedback-mark feedback-mark--${kind}`} aria-label={visualOnly ? label : undefined}>
     <img src={imageUrls[kind]} alt="" aria-hidden="true" />
-    <span>{label}</span>
+    {!visualOnly && <span>{label}</span>}
   </span>;
 }
 

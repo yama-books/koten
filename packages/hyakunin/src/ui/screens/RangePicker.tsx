@@ -23,6 +23,7 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
   const [selectedOrder, setSelectedOrder] = useState(order);
   const [answerMode, setAnswerMode] = useState<AnswerMode>("screen");
   const [includeAuthors, setIncludeAuthors] = useState(true);
+  const [rangeOpen, setRangeOpen] = useState(false);
   const normalized = normalizeRange(from, to);
   return (
     <main class="range-picker">
@@ -38,7 +39,8 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
       <p class="range-summary" aria-live="polite">
         {normalized.from}番〜{normalized.to}番
       </p>
-      <div class="range-fields">
+      <button type="button" onClick={() => setRangeOpen((open) => !open)}>{rangeOpen ? "変更を閉じる" : "変更する"}</button>
+      {rangeOpen && <div class="range-fields">
         <label>
           <input
             aria-label="最初の番"
@@ -62,30 +64,13 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
           />
           <span aria-hidden="true">番</span>
         </label>
-      </div>
-      <fieldset>
-        <legend>歌の順番</legend>
-        <label>
-          <input
-            type="radio"
-            name="order"
-            checked={selectedOrder === "number"}
-            disabled={!canChangeOrder({ questionIndexInChunk: 0 })}
-            onChange={() => setSelectedOrder("number")}
-          />{" "}
-          番号順
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="order"
-            checked={selectedOrder === "random"}
-            disabled={!canChangeOrder({ questionIndexInChunk: 0 })}
-            onChange={() => setSelectedOrder("random")}
-          />{" "}
-          ランダム
-        </label>
-      </fieldset>
+      </div>}
+      <section class="answer-mode" aria-labelledby="order-heading">
+        <h2 id="order-heading">歌の順番</h2><div>
+          <button type="button" aria-pressed={selectedOrder === "number"} disabled={!canChangeOrder({ questionIndexInChunk: 0 })} onClick={() => setSelectedOrder("number")}>番号順</button>
+          <button type="button" aria-pressed={selectedOrder === "random"} disabled={!canChangeOrder({ questionIndexInChunk: 0 })} onClick={() => setSelectedOrder("random")}>ランダム</button>
+        </div>
+      </section>
       {entry === "exam" && (
         <section class="answer-mode" aria-labelledby="answer-mode-heading">
           <h2 id="answer-mode-heading">答え方</h2>
@@ -110,14 +95,14 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
               ? "範囲を解き終えたあとに、正答を見て自分で採点します。"
               : "範囲を解き終えたあとに、まとめて自動採点します。"}
           </p>
-          <label class="exam-author-setting">
-            <input
-              type="checkbox"
-              checked={includeAuthors}
-              onChange={() => setIncludeAuthors((current) => !current)}
-            />
-            作者問題も出す
-          </label>
+        </section>
+      )}
+      {entry === "exam" && (
+        <section class="answer-mode" aria-labelledby="author-mode-heading">
+          <h2 id="author-mode-heading">作者問題</h2><div>
+            <button type="button" aria-pressed={includeAuthors} onClick={() => setIncludeAuthors(true)}>あり</button>
+            <button type="button" aria-pressed={!includeAuthors} onClick={() => setIncludeAuthors(false)}>なし</button>
+          </div>
         </section>
       )}
       <button

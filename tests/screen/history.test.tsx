@@ -24,7 +24,9 @@ test('history: 未着手にはメーターを出さない', () => { const item =
 test('history: 作者未確認を作者イベントがない首にだけ併記する', () => { const view = mount(); const unconfirmed = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('45番'))!; const answered = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('12番'))!; expect(unconfirmed.textContent).toContain('作者 未確認'); expect(answered.textContent).not.toContain('作者 未確認'); });
 test('history: 要確認を番号順で表示する', () => { const text = mount().querySelector('.history-list')!.textContent!; expect(text.indexOf('12番')).toBeLessThan(text.indexOf('45番')); });
 test('history: 要確認なしの文言を表示する', () => expect(mount({ ...summary, needsReview: [] }).textContent).toContain('要確認の歌はありません'));
+test('history: 要確認の基準は一覧が空でも一度だけ示す', () => { const view = mount({ ...summary, needsReview: [] }); expect(view.textContent?.split('最後に解いたとき、まちがえたか「わからない」を選んだ歌です。')).toHaveLength(2); });
 test('history: 空状態に始める導線がある', () => { const view = mount({ ...summary, isEmpty: true, entries: [], needsReview: [], touchedCount: 0 }); expect(view.textContent).toContain('まだ記録がありません'); expect(view.textContent).toContain('始める'); });
+test('history: 完全な空記録でも要確認の基準を出す', () => { const view = mount({ ...summary, isEmpty: true, entries: [], needsReview: [], touchedCount: 0 }); expect(view.textContent).toContain('最後に解いたとき、まちがえたか「わからない」を選んだ歌です。'); });
 test('history: Home の記録導線はコールバックを呼ぶ', () => { let opened = false; root = document.createElement('div'); document.body.append(root); render(<Home poems={[] as never[]} questions={[]} onOpenHistory={() => { opened = true; }} />, root); Array.from(root.querySelectorAll('button')).find((button) => button.textContent === 'これまでの記録')!.click(); expect(opened).toBe(true); });
 test('history: 記録を開く間はloadingを表示する', async () => {
   const source = readFileSync(join(process.cwd(), 'packages/hyakunin/src/data/generated/poems.json'), 'utf8');

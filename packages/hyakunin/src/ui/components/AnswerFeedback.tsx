@@ -1,5 +1,4 @@
 import type { Feedback } from '../../domain/flow.ts';
-import { FeedbackMark } from './FeedbackMark.tsx';
 
 export const PARTIAL_MARK = '△';
 export const PARTIAL_NOTE = '仮名遣い確認';
@@ -15,9 +14,13 @@ export const PARTIAL_LABEL = `${PARTIAL_MARK} ${PARTIAL_NOTE}`;
  * 同じ文字列を二度並べない。現代仮名遣いの行も、歴史的仮名遣いと同じなら出さない——
  * 対照するものが無い行は、読み手に差があると誤解させる。
  */
-export function AnswerLines({ answer, historical, modern, showModern }: {
-  answer: string; historical: string; modern: string; showModern: boolean;
+export function AnswerLines({ answer, historical, modern, showModern, isAuthor = false }: {
+  answer: string; historical: string; modern: string; showModern: boolean; isAuthor?: boolean;
 }) {
+  if (isAuthor) return <>
+    <p class="kana-supplement">正解：{answer}{modern ? <>{'　'}{modern}</> : ''}</p>
+    {historical && historical !== modern && <p class="kana-supplement">（歴史的仮名遣い：{historical}）</p>}
+  </>;
   return <>
     <p class="kana-supplement">正解：{answer}{historical && historical !== answer ? `（${historical}）` : ''}</p>
     {showModern && modern && modern !== historical && (
@@ -32,25 +35,22 @@ export function QuestionNote({ note }: { note: string | null }) {
 }
 
 /** 本番の採点一覧・紙の自己採点から、問題そのものを渡して同じ表示を出すための入口。 */
-export function PartialSupplement({ answerHistorical, answerModern, answer, showModern = true }: {
-  answerHistorical: string; answerModern: string; answer: string; showModern?: boolean;
+export function PartialSupplement({ answerHistorical, answerModern, answer, showModern = true, isAuthor = false }: {
+  answerHistorical: string; answerModern: string; answer: string; showModern?: boolean; isAuthor?: boolean;
 }) {
-  return <AnswerLines answer={answer} historical={answerHistorical} modern={answerModern} showModern={showModern} />;
+  return <AnswerLines answer={answer} historical={answerHistorical} modern={answerModern} showModern={showModern} isAuthor={isAuthor} />;
 }
 
-export function AnswerFeedback({ feedback, forms = null, note = null }: {
+export function AnswerFeedback({ feedback, forms = null, note = null, isAuthor = false }: {
   feedback: Feedback;
   /** 正解の3表記。開示のときだけ渡す。 */
   forms?: { answer: string; historical: string; modern: string } | null;
   note?: string | null;
+  isAuthor?: boolean;
 }) {
   const label = feedback.mark === 'maru' ? '正解' : feedback.mark === 'check' ? '要確認！' : PARTIAL_LABEL;
-  return <section class="answer-feedback" aria-live="polite"><p>{feedback.mark === 'maru'
-    ? <FeedbackMark kind="correct" label={label} />
-    : feedback.mark === 'check'
-      ? <FeedbackMark kind="incorrect" label={label} />
-      : label}</p>
-    {forms && <AnswerLines answer={forms.answer} historical={forms.historical} modern={forms.modern} showModern={feedback.mark === 'none'} />}
+  return <section class="answer-feedback" aria-live="polite"><p>{label}</p>
+    {forms && <AnswerLines answer={forms.answer} historical={forms.historical} modern={forms.modern} showModern={feedback.mark === 'none'} isAuthor={isAuthor} />}
     <QuestionNote note={note} />
   </section>;
 }
