@@ -926,7 +926,64 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 
 ## 8. 進行中の作業
 
-2026-09-07・**発注071を実装。検収待ち。**
+2026-09-07・**発注071を検収した。判定＝条件付き合格。** —— **これが §8 の最新である。**
+
+- **検収者は実装しなかった別セッション（V-1）。** 実装は commit `3257a99`（5ファイル・88行追加、削除0）。
+  **報告の数値は転記せず、すべて自分で再実行した。**
+- **V-2（全部自分で回した。終了コードはすべて0）**：
+  `test:node` **527件 pass / 0 fail**、`test:screen` **21ファイル・233件 pass**、
+  `typecheck` 0、`lint` 0、`build` 0、`data:check` 0、
+  `scan:publish` 走査758件・違反0、`check:eol` 走査1108件・違反0、
+  `check:font-weight` 画面4件・テキスト60件・違反0。
+  **072・073 が並行しているため、件数は基準線に使っていない。**
+  判定は「071 の3本が緑か」「破壊で狙った1本だけが赤か」で行った。
+- **受入条件（準備書 §4）はすべて満たしている**：
+  - `review/` の差分は **注記2行の追加だけ**。`entries:` 以降を md5 で突き合わせ、
+    `readings.yaml`・`kugire.yaml` とも **変更前後で完全に一致**（`d0640f92…`／`c4407efd…`）。
+  - 生成JSONの差分は **0行**（`git diff --numstat 3257a99^ 3257a99 -- packages/*/src/data/generated` が空）。
+  - 3本は単独実行で **3件 pass / 0 fail**。走査対象が空でないことを
+    `entries.length === 100` と「`status: pending` が100行」の両方で先に検査している。
+  - **陽性の対照（釘3）は置かれており、かつ生きている**（破壊試験1で単独に赤くなった）。
+  - 実験は `mkdtempSync` の一時ディレクトリで行い、`review/` の実ファイルには書かない。
+    `buildData()` は純粋で、`emit()` は CLI ガードの中だけにある。**生成JSONは実際に無傷だった。**
+- **V-3（破壊試験を3件、自分で当て直した。`grep -c` で置換が当たったことを毎回確認し、`cp` で戻して `git diff` が空になることで復元を確認）**：
+
+| # | 壊した行（すべて `tools/build-data/apply-review.ts`） | 3本の結果 | node全体 |
+|---|---|---|---|
+| 1 | layout の `.filter((entry) => entry.status === 'approved')` を除去（§5-2） | **釘3だけ赤・2件緑** | 495 pass / 32 fail |
+| 2 | 読み台帳の分岐を `status = 'review'` へ反転（§5-1） | **釘1だけ赤・2件緑** | **526 pass / 1 fail**（完全に単独） |
+| 3 | **§5に無い行**：layout の絞り込みを `'approved'` → `'pending'` へ**入れ替え** | **3本とも緑（生き残り）** | 496 pass / 31 fail |
+
+  - 破壊3の意味：**釘3が釘付けしているのは「layout 台帳に反応すること」までで、「`approved` を選ぶこと」ではない。**
+    ただし **生き残りではない**——`real ledgers emit only human-confirmed questions` ほか
+    既存の生成物照合試験が31件赤くなって捕まえている。**穴ではなく、釘3の射程の限界である。**
+- **条件付きの理由（1件）。機械判定できる形で書く。**
+  **`tests/unit/review-ledger-contract.test.ts` は `review/` の実ファイルを fixture にしている。**
+  そのため **`tools/review-approve` で layout を1件承認するという正規の運用**が、
+  3本を**全部**赤にする。実測した（`review/layout.yaml` の `cardNo: 1` を
+  `status: approved` ＋ `confirmedBy` ＋ `confirmedOn` にして実行、直後に `cp` で復元）：
+
+  ```
+  ✖ 読み台帳を全件承認しても reading.status を含む poems.json は変わらない
+  ✖ 句切れ台帳を全件承認しても出力データには届かない
+  ✖ layout 台帳を1件承認すると layout-hints.json は変わる
+  ℹ tests 3  ℹ pass 0  ℹ fail 3
+  ```
+
+  赤くなる理由は台帳の内容ではなく、`withReviewDirectory` の
+  `confirmedBy: null` ×100・`confirmedOn: null` ×100 と、各試験の `status: pending` ×100 という
+  **本番データの現在値への決め打ち**である。**正当なデータ変更が正しい実装を赤にする形になっている。**
+  - **解除条件（機械判定）**：`tests/unit/review-ledger-contract.test.ts` が
+    `paths.review` を読まず、試験の中で組み立てた台帳（または `tests/fixtures/` 配下の専用ファイル）を
+    fixture にすること。判定は
+    **`grep -c 'paths.review' tests/unit/review-ledger-contract.test.ts` が `0` になること**、
+    かつその状態で3本が pass、かつ**破壊試験2（読み分岐を `'review'` へ反転）で釘1だけが赤**であること。
+  - **これは検収者が直していない。** 直し方（試験の中で生成するか、専用 fixture を置くか）は裁定である。
+- **Solへ戻す条件（準備書 §6）には当たらない。** 釘1は破壊試験2で単独に赤くなった。
+- **他担当の差分は一切触っていない。** 検収の前後で `git status` は同一（072・073 の11ファイル＋未追跡2件）。
+  `git add -A` は使わず、名指しで commit した。
+
+2026-09-07・**発注071を実装。検収待ち。** —— **古い（上の検収節が新しい）。**
 
 - `reading.status: 'confirmed'` は人の台帳承認ではなく、異同確認資料に未決着の読み方式が無いことを表す、と読み台帳と生成箇所に明記した。
 - `kugire.yaml` は未使用（生成物へ適用する経路なし）と明記した。台帳の `entries` と生成JSONは変更していない。
