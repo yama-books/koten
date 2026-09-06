@@ -58,23 +58,22 @@ test('閲覧イベントを閲覧の内訳へ入れる', () => {
 
 test('習熟度が回の前後で変化する首だけを返す', () => {
   const result = summarizeSession(input({ allEvents: [event()] }));
-  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 0, after: 9 }]);
+  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 0, after: 7.2 }]);
 });
 
 test('同じ回以外のイベントは習熟度の前の値に含める', () => {
   const result = summarizeSession(input({ allEvents: [event({ eventId: 'before', sessionId: 'before' }), event()] }));
-  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 9, after: 18 }]);
+  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 7.2, after: 14.4 }]);
 });
 
-// 初回公開は作者を出題しないため配点は本文だけ（依頼者裁定・2026-09-05）。
-test('作者の素点があっても習熟度は本文だけで決まる', () => {
+test('作者の素点は20%の配点で習熟度へ入る', () => {
   const result = summarizeSession(input({ allEvents: [event(), event({ eventId: 'author', questionId: 'q-author', itemKey: 'p010:author', method: 'choice', effectiveMethod: 'choice', delta: 5 })] }));
-  assert.equal(result.poems[0].percent, 9);
+  assert.equal(result.poems[0].percent, 8);
 });
 
-test('作者の問だけを解いた回は習熟度を動かさない', () => {
+test('作者の問だけを解いた回も習熟度を動かす', () => {
   const result = summarizeSession(input({ allEvents: [event({ itemKey: 'p010:author', method: 'choice', effectiveMethod: 'choice', delta: 5 })] }));
-  assert.deepEqual(result.changes, []);
+  assert.deepEqual(result.changes, [{ poemId: 'p010', before: 0, after: 1 }]);
 });
 
 test('未着手と作者未確認を首の状態へ返す', () => {

@@ -147,8 +147,11 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .foot-line { border-top: var(--rule-thin) solid var(--color-rule); margin-block-start: var(--space-xl); padding-block: var(--space-sm) max(var(--space-md), env(safe-area-inset-bottom)); color: var(--color-ink-muted); font-size: var(--text-sm); }
 .foot-line p { margin: 0; }
 .install-guide { margin-block-end: var(--space-md); border-block: var(--rule-thin) solid var(--color-rule); }
-.install-guide p,
-.install-guide ul { margin-block: var(--space-sm); }
+.install-guide--first { display: grid; gap: var(--space-sm); padding-block: var(--space-md); }
+.install-guide--first p,
+.install-guide--returning { margin: 0; }
+.install-guide__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.install-guide__actions button { flex: 1 1 12rem; min-width: 0; }
 .loading { min-height: 12rem; display: grid; place-items: center; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
@@ -176,7 +179,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 }
 
 @media (display-mode: standalone) {
-  .install-guide { display: none; }
+.install-guide { display: none; }
 }
 
 .range-picker,
@@ -193,6 +196,12 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .session-controls fieldset,
 .range-picker fieldset { display: flex; flex-wrap: wrap; gap: var(--space-sm); border: 0; }
 .session-controls fieldset { box-sizing: border-box; min-width: 0; max-width: 100%; }
+/* 範囲選択にも同じ手当てを入れる。文字200%・320〜414px で器を超えていた（発注063 の走査で判明）。 */
+.range-picker fieldset { box-sizing: border-box; min-width: 0; max-width: 100%; }
+.range-picker > * { min-width: 0; }
+.range-picker button { box-sizing: border-box; max-width: 100%; overflow-wrap: anywhere; white-space: normal; }
+.answer-mode > * { min-width: 0; }
+.answer-mode button { flex: 1 1 10rem; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; white-space: normal; }
 .session-controls .reading-control { box-sizing: border-box; min-width: 0; max-width: 100%; }
 .session-controls button { overflow-wrap: anywhere; white-space: normal; }
 .session-controls label,
@@ -205,6 +214,11 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .question-text--horizontal .question-poem { flex-wrap: wrap; justify-content: flex-start; }
 .question-text--horizontal { padding-inline-start: calc(var(--space-xl) + var(--space-md)); }
 .question-poem--fallback { align-items: center; }
+.question-text--author { min-height: 0; }
+.question-text--author .question-poem--author { display: block; max-inline-size: 100%; overflow-wrap: anywhere; text-align: start; writing-mode: horizontal-tb; }
+.answer-choices { display: grid; gap: var(--space-sm); }
+.answer-choices p { margin: 0; }
+.answer-choices button { box-sizing: border-box; width: 100%; min-width: 0; }
 .question-number { position: absolute; inset-block-start: var(--space-xs); inset-inline-start: var(--space-xs); color: var(--color-ink-muted); font-family: var(--font-ui); font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
 .blank-slot { box-sizing: border-box; display: inline-grid; min-inline-size: 3em; min-block-size: 1.45em; place-items: center; border: var(--rule-thin) solid var(--color-ink-muted); border-radius: var(--radius-md); margin-inline: var(--space-3xs); padding: 0 var(--space-2xs); background: var(--color-surface); vertical-align: middle; }
 .blank-slot--filled { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); }
@@ -257,6 +271,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-mode h2, .answer-mode p { margin: 0; }
 .answer-mode div { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .answer-mode button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
+.exam-author-setting { display: flex; align-items: center; gap: var(--space-xs); }
 .grade-list { display: grid; gap: var(--space-sm); margin: var(--space-lg) 0; padding: 0; list-style: none; }
 .grade-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-2xs) var(--space-sm); border-block-end: var(--rule-thin) solid var(--color-rule); padding-block-end: var(--space-sm); }
 /* 既定で行いっぱい。番号と判定記号だけを 1 行目の左右へ置く。 */
@@ -392,4 +407,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .transfer-note { margin: 0; overflow-wrap: anywhere; }
 .transfer-preview { display: grid; gap: var(--space-2xs); min-width: 0; }
 .transfer-preview p { margin: 0; overflow-wrap: anywhere; }
+.transfer-danger-heading { margin-block-start: var(--space-md); margin-block-end: 0; font-size: var(--text-md); }
+/* 取り返しのつかない操作。枠で囲って、直前の節と地続きに見えないようにする。 */
+.transfer-danger { border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-sm); }
 @media (min-width: 40rem) { .transfer-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

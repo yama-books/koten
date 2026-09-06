@@ -43,13 +43,16 @@ service cloud.firestore {
         && nonNegativeInt(data.buttonCounts.history)
         && nonNegativeInt(data.buttonCounts.report)
         && data.entryCounts is map
+        // 公開済みの5キー版を止めずに author を受け入れる移行期間。
+        // hasOnly で未知のキーを拒み、hasAll で従来5キーを必須にする。
+        && data.entryCounts.keys().hasOnly(['quick', 'view', 'learn', 'review', 'exam', 'author'])
         && data.entryCounts.keys().hasAll(['quick', 'view', 'learn', 'review', 'exam'])
-        && data.entryCounts.keys().size() == 5
         && nonNegativeInt(data.entryCounts.quick)
         && nonNegativeInt(data.entryCounts.view)
         && nonNegativeInt(data.entryCounts.learn)
         && nonNegativeInt(data.entryCounts.review)
         && nonNegativeInt(data.entryCounts.exam)
+        && (!data.entryCounts.keys().hasAll(['author']) || nonNegativeInt(data.entryCounts.author))
         && data.questionTypeCounts is map
         && data.questionTypeCounts.keys().hasAll(['blank', 'author'])
         && data.questionTypeCounts.keys().size() == 2

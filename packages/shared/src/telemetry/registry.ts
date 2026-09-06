@@ -6,7 +6,8 @@ export const STATS_KEYS = [
 ] as const;
 
 export const BUTTON_KEYS = ['start', 'answer', 'hint', 'reveal', 'history', 'report'] as const;
-export const ENTRY_KEYS = ['quick', 'view', 'learn', 'review', 'exam'] as const;
+export const ENTRY_KEYS = ['quick', 'view', 'learn', 'review', 'exam', 'author'] as const;
+const LEGACY_ENTRY_KEYS = ['quick', 'view', 'learn', 'review', 'exam'] as const;
 export const QUESTION_TYPE_KEYS = ['blank', 'author'] as const;
 export const MASTERY_BUCKET_COUNT = 5;
 
@@ -61,7 +62,8 @@ export function isStatsPayload(value: unknown): value is StatsPayload {
     && typeof value.grade === 'string'
     && isNonNegativeInteger(value.pageViews)
     && isCountMap(value.buttonCounts, BUTTON_KEYS)
-    && isCountMap(value.entryCounts, ENTRY_KEYS)
+    // 規則の移行期間は公開済みの5キー版も受ける。新規生成は常に6キー版である。
+    && (isCountMap(value.entryCounts, ENTRY_KEYS) || isCountMap(value.entryCounts, LEGACY_ENTRY_KEYS))
     && isCountMap(value.questionTypeCounts, QUESTION_TYPE_KEYS)
     && isNonNegativeInteger(value.attemptCount)
     && typeof value.masteryAvg === 'number' && value.masteryAvg >= 0 && value.masteryAvg <= 100

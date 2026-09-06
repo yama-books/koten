@@ -66,7 +66,7 @@ async function answer(node: HTMLElement, value = "あ") {
   });
 }
 
-test("T-1: 折りたたみは練習と本番の二択だけ", async () => {
+test("T-1: 折りたたみは歌本文・作者・本番の三択である", async () => {
   const node = root();
   await act(() =>
     render(<Home poems={[poem]} questions={[question()]} />, node),
@@ -80,10 +80,10 @@ test("T-1: 折りたたみは練習と本番の二択だけ", async () => {
     Array.from(node.querySelectorAll(".practice-choice button")).map(
       (button) => button.textContent,
     ),
-  ).toEqual(["練習する", "本番のように解く"]);
+  ).toEqual(["歌本文", "作者", "本番"]);
   node.remove();
 });
-test("T-2: ホームに二つの説明を出す", async () => {
+test("T-2: ホームに三つの説明を出す", async () => {
   const node = root();
   await act(() =>
     render(<Home poems={[poem]} questions={[question()]} />, node),
@@ -93,7 +93,8 @@ test("T-2: ホームに二つの説明を出す", async () => {
       .find((button) => button.textContent === "学習方法を選ぶ")!
       .click();
   });
-  expect(node.textContent).toContain("一問一答で確認");
+  expect(node.textContent).toContain("穴埋めで確認");
+  expect(node.textContent).toContain("歌と作者を結びつける");
   expect(node.textContent).toContain("試験のように解いて採点");
   node.remove();
 });
@@ -303,10 +304,11 @@ test("T-10: 作者確認は穴埋めの折りたたみ外から開ける", async
   expect(node.textContent).toContain("作者名を見る");
   node.remove();
 });
-test("T-11: READMEに新しい二つのモード名と説明がある", () => {
+test("T-11: READMEに新しい三つのモード名と説明がある", () => {
   const readme = readFileSync("README.md", "utf8");
-  expect(readme).toContain("練習する（一問一答で確認）");
-  expect(readme).toContain("本番のように解く（試験のように解いて採点）");
+  expect(readme).toContain("歌本文（穴埋めで確認）");
+  expect(readme).toContain("作者（歌と作者を結びつける）");
+  expect(readme).toContain("本番（試験のように解いて採点）");
 });
 
 test("F-1: 本番の画面入力と紙の採点前に中断時の注意書きを出す", async () => {

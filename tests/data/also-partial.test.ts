@@ -132,6 +132,10 @@ const AUTHOR_RULES: readonly [string, readonly string[], readonly string[]][] = 
   ['p046-author-free', ['曾禰好忠', '曽禰好忠'], ['曽根好忠']],
   ['p066-author-free', ['前大僧正行尊'], ['大僧正行尊']],
   ['p073-author-free', ['前中納言匡房', '権中納言匡房'], []],
+  // 61番。表示は「いせのたいふ」、「いせのおほすけ」は異称として可（依頼者裁定・2026-09-06）。
+  // 訂正前は歴史的が「おほすけ」・現代が「たいふ」と**別の名前どうしが対**になっており、
+  // 「いせのたいふ」と書くと△（現代仮名遣い扱い）になっていた。
+  ['p061-author-free', ['いせのたいふ', 'いせのおほすけ', '伊勢大輔'], ['いせのおおすけ']],
 ];
 
 test('作者の別称は認めた分だけを正解にする', () => {
@@ -158,6 +162,14 @@ test('穴埋めの別表記は認めた分だけを正解にする', () => {
   assert.equal(of('p032-blank-ku1', 'やま川に'), 'incorrect');
   // 70番は「いづこ」のみ正解。異本文の「いづく」へ広げない。
   assert.equal(of('p070-blank-ku4', 'いづくも同じ'), 'incorrect');
+});
+
+test('61番の表示は「いせのたいふ」に揃っている', () => {
+  const poem = (poems as { cardNo: number; reading: { historical: { author: string }; modern: { author: string } } }[]).find((item) => item.cardNo === 61)!;
+  assert.equal(poem.reading.historical.author, 'いせのたいふ');
+  assert.equal(poem.reading.modern.author, 'いせのたいふ');
+  // 異称は表示へ混ぜない。判定でだけ受ける。
+  assert.doesNotMatch(poem.reading.historical.author, /おほすけ/);
 });
 
 test('表示はPDF準拠のまま（別称を正本へ混ぜない）', () => {

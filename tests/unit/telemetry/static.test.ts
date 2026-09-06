@@ -31,11 +31,13 @@ test('W-14 static: telemetry に個別履歴の識別子が現れない', () => 
 });
 
 // 種別: 固定ピン
-test('X-8 static: 禁止語の検査対象が名指しの 4 ファイルに固定されている', () => {
+test('X-8 static: 禁止語の検査対象が名指しの 6 ファイルに固定されている', () => {
+  // 2026-09-06: 集計（aggregate）と日次カウンタ（counters）を追加した。
+  // **免除一覧ではなく検査対象へ入れている**——telemetry へ入る実装は識別子と送信の語を持たない、が前提だからである。
   assert.deepEqual(telemetrySources().map(({ file }) => file), [
-    'client-number.ts', 'queue.ts', 'registry.ts', 'sanitize.ts',
+    'aggregate.ts', 'client-number.ts', 'counters.ts', 'queue.ts', 'registry.ts', 'sanitize.ts',
   ]);
-  assert.equal(TELEMETRY_FILES.length, 4);
+  assert.equal(TELEMETRY_FILES.length, 6);
 });
 
 // 種別: 弁別的

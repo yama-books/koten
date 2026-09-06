@@ -45,7 +45,7 @@ export type Session = {
   product: ProductId;
   from: number;
   to: number;
-  entry: 'quick' | 'view' | 'learn' | 'review' | 'exam';
+  entry: 'quick' | 'view' | 'learn' | 'author' | 'review' | 'exam';
   order: 'number' | 'random';
   seed?: string;
   startedOn: string;
@@ -72,6 +72,12 @@ export type UserSettings = {
   soundEnabled: boolean;
   grade?: string;
   noticeConfirmed: boolean;
+  /**
+   * 統計を送らない選択（発注061 裁定2）。**未設定は「送ってよい」**——
+   * 既存利用者の保存を書き換えずに済ませるため。止めた人だけが `true` を持つ。
+   * **書き出しには含めない。** 端末ごとの選択であり、`noticeConfirmed` と同じ扱いにする。
+   */
+  statsOptOut?: boolean;
   deviceId?: string;
 };
 

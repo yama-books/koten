@@ -14,3 +14,20 @@ test('range-picker: shows a compact numbered range and explains paper grading af
   expect(root.textContent).toContain('範囲を解き終えたあとに、正答を見て自分で採点します。');
   root.remove();
 });
+
+test('range-picker: 作者問題の設定は本番だけにあり、既定で出す', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  let includeAuthors: boolean | undefined;
+  await act(() => { render(<RangePicker entry="exam" range={{ from: 10, to: 20 }} order="number" onBack={() => {}} onStart={(_range, _order, _mode, value) => { includeAuthors = value; }} />, root); });
+  const checkbox = root.querySelector<HTMLInputElement>('input[type="checkbox"]');
+  expect(checkbox?.checked).toBe(true);
+  await act(() => { checkbox!.click(); });
+  await act(() => { root.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+  expect(includeAuthors).toBe(false);
+  for (const entry of ['quick', 'view', 'learn', 'author'] as const) {
+    render(null, root);
+    await act(() => { render(<RangePicker entry={entry} range={{ from: 10, to: 20 }} order="number" onBack={() => {}} onStart={() => {}} />, root); });
+    expect(root.querySelector('input[type="checkbox"]'), `${entry} に作者設定を出さない`).toBeNull();
+  }
+  root.remove();
+});

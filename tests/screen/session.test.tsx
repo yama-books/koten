@@ -13,6 +13,9 @@ const fixture = parseQuestions([
   { questionId: 'q10a', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '白妙の', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: ['しろたえの'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
   { questionId: 'q10b', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '衣ほすてふ', answer: '衣干す', answerHistorical: 'ころもほす', answerModern: 'ころもほす', acceptedAnswers: ['衣干す', 'ころもほす'], partialAnswers: [], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
 ] as PublishedQuestion[]);
+const authorChoice = parseQuestions([
+  { questionId: 'q10-author-choice', poemId: 'p010', skill: 'author', type: 'author', blankUnit: null, prompt: '春すぎて夏来にけらし白妙の衣ほすてふ天の香具山', answer: '持統天皇', answerHistorical: '持統天皇', answerModern: '持統天皇', acceptedAnswers: ['持統天皇'], partialAnswers: [], candidates: ['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人'], normalization: 'exact', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
+] as PublishedQuestion[]);
 function port() { return { ...createMemoryPort(), saveLocalReport: async () => true }; }
 async function mount(customPort = port()) { root = document.createElement('div'); document.body.append(root); await act(async () => { render(<Session questions={fixture} sessionId="s" port={customPort} settings={settings} onSettings={() => {}} onComplete={() => {}} />, root!); }); return root; }
 async function answer(value: string) { const input = root!.querySelector('input[placeholder]') as HTMLInputElement; await act(() => { input.value = value; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: value, inputType: 'insertText' })); }); await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); }
@@ -23,7 +26,13 @@ test('session: answer is revealed after saving', async () => { await mount(); aw
 test('session: next button advances to the second question', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });
 test('session: Enter advances after reveal', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });
 test('session: Enter while answering does not advance', async () => { await mount(); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('白妙の'); });
-test('session: partial feedback contains historical and original forms', async () => { await mount(); await answer('しろたえの'); expect(root!.textContent).toContain('歴史的仮名遣い：しろたへの'); expect(root!.textContent).toContain('（白妙の）'); });
+// 2026-09-06: 正解を「漢字（歴史的仮名遣い）」、△の行を「現代仮名遣い」で対照する形へ（依頼者指示）。
+test('session: 開示は正解を漢字と歴史的仮名遣いで示し、△に現代仮名遣いを対照する', async () => {
+  await mount();
+  await answer('しろたえの');
+  expect(root!.textContent).toContain('正解：白妙の（しろたへの）');
+  expect(root!.textContent).toContain('△しろたえの（現代仮名遣い）');
+});
 test('session: partial feedback does not expose a mastery increment', async () => { await mount(); await answer('しろたえの'); expect(root!.textContent).not.toContain('習熟度は一段軽く加算されます'); });
 test('session: the saved event carries the versions from app-config, not a literal', async () => {
   const p = port(); await mount(p); await answer('白妙の');
@@ -58,11 +67,49 @@ test('session: reading toggle does not change the judgement', async () => {
   expect(toggledMark).toBe(baselineMark);
 });
 test('session: progress distinguishes card and question', async () => { const view = await mount(); expect(view.textContent).toContain('10番・1問目/2'); });
+test('session: all four entries show question progress from zero', async () => {
+  for (const entry of ['learn', 'author', 'exam', 'review'] as const) {
+    if (root) { render(null, root); root.remove(); root = undefined; }
+    const questions = entry === 'author' ? authorChoice : fixture;
+    const view = await mountWith({ entry, questions });
+    const meter = view.querySelector('[role="meter"]');
+    expect(meter?.getAttribute('aria-label')).toBe('セッションの進捗');
+    expect(meter?.getAttribute('aria-valuenow')).toBe('0');
+    expect(view.textContent).toContain(`進み 0問/${questions.length}問`);
+  }
+});
+test('session: completing the last question shows 100 percent progress', async () => {
+  await mount();
+  await answer('白妙の');
+  await act(() => { root!.querySelector('button.primary')!.click(); });
+  await answer('衣干す');
+  await act(() => { root!.querySelector('button.primary')!.click(); });
+  const meter = root!.querySelector('[role="meter"]');
+  expect(meter?.getAttribute('aria-valuenow')).toBe('100');
+  expect(root!.textContent).toContain('進み 2問/2問');
+});
 test('session: writing setting is saved', async () => { const p = port(); await mount(p); await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '横書きにする')!.click(); }); expect((await p.loadSettings())?.writing).toBe('horizontal'); });
 test('session: local-only report action stays hidden', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).not.toContain('問題を報告'); });
 test('session: completing the last question shows completion', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); await answer('衣干す'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('今回の範囲を確認しました'); });
 test('session: feedback waits for an explicit action', async () => { await mount(); expect(root!.textContent).not.toContain('正解'); });
 test('session: answer field has a label and example', async () => { await mount(); expect(root!.textContent).toContain('答え'); expect(root!.textContent).toContain('歴史的仮名遣いまたは漢字で回答してください。'); });
+
+test('session: 作者問題は固定順の候補を選び、choice と author の記録で即時答え合わせする', async () => {
+  const p = port(); await mountWith({ questions: authorChoice, port: p, poems: [] });
+  expect(Array.from(root!.querySelectorAll('.answer-choices button')).map((button) => button.textContent)).toEqual(['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人']);
+  expect(root!.querySelector('input[placeholder]')).toBeNull();
+  await act(async () => { Array.from(root!.querySelectorAll('.answer-choices button')).find((button) => button.textContent === '持統天皇')!.click(); await Promise.resolve(); });
+  expect(root!.textContent).toContain('正解');
+  expect(p.events[0]).toMatchObject({ itemKey: 'p010:author', method: 'choice', outcome: 'correct' });
+});
+
+test('session: 本番の作者選択は途中で正誤を出さない', async () => {
+  await mountWith({ entry: 'exam', questions: [...authorChoice, { ...authorChoice[0], questionId: 'q11-author-choice', poemId: 'p011' }] });
+  await act(async () => { Array.from(root!.querySelectorAll('.answer-choices button')).find((button) => button.textContent === '持統天皇')!.click(); await Promise.resolve(); });
+  expect(root!.textContent).not.toContain('正解');
+  expect(root!.querySelector('.answer-feedback')).toBeNull();
+  expect(root!.querySelector('.answer-choices')).not.toBeNull();
+});
 
 test('session: 正誤画像と文言は解答欄より上に出る', async () => {
   await mount(); await answer('白妙の');
@@ -125,12 +172,15 @@ test('session: 不正解の「要確認」は画面に1回だけ出す', async (
   expect(retained()!.value).toBe('まったくちがう');
 });
 
-test('session: 漢字のない原文では括弧行を出さない', async () => {
+test('session: 読みが表記と同じなら括弧を重ねない', async () => {
+  // 仮名だけの句では「ゆふぐれ（ゆふぐれ）」のように同じ文字列を二度並べない。
   await mountWith({ questions: kanaOnly });
   await answer('ゆうぐれ');
   expect(root!.textContent).toContain('△ 仮名遣い確認');
-  expect(root!.textContent).toContain('歴史的仮名遣い：ゆふぐれ');
-  expect(root!.textContent).not.toContain('（');
+  expect(root!.textContent).toContain('正解：ゆふぐれ');
+  expect(root!.textContent).not.toContain('ゆふぐれ（ゆふぐれ）');
+  // 現代仮名遣いは歴史的と違うので対照が出る。
+  expect(root!.textContent).toContain('△ゆうぐれ（現代仮名遣い）');
 });
 
 test('session: 再確認では中断ダイアログを開かなくても注意書きが出ている', async () => {
@@ -154,15 +204,23 @@ async function finishExamOnScreen(first: string, second: string) {
   return Array.from(root!.querySelectorAll('.grade-list > li'));
 }
 
+// 100% の端は入口ごとに別の画面で出る。練習は「確認しました」、本番は「採点する」である。
+test('session: 本番も最後の問を終えたところで100%になる', async () => {
+  await finishExamOnScreen('白妙の', '衣干す');
+  const meter = root!.querySelector('[role="meter"]');
+  expect(meter?.getAttribute('aria-valuenow')).toBe('100');
+  expect(root!.textContent).toContain('進み 2問/2問');
+});
+
 test('session: 本番の採点一覧は△の行に仮名遣いの補足を出す', async () => {
   const rows = await finishExamOnScreen('しろたえの', '衣干す');
   expect(rows).toHaveLength(2);
   expect(rows[0].querySelector('.grade-mark')?.getAttribute('aria-label')).toBe('△');
   expect(rows[0].textContent).toContain('仮名遣い確認');
-  expect(rows[0].textContent).toContain('歴史的仮名遣い：しろたへの');
-  expect(rows[0].textContent).toContain('（白妙の）');
+  expect(rows[0].textContent).toContain('正解：白妙の（しろたへの）');
+  expect(rows[0].textContent).toContain('△しろたえの（現代仮名遣い）');
   expect(rows[1].textContent).not.toContain('仮名遣い確認');
-  expect(rows[1].textContent).not.toContain('歴史的仮名遣い：');
+  expect(rows[1].textContent).not.toContain('現代仮名遣い）');
 });
 
 test('session: 本番の採点一覧は正答の行に補足を出さない', async () => {
@@ -187,18 +245,28 @@ test('session: 本番の「わからない」は途中開示せず採点一覧�
   expect(p.events.map((event) => event.outcome)).toEqual(['viewed', 'correct']);
 });
 
-test('session: 紙の採点は△の意味を一度添え、選んだ行だけに補足を出す', async () => {
+// 2026-09-06: 自己採点は△を押す前から対照を出す（依頼者指示）。
+// 何を基準に○△×を選ぶのかが分からないと、そもそも自己採点ができない。
+test('session: 紙の採点は△の意味を一度添え、押す前から正解と現代仮名遣いを対照する', async () => {
   await mountWith({ entry: 'exam', answerMode: 'paper' });
   for (let index = 0; index < 2; index += 1) await act(() => { Array.from(root!.querySelectorAll('button')).find((node) => node.textContent === '次へ')!.click(); });
   expect(countOf('△は現代仮名遣いで書けた場合です。')).toBe(1);
-  expect(root!.textContent).not.toContain('歴史的仮名遣い：しろたへの');
   const rows = Array.from(root!.querySelectorAll('.grade-list > li'));
+  // 押す前に出ていること。ここが今回の変更の要点である。
+  expect(rows[0].textContent).toContain('正解：白妙の（しろたへの）');
+  expect(rows[0].textContent).toContain('△しろたえの（現代仮名遣い）');
   await act(() => { Array.from(rows[0].querySelectorAll('button')).find((node) => node.textContent === '△')!.click(); });
   const updated = Array.from(root!.querySelectorAll('.grade-list > li'));
-  expect(updated[0].textContent).toContain('歴史的仮名遣い：しろたへの');
-  expect(updated[0].textContent).toContain('（白妙の）');
-  expect(updated[1].textContent).not.toContain('歴史的仮名遣い：');
+  expect(updated[0].textContent).toContain('正解：白妙の（しろたへの）');
   expect(countOf('△は現代仮名遣いで書けた場合です。')).toBe(1);
+});
+
+test('session: 紙の採点は歴史的・現代表記が同じ語に△を出さない', async () => {
+  await mountWith({ entry: 'exam', answerMode: 'paper', questions: [fixture[1]] });
+  await act(() => { Array.from(root!.querySelectorAll('button')).find((node) => node.textContent === '次へ')!.click(); });
+  const row = root!.querySelector('.grade-list > li')!;
+  expect(Array.from(row.querySelectorAll('button')).map((node) => node.textContent)).toEqual(['○', '×']);
+  expect(root!.textContent).not.toContain('△は現代仮名遣いで書けた場合です。');
 });
 
 // --- 掛詞など、正誤だけでは伝わらない事情の一言（台帳の learnerNote 由来） ---

@@ -1,4 +1,4 @@
-import { buildFeedback, type Feedback } from '../../domain/flow.ts';
+import type { Feedback } from '../../domain/flow.ts';
 import { FeedbackMark } from './FeedbackMark.tsx';
 
 export const PARTIAL_MARK = '△';
@@ -6,13 +6,23 @@ export const PARTIAL_NOTE = '仮名遣い確認';
 export const PARTIAL_LABEL = `${PARTIAL_MARK} ${PARTIAL_NOTE}`;
 
 /**
- * D-26 の補足2行。練習・再確認の開示と本番の採点一覧が同じ描画を使う。
- * 括弧行の有無は `buildFeedback` が決める——ここで漢字を判定し直さない。
+ * 正解の表示。**漢字の横に歴史的仮名遣いを括弧で添える**（依頼者指示・2026-09-06）。
+ *
+ *     正解：八重桜（やへざくら）
+ *     △やえざくら（現代仮名遣い）
+ *
+ * 括弧を出すのは**読みが表記と違うときだけ**である。仮名だけの句（「これやこの」等）で
+ * 同じ文字列を二度並べない。現代仮名遣いの行も、歴史的仮名遣いと同じなら出さない——
+ * 対照するものが無い行は、読み手に差があると誤解させる。
  */
-export function KanaSupplement({ historical, answer }: { historical: string; answer: string }) {
+export function AnswerLines({ answer, historical, modern, showModern }: {
+  answer: string; historical: string; modern: string; showModern: boolean;
+}) {
   return <>
-    {historical && <p class="kana-supplement">{historical}</p>}
-    {answer && <p class="kana-supplement">（{answer}）</p>}
+    <p class="kana-supplement">正解：{answer}{historical && historical !== answer ? `（${historical}）` : ''}</p>
+    {showModern && modern && modern !== historical && (
+      <p class="kana-supplement">{PARTIAL_MARK}{modern}（現代仮名遣い）</p>
+    )}
   </>;
 }
 
@@ -21,20 +31,26 @@ export function QuestionNote({ note }: { note: string | null }) {
   return note ? <p class="question-note">{note}</p> : null;
 }
 
-/** 本番の採点一覧・紙の△選択から、問題そのものを渡して同じ補足を出すための入口。 */
-export function PartialSupplement({ answerHistorical, answer }: { answerHistorical: string; answer: string }) {
-  const feedback = buildFeedback({ historical: answerHistorical, answer }, 'partial');
-  return <KanaSupplement historical={feedback.historical} answer={feedback.answer} />;
+/** 本番の採点一覧・紙の自己採点から、問題そのものを渡して同じ表示を出すための入口。 */
+export function PartialSupplement({ answerHistorical, answerModern, answer, showModern = true }: {
+  answerHistorical: string; answerModern: string; answer: string; showModern?: boolean;
+}) {
+  return <AnswerLines answer={answer} historical={answerHistorical} modern={answerModern} showModern={showModern} />;
 }
 
-export function AnswerFeedback({ feedback, note = null }: { feedback: Feedback; note?: string | null }) {
+export function AnswerFeedback({ feedback, forms = null, note = null }: {
+  feedback: Feedback;
+  /** 正解の3表記。開示のときだけ渡す。 */
+  forms?: { answer: string; historical: string; modern: string } | null;
+  note?: string | null;
+}) {
   const label = feedback.mark === 'maru' ? '正解' : feedback.mark === 'check' ? '要確認！' : PARTIAL_LABEL;
   return <section class="answer-feedback" aria-live="polite"><p>{feedback.mark === 'maru'
     ? <FeedbackMark kind="correct" label={label} />
     : feedback.mark === 'check'
       ? <FeedbackMark kind="incorrect" label={label} />
       : label}</p>
-    <KanaSupplement historical={feedback.historical} answer={feedback.answer} />
+    {forms && <AnswerLines answer={forms.answer} historical={forms.historical} modern={forms.modern} showModern={feedback.mark === 'none'} />}
     <QuestionNote note={note} />
   </section>;
 }

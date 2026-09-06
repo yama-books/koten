@@ -7,19 +7,17 @@ export type PoemMastery = Readonly<{
   untouched: boolean;
   /**
    * 裁定 2。その首の作者イベントが 1 件も無い。
-   * 初回公開では作者を出題しないため常に true になる。画面には出さない（依頼者裁定・2026-09-05）。
+   * 作者問題にまだ答えていない首を、画面で区別する。
    */
   authorUnconfirmed: boolean;
 }>;
 
 /**
- * 初回公開では作者問題を出題しない（依頼者裁定・2026-09-05）。
- * 出題されない項目に配点を残すと、作者の素点が上がりようがないぶん、
- * どの首も 80% 止まりで緑（85% 以上）へ到達できない。配点は本文だけで 100% とする。
- * 作者問題を出題へ戻すときは、この 2 値を 0.8 / 0.2 へ戻す。
+ * 本文と作者をともに学ぶので、配点は 80% / 20% である。
+ * 出題画面と同じ変更で戻す。どちらかだけだと本文を満点にしても 80% 止まりになる。
  */
-const TEXT_WEIGHT = 1;
-const AUTHOR_WEIGHT = 0;
+const TEXT_WEIGHT = 0.8;
+const AUTHOR_WEIGHT = 0.2;
 
 export function poemMastery(
   poemId: string,

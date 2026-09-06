@@ -24,14 +24,16 @@ function stub(overrides: Partial<ApplicationPort> = {}): ApplicationPort {
     async exportRecords() { return { text: '{}', summary: { counts: { sessions: 2, events: 7, reports: 0 }, characters: 2 } }; },
     async previewImport() { return { ok: true, plan } as never; },
     async commitImport() { return { sessions: { added: 1, duplicates: 1 }, events: { added: 5, duplicates: 2 }, reports: { added: 0, duplicates: 0 } }; },
+    async previewDelete() { return { sessions: 3, events: 40, reports: 1, outbox: 0 }; },
+    async commitDelete(counts) { return counts; },
     ...overrides,
   } as ApplicationPort;
 }
 
-function mount(port?: ApplicationPort, given: HistorySummary = summary) {
+function mount(port?: ApplicationPort, given: HistorySummary = summary, onChanged?: () => void) {
   root = document.createElement('div');
   document.body.append(root);
-  render(<History summary={given} onHome={() => {}} port={port} />, root);
+  render(<History summary={given} onHome={() => {}} port={port} onChanged={onChanged} />, root);
   return root;
 }
 const button = (text: string) => Array.from(root!.querySelectorAll('button')).find((item) => item.textContent === text);
@@ -40,9 +42,9 @@ const button = (text: string) => Array.from(root!.querySelectorAll('button')).fi
  * 転送の口は `Partial` で任意にしてある。本番のポートから落ちても型は通り、
  * 画面は黙って機能ごと消える。**ここが唯一それを止める釘である。**
  */
-test('transfer: 本番のポートは転送の3つの口をすべて持つ', () => {
+test('transfer: 本番のポートは持ち出しの5つの口をすべて持つ', () => {
   const port = createIndexedDbPort();
-  for (const name of ['exportRecords', 'previewImport', 'commitImport'] as const) {
+  for (const name of ['exportRecords', 'previewImport', 'commitImport', 'previewDelete', 'commitDelete'] as const) {
     expect(typeof port[name], `${name} が本番のポートに無い`).toBe('function');
   }
 });
@@ -56,6 +58,7 @@ test('transfer: 記録の画面に書き出しと読み込みを出す', () => {
   expect(view.textContent).toContain('記録の持ち出し');
   expect(button('記録を書き出す')).toBeTruthy();
   expect(view.querySelector('input[type="file"]')).toBeTruthy();
+  expect(button('記録を消す')).toBeTruthy();
 });
 
 test('transfer: 記録が空でも取り込みの入口を出す', () => {
@@ -65,7 +68,7 @@ test('transfer: 記録が空でも取り込みの入口を出す', () => {
 });
 
 test('transfer: 口を持たないポートでは出さない', () => {
-  const view = mount(stub({ exportRecords: undefined, previewImport: undefined, commitImport: undefined }));
+  const view = mount(stub({ exportRecords: undefined, previewImport: undefined, commitImport: undefined, previewDelete: undefined, commitDelete: undefined }));
   expect(view.textContent).not.toContain('記録の持ち出し');
 });
 
@@ -111,4 +114,41 @@ test('transfer: 読めないファイルは理由を出し、書かない', asyn
   await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); await Promise.resolve(); });
   expect(view.querySelector('[role="alert"]')?.textContent).toContain('このアプリの書き出し形式ではありません。');
   expect(committed).toBe(0);
+});
+
+test('transfer: 削除は件数を見せてから、押されて初めて消す', async () => {
+  let deleted = 0;
+  let changed = 0;
+  const view = mount(stub({ async commitDelete(counts) { deleted += 1; return counts; } }), summary, () => { changed += 1; });
+
+  await act(async () => { button('記録を消す')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
+  expect(view.textContent).toContain('回 3 件・解答 40 件・報告 1 件');
+  expect(view.textContent).toContain('元には戻せません');
+  // 下見だけでは 1 件も消さない。
+  expect(deleted).toBe(0);
+
+  await act(async () => { button('消す')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
+  expect(deleted).toBe(1);
+  expect(view.textContent).toContain('44件の記録を消しました');
+  // 一覧は古くなる。親へ知らせること。
+  expect(changed).toBe(1);
+});
+
+test('transfer: 削除をやめると消さない', async () => {
+  let deleted = 0;
+  const view = mount(stub({ async commitDelete(counts) { deleted += 1; return counts; } }));
+  await act(async () => { button('記録を消す')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
+  await act(async () => { button('やめる')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
+  expect(deleted).toBe(0);
+  expect(view.textContent).not.toContain('消える記録');
+});
+
+test('transfer: 取り込みも一覧の読み直しを促す', async () => {
+  let changed = 0;
+  const view = mount(stub(), summary, () => { changed += 1; });
+  const input = view.querySelector('input[type="file"]') as HTMLInputElement;
+  Object.defineProperty(input, 'files', { value: [{ text: async () => '{}' }], configurable: true });
+  await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); await Promise.resolve(); });
+  await act(async () => { button('この内容で読み込む')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
+  expect(changed).toBe(1);
 });

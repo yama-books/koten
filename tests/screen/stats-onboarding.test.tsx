@@ -99,9 +99,10 @@ test('N-5: 第二段はその他で現れ中一では現れない', async () => 
   expect(view.textContent).toContain('小学生');
 });
 
-test('N-6: 統計を送信しない間は未確認の設定でも初回設定を表示しない', async () => {
+// 2026-09-06: 送信を配線したため、案内を出す側へ戻した（発注061 裁定2）。
+test('N-6: 未確認なら初回設定を表示する', async () => {
   const mounted = await mountHome();
-  expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
+  expect(mounted.root.querySelector('[aria-label="初回設定"]')).not.toBeNull();
 });
 
 test('N-7: 非表示の初回設定は未確認の保存データを書き換えない', async () => {
@@ -114,14 +115,23 @@ test('N-8: タイトルが起動直後の最初の見出しになる', async () 
   expect(mounted.root.querySelector('h1')?.textContent).toBe('百人一首練習帳');
 });
 
-test('N-9: 確認済みかどうかによらず初回設定を表示しない', async () => {
+test('N-9: 確認済みなら初回設定を出さない', async () => {
   let mounted = await mountHome(true);
   expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
   render(null, mounted.root);
   mounted.root.remove();
   root = undefined;
   mounted = await mountHome(false);
-  expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
+  // 未確認のときだけ出る。両方向で見る。
+  expect(mounted.root.querySelector('[aria-label="初回設定"]')).not.toBeNull();
+});
+
+test('N-10: 初回設定はタイトルより後ろに出る', async () => {
+  // 実機確認（2026-09-05）で「タイトルより上に出る」と指摘された点。059 R2。
+  const mounted = await mountHome();
+  const title = mounted.root.querySelector('h1.wordmark')!;
+  const onboarding = mounted.root.querySelector('[aria-label="初回設定"]')!;
+  expect(title.compareDocumentPosition(onboarding) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 });
 
 test('N-10: 禁止語検査の走査対象は非空で新しい共有 UI も含む', () => {
@@ -161,19 +171,42 @@ test('N-14: 統計案内と学年選択は StatsPayload を組み立てない', 
   for (const source of files) expect(source).not.toContain('StatsPayload');
 });
 
+async function guideTextFor(userAgent: string, maxTouchPoints = 0) {
+  const original = Object.getOwnPropertyDescriptor(window.navigator, 'userAgent');
+  const originalTouch = Object.getOwnPropertyDescriptor(window.navigator, 'maxTouchPoints');
+  Object.defineProperty(window.navigator, 'userAgent', { configurable: true, value: userAgent });
+  Object.defineProperty(window.navigator, 'maxTouchPoints', { configurable: true, value: maxTouchPoints });
+  try {
+    const mounted = await mountHome();
+    return mounted.root.querySelector('.install-guide')?.textContent ?? '';
+  } finally {
+    if (original) Object.defineProperty(window.navigator, 'userAgent', original);
+    if (originalTouch) Object.defineProperty(window.navigator, 'maxTouchPoints', originalTouch);
+  }
+}
+
+// 発注066 3.2 で、両方の手順を並べる形から端末を判定して片方だけ出す形へ変えた。
+// 「端末別に案内する」という趣旨は変えず、両方向で確かめる。片方だけでは判定が死んでいても緑になる。
 test('N-15: ホーム画面への追加方法を端末別に案内する', async () => {
-  const mounted = await mountHome();
-  const guide = mounted.root.querySelector('.install-guide');
-  expect(guide?.textContent).toContain('ホーム画面に追加する');
-  expect(guide?.textContent).toContain('iPhone・iPad');
-  expect(guide?.textContent).toContain('Android');
+  const ios = await guideTextFor('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15');
+  expect(ios).toContain('よく使うなら、ホーム画面に追加できます');
+  expect(ios).toContain('Safariの共有ボタンから「ホーム画面に追加」');
+  expect(ios).not.toContain('ブラウザのメニューから');
+
+  const other = await guideTextFor('Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/120.0.0.0');
+  expect(other).toContain('ブラウザのメニューから「ホーム画面に追加」');
+  expect(other).not.toContain('Safariの共有ボタン');
+
+  // iPadOS 13 以降の Safari は Macintosh を名乗る。UA だけで切ると iPad が Android 側へ落ちる。
+  const ipad = await guideTextFor('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15', 5);
+  expect(ipad).toContain('Safariの共有ボタンから「ホーム画面に追加」');
 });
 
 test('N-16: ホームの入口は説明、開始、方法選択、確認の順に並ぶ', async () => {
   const mounted = await mountHome();
   const panelText = mounted.root.querySelector('.range-panel')?.textContent ?? '';
   const labels = [
-    '穴埋め問題から始めます。',
+    '穴埋めと作者の問題を交互に出します。',
     'とりあえず始める',
     '学習方法を選ぶ',
     '歌を確認する',

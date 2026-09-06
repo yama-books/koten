@@ -23,6 +23,7 @@ packages/hyakunin/eslint.config.js
 packages/hyakunin/index.html
 packages/hyakunin/package.json
 packages/hyakunin/public/404.html
+packages/hyakunin/public/app-icon-hyakunin-180.png
 packages/hyakunin/public/fonts/SOURCES.json
 packages/hyakunin/public/fonts/klee-one/OFL.txt
 packages/hyakunin/public/fonts/klee-one/klee-one-600-001.woff2
@@ -394,6 +395,7 @@ packages/hyakunin/public/fonts/zen-maru-gothic/zen-maru-gothic-700-119.woff2
 packages/hyakunin/public/fonts/zen-maru-gothic/zen-maru-gothic-700-120.woff2
 packages/hyakunin/public/fonts/zen-maru-gothic/zen-maru-gothic-700-121.woff2
 packages/hyakunin/public/fonts/zen-maru-gothic/zen-maru-gothic-700-122.woff2
+packages/hyakunin/public/manifest.webmanifest
 packages/hyakunin/src/data/generated/layout-hints.json
 packages/hyakunin/src/data/generated/manifest.json
 packages/hyakunin/src/data/generated/poems.json
@@ -414,8 +416,11 @@ packages/hyakunin/src/domain/result.ts
 packages/hyakunin/src/domain/resume.ts
 packages/hyakunin/src/domain/review.ts
 packages/hyakunin/src/domain/session.ts
+packages/hyakunin/src/domain/stats.ts
 packages/hyakunin/src/main.tsx
 packages/hyakunin/src/styles.css
+packages/hyakunin/src/telemetry/app-check.ts
+packages/hyakunin/src/telemetry/stats-sender.ts
 packages/hyakunin/src/ui/adapters/indexeddb-port.ts
 packages/hyakunin/src/ui/components/AnswerFeedback.tsx
 packages/hyakunin/src/ui/components/FeedbackMark.tsx
@@ -847,7 +852,9 @@ packages/shared/src/storage/reset.ts
 packages/shared/src/storage/schema.ts
 packages/shared/src/styles/fonts.css
 packages/shared/src/styles/tokens.css
+packages/shared/src/telemetry/aggregate.ts
 packages/shared/src/telemetry/client-number.ts
+packages/shared/src/telemetry/counters.ts
 packages/shared/src/telemetry/queue.ts
 packages/shared/src/telemetry/registry.ts
 packages/shared/src/telemetry/sanitize.ts
@@ -934,14 +941,19 @@ tests/unit/review.test.ts
 tests/unit/sanitize-output.test.ts
 tests/unit/scan-publish-allowlist.test.ts
 tests/unit/session.test.ts
+tests/unit/stats.test.ts
 tests/unit/storage/atomicity.test.ts
 tests/unit/storage/storage.test.ts
 tests/unit/storage/transfer.test.ts
+tests/unit/telemetry/aggregate.test.ts
+tests/unit/telemetry/app-check.test.ts
 tests/unit/telemetry/client-number.test.ts
+tests/unit/telemetry/counters.test.ts
 tests/unit/telemetry/fixtures.ts
 tests/unit/telemetry/queue.test.ts
 tests/unit/telemetry/registry.test.ts
 tests/unit/telemetry/rules-parity.test.ts
+tests/unit/telemetry/sender.test.ts
 tests/unit/telemetry/static.test.ts
 tests/unit/telemetry/transport.test.ts
 tools/build-data/apply-review.ts

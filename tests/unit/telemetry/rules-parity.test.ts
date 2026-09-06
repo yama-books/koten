@@ -54,10 +54,11 @@ test('R-3 rules: hasAll の必須キーが STATS_KEYS と一致する', () => {
 test('R-4 rules: 入れ子のカウントマップ許可キーが registry と一致する', () => {
   const text = rulesText();
   assert.deepEqual(sorted(listArgs(text, 'hasAll', 'data.buttonCounts.keys()')), sorted(BUTTON_KEYS), 'R-4: buttonCounts keys must equal BUTTON_KEYS');
-  assert.deepEqual(sorted(listArgs(text, 'hasAll', 'data.entryCounts.keys()')), sorted(ENTRY_KEYS), 'R-4: entryCounts keys must equal ENTRY_KEYS');
+  assert.deepEqual(sorted(listArgs(text, 'hasOnly', 'data.entryCounts.keys()')), sorted(ENTRY_KEYS), 'R-4: entryCounts allowlist must equal ENTRY_KEYS');
+  assert.deepEqual(sorted(listArgs(text, 'hasAll', 'data.entryCounts.keys()')), sorted(ENTRY_KEYS.filter((key) => key !== 'author')), 'R-4: legacy keys must remain required during migration');
   assert.deepEqual(sorted(listArgs(text, 'hasAll', 'data.questionTypeCounts.keys()')), sorted(QUESTION_TYPE_KEYS), 'R-4: questionTypeCounts keys must equal QUESTION_TYPE_KEYS');
   assert.match(text, /data\.buttonCounts\.keys\(\)\.size\(\) == 6/, 'R-4: buttonCounts key count must be fixed');
-  assert.match(text, /data\.entryCounts\.keys\(\)\.size\(\) == 5/, 'R-4: entryCounts key count must be fixed');
+  assert.doesNotMatch(text, /data\.entryCounts\.keys\(\)\.size\(\)/, 'R-4: entryCounts must accept both 5 and 6 keys during migration');
   assert.match(text, /data\.questionTypeCounts\.keys\(\)\.size\(\) == 2/, 'R-4: questionTypeCounts key count must be fixed');
 });
 
