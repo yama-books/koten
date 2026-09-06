@@ -215,10 +215,13 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .question-text--horizontal { padding-inline-start: calc(var(--space-xl) + var(--space-md)); }
 .question-poem--fallback { align-items: center; }
 .question-text--author { min-height: 0; }
-.question-text--author .question-poem--author { display: block; max-inline-size: 100%; overflow-wrap: anywhere; text-align: start; writing-mode: horizontal-tb; }
+.question-text--author .question-poem--author { max-inline-size: 100%; }
 .answer-choices { display: grid; gap: var(--space-sm); }
 .answer-choices p { margin: 0; }
-.answer-choices button { box-sizing: border-box; width: 100%; min-width: 0; }
+.question-text--vertical + .answer-controls .answer-choices { display: grid; grid-template-columns: repeat(5, max-content); align-items: start; overflow-x: auto; direction: rtl; }
+.question-text--vertical + .answer-controls .answer-choices p { grid-column: 1 / -1; direction: ltr; }
+.question-text--vertical + .answer-controls .answer-choices button { writing-mode: vertical-rl; }
+.answer-choices > :not(p) { box-sizing: border-box; min-width: 44px; min-height: 44px; }
 .question-number { position: absolute; inset-block-start: var(--space-xs); inset-inline-start: var(--space-xs); color: var(--color-ink-muted); font-family: var(--font-ui); font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
 .blank-slot { box-sizing: border-box; display: inline-grid; min-inline-size: 3em; min-block-size: 1.45em; place-items: center; border: var(--rule-thin) solid var(--color-ink-muted); border-radius: var(--radius-md); margin-inline: var(--space-3xs); padding: 0 var(--space-2xs); background: var(--color-surface); vertical-align: middle; }
 .blank-slot--filled { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); }
@@ -242,7 +245,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   from { opacity: 0; transform: scale(.92); }
   to { opacity: 1; transform: scale(1); }
 }
-.answer-retained { display: grid; min-width: 0; gap: var(--space-3xs); margin-block: var(--space-md); }
+.answer-retained { position: relative; display: grid; min-width: 0; gap: var(--space-3xs); margin-block: var(--space-md); }
+.answer-retained .feedback-mark { position: absolute; z-index: 1; inset-inline-start: calc(var(--space-xs) * -1); inset-block-end: calc(var(--space-xs) * -1); pointer-events: none; }
 .kana-supplement { margin-block: var(--space-2xs); overflow-wrap: anywhere; }
 .question-note { margin-block: var(--space-2xs); color: var(--color-ink-muted); font-size: var(--text-sm); overflow-wrap: anywhere; }
 .review-note--persistent { margin-block: var(--space-sm); }
@@ -307,7 +311,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .result-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); padding-block: var(--space-xl); }
 .result-save-failure { box-sizing: border-box; width: min(100%, 62rem); margin: var(--space-md) auto 0; border: var(--rule-thin) solid var(--color-coral); padding: var(--space-sm) var(--space-md); }
 .mastery-meter { display: inline-flex; align-items: center; gap: var(--space-xs); }
-.mastery-meter [role="meter"] { width: 6rem; height: 0.75rem; overflow: hidden; background: var(--color-surface-soft); }
+.mastery-meter [role="meter"] { box-sizing: border-box; width: 6rem; height: 0.75rem; overflow: hidden; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-surface-soft); }
 .mastery-meter__fill { display: block; height: 100%; background: currentColor; }
 .mastery-meter--gray { color: var(--mastery-gray); }
 .mastery-meter--red { color: var(--mastery-red); }
@@ -346,6 +350,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .practice-choice p strong, .practice-choice p span { display: block; }
 .practice-choice p strong { color: var(--color-ink); }
 .practice-choice button { width: 100%; }
+.feedback-mark img, .perfect-mark img { mix-blend-mode: multiply; }
 .range-confirm-title { margin-block: var(--space-lg) 0; font-size: var(--text-md); }
 .range-summary { margin-block: var(--space-xs); font-family: var(--font-poem); font-size: var(--text-lg); font-variant-numeric: tabular-nums; }
 
@@ -365,28 +370,36 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   .question-poem { font-size: var(--text-md); line-height: 1.55; }
 }
 
-.onboarding {
-  box-sizing: border-box;
-  border-bottom: var(--rule-thin) solid var(--color-rule);
-  padding-block: var(--space-lg);
-}
-.onboarding__panel {
+.onboarding { box-sizing: border-box; display: grid; padding-block: var(--space-lg); }
+.onboarding__dialog {
   display: grid;
+  box-sizing: border-box;
+  width: min(100%, 30rem);
   min-width: 0;
+  border: var(--rule-thin) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  background: var(--color-surface);
   gap: var(--space-xl);
 }
 .stats-notice,
 .grade-picker { display: grid; min-width: 0; gap: var(--space-md); }
 .stats-notice h1,
+.stats-notice h2,
 .stats-notice p,
 .grade-picker h2,
+.grade-picker h3,
 .grade-picker p { margin: 0; }
 .stats-notice__confirm { justify-self: start; background: var(--color-ink); color: var(--color-paper); font-weight: 700; }
+.stats-notice__help { color: var(--color-ink-muted); font-size: var(--text-sm); }
 .grade-picker { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
 .grade-picker__options { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .grade-picker__options button { flex: 1 1 7rem; min-width: 0; white-space: normal; overflow-wrap: anywhere; }
 .grade-picker__options button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
 .grade-picker__secondary { display: grid; min-width: 0; gap: var(--space-sm); }
+.session-progress { display: flex; justify-content: space-between; width: 100%; border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-xs); }
+.session-progress .mastery-meter { width: 100%; justify-content: space-between; }
+.session-progress .mastery-meter [role="meter"] { flex: 1 1 auto; max-width: 100%; }
 
 /* 記録の持ち出し（MVP④）。320px・文字200% で器を超えないよう、行を作らず縦に積む。 */
 .record-transfer { display: grid; gap: var(--space-xs); margin-block-start: var(--space-lg); }

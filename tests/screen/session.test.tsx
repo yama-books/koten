@@ -76,6 +76,11 @@ test('session: all four entries show question progress from zero', async () => {
     expect(meter?.getAttribute('aria-label')).toBe('セッションの進捗');
     expect(meter?.getAttribute('aria-valuenow')).toBe('0');
     expect(view.textContent).toContain(`進み 0問/${questions.length}問`);
+    const header = view.querySelector('.session .nav-edge')!;
+    const progress = view.querySelector('.session-progress')!;
+    const controls = view.querySelector('.session-controls')!;
+    expect(header.nextElementSibling).toBe(progress);
+    expect(progress.compareDocumentPosition(controls) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   }
 });
 test('session: completing the last question shows 100 percent progress', async () => {
@@ -97,10 +102,20 @@ test('session: answer field has a label and example', async () => { await mount(
 test('session: 作者問題は固定順の候補を選び、choice と author の記録で即時答え合わせする', async () => {
   const p = port(); await mountWith({ questions: authorChoice, port: p, poems: [] });
   expect(Array.from(root!.querySelectorAll('.answer-choices button')).map((button) => button.textContent)).toEqual(['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人']);
+  expect(root!.querySelectorAll('.question-poem--author .question-line')).toHaveLength(1);
+  expect(root!.querySelector('.question-poem--author')?.textContent).toContain('春すぎて夏来にけらし白妙の衣ほすてふ天の香具山');
   expect(root!.querySelector('input[placeholder]')).toBeNull();
   await act(async () => { Array.from(root!.querySelectorAll('.answer-choices button')).find((button) => button.textContent === '持統天皇')!.click(); await Promise.resolve(); });
   expect(root!.textContent).toContain('正解');
   expect(p.events[0]).toMatchObject({ itemKey: 'p010:author', method: 'choice', outcome: 'correct' });
+});
+
+test('session: 作者問題は歌を五つの縦書き列の器へ載せ、候補を主要操作にしない', async () => {
+  const poem = [{ cardNo: 10, ku: ['春すぎて', '夏来にけらし', '白妙の', '衣ほすてふ', '天の香具山'], reading: { historical: { ku: ['春すぎて', '夏来にけらし', '白妙の', '衣ほすてふ', '天の香具山'] }, modern: { ku: ['春すぎて', '夏来にけらし', '白妙の', '衣ほすてふ', '天の香具山'] } } }] as never[];
+  await mountWith({ questions: authorChoice, poems: poem });
+  expect(root!.querySelectorAll('.question-poem--author .question-line')).toHaveLength(5);
+  expect(root!.querySelectorAll('.answer-choices button.primary')).toHaveLength(0);
+  expect(root!.textContent).toContain('わからない！');
 });
 
 test('session: 本番の作者選択は途中で正誤を出さない', async () => {
@@ -111,18 +126,21 @@ test('session: 本番の作者選択は途中で正誤を出さない', async ()
   expect(root!.querySelector('.answer-choices')).not.toBeNull();
 });
 
-test('session: 正誤画像と文言は解答欄より上に出る', async () => {
+test('session: 開示では正誤画像を自分の答えにだけ一つ重ね、文言は残す', async () => {
   await mount(); await answer('白妙の');
   const feedback = root!.querySelector('.answer-feedback')!;
   const answerField = root!.querySelector('.answer-retained')!;
   expect(feedback.compareDocumentPosition(answerField) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
-  expect(feedback.querySelector('img[src*="correct-maru"]')).not.toBeNull();
+  expect(feedback.textContent).toContain('正解');
+  expect(feedback.querySelectorAll('img')).toHaveLength(0);
+  expect(answerField.querySelectorAll('img[src*="correct-maru"]')).toHaveLength(1);
+  expect(root!.querySelectorAll('img[src*="correct-maru"], img[src*="needs-review-check"]')).toHaveLength(1);
 });
 
 test('session: 空欄の「わからない」は誤答でなく閲覧として保存して答えを開く', async () => {
   const p = port(); await mount(p);
   await act(async () => {
-    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない')!.click();
+    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click();
     await Promise.resolve();
   });
   expect(root!.textContent).toContain('答えを確認しました');
@@ -136,7 +154,7 @@ test('session: 「わからない」の保存失敗時は答えを開かない',
   const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) };
   await mount(failing);
   await act(async () => {
-    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない')!.click();
+    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click();
     await Promise.resolve();
   });
   expect(root!.textContent).toContain('保存に失敗しました');
@@ -233,7 +251,7 @@ test('session: 本番の採点一覧は正答の行に補足を出さない', as
 test('session: 本番の「わからない」は途中開示せず採点一覧と結果で閲覧になる', async () => {
   const p = port();
   await mountWith({ entry: 'exam', port: p });
-  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない')!.click(); });
+  await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click(); });
   expect(root!.textContent).not.toContain('答えを確認しました');
   const input = root!.querySelector('input[placeholder]') as HTMLInputElement;
   await act(() => { input.value = '衣干す'; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: '衣干す', inputType: 'insertText' })); });

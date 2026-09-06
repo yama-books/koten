@@ -134,6 +134,43 @@ test('N-10: 初回設定はタイトルより後ろに出る', async () => {
   expect(title.compareDocumentPosition(onboarding) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 });
 
+test('N-10a: 学年を選ぶまで確認できず、理由を読むことができる', async () => {
+  const mounted = await mountHome();
+  const confirm = Array.from(mounted.root.querySelectorAll('button')).find((button) => button.textContent === '確認する')!;
+  expect(confirm.disabled).toBe(true);
+  expect(mounted.root.textContent).toContain('学年を選ぶと確認できます。');
+  await act(() => { clickButton(mounted.root, '中一'); });
+  expect(confirm.disabled).toBe(false);
+  expect(mounted.root.textContent).not.toContain('学年を選ぶと確認できます。');
+});
+
+test('N-10b: 学年を選んで確認すると、学年を含む設定を保存し再表示しない', async () => {
+  const mounted = await mountHome();
+  await act(() => { clickButton(mounted.root, '中二'); });
+  await act(async () => {
+    clickButton(mounted.root, '確認する');
+    await Promise.resolve();
+  });
+  expect(await mounted.port.loadSettings()).toMatchObject({ noticeConfirmed: true, grade: '中二' });
+  expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
+  render(null, mounted.root);
+  mounted.root.remove();
+  root = undefined;
+  const reloaded = await mountHome(true);
+  expect(reloaded.root.querySelector('[aria-label="初回設定"]')).toBeNull();
+});
+
+test('N-10c: 初回設定中は追加案内を出さず、確認後に出す', async () => {
+  const mounted = await mountHome();
+  expect(mounted.root.querySelector('.install-guide')).toBeNull();
+  await act(() => { clickButton(mounted.root, '中三'); });
+  await act(async () => {
+    clickButton(mounted.root, '確認する');
+    await Promise.resolve();
+  });
+  expect(mounted.root.querySelector('.install-guide--first')).not.toBeNull();
+});
+
 test('N-10: 禁止語検査の走査対象は非空で新しい共有 UI も含む', () => {
   const noPressureSource = readFileSync(join(process.cwd(), 'tests/screen/no-pressure.test.tsx'), 'utf8');
   expect(noPressureSource).toContain("join(process.cwd(), 'packages/shared/src/ui')");
@@ -177,7 +214,7 @@ async function guideTextFor(userAgent: string, maxTouchPoints = 0) {
   Object.defineProperty(window.navigator, 'userAgent', { configurable: true, value: userAgent });
   Object.defineProperty(window.navigator, 'maxTouchPoints', { configurable: true, value: maxTouchPoints });
   try {
-    const mounted = await mountHome();
+    const mounted = await mountHome(true);
     return mounted.root.querySelector('.install-guide')?.textContent ?? '';
   } finally {
     if (original) Object.defineProperty(window.navigator, 'userAgent', original);

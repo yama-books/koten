@@ -282,8 +282,7 @@ export function Session({
                     <span class="grade-value">{answer || "（未入力）"}</span>
                   </span>
                   <span class="grade-line">
-                    <span class="grade-label">{"正答: "}</span>
-                    <span class="grade-value">{item.answer}</span>
+                    {item.type === "author" ? <span class="grade-value"><PartialSupplement answer={item.answer} answerHistorical={item.answerHistorical} answerModern={item.answerModern} showModern={false} isAuthor /></span> : <><span class="grade-label">{"正答: "}</span><span class="grade-value">{item.answer}</span></>}
                   </span>
                   <span
                     class={`grade-mark grade-mark--${judgement}`}
@@ -312,6 +311,7 @@ export function Session({
                         answerHistorical={item.answerHistorical}
                         answerModern={item.answerModern}
                         answer={item.answer}
+                        isAuthor={item.type === "author"}
                       />
                     </>
                   )}
@@ -320,8 +320,7 @@ export function Session({
               ) : (
                 <>
                   <span class="grade-line">
-                    <span class="grade-label">{"正答: "}</span>
-                    <span class="grade-value">{item.answer}</span>
+                    {item.type === "author" ? <span class="grade-value"><PartialSupplement answer={item.answer} answerHistorical={item.answerHistorical} answerModern={item.answerModern} showModern={false} isAuthor /></span> : <><span class="grade-label">{"正答: "}</span><span class="grade-value">{item.answer}</span></>}
                   </span>
                   <div
                     class="grade-choice"
@@ -372,6 +371,7 @@ export function Session({
                       answerHistorical={item.answerHistorical}
                       answerModern={item.answerModern}
                       answer={item.answer}
+                      isAuthor={item.type === "author"}
                     />
                   )}
                   <QuestionNote note={item.note} />
@@ -601,7 +601,7 @@ export function Session({
             : progressLabel(displayFlow)}
         </span>
       </header>
-      {progressMeter}
+      <div class="session-progress">{progressMeter}</div>
       {entry === "review" && (
         <p class="review-note review-note--persistent">{REVIEW_INTERRUPT_NOTE}</p>
       )}
@@ -626,8 +626,12 @@ export function Session({
           </span>
         )}
         <h1 class="sr-only">{isAuthorChoice ? "作者問題" : "穴埋め問題"}</h1>
-        {isAuthorChoice ? (
-          <div class="question-poem question-poem--author" lang="ja">{question.prompt}</div>
+        {isAuthorChoice ? poem ? (
+          <div class="question-poem question-poem--author" lang="ja">
+            {displayKu?.map((line, index) => <span class="question-line" key={`${question.questionId}-${index}`}>{line}</span>)}
+          </div>
+        ) : (
+          <div class="question-poem question-poem--author question-poem--fallback" lang="ja"><span class="question-line">{question.prompt}</span></div>
         ) : displayKu ? (
           <div class="question-poem" lang="ja">
             {displayKu.map((line, index) => (
@@ -668,7 +672,6 @@ export function Session({
                 {question.candidates.map((candidate) => (
                   <button
                     key={candidate}
-                    class="primary"
                     type="button"
                     onClick={() => void submit(candidate, "choice")}
                   >
@@ -702,7 +705,7 @@ export function Session({
             </>}
             <div class="answer-actions">
               <button type="button" onClick={() => void showUnknown()}>
-                わからない
+                わからない！
               </button>
             </div>
             {unknownSaveFailed && (
@@ -739,6 +742,7 @@ export function Session({
               answerHistorical={question.answerHistorical}
               answerModern={question.answerModern}
               answer={question.answer}
+              isAuthor={isAuthorChoice}
             />
             <button type="button" onClick={() => gradePaper("correct")}>
               漢字・歴史的仮名遣いで書けた
@@ -765,6 +769,7 @@ export function Session({
               feedback={feedback}
               forms={{ answer: question.answer, historical: question.answerHistorical, modern: question.answerModern }}
               note={question.note}
+              isAuthor={isAuthorChoice}
             />
           ) : (
             <p class="answer-feedback unknown-feedback">答えを確認しました。</p>
@@ -772,6 +777,7 @@ export function Session({
           {answerMode === "screen" && displayFlow.submitted && (
             <label class={displayFlow.judgement === "correct" ? "answer-retained" : "answer-retained answer-retained--attention"}>
               自分の答え
+              {displayFlow.judgement === "correct" ? <FeedbackMark kind="correct" label="正解" visualOnly /> : displayFlow.judgement === "incorrect" ? <FeedbackMark kind="incorrect" label="要確認！" visualOnly /> : null}
               <input value={displayFlow.submitted.input} readOnly />
             </label>
           )}

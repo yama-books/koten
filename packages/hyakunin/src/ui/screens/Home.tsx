@@ -271,13 +271,8 @@ export function Home({
     );
   }, [activePort, poem, viewSessionId, viewing]);
   function confirmNotice() {
-    const withoutGrade = { ...settings };
-    delete withoutGrade.grade;
-    const next =
-      pendingGrade === undefined
-        ? { ...withoutGrade, noticeConfirmed: true }
-        : { ...settings, grade: pendingGrade, noticeConfirmed: true };
-    void persist(next);
+    if (pendingGrade === undefined) return;
+    void persist({ ...settings, grade: pendingGrade, noticeConfirmed: true });
   }
   function returnToRangeSelection() {
     setViewing(false);
@@ -411,15 +406,17 @@ export function Home({
       </main>
     );
   }
+  const showStatsOnboarding =
+    statsCollectionEnabled && settingsLoaded && !settings.noticeConfirmed;
   return (
     <main class="home">
       <header class="nav-edge">
         <h1 class="wordmark">{appConfig.products.hyakunin.displayName}</h1>
       </header>
-      {statsCollectionEnabled && settingsLoaded && !settings.noticeConfirmed && (
+      {showStatsOnboarding && (
         <div class="onboarding" role="region" aria-label="初回設定">
-          <div class="onboarding__panel">
-            <StatsNotice onConfirm={confirmNotice} />
+          <div class="onboarding__dialog" role="dialog" aria-modal="true" aria-labelledby="stats-notice-title">
+            <StatsNotice onConfirm={confirmNotice} disabled={pendingGrade === undefined} />
             <GradePicker value={pendingGrade} onChange={setPendingGrade} />
           </div>
         </div>
@@ -585,7 +582,7 @@ export function Home({
         これまでの記録
       </button>
       <footer class="foot-line">
-        {!standalone && !installDismissed && (
+        {!showStatsOnboarding && !standalone && !installDismissed && (
           <section class="install-guide install-guide--first" aria-label="ホーム画面への追加">
             <strong>よく使うなら、ホーム画面に追加できます</strong>
             <p>{installForIos ? "Safariの共有ボタンから「ホーム画面に追加」を選んでください。" : installPrompt ? "追加すると、ホーム画面からすぐに開けます。" : "ブラウザのメニューから「ホーム画面に追加」を選べます。"}</p>
@@ -595,7 +592,7 @@ export function Home({
             </div>
           </section>
         )}
-        {!standalone && installDismissed && (
+        {!showStatsOnboarding && !standalone && installDismissed && (
           <p class="install-guide install-guide--returning">ホーム画面に追加するには、ブラウザのメニューを開いてください。</p>
         )}
         <p class="release-stage">{releaseStageLabel}</p>

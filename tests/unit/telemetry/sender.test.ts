@@ -18,7 +18,7 @@ function recorder(responses: Array<{ status: number; text: string }>): { send: H
     },
   };
 }
-const ok = () => [{ status: 200, text: JSON.stringify({ idToken: 'token-abc' }) }, { status: 200, text: '{}' }];
+const ok = () => [{ status: 200, text: '{}' }];
 const noAppCheck = async () => null;
 
 test('送信: 許されていなければ 1 件も出ていかない', async () => {
@@ -41,25 +41,24 @@ test('送信: 余分な項目を持つものは出さない', async () => {
   assert.equal(sent.length, 0);
 });
 
-test('送信: 許されていれば匿名認証のあとに1件書き込む', async () => {
+test('送信: 許されていれば書き込みを1回だけ行い、Authorization を送らない', async () => {
   const { send, sent } = recorder(ok());
   assert.equal(await sendStats({ payload: payload(), allowed: true, send, getToken: noAppCheck }), 'sent');
-  assert.equal(sent.length, 2);
-  assert.ok(sent[0]!.url.includes('accounts:signUp'), '匿名認証を先に行っていない');
-  assert.ok(sent[1]!.url.includes('firestore.googleapis.com'), '書き込み先が Firestore でない');
-  assert.equal(sent[1]!.headers.Authorization, 'Bearer token-abc');
+  assert.equal(sent.length, 1);
+  assert.ok(sent[0]!.url.includes('firestore.googleapis.com'), '書き込み先が Firestore でない');
+  assert.equal(sent[0]!.headers.Authorization, undefined);
 });
 
 test('送信: 同じ日を二度送っても重複にならない', async () => {
   // Firestore の 409（既にある）は成功として扱う。再送で日が二重に増えない。
-  const { send } = recorder([{ status: 200, text: JSON.stringify({ idToken: 't' }) }, { status: 409, text: '' }]);
+  const { send } = recorder([{ status: 409, text: '' }]);
   assert.equal(await sendStats({ payload: payload(), allowed: true, send, getToken: noAppCheck }), 'sent');
 });
 
-test('送信: 認証に失敗したら書き込まない', async () => {
+test('送信: 書き込みが拒否されたら再送へ回す', async () => {
   const { send, sent } = recorder([{ status: 403, text: '' }]);
   assert.equal(await sendStats({ payload: payload(), allowed: true, send, getToken: noAppCheck }), 'retry');
-  assert.equal(sent.length, 1, '認証に失敗したのに書き込みへ進んでいる');
+  assert.equal(sent.length, 1);
 });
 
 test('送信: 圏外でも例外を投げない', async () => {
@@ -68,30 +67,25 @@ test('送信: 圏外でも例外を投げない', async () => {
   assert.equal(await sendStats({ payload: payload(), allowed: true, send, getToken: noAppCheck }), 'retry');
 });
 
-test('送信: 応答が壊れていても例外を投げない', async () => {
-  const { send } = recorder([{ status: 200, text: 'これはJSONではない' }]);
-  assert.equal(await sendStats({ payload: payload(), allowed: true, send, getToken: noAppCheck }), 'retry');
-});
-
-test('送信: 書き込みが拒否されたら再送へ回す', async () => {
-  const { send } = recorder([{ status: 200, text: JSON.stringify({ idToken: 't' }) }, { status: 401, text: '' }]);
+test('送信: 作成要求が拒否されたら再送へ回す', async () => {
+  const { send } = recorder([{ status: 401, text: '' }]);
   assert.equal(await sendStats({ payload: payload(), allowed: true, send, getToken: noAppCheck }), 'retry');
 });
 
 test('送信: App Check が取れたときだけ作成要求へヘッダを付ける', async () => {
   const withToken = recorder(ok());
   assert.equal(await sendStats({ payload: payload(), allowed: true, send: withToken.send, getToken: async () => 'app-check-token' }), 'sent');
-  assert.equal(withToken.sent[1]!.headers['X-Firebase-AppCheck'], 'app-check-token');
+  assert.equal(withToken.sent[0]!.headers['X-Firebase-AppCheck'], 'app-check-token');
 
   const withoutToken = recorder(ok());
   assert.equal(await sendStats({ payload: payload(), allowed: true, send: withoutToken.send, getToken: noAppCheck }), 'sent');
-  assert.equal('X-Firebase-AppCheck' in withoutToken.sent[1]!.headers, false);
+  assert.equal('X-Firebase-AppCheck' in withoutToken.sent[0]!.headers, false);
 });
 
 test('送信: App Check 取得が失敗しても作成要求を続ける', async () => {
   const { send, sent } = recorder(ok());
   assert.equal(await sendStats({ payload: payload(), allowed: true, send, getToken: noAppCheck }), 'sent');
-  assert.equal(sent.length, 2);
+  assert.equal(sent.length, 1);
 });
 
 /**

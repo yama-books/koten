@@ -26,10 +26,12 @@ afterEach(() => {
 });
 
 async function renderHome() {
+  const port = { ...createMemoryPort(), saveLocalReport: async () => true };
+  await port.saveSettings({ key: 'user', reading: 'no-ruby', writing: 'vertical', order: 'number', soundEnabled: false, noticeConfirmed: true });
   container = document.createElement('div');
   document.body.append(container);
   await act(async () => {
-    render(<Home />, container!);
+    render(<Home port={port} />, container!);
     await Promise.resolve();
   });
   return container;

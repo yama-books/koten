@@ -18,6 +18,11 @@ const zoomLevels = [1, 2];
 const reflowFindings: ReflowFinding[] = [];
 const expectedReflowCases = widths.length * zoomLevels.length;
 let reflowCases = 0;
+// 発注068: 初回設定のダイアログはホーム本体と別の優先表示であり、開いた状態を名指しで測る。
+type OnboardingReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
+const onboardingReflowFindings: OnboardingReflowFinding[] = [];
+const expectedOnboardingReflowCases = widths.length * zoomLevels.length;
+let onboardingReflowCases = 0;
 type ExamReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
 const examReflowFindings: ExamReflowFinding[] = [];
 const expectedExamReflowCases = widths.length * zoomLevels.length;
@@ -25,7 +30,7 @@ let examReflowCases = 0;
 // 発注063: 本番の範囲選択に追加した作者問題設定は、範囲・解答方法と同じ画面で測る。
 type RangePickerReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
 const rangePickerReflowFindings: RangePickerReflowFinding[] = [];
-const expectedRangePickerReflowCases = widths.length * zoomLevels.length;
+const expectedRangePickerReflowCases = widths.length * zoomLevels.length * 2;
 let rangePickerReflowCases = 0;
 // 発注057 で増えた表示——開示後に残る入力欄と、△ の仮名遣い補足——を同じ幅・拡大率で測る。
 type NewDisplayFinding = { width: number; zoom: number; key: string; observed: unknown };
@@ -167,6 +172,37 @@ try {
         if (measured.clipped.length) reflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
       }
     }
+    // 発注068: ダイアログが実際に出ている初回状態を別コンテキストで測る。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        const onboardingContext = await browser.newContext();
+        const onboardingPage = await onboardingContext.newPage();
+        try {
+          await onboardingPage.setViewportSize({ width, height: 800 });
+          await onboardingPage.goto(`${baseUrl}?from=1&to=100`, { waitUntil: 'domcontentloaded' });
+          await onboardingPage.waitForSelector('.onboarding__dialog');
+          const measured = await onboardingPage.evaluate((rootFontSize) => {
+            document.documentElement.style.fontSize = rootFontSize;
+            document.documentElement.getBoundingClientRect();
+            const dialog = document.querySelector<HTMLElement>('.onboarding__dialog');
+            const scope = dialog ? [dialog, ...dialog.querySelectorAll<HTMLElement>('*')] : [];
+            const clipped = scope.filter((element) => !element.classList.contains('sr-only') && (element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1))
+              .map((element) => element.className || element.tagName);
+            const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+            const confirm = dialog?.querySelector<HTMLButtonElement>('.stats-notice__confirm');
+            document.documentElement.style.fontSize = '';
+            return { dialog: Boolean(dialog), clipped, overflow, confirmDisabled: confirm?.disabled ?? null };
+          }, `${16 * zoom}px`);
+          onboardingReflowCases += 1;
+          if (!measured.dialog) onboardingReflowFindings.push({ width, zoom, key: 'dialogPresent', observed: false });
+          if (measured.confirmDisabled !== true) onboardingReflowFindings.push({ width, zoom, key: 'confirmRequiresGrade', observed: measured.confirmDisabled });
+          if (measured.overflow > 1) onboardingReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
+          if (measured.clipped.length) onboardingReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+        } finally {
+          await onboardingContext.close();
+        }
+      }
+    }
     // 発注066: 復元カードは、実際に入口から回を始めて保存済みの中断状態を作らなければ現れない。
     // 範囲20首と21首を別コンテキストにして、前の中断状態を混ぜない。
     for (const rangeEnd of [20, 21]) {
@@ -230,7 +266,7 @@ try {
         }
       }
     }
-    // 本番の設定面はホームとも出題面とも別DOMである。既定のチェック状態も同時に確認する。
+    // 本番の設定面はホームとも出題面とも別DOMである。範囲変更は閉じた状態と開いた状態の両方を測る。
     for (const width of widths) {
       for (const zoom of zoomLevels) {
         await page.setViewportSize({ width, height: 800 });
@@ -247,15 +283,33 @@ try {
             .filter((element) => element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1)
             .map((element) => element.className || element.tagName);
           const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
-          const checkbox = document.querySelector<HTMLInputElement>('.exam-author-setting input[type="checkbox"]');
+          const authorButtons = [...document.querySelectorAll<HTMLButtonElement>('.range-picker .answer-mode button')];
+          const authorYes = authorButtons.find((button) => button.textContent === 'あり');
+          const visibleRangeInputs = document.querySelectorAll<HTMLInputElement>('.range-picker input[type="number"]').length;
           document.documentElement.style.fontSize = '';
-          return { clipped, overflow, authorSettingPresent: Boolean(checkbox), authorSettingChecked: checkbox?.checked ?? false };
+          return { clipped, overflow, authorSettingPresent: Boolean(authorYes), authorSettingChecked: authorYes?.getAttribute('aria-pressed') === 'true', visibleRangeInputs };
         }, `${16 * zoom}px`);
         rangePickerReflowCases += 1;
         if (!measured.authorSettingPresent) rangePickerReflowFindings.push({ width, zoom, key: 'authorSettingPresent', observed: false });
         if (!measured.authorSettingChecked) rangePickerReflowFindings.push({ width, zoom, key: 'authorSettingDefault', observed: false });
+        if (measured.visibleRangeInputs !== 0) rangePickerReflowFindings.push({ width, zoom, key: 'rangeInputsClosed', observed: measured.visibleRangeInputs });
         if (measured.overflow > 1) rangePickerReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) rangePickerReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+        await page.getByRole('button', { name: '変更する' }).click();
+        const opened = await page.evaluate((rootFontSize) => {
+          document.documentElement.style.fontSize = rootFontSize;
+          document.documentElement.getBoundingClientRect();
+          const scope = [...document.querySelectorAll<HTMLElement>('.range-picker, .range-picker *')].filter((element) => !element.classList.contains('sr-only'));
+          const clipped = scope.filter((element) => element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1).map((element) => element.className || element.tagName);
+          const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+          const visibleRangeInputs = document.querySelectorAll<HTMLInputElement>('.range-picker input[type="number"]').length;
+          document.documentElement.style.fontSize = '';
+          return { clipped, overflow, visibleRangeInputs };
+        }, `${16 * zoom}px`);
+        rangePickerReflowCases += 1;
+        if (opened.visibleRangeInputs !== 2) rangePickerReflowFindings.push({ width, zoom, key: 'rangeInputsOpened', observed: opened.visibleRangeInputs });
+        if (opened.overflow > 1) rangePickerReflowFindings.push({ width, zoom, key: 'openedNoPageOverflow', observed: opened.overflow });
+        if (opened.clipped.length) rangePickerReflowFindings.push({ width, zoom, key: 'openedNoClipping', observed: opened.clipped.slice(0, 4) });
         console.log(`check:overflow: 本番の範囲選択 ${width}px 文字${zoom * 100}% 違反 ${rangePickerReflowFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
       }
     }
@@ -387,12 +441,26 @@ try {
           document.documentElement.style.fontSize = '';
           const label = retained?.closest<HTMLElement>('.answer-retained');
           const retainedWidthRatio = retained && label && label.clientWidth > 0 ? retained.clientWidth / label.clientWidth : 0;
-          return { clipped, overflow, measuredElements: elements.length, retainedWidthRatio, retainedValue: retained?.value ?? null, retainedReadOnly: retained?.readOnly ?? null, feedback: Boolean(document.querySelector('.answer-feedback')), note: document.querySelector('.question-note')?.textContent ?? null };
+          // 3画像すべてを同じ部品のCSSで読む。開示中に表示される正解/要確認に加え、結果専用の花丸も
+          // DOMへ一時的に置くことで、未表示の状態を「測った」と誤認しない。
+          const blendProbe = document.createElement('div');
+          blendProbe.innerHTML = '<span class="feedback-mark feedback-mark--correct"><img></span><span class="feedback-mark feedback-mark--incorrect"><img></span><span class="perfect-mark"><img></span>';
+          document.body.append(blendProbe);
+          const marks = [...blendProbe.querySelectorAll<HTMLElement>('img')];
+          const blendModes = marks.map((mark) => getComputedStyle(mark).mixBlendMode);
+          blendProbe.remove();
+          const retainedMark = document.querySelector<HTMLElement>('.answer-retained .feedback-mark');
+          const retainedRect = retained?.getBoundingClientRect();
+          const markRect = retainedMark?.getBoundingClientRect();
+          return { clipped, overflow, measuredElements: elements.length, retainedWidthRatio, retainedValue: retained?.value ?? null, retainedReadOnly: retained?.readOnly ?? null, feedback: Boolean(document.querySelector('.answer-feedback')), note: document.querySelector('.question-note')?.textContent ?? null, blendModes, retainedMarkPresent: Boolean(retainedMark), retainedMarkOverlaps: Boolean(retainedRect && markRect && markRect.right > retainedRect.left && markRect.left < retainedRect.right && markRect.bottom > retainedRect.top && markRect.top < retainedRect.bottom), retainedMarkPointerEvents: retainedMark ? getComputedStyle(retainedMark).pointerEvents : null };
         }, `${16 * zoom}px`);
         newDisplayCases += 1;
         if (measured.retainedValue !== 'あいうえおかきくけこ') newDisplayFindings.push({ width, zoom, key: 'retainedInputPresent', observed: measured.retainedValue });
         if (measured.retainedReadOnly !== true) newDisplayFindings.push({ width, zoom, key: 'retainedInputReadOnly', observed: measured.retainedReadOnly });
         if (!measured.feedback) newDisplayFindings.push({ width, zoom, key: 'feedbackPresent', observed: false });
+        if (measured.blendModes.length === 0 || measured.blendModes.some((mode) => mode !== 'multiply')) newDisplayFindings.push({ width, zoom, key: 'feedbackImagesMultiply', observed: measured.blendModes });
+        if (!measured.retainedMarkPresent || !measured.retainedMarkOverlaps) newDisplayFindings.push({ width, zoom, key: 'retainedMarkOverlapsAnswer', observed: { present: measured.retainedMarkPresent, overlaps: measured.retainedMarkOverlaps } });
+        if (measured.retainedMarkPointerEvents !== 'none') newDisplayFindings.push({ width, zoom, key: 'retainedMarkPointerEvents', observed: measured.retainedMarkPointerEvents });
         // 一言が出ていなければ、その行を 1 度も測っていない。緑は証拠にならない。
         if (!measured.note?.includes('掛詞')) newDisplayFindings.push({ width, zoom, key: 'questionNoteMeasured', observed: measured.note });
         if (measured.measuredElements === 0) newDisplayFindings.push({ width, zoom, key: 'measuredElements', observed: 0 });
@@ -461,15 +529,25 @@ try {
           const choices = [...document.querySelectorAll<HTMLElement>('.answer-choices button')];
           const scope = [...document.querySelectorAll<HTMLElement>('.question-text--author, .answer-choices, .answer-choices *')]
             .filter((element) => !element.classList.contains('sr-only'));
-          const clipped = scope.filter((element) => element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1)
+          const clipped = scope.filter((element) => !element.classList.contains('answer-choices') && !element.classList.contains('question-text--vertical') && (element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1))
             .map((element) => element.className || element.tagName);
           const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
           document.documentElement.style.fontSize = '';
-          return { choices: choices.length, clipped, overflow, authorPrompt: Boolean(document.querySelector('.question-poem--author')) };
+          const authorLines = [...document.querySelectorAll<HTMLElement>('.question-poem--author .question-line')];
+          const choiceLefts = choices.map((choice) => choice.getBoundingClientRect().left);
+          return { choices: choices.length, clipped, overflow, authorPrompt: Boolean(document.querySelector('.question-poem--author')), authorLines: authorLines.length, authorWriting: authorLines.map((line) => getComputedStyle(line).writingMode), choiceWriting: choices.map((choice) => getComputedStyle(choice).writingMode), choiceLefts };
         }, `${16 * zoom}px`);
+        await page.getByRole('button', { name: '横書きにする' }).click();
+        const horizontalAuthorWriting = await page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.question-poem--author .question-line')].map((line) => getComputedStyle(line).writingMode));
+        await page.getByRole('button', { name: '縦書きにする' }).click();
         authorReflowCases += 1;
         if (measured.choices < 4 || measured.choices > 5) authorReflowFindings.push({ width, zoom, key: 'choiceCount', observed: measured.choices });
         if (!measured.authorPrompt) authorReflowFindings.push({ width, zoom, key: 'authorPromptPresent', observed: false });
+        if (measured.authorLines !== 5) authorReflowFindings.push({ width, zoom, key: 'authorFiveLines', observed: measured.authorLines });
+        if (measured.authorWriting.some((mode) => mode !== 'vertical-rl')) authorReflowFindings.push({ width, zoom, key: 'authorVerticalWriting', observed: measured.authorWriting });
+        if (horizontalAuthorWriting.some((mode) => mode !== 'horizontal-tb')) authorReflowFindings.push({ width, zoom, key: 'authorHorizontalWriting', observed: horizontalAuthorWriting });
+        if (measured.choiceWriting.some((mode) => mode !== 'vertical-rl')) authorReflowFindings.push({ width, zoom, key: 'choiceVerticalWriting', observed: measured.choiceWriting });
+        if (measured.choiceLefts.some((left, index) => index > 0 && left >= measured.choiceLefts[index - 1])) authorReflowFindings.push({ width, zoom, key: 'choiceRightToLeft', observed: measured.choiceLefts });
         if (measured.overflow > 1) authorReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) authorReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
         console.log(`check:overflow: 作者問題 ${width}px 文字${zoom * 100}% 選択肢${measured.choices}件 違反 ${authorReflowFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
@@ -499,6 +577,15 @@ if (reflowCases !== expectedReflowCases) {
   console.error(`check:overflow: 拡大時の走査が不足または過剰です（走査 ${reflowCases} 件、必要 ${expectedReflowCases} 件ちょうど）`);
   process.exit(1);
 }
+
+if (onboardingReflowCases !== expectedOnboardingReflowCases) {
+  console.error(`check:overflow: 初回設定ダイアログの走査が不足または過剰です（走査 ${onboardingReflowCases} 件、必要 ${expectedOnboardingReflowCases} 件ちょうど）`);
+  process.exit(1);
+}
+
+console.log(`check:overflow: 初回設定ダイアログの走査 ${onboardingReflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${onboardingReflowFindings.length} 件`);
+for (const finding of onboardingReflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (onboardingReflowFindings.length) process.exitCode = 1;
 
 if (examReflowCases !== expectedExamReflowCases) {
   console.error(`check:overflow: 本番採点一覧の走査が不足または過剰です（走査 ${examReflowCases} 件、必要 ${expectedExamReflowCases} 件ちょうど）`);

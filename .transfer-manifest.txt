@@ -886,6 +886,7 @@ tests/rules/firestore-debug.log
 tests/rules/package-lock.json
 tests/rules/package.json
 tests/rules/stats.test.mjs
+tests/screen/answer-feedback.test.tsx
 tests/screen/device-findings.test.tsx
 tests/screen/entries.test.tsx
 tests/screen/feedback-timing.test.tsx
@@ -894,7 +895,9 @@ tests/screen/history-transfer.test.tsx
 tests/screen/history.test.tsx
 tests/screen/home.test.tsx
 tests/screen/main-wiring.test.tsx
+tests/screen/mastery-meter-contract.test.tsx
 tests/screen/no-pressure.test.tsx
+tests/screen/order069-contract.test.tsx
 tests/screen/range-picker.test.tsx
 tests/screen/restore.test.tsx
 tests/screen/result.test.tsx
