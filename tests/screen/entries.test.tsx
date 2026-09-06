@@ -30,8 +30,9 @@ test('entries: practice is enabled once questions exist', async () => {
 test('entries: practice expands to practice and exam choices', async () => {
   const view = await mountWithQuestions();
   await act(() => { Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '学習方法を選ぶ')!.click(); });
-  expect(view.textContent).toContain('練習する');
-  expect(view.textContent).toContain('本番のように解く');
-  expect(view.textContent).toContain('一問一答で確認');
+  expect(view.textContent).toContain('歌本文');
+  expect(view.textContent).toContain('作者');
+  expect(view.textContent).toContain('本番');
+  expect(view.textContent).toContain('穴埋めで確認');
   expect(view.textContent).toContain('試験のように解いて採点');
 });

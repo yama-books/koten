@@ -607,6 +607,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 61
+    alsoAccepted: いせのおほすけ
     canonical: 伊勢大輔
     aliases: []
     status: approved

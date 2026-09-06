@@ -2,6 +2,11 @@ import type { Report, Session, UserSettings } from '@koten/shared/domain/event';
 import { openDatabase } from '@koten/shared/storage/db';
 import { createExport, serializeExport, summarizeExport, type ExportSummary } from '@koten/shared/storage/export';
 import { applyImport, parseImport, type ImportPlan, type ImportResult } from '@koten/shared/storage/import';
+import { makeResetConfirmation, previewReset, resetRecords, type ResetCounts } from '@koten/shared/storage/reset';
+import { enqueueOutbox, listOutbox, removeOutbox } from '@koten/shared/storage/repo/outbox';
+import { listReports } from '@koten/shared/storage/repo/reports';
+import { bumpCounter, readCounters, type DailyCounters, type UiCounterKey } from '@koten/shared/telemetry/counters';
+import type { OutboxItem } from '@koten/shared/domain/event';
 import { writeFallback, readFallback } from '@koten/shared/storage/fallback';
 import { appendEvent, listEvents } from '@koten/shared/storage/repo/events';
 import { saveReport } from '@koten/shared/storage/repo/reports';
@@ -15,6 +20,13 @@ import type { SaveFailure, SaveReceipt, SessionPort } from '../../domain/ports.t
  */
 export const IMPORT_RECORD_LIMIT = 50_000;
 
+/**
+ * 削除は百人一首の記録だけを対象にする（依頼者裁定・2026-09-06）。
+ * この画面は百人一首のものなので、他製品の記録まで消えるのは利用者の予期に反する。
+ * 送信待ちは全製品共通のため `previewReset` の仕様どおり残る。設定も消えない。
+ */
+const DELETE_SCOPE = 'hyakunin' as const;
+
 export type TransferPort = Readonly<{
   /** 書き出す文字列と件数。データベースを開けなければ null。 */
   exportRecords(exportedAt: string): Promise<{ text: string; summary: ExportSummary } | null>;
@@ -22,6 +34,23 @@ export type TransferPort = Readonly<{
   previewImport(text: string): Promise<{ ok: true; plan: ImportPlan } | { ok: false; message: string }>;
   /** 下見した計画をそのまま適用する。重複は eventId 等で落とす。 */
   commitImport(plan: ImportPlan): Promise<ImportResult | null>;
+  /** 消える件数の下見。ここでは 1 件も消さない。 */
+  previewDelete(): Promise<ResetCounts | null>;
+  /** 下見で見せた件数をそのまま渡して消す。件数を伴わない削除はできない。 */
+  commitDelete(counts: ResetCounts): Promise<ResetCounts | null>;
+  /** 台帳から導けない3つを1つ数える。保存は端末内だけで、送信はしない。 */
+  countUi(key: UiCounterKey, localDate: string): void;
+  /** その日のカウンタ。日付が変われば空から数え直す。 */
+  readUiCounters(localDate: string): DailyCounters;
+  /** 生のカウンタ保存。終わった日を判定するために使う。 */
+  rawUiCounters(): unknown;
+  /** 統計の集計に要る記録。習熟度は全期間、回と報告は日付で絞って使う。 */
+  listSessionsAll(): Promise<readonly Session[]>;
+  listReportsAll(): Promise<readonly Report[]>;
+  /** 送信待ち。 */
+  enqueueStats(item: OutboxItem): Promise<boolean>;
+  listStats(): Promise<readonly OutboxItem[]>;
+  removeStats(outboxId: string): Promise<void>;
 }>;
 
 /**
@@ -32,6 +61,8 @@ export type TransferPort = Readonly<{
 export type ApplicationPort = SessionPort & Partial<TransferPort> & { saveLocalReport(poemId?: string, questionId?: string): Promise<boolean> };
 const fail = (error?: unknown): SaveFailure => ({ reason: 'write-failed', error });
 const receipt = (eventId: string): SaveReceipt => ({ eventId } as SaveReceipt);
+/** カウンタは端末内だけ。IndexedDB の schema を触らずに済ませる。 */
+const COUNTER_KEY = 'hyakunin:ui-counters';
 const storage = (): Storage | undefined => typeof window === 'undefined' ? undefined : window.localStorage;
 
 export function createIndexedDbPort(): ApplicationPort {
@@ -84,6 +115,54 @@ export function createIndexedDbPort(): ApplicationPort {
       if (!opened.ok) return null;
       const result = await applyImport(opened.value, plan);
       return result.ok ? result.value : null;
+    },
+    async previewDelete() {
+      const opened = await database;
+      if (!opened.ok) return null;
+      const result = await previewReset(opened.value, DELETE_SCOPE);
+      return result.ok ? result.value : null;
+    },
+    async commitDelete(counts) {
+      const opened = await database;
+      if (!opened.ok) return null;
+      // makeResetConfirmation を通さないと resetRecords は必ず拒否する。確認の証跡がここ。
+      const result = await resetRecords(opened.value, makeResetConfirmation(DELETE_SCOPE, counts));
+      return result.ok ? result.value : null;
+    },
+    countUi(key, localDate) {
+      const store = storage();
+      if (!store) return;
+      const next = bumpCounter(readFallback<unknown>(store, COUNTER_KEY), localDate, key);
+      writeFallback(store, COUNTER_KEY, next);
+    },
+    readUiCounters(localDate) { return readCounters(readFallback<unknown>(storage(), COUNTER_KEY), localDate); },
+    rawUiCounters() { return readFallback<unknown>(storage(), COUNTER_KEY); },
+    async listSessionsAll() {
+      const opened = await database;
+      if (!opened.ok) return [];
+      const result = await listSessions(opened.value);
+      return result.ok ? result.value : [];
+    },
+    async listReportsAll() {
+      const opened = await database;
+      if (!opened.ok) return [];
+      const result = await listReports(opened.value);
+      return result.ok ? result.value : [];
+    },
+    async enqueueStats(item) {
+      const opened = await database;
+      if (!opened.ok) return false;
+      return (await enqueueOutbox(opened.value, item)).ok;
+    },
+    async listStats() {
+      const opened = await database;
+      if (!opened.ok) return [];
+      const result = await listOutbox(opened.value);
+      return result.ok ? result.value : [];
+    },
+    async removeStats(outboxId) {
+      const opened = await database;
+      if (opened.ok) await removeOutbox(opened.value, outboxId);
     },
     async saveLocalReport(poemId, questionId) {
       const report: Report = { reportId: crypto.randomUUID(), product: 'hyakunin', poemId, questionId, kind: 'other', createdOn: new Date().toISOString().slice(0, 10), status: 'local' };

@@ -1,4 +1,4 @@
-import type { EntryId } from "../../domain/entry.ts";
+import { ENTRY_LABELS, type EntryId } from "../../domain/entry.ts";
 import { canChangeOrder, type OrderMode } from "../../domain/order.ts";
 import { normalizeRange } from "../../domain/range.ts";
 import { useState } from "preact/hooks";
@@ -12,15 +12,9 @@ type Props = {
     range: { from: number; to: number },
     order: OrderMode,
     answerMode: AnswerMode,
+    includeAuthors: boolean,
   ) => void;
   onBack: () => void;
-};
-const labels: Record<EntryId, string> = {
-  quick: "すぐに始める",
-  view: "歌を確認する",
-  learn: "練習する",
-  review: "もう一度確認する",
-  exam: "本番のように解く",
 };
 
 export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
@@ -28,6 +22,7 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
   const [to, setTo] = useState(range.to);
   const [selectedOrder, setSelectedOrder] = useState(order);
   const [answerMode, setAnswerMode] = useState<AnswerMode>("screen");
+  const [includeAuthors, setIncludeAuthors] = useState(true);
   const normalized = normalizeRange(from, to);
   return (
     <main class="range-picker">
@@ -37,7 +32,7 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
           戻る
         </button>
       </header>
-      <h1>{labels[entry]}</h1>
+      <h1>{ENTRY_LABELS[entry]}</h1>
       <p>{entry === "exam" ? "試験のように解いて採点" : "一問一答で確認"}</p>
       <h2 class="range-confirm-title">範囲を確認する</h2>
       <p class="range-summary" aria-live="polite">
@@ -115,12 +110,20 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
               ? "範囲を解き終えたあとに、正答を見て自分で採点します。"
               : "範囲を解き終えたあとに、まとめて自動採点します。"}
           </p>
+          <label class="exam-author-setting">
+            <input
+              type="checkbox"
+              checked={includeAuthors}
+              onChange={() => setIncludeAuthors((current) => !current)}
+            />
+            作者問題も出す
+          </label>
         </section>
       )}
       <button
         class="primary"
         type="button"
-        onClick={() => onStart(normalized, selectedOrder, answerMode)}
+        onClick={() => onStart(normalized, selectedOrder, answerMode, includeAuthors)}
       >
         この範囲で始める
       </button>

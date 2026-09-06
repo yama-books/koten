@@ -64,6 +64,10 @@ type ExamAnswer = Readonly<{
   judgement: Judgement | "viewed";
 }>;
 
+function hasKanaDifference(question: PublishedQuestion): boolean {
+  return question.answerHistorical !== question.answerModern;
+}
+
 function questionKuIndex(question: PublishedQuestion, poem: Poem): number {
   const named = question.questionId.match(/ku([1-5])$/)?.[1];
   if (named) return Number(named) - 1;
@@ -248,7 +252,7 @@ export function Session({
         <p class="review-note">
           採点が確定するまで習熟度には反映されません。途中で閉じた場合は記録されません。
         </p>
-        {answerMode === "paper" && (
+        {answerMode === "paper" && questions.some(hasKanaDifference) && (
           <p class="review-note">{PAPER_PARTIAL_NOTE}</p>
         )}
         <ol class="grade-list">
@@ -290,6 +294,7 @@ export function Session({
                       <span class="grade-mark-note">{PARTIAL_NOTE}</span>
                       <PartialSupplement
                         answerHistorical={item.answerHistorical}
+                        answerModern={item.answerModern}
                         answer={item.answer}
                       />
                     </>
@@ -318,18 +323,20 @@ export function Session({
                     >
                       ○
                     </button>
-                    <button
-                      type="button"
-                      aria-pressed={judgement === "partial"}
-                      onClick={() =>
-                        setPaperGrades((grades) => ({
-                          ...grades,
-                          [item.questionId]: "partial",
-                        }))
-                      }
-                    >
-                      △
-                    </button>
+                    {hasKanaDifference(item) && (
+                      <button
+                        type="button"
+                        aria-pressed={judgement === "partial"}
+                        onClick={() =>
+                          setPaperGrades((grades) => ({
+                            ...grades,
+                            [item.questionId]: "partial",
+                          }))
+                        }
+                      >
+                        △
+                      </button>
+                    )}
                     <button
                       type="button"
                       aria-pressed={judgement === "incorrect"}
@@ -343,9 +350,11 @@ export function Session({
                       ×
                     </button>
                   </div>
-                  {judgement === "partial" && (
+                  {/* △を押す前から出す。何を基準に選ぶのかが分からないと自己採点できない。 */}
+                  {hasKanaDifference(item) && (
                     <PartialSupplement
                       answerHistorical={item.answerHistorical}
+                      answerModern={item.answerModern}
                       answer={item.answer}
                     />
                   )}
@@ -393,7 +402,7 @@ export function Session({
   }
   async function saveAnswered(
     answered: FlowState,
-    method: "free-input" | "paper-handwriting",
+    method: "choice" | "free-input" | "paper-handwriting",
   ) {
     const saving =
       answered.phase === "save-failed"
@@ -427,24 +436,24 @@ export function Session({
       "reason" in result ? failSave(state, result) : reveal(state, result),
     );
   }
-  async function submit() {
+  async function submit(answer = input, method: "choice" | "free-input" = "free-input") {
     const answered =
       displayFlow.phase === "save-failed"
         ? displayFlow
         // 未配線：歌の `reading.status` を渡していない。2026-09-05 時点で正本の100首はすべて confirmed
         // なので実害は無いが、将来どれかの読みが「保留」になっても判定へ届かない。別件として記録済み。
-        : submitAnswer(displayFlow, toQuestion(question), input, {
+        : submitAnswer(displayFlow, toQuestion(question), answer, {
             readingStatus: "confirmed",
           });
     if (isExam) {
       setExamAnswers((answers) => [
         ...answers,
-        { question, input, judgement: answered.judgement! },
+        { question, input: answer, judgement: answered.judgement! },
       ]);
       nextExam(answered);
       return;
     }
-    await saveAnswered(answered, "free-input");
+    await saveAnswered(answered, method);
   }
   async function showUnknown() {
     if (isExam) {
@@ -557,6 +566,7 @@ export function Session({
     : null;
   const hasBlank = blankPattern.test(question.prompt);
   const fallback = question.prompt.split(blankPattern);
+  const isAuthorChoice = question.type === "author";
   return (
     <main class="session" onKeyDown={keyDown}>
       <header class="nav-edge">
@@ -592,14 +602,16 @@ export function Session({
           onChange={(writing) => persistSettings({ ...settings, writing })}
         />
       </section>
-      <article class={`question-text question-text--${settings.writing}`}>
+      <article class={`question-text question-text--${settings.writing}${isAuthorChoice ? " question-text--author" : ""}`}>
         {entry !== "exam" && (
           <span class="question-number" aria-label={`${displayFlow.cardNo}番`}>
             {displayFlow.cardNo}
           </span>
         )}
-        <h1 class="sr-only">穴埋め問題</h1>
-        {displayKu ? (
+        <h1 class="sr-only">{isAuthorChoice ? "作者問題" : "穴埋め問題"}</h1>
+        {isAuthorChoice ? (
+          <div class="question-poem question-poem--author" lang="ja">{question.prompt}</div>
+        ) : displayKu ? (
           <div class="question-poem" lang="ja">
             {displayKu.map((line, index) => (
               <PromptLine
@@ -633,27 +645,45 @@ export function Session({
         displayFlow.phase === "save-failed") &&
         answerMode === "screen" && (
           <section class="answer-controls">
-            <label>
-              答え
-              <input
-                aria-describedby="answer-help"
-                value={input}
-                onInput={(event) => setInput(event.currentTarget.value)}
-                placeholder="答えを入力"
-              />
-            </label>
-            <p id="answer-help">歴史的仮名遣いまたは漢字で回答してください。</p>
+            {isAuthorChoice ? (
+              <div class="answer-choices" aria-label="作者を選ぶ">
+                <p>作者を選んでください。</p>
+                {question.candidates.map((candidate) => (
+                  <button
+                    key={candidate}
+                    class="primary"
+                    type="button"
+                    onClick={() => void submit(candidate, "choice")}
+                  >
+                    {candidate}
+                  </button>
+                ))}
+              </div>
+            ) : <>
+              <label>
+                答え
+                <input
+                  aria-describedby="answer-help"
+                  value={input}
+                  onInput={(event) => setInput(event.currentTarget.value)}
+                  placeholder="答えを入力"
+                />
+              </label>
+              <p id="answer-help">歴史的仮名遣いまたは漢字で回答してください。</p>
+              <div class="answer-actions">
+                <button
+                  class="primary"
+                  type="button"
+                  disabled={input.trim() === ""}
+                  onClick={() => void submit()}
+                >
+                  {displayFlow.phase === "save-failed"
+                    ? "もう一度保存する"
+                    : "答え合わせ"}
+                </button>
+              </div>
+            </>}
             <div class="answer-actions">
-              <button
-                class="primary"
-                type="button"
-                disabled={input.trim() === ""}
-                onClick={submit}
-              >
-                {displayFlow.phase === "save-failed"
-                  ? "もう一度保存する"
-                  : "答え合わせ"}
-              </button>
               <button type="button" onClick={() => void showUnknown()}>
                 わからない
               </button>
@@ -672,7 +702,12 @@ export function Session({
             class="primary"
             type="button"
             onClick={
-              isExam ? () => nextExam(displayFlow) : () => setPaperOpen(true)
+              isExam
+                ? () => nextExam(displayFlow)
+                : () => {
+                    port.countUi?.("reveal", today());
+                    setPaperOpen(true);
+                  }
             }
           >
             {isExam ? "次へ" : "答えを確認する"}
@@ -683,12 +718,19 @@ export function Session({
         paperOpen && (
           <section class="self-grade" aria-label="自己採点">
             <p>書いた答えを選んでください。</p>
+            <PartialSupplement
+              answerHistorical={question.answerHistorical}
+              answerModern={question.answerModern}
+              answer={question.answer}
+            />
             <button type="button" onClick={() => gradePaper("correct")}>
               漢字・歴史的仮名遣いで書けた
             </button>
-            <button type="button" onClick={() => gradePaper("partial")}>
-              現代仮名遣いで書けた
-            </button>
+            {hasKanaDifference(question) && (
+              <button type="button" onClick={() => gradePaper("partial")}>
+                現代仮名遣いで書けた
+              </button>
+            )}
             <button type="button" onClick={() => gradePaper("incorrect")}>
               書けなかった
             </button>
@@ -702,7 +744,11 @@ export function Session({
       {displayFlow.phase === "revealed" && (
         <section>
           {feedback ? (
-            <AnswerFeedback feedback={feedback} note={question.note} />
+            <AnswerFeedback
+              feedback={feedback}
+              forms={{ answer: question.answer, historical: question.answerHistorical, modern: question.answerModern }}
+              note={question.note}
+            />
           ) : (
             <p class="answer-feedback unknown-feedback">答えを確認しました。</p>
           )}

@@ -190,7 +190,7 @@ test('review: 再確認の結果から「同じ範囲をもう一度」は元の
   await mount('?from=10&to=11');
   await click('とりあえず始める');
   const first = await playRound(0);
-  expect(first.count).toBe(10);
+  expect(first.count).toBe(6);
   await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
@@ -200,8 +200,8 @@ test('review: 再確認の結果から「同じ範囲をもう一度」は元の
   await settle();
   await click('同じ範囲をもう一度');
   await settle();
-  // 全12問（5句×2首＋作者2問）へ広がらないことが本題。
-  expect(progress()).toContain('1問目/10');
+  // 1首の6問（5句＋作者）へ戻り、再確認の対象だけへ縮まないことが本題。
+  expect(progress()).toContain('1問目/6');
   expect(progress()).not.toContain('/12');
   expect(answerField()).not.toBeNull();
 });

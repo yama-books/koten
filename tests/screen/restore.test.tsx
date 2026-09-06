@@ -27,7 +27,7 @@ test('restore: 残りがない回には誘いを出さない', async () => { con
 // 実機確認（2026-09-05）で「何を復元しようとしているのか分からない」と出た。入口名・範囲・分割の単位を名乗る。
 test('restore: 誘いは入口名と範囲と20首ずつの分割を名乗る', async () => {
   const view = await mount(session({ to: 100 }), Array.from({ length: 79 }, (_, index) => event(index + 1)));
-  expect(view.textContent).toContain('前回の「練習する」の続きがあります');
+  expect(view.textContent).toContain('前回の「とりあえず始める」の続きがあります');
   expect(view.textContent).toContain('範囲 1番〜100番');
   expect(view.textContent).toContain('20首ずつに分けて全5回');
   expect(view.textContent).toContain('いまは5回目');

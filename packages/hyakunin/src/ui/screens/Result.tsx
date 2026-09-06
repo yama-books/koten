@@ -21,7 +21,8 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
     <section class="result-section" aria-labelledby="breakdown-heading">
       <h2 id="breakdown-heading">内訳</h2>
       <dl class="result-breakdown">
-        <div><dt>閲覧</dt><dd>{result.breakdown.viewed}問</dd></div>
+        {/* 本番では閲覧が 0 にしかならない。0 の行は読み手に何も伝えない（依頼者指示・2026-09-06）。 */}
+        {result.breakdown.viewed > 0 && <div><dt>閲覧</dt><dd>{result.breakdown.viewed}問</dd></div>}
         <div><dt>正答</dt><dd>{result.breakdown.correct}問</dd></div>
         <div><dt>△ 仮名遣い確認</dt><dd>{result.breakdown.partial}問</dd></div>
         <div><dt>誤答</dt><dd>{result.breakdown.incorrect}問</dd></div>
@@ -34,7 +35,7 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
     {result.recommendation && <section class="result-section" aria-labelledby="recommend-heading"><h2 id="recommend-heading">次に確認する</h2><p>{Number(result.recommendation.poemId.slice(1))}（習熟度 {result.recommendation.percent}%）</p><p>{result.recommendation.reason}</p></section>}
     <section class="result-section" aria-labelledby="poems-heading">
       <h2 id="poems-heading">歌ごとの状態</h2>
-      <ul class="result-poems">{result.poems.map((poem) => <li key={poem.poemId} class={`result-poem result-poem--${poem.color}`}><strong>{poem.cardNo}番</strong>{poem.untouched ? <span>未着手</span> : <MasteryMeter label={`${poem.cardNo}番`} percent={poem.percent} color={poem.color} />}</li>)}</ul>
+      <ul class="result-poems">{result.poems.map((poem) => <li key={poem.poemId} class={`result-poem result-poem--${poem.color}`}><strong>{poem.cardNo}番</strong>{poem.untouched ? <span>未着手</span> : <MasteryMeter label={`${poem.cardNo}番`} percent={poem.percent} color={poem.color} />}{poem.authorUnconfirmed && <span>作者 未確認</span>}</li>)}</ul>
     </section>
     <section class="result-actions" aria-label="次の操作">
       {result.retryQuestionIds.length > 0 && <><button type="button" onClick={() => onRetryWeak(result.retryQuestionIds)}>まちがえた歌だけをもう一度</button><p>まちがえた箇所を確認します。</p></>}

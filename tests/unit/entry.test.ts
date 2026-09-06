@@ -5,14 +5,15 @@ import type { PublishedQuestion } from '../../packages/hyakunin/src/data/questio
 
 function question(cardNo: number, type: 'blank' | 'author' = 'blank'): PublishedQuestion {
   return {
-    questionId: `p${String(cardNo).padStart(3, '0')}-${type}`, poemId: `p${String(cardNo).padStart(3, '0')}`, skill: type === 'blank' ? 'text' : 'author', type,
-    blankUnit: type === 'blank' ? 'ku' : null, prompt: '問題', answer: '漢字', answerHistorical: 'れきしてき', answerModern: 'げんだい', acceptedAnswers: ['れきしてき'], partialAnswers: ['げんだい'], candidates: [], normalization: 'kana', sourceRef: 'source', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'reviewer', confirmedOn: '2026-09-01', proposedBy: 'human', batchEvidenceRef: null,
+    questionId: `p${String(cardNo).padStart(3, '0')}-${type === 'author' ? 'author-choice' : type}`, poemId: `p${String(cardNo).padStart(3, '0')}`, skill: type === 'blank' ? 'text' : 'author', type,
+    blankUnit: type === 'blank' ? 'ku' : null, prompt: '問題', answer: '漢字', answerHistorical: 'れきしてき', answerModern: 'げんだい', acceptedAnswers: ['れきしてき'], partialAnswers: ['げんだい'], candidates: type === 'author' ? ['作者A', '作者B', '作者C', '作者D'] : [], normalization: type === 'author' ? 'exact' : 'kana', sourceRef: 'source', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'reviewer', confirmedOn: '2026-09-01', proposedBy: 'human', batchEvidenceRef: null,
   };
 }
 const available = [question(2), question(1), question(3, 'author'), question(2, 'author')];
 
 test('entry: 規則の版は1である', () => assert.equal(ENTRY_RULES_VERSION, 1));
 test('entry: quick は8問と穴埋め3対作者1の係数を持つ', () => assert.deepEqual(ENTRY_RULES.quick, { questionCount: 8, blankWeight: 3, authorWeight: 1 }));
+test('entry: 作者は10問の作者専用入口である', () => assert.deepEqual(ENTRY_RULES.author, { questionCount: 10, blankWeight: 0, authorWeight: 1 }));
 test('entry: view は問が空でも利用できる', () => assert.equal(isEntryAvailable('view', 0), true));
 test('entry: quick は問が空なら利用できない', () => assert.equal(isEntryAvailable('quick', 0), false));
 test('entry: learn は問が空なら利用できない', () => assert.equal(isEntryAvailable('learn', 0), false));
@@ -20,6 +21,23 @@ test('entry: review は問が空なら利用できない', () => assert.equal(is
 test('entry: exam は問が空なら利用できない', () => assert.equal(isEntryAvailable('exam', 0), false));
 test('entry: 出題があれば回答入口を利用できる', () => assert.equal(isEntryAvailable('exam', available.length), true));
 test('entry: 空の台帳を計画しても例外にせず空配列を返す', () => assert.deepEqual(planQuestions('quick', [], [1, 2], 'seed'), []));
+test('entry: 作者入口と本番は選択肢式作者問題だけを使う', () => {
+  const choice = available.filter((question) => question.type === 'blank').map((question) => ({ ...question, questionId: question.questionId.replace('-blank', '-author-choice'), skill: 'author' as const, type: 'author' as const, candidates: ['作者A', '作者B', '作者C', '作者D'] }));
+  const kana = choice.map((question) => ({ ...question, questionId: question.questionId.replace('-choice', '-kana') }));
+  assert.ok(planQuestions('author', [...available, ...choice, ...kana], [1, 2, 3], 'seed').every((question) => question.questionId.endsWith('-author-choice')));
+  assert.deepEqual(new Set(planQuestions('exam', [...available, ...choice, ...kana], [1, 2, 3], 'seed').map((question) => question.type)), new Set(['blank', 'author']));
+});
+// 混在は既存の「quick は両形式を含む台帳から両方を選ぶ」が見ている。
+// ここで見るのは**問題数**である——規則の定数を確かめるだけでは、
+// planQuestions がその数を守っている証拠にならない（発注062 工程2の受入条件）。
+test('entry: とりあえずは規則どおり8問を出す', () => {
+  const ledger = Array.from({ length: 8 }, (_, index) => index + 1)
+    .flatMap((cardNo) => [question(cardNo), question(cardNo, 'author')]);
+  const plan = planQuestions('quick', ledger, [1, 2, 3, 4, 5, 6, 7, 8], 'seed');
+  assert.equal(plan.length, ENTRY_RULES.quick.questionCount);
+  assert.equal(plan.length, 8);
+});
+
 test('entry: review は番号順を orderCardNumbers 経由で返す', () => assert.deepEqual(planQuestions('review', available, [3, 2, 1], 'seed').map((item) => item.poemId), ['p001', 'p002', 'p002', 'p003']));
 test('entry: learn は穴埋めだけを選ぶ', () => {
   const plan = planQuestions('learn', available, [1, 2, 3], 'seed');
@@ -31,6 +49,13 @@ test('entry: quick は両形式を含む台帳から両方を選ぶ', () => {
   assert.ok(plan.length > 0, 'fixture が空では検査にならない');
   assert.ok(plan.some((item) => item.type === 'blank'));
   assert.ok(plan.some((item) => item.type === 'author'));
+});
+test('entry: 本番で作者問題を外しても10問の穴埋めを出す', () => {
+  const ledger = Array.from({ length: 10 }, (_, index) => index + 1)
+    .flatMap((cardNo) => [question(cardNo), question(cardNo, 'author')]);
+  const plan = planQuestions('exam', ledger, Array.from({ length: 10 }, (_, index) => index + 1), 'seed', 'number', false);
+  assert.equal(plan.length, ENTRY_RULES.exam.questionCount);
+  assert.ok(plan.every((item) => item.type === 'blank'));
 });
 
 // 発注030 検収（2026-09-01・親担当）で追加。

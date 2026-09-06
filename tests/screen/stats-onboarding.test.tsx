@@ -99,9 +99,10 @@ test('N-5: 第二段はその他で現れ中一では現れない', async () => 
   expect(view.textContent).toContain('小学生');
 });
 
-test('N-6: 統計を送信しない間は未確認の設定でも初回設定を表示しない', async () => {
+// 2026-09-06: 送信を配線したため、案内を出す側へ戻した（発注061 裁定2）。
+test('N-6: 未確認なら初回設定を表示する', async () => {
   const mounted = await mountHome();
-  expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
+  expect(mounted.root.querySelector('[aria-label="初回設定"]')).not.toBeNull();
 });
 
 test('N-7: 非表示の初回設定は未確認の保存データを書き換えない', async () => {
@@ -114,14 +115,23 @@ test('N-8: タイトルが起動直後の最初の見出しになる', async () 
   expect(mounted.root.querySelector('h1')?.textContent).toBe('百人一首練習帳');
 });
 
-test('N-9: 確認済みかどうかによらず初回設定を表示しない', async () => {
+test('N-9: 確認済みなら初回設定を出さない', async () => {
   let mounted = await mountHome(true);
   expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
   render(null, mounted.root);
   mounted.root.remove();
   root = undefined;
   mounted = await mountHome(false);
-  expect(mounted.root.querySelector('[aria-label="初回設定"]')).toBeNull();
+  // 未確認のときだけ出る。両方向で見る。
+  expect(mounted.root.querySelector('[aria-label="初回設定"]')).not.toBeNull();
+});
+
+test('N-10: 初回設定はタイトルより後ろに出る', async () => {
+  // 実機確認（2026-09-05）で「タイトルより上に出る」と指摘された点。059 R2。
+  const mounted = await mountHome();
+  const title = mounted.root.querySelector('h1.wordmark')!;
+  const onboarding = mounted.root.querySelector('[aria-label="初回設定"]')!;
+  expect(title.compareDocumentPosition(onboarding) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 });
 
 test('N-10: 禁止語検査の走査対象は非空で新しい共有 UI も含む', () => {
@@ -173,7 +183,7 @@ test('N-16: ホームの入口は説明、開始、方法選択、確認の順�
   const mounted = await mountHome();
   const panelText = mounted.root.querySelector('.range-panel')?.textContent ?? '';
   const labels = [
-    '穴埋め問題から始めます。',
+    '穴埋めと作者の問題を交互に出します。',
     'とりあえず始める',
     '学習方法を選ぶ',
     '歌を確認する',

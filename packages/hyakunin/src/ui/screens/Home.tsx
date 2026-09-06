@@ -22,6 +22,7 @@ import {
   type EntryId,
 } from "../../domain/entry.ts";
 import { buildViewEvent } from "../../domain/record.ts";
+import { STATS_COLLECTION_ENABLED } from "../../domain/stats.ts";
 import { normalizeRange, parseRange, splitIntoChunks } from "../../domain/range.ts";
 import { planResume, type ResumePlan } from "../../domain/resume.ts";
 import { resolveActiveRange } from "../../domain/session.ts";
@@ -64,7 +65,8 @@ const defaults: UserSettings = {
 };
 // 統計を実際に送信する導線ができるまで、同意と学年選択は表示しない。
 // 部品・設定値は、その導線を実装するときに同じ契約のまま再利用する。
-const statsCollectionEnabled = false;
+// 収集の切り替えは `domain/stats.ts` の1か所から引く。ここに真偽を直書きしない。
+const statsCollectionEnabled = STATS_COLLECTION_ENABLED;
 // 読み込み先は静的な文字列で書くこと。テンプレートリテラルにすると、バンドラが
 // data/generated/ を丸ごと走査して全ファイルを公開成果物へ出力する（HANDOFF §8 の F-4）。
 const poemsUrl = new URL("../../data/generated/poems.json", import.meta.url);
@@ -360,6 +362,9 @@ export function Home({
   }
   return (
     <main class="home">
+      <header class="nav-edge">
+        <h1 class="wordmark">{appConfig.products.hyakunin.displayName}</h1>
+      </header>
       {statsCollectionEnabled && settingsLoaded && !settings.noticeConfirmed && (
         <div class="onboarding" role="region" aria-label="初回設定">
           <div class="onboarding__panel">
@@ -368,9 +373,6 @@ export function Home({
           </div>
         </div>
       )}
-      <header class="nav-edge">
-        <h1 class="wordmark">{appConfig.products.hyakunin.displayName}</h1>
-      </header>
       {initialRange.hadInvalidQuery && (
         <p class="review-note" role="status">
           範囲を読み込めなかったため、全範囲を表示しています。
@@ -446,8 +448,8 @@ export function Home({
         </div>
         <div class="entry-introduction">
           <p class="entry-help">
-            穴埋め問題から始めます。1回の学習は
-            {ENTRY_RULES.learn.questionCount}問です。
+            穴埋めと作者の問題を交互に出します。1回の学習は
+            {ENTRY_RULES.quick.questionCount}問です。
           </p>
           {plannedChunkCount > 1 && (
             <p class="entry-help">
@@ -478,16 +480,22 @@ export function Home({
           学習方法を選ぶ
         </button>
         {practiceOpen && (
-          <div class="practice-choices" aria-label="穴埋めの方法">
+          <div class="practice-choices" aria-label="学習方法">
             <div class="practice-choice">
               <button type="button" onClick={() => choose("learn")}>
-                練習する
+                {ENTRY_LABELS.learn}
               </button>
-              <p>一問一答で確認</p>
+              <p>穴埋めで確認</p>
+            </div>
+            <div class="practice-choice">
+              <button type="button" onClick={() => choose("author")}>
+                {ENTRY_LABELS.author}
+              </button>
+              <p>歌と作者を結びつける</p>
             </div>
             <div class="practice-choice">
               <button type="button" onClick={() => choose("exam")}>
-                本番のように解く
+                {ENTRY_LABELS.exam}
               </button>
               <p>試験のように解いて採点</p>
             </div>

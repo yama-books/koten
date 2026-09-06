@@ -5424,7 +5424,7 @@
       "伊勢大輔"
     ],
     "answer": "伊勢大輔",
-    "answerHistorical": "いせのおほすけ",
+    "answerHistorical": "いせのたいふ",
     "answerModern": "いせのたいふ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
     "blankUnit": null,
@@ -5452,10 +5452,11 @@
   },
   {
     "acceptedAnswers": [
+      "いせのたいふ",
       "いせのおほすけ"
     ],
-    "answer": "いせのおほすけ",
-    "answerHistorical": "いせのおほすけ",
+    "answer": "いせのたいふ",
+    "answerHistorical": "いせのたいふ",
     "answerModern": "いせのたいふ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
     "blankUnit": null,
@@ -5471,9 +5472,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "いせのたいふ"
-    ],
+    "partialAnswers": [],
     "poemId": "p061",
     "prompt": "いにしへの奈良の都の八重桜今日九重ににほひぬるかな",
     "proposedBy": "human",
@@ -5486,10 +5485,11 @@
   {
     "acceptedAnswers": [
       "伊勢大輔",
-      "いせのおほすけ"
+      "いせのおほすけ",
+      "いせのたいふ"
     ],
     "answer": "伊勢大輔",
-    "answerHistorical": "いせのおほすけ",
+    "answerHistorical": "いせのたいふ",
     "answerModern": "いせのたいふ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
     "blankUnit": null,
@@ -5499,9 +5499,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "いせのたいふ"
-    ],
+    "partialAnswers": [],
     "poemId": "p061",
     "prompt": "いにしへの奈良の都の八重桜今日九重ににほひぬるかな",
     "proposedBy": "human",

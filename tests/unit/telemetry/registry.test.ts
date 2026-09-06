@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BUTTON_KEYS, isStatsPayload, STATS_KEYS } from '../../../packages/shared/src/telemetry/registry.ts';
+import { BUTTON_KEYS, ENTRY_KEYS, isStatsPayload, STATS_KEYS } from '../../../packages/shared/src/telemetry/registry.ts';
 import { payload, telemetrySources } from './fixtures.ts';
 
 // 種別: 弁別的
@@ -22,6 +22,13 @@ test('W-3 registry: キーが欠けていれば弾く', () => {
 // 種別: 弁別的
 test('W-4 registry: 正しい payload は通る', () => {
   assert.equal(isStatsPayload(payload()), true);
+  assert.equal(ENTRY_KEYS.length, 6);
+});
+
+test('W-4a registry: 移行中は旧5キーも通すが、未知の入口は通さない', () => {
+  const { author: _author, ...legacy } = payload().entryCounts;
+  assert.equal(isStatsPayload({ ...payload(), entryCounts: legacy }), true);
+  assert.equal(isStatsPayload({ ...payload(), entryCounts: { ...legacy, unknown: 0 } }), false);
 });
 
 // 種別: 弁別的

@@ -163,7 +163,7 @@ test('main: 保存されたイベントから習熟度の変化を表示する',
   await mount('?from=10&to=10');
   await start();
   await finish();
-  expect(root!.textContent).toContain('0%9%');
+  expect(root!.textContent).toContain('0%7.2%');
 });
 
 test('main: 再確認はまちがえた歌だけを出す', async () => {
