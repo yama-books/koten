@@ -1,5 +1,6 @@
 import { appConfig } from "@koten/shared/app-config";
 import type { UserSettings } from "@koten/shared/domain/event";
+import { MasteryMeter } from "@koten/shared/mastery-meter";
 import { useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import {
   buildFeedback,
@@ -163,6 +164,19 @@ export function Session({
   const question =
     questions[Math.min(flow.questionIndex, questions.length - 1)];
   const isExam = entry === "exam";
+  const completedQuestionCount = Math.min(flow.questionIndex, flow.questionCount);
+  const progressPercent = flow.questionCount === 0
+    ? 0
+    : Math.round((completedQuestionCount / flow.questionCount) * 100);
+  const progressMeter = (
+    <MasteryMeter
+      label="セッション"
+      meterLabel="セッションの進捗"
+      text={`進み ${completedQuestionCount}問/${flow.questionCount}問`}
+      percent={progressPercent}
+      color="blue"
+    />
+  );
   async function finalizeExam() {
     const answers =
       answerMode === "screen"
@@ -229,6 +243,7 @@ export function Session({
     if (!isExam)
       return (
         <main class="session">
+          {progressMeter}
           <h1>今回の範囲を確認しました</h1>
           <button type="button" onClick={() => onComplete(outcomes)}>
             結果を見る
@@ -248,6 +263,7 @@ export function Session({
       questions.every((item) => paperGrades[item.questionId] !== undefined);
     return (
       <main class="session">
+        {progressMeter}
         <h1>採点する</h1>
         <p class="review-note">
           採点が確定するまで習熟度には反映されません。途中で閉じた場合は記録されません。
@@ -585,6 +601,7 @@ export function Session({
             : progressLabel(displayFlow)}
         </span>
       </header>
+      {progressMeter}
       {entry === "review" && (
         <p class="review-note review-note--persistent">{REVIEW_INTERRUPT_NOTE}</p>
       )}

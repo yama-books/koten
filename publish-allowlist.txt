@@ -55,6 +55,7 @@ packages/kanazukai/**
 .js
 .css
 .json
+.webmanifest
 .woff2
 .txt
 .svg

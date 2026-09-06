@@ -43,6 +43,11 @@ type AuthorReflowFinding = { width: number; zoom: number; key: string; observed:
 const authorReflowFindings: AuthorReflowFinding[] = [];
 const expectedAuthorReflowCases = widths.length * zoomLevels.length;
 let authorReflowCases = 0;
+// 発注066: 復元カードは20首以下と21首以上で文言構成が異なる。両方を実際に中断して測る。
+type RestoreReflowFinding = { width: number; zoom: number; rangeEnd: number; key: string; observed: unknown };
+const restoreReflowFindings: RestoreReflowFinding[] = [];
+const expectedRestoreReflowCases = widths.length * zoomLevels.length * 2;
+let restoreReflowCases = 0;
 let aborted = false;
 // 100 首 × 3 表示 × 4 幅は設計上固定で、過不足とも検査不全である。
 const expectedCases = 1200;
@@ -160,6 +165,69 @@ try {
         if (!measured.hasLimitations) reflowFindings.push({ width, zoom, key: 'knownLimitationsPresent', observed: false });
         if (measured.overflow > 1) reflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) reflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+      }
+    }
+    // 発注066: 復元カードは、実際に入口から回を始めて保存済みの中断状態を作らなければ現れない。
+    // 範囲20首と21首を別コンテキストにして、前の中断状態を混ぜない。
+    for (const rangeEnd of [20, 21]) {
+      for (const width of widths) {
+        for (const zoom of zoomLevels) {
+          const restoreContext = await browser.newContext();
+          const restorePage = await restoreContext.newPage();
+          try {
+            await restorePage.setViewportSize({ width, height: 800 });
+            await restorePage.goto(`${baseUrl}?from=1&to=${rangeEnd}`, { waitUntil: 'domcontentloaded' });
+            await restorePage.waitForSelector('.entry-actions button');
+            // 復元カードだけを測るため、画面と同じ IndexedDB の sessions ストアへ未完了回を入れる。
+            // 出題を始める操作経路は他の走査群で既に測っており、ここで繰り返すと保存完了との
+            // 競合で「カードが存在しない」だけを測ることになる。
+            await restorePage.evaluate(async (end) => {
+              await new Promise<void>((resolve, reject) => {
+                const request = indexedDB.open('koten', 1);
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                  const transaction = request.result.transaction('sessions', 'readwrite');
+                  transaction.objectStore('sessions').put({
+                    sessionId: `overflow-restore-${end}`,
+                    product: 'hyakunin',
+                    from: 1,
+                    to: end,
+                    entry: 'learn',
+                    order: 'number',
+                    startedOn: '2026-09-06',
+                    completed: false,
+                    questionCount: 10,
+                  });
+                  transaction.oncomplete = () => { request.result.close(); resolve(); };
+                  transaction.onerror = () => reject(transaction.error);
+                };
+              });
+            }, rangeEnd);
+            await restorePage.goto(`${baseUrl}?from=1&to=${rangeEnd}`, { waitUntil: 'domcontentloaded' });
+            await restorePage.waitForSelector('.restore-offer', { timeout: 10_000 });
+            const measured = await restorePage.evaluate((rootFontSize) => {
+              document.documentElement.style.fontSize = rootFontSize;
+              document.documentElement.getBoundingClientRect();
+              const offer = document.querySelector<HTMLElement>('.restore-offer');
+              // カード本体は内容に合わせて縦へ伸びる。scrollHeight を本体自身で比べると
+              // 通常の段組みまで「縦に切れた」と誤判定するので、実際に見える子だけを測る。
+              const scope = offer ? [...offer.querySelectorAll<HTMLElement>('*')] : [];
+              const clipped = scope.filter((element) => !element.classList.contains('sr-only') && (element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1))
+                .map((element) => element.className || element.tagName);
+              const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+              const meter = offer?.querySelector<HTMLElement>('[role="meter"]');
+              document.documentElement.style.fontSize = '';
+              return { offer: Boolean(offer), clipped, overflow, meter: meter?.getAttribute('aria-valuenow') ?? null };
+            }, `${16 * zoom}px`);
+            restoreReflowCases += 1;
+            if (!measured.offer) restoreReflowFindings.push({ width, zoom, rangeEnd, key: 'restoreOfferPresent', observed: false });
+            if (measured.meter !== '0') restoreReflowFindings.push({ width, zoom, rangeEnd, key: 'restoreMeterStartsAtZero', observed: measured.meter });
+            if (measured.overflow > 1) restoreReflowFindings.push({ width, zoom, rangeEnd, key: 'noPageOverflow', observed: measured.overflow });
+            if (measured.clipped.length) restoreReflowFindings.push({ width, zoom, rangeEnd, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+          } finally {
+            await restoreContext.close();
+          }
+        }
       }
     }
     // 本番の設定面はホームとも出題面とも別DOMである。既定のチェック状態も同時に確認する。
@@ -355,14 +423,14 @@ try {
         const measured = await page.evaluate((rootFontSize) => {
           document.documentElement.style.fontSize = rootFontSize;
           document.documentElement.getBoundingClientRect();
-          const first = document.querySelector<HTMLElement>('.grade-list > li');
+          const selected = document.querySelector<HTMLElement>('.grade-list > li:has(button[aria-pressed="true"])');
           const elements = [...document.querySelectorAll<HTMLElement>('.grade-list, .grade-list *, .kana-supplement')].filter((element) => !element.classList.contains('sr-only'));
           const clipped = elements.filter((element) => element.scrollWidth > element.clientWidth + 1).map((element) => element.className || element.tagName);
           const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
-          const supplements = first?.querySelectorAll('.kana-supplement').length ?? 0;
+          const supplements = selected?.querySelectorAll('.kana-supplement').length ?? 0;
           const noteCount = [...document.querySelectorAll<HTMLElement>('main p')].filter((element) => element.textContent === '△は現代仮名遣いで書けた場合です。').length;
           document.documentElement.style.fontSize = '';
-          return { clipped, overflow, measuredElements: elements.length, supplements, noteCount, correct: first?.textContent?.includes('正解：') ?? false };
+          return { clipped, overflow, measuredElements: elements.length, supplements, noteCount, correct: selected?.textContent?.includes('正解：') ?? false };
         }, `${16 * zoom}px`);
         newDisplayCases += 1;
         if (measured.noteCount !== 1) newDisplayFindings.push({ width, zoom, key: 'paperPartialNoteOnce', observed: measured.noteCount });
@@ -461,6 +529,11 @@ if (authorReflowCases !== expectedAuthorReflowCases) {
   process.exit(1);
 }
 
+if (restoreReflowCases !== expectedRestoreReflowCases) {
+  console.error(`check:overflow: 復元カードの走査が不足または過剰です（走査 ${restoreReflowCases} 件、必要 ${expectedRestoreReflowCases} 件ちょうど）`);
+  process.exit(1);
+}
+
 console.log(`check:overflow: 出題画面の走査 ${sessionReflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${sessionReflowFindings.length} 件`);
 for (const finding of sessionReflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
 if (sessionReflowFindings.length) process.exitCode = 1;
@@ -468,6 +541,10 @@ if (sessionReflowFindings.length) process.exitCode = 1;
 console.log(`check:overflow: 作者問題の走査 ${authorReflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${authorReflowFindings.length} 件`);
 for (const finding of authorReflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
 if (authorReflowFindings.length) process.exitCode = 1;
+
+console.log(`check:overflow: 復元カードの走査 ${restoreReflowCases} 件（20/21首 × 幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${restoreReflowFindings.length} 件`);
+for (const finding of restoreReflowFindings) console.log(`${finding.rangeEnd}首 ${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (restoreReflowFindings.length) process.exitCode = 1;
 
 console.log(`check:overflow: 057の新しい表示の走査 ${newDisplayCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')} × 開示/紙△）、違反 ${newDisplayFindings.length} 件`);
 for (const finding of newDisplayFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);

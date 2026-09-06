@@ -1,4 +1,5 @@
 import { appConfig } from "@koten/shared/app-config";
+import { MasteryMeter } from "@koten/shared/mastery-meter";
 import {
   KNOWN_LIMITATIONS,
   releaseStageLabel,
@@ -55,6 +56,32 @@ type Props = {
   questions?: PublishedQuestion[];
 };
 type Restorable = { session: Session; plan: ResumePlan };
+type InstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+};
+const installNoticeKey = "hyakunin:install-notice-dismissed";
+
+function isStandaloneLaunch() {
+  return window.matchMedia?.("(display-mode: standalone)").matches === true ||
+    (navigator as Navigator & { standalone?: boolean }).standalone === true;
+}
+
+function installNoticeWasDismissed() {
+  try {
+    return window.localStorage.getItem(installNoticeKey) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function rememberInstallNoticeDismissal() {
+  try {
+    window.localStorage.setItem(installNoticeKey, "true");
+  } catch {
+    // プライベートブラウズなどで保存できなくても、案内そのものは使える。
+  }
+}
 const defaults: UserSettings = {
   key: "user",
   reading: "no-ruby",
@@ -116,6 +143,18 @@ export function Home({
   const [pendingGrade, setPendingGrade] = useState<string | undefined>();
   const [restorable, setRestorable] = useState<Restorable | null>(null);
   const [restoring, setRestoring] = useState(true);
+  const [standalone] = useState(isStandaloneLaunch);
+  const [installDismissed, setInstallDismissed] = useState(installNoticeWasDismissed);
+  const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
+
+  useEffect(() => {
+    const receiveInstallPrompt = (event: Event) => {
+      event.preventDefault();
+      setInstallPrompt(event as InstallPromptEvent);
+    };
+    window.addEventListener("beforeinstallprompt", receiveInstallPrompt);
+    return () => window.removeEventListener("beforeinstallprompt", receiveInstallPrompt);
+  }, []);
 
   useEffect(() => {
     if (suppliedPoems) return;
@@ -197,6 +236,18 @@ export function Home({
     !restorable.session.completed &&
     restorable.plan.remainingInRange > 0 &&
     restoring;
+  // iPadOS 13 以降の Safari は Macintosh を名乗る。UA だけ見ると iPad へ Android 向けの文面が出る。
+  const installForIos = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+  const dismissInstallNotice = () => {
+    rememberInstallNoticeDismissal();
+    setInstallDismissed(true);
+  };
+  const showInstallPrompt = async () => {
+    if (!installPrompt) return;
+    await installPrompt.prompt();
+    dismissInstallNotice();
+  };
   const persist = async (next: UserSettings) => {
     setSettings(next);
     await activePort.saveSettings(next);
@@ -383,19 +434,34 @@ export function Home({
           <h2 class="restore-title">
             前回の「{ENTRY_LABELS[restorable.session.entry]}」の続きがあります
           </h2>
-          <p>
-            範囲 {restorable.session.from}番〜{restorable.session.to}番 ·{" "}
-            {CHUNK_CARD_COUNT}首ずつに分けて全{restorable.plan.chunkCount}回
-          </p>
-          <p>
-            いまは{restorable.plan.chunkIndex + 1}回目（このまとまりはあと
-            {restorable.plan.chunkFullyConfirmed
-              ? 0
-              : restorable.plan.cardNumbers.length}
-            首） · 範囲全体であと{restorable.plan.remainingInRange}首
-          </p>
+          {restorable.plan.chunkCount === 1 ? (
+            <p>
+              範囲 {restorable.session.from}番〜{restorable.session.to}番・あと
+              {restorable.plan.remainingInRange}首
+            </p>
+          ) : (
+            <>
+              <p>
+                範囲 {restorable.session.from}番〜{restorable.session.to}番 ·{" "}
+                {CHUNK_CARD_COUNT}首ずつに分けて全{restorable.plan.chunkCount}回
+              </p>
+              <p>
+                いまは{restorable.plan.chunkIndex + 1}回目（このまとまりはあと
+                {restorable.plan.chunkFullyConfirmed ? 0 : restorable.plan.cardNumbers.length}首）
+                {(restorable.plan.chunkFullyConfirmed ? 0 : restorable.plan.cardNumbers.length) !== restorable.plan.remainingInRange &&
+                  ` ・範囲全体であと${restorable.plan.remainingInRange}首`}
+              </p>
+            </>
+          )}
+          <MasteryMeter
+            label="範囲全体"
+            meterLabel="範囲全体の進み具合"
+            text={`進み ${restorable.session.to - restorable.session.from + 1 - restorable.plan.remainingInRange}首/${restorable.session.to - restorable.session.from + 1}首`}
+            percent={Math.round(((restorable.session.to - restorable.session.from + 1 - restorable.plan.remainingInRange) / (restorable.session.to - restorable.session.from + 1)) * 100)}
+            color="blue"
+          />
           <p class="restore-detail">
-            続きから始めると、この{restorable.plan.chunkIndex + 1}回目のなかから
+            続きから始めると、{restorable.plan.chunkCount === 1 ? "この範囲" : `この${restorable.plan.chunkIndex + 1}回目`}のなかから
             {ENTRY_RULES[restorable.session.entry].questionCount}問を出題します。
           </p>
           <div class="restore-actions">
@@ -519,14 +585,19 @@ export function Home({
         これまでの記録
       </button>
       <footer class="foot-line">
-        <details class="install-guide">
-          <summary>ホーム画面に追加する</summary>
-          <p>よく使う場合は、このページを端末のホーム画面へ追加できます。</p>
-          <ul>
-            <li>iPhone・iPad（Safari）：共有ボタンから「ホーム画面に追加」</li>
-            <li>Android：ブラウザのメニューに表示される場合は「ホーム画面に追加」</li>
-          </ul>
-        </details>
+        {!standalone && !installDismissed && (
+          <section class="install-guide install-guide--first" aria-label="ホーム画面への追加">
+            <strong>よく使うなら、ホーム画面に追加できます</strong>
+            <p>{installForIos ? "Safariの共有ボタンから「ホーム画面に追加」を選んでください。" : installPrompt ? "追加すると、ホーム画面からすぐに開けます。" : "ブラウザのメニューから「ホーム画面に追加」を選べます。"}</p>
+            <div class="install-guide__actions">
+              {installPrompt && <button type="button" onClick={showInstallPrompt}>ホーム画面に追加する</button>}
+              <button type="button" onClick={dismissInstallNotice}>閉じる</button>
+            </div>
+          </section>
+        )}
+        {!standalone && installDismissed && (
+          <p class="install-guide install-guide--returning">ホーム画面に追加するには、ブラウザのメニューを開いてください。</p>
+        )}
         <p class="release-stage">{releaseStageLabel}</p>
         <details class="known-limits">
           <summary>この版でまだできないこと</summary>
