@@ -3004,6 +3004,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 67
+    alsoAccepted: かひなく立たむ
     ku: 4
     status: approved
     confirmationMode: batch
