@@ -8712,9 +8712,9 @@
       "権中納言定家"
     ],
     "answer": "権中納言定家",
-    "answerHistorical": "ごんちゆうなごんさだいへ",
+    "answerHistorical": "ごんちゆうなごんていか",
     "answerModern": "ごんちゅうなごんていか",
-    "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "batchEvidenceRef": null,
     "blankUnit": null,
     "candidates": [
       "前大僧正慈円",
@@ -8723,9 +8723,9 @@
       "従二位家隆",
       "後鳥羽院"
     ],
-    "confirmationMode": "batch",
+    "confirmationMode": "individual",
     "confirmedBy": "human-01",
-    "confirmedOn": "2026-09-04",
+    "confirmedOn": "2026-09-07",
     "normalization": "exact",
     "note": null,
     "partialAnswers": [],
@@ -8740,12 +8740,14 @@
   },
   {
     "acceptedAnswers": [
-      "ごんちゆうなごんさだいへ"
+      "ごんちゆうなごんていか",
+      "ごんちゆうなごんさだいへ",
+      "ごんちゅうなごんさだいえ"
     ],
-    "answer": "ごんちゆうなごんさだいへ",
-    "answerHistorical": "ごんちゆうなごんさだいへ",
+    "answer": "ごんちゆうなごんていか",
+    "answerHistorical": "ごんちゆうなごんていか",
     "answerModern": "ごんちゅうなごんていか",
-    "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "batchEvidenceRef": null,
     "blankUnit": null,
     "candidates": [
       "前大僧正慈円",
@@ -8754,9 +8756,9 @@
       "従二位家隆",
       "後鳥羽院"
     ],
-    "confirmationMode": "batch",
+    "confirmationMode": "individual",
     "confirmedBy": "human-01",
-    "confirmedOn": "2026-09-04",
+    "confirmedOn": "2026-09-07",
     "normalization": "kana",
     "note": null,
     "partialAnswers": [
@@ -8774,17 +8776,19 @@
   {
     "acceptedAnswers": [
       "権中納言定家",
-      "ごんちゆうなごんさだいへ"
+      "ごんちゆうなごんさだいへ",
+      "ごんちゅうなごんさだいえ",
+      "ごんちゆうなごんていか"
     ],
     "answer": "権中納言定家",
-    "answerHistorical": "ごんちゆうなごんさだいへ",
+    "answerHistorical": "ごんちゆうなごんていか",
     "answerModern": "ごんちゅうなごんていか",
-    "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "batchEvidenceRef": null,
     "blankUnit": null,
     "candidates": [],
-    "confirmationMode": "batch",
+    "confirmationMode": "individual",
     "confirmedBy": "human-01",
-    "confirmedOn": "2026-09-04",
+    "confirmedOn": "2026-09-07",
     "normalization": "kana",
     "note": null,
     "partialAnswers": [

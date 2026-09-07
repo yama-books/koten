@@ -97,7 +97,7 @@ test('session: writing setting is saved', async () => { const p = port(); await 
 test('session: local-only report action stays hidden', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).not.toContain('問題を報告'); });
 test('session: completing the last question shows completion', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); await answer('衣干す'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('今回の範囲を確認しました'); });
 test('session: feedback waits for an explicit action', async () => { await mount(); expect(root!.textContent).not.toContain('正解'); });
-test('session: answer field has a label and example', async () => { await mount(); expect(root!.textContent).toContain('答え'); expect(root!.textContent).toContain('歴史的仮名遣いまたは漢字で回答してください。'); });
+test('session: answer field has a label and example', async () => { await mount(); expect(root!.textContent).toContain('答え'); expect(root!.textContent).toContain('歴史的仮名遣いで答えてください（ひらがな可）'); });
 
 test('session: 作者問題は固定順の候補を選び、choice と author の記録で即時答え合わせする', async () => {
   const p = port(); await mountWith({ questions: authorChoice, port: p, poems: [] });

@@ -972,13 +972,14 @@ entries:
   - cardNo: 97
     canonical: 権中納言定家
     aliases: []
+    alsoAccepted: ごんちゆうなごんさだいへ、ごんちゅうなごんさだいえ
     status: approved
-    confirmationMode: batch
-    batchEvidenceRef: docs/H04_BATCH_EVIDENCE.md
+    confirmationMode: individual
+    batchEvidenceRef: null
     proposedBy: human
     confirmedBy: human-01
-    confirmedOn: 2026-09-04
-    note: null
+    confirmedOn: 2026-09-07
+    note: 歴史的仮名遣いを「ごんちゆうなごんさだいへ」から「ごんちゆうなごんていか」へ訂正した（現代仮名遣い「ごんちゆうなごんていか」と不一致だったため。依頼者裁定・2026-09-07）。漢字読みの別称「さだいへ／さだいえ」は alsoAccepted に残す。
   - cardNo: 98
     canonical: 従二位家隆
     aliases: []

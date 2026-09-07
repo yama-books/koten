@@ -267,6 +267,9 @@ export function Home({
   }
   function selectPendingGrade(grade: string | undefined) {
     setPendingGrade(grade);
+    // **URL で範囲を指定して来た人の範囲は動かさない**（依頼者指示・2026-09-07）。
+    // 学年の既定で上書きすると、配った番号付きURLがその場で意味を失う。
+    if (initialRange.explicit) return;
     const range = gradeRanges[grade ?? ""] ?? { from: 1, to: 100 };
     setFrom(range.from);
     setTo(range.to);
@@ -411,7 +414,7 @@ export function Home({
       </header>
       {showStatsOnboarding && (
         <div class="onboarding" role="region" aria-label="初回設定">
-          <div class="onboarding__dialog" role="dialog" aria-modal="true" aria-labelledby="stats-notice-title">
+          <div class="onboarding__dialog" role="dialog" aria-modal="true" aria-labelledby="grade-picker-title">
             <GradePicker value={pendingGrade} onChange={selectPendingGrade} />
             <StatsNotice />
             <button class="stats-notice__confirm" type="button" disabled={pendingGrade === undefined} onClick={confirmNotice}>OK</button>

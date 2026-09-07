@@ -682,7 +682,7 @@ export function Session({
                   placeholder="答えを入力"
                 />
               </label>
-              <p id="answer-help">歴史的仮名遣いまたは漢字で回答してください。</p>
+              <p id="answer-help"><strong>歴史的仮名遣い</strong>で答えてください（ひらがな可）</p>
               <div class="answer-actions">
                 <button
                   class="primary"

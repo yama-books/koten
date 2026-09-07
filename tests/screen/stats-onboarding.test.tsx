@@ -78,8 +78,35 @@ test('N-1b: 仕様書照合のskip条件は仕様書の不在だけである', (
 test('N-2: 統計案内は説明だけでオプトアウト UI がない', () => {
   const view = mount(<StatsNotice />);
   expect(view.querySelectorAll('button, input, select, textarea')).toHaveLength(0);
-  expect(view.textContent).toContain('はじめに ― 学年を選択してください');
+  expect(view.textContent).toContain(STATS_NOTICE_TEXT);
+  // 問いかけは学年の見出しが1つだけ担う。案内に見出しを重ねない（依頼者指示・2026-09-07）。
+  expect(view.querySelector('h1, h2, h3')).toBeNull();
   expect(view.querySelector('input[type="checkbox"]')).toBeNull();
+});
+
+/**
+ * 依頼者指示・2026-09-07。**配った番号付きURLが、学年を選んだ瞬間に意味を失っていた。**
+ * `?from=61&to=70` で来た人が「中一」を選ぶと、範囲が 1〜20 に書き換わっていた。
+ */
+test('N-2b: URL で範囲を指定して来た人の範囲を、学年の選択で上書きしない', async () => {
+  window.history.replaceState(null, '', '/?from=61&to=70');
+  try {
+    const mounted = await mountHome();
+    const before = Array.from(mounted.root.querySelectorAll<HTMLInputElement>('input[type="number"]')).map((input) => input.value);
+    expect(before, 'URL の範囲が入力欄に入っていない').toEqual(['61', '70']);
+    await act(async () => { clickButton(mounted.root, '中一'); await Promise.resolve(); });
+    const after = Array.from(mounted.root.querySelectorAll<HTMLInputElement>('input[type="number"]')).map((input) => input.value);
+    expect(after).toEqual(['61', '70']);
+  } finally {
+    window.history.replaceState(null, '', '/');
+  }
+});
+
+test('N-2c: 範囲を指定せずに来た人には、学年の既定の範囲を入れる', async () => {
+  const mounted = await mountHome();
+  await act(async () => { clickButton(mounted.root, '中一'); await Promise.resolve(); });
+  const after = Array.from(mounted.root.querySelectorAll<HTMLInputElement>('input[type="number"]')).map((input) => input.value);
+  expect(after).toEqual(['1', '20']);
 });
 
 test('N-3: 第一段の学年は指定された4区分と順序に固定される', () => {

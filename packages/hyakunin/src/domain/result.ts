@@ -62,6 +62,16 @@ export function summarizeSession(input: SummarizeInput): SessionResult {
   const viewed = sessionEvents
     .filter((event) => event.outcome === 'viewed')
     .map((event) => ({ poemId: event.poemId, kind: 'viewed' as const }));
+  /**
+   * 「わからない！」で答えを見た問も再確認へ回す（依頼者裁定・2026-09-07）。
+   *
+   * **答えを見たということは、解けなかったということである。** 誤答と同じく、次に出し直す。
+   * 発注057 は閲覧を再確認から外していたが、**学習者から見ると、いちばん出し直してほしい問**が
+   * 落ちていた。全問「わからない！」で終えると、結果に「まちがえた歌だけをもう一度」が出なかった。
+   */
+  const viewedQuestionIds = sessionEvents
+    .filter((event) => event.outcome === 'viewed' && typeof event.questionId === 'string' && event.questionId.length > 0)
+    .map((event) => event.questionId as string);
   const answers = input.outcomes;
   const attempts = [...answers, ...viewed];
   const breakdown = countBreakdown(attempts);
@@ -76,7 +86,7 @@ export function summarizeSession(input: SummarizeInput): SessionResult {
     }))
     .filter((change) => change.before !== change.after);
   const retryCardNumbers = [...new Set(attempts
-    .filter((attempt) => attempt.kind === 'partial' || attempt.kind === 'needs-review' || attempt.kind === 'incorrect')
+    .filter((attempt) => attempt.kind === 'viewed' || attempt.kind === 'partial' || attempt.kind === 'needs-review' || attempt.kind === 'incorrect')
     .map((attempt) => cardNo(attempt.poemId)))]
     .sort((left, right) => left - right);
 
@@ -88,7 +98,7 @@ export function summarizeSession(input: SummarizeInput): SessionResult {
     changes,
     poems,
     retryCardNumbers,
-    retryQuestionIds: reviewQuestionIds(answers),
+    retryQuestionIds: [...new Set([...reviewQuestionIds(answers), ...viewedQuestionIds])],
     recommendation: recommendNext({ today: input.today, poemIds: input.poemIds, events: input.allEvents, scores: after.scores }),
   };
 }

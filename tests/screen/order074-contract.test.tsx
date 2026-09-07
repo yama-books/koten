@@ -16,10 +16,12 @@ test('074-2: 初回設定は見た目の順でも説明が OK のすぐ上に来
   expect(value).not.toContain('.onboarding__dialog > .stats-notice__confirm { order:');
 });
 
-test('074-2b: 学年の見出しは「（必須）」を名乗らない', () => {
+test('074-2b: 学年の見出しは「（必須）」を名乗らず、選ぶことだけを言う', () => {
   const value = source('packages/shared/src/ui/components/GradePicker.tsx');
-  expect(value).toContain('>学年</h3>');
+  expect(value).toContain('>学年を選択してください</h3>');
   expect(value).not.toContain('（必須）');
+  // 枠の上の線は引かない。初回設定の中の区切りは余白で足りる。
+  expect(styles()).not.toMatch(/\.grade-picker \{[^}]*border-top/);
 });
 
 test('074-3: ホームはテスト公開の名乗りと制約一覧の出所を持たない', () => {
@@ -61,6 +63,24 @@ test('074-9-10-15: 縦書きの器と、それに添う操作部の軸を固定�
   expect(value).toContain('.question-text--vertical { box-sizing: border-box; width: min(100%, 30rem); margin-inline: auto; overflow-x: auto; }');
   // 「わからない！」を半分の列に置かない（発注074 工程15）。中心が歌からずれる。
   expect(value).toContain('.question-text--vertical + .answer-controls .answer-actions { grid-template-columns: minmax(0, 1fr); }');
+});
+
+/**
+ * ホーム画面へ追加したときの入口。
+ *
+ * `start_url` を `/100/` のような絶対パスで書くと、公開の base（`/koten/100/`）と食い違い、
+ * **その URL が 404 になる。** マニフェストが効かないので、ブラウザは「いま開いている URL」を
+ * そのまま入口にする——`?from=61&to=70` 付きで開いた人は、番号付きの入口が固定される。
+ * 相対で書けば、マニフェスト自身の URL から解決されるので base に依らない。
+ */
+test('074-pwa: ホーム画面の入口はマニフェスト自身からの相対で書く', () => {
+  const manifest = source('packages/hyakunin/public/manifest.webmanifest');
+  const parsed = JSON.parse(manifest) as { start_url: string; scope?: string; icons: { src: string }[] };
+  expect(parsed.start_url).toBe('./');
+  expect(parsed.icons.length).toBeGreaterThan(0);
+  for (const icon of parsed.icons) expect(icon.src.startsWith('./'), `icon が絶対パス: ${icon.src}`).toBe(true);
+  // 絶対パスが1つでも残っていれば、公開の base と食い違う。
+  expect(manifest).not.toMatch(/"\/(100|koten)\//);
 });
 
 test('074-17b: マークを左端へ移しても、答えの器の幅を見出しに決めさせない', () => {

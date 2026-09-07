@@ -2,6 +2,7 @@
   "name": "百人一首練習帳",
   "short_name": "百人一首",
   "display": "standalone",
-  "start_url": "/100/",
-  "icons": [{ "src": "/100/app-icon-hyakunin-180.png", "sizes": "180x180", "type": "image/png" }]
+  "start_url": "./",
+  "scope": "./",
+  "icons": [{ "src": "./app-icon-hyakunin-180.png", "sizes": "180x180", "type": "image/png" }]
 }
