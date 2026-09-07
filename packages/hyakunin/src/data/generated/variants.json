@@ -120,6 +120,50 @@
     "kind": "異本文"
   },
   {
+    "adopted": "PDF／現行転記は「今日九重に」。表示は「けふ九重に」へ統一。",
+    "alternatives": [
+      "「今日九重に」と漢字を当てる表記も一般に通用している。"
+    ],
+    "cardNo": 61,
+    "decision": "依頼者裁定により表示を「けふ九重に」に統一し、「今日九重に」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは `けふここのへに`／`きょうここのえに` で変わらない。",
+    "evidenceUrls": [],
+    "field": "ku4",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「世に逢坂の」。表示は「よに逢坂の」へ統一。",
+    "alternatives": [
+      "漢字を当てた「世に逢坂の」の表記も一般に通用している。"
+    ],
+    "cardNo": 62,
+    "decision": "依頼者裁定により表示を「よに逢坂の」に統一し、「世に逢坂の」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku4",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「恨みわび」。表示は「うらみわび」へ統一。",
+    "alternatives": [
+      "漢字を当てた「恨みわび」の表記も一般に通用している。"
+    ],
+    "cardNo": 65,
+    "decision": "依頼者裁定により表示を「うらみわび」に統一し、「恨みわび」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku1",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「名こそ惜しけれ」。表示は「名こそをしけれ」へ統一。",
+    "alternatives": [
+      "漢字を当てた「名こそ惜しけれ」の表記も一般に通用している。"
+    ],
+    "cardNo": 65,
+    "decision": "依頼者裁定により表示を「名こそをしけれ」に統一し、「名こそ惜しけれ」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku5",
+    "kind": "異本文"
+  },
+  {
     "adopted": "前大僧正行尊",
     "alternatives": [
       "嵯峨嵐山文華館は「前大僧正行尊」、文化ネットとWikisourceは「大僧正行尊」。"
@@ -133,6 +177,50 @@
     ],
     "field": "author",
     "kind": "異表記"
+  },
+  {
+    "adopted": "PDF／現行転記は「知る人もなし」。表示は「しる人もなし」へ統一。",
+    "alternatives": [
+      "漢字を当てた「知る人もなし」の表記も一般に通用している。"
+    ],
+    "cardNo": 66,
+    "decision": "依頼者裁定により表示を「しる人もなし」に統一し、「知る人もなし」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku5",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「かひなく立たむ」。表示は「かひなくたたむ」へ統一。",
+    "alternatives": [
+      "「かひなく立たむ」と漢字を当てる表記も一般に通用している。"
+    ],
+    "cardNo": 67,
+    "decision": "依頼者裁定により表示を仮名の「かひなくたたむ」に統一し、「かひなく立たむ」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは `かひなくたたむ`／`かいなくたたん` で変わらない。",
+    "evidenceUrls": [],
+    "field": "ku4",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「夢ばかりなる」。表示は「ゆめばかりなる」へ統一。",
+    "alternatives": [
+      "漢字を当てた「夢ばかりなる」の表記も一般に通用している。"
+    ],
+    "cardNo": 67,
+    "decision": "依頼者裁定により表示を「ゆめばかりなる」に統一し、「夢ばかりなる」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku2",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「三室の山の」。表示は「み室の山の」へ統一。",
+    "alternatives": [
+      "漢字を当てた「三室の山の」の表記も一般に通用している。"
+    ],
+    "cardNo": 69,
+    "decision": "依頼者裁定により表示を「み室の山の」に統一し、「三室の山の」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku2",
+    "kind": "異本文"
   },
   {
     "adopted": "いづこも同じ",
@@ -150,16 +238,115 @@
     "kind": "異本文"
   },
   {
-    "adopted": "PDF／現行転記は「葦のまろ屋に」。表示は「芦のまろ屋に」へ統一。",
+    "adopted": "PDF／現行転記は「秋の夕暮」。表示は「秋の夕ぐれ」へ統一。",
     "alternatives": [
-      "嵯峨嵐山文華館は「葦のまろやに」。「葦」表記も一般に通用している。"
+      "「秋の夕暮」表記も一般に通用している。"
+    ],
+    "cardNo": 70,
+    "decision": "依頼者裁定により表示を「秋の夕ぐれ」に統一し、「秋の夕暮」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは `あきのゆふぐれ`／`あきのゆうぐれ` で変わらない。",
+    "evidenceUrls": [],
+    "field": "ku5",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「宿を立ち出でて」。表示は「宿をたちいでて」へ統一。",
+    "alternatives": [
+      "漢字を当てた「宿を立ち出でて」の表記も一般に通用している。"
+    ],
+    "cardNo": 70,
+    "decision": "依頼者裁定により表示を「宿をたちいでて」に統一し、「宿を立ち出でて」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku2",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「いづこも同じ」。表示は「いづこもおなじ」へ統一。",
+    "alternatives": [
+      "漢字を当てた「いづこも同じ」の表記も一般に通用している。"
+    ],
+    "cardNo": 70,
+    "decision": "依頼者裁定により表示を「いづこもおなじ」に統一し、「いづこも同じ」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku4",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「葦のまろ屋に」。表示は「芦のまろやに」へ統一。",
+    "alternatives": [
+      "嵯峨嵐山文華館は「葦のまろやに」。「葦」表記も「まろ屋」表記も一般に通用している。"
     ],
     "cardNo": 71,
-    "decision": "依頼者裁定により表示を「芦のまろ屋に」に統一し、「葦のまろ屋に」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは `あしのまろやに` で変わらない。",
+    "decision": "依頼者裁定により表示を「芦のまろやに」に統一し、「芦のまろ屋に」「葦のまろやに」「葦のまろ屋に」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは `あしのまろやに` で変わらない。",
     "evidenceUrls": [
       "https://www.samac.jp/search/poems_detail.php?id=71"
     ],
     "field": "ku4",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「高師の浜の」。表示は「たかしの浜の」へ統一。",
+    "alternatives": [
+      "漢字を当てた「高師の浜の」の表記も一般に通用している。"
+    ],
+    "cardNo": 72,
+    "decision": "依頼者裁定により表示を「たかしの浜の」に統一し、「高師の浜の」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku2",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「尾の上の桜」。表示は「をのへの桜」へ統一。",
+    "alternatives": [
+      "漢字を当てた「尾の上の桜」の表記も一般に通用している。"
+    ],
+    "cardNo": 73,
+    "decision": "依頼者裁定により表示を「をのへの桜」に統一し、「尾の上の桜」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku2",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「外山の霞」。表示は「外山のかすみ」へ統一。",
+    "alternatives": [
+      "漢字を当てた「外山の霞」の表記も一般に通用している。"
+    ],
+    "cardNo": 73,
+    "decision": "依頼者裁定により表示を「外山のかすみ」に統一し、「外山の霞」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku4",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「立たずもあらなむ」。表示は「たたずもあらなむ」へ統一。",
+    "alternatives": [
+      "漢字を当てた「立たずもあらなむ」の表記も一般に通用している。"
+    ],
+    "cardNo": 73,
+    "decision": "依頼者裁定により表示を「たたずもあらなむ」に統一し、「立たずもあらなむ」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku5",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「契りおきし」。表示は「ちぎりおきし」へ統一。",
+    "alternatives": [
+      "漢字を当てた「契りおきし」の表記も一般に通用している。"
+    ],
+    "cardNo": 75,
+    "decision": "依頼者裁定により表示を「ちぎりおきし」に統一し、「契りおきし」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは変えていない。",
+    "evidenceUrls": [],
+    "field": "ku1",
+    "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「秋の夕暮」。表示は「秋の夕ぐれ」へ統一。",
+    "alternatives": [
+      "「秋の夕暮」表記も一般に通用している。"
+    ],
+    "cardNo": 87,
+    "decision": "依頼者裁定により表示を「秋の夕ぐれ」に統一し、「秋の夕暮」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは `あきのゆふぐれ`／`あきのゆうぐれ` で変わらない。",
+    "evidenceUrls": [],
+    "field": "ku5",
     "kind": "異本文"
   }
 ]

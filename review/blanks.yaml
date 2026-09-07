@@ -2734,6 +2734,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 61
+    alsoAccepted: 今日九重に
     ku: 4
     status: approved
     confirmationMode: batch
@@ -2779,6 +2780,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 62
+    alsoAccepted: 世に逢坂の
     ku: 4
     status: approved
     confirmationMode: batch
@@ -2887,6 +2889,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 65
+    alsoAccepted: 恨みわび
     ku: 1
     status: approved
     confirmationMode: batch
@@ -2923,6 +2926,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 65
+    alsoAccepted: 名こそ惜しけれ
     ku: 5
     status: approved
     confirmationMode: batch
@@ -2968,6 +2972,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 66
+    alsoAccepted: 知る人もなし
     ku: 5
     status: approved
     confirmationMode: batch
@@ -2986,6 +2991,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 67
+    alsoAccepted: 夢ばかりなる
     ku: 2
     status: approved
     confirmationMode: batch
@@ -3004,6 +3010,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 67
+    alsoAccepted: かひなく立たむ
     ku: 4
     status: approved
     confirmationMode: batch
@@ -3076,6 +3083,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 69
+    alsoAccepted: 三室の山の
     ku: 2
     status: approved
     confirmationMode: batch
@@ -3121,6 +3129,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 70
+    alsoAccepted: 宿を立ち出でて
     ku: 2
     status: approved
     confirmationMode: batch
@@ -3139,6 +3148,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 70
+    alsoAccepted: いづこも同じ
     ku: 4
     status: approved
     confirmationMode: batch
@@ -3148,6 +3158,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 70
+    alsoAccepted: 秋の夕暮
     ku: 5
     status: approved
     confirmationMode: batch
@@ -3184,7 +3195,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 71
-    alsoAccepted: 葦のまろ屋に
+    alsoAccepted: 芦のまろ屋に、葦のまろやに、葦のまろ屋に
     ku: 4
     status: approved
     confirmationMode: batch
@@ -3212,6 +3223,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 72
+    alsoAccepted: 高師の浜の
     ku: 2
     status: approved
     confirmationMode: batch
@@ -3257,6 +3269,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 73
+    alsoAccepted: 尾の上の桜
     ku: 2
     status: approved
     confirmationMode: batch
@@ -3275,6 +3288,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 73
+    alsoAccepted: 外山の霞
     ku: 4
     status: approved
     confirmationMode: batch
@@ -3284,6 +3298,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 73
+    alsoAccepted: 立たずもあらなむ
     ku: 5
     status: approved
     confirmationMode: batch
@@ -3338,6 +3353,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 75
+    alsoAccepted: 契りおきし
     ku: 1
     status: approved
     confirmationMode: batch
@@ -3914,6 +3930,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 87
+    alsoAccepted: 秋の夕暮
     ku: 5
     status: approved
     confirmationMode: batch
