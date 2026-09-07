@@ -306,12 +306,14 @@ export function Session({
                   {judgement === "partial" && (
                     <>
                       <span class="grade-mark-note">{PARTIAL_NOTE}</span>
-                      <PartialSupplement
-                        answerHistorical={item.answerHistorical}
-                        answerModern={item.answerModern}
-                        answer={item.answer}
-                        isAuthor={item.type === "author"}
-                      />
+                      {/* 作者の正答枠は上の grade-line が同じ形で出している。ここで重ねると同じ2行が2回並ぶ（発注074 工程12）。 */}
+                      {item.type !== "author" && (
+                        <PartialSupplement
+                          answerHistorical={item.answerHistorical}
+                          answerModern={item.answerModern}
+                          answer={item.answer}
+                        />
+                      )}
                     </>
                   )}
                   <QuestionNote note={item.note} />
@@ -365,12 +367,11 @@ export function Session({
                     </button>
                   </div>
                   {/* △を押す前から出す。何を基準に選ぶのかが分からないと自己採点できない。 */}
-                  {hasKanaDifference(item) && (
+                  {item.type !== "author" && hasKanaDifference(item) && (
                     <PartialSupplement
                       answerHistorical={item.answerHistorical}
                       answerModern={item.answerModern}
                       answer={item.answer}
-                      isAuthor={item.type === "author"}
                     />
                   )}
                   <QuestionNote note={item.note} />
@@ -591,7 +592,7 @@ export function Session({
           type="button"
           onClick={() => setConfirmExit(true)}
         >
-          戻る
+          ホームへ戻る
         </button>
         <span class="wordmark">{ENTRY_LABELS[entry]}</span>
         <span class="progress" aria-live="polite">
@@ -617,11 +618,6 @@ export function Session({
         />
       </section>
       <article class={`question-text question-text--${settings.writing}${isAuthorChoice ? " question-text--author" : ""}`}>
-        {entry !== "exam" && (
-          <span class="question-number" aria-label={`${displayFlow.cardNo}番`}>
-            {displayFlow.cardNo}
-          </span>
-        )}
         <h1 class="sr-only">{isAuthorChoice ? "作者問題" : "穴埋め問題"}</h1>
         {isAuthorChoice ? poem ? (
           <div class="question-poem question-poem--author" lang="ja">
@@ -696,7 +692,9 @@ export function Session({
                 >
                   {displayFlow.phase === "save-failed"
                     ? "もう一度保存する"
-                    : "答え合わせ"}
+                    : isExam
+                      ? "記録して次へ"
+                      : "答え合わせ"}
                 </button>
               </div>
             </>}
@@ -715,20 +713,23 @@ export function Session({
       {displayFlow.phase === "prompt" &&
         answerMode === "paper" &&
         !paperOpen && (
-          <button
-            class="primary"
-            type="button"
-            onClick={
-              isExam
-                ? () => nextExam(displayFlow)
-                : () => {
-                    port.countUi?.("reveal", today());
-                    setPaperOpen(true);
-                  }
-            }
-          >
-            {isExam ? "次へ" : "答えを確認する"}
-          </button>
+          <>
+            {isExam && isAuthorChoice && <p class="paper-author-prompt">作者名を書いてください。</p>}
+            <button
+              class="primary"
+              type="button"
+              onClick={
+                isExam
+                  ? () => nextExam(displayFlow)
+                  : () => {
+                      port.countUi?.("reveal", today());
+                      setPaperOpen(true);
+                    }
+              }
+            >
+              {isExam ? "次へ" : "答えを確認する"}
+            </button>
+          </>
         )}
       {displayFlow.phase === "prompt" &&
         answerMode === "paper" &&
@@ -773,7 +774,7 @@ export function Session({
           )}
           {answerMode === "screen" && displayFlow.submitted && (
             <label class={displayFlow.judgement === "correct" ? "answer-retained" : "answer-retained answer-retained--attention"}>
-              自分の答え
+              <span class="answer-retained__label">自分の答え</span>
               <input value={displayFlow.submitted.input} readOnly />
               {displayFlow.judgement === "correct" ? <FeedbackMark kind="correct" label="正解" visualOnly /> : displayFlow.judgement === "incorrect" ? <FeedbackMark kind="incorrect" label="要確認！" visualOnly /> : null}
             </label>

@@ -14,7 +14,7 @@ test('069 M-1: 作者の縦書きは縦書き設定だけで指定する', () =>
 test('069 M-2: 作者の横書きは横書き設定で縦書き指定を受けない', () => expect(styles()).not.toContain('.question-text--horizontal .question-line { writing-mode: vertical-rl'));
 test('069 M-3: 作者候補はprimaryではない', () => expect(session()).not.toMatch(/question\.candidates\.map[\s\S]{0,300}class="primary"/));
 test('069 M-4: 作者の歌は句ごとのquestion-lineへ分ける', () => expect(session()).toContain('displayKu?.map((line, index) => <span class="question-line"'));
-test('069 M-5: フィードバック画像は乗算表示する', () => expect(styles()).toContain('.feedback-mark img, .perfect-mark img { mix-blend-mode: multiply; }'));
+test('069 M-5: フィードバック画像の背景を本文へ溶け込ませる', () => expect(styles()).toContain('.feedback-mark img, .perfect-mark img { mix-blend-mode: darken; }'));
 test('069 M-6: 同じ作者読みには歴史的仮名遣い行を足さない', () => expect(feedback()).toContain('historical && historical !== modern'));
 test('069 M-7: 作者の上段には現代読みを出す', () => expect(feedback()).toContain("正解：{answer}{modern"));
 test('069 M-8: 解答欄の印は開示時だけ置く', () => expect(session()).toContain('{displayFlow.phase === "revealed" && ('));

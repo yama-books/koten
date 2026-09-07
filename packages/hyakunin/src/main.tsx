@@ -30,7 +30,6 @@ import type { AnswerMode } from './ui/screens/RangePicker.tsx';
 import './styles.css';
 
 const defaultPort = createIndexedDbPort();
-const defaults: UserSettings = { key: 'user', reading: 'no-ruby', writing: 'vertical', order: 'number', soundEnabled: false, noticeConfirmed: false };
 
 type Selection = {
   entry: EntryId;
@@ -47,7 +46,10 @@ type Selection = {
 export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   const [screen, setScreen] = useState<'home' | 'picker' | 'session' | 'review-error' | 'result-loading' | 'result' | 'history-loading' | 'history'>('home');
   const [selected, setSelected] = useState<Selection | null>(null);
-  const [settings, setSettings] = useState(defaults);
+  // **設定の出所は保存領域ひとつである。** ここで既定値を持つと、`Home` が読み込んだ設定を
+  // 知らないまま `Session` へ配り、出題中の設定変更が古い値ごと保存領域へ書き戻される
+  // （発注074 工程1：学年と「確認済み」の印が消える）。読み込みは `Home` から受け取る。
+  const [settings, setSettings] = useState<UserSettings | null>(null);
   const [result, setResult] = useState<SessionResult | null>(null);
   const [history, setHistory] = useState<HistorySummary | null>(null);
   const [saveFailure, setSaveFailure] = useState(false);
@@ -91,11 +93,15 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     if (!selected) return;
     const planned = planReviewQuestions(selected.questions, questionIds);
     if (!planned) { setScreen('review-error'); return; }
-    const session = createSession({ sessionId: crypto.randomUUID(), range: selected.range, entry: 'review', order: selected.session?.order ?? settings.order, seed: createSeed(Math.random), startedOn: new Date().toISOString().slice(0, 10), questionCount: planned.length });
+    const session = createSession({ sessionId: crypto.randomUUID(), range: selected.range, entry: 'review', order: selected.session?.order ?? settings?.order ?? 'number', seed: createSeed(Math.random), startedOn: new Date().toISOString().slice(0, 10), questionCount: planned.length });
     setSelected({ ...selected, entry: 'review', answerMode: 'screen', planned, session, origin: selected.origin ?? { entry: selected.entry, answerMode: selected.answerMode } });
     setScreen('session');
   }
 
+  const homeScreen = () => <Home port={port} onSettings={setSettings} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen' })} onOpenHistory={() => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events)); setScreen('history'); }); }} />;
+  // 設定を読むのはホームである。**読み込みが済むまで他の画面へ渡さない**——
+  // 既定値のまま渡すと、そこからの保存が保存済みの学年を消す（発注074 工程1）。
+  if (!settings) return homeScreen();
   if (screen === 'picker' && selected) return <RangePicker entry={selected.entry} range={selected.range} order={settings.order} onBack={() => setScreen('home')} onStart={(range, order, answerMode, includeAuthors) => {
     void startNew(selected.entry, range, order, selected.questions, selected.poems, answerMode, includeAuthors);
     setSettings({ ...settings, order });
@@ -116,11 +122,16 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   if (screen === 'review-error') return <main class="session"><p role="alert">この問題は表示できません。ホームに戻ってやり直してください。</p><button type="button" onClick={() => setScreen('home')}>ホームへ戻る</button></main>;
   if (screen === 'history-loading') return <main class="loading" aria-live="polite">記録を読み込んでいます。</main>;
   if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} onChanged={reloadHistory} />;
-  if (screen === 'result' && result && selected) return <><>{saveFailure && <p class="result-save-failure" role="alert">保存に失敗しました。結果は表示しています。</p>}</><Result result={result} onRetryWeak={startReview} onRetrySame={() => {
+  if (screen === 'result' && result && selected) {
+    // 結果に残った問題でも、壊れた穴埋めは再確認画面を作れない。押すと必ず失敗する
+    // 導線を出さず、作者問題は既存の選択式 UI で再確認へ通す（発注074 工程16）。
+    const retryQuestionIds = result.retryQuestionIds.filter((questionId) => planReviewQuestions(selected.questions, [questionId]) !== null);
+    return <><>{saveFailure && <p class="result-save-failure" role="alert">保存に失敗しました。結果は表示しています。</p>}</><Result result={{ ...result, retryQuestionIds }} onRetryWeak={startReview} onRetrySame={() => {
     const origin = selected.origin ?? { entry: selected.entry, answerMode: selected.answerMode };
     void startNew(origin.entry, selected.range, settings.order, selected.questions, selected.poems, origin.answerMode);
-  }} onHome={() => setScreen('home')} /></>;
-  return <Home port={port} onQuickStart={(range, questions, poems) => { setSettings({ ...settings, reading: 'no-ruby' }); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen' })} onOpenHistory={() => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events)); setScreen('history'); }); }} />;
+    }} onHome={() => setScreen('home')} /></>;
+  }
+  return homeScreen();
 }
 
 /**

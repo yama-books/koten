@@ -10,10 +10,14 @@ export function reviewQuestionIds(outcomes: readonly AnswerOutcome[]): readonly 
   return [...last.values()].filter(({ kind }) => kind === 'partial' || kind === 'needs-review' || kind === 'incorrect').map(({ questionId }) => questionId);
 }
 
-/** Never widen review to a card: every requested id must be a usable blank. */
+/**
+ * Never widen review to a card: every requested id must be a question that can
+ * be shown again. Blank questions need their blank slot; author questions use
+ * their existing choice UI and therefore have no blank slot to validate.
+ */
 export function planReviewQuestions(questions: readonly PublishedQuestion[], questionIds: readonly string[]): PublishedQuestion[] | null {
   const byId = new Map(questions.map((question) => [question.questionId, question]));
   const planned = [...new Set(questionIds)].map((id) => byId.get(id));
-  if (!planned.length || planned.some((question) => !question || question.type !== 'blank' || !/＿+/.test(question.prompt))) return null;
+  if (!planned.length || planned.some((question) => !question || (question.type === 'blank' && !/＿+/.test(question.prompt)))) return null;
   return planned as PublishedQuestion[];
 }

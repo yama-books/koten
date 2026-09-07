@@ -79,10 +79,23 @@ test('home: a one-chunk restore does not explain splitting and shows completed-c
 test('home: a multi-chunk restore explains splitting only once when remaining counts agree', async () => {
   const root = await renderRestorableHome(21, 20);
   const restore = root.querySelector('.restore-offer')!;
-  expect(restore.textContent).toContain('20首ずつ・全2まとまり');
+  expect(restore.textContent).toContain('20首ずつ・全2セット');
   expect(restore.textContent).toContain('次は 21番〜21番（1首）');
   expect(restore.textContent).toContain('20首/21首');
   expect(restore.querySelector('[role="meter"]')?.getAttribute('aria-valuenow')).toBe('95');
+});
+
+// 発注074 工程3。**画面から消すだけでなく、版は名乗り続ける。**
+// 「0件である」は、走査対象が空でも通る。**先にフッタと版番号の実在を示してから数える。**
+test('074-3: フッタは版番号だけを出し、テスト公開の名乗り・できないこと・公開名義を出さない', async () => {
+  const root = await renderHome();
+  const footer = root.querySelector('.foot-line');
+  expect(footer, 'フッタが無ければ、以下の0件は何も示さない').not.toBeNull();
+  expect(footer!.textContent).toContain(appConfig.appVersion);
+  for (const phrase of ['テスト公開版', '正式公開ではありません', 'この版でまだできないこと', appConfig.publisher]) {
+    expect(footer!.textContent, `フッタに「${phrase}」が残っている`).not.toContain(phrase);
+  }
+  expect(root.querySelector('.known-limits')).toBeNull();
 });
 
 test('home: closing the install notice persists a quiet returning hint', async () => {

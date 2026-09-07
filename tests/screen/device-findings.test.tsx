@@ -127,7 +127,7 @@ test('R-9: 公開表示は通常数字と歌表記を使い本番では番号を
 
 test('R-10: 戻る操作は中断確認を経て続行かトップ復帰を選べる', async () => {
   let backed = false; const view = await mountSession({ onBack: () => { backed = true; } });
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '戻る')!.click(); });
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === 'ホームへ戻る')!.click(); });
   expect(view.querySelector('[role="dialog"]')).not.toBeNull();
   expect(document.activeElement?.textContent).toBe('練習を続ける');
   await act(() => { view.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true })); });
@@ -136,11 +136,11 @@ test('R-10: 戻る操作は中断確認を経て続行かトップ復帰を選�
   expect(document.activeElement?.textContent).toBe('練習を続ける');
   await act(() => { view.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
   expect(view.querySelector('[role="dialog"]')).toBeNull();
-  expect(document.activeElement?.textContent).toBe('戻る');
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '戻る')!.click(); });
+  expect(document.activeElement?.textContent).toBe('ホームへ戻る');
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === 'ホームへ戻る')!.click(); });
   await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '練習を続ける')!.click(); });
   expect(view.querySelector('[role="dialog"]')).toBeNull();
-  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === '戻る')!.click(); });
+  await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === 'ホームへ戻る')!.click(); });
   await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === 'トップへ戻る')!.click(); });
   expect(backed).toBe(true);
 });
