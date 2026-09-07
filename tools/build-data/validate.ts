@@ -6,7 +6,7 @@ import { outputFiles, serialize } from './emit.ts';
 
 export const FIXTURE_VALUES = [
   [3, 'author', '柿本人麻呂'], [5, 'author', '猿丸大夫'], [7, 'author', '安倍仲麿'], [13, 'ku1', 'つくばねの'], [28, 'author', '源宗于朝臣'],
-  [32, 'ku1', '山川に'], [46, 'author', '曾禰好忠'], [66, 'author', '前大僧正行尊'], [70, 'ku4', 'いづこも同じ'], [74, 'ku3', '山おろしよ'],
+  [32, 'ku1', '山川に'], [46, 'author', '曾禰好忠'], [66, 'author', '前大僧正行尊'], [70, 'ku4', 'いづこもおなじ'], [74, 'ku3', '山おろしよ'],
 ] as const;
 const kana = /^[ぁ-ゖゝゞー]+$/u;
 
