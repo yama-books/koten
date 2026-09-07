@@ -18,9 +18,9 @@ test('073-2: ヘッダは歌番号だけで、メーターは進みを繰り返�
   expect(session()).not.toContain('text={`進み');
   expect(home()).not.toContain('進み ${restorable');
 });
-test('073-3: フィードバックは乗算のまま答え欄の外に置く', () => {
-  expect(styles()).toContain('.feedback-mark img, .perfect-mark img { mix-blend-mode: multiply; }');
-  expect(styles()).toContain('.answer-retained .feedback-mark { grid-column: 2;');
+test('073-3: フィードバックは白い箱を出さず答え欄の左端に置く', () => {
+  expect(styles()).toContain('.feedback-mark img, .perfect-mark img { mix-blend-mode: darken; }');
+  expect(styles()).toContain('.answer-retained .feedback-mark { grid-column: 1;');
 });
 test('073-4a: 初回設定のDOM順は学年、統計説明、OK', () => {
   const value = home();

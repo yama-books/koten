@@ -1,4 +1,4 @@
-import { ENTRY_LABELS, type EntryId } from "../../domain/entry.ts";
+import { ENTRY_LABELS, ENTRY_RULES, type EntryId } from "../../domain/entry.ts";
 import { canChangeOrder, type OrderMode } from "../../domain/order.ts";
 import { normalizeRange } from "../../domain/range.ts";
 import { useState } from "preact/hooks";
@@ -35,6 +35,8 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
       </header>
       <h1>{ENTRY_LABELS[entry]}</h1>
       <p>{entry === "exam" ? "試験のように解いて採点" : "一問一答で確認"}</p>
+      {/* 問数は設定面の冒頭に置く。「答え方」の見出しの下だと、真下のボタンの説明に見える（発注074 工程5・㉞）。 */}
+      {entry === "exam" && <p class="exam-question-count">この範囲では {ENTRY_RULES.exam.questionCount}問 出題します。</p>}
       <h2 class="range-confirm-title">範囲を確認する</h2>
       <p class="range-summary" aria-live="polite">
         {normalized.from}番〜{normalized.to}番
@@ -74,7 +76,8 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
       {entry === "exam" && (
         <section class="answer-mode" aria-labelledby="answer-mode-heading">
           <h2 id="answer-mode-heading">答え方</h2>
-          <div>
+          <div class="answer-mode__choices">
+            <div class="practice-choice">
             <button
               type="button"
               aria-pressed={answerMode === "screen"}
@@ -82,6 +85,9 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
             >
               画面で答える
             </button>
+            {answerMode === "screen" && <p>範囲を解き終えたあとに、まとめて自動採点します。</p>}
+            </div>
+            <div class="practice-choice">
             <button
               type="button"
               aria-pressed={answerMode === "paper"}
@@ -89,12 +95,9 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
             >
               紙に書く
             </button>
+            {answerMode === "paper" && <p>範囲を解き終えたあとに、正答を見て自己採点します。</p>}
+            </div>
           </div>
-          <p>
-            {answerMode === "paper"
-              ? "範囲を解き終えたあとに、正答を見て自分で採点します。"
-              : "範囲を解き終えたあとに、まとめて自動採点します。"}
-          </p>
         </section>
       )}
       {entry === "exam" && (

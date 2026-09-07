@@ -48,6 +48,13 @@ test('result: 要確認がないとき再確認ボタンを出さない', () => 
 test('result: 首は残っていても再出題する問題がなければボタンを出さない', () => { const view = mount({ ...base, retryCardNumbers: [3, 5], retryQuestionIds: [] }); expect(view.textContent).not.toContain('まちがえた歌だけをもう一度'); });
 test('result: 再確認の文言は歌だけに限定する', () => { const view = mount(); expect(view.textContent).toContain('まちがえた歌だけをもう一度'); expect(view.textContent).not.toContain('要確認の首をふくむ範囲をもう一度'); });
 test('result: 同じ範囲をもう一度は常に出す', () => { const view = mount({ ...base, retryCardNumbers: [] }); expect(view.textContent).toContain('同じ範囲をもう一度'); });
+test('074-13: 再確認の説明は同じ空欄と実際の問題数を、異なる二件数で示す', () => {
+  const one = mount({ ...base, retryQuestionIds: ['p003-ku1'] });
+  expect(one.textContent).toContain('同じ空欄で、1問くりかえし練習します。');
+  render(null, one); one.remove(); root = undefined;
+  const three = mount({ ...base, retryQuestionIds: ['p003-ku1', 'p004-ku2', 'p005-ku3'] });
+  expect(three.textContent).toContain('同じ空欄で、3問くりかえし練習します。');
+});
 test('result: 再確認は渡された飛び飛びの問題を順序どおり保つ', async () => { let received: readonly string[] = []; const view = mount({ ...base, retryQuestionIds: ['p005-ku2', 'p003-ku1'] }, { onRetryWeak: (questionIds) => { received = questionIds; }, onRetrySame: () => {}, onHome: () => {} }); await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === 'まちがえた歌だけをもう一度')!.click(); }); expect(received).toEqual(['p005-ku2', 'p003-ku1']); });
 test('result: 再確認ボタンは一つだけ表示する', () => { const view = mount(); expect(Array.from(view.querySelectorAll('button')).filter((button) => button.textContent === 'まちがえた歌だけをもう一度')).toHaveLength(1); });
 test('result: 各操作の説明は同じまとまりに入る', () => { const view = mount(); for (const button of Array.from(view.querySelectorAll('.result-actions button'))) expect(button.parentElement?.className).toContain('practice-choice'); expect(view.textContent).toContain('同じ範囲でもう一度出題します。'); });

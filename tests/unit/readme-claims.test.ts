@@ -4,7 +4,6 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { appConfig } from '../../packages/shared/src/app-config.ts';
-import { KNOWN_LIMITATIONS, releaseStageLabel } from '../../packages/shared/src/release-notes.ts';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const readme = readFileSync(path.join(root, 'README.md'), 'utf8');
@@ -43,15 +42,8 @@ test('README names the blank-unit limitation while only one unit is generated', 
   if (units.size === 1) assert.match(readme, /句を丸ごと隠す形だけ|「句」単位だけ/, `生成は ${[...units]} だけなのに README が制約を書いていない`);
 });
 
-test('every limitation the screen shows is also written in the README', () => {
-  assert.ok(KNOWN_LIMITATIONS.length > 0, '制約が 0 件では検査にならない');
-  const missing = KNOWN_LIMITATIONS.filter((limitation) => !readme.includes(limitation));
-  // 憲章 §10 項目 7. Written twice, these drift; the screen is what a user actually reads.
-  assert.deepEqual(missing, [], `画面に出るのに README に無い: ${missing.join(' / ')}`);
-});
-
-test('the screen names the release stage instead of staying silent about it', () => {
+test('README は既知の制約とテスト公開であることを明記する', () => {
   assert.equal(appConfig.isOfficial, false, 'isOfficial を true にしたらこの試験を書き直すこと');
-  assert.match(releaseStageLabel, /テスト公開版/);
-  assert.ok(releaseStageLabel.includes(appConfig.appVersion), '版番号が入っていない');
+  assert.match(readme, /まだできないこと/);
+  assert.match(readme, /正式公開ではありません/);
 });

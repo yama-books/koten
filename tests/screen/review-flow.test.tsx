@@ -85,7 +85,7 @@ async function click(text: string) {
 
 /** 画面から今の問題IDを読む。首番号と空欄の位置だけで一意に決まる。 */
 function shownQuestion(): string {
-  const cardNo = Number(root!.querySelector('.question-number')?.textContent);
+  const cardNo = Number(root!.querySelector('.progress')?.textContent?.replace('番', ''));
   const lines = Array.from(root!.querySelectorAll('.question-poem .question-line'));
   const index = lines.findIndex((line) => line.querySelector('.blank-slot'));
   if (index < 0) return `${poemId(cardNo)}-author`;
@@ -166,7 +166,7 @@ test('review: 再確認画面は中断ダイアログを開く前から続きを
   await click('まちがえた歌だけをもう一度');
   expect(root!.querySelector('.interrupt-dialog')).toBeNull();
   expect(root!.textContent).toContain('途中で終了すると、この再確認の続きは再開できません。（答え合わせ済みの記録は残ります）');
-  await click('戻る');
+  await click('ホームへ戻る');
   expect(root!.querySelector('.interrupt-dialog')!.textContent).toContain('この再確認の続きは再開できません');
 });
 
@@ -204,15 +204,13 @@ test('review: 再確認の結果から「同じ範囲をもう一度」は元の
   expect(answerField()).not.toBeNull();
 });
 
-test('review: 空欄を作れない問題しか残らない回は、入力不能な画面ではなく出口を出す', async () => {
+test('review: 空欄を作れない問題しか残らない回は、必ず失敗する再確認ボタンを出さない', async () => {
   await mount('?from=12&to=12');
   await click('とりあえず始める');
   const round = await playRound(0);
   expect(round.count).toBe(1);
   await click('結果を見る');
   await settle();
-  await click('まちがえた歌だけをもう一度');
-  expect(root!.querySelector('input[placeholder]')).toBeNull();
-  expect(root!.textContent).toContain('この問題は表示できません。ホームに戻ってやり直してください。');
-  expect(button('ホームへ戻る')).toBeDefined();
+  expect(button('まちがえた歌だけをもう一度')).toBeUndefined();
+  expect(root!.textContent).not.toContain('この問題は表示できません。ホームに戻ってやり直してください。');
 });

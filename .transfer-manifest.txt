@@ -433,10 +433,10 @@ packages/hyakunin/src/ui/screens/Home.tsx
 packages/hyakunin/src/ui/screens/RangePicker.tsx
 packages/hyakunin/src/ui/screens/Result.tsx
 packages/hyakunin/src/ui/screens/Session.tsx
+packages/hyakunin/src/ui/settings.ts
 packages/hyakunin/src/vite-env.d.ts
 packages/hyakunin/tsconfig.json
 packages/hyakunin/tsconfig.node.json
-packages/hyakunin/tsconfig.tsbuildinfo
 packages/hyakunin/vite.config.ts
 packages/hyakunin/vitest.config.ts
 packages/kanazukai/eslint.config.js
@@ -824,7 +824,6 @@ packages/kanazukai/src/ui/screens/Home.tsx
 packages/kanazukai/src/vite-env.d.ts
 packages/kanazukai/tsconfig.json
 packages/kanazukai/tsconfig.node.json
-packages/kanazukai/tsconfig.tsbuildinfo
 packages/kanazukai/vite.config.ts
 packages/kanazukai/vitest.config.ts
 packages/shared/package.json
@@ -866,7 +865,6 @@ packages/shared/src/ui/components/StatsNotice.tsx
 packages/shared/src/ui/screens/ErrorScreen.tsx
 packages/shared/src/ui/screens/Transfer.tsx
 packages/shared/tsconfig.json
-packages/shared/tsconfig.tsbuildinfo
 publish-allowlist.txt
 review/authors.yaml
 review/blanks.yaml
@@ -882,7 +880,6 @@ tests/data/review-approve.test.ts
 tests/data/review.test.ts
 tests/data/validate.test.ts
 tests/data/variants-fixture.test.ts
-tests/rules/firestore-debug.log
 tests/rules/package-lock.json
 tests/rules/package.json
 tests/rules/stats.test.mjs
@@ -899,12 +896,15 @@ tests/screen/mastery-meter-contract.test.tsx
 tests/screen/no-pressure.test.tsx
 tests/screen/order069-contract.test.tsx
 tests/screen/order073-contract.test.tsx
+tests/screen/order074-contract.test.tsx
+tests/screen/order074-screens.test.tsx
 tests/screen/range-picker.test.tsx
 tests/screen/restore.test.tsx
 tests/screen/result.test.tsx
 tests/screen/review-flow.test.tsx
 tests/screen/session.test.tsx
 tests/screen/settings-migration.test.tsx
+tests/screen/settings-source.test.tsx
 tests/screen/stats-onboarding.test.tsx
 tests/screen/viewer.test.tsx
 tests/unit/app-config.test.ts

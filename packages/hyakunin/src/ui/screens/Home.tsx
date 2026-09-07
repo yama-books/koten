@@ -1,15 +1,11 @@
 import { appConfig } from "@koten/shared/app-config";
 import { MasteryMeter } from "@koten/shared/mastery-meter";
-import {
-  KNOWN_LIMITATIONS,
-  releaseStageLabel,
-} from "@koten/shared/release-notes";
 import type { Session, UserSettings } from "@koten/shared/domain/event";
 import { loadJson } from "@koten/shared/data/load";
 import { ErrorScreen } from "@koten/shared/error-screen";
 import { GradePicker } from "@koten/shared/grade-picker";
 import { StatsNotice } from "@koten/shared/stats-notice";
-import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import { parsePoems, type Poem } from "../../data/schema.ts";
 import {
   parseQuestions,
@@ -29,6 +25,7 @@ import { planResume, type ResumePlan } from "../../domain/resume.ts";
 import { resolveActiveRange } from "../../domain/session.ts";
 import { createMemoryPort } from "../../domain/ports.ts";
 import type { ApplicationPort } from "../adapters/indexeddb-port.ts";
+import { initialSettings, loadUserSettings } from "../settings.ts";
 import { ReadingToggle } from "../components/ReadingToggle.tsx";
 import { WritingModeToggle } from "../components/WritingModeToggle.tsx";
 
@@ -52,6 +49,8 @@ type Props = {
     poems: Poem[],
   ) => void;
   onOpenHistory?: () => void;
+  /** 読み込んだ設定と、書き換えた設定を上へ渡す。**設定の出所は保存領域ひとつである。** */
+  onSettings?: (settings: UserSettings) => void;
   poems?: Poem[];
   questions?: PublishedQuestion[];
 };
@@ -87,14 +86,6 @@ function rememberInstallNoticeDismissal() {
     // プライベートブラウズなどで保存できなくても、案内そのものは使える。
   }
 }
-const defaults: UserSettings = {
-  key: "user",
-  reading: "no-ruby",
-  writing: "vertical",
-  order: "number",
-  soundEnabled: false,
-  noticeConfirmed: false,
-};
 // 統計を実際に送信する導線ができるまで、同意と学年選択は表示しない。
 // 部品・設定値は、その導線を実装するときに同じ契約のまま再利用する。
 // 収集の切り替えは `domain/stats.ts` の1か所から引く。ここに真偽を直書きしない。
@@ -121,6 +112,7 @@ export function Home({
   onQuickStart,
   onResume,
   onOpenHistory,
+  onSettings,
   poems: suppliedPoems,
   questions: suppliedQuestions,
 }: Props) {
@@ -143,7 +135,7 @@ export function Home({
   const [authorOpen, setAuthorOpen] = useState(false);
   const [practiceOpen, setPracticeOpen] = useState(false);
   const [viewSessionId] = useState(() => crypto.randomUUID());
-  const [settings, setSettings] = useState<UserSettings>(defaults);
+  const [settings, setSettings] = useState<UserSettings>(initialSettings);
   const [settingsLoaded, setSettingsLoaded] = useState(false);
   const [pendingGrade, setPendingGrade] = useState<string | undefined>();
   const [restorable, setRestorable] = useState<Restorable | null>(null);
@@ -151,6 +143,9 @@ export function Home({
   const [standalone] = useState(isStandaloneLaunch);
   const [installDismissed, setInstallDismissed] = useState(installNoticeWasDismissed);
   const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
+  // 読み込みは起動時の 1 度だけ走る。受け手を deps に入れて読み直させない。
+  const onSettingsRef = useRef(onSettings);
+  onSettingsRef.current = onSettings;
 
   useEffect(() => {
     const receiveInstallPrompt = (event: Event) => {
@@ -188,21 +183,11 @@ export function Home({
 
   useLayoutEffect(() => {
     document.title = appConfig.products.hyakunin.displayName;
-    activePort.loadSettings().then((saved) => {
-      const migrated = saved ?? {
-        ...defaults,
-        writing:
-          window.localStorage?.getItem("hyakunin:orientation") === "horizontal"
-            ? "horizontal"
-            : "vertical",
-      };
-      setSettings(migrated);
-      setPendingGrade(migrated.grade);
+    void loadUserSettings(activePort).then((loaded) => {
+      setSettings(loaded);
+      setPendingGrade(loaded.grade);
       setSettingsLoaded(true);
-      if (!saved) {
-        void activePort.saveSettings(migrated);
-        window.localStorage?.removeItem("hyakunin:orientation");
-      }
+      onSettingsRef.current?.(loaded);
     });
     Promise.all([activePort.loadLastSession(), activePort.listEvents()]).then(
       ([session, events]) => {
@@ -255,6 +240,7 @@ export function Home({
   };
   const persist = async (next: UserSettings) => {
     setSettings(next);
+    onSettingsRef.current?.(next);
     await activePort.saveSettings(next);
   };
   useEffect(() => {
@@ -450,7 +436,7 @@ export function Home({
           ) : (
             <>
               <p>
-                範囲 {restorable.session.from}番〜{restorable.session.to}番（{CHUNK_CARD_COUNT}首ずつ・全{restorable.plan.chunkCount}まとまり）
+                範囲 {restorable.session.from}番〜{restorable.session.to}番（{CHUNK_CARD_COUNT}首ずつ・全{restorable.plan.chunkCount}セット）
               </p>
               <p class="restore-next-chunk">
                 次は {restorable.session.from + restorable.plan.chunkIndex * CHUNK_CARD_COUNT}番〜{Math.min(restorable.session.to, restorable.session.from + (restorable.plan.chunkIndex + 1) * CHUNK_CARD_COUNT - 1)}番（{restorable.plan.chunkFullyConfirmed ? 0 : restorable.plan.cardNumbers.length}首）
@@ -514,7 +500,7 @@ export function Home({
         </div>
         <div class="entry-introduction">
           <p class="entry-help">
-            とりあえず始めるでは、穴埋めと作者の問題の両方を出します。1回の学習は
+            「とりあえず始める」では、穴埋めと作者の問題の両方を出します。1回の学習は
             {ENTRY_RULES.quick.questionCount}問です。
           </p>
           {plannedChunkCount > 1 && (
@@ -599,16 +585,8 @@ export function Home({
         {!showStatsOnboarding && !standalone && installDismissed && (
           <p class="install-guide install-guide--returning">ホーム画面に追加するには、ブラウザのメニューを開いてください。</p>
         )}
-        <p class="release-stage">{releaseStageLabel}</p>
-        <details class="known-limits">
-          <summary>この版でまだできないこと</summary>
-          <ul>
-            {KNOWN_LIMITATIONS.map((limitation) => (
-              <li key={limitation}>{limitation}</li>
-            ))}
-          </ul>
-        </details>
-        <p>{appConfig.publisher}</p>
+        {/* 版は名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */}
+        <p class="app-version">{appConfig.appVersion}</p>
       </footer>
     </main>
   );

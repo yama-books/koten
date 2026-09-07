@@ -147,7 +147,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .pager { display: flex; justify-content: space-between; gap: var(--space-md); padding-block: var(--space-lg); }
 .foot-line { border-top: var(--rule-thin) solid var(--color-rule); margin-block-start: var(--space-xl); padding-block: var(--space-sm) max(var(--space-md), env(safe-area-inset-bottom)); color: var(--color-ink-muted); font-size: var(--text-sm); }
 .foot-line p { margin: 0; }
-.install-guide { margin-block-end: var(--space-md); border-block: var(--rule-thin) solid var(--color-rule); }
+.install-guide { margin-block: var(--space-md); }
 .install-guide--first { display: grid; gap: var(--space-sm); padding-block: var(--space-md); }
 .install-guide--first p,
 .install-guide--returning { margin: 0; }
@@ -206,13 +206,12 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .session-controls button { overflow-wrap: anywhere; white-space: normal; }
 .session-controls label,
 .range-picker label { min-height: 44px; }
-.question-text { position: relative; display: grid; min-height: 13rem; margin-block: var(--space-md); border-block: var(--rule-thin) solid var(--color-rule); padding: var(--space-md); font-family: var(--font-poem); font-weight: 600; }
+.question-text { position: relative; display: grid; min-height: 13rem; margin-block: var(--space-md); border-block-end: var(--rule-thin) solid var(--color-rule); padding: var(--space-md); font-family: var(--font-poem); font-weight: 600; }
 .question-poem { display: flex; min-width: 0; gap: var(--space-sm); justify-content: center; font-size: clamp(var(--text-md), 5.5vw, var(--text-lg)); line-height: 1.75; }
 .question-text--vertical .question-poem { align-items: flex-start; flex-direction: row; direction: rtl; writing-mode: horizontal-tb; }
 .question-text--vertical { box-sizing: border-box; width: min(100%, 30rem); margin-inline: auto; overflow-x: auto; }
 .question-text--vertical .question-line { display: inline-block; max-inline-size: 12em; direction: ltr; text-orientation: mixed; white-space: nowrap; writing-mode: vertical-rl; }
 .question-text--horizontal .question-poem { flex-wrap: wrap; justify-content: flex-start; }
-.question-text--horizontal { padding-inline-start: calc(var(--space-xl) + var(--space-md)); }
 .question-poem--fallback { align-items: center; }
 .question-text--author { min-height: 0; }
 .question-text--author .question-poem--author { max-inline-size: 100%; }
@@ -223,7 +222,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .question-text--vertical + .answer-controls .answer-choices p { grid-column: 1 / -1; direction: ltr; }
 .question-text--vertical + .answer-controls .answer-choices button { writing-mode: vertical-rl; }
 .answer-choices > :not(p) { box-sizing: border-box; min-width: 44px; min-height: 44px; }
-.question-number { position: absolute; inset-block-start: var(--space-xs); inset-inline-start: var(--space-xs); color: var(--color-ink-muted); font-family: var(--font-ui); font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
 .blank-slot { box-sizing: border-box; display: inline-grid; min-inline-size: 3em; min-block-size: 1.45em; place-items: center; border: var(--rule-thin) solid var(--color-ink-muted); border-radius: var(--radius-md); margin-inline: var(--space-3xs); padding: 0 var(--space-2xs); background: var(--color-surface); vertical-align: middle; }
 .blank-slot--filled { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); }
 .answer-controls { display: grid; align-items: start; }
@@ -246,9 +244,14 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   from { opacity: 0; transform: scale(.92); }
   to { opacity: 1; transform: scale(1); }
 }
-.answer-retained { display: grid; grid-template-columns: minmax(0, 1fr) auto; min-width: 0; gap: var(--space-3xs) var(--space-sm); margin-block: var(--space-md); }
-.answer-retained > input { grid-column: 1; }
-.answer-retained .feedback-mark { grid-column: 2; align-self: center; pointer-events: none; }
+.answer-retained { display: grid; grid-template-columns: auto minmax(0, 1fr); min-width: 0; gap: var(--space-3xs) var(--space-sm); margin-block: var(--space-md); }
+.answer-retained > input { grid-column: 2; grid-row: 2; }
+/*
+ * 見出しは行いっぱい。左の列に置くと、マークではなく見出しの文字が列幅を決め、
+ * 320px で答えの器が行の 3 分の 2 まで縮む（`check:overflow` の retainedInputFillsRow）。
+ */
+.answer-retained__label { grid-column: 1 / -1; }
+.answer-retained .feedback-mark { grid-column: 1; grid-row: 2; align-self: center; pointer-events: none; }
 .kana-supplement { margin-block: var(--space-2xs); overflow-wrap: anywhere; }
 .question-note { margin-block: var(--space-2xs); color: var(--color-ink-muted); font-size: var(--text-sm); overflow-wrap: anywhere; }
 .review-note--persistent { margin-block: var(--space-sm); }
@@ -273,7 +276,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .back-link { border-color: transparent; padding-inline: var(--space-xs); background: transparent; }
 .session .nav-edge { flex-wrap: wrap; }
 .session .nav-edge .progress { margin-inline-start: auto; }
-.answer-mode { display: grid; gap: var(--space-sm); margin-block: var(--space-lg); border-block: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-md); }
+.answer-mode { display: grid; gap: var(--space-sm); margin-block: var(--space-lg); border-block-end: var(--rule-thin) solid var(--color-rule); padding-block-end: var(--space-md); }
 .answer-mode h2, .answer-mode p { margin: 0; }
 .answer-mode div { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .answer-mode button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
@@ -324,13 +327,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .history-list { display: grid; gap: var(--space-sm); padding: 0; list-style: none; }
 .history-entry { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-sm); }
 
-/* 憲章 §10 項目 8: 既知の制約を隠さない。既定で畳むが、目に入る位置に置く。 */
-/* Zen Maru Gothic は 500 と 700 だけ self-host している。600 を指定すると合成太字になる。 */
-.release-stage { font-weight: 700; color: var(--color-ink); }
-.known-limits { margin-block: var(--space-sm); }
-.known-limits summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; }
-.known-limits ul { margin: var(--space-2xs, 0.25rem) 0 0; padding-inline-start: 1.25em; }
-.known-limits li { margin-block: var(--space-2xs, 0.25rem); }
+/* 版だけを静かに名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */
+.app-version { font-variant-numeric: tabular-nums; }
 
 /*
  * WCAG 1.4.4（文字 200%）と APP_SPEC §15 項目 11。
@@ -352,7 +350,15 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .practice-choice p strong, .practice-choice p span { display: block; }
 .practice-choice p strong { color: var(--color-ink); }
 .practice-choice button { width: 100%; }
-.feedback-mark img, .perfect-mark img { mix-blend-mode: multiply; }
+.feedback-mark img, .perfect-mark img { mix-blend-mode: darken; }
+/*
+ * 手描きの原画の地色は純白ではなく中間色の灰である。`darken` は各成分の暗いほうを採るので、
+ * 地色が本文の背景（暖色）より暗い成分だけ残り、**わずかに暗い四角**が見えていた（発注074 工程17）。
+ * 描画時に 5% だけ明るくして地色を背景の上へ持ち上げると、`darken` が背景そのものを選ぶ。
+ * 実測：外周の最大の差 10 → 0、線の濃さ 154 → 150。**画像は1バイトも変えていない。**
+ * `--color-paper` を暗くするとこの余裕は失われる。`check:overflow` が実画面で測って落とす。
+ */
+.feedback-mark img, .perfect-mark img { filter: brightness(1.05); }
 .range-confirm-title { margin-block: var(--space-lg) 0; font-size: var(--text-md); }
 .range-summary { margin-block: var(--space-xs); font-family: var(--font-poem); font-size: var(--text-lg); font-variant-numeric: tabular-nums; }
 
@@ -362,6 +368,11 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   .practice-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .answer-actions,
   .interrupt-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /*
+   * 縦書きの器に添う操作部は、歌と同じ 30rem の軸に揃える。2 列にすると「わからない！」だけが
+   * 左半分に置かれ、歌の中心からも選択肢の群からも 123px ずれた（発注074 工程15）。
+   */
+  .question-text--vertical + .answer-controls .answer-actions { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-height: 44rem) and (max-width: 31rem) {
@@ -395,9 +406,10 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .stats-notice__confirm { justify-self: start; background: var(--color-ink); color: var(--color-paper); font-weight: 700; }
 .stats-notice__help { color: var(--color-ink-muted); font-size: var(--text-sm); }
 .grade-picker { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
-.onboarding__dialog > .stats-notice { order: 1; }
-.onboarding__dialog > .grade-picker { order: 2; }
-.onboarding__dialog > .stats-notice__confirm { order: 3; }
+/*
+ * 見た目の順を DOM の順（学年 → 説明 → OK）に合わせる。`order` で説明を先頭へ動かすと、
+ * 説明と OK の間に学年が挟まり、何に同意して押すのかが読み取れない（発注074 工程2）。
+ */
 .grade-picker__options { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .grade-picker__options button { flex: 1 1 7rem; min-width: 0; white-space: normal; overflow-wrap: anywhere; }
 .grade-picker__options button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }

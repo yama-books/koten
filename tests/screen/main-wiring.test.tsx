@@ -43,7 +43,7 @@ async function start() {
   expect(root!.textContent).not.toContain('開始前の確認');
 }
 
-const currentNumber = () => root!.querySelector('.question-number')?.textContent;
+const currentNumber = () => root!.querySelector('.session .nav-edge .progress')?.textContent?.replace('番', '');
 
 afterEach(() => {
   if (root) {

@@ -21,7 +21,7 @@ async function mount(customPort = port()) { root = document.createElement('div')
 async function answer(value: string) { const input = root!.querySelector('input[placeholder]') as HTMLInputElement; await act(() => { input.value = value; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: value, inputType: 'insertText' })); }); await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); }
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });
 
-test('session: fixture reaches the first question in the narrow range', async () => { const view = await mount(); expect(view.querySelector('.question-number')?.textContent).toBe('10'); expect(view.textContent).not.toContain('p010'); });
+test('session: fixture reaches the first question in the narrow range', async () => { const view = await mount(); expect(view.querySelector('.progress')?.textContent).toBe('10番'); expect(view.textContent).not.toContain('p010'); });
 test('session: answer is revealed after saving', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).toContain('正解'); });
 test('session: next button advances to the second question', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });
 test('session: Enter advances after reveal', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); }); expect(root!.textContent).toContain('衣ほすてふ'); });

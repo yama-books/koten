@@ -29,7 +29,7 @@ test('restore: 誘いは入口名と範囲と20首ずつの分割を名乗る', 
   const view = await mount(session({ to: 100 }), Array.from({ length: 79 }, (_, index) => event(index + 1)));
   expect(view.textContent).toContain('前回の「とりあえず始める」の続きがあります');
   expect(view.textContent).toContain('範囲 1番〜100番');
-  expect(view.textContent).toContain('20首ずつ・全5まとまり');
+  expect(view.textContent).toContain('20首ずつ・全5セット');
   expect(view.textContent).toContain('次は 81番〜100番（20首）');
 });
 test('restore: 誘いは次に出すまとまりと範囲全体の進みを区別する', async () => {

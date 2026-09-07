@@ -268,15 +268,24 @@ test('073-5: 追加案内は理由を常時表示し、手順だけを折りた�
 
 test('N-16: ホームの入口は説明、開始、方法選択、確認の順に並ぶ', async () => {
   const mounted = await mountHome();
-  const panelText = mounted.root.querySelector('.range-panel')?.textContent ?? '';
-  const labels = [
-    'とりあえず始めるでは、穴埋めと作者の問題の両方を出します。',
-    'とりあえず始める',
-    '学習方法を選ぶ',
-    '歌を確認する',
-    '作者名を確認する',
+  const panel = mounted.root.querySelector('.range-panel')!;
+  // **要素そのものを並べる。** 文字列の出現位置で見ると、説明文が入口の名前を含むため
+  // 「とりあえず始める」ボタンを消しても順序が保たれ、緑のまま通る（検収 V-1 の指摘4）。
+  const named = (label: string) => Array.from(panel.querySelectorAll('button')).find((button) => button.textContent?.trim() === label) ?? null;
+  const ordered: [string, Element | null][] = [
+    ['説明', panel.querySelector('.entry-introduction .entry-help')],
+    ['とりあえず始める', named('とりあえず始める')],
+    ['学習方法を選ぶ', named('学習方法を選ぶ')],
+    ['歌を確認する', named('歌を確認する')],
+    ['作者名を確認する', named('作者名を確認する')],
   ];
-  const positions = labels.map((label) => panelText.indexOf(label));
-  expect(positions.every((position) => position >= 0)).toBe(true);
-  expect(positions).toEqual([...positions].sort((left, right) => left - right));
+  for (const [name, node] of ordered) expect(node, `${name} が無い`).not.toBeNull();
+  for (let index = 1; index < ordered.length; index += 1) {
+    const [previousName, previous] = ordered[index - 1];
+    const [name, node] = ordered[index];
+    expect(
+      previous!.compareDocumentPosition(node!) & Node.DOCUMENT_POSITION_FOLLOWING,
+      `${name} が ${previousName} より後ろに無い`,
+    ).toBeTruthy();
+  }
 });

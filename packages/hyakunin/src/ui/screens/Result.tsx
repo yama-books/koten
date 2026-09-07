@@ -38,7 +38,7 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
       <ul class="result-poems">{result.poems.map((poem) => <li key={poem.poemId} class={`result-poem result-poem--${poem.color}`}><strong>{poem.cardNo}番</strong>{poem.untouched ? <span>未着手</span> : <MasteryMeter label={`${poem.cardNo}番`} percent={poem.percent} color={poem.color} />}{poem.authorUnconfirmed && <span>作者 未確認</span>}</li>)}</ul>
     </section>
     <section class="result-actions practice-choices" aria-label="次の操作">
-      {result.retryQuestionIds.length > 0 && <div class="practice-choice"><button type="button" onClick={() => onRetryWeak(result.retryQuestionIds)}>まちがえた歌だけをもう一度</button><p>まちがえた箇所を確認します。</p></div>}
+      {result.retryQuestionIds.length > 0 && <div class="practice-choice"><button type="button" onClick={() => onRetryWeak(result.retryQuestionIds)}>まちがえた歌だけをもう一度</button><p>まちがえた歌の同じ空欄で、{result.retryQuestionIds.length}問くりかえし練習します。</p></div>}
       <div class="practice-choice"><button class="primary" type="button" onClick={onRetrySame}>同じ範囲をもう一度</button><p>同じ範囲でもう一度出題します。</p></div>
     </section>
   </main>;

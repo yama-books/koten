@@ -11,7 +11,32 @@ test('range-picker: shows a compact numbered range and explains paper grading af
   expect(root.textContent).toContain('範囲を確認する');
   expect(root.textContent).toContain('10番〜20番');
   await act(() => { Array.from(root.querySelectorAll('button')).find((button) => button.textContent === '紙に書く')!.click(); });
-  expect(root.textContent).toContain('範囲を解き終えたあとに、正答を見て自分で採点します。');
+  expect(root.textContent).toContain('範囲を解き終えたあとに、正答を見て自己採点します。');
+  root.remove();
+});
+
+test('074-5: 本番の説明は選んだ答え方のボタンと同じまとまりにあり、切替とともに動く', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="exam" range={{ from: 10, to: 20 }} order="number" onBack={() => {}} onStart={() => {}} />, root); });
+  const screen = Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === '画面で答える')!;
+  const paper = Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === '紙に書く')!;
+  expect(screen.parentElement?.className).toContain('practice-choice');
+  expect(screen.parentElement?.textContent).toContain('まとめて自動採点します。');
+  expect(paper.parentElement?.textContent).not.toContain('自己採点します。');
+  await act(() => { paper.click(); });
+  expect(paper.parentElement?.className).toContain('practice-choice');
+  expect(paper.parentElement?.textContent).toContain('正答を見て自己採点します。');
+  expect(screen.parentElement?.textContent).not.toContain('まとめて自動採点します。');
+  root.remove();
+});
+
+test('074-6: 本番の問数は規則から表示し、自己採点の文言を厳密に保つ', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="exam" range={{ from: 10, to: 20 }} order="number" onBack={() => {}} onStart={() => {}} />, root); });
+  expect(root.textContent).toContain('この範囲では 10問 出題します。');
+  await act(() => { Array.from(root.querySelectorAll('button')).find((button) => button.textContent === '紙に書く')!.click(); });
+  expect(root.textContent).toContain('範囲を解き終えたあとに、正答を見て自己採点します。');
+  expect(root.textContent).not.toContain('正答を見て自分で採点します。');
   root.remove();
 });
 

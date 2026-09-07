@@ -44,6 +44,12 @@ const expectedSessionReflowCases = widths.length * zoomLevels.length;
 let sessionReflowCases = 0;
 // 発注062: 穴埋め専用だった出題画面に、作者の固定順選択肢を追加した。
 // 別DOMなので、同じ幅・文字倍率で実際に作者入口へ遷移して測る。
+// 発注074 工程10・15: **本番の出題画面は練習の出題画面と別の DOM である。**
+// 073 工程1 が置いた「縦書きの器を中央に置く」主張を、本番の穴埋めと本番の作者問題にも当てる。
+type ExamSessionFinding = { width: number; zoom: number; key: string; observed: unknown };
+const examSessionFindings: ExamSessionFinding[] = [];
+const expectedExamSessionCases = widths.length * zoomLevels.length * 2;
+let examSessionCases = 0;
 type AuthorReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
 const authorReflowFindings: AuthorReflowFinding[] = [];
 const expectedAuthorReflowCases = widths.length * zoomLevels.length;
@@ -95,6 +101,18 @@ try {
     const context = await browser.newContext();
     const page = await context.newPage();
     page.setDefaultNavigationTimeout(120_000);
+    /**
+     * 発注074 工程1 以降、**縦横書きの設定は保存領域に残り、次の読み込みで復元される。**
+     * 走査が横書きへ切り替えたまま次の回へ入ると、縦書きのつもりで横書きを測ることになる
+     * （実際に `authorVerticalWriting` が横書きを返していた）。**測る前に器の向きを揃える。**
+     */
+    const ensureVertical = async () => {
+      for (let attempt = 0; attempt < 3 && await page.locator('.question-text--vertical').count() === 0; attempt += 1) {
+        await page.locator('button.writing-toggle').click();
+        await page.waitForTimeout(50);
+      }
+      if (await page.locator('.question-text--vertical').count() === 0) throw new Error('出題画面を縦書きへ揃えられません');
+    };
     for (let cardNo = 1; cardNo <= 100; cardNo += 1) {
       for (const width of widths) {
         await page.setViewportSize({ width, height: 800 });
@@ -164,20 +182,15 @@ try {
         await page.waitForSelector('.entry-actions button');
         const measured = await page.evaluate((rootFontSize) => {
           document.documentElement.style.fontSize = rootFontSize;
-          const details = document.querySelector<HTMLDetailsElement>('.known-limits');
-          if (details) details.open = true;
           document.documentElement.getBoundingClientRect();
           const clipped = [...document.querySelectorAll<HTMLElement>('main *')]
             .filter((element) => element.scrollWidth > element.clientWidth + 1)
             .map((element) => element.className || element.tagName);
           const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
           document.documentElement.style.fontSize = '';
-          if (details) details.open = false;
-          return { clipped, overflow, hasLimitations: Boolean(details) };
+          return { clipped, overflow };
         }, `${16 * zoom}px`);
         reflowCases += 1;
-        // 制約の一覧が無いと、開いた状態を測ったつもりで何も測っていない。
-        if (!measured.hasLimitations) reflowFindings.push({ width, zoom, key: 'knownLimitationsPresent', observed: false });
         if (measured.overflow > 1) reflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) reflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
       }
@@ -335,6 +348,7 @@ try {
         await page.waitForSelector('.range-picker');
         await page.getByRole('button', { name: 'この範囲で始める' }).click();
         await page.waitForSelector('.session-controls');
+        await ensureVertical();
         const measured = await page.evaluate((rootFontSize) => {
           document.documentElement.style.fontSize = rootFontSize;
           document.documentElement.getBoundingClientRect();
@@ -355,25 +369,105 @@ try {
           document.documentElement.style.fontSize = '';
           return { clipped, overflow, verticalQuestionPresent: Boolean(verticalQuestion), verticalScrollIsAvailable, verticalQuestionCenterOffset: questionRect ? Math.abs((questionRect.left + questionRect.width / 2) - window.innerWidth / 2) : null };
         }, `${16 * zoom}px`);
-        await page.getByRole('button', { name: '横書きにする' }).click();
-        const horizontalNumberOverlap = await page.evaluate(() => {
-          const number = document.querySelector<HTMLElement>('.question-number');
-          const firstLine = document.querySelector<HTMLElement>('.question-text--horizontal .question-line');
-          if (!number || !firstLine) return null;
-          const numberRect = number.getBoundingClientRect();
-          const lineRect = firstLine.getBoundingClientRect();
-          return numberRect.left < lineRect.right && numberRect.right > lineRect.left
-            && numberRect.top < lineRect.bottom && numberRect.bottom > lineRect.top;
+        await page.locator('button.writing-toggle').click();
+        const numberDisplay = await page.evaluate(() => ({
+          inPoem: document.querySelectorAll('.question-text .question-number').length,
+          inHeader: document.querySelectorAll('.session .nav-edge .progress').length,
+        }));
+        // 発注074 工程4・工程8: 横書きの出題画面に引かれている**区切り線の本数**を数える。
+        // 距離では区別できない——基準線の引き方へ戻しても、最も近い2本の間隔は 42.6px のままで、
+        // 増えるのは本数だけだった（実測）。**押せる部品と空欄の枠は区切り線ではないので数えない。**
+        const structuralRules = await page.evaluate(() => {
+          const names: string[] = [];
+          for (const element of document.querySelectorAll<HTMLElement>('.session, .session *')) {
+            const style = getComputedStyle(element);
+            if (style.display === 'none' || element.classList.contains('sr-only')) continue;
+            if (['BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'SUMMARY', 'SPAN'].includes(element.tagName)) continue;
+            const rect = element.getBoundingClientRect();
+            if (rect.width === 0) continue;
+            const visible = (side: 'Top' | 'Bottom') =>
+              parseFloat(style[`border${side}Width`]) > 0
+              && style[`border${side}Style`] !== 'none'
+              && !style[`border${side}Color`].startsWith('rgba(0, 0, 0, 0)');
+            const name = element.className || element.tagName;
+            if (visible('Top')) names.push(`${name}:top`);
+            if (visible('Bottom')) names.push(`${name}:bottom`);
+          }
+          return names;
         });
-        await page.getByRole('button', { name: '縦書きにする' }).click();
         sessionReflowCases += 1;
         if (!measured.verticalQuestionPresent) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionPresent', observed: false });
         if (!measured.verticalScrollIsAvailable) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionScrollAvailable', observed: false });
         if (width >= 1024 && (measured.verticalQuestionCenterOffset === null || measured.verticalQuestionCenterOffset > 1)) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionCentered', observed: measured.verticalQuestionCenterOffset });
-        if (horizontalNumberOverlap !== false) sessionReflowFindings.push({ width, zoom, key: 'horizontalNumberDoesNotOverlapFirstLine', observed: horizontalNumberOverlap });
+        if (numberDisplay.inPoem !== 0 || numberDisplay.inHeader !== 1) sessionReflowFindings.push({ width, zoom, key: 'songNumberAppearsOnce', observed: numberDisplay });
+        // ヘッダの下・進捗の下・歌の器の下の3本だけ。器の上にもう1本引くと4本になり、
+        // 進捗の下の線と近接して二重に見える（㉘）。0本でも落ちるので、実在の確認を兼ねる。
+        if (structuralRules.length !== 3) sessionReflowFindings.push({ width, zoom, key: 'horizontalRuleCount', observed: structuralRules });
         if (measured.overflow > 1) sessionReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) sessionReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped });
         console.log(`check:overflow: 出題画面 ${width}px 文字${zoom * 100}% 違反 ${sessionReflowFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
+      }
+    }
+    // 発注074 工程10・15: 本番の出題画面（縦書き・横書き）と、本番の作者問題を測る。
+    // 練習側だけを測っていたため、本番の PC 幅の崩れは 073 の走査群をすり抜けていた。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        await page.setViewportSize({ width, height: 800 });
+        await page.goto(`${baseUrl}?from=1&to=10`, { waitUntil: 'domcontentloaded' });
+        await page.getByRole('button', { name: '学習方法を選ぶ' }).click();
+        await page.getByRole('button', { name: '本番', exact: true }).click();
+        await page.waitForSelector('.range-picker');
+        await page.getByRole('button', { name: 'この範囲で始める' }).click();
+        await page.waitForSelector('input[placeholder], .answer-choices button', { timeout: 15000 });
+        await ensureVertical();
+        const measureAxis = async (rootFontSize: string) => page.evaluate((fontSize) => {
+          document.documentElement.style.fontSize = fontSize;
+          document.documentElement.getBoundingClientRect();
+          const centerOf = (element: HTMLElement | null) => {
+            if (!element) return null;
+            const rect = element.getBoundingClientRect();
+            return rect.width === 0 ? null : rect.left + rect.width / 2;
+          };
+          const sheet = document.querySelector<HTMLElement>('.question-text');
+          const choices = document.querySelector<HTMLElement>('.answer-choices');
+          const unknown = [...document.querySelectorAll<HTMLButtonElement>('.answer-controls button')]
+            .find((button) => button.textContent === 'わからない！') ?? null;
+          const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+          const clipped = [...document.querySelectorAll<HTMLElement>('.question-text, .answer-controls, .answer-controls *')]
+            .filter((element) => !element.classList.contains('sr-only') && !element.classList.contains('question-text--vertical') && !element.classList.contains('answer-choices') && element.scrollWidth > element.clientWidth + 1)
+            .map((element) => element.className || element.tagName);
+          const viewportCenter = window.innerWidth / 2;
+          document.documentElement.style.fontSize = '';
+          return {
+            isAuthor: Boolean(document.querySelector('.question-poem--author')),
+            vertical: Boolean(document.querySelector('.question-text--vertical')),
+            sheetOffset: centerOf(sheet) === null ? null : Math.abs(centerOf(sheet)! - viewportCenter),
+            choicesOffset: centerOf(choices) === null || centerOf(sheet) === null ? null : Math.abs(centerOf(choices)! - centerOf(sheet)!),
+            unknownOffset: centerOf(unknown) === null || centerOf(sheet) === null ? null : Math.abs(centerOf(unknown)! - centerOf(sheet)!),
+            overflow, clipped,
+          };
+        }, rootFontSize);
+        const blank = await measureAxis(`${16 * zoom}px`);
+        examSessionCases += 1;
+        if (blank.isAuthor) examSessionFindings.push({ width, zoom, key: 'examFirstQuestionIsBlank', observed: blank.isAuthor });
+        if (!blank.vertical) examSessionFindings.push({ width, zoom, key: 'examVerticalSheetPresent', observed: false });
+        if (width >= 1024 && (blank.sheetOffset === null || blank.sheetOffset > 1)) examSessionFindings.push({ width, zoom, key: 'examSheetCentered', observed: blank.sheetOffset });
+        if (blank.overflow > 1) examSessionFindings.push({ width, zoom, key: 'examNoPageOverflow', observed: blank.overflow });
+        if (blank.clipped.length) examSessionFindings.push({ width, zoom, key: 'examNoClipping', observed: blank.clipped.slice(0, 4) });
+        // 本番は穴埋めと作者を交互に出す（発注062）。**次の問が作者問題である。**
+        await page.locator('input[placeholder]').fill('あ');
+        await page.getByRole('button', { name: '記録して次へ' }).click();
+        await page.waitForSelector('.answer-choices button', { timeout: 15000 });
+        const author = await measureAxis(`${16 * zoom}px`);
+        examSessionCases += 1;
+        // 作者問題が出ていなければ、以下の軸は 1 度も測っていない。
+        if (!author.isAuthor) examSessionFindings.push({ width, zoom, key: 'examAuthorQuestionReached', observed: author.isAuthor });
+        if (width >= 1024 && (author.sheetOffset === null || author.sheetOffset > 1)) examSessionFindings.push({ width, zoom, key: 'examAuthorSheetCentered', observed: author.sheetOffset });
+        if (author.choicesOffset === null || author.choicesOffset > 1) examSessionFindings.push({ width, zoom, key: 'examAuthorChoicesShareAxis', observed: author.choicesOffset });
+        if (author.unknownOffset === null || author.unknownOffset > 1) examSessionFindings.push({ width, zoom, key: 'examAuthorUnknownSharesAxis', observed: author.unknownOffset });
+        if (author.overflow > 1) examSessionFindings.push({ width, zoom, key: 'examAuthorNoPageOverflow', observed: author.overflow });
+        if (author.clipped.length) examSessionFindings.push({ width, zoom, key: 'examAuthorNoClipping', observed: author.clipped.slice(0, 4) });
+        console.log(`check:overflow: 本番の出題画面 ${width}px 文字${zoom * 100}% 違反 ${examSessionFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
       }
     }
     for (const width of widths) {
@@ -392,7 +486,7 @@ try {
           await page.waitForSelector('input[placeholder], .answer-choices button', { timeout: 15000 });
           if (await page.locator('input[placeholder]').count() > 0) {
             await page.locator('input[placeholder]').fill('あ');
-            await page.getByRole('button', { name: '答え合わせ' }).click();
+            await page.getByRole('button', { name: '記録して次へ' }).click();
           } else {
             await page.locator('.answer-choices button').first().click();
           }
@@ -461,18 +555,62 @@ try {
           const marks = [...blendProbe.querySelectorAll<HTMLElement>('img')];
           const blendModes = marks.map((mark) => getComputedStyle(mark).mixBlendMode);
           blendProbe.remove();
+          // 発注074 工程17。**守りたいのは「白い箱が出ないこと」であって「乗算であること」ではない。**
+          // 実画面の画像を、実際に効いている合成方法で背景の上へ描き、**四隅の画素**を読む。
+          // 仕組みの名前ではなく狙いを直接見る。画像が出ていなければ `cornerSamples` が空になる。
+          const markImage = document.querySelector<HTMLImageElement>('.answer-retained .feedback-mark img');
+          let markBackground = 'rgba(0, 0, 0, 0)';
+          for (let node = markImage?.parentElement ?? null; node; node = node.parentElement) {
+            const value = getComputedStyle(node).backgroundColor;
+            if (value && value !== 'rgba(0, 0, 0, 0)' && value !== 'transparent') { markBackground = value; break; }
+          }
+          const toRgb = (color: string): number[] => {
+            const probe = document.createElement('canvas');
+            probe.width = 1; probe.height = 1;
+            const context = probe.getContext('2d')!;
+            context.fillStyle = color;
+            context.fillRect(0, 0, 1, 1);
+            return [...context.getImageData(0, 0, 1, 1).data].slice(0, 3);
+          };
+          let cornerSamples: number[][] = [];
+          let markBackgroundRgb: number[] = [];
+          if (markImage && markImage.naturalWidth > 0 && markImage.complete) {
+            const canvas = document.createElement('canvas');
+            canvas.width = markImage.naturalWidth;
+            canvas.height = markImage.naturalHeight;
+            const context = canvas.getContext('2d')!;
+            context.fillStyle = markBackground;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            const markStyle = getComputedStyle(markImage);
+            const blend = markStyle.mixBlendMode;
+            // 合成方法だけでなく `filter` も画面と同じにする。片方だけでは、画面で見えている
+            // 色と違うものを測ることになる（発注074 工程17）。
+            if (markStyle.filter && markStyle.filter !== 'none') context.filter = markStyle.filter;
+            context.globalCompositeOperation = (blend === 'normal' ? 'source-over' : blend) as GlobalCompositeOperation;
+            context.drawImage(markImage, 0, 0);
+            context.filter = 'none';
+            cornerSamples = [[0, 0], [canvas.width - 1, 0], [0, canvas.height - 1], [canvas.width - 1, canvas.height - 1]]
+              .map(([x, y]) => [...context.getImageData(x, y, 1, 1).data].slice(0, 3));
+            markBackgroundRgb = toRgb(markBackground);
+          }
           const retainedMark = document.querySelector<HTMLElement>('.answer-retained .feedback-mark');
           const retainedRect = retained?.getBoundingClientRect();
           const markRect = retainedMark?.getBoundingClientRect();
-          return { clipped, overflow, measuredElements: elements.length, retainedWidthRatio, retainedValue: retained?.value ?? null, retainedReadOnly: retained?.readOnly ?? null, feedback: Boolean(document.querySelector('.answer-feedback')), note: document.querySelector('.question-note')?.textContent ?? null, blendModes, retainedMarkPresent: Boolean(retainedMark), retainedMarkOverlaps: Boolean(retainedRect && markRect && markRect.right > retainedRect.left && markRect.left < retainedRect.right && markRect.bottom > retainedRect.top && markRect.top < retainedRect.bottom), retainedMarkPointerEvents: retainedMark ? getComputedStyle(retainedMark).pointerEvents : null };
+          return { clipped, overflow, measuredElements: elements.length, retainedWidthRatio, retainedValue: retained?.value ?? null, retainedReadOnly: retained?.readOnly ?? null, feedback: Boolean(document.querySelector('.answer-feedback')), note: document.querySelector('.question-note')?.textContent ?? null, blendModes, retainedMarkPresent: Boolean(retainedMark), retainedMarkOverlaps: Boolean(retainedRect && markRect && markRect.right > retainedRect.left && markRect.left < retainedRect.right && markRect.bottom > retainedRect.top && markRect.top < retainedRect.bottom), retainedMarkPointerEvents: retainedMark ? getComputedStyle(retainedMark).pointerEvents : null, cornerSamples, markBackgroundRgb };
         }, `${16 * zoom}px`);
         newDisplayCases += 1;
         if (measured.retainedValue !== 'あいうえおかきくけこ') newDisplayFindings.push({ width, zoom, key: 'retainedInputPresent', observed: measured.retainedValue });
         if (measured.retainedReadOnly !== true) newDisplayFindings.push({ width, zoom, key: 'retainedInputReadOnly', observed: measured.retainedReadOnly });
         if (!measured.feedback) newDisplayFindings.push({ width, zoom, key: 'feedbackPresent', observed: false });
-        if (measured.blendModes.length === 0 || measured.blendModes.some((mode) => mode !== 'multiply')) newDisplayFindings.push({ width, zoom, key: 'feedbackImagesMultiply', observed: measured.blendModes });
+        if (measured.blendModes.length === 0 || measured.blendModes.some((mode) => mode === 'normal')) newDisplayFindings.push({ width, zoom, key: 'feedbackImagesBlendWithBackground', observed: measured.blendModes });
         if (!measured.retainedMarkPresent || measured.retainedMarkOverlaps) newDisplayFindings.push({ width, zoom, key: 'retainedMarkDoesNotCoverAnswer', observed: { present: measured.retainedMarkPresent, overlaps: measured.retainedMarkOverlaps } });
         if (measured.retainedMarkPointerEvents !== 'none') newDisplayFindings.push({ width, zoom, key: 'retainedMarkPointerEvents', observed: measured.retainedMarkPointerEvents });
+        // 隅を1つも採れていなければ、合致は何も示していない。**走査対象の実在を先に見る。**
+        if (measured.cornerSamples.length !== 4 || measured.markBackgroundRgb.length !== 3) {
+          newDisplayFindings.push({ width, zoom, key: 'feedbackMarkCornerSampled', observed: { corners: measured.cornerSamples.length, background: measured.markBackgroundRgb } });
+        } else if (measured.cornerSamples.some((corner) => corner.some((channel, index) => channel !== measured.markBackgroundRgb[index]))) {
+          newDisplayFindings.push({ width, zoom, key: 'feedbackMarkCornerMatchesBackground', observed: { corners: measured.cornerSamples, background: measured.markBackgroundRgb } });
+        }
         // 一言が出ていなければ、その行を 1 度も測っていない。緑は証拠にならない。
         if (!measured.note?.includes('掛詞')) newDisplayFindings.push({ width, zoom, key: 'questionNoteMeasured', observed: measured.note });
         if (measured.measuredElements === 0) newDisplayFindings.push({ width, zoom, key: 'measuredElements', observed: 0 });
@@ -535,6 +673,7 @@ try {
         await page.waitForSelector('.range-picker');
         await page.getByRole('button', { name: 'この範囲で始める' }).click();
         await page.waitForSelector('.answer-choices');
+        await ensureVertical();
         const measured = await page.evaluate((rootFontSize) => {
           document.documentElement.style.fontSize = rootFontSize;
           document.documentElement.getBoundingClientRect();
@@ -551,9 +690,9 @@ try {
           const controlsRect = document.querySelector<HTMLElement>('.question-text--vertical + .answer-controls')?.getBoundingClientRect();
           return { choices: choices.length, clipped, overflow, authorPrompt: Boolean(document.querySelector('.question-poem--author')), authorLines: authorLines.length, authorWriting: authorLines.map((line) => getComputedStyle(line).writingMode), choiceWriting: choices.map((choice) => getComputedStyle(choice).writingMode), choiceLefts, questionCenterOffset: questionRect ? Math.abs((questionRect.left + questionRect.width / 2) - window.innerWidth / 2) : null, controlsCenterOffset: controlsRect ? Math.abs((controlsRect.left + controlsRect.width / 2) - window.innerWidth / 2) : null };
         }, `${16 * zoom}px`);
-        await page.getByRole('button', { name: '横書きにする' }).click();
+        await page.locator('button.writing-toggle').click();
         const horizontalAuthorWriting = await page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.question-poem--author .question-line')].map((line) => getComputedStyle(line).writingMode));
-        await page.getByRole('button', { name: '縦書きにする' }).click();
+        await ensureVertical();
         authorReflowCases += 1;
         if (measured.choices < 4 || measured.choices > 5) authorReflowFindings.push({ width, zoom, key: 'choiceCount', observed: measured.choices });
         if (!measured.authorPrompt) authorReflowFindings.push({ width, zoom, key: 'authorPromptPresent', observed: false });
@@ -627,6 +766,11 @@ if (sessionReflowCases !== expectedSessionReflowCases) {
   process.exit(1);
 }
 
+if (examSessionCases !== expectedExamSessionCases) {
+  console.error(`check:overflow: 本番の出題画面の走査が不足または過剰です（走査 ${examSessionCases} 件、必要 ${expectedExamSessionCases} 件ちょうど）`);
+  process.exit(1);
+}
+
 if (authorReflowCases !== expectedAuthorReflowCases) {
   console.error(`check:overflow: 作者問題の走査が不足または過剰です（走査 ${authorReflowCases} 件、必要 ${expectedAuthorReflowCases} 件ちょうど）`);
   process.exit(1);
@@ -640,6 +784,10 @@ if (restoreReflowCases !== expectedRestoreReflowCases) {
 console.log(`check:overflow: 出題画面の走査 ${sessionReflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${sessionReflowFindings.length} 件`);
 for (const finding of sessionReflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
 if (sessionReflowFindings.length) process.exitCode = 1;
+
+console.log(`check:overflow: 本番の出題画面の走査 ${examSessionCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')} × 穴埋め/作者）、違反 ${examSessionFindings.length} 件`);
+for (const finding of examSessionFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (examSessionFindings.length) process.exitCode = 1;
 
 console.log(`check:overflow: 作者問題の走査 ${authorReflowCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${authorReflowFindings.length} 件`);
 for (const finding of authorReflowFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
