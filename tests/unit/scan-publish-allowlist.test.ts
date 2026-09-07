@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
@@ -68,4 +69,25 @@ test('every tool the root scripts invoke is covered by the allowlist', () => {
   assert.ok(invoked.size > 0, 'package.json から tools/ の呼び出しを 1 件も拾えていない');
   const uncovered = [...invoked].filter((name) => !entries.includes(`tools/${name}/**`));
   assert.deepEqual(uncovered, [], `公開版で script が動かない: ${uncovered.join(', ')}`);
+});
+
+/**
+ * 複写の道具は**公開ツリーに無い**（許可リストに載せない）。あるときだけ検査する。
+ *
+ * `publish-transfer` はファイル系から複写するので、`.gitignore` を見ないと
+ * 無視されている生成物が `packages/**` や `tests/**` に拾われて公開へ渡る。
+ * **`scan:publish` はこれらを一度も見ていない**ので、そちらの0件は証拠にならない。
+ * 2026-09-07 に `tsconfig.tsbuildinfo` 3件と Firebase エミュレータのログ 295KB が渡りかけた。
+ */
+const transferSource = path.join(root, 'tools', 'publish-transfer', 'index.ts');
+const transferTest = existsSync(transferSource) ? test : test.skip;
+
+transferTest('複写の一覧に、git が無視するファイルを入れない', async () => {
+  const { plan } = await import('../../tools/publish-transfer/index.ts');
+  const files = plan().files;
+  // 一覧が空では、無視されたファイルが0件でも何も示さない。
+  assert.ok(files.length > 500, `複写の一覧が ${files.length} 件では検査にならない`);
+  const checked = spawnSync('git', ['check-ignore', '--stdin'], { cwd: root, input: files.join(String.fromCharCode(10)), encoding: 'utf8' });
+  const ignored = (checked.stdout ?? '').split(String.fromCharCode(10)).map((line) => line.trim()).filter(Boolean);
+  assert.deepEqual(ignored, [], `git が無視するファイルが複写の一覧にある: ${ignored.slice(0, 5).join(' / ')}`);
 });
