@@ -158,4 +158,92 @@ node --experimental-strip-types --test tests/unit/telemetry/transport.test.ts
 
 **完了報告に必ず含めるもの**：§3 の A-1〜A-6 の出力、§4 の破壊試験3件の赤緑の件数、`git status --short` の全行。
 
-実装担当記入：未着手。
+実装担当記入：**完了（2026-09-07、実装＝Opus 5）。**
+
+## 実装した差分
+
+`tests/unit/telemetry/transport.test.ts` の T-15 の1行のみ（`1 file changed, 1 insertion(+), 1 deletion(-)`）。
+
+```
+-'dist')
++'dist' && name !== 'node_modules')
++assert.ok(files.some((f) => f.endsWith(join('shared', 'src', 'telemetry', 'transport.ts'))), 'T-15: 本命が走査集合に無い');
+```
+
+禁止語2つ（`accounts:signUp`・`accounts:delete`）、`assert.ok(files.length > 0)` の門、T-12・T-13・T-17 は無変更。
+
+**A-3 の `endsWith` に `join()` を使った。** `files` は `join()` で組み立てられるので、この機械では
+`shared\src\telemetry\transport.ts` になる。リテラルのスラッシュで書くと**正しい実装が恒久的に赤**になり、
+本発注が直そうとした欠陥（機械の状態が写る）を別の形で再生産する。
+
+## 受入条件
+
+**A-1** `node --experimental-strip-types --test tests/unit/telemetry/transport.test.ts`
+
+```
+ℹ tests 18
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+```
+
+**A-2** `packages/hyakunin/node_modules/.vite/deps/preact.js` に `// probe: accounts:signUp` を追記して実測。
+
+- 修正後：`tests 18 / pass 18 / fail 0`
+- 基準線（`dist` のみ除外に `cp` で戻し、同じ probe）：`tests 18 / pass 17 / fail 1`（✖ T-15）
+
+probe は `cp` で復元し、`diff -q` でバイト一致を確認した。
+`git check-ignore -v` で `.gitignore:14:node_modules/` を確認済み。この probe は commit に混ざらない。
+
+**A-3** 上記の `assert.ok(files.some(...))` を追加。`assert.ok(files.length > 0, ...)` は残した。
+
+**A-4** T-15 内に一時的に `console.error` を入れて実測（測定後に除去）。
+
+| 走査 | 件数 | うち `node_modules` 由来 |
+| --- | --- | --- |
+| 除外前（`dist` のみ） | **85** | **6** |
+| 除外後（`dist` + `node_modules`） | **79** | **0** |
+
+Sol の実測（85 → 79）と一致した。
+
+**A-5** `git diff --stat -- packages` は空。
+
+**A-6** `git status --short`：
+
+```
+ M tests/unit/telemetry/transport.test.ts
+```
+
+## 破壊試験（3件。すべて §3 の1ファイル実行。復元は `cp`）
+
+| # | 破壊 | 赤 | 緑 |
+| --- | --- | --- | --- |
+| 1 | `packages/shared/src/telemetry/transport.ts` 末尾に `// accounts:signUp` | **1（T-15）** | 17 |
+| 2 | `packages/kanazukai/src/main.tsx` 末尾に `// accounts:delete` | **1（T-15）** | 17 |
+| 3 | A-3 の `endsWith` の引数を `nonexistent-transport.ts` へ | **1（T-15）** | 17 |
+
+**足した釘は既存の単独赤を潰していない。** 破壊試験1 を `npm run test:node` 全体でも測った：
+
+```
+✖ T-15 匿名認証 API は packages のソースに存在しない
+ℹ tests 527 / pass 526 / fail 1
+```
+
+**特異度**：破壊なしの `npm run test:node` は `tests 527 / pass 527 / fail 0`。
+（073 が commit `c2534fb` で確定したため、全体実行が判定材料として使える状態になっていた。）
+
+## §5 に一度当たり、停止して報告した（2026-09-07）
+
+着手時点の作業ツリーには 073 の未コミット差分13件（`packages/hyakunin/src/ui/**`・`tests/screen/**`・
+`tools/overflow-check/index.ts` を含む）があり、**§5 第1項に該当した。**
+破壊試験1・2 は追跡下の `packages/**` を一時的に壊すため、**行わずに Sol へ報告して止めた。**
+Sol が 073 を検収し commit `c2534fb` で確定させたのち、**停止条件が解けたことを `git status` で確認してから実行した。**
+
+停止中も、**commit に混ざり得ないもの**——A-2（gitignore 下）と破壊試験3（自分の担当ファイル内で完結）——は実行した。
+Sol の裁定で越権ではないと確認済み。
+
+## 起草側への差し戻し（Sol が対応済み）
+
+着手時、基準線が**3か所に別々の値**で書かれていた（本文 `9d1e46d` / §7 `f326b43` / 引き渡しの口頭指示 `6a00a3b`）。
+また「作業ツリーは clean」という引き渡しも事実と違った（073 の差分13件が入っていた）。
+Sol が commit `179a513` で基準線を冒頭1か所へ寄せた。
