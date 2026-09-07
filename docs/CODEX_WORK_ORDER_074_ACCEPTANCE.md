@@ -12,6 +12,9 @@
 - **報告の数値を転記しない。** 下の期待値は「実装担当がそう主張している」だけである。**必ず再実行して自分の目で数える。**
 - **想定外の差分を見つけたら、消す前に誰が書いたか確かめる。** この作業ツリーには Codex と Opus の両方が書いている。
 - **`git commit` / `git push` はしない。**
+- **検収を途中で止めると、当てた破壊が作業ツリーに残る。** 2026-09-07 に実際に起きた。
+  **次の検収者は、始める前に `git status --short` が空であることを必ず確かめること。**
+  空でなければ、内容を見て「前の検収者の破壊」か「実装担当の編集」かを同定してから戻す。
 - **検収の最中、実装担当は作業ツリーに書かない。** 2026-09-07 の再検収では、実装担当が並行して編集し、
   **検収者が当てた破壊を `git checkout` で消してしまった。** 破壊試験と編集は同じファイル空間で競合する。
   `git status --short` が空にならないときは、**消す前に誰が書いたかを確かめて止まること。**
@@ -35,7 +38,7 @@ git log --oneline de50841..HEAD
 git diff --stat de50841..HEAD
 ```
 
-**差分が次の30件であること。増減があれば止まって報告する。**
+**差分が次の31件であること。増減があれば止まって報告する。**
 
 **新規（5件）**
 
@@ -47,7 +50,7 @@ tests/screen/order074-screens.test.tsx
 tests/screen/settings-source.test.tsx
 ```
 
-**変更（25件）**
+**変更（26件）**
 
 ```
 docs/APP_SPEC.md
@@ -72,6 +75,7 @@ tests/screen/restore.test.tsx
 tests/screen/result.test.tsx
 tests/screen/review-flow.test.tsx
 tests/screen/session.test.tsx
+tests/screen/stats-onboarding.test.tsx
 tests/unit/readme-claims.test.ts
 tests/unit/review.test.ts
 tools/overflow-check/index.ts
@@ -95,8 +99,14 @@ npm test && npm run lint && npm run typecheck && npm run data:check && npm run s
 
 そのあと、**必ず build のあとに** overflow を回す。**実行中にビルドし直さない。**
 
-```bash
-npm run build && npm run check:overflow
+**先にポート4173に残留が無いことを確かめる。** 前のセッションの preview サーバが生きていると、
+走査器は自分で「ポート 4173 は使用中です」と落ちる（**正しい門である**。古いサーバを測らないための門）。
+`TIME_WAIT` だけなら数十秒で消える。`LISTENING` があれば、その PID を止めてから始める。
+
+```powershell
+netstat -ano | Select-String ":4173"
+npm run build
+npm run check:overflow
 ```
 
 ### 3.1 期待値（**数を自分で読むこと**）
