@@ -128,8 +128,7 @@ test('review: 1首5句と作者問題の回から、誤答した1問だけを再
   await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
-  expect(progress()).toContain('1問目/1');
-  expect(progress()).not.toContain('/6');
+  expect(progress()).toMatch(/^10番$/);
   expect(shownQuestion()).toBe(round.wrongId);
   expect(shownQuestion()).toMatch(/-ku[1-5]$/);
   expect(answerField()).not.toBeNull();
@@ -149,12 +148,12 @@ test('review: 再確認を繰り返すと、その回で残った問題だけに
   await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
-  expect(progress()).toContain('1問目/1');
+  expect(progress()).toMatch(/^10番$/);
   await answerOnce('またちがう答え');
   await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
-  expect(progress()).toContain('1問目/1');
+  expect(progress()).toMatch(/^10番$/);
   expect(shownQuestion()).toBe(round.wrongId);
 });
 
@@ -194,15 +193,14 @@ test('review: 再確認の結果から「同じ範囲をもう一度」は元の
   await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
-  expect(progress()).toContain('1問目/1');
+  expect(progress()).toMatch(/^10番$/);
   await answerOnce(answerFor(first.wrongId));
   await click('結果を見る');
   await settle();
   await click('同じ範囲をもう一度');
   await settle();
   // 1首の6問（5句＋作者）へ戻り、再確認の対象だけへ縮まないことが本題。
-  expect(progress()).toContain('1問目/6');
-  expect(progress()).not.toContain('/12');
+  expect(progress()).toMatch(/^10番$/);
   expect(answerField()).not.toBeNull();
 });
 

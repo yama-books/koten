@@ -898,6 +898,7 @@ tests/screen/main-wiring.test.tsx
 tests/screen/mastery-meter-contract.test.tsx
 tests/screen/no-pressure.test.tsx
 tests/screen/order069-contract.test.tsx
+tests/screen/order073-contract.test.tsx
 tests/screen/range-picker.test.tsx
 tests/screen/restore.test.tsx
 tests/screen/result.test.tsx
@@ -940,6 +941,7 @@ tests/unit/recommend/recommend.test.ts
 tests/unit/record.test.ts
 tests/unit/result.test.ts
 tests/unit/resume.test.ts
+tests/unit/review-ledger-contract.test.ts
 tests/unit/review.test.ts
 tests/unit/sanitize-output.test.ts
 tests/unit/scan-publish-allowlist.test.ts

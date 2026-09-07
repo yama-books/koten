@@ -61,6 +61,11 @@ type InstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 const installNoticeKey = "hyakunin:install-notice-dismissed";
+const gradeRanges: Readonly<Record<string, { from: number; to: number }>> = {
+  中一: { from: 1, to: 20 },
+  中二: { from: 21, to: 60 },
+  中三: { from: 61, to: 100 },
+};
 
 function isStandaloneLaunch() {
   return window.matchMedia?.("(display-mode: standalone)").matches === true ||
@@ -274,6 +279,12 @@ export function Home({
     if (pendingGrade === undefined) return;
     void persist({ ...settings, grade: pendingGrade, noticeConfirmed: true });
   }
+  function selectPendingGrade(grade: string | undefined) {
+    setPendingGrade(grade);
+    const range = gradeRanges[grade ?? ""] ?? { from: 1, to: 100 };
+    setFrom(range.from);
+    setTo(range.to);
+  }
   function returnToRangeSelection() {
     setViewing(false);
   }
@@ -327,8 +338,7 @@ export function Home({
             {authorPractice ? "作者名を確認する" : "歌を確認する"}
           </span>
           <span class="progress" aria-live="polite">
-            <span class="poem-number">{poem.cardNo}</span> · {index + 1}/
-            {selected.length}歌
+            <span class="poem-number">{poem.cardNo}番</span>
           </span>
           <button type="button" onClick={returnToRangeSelection}>範囲を選び直す</button>
         </header>
@@ -416,8 +426,9 @@ export function Home({
       {showStatsOnboarding && (
         <div class="onboarding" role="region" aria-label="初回設定">
           <div class="onboarding__dialog" role="dialog" aria-modal="true" aria-labelledby="stats-notice-title">
-            <StatsNotice onConfirm={confirmNotice} disabled={pendingGrade === undefined} />
-            <GradePicker value={pendingGrade} onChange={setPendingGrade} />
+            <GradePicker value={pendingGrade} onChange={selectPendingGrade} />
+            <StatsNotice />
+            <button class="stats-notice__confirm" type="button" disabled={pendingGrade === undefined} onClick={confirmNotice}>OK</button>
           </div>
         </div>
       )}
@@ -439,28 +450,20 @@ export function Home({
           ) : (
             <>
               <p>
-                範囲 {restorable.session.from}番〜{restorable.session.to}番 ·{" "}
-                {CHUNK_CARD_COUNT}首ずつに分けて全{restorable.plan.chunkCount}回
+                範囲 {restorable.session.from}番〜{restorable.session.to}番（{CHUNK_CARD_COUNT}首ずつ・全{restorable.plan.chunkCount}まとまり）
               </p>
-              <p>
-                いまは{restorable.plan.chunkIndex + 1}回目（このまとまりはあと
-                {restorable.plan.chunkFullyConfirmed ? 0 : restorable.plan.cardNumbers.length}首）
-                {(restorable.plan.chunkFullyConfirmed ? 0 : restorable.plan.cardNumbers.length) !== restorable.plan.remainingInRange &&
-                  ` ・範囲全体であと${restorable.plan.remainingInRange}首`}
+              <p class="restore-next-chunk">
+                次は {restorable.session.from + restorable.plan.chunkIndex * CHUNK_CARD_COUNT}番〜{Math.min(restorable.session.to, restorable.session.from + (restorable.plan.chunkIndex + 1) * CHUNK_CARD_COUNT - 1)}番（{restorable.plan.chunkFullyConfirmed ? 0 : restorable.plan.cardNumbers.length}首）
               </p>
             </>
           )}
           <MasteryMeter
             label="範囲全体"
             meterLabel="範囲全体の進み具合"
-            text={`進み ${restorable.session.to - restorable.session.from + 1 - restorable.plan.remainingInRange}首/${restorable.session.to - restorable.session.from + 1}首`}
+            text={`${restorable.session.to - restorable.session.from + 1 - restorable.plan.remainingInRange}首/${restorable.session.to - restorable.session.from + 1}首`}
             percent={Math.round(((restorable.session.to - restorable.session.from + 1 - restorable.plan.remainingInRange) / (restorable.session.to - restorable.session.from + 1)) * 100)}
             color="blue"
           />
-          <p class="restore-detail">
-            続きから始めると、{restorable.plan.chunkCount === 1 ? "この範囲" : `この${restorable.plan.chunkIndex + 1}回目`}のなかから
-            {ENTRY_RULES[restorable.session.entry].questionCount}問を出題します。
-          </p>
           <div class="restore-actions">
             <button
               type="button"
@@ -511,13 +514,13 @@ export function Home({
         </div>
         <div class="entry-introduction">
           <p class="entry-help">
-            穴埋めと作者の問題を交互に出します。1回の学習は
+            とりあえず始めるでは、穴埋めと作者の問題の両方を出します。1回の学習は
             {ENTRY_RULES.quick.questionCount}問です。
           </p>
           {plannedChunkCount > 1 && (
             <p class="entry-help">
-              {normalizeRange(from, to).from}番〜{normalizeRange(from, to).to}番は
-              {CHUNK_CARD_COUNT}首ずつ全{plannedChunkCount}回に分かれます。まず1回目から始めます。
+              {normalizeRange(from, to).from}〜{normalizeRange(from, to).to}番だと
+              {CHUNK_CARD_COUNT}首ずつの{plannedChunkCount}つのまとまりに分かれます。
             </p>
           )}
         </div>
@@ -584,11 +587,12 @@ export function Home({
       <footer class="foot-line">
         {!showStatsOnboarding && !standalone && !installDismissed && (
           <section class="install-guide install-guide--first" aria-label="ホーム画面への追加">
-            <strong>よく使うなら、ホーム画面に追加できます</strong>
-            <p>{installForIos ? "Safariの共有ボタンから「ホーム画面に追加」を選んでください。" : installPrompt ? "追加すると、ホーム画面からすぐに開けます。" : "ブラウザのメニューから「ホーム画面に追加」を選べます。"}</p>
+            <strong>ホーム画面への追加をおすすめします</strong>
+            <p>ブラウザだと、LINE内のブラウザなど別の入り口から開いたときなどに、データが引き継がれません。ホーム画面に追加すると、普通のアプリのように使用できます。</p>
+            <details class="install-guide__steps"><summary>追加のしかた</summary><p>{installForIos ? "Safariの共有ボタンから「ホーム画面に追加」を選んでください。" : installPrompt ? "追加ボタンを選んで、ホーム画面に追加してください。" : "ブラウザのメニューから「ホーム画面に追加」を選んでください。"}</p></details>
             <div class="install-guide__actions">
               {installPrompt && <button type="button" onClick={showInstallPrompt}>ホーム画面に追加する</button>}
-              <button type="button" onClick={dismissInstallNotice}>閉じる</button>
+              <button class="install-guide__dismiss" type="button" onClick={dismissInstallNotice}>閉じる</button>
             </div>
           </section>
         )}
@@ -604,7 +608,7 @@ export function Home({
             ))}
           </ul>
         </details>
-        <p>{appConfig.publisher} · 100首収録</p>
+        <p>{appConfig.publisher}</p>
       </footer>
     </main>
   );

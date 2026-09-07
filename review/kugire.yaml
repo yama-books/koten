@@ -1,4 +1,5 @@
 # 句切れの確認台帳（表示上の便宜。人が書き込む唯一の場所）
+# 未使用：この台帳を生成物へ適用する経路はない。
 # 状態: pending | approved | rejected | hold
 version: 1
 entries:

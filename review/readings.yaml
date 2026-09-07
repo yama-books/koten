@@ -1,4 +1,5 @@
 # 読みの確認台帳（人が書き込む唯一の場所）
+# poems.json の reading.status はこの台帳からは来ない。異同確認資料に未決着の読み方式があるかを表す。
 # 状態: pending | approved | rejected | hold
 version: 1
 entries:

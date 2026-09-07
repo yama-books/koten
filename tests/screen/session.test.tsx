@@ -66,8 +66,8 @@ test('session: reading toggle does not change the judgement', async () => {
 
   expect(toggledMark).toBe(baselineMark);
 });
-test('session: progress distinguishes card and question', async () => { const view = await mount(); expect(view.textContent).toContain('10番・1問目/2'); });
-test('session: all four entries show question progress from zero', async () => {
+test('session: header shows only the card number', async () => { const view = await mount(); const header = view.querySelector('.session .nav-edge')!; expect(header.textContent).toContain('10番'); expect(header.textContent).not.toMatch(/\d+問目|\/\d+/); });
+test('session: all four entries show question progress only in the meter', async () => {
   for (const entry of ['learn', 'author', 'exam', 'review'] as const) {
     if (root) { render(null, root); root.remove(); root = undefined; }
     const questions = entry === 'author' ? authorChoice : fixture;
@@ -75,7 +75,7 @@ test('session: all four entries show question progress from zero', async () => {
     const meter = view.querySelector('[role="meter"]');
     expect(meter?.getAttribute('aria-label')).toBe('セッションの進捗');
     expect(meter?.getAttribute('aria-valuenow')).toBe('0');
-    expect(view.textContent).toContain(`進み 0問/${questions.length}問`);
+    expect(view.textContent).toContain(`0問/${questions.length}問`);
     const header = view.querySelector('.session .nav-edge')!;
     const progress = view.querySelector('.session-progress')!;
     const controls = view.querySelector('.session-controls')!;
@@ -91,7 +91,7 @@ test('session: completing the last question shows 100 percent progress', async (
   await act(() => { root!.querySelector('button.primary')!.click(); });
   const meter = root!.querySelector('[role="meter"]');
   expect(meter?.getAttribute('aria-valuenow')).toBe('100');
-  expect(root!.textContent).toContain('進み 2問/2問');
+  expect(root!.textContent).toContain('2問/2問');
 });
 test('session: writing setting is saved', async () => { const p = port(); await mount(p); await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '横書きにする')!.click(); }); expect((await p.loadSettings())?.writing).toBe('horizontal'); });
 test('session: local-only report action stays hidden', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).not.toContain('問題を報告'); });
@@ -227,7 +227,7 @@ test('session: 本番も最後の問を終えたところで100%になる', asyn
   await finishExamOnScreen('白妙の', '衣干す');
   const meter = root!.querySelector('[role="meter"]');
   expect(meter?.getAttribute('aria-valuenow')).toBe('100');
-  expect(root!.textContent).toContain('進み 2問/2問');
+  expect(root!.textContent).toContain('2問/2問');
 });
 
 test('session: 本番の採点一覧は△の行に仮名遣いの補足を出す', async () => {
