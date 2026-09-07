@@ -2,6 +2,12 @@ export interface CardRange {
   from: number;
   to: number;
   hadInvalidQuery: boolean;
+  /**
+   * URL が範囲を**明示していた**か。`?from=1&to=100` と、何も付けずに来た既定の 1〜100 は
+   * 値が同じでも意味が違う。**明示して来た人の範囲を、学年の既定で上書きしない**ために要る
+   * （依頼者指示・2026-09-07）。
+   */
+  explicit: boolean;
 }
 
 function parseCardNo(value: string | null): number | null {
@@ -16,15 +22,15 @@ export function parseRange(search: string): CardRange {
   const rawFrom = parseCardNo(params.get('from'));
   const rawTo = parseCardNo(params.get('to'));
 
-  if (Number.isNaN(rawFrom) || Number.isNaN(rawTo)) return { from: 1, to: 100, hadInvalidQuery: true };
-  if (rawFrom === null && rawTo === null) return { from: 1, to: 100, hadInvalidQuery: false };
+  if (Number.isNaN(rawFrom) || Number.isNaN(rawTo)) return { from: 1, to: 100, hadInvalidQuery: true, explicit: false };
+  if (rawFrom === null && rawTo === null) return { from: 1, to: 100, hadInvalidQuery: false, explicit: false };
 
   const from = rawFrom ?? 1;
   const to = rawTo ?? from;
-  return { from: Math.min(from, to), to: Math.max(from, to), hadInvalidQuery: false };
+  return { from: Math.min(from, to), to: Math.max(from, to), hadInvalidQuery: false, explicit: true };
 }
 
-export function normalizeRange(from: number, to: number): Omit<CardRange, 'hadInvalidQuery'> {
+export function normalizeRange(from: number, to: number): Pick<CardRange, 'from' | 'to'> {
   const safeFrom = Number.isInteger(from) && from >= 1 && from <= 100 ? from : 1;
   const safeTo = Number.isInteger(to) && to >= 1 && to <= 100 ? to : 100;
   return { from: Math.min(safeFrom, safeTo), to: Math.max(safeFrom, safeTo) };

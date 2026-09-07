@@ -405,7 +405,10 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .grade-picker p { margin: 0; }
 .stats-notice__confirm { justify-self: start; background: var(--color-ink); color: var(--color-paper); font-weight: 700; }
 .stats-notice__help { color: var(--color-ink-muted); font-size: var(--text-sm); }
-.grade-picker { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
+/* 枠の上の線は引かない。初回設定の中の区切りは余白で足りる（依頼者指示・2026-09-07）。 */
+.grade-picker { padding-block-end: var(--space-lg); }
+/* 見出しは1行に収める。既定の h3 より小さい見出し用の大きさを使う。 */
+.grade-picker h3 { font-size: var(--text-md); }
 /*
  * 見た目の順を DOM の順（学年 → 説明 → OK）に合わせる。`order` で説明を先頭へ動かすと、
  * 説明と OK の間に学年が挟まり、何に同意して押すのかが読み取れない（発注074 工程2）。

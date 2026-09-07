@@ -102,8 +102,28 @@ test('再確認には部分正解を含める', () => {
   assert.deepEqual(summarizeSession(input({ outcomes: [{ poemId: 'p011', kind: 'partial' }] })).retryCardNumbers, [11]);
 });
 
-test('再確認には正答と閲覧を含めない', () => {
-  assert.deepEqual(summarizeSession(input({ outcomes: [{ poemId: 'p010', kind: 'correct' }], allEvents: [event({ outcome: 'viewed', kind: 'view' })] })).retryCardNumbers, []);
+test('再確認には正答を含めない', () => {
+  assert.deepEqual(summarizeSession(input({ outcomes: [{ poemId: 'p010', kind: 'correct' }] })).retryCardNumbers, []);
+});
+
+// 依頼者裁定・2026-09-07：**答えを見たということは、解けなかったということである。**
+// 発注057 は閲覧を再確認から外していたが、全問「わからない！」で終えると
+// 「まちがえた歌だけをもう一度」が出ず、いちばん出し直してほしい問が落ちていた。
+test('再確認には「わからない！」で答えを見た問を含める', () => {
+  const result = summarizeSession(input({
+    outcomes: [],
+    allEvents: [event({ outcome: 'viewed', kind: 'view', questionId: 'p010-blank-ku1' })],
+  }));
+  assert.deepEqual(result.retryCardNumbers, [10]);
+  assert.deepEqual(result.retryQuestionIds, ['p010-blank-ku1']);
+});
+
+test('再確認は同じ問を二度並べない', () => {
+  const result = summarizeSession(input({
+    outcomes: [{ poemId: 'p010', kind: 'incorrect', questionId: 'p010-blank-ku1' } as never],
+    allEvents: [event({ outcome: 'viewed', kind: 'view', questionId: 'p010-blank-ku1' })],
+  }));
+  assert.deepEqual(result.retryQuestionIds, ['p010-blank-ku1']);
 });
 
 test('再確認の番号は昇順かつ重複なしになる', () => {
