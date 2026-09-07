@@ -148,5 +148,18 @@
     ],
     "field": "ku4",
     "kind": "異本文"
+  },
+  {
+    "adopted": "PDF／現行転記は「葦のまろ屋に」。表示は「芦のまろ屋に」へ統一。",
+    "alternatives": [
+      "嵯峨嵐山文華館は「葦のまろやに」。「葦」表記も一般に通用している。"
+    ],
+    "cardNo": 71,
+    "decision": "依頼者裁定により表示を「芦のまろ屋に」に統一し、「葦のまろ屋に」は別解として `review/blanks.yaml` の `alsoAccepted` で正解に受ける。読みは `あしのまろやに` で変わらない。",
+    "evidenceUrls": [
+      "https://www.samac.jp/search/poems_detail.php?id=71"
+    ],
+    "field": "ku4",
+    "kind": "異本文"
   }
 ]

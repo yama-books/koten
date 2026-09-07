@@ -5,7 +5,7 @@
     "poems": 100,
     "questionsAuthor": 300,
     "questionsBlank": 500,
-    "variants": 10
+    "variants": 11
   },
   "dataVersion": 1,
   "generatedOn": "2026-09-07",
@@ -43,9 +43,9 @@
     }
   },
   "sourceHashes": {
-    "百人一首_読み_異同確認.md": "e386e4a92d7e1acc7e13fb3386a8f617308a061a269c0df59e52ff0d58f6b2ef",
+    "百人一首_読み_異同確認.md": "8164b8e097fb364a5f3b062139566dcc577eff870e5b4b136d0edd60d3135ce4",
     "百人一首_読み_現代仮名遣い.md": "d6e69e1663f2236b3f4e6a920f6e7d0b5e780cb8aa4fe2efa36ecff0b800b88d",
     "百人一首_読み_歴史的仮名遣い.md": "723a99df8978c69eacba7524e76eba3aa1e1a3349d2d947b5be0752a2dbedc31",
-    "百人一首_本文・作者_一次データ.md": "ff107be707aeb51891e019ffbb25bc5a98a8b382497c1513aa270f7be1b7163a"
+    "百人一首_本文・作者_一次データ.md": "9e33469b86c4e98467902e2851f317fec4ecb55ba3c5306a473bbe0ff0b236a0"
   }
 }

@@ -9319,7 +9319,7 @@
       "ゆうされば"
     ],
     "poemId": "p071",
-    "prompt": "＿＿＿門田の稲葉おとづれて葦のまろ屋に秋風ぞ吹く",
+    "prompt": "＿＿＿門田の稲葉おとづれて芦のまろ屋に秋風ぞ吹く",
     "proposedBy": "human",
     "questionId": "p071-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -9345,7 +9345,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p071",
-    "prompt": "夕されば＿＿＿おとづれて葦のまろ屋に秋風ぞ吹く",
+    "prompt": "夕されば＿＿＿おとづれて芦のまろ屋に秋風ぞ吹く",
     "proposedBy": "human",
     "questionId": "p071-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -9372,7 +9372,7 @@
       "おとずれて"
     ],
     "poemId": "p071",
-    "prompt": "夕されば門田の稲葉＿＿＿葦のまろ屋に秋風ぞ吹く",
+    "prompt": "夕されば門田の稲葉＿＿＿芦のまろ屋に秋風ぞ吹く",
     "proposedBy": "human",
     "questionId": "p071-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -9382,10 +9382,11 @@
   },
   {
     "acceptedAnswers": [
+      "芦のまろ屋に",
       "葦のまろ屋に",
       "あしのまろやに"
     ],
-    "answer": "葦のまろ屋に",
+    "answer": "芦のまろ屋に",
     "answerHistorical": "あしのまろやに",
     "answerModern": "あしのまろやに",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -9424,7 +9425,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p071",
-    "prompt": "夕されば門田の稲葉おとづれて葦のまろ屋に＿＿＿",
+    "prompt": "夕されば門田の稲葉おとづれて芦のまろ屋に＿＿＿",
     "proposedBy": "human",
     "questionId": "p071-blank-ku5",
     "reviewStatus": "human-confirmed",
