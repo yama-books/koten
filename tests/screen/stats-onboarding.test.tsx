@@ -270,7 +270,7 @@ test('N-16: ホームの入口は説明、開始、方法選択、確認の順�
   const mounted = await mountHome();
   const panelText = mounted.root.querySelector('.range-panel')?.textContent ?? '';
   const labels = [
-    'とりあえず始めるでは、穴埋めと作者の問題の両方を出します。',
+    '「とりあえず始める」では、穴埋めと作者の問題の両方を出します。',
     'とりあえず始める',
     '学習方法を選ぶ',
     '歌を確認する',

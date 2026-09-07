@@ -500,7 +500,7 @@ export function Home({
         </div>
         <div class="entry-introduction">
           <p class="entry-help">
-            とりあえず始めるでは、穴埋めと作者の問題の両方を出します。1回の学習は
+            「とりあえず始める」では、穴埋めと作者の問題の両方を出します。1回の学習は
             {ENTRY_RULES.quick.questionCount}問です。
           </p>
           {plannedChunkCount > 1 && (
