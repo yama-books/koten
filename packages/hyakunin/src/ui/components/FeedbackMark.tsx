@@ -4,8 +4,12 @@ const imageUrls = {
   perfect: new URL('../../../../../assets/feedback/perfect-hanamaru.webp', import.meta.url).href,
 } as const;
 
-export function FeedbackMark({ kind, label, visualOnly = false }: { kind: 'correct' | 'incorrect'; label: string; visualOnly?: boolean }) {
-  return <span class={`feedback-mark feedback-mark--${kind}`} aria-label={visualOnly ? label : undefined}>
+/**
+ * `silent` は**読み上げから外す**印。判定の文言は隣の判定欄が持っており、印にも名前を付けると
+ * 同じ判定を二度読み上げることになる（発注076 §3「判定通知は1回にする」）。
+ */
+export function FeedbackMark({ kind, label, visualOnly = false, silent = false }: { kind: 'correct' | 'incorrect'; label: string; visualOnly?: boolean; silent?: boolean }) {
+  return <span class={`feedback-mark feedback-mark--${kind}`} aria-hidden={silent ? 'true' : undefined} aria-label={silent ? undefined : visualOnly ? label : undefined}>
     <img src={imageUrls[kind]} alt="" aria-hidden="true" />
     {!visualOnly && <span>{label}</span>}
   </span>;

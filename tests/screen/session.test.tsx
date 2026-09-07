@@ -5,6 +5,7 @@ import { afterEach, expect, test } from 'vitest';
 import { parseQuestions, type PublishedQuestion } from '../../packages/hyakunin/src/data/question-schema.ts';
 import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
 import { appConfig } from '../../packages/shared/src/app-config.ts';
+import { ReadingToggle } from '../../packages/hyakunin/src/ui/components/ReadingToggle.tsx';
 import { Session } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
 
 let root: HTMLDivElement | undefined;
@@ -130,7 +131,8 @@ test('session: 開示では正誤画像を自分の答えにだけ一つ重ね�
   await mount(); await answer('白妙の');
   const feedback = root!.querySelector('.answer-feedback')!;
   const answerField = root!.querySelector('.answer-retained')!;
-  expect(feedback.compareDocumentPosition(answerField) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
+  // 判定と回答欄の**順序**は発注076 で逆になった（回答欄が先）。順序の釘は 076 の試験が1本だけ持つ。
+  // ここは「画像は1つだけ、しかも自分の答えの側にある」ことに絞る。
   expect(feedback.textContent).toContain('正解');
   expect(feedback.querySelectorAll('img')).toHaveLength(0);
   expect(answerField.querySelectorAll('img[src*="correct-maru"]')).toHaveLength(1);
@@ -320,4 +322,127 @@ test('session: 本番の採点一覧にも該当行の一言を出す', async ()
   const rows = Array.from(root!.querySelectorAll('.grade-list > li'));
   expect(rows).toHaveLength(1);
   expect(rows[0].textContent).toContain('掛詞');
+});
+
+// --- 発注076：出題と採点で回答欄を動かさない ---
+
+const answerInput = () => root!.querySelector('.answer-controls input') as HTMLInputElement | null;
+async function type(value: string) {
+  const input = answerInput()!;
+  await act(() => { input.value = value; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: value, inputType: 'insertText' })); });
+}
+async function clickNamed(name: string) {
+  await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent?.trim() === name)!.click(); await Promise.resolve(); });
+}
+
+test('076: 開示は 自分の答え → 判定・正解 → 次へ の順に置く', async () => {
+  await mount(); await answer('白妙の');
+  const field = root!.querySelector('.answer-retained')!;
+  const feedback = root!.querySelector('.answer-feedback')!;
+  const next = Array.from(root!.querySelectorAll('button')).find((button) => button.textContent?.trim() === '次へ')!;
+  // 回答欄が判定より先。074 までは判定が先だったが、それだと開示のたびに回答欄が下へ動く。
+  expect(field.compareDocumentPosition(feedback) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
+  expect(feedback.compareDocumentPosition(next) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
+});
+
+test('076: 答え合わせの前後で入力欄は同じ DOM 要素のまま readOnly になる', async () => {
+  await mount();
+  const before = answerInput()!;
+  expect(before.readOnly).toBe(false);
+  await type('白妙の');
+  await clickNamed('答え合わせ');
+  const after = answerInput()!;
+  expect(after).toBe(before);
+  expect(after.readOnly).toBe(true);
+  expect(after.value).toBe('白妙の');
+});
+
+test('076: 誤答・△でも同じ入力欄が送信した文字列のまま残る', async () => {
+  for (const [value, expected] of [['しろたえの', 'しろたえの'], ['ちがう', 'ちがう']] as const) {
+    await mount();
+    const before = answerInput()!;
+    await type(value);
+    await clickNamed('答え合わせ');
+    expect(answerInput()).toBe(before);
+    expect(answerInput()!.value).toBe(expected);
+    render(null, root!); root!.remove(); root = undefined;
+  }
+});
+
+test('076: 保存に失敗しても入力欄と値を失わない', async () => {
+  const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) };
+  await mount(failing);
+  const before = answerInput()!;
+  await type('白妙の');
+  await clickNamed('答え合わせ');
+  expect(answerInput()).toBe(before);
+  expect(answerInput()!.value).toBe('白妙の');
+  expect(answerInput()!.readOnly).toBe(false);
+});
+
+test('076: 「わからない！」は存在しない送信文字列を作らない', async () => {
+  await mount();
+  await type('とちゅうまで');
+  await clickNamed('わからない！');
+  // 入力途中の文字を「採点済みの自分の答え」として残さない。
+  expect(root!.querySelector('.answer-retained')).toBeNull();
+  const retained = Array.from(root!.querySelectorAll('input')).map((input) => input.value);
+  expect(retained).not.toContain('とちゅうまで');
+  expect(root!.textContent).toContain('答えを確認しました。');
+});
+
+test('076: 作者問題に本文入力の欄を新設しない', async () => {
+  await mountWith({ questions: authorChoice, poems: [] });
+  expect(root!.querySelector('.answer-controls input')).toBeNull();
+  expect(root!.querySelectorAll('.answer-choices button')).toHaveLength(4);
+  await act(async () => { Array.from(root!.querySelectorAll('.answer-choices button')).find((button) => button.textContent === '持統天皇')!.click(); await Promise.resolve(); });
+  expect(root!.querySelector('.answer-controls input')).toBeNull();
+});
+
+test('076: 判定の通知は一度だけで、印は読み上げを増やさない', async () => {
+  await mount(); await answer('白妙の');
+  const mark = root!.querySelector('.answer-retained .feedback-mark')!;
+  expect(mark).not.toBeNull();
+  // 判定の文言は判定欄が持つ。印にも名前を付けると、同じ判定を二度読み上げる。
+  expect(mark.getAttribute('aria-hidden')).toBe('true');
+  expect(mark.getAttribute('aria-label')).toBeNull();
+  expect(root!.querySelector('.answer-feedback')!.textContent).toContain('正解');
+});
+
+test('076: 印は自分の答えの左の列にあり、入力と同じ列を奪わない', async () => {
+  await mount(); await answer('白妙の');
+  const field = root!.querySelector('.answer-retained')!;
+  const mark = field.querySelector('.feedback-mark')!;
+  const input = field.querySelector('input')!;
+  // 印は入力の直接の兄弟（ラベルの直下）である。包むと段組みの列から外れる。
+  expect(mark.parentElement).toBe(field);
+  expect(input.parentElement).toBe(field);
+  expect(mark.compareDocumentPosition(input) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
+});
+
+test('076: 出題中は原文でも「表示中」の行を確保する', async () => {
+  await mount();
+  expect(root!.querySelector('.reading-state')?.textContent).toBe('原文を表示中');
+});
+
+test('076: 読み切替の状態行は、頼まれた画面だけ原文の行を足す（ホームは従来のまま）', () => {
+  const view = document.createElement('div'); document.body.append(view);
+  render(<ReadingToggle value="no-ruby" onChange={() => {}} />, view);
+  expect(view.querySelector('.reading-state')).toBeNull();
+  render(<ReadingToggle value="no-ruby" onChange={() => {}} showState />, view);
+  expect(view.querySelector('.reading-state')?.textContent).toBe('原文を表示中');
+  render(<ReadingToggle value="historical" onChange={() => {}} showState />, view);
+  expect(view.querySelector('.reading-state')?.textContent).toBe('歴史的仮名遣いを表示中');
+  render(null, view); view.remove();
+});
+
+test('076: 採点後の欄は、あとから入力イベントが来ても送信した文字列を保つ', async () => {
+  await mount();
+  await type('白妙の');
+  await clickNamed('答え合わせ');
+  const field = answerInput()!;
+  // 表示の出どころは「保存した答え」であって、入力中の状態ではない。
+  // 出どころが入力状態のままだと、開示後に値が書き換わりうる。
+  await act(() => { field.value = 'あとから'; field.dispatchEvent(new InputEvent('input', { bubbles: true, data: 'あとから', inputType: 'insertText' })); });
+  expect(answerInput()!.value).toBe('白妙の');
 });
