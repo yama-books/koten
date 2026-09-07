@@ -10,7 +10,6 @@ import {
   submitSelfGrade,
   useHint,
   advance,
-  progressLabel,
   failSave,
   type FlowState,
 } from "../../domain/flow.ts";
@@ -172,7 +171,7 @@ export function Session({
     <MasteryMeter
       label="セッション"
       meterLabel="セッションの進捗"
-      text={`進み ${completedQuestionCount}問/${flow.questionCount}問`}
+      text={`${completedQuestionCount}問/${flow.questionCount}問`}
       percent={progressPercent}
       color="blue"
     />
@@ -596,9 +595,7 @@ export function Session({
         </button>
         <span class="wordmark">{ENTRY_LABELS[entry]}</span>
         <span class="progress" aria-live="polite">
-          {entry === "exam"
-            ? `${displayFlow.questionIndex + 1}問目/${displayFlow.questionCount}`
-            : progressLabel(displayFlow)}
+          {Number(question.poemId.slice(1))}番
         </span>
       </header>
       <div class="session-progress">{progressMeter}</div>
@@ -777,8 +774,8 @@ export function Session({
           {answerMode === "screen" && displayFlow.submitted && (
             <label class={displayFlow.judgement === "correct" ? "answer-retained" : "answer-retained answer-retained--attention"}>
               自分の答え
-              {displayFlow.judgement === "correct" ? <FeedbackMark kind="correct" label="正解" visualOnly /> : displayFlow.judgement === "incorrect" ? <FeedbackMark kind="incorrect" label="要確認！" visualOnly /> : null}
               <input value={displayFlow.submitted.input} readOnly />
+              {displayFlow.judgement === "correct" ? <FeedbackMark kind="correct" label="正解" visualOnly /> : displayFlow.judgement === "incorrect" ? <FeedbackMark kind="incorrect" label="要確認！" visualOnly /> : null}
             </label>
           )}
           <button class="primary" type="button" onClick={next}>

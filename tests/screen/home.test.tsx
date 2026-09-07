@@ -73,16 +73,15 @@ test('home: a one-chunk restore does not explain splitting and shows completed-c
   expect(restore.textContent).not.toContain('20首ずつ');
   expect(restore.textContent).not.toContain('1回目');
   expect(restore.querySelector('[role="meter"]')?.getAttribute('aria-valuenow')).toBe('0');
-  expect(restore.textContent).toContain('進み 0首/20首');
+  expect(restore.textContent).toContain('0首/20首');
 });
 
 test('home: a multi-chunk restore explains splitting only once when remaining counts agree', async () => {
   const root = await renderRestorableHome(21, 20);
   const restore = root.querySelector('.restore-offer')!;
-  expect(restore.textContent).toContain('20首ずつに分けて全2回');
-  expect(restore.textContent).toContain('いまは2回目');
-  expect(restore.textContent!.match(/あと1首/g)).toHaveLength(1);
-  expect(restore.textContent).toContain('進み 20首/21首');
+  expect(restore.textContent).toContain('20首ずつ・全2まとまり');
+  expect(restore.textContent).toContain('次は 21番〜21番（1首）');
+  expect(restore.textContent).toContain('20首/21首');
   expect(restore.querySelector('[role="meter"]')?.getAttribute('aria-valuenow')).toBe('95');
 });
 

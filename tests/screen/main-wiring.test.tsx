@@ -179,7 +179,7 @@ test('main: 再確認はまちがえた歌だけを出す', async () => {
   await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '結果を見る')!.click(); await Promise.resolve(); await Promise.resolve(); });
   await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'まちがえた歌だけをもう一度')!.click(); });
   expect(currentNumber()).toBe('10');
-  expect(root!.textContent).toContain('1問目/1');
+  expect(root!.querySelector('.session .nav-edge .progress')?.textContent).toBe('10番');
 });
 
 test('main: 保存失敗でも結果と失敗の一行を表示する', async () => {

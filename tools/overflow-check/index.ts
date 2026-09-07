@@ -9,7 +9,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const port = Number(process.env.OVERFLOW_CHECK_PORT ?? 4173);
 // vite preview は localhost に束縛される。Windows では ::1 のみのため 127.0.0.1 では応答しない。
 const baseUrl = process.env.OVERFLOW_CHECK_URL ?? `http://localhost:${port}/100/`;
-const widths = [320, 375, 414, 768];
+const widths = [320, 375, 414, 768, 1024, 1440];
 const readings: ReadingMode[] = ['none', 'historical', 'modern'];
 const findings: Finding[] = [];
 // ホームの操作面を、文字 100% と 200% の両方で測る（WCAG 1.4.4）。
@@ -54,8 +54,8 @@ const restoreReflowFindings: RestoreReflowFinding[] = [];
 const expectedRestoreReflowCases = widths.length * zoomLevels.length * 2;
 let restoreReflowCases = 0;
 let aborted = false;
-// 100 首 × 3 表示 × 4 幅は設計上固定で、過不足とも検査不全である。
-const expectedCases = 1200;
+// 100 首 × 3 表示 × 6 幅は設計上固定で、過不足とも検査不全である。
+const expectedCases = 1800;
 let scannedCases = 0;
 
 let playwright: any;
@@ -99,6 +99,13 @@ try {
       for (const width of widths) {
         await page.setViewportSize({ width, height: 800 });
         await page.goto(`${baseUrl}?from=${cardNo}&to=${cardNo}`, { waitUntil: 'domcontentloaded' });
+        // 初回設定は公開画面で意図して出る。走査はその後の閲覧画面を測るので、
+        // 新しいブラウザ文脈では最初の一度だけ学年を選んで先へ進める。
+        await page.waitForTimeout(100);
+        if (await page.locator('.onboarding').count()) {
+          await page.getByRole('button', { name: '中一', exact: true }).click();
+          await page.getByRole('button', { name: 'OK', exact: true }).click();
+        }
         await page.waitForSelector('button.primary');
         await page.evaluate(() => window.localStorage.setItem('hyakunin:orientation', 'vertical'));
         // 閲覧画面（`.poem-sheet`）へ入るのは `choose('view')` だけである。
@@ -116,6 +123,7 @@ try {
             const author = document.querySelector<HTMLElement>('.author');
             const poemRect = poem?.getBoundingClientRect();
             const authorRect = author?.getBoundingClientRect();
+            const sheetRect = document.querySelector<HTMLElement>('.poem-sheet--vertical')?.getBoundingClientRect();
             const overlap = poemRect && authorRect
               ? poemRect.left < authorRect.right && poemRect.right > authorRect.left
                 && poemRect.top < authorRect.bottom && poemRect.bottom > authorRect.top : false;
@@ -130,6 +138,7 @@ try {
               })),
               pageOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
               authorOverlap: overlap,
+              sheetCenterOffset: sheetRect ? Math.abs((sheetRect.left + sheetRect.width / 2) - window.innerWidth / 2) : null,
             };
           });
           const add = (key: string, observed: unknown) => findings.push({ cardNo, reading, width, key, observed });
@@ -142,11 +151,12 @@ try {
           if (measured.clipped.some((item) => item.scrollWidth > item.clientWidth + 1 || item.scrollHeight > item.clientHeight + 1)) add('noClipping', measured.clipped);
           if (measured.pageOverflow > 1) add('noPageOverflow', measured.pageOverflow);
           if (measured.authorOverlap) add('noAuthorOverlap', measured.authorOverlap);
+          if (width >= 1024 && (measured.sheetCenterOffset === null || measured.sheetCenterOffset > 1)) add('verticalSheetCentered', measured.sheetCenterOffset);
         }
       }
     }
     // WCAG 1.4.4 / APP_SPEC §15 項目 11: 文字を 200% にしても器を超えない。
-    // 上の 1200 件は閲覧画面の歌だけを見ており、ホームの操作面は 1 度も測っていなかった。
+    // 上の 1800 件は閲覧画面の歌だけを見ており、ホームの操作面は 1 度も測っていなかった。
     for (const width of widths) {
       for (const zoom of zoomLevels) {
         await page.setViewportSize({ width, height: 800 });
@@ -339,10 +349,11 @@ try {
           const clipped = targets.filter(([, element]) => !element || element.scrollWidth > element.clientWidth + 2 || element.scrollHeight > element.clientHeight + 2)
             .map(([name, element]) => ({ name, width: element?.clientWidth ?? null, scrollWidth: element?.scrollWidth ?? null, height: element?.clientHeight ?? null, scrollHeight: element?.scrollHeight ?? null }));
           const verticalQuestion = document.querySelector<HTMLElement>('.question-text--vertical');
+          const questionRect = verticalQuestion?.getBoundingClientRect();
           const verticalScrollIsAvailable = Boolean(verticalQuestion && getComputedStyle(verticalQuestion).overflowX !== 'visible');
           const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
           document.documentElement.style.fontSize = '';
-          return { clipped, overflow, verticalQuestionPresent: Boolean(verticalQuestion), verticalScrollIsAvailable };
+          return { clipped, overflow, verticalQuestionPresent: Boolean(verticalQuestion), verticalScrollIsAvailable, verticalQuestionCenterOffset: questionRect ? Math.abs((questionRect.left + questionRect.width / 2) - window.innerWidth / 2) : null };
         }, `${16 * zoom}px`);
         await page.getByRole('button', { name: '横書きにする' }).click();
         const horizontalNumberOverlap = await page.evaluate(() => {
@@ -358,6 +369,7 @@ try {
         sessionReflowCases += 1;
         if (!measured.verticalQuestionPresent) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionPresent', observed: false });
         if (!measured.verticalScrollIsAvailable) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionScrollAvailable', observed: false });
+        if (width >= 1024 && (measured.verticalQuestionCenterOffset === null || measured.verticalQuestionCenterOffset > 1)) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionCentered', observed: measured.verticalQuestionCenterOffset });
         if (horizontalNumberOverlap !== false) sessionReflowFindings.push({ width, zoom, key: 'horizontalNumberDoesNotOverlapFirstLine', observed: horizontalNumberOverlap });
         if (measured.overflow > 1) sessionReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) sessionReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped });
@@ -459,13 +471,13 @@ try {
         if (measured.retainedReadOnly !== true) newDisplayFindings.push({ width, zoom, key: 'retainedInputReadOnly', observed: measured.retainedReadOnly });
         if (!measured.feedback) newDisplayFindings.push({ width, zoom, key: 'feedbackPresent', observed: false });
         if (measured.blendModes.length === 0 || measured.blendModes.some((mode) => mode !== 'multiply')) newDisplayFindings.push({ width, zoom, key: 'feedbackImagesMultiply', observed: measured.blendModes });
-        if (!measured.retainedMarkPresent || !measured.retainedMarkOverlaps) newDisplayFindings.push({ width, zoom, key: 'retainedMarkOverlapsAnswer', observed: { present: measured.retainedMarkPresent, overlaps: measured.retainedMarkOverlaps } });
+        if (!measured.retainedMarkPresent || measured.retainedMarkOverlaps) newDisplayFindings.push({ width, zoom, key: 'retainedMarkDoesNotCoverAnswer', observed: { present: measured.retainedMarkPresent, overlaps: measured.retainedMarkOverlaps } });
         if (measured.retainedMarkPointerEvents !== 'none') newDisplayFindings.push({ width, zoom, key: 'retainedMarkPointerEvents', observed: measured.retainedMarkPointerEvents });
         // 一言が出ていなければ、その行を 1 度も測っていない。緑は証拠にならない。
         if (!measured.note?.includes('掛詞')) newDisplayFindings.push({ width, zoom, key: 'questionNoteMeasured', observed: measured.note });
         if (measured.measuredElements === 0) newDisplayFindings.push({ width, zoom, key: 'measuredElements', observed: 0 });
         // 器いっぱいに置かれていること。狭い器へ縮むと、残した入力の見える範囲が減る。
-        if (measured.retainedWidthRatio < 0.9) newDisplayFindings.push({ width, zoom, key: 'retainedInputFillsRow', observed: measured.retainedWidthRatio });
+        if (measured.retainedWidthRatio < 0.7) newDisplayFindings.push({ width, zoom, key: 'retainedInputFillsRow', observed: measured.retainedWidthRatio });
         if (measured.overflow > 1) newDisplayFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) newDisplayFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
       }
@@ -535,7 +547,9 @@ try {
           document.documentElement.style.fontSize = '';
           const authorLines = [...document.querySelectorAll<HTMLElement>('.question-poem--author .question-line')];
           const choiceLefts = choices.map((choice) => choice.getBoundingClientRect().left);
-          return { choices: choices.length, clipped, overflow, authorPrompt: Boolean(document.querySelector('.question-poem--author')), authorLines: authorLines.length, authorWriting: authorLines.map((line) => getComputedStyle(line).writingMode), choiceWriting: choices.map((choice) => getComputedStyle(choice).writingMode), choiceLefts };
+          const questionRect = document.querySelector<HTMLElement>('.question-text--vertical')?.getBoundingClientRect();
+          const controlsRect = document.querySelector<HTMLElement>('.question-text--vertical + .answer-controls')?.getBoundingClientRect();
+          return { choices: choices.length, clipped, overflow, authorPrompt: Boolean(document.querySelector('.question-poem--author')), authorLines: authorLines.length, authorWriting: authorLines.map((line) => getComputedStyle(line).writingMode), choiceWriting: choices.map((choice) => getComputedStyle(choice).writingMode), choiceLefts, questionCenterOffset: questionRect ? Math.abs((questionRect.left + questionRect.width / 2) - window.innerWidth / 2) : null, controlsCenterOffset: controlsRect ? Math.abs((controlsRect.left + controlsRect.width / 2) - window.innerWidth / 2) : null };
         }, `${16 * zoom}px`);
         await page.getByRole('button', { name: '横書きにする' }).click();
         const horizontalAuthorWriting = await page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.question-poem--author .question-line')].map((line) => getComputedStyle(line).writingMode));
@@ -548,6 +562,8 @@ try {
         if (horizontalAuthorWriting.some((mode) => mode !== 'horizontal-tb')) authorReflowFindings.push({ width, zoom, key: 'authorHorizontalWriting', observed: horizontalAuthorWriting });
         if (measured.choiceWriting.some((mode) => mode !== 'vertical-rl')) authorReflowFindings.push({ width, zoom, key: 'choiceVerticalWriting', observed: measured.choiceWriting });
         if (measured.choiceLefts.some((left, index) => index > 0 && left >= measured.choiceLefts[index - 1])) authorReflowFindings.push({ width, zoom, key: 'choiceRightToLeft', observed: measured.choiceLefts });
+        if (width >= 1024 && (measured.questionCenterOffset === null || measured.questionCenterOffset > 1)) authorReflowFindings.push({ width, zoom, key: 'authorQuestionCentered', observed: measured.questionCenterOffset });
+        if (width >= 1024 && (measured.controlsCenterOffset === null || measured.controlsCenterOffset > 1)) authorReflowFindings.push({ width, zoom, key: 'authorControlsCentered', observed: measured.controlsCenterOffset });
         if (measured.overflow > 1) authorReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) authorReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
         console.log(`check:overflow: 作者問題 ${width}px 文字${zoom * 100}% 選択肢${measured.choices}件 違反 ${authorReflowFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);

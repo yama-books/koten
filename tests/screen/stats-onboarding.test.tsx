@@ -75,10 +75,10 @@ test('N-1b: 仕様書照合のskip条件は仕様書の不在だけである', (
   expect(hasAppSpec).toBe(existsSync(appSpecPath));
 });
 
-test('N-2: 統計案内の操作要素は確認だけでオプトアウト UI がない', () => {
-  const view = mount(<StatsNotice onConfirm={() => {}} />);
-  expect(view.querySelectorAll('button, input, select, textarea')).toHaveLength(1);
-  expect(view.querySelector('button')?.textContent).toBe('確認する');
+test('N-2: 統計案内は説明だけでオプトアウト UI がない', () => {
+  const view = mount(<StatsNotice />);
+  expect(view.querySelectorAll('button, input, select, textarea')).toHaveLength(0);
+  expect(view.textContent).toContain('はじめに ― 学年を選択してください');
   expect(view.querySelector('input[type="checkbox"]')).toBeNull();
 });
 
@@ -134,21 +134,38 @@ test('N-10: 初回設定はタイトルより後ろに出る', async () => {
   expect(title.compareDocumentPosition(onboarding) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 });
 
-test('N-10a: 学年を選ぶまで確認できず、理由を読むことができる', async () => {
+test('N-10a: 学年を選ぶまでOKできず、理由を構成で読むことができる', async () => {
   const mounted = await mountHome();
-  const confirm = Array.from(mounted.root.querySelectorAll('button')).find((button) => button.textContent === '確認する')!;
+  const confirm = Array.from(mounted.root.querySelectorAll('button')).find((button) => button.textContent === 'OK')!;
   expect(confirm.disabled).toBe(true);
-  expect(mounted.root.textContent).toContain('学年を選ぶと確認できます。');
+  expect(mounted.root.textContent).toContain('学年を選択してください');
   await act(() => { clickButton(mounted.root, '中一'); });
   expect(confirm.disabled).toBe(false);
   expect(mounted.root.textContent).not.toContain('学年を選ぶと確認できます。');
+});
+
+test('073-4: 初回設定は学年、統計説明、OKの順で、学年ごとの初期範囲を入れる', async () => {
+  const mounted = await mountHome();
+  const dialog = mounted.root.querySelector('.onboarding__dialog')!;
+  const grade = dialog.querySelector('.grade-picker')!;
+  const notice = dialog.querySelector('.stats-notice')!;
+  const confirm = Array.from(dialog.querySelectorAll('button')).find((button) => button.textContent === 'OK')!;
+  expect(grade.compareDocumentPosition(notice) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  expect(grade.compareDocumentPosition(confirm) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  for (const [label, expected] of [['中一', [1, 20]], ['中二', [21, 60]], ['中三', [61, 100]], ['その他', [1, 100]]] as const) {
+    await act(() => { clickButton(mounted.root, label); });
+    expect(Array.from(mounted.root.querySelectorAll<HTMLInputElement>('input[type="number"]')).map((input) => Number(input.value))).toEqual(expected);
+  }
+  const [from] = Array.from(mounted.root.querySelectorAll<HTMLInputElement>('input[type="number"]'));
+  await act(() => { from.value = '7'; from.dispatchEvent(new InputEvent('input', { bubbles: true })); });
+  expect(from.value).toBe('7');
 });
 
 test('N-10b: 学年を選んで確認すると、学年を含む設定を保存し再表示しない', async () => {
   const mounted = await mountHome();
   await act(() => { clickButton(mounted.root, '中二'); });
   await act(async () => {
-    clickButton(mounted.root, '確認する');
+    clickButton(mounted.root, 'OK');
     await Promise.resolve();
   });
   expect(await mounted.port.loadSettings()).toMatchObject({ noticeConfirmed: true, grade: '中二' });
@@ -165,7 +182,7 @@ test('N-10c: 初回設定中は追加案内を出さず、確認後に出す', a
   expect(mounted.root.querySelector('.install-guide')).toBeNull();
   await act(() => { clickButton(mounted.root, '中三'); });
   await act(async () => {
-    clickButton(mounted.root, '確認する');
+    clickButton(mounted.root, 'OK');
     await Promise.resolve();
   });
   expect(mounted.root.querySelector('.install-guide--first')).not.toBeNull();
@@ -226,7 +243,7 @@ async function guideTextFor(userAgent: string, maxTouchPoints = 0) {
 // 「端末別に案内する」という趣旨は変えず、両方向で確かめる。片方だけでは判定が死んでいても緑になる。
 test('N-15: ホーム画面への追加方法を端末別に案内する', async () => {
   const ios = await guideTextFor('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15');
-  expect(ios).toContain('よく使うなら、ホーム画面に追加できます');
+  expect(ios).toContain('ホーム画面への追加をおすすめします');
   expect(ios).toContain('Safariの共有ボタンから「ホーム画面に追加」');
   expect(ios).not.toContain('ブラウザのメニューから');
 
@@ -239,11 +256,21 @@ test('N-15: ホーム画面への追加方法を端末別に案内する', async
   expect(ipad).toContain('Safariの共有ボタンから「ホーム画面に追加」');
 });
 
+test('073-5: 追加案内は理由を常時表示し、手順だけを折りたたみ、CSSに二重のstandalone判定がない', async () => {
+  const mounted = await mountHome(true);
+  const guide = mounted.root.querySelector('.install-guide--first')!;
+  expect(guide.textContent).toContain('データが引き継がれません');
+  expect(guide.querySelector('details.install-guide__steps summary')?.textContent).toBe('追加のしかた');
+  expect(guide.querySelector<HTMLButtonElement>('.install-guide__dismiss')?.getAttribute('class')).toContain('install-guide__dismiss');
+  const styles = readFileSync(join(process.cwd(), 'packages/hyakunin/src/styles.css'), 'utf8');
+  expect(styles).not.toContain('display-mode: standalone');
+});
+
 test('N-16: ホームの入口は説明、開始、方法選択、確認の順に並ぶ', async () => {
   const mounted = await mountHome();
   const panelText = mounted.root.querySelector('.range-panel')?.textContent ?? '';
   const labels = [
-    '穴埋めと作者の問題を交互に出します。',
+    'とりあえず始めるでは、穴埋めと作者の問題の両方を出します。',
     'とりあえず始める',
     '学習方法を選ぶ',
     '歌を確認する',

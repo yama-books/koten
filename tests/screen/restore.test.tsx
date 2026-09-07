@@ -29,17 +29,18 @@ test('restore: 誘いは入口名と範囲と20首ずつの分割を名乗る', 
   const view = await mount(session({ to: 100 }), Array.from({ length: 79 }, (_, index) => event(index + 1)));
   expect(view.textContent).toContain('前回の「とりあえず始める」の続きがあります');
   expect(view.textContent).toContain('範囲 1番〜100番');
-  expect(view.textContent).toContain('20首ずつに分けて全5回');
-  expect(view.textContent).toContain('いまは5回目');
+  expect(view.textContent).toContain('20首ずつ・全5まとまり');
+  expect(view.textContent).toContain('次は 81番〜100番（20首）');
 });
-test('restore: 誘いはこのまとまりの残りと範囲全体の残りを区別する', async () => {
+test('restore: 誘いは次に出すまとまりと範囲全体の進みを区別する', async () => {
   const view = await mount(session({ to: 100 }), Array.from({ length: 79 }, (_, index) => event(index + 1)));
-  expect(view.textContent).toContain('このまとまりはあと20首');
-  expect(view.textContent).toContain('範囲全体であと21首');
+  expect(view.textContent).toContain('次は 81番〜100番（20首）');
+  expect(view.textContent).toContain('79首/100首');
 });
-test('restore: 誘いは続きから何問出るかをボタンの手前で言う', async () => {
+test('restore: 誘いは順番を表す回目やセット目を出さない', async () => {
   const view = await mount(session({ to: 100 }), Array.from({ length: 79 }, (_, index) => event(index + 1)));
-  expect(view.textContent).toContain('この5回目のなかから8問を出題します');
+  expect(view.textContent).not.toMatch(/\d+(?:回目|セット目)/);
+  expect(view.textContent).not.toContain('続きから始めると、');
 });
 test('restore: 復元しないは保存を書き換えず同じ起動では畳む', async () => { let resumed = false; const view = await mount(session(), [], () => { resumed = true; }); await act(() => click('最初から選び直す')); expect(view.textContent).not.toContain('続きから始める'); expect(resumed).toBe(false); });
 test('restore: 復元しないは保存済みの回を書き換えない', async () => { const base = createMemoryPort(); const saved = session(); const writes: string[] = []; const port = { ...base, loadLastSession: async () => saved, listEvents: async () => [], saveSession: async (next: typeof saved) => { writes.push(next.sessionId); return base.saveSession(next); }, saveLocalReport: async () => true }; root = document.createElement('div'); document.body.append(root); await act(async () => { render(<Home port={port} poems={poems} questions={[]} />, root!); await new Promise((resolve) => setTimeout(resolve, 0)); }); await act(() => click('最初から選び直す')); expect(writes).toEqual([]); expect((await port.loadLastSession()).completed).toBe(false); });

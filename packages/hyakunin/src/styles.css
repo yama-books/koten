@@ -112,6 +112,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   padding-block: var(--space-xl);
   background: var(--color-surface);
 }
+.poem-sheet--vertical { width: min(100%, 30rem); margin-inline: auto; }
 
 .poem { display: flex; gap: var(--space-xl); justify-content: center; min-width: 0; font-family: var(--font-poem); font-size: clamp(1.2rem, 5vw, 1.65rem); font-weight: 600; line-height: 1.9; }
 .poem__half { display: flex; gap: var(--space-xs); }
@@ -150,8 +151,11 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .install-guide--first { display: grid; gap: var(--space-sm); padding-block: var(--space-md); }
 .install-guide--first p,
 .install-guide--returning { margin: 0; }
+.install-guide__steps { margin: 0; }
+.install-guide__steps summary { min-height: 44px; cursor: pointer; }
 .install-guide__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .install-guide__actions button { flex: 1 1 12rem; min-width: 0; }
+.install-guide__actions .install-guide__dismiss { flex: 0 1 auto; min-width: 44px; min-height: 44px; font-size: var(--text-sm); }
 .loading { min-height: 12rem; display: grid; place-items: center; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
@@ -176,10 +180,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   *,
   *::before,
   *::after { animation-duration: var(--dur-micro) !important; animation-iteration-count: 1 !important; transition-duration: var(--dur-micro) !important; }
-}
-
-@media (display-mode: standalone) {
-.install-guide { display: none; }
 }
 
 .range-picker,
@@ -209,7 +209,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .question-text { position: relative; display: grid; min-height: 13rem; margin-block: var(--space-md); border-block: var(--rule-thin) solid var(--color-rule); padding: var(--space-md); font-family: var(--font-poem); font-weight: 600; }
 .question-poem { display: flex; min-width: 0; gap: var(--space-sm); justify-content: center; font-size: clamp(var(--text-md), 5.5vw, var(--text-lg)); line-height: 1.75; }
 .question-text--vertical .question-poem { align-items: flex-start; flex-direction: row; direction: rtl; writing-mode: horizontal-tb; }
-.question-text--vertical { overflow-x: auto; }
+.question-text--vertical { box-sizing: border-box; width: min(100%, 30rem); margin-inline: auto; overflow-x: auto; }
 .question-text--vertical .question-line { display: inline-block; max-inline-size: 12em; direction: ltr; text-orientation: mixed; white-space: nowrap; writing-mode: vertical-rl; }
 .question-text--horizontal .question-poem { flex-wrap: wrap; justify-content: flex-start; }
 .question-text--horizontal { padding-inline-start: calc(var(--space-xl) + var(--space-md)); }
@@ -218,6 +218,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .question-text--author .question-poem--author { max-inline-size: 100%; }
 .answer-choices { display: grid; gap: var(--space-sm); }
 .answer-choices p { margin: 0; }
+.question-text--vertical + .answer-controls { width: min(100%, 30rem); margin-inline: auto; }
 .question-text--vertical + .answer-controls .answer-choices { display: grid; grid-template-columns: repeat(5, max-content); align-items: start; overflow-x: auto; direction: rtl; }
 .question-text--vertical + .answer-controls .answer-choices p { grid-column: 1 / -1; direction: ltr; }
 .question-text--vertical + .answer-controls .answer-choices button { writing-mode: vertical-rl; }
@@ -245,8 +246,9 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   from { opacity: 0; transform: scale(.92); }
   to { opacity: 1; transform: scale(1); }
 }
-.answer-retained { position: relative; display: grid; min-width: 0; gap: var(--space-3xs); margin-block: var(--space-md); }
-.answer-retained .feedback-mark { position: absolute; z-index: 1; inset-inline-start: calc(var(--space-xs) * -1); inset-block-end: calc(var(--space-xs) * -1); pointer-events: none; }
+.answer-retained { display: grid; grid-template-columns: minmax(0, 1fr) auto; min-width: 0; gap: var(--space-3xs) var(--space-sm); margin-block: var(--space-md); }
+.answer-retained > input { grid-column: 1; }
+.answer-retained .feedback-mark { grid-column: 2; align-self: center; pointer-events: none; }
 .kana-supplement { margin-block: var(--space-2xs); overflow-wrap: anywhere; }
 .question-note { margin-block: var(--space-2xs); color: var(--color-ink-muted); font-size: var(--text-sm); overflow-wrap: anywhere; }
 .review-note--persistent { margin-block: var(--space-sm); }
@@ -265,7 +267,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .interrupt-layer { position: fixed; z-index: 2; inset: 0; display: grid; place-items: center; box-sizing: border-box; padding: var(--space-md); background: var(--color-overlay); }
 .interrupt-dialog { box-sizing: border-box; width: min(100%, 30rem); max-height: calc(100dvh - 2 * var(--space-md)); overflow-y: auto; border: var(--rule-thin) solid var(--color-ink); border-radius: var(--radius-md); padding: var(--space-lg); background: var(--color-surface); }
 .interrupt-dialog h2 { margin-block-start: 0; }
-.interrupt-dialog p { margin-block: var(--space-md) var(--space-lg); }
+.interrupt-dialog p { margin-block: var(--space-md) var(--space-lg); word-break: auto-phrase; }
 .interrupt-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
 .interrupt-actions button { width: 100%; min-width: 0; }
 .back-link { border-color: transparent; padding-inline: var(--space-xs); background: transparent; }
@@ -393,6 +395,9 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .stats-notice__confirm { justify-self: start; background: var(--color-ink); color: var(--color-paper); font-weight: 700; }
 .stats-notice__help { color: var(--color-ink-muted); font-size: var(--text-sm); }
 .grade-picker { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
+.onboarding__dialog > .stats-notice { order: 1; }
+.onboarding__dialog > .grade-picker { order: 2; }
+.onboarding__dialog > .stats-notice__confirm { order: 3; }
 .grade-picker__options { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .grade-picker__options button { flex: 1 1 7rem; min-width: 0; white-space: normal; overflow-wrap: anywhere; }
 .grade-picker__options button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
