@@ -436,6 +436,20 @@ try {
           const clipped = [...document.querySelectorAll<HTMLElement>('.question-text, .answer-controls, .answer-controls *')]
             .filter((element) => !element.classList.contains('sr-only') && !element.classList.contains('question-text--vertical') && !element.classList.contains('answer-choices') && element.scrollWidth > element.clientWidth + 1)
             .map((element) => element.className || element.tagName);
+          /**
+           * **器が中央にあることは、中身が中央にあることを意味しない。**
+           * 候補は direction: rtl で並ぶので、詰め先を指定しないと器いっぱいの幅を持ったまま
+           * 中身だけが右端へ寄る。器の中心を測っていた間、この状態は緑だった（2026-09-07 実測）。
+           * ここは **候補ボタンの左右の端**から中心を採る。
+           */
+          const contentCenterOf = (element: HTMLElement | null) => {
+            const items = element ? [...element.querySelectorAll<HTMLElement>("button")] : [];
+            if (items.length === 0) return null;
+            const rects = items.map((item) => item.getBoundingClientRect());
+            const left = Math.min(...rects.map((rect) => rect.left));
+            const right = Math.max(...rects.map((rect) => rect.right));
+            return right - left === 0 ? null : left + (right - left) / 2;
+          };
           const viewportCenter = window.innerWidth / 2;
           document.documentElement.style.fontSize = '';
           return {
@@ -443,6 +457,7 @@ try {
             vertical: Boolean(document.querySelector('.question-text--vertical')),
             sheetOffset: centerOf(sheet) === null ? null : Math.abs(centerOf(sheet)! - viewportCenter),
             choicesOffset: centerOf(choices) === null || centerOf(sheet) === null ? null : Math.abs(centerOf(choices)! - centerOf(sheet)!),
+            choicesContentOffset: contentCenterOf(choices) === null || centerOf(sheet) === null ? null : Math.abs(contentCenterOf(choices)! - centerOf(sheet)!),
             unknownOffset: centerOf(unknown) === null || centerOf(sheet) === null ? null : Math.abs(centerOf(unknown)! - centerOf(sheet)!),
             overflow, clipped,
           };
@@ -464,6 +479,7 @@ try {
         if (!author.isAuthor) examSessionFindings.push({ width, zoom, key: 'examAuthorQuestionReached', observed: author.isAuthor });
         if (width >= 1024 && (author.sheetOffset === null || author.sheetOffset > 1)) examSessionFindings.push({ width, zoom, key: 'examAuthorSheetCentered', observed: author.sheetOffset });
         if (author.choicesOffset === null || author.choicesOffset > 1) examSessionFindings.push({ width, zoom, key: 'examAuthorChoicesShareAxis', observed: author.choicesOffset });
+        if (author.choicesContentOffset === null || author.choicesContentOffset > 1) examSessionFindings.push({ width, zoom, key: 'examAuthorChoicesContentCentered', observed: author.choicesContentOffset });
         if (author.unknownOffset === null || author.unknownOffset > 1) examSessionFindings.push({ width, zoom, key: 'examAuthorUnknownSharesAxis', observed: author.unknownOffset });
         if (author.overflow > 1) examSessionFindings.push({ width, zoom, key: 'examAuthorNoPageOverflow', observed: author.overflow });
         if (author.clipped.length) examSessionFindings.push({ width, zoom, key: 'examAuthorNoClipping', observed: author.clipped.slice(0, 4) });

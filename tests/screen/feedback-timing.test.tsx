@@ -366,7 +366,32 @@ test("F-4: 本番の採点一覧は実入力から○・△・×を行ごとに�
   await answer(node, "ちがう");
   const rows = Array.from(node.querySelectorAll(".grade-list > li"));
   expect(rows).toHaveLength(3);
-  expect(rows.map((row) => row.querySelector('.grade-mark')?.getAttribute("aria-label"))).toEqual(["正解", "△", "要確認"]);
-  expect(rows.map((row) => row.textContent)).toEqual(expect.arrayContaining([expect.stringContaining("正解"), expect.stringContaining("△"), expect.stringContaining("要確認！")]));
+  // 2026-09-07 依頼者指示：誤答は「要確認（誤答）」、閲覧は「要確認（わからなかった）」。理由だけを括弧で分ける。
+  expect(rows.map((row) => row.querySelector('.grade-mark')?.getAttribute("aria-label"))).toEqual(["正解", "△", "要確認（誤答）"]);
+  expect(rows.map((row) => row.textContent)).toEqual(expect.arrayContaining([expect.stringContaining("正解"), expect.stringContaining("△"), expect.stringContaining("要確認（誤答）")]));
+  node.remove();
+});
+
+// 2026-09-07 依頼者指示：本番の採点一覧で「答えを確認」をやめ、閲覧も誤答も同じ ✓要確認 にする。
+// **学習者から見れば、答えを見た問も間違えた問も「もう一度見る歌」である。** 理由だけを括弧で分ける。
+test("F-5: 採点一覧は閲覧と誤答を同じ印にし、理由だけを括弧で分ける", async () => {
+  const node = root();
+  const secondPoem = { ...poem, cardNo: 2 } as never;
+  const questions = [question("p001-ku1"), { ...question("p002-ku1"), poemId: "p002" }];
+  await act(() => render(<Session entry="exam" questions={questions} poems={[poem, secondPoem]} sessionId="f5" port={createMemoryPort()} settings={settings} onSettings={() => {}} onComplete={() => {}} />, node));
+  // 1問目は「わからない！」（閲覧）、2問目は誤答。
+  await act(async () => { Array.from(node.querySelectorAll("button")).find((button) => button.textContent?.trim() === "わからない！")!.click(); await Promise.resolve(); });
+  await answer(node, "ちがう");
+  const rows = Array.from(node.querySelectorAll(".grade-list > li"));
+  expect(rows).toHaveLength(2);
+  const marks = rows.map((row) => row.querySelector(".grade-mark")!);
+  expect(marks.map((mark) => mark.getAttribute("aria-label"))).toEqual(["要確認（わからなかった）", "要確認（誤答）"]);
+  expect(marks.map((mark) => mark.textContent)).toEqual(["要確認（わからなかった）", "要確認（誤答）"]);
+  // 「答えを確認」は操作に見える。印の文言としては使わない。
+  expect(node.textContent).not.toContain("答えを確認");
+  // 判定そのものは変えていない。閲覧の行は viewed のままである。
+  expect(marks.map((mark) => mark.className)).toEqual(["grade-mark grade-mark--viewed", "grade-mark grade-mark--incorrect"]);
+  // 印は両方とも ✓ の画像を持つ。
+  expect(rows.every((row) => row.querySelector('img[src*="needs-review-check"]'))).toBe(true);
   node.remove();
 });

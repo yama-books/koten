@@ -285,14 +285,18 @@ export function Session({
                   </span>
                   <span
                     class={`grade-mark grade-mark--${judgement}`}
+                    /*
+                     * **閲覧も誤答も、学習者から見れば同じ「もう一度見る歌」である**（依頼者指示・2026-09-07）。
+                     * 印は両方とも要確認にし、括弧で理由だけを分ける。判定そのもの（viewed / incorrect）は変えない。
+                     */
                     aria-label={
                       judgement === "correct"
                         ? "正解"
                         : judgement === "partial"
                           ? "△"
                           : judgement === "viewed"
-                            ? "閲覧"
-                            : "要確認"
+                            ? "要確認（わからなかった）"
+                            : "要確認（誤答）"
                     }
                   >
                     {judgement === "correct"
@@ -300,8 +304,8 @@ export function Session({
                       : judgement === "partial"
                         ? "△"
                         : judgement === "viewed"
-                          ? "答えを確認"
-                          : <FeedbackMark kind="incorrect" label="要確認！" />}
+                          ? <FeedbackMark kind="incorrect" label="要確認（わからなかった）" />
+                          : <FeedbackMark kind="incorrect" label="要確認（誤答）" />}
                   </span>
                   {judgement === "partial" && (
                     <>

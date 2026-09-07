@@ -259,8 +259,11 @@ test('session: 本番の「わからない」は途中開示せず採点一覧�
   await act(() => { input.value = '衣干す'; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: '衣干す', inputType: 'insertText' })); });
   await act(async () => { root!.querySelector('button.primary')!.click(); await Promise.resolve(); });
   const rows = Array.from(root!.querySelectorAll('.grade-list > li'));
-  expect(rows[0].querySelector('.grade-mark')?.getAttribute('aria-label')).toBe('閲覧');
-  expect(rows[0].textContent).toContain('答えを確認');
+  // 2026-09-07 依頼者指示：印は閲覧も誤答も「要確認」にし、理由だけを括弧で分ける。
+  // **判定そのものは viewed のままである**——下の outcome の並びがそれを見ている。
+  expect(rows[0].querySelector('.grade-mark')?.getAttribute('aria-label')).toBe('要確認（わからなかった）');
+  expect(rows[0].textContent).toContain('要確認（わからなかった）');
+  expect(rows[0].querySelector('.grade-mark')?.className).toContain('grade-mark--viewed');
   await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '結果へ')!.click(); await Promise.resolve(); });
   expect(p.events.map((event) => event.outcome)).toEqual(['viewed', 'correct']);
 });
