@@ -745,7 +745,18 @@ export function Session({
                   isAuthor={isAuthorChoice}
                 />
               ) : (
-                <p class="answer-feedback unknown-feedback">答えを確認しました。</p>
+                <section class="answer-feedback unknown-feedback" aria-live="polite">
+                  <p>答えを確認しました。</p>
+                  {isAuthorChoice && (
+                    <PartialSupplement
+                      answer={question.answer}
+                      answerHistorical={question.answerHistorical}
+                      answerModern={question.answerModern}
+                      showModern={false}
+                      isAuthor
+                    />
+                  )}
+                </section>
               )}
               <div class="answer-actions">
                 <button class="primary" type="button" onClick={next}>

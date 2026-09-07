@@ -163,6 +163,45 @@ test('session: 「わからない」の保存失敗時は答えを開かない',
   expect(root!.textContent).not.toContain('答えを確認しました');
 });
 
+test('077: 作者問題の「わからない！」は閲覧保存の成功後だけ既存表記で正解を開示する', async () => {
+  const p = port();
+  await mountWith({ entry: 'author', questions: authorChoice, port: p, poems: [] });
+  await act(async () => {
+    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click();
+    await Promise.resolve();
+  });
+  expect(root!.textContent).toContain('答えを確認しました。');
+  expect(root!.textContent).toContain('正解：持統天皇　持統天皇');
+  expect(root!.querySelector('.answer-controls input')).toBeNull();
+  expect(p.events).toHaveLength(1);
+  expect(p.events[0]).toMatchObject({ kind: 'view', outcome: 'viewed', itemKey: 'p010:author', questionId: 'q10-author-choice' });
+});
+
+test('077: 作者問題の「わからない！」は保存失敗時に正解を開示せず再試行できる', async () => {
+  const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) };
+  await mountWith({ entry: 'author', questions: authorChoice, port: failing, poems: [] });
+  await act(async () => {
+    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click();
+    await Promise.resolve();
+  });
+  expect(root!.textContent).toContain('保存に失敗しました');
+  expect(root!.textContent).not.toContain('答えを確認しました。');
+  expect(root!.textContent).not.toContain('正解：持統天皇');
+  expect(Array.from(root!.querySelectorAll('.answer-choices button')).map((button) => button.textContent)).toEqual(authorChoice[0].candidates);
+  expect(Array.from(root!.querySelectorAll('button')).some((button) => button.textContent === 'わからない！')).toBe(true);
+});
+
+test('077: 本番の作者問題で「わからない！」を押しても採点前に正解を開示しない', async () => {
+  await mountWith({ entry: 'exam', questions: [...authorChoice, { ...authorChoice[0], questionId: 'q11-author-choice', poemId: 'p011' }], poems: [] });
+  await act(() => {
+    Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click();
+  });
+  expect(root!.textContent).not.toContain('答えを確認しました。');
+  expect(root!.querySelector('.answer-feedback')).toBeNull();
+  expect(root!.querySelector('.answer-feedback .kana-supplement')).toBeNull();
+  expect(root!.querySelector('.answer-choices')).not.toBeNull();
+});
+
 // --- 発注057 R3/R4：開示後の入力保持と仮名遣い補足 ---
 const kanaOnly = parseQuestions([
   { questionId: 'q99', poemId: 'p099', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '＿＿＿', answer: 'ゆふぐれ', answerHistorical: 'ゆふぐれ', answerModern: 'ゆうぐれ', acceptedAnswers: ['ゆふぐれ'], partialAnswers: ['ゆうぐれ'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
