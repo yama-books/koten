@@ -296,7 +296,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 
 .result-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); overflow-wrap: anywhere; }
 .result-summary { padding-block: var(--space-xl); }
-.result-summary h1, .result-section h2 { margin: 0; }
+.result-summary h1, .result-summary h2, .result-section h2 { margin: 0; }
 .result-summary p { margin-block: var(--space-xs); }
 .result-hanamaru { color: var(--color-wisteria); font-family: var(--font-poem); font-size: var(--text-lg); font-weight: 600; }
 .result-section { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
@@ -314,6 +314,27 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .result-poem--blue { border-color: var(--mastery-blue); }
 .result-poem--green { border-color: var(--mastery-green); }
 .result-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); padding-block: var(--space-xl); }
+/*
+ * 文字200%では「まちがえた歌だけをもう一度」が1行に収まらず、320px で 66px はみ出していた（基準線も同じ）。
+ * 器を守るのは行の折返しであって、書体の縮小ではない。ホームの入口と同じ扱いを結果の操作面へも当てる。
+ */
+.result-actions button { box-sizing: border-box; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+/* 既定の暗黙トラックは max-content まで伸びるので、折り返せる文でも器を押し広げる。
+   1列の器を minmax(0, 1fr) で閉じる（40rem 以上の2列は .practice-choices 側が後勝ちで維持する）。 */
+.result-actions, .result-actions .practice-choice { grid-template-columns: minmax(0, 1fr); }
+/* 共有の .primary は min-width: 12rem。文字200%では 384px となり、320px の器を 128px はみ出す。
+   .entry-actions が先に採った書き方と同じ形で、結果の操作面にも上限を入れる。 */
+.result-actions .primary { min-width: min(12rem, 100%); }
+/*
+ * 発注075: 学習記録（習熟度の変化・対象範囲の歌一覧）は一段の開閉の中に置く。
+ * 対象範囲が 100 首でも、この器は閉じている間 summary 1 行分の高さしか取らない——
+ * これが「首数を増やしても再練習ボタンの上端が押し下がらない」条件の実体である。
+ */
+.result-details { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-md) var(--space-lg); }
+.result-details > summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; font-size: var(--text-md); }
+.result-details__note { margin-block: var(--space-md) 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
+.result-details .result-section:first-of-type { border-top: 0; }
+.result-subheading { margin-block: var(--space-lg) 0; font-size: var(--text-md); }
 .result-save-failure { box-sizing: border-box; width: min(100%, 62rem); margin: var(--space-md) auto 0; border: var(--rule-thin) solid var(--color-coral); padding: var(--space-sm) var(--space-md); }
 .mastery-meter { display: inline-flex; align-items: center; gap: var(--space-xs); }
 .mastery-meter [role="meter"] { box-sizing: border-box; width: 6rem; height: 0.75rem; overflow: hidden; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-surface-soft); }
