@@ -30,6 +30,26 @@ test('074-3: ホームはテスト公開の名乗りと制約一覧の出所を�
   expect(value).not.toContain('appConfig.publisher');
 });
 
+// 発注074 工程4・工程8。**§19 の破壊試験17件は、この2工程を1件も壊していない**（検収の所見2）。
+// 基準線の `border-block` へ戻しても全部緑のままだったので、戻したら赤くなる釘をここへ置く。
+test('074-4: 区切りの線を重ねない', () => {
+  const value = styles();
+  // ㉒ フッタの区切り線のすぐ下に、案内の枠線を重ねて引かない。
+  expect(value).toContain('.install-guide { margin-block: var(--space-md); }');
+  expect(value).not.toMatch(/\.install-guide \{[^}]*border/);
+  // ㉛ 見出しごとに上下2本を引かない。下の1本だけにする。
+  expect(value).not.toMatch(/\.answer-mode \{[^}]*border-block:/);
+  expect(value).toMatch(/\.answer-mode \{[^}]*border-block-end:/);
+  expect(value).not.toMatch(/\.question-text \{[^}]*border-block:/);
+  expect(value).toMatch(/\.question-text \{[^}]*border-block-end:/);
+});
+
+test('074-8: 横書きの出題画面の線の本数を実画面で数える', () => {
+  // 距離では区別できない。基準線の引き方へ戻しても最小の間隔は変わらず、増えるのは本数だけだった。
+  expect(overflow()).toContain("'horizontalRuleCount'");
+  expect(overflow()).toContain('if (structuralRules.length !== 3)');
+});
+
 test('074-6: 本番の問数は数字を直接書かない', () => {
   // 出ているかどうかは range-picker.test が見る。ここは規則を経由していることだけを見る。
   expect(picker()).not.toMatch(/この範囲では \d+問/);

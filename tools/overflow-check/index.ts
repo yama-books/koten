@@ -374,12 +374,35 @@ try {
           inPoem: document.querySelectorAll('.question-text .question-number').length,
           inHeader: document.querySelectorAll('.session .nav-edge .progress').length,
         }));
-        await ensureVertical();
+        // 発注074 工程4・工程8: 横書きの出題画面に引かれている**区切り線の本数**を数える。
+        // 距離では区別できない——基準線の引き方へ戻しても、最も近い2本の間隔は 42.6px のままで、
+        // 増えるのは本数だけだった（実測）。**押せる部品と空欄の枠は区切り線ではないので数えない。**
+        const structuralRules = await page.evaluate(() => {
+          const names: string[] = [];
+          for (const element of document.querySelectorAll<HTMLElement>('.session, .session *')) {
+            const style = getComputedStyle(element);
+            if (style.display === 'none' || element.classList.contains('sr-only')) continue;
+            if (['BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'SUMMARY', 'SPAN'].includes(element.tagName)) continue;
+            const rect = element.getBoundingClientRect();
+            if (rect.width === 0) continue;
+            const visible = (side: 'Top' | 'Bottom') =>
+              parseFloat(style[`border${side}Width`]) > 0
+              && style[`border${side}Style`] !== 'none'
+              && !style[`border${side}Color`].startsWith('rgba(0, 0, 0, 0)');
+            const name = element.className || element.tagName;
+            if (visible('Top')) names.push(`${name}:top`);
+            if (visible('Bottom')) names.push(`${name}:bottom`);
+          }
+          return names;
+        });
         sessionReflowCases += 1;
         if (!measured.verticalQuestionPresent) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionPresent', observed: false });
         if (!measured.verticalScrollIsAvailable) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionScrollAvailable', observed: false });
         if (width >= 1024 && (measured.verticalQuestionCenterOffset === null || measured.verticalQuestionCenterOffset > 1)) sessionReflowFindings.push({ width, zoom, key: 'verticalQuestionCentered', observed: measured.verticalQuestionCenterOffset });
         if (numberDisplay.inPoem !== 0 || numberDisplay.inHeader !== 1) sessionReflowFindings.push({ width, zoom, key: 'songNumberAppearsOnce', observed: numberDisplay });
+        // ヘッダの下・進捗の下・歌の器の下の3本だけ。器の上にもう1本引くと4本になり、
+        // 進捗の下の線と近接して二重に見える（㉘）。0本でも落ちるので、実在の確認を兼ねる。
+        if (structuralRules.length !== 3) sessionReflowFindings.push({ width, zoom, key: 'horizontalRuleCount', observed: structuralRules });
         if (measured.overflow > 1) sessionReflowFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
         if (measured.clipped.length) sessionReflowFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped });
         console.log(`check:overflow: 出題画面 ${width}px 文字${zoom * 100}% 違反 ${sessionReflowFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
