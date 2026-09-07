@@ -220,7 +220,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-choices { display: grid; gap: var(--space-sm); }
 .answer-choices p { margin: 0; }
 .question-text--vertical + .answer-controls { width: min(100%, 30rem); margin-inline: auto; }
-.question-text--vertical + .answer-controls .answer-choices { display: grid; grid-template-columns: repeat(5, max-content); align-items: start; overflow-x: auto; direction: rtl; }
+/* direction: rtl の詰め先は右である。器の中で中央へ寄せないと、歌の中心から候補だけがずれる。 */
+.question-text--vertical + .answer-controls .answer-choices { display: grid; grid-template-columns: repeat(5, max-content); justify-content: center; align-items: start; overflow-x: auto; direction: rtl; }
 .question-text--vertical + .answer-controls .answer-choices p { grid-column: 1 / -1; direction: ltr; }
 .question-text--vertical + .answer-controls .answer-choices button { writing-mode: vertical-rl; }
 .answer-choices > :not(p) { box-sizing: border-box; min-width: 44px; min-height: 44px; }
@@ -294,14 +295,23 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-mode { display: grid; gap: var(--space-sm); margin-block: var(--space-lg); border-block-end: var(--rule-thin) solid var(--color-rule); padding-block-end: var(--space-md); }
 .answer-mode h2, .answer-mode p { margin: 0; }
 .answer-mode div { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+/*
+ * .answer-mode div は「歌の順番」の素の div のための規則で、答え方の入れ子まで届いていた。
+ * 選択肢は 2 列の等分に固定し、説明はボタンの下へ置く（実測 449x44 と 98x76.5 に割れていた）。
+ */
+.answer-mode .answer-mode__choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr)); gap: var(--space-sm); align-items: start; }
+.answer-mode .answer-mode__choices .practice-choice { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-2xs); }
 .answer-mode button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
 .exam-author-setting { display: flex; align-items: center; gap: var(--space-xs); }
 .grade-list { display: grid; gap: var(--space-sm); margin: var(--space-lg) 0; padding: 0; list-style: none; }
-.grade-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-2xs) var(--space-sm); border-block-end: var(--rule-thin) solid var(--color-rule); padding-block-end: var(--space-sm); }
+.grade-list li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, max-content); align-items: baseline; gap: var(--space-2xs) var(--space-sm); border-block-end: var(--rule-thin) solid var(--color-rule); padding-block-end: var(--space-sm); }
 /* 既定で行いっぱい。番号と判定記号だけを 1 行目の左右へ置く。 */
 .grade-list li > * { grid-column: 1 / -1; min-width: 0; }
 .grade-number { grid-column: 1; grid-row: 1; font-size: var(--text-md); font-weight: 700; }
-.grade-mark { grid-column: 2; grid-row: 1; justify-self: end; font-size: var(--text-lg); line-height: 1; }
+/* 「要確認（わからなかった）」は 12 文字ある。max-content のままだと 320px で本文の列を潰す。 */
+.grade-mark { grid-column: 2; grid-row: 1; justify-self: end; min-width: 0; font-size: var(--text-md); line-height: 1.3; text-align: end; }
+.grade-mark .feedback-mark { flex-wrap: wrap; justify-content: flex-end; }
+.grade-mark .feedback-mark span { overflow-wrap: anywhere; }
 .grade-mark-note { color: var(--color-ink-muted); font-size: var(--text-sm); }
 .grade-line { display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
 .grade-label { flex: 0 0 auto; color: var(--color-ink-muted); font-size: var(--text-sm); }
@@ -381,7 +391,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .entry-actions button { width: 100%; }
 .entry-secondary { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); border-top: var(--rule-thin) solid var(--color-rule); padding-block-start: var(--space-md); }
 .practice-choices { display: grid; gap: var(--space-md); }
-.practice-choice { display: grid; gap: var(--space-2xs); }
+/* 行を伸ばさない。枠の高さが揃うと、説明の短い側のボタンだけが 44 → 54.2px に伸びる。 */
+.practice-choice { display: grid; align-content: start; gap: var(--space-2xs); }
 .practice-choice p { margin: 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
 .practice-choice p strong, .practice-choice p span { display: block; }
 .practice-choice p strong { color: var(--color-ink); }
