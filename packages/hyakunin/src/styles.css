@@ -188,6 +188,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .session h1 { overflow-wrap: anywhere; }
 .session-controls,
 .answer-controls { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end; }
+/* 罫線と切替ボタンを接触させない。原文表示では状態行が無く、gap が 0 になっていた（発注076 §3）。 */
+.session-controls { padding-block-start: var(--space-xs); }
 .entry-actions { display: grid; gap: var(--space-md); }
 .entry-actions .entry-start { width: 100%; min-height: 64px; font-size: var(--text-lg); }
 .entry-secondary { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
@@ -224,7 +226,11 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-choices > :not(p) { box-sizing: border-box; min-width: 44px; min-height: 44px; }
 .blank-slot { box-sizing: border-box; display: inline-grid; min-inline-size: 3em; min-block-size: 1.45em; place-items: center; border: var(--rule-thin) solid var(--color-ink-muted); border-radius: var(--radius-md); margin-inline: var(--space-3xs); padding: 0 var(--space-2xs); background: var(--color-surface); vertical-align: middle; }
 .blank-slot--filled { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); }
-.answer-controls { display: grid; align-items: start; }
+/*
+ * 発注076: 回答の器は **書字方向にも採点前後にも依らない**。30rem を中央に置き、
+ * 本文が長くても回答欄まで全幅へ広げない。縦書き隣接の規則（上）はこの一般規則に含まれる。
+ */
+.answer-controls { box-sizing: border-box; display: grid; align-items: start; width: min(100%, 30rem); margin-inline: auto; }
 .answer-controls label { display: grid; min-width: 0; gap: var(--space-2xs); }
 .answer-controls input { box-sizing: border-box; width: 100%; min-height: 44px; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding-inline: var(--space-sm); }
 .answer-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
@@ -244,8 +250,13 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   from { opacity: 0; transform: scale(.92); }
   to { opacity: 1; transform: scale(1); }
 }
-.answer-retained { display: grid; grid-template-columns: auto minmax(0, 1fr); min-width: 0; gap: var(--space-3xs) var(--space-sm); margin-block: var(--space-md); }
-.answer-retained > input { grid-column: 2; grid-row: 2; }
+/*
+ * 印の列は **出題の時点から確保する**（発注076 §3）。auto にすると印が付いた瞬間だけ列が生まれ、
+ * 入力の x と幅がその分ずれる。2rem 固定＋2xs の間隔なら、320px・文字200% でも入力は器の 70% を保つ。
+ */
+.answer-field { display: grid; grid-template-columns: 2rem minmax(0, 1fr); min-width: 0; gap: var(--space-3xs) var(--space-2xs); margin-block: var(--space-md); }
+.answer-field > input { grid-column: 2; grid-row: 2; }
+.answer-field .feedback-mark img { width: 2rem; height: 2rem; }
 /*
  * 見出しは行いっぱい。左の列に置くと、マークではなく見出しの文字が列幅を決め、
  * 320px で答えの器が行の 3 分の 2 まで縮む（`check:overflow` の retainedInputFillsRow）。
@@ -255,7 +266,11 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .kana-supplement { margin-block: var(--space-2xs); overflow-wrap: anywhere; }
 .question-note { margin-block: var(--space-2xs); color: var(--color-ink-muted); font-size: var(--text-sm); overflow-wrap: anywhere; }
 .review-note--persistent { margin-block: var(--space-sm); }
-.answer-retained input { box-sizing: border-box; width: 100%; min-width: 0; min-height: 44px; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding-inline: var(--space-sm); background: var(--color-surface); }
+/*
+ * 高さは **入力側が決める**。文字200%では印（2rem=64px）のほうが素の入力（55px）より高く、
+ * 開示のたびに行が 8.8px 伸びていた。入力の下限を文字に追随させると、印は行の中へ収まる。
+ */
+.answer-field input { box-sizing: border-box; width: 100%; min-width: 0; min-height: max(44px, 2.5rem); border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding-inline: var(--space-sm); background: var(--color-surface); }
 .answer-retained--attention input { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); }
 .restore-offer { display: grid; gap: var(--space-2xs); }
 .restore-title { margin: 0; font-size: var(--text-md); }
@@ -296,7 +311,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 
 .result-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); overflow-wrap: anywhere; }
 .result-summary { padding-block: var(--space-xl); }
-.result-summary h1, .result-section h2 { margin: 0; }
+.result-summary h1, .result-summary h2, .result-section h2 { margin: 0; }
 .result-summary p { margin-block: var(--space-xs); }
 .result-hanamaru { color: var(--color-wisteria); font-family: var(--font-poem); font-size: var(--text-lg); font-weight: 600; }
 .result-section { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
@@ -314,6 +329,27 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .result-poem--blue { border-color: var(--mastery-blue); }
 .result-poem--green { border-color: var(--mastery-green); }
 .result-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); padding-block: var(--space-xl); }
+/*
+ * 文字200%では「まちがえた歌だけをもう一度」が1行に収まらず、320px で 66px はみ出していた（基準線も同じ）。
+ * 器を守るのは行の折返しであって、書体の縮小ではない。ホームの入口と同じ扱いを結果の操作面へも当てる。
+ */
+.result-actions button { box-sizing: border-box; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+/* 既定の暗黙トラックは max-content まで伸びるので、折り返せる文でも器を押し広げる。
+   1列の器を minmax(0, 1fr) で閉じる（40rem 以上の2列は .practice-choices 側が後勝ちで維持する）。 */
+.result-actions, .result-actions .practice-choice { grid-template-columns: minmax(0, 1fr); }
+/* 共有の .primary は min-width: 12rem。文字200%では 384px となり、320px の器を 128px はみ出す。
+   .entry-actions が先に採った書き方と同じ形で、結果の操作面にも上限を入れる。 */
+.result-actions .primary { min-width: min(12rem, 100%); }
+/*
+ * 発注075: 学習記録（習熟度の変化・対象範囲の歌一覧）は一段の開閉の中に置く。
+ * 対象範囲が 100 首でも、この器は閉じている間 summary 1 行分の高さしか取らない——
+ * これが「首数を増やしても再練習ボタンの上端が押し下がらない」条件の実体である。
+ */
+.result-details { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-md) var(--space-lg); }
+.result-details > summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; font-size: var(--text-md); }
+.result-details__note { margin-block: var(--space-md) 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
+.result-details .result-section:first-of-type { border-top: 0; }
+.result-subheading { margin-block: var(--space-lg) 0; font-size: var(--text-md); }
 .result-save-failure { box-sizing: border-box; width: min(100%, 62rem); margin: var(--space-md) auto 0; border: var(--rule-thin) solid var(--color-coral); padding: var(--space-sm) var(--space-md); }
 .mastery-meter { display: inline-flex; align-items: center; gap: var(--space-xs); }
 .mastery-meter [role="meter"] { box-sizing: border-box; width: 6rem; height: 0.75rem; overflow: hidden; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-surface-soft); }

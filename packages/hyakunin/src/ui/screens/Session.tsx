@@ -606,6 +606,7 @@ export function Session({
       <section class="session-controls">
         {entry !== "exam" && (
           <ReadingToggle
+            showState
             value={settings.reading}
             onChange={(nextReading) =>
               persistSettings({ ...settings, reading: nextReading })
@@ -655,33 +656,53 @@ export function Session({
           </div>
         )}
       </article>
-      {(displayFlow.phase === "prompt" ||
+      {(((displayFlow.phase === "prompt" ||
         displayFlow.phase === "save-failed") &&
-        answerMode === "screen" && (
+        answerMode === "screen") ||
+        displayFlow.phase === "revealed") && (
           <section class="answer-controls">
-            {isAuthorChoice ? (
-              <div class="answer-choices" aria-label="作者を選ぶ">
-                <p>作者を選んでください。</p>
-                {question.candidates.map((candidate) => (
-                  <button
-                    key={candidate}
-                    type="button"
-                    onClick={() => void submit(candidate, "choice")}
-                  >
-                    {candidate}
-                  </button>
-                ))}
-              </div>
-            ) : <>
-              <label>
-                答え
-                <input
-                  aria-describedby="answer-help"
-                  value={input}
-                  onInput={(event) => setInput(event.currentTarget.value)}
-                  placeholder="答えを入力"
-                />
-              </label>
+            {isAuthorChoice
+              ? displayFlow.phase !== "revealed" && (
+                <div class="answer-choices" aria-label="作者を選ぶ">
+                  <p>作者を選んでください。</p>
+                  {question.candidates.map((candidate) => (
+                    <button
+                      key={candidate}
+                      type="button"
+                      onClick={() => void submit(candidate, "choice")}
+                    >
+                      {candidate}
+                    </button>
+                  ))}
+                </div>
+              )
+              : answerMode === "screen" &&
+                (displayFlow.phase !== "revealed" || Boolean(displayFlow.submitted)) && (
+                /*
+                 * 出題と採点で **同じ input を使い回す**（発注076 §3）。別の要素にすると、
+                 * 開示のたびに回答欄が生まれ直し、利用者は自分の答えを探し直すことになる。
+                 * 印の列は出題の時点から確保してあるので、○ が付いても入力の x と幅は動かない。
+                 */
+                <label
+                  key="answer-field"
+                  class={`answer-field${displayFlow.phase === "revealed" ? (displayFlow.judgement === "correct" ? " answer-retained" : " answer-retained answer-retained--attention") : ""}`}
+                >
+                  <span class="answer-retained__label">自分の答え</span>
+                  {displayFlow.phase === "revealed" && (displayFlow.judgement === "correct"
+                    ? <FeedbackMark kind="correct" label="正解" visualOnly silent />
+                    : displayFlow.judgement === "incorrect"
+                      ? <FeedbackMark kind="incorrect" label="要確認！" visualOnly silent />
+                      : null)}
+                  <input
+                    aria-describedby={displayFlow.phase === "revealed" ? undefined : "answer-help"}
+                    value={displayFlow.phase === "revealed" ? displayFlow.submitted?.input ?? "" : input}
+                    readOnly={displayFlow.phase === "revealed"}
+                    placeholder={displayFlow.phase === "revealed" ? undefined : "答えを入力"}
+                    onInput={(event) => setInput(event.currentTarget.value)}
+                  />
+                </label>
+              )}
+            {displayFlow.phase !== "revealed" && !isAuthorChoice && answerMode === "screen" && <>
               <p id="answer-help"><strong>歴史的仮名遣い</strong>で答えてください（ひらがな可）</p>
               <div class="answer-actions">
                 <button
@@ -698,16 +719,36 @@ export function Session({
                 </button>
               </div>
             </>}
-            <div class="answer-actions">
-              <button type="button" onClick={() => void showUnknown()}>
-                わからない！
-              </button>
-            </div>
-            {unknownSaveFailed && (
+            {displayFlow.phase !== "revealed" && answerMode === "screen" && (
+              <div class="answer-actions">
+                <button type="button" onClick={() => void showUnknown()}>
+                  わからない！
+                </button>
+              </div>
+            )}
+            {unknownSaveFailed && displayFlow.phase !== "revealed" && (
               <p class="review-note" role="alert">
                 保存に失敗しました。もう一度お試しください。
               </p>
             )}
+            {/* 判定・正解・補足・注記は回答欄の下。読み上げ順もこの順になる（発注076 §3）。 */}
+            {displayFlow.phase === "revealed" && <>
+              {feedback ? (
+                <AnswerFeedback
+                  feedback={feedback}
+                  forms={{ answer: question.answer, historical: question.answerHistorical, modern: question.answerModern }}
+                  note={question.note}
+                  isAuthor={isAuthorChoice}
+                />
+              ) : (
+                <p class="answer-feedback unknown-feedback">答えを確認しました。</p>
+              )}
+              <div class="answer-actions">
+                <button class="primary" type="button" onClick={next}>
+                  次へ
+                </button>
+              </div>
+            </>}
           </section>
         )}
       {displayFlow.phase === "prompt" &&
@@ -759,30 +800,6 @@ export function Session({
         <p class="review-note" aria-live="assertive">
           保存失敗。答えは残っています。もう一度お試しください。
         </p>
-      )}
-      {displayFlow.phase === "revealed" && (
-        <section>
-          {feedback ? (
-            <AnswerFeedback
-              feedback={feedback}
-              forms={{ answer: question.answer, historical: question.answerHistorical, modern: question.answerModern }}
-              note={question.note}
-              isAuthor={isAuthorChoice}
-            />
-          ) : (
-            <p class="answer-feedback unknown-feedback">答えを確認しました。</p>
-          )}
-          {answerMode === "screen" && displayFlow.submitted && (
-            <label class={displayFlow.judgement === "correct" ? "answer-retained" : "answer-retained answer-retained--attention"}>
-              <span class="answer-retained__label">自分の答え</span>
-              <input value={displayFlow.submitted.input} readOnly />
-              {displayFlow.judgement === "correct" ? <FeedbackMark kind="correct" label="正解" visualOnly /> : displayFlow.judgement === "incorrect" ? <FeedbackMark kind="incorrect" label="要確認！" visualOnly /> : null}
-            </label>
-          )}
-          <button class="primary" type="button" onClick={next}>
-            次へ
-          </button>
-        </section>
       )}
       {confirmExit && (
         <div class="interrupt-layer">
