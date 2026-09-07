@@ -3184,6 +3184,7 @@ entries:
     confirmedOn: 2026-09-04
     note: null
   - cardNo: 71
+    alsoAccepted: 葦のまろ屋に
     ku: 4
     status: approved
     confirmationMode: batch
