@@ -145,8 +145,8 @@ test('session: 空欄の「わからない」は誤答でなく閲覧として�
     Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click();
     await Promise.resolve();
   });
-  expect(root!.textContent).toContain('答えを確認しました');
-  expect(root!.textContent).not.toContain('自分の答え');
+  expect(root!.textContent).toContain('自分の答え');
+  expect(root!.textContent).toContain('回答なし');
   expect(p.events).toHaveLength(1);
   expect(p.events[0].outcome).toBe('viewed');
   expect(p.events[0].questionId).toBe('q10a');
@@ -160,7 +160,7 @@ test('session: 「わからない」の保存失敗時は答えを開かない',
     await Promise.resolve();
   });
   expect(root!.textContent).toContain('保存に失敗しました');
-  expect(root!.textContent).not.toContain('答えを確認しました');
+  expect(root!.textContent).not.toContain('回答なし');
 });
 
 test('077: 作者問題の「わからない！」は閲覧保存の成功後だけ既存表記で正解を開示する', async () => {
@@ -170,7 +170,7 @@ test('077: 作者問題の「わからない！」は閲覧保存の成功後だ
     Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click();
     await Promise.resolve();
   });
-  expect(root!.textContent).toContain('答えを確認しました。');
+  expect(root!.textContent).toContain('要確認！');
   expect(root!.textContent).toContain('正解：持統天皇　持統天皇');
   expect(root!.querySelector('.answer-controls input')).toBeNull();
   expect(p.events).toHaveLength(1);
@@ -185,7 +185,7 @@ test('077: 作者問題の「わからない！」は保存失敗時に正解を
     await Promise.resolve();
   });
   expect(root!.textContent).toContain('保存に失敗しました');
-  expect(root!.textContent).not.toContain('答えを確認しました。');
+  expect(root!.textContent).not.toContain('要確認！');
   expect(root!.textContent).not.toContain('正解：持統天皇');
   expect(Array.from(root!.querySelectorAll('.answer-choices button')).map((button) => button.textContent)).toEqual(authorChoice[0].candidates);
   expect(Array.from(root!.querySelectorAll('button')).some((button) => button.textContent === 'わからない！')).toBe(true);
@@ -196,7 +196,8 @@ test('077: 本番の作者問題で「わからない！」を押しても採点
   await act(() => {
     Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click();
   });
-  expect(root!.textContent).not.toContain('答えを確認しました。');
+  expect(root!.textContent).not.toContain('要確認！');
+  expect(root!.textContent).not.toContain('回答なし');
   expect(root!.querySelector('.answer-feedback')).toBeNull();
   expect(root!.querySelector('.answer-feedback .kana-supplement')).toBeNull();
   expect(root!.querySelector('.answer-choices')).not.toBeNull();
@@ -293,7 +294,7 @@ test('session: 本番の「わからない」は途中開示せず採点一覧�
   const p = port();
   await mountWith({ entry: 'exam', port: p });
   await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click(); });
-  expect(root!.textContent).not.toContain('答えを確認しました');
+  expect(root!.textContent).not.toContain('回答なし');
   const input = root!.querySelector('input[placeholder]') as HTMLInputElement;
   await act(() => { input.value = '衣干す'; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: '衣干す', inputType: 'insertText' })); });
   await act(async () => { root!.querySelector('button.primary')!.click(); await Promise.resolve(); });
@@ -430,7 +431,7 @@ test('076: 「わからない！」は存在しない送信文字列を作らな
   expect(root!.querySelector('.answer-retained')).toBeNull();
   const retained = Array.from(root!.querySelectorAll('input')).map((input) => input.value);
   expect(retained).not.toContain('とちゅうまで');
-  expect(root!.textContent).toContain('答えを確認しました。');
+  expect(root!.textContent).toContain('回答なし');
 });
 
 test('076: 作者問題に本文入力の欄を新設しない', async () => {
@@ -487,4 +488,97 @@ test('076: 採点後の欄は、あとから入力イベントが来ても送信
   // 出どころが入力状態のままだと、開示後に値が書き換わりうる。
   await act(() => { field.value = 'あとから'; field.dispatchEvent(new InputEvent('input', { bubbles: true, data: 'あとから', inputType: 'insertText' })); });
   expect(answerInput()!.value).toBe('白妙の');
+});
+
+// --- 発注078 U2：答えを出せなかった状態を「✓ 回答なし / 要確認！」で示す ---
+// **記録は閲覧のままである。** 表示だけを誤答と同じ形に揃える（発注078 §2）。
+
+test('078: 本文の「わからない！」は 回答なし → 要確認！ → 正解 の順に示す', async () => {
+  await mount();
+  await clickNamed('わからない！');
+  const field = root!.querySelector('.answer-unanswered')!;
+  expect(field.textContent).toContain('自分の答え');
+  expect(field.textContent).toContain('回答なし');
+  expect(field.querySelectorAll('img[src*="needs-review-check"]')).toHaveLength(1);
+  const feedback = root!.querySelector('.answer-feedback')!;
+  expect(feedback.textContent).toContain('要確認！');
+  expect(feedback.textContent).toContain('正解：白妙の（しろたへの）');
+  // 順序は 自分の答え → 判定・正解 → 次へ（発注076 §3 の並びを崩さない）。
+  expect(field.compareDocumentPosition(feedback) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
+  expect(root!.textContent).not.toContain('答えを確認しました');
+});
+
+test('078: 作者の「わからない！」も同じ状態表示で正式名と読みを示す', async () => {
+  await mountWith({ entry: 'author', questions: authorChoice, poems: [] });
+  await clickNamed('わからない！');
+  const field = root!.querySelector('.answer-unanswered')!;
+  expect(field.textContent).toContain('回答なし');
+  expect(field.querySelectorAll('img[src*="needs-review-check"]')).toHaveLength(1);
+  expect(root!.querySelector('.answer-feedback')!.textContent).toContain('要確認！');
+  expect(root!.textContent).toContain('正解：持統天皇　持統天皇');
+  // 作者問題に本文入力の欄を新設しない（発注076）。
+  expect(root!.querySelector('.answer-controls input')).toBeNull();
+});
+
+test('078: 「要確認！」の通知は一度だけで、印は読み上げを増やさず「回答なし」は読み上げる', async () => {
+  await mount();
+  await clickNamed('わからない！');
+  expect(countOf('要確認！')).toBe(1);
+  const mark = root!.querySelector('.answer-unanswered .feedback-mark')!;
+  expect(mark.getAttribute('aria-hidden')).toBe('true');
+  expect(mark.getAttribute('aria-label')).toBeNull();
+  expect(mark.querySelector('img')!.getAttribute('alt')).toBe('');
+  // 「回答なし」は装飾ではない。読み上げから外さない。
+  const value = Array.from(root!.querySelectorAll<HTMLElement>('.answer-unanswered *'))
+    .find((element) => element.textContent === '回答なし')!;
+  expect(value.closest('[aria-hidden="true"]')).toBeNull();
+});
+
+test('078: 途中入力を自分の答えとして残さず、編集できる欄も作らない', async () => {
+  await mount();
+  await type('とちゅうまで');
+  await clickNamed('わからない！');
+  expect(root!.textContent).toContain('回答なし');
+  expect(root!.textContent).not.toContain('とちゅうまで');
+  // 空の submitted も、無効化した入力欄も置かない。
+  expect(root!.querySelectorAll('.answer-controls input, .answer-controls textarea')).toHaveLength(0);
+  expect(root!.querySelectorAll('.answer-controls [contenteditable]')).toHaveLength(0);
+  expect(root!.querySelector('.answer-retained')).toBeNull();
+});
+
+test('078: 保存に失敗したときは 回答なし・要確認！・正解を出さない', async () => {
+  const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) };
+  await mountWith({ port: failing });
+  await type('とちゅうまで');
+  await clickNamed('わからない！');
+  expect(root!.textContent).toContain('保存に失敗しました');
+  expect(root!.querySelector('.answer-unanswered')).toBeNull();
+  expect(root!.textContent).not.toContain('回答なし');
+  expect(root!.textContent).not.toContain('要確認！');
+  expect(root!.textContent).not.toContain('正解：白妙の');
+  // 同じ問題で再試行できる。途中入力は消えない。
+  expect(answerInput()!.value).toBe('とちゅうまで');
+  expect(answerInput()!.readOnly).toBe(false);
+});
+
+test('078: 本番は解答中にU2の表示と正解を出さない', async () => {
+  await mountWith({ entry: 'exam' });
+  await clickNamed('わからない！');
+  expect(root!.querySelector('.answer-unanswered')).toBeNull();
+  expect(root!.textContent).not.toContain('回答なし');
+  expect(root!.textContent).not.toContain('要確認！');
+  expect(root!.textContent).not.toContain('正解：白妙の');
+});
+
+test('078: 表示を変えても記録は閲覧のままで、実回答には「回答なし」を出さない', async () => {
+  const p = port();
+  await mount(p);
+  await clickNamed('わからない！');
+  expect(p.events).toHaveLength(1);
+  expect(p.events[0]).toMatchObject({ kind: 'view', outcome: 'viewed', itemKey: 'p010:text', questionId: 'q10a' });
+  await clickNamed('次へ');
+  await answer('衣干す');
+  expect(root!.textContent).not.toContain('回答なし');
+  expect(root!.querySelector('.answer-unanswered')).toBeNull();
+  expect(root!.querySelector('.answer-retained')).not.toBeNull();
 });
