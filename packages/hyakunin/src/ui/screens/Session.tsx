@@ -57,6 +57,17 @@ const today = () => new Date().toISOString().slice(0, 10);
 export const REVIEW_INTERRUPT_NOTE =
   "途中で終了すると、この再確認の続きは再開できません。（答え合わせ済みの記録は残ります）";
 const PAPER_PARTIAL_NOTE = "△は現代仮名遣いで書けた場合です。";
+/**
+ * 発注078 U2: 「わからない！」で開いた画面の判定表示。**誤答と同じ ✓ と「要確認！」**を使う。
+ * **これは表示だけの値である。** 保存する事象は閲覧（`viewed`）のままで、`buildFeedback` は通さない
+ * ——通すと、判定の無い状態に誤答の判定を与えたように読める。
+ */
+const UNANSWERED_FEEDBACK = {
+  mark: "check",
+  historical: "",
+  answer: "",
+  mastery: "",
+} as const;
 const blankPattern = /＿+/;
 type ExamAnswer = Readonly<{
   question: PublishedQuestion;
@@ -572,6 +583,14 @@ export function Session({
       next();
     }
   }
+  /**
+   * 「わからない！」で開いた状態。**送信した回答も判定も無い**（発注078 U2）。
+   * 紙の自己採点は `judgement` が入るので、ここには来ない。
+   */
+  const unanswered =
+    displayFlow.phase === "revealed" &&
+    !displayFlow.submitted &&
+    displayFlow.judgement === null;
   const feedback = displayFlow.judgement
     ? buildFeedback(
         { historical: question.answerHistorical, answer: question.answer },
@@ -706,6 +725,18 @@ export function Session({
                   />
                 </label>
               )}
+            {/*
+              * 発注078 U2: 答えを出せなかった行。**回答欄は作らない。**
+              * 空の input を置くと、送信していない答えが在るように見え、編集もできると誤認される。
+              * 印の列と行の高さは回答行と同じにして、2 列目には読み上げできる文字を置く。
+              */}
+            {unanswered && (
+              <div class="answer-field answer-unanswered">
+                <span class="answer-retained__label">自分の答え</span>
+                <FeedbackMark kind="incorrect" label="要確認！" visualOnly silent />
+                <p class="answer-unanswered__value">回答なし</p>
+              </div>
+            )}
             {displayFlow.phase !== "revealed" && !isAuthorChoice && answerMode === "screen" && <>
               <p id="answer-help"><strong>歴史的仮名遣い</strong>で答えてください（ひらがな可）</p>
               <div class="answer-actions">
@@ -745,18 +776,17 @@ export function Session({
                   isAuthor={isAuthorChoice}
                 />
               ) : (
-                <section class="answer-feedback unknown-feedback" aria-live="polite">
-                  <p>答えを確認しました。</p>
-                  {isAuthorChoice && (
-                    <PartialSupplement
-                      answer={question.answer}
-                      answerHistorical={question.answerHistorical}
-                      answerModern={question.answerModern}
-                      showModern={false}
-                      isAuthor
-                    />
-                  )}
-                </section>
+                /*
+                 * 発注078 U2: 答えを出せなかった問も、誤答と同じ「要確認！」と正解で返す。
+                 * **記録は閲覧（`viewed`）のままである。** ここで変えたのは表示だけで、
+                 * 誤答イベントへ変換したわけではない。
+                 */
+                <AnswerFeedback
+                  feedback={UNANSWERED_FEEDBACK}
+                  forms={{ answer: question.answer, historical: question.answerHistorical, modern: question.answerModern }}
+                  note={question.note}
+                  isAuthor={isAuthorChoice}
+                />
               )}
               <div class="answer-actions">
                 <button class="primary" type="button" onClick={next}>

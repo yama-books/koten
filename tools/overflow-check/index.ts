@@ -59,6 +59,12 @@ type RestoreReflowFinding = { width: number; zoom: number; rangeEnd: number; key
 const restoreReflowFindings: RestoreReflowFinding[] = [];
 const expectedRestoreReflowCases = widths.length * zoomLevels.length * 2;
 let restoreReflowCases = 0;
+// 発注078 U2: 「わからない！」で開いた行は、回答欄が無い**別の DOM** である。
+// 本文と作者の両方へ実際に遷移して、印と「回答なし」が交差しないことを実測する。
+type UnansweredFinding = { width: number; zoom: number; skill: string; key: string; observed: unknown };
+const unansweredFindings: UnansweredFinding[] = [];
+const expectedUnansweredCases = widths.length * zoomLevels.length * 2;
+let unansweredCases = 0;
 let aborted = false;
 // 100 首 × 3 表示 × 6 幅は設計上固定で、過不足とも検査不全である。
 const expectedCases = 1800;
@@ -724,6 +730,66 @@ try {
         console.log(`check:overflow: 作者問題 ${width}px 文字${zoom * 100}% 選択肢${measured.choices}件 違反 ${authorReflowFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
       }
     }
+    // 発注078 U2: 「わからない！」の開示。**本文と作者で別の DOM を通る。**
+    // 片方だけ測ると、もう片方の行は 1 度も見ずに緑になる。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        for (const skill of ['歌本文', '作者'] as const) {
+          await page.setViewportSize({ width, height: 800 });
+          await page.goto(`${baseUrl}?from=1&to=1`, { waitUntil: 'domcontentloaded' });
+          await page.getByRole('button', { name: '学習方法を選ぶ' }).click();
+          await page.getByRole('button', { name: skill, exact: true }).click();
+          await page.waitForSelector('.range-picker');
+          await page.getByRole('button', { name: 'この範囲で始める' }).click();
+          await page.waitForSelector('input[placeholder], .answer-choices button', { timeout: 15000 });
+          await page.getByRole('button', { name: 'わからない！', exact: true }).click();
+          // 開示が来る前に測ると、行が無いまま「違反 0 件」になる。**出るまで待つ。**
+          await page.waitForSelector('.answer-unanswered', { timeout: 15000 });
+          const measured = await page.evaluate((rootFontSize) => {
+            document.documentElement.style.fontSize = rootFontSize;
+            document.documentElement.getBoundingClientRect();
+            const field = document.querySelector<HTMLElement>('.answer-unanswered');
+            const value = field?.querySelector<HTMLElement>('.answer-unanswered__value') ?? null;
+            const mark = field?.querySelector<HTMLElement>('.feedback-mark') ?? null;
+            const feedback = document.querySelector<HTMLElement>('.answer-feedback');
+            const scope = [...document.querySelectorAll<HTMLElement>('.answer-unanswered, .answer-unanswered *, .answer-feedback, .answer-feedback *, .kana-supplement')]
+              .filter((element) => !element.classList.contains('sr-only'));
+            const clipped = scope.filter((element) => element.scrollWidth > element.clientWidth + 1).map((element) => element.className || element.tagName);
+            const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+            const valueRect = value?.getBoundingClientRect();
+            const markRect = mark?.getBoundingClientRect();
+            const next = [...document.querySelectorAll<HTMLButtonElement>('.answer-actions button')]
+              .find((button) => button.textContent?.trim() === '次へ') ?? null;
+            const valueFontSize = value ? Number.parseFloat(getComputedStyle(value).fontSize) : 0;
+            document.documentElement.style.fontSize = '';
+            return {
+              measuredElements: scope.length,
+              valueText: value?.textContent ?? null,
+              // 回答欄を作らないことは、**この開示の要**である（発注078 §2）。
+              editable: document.querySelectorAll('.answer-controls input, .answer-controls textarea, .answer-controls [contenteditable]').length,
+              feedbackText: feedback?.textContent ?? null,
+              overlaps: Boolean(valueRect && markRect && markRect.right > valueRect.left + 1 && markRect.left < valueRect.right - 1
+                && markRect.bottom > valueRect.top + 1 && markRect.top < valueRect.bottom - 1),
+              nextHeight: next ? next.getBoundingClientRect().height : 0,
+              valueFontSize, overflow, clipped,
+            };
+          }, `${16 * zoom}px`);
+          unansweredCases += 1;
+          if (measured.valueText !== '回答なし') unansweredFindings.push({ width, zoom, skill, key: 'unansweredValuePresent', observed: measured.valueText });
+          if (measured.editable !== 0) unansweredFindings.push({ width, zoom, skill, key: 'noAnswerInputAfterReveal', observed: measured.editable });
+          if (!measured.feedbackText?.includes('要確認！')) unansweredFindings.push({ width, zoom, skill, key: 'needsReviewNoticePresent', observed: measured.feedbackText });
+          if (!measured.feedbackText?.includes('正解：')) unansweredFindings.push({ width, zoom, skill, key: 'answerRevealed', observed: measured.feedbackText });
+          if (measured.overlaps) unansweredFindings.push({ width, zoom, skill, key: 'markDoesNotCoverValue', observed: measured.overlaps });
+          if (measured.nextHeight < 44) unansweredFindings.push({ width, zoom, skill, key: 'nextButtonTouchTarget', observed: measured.nextHeight });
+          // 1 行に収めるための文字縮小を禁じる。**200% にした人の読みを元へ戻さない。**
+          if (measured.valueFontSize < 16 * zoom - 0.5) unansweredFindings.push({ width, zoom, skill, key: 'valueTextNotShrunk', observed: measured.valueFontSize });
+          if (measured.measuredElements === 0) unansweredFindings.push({ width, zoom, skill, key: 'measuredElements', observed: 0 });
+          if (measured.overflow > 1) unansweredFindings.push({ width, zoom, skill, key: 'noPageOverflow', observed: measured.overflow });
+          if (measured.clipped.length) unansweredFindings.push({ width, zoom, skill, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+          console.log(`check:overflow: わからないの開示（${skill}） ${width}px 文字${zoom * 100}% 違反 ${unansweredFindings.filter((finding) => finding.width === width && finding.zoom === zoom && finding.skill === skill).length}件`);
+        }
+      }
+    }
     await context.close();
   } finally { await browser.close(); }
 } catch (error) {
@@ -791,6 +857,15 @@ if (authorReflowCases !== expectedAuthorReflowCases) {
   console.error(`check:overflow: 作者問題の走査が不足または過剰です（走査 ${authorReflowCases} 件、必要 ${expectedAuthorReflowCases} 件ちょうど）`);
   process.exit(1);
 }
+
+if (unansweredCases !== expectedUnansweredCases) {
+  console.error(`check:overflow: わからないの開示の走査が不足または過剰です（走査 ${unansweredCases} 件、必要 ${expectedUnansweredCases} 件ちょうど）`);
+  process.exit(1);
+}
+
+console.log(`check:overflow: わからないの開示の走査 ${unansweredCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')} × 歌本文/作者）、違反 ${unansweredFindings.length} 件`);
+for (const finding of unansweredFindings) console.log(`${finding.skill} ${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (unansweredFindings.length) process.exitCode = 1;
 
 if (restoreReflowCases !== expectedRestoreReflowCases) {
   console.error(`check:overflow: 復元カードの走査が不足または過剰です（走査 ${restoreReflowCases} 件、必要 ${expectedRestoreReflowCases} 件ちょうど）`);
