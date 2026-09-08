@@ -1131,7 +1131,7 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
   U2で縦方向が伸びるため、**次の公開前にU3を処理するのが妥当**という判断も併せて記録する。
 - **V-4 判定: 合格。** 条件付きではない。上記F-1・F-2は次の担当への申し送りであり、差し戻し事由ではない。
 
-#### 公開まで実施（2026-09-08 18:0x JST・依頼者の指示「このまま公開まで進んでOK」による）
+#### 公開まで実施（2026-09-08 17:55 JST・依頼者の指示「このまま公開まで進んでOK」による）
 
 - 非公開側 commit `b129325`（8ファイル・450/22）。**`moyashimisosoup/koten` へは push していない**（P-1・裁定D-03）。
   他セッションの未コミット差分（`CODEX_HANDOFF.md`・設計計画書・`DESIGN_AUDIT_CONTINUATION.md`・未追跡の作業ファイル）は
