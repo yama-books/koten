@@ -225,6 +225,21 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .question-text--vertical + .answer-controls .answer-choices p { grid-column: 1 / -1; direction: ltr; }
 .question-text--vertical + .answer-controls .answer-choices button { writing-mode: vertical-rl; }
 .answer-choices > :not(p) { box-sizing: border-box; min-width: 44px; min-height: 44px; }
+/*
+ * 発注079: 開示後の選択肢。**押せなくするが、薄くしない**——既定の `button:disabled` は
+ * opacity で全体を薄くするので、そのままでは選んだ答えも正解の色も読みにくくなる。
+ * **正解を色だけで示していない**——印は「自分の答え」に付き、正解そのものは
+ * すぐ下の「正解：…」の行が文字で言う。色が見えない人にも情報が欠けない。
+ */
+/*
+ * 位置の基準を選択肢に置く。**sr-only は absolute なので、基準が外にあると
+ * 横スクロールする選択肢の外へ抜け、320pxの文字200%で頁全体を横へ伸ばしていた。**
+ */
+.answer-choices button { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2xs); }
+.answer-choices button:disabled { cursor: default; opacity: 1; }
+.answer-choices .feedback-mark img { width: 2rem; height: 2rem; }
+.answer-choice--chosen { color: var(--color-ink-muted); background: var(--color-surface-soft); }
+.answer-choice--answer { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); color: var(--color-ink); }
 .blank-slot { box-sizing: border-box; display: inline-grid; min-inline-size: 3em; min-block-size: 1.45em; place-items: center; border: var(--rule-thin) solid var(--color-ink-muted); border-radius: var(--radius-md); margin-inline: var(--space-3xs); padding: 0 var(--space-2xs); background: var(--color-surface); vertical-align: middle; }
 .blank-slot--filled { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); }
 /*
