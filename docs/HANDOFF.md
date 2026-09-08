@@ -1136,6 +1136,21 @@ Pages の URL は `https://moyashimisosoup.github.io/koten-gakushucho/hyakunin/`
 **陰性試験は、赤にできることを別途確かめないと、実装ゼロでも緑になる。** この破壊試験で両方が赤くなることを確かめた。
 
 **未確認**——縦書きでは印の付いた選択肢だけ縦に伸び、列の高さが不揃いになる（あふれ・重なり・44pxは緑）。
+
+#### 公開まで実施（2026-09-08 21:25 JST・依頼者の指示による）
+
+- 非公開側 commit `85acfec`（6ファイル・284/11）。**`moyashimisosoup/koten` へは push していない**（P-1・裁定D-03）。
+  他セッションの未コミット差分（`CODEX_HANDOFF.md`・設計計画書・`DESIGN_AUDIT_CONTINUATION.md`・未追跡の作業ファイル）は
+  staging から外し、作業ツリーに残してある。
+- `tools/publish-transfer`（許可リスト37項目→996件）経由。**§7.3の3点を実測**——`docs/` 0件、禁止物0件、
+  差分は**079の4ファイルちょうど**。複写先で `scan:publish` 758件・違反0件。
+- 公開 commit `432f498`。**push の成否は `git fetch` 後の `origin/main` で確認**（一致）。
+  **`CI` と `Deploy Pages` の両方が success**（run 34225287697 / 34225287876）。
+- **公開版で実測した**——1番の作者問題で「持統天皇」を選ぶと、
+  選んだ選択肢が `answer-choice--chosen`（印1つ）、正解「天智天皇」が `answer-choice--answer`、
+  選択肢はすべて `disabled`、`opacity` は 1、「要確認！」1回、頁の横あふれ 0。
+  2番で「わからない！」を押すと、**選択肢に印は 0 個**、正解にだけ色、「自分の答え／回答なし」の行は残る。
+
 **U3（高さ）は依然として未処理で、今回さらに縦へ伸びた。** 実機（iOS Safari / Android Chrome / iPad Safari）では見ていない。
 
 
