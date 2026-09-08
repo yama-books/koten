@@ -582,3 +582,92 @@ test('078: 表示を変えても記録は閲覧のままで、実回答には「
   expect(root!.querySelector('.answer-unanswered')).toBeNull();
   expect(root!.querySelector('.answer-retained')).not.toBeNull();
 });
+
+// --- 発注079：作者の選択肢を開示後も残し、選んだものと正解を見分けられるようにする ---
+// 印は「自分の答え」にだけ付く。選んでいない「わからない！」では選択肢に印を付けない（依頼者裁定・2026-09-08）。
+
+const choiceNamed = (name: string) =>
+  Array.from(root!.querySelectorAll<HTMLButtonElement>('.answer-choices button'))
+    .find((button) => button.textContent?.includes(name))!;
+
+async function chooseAuthor(name: string) {
+  await act(async () => { choiceNamed(name).click(); await Promise.resolve(); });
+}
+
+test('079: 作者を誤ると、選んだ選択肢が残って印が付き、正解の選択肢に色が付く', async () => {
+  await mountWith({ questions: authorChoice, poems: [] });
+  await chooseAuthor('天智天皇');
+  const chosen = choiceNamed('天智天皇');
+  const answerChoice = choiceNamed('持統天皇');
+  expect(chosen.classList.contains('answer-choice--chosen')).toBe(true);
+  expect(chosen.querySelectorAll('img[src*="needs-review-check"]')).toHaveLength(1);
+  expect(answerChoice.classList.contains('answer-choice--answer')).toBe(true);
+  // 正解の選択肢は「選んだもの」ではない。印は付けない。
+  expect(answerChoice.querySelector('img')).toBeNull();
+});
+
+test('079: 作者に正答すると、選んだ選択肢が正解として丸印つきで残る', async () => {
+  await mountWith({ questions: authorChoice, poems: [] });
+  await chooseAuthor('持統天皇');
+  const chosen = choiceNamed('持統天皇');
+  expect(chosen.classList.contains('answer-choice--chosen')).toBe(true);
+  expect(chosen.classList.contains('answer-choice--answer')).toBe(true);
+  expect(chosen.querySelectorAll('img[src*="correct-maru"]')).toHaveLength(1);
+  expect(root!.querySelectorAll('.answer-choices img')).toHaveLength(1);
+});
+
+test('079: 開示後の選択肢は押せず、選び直しで記録が増えない', async () => {
+  const p = port();
+  await mountWith({ questions: authorChoice, poems: [], port: p });
+  await chooseAuthor('天智天皇');
+  expect(Array.from(root!.querySelectorAll<HTMLButtonElement>('.answer-choices button')).every((button) => button.disabled)).toBe(true);
+  await chooseAuthor('持統天皇');
+  expect(p.events).toHaveLength(1);
+  expect(root!.textContent).not.toContain('作者を選んでください。');
+});
+
+test('079: 「わからない！」では選択肢を残して正解にだけ色を付け、選択肢に印は付けない', async () => {
+  await mountWith({ questions: authorChoice, poems: [] });
+  await clickNamed('わからない！');
+  expect(root!.querySelectorAll('.answer-choices button')).toHaveLength(4);
+  expect(choiceNamed('持統天皇').classList.contains('answer-choice--answer')).toBe(true);
+  expect(root!.querySelectorAll('.answer-choices img')).toHaveLength(0);
+  expect(root!.querySelectorAll('.answer-choice--chosen')).toHaveLength(0);
+  // 078 の「回答なし」の行は残る。答えなかったことを言うのはこの行だけである。
+  expect(root!.querySelector('.answer-unanswered')!.textContent).toContain('回答なし');
+});
+
+test('079: 選択肢の役割は読み上げに残り、「要確認！」は1回のままである', async () => {
+  await mountWith({ questions: authorChoice, poems: [] });
+  await chooseAuthor('天智天皇');
+  expect(countOf('要確認！')).toBe(1);
+  const mark = root!.querySelector('.answer-choices .feedback-mark')!;
+  expect(mark.getAttribute('aria-hidden')).toBe('true');
+  expect(mark.getAttribute('aria-label')).toBeNull();
+  expect(choiceNamed('天智天皇').querySelector('.sr-only')!.textContent).toBe('あなたが選んだ答え');
+  expect(choiceNamed('持統天皇').querySelector('.sr-only')!.textContent).toBe('正しい答え');
+});
+
+test('079: 正答した選択肢の読み上げは、選んだことと正解を1回で言う', async () => {
+  await mountWith({ questions: authorChoice, poems: [] });
+  await chooseAuthor('持統天皇');
+  const labels = Array.from(choiceNamed('持統天皇').querySelectorAll('.sr-only')).map((node) => node.textContent);
+  expect(labels).toEqual(['あなたの答え・正解']);
+});
+
+test('079: 本番は解答中に選んだ選択肢も正解の色も出さない', async () => {
+  await mountWith({ entry: 'exam', questions: [...authorChoice, { ...authorChoice[0], questionId: 'q11-author-choice', poemId: 'p011' }] });
+  await chooseAuthor('天智天皇');
+  expect(root!.querySelectorAll('.answer-choice--chosen')).toHaveLength(0);
+  expect(root!.querySelectorAll('.answer-choice--answer')).toHaveLength(0);
+  expect(root!.querySelectorAll('.answer-choices img')).toHaveLength(0);
+});
+
+test('079: 保存に失敗したときは選択肢に判定も正解も出さない', async () => {
+  const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) };
+  await mountWith({ questions: authorChoice, poems: [], port: failing });
+  await chooseAuthor('天智天皇');
+  expect(root!.textContent).toContain('保存失敗。答えは残っています。');
+  expect(root!.querySelectorAll('.answer-choice--chosen')).toHaveLength(0);
+  expect(root!.querySelectorAll('.answer-choice--answer')).toHaveLength(0);
+});

@@ -685,18 +685,47 @@ export function Session({
         displayFlow.phase === "revealed") && (
           <section class="answer-controls">
             {isAuthorChoice
-              ? displayFlow.phase !== "revealed" && (
+              ? (
+                /*
+                 * 発注079: **開示後も選択肢を残す。** 消すと、選んだ作者も正解も画面から居なくなり、
+                 * 答えられなかったとき（078の「回答なし」）より手応えが薄くなる。
+                 * **印は「自分の答え」にだけ付く**——選んでいない「わからない！」では、
+                 * 正解に色は付くが印は付かない（依頼者裁定・2026-09-08）。
+                 */
                 <div class="answer-choices" aria-label="作者を選ぶ">
-                  <p>作者を選んでください。</p>
-                  {question.candidates.map((candidate) => (
-                    <button
-                      key={candidate}
-                      type="button"
-                      onClick={() => void submit(candidate, "choice")}
-                    >
-                      {candidate}
-                    </button>
-                  ))}
+                  {displayFlow.phase !== "revealed" && <p>作者を選んでください。</p>}
+                  {question.candidates.map((candidate) => {
+                    const revealedChoice = displayFlow.phase === "revealed";
+                    const chosen = revealedChoice && displayFlow.submitted?.input === candidate;
+                    const isAnswerChoice = revealedChoice && candidate === question.answer;
+                    const role = chosen && isAnswerChoice
+                      ? "あなたの答え・正解"
+                      : chosen
+                        ? "あなたが選んだ答え"
+                        : isAnswerChoice
+                          ? "正しい答え"
+                          : null;
+                    return (
+                      <button
+                        key={candidate}
+                        type="button"
+                        disabled={revealedChoice}
+                        class={`${chosen ? " answer-choice--chosen" : ""}${isAnswerChoice ? " answer-choice--answer" : ""}`.trim() || undefined}
+                        onClick={() => void submit(candidate, "choice")}
+                      >
+                        {chosen && displayFlow.judgement && (
+                          <FeedbackMark
+                            kind={displayFlow.judgement === "correct" ? "correct" : "incorrect"}
+                            label={displayFlow.judgement === "correct" ? "正解" : "要確認！"}
+                            visualOnly
+                            silent
+                          />
+                        )}
+                        {candidate}
+                        {role && <span class="sr-only">{role}</span>}
+                      </button>
+                    );
+                  })}
                 </div>
               )
               : answerMode === "screen" &&

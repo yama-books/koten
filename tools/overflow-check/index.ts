@@ -65,6 +65,14 @@ type UnansweredFinding = { width: number; zoom: number; skill: string; key: stri
 const unansweredFindings: UnansweredFinding[] = [];
 const expectedUnansweredCases = widths.length * zoomLevels.length * 2;
 let unansweredCases = 0;
+// 発注079: 作者の開示は**選択肢が残る**。選んだものと正解が別々の選択肢に付くので、
+// 正答と誤答の両方を通らないと、片方の配色も印も 1 度も見ずに緑になる。
+type AuthorRevealFinding = { width: number; zoom: number; pick: string; key: string; observed: unknown };
+const authorRevealFindings: AuthorRevealFinding[] = [];
+const expectedAuthorRevealCases = widths.length * zoomLevels.length * 2;
+let authorRevealCases = 0;
+let authorRevealCorrectSeen = 0;
+let authorRevealIncorrectSeen = 0;
 let aborted = false;
 // 100 首 × 3 表示 × 6 幅は設計上固定で、過不足とも検査不全である。
 const expectedCases = 1800;
@@ -790,6 +798,74 @@ try {
         }
       }
     }
+    // 発注079: 作者の開示。**正答と誤答で色も印も違う。** 先頭と 2 番目の候補を押し分け、
+    // 両方の判定を実際に通ったことを最後に数で確かめる。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        for (const pick of [0, 1]) {
+          await page.setViewportSize({ width, height: 800 });
+          await page.goto(`${baseUrl}?from=1&to=1`, { waitUntil: 'domcontentloaded' });
+          await page.getByRole('button', { name: '学習方法を選ぶ' }).click();
+          await page.getByRole('button', { name: '作者', exact: true }).click();
+          await page.waitForSelector('.range-picker');
+          await page.getByRole('button', { name: 'この範囲で始める' }).click();
+          await page.waitForSelector('.answer-choices button');
+          await page.locator('.answer-choices button').nth(pick).click();
+          // 開示が来る前に測ると、選択肢が押せるままの画面を測ってしまう。**出るまで待つ。**
+          await page.waitForSelector('.answer-choice--answer', { timeout: 15000 });
+          const measured = await page.evaluate((rootFontSize) => {
+            document.documentElement.style.fontSize = rootFontSize;
+            document.documentElement.getBoundingClientRect();
+            const choices = [...document.querySelectorAll<HTMLButtonElement>('.answer-choices button')];
+            const chosen = document.querySelector<HTMLElement>('.answer-choice--chosen');
+            const answer = document.querySelector<HTMLElement>('.answer-choice--answer');
+            const scope = [...document.querySelectorAll<HTMLElement>('.answer-choices, .answer-choices *, .answer-feedback, .answer-feedback *')]
+              .filter((element) => !element.classList.contains('sr-only'));
+            const clipped = scope.filter((element) => !element.classList.contains('answer-choices') && (element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1))
+              .map((element) => element.className || element.tagName);
+            const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+            const next = [...document.querySelectorAll<HTMLButtonElement>('.answer-actions button')]
+              .find((button) => button.textContent?.trim() === '次へ') ?? null;
+            const chosenRect = chosen?.getBoundingClientRect();
+            const answerRect = answer?.getBoundingClientRect();
+            const smallest = Math.min(...choices.map((choice) => choice.getBoundingClientRect().height));
+            // 押せなくしたうえに薄くすると、選んだ答えも正解も読めなくなる（発注079）。
+            const opacities = choices.map((choice) => Number.parseFloat(getComputedStyle(choice).opacity));
+            document.documentElement.style.fontSize = '';
+            return {
+              choiceCount: choices.length,
+              allDisabled: choices.every((choice) => choice.disabled),
+              chosenCount: document.querySelectorAll('.answer-choice--chosen').length,
+              answerCount: document.querySelectorAll('.answer-choice--answer').length,
+              markCount: document.querySelectorAll('.answer-choices img').length,
+              chosenIsAnswer: Boolean(chosen && answer && chosen === answer),
+              sameRect: Boolean(chosenRect && answerRect && chosenRect.left === answerRect.left && chosenRect.top === answerRect.top),
+              minChoiceHeight: Number.isFinite(smallest) ? smallest : 0,
+              minOpacity: opacities.length ? Math.min(...opacities) : 0,
+              nextHeight: next ? next.getBoundingClientRect().height : 0,
+              measuredElements: scope.length, overflow, clipped,
+            };
+          }, `${16 * zoom}px`);
+          authorRevealCases += 1;
+          if (measured.chosenIsAnswer) authorRevealCorrectSeen += 1; else authorRevealIncorrectSeen += 1;
+          const label = measured.chosenIsAnswer ? '正答' : '誤答';
+          if (measured.choiceCount < 4) authorRevealFindings.push({ width, zoom, pick: label, key: 'choicesRemainAfterReveal', observed: measured.choiceCount });
+          if (!measured.allDisabled) authorRevealFindings.push({ width, zoom, pick: label, key: 'choicesDisabledAfterReveal', observed: measured.allDisabled });
+          if (measured.chosenCount !== 1) authorRevealFindings.push({ width, zoom, pick: label, key: 'oneChosenChoice', observed: measured.chosenCount });
+          if (measured.answerCount !== 1) authorRevealFindings.push({ width, zoom, pick: label, key: 'oneAnswerChoice', observed: measured.answerCount });
+          // 印は「自分の答え」にだけ 1 つ。正解の選択肢に印を足すと「当てた」意味に読める。
+          if (measured.markCount !== 1) authorRevealFindings.push({ width, zoom, pick: label, key: 'oneMarkOnChosenOnly', observed: measured.markCount });
+          if (!measured.chosenIsAnswer && measured.sameRect) authorRevealFindings.push({ width, zoom, pick: label, key: 'chosenAndAnswerAreDifferentChoices', observed: measured.sameRect });
+          if (measured.minOpacity < 1) authorRevealFindings.push({ width, zoom, pick: label, key: 'revealedChoicesNotFaded', observed: measured.minOpacity });
+          if (measured.minChoiceHeight < 44) authorRevealFindings.push({ width, zoom, pick: label, key: 'choiceTouchTarget', observed: measured.minChoiceHeight });
+          if (measured.nextHeight < 44) authorRevealFindings.push({ width, zoom, pick: label, key: 'nextButtonTouchTarget', observed: measured.nextHeight });
+          if (measured.measuredElements === 0) authorRevealFindings.push({ width, zoom, pick: label, key: 'measuredElements', observed: 0 });
+          if (measured.overflow > 1) authorRevealFindings.push({ width, zoom, pick: label, key: 'noPageOverflow', observed: measured.overflow });
+          if (measured.clipped.length) authorRevealFindings.push({ width, zoom, pick: label, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+          console.log(`check:overflow: 作者の開示（${label}） ${width}px 文字${zoom * 100}% 違反 ${authorRevealFindings.filter((finding) => finding.width === width && finding.zoom === zoom && finding.pick === label).length}件`);
+        }
+      }
+    }
     await context.close();
   } finally { await browser.close(); }
 } catch (error) {
@@ -857,6 +933,21 @@ if (authorReflowCases !== expectedAuthorReflowCases) {
   console.error(`check:overflow: 作者問題の走査が不足または過剰です（走査 ${authorReflowCases} 件、必要 ${expectedAuthorReflowCases} 件ちょうど）`);
   process.exit(1);
 }
+
+if (authorRevealCases !== expectedAuthorRevealCases) {
+  console.error(`check:overflow: 作者の開示の走査が不足または過剰です（走査 ${authorRevealCases} 件、必要 ${expectedAuthorRevealCases} 件ちょうど）`);
+  process.exit(1);
+}
+
+// 正答と誤答は配色も印も違う。片方しか通っていなければ、もう片方は 1 度も見ていない。
+if (authorRevealCorrectSeen === 0 || authorRevealIncorrectSeen === 0) {
+  console.error(`check:overflow: 作者の開示で正答と誤答の両方を通っていません（正答 ${authorRevealCorrectSeen} 件、誤答 ${authorRevealIncorrectSeen} 件）`);
+  process.exit(1);
+}
+
+console.log(`check:overflow: 作者の開示の走査 ${authorRevealCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')} × 正答 ${authorRevealCorrectSeen}件/誤答 ${authorRevealIncorrectSeen}件）、違反 ${authorRevealFindings.length} 件`);
+for (const finding of authorRevealFindings) console.log(`${finding.pick} ${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (authorRevealFindings.length) process.exitCode = 1;
 
 if (unansweredCases !== expectedUnansweredCases) {
   console.error(`check:overflow: わからないの開示の走査が不足または過剰です（走査 ${unansweredCases} 件、必要 ${expectedUnansweredCases} 件ちょうど）`);
