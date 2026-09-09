@@ -55,11 +55,12 @@ function distractors(poems: Poem[], poem: Poem) {
 export function generateQuestions(poems: Poem[], review: Review) {
   const blanks = poems.flatMap((poem) => poem.ku.map((answer: string, index: number) => {
     const entry = review.blanks.find((item) => item.cardNo === poem.cardNo && item.ku === index + 1);
+    const acceptedTextForms = poem.acceptedTextForms?.[index] ?? [];
     return {
       questionId: `${poem.poemId}-blank-ku${index + 1}`, poemId: poem.poemId, skill: 'text', type: 'blank', blankUnit: 'ku',
       prompt: poem.ku.map((value: string, kuIndex: number) => kuIndex === index ? '＿＿＿' : value).join(''), answer,
       answerHistorical: poem.reading.historical.ku[index], answerModern: poem.reading.modern.ku[index],
-      ...answerSet(answer, poem.reading.historical.ku[index], poem.reading.modern.ku[index], extraAccepted(entry), extraPartials(entry)),
+      ...answerSet(answer, poem.reading.historical.ku[index], poem.reading.modern.ku[index], [...acceptedTextForms, ...extraAccepted(entry)], extraPartials(entry)),
       candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry),
     };
   }));
