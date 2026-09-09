@@ -671,3 +671,34 @@ test('079: 保存に失敗したときは選択肢に判定も正解も出さな
   expect(root!.querySelectorAll('.answer-choice--chosen')).toHaveLength(0);
   expect(root!.querySelectorAll('.answer-choice--answer')).toHaveLength(0);
 });
+
+/*
+ * 発注081: 習熟が選択式の上限に達した首には、候補の無い `-author-free` が出る。
+ * **出題画面が type だけで選択式と決めていたので、そのままでは選択肢ゼロの欄が出て回答できない。**
+ * 部品（planQuestions）が正しい問題を選ぶことだけ見ても、この画面を壊すと気づけない。
+ */
+const authorFree = parseQuestions([
+  { questionId: 'q10-author-free', poemId: 'p010', skill: 'author', type: 'author', blankUnit: null, prompt: '春すぎて夏来にけらし白妙の衣ほすてふ天の香具山', answer: '持統天皇', answerHistorical: 'ぢとうてんわう', answerModern: 'じとうてんのう', acceptedAnswers: ['持統天皇', 'ぢとうてんわう'], partialAnswers: ['じとうてんのう'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
+] as PublishedQuestion[]);
+
+test('session: 候補の無い作者問題は自由入力の欄を出し、選択肢を出さない', async () => {
+  await mountWith({ entry: 'author', questions: authorFree, poems: [] });
+  expect(root!.querySelector('input[placeholder]')).not.toBeNull();
+  expect(root!.querySelector('.answer-choices')).toBeNull();
+  // 作者問題であること自体は変わらない。見出しと字組みは選択式と同じ扱いにする。
+  expect(root!.querySelector('h1')?.textContent).toBe('作者問題');
+  expect(root!.querySelector('.question-text--author')).not.toBeNull();
+});
+
+test('session: 候補の無い作者問題は free-input として p010:author に記録する', async () => {
+  const p = port();
+  await mountWith({ entry: 'author', questions: authorFree, port: p, poems: [] });
+  await answer('ぢとうてんわう');
+  expect(p.events[0]).toMatchObject({ itemKey: 'p010:author', method: 'free-input', outcome: 'correct' });
+});
+
+test('session: 候補のある作者問題はこれまでどおり選択肢を出す', async () => {
+  await mountWith({ entry: 'author', questions: authorChoice, poems: [] });
+  expect(root!.querySelector('.answer-choices')).not.toBeNull();
+  expect(root!.querySelector('input[placeholder]')).toBeNull();
+});

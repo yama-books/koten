@@ -79,3 +79,38 @@ test('entry: 同じ seed のランダム順は再現する', () => {
   assert.ok(first.length > 0, 'fixture が空では検査にならない');
   assert.deepEqual(first, second);
 });
+
+/*
+ * 発注081: 作者問題の方式を習熟度で選ぶ。**降格を許す**（依頼者裁定・2026-09-09）。
+ * 昇格だけを見て降格を見ないと、閾値を「一度でも超えたか」に読み替える実装が全緑で通る。
+ */
+test('entry: 作者問題は上限65未満なら選択式、達すれば自由入力へ上がる', () => {
+  const variants = ['choice', 'kana', 'free'].map((variant) => ({
+    ...question(1, 'author'), questionId: `p001-author-${variant}`,
+    candidates: variant === 'free' ? [] : ['作者A', '作者B', '作者C', '作者D'],
+  }));
+  const askedWith = (score: number) => planQuestions('author', variants, [1], 'seed', 'number', true, { 'p001:author': score })[0]?.questionId;
+  assert.equal(askedWith(0), 'p001-author-choice', '初回は選択式である');
+  assert.equal(askedWith(64), 'p001-author-choice');
+  assert.equal(askedWith(65), 'p001-author-free');
+  assert.equal(askedWith(90), 'p001-author-free');
+});
+
+test('entry: 自由入力で誤答して上限を割った作者は選択式へ戻る', () => {
+  const variants = ['choice', 'free'].map((variant) => ({
+    ...question(1, 'author'), questionId: `p001-author-${variant}`,
+    candidates: variant === 'free' ? [] : ['作者A', '作者B', '作者C', '作者D'],
+  }));
+  // 90 まで上げたあと自由入力の誤答（−5）を重ねて 65 を割る。到達済みを覚えていれば、ここが赤くなる。
+  const asked = planQuestions('author', variants, [1], 'seed', 'number', true, { 'p001:author': 60 })[0];
+  assert.equal(asked?.questionId, 'p001-author-choice');
+});
+
+test('entry: 得点を渡さない呼び出しは首ごとに作者問題を1問だけ選ぶ', () => {
+  const variants = ['choice', 'kana', 'free'].map((variant) => ({
+    ...question(1, 'author'), questionId: `p001-author-${variant}`,
+    candidates: variant === 'free' ? [] : ['作者A', '作者B', '作者C', '作者D'],
+  }));
+  const plan = planQuestions('author', variants, [1], 'seed');
+  assert.deepEqual(new Set(plan.map((item) => item.questionId)), new Set(['p001-author-choice']));
+});

@@ -55,3 +55,19 @@ test('restore: 再確認以外の未完了には誘いを出す', async () => {
   const view = await mount(session({ entry: 'learn' }));
   expect(view.textContent).toContain('続きから始める');
 });
+
+/*
+ * 発注081: 作者問題の方式は習熟度で決まる。**再開経路にも同じ配線がある。**
+ * 新規開始の側だけを釘付けにすると、ここを空にしても全緑になる（破壊試験・2026-09-09）。
+ */
+test('restore: 復元は再開計画と同じイベントから作った項目別得点を親へ渡す', async () => {
+  const authorEvents = Array.from({ length: 3 }, (_, index) => ({
+    ...event(index + 1), eventId: `a${index}`, poemId: 'p001', itemKey: 'p001:author',
+    questionId: 'p001-author-choice', sessionId: `s${index}`, delta: 5,
+  }));
+  let received: unknown[] = [];
+  await mount(session(), authorEvents, (...args) => { received = args; });
+  await act(() => click('続きから始める'));
+  // 選択式の正答3回で +5 ずつ。**得点そのものを見る**——空の器を渡す実装と区別できる。
+  expect(received[4]).toMatchObject({ 'p001:author': 15 });
+});

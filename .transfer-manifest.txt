@@ -890,6 +890,7 @@ tests/rules/package-lock.json
 tests/rules/package.json
 tests/rules/stats.test.mjs
 tests/screen/answer-feedback.test.tsx
+tests/screen/author-method-wiring.test.tsx
 tests/screen/device-findings.test.tsx
 tests/screen/entries.test.tsx
 tests/screen/feedback-timing.test.tsx
@@ -929,6 +930,7 @@ tests/unit/hyakunin-viewer-navigation.test.ts
 tests/unit/kanazukai/converter.acceptance.test.ts
 tests/unit/kanazukai/normalization.test.ts
 tests/unit/load.test.ts
+tests/unit/mastery/author-reachability.test.ts
 tests/unit/mastery/caps.test.ts
 tests/unit/mastery/color.test.ts
 tests/unit/mastery/decrements.test.ts

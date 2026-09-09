@@ -22,6 +22,7 @@ import { buildViewEvent } from "../../domain/record.ts";
 import { STATS_COLLECTION_ENABLED } from "../../domain/stats.ts";
 import { normalizeRange, parseRange, splitIntoChunks } from "../../domain/range.ts";
 import { planResume, type ResumePlan } from "../../domain/resume.ts";
+import { computeMastery } from "@koten/shared/domain/mastery/compute";
 import { resolveActiveRange } from "../../domain/session.ts";
 import { createMemoryPort } from "../../domain/ports.ts";
 import type { ApplicationPort } from "../adapters/indexeddb-port.ts";
@@ -47,6 +48,8 @@ type Props = {
     cardNumbers: readonly number[],
     questions: PublishedQuestion[],
     poems: Poem[],
+    /** 作者問題の方式を決める項目別得点（発注081）。再開の計画と同じイベントから作る。 */
+    masteryScores: Readonly<Record<string, number>>,
   ) => void;
   onOpenHistory?: () => void;
   /** 読み込んだ設定と、書き換えた設定を上へ渡す。**設定の出所は保存領域ひとつである。** */
@@ -54,7 +57,8 @@ type Props = {
   poems?: Poem[];
   questions?: PublishedQuestion[];
 };
-type Restorable = { session: Session; plan: ResumePlan };
+/** 再開に要るものは1つの状態にまとめる。**得点だけ別に読むと、計画と方式が別の時点を指す。** */
+type Restorable = { session: Session; plan: ResumePlan; masteryScores: Readonly<Record<string, number>> };
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
@@ -195,6 +199,7 @@ export function Home({
           setRestorable({
             session,
             plan: planResume(resolveActiveRange(session, initialRange), events),
+            masteryScores: computeMastery(events).scores,
           });
       },
     );
@@ -462,6 +467,7 @@ export function Home({
                   restorable.plan.cardNumbers,
                   questions,
                   poems,
+                  restorable.masteryScores,
                 );
                 setRestoring(false);
               }}
