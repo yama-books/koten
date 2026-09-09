@@ -68,7 +68,17 @@ export function generateQuestions(poems: Poem[], review: Review) {
     const base = { poemId: poem.poemId, skill: 'author', type: 'author', blankUnit: null, prompt: poem.text, answerHistorical: poem.reading.historical.author, answerModern: poem.reading.modern.author, sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry) };
     const wrong = distractors(poems, poem);
     const candidates = [poem.author.canonical, ...wrong].sort((left, right) => poems.find((candidate) => candidate.author.canonical === left)!.cardNo - poems.find((candidate) => candidate.author.canonical === right)!.cardNo);
-    const free = { ...base, questionId: `${poem.poemId}-author-free`, answer: poem.author.canonical, ...answerSet(poem.author.canonical, poem.reading.historical.author, poem.reading.modern.author, [...poem.author.aliases, ...extraAccepted(entry)]), candidates: [], normalization: 'kana' };
+    /*
+     * 発注082（依頼者裁定・2026-09-10）: **作者の自由記述は、現代仮名遣いでも歴史的仮名遣いでも ○。**
+     * 本文（blank）は D-26 のまま現代を △ に置く——変えるのは作者の自由記述だけである。
+     *
+     * **混在（取り混ぜた綴り）は自動的に不可になる。** 受理するのはそれぞれの綴りそのものであり、
+     * `normalizeAnswer` の kana は NFC・空白・長音・カタカナだけを均して **ぢ/じ も は/わ も潰さない**。
+     * したがって「てんじてんわう」はどちらとも一致せず不正解になる。
+     * 正規化がこの2つを潰すように変わったら、`tests/data/mixed-kana-orthography.test.ts` が赤くなる。
+     */
+    const freeAccepted = unique([poem.author.canonical, ...poem.author.aliases, ...extraAccepted(entry), poem.reading.historical.author, poem.reading.modern.author]);
+    const free = { ...base, questionId: `${poem.poemId}-author-free`, answer: poem.author.canonical, acceptedAnswers: freeAccepted, partialAnswers: unique(extraPartials(entry)).filter((value) => !freeAccepted.includes(value)), candidates: [], normalization: 'kana' };
     if (wrong.length < 4) return [free];
     return [
       { ...base, questionId: `${poem.poemId}-author-choice`, answer: poem.author.canonical, acceptedAnswers: [poem.author.canonical], partialAnswers: [], candidates, normalization: 'exact' },

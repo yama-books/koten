@@ -878,6 +878,7 @@ review/kugire.yaml
 review/layout.yaml
 review/readings.yaml
 tests/data/also-partial.test.ts
+tests/data/mixed-kana-orthography.test.ts
 tests/data/parse.test.ts
 tests/data/questions.test.ts
 tests/data/reading-review.test.ts

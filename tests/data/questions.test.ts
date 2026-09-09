@@ -24,7 +24,10 @@ test('approved fixture produces reviewed blank and author questions with D-26 an
   const blank = data.questionsBlank.find((question: any) => question.answerHistorical !== question.answerModern); const free = data.questionsAuthor.find((question: any) => question.questionId.endsWith('-author-free'));
   const kana = data.questionsAuthor.find((question: any) => question.questionId.endsWith('-author-kana'));
   assert.ok(blank.partialAnswers.length > 0); assert.deepEqual(blank.partialAnswers, [blank.answerModern]); assert.ok(!blank.acceptedAnswers.includes(blank.answerModern));
-  assert.ok(free.partialAnswers.length > 0); assert.deepEqual(free.partialAnswers, [free.answerModern]); assert.ok(!free.acceptedAnswers.includes(free.answerModern));
+  // 発注082: **作者の自由記述だけ**、現代仮名遣いも ○ にする（依頼者裁定・2026-09-10）。
+  // 本文（blank）は D-26 のまま現代を △ に置く。片方だけ変えたことを、両側で釘付けにする。
+  assert.ok(free.acceptedAnswers.includes(free.answerModern), '作者の自由記述は現代仮名遣いを ○ で受ける');
+  assert.ok(!free.partialAnswers.includes(free.answerModern), '作者の自由記述で現代仮名遣いは △ に残さない');
   assert.equal(kana.answer, kana.answerHistorical);
 });
 
