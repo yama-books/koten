@@ -1,6 +1,7 @@
 import { parsePoems } from './parse-poems.ts';
 import { parseAllReadings } from './parse-readings.ts';
 import { parseVariants, readingReviewCardNumbers } from './parse-variants.ts';
+import { parseTextCorrections } from './parse-text-corrections.ts';
 import { DATA_VERSION, GENERATOR_VERSION, paths } from './paths.ts';
 import { sourceHashes } from './hash.ts';
 import { emit } from './emit.ts';
@@ -10,11 +11,18 @@ import { generateQuestions } from './questions.ts';
 import { fileURLToPath } from 'node:url';
 
 export function buildData(reviewDirectory = paths.review) {
-  const source = parsePoems(); const readings = parseAllReadings(); const variants = parseVariants(); const reviewCards = readingReviewCardNumbers(variants);
+  const source = parsePoems(); const readings = parseAllReadings(); const variants = parseVariants(); const textCorrections = parseTextCorrections(paths.sources.textCorrections); const reviewCards = readingReviewCardNumbers(variants);
+  const correctionsByKu = new Map(textCorrections.map((entry) => [`${entry.cardNo}-${entry.ku}`, entry]));
   assertCardAlignment(source, readings);
   const poems = source.map((poem, index) => {
     const historical = readings.historical[index], modern = readings.modern[index];
-    return { cardNo: poem.cardNo, poemId: `p${String(poem.cardNo).padStart(3, '0')}`, ku: poem.ku, text: poem.ku.join(''), kami: poem.ku.slice(0, 3).join(''), shimo: poem.ku.slice(3).join(''),
+    const acceptedTextForms = poem.ku.map((form, kuIndex) => {
+      const correction = correctionsByKu.get(`${poem.cardNo}-${kuIndex + 1}`);
+      if (!correction) return [];
+      if (correction.originalForm !== form) throw new Error(`text corrections: primary mismatch at ${poem.cardNo}-${kuIndex + 1}`);
+      return [correction.acceptedAnswer];
+    });
+    return { cardNo: poem.cardNo, poemId: `p${String(poem.cardNo).padStart(3, '0')}`, ku: poem.ku, acceptedTextForms, text: poem.ku.join(''), kami: poem.ku.slice(0, 3).join(''), shimo: poem.ku.slice(3).join(''),
       author: { canonical: poem.author, aliases: [], confirmed: false },
       // confirmed means the variant record has no unsettled reading, not that a human approved a review ledger.
       reading: { historical: { ku: historical.ku, author: historical.author }, modern: { ku: modern.ku, author: modern.author }, status: reviewCards.has(poem.cardNo) ? 'review' : 'confirmed' },

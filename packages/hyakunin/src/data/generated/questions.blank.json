@@ -17,7 +17,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p001",
-    "prompt": "＿＿＿かりほの庵のとまをあらみわが衣手は露にぬれつつ",
+    "prompt": "＿＿＿かりほの庵の苫をあらみわが衣手は露にぬれつつ",
     "proposedBy": "human",
     "questionId": "p001-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -46,7 +46,7 @@
       "かりほのいおの"
     ],
     "poemId": "p001",
-    "prompt": "秋の田の＿＿＿とまをあらみわが衣手は露にぬれつつ",
+    "prompt": "秋の田の＿＿＿苫をあらみわが衣手は露にぬれつつ",
     "proposedBy": "human",
     "questionId": "p001-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -56,9 +56,10 @@
   },
   {
     "acceptedAnswers": [
+      "苫をあらみ",
       "とまをあらみ"
     ],
-    "answer": "とまをあらみ",
+    "answer": "苫をあらみ",
     "answerHistorical": "とまをあらみ",
     "answerModern": "とまをあらみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -97,7 +98,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p001",
-    "prompt": "秋の田のかりほの庵のとまをあらみ＿＿＿露にぬれつつ",
+    "prompt": "秋の田のかりほの庵の苫をあらみ＿＿＿露にぬれつつ",
     "proposedBy": "human",
     "questionId": "p001-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -123,7 +124,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p001",
-    "prompt": "秋の田のかりほの庵のとまをあらみわが衣手は＿＿＿",
+    "prompt": "秋の田のかりほの庵の苫をあらみわが衣手は＿＿＿",
     "proposedBy": "human",
     "questionId": "p001-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -282,7 +283,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p003",
-    "prompt": "＿＿＿山鳥の尾のしだり尾のながながし夜をひとりかもねむ",
+    "prompt": "＿＿＿山鳥の尾のしだり尾のながながし夜をひとりかも寝む",
     "proposedBy": "human",
     "questionId": "p003-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -310,7 +311,7 @@
       "やまどりのおの"
     ],
     "poemId": "p003",
-    "prompt": "あしびきの＿＿＿しだり尾のながながし夜をひとりかもねむ",
+    "prompt": "あしびきの＿＿＿しだり尾のながながし夜をひとりかも寝む",
     "proposedBy": "human",
     "questionId": "p003-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -338,7 +339,7 @@
       "しだりおの"
     ],
     "poemId": "p003",
-    "prompt": "あしびきの山鳥の尾の＿＿＿ながながし夜をひとりかもねむ",
+    "prompt": "あしびきの山鳥の尾の＿＿＿ながながし夜をひとりかも寝む",
     "proposedBy": "human",
     "questionId": "p003-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -364,7 +365,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p003",
-    "prompt": "あしびきの山鳥の尾のしだり尾の＿＿＿ひとりかもねむ",
+    "prompt": "あしびきの山鳥の尾のしだり尾の＿＿＿ひとりかも寝む",
     "proposedBy": "human",
     "questionId": "p003-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -374,9 +375,10 @@
   },
   {
     "acceptedAnswers": [
+      "ひとりかも寝む",
       "ひとりかもねむ"
     ],
-    "answer": "ひとりかもねむ",
+    "answer": "ひとりかも寝む",
     "answerHistorical": "ひとりかもねむ",
     "answerModern": "ひとりかもねん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -417,7 +419,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p004",
-    "prompt": "＿＿＿うちいでて見れば白妙のふじの高嶺に雪はふりつつ",
+    "prompt": "＿＿＿うちいでて見れば白妙の富士の高嶺に雪はふりつつ",
     "proposedBy": "human",
     "questionId": "p004-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -443,7 +445,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p004",
-    "prompt": "田子の浦に＿＿＿白妙のふじの高嶺に雪はふりつつ",
+    "prompt": "田子の浦に＿＿＿白妙の富士の高嶺に雪はふりつつ",
     "proposedBy": "human",
     "questionId": "p004-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -471,7 +473,7 @@
       "しろたえの"
     ],
     "poemId": "p004",
-    "prompt": "田子の浦にうちいでて見れば＿＿＿ふじの高嶺に雪はふりつつ",
+    "prompt": "田子の浦にうちいでて見れば＿＿＿富士の高嶺に雪はふりつつ",
     "proposedBy": "human",
     "questionId": "p004-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -481,10 +483,11 @@
   },
   {
     "acceptedAnswers": [
+      "富士の高嶺に",
       "ふじの高嶺に",
       "ふじのたかねに"
     ],
-    "answer": "ふじの高嶺に",
+    "answer": "富士の高嶺に",
     "answerHistorical": "ふじのたかねに",
     "answerModern": "ふじのたかねに",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -523,7 +526,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p004",
-    "prompt": "田子の浦にうちいでて見れば白妙のふじの高嶺に＿＿＿",
+    "prompt": "田子の浦にうちいでて見れば白妙の富士の高嶺に＿＿＿",
     "proposedBy": "human",
     "questionId": "p004-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -549,7 +552,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p005",
-    "prompt": "＿＿＿紅葉ふみ分けなく鹿の声きく時ぞ秋は悲しき",
+    "prompt": "＿＿＿もみぢふみわけなく鹿の声聞くときぞ秋はかなしき",
     "proposedBy": "human",
     "questionId": "p005-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -559,10 +562,10 @@
   },
   {
     "acceptedAnswers": [
-      "紅葉ふみ分け",
-      "もみぢふみわけ"
+      "もみぢふみわけ",
+      "紅葉ふみ分け"
     ],
-    "answer": "紅葉ふみ分け",
+    "answer": "もみぢふみわけ",
     "answerHistorical": "もみぢふみわけ",
     "answerModern": "もみじふみわけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -577,7 +580,7 @@
       "もみじふみわけ"
     ],
     "poemId": "p005",
-    "prompt": "奥山に＿＿＿なく鹿の声きく時ぞ秋は悲しき",
+    "prompt": "奥山に＿＿＿なく鹿の声聞くときぞ秋はかなしき",
     "proposedBy": "human",
     "questionId": "p005-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -603,7 +606,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p005",
-    "prompt": "奥山に紅葉ふみ分け＿＿＿声きく時ぞ秋は悲しき",
+    "prompt": "奥山にもみぢふみわけ＿＿＿声聞くときぞ秋はかなしき",
     "proposedBy": "human",
     "questionId": "p005-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -613,10 +616,11 @@
   },
   {
     "acceptedAnswers": [
+      "声聞くときぞ",
       "声きく時ぞ",
       "こゑきくときぞ"
     ],
-    "answer": "声きく時ぞ",
+    "answer": "声聞くときぞ",
     "answerHistorical": "こゑきくときぞ",
     "answerModern": "こえきくときぞ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -631,7 +635,7 @@
       "こえきくときぞ"
     ],
     "poemId": "p005",
-    "prompt": "奥山に紅葉ふみ分けなく鹿の＿＿＿秋は悲しき",
+    "prompt": "奥山にもみぢふみわけなく鹿の＿＿＿秋はかなしき",
     "proposedBy": "human",
     "questionId": "p005-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -641,10 +645,11 @@
   },
   {
     "acceptedAnswers": [
+      "秋はかなしき",
       "秋は悲しき",
       "あきはかなしき"
     ],
-    "answer": "秋は悲しき",
+    "answer": "秋はかなしき",
     "answerHistorical": "あきはかなしき",
     "answerModern": "あきはかなしき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -657,7 +662,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p005",
-    "prompt": "奥山に紅葉ふみ分けなく鹿の声きく時ぞ＿＿＿",
+    "prompt": "奥山にもみぢふみわけなく鹿の声聞くときぞ＿＿＿",
     "proposedBy": "human",
     "questionId": "p005-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -813,7 +818,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p007",
-    "prompt": "＿＿＿ふりさけ見れば春日なる三笠の山に出でし月かも",
+    "prompt": "＿＿＿ふりさけ見れば春日なる三笠の山にいでし月かも",
     "proposedBy": "human",
     "questionId": "p007-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -839,7 +844,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p007",
-    "prompt": "天の原＿＿＿春日なる三笠の山に出でし月かも",
+    "prompt": "天の原＿＿＿春日なる三笠の山にいでし月かも",
     "proposedBy": "human",
     "questionId": "p007-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -865,7 +870,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p007",
-    "prompt": "天の原ふりさけ見れば＿＿＿三笠の山に出でし月かも",
+    "prompt": "天の原ふりさけ見れば＿＿＿三笠の山にいでし月かも",
     "proposedBy": "human",
     "questionId": "p007-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -891,7 +896,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p007",
-    "prompt": "天の原ふりさけ見れば春日なる＿＿＿出でし月かも",
+    "prompt": "天の原ふりさけ見れば春日なる＿＿＿いでし月かも",
     "proposedBy": "human",
     "questionId": "p007-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -901,10 +906,11 @@
   },
   {
     "acceptedAnswers": [
+      "いでし月かも",
       "出でし月かも",
       "いでしつきかも"
     ],
-    "answer": "出でし月かも",
+    "answer": "いでし月かも",
     "answerHistorical": "いでしつきかも",
     "answerModern": "いでしつきかも",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -945,7 +951,7 @@
       "わがいおは"
     ],
     "poemId": "p008",
-    "prompt": "＿＿＿都のたつみしかぞ住む世をうぢ山と人はいふなり",
+    "prompt": "＿＿＿都のたつみしかぞすむ世をうぢ山と人はいふなり",
     "proposedBy": "human",
     "questionId": "p008-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -971,7 +977,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p008",
-    "prompt": "わが庵は＿＿＿しかぞ住む世をうぢ山と人はいふなり",
+    "prompt": "わが庵は＿＿＿しかぞすむ世をうぢ山と人はいふなり",
     "proposedBy": "human",
     "questionId": "p008-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -981,10 +987,10 @@
   },
   {
     "acceptedAnswers": [
-      "しかぞ住む",
-      "しかぞすむ"
+      "しかぞすむ",
+      "しかぞ住む"
     ],
-    "answer": "しかぞ住む",
+    "answer": "しかぞすむ",
     "answerHistorical": "しかぞすむ",
     "answerModern": "しかぞすむ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1025,7 +1031,7 @@
       "よをうじやまと"
     ],
     "poemId": "p008",
-    "prompt": "わが庵は都のたつみしかぞ住む＿＿＿人はいふなり",
+    "prompt": "わが庵は都のたつみしかぞすむ＿＿＿人はいふなり",
     "proposedBy": "human",
     "questionId": "p008-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -1053,7 +1059,7 @@
       "ひとはいうなり"
     ],
     "poemId": "p008",
-    "prompt": "わが庵は都のたつみしかぞ住む世をうぢ山と＿＿＿",
+    "prompt": "わが庵は都のたつみしかぞすむ世をうぢ山と＿＿＿",
     "proposedBy": "human",
     "questionId": "p008-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -1079,7 +1085,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p009",
-    "prompt": "＿＿＿うつりにけりな徒にわが身世にふるながめせしまに",
+    "prompt": "＿＿＿うつりにけりないたづらにわが身世にふるながめせしまに",
     "proposedBy": "human",
     "questionId": "p009-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -1104,7 +1110,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p009",
-    "prompt": "花の色は＿＿＿徒にわが身世にふるながめせしまに",
+    "prompt": "花の色は＿＿＿いたづらにわが身世にふるながめせしまに",
     "proposedBy": "human",
     "questionId": "p009-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -1114,10 +1120,10 @@
   },
   {
     "acceptedAnswers": [
-      "徒に",
-      "いたづらに"
+      "いたづらに",
+      "徒に"
     ],
-    "answer": "徒に",
+    "answer": "いたづらに",
     "answerHistorical": "いたづらに",
     "answerModern": "いたずらに",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1158,7 +1164,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p009",
-    "prompt": "花の色はうつりにけりな徒に＿＿＿ながめせしまに",
+    "prompt": "花の色はうつりにけりないたづらに＿＿＿ながめせしまに",
     "proposedBy": "human",
     "questionId": "p009-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -1183,7 +1189,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p009",
-    "prompt": "花の色はうつりにけりな徒にわが身世にふる＿＿＿",
+    "prompt": "花の色はうつりにけりないたづらにわが身世にふる＿＿＿",
     "proposedBy": "human",
     "questionId": "p009-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -1208,7 +1214,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p010",
-    "prompt": "＿＿＿行くも帰るも別れては知るも知らぬも逢坂の関",
+    "prompt": "＿＿＿行くも帰るもわかれては知るも知らぬもあふ坂の関",
     "proposedBy": "human",
     "questionId": "p010-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -1236,7 +1242,7 @@
       "ゆくもかえるも"
     ],
     "poemId": "p010",
-    "prompt": "これやこの＿＿＿別れては知るも知らぬも逢坂の関",
+    "prompt": "これやこの＿＿＿わかれては知るも知らぬもあふ坂の関",
     "proposedBy": "human",
     "questionId": "p010-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -1246,10 +1252,10 @@
   },
   {
     "acceptedAnswers": [
-      "別れては",
-      "わかれては"
+      "わかれては",
+      "別れては"
     ],
-    "answer": "別れては",
+    "answer": "わかれては",
     "answerHistorical": "わかれては",
     "answerModern": "わかれては",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1262,7 +1268,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p010",
-    "prompt": "これやこの行くも帰るも＿＿＿知るも知らぬも逢坂の関",
+    "prompt": "これやこの行くも帰るも＿＿＿知るも知らぬもあふ坂の関",
     "proposedBy": "human",
     "questionId": "p010-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -1288,7 +1294,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p010",
-    "prompt": "これやこの行くも帰るも別れては＿＿＿逢坂の関",
+    "prompt": "これやこの行くも帰るもわかれては＿＿＿あふ坂の関",
     "proposedBy": "human",
     "questionId": "p010-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -1298,10 +1304,11 @@
   },
   {
     "acceptedAnswers": [
+      "あふ坂の関",
       "逢坂の関",
       "あふさかのせき"
     ],
-    "answer": "逢坂の関",
+    "answer": "あふ坂の関",
     "answerHistorical": "あふさかのせき",
     "answerModern": "おうさかのせき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1316,7 +1323,7 @@
       "おうさかのせき"
     ],
     "poemId": "p010",
-    "prompt": "これやこの行くも帰るも別れては知るも知らぬも＿＿＿",
+    "prompt": "これやこの行くも帰るもわかれては知るも知らぬも＿＿＿",
     "proposedBy": "human",
     "questionId": "p010-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -1342,7 +1349,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p011",
-    "prompt": "＿＿＿八十島かけて漕ぎ出でぬと人にはつげよあまの釣舟",
+    "prompt": "＿＿＿八十島かけてこぎいでぬと人には告げよあまのつり舟",
     "proposedBy": "human",
     "questionId": "p011-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -1368,7 +1375,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p011",
-    "prompt": "わたの原＿＿＿漕ぎ出でぬと人にはつげよあまの釣舟",
+    "prompt": "わたの原＿＿＿こぎいでぬと人には告げよあまのつり舟",
     "proposedBy": "human",
     "questionId": "p011-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -1378,10 +1385,10 @@
   },
   {
     "acceptedAnswers": [
-      "漕ぎ出でぬと",
-      "こぎいでぬと"
+      "こぎいでぬと",
+      "漕ぎ出でぬと"
     ],
-    "answer": "漕ぎ出でぬと",
+    "answer": "こぎいでぬと",
     "answerHistorical": "こぎいでぬと",
     "answerModern": "こぎいでぬと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1394,7 +1401,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p011",
-    "prompt": "わたの原八十島かけて＿＿＿人にはつげよあまの釣舟",
+    "prompt": "わたの原八十島かけて＿＿＿人には告げよあまのつり舟",
     "proposedBy": "human",
     "questionId": "p011-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -1404,10 +1411,11 @@
   },
   {
     "acceptedAnswers": [
+      "人には告げよ",
       "人にはつげよ",
       "ひとにはつげよ"
     ],
-    "answer": "人にはつげよ",
+    "answer": "人には告げよ",
     "answerHistorical": "ひとにはつげよ",
     "answerModern": "ひとにはつげよ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1420,7 +1428,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p011",
-    "prompt": "わたの原八十島かけて漕ぎ出でぬと＿＿＿あまの釣舟",
+    "prompt": "わたの原八十島かけてこぎいでぬと＿＿＿あまのつり舟",
     "proposedBy": "human",
     "questionId": "p011-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -1430,10 +1438,11 @@
   },
   {
     "acceptedAnswers": [
+      "あまのつり舟",
       "あまの釣舟",
       "あまのつりぶね"
     ],
-    "answer": "あまの釣舟",
+    "answer": "あまのつり舟",
     "answerHistorical": "あまのつりぶね",
     "answerModern": "あまのつりぶね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1446,7 +1455,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p011",
-    "prompt": "わたの原八十島かけて漕ぎ出でぬと人にはつげよ＿＿＿",
+    "prompt": "わたの原八十島かけてこぎいでぬと人には告げよ＿＿＿",
     "proposedBy": "human",
     "questionId": "p011-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -1472,7 +1481,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p012",
-    "prompt": "＿＿＿雲のかよひぢ吹きとぢよをとめの姿しばしとどめむ",
+    "prompt": "＿＿＿雲のかよひ路吹きとぢよをとめの姿しばしとどめむ",
     "proposedBy": "human",
     "questionId": "p012-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -1482,10 +1491,11 @@
   },
   {
     "acceptedAnswers": [
+      "雲のかよひ路",
       "雲のかよひぢ",
       "くものかよひぢ"
     ],
-    "answer": "雲のかよひぢ",
+    "answer": "雲のかよひ路",
     "answerHistorical": "くものかよひぢ",
     "answerModern": "くものかよいじ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1528,7 +1538,7 @@
       "ふきとじよ"
     ],
     "poemId": "p012",
-    "prompt": "天つ風雲のかよひぢ＿＿＿をとめの姿しばしとどめむ",
+    "prompt": "天つ風雲のかよひ路＿＿＿をとめの姿しばしとどめむ",
     "proposedBy": "human",
     "questionId": "p012-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -1556,7 +1566,7 @@
       "おとめのすがた"
     ],
     "poemId": "p012",
-    "prompt": "天つ風雲のかよひぢ吹きとぢよ＿＿＿しばしとどめむ",
+    "prompt": "天つ風雲のかよひ路吹きとぢよ＿＿＿しばしとどめむ",
     "proposedBy": "human",
     "questionId": "p012-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -1583,7 +1593,7 @@
       "しばしとどめん"
     ],
     "poemId": "p012",
-    "prompt": "天つ風雲のかよひぢ吹きとぢよをとめの姿＿＿＿",
+    "prompt": "天つ風雲のかよひ路吹きとぢよをとめの姿＿＿＿",
     "proposedBy": "human",
     "questionId": "p012-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -1609,7 +1619,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p013",
-    "prompt": "＿＿＿峯より落つるみなの川恋ぞつもりて淵となりぬる",
+    "prompt": "＿＿＿峰よりおつるみなの川こひぞつもりて淵となりぬる",
     "proposedBy": "human",
     "questionId": "p013-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -1619,10 +1629,11 @@
   },
   {
     "acceptedAnswers": [
+      "峰よりおつる",
       "峯より落つる",
       "みねよりおつる"
     ],
-    "answer": "峯より落つる",
+    "answer": "峰よりおつる",
     "answerHistorical": "みねよりおつる",
     "answerModern": "みねよりおつる",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1635,7 +1646,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p013",
-    "prompt": "つくばねの＿＿＿みなの川恋ぞつもりて淵となりぬる",
+    "prompt": "つくばねの＿＿＿みなの川こひぞつもりて淵となりぬる",
     "proposedBy": "human",
     "questionId": "p013-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -1663,7 +1674,7 @@
       "みなのがわ"
     ],
     "poemId": "p013",
-    "prompt": "つくばねの峯より落つる＿＿＿恋ぞつもりて淵となりぬる",
+    "prompt": "つくばねの峰よりおつる＿＿＿こひぞつもりて淵となりぬる",
     "proposedBy": "human",
     "questionId": "p013-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -1673,10 +1684,10 @@
   },
   {
     "acceptedAnswers": [
-      "恋ぞつもりて",
-      "こひぞつもりて"
+      "こひぞつもりて",
+      "恋ぞつもりて"
     ],
-    "answer": "恋ぞつもりて",
+    "answer": "こひぞつもりて",
     "answerHistorical": "こひぞつもりて",
     "answerModern": "こいぞつもりて",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1691,7 +1702,7 @@
       "こいぞつもりて"
     ],
     "poemId": "p013",
-    "prompt": "つくばねの峯より落つるみなの川＿＿＿淵となりぬる",
+    "prompt": "つくばねの峰よりおつるみなの川＿＿＿淵となりぬる",
     "proposedBy": "human",
     "questionId": "p013-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -1717,7 +1728,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p013",
-    "prompt": "つくばねの峯より落つるみなの川恋ぞつもりて＿＿＿",
+    "prompt": "つくばねの峰よりおつるみなの川こひぞつもりて＿＿＿",
     "proposedBy": "human",
     "questionId": "p013-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -1727,10 +1738,10 @@
   },
   {
     "acceptedAnswers": [
-      "陸奥の",
-      "みちのくの"
+      "みちのくの",
+      "陸奥の"
     ],
-    "answer": "陸奥の",
+    "answer": "みちのくの",
     "answerHistorical": "みちのくの",
     "answerModern": "みちのくの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1743,7 +1754,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p014",
-    "prompt": "＿＿＿しのぶもぢずり誰ゆゑにみだれそめにし我ならなくに",
+    "prompt": "＿＿＿しのぶもぢずり誰ゆゑに乱れそめにしわれならなくに",
     "proposedBy": "human",
     "questionId": "p014-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -1770,7 +1781,7 @@
       "しのぶもじずり"
     ],
     "poemId": "p014",
-    "prompt": "陸奥の＿＿＿誰ゆゑにみだれそめにし我ならなくに",
+    "prompt": "みちのくの＿＿＿誰ゆゑに乱れそめにしわれならなくに",
     "proposedBy": "human",
     "questionId": "p014-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -1798,7 +1809,7 @@
       "たれゆえに"
     ],
     "poemId": "p014",
-    "prompt": "陸奥のしのぶもぢずり＿＿＿みだれそめにし我ならなくに",
+    "prompt": "みちのくのしのぶもぢずり＿＿＿乱れそめにしわれならなくに",
     "proposedBy": "human",
     "questionId": "p014-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -1808,9 +1819,10 @@
   },
   {
     "acceptedAnswers": [
+      "乱れそめにし",
       "みだれそめにし"
     ],
-    "answer": "みだれそめにし",
+    "answer": "乱れそめにし",
     "answerHistorical": "みだれそめにし",
     "answerModern": "みだれそめにし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1823,7 +1835,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p014",
-    "prompt": "陸奥のしのぶもぢずり誰ゆゑに＿＿＿我ならなくに",
+    "prompt": "みちのくのしのぶもぢずり誰ゆゑに＿＿＿われならなくに",
     "proposedBy": "human",
     "questionId": "p014-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -1833,10 +1845,10 @@
   },
   {
     "acceptedAnswers": [
-      "我ならなくに",
-      "われならなくに"
+      "われならなくに",
+      "我ならなくに"
     ],
-    "answer": "我ならなくに",
+    "answer": "われならなくに",
     "answerHistorical": "われならなくに",
     "answerModern": "われならなくに",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1849,7 +1861,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p014",
-    "prompt": "陸奥のしのぶもぢずり誰ゆゑにみだれそめにし＿＿＿",
+    "prompt": "みちのくのしのぶもぢずり誰ゆゑに乱れそめにし＿＿＿",
     "proposedBy": "human",
     "questionId": "p014-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -1875,7 +1887,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p015",
-    "prompt": "＿＿＿春の野に出でて若菜つむわが衣手に雪はふりつつ",
+    "prompt": "＿＿＿春の野にいでて若菜つむわが衣手に雪はふりつつ",
     "proposedBy": "human",
     "questionId": "p015-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -1885,10 +1897,11 @@
   },
   {
     "acceptedAnswers": [
+      "春の野にいでて",
       "春の野に出でて",
       "はるののにいでて"
     ],
-    "answer": "春の野に出でて",
+    "answer": "春の野にいでて",
     "answerHistorical": "はるののにいでて",
     "answerModern": "はるののにいでて",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -1927,7 +1940,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p015",
-    "prompt": "君がため春の野に出でて＿＿＿わが衣手に雪はふりつつ",
+    "prompt": "君がため春の野にいでて＿＿＿わが衣手に雪はふりつつ",
     "proposedBy": "human",
     "questionId": "p015-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -1953,7 +1966,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p015",
-    "prompt": "君がため春の野に出でて若菜つむ＿＿＿雪はふりつつ",
+    "prompt": "君がため春の野にいでて若菜つむ＿＿＿雪はふりつつ",
     "proposedBy": "human",
     "questionId": "p015-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -1979,7 +1992,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p015",
-    "prompt": "君がため春の野に出でて若菜つむわが衣手に＿＿＿",
+    "prompt": "君がため春の野にいでて若菜つむわが衣手に＿＿＿",
     "proposedBy": "human",
     "questionId": "p015-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -1989,10 +2002,11 @@
   },
   {
     "acceptedAnswers": [
+      "立ちわかれ",
       "立ち別れ",
       "たちわかれ"
     ],
-    "answer": "立ち別れ",
+    "answer": "立ちわかれ",
     "answerHistorical": "たちわかれ",
     "answerModern": "たちわかれ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2005,7 +2019,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p016",
-    "prompt": "＿＿＿いなばの山の峯に生ふるまつとし聞かば今帰り来む",
+    "prompt": "＿＿＿いなばの山の峯に生ふるまつとし聞かばいま帰り来む",
     "proposedBy": "human",
     "questionId": "p016-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -2031,7 +2045,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p016",
-    "prompt": "立ち別れ＿＿＿峯に生ふるまつとし聞かば今帰り来む",
+    "prompt": "立ちわかれ＿＿＿峯に生ふるまつとし聞かばいま帰り来む",
     "proposedBy": "human",
     "questionId": "p016-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -2059,7 +2073,7 @@
       "みねにおうる"
     ],
     "poemId": "p016",
-    "prompt": "立ち別れいなばの山の＿＿＿まつとし聞かば今帰り来む",
+    "prompt": "立ちわかれいなばの山の＿＿＿まつとし聞かばいま帰り来む",
     "proposedBy": "human",
     "questionId": "p016-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -2085,7 +2099,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p016",
-    "prompt": "立ち別れいなばの山の峯に生ふる＿＿＿今帰り来む",
+    "prompt": "立ちわかれいなばの山の峯に生ふる＿＿＿いま帰り来む",
     "proposedBy": "human",
     "questionId": "p016-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -2095,10 +2109,11 @@
   },
   {
     "acceptedAnswers": [
+      "いま帰り来む",
       "今帰り来む",
       "いまかへりこむ"
     ],
-    "answer": "今帰り来む",
+    "answer": "いま帰り来む",
     "answerHistorical": "いまかへりこむ",
     "answerModern": "いまかえりこん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2113,7 +2128,7 @@
       "いまかえりこん"
     ],
     "poemId": "p016",
-    "prompt": "立ち別れいなばの山の峯に生ふるまつとし聞かば＿＿＿",
+    "prompt": "立ちわかれいなばの山の峯に生ふるまつとし聞かば＿＿＿",
     "proposedBy": "human",
     "questionId": "p016-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -2138,7 +2153,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p017",
-    "prompt": "＿＿＿神代も聞かず竜田川からくれなゐに水くくるとは",
+    "prompt": "＿＿＿神代もきかず竜田川からくれなゐに水くくるとは",
     "proposedBy": "human",
     "questionId": "p017-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -2148,10 +2163,11 @@
   },
   {
     "acceptedAnswers": [
+      "神代もきかず",
       "神代も聞かず",
       "かみよもきかず"
     ],
-    "answer": "神代も聞かず",
+    "answer": "神代もきかず",
     "answerHistorical": "かみよもきかず",
     "answerModern": "かみよもきかず",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2192,7 +2208,7 @@
       "たつたがわ"
     ],
     "poemId": "p017",
-    "prompt": "ちはやぶる神代も聞かず＿＿＿からくれなゐに水くくるとは",
+    "prompt": "ちはやぶる神代もきかず＿＿＿からくれなゐに水くくるとは",
     "proposedBy": "human",
     "questionId": "p017-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -2219,7 +2235,7 @@
       "からくれないに"
     ],
     "poemId": "p017",
-    "prompt": "ちはやぶる神代も聞かず竜田川＿＿＿水くくるとは",
+    "prompt": "ちはやぶる神代もきかず竜田川＿＿＿水くくるとは",
     "proposedBy": "human",
     "questionId": "p017-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -2247,7 +2263,7 @@
       "みずくくるとは"
     ],
     "poemId": "p017",
-    "prompt": "ちはやぶる神代も聞かず竜田川からくれなゐに＿＿＿",
+    "prompt": "ちはやぶる神代もきかず竜田川からくれなゐに＿＿＿",
     "proposedBy": "human",
     "questionId": "p017-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -2273,7 +2289,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p018",
-    "prompt": "＿＿＿岸による波よるさへや夢のかよひ路人目よくらむ",
+    "prompt": "＿＿＿岸による波よるさへや夢のかよひ路人めよくらむ",
     "proposedBy": "human",
     "questionId": "p018-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -2299,7 +2315,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p018",
-    "prompt": "すみの江の＿＿＿よるさへや夢のかよひ路人目よくらむ",
+    "prompt": "すみの江の＿＿＿よるさへや夢のかよひ路人めよくらむ",
     "proposedBy": "human",
     "questionId": "p018-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -2326,7 +2342,7 @@
       "よるさえや"
     ],
     "poemId": "p018",
-    "prompt": "すみの江の岸による波＿＿＿夢のかよひ路人目よくらむ",
+    "prompt": "すみの江の岸による波＿＿＿夢のかよひ路人めよくらむ",
     "proposedBy": "human",
     "questionId": "p018-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -2354,7 +2370,7 @@
       "ゆめのかよいじ"
     ],
     "poemId": "p018",
-    "prompt": "すみの江の岸による波よるさへや＿＿＿人目よくらむ",
+    "prompt": "すみの江の岸による波よるさへや＿＿＿人めよくらむ",
     "proposedBy": "human",
     "questionId": "p018-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -2364,10 +2380,11 @@
   },
   {
     "acceptedAnswers": [
+      "人めよくらむ",
       "人目よくらむ",
       "ひとめよくらむ"
     ],
-    "answer": "人目よくらむ",
+    "answer": "人めよくらむ",
     "answerHistorical": "ひとめよくらむ",
     "answerModern": "ひとめよくらん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2392,9 +2409,10 @@
   },
   {
     "acceptedAnswers": [
+      "難波潟",
       "なにはがた"
     ],
-    "answer": "なにはがた",
+    "answer": "難波潟",
     "answerHistorical": "なにはがた",
     "answerModern": "なにわがた",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2409,7 +2427,7 @@
       "なにわがた"
     ],
     "poemId": "p019",
-    "prompt": "＿＿＿短き芦のふしの間もあはでこの世をすぐしてよとや",
+    "prompt": "＿＿＿みじかき芦のふしのまもあはでこの世をすぐしてよとや",
     "proposedBy": "human",
     "questionId": "p019-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -2419,10 +2437,11 @@
   },
   {
     "acceptedAnswers": [
+      "みじかき芦の",
       "短き芦の",
       "みじかきあしの"
     ],
-    "answer": "短き芦の",
+    "answer": "みじかき芦の",
     "answerHistorical": "みじかきあしの",
     "answerModern": "みじかきあしの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2435,7 +2454,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p019",
-    "prompt": "なにはがた＿＿＿ふしの間もあはでこの世をすぐしてよとや",
+    "prompt": "難波潟＿＿＿ふしのまもあはでこの世をすぐしてよとや",
     "proposedBy": "human",
     "questionId": "p019-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -2445,10 +2464,10 @@
   },
   {
     "acceptedAnswers": [
-      "ふしの間も",
-      "ふしのまも"
+      "ふしのまも",
+      "ふしの間も"
     ],
-    "answer": "ふしの間も",
+    "answer": "ふしのまも",
     "answerHistorical": "ふしのまも",
     "answerModern": "ふしのまも",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2461,7 +2480,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p019",
-    "prompt": "なにはがた短き芦の＿＿＿あはでこの世をすぐしてよとや",
+    "prompt": "難波潟みじかき芦の＿＿＿あはでこの世をすぐしてよとや",
     "proposedBy": "human",
     "questionId": "p019-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -2489,7 +2508,7 @@
       "あわでこのよを"
     ],
     "poemId": "p019",
-    "prompt": "なにはがた短き芦のふしの間も＿＿＿すぐしてよとや",
+    "prompt": "難波潟みじかき芦のふしのまも＿＿＿すぐしてよとや",
     "proposedBy": "human",
     "questionId": "p019-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -2514,7 +2533,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p019",
-    "prompt": "なにはがた短き芦のふしの間もあはでこの世を＿＿＿",
+    "prompt": "難波潟みじかき芦のふしのまもあはでこの世を＿＿＿",
     "proposedBy": "human",
     "questionId": "p019-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -2539,7 +2558,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p020",
-    "prompt": "＿＿＿今はた同じなにはなるみをつくしてもあはむとぞ思ふ",
+    "prompt": "＿＿＿いまはたおなじ難波なるみをつくしてもあはむとぞ思ふ",
     "proposedBy": "human",
     "questionId": "p020-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -2549,10 +2568,10 @@
   },
   {
     "acceptedAnswers": [
-      "今はた同じ",
-      "いまはたおなじ"
+      "いまはたおなじ",
+      "今はた同じ"
     ],
-    "answer": "今はた同じ",
+    "answer": "いまはたおなじ",
     "answerHistorical": "いまはたおなじ",
     "answerModern": "いまはたおなじ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2565,7 +2584,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p020",
-    "prompt": "わびぬれば＿＿＿なにはなるみをつくしてもあはむとぞ思ふ",
+    "prompt": "わびぬれば＿＿＿難波なるみをつくしてもあはむとぞ思ふ",
     "proposedBy": "human",
     "questionId": "p020-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -2575,9 +2594,10 @@
   },
   {
     "acceptedAnswers": [
+      "難波なる",
       "なにはなる"
     ],
-    "answer": "なにはなる",
+    "answer": "難波なる",
     "answerHistorical": "なにはなる",
     "answerModern": "なにわなる",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2592,7 +2612,7 @@
       "なにわなる"
     ],
     "poemId": "p020",
-    "prompt": "わびぬれば今はた同じ＿＿＿みをつくしてもあはむとぞ思ふ",
+    "prompt": "わびぬればいまはたおなじ＿＿＿みをつくしてもあはむとぞ思ふ",
     "proposedBy": "human",
     "questionId": "p020-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -2617,7 +2637,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p020",
-    "prompt": "わびぬれば今はた同じなにはなる＿＿＿あはむとぞ思ふ",
+    "prompt": "わびぬればいまはたおなじ難波なる＿＿＿あはむとぞ思ふ",
     "proposedBy": "human",
     "questionId": "p020-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -2645,7 +2665,7 @@
       "あわんとぞおもう"
     ],
     "poemId": "p020",
-    "prompt": "わびぬれば今はた同じなにはなるみをつくしても＿＿＿",
+    "prompt": "わびぬればいまはたおなじ難波なるみをつくしても＿＿＿",
     "proposedBy": "human",
     "questionId": "p020-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -2655,10 +2675,10 @@
   },
   {
     "acceptedAnswers": [
-      "今来むと",
-      "いまこむと"
+      "いまこむと",
+      "今来むと"
     ],
-    "answer": "今来むと",
+    "answer": "いまこむと",
     "answerHistorical": "いまこむと",
     "answerModern": "いまこんと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2673,7 +2693,7 @@
       "いまこんと"
     ],
     "poemId": "p021",
-    "prompt": "＿＿＿いひしばかりに長月の有明の月を待ち出でつるかな",
+    "prompt": "＿＿＿いひしばかりに長月のありあけの月を待ちいでつるかな",
     "proposedBy": "human",
     "questionId": "p021-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -2700,7 +2720,7 @@
       "いいしばかりに"
     ],
     "poemId": "p021",
-    "prompt": "今来むと＿＿＿長月の有明の月を待ち出でつるかな",
+    "prompt": "いまこむと＿＿＿長月のありあけの月を待ちいでつるかな",
     "proposedBy": "human",
     "questionId": "p021-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -2726,7 +2746,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p021",
-    "prompt": "今来むといひしばかりに＿＿＿有明の月を待ち出でつるかな",
+    "prompt": "いまこむといひしばかりに＿＿＿ありあけの月を待ちいでつるかな",
     "proposedBy": "human",
     "questionId": "p021-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -2736,10 +2756,11 @@
   },
   {
     "acceptedAnswers": [
+      "ありあけの月を",
       "有明の月を",
       "ありあけのつきを"
     ],
-    "answer": "有明の月を",
+    "answer": "ありあけの月を",
     "answerHistorical": "ありあけのつきを",
     "answerModern": "ありあけのつきを",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2752,7 +2773,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p021",
-    "prompt": "今来むといひしばかりに長月の＿＿＿待ち出でつるかな",
+    "prompt": "いまこむといひしばかりに長月の＿＿＿待ちいでつるかな",
     "proposedBy": "human",
     "questionId": "p021-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -2762,10 +2783,11 @@
   },
   {
     "acceptedAnswers": [
+      "待ちいでつるかな",
       "待ち出でつるかな",
       "まちいでつるかな"
     ],
-    "answer": "待ち出でつるかな",
+    "answer": "待ちいでつるかな",
     "answerHistorical": "まちいでつるかな",
     "answerModern": "まちいでつるかな",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2778,7 +2800,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p021",
-    "prompt": "今来むといひしばかりに長月の有明の月を＿＿＿",
+    "prompt": "いまこむといひしばかりに長月のありあけの月を＿＿＿",
     "proposedBy": "human",
     "questionId": "p021-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -2921,10 +2943,11 @@
   },
   {
     "acceptedAnswers": [
+      "月みれば",
       "月見れば",
       "つきみれば"
     ],
-    "answer": "月見れば",
+    "answer": "月みれば",
     "answerHistorical": "つきみれば",
     "answerModern": "つきみれば",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2937,7 +2960,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p023",
-    "prompt": "＿＿＿ちぢにものこそ悲しけれわが身ひとつの秋にはあらねど",
+    "prompt": "＿＿＿ちぢに物こそかなしけれわが身ひとつの秋にはあらねど",
     "proposedBy": "human",
     "questionId": "p023-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -2947,9 +2970,10 @@
   },
   {
     "acceptedAnswers": [
+      "ちぢに物こそ",
       "ちぢにものこそ"
     ],
-    "answer": "ちぢにものこそ",
+    "answer": "ちぢに物こそ",
     "answerHistorical": "ちぢにものこそ",
     "answerModern": "ちぢにものこそ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2962,7 +2986,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p023",
-    "prompt": "月見れば＿＿＿悲しけれわが身ひとつの秋にはあらねど",
+    "prompt": "月みれば＿＿＿かなしけれわが身ひとつの秋にはあらねど",
     "proposedBy": "human",
     "questionId": "p023-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -2972,10 +2996,10 @@
   },
   {
     "acceptedAnswers": [
-      "悲しけれ",
-      "かなしけれ"
+      "かなしけれ",
+      "悲しけれ"
     ],
-    "answer": "悲しけれ",
+    "answer": "かなしけれ",
     "answerHistorical": "かなしけれ",
     "answerModern": "かなしけれ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -2988,7 +3012,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p023",
-    "prompt": "月見ればちぢにものこそ＿＿＿わが身ひとつの秋にはあらねど",
+    "prompt": "月みればちぢに物こそ＿＿＿わが身ひとつの秋にはあらねど",
     "proposedBy": "human",
     "questionId": "p023-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -3014,7 +3038,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p023",
-    "prompt": "月見ればちぢにものこそ悲しけれ＿＿＿秋にはあらねど",
+    "prompt": "月みればちぢに物こそかなしけれ＿＿＿秋にはあらねど",
     "proposedBy": "human",
     "questionId": "p023-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -3040,7 +3064,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p023",
-    "prompt": "月見ればちぢにものこそ悲しけれわが身ひとつの＿＿＿",
+    "prompt": "月みればちぢに物こそかなしけれわが身ひとつの＿＿＿",
     "proposedBy": "human",
     "questionId": "p023-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -3065,7 +3089,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p024",
-    "prompt": "＿＿＿ぬさも取りあへず手向山紅葉のにしき神のまにまに",
+    "prompt": "＿＿＿ぬさもとりあへず手向山もみぢのにしき神のまにまに",
     "proposedBy": "human",
     "questionId": "p024-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -3075,10 +3099,10 @@
   },
   {
     "acceptedAnswers": [
-      "ぬさも取りあへず",
-      "ぬさもとりあへず"
+      "ぬさもとりあへず",
+      "ぬさも取りあへず"
     ],
-    "answer": "ぬさも取りあへず",
+    "answer": "ぬさもとりあへず",
     "answerHistorical": "ぬさもとりあへず",
     "answerModern": "ぬさもとりあえず",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3093,7 +3117,7 @@
       "ぬさもとりあえず"
     ],
     "poemId": "p024",
-    "prompt": "このたびは＿＿＿手向山紅葉のにしき神のまにまに",
+    "prompt": "このたびは＿＿＿手向山もみぢのにしき神のまにまに",
     "proposedBy": "human",
     "questionId": "p024-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -3119,7 +3143,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p024",
-    "prompt": "このたびはぬさも取りあへず＿＿＿紅葉のにしき神のまにまに",
+    "prompt": "このたびはぬさもとりあへず＿＿＿もみぢのにしき神のまにまに",
     "proposedBy": "human",
     "questionId": "p024-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -3129,10 +3153,10 @@
   },
   {
     "acceptedAnswers": [
-      "紅葉のにしき",
-      "もみぢのにしき"
+      "もみぢのにしき",
+      "紅葉のにしき"
     ],
-    "answer": "紅葉のにしき",
+    "answer": "もみぢのにしき",
     "answerHistorical": "もみぢのにしき",
     "answerModern": "もみじのにしき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3147,7 +3171,7 @@
       "もみじのにしき"
     ],
     "poemId": "p024",
-    "prompt": "このたびはぬさも取りあへず手向山＿＿＿神のまにまに",
+    "prompt": "このたびはぬさもとりあへず手向山＿＿＿神のまにまに",
     "proposedBy": "human",
     "questionId": "p024-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -3173,7 +3197,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p024",
-    "prompt": "このたびはぬさも取りあへず手向山紅葉のにしき＿＿＿",
+    "prompt": "このたびはぬさもとりあへず手向山もみぢのにしき＿＿＿",
     "proposedBy": "human",
     "questionId": "p024-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -3183,10 +3207,11 @@
   },
   {
     "acceptedAnswers": [
+      "名にしおはば",
       "名にし負はば",
       "なにしおはば"
     ],
-    "answer": "名にし負はば",
+    "answer": "名にしおはば",
     "answerHistorical": "なにしおはば",
     "answerModern": "なにしおわば",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3201,7 +3226,7 @@
       "なにしおわば"
     ],
     "poemId": "p025",
-    "prompt": "＿＿＿逢坂山のさねかづら人に知られで来るよしもがな",
+    "prompt": "＿＿＿逢坂山のさねかづら人にしられで来るよしもがな",
     "proposedBy": "human",
     "questionId": "p025-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -3229,7 +3254,7 @@
       "おうさかやまの"
     ],
     "poemId": "p025",
-    "prompt": "名にし負はば＿＿＿さねかづら人に知られで来るよしもがな",
+    "prompt": "名にしおはば＿＿＿さねかづら人にしられで来るよしもがな",
     "proposedBy": "human",
     "questionId": "p025-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -3256,7 +3281,7 @@
       "さねかずら"
     ],
     "poemId": "p025",
-    "prompt": "名にし負はば逢坂山の＿＿＿人に知られで来るよしもがな",
+    "prompt": "名にしおはば逢坂山の＿＿＿人にしられで来るよしもがな",
     "proposedBy": "human",
     "questionId": "p025-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -3266,10 +3291,11 @@
   },
   {
     "acceptedAnswers": [
+      "人にしられで",
       "人に知られで",
       "ひとにしられで"
     ],
-    "answer": "人に知られで",
+    "answer": "人にしられで",
     "answerHistorical": "ひとにしられで",
     "answerModern": "ひとにしられで",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3282,7 +3308,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p025",
-    "prompt": "名にし負はば逢坂山のさねかづら＿＿＿来るよしもがな",
+    "prompt": "名にしおはば逢坂山のさねかづら＿＿＿来るよしもがな",
     "proposedBy": "human",
     "questionId": "p025-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -3308,7 +3334,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p025",
-    "prompt": "名にし負はば逢坂山のさねかづら人に知られで＿＿＿",
+    "prompt": "名にしおはば逢坂山のさねかづら人にしられで＿＿＿",
     "proposedBy": "human",
     "questionId": "p025-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -3336,7 +3362,7 @@
       "おぐらやま"
     ],
     "poemId": "p026",
-    "prompt": "＿＿＿峯の紅葉葉心あらば今ひとたびのみゆき待たなむ",
+    "prompt": "＿＿＿峰のもみぢ葉心あらばいまひとたびのみゆき待たなむ",
     "proposedBy": "human",
     "questionId": "p026-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -3346,10 +3372,11 @@
   },
   {
     "acceptedAnswers": [
+      "峰のもみぢ葉",
       "峯の紅葉葉",
       "みねのもみぢば"
     ],
-    "answer": "峯の紅葉葉",
+    "answer": "峰のもみぢ葉",
     "answerHistorical": "みねのもみぢば",
     "answerModern": "みねのもみじば",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3364,7 +3391,7 @@
       "みねのもみじば"
     ],
     "poemId": "p026",
-    "prompt": "小倉山＿＿＿心あらば今ひとたびのみゆき待たなむ",
+    "prompt": "小倉山＿＿＿心あらばいまひとたびのみゆき待たなむ",
     "proposedBy": "human",
     "questionId": "p026-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -3390,7 +3417,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p026",
-    "prompt": "小倉山峯の紅葉葉＿＿＿今ひとたびのみゆき待たなむ",
+    "prompt": "小倉山峰のもみぢ葉＿＿＿いまひとたびのみゆき待たなむ",
     "proposedBy": "human",
     "questionId": "p026-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -3400,10 +3427,10 @@
   },
   {
     "acceptedAnswers": [
-      "今ひとたびの",
-      "いまひとたびの"
+      "いまひとたびの",
+      "今ひとたびの"
     ],
-    "answer": "今ひとたびの",
+    "answer": "いまひとたびの",
     "answerHistorical": "いまひとたびの",
     "answerModern": "いまひとたびの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3416,7 +3443,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p026",
-    "prompt": "小倉山峯の紅葉葉心あらば＿＿＿みゆき待たなむ",
+    "prompt": "小倉山峰のもみぢ葉心あらば＿＿＿みゆき待たなむ",
     "proposedBy": "human",
     "questionId": "p026-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -3444,7 +3471,7 @@
       "みゆきまたなん"
     ],
     "poemId": "p026",
-    "prompt": "小倉山峯の紅葉葉心あらば今ひとたびの＿＿＿",
+    "prompt": "小倉山峰のもみぢ葉心あらばいまひとたびの＿＿＿",
     "proposedBy": "human",
     "questionId": "p026-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -3470,7 +3497,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p027",
-    "prompt": "＿＿＿わきて流るる泉川いつ見きとてか恋しかるらむ",
+    "prompt": "＿＿＿わきて流るるいづみ川いつ見きとてか恋しかるらむ",
     "proposedBy": "human",
     "questionId": "p027-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -3496,7 +3523,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p027",
-    "prompt": "みかの原＿＿＿泉川いつ見きとてか恋しかるらむ",
+    "prompt": "みかの原＿＿＿いづみ川いつ見きとてか恋しかるらむ",
     "proposedBy": "human",
     "questionId": "p027-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -3506,10 +3533,11 @@
   },
   {
     "acceptedAnswers": [
+      "いづみ川",
       "泉川",
       "いづみがは"
     ],
-    "answer": "泉川",
+    "answer": "いづみ川",
     "answerHistorical": "いづみがは",
     "answerModern": "いずみがわ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3550,7 +3578,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p027",
-    "prompt": "みかの原わきて流るる泉川＿＿＿恋しかるらむ",
+    "prompt": "みかの原わきて流るるいづみ川＿＿＿恋しかるらむ",
     "proposedBy": "human",
     "questionId": "p027-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -3578,7 +3606,7 @@
       "こいしかるらん"
     ],
     "poemId": "p027",
-    "prompt": "みかの原わきて流るる泉川いつ見きとてか＿＿＿",
+    "prompt": "みかの原わきて流るるいづみ川いつ見きとてか＿＿＿",
     "proposedBy": "human",
     "questionId": "p027-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -3604,7 +3632,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p028",
-    "prompt": "＿＿＿冬ぞ寂しさまさりける人目も草もかれぬと思へば",
+    "prompt": "＿＿＿冬ぞ寂しさまさりける人めも草もかれぬと思へば",
     "proposedBy": "human",
     "questionId": "p028-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -3630,7 +3658,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p028",
-    "prompt": "山里は＿＿＿まさりける人目も草もかれぬと思へば",
+    "prompt": "山里は＿＿＿まさりける人めも草もかれぬと思へば",
     "proposedBy": "human",
     "questionId": "p028-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -3655,7 +3683,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p028",
-    "prompt": "山里は冬ぞ寂しさ＿＿＿人目も草もかれぬと思へば",
+    "prompt": "山里は冬ぞ寂しさ＿＿＿人めも草もかれぬと思へば",
     "proposedBy": "human",
     "questionId": "p028-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -3665,10 +3693,11 @@
   },
   {
     "acceptedAnswers": [
+      "人めも草も",
       "人目も草も",
       "ひとめもくさも"
     ],
-    "answer": "人目も草も",
+    "answer": "人めも草も",
     "answerHistorical": "ひとめもくさも",
     "answerModern": "ひとめもくさも",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3709,7 +3738,7 @@
       "かれぬとおもえば"
     ],
     "poemId": "p028",
-    "prompt": "山里は冬ぞ寂しさまさりける人目も草も＿＿＿",
+    "prompt": "山里は冬ぞ寂しさまさりける人めも草も＿＿＿",
     "proposedBy": "human",
     "questionId": "p028-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -3852,10 +3881,10 @@
   },
   {
     "acceptedAnswers": [
-      "有明の",
-      "ありあけの"
+      "ありあけの",
+      "有明の"
     ],
-    "answer": "有明の",
+    "answer": "ありあけの",
     "answerHistorical": "ありあけの",
     "answerModern": "ありあけの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3868,7 +3897,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p030",
-    "prompt": "＿＿＿つれなく見えし別れより暁ばかり憂きものはなし",
+    "prompt": "＿＿＿つれなく見えし別れよりあかつきばかりうきものはなし",
     "proposedBy": "human",
     "questionId": "p030-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -3894,7 +3923,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p030",
-    "prompt": "有明の＿＿＿別れより暁ばかり憂きものはなし",
+    "prompt": "ありあけの＿＿＿別れよりあかつきばかりうきものはなし",
     "proposedBy": "human",
     "questionId": "p030-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -3920,7 +3949,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p030",
-    "prompt": "有明のつれなく見えし＿＿＿暁ばかり憂きものはなし",
+    "prompt": "ありあけのつれなく見えし＿＿＿あかつきばかりうきものはなし",
     "proposedBy": "human",
     "questionId": "p030-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -3930,10 +3959,10 @@
   },
   {
     "acceptedAnswers": [
-      "暁ばかり",
-      "あかつきばかり"
+      "あかつきばかり",
+      "暁ばかり"
     ],
-    "answer": "暁ばかり",
+    "answer": "あかつきばかり",
     "answerHistorical": "あかつきばかり",
     "answerModern": "あかつきばかり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3946,7 +3975,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p030",
-    "prompt": "有明のつれなく見えし別れより＿＿＿憂きものはなし",
+    "prompt": "ありあけのつれなく見えし別れより＿＿＿うきものはなし",
     "proposedBy": "human",
     "questionId": "p030-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -3956,10 +3985,10 @@
   },
   {
     "acceptedAnswers": [
-      "憂きものはなし",
-      "うきものはなし"
+      "うきものはなし",
+      "憂きものはなし"
     ],
-    "answer": "憂きものはなし",
+    "answer": "うきものはなし",
     "answerHistorical": "うきものはなし",
     "answerModern": "うきものはなし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -3972,7 +4001,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p030",
-    "prompt": "有明のつれなく見えし別れより暁ばかり＿＿＿",
+    "prompt": "ありあけのつれなく見えし別れよりあかつきばかり＿＿＿",
     "proposedBy": "human",
     "questionId": "p030-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -3998,7 +4027,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p031",
-    "prompt": "＿＿＿有明の月と見るまでに吉野の里にふれる白雪",
+    "prompt": "＿＿＿ありあけの月と見るまでに吉野の里にふれる白雪",
     "proposedBy": "human",
     "questionId": "p031-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -4008,10 +4037,11 @@
   },
   {
     "acceptedAnswers": [
+      "ありあけの月と",
       "有明の月と",
       "ありあけのつきと"
     ],
-    "answer": "有明の月と",
+    "answer": "ありあけの月と",
     "answerHistorical": "ありあけのつきと",
     "answerModern": "ありあけのつきと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -4050,7 +4080,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p031",
-    "prompt": "朝ぼらけ有明の月と＿＿＿吉野の里にふれる白雪",
+    "prompt": "朝ぼらけありあけの月と＿＿＿吉野の里にふれる白雪",
     "proposedBy": "human",
     "questionId": "p031-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -4076,7 +4106,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p031",
-    "prompt": "朝ぼらけ有明の月と見るまでに＿＿＿ふれる白雪",
+    "prompt": "朝ぼらけありあけの月と見るまでに＿＿＿ふれる白雪",
     "proposedBy": "human",
     "questionId": "p031-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -4102,7 +4132,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p031",
-    "prompt": "朝ぼらけ有明の月と見るまでに吉野の里に＿＿＿",
+    "prompt": "朝ぼらけありあけの月と見るまでに吉野の里に＿＿＿",
     "proposedBy": "human",
     "questionId": "p031-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -4131,7 +4161,7 @@
       "やまがわに"
     ],
     "poemId": "p032",
-    "prompt": "＿＿＿風のかけたるしがらみは流れもあへぬ紅葉なりけり",
+    "prompt": "＿＿＿風のかけたるしがらみはながれもあへぬもみぢなりけり",
     "proposedBy": "human",
     "questionId": "p032-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -4157,7 +4187,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p032",
-    "prompt": "山川に＿＿＿しがらみは流れもあへぬ紅葉なりけり",
+    "prompt": "山川に＿＿＿しがらみはながれもあへぬもみぢなりけり",
     "proposedBy": "human",
     "questionId": "p032-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -4182,7 +4212,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p032",
-    "prompt": "山川に風のかけたる＿＿＿流れもあへぬ紅葉なりけり",
+    "prompt": "山川に風のかけたる＿＿＿ながれもあへぬもみぢなりけり",
     "proposedBy": "human",
     "questionId": "p032-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -4192,10 +4222,10 @@
   },
   {
     "acceptedAnswers": [
-      "流れもあへぬ",
-      "ながれもあへぬ"
+      "ながれもあへぬ",
+      "流れもあへぬ"
     ],
-    "answer": "流れもあへぬ",
+    "answer": "ながれもあへぬ",
     "answerHistorical": "ながれもあへぬ",
     "answerModern": "ながれもあえぬ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -4210,7 +4240,7 @@
       "ながれもあえぬ"
     ],
     "poemId": "p032",
-    "prompt": "山川に風のかけたるしがらみは＿＿＿紅葉なりけり",
+    "prompt": "山川に風のかけたるしがらみは＿＿＿もみぢなりけり",
     "proposedBy": "human",
     "questionId": "p032-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -4220,10 +4250,10 @@
   },
   {
     "acceptedAnswers": [
-      "紅葉なりけり",
-      "もみぢなりけり"
+      "もみぢなりけり",
+      "紅葉なりけり"
     ],
-    "answer": "紅葉なりけり",
+    "answer": "もみぢなりけり",
     "answerHistorical": "もみぢなりけり",
     "answerModern": "もみじなりけり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -4238,7 +4268,7 @@
       "もみじなりけり"
     ],
     "poemId": "p032",
-    "prompt": "山川に風のかけたるしがらみは流れもあへぬ＿＿＿",
+    "prompt": "山川に風のかけたるしがらみはながれもあへぬ＿＿＿",
     "proposedBy": "human",
     "questionId": "p032-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -4263,7 +4293,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p033",
-    "prompt": "＿＿＿光のどけき春の日にしづ心なく花の散るらむ",
+    "prompt": "＿＿＿光のどけき春の日にしづ心なく花のちるらむ",
     "proposedBy": "human",
     "questionId": "p033-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -4289,7 +4319,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p033",
-    "prompt": "ひさかたの＿＿＿春の日にしづ心なく花の散るらむ",
+    "prompt": "ひさかたの＿＿＿春の日にしづ心なく花のちるらむ",
     "proposedBy": "human",
     "questionId": "p033-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -4315,7 +4345,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p033",
-    "prompt": "ひさかたの光のどけき＿＿＿しづ心なく花の散るらむ",
+    "prompt": "ひさかたの光のどけき＿＿＿しづ心なく花のちるらむ",
     "proposedBy": "human",
     "questionId": "p033-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -4343,7 +4373,7 @@
       "しずごころなく"
     ],
     "poemId": "p033",
-    "prompt": "ひさかたの光のどけき春の日に＿＿＿花の散るらむ",
+    "prompt": "ひさかたの光のどけき春の日に＿＿＿花のちるらむ",
     "proposedBy": "human",
     "questionId": "p033-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -4353,10 +4383,11 @@
   },
   {
     "acceptedAnswers": [
+      "花のちるらむ",
       "花の散るらむ",
       "はなのちるらむ"
     ],
-    "answer": "花の散るらむ",
+    "answer": "花のちるらむ",
     "answerHistorical": "はなのちるらむ",
     "answerModern": "はなのちるらん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -4397,7 +4428,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p034",
-    "prompt": "＿＿＿知る人にせむ高砂の松も昔の友ならなくに",
+    "prompt": "＿＿＿しる人にせむ高砂の松も昔の友ならなくに",
     "proposedBy": "human",
     "questionId": "p034-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -4407,10 +4438,11 @@
   },
   {
     "acceptedAnswers": [
+      "しる人にせむ",
       "知る人にせむ",
       "しるひとにせむ"
     ],
-    "answer": "知る人にせむ",
+    "answer": "しる人にせむ",
     "answerHistorical": "しるひとにせむ",
     "answerModern": "しるひとにせん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -4451,7 +4483,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p034",
-    "prompt": "誰をかも知る人にせむ＿＿＿松も昔の友ならなくに",
+    "prompt": "誰をかもしる人にせむ＿＿＿松も昔の友ならなくに",
     "proposedBy": "human",
     "questionId": "p034-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -4477,7 +4509,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p034",
-    "prompt": "誰をかも知る人にせむ高砂の＿＿＿友ならなくに",
+    "prompt": "誰をかもしる人にせむ高砂の＿＿＿友ならなくに",
     "proposedBy": "human",
     "questionId": "p034-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -4503,7 +4535,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p034",
-    "prompt": "誰をかも知る人にせむ高砂の松も昔の＿＿＿",
+    "prompt": "誰をかもしる人にせむ高砂の松も昔の＿＿＿",
     "proposedBy": "human",
     "questionId": "p034-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -4529,7 +4561,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p035",
-    "prompt": "＿＿＿心も知らずふる里は花ぞ昔の香ににほひける",
+    "prompt": "＿＿＿心もしらずふるさとは花ぞ昔の香ににほひける",
     "proposedBy": "human",
     "questionId": "p035-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -4539,10 +4571,11 @@
   },
   {
     "acceptedAnswers": [
+      "心もしらず",
       "心も知らず",
       "こころもしらず"
     ],
-    "answer": "心も知らず",
+    "answer": "心もしらず",
     "answerHistorical": "こころもしらず",
     "answerModern": "こころもしらず",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -4555,7 +4588,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p035",
-    "prompt": "人はいさ＿＿＿ふる里は花ぞ昔の香ににほひける",
+    "prompt": "人はいさ＿＿＿ふるさとは花ぞ昔の香ににほひける",
     "proposedBy": "human",
     "questionId": "p035-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -4565,10 +4598,10 @@
   },
   {
     "acceptedAnswers": [
-      "ふる里は",
-      "ふるさとは"
+      "ふるさとは",
+      "ふる里は"
     ],
-    "answer": "ふる里は",
+    "answer": "ふるさとは",
     "answerHistorical": "ふるさとは",
     "answerModern": "ふるさとは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -4581,7 +4614,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p035",
-    "prompt": "人はいさ心も知らず＿＿＿花ぞ昔の香ににほひける",
+    "prompt": "人はいさ心もしらず＿＿＿花ぞ昔の香ににほひける",
     "proposedBy": "human",
     "questionId": "p035-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -4607,7 +4640,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p035",
-    "prompt": "人はいさ心も知らずふる里は＿＿＿香ににほひける",
+    "prompt": "人はいさ心もしらずふるさとは＿＿＿香ににほひける",
     "proposedBy": "human",
     "questionId": "p035-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -4635,7 +4668,7 @@
       "かににおいける"
     ],
     "poemId": "p035",
-    "prompt": "人はいさ心も知らずふる里は花ぞ昔の＿＿＿",
+    "prompt": "人はいさ心もしらずふるさとは花ぞ昔の＿＿＿",
     "proposedBy": "human",
     "questionId": "p035-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -4661,7 +4694,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p036",
-    "prompt": "＿＿＿まだ宵ながら明けぬるを雲のいづこに月やどるらむ",
+    "prompt": "＿＿＿まだ宵ながらあけぬるを雲のいづこに月やどるらむ",
     "proposedBy": "human",
     "questionId": "p036-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -4689,7 +4722,7 @@
       "まだよいながら"
     ],
     "poemId": "p036",
-    "prompt": "夏の夜は＿＿＿明けぬるを雲のいづこに月やどるらむ",
+    "prompt": "夏の夜は＿＿＿あけぬるを雲のいづこに月やどるらむ",
     "proposedBy": "human",
     "questionId": "p036-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -4699,10 +4732,10 @@
   },
   {
     "acceptedAnswers": [
-      "明けぬるを",
-      "あけぬるを"
+      "あけぬるを",
+      "明けぬるを"
     ],
-    "answer": "明けぬるを",
+    "answer": "あけぬるを",
     "answerHistorical": "あけぬるを",
     "answerModern": "あけぬるを",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -4743,7 +4776,7 @@
       "くものいずこに"
     ],
     "poemId": "p036",
-    "prompt": "夏の夜はまだ宵ながら明けぬるを＿＿＿月やどるらむ",
+    "prompt": "夏の夜はまだ宵ながらあけぬるを＿＿＿月やどるらむ",
     "proposedBy": "human",
     "questionId": "p036-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -4771,7 +4804,7 @@
       "つきやどるらん"
     ],
     "poemId": "p036",
-    "prompt": "夏の夜はまだ宵ながら明けぬるを雲のいづこに＿＿＿",
+    "prompt": "夏の夜はまだ宵ながらあけぬるを雲のいづこに＿＿＿",
     "proposedBy": "human",
     "questionId": "p036-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -4926,7 +4959,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p038",
-    "prompt": "＿＿＿身をば思はず誓ひてし人の命の惜しくもあるかな",
+    "prompt": "＿＿＿身をば思はずちかひてし人のいのちの惜しくもあるかな",
     "proposedBy": "human",
     "questionId": "p038-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -4954,7 +4987,7 @@
       "みをばおもわず"
     ],
     "poemId": "p038",
-    "prompt": "忘らるる＿＿＿誓ひてし人の命の惜しくもあるかな",
+    "prompt": "忘らるる＿＿＿ちかひてし人のいのちの惜しくもあるかな",
     "proposedBy": "human",
     "questionId": "p038-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -4964,10 +4997,10 @@
   },
   {
     "acceptedAnswers": [
-      "誓ひてし",
-      "ちかひてし"
+      "ちかひてし",
+      "誓ひてし"
     ],
-    "answer": "誓ひてし",
+    "answer": "ちかひてし",
     "answerHistorical": "ちかひてし",
     "answerModern": "ちかいてし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -4982,7 +5015,7 @@
       "ちかいてし"
     ],
     "poemId": "p038",
-    "prompt": "忘らるる身をば思はず＿＿＿人の命の惜しくもあるかな",
+    "prompt": "忘らるる身をば思はず＿＿＿人のいのちの惜しくもあるかな",
     "proposedBy": "human",
     "questionId": "p038-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -4992,10 +5025,11 @@
   },
   {
     "acceptedAnswers": [
+      "人のいのちの",
       "人の命の",
       "ひとのいのちの"
     ],
-    "answer": "人の命の",
+    "answer": "人のいのちの",
     "answerHistorical": "ひとのいのちの",
     "answerModern": "ひとのいのちの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5008,7 +5042,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p038",
-    "prompt": "忘らるる身をば思はず誓ひてし＿＿＿惜しくもあるかな",
+    "prompt": "忘らるる身をば思はずちかひてし＿＿＿惜しくもあるかな",
     "proposedBy": "human",
     "questionId": "p038-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -5036,7 +5070,7 @@
       "おしくもあるかな"
     ],
     "poemId": "p038",
-    "prompt": "忘らるる身をば思はず誓ひてし人の命の＿＿＿",
+    "prompt": "忘らるる身をば思はずちかひてし人のいのちの＿＿＿",
     "proposedBy": "human",
     "questionId": "p038-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -5180,10 +5214,10 @@
   },
   {
     "acceptedAnswers": [
-      "忍ぶれど",
-      "しのぶれど"
+      "しのぶれど",
+      "忍ぶれど"
     ],
-    "answer": "忍ぶれど",
+    "answer": "しのぶれど",
     "answerHistorical": "しのぶれど",
     "answerModern": "しのぶれど",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5196,7 +5230,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p040",
-    "prompt": "＿＿＿色に出でにけりわが恋はものや思ふと人の問ふまで",
+    "prompt": "＿＿＿色にいでにけりわが恋は物や思ふと人のとふまで",
     "proposedBy": "human",
     "questionId": "p040-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -5206,10 +5240,11 @@
   },
   {
     "acceptedAnswers": [
+      "色にいでにけり",
       "色に出でにけり",
       "いろにいでにけり"
     ],
-    "answer": "色に出でにけり",
+    "answer": "色にいでにけり",
     "answerHistorical": "いろにいでにけり",
     "answerModern": "いろにいでにけり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5222,7 +5257,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p040",
-    "prompt": "忍ぶれど＿＿＿わが恋はものや思ふと人の問ふまで",
+    "prompt": "しのぶれど＿＿＿わが恋は物や思ふと人のとふまで",
     "proposedBy": "human",
     "questionId": "p040-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -5250,7 +5285,7 @@
       "わがこいは"
     ],
     "poemId": "p040",
-    "prompt": "忍ぶれど色に出でにけり＿＿＿ものや思ふと人の問ふまで",
+    "prompt": "しのぶれど色にいでにけり＿＿＿物や思ふと人のとふまで",
     "proposedBy": "human",
     "questionId": "p040-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -5260,10 +5295,11 @@
   },
   {
     "acceptedAnswers": [
+      "物や思ふと",
       "ものや思ふと",
       "ものやおもふと"
     ],
-    "answer": "ものや思ふと",
+    "answer": "物や思ふと",
     "answerHistorical": "ものやおもふと",
     "answerModern": "ものやおもうと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5278,7 +5314,7 @@
       "ものやおもうと"
     ],
     "poemId": "p040",
-    "prompt": "忍ぶれど色に出でにけりわが恋は＿＿＿人の問ふまで",
+    "prompt": "しのぶれど色にいでにけりわが恋は＿＿＿人のとふまで",
     "proposedBy": "human",
     "questionId": "p040-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -5288,10 +5324,11 @@
   },
   {
     "acceptedAnswers": [
+      "人のとふまで",
       "人の問ふまで",
       "ひとのとふまで"
     ],
-    "answer": "人の問ふまで",
+    "answer": "人のとふまで",
     "answerHistorical": "ひとのとふまで",
     "answerModern": "ひとのとうまで",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5306,7 +5343,7 @@
       "ひとのとうまで"
     ],
     "poemId": "p040",
-    "prompt": "忍ぶれど色に出でにけりわが恋はものや思ふと＿＿＿",
+    "prompt": "しのぶれど色にいでにけりわが恋は物や思ふと＿＿＿",
     "proposedBy": "human",
     "questionId": "p040-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -5334,7 +5371,7 @@
       "こいすちょう"
     ],
     "poemId": "p041",
-    "prompt": "＿＿＿わが名はまだき立ちにけり人知れずこそ思ひそめしか",
+    "prompt": "＿＿＿わが名はまだき立ちにけり人しれずこそ思ひそめしか",
     "proposedBy": "human",
     "questionId": "p041-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -5360,7 +5397,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p041",
-    "prompt": "恋すてふ＿＿＿立ちにけり人知れずこそ思ひそめしか",
+    "prompt": "恋すてふ＿＿＿立ちにけり人しれずこそ思ひそめしか",
     "proposedBy": "human",
     "questionId": "p041-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -5386,7 +5423,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p041",
-    "prompt": "恋すてふわが名はまだき＿＿＿人知れずこそ思ひそめしか",
+    "prompt": "恋すてふわが名はまだき＿＿＿人しれずこそ思ひそめしか",
     "proposedBy": "human",
     "questionId": "p041-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -5396,10 +5433,11 @@
   },
   {
     "acceptedAnswers": [
+      "人しれずこそ",
       "人知れずこそ",
       "ひとしれずこそ"
     ],
-    "answer": "人知れずこそ",
+    "answer": "人しれずこそ",
     "answerHistorical": "ひとしれずこそ",
     "answerModern": "ひとしれずこそ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5440,7 +5478,7 @@
       "おもいそめしか"
     ],
     "poemId": "p041",
-    "prompt": "恋すてふわが名はまだき立ちにけり人知れずこそ＿＿＿",
+    "prompt": "恋すてふわが名はまだき立ちにけり人しれずこそ＿＿＿",
     "proposedBy": "human",
     "questionId": "p041-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -5450,10 +5488,10 @@
   },
   {
     "acceptedAnswers": [
-      "契りきな",
-      "ちぎりきな"
+      "ちぎりきな",
+      "契りきな"
     ],
-    "answer": "契りきな",
+    "answer": "ちぎりきな",
     "answerHistorical": "ちぎりきな",
     "answerModern": "ちぎりきな",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5492,7 +5530,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p042",
-    "prompt": "契りきな＿＿＿しぼりつつ末の松山波こさじとは",
+    "prompt": "ちぎりきな＿＿＿しぼりつつ末の松山波こさじとは",
     "proposedBy": "human",
     "questionId": "p042-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -5517,7 +5555,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p042",
-    "prompt": "契りきなかたみに袖を＿＿＿末の松山波こさじとは",
+    "prompt": "ちぎりきなかたみに袖を＿＿＿末の松山波こさじとは",
     "proposedBy": "human",
     "questionId": "p042-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -5545,7 +5583,7 @@
       "すえのまつやま"
     ],
     "poemId": "p042",
-    "prompt": "契りきなかたみに袖をしぼりつつ＿＿＿波こさじとは",
+    "prompt": "ちぎりきなかたみに袖をしぼりつつ＿＿＿波こさじとは",
     "proposedBy": "human",
     "questionId": "p042-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -5571,7 +5609,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p042",
-    "prompt": "契りきなかたみに袖をしぼりつつ末の松山＿＿＿",
+    "prompt": "ちぎりきなかたみに袖をしぼりつつ末の松山＿＿＿",
     "proposedBy": "human",
     "questionId": "p042-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -5581,10 +5619,10 @@
   },
   {
     "acceptedAnswers": [
-      "逢ひ見ての",
-      "あひみての"
+      "あひみての",
+      "逢ひ見ての"
     ],
-    "answer": "逢ひ見ての",
+    "answer": "あひみての",
     "answerHistorical": "あひみての",
     "answerModern": "あいみての",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5599,7 +5637,7 @@
       "あいみての"
     ],
     "poemId": "p043",
-    "prompt": "＿＿＿のちの心にくらぶれば昔はものを思はざりけり",
+    "prompt": "＿＿＿のちの心にくらぶれば昔は物を思はざりけり",
     "proposedBy": "human",
     "questionId": "p043-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -5625,7 +5663,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p043",
-    "prompt": "逢ひ見ての＿＿＿くらぶれば昔はものを思はざりけり",
+    "prompt": "あひみての＿＿＿くらぶれば昔は物を思はざりけり",
     "proposedBy": "human",
     "questionId": "p043-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -5650,7 +5688,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p043",
-    "prompt": "逢ひ見てののちの心に＿＿＿昔はものを思はざりけり",
+    "prompt": "あひみてののちの心に＿＿＿昔は物を思はざりけり",
     "proposedBy": "human",
     "questionId": "p043-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -5660,10 +5698,11 @@
   },
   {
     "acceptedAnswers": [
+      "昔は物を",
       "昔はものを",
       "むかしはものを"
     ],
-    "answer": "昔はものを",
+    "answer": "昔は物を",
     "answerHistorical": "むかしはものを",
     "answerModern": "むかしはものを",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5676,7 +5715,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p043",
-    "prompt": "逢ひ見てののちの心にくらぶれば＿＿＿思はざりけり",
+    "prompt": "あひみてののちの心にくらぶれば＿＿＿思はざりけり",
     "proposedBy": "human",
     "questionId": "p043-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -5704,7 +5743,7 @@
       "おもわざりけり"
     ],
     "poemId": "p043",
-    "prompt": "逢ひ見てののちの心にくらぶれば昔はものを＿＿＿",
+    "prompt": "あひみてののちの心にくらぶれば昔は物を＿＿＿",
     "proposedBy": "human",
     "questionId": "p043-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -5714,10 +5753,10 @@
   },
   {
     "acceptedAnswers": [
-      "逢ふことの",
-      "あふことの"
+      "あふことの",
+      "逢ふことの"
     ],
-    "answer": "逢ふことの",
+    "answer": "あふことの",
     "answerHistorical": "あふことの",
     "answerModern": "おうことの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5732,7 +5771,7 @@
       "おうことの"
     ],
     "poemId": "p044",
-    "prompt": "＿＿＿絶えてしなくはなかなかに人をも身をも恨みざらまし",
+    "prompt": "＿＿＿たえてしなくはなかなかに人をも身をも恨みざらまし",
     "proposedBy": "human",
     "questionId": "p044-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -5742,10 +5781,10 @@
   },
   {
     "acceptedAnswers": [
-      "絶えてしなくは",
-      "たえてしなくは"
+      "たえてしなくは",
+      "絶えてしなくは"
     ],
-    "answer": "絶えてしなくは",
+    "answer": "たえてしなくは",
     "answerHistorical": "たえてしなくは",
     "answerModern": "たえてしなくば",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5760,7 +5799,7 @@
       "たえてしなくば"
     ],
     "poemId": "p044",
-    "prompt": "逢ふことの＿＿＿なかなかに人をも身をも恨みざらまし",
+    "prompt": "あふことの＿＿＿なかなかに人をも身をも恨みざらまし",
     "proposedBy": "human",
     "questionId": "p044-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -5785,7 +5824,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p044",
-    "prompt": "逢ふことの絶えてしなくは＿＿＿人をも身をも恨みざらまし",
+    "prompt": "あふことのたえてしなくは＿＿＿人をも身をも恨みざらまし",
     "proposedBy": "human",
     "questionId": "p044-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -5811,7 +5850,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p044",
-    "prompt": "逢ふことの絶えてしなくはなかなかに＿＿＿恨みざらまし",
+    "prompt": "あふことのたえてしなくはなかなかに＿＿＿恨みざらまし",
     "proposedBy": "human",
     "questionId": "p044-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -5837,7 +5876,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p044",
-    "prompt": "逢ふことの絶えてしなくはなかなかに人をも身をも＿＿＿",
+    "prompt": "あふことのたえてしなくはなかなかに人をも身をも＿＿＿",
     "proposedBy": "human",
     "questionId": "p044-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -5983,10 +6022,11 @@
   },
   {
     "acceptedAnswers": [
+      "由良のとを",
       "由良の門を",
       "ゆらのとを"
     ],
-    "answer": "由良の門を",
+    "answer": "由良のとを",
     "answerHistorical": "ゆらのとを",
     "answerModern": "ゆらのとを",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -5999,7 +6039,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p046",
-    "prompt": "＿＿＿渡る舟人かぢを絶え行方も知らぬ恋の道かな",
+    "prompt": "＿＿＿わたる舟人かぢをたえゆくへも知らぬ恋の道かな",
     "proposedBy": "human",
     "questionId": "p046-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -6009,10 +6049,11 @@
   },
   {
     "acceptedAnswers": [
+      "わたる舟人",
       "渡る舟人",
       "わたるふなびと"
     ],
-    "answer": "渡る舟人",
+    "answer": "わたる舟人",
     "answerHistorical": "わたるふなびと",
     "answerModern": "わたるふなびと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6025,7 +6066,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p046",
-    "prompt": "由良の門を＿＿＿かぢを絶え行方も知らぬ恋の道かな",
+    "prompt": "由良のとを＿＿＿かぢをたえゆくへも知らぬ恋の道かな",
     "proposedBy": "human",
     "questionId": "p046-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -6035,10 +6076,10 @@
   },
   {
     "acceptedAnswers": [
-      "かぢを絶え",
-      "かぢをたえ"
+      "かぢをたえ",
+      "かぢを絶え"
     ],
-    "answer": "かぢを絶え",
+    "answer": "かぢをたえ",
     "answerHistorical": "かぢをたえ",
     "answerModern": "かじをたえ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6053,7 +6094,7 @@
       "かじをたえ"
     ],
     "poemId": "p046",
-    "prompt": "由良の門を渡る舟人＿＿＿行方も知らぬ恋の道かな",
+    "prompt": "由良のとをわたる舟人＿＿＿ゆくへも知らぬ恋の道かな",
     "proposedBy": "human",
     "questionId": "p046-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -6063,10 +6104,11 @@
   },
   {
     "acceptedAnswers": [
+      "ゆくへも知らぬ",
       "行方も知らぬ",
       "ゆくへもしらぬ"
     ],
-    "answer": "行方も知らぬ",
+    "answer": "ゆくへも知らぬ",
     "answerHistorical": "ゆくへもしらぬ",
     "answerModern": "ゆくえもしらぬ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6081,7 +6123,7 @@
       "ゆくえもしらぬ"
     ],
     "poemId": "p046",
-    "prompt": "由良の門を渡る舟人かぢを絶え＿＿＿恋の道かな",
+    "prompt": "由良のとをわたる舟人かぢをたえ＿＿＿恋の道かな",
     "proposedBy": "human",
     "questionId": "p046-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -6109,7 +6151,7 @@
       "こいのみちかな"
     ],
     "poemId": "p046",
-    "prompt": "由良の門を渡る舟人かぢを絶え行方も知らぬ＿＿＿",
+    "prompt": "由良のとをわたる舟人かぢをたえゆくへも知らぬ＿＿＿",
     "proposedBy": "human",
     "questionId": "p046-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -6266,7 +6308,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p048",
-    "prompt": "＿＿＿岩うつ波のおのれのみくだけてものを思ふ頃かな",
+    "prompt": "＿＿＿岩うつ波のおのれのみくだけて物を思ふころかな",
     "proposedBy": "human",
     "questionId": "p048-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -6294,7 +6336,7 @@
       "いわうつなみの"
     ],
     "poemId": "p048",
-    "prompt": "風をいたみ＿＿＿おのれのみくだけてものを思ふ頃かな",
+    "prompt": "風をいたみ＿＿＿おのれのみくだけて物を思ふころかな",
     "proposedBy": "human",
     "questionId": "p048-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -6319,7 +6361,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p048",
-    "prompt": "風をいたみ岩うつ波の＿＿＿くだけてものを思ふ頃かな",
+    "prompt": "風をいたみ岩うつ波の＿＿＿くだけて物を思ふころかな",
     "proposedBy": "human",
     "questionId": "p048-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -6329,9 +6371,10 @@
   },
   {
     "acceptedAnswers": [
+      "くだけて物を",
       "くだけてものを"
     ],
-    "answer": "くだけてものを",
+    "answer": "くだけて物を",
     "answerHistorical": "くだけてものを",
     "answerModern": "くだけてものを",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6344,7 +6387,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p048",
-    "prompt": "風をいたみ岩うつ波のおのれのみ＿＿＿思ふ頃かな",
+    "prompt": "風をいたみ岩うつ波のおのれのみ＿＿＿思ふころかな",
     "proposedBy": "human",
     "questionId": "p048-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -6354,10 +6397,11 @@
   },
   {
     "acceptedAnswers": [
+      "思ふころかな",
       "思ふ頃かな",
       "おもふころかな"
     ],
-    "answer": "思ふ頃かな",
+    "answer": "思ふころかな",
     "answerHistorical": "おもふころかな",
     "answerModern": "おもうころかな",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6372,7 +6416,7 @@
       "おもうころかな"
     ],
     "poemId": "p048",
-    "prompt": "風をいたみ岩うつ波のおのれのみくだけてものを＿＿＿",
+    "prompt": "風をいたみ岩うつ波のおのれのみくだけて物を＿＿＿",
     "proposedBy": "human",
     "questionId": "p048-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -6397,7 +6441,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p049",
-    "prompt": "＿＿＿衛士のたく火の夜はもえ昼は消えつつものをこそ思へ",
+    "prompt": "＿＿＿衛士のたく火の夜はもえ昼は消えつつ物をこそ思へ",
     "proposedBy": "human",
     "questionId": "p049-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -6425,7 +6469,7 @@
       "えじのたくひの"
     ],
     "poemId": "p049",
-    "prompt": "みかきもり＿＿＿夜はもえ昼は消えつつものをこそ思へ",
+    "prompt": "みかきもり＿＿＿夜はもえ昼は消えつつ物をこそ思へ",
     "proposedBy": "human",
     "questionId": "p049-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -6451,7 +6495,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p049",
-    "prompt": "みかきもり衛士のたく火の＿＿＿昼は消えつつものをこそ思へ",
+    "prompt": "みかきもり衛士のたく火の＿＿＿昼は消えつつ物をこそ思へ",
     "proposedBy": "human",
     "questionId": "p049-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -6477,7 +6521,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p049",
-    "prompt": "みかきもり衛士のたく火の夜はもえ＿＿＿ものをこそ思へ",
+    "prompt": "みかきもり衛士のたく火の夜はもえ＿＿＿物をこそ思へ",
     "proposedBy": "human",
     "questionId": "p049-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -6487,10 +6531,11 @@
   },
   {
     "acceptedAnswers": [
+      "物をこそ思へ",
       "ものをこそ思へ",
       "ものをこそおもへ"
     ],
-    "answer": "ものをこそ思へ",
+    "answer": "物をこそ思へ",
     "answerHistorical": "ものをこそおもへ",
     "answerModern": "ものをこそおもえ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6531,7 +6576,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p050",
-    "prompt": "＿＿＿惜しからざりし命さへ長くもがなと思ひけるかな",
+    "prompt": "＿＿＿惜しからざりしいのちさへ長くもがなと思ひけるかな",
     "proposedBy": "human",
     "questionId": "p050-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -6559,7 +6604,7 @@
       "おしからざりし"
     ],
     "poemId": "p050",
-    "prompt": "君がため＿＿＿命さへ長くもがなと思ひけるかな",
+    "prompt": "君がため＿＿＿いのちさへ長くもがなと思ひけるかな",
     "proposedBy": "human",
     "questionId": "p050-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -6569,10 +6614,10 @@
   },
   {
     "acceptedAnswers": [
-      "命さへ",
-      "いのちさへ"
+      "いのちさへ",
+      "命さへ"
     ],
-    "answer": "命さへ",
+    "answer": "いのちさへ",
     "answerHistorical": "いのちさへ",
     "answerModern": "いのちさえ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6613,7 +6658,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p050",
-    "prompt": "君がため惜しからざりし命さへ＿＿＿思ひけるかな",
+    "prompt": "君がため惜しからざりしいのちさへ＿＿＿思ひけるかな",
     "proposedBy": "human",
     "questionId": "p050-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -6641,7 +6686,7 @@
       "おもいけるかな"
     ],
     "poemId": "p050",
-    "prompt": "君がため惜しからざりし命さへ長くもがなと＿＿＿",
+    "prompt": "君がため惜しからざりしいのちさへ長くもがなと＿＿＿",
     "proposedBy": "human",
     "questionId": "p050-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -6781,10 +6826,10 @@
   },
   {
     "acceptedAnswers": [
-      "明けぬれば",
-      "あけぬれば"
+      "あけぬれば",
+      "明けぬれば"
     ],
-    "answer": "明けぬれば",
+    "answer": "あけぬれば",
     "answerHistorical": "あけぬれば",
     "answerModern": "あけぬれば",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6797,7 +6842,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p052",
-    "prompt": "＿＿＿暮るるものとは知りながらなほ恨めしき朝ぼらけかな",
+    "prompt": "＿＿＿暮るるものとはしりながらなほうらめしき朝ぼらけかな",
     "proposedBy": "human",
     "questionId": "p052-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -6823,7 +6868,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p052",
-    "prompt": "明けぬれば＿＿＿知りながらなほ恨めしき朝ぼらけかな",
+    "prompt": "あけぬれば＿＿＿しりながらなほうらめしき朝ぼらけかな",
     "proposedBy": "human",
     "questionId": "p052-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -6833,10 +6878,10 @@
   },
   {
     "acceptedAnswers": [
-      "知りながら",
-      "しりながら"
+      "しりながら",
+      "知りながら"
     ],
-    "answer": "知りながら",
+    "answer": "しりながら",
     "answerHistorical": "しりながら",
     "answerModern": "しりながら",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6849,7 +6894,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p052",
-    "prompt": "明けぬれば暮るるものとは＿＿＿なほ恨めしき朝ぼらけかな",
+    "prompt": "あけぬれば暮るるものとは＿＿＿なほうらめしき朝ぼらけかな",
     "proposedBy": "human",
     "questionId": "p052-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -6859,10 +6904,10 @@
   },
   {
     "acceptedAnswers": [
-      "なほ恨めしき",
-      "なほうらめしき"
+      "なほうらめしき",
+      "なほ恨めしき"
     ],
-    "answer": "なほ恨めしき",
+    "answer": "なほうらめしき",
     "answerHistorical": "なほうらめしき",
     "answerModern": "なおうらめしき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6877,7 +6922,7 @@
       "なおうらめしき"
     ],
     "poemId": "p052",
-    "prompt": "明けぬれば暮るるものとは知りながら＿＿＿朝ぼらけかな",
+    "prompt": "あけぬれば暮るるものとはしりながら＿＿＿朝ぼらけかな",
     "proposedBy": "human",
     "questionId": "p052-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -6903,7 +6948,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p052",
-    "prompt": "明けぬれば暮るるものとは知りながらなほ恨めしき＿＿＿",
+    "prompt": "あけぬれば暮るるものとはしりながらなほうらめしき＿＿＿",
     "proposedBy": "human",
     "questionId": "p052-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -6928,7 +6973,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p053",
-    "prompt": "＿＿＿ひとりぬる夜の明くる間はいかに久しきものとかは知る",
+    "prompt": "＿＿＿ひとりぬる夜のあくるまはいかに久しきものとかはしる",
     "proposedBy": "human",
     "questionId": "p053-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -6954,7 +6999,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p053",
-    "prompt": "なげきつつ＿＿＿明くる間はいかに久しきものとかは知る",
+    "prompt": "なげきつつ＿＿＿あくるまはいかに久しきものとかはしる",
     "proposedBy": "human",
     "questionId": "p053-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -6964,10 +7009,10 @@
   },
   {
     "acceptedAnswers": [
-      "明くる間は",
-      "あくるまは"
+      "あくるまは",
+      "明くる間は"
     ],
-    "answer": "明くる間は",
+    "answer": "あくるまは",
     "answerHistorical": "あくるまは",
     "answerModern": "あくるまは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -6980,7 +7025,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p053",
-    "prompt": "なげきつつひとりぬる夜の＿＿＿いかに久しきものとかは知る",
+    "prompt": "なげきつつひとりぬる夜の＿＿＿いかに久しきものとかはしる",
     "proposedBy": "human",
     "questionId": "p053-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -7006,7 +7051,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p053",
-    "prompt": "なげきつつひとりぬる夜の明くる間は＿＿＿ものとかは知る",
+    "prompt": "なげきつつひとりぬる夜のあくるまは＿＿＿ものとかはしる",
     "proposedBy": "human",
     "questionId": "p053-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -7016,10 +7061,10 @@
   },
   {
     "acceptedAnswers": [
-      "ものとかは知る",
-      "ものとかはしる"
+      "ものとかはしる",
+      "ものとかは知る"
     ],
-    "answer": "ものとかは知る",
+    "answer": "ものとかはしる",
     "answerHistorical": "ものとかはしる",
     "answerModern": "ものとかはしる",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7032,7 +7077,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p053",
-    "prompt": "なげきつつひとりぬる夜の明くる間はいかに久しき＿＿＿",
+    "prompt": "なげきつつひとりぬる夜のあくるまはいかに久しき＿＿＿",
     "proposedBy": "human",
     "questionId": "p053-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -7058,7 +7103,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p054",
-    "prompt": "＿＿＿行く末まではかたければ今日を限りの命ともがな",
+    "prompt": "＿＿＿ゆくすゑまではかたければ今日をかぎりのいのちともがな",
     "proposedBy": "human",
     "questionId": "p054-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -7068,10 +7113,10 @@
   },
   {
     "acceptedAnswers": [
-      "行く末までは",
-      "ゆくすゑまでは"
+      "ゆくすゑまでは",
+      "行く末までは"
     ],
-    "answer": "行く末までは",
+    "answer": "ゆくすゑまでは",
     "answerHistorical": "ゆくすゑまでは",
     "answerModern": "ゆくすえまでは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7086,7 +7131,7 @@
       "ゆくすえまでは"
     ],
     "poemId": "p054",
-    "prompt": "忘れじの＿＿＿かたければ今日を限りの命ともがな",
+    "prompt": "忘れじの＿＿＿かたければ今日をかぎりのいのちともがな",
     "proposedBy": "human",
     "questionId": "p054-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -7111,7 +7156,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p054",
-    "prompt": "忘れじの行く末までは＿＿＿今日を限りの命ともがな",
+    "prompt": "忘れじのゆくすゑまでは＿＿＿今日をかぎりのいのちともがな",
     "proposedBy": "human",
     "questionId": "p054-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -7121,10 +7166,11 @@
   },
   {
     "acceptedAnswers": [
+      "今日をかぎりの",
       "今日を限りの",
       "けふをかぎりの"
     ],
-    "answer": "今日を限りの",
+    "answer": "今日をかぎりの",
     "answerHistorical": "けふをかぎりの",
     "answerModern": "きょうをかぎりの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7139,7 +7185,7 @@
       "きょうをかぎりの"
     ],
     "poemId": "p054",
-    "prompt": "忘れじの行く末まではかたければ＿＿＿命ともがな",
+    "prompt": "忘れじのゆくすゑまではかたければ＿＿＿いのちともがな",
     "proposedBy": "human",
     "questionId": "p054-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -7149,10 +7195,10 @@
   },
   {
     "acceptedAnswers": [
-      "命ともがな",
-      "いのちともがな"
+      "いのちともがな",
+      "命ともがな"
     ],
-    "answer": "命ともがな",
+    "answer": "いのちともがな",
     "answerHistorical": "いのちともがな",
     "answerModern": "いのちともがな",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7165,7 +7211,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p054",
-    "prompt": "忘れじの行く末まではかたければ今日を限りの＿＿＿",
+    "prompt": "忘れじのゆくすゑまではかたければ今日をかぎりの＿＿＿",
     "proposedBy": "human",
     "questionId": "p054-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -7191,7 +7237,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p055",
-    "prompt": "＿＿＿絶えて久しくなりぬれど名こそ流れてなほ聞こえけれ",
+    "prompt": "＿＿＿たえて久しくなりぬれど名こそ流れてなほ聞こえけれ",
     "proposedBy": "human",
     "questionId": "p055-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -7201,10 +7247,11 @@
   },
   {
     "acceptedAnswers": [
+      "たえて久しく",
       "絶えて久しく",
       "たえてひさしく"
     ],
-    "answer": "絶えて久しく",
+    "answer": "たえて久しく",
     "answerHistorical": "たえてひさしく",
     "answerModern": "たえてひさしく",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7242,7 +7289,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p055",
-    "prompt": "滝の音は絶えて久しく＿＿＿名こそ流れてなほ聞こえけれ",
+    "prompt": "滝の音はたえて久しく＿＿＿名こそ流れてなほ聞こえけれ",
     "proposedBy": "human",
     "questionId": "p055-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -7268,7 +7315,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p055",
-    "prompt": "滝の音は絶えて久しくなりぬれど＿＿＿なほ聞こえけれ",
+    "prompt": "滝の音はたえて久しくなりぬれど＿＿＿なほ聞こえけれ",
     "proposedBy": "human",
     "questionId": "p055-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -7296,7 +7343,7 @@
       "なおきこえけれ"
     ],
     "poemId": "p055",
-    "prompt": "滝の音は絶えて久しくなりぬれど名こそ流れて＿＿＿",
+    "prompt": "滝の音はたえて久しくなりぬれど名こそ流れて＿＿＿",
     "proposedBy": "human",
     "questionId": "p055-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -7323,7 +7370,7 @@
       "あらざらん"
     ],
     "poemId": "p056",
-    "prompt": "＿＿＿この世のほかの思ひ出に今ひとたびの逢ふこともがな",
+    "prompt": "＿＿＿この世のほかの思ひ出にいまひとたびのあふこともがな",
     "proposedBy": "human",
     "questionId": "p056-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -7349,7 +7396,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p056",
-    "prompt": "あらざらむ＿＿＿思ひ出に今ひとたびの逢ふこともがな",
+    "prompt": "あらざらむ＿＿＿思ひ出にいまひとたびのあふこともがな",
     "proposedBy": "human",
     "questionId": "p056-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -7377,7 +7424,7 @@
       "おもいでに"
     ],
     "poemId": "p056",
-    "prompt": "あらざらむこの世のほかの＿＿＿今ひとたびの逢ふこともがな",
+    "prompt": "あらざらむこの世のほかの＿＿＿いまひとたびのあふこともがな",
     "proposedBy": "human",
     "questionId": "p056-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -7387,10 +7434,10 @@
   },
   {
     "acceptedAnswers": [
-      "今ひとたびの",
-      "いまひとたびの"
+      "いまひとたびの",
+      "今ひとたびの"
     ],
-    "answer": "今ひとたびの",
+    "answer": "いまひとたびの",
     "answerHistorical": "いまひとたびの",
     "answerModern": "いまひとたびの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7403,7 +7450,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p056",
-    "prompt": "あらざらむこの世のほかの思ひ出に＿＿＿逢ふこともがな",
+    "prompt": "あらざらむこの世のほかの思ひ出に＿＿＿あふこともがな",
     "proposedBy": "human",
     "questionId": "p056-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -7413,10 +7460,10 @@
   },
   {
     "acceptedAnswers": [
-      "逢ふこともがな",
-      "あふこともがな"
+      "あふこともがな",
+      "逢ふこともがな"
     ],
-    "answer": "逢ふこともがな",
+    "answer": "あふこともがな",
     "answerHistorical": "あふこともがな",
     "answerModern": "おうこともがな",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7431,7 +7478,7 @@
       "おうこともがな"
     ],
     "poemId": "p056",
-    "prompt": "あらざらむこの世のほかの思ひ出に今ひとたびの＿＿＿",
+    "prompt": "あらざらむこの世のほかの思ひ出にいまひとたびの＿＿＿",
     "proposedBy": "human",
     "questionId": "p056-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -7441,10 +7488,10 @@
   },
   {
     "acceptedAnswers": [
-      "めぐり逢ひて",
-      "めぐりあひて"
+      "めぐりあひて",
+      "めぐり逢ひて"
     ],
-    "answer": "めぐり逢ひて",
+    "answer": "めぐりあひて",
     "answerHistorical": "めぐりあひて",
     "answerModern": "めぐりあいて",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7459,7 +7506,7 @@
       "めぐりあいて"
     ],
     "poemId": "p057",
-    "prompt": "＿＿＿見しやそれともわかぬ間に雲がくれにし夜半の月かな",
+    "prompt": "＿＿＿見しやそれともわかぬまに雲がくれにし夜半の月かな",
     "proposedBy": "human",
     "questionId": "p057-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -7485,7 +7532,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p057",
-    "prompt": "めぐり逢ひて＿＿＿わかぬ間に雲がくれにし夜半の月かな",
+    "prompt": "めぐりあひて＿＿＿わかぬまに雲がくれにし夜半の月かな",
     "proposedBy": "human",
     "questionId": "p057-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -7495,10 +7542,10 @@
   },
   {
     "acceptedAnswers": [
-      "わかぬ間に",
-      "わかぬまに"
+      "わかぬまに",
+      "わかぬ間に"
     ],
-    "answer": "わかぬ間に",
+    "answer": "わかぬまに",
     "answerHistorical": "わかぬまに",
     "answerModern": "わかぬまに",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7511,7 +7558,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p057",
-    "prompt": "めぐり逢ひて見しやそれとも＿＿＿雲がくれにし夜半の月かな",
+    "prompt": "めぐりあひて見しやそれとも＿＿＿雲がくれにし夜半の月かな",
     "proposedBy": "human",
     "questionId": "p057-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -7537,7 +7584,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p057",
-    "prompt": "めぐり逢ひて見しやそれともわかぬ間に＿＿＿夜半の月かな",
+    "prompt": "めぐりあひて見しやそれともわかぬまに＿＿＿夜半の月かな",
     "proposedBy": "human",
     "questionId": "p057-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -7565,7 +7612,7 @@
       "よわのつきかな"
     ],
     "poemId": "p057",
-    "prompt": "めぐり逢ひて見しやそれともわかぬ間に雲がくれにし＿＿＿",
+    "prompt": "めぐりあひて見しやそれともわかぬまに雲がくれにし＿＿＿",
     "proposedBy": "human",
     "questionId": "p057-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -7575,10 +7622,11 @@
   },
   {
     "acceptedAnswers": [
+      "ありま山",
       "有馬山",
       "ありまやま"
     ],
-    "answer": "有馬山",
+    "answer": "ありま山",
     "answerHistorical": "ありまやま",
     "answerModern": "ありまやま",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -7619,7 +7667,7 @@
       "いなのささはら"
     ],
     "poemId": "p058",
-    "prompt": "有馬山＿＿＿風吹けばいでそよ人を忘れやはする",
+    "prompt": "ありま山＿＿＿風吹けばいでそよ人を忘れやはする",
     "proposedBy": "human",
     "questionId": "p058-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -7645,7 +7693,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p058",
-    "prompt": "有馬山ゐなの笹原＿＿＿いでそよ人を忘れやはする",
+    "prompt": "ありま山ゐなの笹原＿＿＿いでそよ人を忘れやはする",
     "proposedBy": "human",
     "questionId": "p058-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -7671,7 +7719,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p058",
-    "prompt": "有馬山ゐなの笹原風吹けば＿＿＿忘れやはする",
+    "prompt": "ありま山ゐなの笹原風吹けば＿＿＿忘れやはする",
     "proposedBy": "human",
     "questionId": "p058-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -7697,7 +7745,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p058",
-    "prompt": "有馬山ゐなの笹原風吹けばいでそよ人を＿＿＿",
+    "prompt": "ありま山ゐなの笹原風吹けばいでそよ人を＿＿＿",
     "proposedBy": "human",
     "questionId": "p058-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -7724,7 +7772,7 @@
       "やすらわで"
     ],
     "poemId": "p059",
-    "prompt": "＿＿＿寝なましものをさ夜ふけてかたぶくまでの月を見しかな",
+    "prompt": "＿＿＿寝なましものをさ夜ふけてかたぶくまでの月をみしかな",
     "proposedBy": "human",
     "questionId": "p059-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -7750,7 +7798,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p059",
-    "prompt": "やすらはで＿＿＿さ夜ふけてかたぶくまでの月を見しかな",
+    "prompt": "やすらはで＿＿＿さ夜ふけてかたぶくまでの月をみしかな",
     "proposedBy": "human",
     "questionId": "p059-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -7776,7 +7824,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p059",
-    "prompt": "やすらはで寝なましものを＿＿＿かたぶくまでの月を見しかな",
+    "prompt": "やすらはで寝なましものを＿＿＿かたぶくまでの月をみしかな",
     "proposedBy": "human",
     "questionId": "p059-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -7801,7 +7849,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p059",
-    "prompt": "やすらはで寝なましものをさ夜ふけて＿＿＿月を見しかな",
+    "prompt": "やすらはで寝なましものをさ夜ふけて＿＿＿月をみしかな",
     "proposedBy": "human",
     "questionId": "p059-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -7811,10 +7859,11 @@
   },
   {
     "acceptedAnswers": [
+      "月をみしかな",
       "月を見しかな",
       "つきをみしかな"
     ],
-    "answer": "月を見しかな",
+    "answer": "月をみしかな",
     "answerHistorical": "つきをみしかな",
     "answerModern": "つきをみしかな",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -8124,7 +8173,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p062",
-    "prompt": "＿＿＿鳥のそらねははかるともよに逢坂の関は許さじ",
+    "prompt": "＿＿＿鳥のそらねははかるともよに逢坂の関はゆるさじ",
     "proposedBy": "human",
     "questionId": "p062-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -8150,7 +8199,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p062",
-    "prompt": "夜をこめて＿＿＿はかるともよに逢坂の関は許さじ",
+    "prompt": "夜をこめて＿＿＿はかるともよに逢坂の関はゆるさじ",
     "proposedBy": "human",
     "questionId": "p062-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -8175,7 +8224,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p062",
-    "prompt": "夜をこめて鳥のそらねは＿＿＿よに逢坂の関は許さじ",
+    "prompt": "夜をこめて鳥のそらねは＿＿＿よに逢坂の関はゆるさじ",
     "proposedBy": "human",
     "questionId": "p062-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -8204,7 +8253,7 @@
       "よにおうさかの"
     ],
     "poemId": "p062",
-    "prompt": "夜をこめて鳥のそらねははかるとも＿＿＿関は許さじ",
+    "prompt": "夜をこめて鳥のそらねははかるとも＿＿＿関はゆるさじ",
     "proposedBy": "human",
     "questionId": "p062-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -8214,10 +8263,11 @@
   },
   {
     "acceptedAnswers": [
+      "関はゆるさじ",
       "関は許さじ",
       "せきはゆるさじ"
     ],
-    "answer": "関は許さじ",
+    "answer": "関はゆるさじ",
     "answerHistorical": "せきはゆるさじ",
     "answerModern": "せきはゆるさじ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -8240,10 +8290,10 @@
   },
   {
     "acceptedAnswers": [
-      "今はただ",
-      "いまはただ"
+      "いまはただ",
+      "今はただ"
     ],
-    "answer": "今はただ",
+    "answer": "いまはただ",
     "answerHistorical": "いまはただ",
     "answerModern": "いまはただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -8256,7 +8306,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p063",
-    "prompt": "＿＿＿思ひ絶えなむとばかりを人づてならでいふよしもがな",
+    "prompt": "＿＿＿思ひ絶えなむとばかりを人づてならで言ふよしもがな",
     "proposedBy": "human",
     "questionId": "p063-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -8284,7 +8334,7 @@
       "おもいたえなん"
     ],
     "poemId": "p063",
-    "prompt": "今はただ＿＿＿とばかりを人づてならでいふよしもがな",
+    "prompt": "いまはただ＿＿＿とばかりを人づてならで言ふよしもがな",
     "proposedBy": "human",
     "questionId": "p063-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -8309,7 +8359,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p063",
-    "prompt": "今はただ思ひ絶えなむ＿＿＿人づてならでいふよしもがな",
+    "prompt": "いまはただ思ひ絶えなむ＿＿＿人づてならで言ふよしもがな",
     "proposedBy": "human",
     "questionId": "p063-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -8335,7 +8385,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p063",
-    "prompt": "今はただ思ひ絶えなむとばかりを＿＿＿いふよしもがな",
+    "prompt": "いまはただ思ひ絶えなむとばかりを＿＿＿言ふよしもがな",
     "proposedBy": "human",
     "questionId": "p063-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -8345,9 +8395,10 @@
   },
   {
     "acceptedAnswers": [
+      "言ふよしもがな",
       "いふよしもがな"
     ],
-    "answer": "いふよしもがな",
+    "answer": "言ふよしもがな",
     "answerHistorical": "いふよしもがな",
     "answerModern": "いうよしもがな",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -8362,7 +8413,7 @@
       "いうよしもがな"
     ],
     "poemId": "p063",
-    "prompt": "今はただ思ひ絶えなむとばかりを人づてならで＿＿＿",
+    "prompt": "いまはただ思ひ絶えなむとばかりを人づてならで＿＿＿",
     "proposedBy": "human",
     "questionId": "p063-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -9039,10 +9090,10 @@
   },
   {
     "acceptedAnswers": [
-      "あらし吹く",
-      "あらしふく"
+      "あらしふく",
+      "あらし吹く"
     ],
-    "answer": "あらし吹く",
+    "answer": "あらしふく",
     "answerHistorical": "あらしふく",
     "answerModern": "あらしふく",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -9082,7 +9133,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p069",
-    "prompt": "あらし吹く＿＿＿もみぢ葉は竜田の川の錦なりけり",
+    "prompt": "あらしふく＿＿＿もみぢ葉は竜田の川の錦なりけり",
     "proposedBy": "human",
     "questionId": "p069-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -9110,7 +9161,7 @@
       "もみじばは"
     ],
     "poemId": "p069",
-    "prompt": "あらし吹くみ室の山の＿＿＿竜田の川の錦なりけり",
+    "prompt": "あらしふくみ室の山の＿＿＿竜田の川の錦なりけり",
     "proposedBy": "human",
     "questionId": "p069-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -9138,7 +9189,7 @@
       "たつたのかわの"
     ],
     "poemId": "p069",
-    "prompt": "あらし吹くみ室の山のもみぢ葉は＿＿＿錦なりけり",
+    "prompt": "あらしふくみ室の山のもみぢ葉は＿＿＿錦なりけり",
     "proposedBy": "human",
     "questionId": "p069-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -9164,7 +9215,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p069",
-    "prompt": "あらし吹くみ室の山のもみぢ葉は竜田の川の＿＿＿",
+    "prompt": "あらしふくみ室の山のもみぢ葉は竜田の川の＿＿＿",
     "proposedBy": "human",
     "questionId": "p069-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -9444,10 +9495,11 @@
   },
   {
     "acceptedAnswers": [
+      "音にきく",
       "音に聞く",
       "おとにきく"
     ],
-    "answer": "音に聞く",
+    "answer": "音にきく",
     "answerHistorical": "おとにきく",
     "answerModern": "おとにきく",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -9487,7 +9539,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p072",
-    "prompt": "音に聞く＿＿＿あだ波はかけじや袖のぬれもこそすれ",
+    "prompt": "音にきく＿＿＿あだ波はかけじや袖のぬれもこそすれ",
     "proposedBy": "human",
     "questionId": "p072-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -9513,7 +9565,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p072",
-    "prompt": "音に聞くたかしの浜の＿＿＿かけじや袖のぬれもこそすれ",
+    "prompt": "音にきくたかしの浜の＿＿＿かけじや袖のぬれもこそすれ",
     "proposedBy": "human",
     "questionId": "p072-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -9539,7 +9591,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p072",
-    "prompt": "音に聞くたかしの浜のあだ波は＿＿＿ぬれもこそすれ",
+    "prompt": "音にきくたかしの浜のあだ波は＿＿＿ぬれもこそすれ",
     "proposedBy": "human",
     "questionId": "p072-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -9564,7 +9616,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p072",
-    "prompt": "音に聞くたかしの浜のあだ波はかけじや袖の＿＿＿",
+    "prompt": "音にきくたかしの浜のあだ波はかけじや袖の＿＿＿",
     "proposedBy": "human",
     "questionId": "p072-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -9855,7 +9907,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p075",
-    "prompt": "＿＿＿させもが露を命にてあはれ今年の秋もいぬめり",
+    "prompt": "＿＿＿させもが露をいのちにてあはれ今年の秋もいぬめり",
     "proposedBy": "human",
     "questionId": "p075-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -9881,7 +9933,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p075",
-    "prompt": "ちぎりおきし＿＿＿命にてあはれ今年の秋もいぬめり",
+    "prompt": "ちぎりおきし＿＿＿いのちにてあはれ今年の秋もいぬめり",
     "proposedBy": "human",
     "questionId": "p075-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -9891,10 +9943,10 @@
   },
   {
     "acceptedAnswers": [
-      "命にて",
-      "いのちにて"
+      "いのちにて",
+      "命にて"
     ],
-    "answer": "命にて",
+    "answer": "いのちにて",
     "answerHistorical": "いのちにて",
     "answerModern": "いのちにて",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -9935,7 +9987,7 @@
       "あわれことしの"
     ],
     "poemId": "p075",
-    "prompt": "ちぎりおきしさせもが露を命にて＿＿＿秋もいぬめり",
+    "prompt": "ちぎりおきしさせもが露をいのちにて＿＿＿秋もいぬめり",
     "proposedBy": "human",
     "questionId": "p075-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -9961,7 +10013,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p075",
-    "prompt": "ちぎりおきしさせもが露を命にてあはれ今年の＿＿＿",
+    "prompt": "ちぎりおきしさせもが露をいのちにてあはれ今年の＿＿＿",
     "proposedBy": "human",
     "questionId": "p075-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -9987,7 +10039,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p076",
-    "prompt": "＿＿＿こぎ出でて見れば久方の雲居にまがふ沖つ白波",
+    "prompt": "＿＿＿こぎいでてみれば久方の雲ゐにまがふ沖つ白波",
     "proposedBy": "human",
     "questionId": "p076-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -9997,10 +10049,10 @@
   },
   {
     "acceptedAnswers": [
-      "こぎ出でて見れば",
-      "こぎいでてみれば"
+      "こぎいでてみれば",
+      "こぎ出でて見れば"
     ],
-    "answer": "こぎ出でて見れば",
+    "answer": "こぎいでてみれば",
     "answerHistorical": "こぎいでてみれば",
     "answerModern": "こぎいでてみれば",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10013,7 +10065,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p076",
-    "prompt": "わたの原＿＿＿久方の雲居にまがふ沖つ白波",
+    "prompt": "わたの原＿＿＿久方の雲ゐにまがふ沖つ白波",
     "proposedBy": "human",
     "questionId": "p076-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -10039,7 +10091,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p076",
-    "prompt": "わたの原こぎ出でて見れば＿＿＿雲居にまがふ沖つ白波",
+    "prompt": "わたの原こぎいでてみれば＿＿＿雲ゐにまがふ沖つ白波",
     "proposedBy": "human",
     "questionId": "p076-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -10049,10 +10101,11 @@
   },
   {
     "acceptedAnswers": [
+      "雲ゐにまがふ",
       "雲居にまがふ",
       "くもゐにまがふ"
     ],
-    "answer": "雲居にまがふ",
+    "answer": "雲ゐにまがふ",
     "answerHistorical": "くもゐにまがふ",
     "answerModern": "くもいにまごう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10067,7 +10120,7 @@
       "くもいにまごう"
     ],
     "poemId": "p076",
-    "prompt": "わたの原こぎ出でて見れば久方の＿＿＿沖つ白波",
+    "prompt": "わたの原こぎいでてみれば久方の＿＿＿沖つ白波",
     "proposedBy": "human",
     "questionId": "p076-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -10093,7 +10146,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p076",
-    "prompt": "わたの原こぎ出でて見れば久方の雲居にまがふ＿＿＿",
+    "prompt": "わたの原こぎいでてみれば久方の雲ゐにまがふ＿＿＿",
     "proposedBy": "human",
     "questionId": "p076-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -10119,7 +10172,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p077",
-    "prompt": "＿＿＿岩にせかるる滝川のわれても末に逢はむとぞ思ふ",
+    "prompt": "＿＿＿岩にせかるる滝川のわれても末にあはむとぞ思ふ",
     "proposedBy": "human",
     "questionId": "p077-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -10147,7 +10200,7 @@
       "いわにせかるる"
     ],
     "poemId": "p077",
-    "prompt": "瀬をはやみ＿＿＿滝川のわれても末に逢はむとぞ思ふ",
+    "prompt": "瀬をはやみ＿＿＿滝川のわれても末にあはむとぞ思ふ",
     "proposedBy": "human",
     "questionId": "p077-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -10175,7 +10228,7 @@
       "たきがわの"
     ],
     "poemId": "p077",
-    "prompt": "瀬をはやみ岩にせかるる＿＿＿われても末に逢はむとぞ思ふ",
+    "prompt": "瀬をはやみ岩にせかるる＿＿＿われても末にあはむとぞ思ふ",
     "proposedBy": "human",
     "questionId": "p077-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -10203,7 +10256,7 @@
       "われてもすえに"
     ],
     "poemId": "p077",
-    "prompt": "瀬をはやみ岩にせかるる滝川の＿＿＿逢はむとぞ思ふ",
+    "prompt": "瀬をはやみ岩にせかるる滝川の＿＿＿あはむとぞ思ふ",
     "proposedBy": "human",
     "questionId": "p077-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -10213,10 +10266,11 @@
   },
   {
     "acceptedAnswers": [
+      "あはむとぞ思ふ",
       "逢はむとぞ思ふ",
       "あはむとぞおもふ"
     ],
-    "answer": "逢はむとぞ思ふ",
+    "answer": "あはむとぞ思ふ",
     "answerHistorical": "あはむとぞおもふ",
     "answerModern": "あわんとぞおもう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10259,7 +10313,7 @@
       "あわじしま"
     ],
     "poemId": "p078",
-    "prompt": "＿＿＿かよふ千鳥の鳴く声に幾夜寝覚めぬ須磨の関守",
+    "prompt": "＿＿＿かよふ千鳥のなく声に幾夜ねざめぬ須磨の関守",
     "proposedBy": "human",
     "questionId": "p078-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -10287,7 +10341,7 @@
       "かようちどりの"
     ],
     "poemId": "p078",
-    "prompt": "淡路島＿＿＿鳴く声に幾夜寝覚めぬ須磨の関守",
+    "prompt": "淡路島＿＿＿なく声に幾夜ねざめぬ須磨の関守",
     "proposedBy": "human",
     "questionId": "p078-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -10297,10 +10351,11 @@
   },
   {
     "acceptedAnswers": [
+      "なく声に",
       "鳴く声に",
       "なくこゑに"
     ],
-    "answer": "鳴く声に",
+    "answer": "なく声に",
     "answerHistorical": "なくこゑに",
     "answerModern": "なくこえに",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10315,7 +10370,7 @@
       "なくこえに"
     ],
     "poemId": "p078",
-    "prompt": "淡路島かよふ千鳥の＿＿＿幾夜寝覚めぬ須磨の関守",
+    "prompt": "淡路島かよふ千鳥の＿＿＿幾夜ねざめぬ須磨の関守",
     "proposedBy": "human",
     "questionId": "p078-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -10325,10 +10380,11 @@
   },
   {
     "acceptedAnswers": [
+      "幾夜ねざめぬ",
       "幾夜寝覚めぬ",
       "いくよねざめぬ"
     ],
-    "answer": "幾夜寝覚めぬ",
+    "answer": "幾夜ねざめぬ",
     "answerHistorical": "いくよねざめぬ",
     "answerModern": "いくよねざめぬ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10341,7 +10397,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p078",
-    "prompt": "淡路島かよふ千鳥の鳴く声に＿＿＿須磨の関守",
+    "prompt": "淡路島かよふ千鳥のなく声に＿＿＿須磨の関守",
     "proposedBy": "human",
     "questionId": "p078-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -10367,7 +10423,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p078",
-    "prompt": "淡路島かよふ千鳥の鳴く声に幾夜寝覚めぬ＿＿＿",
+    "prompt": "淡路島かよふ千鳥のなく声に幾夜ねざめぬ＿＿＿",
     "proposedBy": "human",
     "questionId": "p078-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -10393,7 +10449,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p079",
-    "prompt": "＿＿＿たなびく雲の絶え間よりもれ出づる月の影のさやけさ",
+    "prompt": "＿＿＿たなびく雲のたえ間よりもれいづる月のかげのさやけさ",
     "proposedBy": "human",
     "questionId": "p079-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -10419,7 +10475,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p079",
-    "prompt": "秋風に＿＿＿絶え間よりもれ出づる月の影のさやけさ",
+    "prompt": "秋風に＿＿＿たえ間よりもれいづる月のかげのさやけさ",
     "proposedBy": "human",
     "questionId": "p079-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -10429,10 +10485,11 @@
   },
   {
     "acceptedAnswers": [
+      "たえ間より",
       "絶え間より",
       "たえまより"
     ],
-    "answer": "絶え間より",
+    "answer": "たえ間より",
     "answerHistorical": "たえまより",
     "answerModern": "たえまより",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10445,7 +10502,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p079",
-    "prompt": "秋風にたなびく雲の＿＿＿もれ出づる月の影のさやけさ",
+    "prompt": "秋風にたなびく雲の＿＿＿もれいづる月のかげのさやけさ",
     "proposedBy": "human",
     "questionId": "p079-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -10455,10 +10512,11 @@
   },
   {
     "acceptedAnswers": [
+      "もれいづる月の",
       "もれ出づる月の",
       "もれいづるつきの"
     ],
-    "answer": "もれ出づる月の",
+    "answer": "もれいづる月の",
     "answerHistorical": "もれいづるつきの",
     "answerModern": "もれいずるつきの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10473,7 +10531,7 @@
       "もれいずるつきの"
     ],
     "poemId": "p079",
-    "prompt": "秋風にたなびく雲の絶え間より＿＿＿影のさやけさ",
+    "prompt": "秋風にたなびく雲のたえ間より＿＿＿かげのさやけさ",
     "proposedBy": "human",
     "questionId": "p079-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -10483,10 +10541,10 @@
   },
   {
     "acceptedAnswers": [
-      "影のさやけさ",
-      "かげのさやけさ"
+      "かげのさやけさ",
+      "影のさやけさ"
     ],
-    "answer": "影のさやけさ",
+    "answer": "かげのさやけさ",
     "answerHistorical": "かげのさやけさ",
     "answerModern": "かげのさやけさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10499,7 +10557,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p079",
-    "prompt": "秋風にたなびく雲の絶え間よりもれ出づる月の＿＿＿",
+    "prompt": "秋風にたなびく雲のたえ間よりもれいづる月の＿＿＿",
     "proposedBy": "human",
     "questionId": "p079-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -10527,7 +10585,7 @@
       "ながからん"
     ],
     "poemId": "p080",
-    "prompt": "＿＿＿心も知らず黒髪の乱れて今朝はものをこそ思へ",
+    "prompt": "＿＿＿心もしらず黒髪のみだれてけさは物をこそ思へ",
     "proposedBy": "human",
     "questionId": "p080-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -10537,10 +10595,11 @@
   },
   {
     "acceptedAnswers": [
+      "心もしらず",
       "心も知らず",
       "こころもしらず"
     ],
-    "answer": "心も知らず",
+    "answer": "心もしらず",
     "answerHistorical": "こころもしらず",
     "answerModern": "こころもしらず",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10553,7 +10612,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p080",
-    "prompt": "長からむ＿＿＿黒髪の乱れて今朝はものをこそ思へ",
+    "prompt": "長からむ＿＿＿黒髪のみだれてけさは物をこそ思へ",
     "proposedBy": "human",
     "questionId": "p080-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -10579,7 +10638,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p080",
-    "prompt": "長からむ心も知らず＿＿＿乱れて今朝はものをこそ思へ",
+    "prompt": "長からむ心もしらず＿＿＿みだれてけさは物をこそ思へ",
     "proposedBy": "human",
     "questionId": "p080-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -10589,10 +10648,10 @@
   },
   {
     "acceptedAnswers": [
-      "乱れて今朝は",
-      "みだれてけさは"
+      "みだれてけさは",
+      "乱れて今朝は"
     ],
-    "answer": "乱れて今朝は",
+    "answer": "みだれてけさは",
     "answerHistorical": "みだれてけさは",
     "answerModern": "みだれてけさは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10605,7 +10664,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p080",
-    "prompt": "長からむ心も知らず黒髪の＿＿＿ものをこそ思へ",
+    "prompt": "長からむ心もしらず黒髪の＿＿＿物をこそ思へ",
     "proposedBy": "human",
     "questionId": "p080-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -10615,10 +10674,11 @@
   },
   {
     "acceptedAnswers": [
+      "物をこそ思へ",
       "ものをこそ思へ",
       "ものをこそおもへ"
     ],
-    "answer": "ものをこそ思へ",
+    "answer": "物をこそ思へ",
     "answerHistorical": "ものをこそおもへ",
     "answerModern": "ものをこそおもえ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10633,7 +10693,7 @@
       "ものをこそおもえ"
     ],
     "poemId": "p080",
-    "prompt": "長からむ心も知らず黒髪の乱れて今朝は＿＿＿",
+    "prompt": "長からむ心もしらず黒髪のみだれてけさは＿＿＿",
     "proposedBy": "human",
     "questionId": "p080-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -10658,7 +10718,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p081",
-    "prompt": "＿＿＿鳴きつる方をながむればただ有明の月ぞ残れる",
+    "prompt": "＿＿＿鳴きつる方をながむればただありあけの月ぞ残れる",
     "proposedBy": "human",
     "questionId": "p081-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -10684,7 +10744,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p081",
-    "prompt": "ほととぎす＿＿＿ながむればただ有明の月ぞ残れる",
+    "prompt": "ほととぎす＿＿＿ながむればただありあけの月ぞ残れる",
     "proposedBy": "human",
     "questionId": "p081-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -10709,7 +10769,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p081",
-    "prompt": "ほととぎす鳴きつる方を＿＿＿ただ有明の月ぞ残れる",
+    "prompt": "ほととぎす鳴きつる方を＿＿＿ただありあけの月ぞ残れる",
     "proposedBy": "human",
     "questionId": "p081-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -10719,10 +10779,10 @@
   },
   {
     "acceptedAnswers": [
-      "ただ有明の",
-      "ただありあけの"
+      "ただありあけの",
+      "ただ有明の"
     ],
-    "answer": "ただ有明の",
+    "answer": "ただありあけの",
     "answerHistorical": "ただありあけの",
     "answerModern": "ただありあけの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10761,7 +10821,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p081",
-    "prompt": "ほととぎす鳴きつる方をながむればただ有明の＿＿＿",
+    "prompt": "ほととぎす鳴きつる方をながむればただありあけの＿＿＿",
     "proposedBy": "human",
     "questionId": "p081-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -10789,7 +10849,7 @@
       "おもいわび"
     ],
     "poemId": "p082",
-    "prompt": "＿＿＿さても命はあるものを憂きにたへぬは涙なりけり",
+    "prompt": "＿＿＿さてもいのちはあるものを憂きにたへぬは涙なりけり",
     "proposedBy": "human",
     "questionId": "p082-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -10799,10 +10859,10 @@
   },
   {
     "acceptedAnswers": [
-      "さても命は",
-      "さてもいのちは"
+      "さてもいのちは",
+      "さても命は"
     ],
-    "answer": "さても命は",
+    "answer": "さてもいのちは",
     "answerHistorical": "さてもいのちは",
     "answerModern": "さてもいのちは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -10840,7 +10900,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p082",
-    "prompt": "思ひわびさても命は＿＿＿憂きにたへぬは涙なりけり",
+    "prompt": "思ひわびさてもいのちは＿＿＿憂きにたへぬは涙なりけり",
     "proposedBy": "human",
     "questionId": "p082-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -10868,7 +10928,7 @@
       "うきにたえぬは"
     ],
     "poemId": "p082",
-    "prompt": "思ひわびさても命はあるものを＿＿＿涙なりけり",
+    "prompt": "思ひわびさてもいのちはあるものを＿＿＿涙なりけり",
     "proposedBy": "human",
     "questionId": "p082-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -10894,7 +10954,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p082",
-    "prompt": "思ひわびさても命はあるものを憂きにたへぬは＿＿＿",
+    "prompt": "思ひわびさてもいのちはあるものを憂きにたへぬは＿＿＿",
     "proposedBy": "human",
     "questionId": "p082-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -11036,10 +11096,10 @@
   },
   {
     "acceptedAnswers": [
-      "長らへば",
-      "ながらへば"
+      "ながらへば",
+      "長らへば"
     ],
-    "answer": "長らへば",
+    "answer": "ながらへば",
     "answerHistorical": "ながらへば",
     "answerModern": "ながらえば",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -11054,7 +11114,7 @@
       "ながらえば"
     ],
     "poemId": "p084",
-    "prompt": "＿＿＿またこの頃やしのばれむ憂しと見し世ぞ今は恋しき",
+    "prompt": "＿＿＿またこのごろやしのばれむ憂しと見し世ぞ今は恋しき",
     "proposedBy": "human",
     "questionId": "p084-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -11064,10 +11124,10 @@
   },
   {
     "acceptedAnswers": [
-      "またこの頃や",
-      "またこのごろや"
+      "またこのごろや",
+      "またこの頃や"
     ],
-    "answer": "またこの頃や",
+    "answer": "またこのごろや",
     "answerHistorical": "またこのごろや",
     "answerModern": "またこのごろや",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -11080,7 +11140,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p084",
-    "prompt": "長らへば＿＿＿しのばれむ憂しと見し世ぞ今は恋しき",
+    "prompt": "ながらへば＿＿＿しのばれむ憂しと見し世ぞ今は恋しき",
     "proposedBy": "human",
     "questionId": "p084-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -11107,7 +11167,7 @@
       "しのばれん"
     ],
     "poemId": "p084",
-    "prompt": "長らへばまたこの頃や＿＿＿憂しと見し世ぞ今は恋しき",
+    "prompt": "ながらへばまたこのごろや＿＿＿憂しと見し世ぞ今は恋しき",
     "proposedBy": "human",
     "questionId": "p084-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -11133,7 +11193,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p084",
-    "prompt": "長らへばまたこの頃やしのばれむ＿＿＿今は恋しき",
+    "prompt": "ながらへばまたこのごろやしのばれむ＿＿＿今は恋しき",
     "proposedBy": "human",
     "questionId": "p084-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -11161,7 +11221,7 @@
       "いまはこいしき"
     ],
     "poemId": "p084",
-    "prompt": "長らへばまたこの頃やしのばれむ憂しと見し世ぞ＿＿＿",
+    "prompt": "ながらへばまたこのごろやしのばれむ憂しと見し世ぞ＿＿＿",
     "proposedBy": "human",
     "questionId": "p084-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -11187,7 +11247,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p085",
-    "prompt": "＿＿＿物思ふ頃は明けやらで閨のひまさへつれなかりけり",
+    "prompt": "＿＿＿物思ふころは明けやらで閨のひまさへつれなかりけり",
     "proposedBy": "human",
     "questionId": "p085-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -11197,10 +11257,11 @@
   },
   {
     "acceptedAnswers": [
+      "物思ふころは",
       "物思ふ頃は",
       "ものおもふころは"
     ],
-    "answer": "物思ふ頃は",
+    "answer": "物思ふころは",
     "answerHistorical": "ものおもふころは",
     "answerModern": "ものおもうころは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -11241,7 +11302,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p085",
-    "prompt": "夜もすがら物思ふ頃は＿＿＿閨のひまさへつれなかりけり",
+    "prompt": "夜もすがら物思ふころは＿＿＿閨のひまさへつれなかりけり",
     "proposedBy": "human",
     "questionId": "p085-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -11269,7 +11330,7 @@
       "ねやのひまさえ"
     ],
     "poemId": "p085",
-    "prompt": "夜もすがら物思ふ頃は明けやらで＿＿＿つれなかりけり",
+    "prompt": "夜もすがら物思ふころは明けやらで＿＿＿つれなかりけり",
     "proposedBy": "human",
     "questionId": "p085-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -11294,7 +11355,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p085",
-    "prompt": "夜もすがら物思ふ頃は明けやらで閨のひまさへ＿＿＿",
+    "prompt": "夜もすがら物思ふころは明けやらで閨のひまさへ＿＿＿",
     "proposedBy": "human",
     "questionId": "p085-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -11319,7 +11380,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p086",
-    "prompt": "＿＿＿月やはものを思はするかこち顔なるわが涙かな",
+    "prompt": "＿＿＿月やは物を思はするかこち顔なるわが涙かな",
     "proposedBy": "human",
     "questionId": "p086-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -11329,10 +11390,11 @@
   },
   {
     "acceptedAnswers": [
+      "月やは物を",
       "月やはものを",
       "つきやはものを"
     ],
-    "answer": "月やはものを",
+    "answer": "月やは物を",
     "answerHistorical": "つきやはものを",
     "answerModern": "つきやはものを",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -11373,7 +11435,7 @@
       "おもわする"
     ],
     "poemId": "p086",
-    "prompt": "なげけとて月やはものを＿＿＿かこち顔なるわが涙かな",
+    "prompt": "なげけとて月やは物を＿＿＿かこち顔なるわが涙かな",
     "proposedBy": "human",
     "questionId": "p086-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -11401,7 +11463,7 @@
       "かこちがおなる"
     ],
     "poemId": "p086",
-    "prompt": "なげけとて月やはものを思はする＿＿＿わが涙かな",
+    "prompt": "なげけとて月やは物を思はする＿＿＿わが涙かな",
     "proposedBy": "human",
     "questionId": "p086-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -11427,7 +11489,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p086",
-    "prompt": "なげけとて月やはものを思はするかこち顔なる＿＿＿",
+    "prompt": "なげけとて月やは物を思はするかこち顔なる＿＿＿",
     "proposedBy": "human",
     "questionId": "p086-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -11453,7 +11515,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p087",
-    "prompt": "＿＿＿露もまだひぬまきの葉に霧立ちのぼる秋の夕ぐれ",
+    "prompt": "＿＿＿露もまだひぬまきの葉に霧たちのぼる秋の夕ぐれ",
     "proposedBy": "human",
     "questionId": "p087-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -11479,7 +11541,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p087",
-    "prompt": "村雨の＿＿＿まきの葉に霧立ちのぼる秋の夕ぐれ",
+    "prompt": "村雨の＿＿＿まきの葉に霧たちのぼる秋の夕ぐれ",
     "proposedBy": "human",
     "questionId": "p087-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -11505,7 +11567,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p087",
-    "prompt": "村雨の露もまだひぬ＿＿＿霧立ちのぼる秋の夕ぐれ",
+    "prompt": "村雨の露もまだひぬ＿＿＿霧たちのぼる秋の夕ぐれ",
     "proposedBy": "human",
     "questionId": "p087-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -11515,10 +11577,11 @@
   },
   {
     "acceptedAnswers": [
+      "霧たちのぼる",
       "霧立ちのぼる",
       "きりたちのぼる"
     ],
-    "answer": "霧立ちのぼる",
+    "answer": "霧たちのぼる",
     "answerHistorical": "きりたちのぼる",
     "answerModern": "きりたちのぼる",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -11560,7 +11623,7 @@
       "あきのゆうぐれ"
     ],
     "poemId": "p087",
-    "prompt": "村雨の露もまだひぬまきの葉に霧立ちのぼる＿＿＿",
+    "prompt": "村雨の露もまだひぬまきの葉に霧たちのぼる＿＿＿",
     "proposedBy": "human",
     "questionId": "p087-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -11588,7 +11651,7 @@
       "なにわえの"
     ],
     "poemId": "p088",
-    "prompt": "＿＿＿葦のかりねのひとよゆゑみをつくしてや恋ひわたるべき",
+    "prompt": "＿＿＿芦のかりねのひとよゆゑみをつくしてや恋ひわたるべき",
     "proposedBy": "human",
     "questionId": "p088-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -11598,10 +11661,11 @@
   },
   {
     "acceptedAnswers": [
+      "芦のかりねの",
       "葦のかりねの",
       "あしのかりねの"
     ],
-    "answer": "葦のかりねの",
+    "answer": "芦のかりねの",
     "answerHistorical": "あしのかりねの",
     "answerModern": "あしのかりねの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -11641,7 +11705,7 @@
       "ひとよゆえ"
     ],
     "poemId": "p088",
-    "prompt": "難波江の葦のかりねの＿＿＿みをつくしてや恋ひわたるべき",
+    "prompt": "難波江の芦のかりねの＿＿＿みをつくしてや恋ひわたるべき",
     "proposedBy": "human",
     "questionId": "p088-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -11666,7 +11730,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p088",
-    "prompt": "難波江の葦のかりねのひとよゆゑ＿＿＿恋ひわたるべき",
+    "prompt": "難波江の芦のかりねのひとよゆゑ＿＿＿恋ひわたるべき",
     "proposedBy": "human",
     "questionId": "p088-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -11694,7 +11758,7 @@
       "こいわたるべき"
     ],
     "poemId": "p088",
-    "prompt": "難波江の葦のかりねのひとよゆゑみをつくしてや＿＿＿",
+    "prompt": "難波江の芦のかりねのひとよゆゑみをつくしてや＿＿＿",
     "proposedBy": "human",
     "questionId": "p088-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -11704,10 +11768,11 @@
   },
   {
     "acceptedAnswers": [
+      "玉のをよ",
       "玉の緒よ",
       "たまのをよ"
     ],
-    "answer": "玉の緒よ",
+    "answer": "玉のをよ",
     "answerHistorical": "たまのをよ",
     "answerModern": "たまのおよ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -11722,7 +11787,7 @@
       "たまのおよ"
     ],
     "poemId": "p089",
-    "prompt": "＿＿＿絶えなば絶えねながらへば忍ぶることの弱りもぞする",
+    "prompt": "＿＿＿たえなばたえねながらへば忍ぶることの弱りもぞする",
     "proposedBy": "human",
     "questionId": "p089-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -11732,10 +11797,10 @@
   },
   {
     "acceptedAnswers": [
-      "絶えなば絶えね",
-      "たえなばたえね"
+      "たえなばたえね",
+      "絶えなば絶えね"
     ],
-    "answer": "絶えなば絶えね",
+    "answer": "たえなばたえね",
     "answerHistorical": "たえなばたえね",
     "answerModern": "たえなばたえね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -11748,7 +11813,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p089",
-    "prompt": "玉の緒よ＿＿＿ながらへば忍ぶることの弱りもぞする",
+    "prompt": "玉のをよ＿＿＿ながらへば忍ぶることの弱りもぞする",
     "proposedBy": "human",
     "questionId": "p089-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -11775,7 +11840,7 @@
       "ながらえば"
     ],
     "poemId": "p089",
-    "prompt": "玉の緒よ絶えなば絶えね＿＿＿忍ぶることの弱りもぞする",
+    "prompt": "玉のをよたえなばたえね＿＿＿忍ぶることの弱りもぞする",
     "proposedBy": "human",
     "questionId": "p089-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -11801,7 +11866,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p089",
-    "prompt": "玉の緒よ絶えなば絶えねながらへば＿＿＿弱りもぞする",
+    "prompt": "玉のをよたえなばたえねながらへば＿＿＿弱りもぞする",
     "proposedBy": "human",
     "questionId": "p089-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -11829,7 +11894,7 @@
       "よわりもぞする"
     ],
     "poemId": "p089",
-    "prompt": "玉の緒よ絶えなば絶えねながらへば忍ぶることの＿＿＿",
+    "prompt": "玉のをよたえなばたえねながらへば忍ぶることの＿＿＿",
     "proposedBy": "human",
     "questionId": "p089-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -11855,7 +11920,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p090",
-    "prompt": "＿＿＿雄島のあまの袖だにもぬれにぞぬれし色は変はらず",
+    "prompt": "＿＿＿雄島のあまの袖だにもぬれにぞぬれし色はかはらず",
     "proposedBy": "human",
     "questionId": "p090-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -11883,7 +11948,7 @@
       "おじまのあまの"
     ],
     "poemId": "p090",
-    "prompt": "見せばやな＿＿＿袖だにもぬれにぞぬれし色は変はらず",
+    "prompt": "見せばやな＿＿＿袖だにもぬれにぞぬれし色はかはらず",
     "proposedBy": "human",
     "questionId": "p090-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -11909,7 +11974,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p090",
-    "prompt": "見せばやな雄島のあまの＿＿＿ぬれにぞぬれし色は変はらず",
+    "prompt": "見せばやな雄島のあまの＿＿＿ぬれにぞぬれし色はかはらず",
     "proposedBy": "human",
     "questionId": "p090-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -11934,7 +11999,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p090",
-    "prompt": "見せばやな雄島のあまの袖だにも＿＿＿色は変はらず",
+    "prompt": "見せばやな雄島のあまの袖だにも＿＿＿色はかはらず",
     "proposedBy": "human",
     "questionId": "p090-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -11944,10 +12009,11 @@
   },
   {
     "acceptedAnswers": [
+      "色はかはらず",
       "色は変はらず",
       "いろはかはらず"
     ],
-    "answer": "色は変はらず",
+    "answer": "色はかはらず",
     "answerHistorical": "いろはかはらず",
     "answerModern": "いろはかわらず",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -12118,7 +12184,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p092",
-    "prompt": "＿＿＿潮干に見えぬ沖の石の人こそ知らねかわく間もなし",
+    "prompt": "＿＿＿潮干にみえぬ沖の石の人こそしらねかわくまもなし",
     "proposedBy": "human",
     "questionId": "p092-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -12128,10 +12194,11 @@
   },
   {
     "acceptedAnswers": [
+      "潮干にみえぬ",
       "潮干に見えぬ",
       "しほひにみえぬ"
     ],
-    "answer": "潮干に見えぬ",
+    "answer": "潮干にみえぬ",
     "answerHistorical": "しほひにみえぬ",
     "answerModern": "しおひにみえぬ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -12146,7 +12213,7 @@
       "しおひにみえぬ"
     ],
     "poemId": "p092",
-    "prompt": "わが袖は＿＿＿沖の石の人こそ知らねかわく間もなし",
+    "prompt": "わが袖は＿＿＿沖の石の人こそしらねかわくまもなし",
     "proposedBy": "human",
     "questionId": "p092-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -12172,7 +12239,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p092",
-    "prompt": "わが袖は潮干に見えぬ＿＿＿人こそ知らねかわく間もなし",
+    "prompt": "わが袖は潮干にみえぬ＿＿＿人こそしらねかわくまもなし",
     "proposedBy": "human",
     "questionId": "p092-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -12182,10 +12249,11 @@
   },
   {
     "acceptedAnswers": [
+      "人こそしらね",
       "人こそ知らね",
       "ひとこそしらね"
     ],
-    "answer": "人こそ知らね",
+    "answer": "人こそしらね",
     "answerHistorical": "ひとこそしらね",
     "answerModern": "ひとこそしらね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -12198,7 +12266,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p092",
-    "prompt": "わが袖は潮干に見えぬ沖の石の＿＿＿かわく間もなし",
+    "prompt": "わが袖は潮干にみえぬ沖の石の＿＿＿かわくまもなし",
     "proposedBy": "human",
     "questionId": "p092-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -12208,10 +12276,10 @@
   },
   {
     "acceptedAnswers": [
-      "かわく間もなし",
-      "かわくまもなし"
+      "かわくまもなし",
+      "かわく間もなし"
     ],
-    "answer": "かわく間もなし",
+    "answer": "かわくまもなし",
     "answerHistorical": "かわくまもなし",
     "answerModern": "かわくまもなし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -12224,7 +12292,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p092",
-    "prompt": "わが袖は潮干に見えぬ沖の石の人こそ知らね＿＿＿",
+    "prompt": "わが袖は潮干にみえぬ沖の石の人こそしらね＿＿＿",
     "proposedBy": "human",
     "questionId": "p092-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -12250,7 +12318,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p093",
-    "prompt": "＿＿＿常にもがもななぎさこぐあまの小舟の綱手かなしも",
+    "prompt": "＿＿＿つねにもがもななぎさこぐあまの小舟のつなでかなしも",
     "proposedBy": "human",
     "questionId": "p093-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -12260,10 +12328,10 @@
   },
   {
     "acceptedAnswers": [
-      "常にもがもな",
-      "つねにもがもな"
+      "つねにもがもな",
+      "常にもがもな"
     ],
-    "answer": "常にもがもな",
+    "answer": "つねにもがもな",
     "answerHistorical": "つねにもがもな",
     "answerModern": "つねにもがもな",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -12276,7 +12344,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p093",
-    "prompt": "世の中は＿＿＿なぎさこぐあまの小舟の綱手かなしも",
+    "prompt": "世の中は＿＿＿なぎさこぐあまの小舟のつなでかなしも",
     "proposedBy": "human",
     "questionId": "p093-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -12301,7 +12369,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p093",
-    "prompt": "世の中は常にもがもな＿＿＿あまの小舟の綱手かなしも",
+    "prompt": "世の中はつねにもがもな＿＿＿あまの小舟のつなでかなしも",
     "proposedBy": "human",
     "questionId": "p093-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -12329,7 +12397,7 @@
       "あまのおぶねの"
     ],
     "poemId": "p093",
-    "prompt": "世の中は常にもがもななぎさこぐ＿＿＿綱手かなしも",
+    "prompt": "世の中はつねにもがもななぎさこぐ＿＿＿つなでかなしも",
     "proposedBy": "human",
     "questionId": "p093-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -12339,10 +12407,10 @@
   },
   {
     "acceptedAnswers": [
-      "綱手かなしも",
-      "つなでかなしも"
+      "つなでかなしも",
+      "綱手かなしも"
     ],
-    "answer": "綱手かなしも",
+    "answer": "つなでかなしも",
     "answerHistorical": "つなでかなしも",
     "answerModern": "つなでかなしも",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -12355,7 +12423,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p093",
-    "prompt": "世の中は常にもがもななぎさこぐあまの小舟の＿＿＿",
+    "prompt": "世の中はつねにもがもななぎさこぐあまの小舟の＿＿＿",
     "proposedBy": "human",
     "questionId": "p093-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -12760,10 +12828,11 @@
   },
   {
     "acceptedAnswers": [
+      "こぬ人を",
       "来ぬ人を",
       "こぬひとを"
     ],
-    "answer": "来ぬ人を",
+    "answer": "こぬ人を",
     "answerHistorical": "こぬひとを",
     "answerModern": "こぬひとを",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -12802,7 +12871,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p097",
-    "prompt": "来ぬ人を＿＿＿夕なぎに焼くやもしほの身もこがれつつ",
+    "prompt": "こぬ人を＿＿＿夕なぎに焼くやもしほの身もこがれつつ",
     "proposedBy": "human",
     "questionId": "p097-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -12830,7 +12899,7 @@
       "ゆうなぎに"
     ],
     "poemId": "p097",
-    "prompt": "来ぬ人をまつほの浦の＿＿＿焼くやもしほの身もこがれつつ",
+    "prompt": "こぬ人をまつほの浦の＿＿＿焼くやもしほの身もこがれつつ",
     "proposedBy": "human",
     "questionId": "p097-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -12858,7 +12927,7 @@
       "やくやもしおの"
     ],
     "poemId": "p097",
-    "prompt": "来ぬ人をまつほの浦の夕なぎに＿＿＿身もこがれつつ",
+    "prompt": "こぬ人をまつほの浦の夕なぎに＿＿＿身もこがれつつ",
     "proposedBy": "human",
     "questionId": "p097-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -12884,7 +12953,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p097",
-    "prompt": "来ぬ人をまつほの浦の夕なぎに焼くやもしほの＿＿＿",
+    "prompt": "こぬ人をまつほの浦の夕なぎに焼くやもしほの＿＿＿",
     "proposedBy": "human",
     "questionId": "p097-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -12910,7 +12979,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p098",
-    "prompt": "＿＿＿ならの小川の夕暮はみそぎぞ夏のしるしなりける",
+    "prompt": "＿＿＿ならの小川の夕ぐれはみそぎぞ夏のしるしなりける",
     "proposedBy": "human",
     "questionId": "p098-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -12938,7 +13007,7 @@
       "ならのおがわの"
     ],
     "poemId": "p098",
-    "prompt": "風そよぐ＿＿＿夕暮はみそぎぞ夏のしるしなりける",
+    "prompt": "風そよぐ＿＿＿夕ぐれはみそぎぞ夏のしるしなりける",
     "proposedBy": "human",
     "questionId": "p098-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -12948,10 +13017,11 @@
   },
   {
     "acceptedAnswers": [
+      "夕ぐれは",
       "夕暮は",
       "ゆふぐれは"
     ],
-    "answer": "夕暮は",
+    "answer": "夕ぐれは",
     "answerHistorical": "ゆふぐれは",
     "answerModern": "ゆうぐれは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -12992,7 +13062,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p098",
-    "prompt": "風そよぐならの小川の夕暮は＿＿＿しるしなりける",
+    "prompt": "風そよぐならの小川の夕ぐれは＿＿＿しるしなりける",
     "proposedBy": "human",
     "questionId": "p098-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -13017,7 +13087,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p098",
-    "prompt": "風そよぐならの小川の夕暮はみそぎぞ夏の＿＿＿",
+    "prompt": "風そよぐならの小川の夕ぐれはみそぎぞ夏の＿＿＿",
     "proposedBy": "human",
     "questionId": "p098-blank-ku5",
     "reviewStatus": "human-confirmed",
@@ -13045,7 +13115,7 @@
       "ひともおし"
     ],
     "poemId": "p099",
-    "prompt": "＿＿＿人もうらめしあぢきなく世を思ふゆゑにもの思ふ身は",
+    "prompt": "＿＿＿人もうらめしあぢきなく世を思ふゆゑに物思ふ身は",
     "proposedBy": "human",
     "questionId": "p099-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -13071,7 +13141,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p099",
-    "prompt": "人もをし＿＿＿あぢきなく世を思ふゆゑにもの思ふ身は",
+    "prompt": "人もをし＿＿＿あぢきなく世を思ふゆゑに物思ふ身は",
     "proposedBy": "human",
     "questionId": "p099-blank-ku2",
     "reviewStatus": "human-confirmed",
@@ -13098,7 +13168,7 @@
       "あじきなく"
     ],
     "poemId": "p099",
-    "prompt": "人もをし人もうらめし＿＿＿世を思ふゆゑにもの思ふ身は",
+    "prompt": "人もをし人もうらめし＿＿＿世を思ふゆゑに物思ふ身は",
     "proposedBy": "human",
     "questionId": "p099-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -13126,7 +13196,7 @@
       "よをおもうゆえに"
     ],
     "poemId": "p099",
-    "prompt": "人もをし人もうらめしあぢきなく＿＿＿もの思ふ身は",
+    "prompt": "人もをし人もうらめしあぢきなく＿＿＿物思ふ身は",
     "proposedBy": "human",
     "questionId": "p099-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -13136,10 +13206,11 @@
   },
   {
     "acceptedAnswers": [
+      "物思ふ身は",
       "もの思ふ身は",
       "ものおもふみは"
     ],
-    "answer": "もの思ふ身は",
+    "answer": "物思ふ身は",
     "answerHistorical": "ものおもふみは",
     "answerModern": "ものおもうみは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -13179,7 +13250,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p100",
-    "prompt": "＿＿＿ふるき軒端のしのぶにもなほあまりある昔なりけり",
+    "prompt": "＿＿＿ふるき軒ばのしのぶにもなほあまりある昔なりけり",
     "proposedBy": "human",
     "questionId": "p100-blank-ku1",
     "reviewStatus": "human-confirmed",
@@ -13189,10 +13260,11 @@
   },
   {
     "acceptedAnswers": [
+      "ふるき軒ばの",
       "ふるき軒端の",
       "ふるきのきばの"
     ],
-    "answer": "ふるき軒端の",
+    "answer": "ふるき軒ばの",
     "answerHistorical": "ふるきのきばの",
     "answerModern": "ふるきのきばの",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
@@ -13230,7 +13302,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p100",
-    "prompt": "ももしきやふるき軒端の＿＿＿なほあまりある昔なりけり",
+    "prompt": "ももしきやふるき軒ばの＿＿＿なほあまりある昔なりけり",
     "proposedBy": "human",
     "questionId": "p100-blank-ku3",
     "reviewStatus": "human-confirmed",
@@ -13257,7 +13329,7 @@
       "なおあまりある"
     ],
     "poemId": "p100",
-    "prompt": "ももしきやふるき軒端のしのぶにも＿＿＿昔なりけり",
+    "prompt": "ももしきやふるき軒ばのしのぶにも＿＿＿昔なりけり",
     "proposedBy": "human",
     "questionId": "p100-blank-ku4",
     "reviewStatus": "human-confirmed",
@@ -13283,7 +13355,7 @@
     "note": null,
     "partialAnswers": [],
     "poemId": "p100",
-    "prompt": "ももしきやふるき軒端のしのぶにもなほあまりある＿＿＿",
+    "prompt": "ももしきやふるき軒ばのしのぶにもなほあまりある＿＿＿",
     "proposedBy": "human",
     "questionId": "p100-blank-ku5",
     "reviewStatus": "human-confirmed",
