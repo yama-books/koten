@@ -50,6 +50,13 @@ type ExamSessionFinding = { width: number; zoom: number; key: string; observed: 
 const examSessionFindings: ExamSessionFinding[] = [];
 const expectedExamSessionCases = widths.length * zoomLevels.length * 2;
 let examSessionCases = 0;
+// 発注081: 選択式の上限に達した首には、候補の無い自由入力の作者問題が出る。
+// **選択式の作者問題とは別の DOM を通る**（選択肢の代わりに入力欄と操作面が出る）。
+// 記録を仕込まないとこの画面へ到達できないので、この群だけ IndexedDB へ先に書く。
+type AuthorFreeFinding = { width: number; zoom: number; key: string; observed: unknown };
+const authorFreeFindings: AuthorFreeFinding[] = [];
+const expectedAuthorFreeCases = widths.length * zoomLevels.length;
+let authorFreeCases = 0;
 type AuthorReflowFinding = { width: number; zoom: number; key: string; observed: unknown };
 const authorReflowFindings: AuthorReflowFinding[] = [];
 const expectedAuthorReflowCases = widths.length * zoomLevels.length;
@@ -738,6 +745,92 @@ try {
         console.log(`check:overflow: 作者問題 ${width}px 文字${zoom * 100}% 選択肢${measured.choices}件 違反 ${authorReflowFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
       }
     }
+    // 発注081: 自由入力の作者問題。**選択式で上限に達した学習者にしか出ない画面である。**
+    // 記録を仕込んでから開き、測り終えたら必ず消す——残すと後続の群が別の状態で測られる。
+    for (const width of widths) {
+      for (const zoom of zoomLevels) {
+        await page.setViewportSize({ width, height: 800 });
+        await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+        await page.evaluate(async () => {
+          const database = await new Promise<IDBDatabase>((resolve, reject) => {
+            const request = indexedDB.open('koten', 1);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+          });
+          await new Promise<void>((resolve, reject) => {
+            const transaction = database.transaction('events', 'readwrite');
+            const store = transaction.objectStore('events');
+            // 選択式の正答 13 回で上限 65 に達する（+5・上限 65）。
+            for (let index = 0; index < 13; index += 1) {
+              store.put({
+                eventId: `overflow-seed-${index}`, product: 'hyakunin', poemId: 'p001',
+                questionId: 'p001-author-choice', sessionId: `overflow-seed-session-${index}`,
+                itemKey: 'p001:author', kind: 'answer', method: 'choice', outcome: 'correct',
+                hintUsed: false, effectiveMethod: 'choice', delta: 5, localDate: '2026-09-01',
+                sameSessionRepeat: false, appVersion: '0.1.0', dataVersion: 1, masteryRulesVersion: 1,
+              });
+            }
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error);
+          });
+          database.close();
+        });
+        await page.goto(`${baseUrl}?from=1&to=1`, { waitUntil: 'domcontentloaded' });
+        await page.getByRole('button', { name: '学習方法を選ぶ' }).click();
+        await page.getByRole('button', { name: '作者', exact: true }).click();
+        await page.waitForSelector('.range-picker');
+        await page.getByRole('button', { name: 'この範囲で始める' }).click();
+        // **入力欄ではなく操作面の出現を待つ。** 入力欄を待つと、出題画面が壊れたときに
+        // 違反ではなく待ち時間切れになり、「ビルドしていない」と誤って案内される。
+        await page.waitForSelector('.session .answer-controls', { timeout: 15000 });
+        await ensureVertical();
+        const measured = await page.evaluate((rootFontSize) => {
+          document.documentElement.style.fontSize = rootFontSize;
+          document.documentElement.getBoundingClientRect();
+          const scope = [...document.querySelectorAll<HTMLElement>('.question-text--author, .answer-controls, .answer-controls *')]
+            .filter((element) => !element.classList.contains('sr-only'));
+          const clipped = scope.filter((element) => !element.classList.contains('question-text--vertical') && (element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1))
+            .map((element) => element.className || element.tagName);
+          const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+          document.documentElement.style.fontSize = '';
+          const field = document.querySelector<HTMLElement>('.answer-field input');
+          const fieldRect = field?.getBoundingClientRect() ?? null;
+          return {
+            clipped, overflow,
+            // **この群が本当に自由入力の画面を見たかを、毎回名乗らせる。**
+            // 選択肢が残っていれば、測っていたのは選択式の画面である。
+            heading: document.querySelector('h1')?.textContent ?? '',
+            choices: document.querySelectorAll('.answer-choices button').length,
+            inputs: document.querySelectorAll('.session input[placeholder]').length,
+            authorPrompt: Boolean(document.querySelector('.question-poem--author')),
+            fieldInsideViewport: fieldRect ? fieldRect.left >= -1 && fieldRect.right <= window.innerWidth + 1 : false,
+          };
+        }, `${16 * zoom}px`);
+        await page.evaluate(async () => {
+          const database = await new Promise<IDBDatabase>((resolve, reject) => {
+            const request = indexedDB.open('koten', 1);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+          });
+          await new Promise<void>((resolve, reject) => {
+            const transaction = database.transaction('events', 'readwrite');
+            transaction.objectStore('events').clear();
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error);
+          });
+          database.close();
+        });
+        authorFreeCases += 1;
+        if (measured.heading !== '作者問題') authorFreeFindings.push({ width, zoom, key: 'authorHeading', observed: measured.heading });
+        if (measured.choices !== 0) authorFreeFindings.push({ width, zoom, key: 'noChoicesOnFreeInput', observed: measured.choices });
+        if (measured.inputs !== 1) authorFreeFindings.push({ width, zoom, key: 'freeInputPresent', observed: measured.inputs });
+        if (!measured.authorPrompt) authorFreeFindings.push({ width, zoom, key: 'authorPromptPresent', observed: false });
+        if (!measured.fieldInsideViewport) authorFreeFindings.push({ width, zoom, key: 'fieldInsideViewport', observed: false });
+        if (measured.overflow > 1) authorFreeFindings.push({ width, zoom, key: 'noPageOverflow', observed: measured.overflow });
+        if (measured.clipped.length) authorFreeFindings.push({ width, zoom, key: 'noClipping', observed: measured.clipped.slice(0, 4) });
+        console.log(`check:overflow: 作者問題（自由入力） ${width}px 文字${zoom * 100}% 入力欄${measured.inputs}件 選択肢${measured.choices}件 違反 ${authorFreeFindings.filter((finding) => finding.width === width && finding.zoom === zoom).length}件`);
+      }
+    }
     // 発注078 U2: 「わからない！」の開示。**本文と作者で別の DOM を通る。**
     // 片方だけ測ると、もう片方の行は 1 度も見ずに緑になる。
     for (const width of widths) {
@@ -933,6 +1026,15 @@ if (authorReflowCases !== expectedAuthorReflowCases) {
   console.error(`check:overflow: 作者問題の走査が不足または過剰です（走査 ${authorReflowCases} 件、必要 ${expectedAuthorReflowCases} 件ちょうど）`);
   process.exit(1);
 }
+
+if (authorFreeCases !== expectedAuthorFreeCases) {
+  console.error(`check:overflow: 作者問題（自由入力）の走査が不足または過剰です（走査 ${authorFreeCases} 件、必要 ${expectedAuthorFreeCases} 件ちょうど）`);
+  process.exit(1);
+}
+
+console.log(`check:overflow: 作者問題（自由入力）の走査 ${authorFreeCases} 件（幅 ${widths.join('/')} × 文字 ${zoomLevels.map((z) => `${z * 100}%`).join('/')}）、違反 ${authorFreeFindings.length} 件`);
+for (const finding of authorFreeFindings) console.log(`${finding.width}px 文字${finding.zoom * 100}% ${finding.key}: ${JSON.stringify(finding.observed)}`);
+if (authorFreeFindings.length) process.exitCode = 1;
 
 if (authorRevealCases !== expectedAuthorRevealCases) {
   console.error(`check:overflow: 作者の開示の走査が不足または過剰です（走査 ${authorRevealCases} 件、必要 ${expectedAuthorRevealCases} 件ちょうど）`);

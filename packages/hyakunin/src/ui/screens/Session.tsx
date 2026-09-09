@@ -605,7 +605,14 @@ export function Session({
     : null;
   const hasBlank = blankPattern.test(question.prompt);
   const fallback = question.prompt.split(blankPattern);
-  const isAuthorChoice = question.type === "author";
+  const isAuthorQuestion = question.type === "author";
+  /**
+   * **選択肢を並べて答える作者問題か。type だけでは決まらない**（発注081）。
+   * 習熟が選択式の上限に達した首には、候補の無い `-author-free` が出る。
+   * ここを type のままにすると選択肢ゼロの欄が出て、回答そのものができない。
+   * 見出し・字組み・紙の指示は「作者問題か」で決まるので `isAuthorQuestion` を使う。
+   */
+  const isAuthorChoice = isAuthorQuestion && question.candidates.length > 0;
   return (
     <main class="session" onKeyDown={keyDown}>
       <header class="nav-edge">
@@ -641,9 +648,9 @@ export function Session({
           onChange={(writing) => persistSettings({ ...settings, writing })}
         />
       </section>
-      <article class={`question-text question-text--${settings.writing}${isAuthorChoice ? " question-text--author" : ""}`}>
-        <h1 class="sr-only">{isAuthorChoice ? "作者問題" : "穴埋め問題"}</h1>
-        {isAuthorChoice ? poem ? (
+      <article class={`question-text question-text--${settings.writing}${isAuthorQuestion ? " question-text--author" : ""}`}>
+        <h1 class="sr-only">{isAuthorQuestion ? "作者問題" : "穴埋め問題"}</h1>
+        {isAuthorQuestion ? poem ? (
           <div class="question-poem question-poem--author" lang="ja">
             {displayKu?.map((line, index) => <span class="question-line" key={`${question.questionId}-${index}`}>{line}</span>)}
           </div>
@@ -802,7 +809,7 @@ export function Session({
                   feedback={feedback}
                   forms={{ answer: question.answer, historical: question.answerHistorical, modern: question.answerModern }}
                   note={question.note}
-                  isAuthor={isAuthorChoice}
+                  isAuthor={isAuthorQuestion}
                 />
               ) : (
                 /*
@@ -814,7 +821,7 @@ export function Session({
                   feedback={UNANSWERED_FEEDBACK}
                   forms={{ answer: question.answer, historical: question.answerHistorical, modern: question.answerModern }}
                   note={question.note}
-                  isAuthor={isAuthorChoice}
+                  isAuthor={isAuthorQuestion}
                 />
               )}
               <div class="answer-actions">
@@ -829,7 +836,7 @@ export function Session({
         answerMode === "paper" &&
         !paperOpen && (
           <>
-            {isExam && isAuthorChoice && <p class="paper-author-prompt">作者名を書いてください。</p>}
+            {isExam && isAuthorQuestion && <p class="paper-author-prompt">作者名を書いてください。</p>}
             <button
               class="primary"
               type="button"
@@ -855,7 +862,7 @@ export function Session({
               answerHistorical={question.answerHistorical}
               answerModern={question.answerModern}
               answer={question.answer}
-              isAuthor={isAuthorChoice}
+              isAuthor={isAuthorQuestion}
             />
             <button type="button" onClick={() => gradePaper("correct")}>
               漢字・歴史的仮名遣いで書けた

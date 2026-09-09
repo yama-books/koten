@@ -13,6 +13,7 @@ import { completeSession, createSession } from './domain/session.ts';
 import { planResume } from './domain/resume.ts';
 import { summarizeSession, type SessionResult } from './domain/result.ts';
 import { summarizeHistory, type HistorySummary } from './domain/history.ts';
+import { computeMastery } from '@koten/shared/domain/mastery/compute';
 import { canSendStats, finishedDay, STATS_COLLECTION_ENABLED, summarizeDailyStats } from './domain/stats.ts';
 import { buildStatsPayload, expiresAtFrom } from '@koten/shared/telemetry/aggregate';
 import { selectOutbox } from '@koten/shared/telemetry/queue';
@@ -70,23 +71,31 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     void port.listEvents().then((events) => setHistory(summarize(events)));
   }
 
-  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode; includeAuthors?: boolean }) {
-    const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order, input.includeAuthors);
+  /**
+   * 出題方式は習熟度で決まる（発注081）。**得点は呼び出し側が渡す。**
+   * ここで読み直すと、開始のたびに記録を二度読み、画面の切り替えが 1 拍遅れる。
+   * どちらの入口も既にイベントを読んでいるので、その場で計算した値をそのまま渡す。
+   */
+  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>> }) {
+    const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order, input.includeAuthors, input.masteryScores);
     setSelected((current) => current ? { ...current, entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session });
     setScreen('session');
   }
 
-  function newSession(input: { entry: EntryId; range: { from: number; to: number }; order: UserSettings['order']; seed: string; cardNumbers: readonly number[]; questions: PublishedQuestion[]; includeAuthors?: boolean }) {
-    const questionCount = planQuestions(input.entry, input.questions, input.cardNumbers, input.seed, input.order, input.includeAuthors).length;
+  function newSession(input: { entry: EntryId; range: { from: number; to: number }; order: UserSettings['order']; seed: string; cardNumbers: readonly number[]; questions: PublishedQuestion[]; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>> }) {
+    const questionCount = planQuestions(input.entry, input.questions, input.cardNumbers, input.seed, input.order, input.includeAuthors, input.masteryScores).length;
     return createSession({ sessionId: crypto.randomUUID(), range: input.range, entry: input.entry, order: input.order, seed: input.seed, startedOn: new Date().toISOString().slice(0, 10), questionCount });
   }
 
   async function startNew(entry: EntryId, range: { from: number; to: number }, order: UserSettings['order'], questions: PublishedQuestion[], poems: Poem[], answerMode: AnswerMode, includeAuthors = true) {
-    const plan = planResume(range, await port.listEvents());
+    const events = await port.listEvents();
+    const plan = planResume(range, events);
     const seed = createSeed(Math.random);
-    const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions, includeAuthors });
+    // **同じ得点を問題数の計算と計画の両方へ渡す。** 別々に取ると内訳と「全何問」が食い違う。
+    const masteryScores = computeMastery(events).scores;
+    const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions, includeAuthors, masteryScores });
     void port.saveSession(session);
-    startPlanned({ session, cardNumbers: plan.cardNumbers, questions, poems, answerMode, includeAuthors });
+    startPlanned({ session, cardNumbers: plan.cardNumbers, questions, poems, answerMode, includeAuthors, masteryScores });
   }
 
   function startReview(questionIds: readonly string[]) {
@@ -98,7 +107,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     setScreen('session');
   }
 
-  const homeScreen = () => <Home port={port} onSettings={setSettings} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen' })} onOpenHistory={() => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events)); setScreen('history'); }); }} />;
+  const homeScreen = () => <Home port={port} onSettings={setSettings} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems, masteryScores) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores })} onOpenHistory={() => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events)); setScreen('history'); }); }} />;
   // 設定を読むのはホームである。**読み込みが済むまで他の画面へ渡さない**——
   // 既定値のまま渡すと、そこからの保存が保存済みの学年を消す（発注074 工程1）。
   if (!settings) return homeScreen();
