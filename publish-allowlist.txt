@@ -22,6 +22,7 @@ publish-allowlist.txt
 tsconfig.base.json
 vitest.config.ts
 百人一首_本文・作者_一次データ.md
+百人一首_本文校正一覧_PDF原本表記_許容解答.md
 百人一首_読み_歴史的仮名遣い.md
 百人一首_読み_現代仮名遣い.md
 百人一首_読み_異同確認.md
