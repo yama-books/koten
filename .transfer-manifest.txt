@@ -14,6 +14,9 @@ assets/feedback/needs-review-check.png
 assets/feedback/needs-review-check.webp
 assets/feedback/perfect-hanamaru.png
 assets/feedback/perfect-hanamaru.webp
+assets/mascot/README.md
+assets/mascot/cat-mascot.png
+assets/mascot/cat-mascot.webp
 firebase/firebase.json
 firebase/firestore.indexes.json
 firebase/firestore.rules
@@ -423,6 +426,7 @@ packages/hyakunin/src/telemetry/app-check.ts
 packages/hyakunin/src/telemetry/stats-sender.ts
 packages/hyakunin/src/ui/adapters/indexeddb-port.ts
 packages/hyakunin/src/ui/components/AnswerFeedback.tsx
+packages/hyakunin/src/ui/components/CatMascot.tsx
 packages/hyakunin/src/ui/components/FeedbackMark.tsx
 packages/hyakunin/src/ui/components/ReadingToggle.tsx
 packages/hyakunin/src/ui/components/RecordTransfer.tsx
@@ -834,6 +838,8 @@ packages/shared/src/domain/mastery/color.ts
 packages/shared/src/domain/mastery/compute.ts
 packages/shared/src/domain/mastery/poem.ts
 packages/shared/src/domain/mastery/rules.v1.ts
+packages/shared/src/domain/points/compute.ts
+packages/shared/src/domain/points/rules.v1.ts
 packages/shared/src/domain/recommend/recommend.ts
 packages/shared/src/domain/recommend/rules.v1.ts
 packages/shared/src/release-notes.ts
@@ -908,6 +914,7 @@ tests/screen/settings-source.test.tsx
 tests/screen/stats-onboarding.test.tsx
 tests/screen/viewer.test.tsx
 tests/unit/app-config.test.ts
+tests/unit/asset-reference-allowlist.test.ts
 tests/unit/ci-wiring.test.ts
 tests/unit/css-tokens.test.ts
 tests/unit/entry.test.ts
@@ -933,6 +940,8 @@ tests/unit/mastery/poem.test.ts
 tests/unit/mastery/recompute.test.ts
 tests/unit/mastery/same-session.test.ts
 tests/unit/order.test.ts
+tests/unit/points/accrual.test.ts
+tests/unit/points/rules.test.ts
 tests/unit/question-schema.test.ts
 tests/unit/question.test.ts
 tests/unit/readme-claims.test.ts

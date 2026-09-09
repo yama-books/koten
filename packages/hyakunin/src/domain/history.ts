@@ -2,10 +2,11 @@ import type { Event } from '@koten/shared/domain/event';
 import { masteryDisplay, type MasteryColor } from '@koten/shared/domain/mastery/color';
 import { computeMastery } from '@koten/shared/domain/mastery/compute';
 import { poemMastery } from '@koten/shared/domain/mastery/poem';
+import { computePoints } from '@koten/shared/domain/points/compute';
 import { isViewOnly } from '@koten/shared/domain/mastery/rules.v1';
 
 export type HistoryEntry = Readonly<{ poemId: string; cardNo: number; percent: number; color: MasteryColor; untouched: boolean; authorUnconfirmed: boolean; needsReview: boolean }>;
-export type HistorySummary = Readonly<{ entries: readonly HistoryEntry[]; needsReview: readonly HistoryEntry[]; touchedCount: number; isEmpty: boolean }>;
+export type HistorySummary = Readonly<{ entries: readonly HistoryEntry[]; needsReview: readonly HistoryEntry[]; touchedCount: number; isEmpty: boolean; points: number }>;
 
 export function summarizeHistory(input: Readonly<{ events: readonly Event[]; poemIds: readonly string[] }>): HistorySummary {
   const scores = computeMastery(input.events).scores;
@@ -18,7 +19,7 @@ export function summarizeHistory(input: Readonly<{ events: readonly Event[]; poe
       needsReview: needsReview(poemId, input.events),
     };
   });
-  return { entries, needsReview: entries.filter((entry) => entry.needsReview), touchedCount: entries.filter((entry) => !entry.untouched).length, isEmpty: input.events.length === 0 };
+  return { entries, needsReview: entries.filter((entry) => entry.needsReview), touchedCount: entries.filter((entry) => !entry.untouched).length, isEmpty: input.events.length === 0, points: computePoints(input.events).total };
 }
 
 function needsReview(poemId: string, events: readonly Event[]): boolean {

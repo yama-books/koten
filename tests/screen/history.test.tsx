@@ -10,7 +10,7 @@ import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
 import type { HistorySummary } from '../../packages/hyakunin/src/domain/history.ts';
 
 let root: HTMLDivElement | undefined;
-const summary: HistorySummary = { isEmpty: false, touchedCount: 2, entries: [
+const summary: HistorySummary = { isEmpty: false, touchedCount: 2, points: 1248, entries: [
   { poemId: 'p012', cardNo: 12, percent: 90, color: 'green', untouched: false, authorUnconfirmed: false, needsReview: true },
   { poemId: 'p045', cardNo: 45, percent: 0, color: 'gray', untouched: false, authorUnconfirmed: true, needsReview: true },
   { poemId: 'p099', cardNo: 99, percent: 0, color: 'gray', untouched: true, authorUnconfirmed: true, needsReview: false },
@@ -45,4 +45,12 @@ test('history: 記録を開く間はloadingを表示する', async () => {
   await act(async () => { release!(); await Promise.resolve(); });
   expect(root.textContent).toContain('まだ記録がありません');
   (globalThis as unknown as { fetch: typeof fetch }).fetch = previousFetch;
+});
+// これまでの記録に残すことが、この機能のいちばんの目的（依頼者要望・2026-09-09）。
+test('history: 累計ポイントを3桁区切りで表示する', () => { const view = mount(); expect(view.textContent).toContain('これまでに ためたポイント'); expect(view.textContent).toContain('1,248'); });
+test('history: ネコは装飾で、読み上げ木に出ない', () => {
+  const cat = mount().querySelector('img.cat-mascot');
+  expect(cat).not.toBeNull();
+  expect(cat?.getAttribute('alt')).toBe('');
+  expect(cat?.getAttribute('aria-hidden')).toBe('true');
 });

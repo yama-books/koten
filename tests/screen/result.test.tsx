@@ -18,6 +18,7 @@ const base: SessionResult = {
   retryCardNumbers: [3, 5],
   retryQuestionIds: ['p003-ku1', 'p005-ku2'],
   recommendation: { poemId: 'p004', tier: 4, reason: 'まだ確認していない歌です', percent: 0 },
+  points: 137,
 };
 
 function mount(result: SessionResult = base, handlers = { onRetryWeak: (_questionIds: readonly string[]) => {}, onRetrySame: () => {}, onHome: () => {} }) {
@@ -194,4 +195,22 @@ test('075: 常時表示部分に全体平均や達成段階を足さない', () 
   // 葉の判定は element の子で見る。childNodes だと文字だけの <p> も 1 子となり、走査から漏れる。
   const text = always.map((node) => node.children.length === 0 ? node.textContent : '').join('');
   for (const banned of ['全体平均', '連続', '達成', '順位', 'ランク']) expect(text).not.toContain(banned);
+});
+// 得点規則は非開示（依頼者裁定・2026-09-09）。獲得点だけを出し、内訳も式も画面に書かない。
+test('result: 今回のポイントを表示する', () => { const view = mount(); expect(view.textContent).toContain('今回のポイント'); expect(view.textContent).toContain('+137'); });
+/**
+ * 「規則を書かない」を語の禁止で調べると、走査対象が空でも緑になる。
+ * ポイント欄そのものを取り出し、**中身が名札と数字だけ**であることを見る。
+ */
+test('result: ポイント欄に説明を書かない', () => {
+  const points = mount().querySelector('.result-points');
+  expect(points).not.toBeNull();
+  expect(points?.textContent).toBe('今回のポイント+137');
+});
+test('result: ネコは装飾で、読み上げ木に出ない', () => {
+  const view = mount();
+  const cat = view.querySelector('img.cat-mascot');
+  expect(cat).not.toBeNull();
+  expect(cat?.getAttribute('alt')).toBe('');
+  expect(cat?.getAttribute('aria-hidden')).toBe('true');
 });

@@ -75,3 +75,19 @@ test('V-4: 最新の正答があれば、そのあと閲覧しても要確認に
   });
   assert.deepEqual(summary.needsReview, []);
 });
+
+/**
+ * 記録画面のポイントは**全履歴の累計**である。セッションぶんだけを出すと、
+ * 「これまでにためた」という名前と中身が食い違う。複数セッションで確かめる。
+ */
+test('history: 累計ポイントは全セッションを合算する', () => {
+  const one = event({ eventId: 'e1', sessionId: 's1', questionId: 'q1', effectiveMethod: 'choice' });
+  const two = event({ eventId: 'e2', sessionId: 's2', questionId: 'q2', effectiveMethod: 'choice' });
+  const single = summarizeHistory({ events: [one], poemIds: ['p012'] }).points;
+  const both = summarizeHistory({ events: [one, two], poemIds: ['p012'] }).points;
+  assert.ok(single > 0);
+  assert.ok(both > single, '別セッションのぶんも足されること');
+});
+
+test('history: 記録が無ければ0ポイント', () => assert.equal(summarizeHistory({ events: [], poemIds: ['p012'] }).points, 0));
+

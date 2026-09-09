@@ -380,6 +380,14 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .result-details > summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; font-size: var(--text-md); }
 .result-details__note { margin-block: var(--space-md) 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
 .result-details .result-section:first-of-type { border-top: 0; }
+/* ポイントは習熟度メーターと役割が違う（飽和しない積算）。メーターの隣に置かず、見た目も揃えない。 */
+.result-points, .history-points { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs) var(--space-sm); }
+.result-points__label, .history-points__label { color: var(--color-ink-muted); font-size: var(--text-sm); }
+.result-points__value, .history-points__value { font-size: var(--text-lg); font-variant-numeric: tabular-nums; }
+.history-points { margin-block: var(--space-md) var(--space-xs); }
+.cat-mascot { flex: none; height: auto; }
+.cat-mascot--sm { width: 2rem; }
+.cat-mascot--md { width: 2.75rem; }
 .result-subheading { margin-block: var(--space-lg) 0; font-size: var(--text-md); }
 .result-save-failure { box-sizing: border-box; width: min(100%, 62rem); margin: var(--space-md) auto 0; border: var(--rule-thin) solid var(--color-coral); padding: var(--space-sm) var(--space-md); }
 .mastery-meter { display: inline-flex; align-items: center; gap: var(--space-xs); }
