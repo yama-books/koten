@@ -1,6 +1,7 @@
 import type { SessionResult } from '../../domain/result.ts';
 import { MasteryMeter } from '@koten/shared/mastery-meter';
 import { PerfectMark } from '../components/FeedbackMark.tsx';
+import { CatMascot } from '../components/CatMascot.tsx';
 
 type Props = {
   result: SessionResult;
@@ -23,6 +24,8 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
       <h1 id="result-heading">今回の結果</h1>
       <p>対象範囲: {result.range.from}番〜{result.range.to}番</p>
       <p>問題数: {result.questionCount}問</p>
+      {/* 得点規則は非開示（依頼者裁定・2026-09-09）。獲得点だけを出し、内訳も式も画面に書かない。 */}
+      <p class="result-points"><span class="result-points__label">今回のポイント</span><strong class="result-points__value">+{result.points}</strong><CatMascot /></p>
       {result.allCorrect && <p class="result-hanamaru"><PerfectMark /></p>}
       <h2 id="breakdown-heading" class="result-subheading">内訳</h2>
       <dl class="result-breakdown" aria-labelledby="breakdown-heading">

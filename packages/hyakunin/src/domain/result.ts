@@ -3,6 +3,7 @@ import { masteryDisplay, type MasteryColor } from '@koten/shared/domain/mastery/
 import { computeMastery } from '@koten/shared/domain/mastery/compute';
 import { poemMastery } from '@koten/shared/domain/mastery/poem';
 import { recommendNext, type Recommendation } from '@koten/shared/domain/recommend/recommend';
+import { computePoints } from '@koten/shared/domain/points/compute';
 import { reviewQuestionIds } from './review.ts';
 
 export type OutcomeKind = 'viewed' | 'correct' | 'partial' | 'needs-review' | 'incorrect';
@@ -46,6 +47,8 @@ export type SessionResult = Readonly<{
   retryCardNumbers: readonly number[];
   retryQuestionIds: readonly string[];
   recommendation: Recommendation | undefined;
+  /** 今回のセッションで得たポイント。習熟度とは別の、飽和しない積算値。 */
+  points: number;
 }>;
 
 const weakness: Readonly<Record<OutcomeKind, number>> = {
@@ -100,6 +103,7 @@ export function summarizeSession(input: SummarizeInput): SessionResult {
     retryCardNumbers,
     retryQuestionIds: [...new Set([...reviewQuestionIds(answers), ...viewedQuestionIds])],
     recommendation: recommendNext({ today: input.today, poemIds: input.poemIds, events: input.allEvents, scores: after.scores }),
+    points: computePoints(input.allEvents).bySession[input.sessionId] ?? 0,
   };
 }
 

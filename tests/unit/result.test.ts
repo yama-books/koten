@@ -140,3 +140,22 @@ test('範囲と首の番を保持する', () => {
   assert.deepEqual(result.range, { from: 10, to: 12 });
   assert.deepEqual(result.poems.map((poem) => poem.cardNo), [10, 11, 12]);
 });
+
+/**
+ * 結果画面のポイントは**そのセッションぶんだけ**である。累計を出してしまうと、
+ * 1回やっただけで「+1248」のような数字が出る。他セッションの記録を混ぜて確かめる。
+ */
+test('今回のポイントは、そのセッションで得たぶんだけを数える', () => {
+  const mine = event({ eventId: 'e1', sessionId: 'session-a', questionId: 'q1', effectiveMethod: 'choice' });
+  const other = event({ eventId: 'e2', sessionId: 'session-b', questionId: 'q2', effectiveMethod: 'choice' });
+  const only = summarizeSession(input({ allEvents: [mine] })).points;
+  const withOther = summarizeSession(input({ allEvents: [mine, other] })).points;
+  assert.ok(only > 0, 'このセッションのぶんが入っていること');
+  assert.equal(withOther, only, '他セッションのぶんが混ざらないこと');
+});
+
+test('自分のセッションにイベントが無ければ0ポイント', () => {
+  const other = event({ eventId: 'e2', sessionId: 'session-b', questionId: 'q2' });
+  assert.equal(summarizeSession(input({ allEvents: [other] })).points, 0);
+});
+

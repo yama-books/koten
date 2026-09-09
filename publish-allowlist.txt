@@ -44,6 +44,7 @@ firebase/firebase.json
 .github/workflows/ci.yml
 .github/workflows/deploy-pages.yml
 assets/feedback/**
+assets/mascot/**
 # unit:hyakunin
 packages/hyakunin/**
 # unit:kanazukai

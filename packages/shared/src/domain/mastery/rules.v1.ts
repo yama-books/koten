@@ -39,6 +39,16 @@ export const INCORRECT_DECREMENT: Readonly<Record<EventMethod, number>> = {
   'paper-handwriting': 5,
 };
 
+/**
+ * 90 を超えたあとの増分（依頼者裁定・2026-09-09）。上限手前で一気に増やさない。
+ *
+ * 90→100 を +9 で駆け上がると**2日で終わる**。かといって「残りの何割か」で漸近させると
+ * 100 に永久に届かず、進捗が見えないこと自体が離脱要因になる（語学アプリで繰り返し
+ * 報告されている）。目標勾配効果は**残り回数が数えられる**ときに効くので、小さいが
+ * 有限の歩数にする。+2 なら 90 から 5 回で 100 に届き、毎回必ず動く。
+ */
+export const OVER_NINETY_INCREMENT = 2;
+
 /** APP_SPEC §8.1 に明記された一段下げだけを表す。未規定の方式は undefined。 */
 export const HINT_METHOD_DOWNGRADE: Readonly<Partial<Record<EventMethod, EventMethod>>> = {
   view: 'view',
@@ -56,6 +66,18 @@ export function downgradeForHint(method: EventMethod): EventMethod | undefined {
 
 export function isRecallMethod(method: EventMethod): boolean {
   return method === 'free-input' || method === 'paper-handwriting';
+}
+
+/**
+ * 90 を超えて 100 へ進める資格のある方式。
+ *
+ * **いまは句ごとの自由入力がこれに当たる。** 依頼者の意図は最終的に
+ * 「一首まるまる書ける・作者をまるごと書ける」ことを 100 の条件にすることであり
+ * （2026-09-09）、難度設定が入ったらこの関数の中身だけを差し替える。
+ * 判定を1箇所に集めてあるのは、そのときに探し回らずに済ませるためである。
+ */
+export function isMasteryCompletionMethod(method: EventMethod): boolean {
+  return isRecallMethod(method);
 }
 
 /**
