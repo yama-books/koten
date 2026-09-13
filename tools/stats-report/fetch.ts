@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { appConfig } from '../../packages/shared/src/app-config.ts';
 import { readServiceAccount, requestAccessToken } from './access-token.ts';
 import { decodeFields } from './decode.ts';
+import { resolveKeyPath } from './key-path.ts';
 import type { StatsDocument } from './aggregate.ts';
 
 /**
@@ -24,10 +25,20 @@ function fail(message: string): never {
 }
 
 function loadKey(): ReturnType<typeof readServiceAccount> {
-  const keyPath = process.env.KOTEN_STATS_KEY;
-  if (keyPath === undefined || keyPath === '') {
+  let keyPath: string | null;
+  try {
+    keyPath = resolveKeyPath(process.argv, process.env).path;
+  } catch (error) {
+    fail(error instanceof Error ? error.message : String(error));
+  }
+  if (keyPath === null) {
     fail([
-      '環境変数 KOTEN_STATS_KEY にサービスアカウント鍵（JSON）のパスを入れてください。',
+      'サービスアカウント鍵（JSON）の場所を渡してください。',
+      '',
+      '  node --experimental-strip-types tools/stats-report/fetch.ts --key <鍵のパス>',
+      '',
+      // **環境変数だけにしない。** `VAR=値 コマンド` は bash の書式で、PowerShell では通らない。
+      '環境変数 KOTEN_STATS_KEY でも受け取ります（--key のほうが優先）。',
       '鍵の作り方は docs/superpowers/specs/2026-09-13-統計報告ツール-design.md §2 にあります。',
       '役割は「Cloud Datastore 閲覧者」だけで足ります。書き込みの役割は与えないでください。',
     ].join('\n'));
