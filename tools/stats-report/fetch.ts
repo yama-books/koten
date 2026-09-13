@@ -79,4 +79,4 @@ mkdirSync(outputDirectory, { recursive: true });
 const file = path.join(outputDirectory, 'raw.json');
 // **取得日時を必ず入れる。** 古い報告を今日のものと読み違えないため。
 writeFileSync(file, `${JSON.stringify({ fetchedAt: new Date().toISOString(), documents }, null, 2)}\n`, 'utf8');
-console.log(`stats:fetch: ${documents.length} 件を ${path.relative(root, file)} に書きました。次は npm run stats:report`);
+console.log(`stats:fetch: ${documents.length} 件を ${path.relative(root, file)} に書きました。次は node --experimental-strip-types tools/stats-report/report.ts`);
