@@ -1,3 +1,5 @@
+import { alignments, chunks, mixedForms } from './mixed-forms.ts';
+
 type Poem = any;
 type Review = { authors: any[]; blanks: any[] };
 
@@ -74,6 +76,66 @@ function metadata(entry: any | undefined) {
   };
 }
 
+/**
+ * 読みの割り付けが一意に決まらない句の裁定（**D-10・2026-09-14・依頼者**）。
+ *
+ * **`review/` には置かない。** あちらは「生成候補を人が承認する」ための台帳で、
+ * 試験は日常的に合成台帳で `buildData` を呼ぶ。**正誤判定の正本をあちらへ置くと、
+ * 合成台帳のたびに正本が消える。** ここは一次資料と同じく、どの台帳でも変わらない。
+ *
+ * **増やすときは依頼者の裁定を取ること。** 機械に選ばせると誤った形が ○ になる——
+ * `吉野＝よし` と割ると `よしの里に`（「の」が 1 つ足りない）が正解として配られる。
+ */
+export type Allocations = Readonly<Record<string, Readonly<Record<string, string>>>>;
+
+export const READING_ALLOCATIONS: Allocations = {
+  'p031-blank-ku4': { 吉野: 'よしの', 里: 'さと' },
+  'p038-blank-ku4': { 人: 'ひと', 命: 'いのち' },
+  'p039-blank-ku2': { 小野: 'をの', 篠原: 'しのはら' },
+};
+
+/**
+ * 漢字とかなを途中まで混ぜた形（中間形）を書き出す。裁定 D-8——
+ * **歴史的仮名遣いで統一されていれば ○。漢字とかなの混ぜ方は自由。**
+ *
+ * **漢字が 0 個の表記は飛ばす。** 混ぜる先が無い。踊り字の `かさゝぎの` は
+ * 表記と読み（`かささぎの`）が字として食い違うため、割り付けを求めると必ず失敗する。
+ *
+ * **一意に決まらないときは台帳を見る。決して機械に選ばせない**——
+ * `吉野＝よし` と割ると `よしの里に`（「の」が 1 つ足りない）が ○ になる（D-10）。
+ *
+ * **台帳が無いときは、ここでは投げず `problems` へ積む。** 止めるのは `buildData` である——
+ * この関数は実データ以外の台帳でも呼ばれる（試験の fixture）。ここで投げると、
+ * **一次資料と関係のない試験まで巻き添えで赤くなる。** 実データで止める責任は経路の側にある。
+ */
+function intermediateForms(forms: string[], reading: string, questionId: string, problems: string[], allocations: Allocations): string[] {
+  const result: string[] = [];
+  for (const form of forms) {
+    const kanjiChunks = chunks(form).filter((chunk) => chunk.kanji);
+    if (kanjiChunks.length === 0) continue;
+
+    const found = alignments(form, reading);
+    let picked: string[] | undefined = found.length === 1 ? found[0] : undefined;
+    if (picked === undefined) {
+      const adjudicated = allocations[questionId] ?? {};
+      const fromTable = kanjiChunks.map((chunk) => adjudicated[chunk.text]);
+      if (fromTable.every((value): value is string => typeof value === 'string')) picked = fromTable;
+    }
+    if (picked === undefined) {
+      problems.push(`${questionId}: 読みの割り付けが決まらない（${form} / ${reading}・候補 ${found.length} 通り）。READING_ALLOCATIONS へ、依頼者の裁定を取ってから書くこと`);
+      continue;
+    }
+    // **台帳を信じきらない。** 書き間違いをそのまま通すと、誤った形が正解として配られる。
+    const rebuilt = mixedForms(form, picked).at(-1);
+    if (rebuilt !== reading) {
+      problems.push(`${questionId}: READING_ALLOCATIONS が読みを組み立て直せない（${picked.join('、')} → ${rebuilt} ≠ ${reading}）`);
+      continue;
+    }
+    result.push(...mixedForms(form, picked));
+  }
+  return result;
+}
+
 function distractors(poems: Poem[], poem: Poem) {
   return poems
     .filter((candidate) => candidate.author.canonical !== poem.author.canonical)
@@ -83,7 +145,9 @@ function distractors(poems: Poem[], poem: Poem) {
     .slice(0, 4);
 }
 
-export function generateQuestions(poems: Poem[], review: Review) {
+export function generateQuestions(poems: Poem[], review: Review, allocations: Allocations = READING_ALLOCATIONS) {
+  /** 読みの割り付けが決まらなかった句。**実データで空でなければ `buildData` が止める。** */
+  const allocationProblems: string[] = [];
   const blanks = poems.flatMap((poem) => poem.ku.map((answer: string, index: number) => {
     const entry = review.blanks.find((item) => item.cardNo === poem.cardNo && item.ku === index + 1);
     const acceptedTextForms = poem.acceptedTextForms?.[index] ?? [];
@@ -91,7 +155,14 @@ export function generateQuestions(poems: Poem[], review: Review) {
       questionId: `${poem.poemId}-blank-ku${index + 1}`, poemId: poem.poemId, skill: 'text', type: 'blank', blankUnit: 'ku',
       prompt: poem.ku.map((value: string, kuIndex: number) => kuIndex === index ? '＿＿＿' : value).join(''), answer,
       answerHistorical: poem.reading.historical.ku[index], answerModern: poem.reading.modern.ku[index],
-      ...answerSet(answer, poem.reading.historical.ku[index], poem.reading.modern.ku[index], [...acceptedTextForms, ...extraAccepted(entry)], extraPartials(entry)),
+      ...answerSet(
+        answer, poem.reading.historical.ku[index], poem.reading.modern.ku[index],
+        [
+          ...acceptedTextForms, ...extraAccepted(entry),
+          ...intermediateForms(unique([answer, ...acceptedTextForms, ...extraAccepted(entry)]), poem.reading.historical.ku[index], `${poem.poemId}-blank-ku${index + 1}`, allocationProblems, allocations),
+        ],
+        extraPartials(entry),
+      ),
       candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry),
     };
   }));
@@ -127,5 +198,5 @@ export function generateQuestions(poems: Poem[], review: Review) {
       free,
     ];
   });
-  return { blankCandidates: blanks.length, authorCandidates: authors.length, questionsBlank: blanks.filter((question) => question.reviewStatus === 'human-confirmed'), questionsAuthor: authors.filter((question) => question.reviewStatus === 'human-confirmed') };
+  return { allocationProblems, blankCandidates: blanks.length, authorCandidates: authors.length, questionsBlank: blanks.filter((question) => question.reviewStatus === 'human-confirmed'), questionsAuthor: authors.filter((question) => question.reviewStatus === 'human-confirmed') };
 }

@@ -30,6 +30,9 @@ export function buildData(reviewDirectory = paths.review) {
   });
   const reviewed = applyReview(poems, reviewDirectory, poems.length * 5);
   const questions = generateQuestions(reviewed.poems, reviewed.review);
+  // **ここが止め口である。** 読みの割り付けが決まらない句を残したまま配らない——
+  // 機械に 1 つ選ばせると、誤った形（`よしの里に` など）が正解として配られる（裁定 D-10）。
+  if (questions.allocationProblems.length > 0) throw new Error(['V-20: 読みの割り付けが決まらない句がある', ...questions.allocationProblems].join(String.fromCharCode(10)));
   const manifest = { dataVersion: DATA_VERSION, generatorVersion: GENERATOR_VERSION, generatedOn: new Date().toISOString().slice(0, 10), sourceHashes: sourceHashes(Object.values(paths.sources)), counts: { poems: poems.length, variants: variants.length, blankCandidates: questions.blankCandidates, authorCandidates: questions.authorCandidates, questionsBlank: questions.questionsBlank.length, questionsAuthor: questions.questionsAuthor.length }, reviewCounts: reviewed.reviewCounts };
   const data = { poems: reviewed.poems, variants, layoutHints: reviewed.layoutHints, questionsBlank: questions.questionsBlank, questionsAuthor: questions.questionsAuthor, manifest, review: reviewed.review };
   validateData(data); return data;
