@@ -27,6 +27,20 @@ function extraAccepted(entry: any | undefined): string[] {
   return typeof entry?.alsoAccepted === 'string' ? entry.alsoAccepted.split('、').map((value: string) => value.trim()).filter(Boolean) : [];
 }
 
+/**
+ * **読みを書かせる問（`-author-kana`）へ渡す分から漢字を落とす。**
+ *
+ * `alsoAccepted` は1つの欄に漢字も読みも混ぜて書けるため、そのまま流すと読みの問に漢字が入る。
+ * 正本側は `answerSet()` が「漢字は漢字の問へ、読みは読みの問へ」と既に振り分けており、
+ * **台帳から来た値だけがその振り分けを通っていなかった**（依頼者確認・2026-09-13）。
+ * 実データでは5首が該当し、**正本の漢字は受理しないのに許容名称の漢字だけ受理する**状態だった。
+ *
+ * 釘は `tests/data/also-accepted-routing.test.ts`。
+ */
+function readingsOnly(values: string[]): string[] {
+  return values.filter((value) => !/\p{Script_Extensions=Han}/u.test(value));
+}
+
 /** 学習者へ見せる一言。台帳の `learnerNote` だけが出所で、監査用の `note` とは別にする。 */
 function learnerNote(entry: any | undefined): string | null {
   return typeof entry?.learnerNote === 'string' && entry.learnerNote.trim() !== '' ? entry.learnerNote.trim() : null;
@@ -83,7 +97,7 @@ export function generateQuestions(poems: Poem[], review: Review) {
     if (wrong.length < 4) return [free];
     return [
       { ...base, questionId: `${poem.poemId}-author-choice`, answer: poem.author.canonical, acceptedAnswers: [poem.author.canonical], partialAnswers: [], candidates, normalization: 'exact' },
-      { ...base, questionId: `${poem.poemId}-author-kana`, answer: poem.reading.historical.author, ...answerSet(poem.reading.historical.author, poem.reading.historical.author, poem.reading.modern.author, extraAccepted(entry)), candidates, normalization: 'kana' },
+      { ...base, questionId: `${poem.poemId}-author-kana`, answer: poem.reading.historical.author, ...answerSet(poem.reading.historical.author, poem.reading.historical.author, poem.reading.modern.author, readingsOnly(extraAccepted(entry))), candidates, normalization: 'kana' },
       free,
     ];
   });
