@@ -729,6 +729,7 @@ entries:
     note: null
   - cardNo: 73
     alsoAccepted: 権中納言匡房
+    alsoAcceptedFreeOnly: ごんちゆうなごんまさふさ、ごんちゅうなごんまさふさ
     canonical: 権中納言匡房
     aliases: []
     status: approved
@@ -737,7 +738,7 @@ entries:
     proposedBy: human
     confirmedBy: human-01
     confirmedOn: 2026-09-04
-    note: null
+    note: 許容名称「権中納言匡房」の読みを自由記述だけで受ける（依頼者裁定・2026-09-13「完全自由記述では○、選択肢から読みを答える問では選択肢の漢字に対応しない読みは不可」）。選択肢に出るのは正本名義「前中納言匡房」なので、読みの問では不可のままにする。読みは新たに判断したものではなく承認済みの2つの組み合わせである——「権中納言」は97番の正本読み、「匡房」は本首の正本読み。なお本行の canonical が一次データ「前中納言匡房」と食い違ったまま残っている（生成には一次データを使うので画面には出ない）。49番にも同じ食い違いがある（台帳「大中臣能宣朝臣」／一次データ「大中臣能宣」）。
   - cardNo: 74
     canonical: 源俊頼朝臣
     aliases: []

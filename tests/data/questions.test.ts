@@ -73,3 +73,24 @@ test('V-14 tracks generated blank question output', () => {
   unlinkSync(path.join(directory, 'questions.blank.json'));
   assert.throws(() => assertGeneratedCurrent(data, directory), /V-14: stale generated file questions\.blank\.json \(file is missing\)/);
 });
+
+/**
+ * 依頼者裁定（2026-09-13）——**本文は歴史的仮名遣い。作者は現代仮名遣いでもよい。**
+ * 作者名を歴史的仮名遣いで覚えるのは負担が重い、という理由である。**非対称は承知のうえの裁定。**
+ *
+ * 選択肢から読みをひらがなで書かせる問（`-author-kana`）も、自由記述（発注082）と同じく
+ * 現代仮名遣いを ○ で受ける。**本文（blank）は D-26 のまま △ に据え置く**ので、
+ * 変えた側と変えない側の両方に釘を置く——片側だけだと、もう片方は消しても緑のままになる。
+ */
+test('選択肢から読みを書かせる作者問は現代仮名遣いも ○。本文は △ のまま', () => {
+  const data = buildData(fixture());
+  const kana = data.questionsAuthor.find((question: any) => question.questionId.endsWith('-author-kana'));
+  // fixture が歴史的＝現代だと、現代読みが acceptedAnswers へ勝手に吸収され、この試験は何も見分けない。
+  assert.notEqual(kana.answerHistorical, kana.answerModern, 'fixture の作者読みが歴史的＝現代になっている');
+  assert.ok(kana.acceptedAnswers.includes(kana.answerModern), '作者の読み問で現代仮名遣いが ○ になっていない');
+  assert.ok(!kana.partialAnswers.includes(kana.answerModern), '作者の読み問で現代仮名遣いが △ に残っている');
+
+  const blank = data.questionsBlank.find((question: any) => question.answerHistorical !== question.answerModern);
+  assert.ok(!blank.acceptedAnswers.includes(blank.answerModern), '本文の現代仮名遣いまで ○ にしている');
+  assert.ok(blank.partialAnswers.includes(blank.answerModern), '本文の現代仮名遣いが △ から外れた');
+});

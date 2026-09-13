@@ -877,9 +877,11 @@ review/blanks.yaml
 review/kugire.yaml
 review/layout.yaml
 review/readings.yaml
+tests/data/also-accepted-routing.test.ts
 tests/data/also-partial.test.ts
 tests/data/mixed-kana-orthography.test.ts
 tests/data/parse.test.ts
+tests/data/pdf-text-corrections.test.ts
 tests/data/questions.test.ts
 tests/data/reading-review.test.ts
 tests/data/reproducibility.test.ts
@@ -958,6 +960,12 @@ tests/unit/review.test.ts
 tests/unit/sanitize-output.test.ts
 tests/unit/scan-publish-allowlist.test.ts
 tests/unit/session.test.ts
+tests/unit/stats-report/access-token.test.ts
+tests/unit/stats-report/aggregate.test.ts
+tests/unit/stats-report/decode.test.ts
+tests/unit/stats-report/fixtures.ts
+tests/unit/stats-report/guard.ts
+tests/unit/stats-report/render.test.ts
 tests/unit/stats.test.ts
 tests/unit/storage/atomicity.test.ts
 tests/unit/storage/storage.test.ts
@@ -981,6 +989,7 @@ tools/build-data/normalize.ts
 tools/build-data/parse-poems.ts
 tools/build-data/parse-readings.ts
 tools/build-data/parse-table.ts
+tools/build-data/parse-text-corrections.ts
 tools/build-data/parse-variants.ts
 tools/build-data/parse-yaml.ts
 tools/build-data/paths.ts
@@ -1003,6 +1012,7 @@ tsconfig.base.json
 vitest.config.ts
 仮名遣い規則_一次データ.md
 百人一首_本文・作者_一次データ.md
+百人一首_本文校正一覧_PDF原本表記_許容解答.md
 百人一首_読み_歴史的仮名遣い.md
 百人一首_読み_現代仮名遣い.md
 百人一首_読み_異同確認.md

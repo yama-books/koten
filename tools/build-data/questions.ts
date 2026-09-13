@@ -27,6 +27,37 @@ function extraAccepted(entry: any | undefined): string[] {
   return typeof entry?.alsoAccepted === 'string' ? entry.alsoAccepted.split('、').map((value: string) => value.trim()).filter(Boolean) : [];
 }
 
+/**
+ * **別名義の読み。自由記述だけで受ける。**
+ *
+ * 依頼者裁定（2026-09-13）——**完全自由記述では ○。選択肢から読みをひらがなで答える問では、
+ * 選択肢の漢字に対応しない読みは不可。**
+ *
+ * `alsoAccepted` の読みは**表示される漢字の異読**（`伊勢大輔` に対する `いせのおほすけ`）なので、
+ * 選択肢に対応しており読みの問でも ○ である。**ここへ書くのは、別の漢字名義に属する読みだけ**——
+ * 73番は選択肢に `前中納言匡房` が出るのに、`ごんちゆうなごんまさふさ` は `権中納言匡房` の読みである。
+ *
+ * **値のセルに注記を埋めて区別しないこと。** 欄を分ける理由がこれである
+ * （作者訂正版v2 が `しよくしないしんわう（異読：…）` と書いて読みに丸括弧を持ち込んだ例がある）。
+ */
+function extraAcceptedFreeOnly(entry: any | undefined): string[] {
+  return typeof entry?.alsoAcceptedFreeOnly === 'string' ? entry.alsoAcceptedFreeOnly.split('、').map((value: string) => value.trim()).filter(Boolean) : [];
+}
+
+/**
+ * **読みを書かせる問（`-author-kana`）へ渡す分から漢字を落とす。**
+ *
+ * `alsoAccepted` は1つの欄に漢字も読みも混ぜて書けるため、そのまま流すと読みの問に漢字が入る。
+ * 正本側は `answerSet()` が「漢字は漢字の問へ、読みは読みの問へ」と既に振り分けており、
+ * **台帳から来た値だけがその振り分けを通っていなかった**（依頼者確認・2026-09-13）。
+ * 実データでは5首が該当し、**正本の漢字は受理しないのに許容名称の漢字だけ受理する**状態だった。
+ *
+ * 釘は `tests/data/also-accepted-routing.test.ts`。
+ */
+function readingsOnly(values: string[]): string[] {
+  return values.filter((value) => !/\p{Script_Extensions=Han}/u.test(value));
+}
+
 /** 学習者へ見せる一言。台帳の `learnerNote` だけが出所で、監査用の `note` とは別にする。 */
 function learnerNote(entry: any | undefined): string | null {
   return typeof entry?.learnerNote === 'string' && entry.learnerNote.trim() !== '' ? entry.learnerNote.trim() : null;
@@ -78,12 +109,21 @@ export function generateQuestions(poems: Poem[], review: Review) {
      * したがって「てんじてんわう」はどちらとも一致せず不正解になる。
      * 正規化がこの2つを潰すように変わったら、`tests/data/mixed-kana-orthography.test.ts` が赤くなる。
      */
-    const freeAccepted = unique([poem.author.canonical, ...poem.author.aliases, ...extraAccepted(entry), poem.reading.historical.author, poem.reading.modern.author]);
+    const freeAccepted = unique([poem.author.canonical, ...poem.author.aliases, ...extraAccepted(entry), ...extraAcceptedFreeOnly(entry), poem.reading.historical.author, poem.reading.modern.author]);
     const free = { ...base, questionId: `${poem.poemId}-author-free`, answer: poem.author.canonical, acceptedAnswers: freeAccepted, partialAnswers: unique(extraPartials(entry)).filter((value) => !freeAccepted.includes(value)), candidates: [], normalization: 'kana' };
     if (wrong.length < 4) return [free];
+    /*
+     * 依頼者裁定（2026-09-13）: **本文は歴史的仮名遣い。作者は現代仮名遣いでもよい。**
+     * 作者名を歴史的仮名遣いで覚えるのは負担が重い、という理由である。**非対称は承知のうえ。**
+     * よって読みを書かせる問も、自由記述（発注082）と同じく現代仮名遣いを ○ で受ける。
+     * **本文（blank）は D-26 のまま △ に据え置く**——`answerSet` の既定のふるまいがそれである。
+     *
+     * 受理するのは**それぞれの綴りそのもの**なので、取り混ぜた綴りは自動的に不可のままになる。
+     */
+    const kanaAccepted = unique([poem.reading.historical.author, poem.reading.modern.author, ...readingsOnly(extraAccepted(entry))]);
     return [
       { ...base, questionId: `${poem.poemId}-author-choice`, answer: poem.author.canonical, acceptedAnswers: [poem.author.canonical], partialAnswers: [], candidates, normalization: 'exact' },
-      { ...base, questionId: `${poem.poemId}-author-kana`, answer: poem.reading.historical.author, ...answerSet(poem.reading.historical.author, poem.reading.historical.author, poem.reading.modern.author, extraAccepted(entry)), candidates, normalization: 'kana' },
+      { ...base, questionId: `${poem.poemId}-author-kana`, answer: poem.reading.historical.author, acceptedAnswers: kanaAccepted, partialAnswers: unique(extraPartials(entry)).filter((value) => !kanaAccepted.includes(value)), candidates, normalization: 'kana' },
       free,
     ];
   });
