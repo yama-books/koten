@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { sendStats, type HttpSend } from '../../../packages/hyakunin/src/telemetry/stats-sender.ts';
+import { getAppCheckToken } from '../../../packages/hyakunin/src/telemetry/app-check.ts';
 import type { HttpRequestSpec } from '../../../packages/shared/src/telemetry/transport.ts';
 import { payload } from './fixtures.ts';
 
@@ -99,4 +100,68 @@ test('送信: telemetry 側の釘を外していない', () => {
   const sender = readFileSync(join(process.cwd(), 'packages/hyakunin/src/telemetry/stats-sender.ts'), 'utf8');
   assert.ok(sender.includes('fetch('), '送信の出口が実在しない');
   assert.ok(sender.includes('sanitizeStats'), '送る直前の絞り込みが無い');
+});
+
+/**
+ * `document` の無い node では `loadRecaptchaEnterprise()` が即 `null` を返す。
+ * **そのまま「読み込まない」を確かめても、門を消しても緑のままになる。**
+ * 偽の `window`/`document` を置いて、**読み込みが起きれば必ず観測できる状態**にしてから見る。
+ */
+function fakeBrowser(): { scripts: string[]; restore: () => void } {
+  const scripts: string[] = [];
+  const globals = globalThis as unknown as Record<string, unknown>;
+  const had = { window: 'window' in globals, document: 'document' in globals };
+  const before = { window: globals.window, document: globals.document };
+  globals.window = {};
+  globals.document = {
+    createElement: () => ({ src: '', async: false, onload: null, onerror: null }),
+    head: {
+      append(script: { src: string; onerror?: (() => void) | null }) {
+        scripts.push(script.src);
+        // **必ず決着させる。** 呼ばないと読み込みの Promise が解決せず、
+        // 門を外したときの破壊試験が「赤」ではなく「終わらない」になる。
+        script.onerror?.();
+      },
+    },
+  };
+  return {
+    scripts,
+    restore: () => {
+      if (had.window) globals.window = before.window; else delete globals.window;
+      if (had.document) globals.document = before.document; else delete globals.document;
+    },
+  };
+}
+
+/**
+ * 走査対象の実在（陽性対照）。**この試験が緑でない限り、下の「0件」は何の証拠でもない。**
+ * `fakeBrowser()` が reCAPTCHA の読み込みを本当に捕まえることを、先に確かめる。
+ */
+test('送信: 偽の document は reCAPTCHA の読み込みを実際に捕まえる', { timeout: 5000 }, async () => {
+  const browser = fakeBrowser();
+  try {
+    assert.equal(await getAppCheckToken(), null, '読み込みに失敗したら null（送信は止めない）');
+    assert.equal(browser.scripts.length, 1, '偽の document がスクリプトを捕まえていない');
+    assert.match(browser.scripts[0]!, /^https:\/\/www\.google\.com\/recaptcha\/enterprise\.js\?render=/);
+  } finally {
+    browser.restore();
+  }
+});
+
+/**
+ * 2026-09-13 の裁定（案2）の釘。**`getToken` を渡さず、既定の配線そのものを通す。**
+ * 部品が呼ばれないことではなく、**Google への読み込みが1件も出ないこと**で見る。
+ * `appConfig.appCheckEnabled` を真へ戻したら、この1件だけが赤くなる。
+ */
+test('送信: App Check が無効な間、既定の経路は reCAPTCHA を読み込まない', { timeout: 5000 }, async () => {
+  const browser = fakeBrowser();
+  try {
+    const { send, sent } = recorder(ok());
+    assert.equal(await sendStats({ payload: payload(), allowed: true, send }), 'sent');
+    assert.equal(sent.length, 1, '統計そのものは止めない');
+    assert.equal('X-Firebase-AppCheck' in sent[0]!.headers, false, 'トークンを取っていないのにヘッダが付いている');
+    assert.deepEqual(browser.scripts, [], 'reCAPTCHA を読み込んでいる');
+  } finally {
+    browser.restore();
+  }
 });

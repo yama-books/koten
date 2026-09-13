@@ -15,6 +15,21 @@ import { getAppCheckToken } from './app-check.ts';
  */
 export type SendResult = 'sent' | 'retry' | 'blocked';
 
+/** App Check を取りに行かないときの既定。**reCAPTCHA を1度も読み込まない。** */
+const noAppCheckToken = async (): Promise<string | null> => null;
+
+/**
+ * 既定のトークン取得を選ぶ。`appConfig.appCheckEnabled` が偽なら `getAppCheckToken` へ到達しない。
+ *
+ * **門を `getAppCheckToken()` の内側へ置かない。** 内側で `null` を返すと
+ * `tests/unit/telemetry/app-check.test.ts` の3件が「null が返る」だけを見る試験へ退化し、
+ * **門を消しても全部緑になる。** 呼び出し側に置けば部品の試験はそのまま生き、
+ * 配線は `sender.test.ts` の「既定の経路が reCAPTCHA を読み込まない」が押さえる。
+ */
+function defaultGetToken(): () => Promise<string | null> {
+  return appConfig.appCheckEnabled ? getAppCheckToken : noAppCheckToken;
+}
+
 /** 送信の実体。試験では差し替える。 */
 export type HttpSend = (spec: HttpRequestSpec) => Promise<{ status: number; text: string }>;
 
@@ -40,7 +55,7 @@ export async function sendStats(input: { payload: unknown; allowed: boolean; sen
   if (payload === null) return 'blocked';
 
   try {
-    const appCheckToken = await (input.getToken ?? getAppCheckToken)();
+    const appCheckToken = await (input.getToken ?? defaultGetToken())();
     const created = await input.send(statsCreateRequest(appConfig.firebase, { payload, appCheckToken }));
     return interpretCreateStatus(created.status);
   } catch {
