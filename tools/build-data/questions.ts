@@ -112,9 +112,18 @@ export function generateQuestions(poems: Poem[], review: Review) {
     const freeAccepted = unique([poem.author.canonical, ...poem.author.aliases, ...extraAccepted(entry), ...extraAcceptedFreeOnly(entry), poem.reading.historical.author, poem.reading.modern.author]);
     const free = { ...base, questionId: `${poem.poemId}-author-free`, answer: poem.author.canonical, acceptedAnswers: freeAccepted, partialAnswers: unique(extraPartials(entry)).filter((value) => !freeAccepted.includes(value)), candidates: [], normalization: 'kana' };
     if (wrong.length < 4) return [free];
+    /*
+     * 依頼者裁定（2026-09-13）: **本文は歴史的仮名遣い。作者は現代仮名遣いでもよい。**
+     * 作者名を歴史的仮名遣いで覚えるのは負担が重い、という理由である。**非対称は承知のうえ。**
+     * よって読みを書かせる問も、自由記述（発注082）と同じく現代仮名遣いを ○ で受ける。
+     * **本文（blank）は D-26 のまま △ に据え置く**——`answerSet` の既定のふるまいがそれである。
+     *
+     * 受理するのは**それぞれの綴りそのもの**なので、取り混ぜた綴りは自動的に不可のままになる。
+     */
+    const kanaAccepted = unique([poem.reading.historical.author, poem.reading.modern.author, ...readingsOnly(extraAccepted(entry))]);
     return [
       { ...base, questionId: `${poem.poemId}-author-choice`, answer: poem.author.canonical, acceptedAnswers: [poem.author.canonical], partialAnswers: [], candidates, normalization: 'exact' },
-      { ...base, questionId: `${poem.poemId}-author-kana`, answer: poem.reading.historical.author, ...answerSet(poem.reading.historical.author, poem.reading.historical.author, poem.reading.modern.author, readingsOnly(extraAccepted(entry))), candidates, normalization: 'kana' },
+      { ...base, questionId: `${poem.poemId}-author-kana`, answer: poem.reading.historical.author, acceptedAnswers: kanaAccepted, partialAnswers: unique(extraPartials(entry)).filter((value) => !kanaAccepted.includes(value)), candidates, normalization: 'kana' },
       free,
     ];
   });

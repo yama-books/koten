@@ -32,7 +32,8 @@
   },
   {
     "acceptedAnswers": [
-      "てんぢてんわう"
+      "てんぢてんわう",
+      "てんじてんのう"
     ],
     "answer": "てんぢてんわう",
     "answerHistorical": "てんぢてんわう",
@@ -51,9 +52,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "てんじてんのう"
-    ],
+    "partialAnswers": [],
     "poemId": "p001",
     "prompt": "秋の田のかりほの庵の苫をあらみわが衣手は露にぬれつつ",
     "proposedBy": "human",
@@ -123,7 +122,8 @@
   },
   {
     "acceptedAnswers": [
-      "ぢとうてんわう"
+      "ぢとうてんわう",
+      "じとうてんのう"
     ],
     "answer": "ぢとうてんわう",
     "answerHistorical": "ぢとうてんわう",
@@ -142,9 +142,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "じとうてんのう"
-    ],
+    "partialAnswers": [],
     "poemId": "p002",
     "prompt": "春すぎて夏来にけらし白妙の衣ほすてふ天の香具山",
     "proposedBy": "human",
@@ -391,7 +389,8 @@
   },
   {
     "acceptedAnswers": [
-      "さるまるだいふ"
+      "さるまるだいふ",
+      "さるまるだゆう"
     ],
     "answer": "さるまるだいふ",
     "answerHistorical": "さるまるだいふ",
@@ -410,9 +409,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さるまるだゆう"
-    ],
+    "partialAnswers": [],
     "poemId": "p005",
     "prompt": "奥山にもみぢふみわけなく鹿の声聞くときぞ秋はかなしき",
     "proposedBy": "human",
@@ -483,7 +480,8 @@
   },
   {
     "acceptedAnswers": [
-      "ちゆうなごんやかもち"
+      "ちゆうなごんやかもち",
+      "ちゅうなごんやかもち"
     ],
     "answer": "ちゆうなごんやかもち",
     "answerHistorical": "ちゆうなごんやかもち",
@@ -502,9 +500,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ちゅうなごんやかもち"
-    ],
+    "partialAnswers": [],
     "poemId": "p006",
     "prompt": "かさゝぎの渡せる橋におく霜の白きを見れば夜ぞふけにける",
     "proposedBy": "human",
@@ -663,7 +659,8 @@
   },
   {
     "acceptedAnswers": [
-      "きせんほふし"
+      "きせんほふし",
+      "きせんほうし"
     ],
     "answer": "きせんほふし",
     "answerHistorical": "きせんほふし",
@@ -682,9 +679,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "きせんほうし"
-    ],
+    "partialAnswers": [],
     "poemId": "p008",
     "prompt": "わが庵は都のたつみしかぞすむ世をうぢ山と人はいふなり",
     "proposedBy": "human",
@@ -754,7 +749,8 @@
   },
   {
     "acceptedAnswers": [
-      "をののこまち"
+      "をののこまち",
+      "おののこまち"
     ],
     "answer": "をののこまち",
     "answerHistorical": "をののこまち",
@@ -773,9 +769,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "おののこまち"
-    ],
+    "partialAnswers": [],
     "poemId": "p009",
     "prompt": "花の色はうつりにけりないたづらにわが身世にふるながめせしまに",
     "proposedBy": "human",
@@ -1021,7 +1015,8 @@
   },
   {
     "acceptedAnswers": [
-      "そうじやうへんぜう"
+      "そうじやうへんぜう",
+      "そうじょうへんじょう"
     ],
     "answer": "そうじやうへんぜう",
     "answerHistorical": "そうじやうへんぜう",
@@ -1040,9 +1035,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "そうじょうへんじょう"
-    ],
+    "partialAnswers": [],
     "poemId": "p012",
     "prompt": "天つ風雲のかよひ路吹きとぢよをとめの姿しばしとどめむ",
     "proposedBy": "human",
@@ -1112,7 +1105,8 @@
   },
   {
     "acceptedAnswers": [
-      "やうぜいゐん"
+      "やうぜいゐん",
+      "ようぜいいん"
     ],
     "answer": "やうぜいゐん",
     "answerHistorical": "やうぜいゐん",
@@ -1131,9 +1125,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ようぜいいん"
-    ],
+    "partialAnswers": [],
     "poemId": "p013",
     "prompt": "つくばねの峰よりおつるみなの川こひぞつもりて淵となりぬる",
     "proposedBy": "human",
@@ -1203,7 +1195,8 @@
   },
   {
     "acceptedAnswers": [
-      "かはらのさだいじん"
+      "かはらのさだいじん",
+      "かわらのさだいじん"
     ],
     "answer": "かはらのさだいじん",
     "answerHistorical": "かはらのさだいじん",
@@ -1222,9 +1215,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "かわらのさだいじん"
-    ],
+    "partialAnswers": [],
     "poemId": "p014",
     "prompt": "みちのくのしのぶもぢずり誰ゆゑに乱れそめにしわれならなくに",
     "proposedBy": "human",
@@ -1294,7 +1285,8 @@
   },
   {
     "acceptedAnswers": [
-      "くわうかうてんわう"
+      "くわうかうてんわう",
+      "こうこうてんのう"
     ],
     "answer": "くわうかうてんわう",
     "answerHistorical": "くわうかうてんわう",
@@ -1313,9 +1305,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "こうこうてんのう"
-    ],
+    "partialAnswers": [],
     "poemId": "p015",
     "prompt": "君がため春の野にいでて若菜つむわが衣手に雪はふりつつ",
     "proposedBy": "human",
@@ -1385,7 +1375,8 @@
   },
   {
     "acceptedAnswers": [
-      "ちゆうなごんゆきひら"
+      "ちゆうなごんゆきひら",
+      "ちゅうなごんゆきひら"
     ],
     "answer": "ちゆうなごんゆきひら",
     "answerHistorical": "ちゆうなごんゆきひら",
@@ -1404,9 +1395,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ちゅうなごんゆきひら"
-    ],
+    "partialAnswers": [],
     "poemId": "p016",
     "prompt": "立ちわかれいなばの山の峯に生ふるまつとし聞かばいま帰り来む",
     "proposedBy": "human",
@@ -1476,7 +1465,8 @@
   },
   {
     "acceptedAnswers": [
-      "ありはらのなりひらあそん"
+      "ありはらのなりひらあそん",
+      "ありわらのなりひらあそん"
     ],
     "answer": "ありはらのなりひらあそん",
     "answerHistorical": "ありはらのなりひらあそん",
@@ -1495,9 +1485,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ありわらのなりひらあそん"
-    ],
+    "partialAnswers": [],
     "poemId": "p017",
     "prompt": "ちはやぶる神代もきかず竜田川からくれなゐに水くくるとは",
     "proposedBy": "human",
@@ -1567,7 +1555,8 @@
   },
   {
     "acceptedAnswers": [
-      "ふぢはらのとしゆきあそん"
+      "ふぢはらのとしゆきあそん",
+      "ふじわらのとしゆきあそん"
     ],
     "answer": "ふぢはらのとしゆきあそん",
     "answerHistorical": "ふぢはらのとしゆきあそん",
@@ -1586,9 +1575,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ふじわらのとしゆきあそん"
-    ],
+    "partialAnswers": [],
     "poemId": "p018",
     "prompt": "すみの江の岸による波よるさへや夢のかよひ路人めよくらむ",
     "proposedBy": "human",
@@ -1746,7 +1733,8 @@
   },
   {
     "acceptedAnswers": [
-      "もとよししんわう"
+      "もとよししんわう",
+      "もとよししんのう"
     ],
     "answer": "もとよししんわう",
     "answerHistorical": "もとよししんわう",
@@ -1765,9 +1753,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "もとよししんのう"
-    ],
+    "partialAnswers": [],
     "poemId": "p020",
     "prompt": "わびぬればいまはたおなじ難波なるみをつくしてもあはむとぞ思ふ",
     "proposedBy": "human",
@@ -1837,7 +1823,8 @@
   },
   {
     "acceptedAnswers": [
-      "そせいほふし"
+      "そせいほふし",
+      "そせいほうし"
     ],
     "answer": "そせいほふし",
     "answerHistorical": "そせいほふし",
@@ -1856,9 +1843,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "そせいほうし"
-    ],
+    "partialAnswers": [],
     "poemId": "p021",
     "prompt": "いまこむといひしばかりに長月のありあけの月を待ちいでつるかな",
     "proposedBy": "human",
@@ -2016,7 +2001,8 @@
   },
   {
     "acceptedAnswers": [
-      "おほえのちさと"
+      "おほえのちさと",
+      "おおえのちさと"
     ],
     "answer": "おほえのちさと",
     "answerHistorical": "おほえのちさと",
@@ -2035,9 +2021,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "おおえのちさと"
-    ],
+    "partialAnswers": [],
     "poemId": "p023",
     "prompt": "月みればちぢに物こそかなしけれわが身ひとつの秋にはあらねど",
     "proposedBy": "human",
@@ -2195,7 +2179,8 @@
   },
   {
     "acceptedAnswers": [
-      "さんでうのうだいじん"
+      "さんでうのうだいじん",
+      "さんじょうのうだいじん"
     ],
     "answer": "さんでうのうだいじん",
     "answerHistorical": "さんでうのうだいじん",
@@ -2214,9 +2199,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さんじょうのうだいじん"
-    ],
+    "partialAnswers": [],
     "poemId": "p025",
     "prompt": "名にしおはば逢坂山のさねかづら人にしられで来るよしもがな",
     "proposedBy": "human",
@@ -2374,7 +2357,8 @@
   },
   {
     "acceptedAnswers": [
-      "ちゆうなごんかねすけ"
+      "ちゆうなごんかねすけ",
+      "ちゅうなごんかねすけ"
     ],
     "answer": "ちゆうなごんかねすけ",
     "answerHistorical": "ちゆうなごんかねすけ",
@@ -2393,9 +2377,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ちゅうなごんかねすけ"
-    ],
+    "partialAnswers": [],
     "poemId": "p027",
     "prompt": "みかの原わきて流るるいづみ川いつ見きとてか恋しかるらむ",
     "proposedBy": "human",
@@ -2553,7 +2535,8 @@
   },
   {
     "acceptedAnswers": [
-      "おほしかふちのみつね"
+      "おほしかふちのみつね",
+      "おおしこうちのみつね"
     ],
     "answer": "おほしかふちのみつね",
     "answerHistorical": "おほしかふちのみつね",
@@ -2572,9 +2555,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "おおしこうちのみつね"
-    ],
+    "partialAnswers": [],
     "poemId": "p029",
     "prompt": "心あてに折らばや折らむ初霜のおきまどはせる白菊の花",
     "proposedBy": "human",
@@ -2732,7 +2713,8 @@
   },
   {
     "acceptedAnswers": [
-      "さかのうへのこれのり"
+      "さかのうへのこれのり",
+      "さかのうえのこれのり"
     ],
     "answer": "さかのうへのこれのり",
     "answerHistorical": "さかのうへのこれのり",
@@ -2751,9 +2733,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さかのうえのこれのり"
-    ],
+    "partialAnswers": [],
     "poemId": "p031",
     "prompt": "朝ぼらけありあけの月と見るまでに吉野の里にふれる白雪",
     "proposedBy": "human",
@@ -2999,7 +2979,8 @@
   },
   {
     "acceptedAnswers": [
-      "ふぢはらのおきかぜ"
+      "ふぢはらのおきかぜ",
+      "ふじわらのおきかぜ"
     ],
     "answer": "ふぢはらのおきかぜ",
     "answerHistorical": "ふぢはらのおきかぜ",
@@ -3018,9 +2999,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ふじわらのおきかぜ"
-    ],
+    "partialAnswers": [],
     "poemId": "p034",
     "prompt": "誰をかもしる人にせむ高砂の松も昔の友ならなくに",
     "proposedBy": "human",
@@ -3530,7 +3509,8 @@
   },
   {
     "acceptedAnswers": [
-      "たひらのかねもり"
+      "たひらのかねもり",
+      "たいらのかねもり"
     ],
     "answer": "たひらのかねもり",
     "answerHistorical": "たひらのかねもり",
@@ -3549,9 +3529,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "たいらのかねもり"
-    ],
+    "partialAnswers": [],
     "poemId": "p040",
     "prompt": "しのぶれど色にいでにけりわが恋は物や思ふと人のとふまで",
     "proposedBy": "human",
@@ -3797,7 +3775,8 @@
   },
   {
     "acceptedAnswers": [
-      "ごんちゆうなごんあつただ"
+      "ごんちゆうなごんあつただ",
+      "ごんちゅうなごんあつただ"
     ],
     "answer": "ごんちゆうなごんあつただ",
     "answerHistorical": "ごんちゆうなごんあつただ",
@@ -3816,9 +3795,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ごんちゅうなごんあつただ"
-    ],
+    "partialAnswers": [],
     "poemId": "p043",
     "prompt": "あひみてののちの心にくらぶれば昔は物を思はざりけり",
     "proposedBy": "human",
@@ -3888,7 +3865,8 @@
   },
   {
     "acceptedAnswers": [
-      "ちゆうなごんあさただ"
+      "ちゆうなごんあさただ",
+      "ちゅうなごんあさただ"
     ],
     "answer": "ちゆうなごんあさただ",
     "answerHistorical": "ちゆうなごんあさただ",
@@ -3907,9 +3885,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ちゅうなごんあさただ"
-    ],
+    "partialAnswers": [],
     "poemId": "p044",
     "prompt": "あふことのたえてしなくはなかなかに人をも身をも恨みざらまし",
     "proposedBy": "human",
@@ -4156,7 +4132,8 @@
   },
   {
     "acceptedAnswers": [
-      "ゑぎやうほふし"
+      "ゑぎやうほふし",
+      "えぎょうほうし"
     ],
     "answer": "ゑぎやうほふし",
     "answerHistorical": "ゑぎやうほふし",
@@ -4175,9 +4152,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "えぎょうほうし"
-    ],
+    "partialAnswers": [],
     "poemId": "p047",
     "prompt": "八重むぐらしげれる宿のさびしきに人こそ見えね秋は来にけり",
     "proposedBy": "human",
@@ -4335,7 +4310,8 @@
   },
   {
     "acceptedAnswers": [
-      "おほなかとみのよしのぶ"
+      "おほなかとみのよしのぶ",
+      "おおなかとみのよしのぶ"
     ],
     "answer": "おほなかとみのよしのぶ",
     "answerHistorical": "おほなかとみのよしのぶ",
@@ -4354,9 +4330,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "おおなかとみのよしのぶ"
-    ],
+    "partialAnswers": [],
     "poemId": "p049",
     "prompt": "みかきもり衛士のたく火の夜はもえ昼は消えつつ物をこそ思へ",
     "proposedBy": "human",
@@ -4426,7 +4400,8 @@
   },
   {
     "acceptedAnswers": [
-      "ふぢはらのよしたか"
+      "ふぢはらのよしたか",
+      "ふじわらのよしたか"
     ],
     "answer": "ふぢはらのよしたか",
     "answerHistorical": "ふぢはらのよしたか",
@@ -4445,9 +4420,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ふじわらのよしたか"
-    ],
+    "partialAnswers": [],
     "poemId": "p050",
     "prompt": "君がため惜しからざりしいのちさへ長くもがなと思ひけるかな",
     "proposedBy": "human",
@@ -4517,7 +4490,8 @@
   },
   {
     "acceptedAnswers": [
-      "ふぢはらのさねかたあそん"
+      "ふぢはらのさねかたあそん",
+      "ふじわらのさねかたあそん"
     ],
     "answer": "ふぢはらのさねかたあそん",
     "answerHistorical": "ふぢはらのさねかたあそん",
@@ -4536,9 +4510,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ふじわらのさねかたあそん"
-    ],
+    "partialAnswers": [],
     "poemId": "p051",
     "prompt": "かくとだにえやはいぶきのさしも草さしも知らじなもゆる思ひを",
     "proposedBy": "human",
@@ -4608,7 +4580,8 @@
   },
   {
     "acceptedAnswers": [
-      "ふぢはらのみちのぶあそん"
+      "ふぢはらのみちのぶあそん",
+      "ふじわらのみちのぶあそん"
     ],
     "answer": "ふぢはらのみちのぶあそん",
     "answerHistorical": "ふぢはらのみちのぶあそん",
@@ -4627,9 +4600,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ふじわらのみちのぶあそん"
-    ],
+    "partialAnswers": [],
     "poemId": "p052",
     "prompt": "あけぬれば暮るるものとはしりながらなほうらめしき朝ぼらけかな",
     "proposedBy": "human",
@@ -4699,7 +4670,8 @@
   },
   {
     "acceptedAnswers": [
-      "うだいしやうみちつなのはは"
+      "うだいしやうみちつなのはは",
+      "うだいしょうみちつなのはは"
     ],
     "answer": "うだいしやうみちつなのはは",
     "answerHistorical": "うだいしやうみちつなのはは",
@@ -4718,9 +4690,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "うだいしょうみちつなのはは"
-    ],
+    "partialAnswers": [],
     "poemId": "p053",
     "prompt": "なげきつつひとりぬる夜のあくるまはいかに久しきものとかはしる",
     "proposedBy": "human",
@@ -4966,7 +4936,8 @@
   },
   {
     "acceptedAnswers": [
-      "いづみしきぶ"
+      "いづみしきぶ",
+      "いずみしきぶ"
     ],
     "answer": "いづみしきぶ",
     "answerHistorical": "いづみしきぶ",
@@ -4985,9 +4956,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "いずみしきぶ"
-    ],
+    "partialAnswers": [],
     "poemId": "p056",
     "prompt": "あらざらむこの世のほかの思ひ出にいまひとたびのあふこともがな",
     "proposedBy": "human",
@@ -5145,7 +5114,8 @@
   },
   {
     "acceptedAnswers": [
-      "だいにのさんゐ"
+      "だいにのさんゐ",
+      "だいにのさんみ"
     ],
     "answer": "だいにのさんゐ",
     "answerHistorical": "だいにのさんゐ",
@@ -5164,9 +5134,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "だいにのさんみ"
-    ],
+    "partialAnswers": [],
     "poemId": "p058",
     "prompt": "ありま山ゐなの笹原風吹けばいでそよ人を忘れやはする",
     "proposedBy": "human",
@@ -5236,7 +5204,8 @@
   },
   {
     "acceptedAnswers": [
-      "あかぞめゑもん"
+      "あかぞめゑもん",
+      "あかぞめえもん"
     ],
     "answer": "あかぞめゑもん",
     "answerHistorical": "あかぞめゑもん",
@@ -5255,9 +5224,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "あかぞめえもん"
-    ],
+    "partialAnswers": [],
     "poemId": "p059",
     "prompt": "やすらはで寝なましものをさ夜ふけてかたぶくまでの月をみしかな",
     "proposedBy": "human",
@@ -5505,7 +5472,8 @@
   },
   {
     "acceptedAnswers": [
-      "せいせうなごん"
+      "せいせうなごん",
+      "せいしょうなごん"
     ],
     "answer": "せいせうなごん",
     "answerHistorical": "せいせうなごん",
@@ -5524,9 +5492,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "せいしょうなごん"
-    ],
+    "partialAnswers": [],
     "poemId": "p062",
     "prompt": "夜をこめて鳥のそらねははかるともよに逢坂の関はゆるさじ",
     "proposedBy": "human",
@@ -5596,7 +5562,8 @@
   },
   {
     "acceptedAnswers": [
-      "さきやうだいぶみちまさ"
+      "さきやうだいぶみちまさ",
+      "さきょうのだいぶみちまさ"
     ],
     "answer": "さきやうだいぶみちまさ",
     "answerHistorical": "さきやうだいぶみちまさ",
@@ -5615,9 +5582,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さきょうのだいぶみちまさ"
-    ],
+    "partialAnswers": [],
     "poemId": "p063",
     "prompt": "いまはただ思ひ絶えなむとばかりを人づてならで言ふよしもがな",
     "proposedBy": "human",
@@ -5687,7 +5652,8 @@
   },
   {
     "acceptedAnswers": [
-      "ごんちゆうなごんさだより"
+      "ごんちゆうなごんさだより",
+      "ごんちゅうなごんさだより"
     ],
     "answer": "ごんちゆうなごんさだより",
     "answerHistorical": "ごんちゆうなごんさだより",
@@ -5706,9 +5672,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ごんちゅうなごんさだより"
-    ],
+    "partialAnswers": [],
     "poemId": "p064",
     "prompt": "朝ぼらけ宇治の川霧たえだえにあらはれわたる瀬々の網代木",
     "proposedBy": "human",
@@ -5866,7 +5830,8 @@
   },
   {
     "acceptedAnswers": [
-      "さきのだいそうじやうぎやうそん"
+      "さきのだいそうじやうぎやうそん",
+      "さきのだいそうじょうぎょうそん"
     ],
     "answer": "さきのだいそうじやうぎやうそん",
     "answerHistorical": "さきのだいそうじやうぎやうそん",
@@ -5885,9 +5850,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さきのだいそうじょうぎょうそん"
-    ],
+    "partialAnswers": [],
     "poemId": "p066",
     "prompt": "もろともにあはれと思へ山桜花よりほかにしる人もなし",
     "proposedBy": "human",
@@ -5957,7 +5920,8 @@
   },
   {
     "acceptedAnswers": [
-      "すはうのないし"
+      "すはうのないし",
+      "すおうのないし"
     ],
     "answer": "すはうのないし",
     "answerHistorical": "すはうのないし",
@@ -5976,9 +5940,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "すおうのないし"
-    ],
+    "partialAnswers": [],
     "poemId": "p067",
     "prompt": "春の夜のゆめばかりなる手枕にかひなくたたむ名こそ惜しけれ",
     "proposedBy": "human",
@@ -6048,7 +6010,8 @@
   },
   {
     "acceptedAnswers": [
-      "さんでうゐん"
+      "さんでうゐん",
+      "さんじょういん"
     ],
     "answer": "さんでうゐん",
     "answerHistorical": "さんでうゐん",
@@ -6067,9 +6030,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さんじょういん"
-    ],
+    "partialAnswers": [],
     "poemId": "p068",
     "prompt": "心にもあらでうき世にながらへば恋しかるべき夜半の月かな",
     "proposedBy": "human",
@@ -6139,7 +6100,8 @@
   },
   {
     "acceptedAnswers": [
-      "のういんほふし"
+      "のういんほふし",
+      "のういんほうし"
     ],
     "answer": "のういんほふし",
     "answerHistorical": "のういんほふし",
@@ -6158,9 +6120,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "のういんほうし"
-    ],
+    "partialAnswers": [],
     "poemId": "p069",
     "prompt": "あらしふくみ室の山のもみぢ葉は竜田の川の錦なりけり",
     "proposedBy": "human",
@@ -6230,7 +6190,8 @@
   },
   {
     "acceptedAnswers": [
-      "りやうせんほふし"
+      "りやうせんほふし",
+      "りょうぜんほうし"
     ],
     "answer": "りやうせんほふし",
     "answerHistorical": "りやうせんほふし",
@@ -6249,9 +6210,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "りょうぜんほうし"
-    ],
+    "partialAnswers": [],
     "poemId": "p070",
     "prompt": "さびしさに宿をたちいでてながむればいづこもおなじ秋の夕ぐれ",
     "proposedBy": "human",
@@ -6409,7 +6368,8 @@
   },
   {
     "acceptedAnswers": [
-      "ゆうしないしんわうけのきい"
+      "ゆうしないしんわうけのきい",
+      "ゆうしないしんのうけのきい"
     ],
     "answer": "ゆうしないしんわうけのきい",
     "answerHistorical": "ゆうしないしんわうけのきい",
@@ -6428,9 +6388,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ゆうしないしんのうけのきい"
-    ],
+    "partialAnswers": [],
     "poemId": "p072",
     "prompt": "音にきくたかしの浜のあだ波はかけじや袖のぬれもこそすれ",
     "proposedBy": "human",
@@ -6500,7 +6458,8 @@
   },
   {
     "acceptedAnswers": [
-      "さきのちゆうなごんまさふさ"
+      "さきのちゆうなごんまさふさ",
+      "さきのちゅうなごんまさふさ"
     ],
     "answer": "さきのちゆうなごんまさふさ",
     "answerHistorical": "さきのちゆうなごんまさふさ",
@@ -6519,9 +6478,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さきのちゅうなごんまさふさ"
-    ],
+    "partialAnswers": [],
     "poemId": "p073",
     "prompt": "高砂のをのへの桜咲きにけり外山のかすみたたずもあらなむ",
     "proposedBy": "human",
@@ -6682,7 +6639,8 @@
   },
   {
     "acceptedAnswers": [
-      "ふぢはらのもととし"
+      "ふぢはらのもととし",
+      "ふじわらのもととし"
     ],
     "answer": "ふぢはらのもととし",
     "answerHistorical": "ふぢはらのもととし",
@@ -6701,9 +6659,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ふじわらのもととし"
-    ],
+    "partialAnswers": [],
     "poemId": "p075",
     "prompt": "ちぎりおきしさせもが露をいのちにてあはれ今年の秋もいぬめり",
     "proposedBy": "human",
@@ -6773,7 +6729,8 @@
   },
   {
     "acceptedAnswers": [
-      "ほふしやうじにふだうさきのかんぱくだじやうだいじん"
+      "ほふしやうじにふだうさきのかんぱくだじやうだいじん",
+      "ほっしょうじにゅうどうさきのかんぱくだいじょうだいじん"
     ],
     "answer": "ほふしやうじにふだうさきのかんぱくだじやうだいじん",
     "answerHistorical": "ほふしやうじにふだうさきのかんぱくだじやうだいじん",
@@ -6792,9 +6749,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ほっしょうじにゅうどうさきのかんぱくだいじょうだいじん"
-    ],
+    "partialAnswers": [],
     "poemId": "p076",
     "prompt": "わたの原こぎいでてみれば久方の雲ゐにまがふ沖つ白波",
     "proposedBy": "human",
@@ -6864,7 +6819,8 @@
   },
   {
     "acceptedAnswers": [
-      "すとくゐん"
+      "すとくゐん",
+      "すとくいん"
     ],
     "answer": "すとくゐん",
     "answerHistorical": "すとくゐん",
@@ -6883,9 +6839,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "すとくいん"
-    ],
+    "partialAnswers": [],
     "poemId": "p077",
     "prompt": "瀬をはやみ岩にせかるる滝川のわれても末にあはむとぞ思ふ",
     "proposedBy": "human",
@@ -7043,7 +6997,8 @@
   },
   {
     "acceptedAnswers": [
-      "さきやうだいぶあきすけ"
+      "さきやうだいぶあきすけ",
+      "さきょうのだいぶあきすけ"
     ],
     "answer": "さきやうだいぶあきすけ",
     "answerHistorical": "さきやうだいぶあきすけ",
@@ -7062,9 +7017,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さきょうのだいぶあきすけ"
-    ],
+    "partialAnswers": [],
     "poemId": "p079",
     "prompt": "秋風にたなびく雲のたえ間よりもれいづる月のかげのさやけさ",
     "proposedBy": "human",
@@ -7134,7 +7087,8 @@
   },
   {
     "acceptedAnswers": [
-      "たいけんもんゐんのほりかは"
+      "たいけんもんゐんのほりかは",
+      "たいけんもんいんのほりかわ"
     ],
     "answer": "たいけんもんゐんのほりかは",
     "answerHistorical": "たいけんもんゐんのほりかは",
@@ -7153,9 +7107,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "たいけんもんいんのほりかわ"
-    ],
+    "partialAnswers": [],
     "poemId": "p080",
     "prompt": "長からむ心もしらず黒髪のみだれてけさは物をこそ思へ",
     "proposedBy": "human",
@@ -7313,7 +7265,8 @@
   },
   {
     "acceptedAnswers": [
-      "だういんほふし"
+      "だういんほふし",
+      "どういんほうし"
     ],
     "answer": "だういんほふし",
     "answerHistorical": "だういんほふし",
@@ -7332,9 +7285,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "どういんほうし"
-    ],
+    "partialAnswers": [],
     "poemId": "p082",
     "prompt": "思ひわびさてもいのちはあるものを憂きにたへぬは涙なりけり",
     "proposedBy": "human",
@@ -7404,7 +7355,8 @@
   },
   {
     "acceptedAnswers": [
-      "くわうたいごうぐうのだいぶとしなり"
+      "くわうたいごうぐうのだいぶとしなり",
+      "こうたいごうぐうのだいぶしゅんぜい"
     ],
     "answer": "くわうたいごうぐうのだいぶとしなり",
     "answerHistorical": "くわうたいごうぐうのだいぶとしなり",
@@ -7423,9 +7375,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "こうたいごうぐうのだいぶしゅんぜい"
-    ],
+    "partialAnswers": [],
     "poemId": "p083",
     "prompt": "世の中よ道こそなけれ思ひ入る山の奥にも鹿ぞ鳴くなる",
     "proposedBy": "human",
@@ -7495,7 +7445,8 @@
   },
   {
     "acceptedAnswers": [
-      "ふぢはらのきよすけあそん"
+      "ふぢはらのきよすけあそん",
+      "ふじわらのきよすけあそん"
     ],
     "answer": "ふぢはらのきよすけあそん",
     "answerHistorical": "ふぢはらのきよすけあそん",
@@ -7514,9 +7465,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ふじわらのきよすけあそん"
-    ],
+    "partialAnswers": [],
     "poemId": "p084",
     "prompt": "ながらへばまたこのごろやしのばれむ憂しと見し世ぞ今は恋しき",
     "proposedBy": "human",
@@ -7586,7 +7535,8 @@
   },
   {
     "acceptedAnswers": [
-      "しゆんゑほふし"
+      "しゆんゑほふし",
+      "しゅんえほうし"
     ],
     "answer": "しゆんゑほふし",
     "answerHistorical": "しゆんゑほふし",
@@ -7605,9 +7555,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "しゅんえほうし"
-    ],
+    "partialAnswers": [],
     "poemId": "p085",
     "prompt": "夜もすがら物思ふころは明けやらで閨のひまさへつれなかりけり",
     "proposedBy": "human",
@@ -7677,7 +7625,8 @@
   },
   {
     "acceptedAnswers": [
-      "さいぎやうほふし"
+      "さいぎやうほふし",
+      "さいぎょうほうし"
     ],
     "answer": "さいぎやうほふし",
     "answerHistorical": "さいぎやうほふし",
@@ -7696,9 +7645,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さいぎょうほうし"
-    ],
+    "partialAnswers": [],
     "poemId": "p086",
     "prompt": "なげけとて月やは物を思はするかこち顔なるわが涙かな",
     "proposedBy": "human",
@@ -7768,7 +7715,8 @@
   },
   {
     "acceptedAnswers": [
-      "じやくれんほふし"
+      "じやくれんほふし",
+      "じゃくれんほうし"
     ],
     "answer": "じやくれんほふし",
     "answerHistorical": "じやくれんほふし",
@@ -7787,9 +7735,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "じゃくれんほうし"
-    ],
+    "partialAnswers": [],
     "poemId": "p087",
     "prompt": "村雨の露もまだひぬまきの葉に霧たちのぼる秋の夕ぐれ",
     "proposedBy": "human",
@@ -7859,7 +7805,8 @@
   },
   {
     "acceptedAnswers": [
-      "くわうかもんゐんのべつたう"
+      "くわうかもんゐんのべつたう",
+      "こうかもんいんのべっとう"
     ],
     "answer": "くわうかもんゐんのべつたう",
     "answerHistorical": "くわうかもんゐんのべつたう",
@@ -7878,9 +7825,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "こうかもんいんのべっとう"
-    ],
+    "partialAnswers": [],
     "poemId": "p088",
     "prompt": "難波江の芦のかりねのひとよゆゑみをつくしてや恋ひわたるべき",
     "proposedBy": "human",
@@ -7951,6 +7896,7 @@
   {
     "acceptedAnswers": [
       "しよくしないしんわう",
+      "しょくしないしんのう",
       "しきしないしんわう",
       "しきしないしんのう"
     ],
@@ -7971,9 +7917,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "しょくしないしんのう"
-    ],
+    "partialAnswers": [],
     "poemId": "p089",
     "prompt": "玉のをよたえなばたえねながらへば忍ぶることの弱りもぞする",
     "proposedBy": "human",
@@ -8045,7 +7989,8 @@
   },
   {
     "acceptedAnswers": [
-      "いんぶもんゐんのたいふ"
+      "いんぶもんゐんのたいふ",
+      "いんぷもんいんのたいふ"
     ],
     "answer": "いんぶもんゐんのたいふ",
     "answerHistorical": "いんぶもんゐんのたいふ",
@@ -8064,9 +8009,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "いんぷもんいんのたいふ"
-    ],
+    "partialAnswers": [],
     "poemId": "p090",
     "prompt": "見せばやな雄島のあまの袖だにもぬれにぞぬれし色はかはらず",
     "proposedBy": "human",
@@ -8136,7 +8079,8 @@
   },
   {
     "acceptedAnswers": [
-      "ごきやうごくせふしやうさきのだじやうだいじん"
+      "ごきやうごくせふしやうさきのだじやうだいじん",
+      "ごきょうごくせっしょうさきのだいじょうだいじん"
     ],
     "answer": "ごきやうごくせふしやうさきのだじやうだいじん",
     "answerHistorical": "ごきやうごくせふしやうさきのだじやうだいじん",
@@ -8155,9 +8099,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ごきょうごくせっしょうさきのだいじょうだいじん"
-    ],
+    "partialAnswers": [],
     "poemId": "p091",
     "prompt": "きりぎりす鳴くや霜夜のさむしろに衣かたしきひとりかも寝む",
     "proposedBy": "human",
@@ -8227,7 +8169,8 @@
   },
   {
     "acceptedAnswers": [
-      "にでうゐんのさぬき"
+      "にでうゐんのさぬき",
+      "にじょういんのさぬき"
     ],
     "answer": "にでうゐんのさぬき",
     "answerHistorical": "にでうゐんのさぬき",
@@ -8246,9 +8189,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "にじょういんのさぬき"
-    ],
+    "partialAnswers": [],
     "poemId": "p092",
     "prompt": "わが袖は潮干にみえぬ沖の石の人こそしらねかわくまもなし",
     "proposedBy": "human",
@@ -8494,7 +8435,8 @@
   },
   {
     "acceptedAnswers": [
-      "さきのだいそうじやうじゑん"
+      "さきのだいそうじやうじゑん",
+      "さきのだいそうじょうじえん"
     ],
     "answer": "さきのだいそうじやうじゑん",
     "answerHistorical": "さきのだいそうじやうじゑん",
@@ -8513,9 +8455,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "さきのだいそうじょうじえん"
-    ],
+    "partialAnswers": [],
     "poemId": "p095",
     "prompt": "おほけなくうき世の民におほふかなわが立つ杣に墨染の袖",
     "proposedBy": "human",
@@ -8585,7 +8525,8 @@
   },
   {
     "acceptedAnswers": [
-      "にふだうさきのだじやうだいじん"
+      "にふだうさきのだじやうだいじん",
+      "にゅうどうさきのだいじょうだいじん"
     ],
     "answer": "にふだうさきのだじやうだいじん",
     "answerHistorical": "にふだうさきのだじやうだいじん",
@@ -8604,9 +8545,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "にゅうどうさきのだいじょうだいじん"
-    ],
+    "partialAnswers": [],
     "poemId": "p096",
     "prompt": "花さそふ嵐の庭の雪ならでふりゆくものはわが身なりけり",
     "proposedBy": "human",
@@ -8677,6 +8616,7 @@
   {
     "acceptedAnswers": [
       "ごんちゆうなごんていか",
+      "ごんちゅうなごんていか",
       "ごんちゆうなごんさだいへ",
       "ごんちゅうなごんさだいえ"
     ],
@@ -8697,9 +8637,7 @@
     "confirmedOn": "2026-09-07",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ごんちゅうなごんていか"
-    ],
+    "partialAnswers": [],
     "poemId": "p097",
     "prompt": "こぬ人をまつほの浦の夕なぎに焼くやもしほの身もこがれつつ",
     "proposedBy": "human",
@@ -8771,7 +8709,8 @@
   },
   {
     "acceptedAnswers": [
-      "じゆにゐいへたか"
+      "じゆにゐいへたか",
+      "じゅにいいえたか"
     ],
     "answer": "じゆにゐいへたか",
     "answerHistorical": "じゆにゐいへたか",
@@ -8790,9 +8729,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "じゅにいいえたか"
-    ],
+    "partialAnswers": [],
     "poemId": "p098",
     "prompt": "風そよぐならの小川の夕ぐれはみそぎぞ夏のしるしなりける",
     "proposedBy": "human",
@@ -8862,7 +8799,8 @@
   },
   {
     "acceptedAnswers": [
-      "ごとばのゐん"
+      "ごとばのゐん",
+      "ごとばいん"
     ],
     "answer": "ごとばのゐん",
     "answerHistorical": "ごとばのゐん",
@@ -8881,9 +8819,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "ごとばいん"
-    ],
+    "partialAnswers": [],
     "poemId": "p099",
     "prompt": "人もをし人もうらめしあぢきなく世を思ふゆゑに物思ふ身は",
     "proposedBy": "human",
@@ -8953,7 +8889,8 @@
   },
   {
     "acceptedAnswers": [
-      "じゆんとくゐん"
+      "じゆんとくゐん",
+      "じゅんとくいん"
     ],
     "answer": "じゆんとくゐん",
     "answerHistorical": "じゆんとくゐん",
@@ -8972,9 +8909,7 @@
     "confirmedOn": "2026-09-04",
     "normalization": "kana",
     "note": null,
-    "partialAnswers": [
-      "じゅんとくいん"
-    ],
+    "partialAnswers": [],
     "poemId": "p100",
     "prompt": "ももしきやふるき軒ばのしのぶにもなほあまりある昔なりけり",
     "proposedBy": "human",
