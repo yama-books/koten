@@ -64,6 +64,11 @@ reports-raw/
 *.sqlite
 *.sqlite3
 
+# 統計報告ツールの出力。実利用データなので追跡しない（tools/stats-report/ が書き出す）。
+# **先頭の / を外さないこと。** 外すと名前でどこでも一致し、tools/stats-report と
+# tests/unit/stats-report まで追跡から外れる（2026-09-13 に実際に外れた）。
+/stats-report/
+
 # ---- テスト成果物 ----
 test-results/
 playwright-report/
