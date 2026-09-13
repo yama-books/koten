@@ -879,6 +879,8 @@ review/layout.yaml
 review/readings.yaml
 tests/data/also-accepted-routing.test.ts
 tests/data/also-partial.test.ts
+tests/data/intermediate-forms.test.ts
+tests/data/mixed-forms.test.ts
 tests/data/mixed-kana-orthography.test.ts
 tests/data/parse.test.ts
 tests/data/pdf-text-corrections.test.ts
@@ -985,6 +987,7 @@ tools/build-data/apply-review.ts
 tools/build-data/emit.ts
 tools/build-data/hash.ts
 tools/build-data/index.ts
+tools/build-data/mixed-forms.ts
 tools/build-data/normalize.ts
 tools/build-data/parse-poems.ts
 tools/build-data/parse-readings.ts
