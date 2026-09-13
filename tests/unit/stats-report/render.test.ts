@@ -3,7 +3,7 @@ import { toolPresent, toolTest } from './guard.ts';
 import { BUTTON_KEYS } from '../../../packages/shared/src/telemetry/registry.ts';
 import { document, documents } from './fixtures.ts';
 
-const { BUTTON_LABELS, renderReport } = toolPresent ? await import('../../../tools/stats-report/render.ts') : { BUTTON_LABELS: null as never, renderReport: null as never };
+const { BUTTON_LABELS, SHOWN_BUTTON_KEYS, renderReport } = toolPresent ? await import('../../../tools/stats-report/render.ts') : { BUTTON_LABELS: null as never, SHOWN_BUTTON_KEYS: null as never, renderReport: null as never };
 const { summarize } = toolPresent ? await import('../../../tools/stats-report/aggregate.ts') : { summarize: null as never };
 
 const at = '2026-09-13T12:00:00.000Z';
@@ -13,13 +13,30 @@ toolTest('描画: ボタンのラベルは BUTTON_KEYS を過不足なく覆う'
   assert.deepEqual(Object.keys(BUTTON_LABELS).sort(), [...BUTTON_KEYS].sort());
 });
 
-toolTest('描画: ラベルは画面の文言で出す', () => {
+toolTest('描画: ラベルは画面の文言で、表の行として出す', () => {
   const html = renderReport({ summary: summarize(documents()), fetchedAt: at });
-  for (const label of ['答えを確認する', 'これまでの記録', '問題を報告']) {
-    assert.ok(html.includes(label), `ボタンのラベルが出ていない: ${label}`);
+  // **文字列が在るかでは見ない。** 注記にも同じ語が出るので、行の形で見ないと
+  // 「表から消しても注記に当たって緑」になる（2026-09-14 に実際にそうなりかけた）。
+  for (const label of ['これまでの記録', '問題を報告']) {
+    assert.ok(html.includes(`<td>${label}</td>`), `ボタンのラベルが表の行に出ていない: ${label}`);
   }
-  // 入口は ENTRY_LABELS を import している。複製すると片方だけ古くなる。
-  assert.ok(html.includes('とりあえず始める'), '入口のラベルが出ていない');
+  assert.ok(html.includes('<td>とりあえず始める</td>'), '入口のラベルが表の行に出ていない');
+});
+
+toolTest('描画: 数えていないボタンは表から外し、理由を書く', () => {
+  // `reveal` は紙モードでしか増えず、紙モードは本番でしか選べず、本番では数えない。
+  // **0 を並べると「使われていない」と読み違える。**
+  const html = renderReport({ summary: summarize(documents()), fetchedAt: at });
+  assert.equal(html.includes('<td>答えを確認する</td>'), false, '合計の表に出ている');
+  assert.equal(html.includes('<th>答えを確認する</th>'), false, '日別の見出しに出ている');
+  // **黙って消さない。** 消すだけだと、次に読む人は「そんな項目は無い」と思う。
+  assert.ok(html.includes('紙モードは本番でしか選べず'), '外した理由が書かれていない');
+});
+
+toolTest('描画: 出すボタンは、数えていないものを引いた集合と一致する', () => {
+  // 片側だけ足すと、ラベルはあるのに表へ出ない（またはその逆）が静かに起きる。
+  assert.deepEqual([...SHOWN_BUTTON_KEYS].sort(), ['answer', 'hint', 'history', 'report', 'start']);
+  assert.equal(SHOWN_BUTTON_KEYS.includes('reveal'), false);
 });
 
 toolTest('描画: 0 件を空の表にせず、読み違えないための断りを出す', () => {

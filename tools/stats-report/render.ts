@@ -19,6 +19,23 @@ export const BUTTON_LABELS: Record<string, string> = {
 
 const QUESTION_TYPE_LABELS: Record<string, string> = { blank: '穴埋め', author: '作者' };
 
+/**
+ * **数えていないので報告に出さないボタン**（裁定 C・2026-09-14・依頼者）。
+ *
+ * `reveal`（答えを確認する）は紙モードでしか増えないが、**紙モードは本番でしか選べず**
+ * （`RangePicker.tsx:76` の「答え方」の節は `entry === "exam"` の中）、
+ * **本番では数えない**（`Session.tsx:836` の計数は `!isExam` の枝）。
+ * **公開版から到達できない枝である。**
+ *
+ * **0 を並べて出すと「使われていない」と読み違える。** 消すのではなく、理由を添えて外す。
+ * 入口を変えない裁定なので、当面この状態は続く。
+ */
+const UNCOUNTED_BUTTON_KEYS: readonly string[] = ['reveal'];
+const UNCOUNTED_NOTE = '「答えを確認する」は出していません。紙モードは本番でしか選べず、本番ではこの操作を数えないため、常に 0 になります（2026-09-14 調査）。';
+
+/** 報告に出すボタン。**過不足は `BUTTON_LABELS` の釘と対で見る。** */
+export const SHOWN_BUTTON_KEYS = BUTTON_KEYS.filter((key) => !UNCOUNTED_BUTTON_KEYS.includes(key));
+
 /** 受け取った文字列を組み立てに使わせない。項目名は届いたものであって、こちらが書いたものではない。 */
 function escape(value: string): string {
   return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -44,7 +61,7 @@ function countTable(title: string, entries: Array<[string, string, number]>): st
 
 function labelled(totals: Totals): { buttons: Array<[string, string, number]>; entries: Array<[string, string, number]>; types: Array<[string, string, number]> } {
   return {
-    buttons: BUTTON_KEYS.map((key) => [key, BUTTON_LABELS[key] ?? key, totals.buttonCounts[key] ?? 0]),
+    buttons: SHOWN_BUTTON_KEYS.map((key) => [key, BUTTON_LABELS[key] ?? key, totals.buttonCounts[key] ?? 0]),
     entries: ENTRY_KEYS.map((key) => [key, ENTRY_LABELS[key] ?? key, totals.entryCounts[key] ?? 0]),
     types: QUESTION_TYPE_KEYS.map((key) => [key, QUESTION_TYPE_LABELS[key] ?? key, totals.questionTypeCounts[key] ?? 0]),
   };
@@ -52,7 +69,7 @@ function labelled(totals: Totals): { buttons: Array<[string, string, number]>; e
 
 function dailyTable(summary: Summary): string {
   const columns = [
-    ...BUTTON_KEYS.map((key) => ({ head: BUTTON_LABELS[key] ?? key, pick: (row: Totals) => row.buttonCounts[key] ?? 0 })),
+    ...SHOWN_BUTTON_KEYS.map((key) => ({ head: BUTTON_LABELS[key] ?? key, pick: (row: Totals) => row.buttonCounts[key] ?? 0 })),
     ...ENTRY_KEYS.map((key) => ({ head: ENTRY_LABELS[key] ?? key, pick: (row: Totals) => row.entryCounts[key] ?? 0 })),
     ...QUESTION_TYPE_KEYS.map((key) => ({ head: QUESTION_TYPE_LABELS[key] ?? key, pick: (row: Totals) => row.questionTypeCounts[key] ?? 0 })),
   ];
@@ -79,6 +96,7 @@ export function renderReport(input: { summary: Summary; fetchedAt: string }): st
   const body = summary.documentCount === 0 ? '' : [
     countTable('ボタン（合計）', totals.buttons),
     `<p class="note">「解答」は解答数 ${summary.totals.attemptCount} と同じ数です。別の数ではありません。</p>`,
+    `<p class="note">${escape(UNCOUNTED_NOTE)}</p>`,
     countTable('入口（合計）', totals.entries),
     countTable('出題形式（合計）', totals.types),
     `<h2>その他（合計）</h2><table><tbody>${row('閲覧', summary.totals.pageViews)}${row('解答', summary.totals.attemptCount)}</tbody></table>`,
