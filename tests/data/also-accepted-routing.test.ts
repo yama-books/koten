@@ -53,3 +53,29 @@ test('正本の漢字は、読みを書かせる問にもともと入らない�
   const kana = authorQuestions('べつのさくしや')('author-kana');
   assert.ok(!kana.acceptedAnswers.includes('作者1'), '正本の漢字が読みの問に入っている');
 });
+
+/**
+ * 依頼者裁定（2026-09-13）——**完全自由記述では ○。選択肢から読みをひらがなで答える問では、
+ * 選択肢の漢字に対応しない読みは不可。**
+ *
+ * `alsoAccepted` の読みは**表示される漢字の異読**（`伊勢大輔` に対する `いせのおほすけ`）なので
+ * 選択肢に対応しており、読みの問でも ○ である。**対応しないのは別名義の読みだけ**——
+ * 73番は選択肢に `前中納言匡房` が出るのに、`権中納言匡房` の読みは別の名義の読みである。
+ * 受け口を分ける。
+ */
+test('別名義の読み（alsoAcceptedFreeOnly）は自由記述だけで受ける', () => {
+  const entries = [{ cardNo: 1, ...approved, alsoAccepted: '別作者', alsoAcceptedFreeOnly: 'べつめいぎのよみ' }];
+  const built = generateQuestions(structuredClone(poems) as never, { authors: entries, blanks: [] } as never).questionsAuthor;
+  const q = (id: string) => built.find((question) => question.questionId === `p001-${id}`)!;
+
+  assert.ok(q('author-free').acceptedAnswers.includes('べつめいぎのよみ'), '自由記述で受けていない');
+  assert.ok(!q('author-kana').acceptedAnswers.includes('べつめいぎのよみ'), '読みの問に別名義の読みが入っている');
+  assert.ok(!q('author-kana').partialAnswers.includes('べつめいぎのよみ'), '読みの問で△になっている（不可のはず）');
+});
+
+test('選択肢の漢字に対応する異読は、読みの問でも受ける（基準線）', () => {
+  const entries = [{ cardNo: 1, ...approved, alsoAccepted: 'いどくのよみ' }];
+  const built = generateQuestions(structuredClone(poems) as never, { authors: entries, blanks: [] } as never).questionsAuthor;
+  const kana = built.find((question) => question.questionId === 'p001-author-kana')!;
+  assert.ok(kana.acceptedAnswers.includes('いどくのよみ'), '異読まで落としている');
+});
