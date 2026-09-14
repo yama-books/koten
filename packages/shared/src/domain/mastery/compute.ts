@@ -6,6 +6,7 @@ import {
   MASTERY_RULES_VERSION,
   OVER_NINETY_INCREMENT,
 } from './rules.v1.ts';
+import { RUNG_CAPS, capFor } from './rungs.ts';
 
 export type MasteryComputation = Readonly<{
   scores: Readonly<Record<string, number>>;
@@ -59,6 +60,22 @@ function applyEvent(state: ItemState, event: Event, isRepeat: boolean): void {
   if (event.outcome === 'skipped') return;
 
   const rule = MASTERY_RULES[method];
+  /*
+   * **実効の天井は「方式の天井」と「段の天井」の低いほう**（D-12）。
+   *
+   * **段が数でないときは、段の天井を掛けない。** 2 つの場合がある。
+   * - `null` = 段の梯子に乗らないもの（作者問・歌を眺めただけ）。作者は別の梯子を持つ。
+   * - 欄が無い = 2026-09-15 より前に保存されたイベント。
+   *
+   * **古いイベントを段3 とみなしてはいけない。** 古い保存には作者問の記録も混ざっており、
+   * それを段3 の天井（55）に巻き込むと、**作者の習熟度が 100 へ届かなくなる。**
+   * 加えて、**過去に積んだ点を遡って下げない**のが正しい既定である——
+   * 段の天井は、これから記録されるイベントにだけ効く。
+   */
+  const hasRung = typeof event.rung === 'number';
+  const rungCap = hasRung ? capFor(method, event.rung as number) : rule.cap;
+  // 90 の先の上限。**段があればその段の天井まで、無ければ従来どおり 100 まで。**
+  const beyondNinety = hasRung ? RUNG_CAPS[event.rung as number] ?? 0 : 100;
   const mayExceedNinety = state.score >= 90
     && state.ninetyReachedOn !== undefined
     && event.localDate !== state.ninetyReachedOn
@@ -67,7 +84,8 @@ function applyEvent(state: ItemState, event: Event, isRepeat: boolean): void {
   // 90 の先だけ歩幅を変える。89 以下はこれまでどおりで、既存の記録の意味を動かさない。
   const base = mayExceedNinety ? OVER_NINETY_INCREMENT : rule.increment;
   const increment = isRepeat ? Math.floor(base / 2) : base;
-  const cap = mayExceedNinety ? 100 : rule.cap;
+  // 90 の先へ進めるのは、段の天井がそこまで許しているときだけである。
+  const cap = mayExceedNinety ? beyondNinety : rungCap;
   state.score = clamp(state.score + Math.min(increment, Math.max(0, cap - state.score)));
   if (state.score >= 90 && state.ninetyReachedOn === undefined) state.ninetyReachedOn = event.localDate;
 }

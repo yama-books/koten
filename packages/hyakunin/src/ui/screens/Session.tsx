@@ -212,6 +212,8 @@ export function Session({
           localDate: today(),
           appVersion: appConfig.appVersion,
           dataVersion: appConfig.dataVersion,
+          // 段は**答えた問題**から取る。ID の文字列から推測しない（発注084）。
+          rung: answeredQuestion.rung,
         } as const;
         const event = judgement === "viewed"
           ? buildViewEvent({ ...common, kind: "view" })
@@ -436,6 +438,7 @@ export function Session({
         : answered;
     setFlow(saving);
     const event = buildEvent({
+      rung: question.rung,
       eventId: crypto.randomUUID(),
       product: "hyakunin",
       poemId: question.poemId,
@@ -493,6 +496,7 @@ export function Session({
     setUnknownSaveFailed(false);
     const result = await port.appendEvent(
       buildViewEvent({
+        rung: question.rung,
         eventId: crypto.randomUUID(),
         product: "hyakunin",
         poemId: question.poemId,

@@ -252,6 +252,8 @@ export function Home({
     if (!viewing || !poem) return;
     void activePort.appendEvent(
       buildViewEvent({
+        // 歌を眺めただけで、問題に答えていない。段を持たない。
+        rung: null,
         eventId: crypto.randomUUID(),
         product: "hyakunin",
         poemId: `p${String(poem.cardNo).padStart(3, "0")}`,

@@ -24,6 +24,16 @@ export type Event = {
   appVersion: string;
   dataVersion: number;
   masteryRulesVersion: number;
+  /**
+   * 答えた問題の難度の段（発注084）。作者問は `null`。
+   *
+   * **省略可にしてあるのは保存の都合である。** 2026-09-15 より前に保存されたイベントは
+   * この欄を持たない。**それらが段3 なのは推測ではなく事実**である——段3 しか配っていなかった。
+   * 必須にすると `isEvent` が古いイベントを弾き、**授業中の生徒の履歴が消える。**
+   *
+   * **作る側では必須である**（`BuildEventInput`）。書き忘れは型が止める。
+   */
+  rung?: number | null;
 };
 
 export function isProductId(value: unknown): value is ProductId {
