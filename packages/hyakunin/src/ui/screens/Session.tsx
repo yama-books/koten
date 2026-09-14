@@ -664,6 +664,20 @@ export function Session({
                   hidden
                   revealed={revealed}
                 />
+              ) : revealed ? (
+                /*
+                 * **開示したら本文へ戻す。** 箱の中へ詰めると、5 句ぶんの文字が 1 列に伸びて
+                 * 隣の行の倍以上になる（2026-09-15 に実測。3 句で 300px 対 150px）。
+                 * 空欄だったことは色で示し、字組みは他の行と揃える。
+                 */
+                group.lines.map((line, offset) => (
+                  <span
+                    class="question-line question-line--revealed"
+                    key={`${question.questionId}-${group.from + offset}`}
+                  >
+                    {line}
+                  </span>
+                ))
               ) : (
                 /* 続いた句は**まとめて 1 つの大きな空欄**にする（依頼者指示・2026-09-15）。 */
                 <span
@@ -671,8 +685,8 @@ export function Session({
                   key={`${question.questionId}-${group.from}`}
                   style={{ "--blank-span": group.span }}
                 >
-                  <span class={`blank-slot blank-slot--span${revealed ? " blank-slot--filled" : ""}`}>
-                    {revealed ? group.lines.join("") : <span class="sr-only">{`空欄（${group.span}句）`}</span>}
+                  <span class="blank-slot blank-slot--span">
+                    <span class="sr-only">{`空欄（${group.span}句）`}</span>
                   </span>
                 </span>
               ),

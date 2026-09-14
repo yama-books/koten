@@ -145,10 +145,38 @@ function distractors(poems: Poem[], poem: Poem) {
     .slice(0, 4);
 }
 
+/**
+ * 一句より長い段（発注084・D-12）。**隠すのはいつも句のまとまり**なので `blankUnit` は `'ku'` のまま。
+ * 段の識別は `rung` が持つ。
+ *
+ * 段8 は段7と**同じ範囲を隠す。** 違いは手がかり（作者を見せるか、番号だけか）であって
+ * 範囲ではない。点は動かさず「完全制覇」の印に使う。
+ */
+const RUNG_SPECS: ReadonlyArray<{ rung: number; suffix: string; ku: readonly number[] }> = [
+  { rung: 4, suffix: 'kami', ku: [1, 2, 3] },
+  { rung: 4, suffix: 'shimo', ku: [4, 5] },
+  { rung: 5, suffix: 'naka', ku: [2, 3, 4] },
+  { rung: 6, suffix: 'tail', ku: [2, 3, 4, 5] },
+  { rung: 6, suffix: 'head', ku: [1, 2, 3, 4] },
+  { rung: 7, suffix: 'whole', ku: [1, 2, 3, 4, 5] },
+  { rung: 8, suffix: 'number', ku: [1, 2, 3, 4, 5] },
+];
+
+/**
+ * 句ごとの受理集合を掛け合わせる。**「各句が受理できるなら、つないだ形も受理できる」**が定義である。
+ *
+ * **中間形を span で計算し直さない。** 句ごとの割り付けは段3 で解決済みで、
+ * 許容表記も中間形もその受理集合に入っている。組み直すと、
+ * **同じ句が段3 では ○ なのに段4 では ×** という食い違いが生まれる。
+ */
+function joinAcross(perKu: readonly (readonly string[])[]): string[] {
+  return perKu.reduce<string[]>((carried, forms) => carried.flatMap((prefix) => forms.map((form) => prefix + form)), ['']);
+}
+
 export function generateQuestions(poems: Poem[], review: Review, allocations: Allocations = READING_ALLOCATIONS) {
   /** 読みの割り付けが決まらなかった句。**実データで空でなければ `buildData` が止める。** */
   const allocationProblems: string[] = [];
-  const blanks = poems.flatMap((poem) => poem.ku.map((answer: string, index: number) => {
+  const blanksByPoem = poems.map((poem) => poem.ku.map((answer: string, index: number) => {
     const entry = review.blanks.find((item) => item.cardNo === poem.cardNo && item.ku === index + 1);
     const acceptedTextForms = poem.acceptedTextForms?.[index] ?? [];
     return {
@@ -168,6 +196,32 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
       candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry),
     };
   }));
+
+  const spans = poems.flatMap((poem, poemIndex) => {
+    const perKu = blanksByPoem[poemIndex]!;
+    return RUNG_SPECS.map((spec) => {
+      const pick = <T,>(values: readonly T[]): T[] => spec.ku.map((ku) => values[ku - 1]!);
+      const answer = pick(poem.ku).join('');
+      const historical = pick(poem.reading.historical.ku).join('');
+      const modern = pick(poem.reading.modern.ku).join('');
+      const accepted = unique(joinAcross(pick(perKu).map((question) => question.acceptedAnswers)));
+      const first = perKu[spec.ku[0]! - 1]!;
+      return {
+        questionId: `${poem.poemId}-blank-${spec.suffix}`, poemId: poem.poemId, skill: 'text', type: 'blank', blankUnit: 'ku',
+        blankedKu: [...spec.ku], rung: spec.rung,
+        prompt: poem.ku.map((value: string, kuIndex: number) => spec.ku.includes(kuIndex + 1) ? '＿＿＿' : value).join(''),
+        answer, answerHistorical: historical, answerModern: modern,
+        acceptedAnswers: accepted,
+        // 現代仮名遣いでそろえた形は △（D-8）。段3 と同じ扱いにする。
+        partialAnswers: accepted.includes(modern) ? [] : [modern],
+        candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: null,
+        reviewStatus: first.reviewStatus, confirmationMode: first.confirmationMode,
+        confirmedBy: first.confirmedBy, confirmedOn: first.confirmedOn,
+        proposedBy: first.proposedBy, batchEvidenceRef: first.batchEvidenceRef,
+      };
+    });
+  });
+  const blanks = [...blanksByPoem.flat(), ...spans];
   const authors = poems.flatMap((poem) => {
     const entry = review.authors.find((item) => item.cardNo === poem.cardNo);
     const base = { poemId: poem.poemId, skill: 'author', type: 'author', blankUnit: null, blankedKu: [], rung: null, prompt: poem.text, answerHistorical: poem.reading.historical.author, answerModern: poem.reading.modern.author, sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry) };
@@ -200,5 +254,8 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
       free,
     ];
   });
-  return { allocationProblems, blankCandidates: blanks.length, authorCandidates: authors.length, questionsBlank: blanks.filter((question) => question.reviewStatus === 'human-confirmed'), questionsAuthor: authors.filter((question) => question.reviewStatus === 'human-confirmed') };
+  // **台帳の行に対応するのは段3 だけである。** 段4〜8 はそこから導いた問であり、
+  // 台帳に行を持たない（`review-approve` がこの数と台帳を突き合わせる）。
+  const ledgerBackedBlanks = blanksByPoem.flat();
+  return { allocationProblems, blankCandidates: ledgerBackedBlanks.length, authorCandidates: authors.length, questionsBlank: blanks.filter((question) => question.reviewStatus === 'human-confirmed'), questionsAuthor: authors.filter((question) => question.reviewStatus === 'human-confirmed') };
 }
