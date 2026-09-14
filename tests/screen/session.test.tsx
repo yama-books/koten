@@ -11,11 +11,11 @@ import { Session } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
 let root: HTMLDivElement | undefined;
 const settings = { key: 'user' as const, reading: 'no-ruby' as const, writing: 'vertical' as const, order: 'number' as const, soundEnabled: false, noticeConfirmed: false };
 const fixture = parseQuestions([
-  { questionId: 'q10a', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '白妙の', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: ['しろたえの'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
-  { questionId: 'q10b', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '衣ほすてふ', answer: '衣干す', answerHistorical: 'ころもほす', answerModern: 'ころもほす', acceptedAnswers: ['衣干す', 'ころもほす'], partialAnswers: [], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
+  { questionId: 'q10a', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', blankedKu: [1], rung: 3, prompt: '白妙の', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: ['しろたえの'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
+  { questionId: 'q10b', poemId: 'p010', skill: 'text', type: 'blank', blankUnit: 'word', blankedKu: [1], rung: 3, prompt: '衣ほすてふ', answer: '衣干す', answerHistorical: 'ころもほす', answerModern: 'ころもほす', acceptedAnswers: ['衣干す', 'ころもほす'], partialAnswers: [], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
 ] as PublishedQuestion[]);
 const authorChoice = parseQuestions([
-  { questionId: 'q10-author-choice', poemId: 'p010', skill: 'author', type: 'author', blankUnit: null, prompt: '春すぎて夏来にけらし白妙の衣ほすてふ天の香具山', answer: '持統天皇', answerHistorical: '持統天皇', answerModern: '持統天皇', acceptedAnswers: ['持統天皇'], partialAnswers: [], candidates: ['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人'], normalization: 'exact', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
+  { questionId: 'q10-author-choice', poemId: 'p010', skill: 'author', type: 'author', blankUnit: null, blankedKu: [], rung: null, prompt: '春すぎて夏来にけらし白妙の衣ほすてふ天の香具山', answer: '持統天皇', answerHistorical: '持統天皇', answerModern: '持統天皇', acceptedAnswers: ['持統天皇'], partialAnswers: [], candidates: ['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人'], normalization: 'exact', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
 ] as PublishedQuestion[]);
 function port() { return { ...createMemoryPort(), saveLocalReport: async () => true }; }
 async function mount(customPort = port()) { root = document.createElement('div'); document.body.append(root); await act(async () => { render(<Session questions={fixture} sessionId="s" port={customPort} settings={settings} onSettings={() => {}} onComplete={() => {}} />, root!); }); return root; }
@@ -205,7 +205,7 @@ test('077: 本番の作者問題で「わからない！」を押しても採点
 
 // --- 発注057 R3/R4：開示後の入力保持と仮名遣い補足 ---
 const kanaOnly = parseQuestions([
-  { questionId: 'q99', poemId: 'p099', skill: 'text', type: 'blank', blankUnit: 'word', prompt: '＿＿＿', answer: 'ゆふぐれ', answerHistorical: 'ゆふぐれ', answerModern: 'ゆうぐれ', acceptedAnswers: ['ゆふぐれ'], partialAnswers: ['ゆうぐれ'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
+  { questionId: 'q99', poemId: 'p099', skill: 'text', type: 'blank', blankUnit: 'word', blankedKu: [1], rung: 3, prompt: '＿＿＿', answer: 'ゆふぐれ', answerHistorical: 'ゆふぐれ', answerModern: 'ゆうぐれ', acceptedAnswers: ['ゆふぐれ'], partialAnswers: ['ゆうぐれ'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
 ] as PublishedQuestion[]);
 
 async function mountWith(props: Partial<Parameters<typeof Session>[0]>) {
@@ -678,7 +678,7 @@ test('079: 保存に失敗したときは選択肢に判定も正解も出さな
  * 部品（planQuestions）が正しい問題を選ぶことだけ見ても、この画面を壊すと気づけない。
  */
 const authorFree = parseQuestions([
-  { questionId: 'q10-author-free', poemId: 'p010', skill: 'author', type: 'author', blankUnit: null, prompt: '春すぎて夏来にけらし白妙の衣ほすてふ天の香具山', answer: '持統天皇', answerHistorical: 'ぢとうてんわう', answerModern: 'じとうてんのう', acceptedAnswers: ['持統天皇', 'ぢとうてんわう'], partialAnswers: ['じとうてんのう'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
+  { questionId: 'q10-author-free', poemId: 'p010', skill: 'author', type: 'author', blankUnit: null, blankedKu: [], rung: null, prompt: '春すぎて夏来にけらし白妙の衣ほすてふ天の香具山', answer: '持統天皇', answerHistorical: 'ぢとうてんわう', answerModern: 'じとうてんのう', acceptedAnswers: ['持統天皇', 'ぢとうてんわう'], partialAnswers: ['じとうてんのう'], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
 ] as PublishedQuestion[]);
 
 test('session: 候補の無い作者問題は自由入力の欄を出し、選択肢を出さない', async () => {

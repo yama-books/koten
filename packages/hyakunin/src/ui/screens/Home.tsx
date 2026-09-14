@@ -20,6 +20,7 @@ import {
 } from "../../domain/entry.ts";
 import { buildViewEvent } from "../../domain/record.ts";
 import { STATS_COLLECTION_ENABLED } from "../../domain/stats.ts";
+import { progressFrom, type RungProgress } from "../../domain/entry.ts";
 import { normalizeRange, parseRange, splitIntoChunks } from "../../domain/range.ts";
 import { planResume, type ResumePlan } from "../../domain/resume.ts";
 import { computeMastery } from "@koten/shared/domain/mastery/compute";
@@ -50,15 +51,18 @@ type Props = {
     poems: Poem[],
     /** 作者問題の方式を決める項目別得点（発注081）。再開の計画と同じイベントから作る。 */
     masteryScores: Readonly<Record<string, number>>,
+    /** 歌ごとの段の進み具合（発注084）。得点と同じイベントから作る。 */
+    progress: RungProgress,
   ) => void;
-  onOpenHistory?: () => void;
+  /** 記録を開く。**目録も渡す**——完全制覇は段8 の制覇で決まり、段は問題が持つ（発注084）。 */
+  onOpenHistory?: (questions: PublishedQuestion[]) => void;
   /** 読み込んだ設定と、書き換えた設定を上へ渡す。**設定の出所は保存領域ひとつである。** */
   onSettings?: (settings: UserSettings) => void;
   poems?: Poem[];
   questions?: PublishedQuestion[];
 };
 /** 再開に要るものは1つの状態にまとめる。**得点だけ別に読むと、計画と方式が別の時点を指す。** */
-type Restorable = { session: Session; plan: ResumePlan; masteryScores: Readonly<Record<string, number>> };
+type Restorable = { session: Session; plan: ResumePlan; masteryScores: Readonly<Record<string, number>>; progress: RungProgress };
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
@@ -200,6 +204,7 @@ export function Home({
             session,
             plan: planResume(resolveActiveRange(session, initialRange), events),
             masteryScores: computeMastery(events).scores,
+            progress: progressFrom(events, questions),
           });
       },
     );
@@ -252,6 +257,8 @@ export function Home({
     if (!viewing || !poem) return;
     void activePort.appendEvent(
       buildViewEvent({
+        // 歌を眺めただけで、問題に答えていない。段を持たない。
+        rung: null,
         eventId: crypto.randomUUID(),
         product: "hyakunin",
         poemId: `p${String(poem.cardNo).padStart(3, "0")}`,
@@ -468,6 +475,7 @@ export function Home({
                   questions,
                   poems,
                   restorable.masteryScores,
+                  restorable.progress,
                 );
                 setRestoring(false);
               }}
@@ -576,7 +584,7 @@ export function Home({
           </p>
         )}
       </section>
-      <button type="button" onClick={onOpenHistory}>
+      <button type="button" onClick={() => onOpenHistory?.(questions)}>
         これまでの記録
       </button>
       <footer class="foot-line">

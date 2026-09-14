@@ -12,7 +12,7 @@ import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
  */
 const poemsJson = readFileSync(join(process.cwd(), 'packages/hyakunin/src/data/generated/poems.json'), 'utf8');
 const poems = JSON.parse(poemsJson) as readonly { cardNo: number; ku: string[]; author: { canonical: string }; reading: { historical: { ku: string[]; author: string }; modern: { ku: string[]; author: string } } }[];
-const meta = { skill: 'text' as const, blankUnit: 'word' as const, candidates: [] as string[], normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null };
+const meta = { skill: 'text' as const, blankUnit: 'word' as const, blankedKu: [1], rung: 3, candidates: [] as string[], normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null };
 const cards = [10, 11];
 const poemOf = (cardNo: number) => poems.find((poem) => poem.cardNo === cardNo)!;
 const poemId = (cardNo: number) => `p${String(cardNo).padStart(3, '0')}`;
@@ -22,6 +22,7 @@ const blanks = cards.flatMap((cardNo) => {
   return poem.ku.map((line, index) => ({
     ...meta,
     questionId: `${poemId(cardNo)}-ku${index + 1}`,
+    blankedKu: [index + 1],
     poemId: poemId(cardNo),
     type: 'blank' as const,
     prompt: poem.ku.map((other, position) => (position === index ? '＿＿＿' : other)).join(''),
@@ -34,7 +35,7 @@ const blanks = cards.flatMap((cardNo) => {
 });
 const authors = cards.map((cardNo) => {
   const poem = poemOf(cardNo);
-  return { ...meta, skill: 'author' as const, questionId: `${poemId(cardNo)}-author`, poemId: poemId(cardNo), type: 'author' as const, blankUnit: null, prompt: `${poem.ku.join('')}の作者は？`, answer: poem.author.canonical, answerHistorical: poem.reading.historical.author, answerModern: poem.reading.modern.author, acceptedAnswers: [poem.author.canonical, poem.reading.historical.author], partialAnswers: [poem.reading.modern.author] };
+  return { ...meta, skill: 'author' as const, questionId: `${poemId(cardNo)}-author`, poemId: poemId(cardNo), type: 'author' as const, blankUnit: null, blankedKu: [], rung: null, prompt: `${poem.ku.join('')}の作者は？`, answer: poem.author.canonical, answerHistorical: poem.reading.historical.author, answerModern: poem.reading.modern.author, acceptedAnswers: [poem.author.canonical, poem.reading.historical.author], partialAnswers: [poem.reading.modern.author] };
 });
 
 /** 空欄を作れない穴埋め。R2 の「出口を出す」経路を実データ側から起こすために置く。 */

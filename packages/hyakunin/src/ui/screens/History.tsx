@@ -7,7 +7,7 @@ import type { ApplicationPort } from '../adapters/indexeddb-port.ts';
 type Props = { summary: HistorySummary; onHome: () => void; port?: ApplicationPort; onChanged?: () => void };
 
 function Entry({ entry }: { entry: HistorySummary['entries'][number] }) {
-  return <li class="history-entry"><strong>{entry.cardNo}番</strong>{entry.untouched ? <span>未着手</span> : <MasteryMeter label={`${entry.cardNo}番`} percent={entry.percent} color={entry.color} />}{entry.authorUnconfirmed && <span>作者 未確認</span>}</li>;
+  return <li class="history-entry"><strong>{entry.cardNo}番</strong>{entry.untouched ? <span>未着手</span> : <MasteryMeter label={`${entry.cardNo}番`} percent={entry.percent} color={entry.color} />}{entry.authorUnconfirmed && <span>作者 未確認</span>}{entry.conquered && <span class="history-conquered">完全制覇</span>}</li>;
 }
 
 export function History({ summary, onHome, port, onChanged }: Props) {

@@ -1,5 +1,20 @@
 import { orderCardNumbers, type OrderMode } from './order.ts';
 import type { PublishedQuestion } from '../data/question-schema.ts';
+import { LOWEST_RUNG, rungProgress, type RungState } from '@koten/shared/domain/mastery/rungs';
+import type { Event } from '@koten/shared/domain/event';
+
+export type RungProgress = ReadonlyMap<string, RungState>;
+
+/**
+ * 記録と問題目録から、歌ごとの段の進み具合を作る。
+ * **呼び出し側で目録の組み立てを書き写さない**——書き写すと片方だけ古くなる。
+ */
+export function progressFrom(events: readonly Event[], questions: readonly PublishedQuestion[]): RungProgress {
+  return rungProgress(
+    events.filter((event) => event.questionId !== undefined).map((event) => ({ questionId: event.questionId!, outcome: event.outcome })),
+    questions.map((question) => ({ questionId: question.questionId, poemId: question.poemId, rung: question.rung })),
+  );
+}
 import { MASTERY_RULES } from '@koten/shared/domain/mastery/rules.v1';
 
 export type EntryId = 'quick' | 'view' | 'learn' | 'author' | 'review' | 'exam';
@@ -93,6 +108,20 @@ function authorQuestionIdFor(poemId: string, authorScore: number): string {
 }
 
 /** APP_SPEC §5.1: 最初の一巡は番号順。一巡後に呼び出し側が 'random' を渡す。 */
+/**
+ * その歌でいま出してよい段（発注084・D-12）。**開いている 1 段だけを出す。**
+ *
+ * 制覇済みの段はもう天井に達していて点が入らないので、出しても学習にならない。
+ * **進み具合を渡さなければ段3 だけ**——記録の無い学習者と同じ扱いになる。
+ */
+function openRungFor(poemId: string, progress: RungProgress): number {
+  return progress.get(poemId)?.openRung ?? LOWEST_RUNG;
+}
+
+function isServedBlank(question: PublishedQuestion, progress: RungProgress): boolean {
+  return question.type === 'blank' && question.rung === openRungFor(question.poemId, progress);
+}
+
 export function planQuestions(
   entry: EntryId,
   available: readonly PublishedQuestion[],
@@ -106,6 +135,12 @@ export function planQuestions(
    * 記録がまだ無い学習者と、得点を渡さない呼び出し側は、どちらも初回の選択式になる。
    */
   masteryScores: Readonly<Record<string, number>> = {},
+  /**
+   * 歌ごとの段の進み具合（`rungProgress`）。**得点と同じく呼び出し側が渡す**——
+   * ここで読み直すと記録を二度読み、画面の切り替えが 1 拍遅れる。
+   * 省略時は全首が段3 で、記録の無い学習者と同じになる。
+   */
+  progress: RungProgress = new Map(),
 ): PublishedQuestion[] {
   if (!available.length) return [];
   const ordered = inCardOrder(available, cardNumbers, seed, mode);
@@ -115,10 +150,10 @@ export function planQuestions(
     : ENTRY_RULES[entry];
   if (entry === 'review') return ordered;
   if (entry === 'view') return [];
-  if (entry === 'learn') return takeAcrossCards(available.filter((question) => question.type === 'blank'), cardNumbers, seed, mode, rule);
+  if (entry === 'learn') return takeAcrossCards(available.filter((question) => isServedBlank(question, progress)), cardNumbers, seed, mode, rule);
   // 作者問題は首ごとに 1 問へ絞る。kana/free も type は author なので、
   // questionId を明示しないと 1 首から複数の作者問題が候補に入る。
-  const selectable = available.filter((question) => question.type === 'blank'
+  const selectable = available.filter((question) => isServedBlank(question, progress)
     || (includeAuthors && question.questionId === authorQuestionIdFor(question.poemId, masteryScores[`${question.poemId}:author`] ?? 0)));
   if (entry === 'quick' || entry === 'author' || entry === 'exam') return takeAcrossCards(selectable, cardNumbers, seed, mode, rule, true);
   return takeAcrossCards(available, cardNumbers, seed, mode, rule);

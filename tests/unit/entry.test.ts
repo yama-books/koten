@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ENTRY_RULES, ENTRY_RULES_VERSION, isEntryAvailable, planQuestions } from '../../packages/hyakunin/src/domain/entry.ts';
+import { rungProgress } from '../../packages/shared/src/domain/mastery/rungs.ts';
 import type { PublishedQuestion } from '../../packages/hyakunin/src/data/question-schema.ts';
 
-function question(cardNo: number, type: 'blank' | 'author' = 'blank'): PublishedQuestion {
+function question(cardNo: number, type: 'blank' | 'author' = 'blank', rung: number | null = 3): PublishedQuestion {
   return {
-    questionId: `p${String(cardNo).padStart(3, '0')}-${type === 'author' ? 'author-choice' : type}`, poemId: `p${String(cardNo).padStart(3, '0')}`, skill: type === 'blank' ? 'text' : 'author', type,
-    blankUnit: type === 'blank' ? 'ku' : null, prompt: '問題', answer: '漢字', answerHistorical: 'れきしてき', answerModern: 'げんだい', acceptedAnswers: ['れきしてき'], partialAnswers: ['げんだい'], candidates: type === 'author' ? ['作者A', '作者B', '作者C', '作者D'] : [], normalization: type === 'author' ? 'exact' : 'kana', sourceRef: 'source', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'reviewer', confirmedOn: '2026-09-01', proposedBy: 'human', batchEvidenceRef: null,
+    questionId: `p${String(cardNo).padStart(3, '0')}-${type === 'author' ? 'author-choice' : `blank-r${rung}`}`, poemId: `p${String(cardNo).padStart(3, '0')}`, skill: type === 'blank' ? 'text' : 'author', type,
+    blankUnit: type === 'blank' ? 'ku' : null, blankedKu: type === 'blank' ? [1] : [], rung: type === 'blank' ? rung : null, prompt: '問題', answer: '漢字', answerHistorical: 'れきしてき', answerModern: 'げんだい', acceptedAnswers: ['れきしてき'], partialAnswers: ['げんだい'], candidates: type === 'author' ? ['作者A', '作者B', '作者C', '作者D'] : [], normalization: type === 'author' ? 'exact' : 'kana', sourceRef: 'source', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'reviewer', confirmedOn: '2026-09-01', proposedBy: 'human', batchEvidenceRef: null,
   };
 }
 const available = [question(2), question(1), question(3, 'author'), question(2, 'author')];
@@ -113,4 +114,50 @@ test('entry: 得点を渡さない呼び出しは首ごとに作者問題を1問
   }));
   const plan = planQuestions('author', variants, [1], 'seed');
   assert.deepEqual(new Set(plan.map((item) => item.questionId)), new Set(['p001-author-choice']));
+});
+
+/**
+ * 2026-09-15・発注084。**段4以上を既存の入口から出さない。**
+ *
+ * `planQuestions` は `type === 'blank'` を全部取るので、段4〜7 を生成した瞬間に
+ * **歌本文・とりあえず・本番が、いきなり「一首まるまる」を出し始める。**
+ * データを作るより先にこの釘を置く——逆順だと、間のどの時点で公開しても事故になる。
+ */
+const withHardRungs = [question(1), question(1, 'blank', 7), question(2), question(2, 'blank', 4)];
+const rungsOf = (plan: PublishedQuestion[]) => [...new Set(plan.map((item) => item.rung))].sort();
+
+for (const entry of ['learn', 'quick', 'exam'] as const) {
+  test(`entry: ${entry} は段3の穴埋めだけを出す`, () => {
+    const plan = planQuestions(entry, withHardRungs, [1, 2], 'number', 'seed');
+    assert.ok(plan.length > 0, '1問も出ていないのでは検査にならない');
+    assert.deepEqual(rungsOf(plan), [3], `段3以外が出ている: ${JSON.stringify(rungsOf(plan))}`);
+  });
+}
+
+/**
+ * 2026-09-15・発注084。**開いている段だけを出す。**
+ * 制覇済みの段はもう天井に達していて点が入らないので、出しても学習にならない。
+ */
+const ladder = [question(1), question(1, 'blank', 4), question(1, 'blank', 5)];
+const cleared = (ids: string[]) => rungProgress(ids.map((questionId) => ({ questionId, outcome: 'correct' })), ladder.map((q) => ({ questionId: q.questionId, poemId: q.poemId, rung: q.rung })));
+
+test('entry: 制覇していなければ段3だけを出す', () => {
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared([]));
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [3]);
+});
+
+test('entry: 段3を制覇すると段4に切り替わる', () => {
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared(['p001-blank-r3']));
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [4], '開いた段へ移っていない');
+});
+
+test('entry: 制覇済みの段はもう出さない', () => {
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared(['p001-blank-r3', 'p001-blank-r4']));
+  assert.equal(plan.some((q) => q.rung === 3), false, '制覇済みの段3が出ている');
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [5]);
+});
+
+test('entry: 進み具合を渡さなければ段3だけ（記録の無い学習者と同じ）', () => {
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {});
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [3]);
 });

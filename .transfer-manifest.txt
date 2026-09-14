@@ -437,6 +437,7 @@ packages/hyakunin/src/ui/screens/Home.tsx
 packages/hyakunin/src/ui/screens/RangePicker.tsx
 packages/hyakunin/src/ui/screens/Result.tsx
 packages/hyakunin/src/ui/screens/Session.tsx
+packages/hyakunin/src/ui/screens/prompt-layout.ts
 packages/hyakunin/src/ui/settings.ts
 packages/hyakunin/src/vite-env.d.ts
 packages/hyakunin/tsconfig.json
@@ -838,6 +839,7 @@ packages/shared/src/domain/mastery/color.ts
 packages/shared/src/domain/mastery/compute.ts
 packages/shared/src/domain/mastery/poem.ts
 packages/shared/src/domain/mastery/rules.v1.ts
+packages/shared/src/domain/mastery/rungs.ts
 packages/shared/src/domain/points/compute.ts
 packages/shared/src/domain/points/rules.v1.ts
 packages/shared/src/domain/recommend/recommend.ts
@@ -879,6 +881,7 @@ review/layout.yaml
 review/readings.yaml
 tests/data/also-accepted-routing.test.ts
 tests/data/also-partial.test.ts
+tests/data/generated-parses.test.ts
 tests/data/intermediate-forms.test.ts
 tests/data/mixed-forms.test.ts
 tests/data/mixed-kana-orthography.test.ts
@@ -889,6 +892,7 @@ tests/data/reading-review.test.ts
 tests/data/reproducibility.test.ts
 tests/data/review-approve.test.ts
 tests/data/review.test.ts
+tests/data/rungs.test.ts
 tests/data/validate.test.ts
 tests/data/variants-fixture.test.ts
 tests/rules/package-lock.json
@@ -913,10 +917,12 @@ tests/screen/order074-screens.test.tsx
 tests/screen/range-picker.test.tsx
 tests/screen/restore.test.tsx
 tests/screen/result.test.tsx
+tests/screen/reveal-count.test.tsx
 tests/screen/review-flow.test.tsx
 tests/screen/session.test.tsx
 tests/screen/settings-migration.test.tsx
 tests/screen/settings-source.test.tsx
+tests/screen/span-blank.test.tsx
 tests/screen/stats-onboarding.test.tsx
 tests/screen/viewer.test.tsx
 tests/unit/app-config.test.ts
@@ -928,6 +934,7 @@ tests/unit/flow.test.ts
 tests/unit/font-assets.test.ts
 tests/unit/font-coverage.test.ts
 tests/unit/font-weight.test.ts
+tests/unit/history-conquered.test.ts
 tests/unit/history.test.ts
 tests/unit/hyakunin-range.test.ts
 tests/unit/hyakunin-schema.test.ts
@@ -945,10 +952,13 @@ tests/unit/mastery/increments.test.ts
 tests/unit/mastery/over-90.test.ts
 tests/unit/mastery/poem.test.ts
 tests/unit/mastery/recompute.test.ts
+tests/unit/mastery/rung-caps.test.ts
+tests/unit/mastery/rungs.test.ts
 tests/unit/mastery/same-session.test.ts
 tests/unit/order.test.ts
 tests/unit/points/accrual.test.ts
 tests/unit/points/rules.test.ts
+tests/unit/prompt-layout.test.ts
 tests/unit/question-schema.test.ts
 tests/unit/question.test.ts
 tests/unit/readme-claims.test.ts
@@ -967,6 +977,7 @@ tests/unit/stats-report/aggregate.test.ts
 tests/unit/stats-report/decode.test.ts
 tests/unit/stats-report/fixtures.ts
 tests/unit/stats-report/guard.ts
+tests/unit/stats-report/key-path.test.ts
 tests/unit/stats-report/render.test.ts
 tests/unit/stats.test.ts
 tests/unit/storage/atomicity.test.ts

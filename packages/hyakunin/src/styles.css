@@ -243,6 +243,28 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .blank-slot { box-sizing: border-box; display: inline-grid; min-inline-size: 3em; min-block-size: 1.45em; place-items: center; border: var(--rule-thin) solid var(--color-ink-muted); border-radius: var(--radius-md); margin-inline: var(--space-3xs); padding: 0 var(--space-2xs); background: var(--color-surface); vertical-align: middle; }
 .blank-slot--filled { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); }
 /*
+ * 続いた句をまとめた空欄（発注084・依頼者指示 2026-09-15）。
+ * **行ごとに枠を並べない**——段4〜7 は最大 5 句を隠すので、枠だらけになって読めない。
+ * 求める形は「**句をまたぐ行幅ぶんの太い四角**」である。
+ *
+ * `--blank-span` は隠した句の数。**既定値を置く**——未定義だと calc() が無効になり、
+ * 寸法の指定ごと落ちて枠が潰れる。
+ *
+ * **`inline-size: 100%` を使わない。** 親（`.question-poem`）は内容で幅が決まるので、
+ * 100% を要求すると循環して 0 になる（2026-09-15 に横書きで実測）。
+ */
+.question-line--span { --blank-span: 1; display: inline-block; }
+.blank-slot--span { min-inline-size: 4em; }
+/* 縦書き: 行は列である。**N 列ぶんの幅**（block）に、**隣の行に合わせた高さ**（inline）。
+   下限を高くすると隣の行より出っ張るので、低めに置いて `stretch` に伸ばさせる。
+   全部隠した段では隣が無いので、そのとき下限が効く。 */
+.question-text--vertical .question-line--span { align-self: stretch; }
+.question-text--vertical .blank-slot--span { inline-size: 100%; min-block-size: calc(var(--blank-span) * 1.9em); }
+/* 横書き: 行は横に流れる。**句数ぶんの厚み**を持つ横長の四角にする。 */
+.question-text--horizontal .blank-slot--span { min-inline-size: calc(var(--blank-span) * 5em); min-block-size: calc(var(--blank-span) * 1.6em); }
+/* 開示したら本文へ戻す。空欄だったことは色で示し、字組みは他の行と揃える。 */
+.question-line--revealed { border-radius: var(--radius-md); background: var(--color-wisteria-soft); box-shadow: 0 0 0 var(--rule-thin) var(--color-wisteria); }
+/*
  * 発注076: 回答の器は **書字方向にも採点前後にも依らない**。30rem を中央に置き、
  * 本文が長くても回答欄まで全幅へ広げない。縦書き隣接の規則（上）はこの一般規則に含まれる。
  */
@@ -520,3 +542,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 /* 取り返しのつかない操作。枠で囲って、直前の節と地続きに見えないようにする。 */
 .transfer-danger { border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-sm); }
 @media (min-width: 40rem) { .transfer-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* 完全制覇（発注084）。**点ではなく印で表す**——`clamp` を 100 で止めたまま強さを示す。 */
+.history-conquered { display: inline-block; border-radius: var(--radius-md); padding: 0 var(--space-2xs); background: var(--color-wisteria); color: var(--color-surface); font-size: var(--text-sm); font-weight: bold; }

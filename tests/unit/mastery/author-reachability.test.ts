@@ -19,7 +19,7 @@ const AUTHOR_VARIANTS = ['choice', 'kana', 'free'] as const;
 
 function authorQuestion(variant: (typeof AUTHOR_VARIANTS)[number]): PublishedQuestion {
   return {
-    questionId: `p001-author-${variant}`, poemId: 'p001', skill: 'author', type: 'author', blankUnit: null,
+    questionId: `p001-author-${variant}`, poemId: 'p001', skill: 'author', type: 'author', blankUnit: null, blankedKu: [], rung: null,
     prompt: '問題', answer: '作者A', answerHistorical: 'さくしゃА', answerModern: 'さくしゃA',
     acceptedAnswers: ['作者A'], partialAnswers: [],
     // free だけ候補が空である。出題画面はこれを見て自由入力へ切り替える。

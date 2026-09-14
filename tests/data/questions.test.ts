@@ -37,7 +37,11 @@ test('real ledgers emit only human-confirmed questions', () => {
   assert.ok(data.questionsBlank.length > 0, '公開出題が 0 件では検査にならない');
   assert.ok(data.questionsAuthor.length > 0, '公開出題が 0 件では検査にならない');
   for (const question of [...data.questionsBlank, ...data.questionsAuthor]) assert.equal(question.reviewStatus, 'human-confirmed', question.questionId);
-  assert.equal(data.questionsBlank.length, data.manifest.reviewCounts.blanks.approved);
+  // **台帳が承認するのは句ごとの候補（段3）だけである。** 段4〜8 はそこから導いた問で、
+  // 台帳に行を持たない。両者を同じ数と比べると、段を足した瞬間に意味の無い赤が出る。
+  const ledgerBacked = data.questionsBlank.filter((question) => question.rung === 3);
+  assert.equal(ledgerBacked.length, data.manifest.reviewCounts.blanks.approved);
+  assert.ok(data.questionsBlank.length > ledgerBacked.length, '導出された段が1問も出ていない');
 });
 
 test('missing blank ledger candidates count as pending', () => {

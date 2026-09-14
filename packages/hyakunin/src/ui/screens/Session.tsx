@@ -33,6 +33,7 @@ import { FeedbackMark } from "../components/FeedbackMark.tsx";
 import { ReadingToggle } from "../components/ReadingToggle.tsx";
 import { WritingModeToggle } from "../components/WritingModeToggle.tsx";
 import type { AnswerMode } from "./RangePicker.tsx";
+import { promptGroups } from "./prompt-layout.ts";
 
 type Props = {
   questions: readonly PublishedQuestion[];
@@ -77,12 +78,6 @@ type ExamAnswer = Readonly<{
 
 function hasKanaDifference(question: PublishedQuestion): boolean {
   return question.answerHistorical !== question.answerModern;
-}
-
-function questionKuIndex(question: PublishedQuestion, poem: Poem): number {
-  const named = question.questionId.match(/ku([1-5])$/)?.[1];
-  if (named) return Number(named) - 1;
-  return poem.ku.findIndex((line) => line.includes(question.answer));
 }
 
 function PromptLine({
@@ -217,6 +212,8 @@ export function Session({
           localDate: today(),
           appVersion: appConfig.appVersion,
           dataVersion: appConfig.dataVersion,
+          // 段は**答えた問題**から取る。ID の文字列から推測しない（発注084）。
+          rung: answeredQuestion.rung,
         } as const;
         const event = judgement === "viewed"
           ? buildViewEvent({ ...common, kind: "view" })
@@ -441,6 +438,7 @@ export function Session({
         : answered;
     setFlow(saving);
     const event = buildEvent({
+      rung: question.rung,
       eventId: crypto.randomUUID(),
       product: "hyakunin",
       poemId: question.poemId,
@@ -498,6 +496,7 @@ export function Session({
     setUnknownSaveFailed(false);
     const result = await port.appendEvent(
       buildViewEvent({
+        rung: question.rung,
         eventId: crypto.randomUUID(),
         product: "hyakunin",
         poemId: question.poemId,
@@ -597,7 +596,6 @@ export function Session({
         displayFlow.judgement,
       )
     : null;
-  const kuIndex = poem ? questionKuIndex(question, poem) : -1;
   const displayKu = poem
     ? reading === "no-ruby"
       ? poem.ku
@@ -658,15 +656,45 @@ export function Session({
           <div class="question-poem question-poem--author question-poem--fallback" lang="ja"><span class="question-line">{question.prompt}</span></div>
         ) : displayKu ? (
           <div class="question-poem" lang="ja">
-            {displayKu.map((line, index) => (
-              <PromptLine
-                key={`${question.questionId}-${index}`}
-                line={line}
-                answer={index === kuIndex ? answerForReading : ""}
-                hidden={index === kuIndex}
-                revealed={revealed}
-              />
-            ))}
+            {promptGroups(displayKu, question.blankedKu).map((group) =>
+              group.kind === "line" ? (
+                <span class="question-line" key={`${question.questionId}-${group.from}`}>{group.line}</span>
+              ) : group.span === 1 ? (
+                /* 1 句のときは従来どおり。**語単位の部分空欄がここで動いている**ので壊さない。 */
+                <PromptLine
+                  key={`${question.questionId}-${group.from}`}
+                  line={group.lines[0]!}
+                  answer={answerForReading}
+                  hidden
+                  revealed={revealed}
+                />
+              ) : revealed ? (
+                /*
+                 * **開示したら本文へ戻す。** 箱の中へ詰めると、5 句ぶんの文字が 1 列に伸びて
+                 * 隣の行の倍以上になる（2026-09-15 に実測。3 句で 300px 対 150px）。
+                 * 空欄だったことは色で示し、字組みは他の行と揃える。
+                 */
+                group.lines.map((line, offset) => (
+                  <span
+                    class="question-line question-line--revealed"
+                    key={`${question.questionId}-${group.from + offset}`}
+                  >
+                    {line}
+                  </span>
+                ))
+              ) : (
+                /* 続いた句は**まとめて 1 つの大きな空欄**にする（依頼者指示・2026-09-15）。 */
+                <span
+                  class="question-line question-line--span"
+                  key={`${question.questionId}-${group.from}`}
+                  style={{ "--blank-span": group.span }}
+                >
+                  <span class="blank-slot blank-slot--span">
+                    <span class="sr-only">{`空欄（${group.span}句）`}</span>
+                  </span>
+                </span>
+              ),
+            )}
           </div>
         ) : (
           <div class="question-poem question-poem--fallback">

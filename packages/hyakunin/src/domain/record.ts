@@ -22,9 +22,11 @@ export function outcomeFor(judgement: Judgement): EventOutcome {
   return 'skipped';
 }
 
-export type BuildEventInput = Omit<Event, 'effectiveMethod' | 'delta' | 'outcome' | 'masteryRulesVersion'> & Readonly<{
+export type BuildEventInput = Omit<Event, 'effectiveMethod' | 'delta' | 'outcome' | 'masteryRulesVersion' | 'rung'> & Readonly<{
   judgement: Judgement;
   currentScore: number;
+  /** **作る側では必須。** 書き忘れを型で止める（保存の側は古いイベントのために省略可）。 */
+  rung: number | null;
 }>;
 
 export function buildEvent(input: BuildEventInput): Event {
@@ -39,7 +41,7 @@ export function buildEvent(input: BuildEventInput): Event {
   };
 }
 
-export type BuildViewEventInput = Omit<Event, 'effectiveMethod' | 'delta' | 'outcome' | 'masteryRulesVersion' | 'method'>;
+export type BuildViewEventInput = Omit<Event, 'effectiveMethod' | 'delta' | 'outcome' | 'masteryRulesVersion' | 'method' | 'rung'> & Readonly<{ rung: number | null }>;
 
 export function buildViewEvent(input: BuildViewEventInput): Event {
   return {
