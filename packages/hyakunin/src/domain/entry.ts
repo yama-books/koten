@@ -93,6 +93,22 @@ function authorQuestionIdFor(poemId: string, authorScore: number): string {
 }
 
 /** APP_SPEC §5.1: 最初の一巡は番号順。一巡後に呼び出し側が 'random' を渡す。 */
+/**
+ * いま既存の入口が出してよい段（発注084）。
+ *
+ * **段4以上を出さないための門である。** `planQuestions` は `type === 'blank'` を全部取るので、
+ * 段4〜7 を生成した瞬間に、歌本文・とりあえず・本番が**いきなり「一首まるまる」を出し始める。**
+ * データを作るより先にこの門を置いた——逆順だと、間のどの時点で公開しても事故になる。
+ *
+ * **段の進み方（制覇で次が開く・D-12）はまだ入っていない。** ここを学習者ごとに返すように
+ * 変えるのが、梯子を通す最後の配線である。それまでは段3だけを出す（いまの挙動のまま）。
+ */
+export const SERVED_RUNGS: readonly number[] = [3];
+
+function isServedBlank(question: PublishedQuestion): boolean {
+  return question.type === 'blank' && question.rung !== null && SERVED_RUNGS.includes(question.rung);
+}
+
 export function planQuestions(
   entry: EntryId,
   available: readonly PublishedQuestion[],
@@ -115,10 +131,10 @@ export function planQuestions(
     : ENTRY_RULES[entry];
   if (entry === 'review') return ordered;
   if (entry === 'view') return [];
-  if (entry === 'learn') return takeAcrossCards(available.filter((question) => question.type === 'blank'), cardNumbers, seed, mode, rule);
+  if (entry === 'learn') return takeAcrossCards(available.filter(isServedBlank), cardNumbers, seed, mode, rule);
   // 作者問題は首ごとに 1 問へ絞る。kana/free も type は author なので、
   // questionId を明示しないと 1 首から複数の作者問題が候補に入る。
-  const selectable = available.filter((question) => question.type === 'blank'
+  const selectable = available.filter((question) => isServedBlank(question)
     || (includeAuthors && question.questionId === authorQuestionIdFor(question.poemId, masteryScores[`${question.poemId}:author`] ?? 0)));
   if (entry === 'quick' || entry === 'author' || entry === 'exam') return takeAcrossCards(selectable, cardNumbers, seed, mode, rule, true);
   return takeAcrossCards(available, cardNumbers, seed, mode, rule);

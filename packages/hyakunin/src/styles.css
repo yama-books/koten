@@ -243,6 +243,21 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .blank-slot { box-sizing: border-box; display: inline-grid; min-inline-size: 3em; min-block-size: 1.45em; place-items: center; border: var(--rule-thin) solid var(--color-ink-muted); border-radius: var(--radius-md); margin-inline: var(--space-3xs); padding: 0 var(--space-2xs); background: var(--color-surface); vertical-align: middle; }
 .blank-slot--filled { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); }
 /*
+ * 続いた句をまとめた空欄（発注084・依頼者指示 2026-09-15）。
+ * **行ごとに枠を並べない**——段4〜7 は最大 5 句を隠すので、枠だらけになって読めない。
+ * `--blank-span` は隠した句の数。縦書きでは行方向が block なので、そちらを句数だけ広げる。
+ */
+/* 既定値を置く。**未定義のままだと calc() が無効になり、寸法の指定ごと落ちる。** */
+.question-line--span { --blank-span: 1; display: inline-block; }
+.blank-slot--span { inline-size: 100%; min-inline-size: 6em; }
+.question-text--vertical .question-line--span { block-size: auto; }
+.question-text--vertical .blank-slot--span { min-block-size: calc(var(--blank-span) * 1.9em); min-inline-size: 8em; }
+.question-text--horizontal .question-line--span { inline-size: 100%; }
+.question-text--horizontal .blank-slot--span { min-block-size: calc(var(--blank-span) * 1.6em); }
+/* 開示したときは本文がそのまま入る。**折り返しを許す**——`nowrap` のままだと枠からはみ出す。 */
+.blank-slot--span.blank-slot--filled { white-space: normal; padding: var(--space-2xs); }
+.question-text--vertical .blank-slot--span.blank-slot--filled { max-block-size: none; }
+/*
  * 発注076: 回答の器は **書字方向にも採点前後にも依らない**。30rem を中央に置き、
  * 本文が長くても回答欄まで全幅へ広げない。縦書き隣接の規則（上）はこの一般規則に含まれる。
  */

@@ -22,6 +22,7 @@ const blanks = cards.flatMap((cardNo) => {
   return poem.ku.map((line, index) => ({
     ...meta,
     questionId: `${poemId(cardNo)}-ku${index + 1}`,
+    blankedKu: [index + 1],
     poemId: poemId(cardNo),
     type: 'blank' as const,
     prompt: poem.ku.map((other, position) => (position === index ? '＿＿＿' : other)).join(''),
