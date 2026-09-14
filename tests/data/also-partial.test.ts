@@ -72,10 +72,23 @@ test('台帳の learnerNote は問題の note として運ばれる', () => {
   assert.equal(blankFor([{ cardNo: 1, ku: 2, ...approved, note: '内部の記録' }]).note, null);
 });
 
-test('1番の句2だけが学習者向けの一言を持つ', () => {
+test('学習者向けの一言は1番の句2からしか出ない', () => {
+  /*
+   * **出どころは台帳の1行だけである。** 2026-09-15 に段1・2 を足したとき、
+   * 注記はその句についての説明なので**同じ句の一部を隠す問にも出す**ようにした。
+   * よって問の数は増えるが、**どれも 1番の句2 に属していなければならない。**
+   * 「1問だけ」で固定すると、段を足すたびに意味の無い赤が出る。
+   */
   const noted = (blankQuestions as { questionId: string; note: string | null }[]).filter((question) => question.note);
-  assert.deepEqual(noted.map((question) => question.questionId), ['p001-blank-ku2']);
-  assert.match(noted[0].note!, /掛詞/);
+  assert.ok(noted.length > 0, '一言を持つ問が 0 件では検査にならない');
+  const outside = noted.filter((question) => !question.questionId.startsWith('p001-blank-ku2'));
+  assert.deepEqual(outside.map((question) => question.questionId), [], '1番の句2 以外から一言が出ている');
+  for (const question of noted) assert.match(question.note!, /掛詞/);
+  // **段を足したら、その段にも出ていること。** 数が減ったことは上の 2 本では捕まらない
+  // ——1番の句2 に属してさえいれば通るからである（2026-09-15 の破壊試験で実測）。
+  for (const id of ['p001-blank-ku2', 'p001-blank-ku2-c2', 'p001-blank-ku2-k2']) {
+    assert.ok(noted.some((question) => question.questionId === id), `${id} に一言が出ていない`);
+  }
 });
 
 // 89番の作者は「しょくし」「しきし」どちらでも読ませたい。表示は主読み、正解は両方（依頼者裁定・2026-09-05）。
