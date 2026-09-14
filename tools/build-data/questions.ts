@@ -2,6 +2,7 @@ import { alignments, chunks, mixedForms } from './mixed-forms.ts';
 
 type Poem = any;
 type Review = { authors: any[]; blanks: any[] };
+export type BlankChunks = ReadonlyArray<{ cardNo: number; ku: number; text: string; chunks: string[]; readings: string[]; candidate: boolean[] }>;
 
 function unique(values: string[]) {
   return [...new Set(values)];
@@ -173,7 +174,7 @@ function joinAcross(perKu: readonly (readonly string[])[]): string[] {
   return perKu.reduce<string[]>((carried, forms) => carried.flatMap((prefix) => forms.map((form) => prefix + form)), ['']);
 }
 
-export function generateQuestions(poems: Poem[], review: Review, allocations: Allocations = READING_ALLOCATIONS) {
+export function generateQuestions(poems: Poem[], review: Review, allocations: Allocations = READING_ALLOCATIONS, blankChunks: BlankChunks = []) {
   /** 読みの割り付けが決まらなかった句。**実データで空でなければ `buildData` が止める。** */
   const allocationProblems: string[] = [];
   const blanksByPoem = poems.map((poem) => poem.ku.map((answer: string, index: number) => {
@@ -196,6 +197,50 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
       candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry),
     };
   }));
+
+  /*
+   * 段1（送り仮名を残して漢字だけ）と段2（句未満）。**語の境目は台帳が持つ**
+   * （`review/blank-chunks.yaml`・発注085）。**機械で推測しない**——
+   * 漢字のかたまりで切ると `夏来`・`声聞`・`身世` のような非語ができる（D-22）。
+   *
+   * 段2 は資料が空欄候補と印を付けたかたまりを 1 つ隠す。
+   * 段1 はそのうち**送り仮名を持つ語の漢字だけ**を隠す（`朝ぼらけ` なら `朝`）。
+   * **送り仮名が手がかりとして残るので段2 より易しい。**
+   * 全部漢字の語は段1 と段2 が同じ形になるので、段1 には入れない。
+   */
+  const words = blankChunks.flatMap((entry) => {
+    const poem = poems.find((item: Poem) => item.cardNo === entry.cardNo);
+    if (poem === undefined) return [];
+    const kuIndex = entry.ku - 1;
+    const ledger = review.blanks.find((item) => item.cardNo === entry.cardNo && item.ku === entry.ku);
+    return entry.chunks.flatMap((chunk, index) => {
+      if (!entry.candidate[index]) return [];
+      const reading = entry.readings[index]!;
+      const made: Record<string, unknown>[] = [];
+      const build = (rung: number, suffix: string, answer: string, answerReading: string) => {
+        const blank = '＿'.repeat(Math.max(1, [...answer].length));
+        const inKu = entry.text.replace(answer, blank);
+        const accepted = unique([answer, answerReading]);
+        made.push({
+          questionId: `${poem.poemId}-blank-ku${entry.ku}-${suffix}`, poemId: poem.poemId,
+          skill: 'text', type: 'blank', blankUnit: rung === 1 ? 'word' : 'bunsetsu',
+          blankedKu: [entry.ku], rung,
+          prompt: poem.ku.map((value: string, i: number) => i === kuIndex ? inKu : value).join(''),
+          answer, answerHistorical: answerReading, answerModern: answerReading,
+          acceptedAnswers: accepted, partialAnswers: [],
+          candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: null, ...metadata(ledger),
+        });
+      };
+      build(2, `c${index + 1}`, chunk, reading);
+      const runs = chunks(chunk).filter((item) => item.kanji);
+      if (runs.length === 1 && runs[0]!.text !== chunk) {
+        const found = alignments(chunk, reading);
+        // **一意に決まるときだけ作る。** 迷ったら作らない——誤った読みを ○ にしない。
+        if (found.length === 1) build(1, `k${index + 1}`, runs[0]!.text, found[0]![0]!);
+      }
+      return made;
+    });
+  });
 
   const spans = poems.flatMap((poem, poemIndex) => {
     const perKu = blanksByPoem[poemIndex]!;
@@ -221,7 +266,7 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
       };
     });
   });
-  const blanks = [...blanksByPoem.flat(), ...spans];
+  const blanks = [...blanksByPoem.flat(), ...words, ...spans];
   const authors = poems.flatMap((poem) => {
     const entry = review.authors.find((item) => item.cardNo === poem.cardNo);
     const base = { poemId: poem.poemId, skill: 'author', type: 'author', blankUnit: null, blankedKu: [], rung: null, prompt: poem.text, answerHistorical: poem.reading.historical.author, answerModern: poem.reading.modern.author, sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry) };

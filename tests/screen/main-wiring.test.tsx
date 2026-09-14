@@ -8,7 +8,7 @@ import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
 import { planQuestions } from '../../packages/hyakunin/src/domain/entry.ts';
 
 const poems = readFileSync(join(process.cwd(), 'packages/hyakunin/src/data/generated/poems.json'), 'utf8');
-const question = ['p001', 'p010', 'p011', 'p012', 'p021', 'p100'].map((poemId) => ({ questionId: `q${poemId.slice(1)}`, poemId, skill: 'text' as const, type: 'blank' as const, blankUnit: 'word' as const, blankedKu: [1], rung: 3, prompt: '＿', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: [], candidates: [], normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }));
+const question = ['p001', 'p010', 'p011', 'p012', 'p021', 'p100'].map((poemId) => ({ questionId: `q${poemId.slice(1)}`, poemId, skill: 'text' as const, type: 'blank' as const, blankUnit: 'word' as const, blankedKu: [1], rung: 1, prompt: '＿', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: [], candidates: [], normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }));
 const originalFetch = globalThis.fetch;
 let root: HTMLDivElement | undefined;
 

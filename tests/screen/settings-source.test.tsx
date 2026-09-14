@@ -19,7 +19,7 @@ import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
 const poemsJson = readFileSync(join(process.cwd(), 'packages/hyakunin/src/data/generated/poems.json'), 'utf8');
 const poems = JSON.parse(poemsJson) as readonly { cardNo: number; ku: string[]; reading: { historical: { ku: string[] }; modern: { ku: string[] } } }[];
 const meta = {
-  skill: 'text' as const, blankUnit: 'word' as const, blankedKu: [1], rung: 3, type: 'blank' as const, candidates: [] as string[],
+  skill: 'text' as const, blankUnit: 'word' as const, blankedKu: [1], rung: 1, type: 'blank' as const, candidates: [] as string[],
   normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const,
   confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null,
 };

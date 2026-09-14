@@ -4,7 +4,7 @@ import { ENTRY_RULES, ENTRY_RULES_VERSION, isEntryAvailable, planQuestions } fro
 import { rungProgress } from '../../packages/shared/src/domain/mastery/rungs.ts';
 import type { PublishedQuestion } from '../../packages/hyakunin/src/data/question-schema.ts';
 
-function question(cardNo: number, type: 'blank' | 'author' = 'blank', rung: number | null = 3): PublishedQuestion {
+function question(cardNo: number, type: 'blank' | 'author' = 'blank', rung: number | null = 1): PublishedQuestion {
   return {
     questionId: `p${String(cardNo).padStart(3, '0')}-${type === 'author' ? 'author-choice' : `blank-r${rung}`}`, poemId: `p${String(cardNo).padStart(3, '0')}`, skill: type === 'blank' ? 'text' : 'author', type,
     blankUnit: type === 'blank' ? 'ku' : null, blankedKu: type === 'blank' ? [1] : [], rung: type === 'blank' ? rung : null, prompt: '問題', answer: '漢字', answerHistorical: 'れきしてき', answerModern: 'げんだい', acceptedAnswers: ['れきしてき'], partialAnswers: ['げんだい'], candidates: type === 'author' ? ['作者A', '作者B', '作者C', '作者D'] : [], normalization: type === 'author' ? 'exact' : 'kana', sourceRef: 'source', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'reviewer', confirmedOn: '2026-09-01', proposedBy: 'human', batchEvidenceRef: null,
@@ -124,13 +124,14 @@ test('entry: 得点を渡さない呼び出しは首ごとに作者問題を1問
  * データを作るより先にこの釘を置く——逆順だと、間のどの時点で公開しても事故になる。
  */
 const withHardRungs = [question(1), question(1, 'blank', 7), question(2), question(2, 'blank', 4)];
+const lowest = 1;
 const rungsOf = (plan: PublishedQuestion[]) => [...new Set(plan.map((item) => item.rung))].sort();
 
 for (const entry of ['learn', 'quick', 'exam'] as const) {
-  test(`entry: ${entry} は段3の穴埋めだけを出す`, () => {
+  test(`entry: ${entry} は開いている段の穴埋めだけを出す`, () => {
     const plan = planQuestions(entry, withHardRungs, [1, 2], 'number', 'seed');
     assert.ok(plan.length > 0, '1問も出ていないのでは検査にならない');
-    assert.deepEqual(rungsOf(plan), [3], `段3以外が出ている: ${JSON.stringify(rungsOf(plan))}`);
+    assert.deepEqual(rungsOf(plan), [lowest], `開いていない段が出ている: ${JSON.stringify(rungsOf(plan))}`);
   });
 }
 
@@ -138,26 +139,26 @@ for (const entry of ['learn', 'quick', 'exam'] as const) {
  * 2026-09-15・発注084。**開いている段だけを出す。**
  * 制覇済みの段はもう天井に達していて点が入らないので、出しても学習にならない。
  */
-const ladder = [question(1), question(1, 'blank', 4), question(1, 'blank', 5)];
+const ladder = [question(1, 'blank', 1), question(1, 'blank', 2), question(1, 'blank', 3)];
 const cleared = (ids: string[]) => rungProgress(ids.map((questionId) => ({ questionId, outcome: 'correct' })), ladder.map((q) => ({ questionId: q.questionId, poemId: q.poemId, rung: q.rung })));
 
-test('entry: 制覇していなければ段3だけを出す', () => {
+test('entry: 制覇していなければ一番下の段だけを出す', () => {
   const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared([]));
-  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [3]);
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [1]);
 });
 
-test('entry: 段3を制覇すると段4に切り替わる', () => {
-  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared(['p001-blank-r3']));
-  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [4], '開いた段へ移っていない');
+test('entry: その段を制覇すると次の段に切り替わる', () => {
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared(['p001-blank-r1']));
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [2], '開いた段へ移っていない');
 });
 
 test('entry: 制覇済みの段はもう出さない', () => {
-  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared(['p001-blank-r3', 'p001-blank-r4']));
-  assert.equal(plan.some((q) => q.rung === 3), false, '制覇済みの段3が出ている');
-  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [5]);
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared(['p001-blank-r1', 'p001-blank-r2']));
+  assert.equal(plan.some((q) => q.rung === 1), false, '制覇済みの段1が出ている');
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [3]);
 });
 
-test('entry: 進み具合を渡さなければ段3だけ（記録の無い学習者と同じ）', () => {
+test('entry: 進み具合を渡さなければ一番下の段だけ（記録の無い学習者と同じ）', () => {
   const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {});
-  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [3]);
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [1]);
 });

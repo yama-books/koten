@@ -47,7 +47,7 @@ test('question-schema: 作者問は隠す句を持たず、段も持たない', 
   assert.equal(author.rung, null);
 });
 test('question-schema: 段が範囲外なら拒否する', () => {
-  for (const bad of [2, 9, 3.5, '3']) assert.throws(() => parseQuestions([{ ...valid, rung: bad }]), TypeError, `拒否できていない: ${JSON.stringify(bad)}`);
+  for (const bad of [0, 9, 3.5, '3']) assert.throws(() => parseQuestions([{ ...valid, rung: bad }]), TypeError, `拒否できていない: ${JSON.stringify(bad)}`);
 });
 test('question-schema: 段の欄が無ければ拒否する', () => {
   const { rung: _dropped, ...without } = valid;
