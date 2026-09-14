@@ -22,7 +22,7 @@ import { sendStats, createHttpSend } from './telemetry/stats-sender.ts';
 import { appConfig } from '@koten/shared/app-config';
 import type { Session as LearningSession } from '@koten/shared/domain/event';
 import { createSeed } from './domain/order.ts';
-import { planQuestions, type EntryId } from './domain/entry.ts';
+import { planQuestions, progressFrom, type EntryId, type RungProgress } from './domain/entry.ts';
 import { planReviewQuestions } from './domain/review.ts';
 import type { PublishedQuestion } from './data/question-schema.ts';
 import type { Poem } from './data/schema.ts';
@@ -65,7 +65,10 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
 
   // 記録は取り込みと削除で変わる。集計を 1 か所に置き、開くときと読み直すときで同じ形を使う。
   const historyPoemIds = Array.from({ length: 100 }, (_, index) => `p${String(index + 1).padStart(3, '0')}`);
-  const summarize = (events: Awaited<ReturnType<typeof port.listEvents>>) => summarizeHistory({ events, poemIds: historyPoemIds });
+  // **目録も渡す。** 完全制覇は段8 の制覇で決まり、段はイベントではなく問題が持つ。
+  // 記録を開いたときに受け取った目録を覚えておく——読み直しでも同じものを使う。
+  const [catalogue, setCatalogue] = useState<PublishedQuestion[]>([]);
+  const summarize = (events: Awaited<ReturnType<typeof port.listEvents>>, questions: PublishedQuestion[] = catalogue) => summarizeHistory({ events, poemIds: historyPoemIds, questions });
   /** 記録が変わったあとの読み直し。画面は切り替えない。 */
   function reloadHistory() {
     void port.listEvents().then((events) => setHistory(summarize(events)));
@@ -76,14 +79,14 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
    * ここで読み直すと、開始のたびに記録を二度読み、画面の切り替えが 1 拍遅れる。
    * どちらの入口も既にイベントを読んでいるので、その場で計算した値をそのまま渡す。
    */
-  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>> }) {
-    const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order, input.includeAuthors, input.masteryScores);
+  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress }) {
+    const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order, input.includeAuthors, input.masteryScores, input.progress);
     setSelected((current) => current ? { ...current, entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session });
     setScreen('session');
   }
 
-  function newSession(input: { entry: EntryId; range: { from: number; to: number }; order: UserSettings['order']; seed: string; cardNumbers: readonly number[]; questions: PublishedQuestion[]; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>> }) {
-    const questionCount = planQuestions(input.entry, input.questions, input.cardNumbers, input.seed, input.order, input.includeAuthors, input.masteryScores).length;
+  function newSession(input: { entry: EntryId; range: { from: number; to: number }; order: UserSettings['order']; seed: string; cardNumbers: readonly number[]; questions: PublishedQuestion[]; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress }) {
+    const questionCount = planQuestions(input.entry, input.questions, input.cardNumbers, input.seed, input.order, input.includeAuthors, input.masteryScores, input.progress).length;
     return createSession({ sessionId: crypto.randomUUID(), range: input.range, entry: input.entry, order: input.order, seed: input.seed, startedOn: new Date().toISOString().slice(0, 10), questionCount });
   }
 
@@ -93,9 +96,11 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     const seed = createSeed(Math.random);
     // **同じ得点を問題数の計算と計画の両方へ渡す。** 別々に取ると内訳と「全何問」が食い違う。
     const masteryScores = computeMastery(events).scores;
-    const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions, includeAuthors, masteryScores });
+    // **同じ進み具合を問題数の計算と計画の両方へ渡す。** 別々に取ると内訳と「全何問」が食い違う。
+    const progress = progressFrom(events, questions);
+    const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions, includeAuthors, masteryScores, progress });
     void port.saveSession(session);
-    startPlanned({ session, cardNumbers: plan.cardNumbers, questions, poems, answerMode, includeAuthors, masteryScores });
+    startPlanned({ session, cardNumbers: plan.cardNumbers, questions, poems, answerMode, includeAuthors, masteryScores, progress });
   }
 
   function startReview(questionIds: readonly string[]) {
@@ -107,7 +112,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     setScreen('session');
   }
 
-  const homeScreen = () => <Home port={port} onSettings={setSettings} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems, masteryScores) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores })} onOpenHistory={() => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events)); setScreen('history'); }); }} />;
+  const homeScreen = () => <Home port={port} onSettings={setSettings} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems, masteryScores, progress) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores, progress })} onOpenHistory={(questions) => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setCatalogue(questions); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events, questions)); setScreen('history'); }); }} />;
   // 設定を読むのはホームである。**読み込みが済むまで他の画面へ渡さない**——
   // 既定値のまま渡すと、そこからの保存が保存済みの学年を消す（発注074 工程1）。
   if (!settings) return homeScreen();

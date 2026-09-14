@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ENTRY_RULES, ENTRY_RULES_VERSION, isEntryAvailable, planQuestions } from '../../packages/hyakunin/src/domain/entry.ts';
+import { rungProgress } from '../../packages/shared/src/domain/mastery/rungs.ts';
 import type { PublishedQuestion } from '../../packages/hyakunin/src/data/question-schema.ts';
 
 function question(cardNo: number, type: 'blank' | 'author' = 'blank', rung: number | null = 3): PublishedQuestion {
@@ -132,3 +133,31 @@ for (const entry of ['learn', 'quick', 'exam'] as const) {
     assert.deepEqual(rungsOf(plan), [3], `段3以外が出ている: ${JSON.stringify(rungsOf(plan))}`);
   });
 }
+
+/**
+ * 2026-09-15・発注084。**開いている段だけを出す。**
+ * 制覇済みの段はもう天井に達していて点が入らないので、出しても学習にならない。
+ */
+const ladder = [question(1), question(1, 'blank', 4), question(1, 'blank', 5)];
+const cleared = (ids: string[]) => rungProgress(ids.map((questionId) => ({ questionId, outcome: 'correct' })), ladder.map((q) => ({ questionId: q.questionId, poemId: q.poemId, rung: q.rung })));
+
+test('entry: 制覇していなければ段3だけを出す', () => {
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared([]));
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [3]);
+});
+
+test('entry: 段3を制覇すると段4に切り替わる', () => {
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared(['p001-blank-r3']));
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [4], '開いた段へ移っていない');
+});
+
+test('entry: 制覇済みの段はもう出さない', () => {
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {}, cleared(['p001-blank-r3', 'p001-blank-r4']));
+  assert.equal(plan.some((q) => q.rung === 3), false, '制覇済みの段3が出ている');
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [5]);
+});
+
+test('entry: 進み具合を渡さなければ段3だけ（記録の無い学習者と同じ）', () => {
+  const plan = planQuestions('learn', ladder, [1], 'seed', 'number', true, {});
+  assert.deepEqual([...new Set(plan.map((q) => q.rung))], [3]);
+});

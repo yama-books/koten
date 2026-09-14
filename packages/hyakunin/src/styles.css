@@ -542,3 +542,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 /* 取り返しのつかない操作。枠で囲って、直前の節と地続きに見えないようにする。 */
 .transfer-danger { border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-sm); }
 @media (min-width: 40rem) { .transfer-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* 完全制覇（発注084）。**点ではなく印で表す**——`clamp` を 100 で止めたまま強さを示す。 */
+.history-conquered { display: inline-block; border-radius: var(--radius-md); padding: 0 var(--space-2xs); background: var(--color-wisteria); color: var(--color-surface); font-size: var(--text-sm); font-weight: bold; }
