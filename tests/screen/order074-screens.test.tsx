@@ -7,10 +7,10 @@ import { Session } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
 
 const settings = { key: 'user' as const, reading: 'no-ruby' as const, writing: 'vertical' as const, order: 'number' as const, soundEnabled: false, noticeConfirmed: true };
 const poem = { cardNo: 10, ku: ['春すぎて', '夏来にけらし', '白妙の', '衣ほすてふ', '天の香具山'], author: { canonical: '持統天皇' }, reading: { status: 'confirmed', historical: { ku: ['はるすぎて', 'なつきにけらし', 'しろたへの', 'ころもほすてふ', 'あまのかぐやま'], author: 'ぢとうてんわう' }, modern: { ku: ['はるすぎて', 'なつきにけらし', 'しろたえの', 'ころもほすちょう', 'あまのかぐやま'], author: 'じとうてんのう' } } } as never;
-const meta = { skill: 'text' as const, blankUnit: 'word' as const, normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null };
+const meta = { skill: 'text' as const, blankUnit: 'word' as const, blankedKu: [1], rung: 3, normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null };
 const blank = parseQuestions([{ ...meta, questionId: 'p010-ku3', poemId: 'p010', type: 'blank', prompt: '春すぎて夏来にけらし＿＿＿衣ほすてふ天の香具山', answer: '白妙の', answerHistorical: 'しろたへの', answerModern: 'しろたえの', acceptedAnswers: ['白妙の', 'しろたへの'], partialAnswers: ['しろたえの'], candidates: [] }] as PublishedQuestion[]);
 // 作者の読みは歴史的と現代で違う。**同じなら、重複する2行がそもそも描かれない。**
-const author = parseQuestions([{ ...meta, skill: 'author', questionId: 'p010-author', poemId: 'p010', type: 'author', blankUnit: null, prompt: '春すぎて夏来にけらし白妙の衣ほすてふ天の香具山の作者は？', answer: '持統天皇', answerHistorical: 'ぢとうてんわう', answerModern: 'じとうてんのう', acceptedAnswers: ['持統天皇', 'ぢとうてんわう'], partialAnswers: ['じとうてんのう'], candidates: ['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人'] }] as PublishedQuestion[]);
+const author = parseQuestions([{ ...meta, skill: 'author', questionId: 'p010-author', poemId: 'p010', type: 'author', blankUnit: null, blankedKu: [], rung: null, prompt: '春すぎて夏来にけらし白妙の衣ほすてふ天の香具山の作者は？', answer: '持統天皇', answerHistorical: 'ぢとうてんわう', answerModern: 'じとうてんのう', acceptedAnswers: ['持統天皇', 'ぢとうてんわう'], partialAnswers: ['じとうてんのう'], candidates: ['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人'] }] as PublishedQuestion[]);
 
 let root: HTMLDivElement | undefined;
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });

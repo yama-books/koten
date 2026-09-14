@@ -153,6 +153,8 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
     const acceptedTextForms = poem.acceptedTextForms?.[index] ?? [];
     return {
       questionId: `${poem.poemId}-blank-ku${index + 1}`, poemId: poem.poemId, skill: 'text', type: 'blank', blankUnit: 'ku',
+      // **隠す句はデータに持たせる。** ID の文字列から推測させない（発注084・`question-schema.ts`）。
+      blankedKu: [index + 1], rung: 3,
       prompt: poem.ku.map((value: string, kuIndex: number) => kuIndex === index ? '＿＿＿' : value).join(''), answer,
       answerHistorical: poem.reading.historical.ku[index], answerModern: poem.reading.modern.ku[index],
       ...answerSet(
@@ -168,7 +170,7 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
   }));
   const authors = poems.flatMap((poem) => {
     const entry = review.authors.find((item) => item.cardNo === poem.cardNo);
-    const base = { poemId: poem.poemId, skill: 'author', type: 'author', blankUnit: null, prompt: poem.text, answerHistorical: poem.reading.historical.author, answerModern: poem.reading.modern.author, sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry) };
+    const base = { poemId: poem.poemId, skill: 'author', type: 'author', blankUnit: null, blankedKu: [], rung: null, prompt: poem.text, answerHistorical: poem.reading.historical.author, answerModern: poem.reading.modern.author, sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry) };
     const wrong = distractors(poems, poem);
     const candidates = [poem.author.canonical, ...wrong].sort((left, right) => poems.find((candidate) => candidate.author.canonical === left)!.cardNo - poems.find((candidate) => candidate.author.canonical === right)!.cardNo);
     /*

@@ -17,9 +17,9 @@ import type { Event } from '../../packages/shared/src/domain/event.ts';
 
 const poems = readFileSync(join(process.cwd(), 'packages/hyakunin/src/data/generated/poems.json'), 'utf8');
 
-const blank = [{ questionId: 'p001-blank-ku1', poemId: 'p001', skill: 'text', type: 'blank', blankUnit: 'ku', prompt: '＿', answer: 'あきのたの', answerHistorical: 'あきのたの', answerModern: 'あきのたの', acceptedAnswers: ['あきのたの'], partialAnswers: [], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }];
+const blank = [{ questionId: 'p001-blank-ku1', poemId: 'p001', skill: 'text', type: 'blank', blankUnit: 'ku', blankedKu: [1], rung: 3, prompt: '＿', answer: 'あきのたの', answerHistorical: 'あきのたの', answerModern: 'あきのたの', acceptedAnswers: ['あきのたの'], partialAnswers: [], candidates: [], normalization: 'kana', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null }];
 
-const authorBase = { poemId: 'p001', skill: 'author', type: 'author', blankUnit: null, prompt: '秋の田のかりほの庵の苫をあらみ', answerHistorical: 'てんぢてんわう', answerModern: 'てんじてんのう', partialAnswers: [], note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null };
+const authorBase = { poemId: 'p001', skill: 'author', type: 'author', blankUnit: null, blankedKu: [], rung: null, prompt: '秋の田のかりほの庵の苫をあらみ', answerHistorical: 'てんぢてんわう', answerModern: 'てんじてんのう', partialAnswers: [], note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null };
 // **両方を配る。** 片方しか無い台帳では、選び分けが働かなくても正しく見えてしまう。
 const authors = [
   { ...authorBase, questionId: 'p001-author-choice', answer: '天智天皇', acceptedAnswers: ['天智天皇'], candidates: ['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人'], normalization: 'exact' },

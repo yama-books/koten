@@ -7,6 +7,7 @@
     "answerHistorical": "てんぢてんわう",
     "answerModern": "てんじてんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "天智天皇",
@@ -26,6 +27,7 @@
     "proposedBy": "human",
     "questionId": "p001-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -39,6 +41,7 @@
     "answerHistorical": "てんぢてんわう",
     "answerModern": "てんじてんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "天智天皇",
@@ -58,6 +61,7 @@
     "proposedBy": "human",
     "questionId": "p001-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -72,6 +76,7 @@
     "answerHistorical": "てんぢてんわう",
     "answerModern": "てんじてんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -85,6 +90,7 @@
     "proposedBy": "human",
     "questionId": "p001-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -97,6 +103,7 @@
     "answerHistorical": "ぢとうてんわう",
     "answerModern": "じとうてんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "天智天皇",
@@ -116,6 +123,7 @@
     "proposedBy": "human",
     "questionId": "p002-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -129,6 +137,7 @@
     "answerHistorical": "ぢとうてんわう",
     "answerModern": "じとうてんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "天智天皇",
@@ -148,6 +157,7 @@
     "proposedBy": "human",
     "questionId": "p002-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -162,6 +172,7 @@
     "answerHistorical": "ぢとうてんわう",
     "answerModern": "じとうてんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -175,6 +186,7 @@
     "proposedBy": "human",
     "questionId": "p002-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -187,6 +199,7 @@
     "answerHistorical": "かきのもとのひとまろ",
     "answerModern": "かきのもとのひとまろ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "天智天皇",
@@ -206,6 +219,7 @@
     "proposedBy": "human",
     "questionId": "p003-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -218,6 +232,7 @@
     "answerHistorical": "かきのもとのひとまろ",
     "answerModern": "かきのもとのひとまろ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "天智天皇",
@@ -237,6 +252,7 @@
     "proposedBy": "human",
     "questionId": "p003-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -251,6 +267,7 @@
     "answerHistorical": "かきのもとのひとまろ",
     "answerModern": "かきのもとのひとまろ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -264,6 +281,7 @@
     "proposedBy": "human",
     "questionId": "p003-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -276,6 +294,7 @@
     "answerHistorical": "やまべのあかひと",
     "answerModern": "やまべのあかひと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "持統天皇",
@@ -295,6 +314,7 @@
     "proposedBy": "human",
     "questionId": "p004-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -307,6 +327,7 @@
     "answerHistorical": "やまべのあかひと",
     "answerModern": "やまべのあかひと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "持統天皇",
@@ -326,6 +347,7 @@
     "proposedBy": "human",
     "questionId": "p004-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -339,6 +361,7 @@
     "answerHistorical": "やまべのあかひと",
     "answerModern": "やまべのあかひと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -352,6 +375,7 @@
     "proposedBy": "human",
     "questionId": "p004-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -364,6 +388,7 @@
     "answerHistorical": "さるまるだいふ",
     "answerModern": "さるまるだゆう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "柿本人麻呂",
@@ -383,6 +408,7 @@
     "proposedBy": "human",
     "questionId": "p005-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -396,6 +422,7 @@
     "answerHistorical": "さるまるだいふ",
     "answerModern": "さるまるだゆう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "柿本人麻呂",
@@ -415,6 +442,7 @@
     "proposedBy": "human",
     "questionId": "p005-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -430,6 +458,7 @@
     "answerHistorical": "さるまるだいふ",
     "answerModern": "さるまるだゆう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -443,6 +472,7 @@
     "proposedBy": "human",
     "questionId": "p005-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -455,6 +485,7 @@
     "answerHistorical": "ちゆうなごんやかもち",
     "answerModern": "ちゅうなごんやかもち",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "山部赤人",
@@ -474,6 +505,7 @@
     "proposedBy": "human",
     "questionId": "p006-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -487,6 +519,7 @@
     "answerHistorical": "ちゆうなごんやかもち",
     "answerModern": "ちゅうなごんやかもち",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "山部赤人",
@@ -506,6 +539,7 @@
     "proposedBy": "human",
     "questionId": "p006-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -520,6 +554,7 @@
     "answerHistorical": "ちゆうなごんやかもち",
     "answerModern": "ちゅうなごんやかもち",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -533,6 +568,7 @@
     "proposedBy": "human",
     "questionId": "p006-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -545,6 +581,7 @@
     "answerHistorical": "あべのなかまろ",
     "answerModern": "あべのなかまろ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "猿丸大夫",
@@ -564,6 +601,7 @@
     "proposedBy": "human",
     "questionId": "p007-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -576,6 +614,7 @@
     "answerHistorical": "あべのなかまろ",
     "answerModern": "あべのなかまろ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "猿丸大夫",
@@ -595,6 +634,7 @@
     "proposedBy": "human",
     "questionId": "p007-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -609,6 +649,7 @@
     "answerHistorical": "あべのなかまろ",
     "answerModern": "あべのなかまろ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -622,6 +663,7 @@
     "proposedBy": "human",
     "questionId": "p007-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -634,6 +676,7 @@
     "answerHistorical": "きせんほふし",
     "answerModern": "きせんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "中納言家持",
@@ -653,6 +696,7 @@
     "proposedBy": "human",
     "questionId": "p008-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -666,6 +710,7 @@
     "answerHistorical": "きせんほふし",
     "answerModern": "きせんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "中納言家持",
@@ -685,6 +730,7 @@
     "proposedBy": "human",
     "questionId": "p008-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -699,6 +745,7 @@
     "answerHistorical": "きせんほふし",
     "answerModern": "きせんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -712,6 +759,7 @@
     "proposedBy": "human",
     "questionId": "p008-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -724,6 +772,7 @@
     "answerHistorical": "をののこまち",
     "answerModern": "おののこまち",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "安倍仲麿",
@@ -743,6 +792,7 @@
     "proposedBy": "human",
     "questionId": "p009-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -756,6 +806,7 @@
     "answerHistorical": "をののこまち",
     "answerModern": "おののこまち",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "安倍仲麿",
@@ -775,6 +826,7 @@
     "proposedBy": "human",
     "questionId": "p009-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -789,6 +841,7 @@
     "answerHistorical": "をののこまち",
     "answerModern": "おののこまち",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -802,6 +855,7 @@
     "proposedBy": "human",
     "questionId": "p009-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -814,6 +868,7 @@
     "answerHistorical": "せみまる",
     "answerModern": "せみまる",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "喜撰法師",
@@ -833,6 +888,7 @@
     "proposedBy": "human",
     "questionId": "p010-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -845,6 +901,7 @@
     "answerHistorical": "せみまる",
     "answerModern": "せみまる",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "喜撰法師",
@@ -864,6 +921,7 @@
     "proposedBy": "human",
     "questionId": "p010-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -877,6 +935,7 @@
     "answerHistorical": "せみまる",
     "answerModern": "せみまる",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -890,6 +949,7 @@
     "proposedBy": "human",
     "questionId": "p010-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -902,6 +962,7 @@
     "answerHistorical": "さんぎたかむら",
     "answerModern": "さんぎたかむら",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "小野小町",
@@ -921,6 +982,7 @@
     "proposedBy": "human",
     "questionId": "p011-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -933,6 +995,7 @@
     "answerHistorical": "さんぎたかむら",
     "answerModern": "さんぎたかむら",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "小野小町",
@@ -952,6 +1015,7 @@
     "proposedBy": "human",
     "questionId": "p011-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -965,6 +1029,7 @@
     "answerHistorical": "さんぎたかむら",
     "answerModern": "さんぎたかむら",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -978,6 +1043,7 @@
     "proposedBy": "human",
     "questionId": "p011-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -990,6 +1056,7 @@
     "answerHistorical": "そうじやうへんぜう",
     "answerModern": "そうじょうへんじょう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "蝉丸",
@@ -1009,6 +1076,7 @@
     "proposedBy": "human",
     "questionId": "p012-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1022,6 +1090,7 @@
     "answerHistorical": "そうじやうへんぜう",
     "answerModern": "そうじょうへんじょう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "蝉丸",
@@ -1041,6 +1110,7 @@
     "proposedBy": "human",
     "questionId": "p012-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1055,6 +1125,7 @@
     "answerHistorical": "そうじやうへんぜう",
     "answerModern": "そうじょうへんじょう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1068,6 +1139,7 @@
     "proposedBy": "human",
     "questionId": "p012-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1080,6 +1152,7 @@
     "answerHistorical": "やうぜいゐん",
     "answerModern": "ようぜいいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "参議篁",
@@ -1099,6 +1172,7 @@
     "proposedBy": "human",
     "questionId": "p013-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1112,6 +1186,7 @@
     "answerHistorical": "やうぜいゐん",
     "answerModern": "ようぜいいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "参議篁",
@@ -1131,6 +1206,7 @@
     "proposedBy": "human",
     "questionId": "p013-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1145,6 +1221,7 @@
     "answerHistorical": "やうぜいゐん",
     "answerModern": "ようぜいいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1158,6 +1235,7 @@
     "proposedBy": "human",
     "questionId": "p013-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1170,6 +1248,7 @@
     "answerHistorical": "かはらのさだいじん",
     "answerModern": "かわらのさだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "僧正遍昭",
@@ -1189,6 +1268,7 @@
     "proposedBy": "human",
     "questionId": "p014-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1202,6 +1282,7 @@
     "answerHistorical": "かはらのさだいじん",
     "answerModern": "かわらのさだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "僧正遍昭",
@@ -1221,6 +1302,7 @@
     "proposedBy": "human",
     "questionId": "p014-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1235,6 +1317,7 @@
     "answerHistorical": "かはらのさだいじん",
     "answerModern": "かわらのさだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1248,6 +1331,7 @@
     "proposedBy": "human",
     "questionId": "p014-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1260,6 +1344,7 @@
     "answerHistorical": "くわうかうてんわう",
     "answerModern": "こうこうてんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "陽成院",
@@ -1279,6 +1364,7 @@
     "proposedBy": "human",
     "questionId": "p015-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1292,6 +1378,7 @@
     "answerHistorical": "くわうかうてんわう",
     "answerModern": "こうこうてんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "陽成院",
@@ -1311,6 +1398,7 @@
     "proposedBy": "human",
     "questionId": "p015-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1325,6 +1413,7 @@
     "answerHistorical": "くわうかうてんわう",
     "answerModern": "こうこうてんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1338,6 +1427,7 @@
     "proposedBy": "human",
     "questionId": "p015-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1350,6 +1440,7 @@
     "answerHistorical": "ちゆうなごんゆきひら",
     "answerModern": "ちゅうなごんゆきひら",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "河原左大臣",
@@ -1369,6 +1460,7 @@
     "proposedBy": "human",
     "questionId": "p016-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1382,6 +1474,7 @@
     "answerHistorical": "ちゆうなごんゆきひら",
     "answerModern": "ちゅうなごんゆきひら",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "河原左大臣",
@@ -1401,6 +1494,7 @@
     "proposedBy": "human",
     "questionId": "p016-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1415,6 +1509,7 @@
     "answerHistorical": "ちゆうなごんゆきひら",
     "answerModern": "ちゅうなごんゆきひら",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1428,6 +1523,7 @@
     "proposedBy": "human",
     "questionId": "p016-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1440,6 +1536,7 @@
     "answerHistorical": "ありはらのなりひらあそん",
     "answerModern": "ありわらのなりひらあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "光孝天皇",
@@ -1459,6 +1556,7 @@
     "proposedBy": "human",
     "questionId": "p017-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1472,6 +1570,7 @@
     "answerHistorical": "ありはらのなりひらあそん",
     "answerModern": "ありわらのなりひらあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "光孝天皇",
@@ -1491,6 +1590,7 @@
     "proposedBy": "human",
     "questionId": "p017-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1505,6 +1605,7 @@
     "answerHistorical": "ありはらのなりひらあそん",
     "answerModern": "ありわらのなりひらあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1518,6 +1619,7 @@
     "proposedBy": "human",
     "questionId": "p017-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1530,6 +1632,7 @@
     "answerHistorical": "ふぢはらのとしゆきあそん",
     "answerModern": "ふじわらのとしゆきあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "中納言行平",
@@ -1549,6 +1652,7 @@
     "proposedBy": "human",
     "questionId": "p018-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1562,6 +1666,7 @@
     "answerHistorical": "ふぢはらのとしゆきあそん",
     "answerModern": "ふじわらのとしゆきあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "中納言行平",
@@ -1581,6 +1686,7 @@
     "proposedBy": "human",
     "questionId": "p018-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1595,6 +1701,7 @@
     "answerHistorical": "ふぢはらのとしゆきあそん",
     "answerModern": "ふじわらのとしゆきあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1608,6 +1715,7 @@
     "proposedBy": "human",
     "questionId": "p018-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1620,6 +1728,7 @@
     "answerHistorical": "いせ",
     "answerModern": "いせ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "在原業平朝臣",
@@ -1639,6 +1748,7 @@
     "proposedBy": "human",
     "questionId": "p019-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1651,6 +1761,7 @@
     "answerHistorical": "いせ",
     "answerModern": "いせ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "在原業平朝臣",
@@ -1670,6 +1781,7 @@
     "proposedBy": "human",
     "questionId": "p019-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1683,6 +1795,7 @@
     "answerHistorical": "いせ",
     "answerModern": "いせ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1696,6 +1809,7 @@
     "proposedBy": "human",
     "questionId": "p019-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1708,6 +1822,7 @@
     "answerHistorical": "もとよししんわう",
     "answerModern": "もとよししんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原敏行朝臣",
@@ -1727,6 +1842,7 @@
     "proposedBy": "human",
     "questionId": "p020-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1740,6 +1856,7 @@
     "answerHistorical": "もとよししんわう",
     "answerModern": "もとよししんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原敏行朝臣",
@@ -1759,6 +1876,7 @@
     "proposedBy": "human",
     "questionId": "p020-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1773,6 +1891,7 @@
     "answerHistorical": "もとよししんわう",
     "answerModern": "もとよししんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1786,6 +1905,7 @@
     "proposedBy": "human",
     "questionId": "p020-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1798,6 +1918,7 @@
     "answerHistorical": "そせいほふし",
     "answerModern": "そせいほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "伊勢",
@@ -1817,6 +1938,7 @@
     "proposedBy": "human",
     "questionId": "p021-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1830,6 +1952,7 @@
     "answerHistorical": "そせいほふし",
     "answerModern": "そせいほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "伊勢",
@@ -1849,6 +1972,7 @@
     "proposedBy": "human",
     "questionId": "p021-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1863,6 +1987,7 @@
     "answerHistorical": "そせいほふし",
     "answerModern": "そせいほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1876,6 +2001,7 @@
     "proposedBy": "human",
     "questionId": "p021-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1888,6 +2014,7 @@
     "answerHistorical": "ふんやのやすひで",
     "answerModern": "ふんやのやすひで",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "元良親王",
@@ -1907,6 +2034,7 @@
     "proposedBy": "human",
     "questionId": "p022-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1919,6 +2047,7 @@
     "answerHistorical": "ふんやのやすひで",
     "answerModern": "ふんやのやすひで",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "元良親王",
@@ -1938,6 +2067,7 @@
     "proposedBy": "human",
     "questionId": "p022-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1951,6 +2081,7 @@
     "answerHistorical": "ふんやのやすひで",
     "answerModern": "ふんやのやすひで",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -1964,6 +2095,7 @@
     "proposedBy": "human",
     "questionId": "p022-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -1976,6 +2108,7 @@
     "answerHistorical": "おほえのちさと",
     "answerModern": "おおえのちさと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "素性法師",
@@ -1995,6 +2128,7 @@
     "proposedBy": "human",
     "questionId": "p023-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2008,6 +2142,7 @@
     "answerHistorical": "おほえのちさと",
     "answerModern": "おおえのちさと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "素性法師",
@@ -2027,6 +2162,7 @@
     "proposedBy": "human",
     "questionId": "p023-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2041,6 +2177,7 @@
     "answerHistorical": "おほえのちさと",
     "answerModern": "おおえのちさと",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2054,6 +2191,7 @@
     "proposedBy": "human",
     "questionId": "p023-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2066,6 +2204,7 @@
     "answerHistorical": "かんけ",
     "answerModern": "かんけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "文屋康秀",
@@ -2085,6 +2224,7 @@
     "proposedBy": "human",
     "questionId": "p024-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2097,6 +2237,7 @@
     "answerHistorical": "かんけ",
     "answerModern": "かんけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "文屋康秀",
@@ -2116,6 +2257,7 @@
     "proposedBy": "human",
     "questionId": "p024-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2129,6 +2271,7 @@
     "answerHistorical": "かんけ",
     "answerModern": "かんけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2142,6 +2285,7 @@
     "proposedBy": "human",
     "questionId": "p024-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2154,6 +2298,7 @@
     "answerHistorical": "さんでうのうだいじん",
     "answerModern": "さんじょうのうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大江千里",
@@ -2173,6 +2318,7 @@
     "proposedBy": "human",
     "questionId": "p025-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2186,6 +2332,7 @@
     "answerHistorical": "さんでうのうだいじん",
     "answerModern": "さんじょうのうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大江千里",
@@ -2205,6 +2352,7 @@
     "proposedBy": "human",
     "questionId": "p025-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2219,6 +2367,7 @@
     "answerHistorical": "さんでうのうだいじん",
     "answerModern": "さんじょうのうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2232,6 +2381,7 @@
     "proposedBy": "human",
     "questionId": "p025-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2244,6 +2394,7 @@
     "answerHistorical": "ていしんこう",
     "answerModern": "ていしんこう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "菅家",
@@ -2263,6 +2414,7 @@
     "proposedBy": "human",
     "questionId": "p026-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2275,6 +2427,7 @@
     "answerHistorical": "ていしんこう",
     "answerModern": "ていしんこう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "菅家",
@@ -2294,6 +2447,7 @@
     "proposedBy": "human",
     "questionId": "p026-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2307,6 +2461,7 @@
     "answerHistorical": "ていしんこう",
     "answerModern": "ていしんこう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2320,6 +2475,7 @@
     "proposedBy": "human",
     "questionId": "p026-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2332,6 +2488,7 @@
     "answerHistorical": "ちゆうなごんかねすけ",
     "answerModern": "ちゅうなごんかねすけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "三条右大臣",
@@ -2351,6 +2508,7 @@
     "proposedBy": "human",
     "questionId": "p027-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2364,6 +2522,7 @@
     "answerHistorical": "ちゆうなごんかねすけ",
     "answerModern": "ちゅうなごんかねすけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "三条右大臣",
@@ -2383,6 +2542,7 @@
     "proposedBy": "human",
     "questionId": "p027-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2397,6 +2557,7 @@
     "answerHistorical": "ちゆうなごんかねすけ",
     "answerModern": "ちゅうなごんかねすけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2410,6 +2571,7 @@
     "proposedBy": "human",
     "questionId": "p027-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2422,6 +2584,7 @@
     "answerHistorical": "みなもとのむねゆきあそん",
     "answerModern": "みなもとのむねゆきあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "貞信公",
@@ -2441,6 +2604,7 @@
     "proposedBy": "human",
     "questionId": "p028-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2453,6 +2617,7 @@
     "answerHistorical": "みなもとのむねゆきあそん",
     "answerModern": "みなもとのむねゆきあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "貞信公",
@@ -2472,6 +2637,7 @@
     "proposedBy": "human",
     "questionId": "p028-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2485,6 +2651,7 @@
     "answerHistorical": "みなもとのむねゆきあそん",
     "answerModern": "みなもとのむねゆきあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2498,6 +2665,7 @@
     "proposedBy": "human",
     "questionId": "p028-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2510,6 +2678,7 @@
     "answerHistorical": "おほしかふちのみつね",
     "answerModern": "おおしこうちのみつね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "中納言兼輔",
@@ -2529,6 +2698,7 @@
     "proposedBy": "human",
     "questionId": "p029-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2542,6 +2712,7 @@
     "answerHistorical": "おほしかふちのみつね",
     "answerModern": "おおしこうちのみつね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "中納言兼輔",
@@ -2561,6 +2732,7 @@
     "proposedBy": "human",
     "questionId": "p029-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2575,6 +2747,7 @@
     "answerHistorical": "おほしかふちのみつね",
     "answerModern": "おおしこうちのみつね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2588,6 +2761,7 @@
     "proposedBy": "human",
     "questionId": "p029-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2600,6 +2774,7 @@
     "answerHistorical": "みぶのただみね",
     "answerModern": "みぶのただみね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "源宗于朝臣",
@@ -2619,6 +2794,7 @@
     "proposedBy": "human",
     "questionId": "p030-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2631,6 +2807,7 @@
     "answerHistorical": "みぶのただみね",
     "answerModern": "みぶのただみね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "源宗于朝臣",
@@ -2650,6 +2827,7 @@
     "proposedBy": "human",
     "questionId": "p030-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2663,6 +2841,7 @@
     "answerHistorical": "みぶのただみね",
     "answerModern": "みぶのただみね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2676,6 +2855,7 @@
     "proposedBy": "human",
     "questionId": "p030-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2688,6 +2868,7 @@
     "answerHistorical": "さかのうへのこれのり",
     "answerModern": "さかのうえのこれのり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "凡河内躬恒",
@@ -2707,6 +2888,7 @@
     "proposedBy": "human",
     "questionId": "p031-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2720,6 +2902,7 @@
     "answerHistorical": "さかのうへのこれのり",
     "answerModern": "さかのうえのこれのり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "凡河内躬恒",
@@ -2739,6 +2922,7 @@
     "proposedBy": "human",
     "questionId": "p031-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2753,6 +2937,7 @@
     "answerHistorical": "さかのうへのこれのり",
     "answerModern": "さかのうえのこれのり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2766,6 +2951,7 @@
     "proposedBy": "human",
     "questionId": "p031-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2778,6 +2964,7 @@
     "answerHistorical": "はるみちのつらき",
     "answerModern": "はるみちのつらき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "壬生忠岑",
@@ -2797,6 +2984,7 @@
     "proposedBy": "human",
     "questionId": "p032-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2809,6 +2997,7 @@
     "answerHistorical": "はるみちのつらき",
     "answerModern": "はるみちのつらき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "壬生忠岑",
@@ -2828,6 +3017,7 @@
     "proposedBy": "human",
     "questionId": "p032-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2841,6 +3031,7 @@
     "answerHistorical": "はるみちのつらき",
     "answerModern": "はるみちのつらき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2854,6 +3045,7 @@
     "proposedBy": "human",
     "questionId": "p032-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2866,6 +3058,7 @@
     "answerHistorical": "きのとものり",
     "answerModern": "きのとものり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "坂上是則",
@@ -2885,6 +3078,7 @@
     "proposedBy": "human",
     "questionId": "p033-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2897,6 +3091,7 @@
     "answerHistorical": "きのとものり",
     "answerModern": "きのとものり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "坂上是則",
@@ -2916,6 +3111,7 @@
     "proposedBy": "human",
     "questionId": "p033-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2929,6 +3125,7 @@
     "answerHistorical": "きのとものり",
     "answerModern": "きのとものり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -2942,6 +3139,7 @@
     "proposedBy": "human",
     "questionId": "p033-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2954,6 +3152,7 @@
     "answerHistorical": "ふぢはらのおきかぜ",
     "answerModern": "ふじわらのおきかぜ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "春道列樹",
@@ -2973,6 +3172,7 @@
     "proposedBy": "human",
     "questionId": "p034-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -2986,6 +3186,7 @@
     "answerHistorical": "ふぢはらのおきかぜ",
     "answerModern": "ふじわらのおきかぜ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "春道列樹",
@@ -3005,6 +3206,7 @@
     "proposedBy": "human",
     "questionId": "p034-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3019,6 +3221,7 @@
     "answerHistorical": "ふぢはらのおきかぜ",
     "answerModern": "ふじわらのおきかぜ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3032,6 +3235,7 @@
     "proposedBy": "human",
     "questionId": "p034-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3044,6 +3248,7 @@
     "answerHistorical": "きのつらゆき",
     "answerModern": "きのつらゆき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "紀友則",
@@ -3063,6 +3268,7 @@
     "proposedBy": "human",
     "questionId": "p035-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3075,6 +3281,7 @@
     "answerHistorical": "きのつらゆき",
     "answerModern": "きのつらゆき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "紀友則",
@@ -3094,6 +3301,7 @@
     "proposedBy": "human",
     "questionId": "p035-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3107,6 +3315,7 @@
     "answerHistorical": "きのつらゆき",
     "answerModern": "きのつらゆき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3120,6 +3329,7 @@
     "proposedBy": "human",
     "questionId": "p035-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3132,6 +3342,7 @@
     "answerHistorical": "きよはらのふかやぶ",
     "answerModern": "きよはらのふかやぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原興風",
@@ -3151,6 +3362,7 @@
     "proposedBy": "human",
     "questionId": "p036-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3163,6 +3375,7 @@
     "answerHistorical": "きよはらのふかやぶ",
     "answerModern": "きよはらのふかやぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原興風",
@@ -3182,6 +3395,7 @@
     "proposedBy": "human",
     "questionId": "p036-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3195,6 +3409,7 @@
     "answerHistorical": "きよはらのふかやぶ",
     "answerModern": "きよはらのふかやぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3208,6 +3423,7 @@
     "proposedBy": "human",
     "questionId": "p036-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3220,6 +3436,7 @@
     "answerHistorical": "ふんやのあさやす",
     "answerModern": "ふんやのあさやす",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "紀貫之",
@@ -3239,6 +3456,7 @@
     "proposedBy": "human",
     "questionId": "p037-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3251,6 +3469,7 @@
     "answerHistorical": "ふんやのあさやす",
     "answerModern": "ふんやのあさやす",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "紀貫之",
@@ -3270,6 +3489,7 @@
     "proposedBy": "human",
     "questionId": "p037-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3283,6 +3503,7 @@
     "answerHistorical": "ふんやのあさやす",
     "answerModern": "ふんやのあさやす",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3296,6 +3517,7 @@
     "proposedBy": "human",
     "questionId": "p037-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3308,6 +3530,7 @@
     "answerHistorical": "うこん",
     "answerModern": "うこん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "清原深養父",
@@ -3327,6 +3550,7 @@
     "proposedBy": "human",
     "questionId": "p038-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3339,6 +3563,7 @@
     "answerHistorical": "うこん",
     "answerModern": "うこん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "清原深養父",
@@ -3358,6 +3583,7 @@
     "proposedBy": "human",
     "questionId": "p038-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3371,6 +3597,7 @@
     "answerHistorical": "うこん",
     "answerModern": "うこん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3384,6 +3611,7 @@
     "proposedBy": "human",
     "questionId": "p038-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3396,6 +3624,7 @@
     "answerHistorical": "さんぎひとし",
     "answerModern": "さんぎひとし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "文屋朝康",
@@ -3415,6 +3644,7 @@
     "proposedBy": "human",
     "questionId": "p039-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3427,6 +3657,7 @@
     "answerHistorical": "さんぎひとし",
     "answerModern": "さんぎひとし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "文屋朝康",
@@ -3446,6 +3677,7 @@
     "proposedBy": "human",
     "questionId": "p039-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3459,6 +3691,7 @@
     "answerHistorical": "さんぎひとし",
     "answerModern": "さんぎひとし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3472,6 +3705,7 @@
     "proposedBy": "human",
     "questionId": "p039-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3484,6 +3718,7 @@
     "answerHistorical": "たひらのかねもり",
     "answerModern": "たいらのかねもり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "右近",
@@ -3503,6 +3738,7 @@
     "proposedBy": "human",
     "questionId": "p040-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3516,6 +3752,7 @@
     "answerHistorical": "たひらのかねもり",
     "answerModern": "たいらのかねもり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "右近",
@@ -3535,6 +3772,7 @@
     "proposedBy": "human",
     "questionId": "p040-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3549,6 +3787,7 @@
     "answerHistorical": "たひらのかねもり",
     "answerModern": "たいらのかねもり",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3562,6 +3801,7 @@
     "proposedBy": "human",
     "questionId": "p040-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3574,6 +3814,7 @@
     "answerHistorical": "みぶのただみ",
     "answerModern": "みぶのただみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "参議等",
@@ -3593,6 +3834,7 @@
     "proposedBy": "human",
     "questionId": "p041-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3605,6 +3847,7 @@
     "answerHistorical": "みぶのただみ",
     "answerModern": "みぶのただみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "参議等",
@@ -3624,6 +3867,7 @@
     "proposedBy": "human",
     "questionId": "p041-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3637,6 +3881,7 @@
     "answerHistorical": "みぶのただみ",
     "answerModern": "みぶのただみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3650,6 +3895,7 @@
     "proposedBy": "human",
     "questionId": "p041-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3662,6 +3908,7 @@
     "answerHistorical": "きよはらのもとすけ",
     "answerModern": "きよはらのもとすけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "平兼盛",
@@ -3681,6 +3928,7 @@
     "proposedBy": "human",
     "questionId": "p042-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3693,6 +3941,7 @@
     "answerHistorical": "きよはらのもとすけ",
     "answerModern": "きよはらのもとすけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "平兼盛",
@@ -3712,6 +3961,7 @@
     "proposedBy": "human",
     "questionId": "p042-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3725,6 +3975,7 @@
     "answerHistorical": "きよはらのもとすけ",
     "answerModern": "きよはらのもとすけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3738,6 +3989,7 @@
     "proposedBy": "human",
     "questionId": "p042-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3750,6 +4002,7 @@
     "answerHistorical": "ごんちゆうなごんあつただ",
     "answerModern": "ごんちゅうなごんあつただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "壬生忠見",
@@ -3769,6 +4022,7 @@
     "proposedBy": "human",
     "questionId": "p043-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3782,6 +4036,7 @@
     "answerHistorical": "ごんちゆうなごんあつただ",
     "answerModern": "ごんちゅうなごんあつただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "壬生忠見",
@@ -3801,6 +4056,7 @@
     "proposedBy": "human",
     "questionId": "p043-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3815,6 +4071,7 @@
     "answerHistorical": "ごんちゆうなごんあつただ",
     "answerModern": "ごんちゅうなごんあつただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3828,6 +4085,7 @@
     "proposedBy": "human",
     "questionId": "p043-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3840,6 +4098,7 @@
     "answerHistorical": "ちゆうなごんあさただ",
     "answerModern": "ちゅうなごんあさただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "清原元輔",
@@ -3859,6 +4118,7 @@
     "proposedBy": "human",
     "questionId": "p044-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3872,6 +4132,7 @@
     "answerHistorical": "ちゆうなごんあさただ",
     "answerModern": "ちゅうなごんあさただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "清原元輔",
@@ -3891,6 +4152,7 @@
     "proposedBy": "human",
     "questionId": "p044-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3905,6 +4167,7 @@
     "answerHistorical": "ちゆうなごんあさただ",
     "answerModern": "ちゅうなごんあさただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -3918,6 +4181,7 @@
     "proposedBy": "human",
     "questionId": "p044-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3930,6 +4194,7 @@
     "answerHistorical": "けんとくこう",
     "answerModern": "けんとくこう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "権中納言敦忠",
@@ -3949,6 +4214,7 @@
     "proposedBy": "human",
     "questionId": "p045-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3961,6 +4227,7 @@
     "answerHistorical": "けんとくこう",
     "answerModern": "けんとくこう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "権中納言敦忠",
@@ -3980,6 +4247,7 @@
     "proposedBy": "human",
     "questionId": "p045-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -3993,6 +4261,7 @@
     "answerHistorical": "けんとくこう",
     "answerModern": "けんとくこう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4006,6 +4275,7 @@
     "proposedBy": "human",
     "questionId": "p045-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4018,6 +4288,7 @@
     "answerHistorical": "そねのよしただ",
     "answerModern": "そねのよしただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "中納言朝忠",
@@ -4037,6 +4308,7 @@
     "proposedBy": "human",
     "questionId": "p046-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4049,6 +4321,7 @@
     "answerHistorical": "そねのよしただ",
     "answerModern": "そねのよしただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "中納言朝忠",
@@ -4068,6 +4341,7 @@
     "proposedBy": "human",
     "questionId": "p046-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4082,6 +4356,7 @@
     "answerHistorical": "そねのよしただ",
     "answerModern": "そねのよしただ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4095,6 +4370,7 @@
     "proposedBy": "human",
     "questionId": "p046-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4107,6 +4383,7 @@
     "answerHistorical": "ゑぎやうほふし",
     "answerModern": "えぎょうほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "謙徳公",
@@ -4126,6 +4403,7 @@
     "proposedBy": "human",
     "questionId": "p047-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4139,6 +4417,7 @@
     "answerHistorical": "ゑぎやうほふし",
     "answerModern": "えぎょうほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "謙徳公",
@@ -4158,6 +4437,7 @@
     "proposedBy": "human",
     "questionId": "p047-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4172,6 +4452,7 @@
     "answerHistorical": "ゑぎやうほふし",
     "answerModern": "えぎょうほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4185,6 +4466,7 @@
     "proposedBy": "human",
     "questionId": "p047-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4197,6 +4479,7 @@
     "answerHistorical": "みなもとのしげゆき",
     "answerModern": "みなもとのしげゆき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "曾禰好忠",
@@ -4216,6 +4499,7 @@
     "proposedBy": "human",
     "questionId": "p048-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4228,6 +4512,7 @@
     "answerHistorical": "みなもとのしげゆき",
     "answerModern": "みなもとのしげゆき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "曾禰好忠",
@@ -4247,6 +4532,7 @@
     "proposedBy": "human",
     "questionId": "p048-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4260,6 +4546,7 @@
     "answerHistorical": "みなもとのしげゆき",
     "answerModern": "みなもとのしげゆき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4273,6 +4560,7 @@
     "proposedBy": "human",
     "questionId": "p048-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4285,6 +4573,7 @@
     "answerHistorical": "おほなかとみのよしのぶ",
     "answerModern": "おおなかとみのよしのぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "恵慶法師",
@@ -4304,6 +4593,7 @@
     "proposedBy": "human",
     "questionId": "p049-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4317,6 +4607,7 @@
     "answerHistorical": "おほなかとみのよしのぶ",
     "answerModern": "おおなかとみのよしのぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "恵慶法師",
@@ -4336,6 +4627,7 @@
     "proposedBy": "human",
     "questionId": "p049-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4350,6 +4642,7 @@
     "answerHistorical": "おほなかとみのよしのぶ",
     "answerModern": "おおなかとみのよしのぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4363,6 +4656,7 @@
     "proposedBy": "human",
     "questionId": "p049-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4375,6 +4669,7 @@
     "answerHistorical": "ふぢはらのよしたか",
     "answerModern": "ふじわらのよしたか",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "源重之",
@@ -4394,6 +4689,7 @@
     "proposedBy": "human",
     "questionId": "p050-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4407,6 +4703,7 @@
     "answerHistorical": "ふぢはらのよしたか",
     "answerModern": "ふじわらのよしたか",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "源重之",
@@ -4426,6 +4723,7 @@
     "proposedBy": "human",
     "questionId": "p050-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4440,6 +4738,7 @@
     "answerHistorical": "ふぢはらのよしたか",
     "answerModern": "ふじわらのよしたか",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4453,6 +4752,7 @@
     "proposedBy": "human",
     "questionId": "p050-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4465,6 +4765,7 @@
     "answerHistorical": "ふぢはらのさねかたあそん",
     "answerModern": "ふじわらのさねかたあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大中臣能宣",
@@ -4484,6 +4785,7 @@
     "proposedBy": "human",
     "questionId": "p051-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4497,6 +4799,7 @@
     "answerHistorical": "ふぢはらのさねかたあそん",
     "answerModern": "ふじわらのさねかたあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大中臣能宣",
@@ -4516,6 +4819,7 @@
     "proposedBy": "human",
     "questionId": "p051-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4530,6 +4834,7 @@
     "answerHistorical": "ふぢはらのさねかたあそん",
     "answerModern": "ふじわらのさねかたあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4543,6 +4848,7 @@
     "proposedBy": "human",
     "questionId": "p051-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4555,6 +4861,7 @@
     "answerHistorical": "ふぢはらのみちのぶあそん",
     "answerModern": "ふじわらのみちのぶあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原義孝",
@@ -4574,6 +4881,7 @@
     "proposedBy": "human",
     "questionId": "p052-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4587,6 +4895,7 @@
     "answerHistorical": "ふぢはらのみちのぶあそん",
     "answerModern": "ふじわらのみちのぶあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原義孝",
@@ -4606,6 +4915,7 @@
     "proposedBy": "human",
     "questionId": "p052-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4620,6 +4930,7 @@
     "answerHistorical": "ふぢはらのみちのぶあそん",
     "answerModern": "ふじわらのみちのぶあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4633,6 +4944,7 @@
     "proposedBy": "human",
     "questionId": "p052-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4645,6 +4957,7 @@
     "answerHistorical": "うだいしやうみちつなのはは",
     "answerModern": "うだいしょうみちつなのはは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原実方朝臣",
@@ -4664,6 +4977,7 @@
     "proposedBy": "human",
     "questionId": "p053-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4677,6 +4991,7 @@
     "answerHistorical": "うだいしやうみちつなのはは",
     "answerModern": "うだいしょうみちつなのはは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原実方朝臣",
@@ -4696,6 +5011,7 @@
     "proposedBy": "human",
     "questionId": "p053-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4710,6 +5026,7 @@
     "answerHistorical": "うだいしやうみちつなのはは",
     "answerModern": "うだいしょうみちつなのはは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4723,6 +5040,7 @@
     "proposedBy": "human",
     "questionId": "p053-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4735,6 +5053,7 @@
     "answerHistorical": "ぎどうさんしのはは",
     "answerModern": "ぎどうさんしのはは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原道信朝臣",
@@ -4754,6 +5073,7 @@
     "proposedBy": "human",
     "questionId": "p054-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4766,6 +5086,7 @@
     "answerHistorical": "ぎどうさんしのはは",
     "answerModern": "ぎどうさんしのはは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原道信朝臣",
@@ -4785,6 +5106,7 @@
     "proposedBy": "human",
     "questionId": "p054-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4798,6 +5120,7 @@
     "answerHistorical": "ぎどうさんしのはは",
     "answerModern": "ぎどうさんしのはは",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4811,6 +5134,7 @@
     "proposedBy": "human",
     "questionId": "p054-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4823,6 +5147,7 @@
     "answerHistorical": "だいなごんきんとう",
     "answerModern": "だいなごんきんとう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "右大将道綱母",
@@ -4842,6 +5167,7 @@
     "proposedBy": "human",
     "questionId": "p055-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4854,6 +5180,7 @@
     "answerHistorical": "だいなごんきんとう",
     "answerModern": "だいなごんきんとう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "右大将道綱母",
@@ -4873,6 +5200,7 @@
     "proposedBy": "human",
     "questionId": "p055-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4886,6 +5214,7 @@
     "answerHistorical": "だいなごんきんとう",
     "answerModern": "だいなごんきんとう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4899,6 +5228,7 @@
     "proposedBy": "human",
     "questionId": "p055-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4911,6 +5241,7 @@
     "answerHistorical": "いづみしきぶ",
     "answerModern": "いずみしきぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "儀同三司母",
@@ -4930,6 +5261,7 @@
     "proposedBy": "human",
     "questionId": "p056-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4943,6 +5275,7 @@
     "answerHistorical": "いづみしきぶ",
     "answerModern": "いずみしきぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "儀同三司母",
@@ -4962,6 +5295,7 @@
     "proposedBy": "human",
     "questionId": "p056-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -4976,6 +5310,7 @@
     "answerHistorical": "いづみしきぶ",
     "answerModern": "いずみしきぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -4989,6 +5324,7 @@
     "proposedBy": "human",
     "questionId": "p056-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5001,6 +5337,7 @@
     "answerHistorical": "むらさきしきぶ",
     "answerModern": "むらさきしきぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大納言公任",
@@ -5020,6 +5357,7 @@
     "proposedBy": "human",
     "questionId": "p057-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5032,6 +5370,7 @@
     "answerHistorical": "むらさきしきぶ",
     "answerModern": "むらさきしきぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大納言公任",
@@ -5051,6 +5390,7 @@
     "proposedBy": "human",
     "questionId": "p057-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5064,6 +5404,7 @@
     "answerHistorical": "むらさきしきぶ",
     "answerModern": "むらさきしきぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5077,6 +5418,7 @@
     "proposedBy": "human",
     "questionId": "p057-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5089,6 +5431,7 @@
     "answerHistorical": "だいにのさんゐ",
     "answerModern": "だいにのさんみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "和泉式部",
@@ -5108,6 +5451,7 @@
     "proposedBy": "human",
     "questionId": "p058-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5121,6 +5465,7 @@
     "answerHistorical": "だいにのさんゐ",
     "answerModern": "だいにのさんみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "和泉式部",
@@ -5140,6 +5485,7 @@
     "proposedBy": "human",
     "questionId": "p058-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5154,6 +5500,7 @@
     "answerHistorical": "だいにのさんゐ",
     "answerModern": "だいにのさんみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5167,6 +5514,7 @@
     "proposedBy": "human",
     "questionId": "p058-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5179,6 +5527,7 @@
     "answerHistorical": "あかぞめゑもん",
     "answerModern": "あかぞめえもん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "紫式部",
@@ -5198,6 +5547,7 @@
     "proposedBy": "human",
     "questionId": "p059-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5211,6 +5561,7 @@
     "answerHistorical": "あかぞめゑもん",
     "answerModern": "あかぞめえもん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "紫式部",
@@ -5230,6 +5581,7 @@
     "proposedBy": "human",
     "questionId": "p059-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5244,6 +5596,7 @@
     "answerHistorical": "あかぞめゑもん",
     "answerModern": "あかぞめえもん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5257,6 +5610,7 @@
     "proposedBy": "human",
     "questionId": "p059-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5269,6 +5623,7 @@
     "answerHistorical": "こしきぶのないし",
     "answerModern": "こしきぶのないし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大弐三位",
@@ -5288,6 +5643,7 @@
     "proposedBy": "human",
     "questionId": "p060-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5300,6 +5656,7 @@
     "answerHistorical": "こしきぶのないし",
     "answerModern": "こしきぶのないし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大弐三位",
@@ -5319,6 +5676,7 @@
     "proposedBy": "human",
     "questionId": "p060-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5332,6 +5690,7 @@
     "answerHistorical": "こしきぶのないし",
     "answerModern": "こしきぶのないし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5345,6 +5704,7 @@
     "proposedBy": "human",
     "questionId": "p060-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5357,6 +5717,7 @@
     "answerHistorical": "いせのたいふ",
     "answerModern": "いせのたいふ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "赤染衛門",
@@ -5376,6 +5737,7 @@
     "proposedBy": "human",
     "questionId": "p061-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5389,6 +5751,7 @@
     "answerHistorical": "いせのたいふ",
     "answerModern": "いせのたいふ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "赤染衛門",
@@ -5408,6 +5771,7 @@
     "proposedBy": "human",
     "questionId": "p061-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5422,6 +5786,7 @@
     "answerHistorical": "いせのたいふ",
     "answerModern": "いせのたいふ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5435,6 +5800,7 @@
     "proposedBy": "human",
     "questionId": "p061-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5447,6 +5813,7 @@
     "answerHistorical": "せいせうなごん",
     "answerModern": "せいしょうなごん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "小式部内侍",
@@ -5466,6 +5833,7 @@
     "proposedBy": "human",
     "questionId": "p062-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5479,6 +5847,7 @@
     "answerHistorical": "せいせうなごん",
     "answerModern": "せいしょうなごん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "小式部内侍",
@@ -5498,6 +5867,7 @@
     "proposedBy": "human",
     "questionId": "p062-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5512,6 +5882,7 @@
     "answerHistorical": "せいせうなごん",
     "answerModern": "せいしょうなごん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5525,6 +5896,7 @@
     "proposedBy": "human",
     "questionId": "p062-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5537,6 +5909,7 @@
     "answerHistorical": "さきやうだいぶみちまさ",
     "answerModern": "さきょうのだいぶみちまさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "伊勢大輔",
@@ -5556,6 +5929,7 @@
     "proposedBy": "human",
     "questionId": "p063-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5569,6 +5943,7 @@
     "answerHistorical": "さきやうだいぶみちまさ",
     "answerModern": "さきょうのだいぶみちまさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "伊勢大輔",
@@ -5588,6 +5963,7 @@
     "proposedBy": "human",
     "questionId": "p063-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5602,6 +5978,7 @@
     "answerHistorical": "さきやうだいぶみちまさ",
     "answerModern": "さきょうのだいぶみちまさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5615,6 +5992,7 @@
     "proposedBy": "human",
     "questionId": "p063-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5627,6 +6005,7 @@
     "answerHistorical": "ごんちゆうなごんさだより",
     "answerModern": "ごんちゅうなごんさだより",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "清少納言",
@@ -5646,6 +6025,7 @@
     "proposedBy": "human",
     "questionId": "p064-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5659,6 +6039,7 @@
     "answerHistorical": "ごんちゆうなごんさだより",
     "answerModern": "ごんちゅうなごんさだより",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "清少納言",
@@ -5678,6 +6059,7 @@
     "proposedBy": "human",
     "questionId": "p064-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5692,6 +6074,7 @@
     "answerHistorical": "ごんちゆうなごんさだより",
     "answerModern": "ごんちゅうなごんさだより",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5705,6 +6088,7 @@
     "proposedBy": "human",
     "questionId": "p064-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5717,6 +6101,7 @@
     "answerHistorical": "さがみ",
     "answerModern": "さがみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "左京大夫道雅",
@@ -5736,6 +6121,7 @@
     "proposedBy": "human",
     "questionId": "p065-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5748,6 +6134,7 @@
     "answerHistorical": "さがみ",
     "answerModern": "さがみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "左京大夫道雅",
@@ -5767,6 +6154,7 @@
     "proposedBy": "human",
     "questionId": "p065-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5780,6 +6168,7 @@
     "answerHistorical": "さがみ",
     "answerModern": "さがみ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5793,6 +6182,7 @@
     "proposedBy": "human",
     "questionId": "p065-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5805,6 +6195,7 @@
     "answerHistorical": "さきのだいそうじやうぎやうそん",
     "answerModern": "さきのだいそうじょうぎょうそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "権中納言定頼",
@@ -5824,6 +6215,7 @@
     "proposedBy": "human",
     "questionId": "p066-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5837,6 +6229,7 @@
     "answerHistorical": "さきのだいそうじやうぎやうそん",
     "answerModern": "さきのだいそうじょうぎょうそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "権中納言定頼",
@@ -5856,6 +6249,7 @@
     "proposedBy": "human",
     "questionId": "p066-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5870,6 +6264,7 @@
     "answerHistorical": "さきのだいそうじやうぎやうそん",
     "answerModern": "さきのだいそうじょうぎょうそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5883,6 +6278,7 @@
     "proposedBy": "human",
     "questionId": "p066-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5895,6 +6291,7 @@
     "answerHistorical": "すはうのないし",
     "answerModern": "すおうのないし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "相模",
@@ -5914,6 +6311,7 @@
     "proposedBy": "human",
     "questionId": "p067-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5927,6 +6325,7 @@
     "answerHistorical": "すはうのないし",
     "answerModern": "すおうのないし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "相模",
@@ -5946,6 +6345,7 @@
     "proposedBy": "human",
     "questionId": "p067-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5960,6 +6360,7 @@
     "answerHistorical": "すはうのないし",
     "answerModern": "すおうのないし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -5973,6 +6374,7 @@
     "proposedBy": "human",
     "questionId": "p067-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -5985,6 +6387,7 @@
     "answerHistorical": "さんでうゐん",
     "answerModern": "さんじょういん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "前大僧正行尊",
@@ -6004,6 +6407,7 @@
     "proposedBy": "human",
     "questionId": "p068-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6017,6 +6421,7 @@
     "answerHistorical": "さんでうゐん",
     "answerModern": "さんじょういん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "前大僧正行尊",
@@ -6036,6 +6441,7 @@
     "proposedBy": "human",
     "questionId": "p068-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6050,6 +6456,7 @@
     "answerHistorical": "さんでうゐん",
     "answerModern": "さんじょういん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6063,6 +6470,7 @@
     "proposedBy": "human",
     "questionId": "p068-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6075,6 +6483,7 @@
     "answerHistorical": "のういんほふし",
     "answerModern": "のういんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "周防内侍",
@@ -6094,6 +6503,7 @@
     "proposedBy": "human",
     "questionId": "p069-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6107,6 +6517,7 @@
     "answerHistorical": "のういんほふし",
     "answerModern": "のういんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "周防内侍",
@@ -6126,6 +6537,7 @@
     "proposedBy": "human",
     "questionId": "p069-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6140,6 +6552,7 @@
     "answerHistorical": "のういんほふし",
     "answerModern": "のういんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6153,6 +6566,7 @@
     "proposedBy": "human",
     "questionId": "p069-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6165,6 +6579,7 @@
     "answerHistorical": "りやうせんほふし",
     "answerModern": "りょうぜんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "三条院",
@@ -6184,6 +6599,7 @@
     "proposedBy": "human",
     "questionId": "p070-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6197,6 +6613,7 @@
     "answerHistorical": "りやうせんほふし",
     "answerModern": "りょうぜんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "三条院",
@@ -6216,6 +6633,7 @@
     "proposedBy": "human",
     "questionId": "p070-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6230,6 +6648,7 @@
     "answerHistorical": "りやうせんほふし",
     "answerModern": "りょうぜんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6243,6 +6662,7 @@
     "proposedBy": "human",
     "questionId": "p070-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6255,6 +6675,7 @@
     "answerHistorical": "だいなごんつねのぶ",
     "answerModern": "だいなごんつねのぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "能因法師",
@@ -6274,6 +6695,7 @@
     "proposedBy": "human",
     "questionId": "p071-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6286,6 +6708,7 @@
     "answerHistorical": "だいなごんつねのぶ",
     "answerModern": "だいなごんつねのぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "能因法師",
@@ -6305,6 +6728,7 @@
     "proposedBy": "human",
     "questionId": "p071-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6318,6 +6742,7 @@
     "answerHistorical": "だいなごんつねのぶ",
     "answerModern": "だいなごんつねのぶ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6331,6 +6756,7 @@
     "proposedBy": "human",
     "questionId": "p071-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6343,6 +6769,7 @@
     "answerHistorical": "ゆうしないしんわうけのきい",
     "answerModern": "ゆうしないしんのうけのきい",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "良暹法師",
@@ -6362,6 +6789,7 @@
     "proposedBy": "human",
     "questionId": "p072-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6375,6 +6803,7 @@
     "answerHistorical": "ゆうしないしんわうけのきい",
     "answerModern": "ゆうしないしんのうけのきい",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "良暹法師",
@@ -6394,6 +6823,7 @@
     "proposedBy": "human",
     "questionId": "p072-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6408,6 +6838,7 @@
     "answerHistorical": "ゆうしないしんわうけのきい",
     "answerModern": "ゆうしないしんのうけのきい",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6421,6 +6852,7 @@
     "proposedBy": "human",
     "questionId": "p072-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6433,6 +6865,7 @@
     "answerHistorical": "さきのちゆうなごんまさふさ",
     "answerModern": "さきのちゅうなごんまさふさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大納言経信",
@@ -6452,6 +6885,7 @@
     "proposedBy": "human",
     "questionId": "p073-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6465,6 +6899,7 @@
     "answerHistorical": "さきのちゆうなごんまさふさ",
     "answerModern": "さきのちゅうなごんまさふさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "大納言経信",
@@ -6484,6 +6919,7 @@
     "proposedBy": "human",
     "questionId": "p073-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6501,6 +6937,7 @@
     "answerHistorical": "さきのちゆうなごんまさふさ",
     "answerModern": "さきのちゅうなごんまさふさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6514,6 +6951,7 @@
     "proposedBy": "human",
     "questionId": "p073-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6526,6 +6964,7 @@
     "answerHistorical": "みなもとのとしよりあそん",
     "answerModern": "みなもとのとしよりあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "祐子内親王家紀伊",
@@ -6545,6 +6984,7 @@
     "proposedBy": "human",
     "questionId": "p074-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6557,6 +6997,7 @@
     "answerHistorical": "みなもとのとしよりあそん",
     "answerModern": "みなもとのとしよりあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "祐子内親王家紀伊",
@@ -6576,6 +7017,7 @@
     "proposedBy": "human",
     "questionId": "p074-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6589,6 +7031,7 @@
     "answerHistorical": "みなもとのとしよりあそん",
     "answerModern": "みなもとのとしよりあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6602,6 +7045,7 @@
     "proposedBy": "human",
     "questionId": "p074-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6614,6 +7058,7 @@
     "answerHistorical": "ふぢはらのもととし",
     "answerModern": "ふじわらのもととし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "前中納言匡房",
@@ -6633,6 +7078,7 @@
     "proposedBy": "human",
     "questionId": "p075-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6646,6 +7092,7 @@
     "answerHistorical": "ふぢはらのもととし",
     "answerModern": "ふじわらのもととし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "前中納言匡房",
@@ -6665,6 +7112,7 @@
     "proposedBy": "human",
     "questionId": "p075-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6679,6 +7127,7 @@
     "answerHistorical": "ふぢはらのもととし",
     "answerModern": "ふじわらのもととし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6692,6 +7141,7 @@
     "proposedBy": "human",
     "questionId": "p075-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6704,6 +7154,7 @@
     "answerHistorical": "ほふしやうじにふだうさきのかんぱくだじやうだいじん",
     "answerModern": "ほっしょうじにゅうどうさきのかんぱくだいじょうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "源俊頼朝臣",
@@ -6723,6 +7174,7 @@
     "proposedBy": "human",
     "questionId": "p076-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6736,6 +7188,7 @@
     "answerHistorical": "ほふしやうじにふだうさきのかんぱくだじやうだいじん",
     "answerModern": "ほっしょうじにゅうどうさきのかんぱくだいじょうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "源俊頼朝臣",
@@ -6755,6 +7208,7 @@
     "proposedBy": "human",
     "questionId": "p076-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6769,6 +7223,7 @@
     "answerHistorical": "ほふしやうじにふだうさきのかんぱくだじやうだいじん",
     "answerModern": "ほっしょうじにゅうどうさきのかんぱくだいじょうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6782,6 +7237,7 @@
     "proposedBy": "human",
     "questionId": "p076-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6794,6 +7250,7 @@
     "answerHistorical": "すとくゐん",
     "answerModern": "すとくいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原基俊",
@@ -6813,6 +7270,7 @@
     "proposedBy": "human",
     "questionId": "p077-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6826,6 +7284,7 @@
     "answerHistorical": "すとくゐん",
     "answerModern": "すとくいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原基俊",
@@ -6845,6 +7304,7 @@
     "proposedBy": "human",
     "questionId": "p077-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6859,6 +7319,7 @@
     "answerHistorical": "すとくゐん",
     "answerModern": "すとくいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6872,6 +7333,7 @@
     "proposedBy": "human",
     "questionId": "p077-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6884,6 +7346,7 @@
     "answerHistorical": "みなもとのかねまさ",
     "answerModern": "みなもとのかねまさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "法性寺入道前関白太政大臣",
@@ -6903,6 +7366,7 @@
     "proposedBy": "human",
     "questionId": "p078-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6915,6 +7379,7 @@
     "answerHistorical": "みなもとのかねまさ",
     "answerModern": "みなもとのかねまさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "法性寺入道前関白太政大臣",
@@ -6934,6 +7399,7 @@
     "proposedBy": "human",
     "questionId": "p078-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6947,6 +7413,7 @@
     "answerHistorical": "みなもとのかねまさ",
     "answerModern": "みなもとのかねまさ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -6960,6 +7427,7 @@
     "proposedBy": "human",
     "questionId": "p078-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -6972,6 +7440,7 @@
     "answerHistorical": "さきやうだいぶあきすけ",
     "answerModern": "さきょうのだいぶあきすけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "崇徳院",
@@ -6991,6 +7460,7 @@
     "proposedBy": "human",
     "questionId": "p079-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7004,6 +7474,7 @@
     "answerHistorical": "さきやうだいぶあきすけ",
     "answerModern": "さきょうのだいぶあきすけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "崇徳院",
@@ -7023,6 +7494,7 @@
     "proposedBy": "human",
     "questionId": "p079-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7037,6 +7509,7 @@
     "answerHistorical": "さきやうだいぶあきすけ",
     "answerModern": "さきょうのだいぶあきすけ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7050,6 +7523,7 @@
     "proposedBy": "human",
     "questionId": "p079-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7062,6 +7536,7 @@
     "answerHistorical": "たいけんもんゐんのほりかは",
     "answerModern": "たいけんもんいんのほりかわ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "源兼昌",
@@ -7081,6 +7556,7 @@
     "proposedBy": "human",
     "questionId": "p080-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7094,6 +7570,7 @@
     "answerHistorical": "たいけんもんゐんのほりかは",
     "answerModern": "たいけんもんいんのほりかわ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "源兼昌",
@@ -7113,6 +7590,7 @@
     "proposedBy": "human",
     "questionId": "p080-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7127,6 +7605,7 @@
     "answerHistorical": "たいけんもんゐんのほりかは",
     "answerModern": "たいけんもんいんのほりかわ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7140,6 +7619,7 @@
     "proposedBy": "human",
     "questionId": "p080-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7152,6 +7632,7 @@
     "answerHistorical": "ごとくだいじのさだいじん",
     "answerModern": "ごとくだいじのさだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "左京大夫顕輔",
@@ -7171,6 +7652,7 @@
     "proposedBy": "human",
     "questionId": "p081-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7183,6 +7665,7 @@
     "answerHistorical": "ごとくだいじのさだいじん",
     "answerModern": "ごとくだいじのさだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "左京大夫顕輔",
@@ -7202,6 +7685,7 @@
     "proposedBy": "human",
     "questionId": "p081-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7215,6 +7699,7 @@
     "answerHistorical": "ごとくだいじのさだいじん",
     "answerModern": "ごとくだいじのさだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7228,6 +7713,7 @@
     "proposedBy": "human",
     "questionId": "p081-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7240,6 +7726,7 @@
     "answerHistorical": "だういんほふし",
     "answerModern": "どういんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "待賢門院堀河",
@@ -7259,6 +7746,7 @@
     "proposedBy": "human",
     "questionId": "p082-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7272,6 +7760,7 @@
     "answerHistorical": "だういんほふし",
     "answerModern": "どういんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "待賢門院堀河",
@@ -7291,6 +7780,7 @@
     "proposedBy": "human",
     "questionId": "p082-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7305,6 +7795,7 @@
     "answerHistorical": "だういんほふし",
     "answerModern": "どういんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7318,6 +7809,7 @@
     "proposedBy": "human",
     "questionId": "p082-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7330,6 +7822,7 @@
     "answerHistorical": "くわうたいごうぐうのだいぶとしなり",
     "answerModern": "こうたいごうぐうのだいぶしゅんぜい",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "後徳大寺左大臣",
@@ -7349,6 +7842,7 @@
     "proposedBy": "human",
     "questionId": "p083-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7362,6 +7856,7 @@
     "answerHistorical": "くわうたいごうぐうのだいぶとしなり",
     "answerModern": "こうたいごうぐうのだいぶしゅんぜい",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "後徳大寺左大臣",
@@ -7381,6 +7876,7 @@
     "proposedBy": "human",
     "questionId": "p083-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7395,6 +7891,7 @@
     "answerHistorical": "くわうたいごうぐうのだいぶとしなり",
     "answerModern": "こうたいごうぐうのだいぶしゅんぜい",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7408,6 +7905,7 @@
     "proposedBy": "human",
     "questionId": "p083-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7420,6 +7918,7 @@
     "answerHistorical": "ふぢはらのきよすけあそん",
     "answerModern": "ふじわらのきよすけあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "道因法師",
@@ -7439,6 +7938,7 @@
     "proposedBy": "human",
     "questionId": "p084-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7452,6 +7952,7 @@
     "answerHistorical": "ふぢはらのきよすけあそん",
     "answerModern": "ふじわらのきよすけあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "道因法師",
@@ -7471,6 +7972,7 @@
     "proposedBy": "human",
     "questionId": "p084-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7485,6 +7987,7 @@
     "answerHistorical": "ふぢはらのきよすけあそん",
     "answerModern": "ふじわらのきよすけあそん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7498,6 +8001,7 @@
     "proposedBy": "human",
     "questionId": "p084-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7510,6 +8014,7 @@
     "answerHistorical": "しゆんゑほふし",
     "answerModern": "しゅんえほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "皇太后宮大夫俊成",
@@ -7529,6 +8034,7 @@
     "proposedBy": "human",
     "questionId": "p085-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7542,6 +8048,7 @@
     "answerHistorical": "しゆんゑほふし",
     "answerModern": "しゅんえほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "皇太后宮大夫俊成",
@@ -7561,6 +8068,7 @@
     "proposedBy": "human",
     "questionId": "p085-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7575,6 +8083,7 @@
     "answerHistorical": "しゆんゑほふし",
     "answerModern": "しゅんえほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7588,6 +8097,7 @@
     "proposedBy": "human",
     "questionId": "p085-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7600,6 +8110,7 @@
     "answerHistorical": "さいぎやうほふし",
     "answerModern": "さいぎょうほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原清輔朝臣",
@@ -7619,6 +8130,7 @@
     "proposedBy": "human",
     "questionId": "p086-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7632,6 +8144,7 @@
     "answerHistorical": "さいぎやうほふし",
     "answerModern": "さいぎょうほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "藤原清輔朝臣",
@@ -7651,6 +8164,7 @@
     "proposedBy": "human",
     "questionId": "p086-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7665,6 +8179,7 @@
     "answerHistorical": "さいぎやうほふし",
     "answerModern": "さいぎょうほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7678,6 +8193,7 @@
     "proposedBy": "human",
     "questionId": "p086-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7690,6 +8206,7 @@
     "answerHistorical": "じやくれんほふし",
     "answerModern": "じゃくれんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "俊恵法師",
@@ -7709,6 +8226,7 @@
     "proposedBy": "human",
     "questionId": "p087-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7722,6 +8240,7 @@
     "answerHistorical": "じやくれんほふし",
     "answerModern": "じゃくれんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "俊恵法師",
@@ -7741,6 +8260,7 @@
     "proposedBy": "human",
     "questionId": "p087-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7755,6 +8275,7 @@
     "answerHistorical": "じやくれんほふし",
     "answerModern": "じゃくれんほうし",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7768,6 +8289,7 @@
     "proposedBy": "human",
     "questionId": "p087-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7780,6 +8302,7 @@
     "answerHistorical": "くわうかもんゐんのべつたう",
     "answerModern": "こうかもんいんのべっとう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "西行法師",
@@ -7799,6 +8322,7 @@
     "proposedBy": "human",
     "questionId": "p088-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7812,6 +8336,7 @@
     "answerHistorical": "くわうかもんゐんのべつたう",
     "answerModern": "こうかもんいんのべっとう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "西行法師",
@@ -7831,6 +8356,7 @@
     "proposedBy": "human",
     "questionId": "p088-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7845,6 +8371,7 @@
     "answerHistorical": "くわうかもんゐんのべつたう",
     "answerModern": "こうかもんいんのべっとう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7858,6 +8385,7 @@
     "proposedBy": "human",
     "questionId": "p088-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7870,6 +8398,7 @@
     "answerHistorical": "しよくしないしんわう",
     "answerModern": "しょくしないしんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "寂蓮法師",
@@ -7889,6 +8418,7 @@
     "proposedBy": "human",
     "questionId": "p089-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7904,6 +8434,7 @@
     "answerHistorical": "しよくしないしんわう",
     "answerModern": "しょくしないしんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "寂蓮法師",
@@ -7923,6 +8454,7 @@
     "proposedBy": "human",
     "questionId": "p089-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7939,6 +8471,7 @@
     "answerHistorical": "しよくしないしんわう",
     "answerModern": "しょくしないしんのう",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -7952,6 +8485,7 @@
     "proposedBy": "human",
     "questionId": "p089-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7964,6 +8498,7 @@
     "answerHistorical": "いんぶもんゐんのたいふ",
     "answerModern": "いんぷもんいんのたいふ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "皇嘉門院別当",
@@ -7983,6 +8518,7 @@
     "proposedBy": "human",
     "questionId": "p090-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -7996,6 +8532,7 @@
     "answerHistorical": "いんぶもんゐんのたいふ",
     "answerModern": "いんぷもんいんのたいふ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "皇嘉門院別当",
@@ -8015,6 +8552,7 @@
     "proposedBy": "human",
     "questionId": "p090-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8029,6 +8567,7 @@
     "answerHistorical": "いんぶもんゐんのたいふ",
     "answerModern": "いんぷもんいんのたいふ",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8042,6 +8581,7 @@
     "proposedBy": "human",
     "questionId": "p090-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8054,6 +8594,7 @@
     "answerHistorical": "ごきやうごくせふしやうさきのだじやうだいじん",
     "answerModern": "ごきょうごくせっしょうさきのだいじょうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "式子内親王",
@@ -8073,6 +8614,7 @@
     "proposedBy": "human",
     "questionId": "p091-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8086,6 +8628,7 @@
     "answerHistorical": "ごきやうごくせふしやうさきのだじやうだいじん",
     "answerModern": "ごきょうごくせっしょうさきのだいじょうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "式子内親王",
@@ -8105,6 +8648,7 @@
     "proposedBy": "human",
     "questionId": "p091-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8119,6 +8663,7 @@
     "answerHistorical": "ごきやうごくせふしやうさきのだじやうだいじん",
     "answerModern": "ごきょうごくせっしょうさきのだいじょうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8132,6 +8677,7 @@
     "proposedBy": "human",
     "questionId": "p091-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8144,6 +8690,7 @@
     "answerHistorical": "にでうゐんのさぬき",
     "answerModern": "にじょういんのさぬき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "殷富門院大輔",
@@ -8163,6 +8710,7 @@
     "proposedBy": "human",
     "questionId": "p092-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8176,6 +8724,7 @@
     "answerHistorical": "にでうゐんのさぬき",
     "answerModern": "にじょういんのさぬき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "殷富門院大輔",
@@ -8195,6 +8744,7 @@
     "proposedBy": "human",
     "questionId": "p092-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8209,6 +8759,7 @@
     "answerHistorical": "にでうゐんのさぬき",
     "answerModern": "にじょういんのさぬき",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8222,6 +8773,7 @@
     "proposedBy": "human",
     "questionId": "p092-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8234,6 +8786,7 @@
     "answerHistorical": "かまくらのうだいじん",
     "answerModern": "かまくらのうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "後京極摂政前太政大臣",
@@ -8253,6 +8806,7 @@
     "proposedBy": "human",
     "questionId": "p093-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8265,6 +8819,7 @@
     "answerHistorical": "かまくらのうだいじん",
     "answerModern": "かまくらのうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "後京極摂政前太政大臣",
@@ -8284,6 +8839,7 @@
     "proposedBy": "human",
     "questionId": "p093-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8297,6 +8853,7 @@
     "answerHistorical": "かまくらのうだいじん",
     "answerModern": "かまくらのうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8310,6 +8867,7 @@
     "proposedBy": "human",
     "questionId": "p093-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8322,6 +8880,7 @@
     "answerHistorical": "さんぎまさつね",
     "answerModern": "さんぎまさつね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "二条院讃岐",
@@ -8341,6 +8900,7 @@
     "proposedBy": "human",
     "questionId": "p094-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8353,6 +8913,7 @@
     "answerHistorical": "さんぎまさつね",
     "answerModern": "さんぎまさつね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "二条院讃岐",
@@ -8372,6 +8933,7 @@
     "proposedBy": "human",
     "questionId": "p094-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8385,6 +8947,7 @@
     "answerHistorical": "さんぎまさつね",
     "answerModern": "さんぎまさつね",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8398,6 +8961,7 @@
     "proposedBy": "human",
     "questionId": "p094-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8410,6 +8974,7 @@
     "answerHistorical": "さきのだいそうじやうじゑん",
     "answerModern": "さきのだいそうじょうじえん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "鎌倉右大臣",
@@ -8429,6 +8994,7 @@
     "proposedBy": "human",
     "questionId": "p095-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8442,6 +9008,7 @@
     "answerHistorical": "さきのだいそうじやうじゑん",
     "answerModern": "さきのだいそうじょうじえん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "鎌倉右大臣",
@@ -8461,6 +9028,7 @@
     "proposedBy": "human",
     "questionId": "p095-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8475,6 +9043,7 @@
     "answerHistorical": "さきのだいそうじやうじゑん",
     "answerModern": "さきのだいそうじょうじえん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8488,6 +9057,7 @@
     "proposedBy": "human",
     "questionId": "p095-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8500,6 +9070,7 @@
     "answerHistorical": "にふだうさきのだじやうだいじん",
     "answerModern": "にゅうどうさきのだいじょうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "参議雅経",
@@ -8519,6 +9090,7 @@
     "proposedBy": "human",
     "questionId": "p096-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8532,6 +9104,7 @@
     "answerHistorical": "にふだうさきのだじやうだいじん",
     "answerModern": "にゅうどうさきのだいじょうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "参議雅経",
@@ -8551,6 +9124,7 @@
     "proposedBy": "human",
     "questionId": "p096-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8565,6 +9139,7 @@
     "answerHistorical": "にふだうさきのだじやうだいじん",
     "answerModern": "にゅうどうさきのだいじょうだいじん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8578,6 +9153,7 @@
     "proposedBy": "human",
     "questionId": "p096-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8590,6 +9166,7 @@
     "answerHistorical": "ごんちゆうなごんていか",
     "answerModern": "ごんちゅうなごんていか",
     "batchEvidenceRef": null,
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "前大僧正慈円",
@@ -8609,6 +9186,7 @@
     "proposedBy": "human",
     "questionId": "p097-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8624,6 +9202,7 @@
     "answerHistorical": "ごんちゆうなごんていか",
     "answerModern": "ごんちゅうなごんていか",
     "batchEvidenceRef": null,
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "前大僧正慈円",
@@ -8643,6 +9222,7 @@
     "proposedBy": "human",
     "questionId": "p097-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8659,6 +9239,7 @@
     "answerHistorical": "ごんちゆうなごんていか",
     "answerModern": "ごんちゅうなごんていか",
     "batchEvidenceRef": null,
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "individual",
@@ -8672,6 +9253,7 @@
     "proposedBy": "human",
     "questionId": "p097-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8684,6 +9266,7 @@
     "answerHistorical": "じゆにゐいへたか",
     "answerModern": "じゅにいいえたか",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "入道前太政大臣",
@@ -8703,6 +9286,7 @@
     "proposedBy": "human",
     "questionId": "p098-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8716,6 +9300,7 @@
     "answerHistorical": "じゆにゐいへたか",
     "answerModern": "じゅにいいえたか",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "入道前太政大臣",
@@ -8735,6 +9320,7 @@
     "proposedBy": "human",
     "questionId": "p098-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8749,6 +9335,7 @@
     "answerHistorical": "じゆにゐいへたか",
     "answerModern": "じゅにいいえたか",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8762,6 +9349,7 @@
     "proposedBy": "human",
     "questionId": "p098-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8774,6 +9362,7 @@
     "answerHistorical": "ごとばのゐん",
     "answerModern": "ごとばいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "入道前太政大臣",
@@ -8793,6 +9382,7 @@
     "proposedBy": "human",
     "questionId": "p099-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8806,6 +9396,7 @@
     "answerHistorical": "ごとばのゐん",
     "answerModern": "ごとばいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "入道前太政大臣",
@@ -8825,6 +9416,7 @@
     "proposedBy": "human",
     "questionId": "p099-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8839,6 +9431,7 @@
     "answerHistorical": "ごとばのゐん",
     "answerModern": "ごとばいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8852,6 +9445,7 @@
     "proposedBy": "human",
     "questionId": "p099-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8864,6 +9458,7 @@
     "answerHistorical": "じゆんとくゐん",
     "answerModern": "じゅんとくいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "入道前太政大臣",
@@ -8883,6 +9478,7 @@
     "proposedBy": "human",
     "questionId": "p100-author-choice",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8896,6 +9492,7 @@
     "answerHistorical": "じゆんとくゐん",
     "answerModern": "じゅんとくいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [
       "入道前太政大臣",
@@ -8915,6 +9512,7 @@
     "proposedBy": "human",
     "questionId": "p100-author-kana",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
@@ -8929,6 +9527,7 @@
     "answerHistorical": "じゆんとくゐん",
     "answerModern": "じゅんとくいん",
     "batchEvidenceRef": "docs/H04_BATCH_EVIDENCE.md",
+    "blankedKu": [],
     "blankUnit": null,
     "candidates": [],
     "confirmationMode": "batch",
@@ -8942,6 +9541,7 @@
     "proposedBy": "human",
     "questionId": "p100-author-free",
     "reviewStatus": "human-confirmed",
+    "rung": null,
     "skill": "author",
     "sourceRef": "百人一首_本文・作者_一次データ.md",
     "type": "author"
