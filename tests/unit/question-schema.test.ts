@@ -10,7 +10,7 @@ test('question-schema: review の出題を拒否する', () => assert.throws(() 
 test('question-schema: rejected の出題を拒否する', () => assert.throws(() => parseQuestions([{ ...valid, reviewStatus: 'rejected' }]), TypeError));
 test('question-schema: 配列以外を拒否する', () => assert.throws(() => parseQuestions({}), TypeError));
 test('question-schema: blankUnit word を受け入れる', () => assert.equal(parseQuestions([{ ...valid, blankUnit: 'word' }])[0].blankUnit, 'word'));
-test('question-schema: blankUnit phrase を受け入れる', () => assert.equal(parseQuestions([{ ...valid, blankUnit: 'phrase' }])[0].blankUnit, 'phrase'));
+test('question-schema: blankUnit bunsetsu を受け入れる', () => assert.equal(parseQuestions([{ ...valid, blankUnit: 'bunsetsu' }])[0].blankUnit, 'bunsetsu'));
 test('question-schema: blankUnit ku を受け入れる', () => assert.equal(parseQuestions([valid])[0].blankUnit, 'ku'));
 test('question-schema: 作者問の blankUnit null を受け入れる', () => assert.equal(parseQuestions([{ ...valid, skill: 'author', type: 'author', blankUnit: null }])[0].blankUnit, null));
 test('question-schema: 不正な blankUnit を拒否する', () => assert.throws(() => parseQuestions([{ ...valid, blankUnit: 'line' }]), TypeError));

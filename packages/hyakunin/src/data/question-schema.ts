@@ -1,6 +1,6 @@
 import type { Normalization, Question } from '../domain/question.ts';
 
-export type BlankUnit = 'word' | 'phrase' | 'ku' | null;
+export type BlankUnit = 'word' | 'bunsetsu' | 'ku' | null;
 export type PublishedQuestion = Readonly<{
   questionId: string;
   poemId: string;
@@ -73,7 +73,7 @@ function isPublishedQuestion(value: unknown): value is PublishedQuestion {
     && typeof value.poemId === 'string'
     && (value.skill === 'text' || value.skill === 'author' || value.skill === 'reading')
     && (value.type === 'blank' || value.type === 'author')
-    && (value.blankUnit === 'word' || value.blankUnit === 'phrase' || value.blankUnit === 'ku' || value.blankUnit === null)
+    && (value.blankUnit === 'word' || value.blankUnit === 'bunsetsu' || value.blankUnit === 'ku' || value.blankUnit === null)
     && isBlankedKu(value.blankedKu)
     && isRung(value.rung)
     && typeof value.prompt === 'string'
