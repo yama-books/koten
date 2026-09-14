@@ -29,6 +29,7 @@ vitest.config.ts
 仮名遣い規則_一次データ.md
 review/*.yaml
 packages/shared/**
+tools/blank-chunks/**
 tools/build-data/**
 tools/check-storage/**
 tools/eol-check/**

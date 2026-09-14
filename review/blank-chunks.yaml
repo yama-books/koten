@@ -1,0 +1,3004 @@
+# 句未満の区切り（発注085）。資料 百人一首_句未満ランダム空欄候補_v3.md の区切りを
+# 正本表記の上へ移したもの。読みを介して運んだ。手で編集しないこと。
+version: 1
+entries:
+  - cardNo: 1
+    ku: 1
+    text: 秋の田の
+    chunks: [秋の, 田の]
+    readings: [あきの, たの]
+    candidate: [true, true]
+  - cardNo: 1
+    ku: 2
+    text: かりほの庵の
+    chunks: [かりほの, 庵の]
+    readings: [かりほの, いほの]
+    candidate: [false, true]
+  - cardNo: 1
+    ku: 3
+    text: 苫をあらみ
+    chunks: [苫を, あらみ]
+    readings: [とまを, あらみ]
+    candidate: [false, false]
+  - cardNo: 1
+    ku: 4
+    text: わが衣手は
+    chunks: [わが, 衣手は]
+    readings: [わが, ころもでは]
+    candidate: [false, true]
+  - cardNo: 1
+    ku: 5
+    text: 露にぬれつつ
+    chunks: [露に, ぬれつつ]
+    readings: [つゆに, ぬれつつ]
+    candidate: [true, false]
+  - cardNo: 2
+    ku: 1
+    text: 春すぎて
+    chunks: [春, すぎて]
+    readings: [はる, すぎて]
+    candidate: [true, false]
+  - cardNo: 2
+    ku: 2
+    text: 夏来にけらし
+    chunks: [夏, 来にけらし]
+    readings: [なつ, きにけらし]
+    candidate: [true, false]
+  - cardNo: 2
+    ku: 3
+    text: 白妙の
+    chunks: [白妙の]
+    readings: [しろたへの]
+    candidate: [true]
+  - cardNo: 2
+    ku: 4
+    text: 衣ほすてふ
+    chunks: [衣, ほすてふ]
+    readings: [ころも, ほすてふ]
+    candidate: [true, false]
+  - cardNo: 2
+    ku: 5
+    text: 天の香具山
+    chunks: [天の, 香具山]
+    readings: [あまの, かぐやま]
+    candidate: [true, true]
+  - cardNo: 3
+    ku: 1
+    text: あしびきの
+    chunks: [あしびきの]
+    readings: [あしびきの]
+    candidate: [false]
+  - cardNo: 3
+    ku: 2
+    text: 山鳥の尾の
+    chunks: [山鳥の, 尾の]
+    readings: [やまどりの, をの]
+    candidate: [true, true]
+  - cardNo: 3
+    ku: 3
+    text: しだり尾の
+    chunks: [しだり尾の]
+    readings: [しだりをの]
+    candidate: [true]
+  - cardNo: 3
+    ku: 4
+    text: ながながし夜を
+    chunks: [ながながし, 夜を]
+    readings: [ながながし, よを]
+    candidate: [false, true]
+  - cardNo: 3
+    ku: 5
+    text: ひとりかも寝む
+    chunks: [ひとりかも, 寝む]
+    readings: [ひとりかも, ねむ]
+    candidate: [false, false]
+  - cardNo: 4
+    ku: 1
+    text: 田子の浦に
+    chunks: [田子の, 浦に]
+    readings: [たごの, うらに]
+    candidate: [true, true]
+  - cardNo: 4
+    ku: 2
+    text: うちいでて見れば
+    chunks: [うちいでて, 見れば]
+    readings: [うちいでて, みれば]
+    candidate: [false, false]
+  - cardNo: 4
+    ku: 3
+    text: 白妙の
+    chunks: [白妙の]
+    readings: [しろたへの]
+    candidate: [true]
+  - cardNo: 4
+    ku: 4
+    text: 富士の高嶺に
+    chunks: [富士の, 高嶺に]
+    readings: [ふじの, たかねに]
+    candidate: [true, true]
+  - cardNo: 4
+    ku: 5
+    text: 雪はふりつつ
+    chunks: [雪は, ふりつつ]
+    readings: [ゆきは, ふりつつ]
+    candidate: [true, false]
+  - cardNo: 5
+    ku: 1
+    text: 奥山に
+    chunks: [奥山に]
+    readings: [おくやまに]
+    candidate: [true]
+  - cardNo: 5
+    ku: 2
+    text: もみぢふみわけ
+    chunks: [もみぢ, ふみわけ]
+    readings: [もみぢ, ふみわけ]
+    candidate: [true, false]
+  - cardNo: 5
+    ku: 3
+    text: なく鹿の
+    chunks: [なく, 鹿の]
+    readings: [なく, しかの]
+    candidate: [false, true]
+  - cardNo: 5
+    ku: 4
+    text: 声聞くときぞ
+    chunks: [声, 聞く, ときぞ]
+    readings: [こゑ, きく, ときぞ]
+    candidate: [true, false, true]
+  - cardNo: 5
+    ku: 5
+    text: 秋はかなしき
+    chunks: [秋は, かなしき]
+    readings: [あきは, かなしき]
+    candidate: [true, false]
+  - cardNo: 6
+    ku: 1
+    text: かさゝぎの
+    chunks: [かさゝぎの]
+    readings: [かささぎの]
+    candidate: [true]
+  - cardNo: 6
+    ku: 2
+    text: 渡せる橋に
+    chunks: [渡せる, 橋に]
+    readings: [わたせる, はしに]
+    candidate: [false, true]
+  - cardNo: 6
+    ku: 3
+    text: おく霜の
+    chunks: [おく, 霜の]
+    readings: [おく, しもの]
+    candidate: [false, true]
+  - cardNo: 6
+    ku: 4
+    text: 白きを見れば
+    chunks: [白きを, 見れば]
+    readings: [しろきを, みれば]
+    candidate: [false, false]
+  - cardNo: 6
+    ku: 5
+    text: 夜ぞふけにける
+    chunks: [夜ぞ, ふけにける]
+    readings: [よぞ, ふけにける]
+    candidate: [true, false]
+  - cardNo: 7
+    ku: 1
+    text: 天の原
+    chunks: [天の, 原]
+    readings: [あまの, はら]
+    candidate: [true, true]
+  - cardNo: 7
+    ku: 2
+    text: ふりさけ見れば
+    chunks: [ふりさけ, 見れば]
+    readings: [ふりさけ, みれば]
+    candidate: [false, false]
+  - cardNo: 7
+    ku: 3
+    text: 春日なる
+    chunks: [春日なる]
+    readings: [かすがなる]
+    candidate: [true]
+  - cardNo: 7
+    ku: 4
+    text: 三笠の山に
+    chunks: [三笠の, 山に]
+    readings: [みかさの, やまに]
+    candidate: [true, true]
+  - cardNo: 7
+    ku: 5
+    text: いでし月かも
+    chunks: [いでし, 月かも]
+    readings: [いでし, つきかも]
+    candidate: [false, true]
+  - cardNo: 8
+    ku: 1
+    text: わが庵は
+    chunks: [わが, 庵は]
+    readings: [わが, いほは]
+    candidate: [false, true]
+  - cardNo: 8
+    ku: 2
+    text: 都のたつみ
+    chunks: [都の, たつみ]
+    readings: [みやこの, たつみ]
+    candidate: [true, true]
+  - cardNo: 8
+    ku: 3
+    text: しかぞすむ
+    chunks: [しかぞ, すむ]
+    readings: [しかぞ, すむ]
+    candidate: [false, false]
+  - cardNo: 8
+    ku: 4
+    text: 世をうぢ山と
+    chunks: [世を, うぢ山と]
+    readings: [よを, うぢやまと]
+    candidate: [true, true]
+  - cardNo: 8
+    ku: 5
+    text: 人はいふなり
+    chunks: [人は, いふなり]
+    readings: [ひとは, いふなり]
+    candidate: [true, false]
+  - cardNo: 9
+    ku: 1
+    text: 花の色は
+    chunks: [花の, 色は]
+    readings: [はなの, いろは]
+    candidate: [true, true]
+  - cardNo: 9
+    ku: 2
+    text: うつりにけりな
+    chunks: [うつりにけりな]
+    readings: [うつりにけりな]
+    candidate: [false]
+  - cardNo: 9
+    ku: 3
+    text: いたづらに
+    chunks: [いたづらに]
+    readings: [いたづらに]
+    candidate: [false]
+  - cardNo: 9
+    ku: 4
+    text: わが身世にふる
+    chunks: [わが, 身, 世に, ふる]
+    readings: [わが, み, よに, ふる]
+    candidate: [false, true, true, false]
+  - cardNo: 9
+    ku: 5
+    text: ながめせしまに
+    chunks: [ながめ, せしまに]
+    readings: [ながめ, せしまに]
+    candidate: [true, false]
+  - cardNo: 10
+    ku: 1
+    text: これやこの
+    chunks: [これや, この]
+    readings: [これや, この]
+    candidate: [false, false]
+  - cardNo: 10
+    ku: 2
+    text: 行くも帰るも
+    chunks: [行くも, 帰るも]
+    readings: [ゆくも, かへるも]
+    candidate: [false, false]
+  - cardNo: 10
+    ku: 3
+    text: わかれては
+    chunks: [わかれては]
+    readings: [わかれては]
+    candidate: [false]
+  - cardNo: 10
+    ku: 4
+    text: 知るも知らぬも
+    chunks: [知るも, 知らぬも]
+    readings: [しるも, しらぬも]
+    candidate: [false, false]
+  - cardNo: 10
+    ku: 5
+    text: あふ坂の関
+    chunks: [あふ坂の, 関]
+    readings: [あふさかの, せき]
+    candidate: [true, true]
+  - cardNo: 11
+    ku: 1
+    text: わたの原
+    chunks: [わたの, 原]
+    readings: [わたの, はら]
+    candidate: [false, true]
+  - cardNo: 11
+    ku: 2
+    text: 八十島かけて
+    chunks: [八十島, かけて]
+    readings: [やそしま, かけて]
+    candidate: [true, false]
+  - cardNo: 11
+    ku: 3
+    text: こぎいでぬと
+    chunks: [こぎいでぬと]
+    readings: [こぎいでぬと]
+    candidate: [false]
+  - cardNo: 11
+    ku: 4
+    text: 人には告げよ
+    chunks: [人には, 告げよ]
+    readings: [ひとには, つげよ]
+    candidate: [true, false]
+  - cardNo: 11
+    ku: 5
+    text: あまのつり舟
+    chunks: [あまの, つり舟]
+    readings: [あまの, つりぶね]
+    candidate: [true, true]
+  - cardNo: 12
+    ku: 1
+    text: 天つ風
+    chunks: [天つ, 風]
+    readings: [あまつ, かぜ]
+    candidate: [false, true]
+  - cardNo: 12
+    ku: 2
+    text: 雲のかよひ路
+    chunks: [雲の, かよひ路]
+    readings: [くもの, かよひぢ]
+    candidate: [true, true]
+  - cardNo: 12
+    ku: 3
+    text: 吹きとぢよ
+    chunks: [吹き, とぢよ]
+    readings: [ふき, とぢよ]
+    candidate: [false, false]
+  - cardNo: 12
+    ku: 4
+    text: をとめの姿
+    chunks: [をとめの, 姿]
+    readings: [をとめの, すがた]
+    candidate: [true, true]
+  - cardNo: 12
+    ku: 5
+    text: しばしとどめむ
+    chunks: [しばし, とどめむ]
+    readings: [しばし, とどめむ]
+    candidate: [false, false]
+  - cardNo: 13
+    ku: 1
+    text: つくばねの
+    chunks: [つくばねの]
+    readings: [つくばねの]
+    candidate: [true]
+  - cardNo: 13
+    ku: 2
+    text: 峰よりおつる
+    chunks: [峰より, おつる]
+    readings: [みねより, おつる]
+    candidate: [true, false]
+  - cardNo: 13
+    ku: 3
+    text: みなの川
+    chunks: [みなの川]
+    readings: [みなのがは]
+    candidate: [true]
+  - cardNo: 13
+    ku: 4
+    text: こひぞつもりて
+    chunks: [こひぞ, つもりて]
+    readings: [こひぞ, つもりて]
+    candidate: [true, false]
+  - cardNo: 13
+    ku: 5
+    text: 淵となりぬる
+    chunks: [淵と, なりぬる]
+    readings: [ふちと, なりぬる]
+    candidate: [true, false]
+  - cardNo: 14
+    ku: 1
+    text: みちのくの
+    chunks: [みちのくの]
+    readings: [みちのくの]
+    candidate: [true]
+  - cardNo: 14
+    ku: 2
+    text: しのぶもぢずり
+    chunks: [しのぶもぢずり]
+    readings: [しのぶもぢずり]
+    candidate: [true]
+  - cardNo: 14
+    ku: 3
+    text: 誰ゆゑに
+    chunks: [誰, ゆゑに]
+    readings: [たれ, ゆゑに]
+    candidate: [true, false]
+  - cardNo: 14
+    ku: 4
+    text: 乱れそめにし
+    chunks: [乱れそめにし]
+    readings: [みだれそめにし]
+    candidate: [false]
+  - cardNo: 14
+    ku: 5
+    text: われならなくに
+    chunks: [われならなくに]
+    readings: [われならなくに]
+    candidate: [true]
+  - cardNo: 15
+    ku: 1
+    text: 君がため
+    chunks: [君が, ため]
+    readings: [きみが, ため]
+    candidate: [false, false]
+  - cardNo: 15
+    ku: 2
+    text: 春の野にいでて
+    chunks: [春の, 野に, いでて]
+    readings: [はるの, のに, いでて]
+    candidate: [true, true, false]
+  - cardNo: 15
+    ku: 3
+    text: 若菜つむ
+    chunks: [若菜, つむ]
+    readings: [わかな, つむ]
+    candidate: [true, false]
+  - cardNo: 15
+    ku: 4
+    text: わが衣手に
+    chunks: [わが, 衣手に]
+    readings: [わが, ころもでに]
+    candidate: [false, true]
+  - cardNo: 15
+    ku: 5
+    text: 雪はふりつつ
+    chunks: [雪は, ふりつつ]
+    readings: [ゆきは, ふりつつ]
+    candidate: [true, false]
+  - cardNo: 16
+    ku: 1
+    text: 立ちわかれ
+    chunks: [立ちわかれ]
+    readings: [たちわかれ]
+    candidate: [false]
+  - cardNo: 16
+    ku: 2
+    text: いなばの山の
+    chunks: [いなばの, 山の]
+    readings: [いなばの, やまの]
+    candidate: [true, true]
+  - cardNo: 16
+    ku: 3
+    text: 峯に生ふる
+    chunks: [峯に, 生ふる]
+    readings: [みねに, おふる]
+    candidate: [true, false]
+  - cardNo: 16
+    ku: 4
+    text: まつとし聞かば
+    chunks: [まつとし, 聞かば]
+    readings: [まつとし, きかば]
+    candidate: [true, false]
+  - cardNo: 16
+    ku: 5
+    text: いま帰り来む
+    chunks: [いま, 帰り来む]
+    readings: [いま, かへりこむ]
+    candidate: [true, false]
+  - cardNo: 17
+    ku: 1
+    text: ちはやぶる
+    chunks: [ちはやぶる]
+    readings: [ちはやぶる]
+    candidate: [false]
+  - cardNo: 17
+    ku: 2
+    text: 神代もきかず
+    chunks: [神代も, きかず]
+    readings: [かみよも, きかず]
+    candidate: [true, false]
+  - cardNo: 17
+    ku: 3
+    text: 竜田川
+    chunks: [竜田川]
+    readings: [たつたがは]
+    candidate: [true]
+  - cardNo: 17
+    ku: 4
+    text: からくれなゐに
+    chunks: [からくれなゐに]
+    readings: [からくれなゐに]
+    candidate: [false]
+  - cardNo: 17
+    ku: 5
+    text: 水くくるとは
+    chunks: [水, くくるとは]
+    readings: [みづ, くくるとは]
+    candidate: [true, false]
+  - cardNo: 18
+    ku: 1
+    text: すみの江の
+    chunks: [すみの江の]
+    readings: [すみのえの]
+    candidate: [true]
+  - cardNo: 18
+    ku: 2
+    text: 岸による波
+    chunks: [岸に, よる, 波]
+    readings: [きしに, よる, なみ]
+    candidate: [true, false, true]
+  - cardNo: 18
+    ku: 3
+    text: よるさへや
+    chunks: [よるさへや]
+    readings: [よるさへや]
+    candidate: [false]
+  - cardNo: 18
+    ku: 4
+    text: 夢のかよひ路
+    chunks: [夢の, かよひ路]
+    readings: [ゆめの, かよひぢ]
+    candidate: [true, true]
+  - cardNo: 18
+    ku: 5
+    text: 人めよくらむ
+    chunks: [人め, よくらむ]
+    readings: [ひとめ, よくらむ]
+    candidate: [true, false]
+  - cardNo: 19
+    ku: 1
+    text: 難波潟
+    chunks: [難波潟]
+    readings: [なにはがた]
+    candidate: [true]
+  - cardNo: 19
+    ku: 2
+    text: みじかき芦の
+    chunks: [みじかき, 芦の]
+    readings: [みじかき, あしの]
+    candidate: [false, true]
+  - cardNo: 19
+    ku: 3
+    text: ふしのまも
+    chunks: [ふしの, まも]
+    readings: [ふしの, まも]
+    candidate: [true, true]
+  - cardNo: 19
+    ku: 4
+    text: あはでこの世を
+    chunks: [あはで, この世を]
+    readings: [あはで, このよを]
+    candidate: [false, true]
+  - cardNo: 19
+    ku: 5
+    text: すぐしてよとや
+    chunks: [すぐしてよとや]
+    readings: [すぐしてよとや]
+    candidate: [false]
+  - cardNo: 20
+    ku: 1
+    text: わびぬれば
+    chunks: [わびぬれば]
+    readings: [わびぬれば]
+    candidate: [false]
+  - cardNo: 20
+    ku: 2
+    text: いまはたおなじ
+    chunks: [いま, はた, おなじ]
+    readings: [いま, はた, おなじ]
+    candidate: [true, false, false]
+  - cardNo: 20
+    ku: 3
+    text: 難波なる
+    chunks: [難波なる]
+    readings: [なにはなる]
+    candidate: [true]
+  - cardNo: 20
+    ku: 4
+    text: みをつくしても
+    chunks: [みをつくしても]
+    readings: [みをつくしても]
+    candidate: [true]
+  - cardNo: 20
+    ku: 5
+    text: あはむとぞ思ふ
+    chunks: [あはむとぞ, 思ふ]
+    readings: [あはむとぞ, おもふ]
+    candidate: [false, false]
+  - cardNo: 21
+    ku: 1
+    text: いまこむと
+    chunks: [いま, こむと]
+    readings: [いま, こむと]
+    candidate: [true, false]
+  - cardNo: 21
+    ku: 2
+    text: いひしばかりに
+    chunks: [いひしばかりに]
+    readings: [いひしばかりに]
+    candidate: [false]
+  - cardNo: 21
+    ku: 3
+    text: 長月の
+    chunks: [長月の]
+    readings: [ながつきの]
+    candidate: [true]
+  - cardNo: 21
+    ku: 4
+    text: ありあけの月を
+    chunks: [ありあけの, 月を]
+    readings: [ありあけの, つきを]
+    candidate: [true, true]
+  - cardNo: 21
+    ku: 5
+    text: 待ちいでつるかな
+    chunks: [待ちいでつるかな]
+    readings: [まちいでつるかな]
+    candidate: [false]
+  - cardNo: 22
+    ku: 1
+    text: 吹くからに
+    chunks: [吹くからに]
+    readings: [ふくからに]
+    candidate: [false]
+  - cardNo: 22
+    ku: 2
+    text: 秋の草木の
+    chunks: [秋の, 草木の]
+    readings: [あきの, くさきの]
+    candidate: [true, true]
+  - cardNo: 22
+    ku: 3
+    text: しをるれば
+    chunks: [しをるれば]
+    readings: [しをるれば]
+    candidate: [false]
+  - cardNo: 22
+    ku: 4
+    text: むべ山風を
+    chunks: [むべ, 山風を]
+    readings: [むべ, やまかぜを]
+    candidate: [false, true]
+  - cardNo: 22
+    ku: 5
+    text: 嵐といふらむ
+    chunks: [嵐と, いふらむ]
+    readings: [あらしと, いふらむ]
+    candidate: [true, false]
+  - cardNo: 23
+    ku: 1
+    text: 月みれば
+    chunks: [月, みれば]
+    readings: [つき, みれば]
+    candidate: [true, false]
+  - cardNo: 23
+    ku: 2
+    text: ちぢに物こそ
+    chunks: [ちぢに, 物こそ]
+    readings: [ちぢに, ものこそ]
+    candidate: [false, false]
+  - cardNo: 23
+    ku: 3
+    text: かなしけれ
+    chunks: [かなしけれ]
+    readings: [かなしけれ]
+    candidate: [false]
+  - cardNo: 23
+    ku: 4
+    text: わが身ひとつの
+    chunks: [わが, 身, ひとつの]
+    readings: [わが, み, ひとつの]
+    candidate: [false, true, false]
+  - cardNo: 23
+    ku: 5
+    text: 秋にはあらねど
+    chunks: [秋には, あらねど]
+    readings: [あきには, あらねど]
+    candidate: [true, false]
+  - cardNo: 24
+    ku: 1
+    text: このたびは
+    chunks: [この, たびは]
+    readings: [この, たびは]
+    candidate: [false, true]
+  - cardNo: 24
+    ku: 2
+    text: ぬさもとりあへず
+    chunks: [ぬさも, とりあへず]
+    readings: [ぬさも, とりあへず]
+    candidate: [true, false]
+  - cardNo: 24
+    ku: 3
+    text: 手向山
+    chunks: [手向山]
+    readings: [たむけやま]
+    candidate: [true]
+  - cardNo: 24
+    ku: 4
+    text: もみぢのにしき
+    chunks: [もみぢの, にしき]
+    readings: [もみぢの, にしき]
+    candidate: [true, true]
+  - cardNo: 24
+    ku: 5
+    text: 神のまにまに
+    chunks: [神の, まにまに]
+    readings: [かみの, まにまに]
+    candidate: [true, false]
+  - cardNo: 25
+    ku: 1
+    text: 名にしおはば
+    chunks: [名にし, おはば]
+    readings: [なにし, おはば]
+    candidate: [true, false]
+  - cardNo: 25
+    ku: 2
+    text: 逢坂山の
+    chunks: [逢坂山の]
+    readings: [あふさかやまの]
+    candidate: [true]
+  - cardNo: 25
+    ku: 3
+    text: さねかづら
+    chunks: [さねかづら]
+    readings: [さねかづら]
+    candidate: [true]
+  - cardNo: 25
+    ku: 4
+    text: 人にしられで
+    chunks: [人に, しられで]
+    readings: [ひとに, しられで]
+    candidate: [true, false]
+  - cardNo: 25
+    ku: 5
+    text: 来るよしもがな
+    chunks: [来る, よしもがな]
+    readings: [くる, よしもがな]
+    candidate: [false, false]
+  - cardNo: 26
+    ku: 1
+    text: 小倉山
+    chunks: [小倉山]
+    readings: [をぐらやま]
+    candidate: [true]
+  - cardNo: 26
+    ku: 2
+    text: 峰のもみぢ葉
+    chunks: [峰の, もみぢ葉]
+    readings: [みねの, もみぢば]
+    candidate: [true, true]
+  - cardNo: 26
+    ku: 3
+    text: 心あらば
+    chunks: [心, あらば]
+    readings: [こころ, あらば]
+    candidate: [true, false]
+  - cardNo: 26
+    ku: 4
+    text: いまひとたびの
+    chunks: [いま, ひとたびの]
+    readings: [いま, ひとたびの]
+    candidate: [false, false]
+  - cardNo: 26
+    ku: 5
+    text: みゆき待たなむ
+    chunks: [みゆき, 待たなむ]
+    readings: [みゆき, またなむ]
+    candidate: [true, false]
+  - cardNo: 27
+    ku: 1
+    text: みかの原
+    chunks: [みかの, 原]
+    readings: [みかの, はら]
+    candidate: [true, true]
+  - cardNo: 27
+    ku: 2
+    text: わきて流るる
+    chunks: [わきて, 流るる]
+    readings: [わきて, ながるる]
+    candidate: [false, false]
+  - cardNo: 27
+    ku: 3
+    text: いづみ川
+    chunks: [いづみ川]
+    readings: [いづみがは]
+    candidate: [true]
+  - cardNo: 27
+    ku: 4
+    text: いつ見きとてか
+    chunks: [いつ, 見きとてか]
+    readings: [いつ, みきとてか]
+    candidate: [false, false]
+  - cardNo: 27
+    ku: 5
+    text: 恋しかるらむ
+    chunks: [恋しかるらむ]
+    readings: [こひしかるらむ]
+    candidate: [false]
+  - cardNo: 28
+    ku: 1
+    text: 山里は
+    chunks: [山里は]
+    readings: [やまざとは]
+    candidate: [true]
+  - cardNo: 28
+    ku: 2
+    text: 冬ぞ寂しさ
+    chunks: [冬ぞ, 寂しさ]
+    readings: [ふゆぞ, さびしさ]
+    candidate: [true, true]
+  - cardNo: 28
+    ku: 3
+    text: まさりける
+    chunks: [まさりける]
+    readings: [まさりける]
+    candidate: [false]
+  - cardNo: 28
+    ku: 4
+    text: 人めも草も
+    chunks: [人めも, 草も]
+    readings: [ひとめも, くさも]
+    candidate: [true, true]
+  - cardNo: 28
+    ku: 5
+    text: かれぬと思へば
+    chunks: [かれぬと, 思へば]
+    readings: [かれぬと, おもへば]
+    candidate: [false, false]
+  - cardNo: 29
+    ku: 1
+    text: 心あてに
+    chunks: [心, あてに]
+    readings: [こころ, あてに]
+    candidate: [true, false]
+  - cardNo: 29
+    ku: 2
+    text: 折らばや折らむ
+    chunks: [折らばや, 折らむ]
+    readings: [をらばや, をらむ]
+    candidate: [false, false]
+  - cardNo: 29
+    ku: 3
+    text: 初霜の
+    chunks: [初霜の]
+    readings: [はつしもの]
+    candidate: [true]
+  - cardNo: 29
+    ku: 4
+    text: おきまどはせる
+    chunks: [おきまどはせる]
+    readings: [おきまどはせる]
+    candidate: [false]
+  - cardNo: 29
+    ku: 5
+    text: 白菊の花
+    chunks: [白菊の, 花]
+    readings: [しらぎくの, はな]
+    candidate: [true, true]
+  - cardNo: 30
+    ku: 1
+    text: ありあけの
+    chunks: [ありあけの]
+    readings: [ありあけの]
+    candidate: [true]
+  - cardNo: 30
+    ku: 2
+    text: つれなく見えし
+    chunks: [つれなく, 見えし]
+    readings: [つれなく, みえし]
+    candidate: [false, false]
+  - cardNo: 30
+    ku: 3
+    text: 別れより
+    chunks: [別れより]
+    readings: [わかれより]
+    candidate: [true]
+  - cardNo: 30
+    ku: 4
+    text: あかつきばかり
+    chunks: [あかつきばかり]
+    readings: [あかつきばかり]
+    candidate: [true]
+  - cardNo: 30
+    ku: 5
+    text: うきものはなし
+    chunks: [うき, ものは, なし]
+    readings: [うき, ものは, なし]
+    candidate: [false, true, false]
+  - cardNo: 31
+    ku: 1
+    text: 朝ぼらけ
+    chunks: [朝ぼらけ]
+    readings: [あさぼらけ]
+    candidate: [true]
+  - cardNo: 31
+    ku: 2
+    text: ありあけの月と
+    chunks: [ありあけの, 月と]
+    readings: [ありあけの, つきと]
+    candidate: [true, true]
+  - cardNo: 31
+    ku: 3
+    text: 見るまでに
+    chunks: [見るまでに]
+    readings: [みるまでに]
+    candidate: [false]
+  - cardNo: 31
+    ku: 4
+    text: 吉野の里に
+    chunks: [吉野の, 里に]
+    readings: [よしのの, さとに]
+    candidate: [true, true]
+  - cardNo: 31
+    ku: 5
+    text: ふれる白雪
+    chunks: [ふれる, 白雪]
+    readings: [ふれる, しらゆき]
+    candidate: [false, true]
+  - cardNo: 32
+    ku: 1
+    text: 山川に
+    chunks: [山川に]
+    readings: [やまがはに]
+    candidate: [true]
+  - cardNo: 32
+    ku: 2
+    text: 風のかけたる
+    chunks: [風の, かけたる]
+    readings: [かぜの, かけたる]
+    candidate: [true, false]
+  - cardNo: 32
+    ku: 3
+    text: しがらみは
+    chunks: [しがらみは]
+    readings: [しがらみは]
+    candidate: [true]
+  - cardNo: 32
+    ku: 4
+    text: ながれもあへぬ
+    chunks: [ながれも, あへぬ]
+    readings: [ながれも, あへぬ]
+    candidate: [false, false]
+  - cardNo: 32
+    ku: 5
+    text: もみぢなりけり
+    chunks: [もみぢなりけり]
+    readings: [もみぢなりけり]
+    candidate: [true]
+  - cardNo: 33
+    ku: 1
+    text: ひさかたの
+    chunks: [ひさかたの]
+    readings: [ひさかたの]
+    candidate: [false]
+  - cardNo: 33
+    ku: 2
+    text: 光のどけき
+    chunks: [光, のどけき]
+    readings: [ひかり, のどけき]
+    candidate: [true, false]
+  - cardNo: 33
+    ku: 3
+    text: 春の日に
+    chunks: [春の, 日に]
+    readings: [はるの, ひに]
+    candidate: [true, true]
+  - cardNo: 33
+    ku: 4
+    text: しづ心なく
+    chunks: [しづ心, なく]
+    readings: [しづごころ, なく]
+    candidate: [true, false]
+  - cardNo: 33
+    ku: 5
+    text: 花のちるらむ
+    chunks: [花の, ちるらむ]
+    readings: [はなの, ちるらむ]
+    candidate: [true, false]
+  - cardNo: 34
+    ku: 1
+    text: 誰をかも
+    chunks: [誰をかも]
+    readings: [たれをかも]
+    candidate: [true]
+  - cardNo: 34
+    ku: 2
+    text: しる人にせむ
+    chunks: [しる, 人に, せむ]
+    readings: [しる, ひとに, せむ]
+    candidate: [false, true, false]
+  - cardNo: 34
+    ku: 3
+    text: 高砂の
+    chunks: [高砂の]
+    readings: [たかさごの]
+    candidate: [true]
+  - cardNo: 34
+    ku: 4
+    text: 松も昔の
+    chunks: [松も, 昔の]
+    readings: [まつも, むかしの]
+    candidate: [true, true]
+  - cardNo: 34
+    ku: 5
+    text: 友ならなくに
+    chunks: [友ならなくに]
+    readings: [ともならなくに]
+    candidate: [true]
+  - cardNo: 35
+    ku: 1
+    text: 人はいさ
+    chunks: [人は, いさ]
+    readings: [ひとは, いさ]
+    candidate: [true, false]
+  - cardNo: 35
+    ku: 2
+    text: 心もしらず
+    chunks: [心も, しらず]
+    readings: [こころも, しらず]
+    candidate: [true, false]
+  - cardNo: 35
+    ku: 3
+    text: ふるさとは
+    chunks: [ふるさとは]
+    readings: [ふるさとは]
+    candidate: [true]
+  - cardNo: 35
+    ku: 4
+    text: 花ぞ昔の
+    chunks: [花ぞ, 昔の]
+    readings: [はなぞ, むかしの]
+    candidate: [true, true]
+  - cardNo: 35
+    ku: 5
+    text: 香ににほひける
+    chunks: [香に, にほひける]
+    readings: [かに, にほひける]
+    candidate: [true, false]
+  - cardNo: 36
+    ku: 1
+    text: 夏の夜は
+    chunks: [夏の, 夜は]
+    readings: [なつの, よは]
+    candidate: [true, true]
+  - cardNo: 36
+    ku: 2
+    text: まだ宵ながら
+    chunks: [まだ, 宵ながら]
+    readings: [まだ, よひながら]
+    candidate: [false, true]
+  - cardNo: 36
+    ku: 3
+    text: あけぬるを
+    chunks: [あけぬるを]
+    readings: [あけぬるを]
+    candidate: [false]
+  - cardNo: 36
+    ku: 4
+    text: 雲のいづこに
+    chunks: [雲の, いづこに]
+    readings: [くもの, いづこに]
+    candidate: [true, false]
+  - cardNo: 36
+    ku: 5
+    text: 月やどるらむ
+    chunks: [月, やどるらむ]
+    readings: [つき, やどるらむ]
+    candidate: [true, false]
+  - cardNo: 37
+    ku: 1
+    text: 白露に
+    chunks: [白露に]
+    readings: [しらつゆに]
+    candidate: [true]
+  - cardNo: 37
+    ku: 2
+    text: 風の吹きしく
+    chunks: [風の, 吹きしく]
+    readings: [かぜの, ふきしく]
+    candidate: [true, false]
+  - cardNo: 37
+    ku: 3
+    text: 秋の野は
+    chunks: [秋の, 野は]
+    readings: [あきの, のは]
+    candidate: [true, true]
+  - cardNo: 37
+    ku: 4
+    text: つらぬきとめぬ
+    chunks: [つらぬきとめぬ]
+    readings: [つらぬきとめぬ]
+    candidate: [false]
+  - cardNo: 37
+    ku: 5
+    text: 玉ぞ散りける
+    chunks: [玉ぞ, 散りける]
+    readings: [たまぞ, ちりける]
+    candidate: [true, false]
+  - cardNo: 38
+    ku: 1
+    text: 忘らるる
+    chunks: [忘らるる]
+    readings: [わすらるる]
+    candidate: [false]
+  - cardNo: 38
+    ku: 2
+    text: 身をば思はず
+    chunks: [身をば, 思はず]
+    readings: [みをば, おもはず]
+    candidate: [true, false]
+  - cardNo: 38
+    ku: 3
+    text: ちかひてし
+    chunks: [ちかひてし]
+    readings: [ちかひてし]
+    candidate: [false]
+  - cardNo: 38
+    ku: 4
+    text: 人のいのちの
+    chunks: [人の, いのちの]
+    readings: [ひとの, いのちの]
+    candidate: [true, true]
+  - cardNo: 38
+    ku: 5
+    text: 惜しくもあるかな
+    chunks: [惜しくも, あるかな]
+    readings: [をしくも, あるかな]
+    candidate: [false, false]
+  - cardNo: 39
+    ku: 1
+    text: 浅茅生の
+    chunks: [浅茅生の]
+    readings: [あさぢふの]
+    candidate: [true]
+  - cardNo: 39
+    ku: 2
+    text: 小野の篠原
+    chunks: [小野の, 篠原]
+    readings: [をのの, しのはら]
+    candidate: [true, true]
+  - cardNo: 39
+    ku: 3
+    text: しのぶれど
+    chunks: [しのぶれど]
+    readings: [しのぶれど]
+    candidate: [false]
+  - cardNo: 39
+    ku: 4
+    text: あまりてなどか
+    chunks: [あまりて, などか]
+    readings: [あまりて, などか]
+    candidate: [false, false]
+  - cardNo: 39
+    ku: 5
+    text: 人の恋しき
+    chunks: [人の, 恋しき]
+    readings: [ひとの, こひしき]
+    candidate: [true, false]
+  - cardNo: 40
+    ku: 1
+    text: しのぶれど
+    chunks: [しのぶれど]
+    readings: [しのぶれど]
+    candidate: [false]
+  - cardNo: 40
+    ku: 2
+    text: 色にいでにけり
+    chunks: [色に, いでにけり]
+    readings: [いろに, いでにけり]
+    candidate: [true, false]
+  - cardNo: 40
+    ku: 3
+    text: わが恋は
+    chunks: [わが, 恋は]
+    readings: [わが, こひは]
+    candidate: [false, true]
+  - cardNo: 40
+    ku: 4
+    text: 物や思ふと
+    chunks: [物や, 思ふと]
+    readings: [ものや, おもふと]
+    candidate: [false, false]
+  - cardNo: 40
+    ku: 5
+    text: 人のとふまで
+    chunks: [人の, とふまで]
+    readings: [ひとの, とふまで]
+    candidate: [true, false]
+  - cardNo: 41
+    ku: 1
+    text: 恋すてふ
+    chunks: [恋すてふ]
+    readings: [こひすてふ]
+    candidate: [true]
+  - cardNo: 41
+    ku: 2
+    text: わが名はまだき
+    chunks: [わが, 名は, まだき]
+    readings: [わが, なは, まだき]
+    candidate: [false, true, false]
+  - cardNo: 41
+    ku: 3
+    text: 立ちにけり
+    chunks: [立ちにけり]
+    readings: [たちにけり]
+    candidate: [false]
+  - cardNo: 41
+    ku: 4
+    text: 人しれずこそ
+    chunks: [人しれずこそ]
+    readings: [ひとしれずこそ]
+    candidate: [true]
+  - cardNo: 41
+    ku: 5
+    text: 思ひそめしか
+    chunks: [思ひそめしか]
+    readings: [おもひそめしか]
+    candidate: [false]
+  - cardNo: 42
+    ku: 1
+    text: ちぎりきな
+    chunks: [ちぎりきな]
+    readings: [ちぎりきな]
+    candidate: [false]
+  - cardNo: 42
+    ku: 2
+    text: かたみに袖を
+    chunks: [かたみに, 袖を]
+    readings: [かたみに, そでを]
+    candidate: [false, true]
+  - cardNo: 42
+    ku: 3
+    text: しぼりつつ
+    chunks: [しぼりつつ]
+    readings: [しぼりつつ]
+    candidate: [false]
+  - cardNo: 42
+    ku: 4
+    text: 末の松山
+    chunks: [末の, 松山]
+    readings: [すゑの, まつやま]
+    candidate: [true, true]
+  - cardNo: 42
+    ku: 5
+    text: 波こさじとは
+    chunks: [波, こさじとは]
+    readings: [なみ, こさじとは]
+    candidate: [true, false]
+  - cardNo: 43
+    ku: 1
+    text: あひみての
+    chunks: [あひみての]
+    readings: [あひみての]
+    candidate: [false]
+  - cardNo: 43
+    ku: 2
+    text: のちの心に
+    chunks: [のちの, 心に]
+    readings: [のちの, こころに]
+    candidate: [true, true]
+  - cardNo: 43
+    ku: 3
+    text: くらぶれば
+    chunks: [くらぶれば]
+    readings: [くらぶれば]
+    candidate: [false]
+  - cardNo: 43
+    ku: 4
+    text: 昔は物を
+    chunks: [昔は, 物を]
+    readings: [むかしは, ものを]
+    candidate: [true, false]
+  - cardNo: 43
+    ku: 5
+    text: 思はざりけり
+    chunks: [思はざりけり]
+    readings: [おもはざりけり]
+    candidate: [false]
+  - cardNo: 44
+    ku: 1
+    text: あふことの
+    chunks: [あふ, ことの]
+    readings: [あふ, ことの]
+    candidate: [false, true]
+  - cardNo: 44
+    ku: 2
+    text: たえてしなくは
+    chunks: [たえてし, なくは]
+    readings: [たえてし, なくは]
+    candidate: [false, false]
+  - cardNo: 44
+    ku: 3
+    text: なかなかに
+    chunks: [なかなかに]
+    readings: [なかなかに]
+    candidate: [false]
+  - cardNo: 44
+    ku: 4
+    text: 人をも身をも
+    chunks: [人をも, 身をも]
+    readings: [ひとをも, みをも]
+    candidate: [true, true]
+  - cardNo: 44
+    ku: 5
+    text: 恨みざらまし
+    chunks: [恨みざらまし]
+    readings: [うらみざらまし]
+    candidate: [false]
+  - cardNo: 45
+    ku: 1
+    text: あはれとも
+    chunks: [あはれとも]
+    readings: [あはれとも]
+    candidate: [false]
+  - cardNo: 45
+    ku: 2
+    text: いふべき人は
+    chunks: [いふべき, 人は]
+    readings: [いふべき, ひとは]
+    candidate: [false, true]
+  - cardNo: 45
+    ku: 3
+    text: 思ほえで
+    chunks: [思ほえで]
+    readings: [おもほえで]
+    candidate: [false]
+  - cardNo: 45
+    ku: 4
+    text: 身のいたづらに
+    chunks: [身の, いたづらに]
+    readings: [みの, いたづらに]
+    candidate: [true, false]
+  - cardNo: 45
+    ku: 5
+    text: なりぬべきかな
+    chunks: [なりぬべきかな]
+    readings: [なりぬべきかな]
+    candidate: [false]
+  - cardNo: 46
+    ku: 1
+    text: 由良のとを
+    chunks: [由良の, とを]
+    readings: [ゆらの, とを]
+    candidate: [true, true]
+  - cardNo: 46
+    ku: 2
+    text: わたる舟人
+    chunks: [わたる, 舟人]
+    readings: [わたる, ふなびと]
+    candidate: [false, true]
+  - cardNo: 46
+    ku: 3
+    text: かぢをたえ
+    chunks: [かぢを, たえ]
+    readings: [かぢを, たえ]
+    candidate: [true, false]
+  - cardNo: 46
+    ku: 4
+    text: ゆくへも知らぬ
+    chunks: [ゆくへも, 知らぬ]
+    readings: [ゆくへも, しらぬ]
+    candidate: [true, false]
+  - cardNo: 46
+    ku: 5
+    text: 恋の道かな
+    chunks: [恋の, 道かな]
+    readings: [こひの, みちかな]
+    candidate: [true, true]
+  - cardNo: 47
+    ku: 1
+    text: 八重むぐら
+    chunks: [八重むぐら]
+    readings: [やへむぐら]
+    candidate: [true]
+  - cardNo: 47
+    ku: 2
+    text: しげれる宿の
+    chunks: [しげれる, 宿の]
+    readings: [しげれる, やどの]
+    candidate: [false, true]
+  - cardNo: 47
+    ku: 3
+    text: さびしきに
+    chunks: [さびしきに]
+    readings: [さびしきに]
+    candidate: [false]
+  - cardNo: 47
+    ku: 4
+    text: 人こそ見えね
+    chunks: [人こそ, 見えね]
+    readings: [ひとこそ, みえね]
+    candidate: [true, false]
+  - cardNo: 47
+    ku: 5
+    text: 秋は来にけり
+    chunks: [秋は, 来にけり]
+    readings: [あきは, きにけり]
+    candidate: [true, false]
+  - cardNo: 48
+    ku: 1
+    text: 風をいたみ
+    chunks: [風を, いたみ]
+    readings: [かぜを, いたみ]
+    candidate: [true, false]
+  - cardNo: 48
+    ku: 2
+    text: 岩うつ波の
+    chunks: [岩, うつ, 波の]
+    readings: [いは, うつ, なみの]
+    candidate: [true, false, true]
+  - cardNo: 48
+    ku: 3
+    text: おのれのみ
+    chunks: [おのれのみ]
+    readings: [おのれのみ]
+    candidate: [false]
+  - cardNo: 48
+    ku: 4
+    text: くだけて物を
+    chunks: [くだけて, 物を]
+    readings: [くだけて, ものを]
+    candidate: [false, true]
+  - cardNo: 48
+    ku: 5
+    text: 思ふころかな
+    chunks: [思ふ, ころかな]
+    readings: [おもふ, ころかな]
+    candidate: [false, true]
+  - cardNo: 49
+    ku: 1
+    text: みかきもり
+    chunks: [みかきもり]
+    readings: [みかきもり]
+    candidate: [true]
+  - cardNo: 49
+    ku: 2
+    text: 衛士のたく火の
+    chunks: [衛士の, たく, 火の]
+    readings: [ゑじの, たく, ひの]
+    candidate: [true, false, true]
+  - cardNo: 49
+    ku: 3
+    text: 夜はもえ
+    chunks: [夜は, もえ]
+    readings: [よるは, もえ]
+    candidate: [true, false]
+  - cardNo: 49
+    ku: 4
+    text: 昼は消えつつ
+    chunks: [昼は, 消えつつ]
+    readings: [ひるは, きえつつ]
+    candidate: [true, false]
+  - cardNo: 49
+    ku: 5
+    text: 物をこそ思へ
+    chunks: [物をこそ, 思へ]
+    readings: [ものをこそ, おもへ]
+    candidate: [false, false]
+  - cardNo: 50
+    ku: 1
+    text: 君がため
+    chunks: [君が, ため]
+    readings: [きみが, ため]
+    candidate: [true, false]
+  - cardNo: 50
+    ku: 2
+    text: 惜しからざりし
+    chunks: [惜しからざりし]
+    readings: [をしからざりし]
+    candidate: [false]
+  - cardNo: 50
+    ku: 3
+    text: いのちさへ
+    chunks: [いのちさへ]
+    readings: [いのちさへ]
+    candidate: [true]
+  - cardNo: 50
+    ku: 4
+    text: 長くもがなと
+    chunks: [長くもがなと]
+    readings: [ながくもがなと]
+    candidate: [false]
+  - cardNo: 50
+    ku: 5
+    text: 思ひけるかな
+    chunks: [思ひけるかな]
+    readings: [おもひけるかな]
+    candidate: [false]
+  - cardNo: 51
+    ku: 1
+    text: かくとだに
+    chunks: [かくとだに]
+    readings: [かくとだに]
+    candidate: [false]
+  - cardNo: 51
+    ku: 2
+    text: えやはいぶきの
+    chunks: [えやは, いぶきの]
+    readings: [えやは, いぶきの]
+    candidate: [false, true]
+  - cardNo: 51
+    ku: 3
+    text: さしも草
+    chunks: [さしも草]
+    readings: [さしもぐさ]
+    candidate: [true]
+  - cardNo: 51
+    ku: 4
+    text: さしも知らじな
+    chunks: [さしも, 知らじな]
+    readings: [さしも, しらじな]
+    candidate: [false, false]
+  - cardNo: 51
+    ku: 5
+    text: もゆる思ひを
+    chunks: [もゆる, 思ひを]
+    readings: [もゆる, おもひを]
+    candidate: [false, true]
+  - cardNo: 52
+    ku: 1
+    text: あけぬれば
+    chunks: [あけぬれば]
+    readings: [あけぬれば]
+    candidate: [false]
+  - cardNo: 52
+    ku: 2
+    text: 暮るるものとは
+    chunks: [暮るる, ものとは]
+    readings: [くるる, ものとは]
+    candidate: [false, true]
+  - cardNo: 52
+    ku: 3
+    text: しりながら
+    chunks: [しりながら]
+    readings: [しりながら]
+    candidate: [false]
+  - cardNo: 52
+    ku: 4
+    text: なほうらめしき
+    chunks: [なほ, うらめしき]
+    readings: [なほ, うらめしき]
+    candidate: [false, false]
+  - cardNo: 52
+    ku: 5
+    text: 朝ぼらけかな
+    chunks: [朝ぼらけかな]
+    readings: [あさぼらけかな]
+    candidate: [true]
+  - cardNo: 53
+    ku: 1
+    text: なげきつつ
+    chunks: [なげきつつ]
+    readings: [なげきつつ]
+    candidate: [false]
+  - cardNo: 53
+    ku: 2
+    text: ひとりぬる夜の
+    chunks: [ひとり, ぬる, 夜の]
+    readings: [ひとり, ぬる, よの]
+    candidate: [false, false, true]
+  - cardNo: 53
+    ku: 3
+    text: あくるまは
+    chunks: [あくる, まは]
+    readings: [あくる, まは]
+    candidate: [false, true]
+  - cardNo: 53
+    ku: 4
+    text: いかに久しき
+    chunks: [いかに, 久しき]
+    readings: [いかに, ひさしき]
+    candidate: [false, false]
+  - cardNo: 53
+    ku: 5
+    text: ものとかはしる
+    chunks: [ものとかは, しる]
+    readings: [ものとかは, しる]
+    candidate: [false, false]
+  - cardNo: 54
+    ku: 1
+    text: 忘れじの
+    chunks: [忘れじの]
+    readings: [わすれじの]
+    candidate: [false]
+  - cardNo: 54
+    ku: 2
+    text: ゆくすゑまでは
+    chunks: [ゆくすゑまでは]
+    readings: [ゆくすゑまでは]
+    candidate: [true]
+  - cardNo: 54
+    ku: 3
+    text: かたければ
+    chunks: [かたければ]
+    readings: [かたければ]
+    candidate: [false]
+  - cardNo: 54
+    ku: 4
+    text: 今日をかぎりの
+    chunks: [今日を, かぎりの]
+    readings: [けふを, かぎりの]
+    candidate: [true, true]
+  - cardNo: 54
+    ku: 5
+    text: いのちともがな
+    chunks: [いのちともがな]
+    readings: [いのちともがな]
+    candidate: [true]
+  - cardNo: 55
+    ku: 1
+    text: 滝の音は
+    chunks: [滝の, 音は]
+    readings: [たきの, おとは]
+    candidate: [true, true]
+  - cardNo: 55
+    ku: 2
+    text: たえて久しく
+    chunks: [たえて, 久しく]
+    readings: [たえて, ひさしく]
+    candidate: [false, false]
+  - cardNo: 55
+    ku: 3
+    text: なりぬれど
+    chunks: [なりぬれど]
+    readings: [なりぬれど]
+    candidate: [false]
+  - cardNo: 55
+    ku: 4
+    text: 名こそ流れて
+    chunks: [名こそ, 流れて]
+    readings: [なこそ, ながれて]
+    candidate: [true, false]
+  - cardNo: 55
+    ku: 5
+    text: なほ聞こえけれ
+    chunks: [なほ, 聞こえけれ]
+    readings: [なほ, きこえけれ]
+    candidate: [false, false]
+  - cardNo: 56
+    ku: 1
+    text: あらざらむ
+    chunks: [あらざらむ]
+    readings: [あらざらむ]
+    candidate: [false]
+  - cardNo: 56
+    ku: 2
+    text: この世のほかの
+    chunks: [この, 世の, ほかの]
+    readings: [この, よの, ほかの]
+    candidate: [false, true, false]
+  - cardNo: 56
+    ku: 3
+    text: 思ひ出に
+    chunks: [思ひ出に]
+    readings: [おもひでに]
+    candidate: [true]
+  - cardNo: 56
+    ku: 4
+    text: いまひとたびの
+    chunks: [いま, ひとたびの]
+    readings: [いま, ひとたびの]
+    candidate: [false, false]
+  - cardNo: 56
+    ku: 5
+    text: あふこともがな
+    chunks: [あふ, こともがな]
+    readings: [あふ, こともがな]
+    candidate: [false, false]
+  - cardNo: 57
+    ku: 1
+    text: めぐりあひて
+    chunks: [めぐりあひて]
+    readings: [めぐりあひて]
+    candidate: [false]
+  - cardNo: 57
+    ku: 2
+    text: 見しやそれとも
+    chunks: [見しや, それとも]
+    readings: [みしや, それとも]
+    candidate: [false, false]
+  - cardNo: 57
+    ku: 3
+    text: わかぬまに
+    chunks: [わかぬ, まに]
+    readings: [わかぬ, まに]
+    candidate: [false, true]
+  - cardNo: 57
+    ku: 4
+    text: 雲がくれにし
+    chunks: [雲がくれにし]
+    readings: [くもがくれにし]
+    candidate: [false]
+  - cardNo: 57
+    ku: 5
+    text: 夜半の月かな
+    chunks: [夜半の, 月かな]
+    readings: [よはの, つきかな]
+    candidate: [true, true]
+  - cardNo: 58
+    ku: 1
+    text: ありま山
+    chunks: [ありま山]
+    readings: [ありまやま]
+    candidate: [true]
+  - cardNo: 58
+    ku: 2
+    text: ゐなの笹原
+    chunks: [ゐなの, 笹原]
+    readings: [ゐなの, ささはら]
+    candidate: [true, true]
+  - cardNo: 58
+    ku: 3
+    text: 風吹けば
+    chunks: [風吹けば]
+    readings: [かぜふけば]
+    candidate: [false]
+  - cardNo: 58
+    ku: 4
+    text: いでそよ人を
+    chunks: [いで, そよ, 人を]
+    readings: [いで, そよ, ひとを]
+    candidate: [false, false, true]
+  - cardNo: 58
+    ku: 5
+    text: 忘れやはする
+    chunks: [忘れやは, する]
+    readings: [わすれやは, する]
+    candidate: [false, false]
+  - cardNo: 59
+    ku: 1
+    text: やすらはで
+    chunks: [やすらはで]
+    readings: [やすらはで]
+    candidate: [false]
+  - cardNo: 59
+    ku: 2
+    text: 寝なましものを
+    chunks: [寝なまし, ものを]
+    readings: [ねなまし, ものを]
+    candidate: [false, false]
+  - cardNo: 59
+    ku: 3
+    text: さ夜ふけて
+    chunks: [さ夜, ふけて]
+    readings: [さよ, ふけて]
+    candidate: [true, false]
+  - cardNo: 59
+    ku: 4
+    text: かたぶくまでの
+    chunks: [かたぶくまでの]
+    readings: [かたぶくまでの]
+    candidate: [false]
+  - cardNo: 59
+    ku: 5
+    text: 月をみしかな
+    chunks: [月を, みしかな]
+    readings: [つきを, みしかな]
+    candidate: [true, false]
+  - cardNo: 60
+    ku: 1
+    text: 大江山
+    chunks: [大江山]
+    readings: [おほえやま]
+    candidate: [true]
+  - cardNo: 60
+    ku: 2
+    text: いく野の道の
+    chunks: [いく野の, 道の]
+    readings: [いくのの, みちの]
+    candidate: [true, true]
+  - cardNo: 60
+    ku: 3
+    text: 遠ければ
+    chunks: [遠ければ]
+    readings: [とほければ]
+    candidate: [false]
+  - cardNo: 60
+    ku: 4
+    text: まだふみも見ず
+    chunks: [まだ, ふみも, 見ず]
+    readings: [まだ, ふみも, みず]
+    candidate: [false, false, false]
+  - cardNo: 60
+    ku: 5
+    text: 天の橋立
+    chunks: [天の, 橋立]
+    readings: [あまの, はしだて]
+    candidate: [true, true]
+  - cardNo: 61
+    ku: 1
+    text: いにしへの
+    chunks: [いにしへの]
+    readings: [いにしへの]
+    candidate: [false]
+  - cardNo: 61
+    ku: 2
+    text: 奈良の都の
+    chunks: [奈良の, 都の]
+    readings: [ならの, みやこの]
+    candidate: [true, true]
+  - cardNo: 61
+    ku: 3
+    text: 八重桜
+    chunks: [八重桜]
+    readings: [やへざくら]
+    candidate: [true]
+  - cardNo: 61
+    ku: 4
+    text: けふ九重に
+    chunks: [けふ, 九重に]
+    readings: [けふ, ここのへに]
+    candidate: [true, true]
+  - cardNo: 61
+    ku: 5
+    text: にほひぬるかな
+    chunks: [にほひぬるかな]
+    readings: [にほひぬるかな]
+    candidate: [false]
+  - cardNo: 62
+    ku: 1
+    text: 夜をこめて
+    chunks: [夜を, こめて]
+    readings: [よを, こめて]
+    candidate: [true, false]
+  - cardNo: 62
+    ku: 2
+    text: 鳥のそらねは
+    chunks: [鳥の, そらねは]
+    readings: [とりの, そらねは]
+    candidate: [true, true]
+  - cardNo: 62
+    ku: 3
+    text: はかるとも
+    chunks: [はかるとも]
+    readings: [はかるとも]
+    candidate: [false]
+  - cardNo: 62
+    ku: 4
+    text: よに逢坂の
+    chunks: [よに, 逢坂の]
+    readings: [よに, あふさかの]
+    candidate: [true, true]
+  - cardNo: 62
+    ku: 5
+    text: 関はゆるさじ
+    chunks: [関は, ゆるさじ]
+    readings: [せきは, ゆるさじ]
+    candidate: [true, false]
+  - cardNo: 63
+    ku: 1
+    text: いまはただ
+    chunks: [いまは, ただ]
+    readings: [いまは, ただ]
+    candidate: [true, false]
+  - cardNo: 63
+    ku: 2
+    text: 思ひ絶えなむ
+    chunks: [思ひ絶えなむ]
+    readings: [おもひたえなむ]
+    candidate: [false]
+  - cardNo: 63
+    ku: 3
+    text: とばかりを
+    chunks: [とばかりを]
+    readings: [とばかりを]
+    candidate: [false]
+  - cardNo: 63
+    ku: 4
+    text: 人づてならで
+    chunks: [人づてならで]
+    readings: [ひとづてならで]
+    candidate: [true]
+  - cardNo: 63
+    ku: 5
+    text: 言ふよしもがな
+    chunks: [言ふ, よしもがな]
+    readings: [いふ, よしもがな]
+    candidate: [false, false]
+  - cardNo: 64
+    ku: 1
+    text: 朝ぼらけ
+    chunks: [朝ぼらけ]
+    readings: [あさぼらけ]
+    candidate: [true]
+  - cardNo: 64
+    ku: 2
+    text: 宇治の川霧
+    chunks: [宇治の, 川霧]
+    readings: [うぢの, かはぎり]
+    candidate: [true, true]
+  - cardNo: 64
+    ku: 3
+    text: たえだえに
+    chunks: [たえだえに]
+    readings: [たえだえに]
+    candidate: [false]
+  - cardNo: 64
+    ku: 4
+    text: あらはれわたる
+    chunks: [あらはれわたる]
+    readings: [あらはれわたる]
+    candidate: [false]
+  - cardNo: 64
+    ku: 5
+    text: 瀬々の網代木
+    chunks: [瀬々の, 網代木]
+    readings: [せぜの, あじろぎ]
+    candidate: [true, true]
+  - cardNo: 65
+    ku: 1
+    text: うらみわび
+    chunks: [うらみわび]
+    readings: [うらみわび]
+    candidate: [false]
+  - cardNo: 65
+    ku: 2
+    text: ほさぬ袖だに
+    chunks: [ほさぬ, 袖だに]
+    readings: [ほさぬ, そでだに]
+    candidate: [false, true]
+  - cardNo: 65
+    ku: 3
+    text: あるものを
+    chunks: [ある, ものを]
+    readings: [ある, ものを]
+    candidate: [false, false]
+  - cardNo: 65
+    ku: 4
+    text: 恋にくちなむ
+    chunks: [恋に, くちなむ]
+    readings: [こひに, くちなむ]
+    candidate: [true, false]
+  - cardNo: 65
+    ku: 5
+    text: 名こそをしけれ
+    chunks: [名こそ, をしけれ]
+    readings: [なこそ, をしけれ]
+    candidate: [true, false]
+  - cardNo: 66
+    ku: 1
+    text: もろともに
+    chunks: [もろともに]
+    readings: [もろともに]
+    candidate: [false]
+  - cardNo: 66
+    ku: 2
+    text: あはれと思へ
+    chunks: [あはれと, 思へ]
+    readings: [あはれと, おもへ]
+    candidate: [false, false]
+  - cardNo: 66
+    ku: 3
+    text: 山桜
+    chunks: [山桜]
+    readings: [やまざくら]
+    candidate: [true]
+  - cardNo: 66
+    ku: 4
+    text: 花よりほかに
+    chunks: [花より, ほかに]
+    readings: [はなより, ほかに]
+    candidate: [true, false]
+  - cardNo: 66
+    ku: 5
+    text: しる人もなし
+    chunks: [しる, 人も, なし]
+    readings: [しる, ひとも, なし]
+    candidate: [false, true, false]
+  - cardNo: 67
+    ku: 1
+    text: 春の夜の
+    chunks: [春の, 夜の]
+    readings: [はるの, よの]
+    candidate: [true, true]
+  - cardNo: 67
+    ku: 2
+    text: ゆめばかりなる
+    chunks: [ゆめばかりなる]
+    readings: [ゆめばかりなる]
+    candidate: [true]
+  - cardNo: 67
+    ku: 3
+    text: 手枕に
+    chunks: [手枕に]
+    readings: [たまくらに]
+    candidate: [true]
+  - cardNo: 67
+    ku: 4
+    text: かひなくたたむ
+    chunks: [かひなく, たたむ]
+    readings: [かひなく, たたむ]
+    candidate: [false, false]
+  - cardNo: 67
+    ku: 5
+    text: 名こそ惜しけれ
+    chunks: [名こそ, 惜しけれ]
+    readings: [なこそ, をしけれ]
+    candidate: [true, false]
+  - cardNo: 68
+    ku: 1
+    text: 心にも
+    chunks: [心にも]
+    readings: [こころにも]
+    candidate: [true]
+  - cardNo: 68
+    ku: 2
+    text: あらでうき世に
+    chunks: [あらで, うき世に]
+    readings: [あらで, うきよに]
+    candidate: [false, true]
+  - cardNo: 68
+    ku: 3
+    text: ながらへば
+    chunks: [ながらへば]
+    readings: [ながらへば]
+    candidate: [false]
+  - cardNo: 68
+    ku: 4
+    text: 恋しかるべき
+    chunks: [恋しかるべき]
+    readings: [こひしかるべき]
+    candidate: [false]
+  - cardNo: 68
+    ku: 5
+    text: 夜半の月かな
+    chunks: [夜半の, 月かな]
+    readings: [よはの, つきかな]
+    candidate: [true, true]
+  - cardNo: 69
+    ku: 1
+    text: あらしふく
+    chunks: [あらし, ふく]
+    readings: [あらし, ふく]
+    candidate: [false, false]
+  - cardNo: 69
+    ku: 2
+    text: み室の山の
+    chunks: [み室の, 山の]
+    readings: [みむろの, やまの]
+    candidate: [true, true]
+  - cardNo: 69
+    ku: 3
+    text: もみぢ葉は
+    chunks: [もみぢ葉は]
+    readings: [もみぢばは]
+    candidate: [true]
+  - cardNo: 69
+    ku: 4
+    text: 竜田の川の
+    chunks: [竜田の, 川の]
+    readings: [たつたの, かはの]
+    candidate: [true, true]
+  - cardNo: 69
+    ku: 5
+    text: 錦なりけり
+    chunks: [錦なりけり]
+    readings: [にしきなりけり]
+    candidate: [true]
+  - cardNo: 70
+    ku: 1
+    text: さびしさに
+    chunks: [さびしさに]
+    readings: [さびしさに]
+    candidate: [false]
+  - cardNo: 70
+    ku: 2
+    text: 宿をたちいでて
+    chunks: [宿を, たちいでて]
+    readings: [やどを, たちいでて]
+    candidate: [true, false]
+  - cardNo: 70
+    ku: 3
+    text: ながむれば
+    chunks: [ながむれば]
+    readings: [ながむれば]
+    candidate: [false]
+  - cardNo: 70
+    ku: 4
+    text: いづこもおなじ
+    chunks: [いづこも, おなじ]
+    readings: [いづこも, おなじ]
+    candidate: [false, false]
+  - cardNo: 70
+    ku: 5
+    text: 秋の夕ぐれ
+    chunks: [秋の, 夕ぐれ]
+    readings: [あきの, ゆふぐれ]
+    candidate: [true, true]
+  - cardNo: 71
+    ku: 1
+    text: 夕されば
+    chunks: [夕されば]
+    readings: [ゆふされば]
+    candidate: [true]
+  - cardNo: 71
+    ku: 2
+    text: 門田の稲葉
+    chunks: [門田の, 稲葉]
+    readings: [かどたの, いなば]
+    candidate: [true, true]
+  - cardNo: 71
+    ku: 3
+    text: おとづれて
+    chunks: [おとづれて]
+    readings: [おとづれて]
+    candidate: [false]
+  - cardNo: 71
+    ku: 4
+    text: 芦のまろやに
+    chunks: [芦の, まろやに]
+    readings: [あしの, まろやに]
+    candidate: [true, true]
+  - cardNo: 71
+    ku: 5
+    text: 秋風ぞ吹く
+    chunks: [秋風ぞ, 吹く]
+    readings: [あきかぜぞ, ふく]
+    candidate: [true, false]
+  - cardNo: 72
+    ku: 1
+    text: 音にきく
+    chunks: [音に, きく]
+    readings: [おとに, きく]
+    candidate: [true, false]
+  - cardNo: 72
+    ku: 2
+    text: たかしの浜の
+    chunks: [たかしの, 浜の]
+    readings: [たかしの, はまの]
+    candidate: [true, true]
+  - cardNo: 72
+    ku: 3
+    text: あだ波は
+    chunks: [あだ波は]
+    readings: [あだなみは]
+    candidate: [true]
+  - cardNo: 72
+    ku: 4
+    text: かけじや袖の
+    chunks: [かけじや, 袖の]
+    readings: [かけじや, そでの]
+    candidate: [false, true]
+  - cardNo: 72
+    ku: 5
+    text: ぬれもこそすれ
+    chunks: [ぬれもこそ, すれ]
+    readings: [ぬれもこそ, すれ]
+    candidate: [false, false]
+  - cardNo: 73
+    ku: 1
+    text: 高砂の
+    chunks: [高砂の]
+    readings: [たかさごの]
+    candidate: [true]
+  - cardNo: 73
+    ku: 2
+    text: をのへの桜
+    chunks: [をのへの, 桜]
+    readings: [をのへの, さくら]
+    candidate: [true, true]
+  - cardNo: 73
+    ku: 3
+    text: 咲きにけり
+    chunks: [咲きにけり]
+    readings: [さきにけり]
+    candidate: [false]
+  - cardNo: 73
+    ku: 4
+    text: 外山のかすみ
+    chunks: [外山の, かすみ]
+    readings: [とやまの, かすみ]
+    candidate: [true, true]
+  - cardNo: 73
+    ku: 5
+    text: たたずもあらなむ
+    chunks: [たたずも, あらなむ]
+    readings: [たたずも, あらなむ]
+    candidate: [false, false]
+  - cardNo: 74
+    ku: 1
+    text: 憂かりける
+    chunks: [憂かりける]
+    readings: [うかりける]
+    candidate: [false]
+  - cardNo: 74
+    ku: 2
+    text: 人を初瀬の
+    chunks: [人を, 初瀬の]
+    readings: [ひとを, はつせの]
+    candidate: [true, true]
+  - cardNo: 74
+    ku: 3
+    text: 山おろしよ
+    chunks: [山おろしよ]
+    readings: [やまおろしよ]
+    candidate: [true]
+  - cardNo: 74
+    ku: 4
+    text: はげしかれとは
+    chunks: [はげしかれとは]
+    readings: [はげしかれとは]
+    candidate: [false]
+  - cardNo: 74
+    ku: 5
+    text: 祈らぬものを
+    chunks: [祈らぬ, ものを]
+    readings: [いのらぬ, ものを]
+    candidate: [false, false]
+  - cardNo: 75
+    ku: 1
+    text: ちぎりおきし
+    chunks: [ちぎりおきし]
+    readings: [ちぎりおきし]
+    candidate: [false]
+  - cardNo: 75
+    ku: 2
+    text: させもが露を
+    chunks: [させもが, 露を]
+    readings: [させもが, つゆを]
+    candidate: [false, true]
+  - cardNo: 75
+    ku: 3
+    text: いのちにて
+    chunks: [いのちにて]
+    readings: [いのちにて]
+    candidate: [true]
+  - cardNo: 75
+    ku: 4
+    text: あはれ今年の
+    chunks: [あはれ, 今年の]
+    readings: [あはれ, ことしの]
+    candidate: [false, true]
+  - cardNo: 75
+    ku: 5
+    text: 秋もいぬめり
+    chunks: [秋も, いぬめり]
+    readings: [あきも, いぬめり]
+    candidate: [true, false]
+  - cardNo: 76
+    ku: 1
+    text: わたの原
+    chunks: [わたの, 原]
+    readings: [わたの, はら]
+    candidate: [false, true]
+  - cardNo: 76
+    ku: 2
+    text: こぎいでてみれば
+    chunks: [こぎいでて, みれば]
+    readings: [こぎいでて, みれば]
+    candidate: [false, false]
+  - cardNo: 76
+    ku: 3
+    text: 久方の
+    chunks: [久方の]
+    readings: [ひさかたの]
+    candidate: [false]
+  - cardNo: 76
+    ku: 4
+    text: 雲ゐにまがふ
+    chunks: [雲ゐに, まがふ]
+    readings: [くもゐに, まがふ]
+    candidate: [true, false]
+  - cardNo: 76
+    ku: 5
+    text: 沖つ白波
+    chunks: [沖つ, 白波]
+    readings: [おきつ, しらなみ]
+    candidate: [true, true]
+  - cardNo: 77
+    ku: 1
+    text: 瀬をはやみ
+    chunks: [瀬を, はやみ]
+    readings: [せを, はやみ]
+    candidate: [true, false]
+  - cardNo: 77
+    ku: 2
+    text: 岩にせかるる
+    chunks: [岩に, せかるる]
+    readings: [いはに, せかるる]
+    candidate: [true, false]
+  - cardNo: 77
+    ku: 3
+    text: 滝川の
+    chunks: [滝川の]
+    readings: [たきがはの]
+    candidate: [true]
+  - cardNo: 77
+    ku: 4
+    text: われても末に
+    chunks: [われても, 末に]
+    readings: [われても, すゑに]
+    candidate: [false, true]
+  - cardNo: 77
+    ku: 5
+    text: あはむとぞ思ふ
+    chunks: [あはむとぞ, 思ふ]
+    readings: [あはむとぞ, おもふ]
+    candidate: [false, false]
+  - cardNo: 78
+    ku: 1
+    text: 淡路島
+    chunks: [淡路島]
+    readings: [あはぢしま]
+    candidate: [true]
+  - cardNo: 78
+    ku: 2
+    text: かよふ千鳥の
+    chunks: [かよふ, 千鳥の]
+    readings: [かよふ, ちどりの]
+    candidate: [false, true]
+  - cardNo: 78
+    ku: 3
+    text: なく声に
+    chunks: [なく, 声に]
+    readings: [なく, こゑに]
+    candidate: [false, true]
+  - cardNo: 78
+    ku: 4
+    text: 幾夜ねざめぬ
+    chunks: [幾夜, ねざめぬ]
+    readings: [いくよ, ねざめぬ]
+    candidate: [true, false]
+  - cardNo: 78
+    ku: 5
+    text: 須磨の関守
+    chunks: [須磨の, 関守]
+    readings: [すまの, せきもり]
+    candidate: [true, true]
+  - cardNo: 79
+    ku: 1
+    text: 秋風に
+    chunks: [秋風に]
+    readings: [あきかぜに]
+    candidate: [true]
+  - cardNo: 79
+    ku: 2
+    text: たなびく雲の
+    chunks: [たなびく, 雲の]
+    readings: [たなびく, くもの]
+    candidate: [false, true]
+  - cardNo: 79
+    ku: 3
+    text: たえ間より
+    chunks: [たえ間より]
+    readings: [たえまより]
+    candidate: [true]
+  - cardNo: 79
+    ku: 4
+    text: もれいづる月の
+    chunks: [もれいづる, 月の]
+    readings: [もれいづる, つきの]
+    candidate: [false, true]
+  - cardNo: 79
+    ku: 5
+    text: かげのさやけさ
+    chunks: [かげの, さやけさ]
+    readings: [かげの, さやけさ]
+    candidate: [true, false]
+  - cardNo: 80
+    ku: 1
+    text: 長からむ
+    chunks: [長からむ]
+    readings: [ながからむ]
+    candidate: [false]
+  - cardNo: 80
+    ku: 2
+    text: 心もしらず
+    chunks: [心も, しらず]
+    readings: [こころも, しらず]
+    candidate: [true, false]
+  - cardNo: 80
+    ku: 3
+    text: 黒髪の
+    chunks: [黒髪の]
+    readings: [くろかみの]
+    candidate: [true]
+  - cardNo: 80
+    ku: 4
+    text: みだれてけさは
+    chunks: [みだれて, けさは]
+    readings: [みだれて, けさは]
+    candidate: [false, true]
+  - cardNo: 80
+    ku: 5
+    text: 物をこそ思へ
+    chunks: [物をこそ, 思へ]
+    readings: [ものをこそ, おもへ]
+    candidate: [false, false]
+  - cardNo: 81
+    ku: 1
+    text: ほととぎす
+    chunks: [ほととぎす]
+    readings: [ほととぎす]
+    candidate: [true]
+  - cardNo: 81
+    ku: 2
+    text: 鳴きつる方を
+    chunks: [鳴きつる, 方を]
+    readings: [なきつる, かたを]
+    candidate: [false, true]
+  - cardNo: 81
+    ku: 3
+    text: ながむれば
+    chunks: [ながむれば]
+    readings: [ながむれば]
+    candidate: [false]
+  - cardNo: 81
+    ku: 4
+    text: ただありあけの
+    chunks: [ただ, ありあけの]
+    readings: [ただ, ありあけの]
+    candidate: [false, true]
+  - cardNo: 81
+    ku: 5
+    text: 月ぞ残れる
+    chunks: [月ぞ, 残れる]
+    readings: [つきぞ, のこれる]
+    candidate: [true, false]
+  - cardNo: 82
+    ku: 1
+    text: 思ひわび
+    chunks: [思ひわび]
+    readings: [おもひわび]
+    candidate: [false]
+  - cardNo: 82
+    ku: 2
+    text: さてもいのちは
+    chunks: [さても, いのちは]
+    readings: [さても, いのちは]
+    candidate: [false, true]
+  - cardNo: 82
+    ku: 3
+    text: あるものを
+    chunks: [ある, ものを]
+    readings: [ある, ものを]
+    candidate: [false, true]
+  - cardNo: 82
+    ku: 4
+    text: 憂きにたへぬは
+    chunks: [憂きに, たへぬは]
+    readings: [うきに, たへぬは]
+    candidate: [false, false]
+  - cardNo: 82
+    ku: 5
+    text: 涙なりけり
+    chunks: [涙なりけり]
+    readings: [なみだなりけり]
+    candidate: [true]
+  - cardNo: 83
+    ku: 1
+    text: 世の中よ
+    chunks: [世の中よ]
+    readings: [よのなかよ]
+    candidate: [true]
+  - cardNo: 83
+    ku: 2
+    text: 道こそなけれ
+    chunks: [道こそ, なけれ]
+    readings: [みちこそ, なけれ]
+    candidate: [true, false]
+  - cardNo: 83
+    ku: 3
+    text: 思ひ入る
+    chunks: [思ひ入る]
+    readings: [おもひいる]
+    candidate: [false]
+  - cardNo: 83
+    ku: 4
+    text: 山の奥にも
+    chunks: [山の, 奥にも]
+    readings: [やまの, おくにも]
+    candidate: [true, true]
+  - cardNo: 83
+    ku: 5
+    text: 鹿ぞ鳴くなる
+    chunks: [鹿ぞ, 鳴くなる]
+    readings: [しかぞ, なくなる]
+    candidate: [true, false]
+  - cardNo: 84
+    ku: 1
+    text: ながらへば
+    chunks: [ながらへば]
+    readings: [ながらへば]
+    candidate: [false]
+  - cardNo: 84
+    ku: 2
+    text: またこのごろや
+    chunks: [また, このごろや]
+    readings: [また, このごろや]
+    candidate: [false, true]
+  - cardNo: 84
+    ku: 3
+    text: しのばれむ
+    chunks: [しのばれむ]
+    readings: [しのばれむ]
+    candidate: [false]
+  - cardNo: 84
+    ku: 4
+    text: 憂しと見し世ぞ
+    chunks: [憂しと, 見し, 世ぞ]
+    readings: [うしと, みし, よぞ]
+    candidate: [false, false, true]
+  - cardNo: 84
+    ku: 5
+    text: 今は恋しき
+    chunks: [今は, 恋しき]
+    readings: [いまは, こひしき]
+    candidate: [true, false]
+  - cardNo: 85
+    ku: 1
+    text: 夜もすがら
+    chunks: [夜もすがら]
+    readings: [よもすがら]
+    candidate: [true]
+  - cardNo: 85
+    ku: 2
+    text: 物思ふころは
+    chunks: [物, 思ふ, ころは]
+    readings: [もの, おもふ, ころは]
+    candidate: [true, false, true]
+  - cardNo: 85
+    ku: 3
+    text: 明けやらで
+    chunks: [明けやらで]
+    readings: [あけやらで]
+    candidate: [false]
+  - cardNo: 85
+    ku: 4
+    text: 閨のひまさへ
+    chunks: [閨の, ひまさへ]
+    readings: [ねやの, ひまさへ]
+    candidate: [true, true]
+  - cardNo: 85
+    ku: 5
+    text: つれなかりけり
+    chunks: [つれなかりけり]
+    readings: [つれなかりけり]
+    candidate: [false]
+  - cardNo: 86
+    ku: 1
+    text: なげけとて
+    chunks: [なげけとて]
+    readings: [なげけとて]
+    candidate: [false]
+  - cardNo: 86
+    ku: 2
+    text: 月やは物を
+    chunks: [月やは, 物を]
+    readings: [つきやは, ものを]
+    candidate: [true, true]
+  - cardNo: 86
+    ku: 3
+    text: 思はする
+    chunks: [思はする]
+    readings: [おもはする]
+    candidate: [false]
+  - cardNo: 86
+    ku: 4
+    text: かこち顔なる
+    chunks: [かこち顔なる]
+    readings: [かこちがほなる]
+    candidate: [true]
+  - cardNo: 86
+    ku: 5
+    text: わが涙かな
+    chunks: [わが, 涙かな]
+    readings: [わが, なみだかな]
+    candidate: [false, true]
+  - cardNo: 87
+    ku: 1
+    text: 村雨の
+    chunks: [村雨の]
+    readings: [むらさめの]
+    candidate: [true]
+  - cardNo: 87
+    ku: 2
+    text: 露もまだひぬ
+    chunks: [露も, まだ, ひぬ]
+    readings: [つゆも, まだ, ひぬ]
+    candidate: [true, false, false]
+  - cardNo: 87
+    ku: 3
+    text: まきの葉に
+    chunks: [まきの, 葉に]
+    readings: [まきの, はに]
+    candidate: [true, true]
+  - cardNo: 87
+    ku: 4
+    text: 霧たちのぼる
+    chunks: [霧, たちのぼる]
+    readings: [きり, たちのぼる]
+    candidate: [true, false]
+  - cardNo: 87
+    ku: 5
+    text: 秋の夕ぐれ
+    chunks: [秋の, 夕ぐれ]
+    readings: [あきの, ゆふぐれ]
+    candidate: [true, true]
+  - cardNo: 88
+    ku: 1
+    text: 難波江の
+    chunks: [難波江の]
+    readings: [なにはえの]
+    candidate: [true]
+  - cardNo: 88
+    ku: 2
+    text: 芦のかりねの
+    chunks: [芦の, かりねの]
+    readings: [あしの, かりねの]
+    candidate: [true, true]
+  - cardNo: 88
+    ku: 3
+    text: ひとよゆゑ
+    chunks: [ひとよ, ゆゑ]
+    readings: [ひとよ, ゆゑ]
+    candidate: [true, false]
+  - cardNo: 88
+    ku: 4
+    text: みをつくしてや
+    chunks: [みをつくしてや]
+    readings: [みをつくしてや]
+    candidate: [false]
+  - cardNo: 88
+    ku: 5
+    text: 恋ひわたるべき
+    chunks: [恋ひわたるべき]
+    readings: [こひわたるべき]
+    candidate: [true]
+  - cardNo: 89
+    ku: 1
+    text: 玉のをよ
+    chunks: [玉の, をよ]
+    readings: [たまの, をよ]
+    candidate: [true, true]
+  - cardNo: 89
+    ku: 2
+    text: たえなばたえね
+    chunks: [たえなば, たえね]
+    readings: [たえなば, たえね]
+    candidate: [false, false]
+  - cardNo: 89
+    ku: 3
+    text: ながらへば
+    chunks: [ながらへば]
+    readings: [ながらへば]
+    candidate: [false]
+  - cardNo: 89
+    ku: 4
+    text: 忍ぶることの
+    chunks: [忍ぶる, ことの]
+    readings: [しのぶる, ことの]
+    candidate: [false, true]
+  - cardNo: 89
+    ku: 5
+    text: 弱りもぞする
+    chunks: [弱りもぞ, する]
+    readings: [よはりもぞ, する]
+    candidate: [false, false]
+  - cardNo: 90
+    ku: 1
+    text: 見せばやな
+    chunks: [見せばやな]
+    readings: [みせばやな]
+    candidate: [false]
+  - cardNo: 90
+    ku: 2
+    text: 雄島のあまの
+    chunks: [雄島の, あまの]
+    readings: [をじまの, あまの]
+    candidate: [true, true]
+  - cardNo: 90
+    ku: 3
+    text: 袖だにも
+    chunks: [袖だにも]
+    readings: [そでだにも]
+    candidate: [true]
+  - cardNo: 90
+    ku: 4
+    text: ぬれにぞぬれし
+    chunks: [ぬれにぞ, ぬれし]
+    readings: [ぬれにぞ, ぬれし]
+    candidate: [false, false]
+  - cardNo: 90
+    ku: 5
+    text: 色はかはらず
+    chunks: [色は, かはらず]
+    readings: [いろは, かはらず]
+    candidate: [true, false]
+  - cardNo: 91
+    ku: 1
+    text: きりぎりす
+    chunks: [きりぎりす]
+    readings: [きりぎりす]
+    candidate: [true]
+  - cardNo: 91
+    ku: 2
+    text: 鳴くや霜夜の
+    chunks: [鳴くや, 霜夜の]
+    readings: [なくや, しもよの]
+    candidate: [false, true]
+  - cardNo: 91
+    ku: 3
+    text: さむしろに
+    chunks: [さむしろに]
+    readings: [さむしろに]
+    candidate: [true]
+  - cardNo: 91
+    ku: 4
+    text: 衣かたしき
+    chunks: [衣, かたしき]
+    readings: [ころも, かたしき]
+    candidate: [true, false]
+  - cardNo: 91
+    ku: 5
+    text: ひとりかも寝む
+    chunks: [ひとりかも, 寝む]
+    readings: [ひとりかも, ねむ]
+    candidate: [false, false]
+  - cardNo: 92
+    ku: 1
+    text: わが袖は
+    chunks: [わが, 袖は]
+    readings: [わが, そでは]
+    candidate: [false, true]
+  - cardNo: 92
+    ku: 2
+    text: 潮干にみえぬ
+    chunks: [潮干に, みえぬ]
+    readings: [しほひに, みえぬ]
+    candidate: [true, false]
+  - cardNo: 92
+    ku: 3
+    text: 沖の石の
+    chunks: [沖の, 石の]
+    readings: [おきの, いしの]
+    candidate: [true, true]
+  - cardNo: 92
+    ku: 4
+    text: 人こそしらね
+    chunks: [人こそ, しらね]
+    readings: [ひとこそ, しらね]
+    candidate: [true, false]
+  - cardNo: 92
+    ku: 5
+    text: かわくまもなし
+    chunks: [かわく, まも, なし]
+    readings: [かわく, まも, なし]
+    candidate: [false, true, false]
+  - cardNo: 93
+    ku: 1
+    text: 世の中は
+    chunks: [世の中は]
+    readings: [よのなかは]
+    candidate: [true]
+  - cardNo: 93
+    ku: 2
+    text: つねにもがもな
+    chunks: [つねにもがもな]
+    readings: [つねにもがもな]
+    candidate: [false]
+  - cardNo: 93
+    ku: 3
+    text: なぎさこぐ
+    chunks: [なぎさ, こぐ]
+    readings: [なぎさ, こぐ]
+    candidate: [true, false]
+  - cardNo: 93
+    ku: 4
+    text: あまの小舟の
+    chunks: [あまの, 小舟の]
+    readings: [あまの, をぶねの]
+    candidate: [true, true]
+  - cardNo: 93
+    ku: 5
+    text: つなでかなしも
+    chunks: [つなで, かなしも]
+    readings: [つなで, かなしも]
+    candidate: [true, false]
+  - cardNo: 94
+    ku: 1
+    text: み吉野の
+    chunks: [み吉野の]
+    readings: [みよしのの]
+    candidate: [true]
+  - cardNo: 94
+    ku: 2
+    text: 山の秋風
+    chunks: [山の, 秋風]
+    readings: [やまの, あきかぜ]
+    candidate: [true, true]
+  - cardNo: 94
+    ku: 3
+    text: さ夜ふけて
+    chunks: [さ夜, ふけて]
+    readings: [さよ, ふけて]
+    candidate: [false, false]
+  - cardNo: 94
+    ku: 4
+    text: ふるさと寒く
+    chunks: [ふるさと, 寒く]
+    readings: [ふるさと, さむく]
+    candidate: [true, false]
+  - cardNo: 94
+    ku: 5
+    text: 衣うつなり
+    chunks: [衣, うつなり]
+    readings: [ころも, うつなり]
+    candidate: [true, false]
+  - cardNo: 95
+    ku: 1
+    text: おほけなく
+    chunks: [おほけなく]
+    readings: [おほけなく]
+    candidate: [false]
+  - cardNo: 95
+    ku: 2
+    text: うき世の民に
+    chunks: [うき, 世の, 民に]
+    readings: [うき, よの, たみに]
+    candidate: [false, true, true]
+  - cardNo: 95
+    ku: 3
+    text: おほふかな
+    chunks: [おほふかな]
+    readings: [おほふかな]
+    candidate: [false]
+  - cardNo: 95
+    ku: 4
+    text: わが立つ杣に
+    chunks: [わが, 立つ, 杣に]
+    readings: [わが, たつ, そまに]
+    candidate: [false, false, true]
+  - cardNo: 95
+    ku: 5
+    text: 墨染の袖
+    chunks: [墨染の, 袖]
+    readings: [すみぞめの, そで]
+    candidate: [true, true]
+  - cardNo: 96
+    ku: 1
+    text: 花さそふ
+    chunks: [花, さそふ]
+    readings: [はな, さそふ]
+    candidate: [true, false]
+  - cardNo: 96
+    ku: 2
+    text: 嵐の庭の
+    chunks: [嵐の, 庭の]
+    readings: [あらしの, にはの]
+    candidate: [true, true]
+  - cardNo: 96
+    ku: 3
+    text: 雪ならで
+    chunks: [雪ならで]
+    readings: [ゆきならで]
+    candidate: [true]
+  - cardNo: 96
+    ku: 4
+    text: ふりゆくものは
+    chunks: [ふりゆく, ものは]
+    readings: [ふりゆく, ものは]
+    candidate: [false, false]
+  - cardNo: 96
+    ku: 5
+    text: わが身なりけり
+    chunks: [わが, 身なりけり]
+    readings: [わが, みなりけり]
+    candidate: [false, true]
+  - cardNo: 97
+    ku: 1
+    text: こぬ人を
+    chunks: [こぬ, 人を]
+    readings: [こぬ, ひとを]
+    candidate: [false, true]
+  - cardNo: 97
+    ku: 2
+    text: まつほの浦の
+    chunks: [まつほの, 浦の]
+    readings: [まつほの, うらの]
+    candidate: [true, true]
+  - cardNo: 97
+    ku: 3
+    text: 夕なぎに
+    chunks: [夕なぎに]
+    readings: [ゆふなぎに]
+    candidate: [true]
+  - cardNo: 97
+    ku: 4
+    text: 焼くやもしほの
+    chunks: [焼くや, もしほの]
+    readings: [やくや, もしほの]
+    candidate: [false, true]
+  - cardNo: 97
+    ku: 5
+    text: 身もこがれつつ
+    chunks: [身も, こがれつつ]
+    readings: [みも, こがれつつ]
+    candidate: [true, false]
+  - cardNo: 98
+    ku: 1
+    text: 風そよぐ
+    chunks: [風, そよぐ]
+    readings: [かぜ, そよぐ]
+    candidate: [true, false]
+  - cardNo: 98
+    ku: 2
+    text: ならの小川の
+    chunks: [ならの, 小川の]
+    readings: [ならの, をがはの]
+    candidate: [true, true]
+  - cardNo: 98
+    ku: 3
+    text: 夕ぐれは
+    chunks: [夕ぐれは]
+    readings: [ゆふぐれは]
+    candidate: [true]
+  - cardNo: 98
+    ku: 4
+    text: みそぎぞ夏の
+    chunks: [みそぎぞ, 夏の]
+    readings: [みそぎぞ, なつの]
+    candidate: [true, true]
+  - cardNo: 98
+    ku: 5
+    text: しるしなりける
+    chunks: [しるしなりける]
+    readings: [しるしなりける]
+    candidate: [true]
+  - cardNo: 99
+    ku: 1
+    text: 人もをし
+    chunks: [人も, をし]
+    readings: [ひとも, をし]
+    candidate: [true, false]
+  - cardNo: 99
+    ku: 2
+    text: 人もうらめし
+    chunks: [人も, うらめし]
+    readings: [ひとも, うらめし]
+    candidate: [true, false]
+  - cardNo: 99
+    ku: 3
+    text: あぢきなく
+    chunks: [あぢきなく]
+    readings: [あぢきなく]
+    candidate: [false]
+  - cardNo: 99
+    ku: 4
+    text: 世を思ふゆゑに
+    chunks: [世を, 思ふ, ゆゑに]
+    readings: [よを, おもふ, ゆゑに]
+    candidate: [true, false, false]
+  - cardNo: 99
+    ku: 5
+    text: 物思ふ身は
+    chunks: [物, 思ふ, 身は]
+    readings: [もの, おもふ, みは]
+    candidate: [false, false, true]
+  - cardNo: 100
+    ku: 1
+    text: ももしきや
+    chunks: [ももしきや]
+    readings: [ももしきや]
+    candidate: [true]
+  - cardNo: 100
+    ku: 2
+    text: ふるき軒ばの
+    chunks: [ふるき, 軒ばの]
+    readings: [ふるき, のきばの]
+    candidate: [false, true]
+  - cardNo: 100
+    ku: 3
+    text: しのぶにも
+    chunks: [しのぶにも]
+    readings: [しのぶにも]
+    candidate: [false]
+  - cardNo: 100
+    ku: 4
+    text: なほあまりある
+    chunks: [なほ, あまりある]
+    readings: [なほ, あまりある]
+    candidate: [false, false]
+  - cardNo: 100
+    ku: 5
+    text: 昔なりけり
+    chunks: [昔なりけり]
+    readings: [むかしなりけり]
+    candidate: [true]
