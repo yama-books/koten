@@ -250,7 +250,8 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
           prompt: poem.ku.map((value: string, i: number) => i === kuIndex ? inKu : value).join(''),
           answer, answerHistorical: answerReading, answerModern: answerReading,
           acceptedAnswers: accepted, partialAnswers: [],
-          candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: null, ...metadata(ledger),
+          // **注記は句についての説明なので、その句の一部を隠す問でも出す**（掛詞など）。
+          candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: learnerNote(ledger), ...metadata(ledger),
         });
       };
       build(2, `c${index + 1}`, chunk, reading);
