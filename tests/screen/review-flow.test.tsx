@@ -12,7 +12,7 @@ import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
  */
 const poemsJson = readFileSync(join(process.cwd(), 'packages/hyakunin/src/data/generated/poems.json'), 'utf8');
 const poems = JSON.parse(poemsJson) as readonly { cardNo: number; ku: string[]; author: { canonical: string }; reading: { historical: { ku: string[]; author: string }; modern: { ku: string[]; author: string } } }[];
-const meta = { skill: 'text' as const, blankUnit: 'word' as const, blankedKu: [1], rung: 3, candidates: [] as string[], normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null };
+const meta = { skill: 'text' as const, blankUnit: 'word' as const, blankedKu: [1], rung: 1, candidates: [] as string[], normalization: 'kana' as const, note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed' as const, confirmationMode: 'individual' as const, confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null };
 const cards = [10, 11];
 const poemOf = (cardNo: number) => poems.find((poem) => poem.cardNo === cardNo)!;
 const poemId = (cardNo: number) => `p${String(cardNo).padStart(3, '0')}`;

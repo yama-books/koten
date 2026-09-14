@@ -8,6 +8,9 @@ import { emit } from './emit.ts';
 import { assertGeneratedCurrent, validateData } from './validate.ts';
 import { applyReview } from './apply-review.ts';
 import { generateQuestions } from './questions.ts';
+import { parseBlankChunksYaml } from '../blank-chunks/yaml.ts';
+import { existsSync, readFileSync } from 'node:fs';
+import nodePath from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export function buildData(reviewDirectory = paths.review) {
@@ -29,7 +32,10 @@ export function buildData(reviewDirectory = paths.review) {
       sourceRef: '百人一首_本文・作者_一次データ.md', dataVersion: DATA_VERSION };
   });
   const reviewed = applyReview(poems, reviewDirectory, poems.length * 5);
-  const questions = generateQuestions(reviewed.poems, reviewed.review);
+  // 語の境目の台帳（発注085）。無ければ段1・2 を作らない。
+  const chunksPath = nodePath.join(paths.review, 'blank-chunks.yaml');
+  const blankChunks = existsSync(chunksPath) ? parseBlankChunksYaml(readFileSync(chunksPath, 'utf8')).entries : [];
+  const questions = generateQuestions(reviewed.poems, reviewed.review, undefined, blankChunks);
   // **ここが止め口である。** 読みの割り付けが決まらない句を残したまま配らない——
   // 機械に 1 つ選ばせると、誤った形（`よしの里に` など）が正解として配られる（裁定 D-10）。
   if (questions.allocationProblems.length > 0) throw new Error(['V-20: 読みの割り付けが決まらない句がある', ...questions.allocationProblems].join(String.fromCharCode(10)));

@@ -21,7 +21,8 @@
     "check:font": "node --experimental-strip-types tools/font-check/index.ts",
     "check:font-weight": "node --experimental-strip-types tools/font-weight-check/index.ts",
     "check:font-assets": "node --experimental-strip-types tools/font-assets-check/index.ts",
-    "check:storage": "node --experimental-strip-types tools/check-storage/index.ts"
+    "check:storage": "node --experimental-strip-types tools/check-storage/index.ts",
+    "chunks:build": "node --experimental-strip-types tools/blank-chunks/build.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

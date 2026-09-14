@@ -24,8 +24,8 @@ const correct = (questionId: string) => ({ questionId, poemId: questionId.slice(
 const wrong = (questionId: string) => ({ questionId, poemId: questionId.slice(0, 4), outcome: 'incorrect' as const });
 
 test('天井: 段ごとの天井は上がっていく', () => {
-  assert.deepEqual(RUNG_CAPS, { 3: 55, 4: 70, 5: 80, 6: 90, 7: 100 });
-  assert.equal(LOWEST_RUNG, 3);
+  assert.deepEqual(RUNG_CAPS, { 1: 25, 2: 40, 3: 55, 4: 70, 5: 80, 6: 90, 7: 100 });
+  assert.equal(LOWEST_RUNG, 1);
   assert.equal(FLAG_RUNG, 8);
 });
 
@@ -41,21 +41,22 @@ test('天井: 段8は点を動かさないので天井を持たない', () => {
   assert.equal(capFor('free-input', FLAG_RUNG), 0, '段8で点が入ってはいけない');
 });
 
-test('進み: 何も解いていなければ段3が開いている', () => {
+test('進み: 段1・2 の問題を持たない歌は、通り抜けて段3から始まる', () => {
+  // 目録に段1・2 が無ければ、その段は空なので制覇済みとして通り抜ける。
   const progress = rungProgress([], catalogue);
   assert.equal(progress.get('p001')?.openRung, 3);
-  assert.deepEqual(progress.get('p001')?.cleared, []);
+  assert.deepEqual(progress.get('p001')?.cleared, [1, 2]);
 });
 
 test('進み: その段を全部正解すると次の段が開く', () => {
   const progress = rungProgress([correct('p001-blank-ku1'), correct('p001-blank-ku2')], catalogue);
-  assert.deepEqual(progress.get('p001')?.cleared, [3]);
+  assert.deepEqual(progress.get('p001')?.cleared, [1, 2, 3]);
   assert.equal(progress.get('p001')?.openRung, 4);
 });
 
 test('進み: 1問でも残っていれば開かない', () => {
   const progress = rungProgress([correct('p001-blank-ku1')], catalogue);
-  assert.deepEqual(progress.get('p001')?.cleared, []);
+  assert.deepEqual(progress.get('p001')?.cleared, [1, 2], '段3を制覇していないのに開いている');
   assert.equal(progress.get('p001')?.openRung, 3);
 });
 
@@ -63,13 +64,15 @@ test('進み: 間違えても、後で正解すれば制覇になる', () => {
   // **日をまたいでよい。間違えても後で正解すればよい**（依頼者裁定・2026-09-15）。
   // 厳しくすると段2は最大7問なので事実上進めなくなる。
   const progress = rungProgress([wrong('p001-blank-ku1'), correct('p001-blank-ku2'), correct('p001-blank-ku1')], catalogue);
-  assert.deepEqual(progress.get('p001')?.cleared, [3]);
+  assert.deepEqual(progress.get('p001')?.cleared, [1, 2, 3]);
 });
 
 test('進み: 段を飛ばせない', () => {
   // 段4を解いても、段3が残っていれば段5は開かない。
+  // 段4 を解いた記録があるので「引き戻さない」で段4 のままだが、**段5 は開かない。**
   const progress = rungProgress([correct('p001-blank-kami'), correct('p001-blank-shimo')], catalogue);
-  assert.equal(progress.get('p001')?.openRung, 3, '段3を飛ばして進んでいる');
+  assert.equal(progress.get('p001')?.openRung, 4, '段3を飛ばして段5が開いている');
+  assert.equal(progress.get('p001')?.cleared.includes(3), false, '段3を制覇していないのに数えている');
 });
 
 test('進み: 作者問は段を進めない', () => {
@@ -91,17 +94,45 @@ test('進み: その歌に問題が無い段は、通り抜ける', () => {
     { questionId: 'p002-blank-naka', poemId: 'p002', rung: 5 },
   ];
   const progress = rungProgress([correct('p002-blank-ku1')], sparse);
-  assert.deepEqual(progress.get('p002')?.cleared, [3, 4], '問題の無い段4を通り抜けていない');
+  assert.deepEqual(progress.get('p002')?.cleared, [1, 2, 3, 4], '問題の無い段を通り抜けていない');
   assert.equal(progress.get('p002')?.openRung, 5);
 });
 
 test('進み: 段8まで制覇すると完全制覇になる', () => {
-  const full = [
+  const fullLadder = [
     { questionId: 'p003-blank-ku1', poemId: 'p003', rung: 3 },
     { questionId: 'p003-blank-number', poemId: 'p003', rung: 8 },
   ];
-  const before = rungProgress([correct('p003-blank-ku1')], full);
+  const before = rungProgress([correct('p003-blank-ku1')], fullLadder);
   assert.equal(before.get('p003')?.conquered, false);
-  const after = rungProgress([correct('p003-blank-ku1'), correct('p003-blank-number')], full);
+  const after = rungProgress([correct('p003-blank-ku1'), correct('p003-blank-number')], fullLadder);
   assert.equal(after.get('p003')?.conquered, true);
+});
+
+/**
+ * 2026-09-15・工程3。**段1・2 を足しても、いる場所より下へ引き戻さない。**
+ *
+ * `LOWEST_RUNG` を 1 へ下げると、**段3 を解いている最中の生徒が段1 へ戻される。**
+ * 授業の途中で「下げられた」と感じさせない——**上の段を解けた人は、下の段もできる。**
+ */
+const full = [
+  { questionId: 'p010-blank-kanji', poemId: 'p010', rung: 1 },
+  { questionId: 'p010-blank-chunk', poemId: 'p010', rung: 2 },
+  { questionId: 'p010-blank-ku1', poemId: 'p010', rung: 3 },
+];
+
+test('進み: 記録の無い学習者は一番下の段から始まる', () => {
+  assert.equal(rungProgress([], full).get('p010')?.openRung, 1);
+});
+
+test('進み: 上の段を解いた学習者を、下の段へ引き戻さない', () => {
+  // 段1・2 を一度も解いていないが、段3 に正解がある（段1・2 を足す前からの学習者）。
+  const progress = rungProgress([correct('p010-blank-ku1')], full);
+  assert.equal(progress.get('p010')?.openRung, 3, '段1へ引き戻されている');
+});
+
+test('進み: 引き戻さないだけで、制覇の記録は作らない', () => {
+  // **「解けた」と「制覇した」は別である。** 飛ばした段を制覇済みに数えない。
+  const progress = rungProgress([correct('p010-blank-ku1')], full);
+  assert.deepEqual(progress.get('p010')?.cleared, []);
 });

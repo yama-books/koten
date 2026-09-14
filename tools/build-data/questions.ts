@@ -2,6 +2,7 @@ import { alignments, chunks, mixedForms } from './mixed-forms.ts';
 
 type Poem = any;
 type Review = { authors: any[]; blanks: any[] };
+export type BlankChunks = ReadonlyArray<{ cardNo: number; ku: number; text: string; chunks: string[]; readings: string[]; candidate: boolean[] }>;
 
 function unique(values: string[]) {
   return [...new Set(values)];
@@ -173,9 +174,30 @@ function joinAcross(perKu: readonly (readonly string[])[]): string[] {
   return perKu.reduce<string[]>((carried, forms) => carried.flatMap((prefix) => forms.map((form) => prefix + form)), ['']);
 }
 
-export function generateQuestions(poems: Poem[], review: Review, allocations: Allocations = READING_ALLOCATIONS) {
+export function generateQuestions(poems: Poem[], review: Review, allocations: Allocations = READING_ALLOCATIONS, blankChunks: BlankChunks = []) {
   /** 読みの割り付けが決まらなかった句。**実データで空でなければ `buildData` が止める。** */
   const allocationProblems: string[] = [];
+  /*
+   * 台帳の区切りで作る中間形（工程3・2026-09-15）。
+   *
+   * 漢字のかたまりだけで切ると `夏来` が 1 つになり、**`夏きにけらし` が ○ にならない**
+   * ——`夏` と `来` は別の語だからである（D-8「混ぜ方は自由」に照らせば ○ であるべき）。
+   * **語の境目は台帳が持つ。機械で推測しない**（D-22）。
+   *
+   * **足すだけで、減らさない。** 既存の受理集合は 1 本も動かさない。
+   */
+  const ledgerForms = (cardNo: number, ku: number): string[] => {
+    const entry = blankChunks.find((item) => item.cardNo === cardNo && item.ku === ku);
+    if (entry === undefined || entry.chunks.length < 2) return [];
+    let forms = [''];
+    entry.chunks.forEach((chunk, index) => {
+      const reading = entry.readings[index]!;
+      const both = chunk === reading ? [chunk] : [chunk, reading];
+      forms = forms.flatMap((prefix) => both.map((part) => prefix + part));
+    });
+    return forms;
+  };
+
   const blanksByPoem = poems.map((poem) => poem.ku.map((answer: string, index: number) => {
     const entry = review.blanks.find((item) => item.cardNo === poem.cardNo && item.ku === index + 1);
     const acceptedTextForms = poem.acceptedTextForms?.[index] ?? [];
@@ -190,12 +212,57 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
         [
           ...acceptedTextForms, ...extraAccepted(entry),
           ...intermediateForms(unique([answer, ...acceptedTextForms, ...extraAccepted(entry)]), poem.reading.historical.ku[index], `${poem.poemId}-blank-ku${index + 1}`, allocationProblems, allocations),
+          ...ledgerForms(poem.cardNo, index + 1),
         ],
         extraPartials(entry),
       ),
       candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry),
     };
   }));
+
+  /*
+   * 段1（送り仮名を残して漢字だけ）と段2（句未満）。**語の境目は台帳が持つ**
+   * （`review/blank-chunks.yaml`・発注085）。**機械で推測しない**——
+   * 漢字のかたまりで切ると `夏来`・`声聞`・`身世` のような非語ができる（D-22）。
+   *
+   * 段2 は資料が空欄候補と印を付けたかたまりを 1 つ隠す。
+   * 段1 はそのうち**送り仮名を持つ語の漢字だけ**を隠す（`朝ぼらけ` なら `朝`）。
+   * **送り仮名が手がかりとして残るので段2 より易しい。**
+   * 全部漢字の語は段1 と段2 が同じ形になるので、段1 には入れない。
+   */
+  const words = blankChunks.flatMap((entry) => {
+    const poem = poems.find((item: Poem) => item.cardNo === entry.cardNo);
+    if (poem === undefined) return [];
+    const kuIndex = entry.ku - 1;
+    const ledger = review.blanks.find((item) => item.cardNo === entry.cardNo && item.ku === entry.ku);
+    return entry.chunks.flatMap((chunk, index) => {
+      if (!entry.candidate[index]) return [];
+      const reading = entry.readings[index]!;
+      const made: Record<string, unknown>[] = [];
+      const build = (rung: number, suffix: string, answer: string, answerReading: string) => {
+        const blank = '＿'.repeat(Math.max(1, [...answer].length));
+        const inKu = entry.text.replace(answer, blank);
+        const accepted = unique([answer, answerReading]);
+        made.push({
+          questionId: `${poem.poemId}-blank-ku${entry.ku}-${suffix}`, poemId: poem.poemId,
+          skill: 'text', type: 'blank', blankUnit: rung === 1 ? 'word' : 'bunsetsu',
+          blankedKu: [entry.ku], rung,
+          prompt: poem.ku.map((value: string, i: number) => i === kuIndex ? inKu : value).join(''),
+          answer, answerHistorical: answerReading, answerModern: answerReading,
+          acceptedAnswers: accepted, partialAnswers: [],
+          candidates: [], normalization: 'kana', sourceRef: poem.sourceRef, note: null, ...metadata(ledger),
+        });
+      };
+      build(2, `c${index + 1}`, chunk, reading);
+      const runs = chunks(chunk).filter((item) => item.kanji);
+      if (runs.length === 1 && runs[0]!.text !== chunk) {
+        const found = alignments(chunk, reading);
+        // **一意に決まるときだけ作る。** 迷ったら作らない——誤った読みを ○ にしない。
+        if (found.length === 1) build(1, `k${index + 1}`, runs[0]!.text, found[0]![0]!);
+      }
+      return made;
+    });
+  });
 
   const spans = poems.flatMap((poem, poemIndex) => {
     const perKu = blanksByPoem[poemIndex]!;
@@ -221,7 +288,7 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
       };
     });
   });
-  const blanks = [...blanksByPoem.flat(), ...spans];
+  const blanks = [...blanksByPoem.flat(), ...words, ...spans];
   const authors = poems.flatMap((poem) => {
     const entry = review.authors.find((item) => item.cardNo === poem.cardNo);
     const base = { poemId: poem.poemId, skill: 'author', type: 'author', blankUnit: null, blankedKu: [], rung: null, prompt: poem.text, answerHistorical: poem.reading.historical.author, answerModern: poem.reading.modern.author, sourceRef: poem.sourceRef, note: learnerNote(entry), ...metadata(entry) };

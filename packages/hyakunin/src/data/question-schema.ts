@@ -1,6 +1,8 @@
 import type { Normalization, Question } from '../domain/question.ts';
+// **段の範囲は 1 か所に置く。** ここで別に数を書くと、梯子を伸ばしたとき片方だけ古くなる。
+import { FLAG_RUNG as HIGHEST_RUNG, LOWEST_RUNG } from '@koten/shared/domain/mastery/rungs';
 
-export type BlankUnit = 'word' | 'phrase' | 'ku' | null;
+export type BlankUnit = 'word' | 'bunsetsu' | 'ku' | null;
 export type PublishedQuestion = Readonly<{
   questionId: string;
   poemId: string;
@@ -21,8 +23,7 @@ export type PublishedQuestion = Readonly<{
   /**
    * 難度の段（3〜8）。作者問は `null`——作者は別の梯子（選択式・読み・記述）を持つ。
    *
-   * 3=一句 / 4=上句・下句 / 5=間3句 / 6=残り4句 / 7=全部書く / 8=番号だけ。
-   * 段1（漢字だけ）・段2（句未満）は台帳の区切りが要るので未着手（工程3）。
+   * 1=漢字だけ / 2=句未満 / 3=一句 / 4=上句・下句 / 5=間3句 / 6=残り4句 / 7=全部書く / 8=番号だけ。
    */
   rung: number | null;
   prompt: string;
@@ -61,8 +62,6 @@ function isBlankedKu(value: unknown): value is number[] {
     && (index === 0 || (value[index - 1] as number) < item));
 }
 
-const LOWEST_RUNG = 3;
-const HIGHEST_RUNG = 8;
 function isRung(value: unknown): value is number | null {
   return value === null || (Number.isInteger(value) && (value as number) >= LOWEST_RUNG && (value as number) <= HIGHEST_RUNG);
 }
@@ -73,7 +72,7 @@ function isPublishedQuestion(value: unknown): value is PublishedQuestion {
     && typeof value.poemId === 'string'
     && (value.skill === 'text' || value.skill === 'author' || value.skill === 'reading')
     && (value.type === 'blank' || value.type === 'author')
-    && (value.blankUnit === 'word' || value.blankUnit === 'phrase' || value.blankUnit === 'ku' || value.blankUnit === null)
+    && (value.blankUnit === 'word' || value.blankUnit === 'bunsetsu' || value.blankUnit === 'ku' || value.blankUnit === null)
     && isBlankedKu(value.blankedKu)
     && isRung(value.rung)
     && typeof value.prompt === 'string'

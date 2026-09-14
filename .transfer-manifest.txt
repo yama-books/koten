@@ -875,12 +875,14 @@ packages/shared/src/ui/screens/Transfer.tsx
 packages/shared/tsconfig.json
 publish-allowlist.txt
 review/authors.yaml
+review/blank-chunks.yaml
 review/blanks.yaml
 review/kugire.yaml
 review/layout.yaml
 review/readings.yaml
 tests/data/also-accepted-routing.test.ts
 tests/data/also-partial.test.ts
+tests/data/blank-chunks.test.ts
 tests/data/generated-parses.test.ts
 tests/data/intermediate-forms.test.ts
 tests/data/mixed-forms.test.ts
@@ -892,6 +894,7 @@ tests/data/reading-review.test.ts
 tests/data/reproducibility.test.ts
 tests/data/review-approve.test.ts
 tests/data/review.test.ts
+tests/data/rung12-guards.test.ts
 tests/data/rungs.test.ts
 tests/data/validate.test.ts
 tests/data/variants-fixture.test.ts
@@ -994,6 +997,13 @@ tests/unit/telemetry/rules-parity.test.ts
 tests/unit/telemetry/sender.test.ts
 tests/unit/telemetry/static.test.ts
 tests/unit/telemetry/transport.test.ts
+tools/blank-chunks/align-reading.ts
+tools/blank-chunks/align-seihon.ts
+tools/blank-chunks/allocations.ts
+tools/blank-chunks/build.ts
+tools/blank-chunks/parse-source.ts
+tools/blank-chunks/tokenize.ts
+tools/blank-chunks/yaml.ts
 tools/build-data/apply-review.ts
 tools/build-data/emit.ts
 tools/build-data/hash.ts

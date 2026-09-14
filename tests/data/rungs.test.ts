@@ -76,3 +76,69 @@ test('段: 段3 の受理集合を1本も変えていない', () => {
   assert.equal(ku.length, 500);
   assert.ok(ku.every((question) => question.acceptedAnswers.length > 0));
 });
+
+/**
+ * 2026-09-15・工程3。**段1（送り仮名を残して漢字だけ）と段2（句未満）。**
+ * 語の境目は `review/blank-chunks.yaml` が持つ——**機械で推測しない**（D-22）。
+ */
+test('段: 段1・段2 が全首ぶんそろっている', () => {
+  // 段2 は資料が空欄候補と印を付けたかたまり、段1 はそのうち送り仮名を持つ語の漢字だけ。
+  assert.ok(countByRung(2) > 400, `段2 が ${countByRung(2)} 問では足りない`);
+  assert.ok(countByRung(1) > 250, `段1 が ${countByRung(1)} 問では足りない`);
+  const poemsWithRung2 = new Set(blanks.filter((q) => q.rung === 2).map((q) => q.poemId));
+  assert.equal(poemsWithRung2.size, 100, '段2 が 1 問も無い歌がある');
+});
+
+test('段: 段2 は句の中の 1 語だけを隠す', () => {
+  // 台帳は助詞を語へ付けて区切る（`門田の` / `稲葉`）。**こちらで切り直さない**（D-22）。
+  const question = of('p071-blank-ku2-c1');
+  assert.deepEqual(question.blankedKu, [2]);
+  assert.equal(question.rung, 2);
+  assert.equal(question.answer, '門田の');
+  assert.equal(question.answerHistorical, 'かどたの');
+  assert.ok(question.prompt.includes('＿'), '空欄の印が無い');
+  assert.ok(question.prompt.includes('稲葉'), '隠していない部分まで消えている');
+});
+
+test('段: 段1 は送り仮名を残して漢字だけを隠す', () => {
+  // 「朝ぼらけ」なら「朝」だけ。**送り仮名が手がかりとして残るので段2 より易しい。**
+  const question = blanks.find((q) => q.rung === 1 && q.poemId === 'p031');
+  assert.ok(question, '31番に段1 が無い');
+  assert.ok(question.answer.length < 4, `段1 の答えが長すぎる: ${question.answer}`);
+});
+
+test('段: 段1 は送り仮名と助詞を残し、漢字だけを問う', () => {
+  // 段2 が `門田の` を隠すのに対し、段1 は `門田` だけ。**「の」が手がかりとして残る。**
+  const word = of('p071-blank-ku2-c1');
+  const kanji = of('p071-blank-ku2-k1');
+  assert.equal(kanji.rung, 1);
+  assert.equal(kanji.answer, '門田');
+  assert.equal(kanji.answerHistorical, 'かどた');
+  assert.ok([...kanji.answer].length < [...word.answer].length, '段1 が段2 より短くない');
+  assert.deepEqual(kanji.acceptedAnswers, ['門田', 'かどた'], '漢字とかなの両方を受けていない');
+});
+
+test('段: 段1・2 は裁定した割り付けを守る（誤形を作らない）', () => {
+  // D-14 の誤形が受理集合に入っていないこと。**走査対象が空では何も示さない。**
+  const rung12 = blanks.filter((q) => q.rung === 1 || q.rung === 2);
+  assert.ok(rung12.length > 500, `段1・2 が ${rung12.length} 問では検査にならない`);
+  const forms = new Set(rung12.flatMap((q) => q.acceptedAnswers));
+  for (const wrong of ['な', 'よしの', 'をの', 'ひとのいの', 'ものお', 'き', 'つ', 'いく', 'けふこ']) {
+    const owner = rung12.find((q) => q.acceptedAnswers.includes(wrong) && q.answerHistorical !== wrong);
+    assert.equal(owner, undefined, `誤った読みが受理集合にある: ${wrong}（${owner?.questionId}）`);
+  }
+  assert.ok(forms.size > 0);
+});
+
+test('段3: 語の境目が台帳にあるなら、そこでも混ぜ書きを受ける（D-8）', () => {
+  /*
+   * 2026-09-15・工程3で塞いだ穴。漢字のかたまりで切ると `夏来` が 1 つになり、
+   * **`夏きにけらし` が ○ にならなかった**（D-8「混ぜ方は自由」に照らせば ○ であるべき）。
+   * 台帳は `夏 / 来にけらし` と割っているので、そちらを使えば出せる。
+   */
+  const question = of('p002-blank-ku2');
+  assert.ok(question.acceptedAnswers.includes('夏来にけらし'), '正本が無い');
+  assert.ok(question.acceptedAnswers.includes('なつきにけらし'), '全かなが無い');
+  assert.ok(question.acceptedAnswers.includes('夏きにけらし'), '台帳の境目での中間形が無い');
+  assert.ok(question.acceptedAnswers.includes('なつ来にけらし'), '台帳の境目での中間形が無い');
+});

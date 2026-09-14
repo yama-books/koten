@@ -15,15 +15,16 @@ import { MASTERY_RULES } from './rules.v1.ts';
  * 上げると `computeMastery` が過去のイベントを全部捨てて**全員の習熟度が 0 に戻る**
  * （`compute.ts` の絞り込み）。段は問題目録から引く。
  */
-export const LOWEST_RUNG = 3;
+export const LOWEST_RUNG = 1;
 /** 点を動かさない段。制覇すると「完全制覇」の印が立つ（依頼者裁定——`clamp` を触らない）。 */
 export const FLAG_RUNG = 8;
 
 /**
  * 段ごとの天井。刻みは 25/15/15/15/10/10/10——**前を広く、上を細かく。**
- * 段1（漢字だけ・25）と段2（句未満・40）は台帳の区切りが要るので未着手（工程3）。
+ * 最初の 25 は 3 回の正解で届く。実測で生徒の最高習熟度は中央値 21・最大 79 であり、
+ * **従来の最初の到達点（90）には誰も届いていなかった。**
  */
-export const RUNG_CAPS: Readonly<Record<number, number>> = { 3: 55, 4: 70, 5: 80, 6: 90, 7: 100 };
+export const RUNG_CAPS: Readonly<Record<number, number>> = { 1: 25, 2: 40, 3: 55, 4: 70, 5: 80, 6: 90, 7: 100 };
 
 /**
  * 実効の天井。**方式の天井と段の天井の低いほう。**
@@ -64,6 +65,13 @@ export function rungProgress(
     byPoem.set(entry.poemId, rungs);
   }
 
+  // **正解したことのある一番上の段。** 下の段を足しても、ここより下へ引き戻さない。
+  const highestAnswered = new Map<string, number>();
+  for (const entry of catalogue) {
+    if (entry.rung === null || !answered.has(entry.questionId)) continue;
+    highestAnswered.set(entry.poemId, Math.max(highestAnswered.get(entry.poemId) ?? LOWEST_RUNG, entry.rung));
+  }
+
   const progress = new Map<string, RungState>();
   for (const [poemId, rungs] of byPoem) {
     const cleared: number[] = [];
@@ -75,6 +83,15 @@ export function rungProgress(
       cleared.push(rung);
       openRung = Math.min(rung + 1, FLAG_RUNG);
     }
+    /*
+     * **いる場所より下へ引き戻さない**（工程3・2026-09-15）。
+     * 段1・2 を足すと、段3 を解いている最中の生徒が段1 へ戻される。
+     * **上の段を解けた人は、下の段もできる。** 授業の途中で「下げられた」と感じさせない。
+     *
+     * **制覇の記録は作らない。**「解けた」と「制覇した」は別である——
+     * 飛ばした段を制覇済みに数えると、あとで数えた本数が合わなくなる。
+     */
+    openRung = Math.max(openRung, highestAnswered.get(poemId) ?? LOWEST_RUNG);
     progress.set(poemId, { cleared, openRung, conquered: cleared.includes(FLAG_RUNG) });
   }
   return progress;
