@@ -129,3 +129,16 @@ test('段: 段1・2 は裁定した割り付けを守る（誤形を作らない
   }
   assert.ok(forms.size > 0);
 });
+
+test('段3: 語の境目が台帳にあるなら、そこでも混ぜ書きを受ける（D-8）', () => {
+  /*
+   * 2026-09-15・工程3で塞いだ穴。漢字のかたまりで切ると `夏来` が 1 つになり、
+   * **`夏きにけらし` が ○ にならなかった**（D-8「混ぜ方は自由」に照らせば ○ であるべき）。
+   * 台帳は `夏 / 来にけらし` と割っているので、そちらを使えば出せる。
+   */
+  const question = of('p002-blank-ku2');
+  assert.ok(question.acceptedAnswers.includes('夏来にけらし'), '正本が無い');
+  assert.ok(question.acceptedAnswers.includes('なつきにけらし'), '全かなが無い');
+  assert.ok(question.acceptedAnswers.includes('夏きにけらし'), '台帳の境目での中間形が無い');
+  assert.ok(question.acceptedAnswers.includes('なつ来にけらし'), '台帳の境目での中間形が無い');
+});

@@ -177,6 +177,27 @@ function joinAcross(perKu: readonly (readonly string[])[]): string[] {
 export function generateQuestions(poems: Poem[], review: Review, allocations: Allocations = READING_ALLOCATIONS, blankChunks: BlankChunks = []) {
   /** 読みの割り付けが決まらなかった句。**実データで空でなければ `buildData` が止める。** */
   const allocationProblems: string[] = [];
+  /*
+   * 台帳の区切りで作る中間形（工程3・2026-09-15）。
+   *
+   * 漢字のかたまりだけで切ると `夏来` が 1 つになり、**`夏きにけらし` が ○ にならない**
+   * ——`夏` と `来` は別の語だからである（D-8「混ぜ方は自由」に照らせば ○ であるべき）。
+   * **語の境目は台帳が持つ。機械で推測しない**（D-22）。
+   *
+   * **足すだけで、減らさない。** 既存の受理集合は 1 本も動かさない。
+   */
+  const ledgerForms = (cardNo: number, ku: number): string[] => {
+    const entry = blankChunks.find((item) => item.cardNo === cardNo && item.ku === ku);
+    if (entry === undefined || entry.chunks.length < 2) return [];
+    let forms = [''];
+    entry.chunks.forEach((chunk, index) => {
+      const reading = entry.readings[index]!;
+      const both = chunk === reading ? [chunk] : [chunk, reading];
+      forms = forms.flatMap((prefix) => both.map((part) => prefix + part));
+    });
+    return forms;
+  };
+
   const blanksByPoem = poems.map((poem) => poem.ku.map((answer: string, index: number) => {
     const entry = review.blanks.find((item) => item.cardNo === poem.cardNo && item.ku === index + 1);
     const acceptedTextForms = poem.acceptedTextForms?.[index] ?? [];
@@ -191,6 +212,7 @@ export function generateQuestions(poems: Poem[], review: Review, allocations: Al
         [
           ...acceptedTextForms, ...extraAccepted(entry),
           ...intermediateForms(unique([answer, ...acceptedTextForms, ...extraAccepted(entry)]), poem.reading.historical.ku[index], `${poem.poemId}-blank-ku${index + 1}`, allocationProblems, allocations),
+          ...ledgerForms(poem.cardNo, index + 1),
         ],
         extraPartials(entry),
       ),
