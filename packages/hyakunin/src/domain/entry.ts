@@ -17,6 +17,14 @@ export function progressFrom(events: readonly Event[], questions: readonly Publi
 }
 import { MASTERY_RULES } from '@koten/shared/domain/mastery/rules.v1';
 
+/**
+ * 一度は正解したことのある問題（依頼者・2026-09-15）。**記録から作る。**
+ * **呼び出し側で組み立てを書き写さない**——書き写すと片方だけ古くなる（`progressFrom` と同じ理由）。
+ */
+export function answeredFrom(events: readonly Event[]): ReadonlySet<string> {
+  return new Set(events.filter((event) => event.outcome === 'correct' && event.questionId !== undefined).map((event) => event.questionId!));
+}
+
 export type EntryId = 'quick' | 'view' | 'learn' | 'author' | 'review' | 'exam';
 export type EntryRule = Readonly<{ questionCount: number; blankWeight: number; authorWeight: number }>;
 
@@ -68,7 +76,21 @@ function inCardOrder(available: readonly PublishedQuestion[], cardNumbers: reado
   return orderedCards.flatMap((cardNo) => available.filter((question) => cardNumber(question) === cardNo));
 }
 
-function takeAcrossCards(available: readonly PublishedQuestion[], cardNumbers: readonly number[], seed: string, mode: OrderMode, rule: EntryRule, strictType = false): PublishedQuestion[] {
+/**
+ * **まだ正解していない問題を先に出す**（依頼者・2026-09-15）。
+ *
+ * 段の移行は「制覇」——その段を全部一度は正解すること——で起きる。
+ * **同じ句ばかり出ると、何回解いても制覇が進まず、段が上がらない。**
+ *
+ * **正解済みを捨てない。** その段を全部正解し終えた歌では、これまでどおり全部から選ぶ
+ * ——捨てると、制覇済みの段に居る歌が 1 問も出なくなる。
+ */
+function preferUnanswered(candidates: readonly PublishedQuestion[], answered: ReadonlySet<string>): readonly PublishedQuestion[] {
+  const unanswered = candidates.filter((question) => !answered.has(question.questionId));
+  return unanswered.length > 0 ? unanswered : candidates;
+}
+
+function takeAcrossCards(available: readonly PublishedQuestion[], cardNumbers: readonly number[], seed: string, mode: OrderMode, rule: EntryRule, strictType = false, answered: ReadonlySet<string> = new Set()): PublishedQuestion[] {
   const orderedCards = orderCardNumbers([...cardNumbers], mode, seed);
   const cycleLength = rule.blankWeight + rule.authorWeight;
   const used = new Set<string>();
@@ -80,7 +102,7 @@ function takeAcrossCards(available: readonly PublishedQuestion[], cardNumbers: r
     const cardQuestions = available.filter((question) => cardNumber(question) === cardNo && !used.has(question.questionId));
     const preferredType = isBlank ? 'blank' : 'author';
     const preferredQuestions = cardQuestions.filter((question) => question.type === preferredType);
-    const candidates = preferredQuestions.length > 0 ? preferredQuestions : strictType ? [] : cardQuestions;
+    const candidates = preferUnanswered(preferredQuestions.length > 0 ? preferredQuestions : strictType ? [] : cardQuestions, answered);
     const preferred = candidates[seededQuestionIndex(seed, cardNo, index, candidates.length)];
     if (preferred) {
       used.add(preferred.questionId);
@@ -103,7 +125,16 @@ function takeAcrossCards(available: readonly PublishedQuestion[], cardNumbers: r
  * kana（上限 80）の段は置かない。`kanji-to-kana` を記録する経路が出題画面に無く、
  * 出しても自由入力として記録されるので、段が段として働かないためである。
  */
-function authorQuestionIdFor(poemId: string, authorScore: number): string {
+function authorQuestionIdFor(poemId: string, authorScore: number, adjust: RungAdjust = 0): string {
+  /*
+   * **手動の調整は作者にも効く**（依頼者・2026-09-15）。これまでは本文の段にしか効かず、
+   * 「やさしくする」を押しても作者問題は同じものが出ていた。
+   *
+   * **向きだけを見る。** 作者は 2 通り（選択式・自由入力）しかないので、何段ぶん動かしたかは意味を持たない。
+   * `kana` を挟まないのは上の注記のとおりである。
+   */
+  if (adjust > 0) return `${poemId}-author-choice`;
+  if (adjust < 0) return `${poemId}-author-free`;
   return `${poemId}-author-${authorScore >= MASTERY_RULES.choice.cap ? 'free' : 'choice'}`;
 }
 
@@ -254,6 +285,11 @@ export function planQuestions(
    * 省略時は 0 で、自動の位置がそのまま配られる。
    */
   rungAdjust: RungAdjust = 0,
+  /**
+   * 一度は正解したことのある問題（依頼者・2026-09-15）。**同じ段の中をまんべんなく回すために渡す。**
+   * 省略時はこれまでどおりの選び方になる。
+   */
+  answered: ReadonlySet<string> = new Set(),
 ): PublishedQuestion[] {
   if (!available.length) return [];
   const served = servedRungs(available, progress, rungAdjust, masteryScores);
@@ -264,11 +300,11 @@ export function planQuestions(
     : ENTRY_RULES[entry];
   if (entry === 'review') return ordered;
   if (entry === 'view') return [];
-  if (entry === 'learn') return takeAcrossCards(available.filter((question) => isServedBlank(question, served)), cardNumbers, seed, mode, rule);
+  if (entry === 'learn') return takeAcrossCards(available.filter((question) => isServedBlank(question, served)), cardNumbers, seed, mode, rule, false, answered);
   // 作者問題は首ごとに 1 問へ絞る。kana/free も type は author なので、
   // questionId を明示しないと 1 首から複数の作者問題が候補に入る。
   const selectable = available.filter((question) => isServedBlank(question, served)
-    || (includeAuthors && question.questionId === authorQuestionIdFor(question.poemId, masteryScores[`${question.poemId}:author`] ?? 0)));
-  if (entry === 'quick' || entry === 'author' || entry === 'exam') return takeAcrossCards(selectable, cardNumbers, seed, mode, rule, true);
-  return takeAcrossCards(available, cardNumbers, seed, mode, rule);
+    || (includeAuthors && question.questionId === authorQuestionIdFor(question.poemId, masteryScores[`${question.poemId}:author`] ?? 0, rungAdjust)));
+  if (entry === 'quick' || entry === 'author' || entry === 'exam') return takeAcrossCards(selectable, cardNumbers, seed, mode, rule, true, answered);
+  return takeAcrossCards(available, cardNumbers, seed, mode, rule, false, answered);
 }

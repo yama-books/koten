@@ -905,6 +905,7 @@ tests/screen/answer-feedback.test.tsx
 tests/screen/author-method-wiring.test.tsx
 tests/screen/device-findings.test.tsx
 tests/screen/entries.test.tsx
+tests/screen/even-coverage.test.tsx
 tests/screen/feedback-timing.test.tsx
 tests/screen/harness.test.tsx
 tests/screen/history-transfer.test.tsx
@@ -931,9 +932,11 @@ tests/screen/stats-onboarding.test.tsx
 tests/screen/viewer.test.tsx
 tests/unit/app-config.test.ts
 tests/unit/asset-reference-allowlist.test.ts
+tests/unit/author-difficulty.test.ts
 tests/unit/ci-wiring.test.ts
 tests/unit/css-tokens.test.ts
 tests/unit/entry.test.ts
+tests/unit/even-coverage.test.ts
 tests/unit/flow.test.ts
 tests/unit/font-assets.test.ts
 tests/unit/font-coverage.test.ts

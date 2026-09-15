@@ -183,7 +183,7 @@ test('086: 自動の位置から離れていることが分かる', async () => 
   await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
   expect(root.textContent, '自動の位置に居るのに離れたと言っている').not.toContain('いつもより');
   await act(() => { easeButton(root).click(); });
-  expect(root.textContent).toContain('いつもよりやさしく');
+  expect(root.textContent, '文言は「しています」ではなく「します」である（依頼者・2026-09-15）').toContain('いつもよりやさしくします。');
   expect(root.textContent, '戻し方が分からない').toContain('おまかせ');
   root.remove();
 });
@@ -221,5 +221,20 @@ test('086: 難しさの操作は本番の三組に数えない', async () => {
   await act(() => { render(<RangePicker entry="exam" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
   expect(Array.from(root.querySelectorAll('button')).some((button) => button.textContent === 'やさしくする')).toBe(true);
   expect(root.querySelectorAll('.answer-mode')).toHaveLength(3);
+  root.remove();
+});
+
+test('086: 作者の入口では、本文の段ではなく作者の 2 通りで押せるかを決める', async () => {
+  // 作者は選択式と自由入力の 2 通りしかない。本文の段で押せるかを決めると、
+  // **一番下の段に居る学習者は作者をやさしくできない**（段と関係が無いのに）。
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="author" range={{ from: 1, to: 20 }} order="number" autoRung={1} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(easeButton(root).disabled, '作者をやさしくできない').toBe(false);
+  await act(() => { easeButton(root).click(); });
+  expect(easeButton(root).disabled, '2 通りしかないのに、まだ下げられる').toBe(true);
+  expect(hardenButton(root).disabled).toBe(false);
+  await act(() => { autoButton(root).click(); });
+  await act(() => { hardenButton(root).click(); });
+  expect(hardenButton(root).disabled, '2 通りしかないのに、まだ上げられる').toBe(true);
   root.remove();
 });
