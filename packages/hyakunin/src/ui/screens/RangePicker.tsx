@@ -39,6 +39,14 @@ export function RangePicker({ entry, range, order, autoRung, onStart, onBack }: 
   const [rungAdjust, setRungAdjust] = useState<RungAdjust>(0);
   const normalized = normalizeRange(from, to);
   const served = autoRung === undefined ? undefined : effectiveRung(autoRung, rungAdjust);
+  /*
+   * **作者の入口は本文の段を使わない**（依頼者・2026-09-15）。作者は選択式と自由入力の
+   * 2 通りしかないので、向きが決まればそれ以上は動かない。本文の段で決めると、
+   * **一番下の段に居る学習者が作者をやさしくできない**——段と関係が無いのに。
+   */
+  const authorOnly = entry === "author";
+  const mayEase = authorOnly ? rungAdjust <= 0 : autoRung !== undefined && canEase(autoRung, rungAdjust);
+  const mayHarden = authorOnly ? rungAdjust >= 0 : autoRung !== undefined && canHarden(autoRung, rungAdjust);
   return (
     <main class="range-picker">
       <header class="nav-edge">
@@ -135,7 +143,7 @@ export function RangePicker({ entry, range, order, autoRung, onStart, onBack }: 
           {/* **離れていることが分かる表示**。戻す手がかりが無いと迷子になる（§4.5）。 */}
           {rungAdjust !== 0 && (
             <p class="rung-away">
-              いつもより{rungAdjust > 0 ? "やさしく" : "むずかしく"}しています。「おまかせ」で戻ります。
+              いつもより{rungAdjust > 0 ? "やさしく" : "むずかしく"}します。「おまかせ」で戻ります。
               この回だけの調整で、次に始めるときは元に戻ります。
             </p>
           )}
@@ -144,8 +152,8 @@ export function RangePicker({ entry, range, order, autoRung, onStart, onBack }: 
             <p class="rung-flag-note">やさしくしている間は、完全制覇の印は立ちません。「おまかせ」で戻ります。</p>
           )}
           <div>
-            <button type="button" disabled={!canEase(autoRung, rungAdjust)} onClick={() => setRungAdjust((value) => value + 1)}>やさしくする</button>
-            <button type="button" disabled={!canHarden(autoRung, rungAdjust)} onClick={() => setRungAdjust((value) => value - 1)}>むずかしくする</button>
+            <button type="button" disabled={!mayEase} onClick={() => setRungAdjust((value) => value + 1)}>やさしくする</button>
+            <button type="button" disabled={!mayHarden} onClick={() => setRungAdjust((value) => value - 1)}>むずかしくする</button>
             {/* 自動へ戻す 1 手。無いと、どこまで戻せば元なのか分からなくなる（依頼者）。 */}
             <button type="button" disabled={rungAdjust === 0} onClick={() => setRungAdjust(0)}>おまかせ</button>
           </div>

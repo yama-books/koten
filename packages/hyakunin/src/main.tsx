@@ -22,7 +22,7 @@ import { sendStats, createHttpSend } from './telemetry/stats-sender.ts';
 import { appConfig } from '@koten/shared/app-config';
 import type { Session as LearningSession } from '@koten/shared/domain/event';
 import { createSeed } from './domain/order.ts';
-import { rangeAutoRung, planQuestions, progressFrom, type EntryId, type RungAdjust, type RungProgress } from './domain/entry.ts';
+import { answeredFrom, rangeAutoRung, planQuestions, progressFrom, type EntryId, type RungAdjust, type RungProgress } from './domain/entry.ts';
 import { planReviewQuestions } from './domain/review.ts';
 import type { PublishedQuestion } from './data/question-schema.ts';
 import type { Poem } from './data/schema.ts';
@@ -86,14 +86,14 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
    * ここで読み直すと、開始のたびに記録を二度読み、画面の切り替えが 1 拍遅れる。
    * どちらの入口も既にイベントを読んでいるので、その場で計算した値をそのまま渡す。
    */
-  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress; rungAdjust?: RungAdjust }) {
-    const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order, input.includeAuthors, input.masteryScores, input.progress, input.rungAdjust);
+  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress; rungAdjust?: RungAdjust; answered?: ReadonlySet<string> }) {
+    const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order, input.includeAuthors, input.masteryScores, input.progress, input.rungAdjust, input.answered);
     setSelected((current) => current ? { ...current, entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session, progress: input.progress, masteryScores: input.masteryScores } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session, progress: input.progress, masteryScores: input.masteryScores });
     setScreen('session');
   }
 
-  function newSession(input: { entry: EntryId; range: { from: number; to: number }; order: UserSettings['order']; seed: string; cardNumbers: readonly number[]; questions: PublishedQuestion[]; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress; rungAdjust?: RungAdjust }) {
-    const questionCount = planQuestions(input.entry, input.questions, input.cardNumbers, input.seed, input.order, input.includeAuthors, input.masteryScores, input.progress, input.rungAdjust).length;
+  function newSession(input: { entry: EntryId; range: { from: number; to: number }; order: UserSettings['order']; seed: string; cardNumbers: readonly number[]; questions: PublishedQuestion[]; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress; rungAdjust?: RungAdjust; answered?: ReadonlySet<string> }) {
+    const questionCount = planQuestions(input.entry, input.questions, input.cardNumbers, input.seed, input.order, input.includeAuthors, input.masteryScores, input.progress, input.rungAdjust, input.answered).length;
     return createSession({ sessionId: crypto.randomUUID(), range: input.range, entry: input.entry, order: input.order, seed: input.seed, startedOn: new Date().toISOString().slice(0, 10), questionCount });
   }
 
@@ -110,9 +110,17 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     const masteryScores = computeMastery(events).scores;
     // **同じ進み具合を問題数の計算と計画の両方へ渡す。** 別々に取ると内訳と「全何問」が食い違う。
     const progress = progressFrom(events, questions);
-    const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions, includeAuthors, masteryScores, progress, rungAdjust });
+    /*
+     * **同じ段の中をまんべんなく回す**（依頼者・2026-09-15）。制覇＝その段を全部一度は正解する、
+     * なので同じ句ばかり出ると段が上がらない。**問題数の計算と計画へ同じものを渡す。**
+     *
+     * **復元（`onResume`）へは渡さない。** 復元は保存した種から同じ並びを作り直す経路であり、
+     * 解いた数で選び方が変わると、中断前と違う問題が出る。
+     */
+    const answered = answeredFrom(events);
+    const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions, includeAuthors, masteryScores, progress, rungAdjust, answered });
     void port.saveSession(session);
-    startPlanned({ session, cardNumbers: plan.cardNumbers, questions, poems, answerMode, includeAuthors, masteryScores, progress, rungAdjust });
+    startPlanned({ session, cardNumbers: plan.cardNumbers, questions, poems, answerMode, includeAuthors, masteryScores, progress, rungAdjust, answered });
   }
 
   function startReview(questionIds: readonly string[]) {
