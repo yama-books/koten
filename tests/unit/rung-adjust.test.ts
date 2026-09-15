@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { RUNG_LABELS, RUNG_RAISE_LIMIT, autoRungFor, canEase, canHarden, effectiveRung, planQuestions, rungRecordFor } from '../../packages/hyakunin/src/domain/entry.ts';
+import { RUNG_RAISE_LIMIT, rangeAutoRung, canEase, canHarden, effectiveRung, planQuestions, rungRecordFor } from '../../packages/hyakunin/src/domain/entry.ts';
 import { FLAG_RUNG, LOWEST_RUNG, rungProgress } from '../../packages/shared/src/domain/mastery/rungs.ts';
 import { computeMastery } from '../../packages/shared/src/domain/mastery/compute.ts';
 import { buildEvent } from '../../packages/hyakunin/src/domain/record.ts';
@@ -38,11 +38,6 @@ for (const [openRung, adjust, expected, why] of [
     assert.equal(effectiveRung(openRung, adjust), expected);
   });
 }
-
-test('調整: 段の名前は 1 から 8 まで欠けなくある', () => {
-  // 現在地を 1 行で出すのに使う。欠けていると、その段の学習者だけ行が消える。
-  for (let rung = LOWEST_RUNG; rung <= FLAG_RUNG; rung += 1) assert.ok(RUNG_LABELS[rung], `段${rung} の名前が無い`);
-});
 
 test('調整: 一番下の段に居るとき「やさしくする」は押せない', () => {
   assert.equal(canEase(3, 0), true);
@@ -126,13 +121,14 @@ test('記録: 上げて挑んで正解しても、天井は自動の位置の段
   assert.equal(computeMastery(events).scores['p001:text'], 55, '上げて挑んだ段の天井が開いている');
 });
 
-test('表示: 範囲の自動の位置は、その中で一番低い段である', () => {
-  // 高いほうを出すと、実際には出ない段を「いまの段」として見せることになる。
+test('境界: 範囲の自動の位置は、その中で一番低い段である', () => {
+  // **画面には出さない**（依頼者・2026-09-15）。ボタンを押せるかどうかの判定にだけ使う。
+  // 高いほうを採ると、いちばん易しい歌がまだ下げられるのに「やさしくする」が押せなくなる。
   const mixed = new Map([
     ['p001', { cleared: [1, 2], openRung: 3, conquered: false }],
     ['p002', { cleared: [1], openRung: 2, conquered: false }],
   ]);
-  assert.equal(autoRungFor(mixed, { from: 1, to: 2 }), 2);
-  assert.equal(autoRungFor(mixed, { from: 1, to: 1 }), 3);
-  assert.equal(autoRungFor(mixed, { from: 1, to: 3 }), LOWEST_RUNG, '記録の無い歌が混ざれば一番下である');
+  assert.equal(rangeAutoRung({ from: 1, to: 2 }, mixed), 2);
+  assert.equal(rangeAutoRung({ from: 1, to: 1 }, mixed), 3);
+  assert.equal(rangeAutoRung({ from: 1, to: 3 }, mixed), LOWEST_RUNG, '記録の無い歌が混ざれば一番下である');
 });

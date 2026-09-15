@@ -1,6 +1,6 @@
 import { orderCardNumbers, type OrderMode } from './order.ts';
 import type { PublishedQuestion } from '../data/question-schema.ts';
-import { FLAG_RUNG, LOWEST_RUNG, rungProgress, type RungState } from '@koten/shared/domain/mastery/rungs';
+import { FLAG_RUNG, LOWEST_RUNG, RUNG_CAPS, rungProgress, type RungState } from '@koten/shared/domain/mastery/rungs';
 import type { Event } from '@koten/shared/domain/event';
 
 export type RungProgress = ReadonlyMap<string, RungState>;
@@ -152,21 +152,6 @@ export function canHarden(openRung: number, adjust: RungAdjust): boolean {
 }
 
 /**
- * いま何を書く段かを 1 行で言うための名前。**段の番号だけでは学習者に伝わらない。**
- * 段8 は点を動かさず「完全制覇」の印を立てる段である（`RUNG_CAPS` に天井が無い）。
- */
-export const RUNG_LABELS: Readonly<Record<number, string>> = {
-  1: '語をひとつ書く',
-  2: '文節を書く',
-  3: '句をまるごと書く',
-  4: '上句か下句を書く',
-  5: '間の三句を書く',
-  6: '四句をつづけて書く',
-  7: '一首をまるごと書く',
-  8: '番号だけを見て一首を書く',
-};
-
-/**
  * 記録に残す段と、手で上げて挑んだ印（発注086・§4.1・§4.3）。**段だけを書き写さない。**
  *
  * **天井は自動の位置の段のものを使う。** 段3 の学習者が段5 に挑んでも天井は 55 のままである
@@ -175,29 +160,74 @@ export const RUNG_LABELS: Readonly<Record<number, string>> = {
  *
  * **印は真のときだけ付ける。** 既定値を保存へ書き込まない。
  */
-export function rungRecordFor(question: PublishedQuestion, progress: RungProgress = new Map()): Readonly<{ rung: number | null; raised?: true }> {
+export function rungRecordFor(question: PublishedQuestion, progress: RungProgress = new Map(), masteryScores: Readonly<Record<string, number>> = {}): Readonly<{ rung: number | null; raised?: true }> {
   if (question.rung === null) return { rung: null }; // 作者問は本文の梯子に乗らない。
-  const openRung = openRungFor(question.poemId, progress);
-  if (question.rung <= openRung) return { rung: question.rung };
-  return { rung: openRung, raised: true };
+  // **自動の段と同じ土台で測る。** `openRung` で測ると、自動で送った段まで「手で上げた」ことになり、
+  // 記録の段が下がって**天井が開かないまま**になる（行き止まりが直らない）。
+  const autoRung = autoRungFor(question.poemId, progress, masteryScores);
+  if (question.rung <= autoRung) return { rung: question.rung };
+  return { rung: autoRung, raised: true };
 }
 
 /**
- * その範囲の自動の位置（発注086・画面の 1 行に出す）。**一番低い段を出す。**
+ * その歌に自動で配る段（2026-09-15・依頼者裁定）。**点が入る一番下の段である。**
  *
- * 首ごとに段は違う。高いほうを出すと、実際には出ない段を「いまの段」として見せることになる
- * ——**配られるのは首ごとの実効の段**であり、この値は表示と操作の可否のためだけに使う。
+ * **段の梯子を後から入れたので、すでに段の天井より上にいる学習者は加算が 0 になる。**
+ * 本文 81 の学習者に段3（天井55）を配っても、20 問正解して 81 のままである。
+ * `openRung` は「制覇」でしか上がらないので、**点も段も動かない行き止まりになる**
+ * （利用者からの報告——「85%で頭打ち、ほかの70%台も上がらない」。実測で再現した）。
+ *
+ * **段は歌ごとに決まる。範囲の平均では決めない。** 飛ばすのは「その歌で天井を超えている段」だけで、
+ * 習熟度が低い歌はこれまでどおり一番下から配る。
+ *
+ * **易しい段を捨てるのではない。** 自動が黙って配らないだけで、「やさしくする」で取りに行ける
+ * ——点は入らないが制覇は進む。
+ *
+ * 一番上の段（`FLAG_RUNG`）は点を動かさない段なので天井では測れない。**そこで打ち止めにする。**
  */
-export function autoRungFor(progress: RungProgress, range: Readonly<{ from: number; to: number }>): number {
+export function autoRungFor(poemId: string, progress: RungProgress, masteryScores: Readonly<Record<string, number>> = {}): number {
+  const score = masteryScores[`${poemId}:text`] ?? 0;
+  let rung = openRungFor(poemId, progress);
+  while (rung < FLAG_RUNG && (RUNG_CAPS[rung] ?? 0) <= score) rung += 1;
+  return rung;
+}
+
+/**
+ * 範囲でいちばん易しい自動の段（発注086）。**画面には出さない。** 操作の可否だけに使う
+ * ——段は歌ごとに決まるので、範囲に対して 1 つの段を名乗ると実際の出題と食い違う。
+ */
+export function rangeAutoRung(range: Readonly<{ from: number; to: number }>, progress: RungProgress, masteryScores: Readonly<Record<string, number>> = {}): number {
   let lowest = FLAG_RUNG;
   for (let cardNo = range.from; cardNo <= range.to; cardNo += 1) {
-    lowest = Math.min(lowest, openRungFor(`p${String(cardNo).padStart(3, '0')}`, progress));
+    lowest = Math.min(lowest, autoRungFor(`p${String(cardNo).padStart(3, '0')}`, progress, masteryScores));
   }
   return lowest;
 }
 
-function isServedBlank(question: PublishedQuestion, progress: RungProgress, adjust: RungAdjust): boolean {
-  return question.type === 'blank' && question.rung === effectiveRung(openRungFor(question.poemId, progress), adjust);
+/**
+ * 歌ごとに、この回に配る段を決める（発注086・2026-09-15）。
+ *
+ * **送り先の段の問題がその歌に無ければ、あるうちで一番近い下の段へ落とす。**
+ * 落とさないと絞り込みが空になり、**その歌だけ 1 問も出なくなる**——目録がそろっていない歌
+ * （試験用の目録、段を足している途中）で起きる。**歌を出題から消さない。**
+ */
+function servedRungs(available: readonly PublishedQuestion[], progress: RungProgress, adjust: RungAdjust, masteryScores: Readonly<Record<string, number>>): ReadonlyMap<string, number> {
+  const byPoem = new Map<string, number[]>();
+  for (const question of available) {
+    if (question.type !== 'blank' || question.rung === null) continue;
+    byPoem.set(question.poemId, [...(byPoem.get(question.poemId) ?? []), question.rung]);
+  }
+  const served = new Map<string, number>();
+  for (const [poemId, rungs] of byPoem) {
+    const target = effectiveRung(autoRungFor(poemId, progress, masteryScores), adjust);
+    const below = rungs.filter((rung) => rung <= target);
+    served.set(poemId, below.length > 0 ? Math.max(...below) : Math.min(...rungs));
+  }
+  return served;
+}
+
+function isServedBlank(question: PublishedQuestion, served: ReadonlyMap<string, number>): boolean {
+  return question.type === 'blank' && question.rung === served.get(question.poemId);
 }
 
 export function planQuestions(
@@ -226,6 +256,7 @@ export function planQuestions(
   rungAdjust: RungAdjust = 0,
 ): PublishedQuestion[] {
   if (!available.length) return [];
+  const served = servedRungs(available, progress, rungAdjust, masteryScores);
   const ordered = inCardOrder(available, cardNumbers, seed, mode);
   // 本番だけは範囲選択で作者問を外せる。回数は常に本番の10問のままにする。
   const rule = entry === 'exam' && !includeAuthors
@@ -233,10 +264,10 @@ export function planQuestions(
     : ENTRY_RULES[entry];
   if (entry === 'review') return ordered;
   if (entry === 'view') return [];
-  if (entry === 'learn') return takeAcrossCards(available.filter((question) => isServedBlank(question, progress, rungAdjust)), cardNumbers, seed, mode, rule);
+  if (entry === 'learn') return takeAcrossCards(available.filter((question) => isServedBlank(question, served)), cardNumbers, seed, mode, rule);
   // 作者問題は首ごとに 1 問へ絞る。kana/free も type は author なので、
   // questionId を明示しないと 1 首から複数の作者問題が候補に入る。
-  const selectable = available.filter((question) => isServedBlank(question, progress, rungAdjust)
+  const selectable = available.filter((question) => isServedBlank(question, served)
     || (includeAuthors && question.questionId === authorQuestionIdFor(question.poemId, masteryScores[`${question.poemId}:author`] ?? 0)));
   if (entry === 'quick' || entry === 'author' || entry === 'exam') return takeAcrossCards(selectable, cardNumbers, seed, mode, rule, true);
   return takeAcrossCards(available, cardNumbers, seed, mode, rule);

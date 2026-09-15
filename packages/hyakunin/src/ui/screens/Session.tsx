@@ -43,6 +43,8 @@ type Props = {
    * （`rungRecordFor`）。渡さなければ全首が一番下の段で、記録の無い学習者と同じになる。
    */
   progress?: RungProgress;
+  /** 項目別得点（2026-09-15）。**段の天井の判定に要る**——渡さないと自動で送った段が「手で上げた」ことになる。 */
+  masteryScores?: Readonly<Record<string, number>>;
   poems?: readonly Poem[];
   entry?: EntryId;
   answerMode?: AnswerMode;
@@ -115,6 +117,7 @@ function PromptLine({
 export function Session({
   questions,
   progress = new Map(),
+  masteryScores = {},
   poems = [],
   entry = "learn",
   answerMode = "screen",
@@ -221,7 +224,7 @@ export function Session({
           dataVersion: appConfig.dataVersion,
           // 段は**答えた問題**から取る。ID の文字列から推測しない（発注084）。
           // 手で上げて挑んだときは印を付け、天井は自動の位置の段にする（発注086）。
-          ...rungRecordFor(answeredQuestion, progress),
+          ...rungRecordFor(answeredQuestion, progress, masteryScores),
         } as const;
         const event = judgement === "viewed"
           ? buildViewEvent({ ...common, kind: "view" })
@@ -446,7 +449,7 @@ export function Session({
         : answered;
     setFlow(saving);
     const event = buildEvent({
-      ...rungRecordFor(question, progress),
+      ...rungRecordFor(question, progress, masteryScores),
       eventId: crypto.randomUUID(),
       product: "hyakunin",
       poemId: question.poemId,
@@ -504,7 +507,7 @@ export function Session({
     setUnknownSaveFailed(false);
     const result = await port.appendEvent(
       buildViewEvent({
-        ...rungRecordFor(question, progress),
+        ...rungRecordFor(question, progress, masteryScores),
         eventId: crypto.randomUUID(),
         product: "hyakunin",
         poemId: question.poemId,

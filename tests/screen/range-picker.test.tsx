@@ -115,10 +115,47 @@ test('range-picker: 作者問題の設定は本番だけにあり、既定で出
 const easeButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === 'やさしくする')!;
 const hardenButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === 'むずかしくする')!;
 
-test('086: いま何を書く段かを 1 行で出す', async () => {
+const autoButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === 'おまかせ')!;
+
+test('086: 段の番号も名前も出さない（依頼者・2026-09-15）', async () => {
+  // **歌ごとに段が違う**ので、範囲に対して 1 つの段を名乗ると実際の出題と食い違う。
+  // 習熟度と二重の指標にもなる。出せるのは向きだけである。
   const root = document.createElement('div'); document.body.append(root);
   await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
-  expect(root.textContent).toContain('句をまるごと書く');
+  expect(root.querySelector('.rung-level'), '段の番号を出している').toBeNull();
+  expect(root.querySelector('.rung-badge'), '段の名前を出している').toBeNull();
+  expect(root.textContent).not.toContain('いまは');
+  expect(root.textContent).not.toContain('段です');
+  root.remove();
+});
+
+test('086: 難しさの操作は 3 つのボタンだけである', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  const labels = Array.from(root.querySelectorAll('.rung-adjust button')).map((button) => button.textContent);
+  expect(labels).toEqual(['やさしくする', 'むずかしくする', 'おまかせ']);
+  root.remove();
+});
+
+test('086: 段が習熟度で開くことを案内する', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(root.textContent).toContain('習熟度が上がると、より難度の高い問題を選べるようになります');
+  root.remove();
+});
+
+test('086: 「おまかせ」で自動の位置へ戻る', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(autoButton(root).disabled, '自動の位置に居るのに押せる').toBe(true);
+  await act(() => { easeButton(root).click(); });
+  await act(() => { easeButton(root).click(); });
+  expect(easeButton(root).disabled, '一番下まで下がっていない').toBe(true);
+  expect(autoButton(root).disabled).toBe(false);
+  await act(() => { autoButton(root).click(); });
+  expect(easeButton(root).disabled, '自動へ戻っていない').toBe(false);
+  expect(autoButton(root).disabled).toBe(true);
+  expect(root.textContent, '戻ったのに調整中の表示が残っている').not.toContain('いつもより');
   root.remove();
 });
 
@@ -136,7 +173,7 @@ test('086: 2 段上まで上げると「むずかしくする」が押せない'
   await act(() => { hardenButton(root).click(); });
   expect(hardenButton(root).disabled).toBe(false);
   await act(() => { hardenButton(root).click(); });
-  expect(root.textContent).toContain('間の三句を書く');
+  expect(root.textContent, 'むずかしくした表示が出ていない').toContain('むずかしく');
   expect(hardenButton(root).disabled, '2 段上を超えて上げられる').toBe(true);
   root.remove();
 });
@@ -144,10 +181,10 @@ test('086: 2 段上まで上げると「むずかしくする」が押せない'
 test('086: 自動の位置から離れていることが分かる', async () => {
   const root = document.createElement('div'); document.body.append(root);
   await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
-  expect(root.textContent, '自動の位置に居るのに離れたと言っている').not.toContain('自動の位置');
+  expect(root.textContent, '自動の位置に居るのに離れたと言っている').not.toContain('いつもより');
   await act(() => { easeButton(root).click(); });
-  expect(root.textContent).toContain('自動の位置');
-  expect(root.textContent).toContain('句をまるごと書く');
+  expect(root.textContent).toContain('いつもよりやさしく');
+  expect(root.textContent, '戻し方が分からない').toContain('おまかせ');
   root.remove();
 });
 
