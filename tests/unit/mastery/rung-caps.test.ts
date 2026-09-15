@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { computeMastery } from '../../../packages/shared/src/domain/mastery/compute.ts';
 import { event, numberedEvents } from './fixtures.ts';
+import { RUNG_CAPS } from '../../../packages/shared/src/domain/mastery/rungs.ts';
+import { MASTERY_RULES } from '../../../packages/shared/src/domain/mastery/rules.v1.ts';
 
 /**
  * 2026-09-15・発注084。**段の天井を採点へつなぐ。**
@@ -13,14 +15,23 @@ import { event, numberedEvents } from './fixtures.ts';
 const withRung = (rung: number | null, count: number, itemKey = 'p001:text') =>
   numberedEvents('free-input', count, itemKey).map((item) => ({ ...item, rung }));
 
+/**
+ * **満額（+9／問）で伸びるのは段の天井まで。**
+ * そこから先は微増だけになる（依頼者裁定・2026-09-15。`CAPPED_PRACTICE_STEPS`）ので、
+ * **天井ちょうどの問数で測る。** 多めに積むと微増ぶんが混ざり、何を測っているのか分からなくなる。
+ */
+const toCap = (rung: number) => Math.ceil((RUNG_CAPS[rung] ?? 0) / MASTERY_RULES['free-input'].increment);
+
 test('段の天井: 段3の自由入力は 55 で止まる（方式の天井 90 より低い）', () => {
-  assert.equal(computeMastery(withRung(3, 40)).scores['p001:text'], 55);
+  assert.equal(computeMastery(withRung(3, toCap(3))).scores['p001:text'], 55);
+  // 天井を超えたぶんは満額では伸びない。40 問でも微増ぶん（+0.2／問）しか積まない。
+  assert.ok(computeMastery(withRung(3, 40)).scores['p001:text']! < 62, '満額のまま伸びている');
 });
 
 test('段の天井: 段が上がるほど高くまで行ける', () => {
-  assert.equal(computeMastery(withRung(4, 40)).scores['p001:text'], 70);
-  assert.equal(computeMastery(withRung(5, 40)).scores['p001:text'], 80);
-  assert.equal(computeMastery(withRung(6, 40)).scores['p001:text'], 90);
+  assert.equal(computeMastery(withRung(4, toCap(4))).scores['p001:text'], 70);
+  assert.equal(computeMastery(withRung(5, toCap(5))).scores['p001:text'], 80);
+  assert.equal(computeMastery(withRung(6, toCap(6))).scores['p001:text'], 90);
 });
 
 test('段の天井: 段8は点を動かさない', () => {

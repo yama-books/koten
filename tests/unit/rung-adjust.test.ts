@@ -118,7 +118,9 @@ test('記録: 上げて挑んで正解しても、天井は自動の位置の段
     sameSessionRepeat: false, localDate: '2026-09-15', appVersion: '0.1.0', dataVersion: 1,
   }));
   assert.equal(events[0]?.raised, true, '印がイベントへ載っていない');
-  assert.equal(computeMastery(events).scores['p001:text'], 55, '上げて挑んだ段の天井が開いている');
+  // 満額で伸びるのは 55 まで。そこから先は微増（+0.2／問）だけで、段5 の天井 80 には遠い。
+  assert.ok(computeMastery(events).scores['p001:text']! < 62, '上げて挑んだ段の天井が開いている');
+  assert.equal(computeMastery(events.slice(0, 7)).scores['p001:text'], 55, '満額の止まり位置が動いている');
 });
 
 test('境界: 範囲の自動の位置は、その中で一番低い段である', () => {

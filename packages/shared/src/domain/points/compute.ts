@@ -25,8 +25,23 @@ export type PointsComputation = Readonly<{
 export function computePoints(events: readonly Event[]): PointsComputation {
   let total = 0;
   const bySession: Record<string, number> = {};
+  /*
+   * **倍率はその回の初めの習熟度で決める**（依頼者・2026-09-15）。
+   *
+   * 弱点倍率は「解く前の習熟度」で決まるので、**点が入る段で解くとその回の途中で倍率が下がる。**
+   * 天井で止まっている易しい段では下がらないため、**同じ 10 問で易しい段 170 点・難しい段 152 点**
+   * という逆転が起きていた（実測）。伸びたぶんをその回の点から差し引かない。
+   *
+   * **固定するのはその回の中だけである。** ずっと固定すると、強くなった歌がいつまでも高倍率になる。
+   */
+  const sessionBaseline = new Map<string, Map<string, number>>();
   computeMastery(events, (event, scoreBefore, isRepeat) => {
-    const earned = pointsFor(event, scoreBefore, isRepeat);
+    // **回ごと・項目ごとに 1 つ。** 連結した文字列を鍵にしない（区切り文字が本文に混ざる）。
+    const forSession = sessionBaseline.get(event.sessionId) ?? new Map<string, number>();
+    const baseline = forSession.get(event.itemKey) ?? scoreBefore;
+    forSession.set(event.itemKey, baseline);
+    sessionBaseline.set(event.sessionId, forSession);
+    const earned = pointsFor(event, baseline, isRepeat);
     total += earned;
     bySession[event.sessionId] = (bySession[event.sessionId] ?? 0) + earned;
   });
