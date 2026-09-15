@@ -105,3 +105,84 @@ test('range-picker: 作者問題の設定は本番だけにあり、既定で出
   }
   root.remove();
 });
+
+/**
+ * 2026-09-15・発注086。**難度の手動調整**（D-16「手動が勝つ」・D-17「挑戦は自由」）。
+ *
+ * **出題中ではなく、始める前に置く。** 解いている途中で難度が変わると、
+ * その回の記録の意味が揺れる。
+ */
+const easeButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === 'やさしくする')!;
+const hardenButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === 'むずかしくする')!;
+
+test('086: いま何を書く段かを 1 行で出す', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(root.textContent).toContain('句をまるごと書く');
+  root.remove();
+});
+
+test('086: 一番下の段に居ると「やさしくする」が押せない', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={1} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(easeButton(root).disabled).toBe(true);
+  expect(hardenButton(root).disabled, '自動の位置では挑戦できるはずである（D-17）').toBe(false);
+  root.remove();
+});
+
+test('086: 2 段上まで上げると「むずかしくする」が押せない', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  await act(() => { hardenButton(root).click(); });
+  expect(hardenButton(root).disabled).toBe(false);
+  await act(() => { hardenButton(root).click(); });
+  expect(root.textContent).toContain('間の三句を書く');
+  expect(hardenButton(root).disabled, '2 段上を超えて上げられる').toBe(true);
+  root.remove();
+});
+
+test('086: 自動の位置から離れていることが分かる', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(root.textContent, '自動の位置に居るのに離れたと言っている').not.toContain('自動の位置');
+  await act(() => { easeButton(root).click(); });
+  expect(root.textContent).toContain('自動の位置');
+  expect(root.textContent).toContain('句をまるごと書く');
+  root.remove();
+});
+
+test('086: 段8から下げたときは、完全制覇の印が立たないことに触れる', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={8} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(root.textContent, '下げる前から印の話をしている').not.toContain('完全制覇');
+  await act(() => { easeButton(root).click(); });
+  expect(root.textContent).toContain('完全制覇');
+  root.remove();
+});
+
+test('086: 調整した段数を開始時に渡す', async () => {
+  const root = document.createElement('div'); document.body.append(root);
+  let received: number | undefined;
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={(_range, _order, _mode, _authors, adjust) => { received = adjust; }} />, root); });
+  await act(() => { easeButton(root).click(); });
+  await act(() => { root.querySelector('button.primary')!.click(); });
+  expect(received, '＋が易しく、−が難しい').toBe(1);
+  root.remove();
+});
+
+test('086: 自動の位置が分からないうちは難しさの操作を出さない', async () => {
+  // **既定値で描かない。** 記録を読む前に「いまは段3」と言うと、それが嘘になる。
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" onBack={() => {}} onStart={() => {}} />, root); });
+  expect(Array.from(root.querySelectorAll('button')).some((button) => button.textContent === 'やさしくする')).toBe(false);
+  root.remove();
+});
+
+test('086: 難しさの操作は本番の三組に数えない', async () => {
+  // 既存の釘（設定は見出しと二択ボタンの三組）を、難しさの節が黙って崩さないこと。
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="exam" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(Array.from(root.querySelectorAll('button')).some((button) => button.textContent === 'やさしくする')).toBe(true);
+  expect(root.querySelectorAll('.answer-mode')).toHaveLength(3);
+  root.remove();
+});

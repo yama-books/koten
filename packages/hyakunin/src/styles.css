@@ -203,7 +203,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .range-picker > * { min-width: 0; }
 .range-picker button { box-sizing: border-box; max-width: 100%; overflow-wrap: anywhere; white-space: normal; }
 .answer-mode > * { min-width: 0; }
-.answer-mode button { flex: 1 1 10rem; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; white-space: normal; }
+.rung-adjust > * { min-width: 0; }
+.answer-mode button, .rung-adjust button { flex: 1 1 10rem; box-sizing: border-box; min-width: 0; overflow-wrap: anywhere; white-space: normal; }
 .session-controls .reading-control { box-sizing: border-box; min-width: 0; max-width: 100%; }
 .session-controls button { overflow-wrap: anywhere; white-space: normal; }
 .session-controls label,
@@ -338,6 +339,12 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-mode { display: grid; gap: var(--space-sm); margin-block: var(--space-lg); border-block-end: var(--rule-thin) solid var(--color-rule); padding-block-end: var(--space-md); }
 .answer-mode h2, .answer-mode p { margin: 0; }
 .answer-mode div { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+/* 難しさの操作（発注086）は「答え方」と同じ見た目にするが、**別の class にする**
+   ——本番の設定が三組であることを数える検査に混ざらないようにするためである。
+   **selector をまとめない。** `.answer-mode {` の形を名指しで見ている検査がある（074-4）。 */
+.rung-adjust { display: grid; gap: var(--space-sm); margin-block: var(--space-lg); border-block-end: var(--rule-thin) solid var(--color-rule); padding-block-end: var(--space-md); }
+.rung-adjust h2, .rung-adjust p { margin: 0; }
+.rung-adjust div { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 /*
  * .answer-mode div は「歌の順番」の素の div のための規則で、答え方の入れ子まで届いていた。
  * 選択肢は 2 列の等分に固定し、説明はボタンの下へ置く（実測 449x44 と 98x76.5 に割れていた）。

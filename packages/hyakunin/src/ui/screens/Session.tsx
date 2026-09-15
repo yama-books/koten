@@ -15,6 +15,7 @@ import {
 } from "../../domain/flow.ts";
 import type { Judgement } from "../../domain/question.ts";
 import { buildEvent, buildViewEvent } from "../../domain/record.ts";
+import { rungRecordFor, type RungProgress } from "../../domain/entry.ts";
 import type { OutcomeKind } from "../../domain/result.ts";
 import {
   toQuestion,
@@ -37,6 +38,11 @@ import { promptGroups } from "./prompt-layout.ts";
 
 type Props = {
   questions: readonly PublishedQuestion[];
+  /**
+   * 歌ごとの段の進み具合（発注086）。**記録に残す段と「手で上げた」印をここから作る**
+   * （`rungRecordFor`）。渡さなければ全首が一番下の段で、記録の無い学習者と同じになる。
+   */
+  progress?: RungProgress;
   poems?: readonly Poem[];
   entry?: EntryId;
   answerMode?: AnswerMode;
@@ -108,6 +114,7 @@ function PromptLine({
 
 export function Session({
   questions,
+  progress = new Map(),
   poems = [],
   entry = "learn",
   answerMode = "screen",
@@ -213,7 +220,8 @@ export function Session({
           appVersion: appConfig.appVersion,
           dataVersion: appConfig.dataVersion,
           // 段は**答えた問題**から取る。ID の文字列から推測しない（発注084）。
-          rung: answeredQuestion.rung,
+          // 手で上げて挑んだときは印を付け、天井は自動の位置の段にする（発注086）。
+          ...rungRecordFor(answeredQuestion, progress),
         } as const;
         const event = judgement === "viewed"
           ? buildViewEvent({ ...common, kind: "view" })
@@ -438,7 +446,7 @@ export function Session({
         : answered;
     setFlow(saving);
     const event = buildEvent({
-      rung: question.rung,
+      ...rungRecordFor(question, progress),
       eventId: crypto.randomUUID(),
       product: "hyakunin",
       poemId: question.poemId,
@@ -496,7 +504,7 @@ export function Session({
     setUnknownSaveFailed(false);
     const result = await port.appendEvent(
       buildViewEvent({
-        rung: question.rung,
+        ...rungRecordFor(question, progress),
         eventId: crypto.randomUUID(),
         product: "hyakunin",
         poemId: question.poemId,

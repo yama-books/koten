@@ -1,6 +1,6 @@
 import { orderCardNumbers, type OrderMode } from './order.ts';
 import type { PublishedQuestion } from '../data/question-schema.ts';
-import { LOWEST_RUNG, rungProgress, type RungState } from '@koten/shared/domain/mastery/rungs';
+import { FLAG_RUNG, LOWEST_RUNG, rungProgress, type RungState } from '@koten/shared/domain/mastery/rungs';
 import type { Event } from '@koten/shared/domain/event';
 
 export type RungProgress = ReadonlyMap<string, RungState>;
@@ -118,8 +118,86 @@ function openRungFor(poemId: string, progress: RungProgress): number {
   return progress.get(poemId)?.openRung ?? LOWEST_RUNG;
 }
 
-function isServedBlank(question: PublishedQuestion, progress: RungProgress): boolean {
-  return question.type === 'blank' && question.rung === openRungFor(question.poemId, progress);
+/**
+ * その回かぎりの難度の手動調整（発注086・D-17）。**＋が易しく、−が難しい。**
+ * **保存しない**——次に始めるときは自動の位置に戻る。下げたままにすると、
+ * すでに天井へ達した段を延々と練習することになり、**加算が 0 のまま行き止まりになる。**
+ */
+export type RungAdjust = number;
+
+/** 自動の位置から何段上まで挑めるか（D-17「挑戦は自由」）。 */
+export const RUNG_RAISE_LIMIT = 2;
+
+/**
+ * その回に配る段。**上限は `openRung + 2`、ただし一番上の段でも止める。**
+ *
+ * **一番上で止めるのを忘れると、`openRung = 8` から上げたときに存在しない段9 が出る。**
+ * `openRung + 2` だけでは足りない（2026-09-15・検算で発見）。
+ */
+export function highestRung(openRung: number): number {
+  // **上限は 1 か所に置く。** 判定と出題で別々に書くと、片方だけ直った状態が試験を通る。
+  return Math.min(openRung + RUNG_RAISE_LIMIT, FLAG_RUNG);
+}
+
+export function effectiveRung(openRung: number, adjust: RungAdjust): number {
+  return Math.max(LOWEST_RUNG, Math.min(highestRung(openRung), openRung - adjust));
+}
+
+export function canEase(openRung: number, adjust: RungAdjust): boolean {
+  return effectiveRung(openRung, adjust) > LOWEST_RUNG;
+}
+
+export function canHarden(openRung: number, adjust: RungAdjust): boolean {
+  return effectiveRung(openRung, adjust) < highestRung(openRung);
+}
+
+/**
+ * いま何を書く段かを 1 行で言うための名前。**段の番号だけでは学習者に伝わらない。**
+ * 段8 は点を動かさず「完全制覇」の印を立てる段である（`RUNG_CAPS` に天井が無い）。
+ */
+export const RUNG_LABELS: Readonly<Record<number, string>> = {
+  1: '語をひとつ書く',
+  2: '文節を書く',
+  3: '句をまるごと書く',
+  4: '上句か下句を書く',
+  5: '間の三句を書く',
+  6: '四句をつづけて書く',
+  7: '一首をまるごと書く',
+  8: '番号だけを見て一首を書く',
+};
+
+/**
+ * 記録に残す段と、手で上げて挑んだ印（発注086・§4.1・§4.3）。**段だけを書き写さない。**
+ *
+ * **天井は自動の位置の段のものを使う。** 段3 の学習者が段5 に挑んでも天井は 55 のままである
+ * ——開けてしまうと、段1・2・3 を 1 問も制覇せずに段5 で 80 まで行ける。梯子の意味が消える。
+ * 天井は `computeMastery` が `rung` から引くので、**ここで低いほうを渡す。**
+ *
+ * **印は真のときだけ付ける。** 既定値を保存へ書き込まない。
+ */
+export function rungRecordFor(question: PublishedQuestion, progress: RungProgress = new Map()): Readonly<{ rung: number | null; raised?: true }> {
+  if (question.rung === null) return { rung: null }; // 作者問は本文の梯子に乗らない。
+  const openRung = openRungFor(question.poemId, progress);
+  if (question.rung <= openRung) return { rung: question.rung };
+  return { rung: openRung, raised: true };
+}
+
+/**
+ * その範囲の自動の位置（発注086・画面の 1 行に出す）。**一番低い段を出す。**
+ *
+ * 首ごとに段は違う。高いほうを出すと、実際には出ない段を「いまの段」として見せることになる
+ * ——**配られるのは首ごとの実効の段**であり、この値は表示と操作の可否のためだけに使う。
+ */
+export function autoRungFor(progress: RungProgress, range: Readonly<{ from: number; to: number }>): number {
+  let lowest = FLAG_RUNG;
+  for (let cardNo = range.from; cardNo <= range.to; cardNo += 1) {
+    lowest = Math.min(lowest, openRungFor(`p${String(cardNo).padStart(3, '0')}`, progress));
+  }
+  return lowest;
+}
+
+function isServedBlank(question: PublishedQuestion, progress: RungProgress, adjust: RungAdjust): boolean {
+  return question.type === 'blank' && question.rung === effectiveRung(openRungFor(question.poemId, progress), adjust);
 }
 
 export function planQuestions(
@@ -141,6 +219,11 @@ export function planQuestions(
    * 省略時は全首が段3 で、記録の無い学習者と同じになる。
    */
   progress: RungProgress = new Map(),
+  /**
+   * その回かぎりの手動調整（発注086）。**進み具合と同じく呼び出し側が渡す**——
+   * 省略時は 0 で、自動の位置がそのまま配られる。
+   */
+  rungAdjust: RungAdjust = 0,
 ): PublishedQuestion[] {
   if (!available.length) return [];
   const ordered = inCardOrder(available, cardNumbers, seed, mode);
@@ -150,10 +233,10 @@ export function planQuestions(
     : ENTRY_RULES[entry];
   if (entry === 'review') return ordered;
   if (entry === 'view') return [];
-  if (entry === 'learn') return takeAcrossCards(available.filter((question) => isServedBlank(question, progress)), cardNumbers, seed, mode, rule);
+  if (entry === 'learn') return takeAcrossCards(available.filter((question) => isServedBlank(question, progress, rungAdjust)), cardNumbers, seed, mode, rule);
   // 作者問題は首ごとに 1 問へ絞る。kana/free も type は author なので、
   // questionId を明示しないと 1 首から複数の作者問題が候補に入る。
-  const selectable = available.filter((question) => isServedBlank(question, progress)
+  const selectable = available.filter((question) => isServedBlank(question, progress, rungAdjust)
     || (includeAuthors && question.questionId === authorQuestionIdFor(question.poemId, masteryScores[`${question.poemId}:author`] ?? 0)));
   if (entry === 'quick' || entry === 'author' || entry === 'exam') return takeAcrossCards(selectable, cardNumbers, seed, mode, rule, true);
   return takeAcrossCards(available, cardNumbers, seed, mode, rule);

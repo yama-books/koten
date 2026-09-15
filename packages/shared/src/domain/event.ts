@@ -34,6 +34,17 @@ export type Event = {
    * **作る側では必須である**（`BuildEventInput`）。書き忘れは型が止める。
    */
   rung?: number | null;
+  /**
+   * 手で難度を上げて挑んだか（発注086・D-17）。**省略可**——2026-09-15 より前の保存は
+   * 持たない＝自動で配られたものである。必須にすると `isEvent` が古いイベントを弾き、
+   * **授業中の生徒の履歴が消える。**
+   *
+   * **印が付いた正解は、次回の自動の位置（`openRung`）に数えない**（`rungProgress`）。
+   * 一度試しただけの段が定位置になると、段を飛ばせてしまう。**制覇には数える。**
+   *
+   * **作る側では `rungRecordFor` が段と一緒に作る。** 段だけを書き写す経路を残さない。
+   */
+  raised?: boolean;
 };
 
 export function isProductId(value: unknown): value is ProductId {
