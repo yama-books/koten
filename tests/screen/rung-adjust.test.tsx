@@ -59,7 +59,8 @@ async function openPicker(seeded: ReturnType<typeof legacyEvents> = []) {
   return port;
 }
 
-const button = (label: string) => Array.from(root!.querySelectorAll<HTMLButtonElement>('button')).find((item) => item.textContent === label)!;
+/** 難しさのボタンは 1 回押すと「もっと…」へ変わるので、**接尾でも拾う。** */
+const button = (label: string) => Array.from(root!.querySelectorAll<HTMLButtonElement>('button')).find((item) => item.textContent === label || item.textContent?.endsWith(label))!;
 
 test('086配線: 範囲選択に難しさの操作が出る', async () => {
   await openPicker();

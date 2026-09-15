@@ -144,7 +144,7 @@ export function RangePicker({ entry, range, order, autoRung, onStart, onBack }: 
             **出すのは相対の数だけ**である——段の番号や名前は歌ごとに違うので名乗れない。
             **符号は学習者から見た向き**にする。`rungAdjust` は ＋が易しい側なので、ここで反転する。
           */}
-          <h2 id="rung-heading">難しさ{rungAdjust !== 0 && <span class="rung-shift">{rungAdjust > 0 ? '−' : '+'}{Math.abs(rungAdjust)}</span>}</h2>
+          <h2 id="rung-heading">難しさ<span class="rung-shift">{rungAdjust === 0 ? 'おまかせ' : `${rungAdjust > 0 ? '−' : '+'}${Math.abs(rungAdjust)}`}</span></h2>
           <p class="rung-note">習熟度が上がると、より難度の高い問題を選べるようになります。</p>
           {/* **離れていることが分かる表示**。戻す手がかりが無いと迷子になる（§4.5）。 */}
           {rungAdjust !== 0 && (
@@ -158,10 +158,15 @@ export function RangePicker({ entry, range, order, autoRung, onStart, onBack }: 
             <p class="rung-flag-note">やさしくしている間は、完全制覇の印は立ちません。「おまかせ」で戻ります。</p>
           )}
           <div>
-            <button type="button" disabled={!mayEase} onClick={() => setRungAdjust((value) => value + 1)}>やさしくする</button>
-            <button type="button" disabled={!mayHarden} onClick={() => setRungAdjust((value) => value - 1)}>むずかしくする</button>
+            {/*
+              **押せることと、選ばれていることは別である**（依頼者・2026-09-16）。
+              押すたびに動く操作なので、いまどちら向きに居るのかを `aria-pressed` で示す。
+            */}
+            {/* **1 回押すと「もっと」が付く**（依頼者・2026-09-16）。いま動かしている向きへ、さらに動かす操作である。 */}
+            <button type="button" aria-pressed={rungAdjust > 0} disabled={!mayEase} onClick={() => setRungAdjust((value) => value + 1)}>{rungAdjust > 0 ? 'もっとやさしくする' : 'やさしくする'}</button>
+            <button type="button" aria-pressed={rungAdjust < 0} disabled={!mayHarden} onClick={() => setRungAdjust((value) => value - 1)}>{rungAdjust < 0 ? 'もっとむずかしくする' : 'むずかしくする'}</button>
             {/* 自動へ戻す 1 手。無いと、どこまで戻せば元なのか分からなくなる（依頼者）。 */}
-            <button type="button" disabled={rungAdjust === 0} onClick={() => setRungAdjust(0)}>おまかせ</button>
+            <button type="button" aria-pressed={rungAdjust === 0} disabled={rungAdjust === 0} onClick={() => setRungAdjust(0)}>おまかせ</button>
           </div>
         </section>
       )}

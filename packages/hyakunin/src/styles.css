@@ -348,6 +348,14 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .rung-adjust h2, .rung-adjust p { margin: 0; }
 .rung-adjust div { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .rung-note, .rung-away, .rung-flag-note { font-size: var(--text-sm); }
+/*
+ * 選んでいる向きを色で示す（依頼者・2026-09-16）。**「おまかせ」は選択中でも押せないので、
+ * `button:disabled` の薄さを打ち消す**——薄いままだと、選ばれていることが伝わらない
+ * （発注079 の「押せなくするが、薄くしない」と同じ扱い）。
+ */
+/* 「もっとむずかしくする」まで伸びるので、この 3 つだけ字を小さくする（依頼者・2026-09-16）。 */
+.rung-adjust button { font-size: var(--text-sm); }
+.rung-adjust button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; opacity: 1; }
 /* 何段動かしたかの相対の数。**見出しの隣に置く**やわらかい枠。 */
 /* 「次に確認する」の初句。番号との間を空け、番号のほうを主にする。 */
 .result-recommend__ku { margin-inline-start: var(--space-sm); color: var(--color-ink-muted); }
