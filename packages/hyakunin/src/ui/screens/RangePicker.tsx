@@ -1,4 +1,4 @@
-import { ENTRY_LABELS, ENTRY_RULES, RUNG_LABELS, canEase, canHarden, effectiveRung, type EntryId, type RungAdjust } from "../../domain/entry.ts";
+import { ENTRY_LABELS, ENTRY_RULES, canEase, canHarden, effectiveRung, type EntryId, type RungAdjust } from "../../domain/entry.ts";
 import { FLAG_RUNG } from "@koten/shared/domain/mastery/rungs";
 import { canChangeOrder, type OrderMode } from "../../domain/order.ts";
 import { normalizeRange } from "../../domain/range.ts";
@@ -124,23 +124,30 @@ export function RangePicker({ entry, range, order, autoRung, onStart, onBack }: 
       )}
       {autoRung !== undefined && served !== undefined && (
         <section class="rung-adjust" aria-labelledby="rung-heading">
+          {/*
+            **段の番号も名前も出さない**（依頼者・2026-09-15）。
+            段は歌ごとに決まるので、範囲に対して 1 つの段を名乗ると実際の出題と食い違う。
+            **習熟度と二重の指標**になって、どちらを見ればよいのか分からなくなる。
+            出せるのは「いまどちら向きに動かしたか」だけである。
+          */}
           <h2 id="rung-heading">難しさ</h2>
-          <p class="rung-current" aria-live="polite">いまは{RUNG_LABELS[served]}段です。</p>
+          <p class="rung-note">習熟度が上がると、より難度の高い問題を選べるようになります。</p>
           {/* **離れていることが分かる表示**。戻す手がかりが無いと迷子になる（§4.5）。 */}
           {rungAdjust !== 0 && (
             <p class="rung-away">
-              自動の位置は「{RUNG_LABELS[autoRung]}」です。
-              {rungAdjust > 0 ? "「むずかしくする」で戻ります。" : "「やさしくする」で戻ります。"}
-              この回だけの調整で、次に始めるときは自動の位置に戻ります。
+              いつもより{rungAdjust > 0 ? "やさしく" : "むずかしく"}しています。「おまかせ」で戻ります。
+              この回だけの調整で、次に始めるときは元に戻ります。
             </p>
           )}
-          {/* 段8 は点を動かさず印を立てる段である。下げている間はその印が立たない。 */}
+          {/* いちばん難しい段だけは点ではなく「完全制覇」の印である。下げている間は印が立たない。 */}
           {autoRung === FLAG_RUNG && served < FLAG_RUNG && (
-            <p class="rung-flag-note">この段では完全制覇の印は立ちません。番号だけの段に戻すと立ちます。</p>
+            <p class="rung-flag-note">やさしくしている間は、完全制覇の印は立ちません。「おまかせ」で戻ります。</p>
           )}
           <div>
             <button type="button" disabled={!canEase(autoRung, rungAdjust)} onClick={() => setRungAdjust((value) => value + 1)}>やさしくする</button>
             <button type="button" disabled={!canHarden(autoRung, rungAdjust)} onClick={() => setRungAdjust((value) => value - 1)}>むずかしくする</button>
+            {/* 自動へ戻す 1 手。無いと、どこまで戻せば元なのか分からなくなる（依頼者）。 */}
+            <button type="button" disabled={rungAdjust === 0} onClick={() => setRungAdjust(0)}>おまかせ</button>
           </div>
         </section>
       )}

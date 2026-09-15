@@ -22,7 +22,7 @@ import { sendStats, createHttpSend } from './telemetry/stats-sender.ts';
 import { appConfig } from '@koten/shared/app-config';
 import type { Session as LearningSession } from '@koten/shared/domain/event';
 import { createSeed } from './domain/order.ts';
-import { autoRungFor, planQuestions, progressFrom, type EntryId, type RungAdjust, type RungProgress } from './domain/entry.ts';
+import { rangeAutoRung, planQuestions, progressFrom, type EntryId, type RungAdjust, type RungProgress } from './domain/entry.ts';
 import { planReviewQuestions } from './domain/review.ts';
 import type { PublishedQuestion } from './data/question-schema.ts';
 import type { Poem } from './data/schema.ts';
@@ -45,6 +45,8 @@ type Selection = {
    * 「手で上げた」印をここから作る。読み直すと記録を二度読むことになる。
    */
   progress?: RungProgress;
+  /** 段の天井の判定に使う項目別得点（2026-09-15）。**進み具合と同じものを出題画面へも渡す。** */
+  masteryScores?: Readonly<Record<string, number>>;
   /** 再確認へ入る前の入口。「同じ範囲をもう一度」を再確認の全問題出題へ戻さないために持つ。 */
   origin?: Readonly<{ entry: EntryId; answerMode: AnswerMode }>;
 };
@@ -86,7 +88,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
    */
   function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress; rungAdjust?: RungAdjust }) {
     const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order, input.includeAuthors, input.masteryScores, input.progress, input.rungAdjust);
-    setSelected((current) => current ? { ...current, entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session, progress: input.progress } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session, progress: input.progress });
+    setSelected((current) => current ? { ...current, entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session, progress: input.progress, masteryScores: input.masteryScores } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session, progress: input.progress, masteryScores: input.masteryScores });
     setScreen('session');
   }
 
@@ -126,12 +128,14 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
    * 範囲選択の画面に出す自動の位置（発注086）。**読めるまで渡さない**——
    * 既定値で描くと、記録を読む前に「いまは段3」と言ってしまい、それが嘘になる。
    */
+  // **画面には出さない**（依頼者・2026-09-15）。段は歌ごとに決まるので、範囲に 1 つの段を
+  // 名乗ると実際の出題と食い違う。ボタンを押せるかどうかの判定にだけ使う。
   const [pickerAutoRung, setPickerAutoRung] = useState<number | undefined>(undefined);
   function openPicker(entry: EntryId, range: { from: number; to: number }, questions: PublishedQuestion[], poems: Poem[]) {
     setSelected({ entry, range, questions, poems, answerMode: 'screen' });
     setPickerAutoRung(undefined);
     setScreen('picker');
-    void port.listEvents().then((events) => setPickerAutoRung(autoRungFor(progressFrom(events, questions), range)));
+    void port.listEvents().then((events) => setPickerAutoRung(rangeAutoRung(range, progressFrom(events, questions), computeMastery(events).scores)));
   }
 
   const homeScreen = () => <Home port={port} onSettings={setSettings} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => openPicker(entry, range, questions, poems ?? [])} onResume={(session, cardNumbers, questions, poems, masteryScores, progress) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores, progress })} onOpenHistory={(questions) => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setCatalogue(questions); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events, questions)); setScreen('history'); }); }} />;
@@ -144,7 +148,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   }} />;
   if (screen === 'session' && selected?.planned && selected.session) {
     const session = selected.session;
-    return <Session questions={selected.planned} progress={selected.progress} poems={selected.poems} entry={selected.entry} answerMode={selected.answerMode} sessionId={session.sessionId} port={port} settings={settings} onSettings={setSettings} onBack={() => setScreen('home')} onComplete={async (outcomes) => {
+    return <Session questions={selected.planned} progress={selected.progress} masteryScores={selected.masteryScores} poems={selected.poems} entry={selected.entry} answerMode={selected.answerMode} sessionId={session.sessionId} port={port} settings={settings} onSettings={setSettings} onBack={() => setScreen('home')} onComplete={async (outcomes) => {
       setScreen('result-loading');
       const saved = await port.saveSession(completeSession(session));
       setSaveFailure('reason' in saved);
