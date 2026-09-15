@@ -9,7 +9,7 @@ import type { HistorySummary } from '../../packages/hyakunin/src/domain/history.
 let root: HTMLDivElement | undefined;
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });
 
-const summary: HistorySummary = { isEmpty: false, touchedCount: 1, needsReview: [], entries: [] } as never;
+const summary: HistorySummary = { isEmpty: false, touchedCount: 1, needsReview: [], entries: [], groups: [] } as never;
 const plan = { document: {} as never, preview: { schemaVersion: 1 as const, counts: { sessions: 2, events: 7, reports: 0 }, products: ['hyakunin'] } };
 
 function stub(overrides: Partial<ApplicationPort> = {}): ApplicationPort {
@@ -37,6 +37,11 @@ function mount(port?: ApplicationPort, given: HistorySummary = summary, onChange
   return root;
 }
 const button = (text: string) => Array.from(root!.querySelectorAll('button')).find((item) => item.textContent === text);
+/**
+ * 持ち出しは**タブの向こう**へ移った（2026-09-16）。取り返しのつかない操作を一覧と同じ面に
+ * 置かないための移動なので、試験でもタブを押してから見る。押す口が無ければ何もしない。
+ */
+function openTransfer() { const tab = Array.from(root!.querySelectorAll<HTMLButtonElement>('[role="tab"]')).find((item) => item.textContent === 'データ管理'); if (tab) act(() => { tab.click(); }); return root!; }
 
 /**
  * 転送の口は `Partial` で任意にしてある。本番のポートから落ちても型は通り、
@@ -54,8 +59,8 @@ test('transfer: 取り込みには上限がある', () => {
 });
 
 test('transfer: 記録の画面に書き出しと読み込みを出す', () => {
-  const view = mount(stub());
-  expect(view.textContent).toContain('記録の持ち出し');
+  const view = (mount(stub()), openTransfer());
+  expect(view.textContent).toContain('データ管理');
   expect(button('記録を書き出す')).toBeTruthy();
   expect(view.querySelector('input[type="file"]')).toBeTruthy();
   expect(button('記録を消す')).toBeTruthy();
@@ -63,13 +68,13 @@ test('transfer: 記録の画面に書き出しと読み込みを出す', () => {
 
 test('transfer: 記録が空でも取り込みの入口を出す', () => {
   // 別の端末から持ち込む人にとって、ここが唯一の入口である。
-  const view = mount(stub(), { ...summary, isEmpty: true, touchedCount: 0 });
-  expect(view.textContent).toContain('記録の持ち出し');
+  const view = (mount(stub(), { ...summary, isEmpty: true, touchedCount: 0 }), openTransfer());
+  expect(view.textContent).toContain('データ管理');
 });
 
 test('transfer: 口を持たないポートでは出さない', () => {
-  const view = mount(stub({ exportRecords: undefined, previewImport: undefined, commitImport: undefined, previewDelete: undefined, commitDelete: undefined }));
-  expect(view.textContent).not.toContain('記録の持ち出し');
+  const view = (mount(stub({ exportRecords: undefined, previewImport: undefined, commitImport: undefined, previewDelete: undefined, commitDelete: undefined })), openTransfer());
+  expect(view.textContent).not.toContain('データ管理');
 });
 
 test('transfer: port を渡さなければ出さない', () => {
@@ -78,7 +83,7 @@ test('transfer: port を渡さなければ出さない', () => {
 
 test('transfer: 読み込みは件数を見せてから、押されて初めて書く', async () => {
   let committed = 0;
-  const view = mount(stub({ async commitImport() { committed += 1; return { sessions: { added: 1, duplicates: 0 }, events: { added: 5, duplicates: 2 }, reports: { added: 0, duplicates: 0 } }; } }));
+  const view = (mount(stub({ async commitImport() { committed += 1; return { sessions: { added: 1, duplicates: 0 }, events: { added: 5, duplicates: 2 }, reports: { added: 0, duplicates: 0 } }; } })), openTransfer());
   const input = view.querySelector('input[type="file"]') as HTMLInputElement;
   Object.defineProperty(input, 'files', { value: [{ text: async () => '{}' }], configurable: true });
 
@@ -94,7 +99,7 @@ test('transfer: 読み込みは件数を見せてから、押されて初めて�
 
 test('transfer: やめると書かずに戻る', async () => {
   let committed = 0;
-  const view = mount(stub({ async commitImport() { committed += 1; return null; } }));
+  const view = (mount(stub({ async commitImport() { committed += 1; return null; } })), openTransfer());
   const input = view.querySelector('input[type="file"]') as HTMLInputElement;
   Object.defineProperty(input, 'files', { value: [{ text: async () => '{}' }], configurable: true });
   await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); await Promise.resolve(); });
@@ -105,10 +110,10 @@ test('transfer: やめると書かずに戻る', async () => {
 
 test('transfer: 読めないファイルは理由を出し、書かない', async () => {
   let committed = 0;
-  const view = mount(stub({
+  const view = (mount(stub({
     async previewImport() { return { ok: false, message: 'このアプリの書き出し形式ではありません。' }; },
     async commitImport() { committed += 1; return null; },
-  }));
+  })), openTransfer());
   const input = view.querySelector('input[type="file"]') as HTMLInputElement;
   Object.defineProperty(input, 'files', { value: [{ text: async () => 'x' }], configurable: true });
   await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); await Promise.resolve(); });
@@ -119,7 +124,7 @@ test('transfer: 読めないファイルは理由を出し、書かない', asyn
 test('transfer: 削除は件数を見せてから、押されて初めて消す', async () => {
   let deleted = 0;
   let changed = 0;
-  const view = mount(stub({ async commitDelete(counts) { deleted += 1; return counts; } }), summary, () => { changed += 1; });
+  const view = (mount(stub({ async commitDelete(counts) { deleted += 1; return counts; } }), summary, () => { changed += 1; }), openTransfer());
 
   await act(async () => { button('記録を消す')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
   expect(view.textContent).toContain('回 3 件・解答 40 件・報告 1 件');
@@ -136,7 +141,7 @@ test('transfer: 削除は件数を見せてから、押されて初めて消す'
 
 test('transfer: 削除をやめると消さない', async () => {
   let deleted = 0;
-  const view = mount(stub({ async commitDelete(counts) { deleted += 1; return counts; } }));
+  const view = (mount(stub({ async commitDelete(counts) { deleted += 1; return counts; } })), openTransfer());
   await act(async () => { button('記録を消す')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
   await act(async () => { button('やめる')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
   expect(deleted).toBe(0);
@@ -145,7 +150,7 @@ test('transfer: 削除をやめると消さない', async () => {
 
 test('transfer: 取り込みも一覧の読み直しを促す', async () => {
   let changed = 0;
-  const view = mount(stub(), summary, () => { changed += 1; });
+  const view = (mount(stub(), summary, () => { changed += 1; }), openTransfer());
   const input = view.querySelector('input[type="file"]') as HTMLInputElement;
   Object.defineProperty(input, 'files', { value: [{ text: async () => '{}' }], configurable: true });
   await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); await Promise.resolve(); });

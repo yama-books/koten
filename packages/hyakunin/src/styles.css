@@ -186,6 +186,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .session { box-sizing: border-box; width: min(100%, 62rem); min-height: 100dvh; margin-inline: auto; padding: var(--space-md); }
 .range-picker h1,
 .session h1 { overflow-wrap: anywhere; }
+/* 1 文字だけ落ちる折り返しを避ける（依頼者・2026-09-16）。 */
+.session h1.session-complete { font-size: var(--text-md); }
 .session-controls,
 .answer-controls { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end; }
 /* 罫線と切替ボタンを接触させない。原文表示では状態行が無く、gap が 0 になっていた（発注076 §3）。 */
@@ -346,6 +348,10 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .rung-adjust h2, .rung-adjust p { margin: 0; }
 .rung-adjust div { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .rung-note, .rung-away, .rung-flag-note { font-size: var(--text-sm); }
+/* 何段動かしたかの相対の数。**見出しの隣に置く**やわらかい枠。 */
+/* 「次に確認する」の初句。番号との間を空け、番号のほうを主にする。 */
+.result-recommend__ku { margin-inline-start: var(--space-sm); color: var(--color-ink-muted); }
+.rung-shift { display: inline-block; margin-inline-start: var(--space-xs); border-radius: 999px; padding: 0 var(--space-xs); background: var(--color-wisteria-soft); color: var(--color-ink); font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
 /*
  * .answer-mode div は「歌の順番」の素の div のための規則で、答え方の入れ子まで届いていた。
  * 選択肢は 2 列の等分に固定し、説明はボタンの下へ置く（実測 449x44 と 98x76.5 に割れていた）。
@@ -430,6 +436,47 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .mastery-meter--green { color: var(--mastery-green); }
 .history-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); }
 .history-list { display: grid; gap: var(--space-sm); padding: 0; list-style: none; }
+
+/* 記録画面のタブ（2026-09-16）。**取り返しのつかない操作を一覧と同じ面に出さない**ための分割。 */
+.history-tabs { display: flex; flex-wrap: wrap; gap: var(--space-2xs); border-block-end: var(--rule-thin) solid var(--color-rule); margin-block: var(--space-md) 0; }
+.history-tabs button { border: var(--rule-thin) solid var(--color-rule); border-block-end: 0; border-radius: var(--radius-md) var(--radius-md) 0 0; padding: var(--space-2xs) var(--space-md); background: var(--color-paper); color: var(--color-ink-muted); }
+/* 選ばれている面は紙と地続きに見せる。下辺を消して、枠が「つながって」いるようにする。 */
+.history-tabs button[aria-selected="true"] { background: var(--color-surface); color: var(--color-ink); font-weight: 700; transform: translateY(var(--rule-thin)); }
+.history-panel { border: var(--rule-thin) solid var(--color-rule); border-block-start: 0; border-radius: 0 0 var(--radius-md) var(--radius-md); background: var(--color-surface); padding: var(--space-md); }
+.history-review-heading { margin-block: 0 var(--space-xs); font-size: var(--text-md); }
+
+/* 10 首ごとのまとまり。**箱を並べる**（依頼者・2026-09-16）。 */
+/*
+ * **狭い画面では 2 列に固定する**（依頼者・2026-09-16）。`auto-fill` に任せると、
+ * 幅によって 1 列と 2 列が入れ替わり、5 行の並びが崩れる。
+ */
+.history-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm); padding: 0; list-style: none; }
+@media (min-width: 40rem) {
+  .history-groups { grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr)); }
+}
+.history-group-item { display: grid; align-content: start; gap: var(--space-xs); min-width: 0; }
+.history-group { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); width: 100%; box-sizing: border-box; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-md); padding: var(--space-sm); background: var(--color-paper); text-align: start; }
+.history-group[aria-expanded="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); }
+.history-group__label { font-weight: 700; overflow-wrap: anywhere; }
+/*
+ * **開いたまとまりは行いっぱいに広げる。** 列の幅（11rem）のままだと、
+ * 中の 1 首ぶんが 3 行に折り返して読めなくなる。
+ */
+.history-group-item:has(.history-list) { grid-column: 1 / -1; }
+/* 開いた中の一覧は、箱の中に入っていることが分かるように少しだけ下げる。 */
+.history-group-item .history-list { padding-inline-start: var(--space-sm); }
+
+/* 輪のメーター。**帯（1首）と用途を分ける**ので、形そのものを変える。 */
+.ring-meter { display: inline-grid; grid-template-areas: "ring"; place-items: center; flex: 0 0 auto; }
+.ring-meter svg { grid-area: ring; width: 3.25rem; height: 3.25rem; transform: rotate(-90deg); }
+.ring-meter__track { fill: none; stroke: var(--color-rule); stroke-width: 4; }
+.ring-meter__fill { fill: none; stroke: currentColor; stroke-width: 4; stroke-linecap: round; }
+.ring-meter__value { grid-area: ring; font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--color-ink); }
+.ring-meter--gray { color: var(--mastery-gray); }
+.ring-meter--red { color: var(--mastery-red); }
+.ring-meter--yellow { color: var(--mastery-yellow); }
+.ring-meter--blue { color: var(--mastery-blue); }
+.ring-meter--green { color: var(--mastery-green); }
 .history-entry { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-sm); }
 
 /* 版だけを静かに名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */

@@ -138,7 +138,13 @@ export function RangePicker({ entry, range, order, autoRung, onStart, onBack }: 
             **習熟度と二重の指標**になって、どちらを見ればよいのか分からなくなる。
             出せるのは「いまどちら向きに動かしたか」だけである。
           */}
-          <h2 id="rung-heading">難しさ</h2>
+          {/*
+            **何段動かしたかを符号つきで出す**（依頼者・2026-09-16）。2 回目以降も押せるので、
+            これが無いとどれだけ動かしたのか分からない。
+            **出すのは相対の数だけ**である——段の番号や名前は歌ごとに違うので名乗れない。
+            **符号は学習者から見た向き**にする。`rungAdjust` は ＋が易しい側なので、ここで反転する。
+          */}
+          <h2 id="rung-heading">難しさ{rungAdjust !== 0 && <span class="rung-shift">{rungAdjust > 0 ? '−' : '+'}{Math.abs(rungAdjust)}</span>}</h2>
           <p class="rung-note">習熟度が上がると、より難度の高い問題を選べるようになります。</p>
           {/* **離れていることが分かる表示**。戻す手がかりが無いと迷子になる（§4.5）。 */}
           {rungAdjust !== 0 && (

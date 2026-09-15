@@ -10,23 +10,38 @@ import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
 import type { HistorySummary } from '../../packages/hyakunin/src/domain/history.ts';
 
 let root: HTMLDivElement | undefined;
-const summary: HistorySummary = { isEmpty: false, touchedCount: 2, points: 1248, entries: [
+const summary: { -readonly [K in keyof HistorySummary]: HistorySummary[K] } = { isEmpty: false, touchedCount: 2, points: 1248, entries: [
   { poemId: 'p012', cardNo: 12, percent: 90, color: 'green', untouched: false, authorUnconfirmed: false, needsReview: true },
   { poemId: 'p045', cardNo: 45, percent: 0, color: 'gray', untouched: false, authorUnconfirmed: true, needsReview: true },
   { poemId: 'p099', cardNo: 99, percent: 0, color: 'gray', untouched: true, authorUnconfirmed: true, needsReview: false },
-], needsReview: [] };
+], needsReview: [], groups: [] };
 summary.needsReview = summary.entries.slice(0, 2);
+/**
+ * 一覧は 10 首ごとのまとまりになった（2026-09-16）。**まとまりは集計側が作る**ので、
+ * 試験でも `summarizeHistory` と同じ形（`from`・`to`・平均）を置く。
+ */
+summary.groups = [{ from: 12, to: 99, percent: 30, color: 'red', entries: summary.entries }];
 function mount(value = summary, onHome = () => {}) { root = document.createElement('div'); document.body.append(root); render(<History summary={value} onHome={onHome} />, root); return root; }
+/** 一覧のまとまりを開く。開くまで 100 首の行は出ない。 */
+function openGroup(view: HTMLElement) { act(() => { view.querySelector<HTMLButtonElement>('.history-group')!.click(); }); return view; }
+/** タブを切り替える。 */
+function switchTo(view: HTMLElement, label: string) { act(() => { Array.from(view.querySelectorAll<HTMLButtonElement>('[role="tab"]')).find((item) => item.textContent === label)!.click(); }); return view; }
 afterEach(() => { root?.remove(); root = undefined; });
-test('history: 全首の記録を表示する', () => { const view = mount(); expect(view.textContent).toContain('全100首'); for (const card of ['12番', '45番', '99番']) expect(view.querySelectorAll('.history-list')[1]?.textContent).toContain(card); });
-test('history: メーターと数値を表示する', () => { const view = mount(); expect(view.querySelectorAll('[role="meter"]')).toHaveLength(4); expect(view.textContent).toContain('習熟度 90%'); });
-test('history: 未着手にはメーターを出さない', () => { const item = Array.from(mount().querySelectorAll('li')).find((node) => node.textContent?.includes('99番'))!; expect(item.textContent).toContain('未着手'); expect(item.querySelector('[role="meter"]')).toBeNull(); });
-test('history: 作者未確認を作者イベントがない首にだけ併記する', () => { const view = mount(); const unconfirmed = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('45番'))!; const answered = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('12番'))!; expect(unconfirmed.textContent).toContain('作者 未確認'); expect(answered.textContent).not.toContain('作者 未確認'); });
-test('history: 要確認を番号順で表示する', () => { const text = mount().querySelector('.history-list')!.textContent!; expect(text.indexOf('12番')).toBeLessThan(text.indexOf('45番')); });
-test('history: 要確認なしの文言を表示する', () => expect(mount({ ...summary, needsReview: [] }).textContent).toContain('要確認の歌はありません'));
-test('history: 要確認の基準は一覧が空でも一度だけ示す', () => { const view = mount({ ...summary, needsReview: [] }); expect(view.textContent?.split('最後に解いたとき、まちがえたか「わからない」を選んだ歌です。')).toHaveLength(2); });
-test('history: 空状態に始める導線がある', () => { const view = mount({ ...summary, isEmpty: true, entries: [], needsReview: [], touchedCount: 0 }); expect(view.textContent).toContain('まだ記録がありません'); expect(view.textContent).toContain('始める'); });
-test('history: 完全な空記録でも要確認の基準を出す', () => { const view = mount({ ...summary, isEmpty: true, entries: [], needsReview: [], touchedCount: 0 }); expect(view.textContent).toContain('最後に解いたとき、まちがえたか「わからない」を選んだ歌です。'); });
+test('history: まとまりを開くと全首の記録を表示する', () => { const view = openGroup(mount()); for (const card of ['12番', '45番', '99番']) expect(view.querySelector('.history-list')?.textContent).toContain(card); });
+test('history: メーターと数値を表示する', () => {
+  const view = mount();
+  expect(view.querySelectorAll('[role="meter"]'), 'まとまりの輪だけが出る').toHaveLength(1);
+  openGroup(view);
+  expect(view.querySelectorAll('[role="meter"]'), '輪1つと、着手した2首の帯').toHaveLength(3);
+  expect(view.textContent).toContain('習熟度 90%');
+});
+test('history: 未着手にはメーターを出さない', () => { const item = Array.from(openGroup(mount()).querySelectorAll('li.history-entry')).find((node) => node.textContent?.includes('99番'))!; expect(item.textContent).toContain('未着手'); expect(item.querySelector('[role="meter"]')).toBeNull(); });
+test('history: 作者未確認を作者イベントがない首にだけ併記する', () => { const view = openGroup(mount()); const unconfirmed = Array.from(view.querySelectorAll('li.history-entry')).find((node) => node.textContent?.includes('45番'))!; const answered = Array.from(view.querySelectorAll('li.history-entry')).find((node) => node.textContent?.includes('12番'))!; expect(unconfirmed.textContent).toContain('作者 未確認'); expect(answered.textContent).not.toContain('作者 未確認'); });
+test('history: 要確認を番号順で表示する', () => { const text = switchTo(mount(), '要確認').querySelector('.history-list')!.textContent!; expect(text.indexOf('12番')).toBeLessThan(text.indexOf('45番')); });
+test('history: 要確認なしの文言を表示する', () => expect(switchTo(mount({ ...summary, needsReview: [] }), '要確認').textContent).toContain('要確認の歌はありません'));
+test('history: 要確認の基準は一覧が空でも一度だけ示す', () => { const view = switchTo(mount({ ...summary, needsReview: [] }), '要確認'); expect(view.textContent?.split('最後に解いたとき、まちがえたか「わからない」を選んだ歌です。')).toHaveLength(2); });
+test('history: 空状態に始める導線がある', () => { const view = mount({ ...summary, isEmpty: true, entries: [], groups: [], needsReview: [], touchedCount: 0 }); expect(view.textContent).toContain('まだ記録がありません'); expect(view.textContent).toContain('始める'); });
+test('history: 完全な空記録でも要確認の基準を出す', () => { const view = mount({ ...summary, isEmpty: true, entries: [], groups: [], needsReview: [], touchedCount: 0 }); expect(view.textContent).toContain('最後に解いたとき、まちがえたか「わからない」を選んだ歌です。'); });
 test('history: Home の記録導線はコールバックを呼ぶ', () => { let opened = false; root = document.createElement('div'); document.body.append(root); render(<Home poems={[] as never[]} questions={[]} onOpenHistory={() => { opened = true; }} />, root); Array.from(root.querySelectorAll('button')).find((button) => button.textContent === 'これまでの記録')!.click(); expect(opened).toBe(true); });
 test('history: 記録を開く間はloadingを表示する', async () => {
   const source = readFileSync(join(process.cwd(), 'packages/hyakunin/src/data/generated/poems.json'), 'utf8');

@@ -5,6 +5,16 @@ import type { ApplicationPort } from "../adapters/indexeddb-port.ts";
 
 /** `onChanged` は記録が変わったことを親へ知らせる。取り込みも削除も一覧を古くするため。 */
 type Props = { port: ApplicationPort; onChanged?: () => void };
+
+/**
+ * 持ち出しの 5 つの口がそろっているか。**判定はここだけに置く。**
+ *
+ * 転送の口は `Partial` で任意にしてあり、落ちても型は通る。
+ * 呼び出し側（記録画面のタブ）で同じ条件を書き写すと、**片方だけ直った状態が試験を通る。**
+ */
+export function canTransferRecords(port?: ApplicationPort): boolean {
+  return Boolean(port?.exportRecords && port.previewImport && port.commitImport && port.previewDelete && port.commitDelete);
+}
 type Stage =
   | { kind: "idle" }
   | { kind: "exported"; name: string; sessions: number; events: number }
@@ -24,7 +34,7 @@ export function RecordTransfer({ port, onChanged }: Props) {
   const [stage, setStage] = useState<Stage>({ kind: "idle" });
   const [busy, setBusy] = useState(false);
   // 口が無いポート（簡易ポート・試験のダブル）では機能ごと出さない。
-  if (!port.exportRecords || !port.previewImport || !port.commitImport || !port.previewDelete || !port.commitDelete) return null;
+  if (!canTransferRecords(port)) return null;
 
   async function runExport() {
     setBusy(true);
@@ -100,7 +110,7 @@ export function RecordTransfer({ port, onChanged }: Props) {
 
   return (
     <section class="record-transfer" aria-labelledby="transfer-heading">
-      <h2 id="transfer-heading">記録の持ち出し</h2>
+      <h2 id="transfer-heading">データ管理</h2>
       <p class="transfer-help">
         機種変更やバックアップのために、記録をファイルへ書き出せます。読み込むと、同じ記録は重ねずにひとつにまとめます。
       </p>

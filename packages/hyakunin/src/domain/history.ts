@@ -7,7 +7,32 @@ import { isViewOnly } from '@koten/shared/domain/mastery/rules.v1';
 import { rungProgress, type RungCatalogueEntry } from '@koten/shared/domain/mastery/rungs';
 
 export type HistoryEntry = Readonly<{ poemId: string; cardNo: number; percent: number; color: MasteryColor; untouched: boolean; authorUnconfirmed: boolean; needsReview: boolean; conquered: boolean }>;
-export type HistorySummary = Readonly<{ entries: readonly HistoryEntry[]; needsReview: readonly HistoryEntry[]; touchedCount: number; isEmpty: boolean; points: number }>;
+/**
+ * 10 首ごとのまとまり（依頼者・2026-09-16）。**平均をひとつの輪で見せる。**
+ * 100 行の平坦な一覧では、どこを練習したのかが読み取れない。
+ */
+export type HistoryGroup = Readonly<{ from: number; to: number; percent: number; color: MasteryColor; entries: readonly HistoryEntry[] }>;
+export type HistorySummary = Readonly<{ entries: readonly HistoryEntry[]; groups: readonly HistoryGroup[]; needsReview: readonly HistoryEntry[]; touchedCount: number; isEmpty: boolean; points: number }>;
+
+/** まとまりの首数。**画面と集計で別々に書かない。** */
+export const HISTORY_GROUP_SIZE = 10;
+
+/**
+ * **集計はここで作る。** 画面で足し算を書くと、試験が「表示されている数字」しか見なくなる。
+ * 割合は**その 10 首の平均**である——1 首ぶんの伸びがまとまりを埋め尽くしてはいけない。
+ */
+function groupEntries(entries: readonly HistoryEntry[]): HistoryGroup[] {
+  const groups: HistoryGroup[] = [];
+  for (let start = 0; start < entries.length; start += HISTORY_GROUP_SIZE) {
+    const slice = entries.slice(start, start + HISTORY_GROUP_SIZE);
+    const average = slice.reduce((total, entry) => total + entry.percent, 0) / slice.length;
+    groups.push({
+      from: slice[0]!.cardNo, to: slice.at(-1)!.cardNo,
+      percent: masteryDisplay(average).percent, color: masteryDisplay(average).color, entries: slice,
+    });
+  }
+  return groups;
+}
 
 /**
  * **完全制覇は点ではなく印である**（依頼者裁定・2026-09-15）。
@@ -30,7 +55,7 @@ export function summarizeHistory(input: Readonly<{ events: readonly Event[]; poe
       conquered: progress.get(poemId)?.conquered ?? false,
     };
   });
-  return { entries, needsReview: entries.filter((entry) => entry.needsReview), touchedCount: entries.filter((entry) => !entry.untouched).length, isEmpty: input.events.length === 0, points: computePoints(input.events).total };
+  return { entries, groups: groupEntries(entries), needsReview: entries.filter((entry) => entry.needsReview), touchedCount: entries.filter((entry) => !entry.untouched).length, isEmpty: input.events.length === 0, points: computePoints(input.events).total };
 }
 
 function needsReview(poemId: string, events: readonly Event[]): boolean {

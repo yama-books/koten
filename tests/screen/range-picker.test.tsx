@@ -238,3 +238,20 @@ test('086: 作者の入口では、本文の段ではなく作者の 2 通りで
   expect(hardenButton(root).disabled, '2 通りしかないのに、まだ上げられる').toBe(true);
   root.remove();
 });
+
+test('086: 何段動かしたかを符号つきの数字で出す', async () => {
+  // **2 回目以降も押せるので、いまどれだけ動かしたのかが分からなかった**（依頼者・2026-09-16）。
+  // 出すのは**相対の数**である。段の番号や名前は出さない（歌ごとに違うため）。
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(root.querySelector('.rung-shift'), '自動の位置では数を出さない').toBeNull();
+  await act(() => { hardenButton(root).click(); });
+  expect(root.querySelector('.rung-shift')?.textContent, 'むずかしくしたら ＋である').toBe('+1');
+  await act(() => { hardenButton(root).click(); });
+  expect(root.querySelector('.rung-shift')?.textContent).toBe('+2');
+  await act(() => { autoButton(root).click(); });
+  await act(() => { easeButton(root).click(); });
+  await act(() => { easeButton(root).click(); });
+  expect(root.querySelector('.rung-shift')?.textContent, 'やさしくしたら −である').toBe('−2');
+  root.remove();
+});

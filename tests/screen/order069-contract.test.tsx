@@ -21,4 +21,8 @@ test('069 M-8: 解答欄の印は開示時だけ置く', () => expect(session())
 test('069 M-9: 結果の各操作はpractice-choiceに入れる', () => expect(result().match(/class="practice-choice"/g)).toHaveLength(2));
 test('069 M-10: 歌順はラジオでなく押下状態を持つボタンで選ぶ', () => { expect(picker()).not.toContain('type="radio"'); expect(picker()).toContain('aria-pressed={selectedOrder === "number"}'); });
 test('069 M-11: 範囲入力は変更操作でだけ開く', () => expect(picker()).toContain('{rangeOpen && <div class="range-fields">'));
-test('069 M-12: 完全な空記録でも要確認の基準を出す', () => expect(history()).toMatch(/summary\.isEmpty[\s\S]{0,500}最後に解いたとき、まちがえたか/));
+test('069 M-12: 完全な空記録でも要確認の基準を出す', () => {
+  // 文言は 1 か所（`REVIEW_CRITERION`）に置いた（2026-09-16）。**書き写すと片方だけ直る。**
+  expect(history()).toMatch(/summary\.isEmpty[\s\S]{0,500}\{REVIEW_CRITERION\}/);
+  expect(history()).toContain("const REVIEW_CRITERION = '最後に解いたとき、まちがえたか「わからない」を選んだ歌です。'");
+});
