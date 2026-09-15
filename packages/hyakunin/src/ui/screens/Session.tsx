@@ -262,7 +262,8 @@ export function Session({
       return (
         <main class="session">
           {progressMeter}
-          <h1>今回の範囲を確認しました</h1>
+          {/* 端末幅によって「た」だけが折り返していた（iPhone 16e・依頼者）。少し小さくする。 */}
+          <h1 class="session-complete">今回の範囲を確認しました</h1>
           <button type="button" onClick={() => onComplete(outcomes)}>
             結果を見る
           </button>

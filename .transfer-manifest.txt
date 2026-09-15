@@ -431,6 +431,7 @@ packages/hyakunin/src/ui/components/FeedbackMark.tsx
 packages/hyakunin/src/ui/components/ReadingToggle.tsx
 packages/hyakunin/src/ui/components/RecordTransfer.tsx
 packages/hyakunin/src/ui/components/ReportButton.tsx
+packages/hyakunin/src/ui/components/RingMeter.tsx
 packages/hyakunin/src/ui/components/WritingModeToggle.tsx
 packages/hyakunin/src/ui/screens/History.tsx
 packages/hyakunin/src/ui/screens/Home.tsx
@@ -908,6 +909,7 @@ tests/screen/entries.test.tsx
 tests/screen/even-coverage.test.tsx
 tests/screen/feedback-timing.test.tsx
 tests/screen/harness.test.tsx
+tests/screen/history-groups.test.tsx
 tests/screen/history-transfer.test.tsx
 tests/screen/history.test.tsx
 tests/screen/home.test.tsx
@@ -942,6 +944,7 @@ tests/unit/font-assets.test.ts
 tests/unit/font-coverage.test.ts
 tests/unit/font-weight.test.ts
 tests/unit/history-conquered.test.ts
+tests/unit/history-groups.test.ts
 tests/unit/history.test.ts
 tests/unit/hyakunin-range.test.ts
 tests/unit/hyakunin-schema.test.ts

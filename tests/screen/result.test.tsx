@@ -21,17 +21,25 @@ const base: SessionResult = {
   points: 137,
 };
 
+/** 初句を出すのに歌の本文が要る（2026-09-16）。**番号から本文を推測させない。** */
+const poems = [
+  { poemId: 'p001', cardNo: 1, ku: ['秋の田の', 'かりほの庵の', '苫をあらみ', 'わが衣手は', '露にぬれつつ'] },
+  { poemId: 'p004', cardNo: 4, ku: ['田子の浦に', 'うち出でて見れば', '白妙の', '富士の高嶺に', '雪は降りつつ'] },
+] as never[];
+
 function mount(result: SessionResult = base, handlers = { onRetryWeak: (_questionIds: readonly string[]) => {}, onRetrySame: () => {}, onHome: () => {} }) {
   root = document.createElement('div');
   document.body.append(root);
-  render(<Result result={result} {...handlers} />, root);
+  render(<Result result={result} poems={poems} {...handlers} />, root);
   return root;
 }
 
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });
 
 test('result: 対象範囲と問題数を表示する', () => { const view = mount(); expect(view.textContent).toContain('対象範囲: 3番〜5番'); expect(view.textContent).toContain('問題数: 4問'); });
-test('result: 内訳を表示する', () => { const view = mount(); for (const text of ['閲覧1問', '正答1問', '△ 仮名遣い確認1問', '誤答1問']) expect(view.textContent).toContain(text); });
+// 表記は「わからない」（依頼者・2026-09-16）。**保存は閲覧のままだが、押したのは「わからない！」である。**
+test('result: 内訳を表示する', () => { const view = mount(); for (const text of ['わからない1問', '正答1問', '△ 仮名遣い確認1問', '誤答1問']) expect(view.textContent).toContain(text); });
+test('result: 内訳に「閲覧」の語を出さない', () => expect(mount().textContent).not.toContain('閲覧'));
 // 「要確認」は読み未確認の内部区分で、学習者には誤答の意味に読まれる（実機確認・2026-09-05）。内部の5区分は維持し、表示から落とす。
 test('result: 内訳に「要確認」を出さない', () => { const view = mount({ ...base, breakdown: { ...base.breakdown, needsReview: 3 } }); expect(view.textContent).not.toContain('要確認'); });
 test('result: 全問正解の回に花丸画像が出る', () => { const view = mount({ ...base, allCorrect: true }); expect(view.textContent).toContain('全問花丸'); expect(view.querySelector('img[src*="perfect-hanamaru"]')).not.toBeNull(); });
@@ -213,4 +221,11 @@ test('result: ネコは装飾で、読み上げ木に出ない', () => {
   expect(cat).not.toBeNull();
   expect(cat?.getAttribute('alt')).toBe('');
   expect(cat?.getAttribute('aria-hidden')).toBe('true');
+});
+
+test('result: 次に確認する歌は、番号のあとに初句を出す', () => {
+  // 番号だけでは、どの歌なのか思い出せない（依頼者・2026-09-16）。
+  const view = mount({ ...base, recommendation: { poemId: 'p001', tier: 1, reason: '前回から間隔が空いたため', percent: 40 } });
+  expect(view.querySelector('.result-recommend')?.textContent).toContain('1番');
+  expect(view.querySelector('.result-recommend')?.textContent).toContain('秋の田の…');
 });

@@ -1,10 +1,16 @@
 import type { SessionResult } from '../../domain/result.ts';
+import type { Poem } from '../../data/schema.ts';
 import { MasteryMeter } from '@koten/shared/mastery-meter';
 import { PerfectMark } from '../components/FeedbackMark.tsx';
 import { CatMascot } from '../components/CatMascot.tsx';
 
 type Props = {
   result: SessionResult;
+  /**
+   * 歌の本文（2026-09-16）。**「次に確認する」に初句を出すために渡す。**
+   * 番号だけでは、どの歌なのか思い出せない。**番号から本文を推測しない。**
+   */
+  poems?: readonly Poem[];
   onRetryWeak: (questionIds: readonly string[]) => void;
   onRetrySame: () => void;
   onHome: () => void;
@@ -17,7 +23,8 @@ type Props = {
  * 再練習ボタンの上に積まれていた。記録は削るのではなく、一段の `details` の中へ移す。
  * DOM 順と視覚順は一致させる（`order` で並べ替えない）。
  */
-export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
+export function Result({ result, poems = [], onRetryWeak, onRetrySame, onHome }: Props) {
+  const recommendedFirstKu = poems.find((poem) => poem.poemId === result.recommendation?.poemId)?.ku[0];
   return <main class="result-screen">
     <header class="nav-edge"><span class="wordmark">結果</span><button type="button" onClick={onHome}>ホームへ戻る</button></header>
     <section class="result-summary" aria-labelledby="result-heading">
@@ -29,8 +36,12 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
       {result.allCorrect && <p class="result-hanamaru"><PerfectMark /></p>}
       <h2 id="breakdown-heading" class="result-subheading">内訳</h2>
       <dl class="result-breakdown" aria-labelledby="breakdown-heading">
-        {/* 本番では閲覧が 0 にしかならない。0 の行は読み手に何も伝えない（依頼者指示・2026-09-06）。 */}
-        {result.breakdown.viewed > 0 && <div><dt>閲覧</dt><dd>{result.breakdown.viewed}問</dd></div>}
+        {/* 本番では 0 にしかならない。0 の行は読み手に何も伝えない（依頼者指示・2026-09-06）。 */}
+        {/*
+          **表記は「わからない」にする**（依頼者・2026-09-16）。保存する事象は閲覧（`viewed`）のままだが、
+          学習者が押したのは「わからない！」であって、閲覧モードで眺めたのではない。
+        */}
+        {result.breakdown.viewed > 0 && <div><dt>わからない</dt><dd>{result.breakdown.viewed}問</dd></div>}
         <div><dt>正答</dt><dd>{result.breakdown.correct}問</dd></div>
         <div><dt>△ 仮名遣い確認</dt><dd>{result.breakdown.partial}問</dd></div>
         <div><dt>誤答</dt><dd>{result.breakdown.incorrect}問</dd></div>
@@ -41,7 +52,7 @@ export function Result({ result, onRetryWeak, onRetrySame, onHome }: Props) {
       {/* 「同じ範囲をもう一度」は範囲から出題し直す操作で、同じ問題が出る保証はない。名前を変えない。 */}
       <div class="practice-choice"><button class="primary" type="button" onClick={onRetrySame}>同じ範囲をもう一度</button><p>同じ範囲でもう一度出題します。</p></div>
     </section>
-    {result.recommendation && <section class="result-section result-recommend" aria-labelledby="recommend-heading"><h2 id="recommend-heading">次に確認する</h2><p>{Number(result.recommendation.poemId.slice(1))}番</p><p>{result.recommendation.reason}</p></section>}
+    {result.recommendation && <section class="result-section result-recommend" aria-labelledby="recommend-heading"><h2 id="recommend-heading">次に確認する</h2><p>{Number(result.recommendation.poemId.slice(1))}番{recommendedFirstKu && <span class="result-recommend__ku">{recommendedFirstKu}…</span>}</p><p>{result.recommendation.reason}</p></section>}
     <details class="result-details">
       <summary>学習記録の詳細</summary>
       <p class="result-details__note">習熟度は、これまでの学習記録をもとにした目安です。今回の正答率ではありません。</p>

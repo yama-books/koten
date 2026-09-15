@@ -112,8 +112,9 @@ test('range-picker: 作者問題の設定は本番だけにあり、既定で出
  * **出題中ではなく、始める前に置く。** 解いている途中で難度が変わると、
  * その回の記録の意味が揺れる。
  */
-const easeButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === 'やさしくする')!;
-const hardenButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === 'むずかしくする')!;
+/** 名前は 1 回押すと「もっと…」へ変わる（依頼者・2026-09-16）ので、**接尾で探す。** */
+const easeButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent?.endsWith('やさしくする'))!;
+const hardenButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent?.endsWith('むずかしくする'))!;
 
 const autoButton = (root: HTMLElement) => Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) => button.textContent === 'おまかせ')!;
 
@@ -134,6 +135,14 @@ test('086: 難しさの操作は 3 つのボタンだけである', async () => 
   await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
   const labels = Array.from(root.querySelectorAll('.rung-adjust button')).map((button) => button.textContent);
   expect(labels).toEqual(['やさしくする', 'むずかしくする', 'おまかせ']);
+  // **1 回押すと「もっと」が付く。** いま動かしている向きへ、さらに動かす操作だと分かる。
+  act(() => { hardenButton(root).click(); });
+  expect(Array.from(root.querySelectorAll('.rung-adjust button')).map((button) => button.textContent))
+    .toEqual(['やさしくする', 'もっとむずかしくする', 'おまかせ']);
+  act(() => { autoButton(root).click(); });
+  act(() => { easeButton(root).click(); });
+  expect(Array.from(root.querySelectorAll('.rung-adjust button')).map((button) => button.textContent))
+    .toEqual(['もっとやさしくする', 'むずかしくする', 'おまかせ']);
   root.remove();
 });
 
@@ -236,5 +245,37 @@ test('086: 作者の入口では、本文の段ではなく作者の 2 通りで
   await act(() => { autoButton(root).click(); });
   await act(() => { hardenButton(root).click(); });
   expect(hardenButton(root).disabled, '2 通りしかないのに、まだ上げられる').toBe(true);
+  root.remove();
+});
+
+test('086: 何段動かしたかを符号つきの数字で出す', async () => {
+  // **2 回目以降も押せるので、いまどれだけ動かしたのかが分からなかった**（依頼者・2026-09-16）。
+  // 出すのは**相対の数**である。段の番号や名前は出さない（歌ごとに違うため）。
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  expect(root.querySelector('.rung-shift')?.textContent, '自動の位置では「おまかせ」と出す').toBe('おまかせ');
+  await act(() => { hardenButton(root).click(); });
+  expect(root.querySelector('.rung-shift')?.textContent, 'むずかしくしたら ＋である').toBe('+1');
+  await act(() => { hardenButton(root).click(); });
+  expect(root.querySelector('.rung-shift')?.textContent).toBe('+2');
+  await act(() => { autoButton(root).click(); });
+  await act(() => { easeButton(root).click(); });
+  await act(() => { easeButton(root).click(); });
+  expect(root.querySelector('.rung-shift')?.textContent, 'やさしくしたら −である').toBe('−2');
+  root.remove();
+});
+
+test('086: いまどれを選んでいるかを色で示す', async () => {
+  // **押すたびに動く操作なので、押せることと選ばれていることは別である**（依頼者・2026-09-16）。
+  const root = document.createElement('div'); document.body.append(root);
+  await act(() => { render(<RangePicker entry="learn" range={{ from: 1, to: 20 }} order="number" autoRung={3} onBack={() => {}} onStart={() => {}} />, root); });
+  const pressed = () => Array.from(root.querySelectorAll<HTMLButtonElement>('.rung-adjust button')).filter((item) => item.getAttribute('aria-pressed') === 'true').map((item) => item.textContent);
+  expect(pressed()).toEqual(['おまかせ']);
+  await act(() => { easeButton(root).click(); });
+  expect(pressed()).toEqual(['もっとやさしくする']);
+  await act(() => { hardenButton(root).click(); });
+  expect(pressed(), '戻したら「おまかせ」に戻る').toEqual(['おまかせ']);
+  await act(() => { hardenButton(root).click(); });
+  expect(pressed()).toEqual(['もっとむずかしくする']);
   root.remove();
 });

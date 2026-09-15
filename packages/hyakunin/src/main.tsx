@@ -174,7 +174,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     // 結果に残った問題でも、壊れた穴埋めは再確認画面を作れない。押すと必ず失敗する
     // 導線を出さず、作者問題は既存の選択式 UI で再確認へ通す（発注074 工程16）。
     const retryQuestionIds = result.retryQuestionIds.filter((questionId) => planReviewQuestions(selected.questions, [questionId]) !== null);
-    return <><>{saveFailure && <p class="result-save-failure" role="alert">保存に失敗しました。結果は表示しています。</p>}</><Result result={{ ...result, retryQuestionIds }} onRetryWeak={startReview} onRetrySame={() => {
+    return <><>{saveFailure && <p class="result-save-failure" role="alert">保存に失敗しました。結果は表示しています。</p>}</><Result result={{ ...result, retryQuestionIds }} poems={selected.poems} onRetryWeak={startReview} onRetrySame={() => {
     const origin = selected.origin ?? { entry: selected.entry, answerMode: selected.answerMode };
     void startNew(origin.entry, selected.range, settings.order, selected.questions, selected.poems, origin.answerMode);
     }} onHome={() => setScreen('home')} /></>;
