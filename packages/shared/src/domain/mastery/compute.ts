@@ -1,5 +1,6 @@
 import type { Event } from '../event.ts';
 import {
+  cappedPracticeStep,
   INCORRECT_DECREMENT,
   isMasteryCompletionMethod,
   MASTERY_RULES,
@@ -86,10 +87,35 @@ function applyEvent(state: ItemState, event: Event, isRepeat: boolean): void {
   const increment = isRepeat ? Math.floor(base / 2) : base;
   // 90 の先へ進めるのは、段の天井がそこまで許しているときだけである。
   const cap = mayExceedNinety ? beyondNinety : rungCap;
-  state.score = clamp(state.score + Math.min(increment, Math.max(0, cap - state.score)));
+  const gain = Math.min(increment, Math.max(0, cap - state.score));
+  /*
+   * **段の天井で止まっている段を練習しても、わずかには伸びる**（依頼者裁定・2026-09-15）。
+   *
+   * 段の梯子を入れてから、天井を超えている段は何問正解しても 0 だった。自動は点が入る段を
+   * 配るようにしたので、ここに来るのは**学習者が自分で「やさしくする」を押した回**である。
+   * **まったく報われないと、復習そのものが損になる。**
+   *
+   * **上限は方式の天井。** 段の天井は超えるが、易しい方式で稼ぐ道は塞いだままにする。
+   */
+  /*
+   * **微増の上限は方式の天井（自由入力なら 90）。** 90 を超えられるのは
+   * 「日をまたいで完成方式で解き続ける」既存の経路だけ（`mayExceedNinety`）という設計を崩さない。
+   */
+  // **段8 には微増も入れない。** 点を動かさない段（天井を持たない段）である。
+  const scoringRung = !hasRung || (RUNG_CAPS[event.rung as number] ?? 0) > 0;
+  const trickle = gain > 0 || !scoringRung ? 0 : Math.min(
+    isRepeat ? cappedPracticeStep(state.score) / 2 : cappedPracticeStep(state.score),
+    Math.max(0, rule.cap - state.score),
+  );
+  state.score = clamp(state.score + gain + trickle);
   if (state.score >= 90 && state.ninetyReachedOn === undefined) state.ninetyReachedOn = event.localDate;
 }
 
 function clamp(value: number): number {
-  return Math.max(0, Math.min(100, value));
+  /*
+   * **小数第2位で丸める。** 微増（+0.05 など）を積むと端数が溜まり、
+   * 89.99999999 で止まって「90 に届いた」判定が外れる——その先の経路が開かなくなる。
+   * 整数の加算しか無かったころは効かなかったが、微増を入れた以上ここで揃える。
+   */
+  return Math.round(Math.max(0, Math.min(100, value)) * 100) / 100;
 }

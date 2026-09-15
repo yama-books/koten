@@ -49,6 +49,39 @@ export const INCORRECT_DECREMENT: Readonly<Record<EventMethod, number>> = {
  */
 export const OVER_NINETY_INCREMENT = 2;
 
+/**
+ * **段の天井で止まっている段を練習したときの微増**（依頼者裁定・2026-09-15）。
+ *
+ * > 中くらいまでの段階なら 1 回（10問）で 1〜2%。段階が上がるにつれて圧縮され、
+ * > 90% を超えるとかなり上がりにくくなる。
+ *
+ * **「やさしくする」で下げた回が、まったく報われないのを避けるためである。**
+ * 自動は点が入る段を配るので、この微増が効くのは**学習者が自分で下げた回**だけである。
+ *
+ * **稼ぐ道にはしない。** 通常の伸びは自由入力 +9／問で、ここは一桁どころか二桁小さい。
+ * 段1 だけで方式の天井 90 へ届くには約 600 問（60 回）かかる。
+ * **上限は方式の天井**（`MASTERY_RULES[method].cap`）で、段の天井は超えるがそこは超えない。
+ *
+ * 表は「この値**未満**なら この刻み」。表示は切り捨てなので、60 未満の帯だけが
+ * **1 回で確実に動く**（+0.2 × 10問 = 2%）。
+ */
+export const CAPPED_PRACTICE_STEPS: ReadonlyArray<Readonly<{ below: number; step: number }>> = [
+  { below: 60, step: 0.2 },
+  { below: 80, step: 0.1 },
+  { below: 90, step: 0.05 },
+];
+
+/**
+ * その習熟度のときの微増。**90 以上は 0。**
+ *
+ * 90 を超えられるのは「日をまたいで完成方式で解き続ける」既存の経路だけ（`OVER_NINETY_INCREMENT`）
+ * である。**易しい段の練習でそこを越えさせない**——自由入力の天井 90 そのものを崩すことになる。
+ * 表に 90 以上の行を置かないのは、置いても方式の天井に阻まれて**一度も成立しないから**である。
+ */
+export function cappedPracticeStep(score: number): number {
+  return CAPPED_PRACTICE_STEPS.find((row) => score < row.below)?.step ?? 0;
+}
+
 /** APP_SPEC §8.1 に明記された一段下げだけを表す。未規定の方式は undefined。 */
 export const HINT_METHOD_DOWNGRADE: Readonly<Partial<Record<EventMethod, EventMethod>>> = {
   view: 'view',

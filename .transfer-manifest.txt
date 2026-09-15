@@ -950,6 +950,7 @@ tests/unit/kanazukai/converter.acceptance.test.ts
 tests/unit/kanazukai/normalization.test.ts
 tests/unit/load.test.ts
 tests/unit/mastery/author-reachability.test.ts
+tests/unit/mastery/capped-practice.test.ts
 tests/unit/mastery/caps.test.ts
 tests/unit/mastery/color.test.ts
 tests/unit/mastery/decrements.test.ts
@@ -966,6 +967,7 @@ tests/unit/mastery/same-session.test.ts
 tests/unit/order.test.ts
 tests/unit/points/accrual.test.ts
 tests/unit/points/rules.test.ts
+tests/unit/points/weakness-baseline.test.ts
 tests/unit/prompt-layout.test.ts
 tests/unit/question-schema.test.ts
 tests/unit/question.test.ts
