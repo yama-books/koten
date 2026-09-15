@@ -967,6 +967,7 @@ tests/unit/mastery/same-session.test.ts
 tests/unit/order.test.ts
 tests/unit/points/accrual.test.ts
 tests/unit/points/rules.test.ts
+tests/unit/points/rung-factor.test.ts
 tests/unit/points/weakness-baseline.test.ts
 tests/unit/prompt-layout.test.ts
 tests/unit/question-schema.test.ts

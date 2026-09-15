@@ -5,9 +5,10 @@ import {
   EARNED_POINTS,
   MAX_WEAKNESS_MULTIPLIER,
   REPEAT_FACTOR,
+  RUNG_POINT_FACTOR,
 } from './rules.v1.ts';
 
-export { ATTEMPT_POINTS, EARNED_POINTS };
+export { ATTEMPT_POINTS, EARNED_POINTS, RUNG_POINT_FACTOR };
 
 export type PointsComputation = Readonly<{
   /** 全履歴の累計。青天井。 */
@@ -51,9 +52,23 @@ export function computePoints(events: readonly Event[]): PointsComputation {
 /** 1件ぶんの獲得点。`scoreBefore` はそのイベントを適用する**前**の項目習熟度。 */
 export function pointsFor(event: Event, scoreBefore: number, isRepeat: boolean): number {
   if (event.outcome === 'skipped') return 0;
-  const base = event.outcome === 'incorrect' ? ATTEMPT_POINTS : EARNED_POINTS[event.effectiveMethod];
+  /*
+   * **誤答には段の係数を掛けない**（当てずっぽうが得にならないように）。
+   * 正答の基礎点にだけ、難しい段ほど高い係数を掛ける。
+   */
+  const base = event.outcome === 'incorrect'
+    ? ATTEMPT_POINTS
+    : EARNED_POINTS[event.effectiveMethod] * rungPointFactor(event.rung);
   const earned = base * weaknessMultiplier(scoreBefore) * (isRepeat ? REPEAT_FACTOR : 1);
   return Math.round(earned);
+}
+
+/**
+ * 段の係数。**段を持たないものは 1.0**——作者問（別の梯子を持つ）と、
+ * 2026-09-15 より前に保存されて段の欄を持たないイベントである。**古い点を動かさない。**
+ */
+export function rungPointFactor(rung: number | null | undefined): number {
+  return typeof rung === 'number' ? RUNG_POINT_FACTOR[rung] ?? 1 : 1;
 }
 
 /** 弱点倍率だけを取り出す。基礎点の丸めに巻き込まれずに試験できるよう公開する。 */
