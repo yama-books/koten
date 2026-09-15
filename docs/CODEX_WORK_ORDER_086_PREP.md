@@ -166,6 +166,7 @@ type RungAdjust = number;
 | ファイル | 変更 |
 |---|---|
 | `packages/shared/src/domain/event.ts` | `Event` に `raised?: boolean`（**省略可**・§4.3） |
+| `packages/shared/src/domain/mastery/rungs.ts` | **`rungProgress` の作り替え**——`cleared` を集合にし、`raised` を `highestAnswered` から外す（§4.1・§4.3）。**この発注の山場である** |
 | `packages/hyakunin/src/domain/entry.ts` | 実効の段の計算（`isServedBlank` の隣） |
 | `packages/hyakunin/src/ui/screens/RangePicker.tsx` | ボタン 2 つと現在地の表示 |
 | `packages/hyakunin/src/main.tsx` | 設定を `planQuestions` へ渡す |
@@ -173,11 +174,15 @@ type RungAdjust = number;
 
 **絶対に変更しない領域**
 
-- **`capFor` は無変更。** 天井の規則そのものは変えない（§4.1 は「どの段の天井を使うか」の話である）
-- `tools/build-data/**`（問題は 1 問も増えない）
+- **`capFor` と `RUNG_CAPS` は無変更。** 天井の数そのものは変えない
+  （§4.1 は「**どの段の天井を使うか**」の話であって、天井の値の話ではない）
+- **`compute.ts` は無変更。** 採点の走査には触らない
 - **`MASTERY_RULES_VERSION` を上げない。** 上げると `computeMastery` が過去のイベントを
   全部捨てて**全員の習熟度が 0 に戻る**
-- `tools/build-data/**`、`review/**`、`docs/**`、一次資料
+- `tools/build-data/**`（問題は 1 問も増えない）、`review/**`、`docs/**`、一次資料
+
+**`rungs.ts` を触るのは `rungProgress` だけである。** 同じ file の `capFor`・`RUNG_CAPS`・
+`LOWEST_RUNG`・`FLAG_RUNG` には手を入れない。**境界は file ではなく関数で引いてある。**
 
 **境界の点検**——この発注が増やすのは**設定 1 つと画面の操作 2 つ**である。
 問題も段も増えない。**統計の項目も増えない**（`ENTRY_KEYS`・`BUTTON_KEYS` に触らない）ので、
