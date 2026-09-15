@@ -1,4 +1,5 @@
-import { ENTRY_LABELS, ENTRY_RULES, type EntryId } from "../../domain/entry.ts";
+import { ENTRY_LABELS, ENTRY_RULES, RUNG_LABELS, canEase, canHarden, effectiveRung, type EntryId, type RungAdjust } from "../../domain/entry.ts";
+import { FLAG_RUNG } from "@koten/shared/domain/mastery/rungs";
 import { canChangeOrder, type OrderMode } from "../../domain/order.ts";
 import { normalizeRange } from "../../domain/range.ts";
 import { useState } from "preact/hooks";
@@ -8,23 +9,36 @@ type Props = {
   entry: EntryId;
   range: { from: number; to: number };
   order: OrderMode;
+  /**
+   * その範囲の自動の位置（発注086）。**読み込みが済むまで渡さない**——
+   * 既定値で描くと、記録を読む前に「いまは段3」と言ってしまい、それが嘘になる。
+   */
+  autoRung?: number;
   onStart: (
     range: { from: number; to: number },
     order: OrderMode,
     answerMode: AnswerMode,
     includeAuthors: boolean,
+    rungAdjust: RungAdjust,
   ) => void;
   onBack: () => void;
 };
 
-export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
+export function RangePicker({ entry, range, order, autoRung, onStart, onBack }: Props) {
   const [from, setFrom] = useState(range.from);
   const [to, setTo] = useState(range.to);
   const [selectedOrder, setSelectedOrder] = useState(order);
   const [answerMode, setAnswerMode] = useState<AnswerMode>("screen");
   const [includeAuthors, setIncludeAuthors] = useState(true);
   const [rangeOpen, setRangeOpen] = useState(false);
+  /**
+   * **その回かぎりの難度の調整**（発注086・§4.2）。**保存しない。**
+   * この画面を離れれば消え、次に始めるときは自動の位置に戻る。
+   * 下げたままにすると、天井に達した段を延々と練習することになる（加算が 0 のまま）。
+   */
+  const [rungAdjust, setRungAdjust] = useState<RungAdjust>(0);
   const normalized = normalizeRange(from, to);
+  const served = autoRung === undefined ? undefined : effectiveRung(autoRung, rungAdjust);
   return (
     <main class="range-picker">
       <header class="nav-edge">
@@ -108,10 +122,32 @@ export function RangePicker({ entry, range, order, onStart, onBack }: Props) {
           </div>
         </section>
       )}
+      {autoRung !== undefined && served !== undefined && (
+        <section class="rung-adjust" aria-labelledby="rung-heading">
+          <h2 id="rung-heading">難しさ</h2>
+          <p class="rung-current" aria-live="polite">いまは{RUNG_LABELS[served]}段です。</p>
+          {/* **離れていることが分かる表示**。戻す手がかりが無いと迷子になる（§4.5）。 */}
+          {rungAdjust !== 0 && (
+            <p class="rung-away">
+              自動の位置は「{RUNG_LABELS[autoRung]}」です。
+              {rungAdjust > 0 ? "「むずかしくする」で戻ります。" : "「やさしくする」で戻ります。"}
+              この回だけの調整で、次に始めるときは自動の位置に戻ります。
+            </p>
+          )}
+          {/* 段8 は点を動かさず印を立てる段である。下げている間はその印が立たない。 */}
+          {autoRung === FLAG_RUNG && served < FLAG_RUNG && (
+            <p class="rung-flag-note">この段では完全制覇の印は立ちません。番号だけの段に戻すと立ちます。</p>
+          )}
+          <div>
+            <button type="button" disabled={!canEase(autoRung, rungAdjust)} onClick={() => setRungAdjust((value) => value + 1)}>やさしくする</button>
+            <button type="button" disabled={!canHarden(autoRung, rungAdjust)} onClick={() => setRungAdjust((value) => value - 1)}>むずかしくする</button>
+          </div>
+        </section>
+      )}
       <button
         class="primary"
         type="button"
-        onClick={() => onStart(normalized, selectedOrder, answerMode, includeAuthors)}
+        onClick={() => onStart(normalized, selectedOrder, answerMode, includeAuthors, rungAdjust)}
       >
         この範囲で始める
       </button>

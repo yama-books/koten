@@ -922,6 +922,7 @@ tests/screen/restore.test.tsx
 tests/screen/result.test.tsx
 tests/screen/reveal-count.test.tsx
 tests/screen/review-flow.test.tsx
+tests/screen/rung-adjust.test.tsx
 tests/screen/session.test.tsx
 tests/screen/settings-migration.test.tsx
 tests/screen/settings-source.test.tsx
@@ -956,6 +957,7 @@ tests/unit/mastery/over-90.test.ts
 tests/unit/mastery/poem.test.ts
 tests/unit/mastery/recompute.test.ts
 tests/unit/mastery/rung-caps.test.ts
+tests/unit/mastery/rungs-manual.test.ts
 tests/unit/mastery/rungs.test.ts
 tests/unit/mastery/same-session.test.ts
 tests/unit/order.test.ts
@@ -972,6 +974,7 @@ tests/unit/result.test.ts
 tests/unit/resume.test.ts
 tests/unit/review-ledger-contract.test.ts
 tests/unit/review.test.ts
+tests/unit/rung-adjust.test.ts
 tests/unit/sanitize-output.test.ts
 tests/unit/scan-publish-allowlist.test.ts
 tests/unit/session.test.ts

@@ -22,7 +22,7 @@ import { sendStats, createHttpSend } from './telemetry/stats-sender.ts';
 import { appConfig } from '@koten/shared/app-config';
 import type { Session as LearningSession } from '@koten/shared/domain/event';
 import { createSeed } from './domain/order.ts';
-import { planQuestions, progressFrom, type EntryId, type RungProgress } from './domain/entry.ts';
+import { autoRungFor, planQuestions, progressFrom, type EntryId, type RungAdjust, type RungProgress } from './domain/entry.ts';
 import { planReviewQuestions } from './domain/review.ts';
 import type { PublishedQuestion } from './data/question-schema.ts';
 import type { Poem } from './data/schema.ts';
@@ -40,6 +40,11 @@ type Selection = {
   answerMode: AnswerMode;
   planned?: PublishedQuestion[];
   session?: LearningSession;
+  /**
+   * 歌ごとの段の進み具合（発注086）。**出題画面へも渡す**——記録に残す段と
+   * 「手で上げた」印をここから作る。読み直すと記録を二度読むことになる。
+   */
+  progress?: RungProgress;
   /** 再確認へ入る前の入口。「同じ範囲をもう一度」を再確認の全問題出題へ戻さないために持つ。 */
   origin?: Readonly<{ entry: EntryId; answerMode: AnswerMode }>;
 };
@@ -79,18 +84,23 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
    * ここで読み直すと、開始のたびに記録を二度読み、画面の切り替えが 1 拍遅れる。
    * どちらの入口も既にイベントを読んでいるので、その場で計算した値をそのまま渡す。
    */
-  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress }) {
-    const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order, input.includeAuthors, input.masteryScores, input.progress);
-    setSelected((current) => current ? { ...current, entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session });
+  function startPlanned(input: { session: LearningSession; cardNumbers: readonly number[]; questions: PublishedQuestion[]; poems: Poem[]; answerMode?: AnswerMode; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress; rungAdjust?: RungAdjust }) {
+    const planned = planQuestions(input.session.entry, input.questions, input.cardNumbers, input.session.seed ?? '', input.session.order, input.includeAuthors, input.masteryScores, input.progress, input.rungAdjust);
+    setSelected((current) => current ? { ...current, entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? current.answerMode, planned, session: input.session, progress: input.progress } : { entry: input.session.entry, range: { from: input.session.from, to: input.session.to }, questions: input.questions, poems: input.poems, answerMode: input.answerMode ?? 'screen', planned, session: input.session, progress: input.progress });
     setScreen('session');
   }
 
-  function newSession(input: { entry: EntryId; range: { from: number; to: number }; order: UserSettings['order']; seed: string; cardNumbers: readonly number[]; questions: PublishedQuestion[]; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress }) {
-    const questionCount = planQuestions(input.entry, input.questions, input.cardNumbers, input.seed, input.order, input.includeAuthors, input.masteryScores, input.progress).length;
+  function newSession(input: { entry: EntryId; range: { from: number; to: number }; order: UserSettings['order']; seed: string; cardNumbers: readonly number[]; questions: PublishedQuestion[]; includeAuthors?: boolean; masteryScores: Readonly<Record<string, number>>; progress?: RungProgress; rungAdjust?: RungAdjust }) {
+    const questionCount = planQuestions(input.entry, input.questions, input.cardNumbers, input.seed, input.order, input.includeAuthors, input.masteryScores, input.progress, input.rungAdjust).length;
     return createSession({ sessionId: crypto.randomUUID(), range: input.range, entry: input.entry, order: input.order, seed: input.seed, startedOn: new Date().toISOString().slice(0, 10), questionCount });
   }
 
-  async function startNew(entry: EntryId, range: { from: number; to: number }, order: UserSettings['order'], questions: PublishedQuestion[], poems: Poem[], answerMode: AnswerMode, includeAuthors = true) {
+  /**
+   * **その回かぎりの手動調整（`rungAdjust`）は引数で受ける**（発注086・§4.2）。
+   * 設定へ書き込まない——書き込むと次に始めたときも下がったままになり、
+   * すでに天井へ達した段を延々と練習することになる（加算が 0 のまま）。
+   */
+  async function startNew(entry: EntryId, range: { from: number; to: number }, order: UserSettings['order'], questions: PublishedQuestion[], poems: Poem[], answerMode: AnswerMode, includeAuthors = true, rungAdjust: RungAdjust = 0) {
     const events = await port.listEvents();
     const plan = planResume(range, events);
     const seed = createSeed(Math.random);
@@ -98,9 +108,9 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     const masteryScores = computeMastery(events).scores;
     // **同じ進み具合を問題数の計算と計画の両方へ渡す。** 別々に取ると内訳と「全何問」が食い違う。
     const progress = progressFrom(events, questions);
-    const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions, includeAuthors, masteryScores, progress });
+    const session = newSession({ entry, range, order, seed, cardNumbers: plan.cardNumbers, questions, includeAuthors, masteryScores, progress, rungAdjust });
     void port.saveSession(session);
-    startPlanned({ session, cardNumbers: plan.cardNumbers, questions, poems, answerMode, includeAuthors, masteryScores, progress });
+    startPlanned({ session, cardNumbers: plan.cardNumbers, questions, poems, answerMode, includeAuthors, masteryScores, progress, rungAdjust });
   }
 
   function startReview(questionIds: readonly string[]) {
@@ -112,17 +122,29 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     setScreen('session');
   }
 
-  const homeScreen = () => <Home port={port} onSettings={setSettings} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => { setSelected({ entry, range, questions, poems, answerMode: 'screen' }); setScreen('picker'); }} onResume={(session, cardNumbers, questions, poems, masteryScores, progress) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores, progress })} onOpenHistory={(questions) => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setCatalogue(questions); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events, questions)); setScreen('history'); }); }} />;
+  /**
+   * 範囲選択の画面に出す自動の位置（発注086）。**読めるまで渡さない**——
+   * 既定値で描くと、記録を読む前に「いまは段3」と言ってしまい、それが嘘になる。
+   */
+  const [pickerAutoRung, setPickerAutoRung] = useState<number | undefined>(undefined);
+  function openPicker(entry: EntryId, range: { from: number; to: number }, questions: PublishedQuestion[], poems: Poem[]) {
+    setSelected({ entry, range, questions, poems, answerMode: 'screen' });
+    setPickerAutoRung(undefined);
+    setScreen('picker');
+    void port.listEvents().then((events) => setPickerAutoRung(autoRungFor(progressFrom(events, questions), range)));
+  }
+
+  const homeScreen = () => <Home port={port} onSettings={setSettings} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => openPicker(entry, range, questions, poems ?? [])} onResume={(session, cardNumbers, questions, poems, masteryScores, progress) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores, progress })} onOpenHistory={(questions) => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setCatalogue(questions); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events, questions)); setScreen('history'); }); }} />;
   // 設定を読むのはホームである。**読み込みが済むまで他の画面へ渡さない**——
   // 既定値のまま渡すと、そこからの保存が保存済みの学年を消す（発注074 工程1）。
   if (!settings) return homeScreen();
-  if (screen === 'picker' && selected) return <RangePicker entry={selected.entry} range={selected.range} order={settings.order} onBack={() => setScreen('home')} onStart={(range, order, answerMode, includeAuthors) => {
-    void startNew(selected.entry, range, order, selected.questions, selected.poems, answerMode, includeAuthors);
+  if (screen === 'picker' && selected) return <RangePicker entry={selected.entry} range={selected.range} order={settings.order} autoRung={pickerAutoRung} onBack={() => setScreen('home')} onStart={(range, order, answerMode, includeAuthors, rungAdjust) => {
+    void startNew(selected.entry, range, order, selected.questions, selected.poems, answerMode, includeAuthors, rungAdjust);
     setSettings({ ...settings, order });
   }} />;
   if (screen === 'session' && selected?.planned && selected.session) {
     const session = selected.session;
-    return <Session questions={selected.planned} poems={selected.poems} entry={selected.entry} answerMode={selected.answerMode} sessionId={session.sessionId} port={port} settings={settings} onSettings={setSettings} onBack={() => setScreen('home')} onComplete={async (outcomes) => {
+    return <Session questions={selected.planned} progress={selected.progress} poems={selected.poems} entry={selected.entry} answerMode={selected.answerMode} sessionId={session.sessionId} port={port} settings={settings} onSettings={setSettings} onBack={() => setScreen('home')} onComplete={async (outcomes) => {
       setScreen('result-loading');
       const saved = await port.saveSession(completeSession(session));
       setSaveFailure('reason' in saved);

@@ -131,8 +131,13 @@ test('進み: 上の段を解いた学習者を、下の段へ引き戻さない
   assert.equal(progress.get('p010')?.openRung, 3, '段1へ引き戻されている');
 });
 
-test('進み: 引き戻さないだけで、制覇の記録は作らない', () => {
-  // **「解けた」と「制覇した」は別である。** 飛ばした段を制覇済みに数えない。
+test('進み: 引き戻さないだけで、飛ばした段を制覇済みにしない', () => {
+  // **「解けた」と「制覇した」は別である。** 一度も解いていない段1・2 を数えない。
+  //
+  // **段3 は数える**（発注086 §4.1 で `cleared` を「制覇した段の集合」へ変えた）。
+  // 全問正解したのだから制覇である。**それでも `openRung` は下から順にしか開かない。**
   const progress = rungProgress([correct('p010-blank-ku1')], full);
-  assert.deepEqual(progress.get('p010')?.cleared, []);
+  assert.deepEqual(progress.get('p010')?.cleared, [3]);
+  assert.equal(progress.get('p010')?.cleared.includes(1), false, '解いていない段1を制覇済みにしている');
+  assert.equal(progress.get('p010')?.cleared.includes(2), false, '解いていない段2を制覇済みにしている');
 });
