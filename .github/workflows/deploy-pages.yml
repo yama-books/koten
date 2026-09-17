@@ -40,9 +40,10 @@ jobs:
           REPO: ${{ github.event.repository.name }}
         run: |
           # 公開パス（/100/ /kana/）とパッケージの置き場（packages/hyakunin packages/kanazukai）は別物である。
-          mkdir -p _site/100 _site/kana
+          mkdir -p _site/100 _site/kana _site/conj
           cp -r packages/hyakunin/dist/. _site/100/
           cp -r packages/kanazukai/dist/. _site/kana/
+          cp conj/index.html _site/conj/index.html
           # 404 はリポジトリ名を含む本物の base へ向ける。ソースの 404 はローカル開発用で /100/ を指す。
           printf %s "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/$REPO/100/\">" > _site/100/404.html
           printf %s "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/$REPO/kana/\">" > _site/kana/404.html
@@ -74,3 +75,4 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
