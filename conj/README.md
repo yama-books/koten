@@ -20,7 +20,7 @@
 - 助動詞180例: target / anchor監査完了
   - anchor必須 8例、すべてanchor内でtargetが一意
   - 原文表記と正規化キーが異なる 32例、すべて原文targetを本文で確認
-- 形容動詞: ナリ活用4,644件、タリ活用46件のCHJ母集団を取得し分布診断中
+- 形容動詞: 120例を一次選抜・target監査済み。raw CSV再照合120/120通過。活用表・実例の二層データ化を開始
 
 ## 重要な教材設計
 
@@ -37,5 +37,9 @@
 - `IMPLEMENTATION.md`: データ構造・実装原則
 - `PROGRESS_2026-09-19.md`: 今回までの進捗記録
 - `data/corpus-status.json`: 監査済み集計・希少セル・Drive参照の機械可読メタデータ
+- `data/adjectival-noun-paradigms.json`: 形容動詞の活用表正本
+- `data/adjectival-noun-example-index-120.json`: 形容動詞120例の軽量実例索引（本文なし）
+- `data/adjectival-noun-lemma-pool.json`: 表ドリル用の監査済み117語幹
+- `data/adjectival-noun-integration-audit.json`: 活用表セルと実例索引の回帰監査
 
 最終更新: 2026-09-19
