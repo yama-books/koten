@@ -41,5 +41,7 @@
 - `data/adjectival-noun-example-index-120.json`: 形容動詞120例の軽量実例索引（本文なし）
 - `data/adjectival-noun-lemma-pool.json`: 表ドリル用の監査済み117語幹
 - `data/adjectival-noun-integration-audit.json`: 活用表セルと実例索引の回帰監査
+- `adjv-runtime-adapter.js`: 形容動詞二層データの副作用なし互換アダプタ
+- `adjv-runtime-smoke.html`: 本番indexから独立した読込スモーク確認
 
 最終更新: 2026-09-19
