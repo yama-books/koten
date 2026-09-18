@@ -14,7 +14,8 @@
     "discriminationSource": "discrimination_source_usb3212.json",
     "auxiliaryEvidenceUsb3212": "auxiliary_evidence_usb3212.json",
     "auxiliaryCorpusEvidence": "auxiliary_corpus_evidence_20260918.json",
-    "auxiliaryVerificationQueue": "auxiliary_verification_queue.json"
+    "auxiliaryVerificationQueue": "auxiliary_verification_queue.json",
+    "kakariMusubiEvidence": "kakari_musubi_evidence.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -26,6 +27,7 @@
     "動詞360＋形容詞140の500例正本候補から、教材表示注記31例を19群の特徴的用言として追加した。",
     "助動詞5種のCHJ実測値と旧AI監査の誤探索条件を corpus evidence として分離した。",
     "全28助動詞について一次資料照合キューを作成し、primary-source-pending のまま必要確認項目を明示した。",
-    "auxiliary_master v0.3 はUSB-3212の部分証拠を保持するが、未確認セルを補完しない。"
+    "auxiliary_master v0.3 はUSB-3212の部分証拠を保持するが、未確認セルを補完しない。",
+    "本文個別監査済みの係り結び30例（連体形15・已然形15）を detector evidence として追加した。"
   ]
 }
