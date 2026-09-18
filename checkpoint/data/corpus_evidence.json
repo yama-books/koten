@@ -1,0 +1,18 @@
+{
+  "schemaVersion":"0.2","updated":"2026-09-18","title":"Checkpoint コーパス根拠メタデータ",
+  "policy":"CHJ生データを公開側に複製せず、監査済み集計・参照ID・判定経路のみ保持する。",
+  "sources":[
+    {"title":"活用表アプリ_コーパス収集・監査ログ","driveFileId":"1wQOPXy0Ia245QenqyuIEbHkLKkTsh3qpk9FEpZk9TXs","facts":{"verbExamples":360,"adjectiveExamples":140,"milestoneTotal":500,"kakariMusubiReviewed":30}},
+    {"title":"動詞360例_公開前注記分類済_正本候補_2026-09-18.xlsx","driveFileId":"1gbQjqqBuutZTYoU1kPudwtZ0KPRrXBtp","facts":{"publicReady":329,"publicReadyWithLearningNote":31,"publicBlockers":0}},
+    {"title":"古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx","driveFileId":"1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT","facts":{"verbs":360,"adjectives":140}},
+    {"title":"助動詞5種_180例_学校文法セル監査_AI案_2026-09-18.xlsx","driveFileId":"1pL6VsYgzdQfyI-kgrOQZlO3ZJpXHVTXB","facts":{"auxiliaries":["ず","べし","まじ","まほし","たし"],"examples":180,"status":"AI案・一次資料照合待ち"}}
+  ],
+  "routingEvidence":[
+    {"pattern":"未然形＋ず","guidanceUse":"直前語の活用形を見る"},
+    {"pattern":"未然形＋む・じ・まし","guidanceUse":"直前語の活用形を見る"},
+    {"pattern":"未然形＋る・らる・す・さす・しむ","guidanceUse":"接続から未然形候補を確認"},
+    {"pattern":"連用形＋き・けり・つ・ぬ・たり","guidanceUse":"直前語の活用形を見る"},
+    {"pattern":"係助詞ぞ・なむ・や・か","guidanceUse":"結びの連体形を確認"},
+    {"pattern":"係助詞こそ","guidanceUse":"結びの已然形を確認"}
+  ]
+}
