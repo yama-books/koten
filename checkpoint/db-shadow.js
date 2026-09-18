@@ -151,6 +151,7 @@ function auditedPreviousFormEvidence(text,hitStart){
   for(const e of entries){
     const surface=e.surface;
     if(!surface || !e.consensusForm) continue;
+    if(e.boundaryConfidence!=="kanji-anchored") continue;
     const start=hitStart-surface.length;
     if(start<0) continue;
     if(text.slice(start,hitStart)!==surface) continue;
