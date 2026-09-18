@@ -1,6 +1,6 @@
 {
-  "schemaVersion": "0.3",
-  "updated": "2026-09-18",
+  "schemaVersion": "0.4",
+  "updated": "2026-09-19",
   "title": "Checkpoint 同形識別ルート",
   "policy": {
     "showQuestionNotAnswer": true,
@@ -13,7 +13,8 @@
       "後続語",
       "係り結び",
       "文脈"
-    ]
+    ],
+    "kakariMusubiEvidence": "use only as candidate support until scope link is established"
   },
   "sourceData": "discrimination_source_usb3212.json",
   "entries": [
@@ -73,7 +74,15 @@
           163
         ]
       },
-      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。"
+      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。",
+      "contextEvidenceRoutes": [
+        {
+          "file": "kakari_musubi_routes.json",
+          "routeSurface": "けれ",
+          "status": "candidate-support-only",
+          "scopeLinkRequired": true
+        }
+      ]
     },
     {
       "surface": "し",
@@ -96,7 +105,15 @@
           163
         ]
       },
-      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。"
+      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。",
+      "contextEvidenceRoutes": [
+        {
+          "file": "kakari_musubi_routes.json",
+          "routeSurface": "し",
+          "status": "candidate-support-only",
+          "scopeLinkRequired": true
+        }
+      ]
     },
     {
       "surface": "しか",
@@ -133,7 +150,15 @@
           163
         ]
       },
-      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。"
+      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。",
+      "contextEvidenceRoutes": [
+        {
+          "file": "kakari_musubi_routes.json",
+          "routeSurface": "しか",
+          "status": "candidate-support-only",
+          "scopeLinkRequired": true
+        }
+      ]
     },
     {
       "surface": "して",
@@ -436,7 +461,15 @@
           169
         ]
       },
-      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。"
+      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。",
+      "contextEvidenceRoutes": [
+        {
+          "file": "kakari_musubi_routes.json",
+          "routeSurface": "ぬ",
+          "status": "candidate-support-only",
+          "scopeLinkRequired": true
+        }
+      ]
     },
     {
       "surface": "ね",
@@ -459,7 +492,15 @@
           169
         ]
       },
-      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。"
+      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。",
+      "contextEvidenceRoutes": [
+        {
+          "file": "kakari_musubi_routes.json",
+          "routeSurface": "ね",
+          "status": "candidate-support-only",
+          "scopeLinkRequired": true
+        }
+      ]
     },
     {
       "surface": "ば",
@@ -553,7 +594,15 @@
           171
         ]
       },
-      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。"
+      "routingNote": "候補を先に確定表示せず、firstLook の順で学習者に確認させる。",
+      "contextEvidenceRoutes": [
+        {
+          "file": "kakari_musubi_routes.json",
+          "routeSurface": "る",
+          "status": "candidate-support-only",
+          "scopeLinkRequired": true
+        }
+      ]
     },
     {
       "surface": "を",
