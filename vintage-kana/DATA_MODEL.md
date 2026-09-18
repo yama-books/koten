@@ -45,7 +45,7 @@ notes:
 ```
 
 `work` と `witness` を分ける。
-同じ『伊勢物語』でも異なる本・版を同一資料として潰さない。
+同じ作品でも異なる本・版を同一資料として潰さない。
 
 ## 3. 実例
 
@@ -91,18 +91,6 @@ notes:
 - `constructed`
 - `modern_composition`
 
-### attested
-実資料の用例。
-
-### adapted
-実資料を教材用に最小加工。加工内容を記録する。
-
-### constructed
-教材用創作。歴史資料の用例であるかのように表示しない。
-
-### modern_composition
-現代の文章を変体仮名で表記したもの。歴史的な字体選択を再現したものとは表示しない。
-
 ## 5. 根拠
 
 ```yaml
@@ -119,8 +107,6 @@ evidence:
 ```
 
 ## 6. review_status
-
-候補:
 
 - `unreviewed`
 - `source-listed`
@@ -154,10 +140,24 @@ notes:
 
 - `source_witness` 単位で保存し、同一作品の複数巻・異本を勝手に合算しない。
 - 国語研字形DBのページで0件の資料が省略される場合、初回転記では非ゼロ件のみを保存する。
-- 0件を明示的に補完する処理は、全47仮名の転記完了後に別工程で行う。
+- 0件を明示的に補完する処理は、全47仮名の非ゼロ転記完了後に別工程で行う。
 - `ratio` は分母の定義が確定するまで `null` とする。
 - 濁点・半濁点等は無印字形と合算しない。`diacritic` で分離する。
 - 「この資料で多い」という観察を「この時代で正しい」という規則へ一般化しない。
+
+### ファイル分割
+
+分布データは件数増加に応じて複数JSONへ分割できる。
+
+正規の入口:
+`data/glyph-distribution-index.json`
+
+現行:
+- `data/glyph-distribution.json` — part 1
+- `data/glyph-distribution-part2.json` — part 2
+
+索引には、各partの収録仮名、非ゼロレコード件数、全体件数を記録する。
+分割境界は保存・取得上の都合であり、歴史的・言語学的な分類を意味しない。
 
 ## 8. 学習問題
 
@@ -174,7 +174,6 @@ review_status:
 ```
 
 `question_type` 例:
-
 - `glyph_to_kana`
 - `glyph_to_jibo`
 - `jibo_to_glyph`
