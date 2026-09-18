@@ -244,13 +244,65 @@ function resolveContextRequiredHit(text,hit){
 }
 
 
+
+function knownBoundaryTokenHits(text){
+  const entries=window.CHECKPOINT_DATA?.knownTokenBoundaryIndex?.entries;
+  if(!Array.isArray(entries)) return [];
+  const out=[];
+  const seen=new Set();
+  for(const e of entries){
+    if(!e.canSuppressInternalSurface || !e.surface) continue;
+    let pos=0;
+    while(true){
+      const i=text.indexOf(e.surface,pos);
+      if(i<0) break;
+      const key=`${i}:${i+e.surface.length}:${e.surface}`;
+      if(!seen.has(key)){
+        seen.add(key);
+        out.push({
+          surface:e.surface,start:i,end:i+e.surface.length,
+          trust:e.trust||"medium",sources:e.sources||[]
+        });
+      }
+      pos=i+Math.max(1,e.surface.length);
+    }
+  }
+  return out.sort((a,b)=>a.start-b.start || (b.end-b.start)-(a.end-a.start));
+}
+
+function trustedLargerTokenContainer(boundaryHits,hit){
+  const candidates=boundaryHits.filter(x =>
+    x.start<=hit.start && x.end>=hit.end &&
+    x.surface!==hit.surface &&
+    (x.end-x.start)>(hit.end-hit.start)
+  );
+  candidates.sort((a,b)=>(b.end-b.start)-(a.end-a.start) || a.start-b.start);
+  return candidates[0]||null;
+}
+
+
 function resolveDbShadowHits(text){
   const raw=rawSurfaceIndexHits(text);
   const whole=knownWholeInflectedHits(text);
+  const boundaryHits=knownBoundaryTokenHits(text);
   const suppressed=[];
   const resolved=[];
 
   for(const h of raw){
+    const boundaryContainer=trustedLargerTokenContainer(boundaryHits,h);
+    if(boundaryContainer){
+      suppressed.push({
+        ...h,
+        suppressedReason:"known-larger-token",
+        suppressedBy:boundaryContainer.surface,
+        boundaryEvidence:{
+          trust:boundaryContainer.trust,
+          sources:boundaryContainer.sources
+        }
+      });
+      continue;
+    }
+
     const wholeContainer=whole.find(w =>
       h.start>=w.start && h.end<=w.end &&
       h.surface!==w.surface &&
@@ -291,7 +343,7 @@ function resolveDbShadowHits(text){
 
   resolved.push(...whole);
   resolved.sort((a,b)=>a.start-b.start || (b.end-b.start)-(a.end-a.start));
-  return {raw,resolved,suppressed,whole};
+  return {raw,resolved,suppressed,whole,boundaryHits};
 }
 
 function detectFromSurfaceIndex(text){
@@ -328,6 +380,7 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     dbResolvedHitCount:dbHits.length,
     dbSuppressedCount:state.suppressed.length,
     knownWholeFormHitCount:state.whole.length,
+    knownBoundaryTokenHitCount:state.boundaryHits?.length||0,
     contextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-connection").length,
     contextSupportedButSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="context-supported-but-not-unique").length,
     legacyComparableRawHitCount:comparableLegacyRaw.length,
