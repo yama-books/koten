@@ -140,7 +140,8 @@ const CHECKPOINT_DATA_PATHS = {
   auxiliaryCorpusEvidence:"./data/auxiliary_corpus_evidence_20260918.json", auxiliaryVerificationQueue:"./data/auxiliary_verification_queue.json",
   kakariMusubiEvidence:"./data/kakari_musubi_evidence.json", kakariMusubiRoutes:"./data/kakari_musubi_routes.json",
   adjectiveSurfaceCollisionEvidence:"./data/adjective_surface_collision_evidence.json", surfaceMatchPolicy:"./data/surface_match_policy.json",
-  auditedInflectedFormIndex:"./data/audited_inflected_form_index_500.json", contextResolverRules:"./data/context_resolver_rules.json"
+  auditedInflectedFormIndex:"./data/audited_inflected_form_index_500.json", contextResolverRules:"./data/context_resolver_rules.json",
+  knownTokenBoundaryIndex:"./data/known_token_boundary_index.json"
 };
 
 async function loadCheckpointData(){
