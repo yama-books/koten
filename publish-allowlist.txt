@@ -62,6 +62,8 @@ vintage-kana/DATA_MODEL.md
 vintage-kana/INTEGRATION_NOTES.md
 vintage-kana/data/*.json
 vintage-kana/docs/history/README.md
+# unit:checkpoint
+checkpoint/**
 
 [build-extensions]
 # build-artifact extensions
