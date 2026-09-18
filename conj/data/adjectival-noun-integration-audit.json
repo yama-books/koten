@@ -13,7 +13,21 @@
     "targetAuditPassed": 120
   },
   "groupCounts": {
-    "undefined": 120
+    "adjv-nari|命令形|main|なれ": 1,
+    "adjv-nari|連用形|main|なり": 8,
+    "adjv-nari|已然形|main|なれ": 18,
+    "adjv-nari|未然形|main|なら": 15,
+    "adjv-nari|終止形|main|なり": 16,
+    "adjv-nari|連体形|main|なる": 18,
+    "adjv-nari|連用形|sub|に": 20,
+    "adjv-tari|連用形|main|たり": 1,
+    "adjv-tari|終止形|main|たり": 7,
+    "adjv-tari|連用形|sub|と": 8,
+    "adjv-tari|連体形|main|たる": 8
   },
-  "unmapped": []
+  "unmapped": [],
+  "notes": [
+    "groupCountsは paradigmId|form|track|canonicalEnding 単位。",
+    "本文・anchorはGoogle Driveの公開前監査データに保持し、GitHubの実例索引には複製しない。"
+  ]
 }
