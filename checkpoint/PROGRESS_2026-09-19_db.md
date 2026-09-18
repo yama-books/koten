@@ -55,3 +55,14 @@ legacy unique 310位置はすべて surface_index に存在することを確認
 - 仮名のみ語形の自動利用は、語内部誤一致（例: 「ごとく」中の「とく」）を確認したため停止。
 - 4サンプル再監査: resolved 69→70、suppressed 241→240、DB only 0。
 - 新規resolved: 「開いて見れば」の `見れ＋ば` 1件。
+
+
+## 追加: 既知語境界・百人一首exact phrase
+
+- `known_token_boundary_index.json` を追加。trusted whole-token 290表面形。
+- 4サンプルで短い内部hitを20位置追加抑制。
+- suppression内訳は context-required 188 / larger-db 32 / known-larger-token 20。
+- resolvedは70のまま。ノイズを「解く」のではなく安全に除去する改善。
+- `hyakunin_disambiguation_evidence.json` に百人一首の要注意17例を exact phrase evidence 化。
+- `hyakunin_disambiguation_regression_20260919.json`: 17/17 PASS。
+- 「に」の連体形前接では、USB-3212に従い格助詞・接続助詞の両候補を保持するようresolverを修正。
