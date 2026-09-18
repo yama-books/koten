@@ -9,6 +9,12 @@ function checkpointSurfacePolicy(surface){
   return entries.find(x=>x.surface===surface) || null;
 }
 
+function checkpointKakariRoutes(surface){
+  const routes=window.CHECKPOINT_DATA?.kakariMusubiRoutes?.routes;
+  if(!Array.isArray(routes)) return [];
+  return routes.filter(x=>x.surface===surface);
+}
+
 function knownWholeInflectedHits(text){
   const groups=window.CHECKPOINT_DATA?.adjectiveSurfaceCollisionEvidence?.collisionGroups;
   if(!Array.isArray(groups)) return [];
@@ -47,6 +53,32 @@ function knownWholeInflectedHits(text){
   return out.sort((a,b)=>a.start-b.start || (b.end-b.start)-(a.end-a.start));
 }
 
+function kakariSignalsForHit(text,hit){
+  const routes=checkpointKakariRoutes(hit.surface);
+  if(!routes.length) return [];
+  const out=[];
+  for(const route of routes){
+    for(const particle of (route.particles||[])){
+      const p=text.lastIndexOf(particle,Math.max(0,hit.start-1));
+      if(p<0) continue;
+      const between=text.slice(p+particle.length,hit.start);
+      if(between.length>80) continue;
+      if(/[。！？\n]/.test(between)) continue;
+      out.push({
+        particle,
+        particleStart:p,
+        distance:hit.start-(p+particle.length),
+        expectedEndingForm:route.expectedEndingForm,
+        supportCandidateIds:route.supportCandidateIds||[],
+        scopeLinkRequired:route.scopeLinkRequired!==false,
+        signalConfidence:"surface-only-scope-unverified",
+        evidence:"kakari_musubi_evidence.json + discrimination_source_usb3212.json"
+      });
+    }
+  }
+  return out.sort((a,b)=>a.distance-b.distance);
+}
+
 function rawSurfaceIndexHits(text){
   const index=window.CHECKPOINT_DATA?.surfaceIndex;
   const surfaces=index?.surfaces;
@@ -60,7 +92,7 @@ function rawSurfaceIndexHits(text){
       const i=text.indexOf(surface,pos);
       if(i<0) break;
       const policy=checkpointSurfacePolicy(surface);
-      hits.push({
+      const hit={
         surface,start:i,end:i+surface.length,
         auxiliaryCandidates:entry.auxiliaryCandidates||entry.candidates||[],
         discriminationCandidates:entry.discriminationCandidates||[],
@@ -69,11 +101,24 @@ function rawSurfaceIndexHits(text){
         analysisConfidence:entry.analysisConfidence||"candidate-only",
         sourceRefs:entry.sourceRefs||[],
         matchPolicy:policy?.policy||null
-      });
+      };
+      hit.contextSignals=kakariSignalsForHit(text,hit);
+      hits.push(hit);
       pos=i+Math.max(1,surface.length);
     }
   }
   return hits.sort((a,b)=>a.start-b.start || (b.end-b.start)-(a.end-a.start));
+}
+
+function preferredLargerDbContainer(raw,hit){
+  const candidates=raw.filter(x=>{
+    if(x===hit) return false;
+    if(!(x.start<=hit.start && x.end>=hit.end)) return false;
+    if((x.end-x.start)<=(hit.end-hit.start)) return false;
+    return checkpointSurfacePolicy(x.surface)?.policy==="largest-meaningful-unit-first";
+  });
+  candidates.sort((a,b)=>(b.end-b.start)-(a.end-a.start) || a.start-b.start);
+  return candidates[0]||null;
 }
 
 function resolveDbShadowHits(text){
@@ -83,13 +128,19 @@ function resolveDbShadowHits(text){
   const resolved=[];
 
   for(const h of raw){
-    const container=whole.find(w =>
+    const wholeContainer=whole.find(w =>
       h.start>=w.start && h.end<=w.end &&
       h.surface!==w.surface &&
       (!w.trigger || w.trigger===h.surface)
     );
-    if(container){
-      suppressed.push({...h,suppressedReason:"known-larger-inflected-word",suppressedBy:container.surface});
+    if(wholeContainer){
+      suppressed.push({...h,suppressedReason:"known-larger-inflected-word",suppressedBy:wholeContainer.surface});
+      continue;
+    }
+
+    const dbContainer=preferredLargerDbContainer(raw,h);
+    if(dbContainer){
+      suppressed.push({...h,suppressedReason:"larger-db-surface-preferred",suppressedBy:dbContainer.surface});
       continue;
     }
 
@@ -119,6 +170,15 @@ function shadowAuditLegacyVsDb(text, legacyHits){
   const dbOnly=dbHits.filter(h=>!legacyKeys.has(key(h)));
   const legacyOnly=comparableLegacy.filter(h=>!dbKeys.has(key(h)));
   const both=dbHits.filter(h=>legacyKeys.has(key(h)));
+  const signalHits=state.raw.filter(h=>(h.contextSignals||[]).length);
+  const signals=signalHits.flatMap(h=>(h.contextSignals||[]).map(s=>({
+    surface:h.surface,start:h.start,end:h.end,
+    particle:s.particle,particleStart:s.particleStart,distance:s.distance,
+    expectedEndingForm:s.expectedEndingForm,
+    supportCandidateIds:s.supportCandidateIds,
+    scopeLinkRequired:s.scopeLinkRequired,
+    signalConfidence:s.signalConfidence
+  })));
 
   const audit={
     timestamp:new Date().toISOString(),
@@ -129,6 +189,9 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     knownWholeFormHitCount:state.whole.length,
     legacyComparableHitCount:comparableLegacy.length,
     matchedCount:both.length,
+    kakariSignalHitCount:signalHits.length,
+    kakariSignalCount:signals.length,
+    kakariSignals:signals,
     dbOnly:dbOnly.map(h=>({
       surface:h.surface,start:h.start,end:h.end,
       category:h.category||"surface-index",
@@ -139,9 +202,10 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     })),
     suppressedDbHits:state.suppressed.map(h=>({
       surface:h.surface,start:h.start,end:h.end,
-      reason:h.suppressedReason,suppressedBy:h.suppressedBy||null
+      reason:h.suppressedReason,suppressedBy:h.suppressedBy||null,
+      contextSignals:h.contextSignals||[]
     })),
-    note:"shadow audit only; learner-visible detector remains legacy/hybrid until audited."
+    note:"shadow audit only; kakari-musubi signals are candidate support and never resolve scope by themselves."
   };
   window.CHECKPOINT_LAST_SHADOW_AUDIT=audit;
   return audit;
