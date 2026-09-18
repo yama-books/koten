@@ -188,5 +188,34 @@
         }
       ]
     }
+  ],
+  "rightContextRules": [
+    {
+      "surface": "に",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "けり"
+      ],
+      "supportCandidateIds": [
+        "aux_nu_renyo_ni"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「に」: 完了「ぬ」連用形は、直前が連用形で後ろに「けり」等の助動詞が続くか確認。"
+    },
+    {
+      "surface": "て",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "む",
+        "けり",
+        "き",
+        "まし"
+      ],
+      "supportCandidateIds": [
+        "aux_tsu_mizen_renyo"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「て」: 完了「つ」未然・連用形は、後ろに「む・けり・き・まし」等が続く助動詞連鎖を確認。"
+    }
   ]
 }
