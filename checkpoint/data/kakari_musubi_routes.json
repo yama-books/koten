@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 係り結び→同形識別ルート",
+  "sources": [
+    {
+      "file": "kakari_musubi_evidence.json",
+      "role": "係助詞と結びの活用形の本文監査済み証拠",
+      "summary": {
+        "total": 30,
+        "rentai": 15,
+        "izen": 15,
+        "particleCounts": {
+          "ぞ": 13,
+          "や": 1,
+          "か": 1,
+          "こそ": 15
+        }
+      }
+    },
+    {
+      "file": "discrimination_source_usb3212.json",
+      "role": "各表面形の候補品詞・活用形の出典"
+    }
+  ],
+  "policy": [
+    "係助詞らしい文字列が近くにあるだけでは結びと断定しない。",
+    "本文範囲の係り先が未解析の段階では candidate-support に留める。",
+    "USB-3212で示された候補の活用形と、30例で監査済みの結び活用形が一致するときだけ候補支持信号を付ける。",
+    "この信号だけで learner-visible な正解表示や候補除外を行わない。"
+  ],
+  "particleProfiles": [
+    {
+      "particles": [
+        "ぞ",
+        "や",
+        "か"
+      ],
+      "expectedEndingForm": "連体形",
+      "evidenceCount": 15,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "particles": [
+        "こそ"
+      ],
+      "expectedEndingForm": "已然形",
+      "evidenceCount": 15,
+      "evidenceStatus": "context-reviewed"
+    }
+  ],
+  "routes": [
+    {
+      "surface": "し",
+      "particles": [
+        "ぞ",
+        "や",
+        "か"
+      ],
+      "expectedEndingForm": "連体形",
+      "supportCandidateIds": [
+        "aux_ki_rentai"
+      ],
+      "scopeLinkRequired": true
+    },
+    {
+      "surface": "しか",
+      "particles": [
+        "こそ"
+      ],
+      "expectedEndingForm": "已然形",
+      "supportCandidateIds": [
+        "aux_ki_izen"
+      ],
+      "scopeLinkRequired": true
+    },
+    {
+      "surface": "けれ",
+      "particles": [
+        "こそ"
+      ],
+      "expectedEndingForm": "已然形",
+      "supportCandidateIds": [
+        "aux_keri_izen",
+        "adjective_izen_part",
+        "yodan_ke_plus_ri_re",
+        "adjective_type_aux_izen_part"
+      ],
+      "scopeLinkRequired": true
+    },
+    {
+      "surface": "ぬ",
+      "particles": [
+        "ぞ",
+        "や",
+        "か"
+      ],
+      "expectedEndingForm": "連体形",
+      "supportCandidateIds": [
+        "aux_zu_rentai_nu"
+      ],
+      "scopeLinkRequired": true
+    },
+    {
+      "surface": "ね",
+      "particles": [
+        "こそ"
+      ],
+      "expectedEndingForm": "已然形",
+      "supportCandidateIds": [
+        "aux_zu_izen_ne"
+      ],
+      "scopeLinkRequired": true
+    },
+    {
+      "surface": "る",
+      "particles": [
+        "ぞ",
+        "や",
+        "か"
+      ],
+      "expectedEndingForm": "連体形",
+      "supportCandidateIds": [
+        "aux_ri_rentai_ru"
+      ],
+      "scopeLinkRequired": true
+    }
+  ]
+}
