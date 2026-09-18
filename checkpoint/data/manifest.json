@@ -1,5 +1,26 @@
 {
-  "app":"Checkpoint","beta":"0.1","updated":"2026-09-18","dataMode":"hybrid",
-  "files":{"auxiliaryMaster":"auxiliary_master.json","surfaceIndex":"surface_index.json","inflectingWords":"inflecting_words.json","basicLexicon":"basic_lexicon.json","discriminationRules":"discrimination_rules.json","corpusEvidence":"corpus_evidence.json","kanaRules":"kana_rules.json"},
-  "notes":["β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。","全助動詞インベントリを作成。一次資料未照合の項目は検出無効。","次段階で一次資料照合済み項目から順にsurface_indexへ昇格する。","仮名遣い16規則を kana_rules.json に分離。例外は主表示から折りたたむ。"]
+  "app": "Checkpoint",
+  "beta": "0.1",
+  "updated": "2026-09-18",
+  "dataMode": "hybrid",
+  "files": {
+    "auxiliaryMaster": "auxiliary_master.json",
+    "surfaceIndex": "surface_index.json",
+    "inflectingWords": "inflecting_words.json",
+    "basicLexicon": "basic_lexicon.json",
+    "discriminationRules": "discrimination_rules.json",
+    "corpusEvidence": "corpus_evidence.json",
+    "kanaRules": "kana_rules.json",
+    "discriminationSource": "discrimination_source_usb3212.json",
+    "auxiliaryEvidenceUsb3212": "auxiliary_evidence_usb3212.json"
+  },
+  "notes": [
+    "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
+    "全助動詞インベントリを作成。一次資料未照合の項目は検出無効。",
+    "次段階で一次資料照合済み項目から順にsurface_indexへ昇格する。",
+    "仮名遣い16規則を kana_rules.json に分離。例外は主表示から折りたたむ。",
+    "USB-3212の22表面形を出典付きで構造化し、アプリ用ルートと出典データを分離した。",
+    "助動詞についてはUSB-3212で明示された活用形・接続だけを部分証拠として別JSON化した。",
+    "動詞360＋形容詞140の500例正本候補から、教材表示注記31例を19群の特徴的用言として追加した。"
+  ]
 }
