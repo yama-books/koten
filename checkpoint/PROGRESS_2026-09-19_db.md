@@ -17,17 +17,20 @@
 ## 監査結果
 既存4サンプル、計990文字。
 
-- legacy comparable: 348
+- legacy raw: 348
+- legacy unique位置: 310
+- legacy重複: 38
 - DB raw: 310
+- **surface_index被覆: 100%**
 - DB resolved: 69
 - DB suppressed: 241
-- matched: 69
-- DB only: 0
-- legacy only: 252
-- raw coverage: 89.1%
-- resolved match rate: 19.8%
+  - context-required: 207
+  - larger-db-surface-preferred: 34
+- DB未収録: 0
+- resolved rate: 22.3%
 
-`resolved match rate` は正答率ではない。短い表面形を文脈未解決のまま通さないため、意図的に低い。
+初回の89.1% / 19.8%は legacy重複38件を含む比較だったため訂正。
+22.3%は正答率ではなく、文脈未解決候補を止めた後の通過率。
 
 ## 回帰
 - 係り結び route API: 8/8 PASS
@@ -35,9 +38,8 @@
 - `や・か・ぞ・こそ` の raw文字列距離だけで係り先を推定する方式は不採用
 
 ## 次
-まず legacyOnly 252件を表面形別に集計し、
-1) DB未収録
-2) context-required で意図的抑制
-3) 大きい単位に吸収
-4) legacy 側の過剰部分一致候補
-へ分解する。
+legacy unique 310位置はすべて surface_index に存在することを確認済み。
+次は context-required 207位置を安全に解く resolver を増やす。
+
+優先度は `て`・`に`・`と`・`し`・`る`・`を`・`ば`・`な`。
+ただし一次資料未確認の助動詞活用表を推測で埋めることはしない。
