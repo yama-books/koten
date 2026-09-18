@@ -15,6 +15,12 @@ function checkpointKakariRoutes(surface){
   return routes.filter(x=>x.surface===surface);
 }
 
+function checkpointKakariParticleProfile(particle){
+  const profiles=window.CHECKPOINT_DATA?.kakariMusubiRoutes?.particleProfiles;
+  if(!Array.isArray(profiles)) return null;
+  return profiles.find(x=>(x.particles||[]).includes(particle)) || null;
+}
+
 function knownWholeInflectedHits(text){
   const groups=window.CHECKPOINT_DATA?.adjectiveSurfaceCollisionEvidence?.collisionGroups;
   if(!Array.isArray(groups)) return [];
@@ -59,6 +65,8 @@ function kakariSignalsForHit(text,hit){
   const out=[];
   for(const route of routes){
     for(const particle of (route.particles||[])){
+      const profile=checkpointKakariParticleProfile(particle);
+      if(profile?.automaticSurfaceScan===false) continue;
       const p=text.lastIndexOf(particle,Math.max(0,hit.start-1));
       if(p<0) continue;
       const between=text.slice(p+particle.length,hit.start);
