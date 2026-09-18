@@ -16,7 +16,8 @@
     "resolverは直前の監査済み語形が候補表面形に隣接するときだけ発火する。",
     "singleCandidateResolve は出典上、直前活用形で候補が一意に分かれる場合に限定する。",
     "supportOnly は候補支持情報だけを付け、context-required抑制を解除しない。",
-    "一次資料未確認の助動詞活用表を補完する用途には使わない。"
+    "一次資料未確認の助動詞活用表を補完する用途には使わない。",
+    "「に」の前が連体形でも格助詞・接続助詞の両候補がUSB-3212上で成立するため、候補支持は両方を保持する。"
   ],
   "entries": [
     {
@@ -168,6 +169,7 @@
         {
           "previousForm": "連体形",
           "supportCandidateIds": [
+            "case_particle_ni",
             "conjunctive_particle_ni"
           ]
         }
