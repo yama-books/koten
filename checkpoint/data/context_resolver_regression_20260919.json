@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 双方向context resolver 単体回帰",
+  "caution": "テスト文字列はresolverの配線確認用。新しい文法証拠ではない。前接活用形は500例監査済みindex、後続条件はUSB-3212 cueに基づく。",
+  "tested": 4,
+  "passed": 4,
+  "failed": 0,
+  "cases": [
+    {
+      "text": "言ひてけり",
+      "surface": "て",
+      "previous": "言ひ",
+      "previousForm": "連用形",
+      "next": "けり",
+      "expectedCandidateId": "aux_tsu_mizen_renyo",
+      "expectedStatus": "resolved-by-audited-bidirectional-context",
+      "result": "PASS"
+    },
+    {
+      "text": "言ひにけり",
+      "surface": "に",
+      "previous": "言ひ",
+      "previousForm": "連用形",
+      "next": "けり",
+      "expectedCandidateId": "aux_nu_renyo_ni",
+      "expectedStatus": "resolved-by-audited-bidirectional-context",
+      "result": "PASS"
+    },
+    {
+      "text": "悪しくてけり",
+      "surface": "て",
+      "previous": "悪しく",
+      "previousForm": "連用形",
+      "next": "けり",
+      "expectedCandidateId": "aux_tsu_mizen_renyo",
+      "expectedStatus": "resolved-by-audited-bidirectional-context",
+      "result": "PASS"
+    },
+    {
+      "text": "思ひてむ",
+      "surface": "て",
+      "previous": "思ひ",
+      "previousForm": "連用形",
+      "next": "む",
+      "expectedCandidateId": "aux_tsu_mizen_renyo",
+      "expectedStatus": "resolved-by-audited-bidirectional-context",
+      "result": "PASS"
+    }
+  ]
+}
