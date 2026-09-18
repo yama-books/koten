@@ -1,0 +1,5 @@
+{
+  "app":"Checkpoint","beta":"0.1","updated":"2026-09-18","dataMode":"hybrid",
+  "files":{"auxiliaryMaster":"auxiliary_master.json","surfaceIndex":"surface_index.json","inflectingWords":"inflecting_words.json","basicLexicon":"basic_lexicon.json","discriminationRules":"discrimination_rules.json","corpusEvidence":"corpus_evidence.json","kanaRules":"kana_rules.json"},
+  "notes":["β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。","全助動詞インベントリを作成。一次資料未照合の項目は検出無効。","次段階で一次資料照合済み項目から順にsurface_indexへ昇格する。","仮名遣い16規則を kana_rules.json に分離。例外は主表示から折りたたむ。"]
+}
