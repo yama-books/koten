@@ -1,110 +1,271 @@
 {
-  "schemaVersion": "0.1",
-  "generatedFrom": "auxiliary_master.json",
-  "policy": "一次資料照合前の項目は候補マーキング専用。正解表示には使わない。",
+  "schemaVersion": "0.2",
+  "updated": "2026-09-18",
+  "generatedFrom": [
+    "auxiliary_master.json",
+    "discrimination_source_usb3212.json",
+    "discrimination_rules.json"
+  ],
+  "policy": "本文表面形の検出候補を集約する。exact-surface は分析確定を意味しない。複数候補がある表面形は ambiguous とする。",
+  "surfaceCount": 39,
   "surfaces": [
     {
       "surface": "べから",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "べし",
           "reviewStatus": "drive-ai-audit-primary-source-pending",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "べかり",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "べし",
           "reviewStatus": "drive-ai-audit-primary-source-pending",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "べかる",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "べし",
           "reviewStatus": "drive-ai-audit-primary-source-pending",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "べけれ",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "べし",
           "reviewStatus": "drive-ai-audit-primary-source-pending",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "ましか",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "まし",
           "reviewStatus": "existing-prototype-primary-source-recheck",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "けら",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "けり",
           "reviewStatus": "existing-prototype-primary-source-recheck",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "けり",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "けり",
           "reviewStatus": "existing-prototype-primary-source-recheck",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "ける",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "けり",
           "reviewStatus": "existing-prototype-primary-source-recheck",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "けれ",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "けり",
           "reviewStatus": "existing-prototype-primary-source-recheck",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [
+        {
+          "id": "aux_keri_izen",
+          "label": "過去の助動詞「けり」の已然形「けれ」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "adjective_izen_part",
+          "label": "形容詞ク活用の已然形の活用語尾（またはその一部）",
+          "pos": "形容詞"
+        },
+        {
+          "id": "yodan_ke_plus_ri_re",
+          "label": "カ行四段動詞の已然形語尾「け」＋完了・存続「り」の已然形「れ」",
+          "pos": "動詞＋助動詞"
+        },
+        {
+          "id": "adjective_type_aux_izen_part",
+          "label": "「べし・まじ・まほし」など形容詞型活用の助動詞の已然形の一部",
+          "pos": "助動詞"
+        }
+      ],
+      "projectCandidates": [
+        {
+          "id": "project_adjective_type_fold",
+          "label": "形容詞・形容詞型活用語の已然形の一部",
+          "status": "approved-project-normalization"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            162,
+            163
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "しか",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "aux_ki_izen",
+          "label": "過去の助動詞「き」の已然形「しか」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "aux_ki_rentai_plus_ka",
+          "label": "過去「き」の連体形「し」＋係助詞「か」",
+          "pos": "助動詞＋係助詞"
+        },
+        {
+          "id": "wish_particle_fragment",
+          "label": "終助詞「てしか（な）・にしか（な）」の一部",
+          "pos": "終助詞"
+        }
+      ],
+      "projectCandidates": [
+        {
+          "id": "project_shi_plus_ka",
+          "label": "副助詞「し」＋係助詞「か」",
+          "status": "approved-project-addition"
+        },
+        {
+          "id": "project_adverb_shika",
+          "label": "副詞「しか」",
+          "status": "approved-project-addition"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            163
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "して",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "sahen_shi_plus_te",
+          "label": "サ変動詞「す」の連用形「し」＋接続助詞「て」",
+          "pos": "動詞＋接続助詞"
+        },
+        {
+          "id": "case_particle_shite",
+          "label": "格助詞「して」",
+          "pos": "格助詞"
+        },
+        {
+          "id": "conjunctive_particle_shite",
+          "label": "接続助詞「して」",
+          "pos": "接続助詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            164
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
     },
     {
       "surface": "たら",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "たり",
           "reviewStatus": "existing-prototype-primary-source-recheck",
@@ -117,11 +278,16 @@
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
     },
     {
       "surface": "たり",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "たり",
           "reviewStatus": "existing-prototype-primary-source-recheck",
@@ -134,11 +300,39 @@
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [
+        {
+          "id": "tari_adjective_renyo_terminal",
+          "label": "形容動詞タリ活用の連用形・終止形の活用語尾「たり」",
+          "pos": "形容動詞"
+        },
+        {
+          "id": "copula_tari_renyo",
+          "label": "断定の助動詞「たり」の連用形「たり」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "perfect_tari_renyo_terminal",
+          "label": "完了・存続の助動詞「たり」の連用形・終止形「たり」",
+          "pos": "助動詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            164
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
     },
     {
       "surface": "たる",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "たり",
           "reviewStatus": "existing-prototype-primary-source-recheck",
@@ -151,11 +345,16 @@
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
     },
     {
       "surface": "たれ",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "たり",
           "reviewStatus": "existing-prototype-primary-source-recheck",
@@ -168,84 +367,697 @@
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "とも",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "to_plus_mo",
+          "label": "格助詞「と」＋係助詞「も」",
+          "pos": "格助詞＋係助詞"
+        },
+        {
+          "id": "conjunctive_particle_tomo",
+          "label": "接続助詞「とも」",
+          "pos": "接続助詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            166
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "なむ",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "aux_nu_mizen_plus_mu",
+          "label": "強意の助動詞「ぬ」の未然形「な」＋推量・意志の助動詞「む」",
+          "pos": "助動詞＋助動詞"
+        }
+      ],
+      "projectCandidates": [
+        {
+          "id": "project_kakari_namu",
+          "label": "係助詞「なむ」",
+          "status": "approved-project-addition"
+        },
+        {
+          "id": "project_sentence_namu",
+          "label": "終助詞「なむ」",
+          "status": "approved-project-addition"
+        },
+        {
+          "id": "project_nahen_plus_mu",
+          "label": "ナ変動詞の未然形語尾「な」＋助動詞「む」",
+          "status": "approved-project-addition"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            166
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "なり",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "verb_naru_renyo",
+          "label": "ラ行四段動詞「なる」の連用形「なり」",
+          "pos": "動詞"
+        },
+        {
+          "id": "nari_adjective_renyo_terminal",
+          "label": "形容動詞ナリ活用の連用形・終止形の活用語尾「なり」",
+          "pos": "形容動詞"
+        },
+        {
+          "id": "copula_nari_renyo_terminal",
+          "label": "断定の助動詞「なり」の連用形・終止形「なり」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "hearsay_nari_renyo_terminal",
+          "label": "伝聞・推定の助動詞「なり」の連用形・終止形「なり」",
+          "pos": "助動詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            167
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "にて",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "nari_adjective_ni_plus_te",
+          "label": "形容動詞ナリ活用の連用形「に」＋接続助詞「て」",
+          "pos": "形容動詞＋接続助詞"
+        },
+        {
+          "id": "copula_nari_ni_plus_te",
+          "label": "断定の助動詞「なり」の連用形「に」＋接続助詞「て」",
+          "pos": "助動詞＋接続助詞"
+        },
+        {
+          "id": "case_particle_nite",
+          "label": "格助詞「にて」",
+          "pos": "格助詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            169
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "ばや",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "sentence_particle_baya",
+          "label": "終助詞「ばや」",
+          "pos": "終助詞"
+        },
+        {
+          "id": "hypothetical_ba_plus_ya",
+          "label": "仮定条件の接続助詞「ば」＋係助詞「や」",
+          "pos": "接続助詞＋係助詞"
+        },
+        {
+          "id": "fixed_ba_plus_ya",
+          "label": "確定条件の接続助詞「ば」＋係助詞「や」",
+          "pos": "接続助詞＋係助詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            170
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
     },
     {
       "surface": "べき",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "べし",
           "reviewStatus": "drive-ai-audit-primary-source-pending",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "べく",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "べし",
           "reviewStatus": "drive-ai-audit-primary-source-pending",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "べし",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "べし",
           "reviewStatus": "drive-ai-audit-primary-source-pending",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "まし",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "まし",
           "reviewStatus": "existing-prototype-primary-source-recheck",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
     },
     {
       "surface": "らむ",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "らむ",
           "reviewStatus": "existing-prototype-primary-source-recheck",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [
+        {
+          "id": "aux_ri_ra_plus_mu",
+          "label": "完了・存続の助動詞「り」の未然形「ら」＋推量・婉曲の助動詞「む」",
+          "pos": "助動詞＋助動詞"
+        },
+        {
+          "id": "aux_ramu",
+          "label": "現在推量の助動詞「らむ」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "r_verb_mizen_plus_mu",
+          "label": "ラ行四段・ラ変動詞の未然形語尾「ら」＋助動詞「む」",
+          "pos": "動詞＋助動詞"
+        },
+        {
+          "id": "adjective_kara_plus_mu",
+          "label": "形容詞の未然形活用語尾の一部「から」＋推量・婉曲の助動詞「む」",
+          "pos": "形容詞＋助動詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            171
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "が",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "case_particle_ga",
+          "label": "格助詞「が」",
+          "pos": "格助詞"
+        },
+        {
+          "id": "conjunctive_particle_ga",
+          "label": "接続助詞「が」",
+          "pos": "接続助詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            162
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "し",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "sahen_su_renyo",
+          "label": "サ変動詞「す」の連用形「し」",
+          "pos": "動詞"
+        },
+        {
+          "id": "aux_ki_rentai",
+          "label": "過去の助動詞「き」の連体形「し」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "adverbial_particle_shi",
+          "label": "副助詞「し」（強意）",
+          "pos": "副助詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            163
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
     },
     {
       "surface": "じ",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "じ",
           "reviewStatus": "existing-prototype-primary-source-recheck",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
+    },
+    {
+      "surface": "せ",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "sahen_su_mizen",
+          "label": "サ変動詞「す」の未然形「せ」",
+          "pos": "動詞"
+        },
+        {
+          "id": "aux_ki_mizen",
+          "label": "過去の助動詞「き」の未然形「せ」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "aux_su_mizen_renyo",
+          "label": "使役・尊敬の助動詞「す」の未然形・連用形「せ」",
+          "pos": "助動詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            164
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "て",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "aux_tsu_mizen_renyo",
+          "label": "完了の助動詞「つ」の未然形・連用形「て」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "conjunctive_particle_te",
+          "label": "接続助詞「て」",
+          "pos": "接続助詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            165
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "と",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "tari_adjective_renyo_to",
+          "label": "形容動詞タリ活用の連用形の活用語尾「と」",
+          "pos": "形容動詞"
+        },
+        {
+          "id": "copula_tari_renyo_to",
+          "label": "断定の助動詞「たり」の連用形「と」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "case_particle_to",
+          "label": "格助詞「と」",
+          "pos": "格助詞"
+        },
+        {
+          "id": "adverb_fragment_to",
+          "label": "副詞の一部の「と」",
+          "pos": "副詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            165
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "な",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "aux_nu_mizen",
+          "label": "完了の助動詞「ぬ」の未然形「な」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "sentence_particle_na",
+          "label": "終助詞「な」（禁止・詠嘆）",
+          "pos": "終助詞"
+        },
+        {
+          "id": "adverb_na_prohibition",
+          "label": "副詞「な」（禁止）",
+          "pos": "副詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            166
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "に",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "nari_adjective_renyo_ni",
+          "label": "形容動詞ナリ活用の連用形の活用語尾「に」",
+          "pos": "形容動詞"
+        },
+        {
+          "id": "copula_nari_renyo_ni",
+          "label": "断定の助動詞「なり」の連用形「に」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "aux_nu_renyo_ni",
+          "label": "完了の助動詞「ぬ」の連用形「に」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "case_particle_ni",
+          "label": "格助詞「に」",
+          "pos": "格助詞"
+        },
+        {
+          "id": "conjunctive_particle_ni",
+          "label": "接続助詞「に」",
+          "pos": "接続助詞"
+        },
+        {
+          "id": "adverb_fragment_ni",
+          "label": "副詞の一部の「に」",
+          "pos": "副詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            168
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "ぬ",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "aux_nu_terminal",
+          "label": "完了の助動詞「ぬ」の終止形「ぬ」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "aux_zu_rentai_nu",
+          "label": "打消の助動詞「ず」の連体形「ぬ」",
+          "pos": "助動詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            169
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "ね",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "aux_nu_imperative",
+          "label": "完了の助動詞「ぬ」の命令形「ね」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "aux_zu_izen_ne",
+          "label": "打消の助動詞「ず」の已然形「ね」",
+          "pos": "助動詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            169
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "ば",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "conjunctive_ba_hypothetical",
+          "label": "接続助詞「ば」（仮定条件）",
+          "pos": "接続助詞"
+        },
+        {
+          "id": "conjunctive_ba_fixed",
+          "label": "接続助詞「ば」（確定条件）",
+          "pos": "接続助詞"
+        },
+        {
+          "id": "particle_wa_voiced_ba",
+          "label": "係助詞「は」が濁音化した「ば」",
+          "pos": "係助詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            170
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
     },
     {
       "surface": "む",
-      "candidates": [
+      "auxiliaryCandidates": [
         {
           "lemma": "む",
           "reviewStatus": "existing-prototype-primary-source-recheck",
           "detectionConfidence": "exact-surface",
           "analysisConfidence": "candidate-only"
         }
-      ]
+      ],
+      "discriminationCandidates": [],
+      "projectCandidates": [],
+      "sourceRefs": [],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "candidate-only"
+    },
+    {
+      "surface": "る",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "aux_ru_terminal",
+          "label": "自発・可能・受身・尊敬の助動詞「る」の終止形「る」",
+          "pos": "助動詞"
+        },
+        {
+          "id": "aux_ri_rentai_ru",
+          "label": "完了・存続の助動詞「り」の連体形「る」",
+          "pos": "助動詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            171
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
+    },
+    {
+      "surface": "を",
+      "auxiliaryCandidates": [],
+      "discriminationCandidates": [
+        {
+          "id": "case_particle_wo",
+          "label": "格助詞「を」",
+          "pos": "格助詞"
+        },
+        {
+          "id": "conjunctive_particle_wo",
+          "label": "接続助詞「を」",
+          "pos": "接続助詞"
+        },
+        {
+          "id": "interjection_particle_wo",
+          "label": "間投助詞「を」",
+          "pos": "間投助詞"
+        }
+      ],
+      "projectCandidates": [],
+      "sourceRefs": [
+        {
+          "file": "USB-3212_紛らわしい語の識別.pdf",
+          "pages": [
+            172
+          ]
+        }
+      ],
+      "detectionConfidence": "exact-surface",
+      "analysisConfidence": "ambiguous"
     }
   ]
 }
