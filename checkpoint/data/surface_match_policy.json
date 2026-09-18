@@ -1,11 +1,12 @@
 {
-  "schemaVersion": "0.1",
-  "updated": "2026-09-18",
+  "schemaVersion": "0.2",
+  "updated": "2026-09-19",
   "title": "Checkpoint 表面形マッチ方針",
   "defaults": {
     "longestMeaningfulUnitFirst": true,
     "exactStringDetectionDoesNotEqualAnalysis": true,
-    "oneCharacterSubstringDetection": "shadow-only-unless-context-supported"
+    "oneCharacterSubstringDetection": "shadow-only-unless-context-supported",
+    "nestedSurfacePolicy": "prefer-explicit-largest-meaningful-unit"
   },
   "entries": [
     {
@@ -86,6 +87,26 @@
     {
       "surface": "とも",
       "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "ぬ",
+      "policy": "context-required",
+      "reason": "完了「ぬ」・打消「ず」の連体形・動詞語形内部などの衝突があり、一文字一致だけでは確定できない。"
+    },
+    {
+      "surface": "ね",
+      "policy": "context-required",
+      "reason": "完了「ぬ」の命令形・打消「ず」の已然形・語内部一致などがあり、前後関係が必要。"
+    },
+    {
+      "surface": "ば",
+      "policy": "context-required",
+      "reason": "未然形接続・已然形接続・係助詞「は」の濁音化などを接続から見分ける必要がある。"
+    },
+    {
+      "surface": "む",
+      "policy": "context-required",
+      "reason": "単独助動詞候補のほか「なむ・らむ」等の大きい単位内部にも現れるため、文字列一致だけでは通常表示しない。"
     }
   ]
 }
