@@ -39,12 +39,13 @@ jobs:
         env:
           REPO: ${{ github.event.repository.name }}
         run: |
-          # 公開パス（/100/ /kana/ /conj/ /vintage-kana/）とパッケージの置き場は別物である。
-          mkdir -p _site/100 _site/kana _site/conj _site/vintage-kana
+          # 公開パス（/100/ /kana/ /conj/ /vintage-kana/ /checkpoint/）とパッケージの置き場は別物である。
+          mkdir -p _site/100 _site/kana _site/conj _site/vintage-kana _site/checkpoint
           cp -r packages/hyakunin/dist/. _site/100/
           cp -r packages/kanazukai/dist/. _site/kana/
           cp conj/index.html _site/conj/index.html
           cp vintage-kana/index.html _site/vintage-kana/index.html
+          cp -r checkpoint/. _site/checkpoint/
           # 404 はリポジトリ名を含む本物の base へ向ける。ソースの 404 はローカル開発用で /100/ を指す。
           printf %s "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/$REPO/100/\">" > _site/100/404.html
           printf %s "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/$REPO/kana/\">" > _site/kana/404.html
@@ -60,6 +61,7 @@ jobs:
             <li><a href="/$REPO/100/">百人一首練習帳</a></li>
             <li><a href="/$REPO/kana/">歴史的仮名遣い確認ツール（準備中）</a></li>
             <li><a href="/$REPO/vintage-kana/">変体仮名を読む・知る・書いてみる（試作）</a></li>
+            <li><a href="/$REPO/checkpoint/">Checkpoint 古文予習（β）</a></li>
           </ul>
           <p><a href="https://github.com/${{ github.repository }}">ソースと既知の制約</a></p>
           </body></html>
