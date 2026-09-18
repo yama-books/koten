@@ -1,0 +1,1365 @@
+{
+  "schemaVersion": 1,
+  "status": "research-priority-candidates-not-ui-ranking",
+  "generatedAt": "2026-09-18",
+  "scope": {
+    "diacritic": "none",
+    "minTotalCount": 20,
+    "minPositiveWitnessCount": 2,
+    "inclusionRule": "ise_share_gap >= 0.20 OR cross_witness_share_range >= 0.50",
+    "scoreFormula": "max(ise_share_gap, cross_witness_share_range) * log10(total_count_across_15_witnesses + 1)",
+    "warning": "This score ranks value for follow-up source inspection only. It is not historical correctness, naturalness, or learner recommendation."
+  },
+  "candidateCount": 40,
+  "candidates": [
+    {
+      "kana": "て",
+      "glyph_id": "U+3066",
+      "character": "て",
+      "jibo": "天",
+      "total_count_across_15_witnesses": 4833,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 687,
+        "share": 0.88076923
+      },
+      "ise_sagabon": {
+        "count": 68,
+        "share": 0.14376321
+      },
+      "ise_share_gap": 0.73700602,
+      "cross_witness_share_range": 0.85476836,
+      "max_share_witness": {
+        "source_witness": "brsk004",
+        "count": 680,
+        "share": 0.99853157
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 68,
+        "share": 0.14376321
+      },
+      "research_priority_score": 3.149229,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3066.html"
+    },
+    {
+      "kana": "ら",
+      "glyph_id": "U+3089",
+      "character": "ら",
+      "jibo": "良",
+      "total_count_across_15_witnesses": 1368,
+      "positive_witness_count": 14,
+      "ise_kokubunken": {
+        "count": 19,
+        "share": 0.05080214
+      },
+      "ise_sagabon": {
+        "count": 0,
+        "share": 0
+      },
+      "ise_share_gap": 0.05080214,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "umgy001",
+        "count": 157,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "wakn001",
+        "count": 2,
+        "share": 0.02020202
+      },
+      "research_priority_score": 3.136403,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3089.html"
+    },
+    {
+      "kana": "あ",
+      "glyph_id": "U+3042",
+      "character": "あ",
+      "jibo": "安",
+      "total_count_across_15_witnesses": 1146,
+      "positive_witness_count": 14,
+      "ise_kokubunken": {
+        "count": 0,
+        "share": 0
+      },
+      "ise_sagabon": {
+        "count": 191,
+        "share": 0.71535581
+      },
+      "ise_share_gap": 0.71535581,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "umgy003",
+        "count": 54,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 191,
+        "share": 0.71535581
+      },
+      "research_priority_score": 3.059563,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3042.html"
+    },
+    {
+      "kana": "や",
+      "glyph_id": "U+3084",
+      "character": "や",
+      "jibo": "也",
+      "total_count_across_15_witnesses": 1058,
+      "positive_witness_count": 14,
+      "ise_kokubunken": {
+        "count": 0,
+        "share": 0
+      },
+      "ise_sagabon": {
+        "count": 123,
+        "share": 0.77358491
+      },
+      "ise_share_gap": 0.77358491,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "brsk004",
+        "count": 91,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "hnsd002",
+        "count": 56,
+        "share": 0.52336449
+      },
+      "research_priority_score": 3.024896,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3084.html"
+    },
+    {
+      "kana": "さ",
+      "glyph_id": "U+3055",
+      "character": "さ",
+      "jibo": "左",
+      "total_count_across_15_witnesses": 1370,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 222,
+        "share": 0.59677419
+      },
+      "ise_sagabon": {
+        "count": 15,
+        "share": 0.06465517
+      },
+      "ise_share_gap": 0.53211902,
+      "cross_witness_share_range": 0.93534483,
+      "max_share_witness": {
+        "source_witness": "umgy001",
+        "count": 97,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 15,
+        "share": 0.06465517
+      },
+      "research_priority_score": 2.934212,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3055.html"
+    },
+    {
+      "kana": "を",
+      "glyph_id": "U+1B11C",
+      "character": "𛄜",
+      "jibo": "遠",
+      "total_count_across_15_witnesses": 1769,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 353,
+        "share": 0.86519608
+      },
+      "ise_sagabon": {
+        "count": 6,
+        "share": 0.02654867
+      },
+      "ise_share_gap": 0.83864741,
+      "cross_witness_share_range": 0.89181868,
+      "max_share_witness": {
+        "source_witness": "wakn002",
+        "count": 45,
+        "share": 0.91836735
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 6,
+        "share": 0.02654867
+      },
+      "research_priority_score": 2.896603,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3092.html"
+    },
+    {
+      "kana": "ら",
+      "glyph_id": "U+1B0F0",
+      "character": "𛃰",
+      "jibo": "良",
+      "total_count_across_15_witnesses": 865,
+      "positive_witness_count": 9,
+      "ise_kokubunken": {
+        "count": 351,
+        "share": 0.93850267
+      },
+      "ise_sagabon": {
+        "count": 208,
+        "share": 0.92857143
+      },
+      "ise_share_gap": 0.00993124,
+      "cross_witness_share_range": 0.96969697,
+      "max_share_witness": {
+        "source_witness": "wakn001",
+        "count": 96,
+        "share": 0.96969697
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk003",
+        "count": 22,
+        "share": 0.16296296
+      },
+      "research_priority_score": 2.848502,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3089.html"
+    },
+    {
+      "kana": "な",
+      "glyph_id": "U+1B082",
+      "character": "𛂂",
+      "jibo": "奈",
+      "total_count_across_15_witnesses": 2189,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 526,
+        "share": 0.74084507
+      },
+      "ise_sagabon": {
+        "count": 29,
+        "share": 0.06791569
+      },
+      "ise_share_gap": 0.67292938,
+      "cross_witness_share_range": 0.84677625,
+      "max_share_witness": {
+        "source_witness": "umgy001",
+        "count": 193,
+        "share": 0.91469194
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 29,
+        "share": 0.06791569
+      },
+      "research_priority_score": 2.828609,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306A.html"
+    },
+    {
+      "kana": "も",
+      "glyph_id": "U+1B0DA",
+      "character": "𛃚",
+      "jibo": "毛",
+      "total_count_across_15_witnesses": 1153,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 207,
+        "share": 0.51492537
+      },
+      "ise_sagabon": {
+        "count": 34,
+        "share": 0.22818792
+      },
+      "ise_share_gap": 0.28673745,
+      "cross_witness_share_range": 0.92070485,
+      "max_share_witness": {
+        "source_witness": "hnsd002",
+        "count": 198,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk002",
+        "count": 18,
+        "share": 0.07929515
+      },
+      "research_priority_score": 2.819388,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3082.html"
+    },
+    {
+      "kana": "れ",
+      "glyph_id": "U+1B100",
+      "character": "𛄀",
+      "jibo": "連",
+      "total_count_across_15_witnesses": 1087,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 293,
+        "share": 0.61297071
+      },
+      "ise_sagabon": {
+        "count": 156,
+        "share": 0.52173913
+      },
+      "ise_share_gap": 0.09123158,
+      "cross_witness_share_range": 0.88550725,
+      "max_share_witness": {
+        "source_witness": "umgy003",
+        "count": 54,
+        "share": 0.9
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk004",
+        "count": 1,
+        "share": 0.01449275
+      },
+      "research_priority_score": 2.688957,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B308C.html"
+    },
+    {
+      "kana": "そ",
+      "glyph_id": "U+305D",
+      "character": "そ",
+      "jibo": "曾",
+      "total_count_across_15_witnesses": 800,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 68,
+        "share": 0.35051546
+      },
+      "ise_sagabon": {
+        "count": 10,
+        "share": 0.078125
+      },
+      "ise_share_gap": 0.27239046,
+      "cross_witness_share_range": 0.921875,
+      "max_share_witness": {
+        "source_witness": "umgy002",
+        "count": 66,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 10,
+        "share": 0.078125
+      },
+      "research_priority_score": 2.676786,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B305D.html"
+    },
+    {
+      "kana": "り",
+      "glyph_id": "U+308A",
+      "character": "り",
+      "jibo": "利",
+      "total_count_across_15_witnesses": 2496,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 901,
+        "share": 0.89473684
+      },
+      "ise_sagabon": {
+        "count": 72,
+        "share": 0.11501597
+      },
+      "ise_share_gap": 0.77972087,
+      "cross_witness_share_range": 0.77972087,
+      "max_share_witness": {
+        "source_witness": "200014445",
+        "count": 901,
+        "share": 0.89473684
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 72,
+        "share": 0.11501597
+      },
+      "research_priority_score": 2.649038,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B308A.html"
+    },
+    {
+      "kana": "あ",
+      "glyph_id": "U+1B004",
+      "character": "𛀄",
+      "jibo": "阿",
+      "total_count_across_15_witnesses": 391,
+      "positive_witness_count": 14,
+      "ise_kokubunken": {
+        "count": 239,
+        "share": 1
+      },
+      "ise_sagabon": {
+        "count": 76,
+        "share": 0.28464419
+      },
+      "ise_share_gap": 0.71535581,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "200014445",
+        "count": 239,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "umgy002",
+        "count": 1,
+        "share": 0.01492537
+      },
+      "research_priority_score": 2.593286,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3042.html"
+    },
+    {
+      "kana": "つ",
+      "glyph_id": "U+3064",
+      "character": "つ",
+      "jibo": "川",
+      "total_count_across_15_witnesses": 1290,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 274,
+        "share": 0.69720102
+      },
+      "ise_sagabon": {
+        "count": 102,
+        "share": 0.4047619
+      },
+      "ise_share_gap": 0.29243912,
+      "cross_witness_share_range": 0.82394201,
+      "max_share_witness": {
+        "source_witness": "brsk002",
+        "count": 179,
+        "share": 0.98351648
+      },
+      "min_positive_share_witness": {
+        "source_witness": "hnsd003",
+        "count": 15,
+        "share": 0.15957447
+      },
+      "research_priority_score": 2.563223,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3064.html"
+    },
+    {
+      "kana": "わ",
+      "glyph_id": "U+1B10C",
+      "character": "𛄌",
+      "jibo": "王",
+      "total_count_across_15_witnesses": 353,
+      "positive_witness_count": 12,
+      "ise_kokubunken": {
+        "count": 5,
+        "share": 0.03571429
+      },
+      "ise_sagabon": {
+        "count": 0,
+        "share": 0
+      },
+      "ise_share_gap": 0.03571429,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "umgy001",
+        "count": 50,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "200014445",
+        "count": 5,
+        "share": 0.03571429
+      },
+      "research_priority_score": 2.549003,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B308F.html"
+    },
+    {
+      "kana": "に",
+      "glyph_id": "U+1B08C",
+      "character": "𛂌",
+      "jibo": "爾",
+      "total_count_across_15_witnesses": 3802,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 556,
+        "share": 0.6275395
+      },
+      "ise_sagabon": {
+        "count": 146,
+        "share": 0.27703985
+      },
+      "ise_share_gap": 0.35049965,
+      "cross_witness_share_range": 0.71132898,
+      "max_share_witness": {
+        "source_witness": "hnsd002",
+        "count": 120,
+        "share": 0.74074074
+      },
+      "min_positive_share_witness": {
+        "source_witness": "wakn001",
+        "count": 4,
+        "share": 0.02941176
+      },
+      "research_priority_score": 2.546648,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306B.html"
+    },
+    {
+      "kana": "ね",
+      "glyph_id": "U+306D",
+      "character": "ね",
+      "jibo": "禰",
+      "total_count_across_15_witnesses": 349,
+      "positive_witness_count": 13,
+      "ise_kokubunken": {
+        "count": 47,
+        "share": 0.56626506
+      },
+      "ise_sagabon": {
+        "count": 21,
+        "share": 0.44680851
+      },
+      "ise_share_gap": 0.11945655,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "umgy002",
+        "count": 39,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk001",
+        "count": 1,
+        "share": 0.07142857
+      },
+      "research_priority_score": 2.544068,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html"
+    },
+    {
+      "kana": "て",
+      "glyph_id": "U+1B073",
+      "character": "𛁳",
+      "jibo": "天",
+      "total_count_across_15_witnesses": 914,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 89,
+        "share": 0.11410256
+      },
+      "ise_sagabon": {
+        "count": 402,
+        "share": 0.84989429
+      },
+      "ise_share_gap": 0.73579173,
+      "cross_witness_share_range": 0.84842586,
+      "max_share_witness": {
+        "source_witness": "issg001",
+        "count": 402,
+        "share": 0.84989429
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk004",
+        "count": 1,
+        "share": 0.00146843
+      },
+      "research_priority_score": 2.512546,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3066.html"
+    },
+    {
+      "kana": "れ",
+      "glyph_id": "U+308C",
+      "character": "れ",
+      "jibo": "禮",
+      "total_count_across_15_witnesses": 660,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 109,
+        "share": 0.22803347
+      },
+      "ise_sagabon": {
+        "count": 53,
+        "share": 0.17725753
+      },
+      "ise_share_gap": 0.05077594,
+      "cross_witness_share_range": 0.88550725,
+      "max_share_witness": {
+        "source_witness": "brsk004",
+        "count": 68,
+        "share": 0.98550725
+      },
+      "min_positive_share_witness": {
+        "source_witness": "umgy003",
+        "count": 6,
+        "share": 0.1
+      },
+      "research_priority_score": 2.497309,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B308C.html"
+    },
+    {
+      "kana": "す",
+      "glyph_id": "U+1B04F",
+      "character": "𛁏",
+      "jibo": "春",
+      "total_count_across_15_witnesses": 763,
+      "positive_witness_count": 13,
+      "ise_kokubunken": {
+        "count": 90,
+        "share": 0.40909091
+      },
+      "ise_sagabon": {
+        "count": 18,
+        "share": 0.1125
+      },
+      "ise_share_gap": 0.29659091,
+      "cross_witness_share_range": 0.83544304,
+      "max_share_witness": {
+        "source_witness": "brsk005",
+        "count": 66,
+        "share": 0.83544304
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 18,
+        "share": 0.1125
+      },
+      "research_priority_score": 2.40866,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3059.html"
+    },
+    {
+      "kana": "け",
+      "glyph_id": "U+3051",
+      "character": "け",
+      "jibo": "計",
+      "total_count_across_15_witnesses": 670,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 129,
+        "share": 0.15523466
+      },
+      "ise_sagabon": {
+        "count": 87,
+        "share": 0.18012422
+      },
+      "ise_share_gap": 0.02488956,
+      "cross_witness_share_range": 0.84476534,
+      "max_share_witness": {
+        "source_witness": "hnsd002",
+        "count": 50,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "200014445",
+        "count": 129,
+        "share": 0.15523466
+      },
+      "research_priority_score": 2.387917,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3051.html"
+    },
+    {
+      "kana": "も",
+      "glyph_id": "U+3082",
+      "character": "も",
+      "jibo": "毛",
+      "total_count_across_15_witnesses": 901,
+      "positive_witness_count": 12,
+      "ise_kokubunken": {
+        "count": 2,
+        "share": 0.00497512
+      },
+      "ise_sagabon": {
+        "count": 107,
+        "share": 0.71812081
+      },
+      "ise_share_gap": 0.71314569,
+      "cross_witness_share_range": 0.77952756,
+      "max_share_witness": {
+        "source_witness": "umgy003",
+        "count": 99,
+        "share": 0.77952756
+      },
+      "min_positive_share_witness": {
+        "source_witness": "hnsd003",
+        "count": 1,
+        "share": 0.00458716
+      },
+      "research_priority_score": 2.303665,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3082.html"
+    },
+    {
+      "kana": "え",
+      "glyph_id": "U+3048",
+      "character": "え",
+      "jibo": "衣",
+      "total_count_across_15_witnesses": 193,
+      "positive_witness_count": 14,
+      "ise_kokubunken": {
+        "count": 75,
+        "share": 0.79787234
+      },
+      "ise_sagabon": {
+        "count": 30,
+        "share": 0.625
+      },
+      "ise_share_gap": 0.17287234,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "umgy001",
+        "count": 1,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "wakn002",
+        "count": 2,
+        "share": 0.28571429
+      },
+      "research_priority_score": 2.287802,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html"
+    },
+    {
+      "kana": "ゆ",
+      "glyph_id": "U+3086",
+      "character": "ゆ",
+      "jibo": "由",
+      "total_count_across_15_witnesses": 190,
+      "positive_witness_count": 12,
+      "ise_kokubunken": {
+        "count": 93,
+        "share": 0.97894737
+      },
+      "ise_sagabon": {
+        "count": 28,
+        "share": 0.65116279
+      },
+      "ise_share_gap": 0.32778458,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "wakn001",
+        "count": 23,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk003",
+        "count": 3,
+        "share": 0.09090909
+      },
+      "research_priority_score": 2.281033,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3086.html"
+    },
+    {
+      "kana": "の",
+      "glyph_id": "U+306E",
+      "character": "の",
+      "jibo": "乃",
+      "total_count_across_15_witnesses": 4583,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 695,
+        "share": 0.71797521
+      },
+      "ise_sagabon": {
+        "count": 275,
+        "share": 0.44861338
+      },
+      "ise_share_gap": 0.26936183,
+      "cross_witness_share_range": 0.61682243,
+      "max_share_witness": {
+        "source_witness": "hnsd002",
+        "count": 241,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "wakn001",
+        "count": 82,
+        "share": 0.38317757
+      },
+      "research_priority_score": 2.258338,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306E.html"
+    },
+    {
+      "kana": "や",
+      "glyph_id": "U+1B0DE",
+      "character": "𛃞",
+      "jibo": "也",
+      "total_count_across_15_witnesses": 251,
+      "positive_witness_count": 4,
+      "ise_kokubunken": {
+        "count": 246,
+        "share": 0.9389313
+      },
+      "ise_sagabon": {
+        "count": 0,
+        "share": 0
+      },
+      "ise_share_gap": 0.9389313,
+      "cross_witness_share_range": 0.9389313,
+      "max_share_witness": {
+        "source_witness": "200014445",
+        "count": 246,
+        "share": 0.9389313
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk003",
+        "count": 2,
+        "share": 0.02173913
+      },
+      "research_priority_score": 2.25475,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3084.html"
+    },
+    {
+      "kana": "そ",
+      "glyph_id": "U+1B05A",
+      "character": "𛁚",
+      "jibo": "曾",
+      "total_count_across_15_witnesses": 296,
+      "positive_witness_count": 9,
+      "ise_kokubunken": {
+        "count": 118,
+        "share": 0.60824742
+      },
+      "ise_sagabon": {
+        "count": 115,
+        "share": 0.8984375
+      },
+      "ise_share_gap": 0.29019008,
+      "cross_witness_share_range": 0.8984375,
+      "max_share_witness": {
+        "source_witness": "issg001",
+        "count": 115,
+        "share": 0.8984375
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk002",
+        "count": 2,
+        "share": 0.03333333
+      },
+      "research_priority_score": 2.221617,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B305D.html"
+    },
+    {
+      "kana": "ゆ",
+      "glyph_id": "U+1B0E5",
+      "character": "𛃥",
+      "jibo": "由",
+      "total_count_across_15_witnesses": 158,
+      "positive_witness_count": 13,
+      "ise_kokubunken": {
+        "count": 1,
+        "share": 0.01052632
+      },
+      "ise_sagabon": {
+        "count": 0,
+        "share": 0
+      },
+      "ise_share_gap": 0.01052632,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "umgy001",
+        "count": 12,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "200014445",
+        "count": 1,
+        "share": 0.01052632
+      },
+      "research_priority_score": 2.201397,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3086.html"
+    },
+    {
+      "kana": "を",
+      "glyph_id": "U+3092",
+      "character": "を",
+      "jibo": "遠",
+      "total_count_across_15_witnesses": 933,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 42,
+        "share": 0.10294118
+      },
+      "ise_sagabon": {
+        "count": 170,
+        "share": 0.75221239
+      },
+      "ise_share_gap": 0.64927121,
+      "cross_witness_share_range": 0.73482109,
+      "max_share_witness": {
+        "source_witness": "issg001",
+        "count": 170,
+        "share": 0.75221239
+      },
+      "min_positive_share_witness": {
+        "source_witness": "hnsd002",
+        "count": 2,
+        "share": 0.0173913
+      },
+      "research_priority_score": 2.182674,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3092.html"
+    },
+    {
+      "kana": "ゐ",
+      "glyph_id": "U+3090",
+      "character": "ゐ",
+      "jibo": "爲",
+      "total_count_across_15_witnesses": 142,
+      "positive_witness_count": 14,
+      "ise_kokubunken": {
+        "count": 47,
+        "share": 0.85454545
+      },
+      "ise_sagabon": {
+        "count": 13,
+        "share": 0.46428571
+      },
+      "ise_share_gap": 0.39025974,
+      "cross_witness_share_range": 1,
+      "max_share_witness": {
+        "source_witness": "umgy001",
+        "count": 12,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 13,
+        "share": 0.46428571
+      },
+      "research_priority_score": 2.155336,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3090.html"
+    },
+    {
+      "kana": "は",
+      "glyph_id": "U+1B09E",
+      "character": "𛂞",
+      "jibo": "八",
+      "total_count_across_15_witnesses": 2882,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 206,
+        "share": 0.2470024
+      },
+      "ise_sagabon": {
+        "count": 291,
+        "share": 0.59509202
+      },
+      "ise_share_gap": 0.34808962,
+      "cross_witness_share_range": 0.59597281,
+      "max_share_witness": {
+        "source_witness": "brsk005",
+        "count": 306,
+        "share": 0.84297521
+      },
+      "min_positive_share_witness": {
+        "source_witness": "200014445",
+        "count": 206,
+        "share": 0.2470024
+      },
+      "research_priority_score": 2.061973,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306F.html"
+    },
+    {
+      "kana": "ま",
+      "glyph_id": "U+307E",
+      "character": "ま",
+      "jibo": "末",
+      "total_count_across_15_witnesses": 1484,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 202,
+        "share": 0.44395604
+      },
+      "ise_sagabon": {
+        "count": 207,
+        "share": 0.71134021
+      },
+      "ise_share_gap": 0.26738417,
+      "cross_witness_share_range": 0.64153361,
+      "max_share_witness": {
+        "source_witness": "brsk003",
+        "count": 109,
+        "share": 0.95614035
+      },
+      "min_positive_share_witness": {
+        "source_witness": "umgy003",
+        "count": 28,
+        "share": 0.31460674
+      },
+      "research_priority_score": 2.034769,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B307E.html"
+    },
+    {
+      "kana": "け",
+      "glyph_id": "U+1B033",
+      "character": "𛀳",
+      "jibo": "介",
+      "total_count_across_15_witnesses": 839,
+      "positive_witness_count": 14,
+      "ise_kokubunken": {
+        "count": 339,
+        "share": 0.40794224
+      },
+      "ise_sagabon": {
+        "count": 328,
+        "share": 0.67908903
+      },
+      "ise_share_gap": 0.27114679,
+      "cross_witness_share_range": 0.67908903,
+      "max_share_witness": {
+        "source_witness": "issg001",
+        "count": 328,
+        "share": 0.67908903
+      },
+      "min_positive_share_witness": {
+        "source_witness": "hnsd001",
+        "count": 1,
+        "share": 0.02702703
+      },
+      "research_priority_score": 1.985846,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3051.html"
+    },
+    {
+      "kana": "さ",
+      "glyph_id": "U+1B03F",
+      "character": "𛀿",
+      "jibo": "左",
+      "total_count_across_15_witnesses": 199,
+      "positive_witness_count": 3,
+      "ise_kokubunken": {
+        "count": 0,
+        "share": 0
+      },
+      "ise_sagabon": {
+        "count": 197,
+        "share": 0.84913793
+      },
+      "ise_share_gap": 0.84913793,
+      "cross_witness_share_range": 0.84913793,
+      "max_share_witness": {
+        "source_witness": "issg001",
+        "count": 197,
+        "share": 0.84913793
+      },
+      "min_positive_share_witness": {
+        "source_witness": "hnsd001",
+        "count": 1,
+        "share": 0.01369863
+      },
+      "research_priority_score": 1.953892,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3055.html"
+    },
+    {
+      "kana": "に",
+      "glyph_id": "U+1B08B",
+      "character": "𛂋",
+      "jibo": "爾",
+      "total_count_across_15_witnesses": 874,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 76,
+        "share": 0.08577878
+      },
+      "ise_sagabon": {
+        "count": 58,
+        "share": 0.11005693
+      },
+      "ise_share_gap": 0.02427815,
+      "cross_witness_share_range": 0.63107843,
+      "max_share_witness": {
+        "source_witness": "wakn001",
+        "count": 89,
+        "share": 0.65441176
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk003",
+        "count": 21,
+        "share": 0.02333333
+      },
+      "research_priority_score": 1.856638,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306B.html"
+    },
+    {
+      "kana": "な",
+      "glyph_id": "U+306A",
+      "character": "な",
+      "jibo": "奈",
+      "total_count_across_15_witnesses": 1072,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 107,
+        "share": 0.15070423
+      },
+      "ise_sagabon": {
+        "count": 263,
+        "share": 0.61592506
+      },
+      "ise_share_gap": 0.46522083,
+      "cross_witness_share_range": 0.61030708,
+      "max_share_witness": {
+        "source_witness": "issg001",
+        "count": 263,
+        "share": 0.61592506
+      },
+      "min_positive_share_witness": {
+        "source_witness": "hnsd002",
+        "count": 1,
+        "share": 0.00561798
+      },
+      "research_priority_score": 1.849596,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306A.html"
+    },
+    {
+      "kana": "ほ",
+      "glyph_id": "U+1B0C0",
+      "character": "𛃀",
+      "jibo": "本",
+      "total_count_across_15_witnesses": 445,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 109,
+        "share": 0.71710526
+      },
+      "ise_sagabon": {
+        "count": 33,
+        "share": 0.30841121
+      },
+      "ise_share_gap": 0.40869405,
+      "cross_witness_share_range": 0.69158879,
+      "max_share_witness": {
+        "source_witness": "umgy002",
+        "count": 18,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 33,
+        "share": 0.30841121
+      },
+      "research_priority_score": 1.83225,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B307B.html"
+    },
+    {
+      "kana": "ね",
+      "glyph_id": "U+1B097",
+      "character": "𛂗",
+      "jibo": "禰",
+      "total_count_across_15_witnesses": 219,
+      "positive_witness_count": 14,
+      "ise_kokubunken": {
+        "count": 24,
+        "share": 0.28915663
+      },
+      "ise_sagabon": {
+        "count": 15,
+        "share": 0.31914894
+      },
+      "ise_share_gap": 0.02999231,
+      "cross_witness_share_range": 0.7755102,
+      "max_share_witness": {
+        "source_witness": "brsk002",
+        "count": 38,
+        "share": 0.7755102
+      },
+      "min_positive_share_witness": {
+        "source_witness": "umgy001",
+        "count": 1,
+        "share": 0.00833333
+      },
+      "research_priority_score": 1.816573,
+      "reasons": [
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html"
+    },
+    {
+      "kana": "ろ",
+      "glyph_id": "U+308D",
+      "character": "ろ",
+      "jibo": "呂",
+      "total_count_across_15_witnesses": 450,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 70,
+        "share": 0.77777778
+      },
+      "ise_sagabon": {
+        "count": 22,
+        "share": 0.31884058
+      },
+      "ise_share_gap": 0.4589372,
+      "cross_witness_share_range": 0.68115942,
+      "max_share_witness": {
+        "source_witness": "umgy001",
+        "count": 16,
+        "share": 1
+      },
+      "min_positive_share_witness": {
+        "source_witness": "issg001",
+        "count": 22,
+        "share": 0.31884058
+      },
+      "research_priority_score": 1.807917,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B308D.html"
+    },
+    {
+      "kana": "か",
+      "glyph_id": "U+1B01A",
+      "character": "𛀚",
+      "jibo": "可",
+      "total_count_across_15_witnesses": 2880,
+      "positive_witness_count": 15,
+      "ise_kokubunken": {
+        "count": 766,
+        "share": 0.7792472
+      },
+      "ise_sagabon": {
+        "count": 309,
+        "share": 0.49519231
+      },
+      "ise_share_gap": 0.28405489,
+      "cross_witness_share_range": 0.5043407,
+      "max_share_witness": {
+        "source_witness": "umgy003",
+        "count": 162,
+        "share": 0.98181818
+      },
+      "min_positive_share_witness": {
+        "source_witness": "brsk003",
+        "count": 106,
+        "share": 0.47747748
+      },
+      "research_priority_score": 1.744788,
+      "reasons": [
+        "ise_witness_contrast",
+        "cross_witness_concentration"
+      ],
+      "source_page": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B304B.html"
+    }
+  ]
+}
