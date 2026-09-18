@@ -18,7 +18,8 @@
     "kakariMusubiEvidence": "kakari_musubi_evidence.json",
     "adjectiveSurfaceCollisionEvidence": "adjective_surface_collision_evidence.json",
     "surfaceMatchPolicy": "surface_match_policy.json",
-    "kakariMusubiRoutes": "kakari_musubi_routes.json"
+    "kakariMusubiRoutes": "kakari_musubi_routes.json",
+    "shadowAudit": "shadow_audit_20260919.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -37,6 +38,9 @@
     "形容詞140例から、識別表面形「けれ」「しか」がより大きい活用語の内部に現れる実例を抽出した。",
     "一文字識別形は通常の部分文字列一致を避け、context-required とする方針を追加した。",
     "係り結び30例とUSB-3212の同形候補を接続した kakari_musubi_routes.json を追加した。",
-    "ぬ・ね・ば・むも一文字の文脈必須表面形として surface_match_policy v0.2 に追加した。"
+    "ぬ・ね・ば・むも一文字の文脈必須表面形として surface_match_policy v0.2 に追加した。",
+    "既存4サンプル990文字で shadow detector を監査。surface_index raw は legacy 比較対象の89.1%を被覆し、保守的ゲート後は19.8%を通過。",
+    "係り結びは raw文字列距離で自動接続すると誤信号が出たため、scope確定後に route API を呼ぶ方式へ変更した。",
+    "shadow route API 8/8、形容詞内部一致抑制 2/2 の回帰テストを通過。"
   ]
 }
