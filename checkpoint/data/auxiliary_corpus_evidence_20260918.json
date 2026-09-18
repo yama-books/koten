@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-18",
+  "title": "助動詞5種・CHJ実測証拠 2026-09-18",
+  "source": {
+    "handoffDriveFileId": "1lE0wLOatT_9cDJavkcAFUlK35Duf1_53Dxz_cALDFD8",
+    "auditSheetDriveFileId": "1pL6VsYgzdQfyI-kgrOQZlO3ZJpXHVTXB",
+    "corpus": "日本語歴史コーパス（CHJ）",
+    "status": "corpus-evidence / AI-audit; primary-source confirmation pending"
+  },
+  "policy": [
+    "実測件数は存在証拠・希少性の手掛かりとして使う。",
+    "CHJ/UniDicの活用ラベルを学校文法の正本としない。",
+    "学校文法の活用表・接続は『新しい古典文法 四訂新版』付録で確認後に human-confirmed へ昇格する。",
+    "実例が0件でも、その活用形が学校文法上存在しないとは断定しない。"
+  ],
+  "initialSearch": {
+    "validRawTotal": 14039,
+    "rawCounts": {
+      "ず": 9438,
+      "べし": 4023,
+      "まじ": 372,
+      "まほし": 175,
+      "たし": 31
+    },
+    "selected180": {
+      "ず": {
+        "selected": 66,
+        "supplementalConjugation": 45
+      },
+      "べし": {
+        "selected": 48,
+        "supplementalConjugation": 24
+      },
+      "まじ": {
+        "selected": 28,
+        "supplementalConjugation": 8
+      },
+      "まほし": {
+        "selected": 24,
+        "supplementalConjugation": 8
+      },
+      "たし": {
+        "selected": 14,
+        "supplementalConjugation": 1
+      }
+    }
+  },
+  "observedSupplementalForms": {
+    "ず": [
+      {
+        "surface": "ざら",
+        "count": 283
+      },
+      {
+        "surface": "ざり",
+        "count": 821
+      },
+      {
+        "surface": "ざる",
+        "count": 211
+      },
+      {
+        "surface": "ざれ",
+        "formCandidate": "已然形",
+        "count": 50
+      },
+      {
+        "surface": "ざれ",
+        "formCandidate": "命令形",
+        "count": 5
+      }
+    ],
+    "べし": [
+      {
+        "surface": "べから",
+        "count": 238
+      },
+      {
+        "surface": "べかり",
+        "count": 113
+      },
+      {
+        "surface": "べかる",
+        "count": 6
+      }
+    ],
+    "まじ": [
+      {
+        "surface": "まじから",
+        "count": 3
+      },
+      {
+        "surface": "まじかり",
+        "count": 20
+      },
+      {
+        "surface": "まじかる",
+        "count": 0
+      }
+    ],
+    "まほし": [
+      {
+        "surface": "まほしから",
+        "count": 3
+      },
+      {
+        "surface": "まほしかり",
+        "count": 5
+      },
+      {
+        "surface": "まほしかる",
+        "count": 3
+      }
+    ]
+  },
+  "tashiExpandedSearch": {
+    "folderId": "1j2LQvo-wEWu-TgN8ZGEAdusUlzPoG6kp",
+    "effectiveTotal": 52,
+    "overlapWithInitial31": 31,
+    "newExamples": 21,
+    "eraCounts": {
+      "平安": 1,
+      "鎌倉": 51
+    },
+    "workCounts": {
+      "平家物語": 20,
+      "とはずがたり": 15,
+      "徒然草": 8,
+      "保元物語": 4,
+      "十六夜日記": 2,
+      "紫式部日記": 1,
+      "今昔物語集": 1,
+      "平治物語": 1
+    },
+    "observedForms": [
+      {
+        "surface": "たき",
+        "count": 17
+      },
+      {
+        "surface": "たく",
+        "count": 15
+      },
+      {
+        "surface": "たけれ",
+        "count": 8
+      },
+      {
+        "surface": "たう",
+        "note": "連用形ウ音便",
+        "count": 8
+      },
+      {
+        "surface": "たかり",
+        "note": "補助活用連用形候補",
+        "count": 2
+      },
+      {
+        "surface": "たから",
+        "note": "補助活用未然形候補",
+        "count": 1
+      },
+      {
+        "surface": "た",
+        "note": "語幹候補",
+        "count": 1
+      },
+      {
+        "surface": "たし",
+        "note": "終止形候補",
+        "count": 0
+      },
+      {
+        "surface": "たかる",
+        "note": "補助活用連体形候補",
+        "count": 0
+      }
+    ],
+    "interpretation": "対象を広げても鎌倉散文・軍記に強く偏る。希少セルを件数合わせで水増ししない。"
+  },
+  "correctionGuard": {
+    "problem": "旧AI監査案が「べかれ・まじかれ・まほしかれ・たかれ」を不足命令形として探索対象にした。",
+    "status": "retracted-ai-assumption",
+    "doNotSearchAsMissingImperative": [
+      "べかれ",
+      "まじかれ",
+      "まほしかれ",
+      "たかれ"
+    ],
+    "provisionalSupplementalPatterns": {
+      "べし": [
+        "べから",
+        "べかり",
+        null,
+        "べかる",
+        null,
+        null
+      ],
+      "まじ": [
+        "まじから",
+        "まじかり",
+        null,
+        "まじかる",
+        null,
+        null
+      ],
+      "まほし": [
+        "まほしから",
+        "まほしかり",
+        null,
+        "まほしかる",
+        null,
+        null
+      ],
+      "たし": [
+        "たから",
+        "たかり",
+        null,
+        "たかる",
+        null,
+        null
+      ]
+    },
+    "warning": "この補助活用パターン自体も一次資料照合前の暫定整理。primary-source verified にはしない。"
+  }
+}
