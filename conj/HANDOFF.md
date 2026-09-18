@@ -311,36 +311,53 @@ raw: 46件
 
 ---
 
-## 11. 再開後の現行正本（2026-09-19）
 
-**この節が第10節の「未完了」記述を上書きする。** 直近コミットを確認した結果、第10節記録後に次が完了していた。
+## 11. 現行正本・main接続後（2026-09-19）
 
-- ナリ活用 `なり` の連用形／終止形分類
-  - 連用形 56
-  - 終止形 237
-  - `也` 9件は連用2・終止7
-- 形容動詞120例一次選抜
-  - ナリ96 / タリ24
-- target監査 120 / 120通過
+この節が第10節の「本番未接続」記述を更新する。
 
-今回さらにraw CSVへ再照合し、sample ID＋開始位置 120 / 120一致、原文target 120 / 120再検出、欠落0、不一致0を確認した。
+### データ監査
 
-Drive非公開監査文書:
-- `形容動詞120例_本文anchor公開前監査`
-- File ID: `1HilSjL8gSRFr8pSOvXfkgBTyTqowvOrwQDxFwes1bok`
+- 形容動詞120例は選抜・target監査済み
+- raw CSVへの再照合: 120 / 120
+- originalTarget再検出: 120 / 120
+- anchor一意化失敗: 0
+- 統合監査: 120 / 120が正規の活用セルへ対応
+- 実例禁止セル参照: 0
 
-GitHub公開側:
-- `conj/data/adjectival-noun-selection-120.json`: 選抜・監査済み軽量メタデータ
-- `conj/data/adjectival-noun-app-staging-120.json`: アプリ投入前の構造化メタデータ
-- CHJ本文・anchor・引用候補はGitHubへ複製しない
+Drive正本:
+- `活用表アプリ_形容動詞120例_公開前本文・anchor監査_2026-09-19`
+- File ID: `1b-LU-wVx-hKinWEuMDlUqphAzfObYyw7xfKg8Ab4Ov8`
+- CHJ本文・anchorはDriveにのみ保持し、GitHubへ複製しない
 
-### 現在の開始地点
+GitHub二層データ:
+- `data/adjectival-noun-paradigms.json`
+- `data/adjectival-noun-lemma-pool.json`
+- `data/adjectival-noun-example-index-120.json`
+- `data/adjectival-noun-integration-audit.json`
+- `adjv-runtime-adapter.js`
 
-1. `index.html` の一次資料差分を修正する
-2. 軽量JSONのロード／互換層を追加する
-3. 本文が未公開の例は実例出題へ入れない
-4. 表ドリルと実例ドリルを引き続き分離する
+### mainへの接続
 
-### 直ちに修正すべき既知差分
+commit: `6baf8cfdedfe3aad39d4f68cf2fedbbc76c6c13d`
 
-現行 `index.html` では「たし」の補助活用命令形に `たかれ` が入っている。一次資料確認結果では補助活用命令形を置かないため、コードを修正する。
+- 起動時に `adjv-runtime-adapter.js` をロード
+- 表ドリル用117語幹を生成
+- 既存 `いたづらなり` と重複する1語幹を除外
+- **116項目を追加**
+- 本文なし項目では用例欄を自動非表示・用例トグルを無効化
+- JSON読込失敗時は従来の埋め込みデータだけで起動
+- main内JavaScript構文チェック: PASS
+- runtimeデータ検証: PASS
+
+### 一次資料差分修正
+
+現行 `index.html` の助動詞「たし」から、補助活用命令形 `たかれ` を除去済み。補助活用連体形 `たかる` は保持する。
+
+### 現在の次工程
+
+1. 本番画面で形容動詞の表ドリル挙動を実機確認
+2. 形容動詞実例120件について、再配布可能な本文ソースまたは公開可否確認済み本文を準備
+3. 実例本文を公開可能なものだけ段階接続
+4. タリ活用 `たら / たれ` は必要に応じて検索範囲拡張
+5. 助動詞180例を一次資料確認済み正本候補へ更新
