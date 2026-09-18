@@ -11,7 +11,8 @@
     "原文targetが2文字以上で、500例内の活用形・品詞が一意に一致する表面形だけを収録する。",
     "文中で候補表面形の直前に完全一致した場合のみ、接続判定の証拠として使用する。",
     "この一致だけで学習者向け正解を表示しない。",
-    "同じ表面形が複数の活用形に出るもの、一文字targetは境界誤認を避けるため除外する。"
+    "同じ表面形が複数の活用形に出るもの、一文字targetは境界誤認を避けるため除外する。",
+    "shadow context resolver は boundaryConfidence=kanji-anchored の語形だけを直前語証拠として自動使用する。仮名のみの語形は形態境界解析まで保留する。"
   ],
   "entryCount": 413,
   "entries": [
@@ -30,7 +31,8 @@
           "form": "未然形",
           "sourceRow": 403
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "読み据ゑがたかる",
@@ -47,7 +49,8 @@
           "form": "連体形",
           "sourceRow": 417
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "こはごはしから",
@@ -64,7 +67,8 @@
           "form": "未然形",
           "sourceRow": 476
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "さうざうしかる",
@@ -81,7 +85,8 @@
           "form": "連体形",
           "sourceRow": 491
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "はかばかしかる",
@@ -98,7 +103,8 @@
           "form": "連体形",
           "sourceRow": 495
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ほと〳〵しかる",
@@ -115,7 +121,8 @@
           "form": "連体形",
           "sourceRow": 497
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "むねむねしから",
@@ -132,7 +139,8 @@
           "form": "未然形",
           "sourceRow": 469
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "わづらはしかり",
@@ -149,7 +157,8 @@
           "form": "連用形",
           "sourceRow": 488
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "をさをさしから",
@@ -166,7 +175,8 @@
           "form": "未然形",
           "sourceRow": 478
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "をちかへりなく",
@@ -183,7 +193,8 @@
           "form": "終止形",
           "sourceRow": 173
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "思ひまゐらすれ",
@@ -200,7 +211,8 @@
           "form": "已然形",
           "sourceRow": 264
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "恥ぢがましかる",
@@ -217,7 +229,8 @@
           "form": "連体形",
           "sourceRow": 494
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "あさましかり",
@@ -234,7 +247,8 @@
           "form": "連用形",
           "sourceRow": 487
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いとほしけれ",
@@ -251,7 +265,8 @@
           "form": "已然形",
           "sourceRow": 468
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いはけなかり",
@@ -268,7 +283,8 @@
           "form": "連用形",
           "sourceRow": 409
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "うつくしけれ",
@@ -285,7 +301,8 @@
           "form": "已然形",
           "sourceRow": 466
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "かぎりなけれ",
@@ -302,7 +319,8 @@
           "form": "已然形",
           "sourceRow": 386
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "さわがしから",
@@ -319,7 +337,8 @@
           "form": "未然形",
           "sourceRow": 471
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "すさましかり",
@@ -336,7 +355,8 @@
           "form": "連用形",
           "sourceRow": 479
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "たどたどしき",
@@ -353,7 +373,8 @@
           "form": "連体形",
           "sourceRow": 453
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "たのもしから",
@@ -370,7 +391,8 @@
           "form": "未然形",
           "sourceRow": 475
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "なつかしから",
@@ -387,7 +409,8 @@
           "form": "未然形",
           "sourceRow": 470
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ふりさけみれ",
@@ -404,7 +427,8 @@
           "form": "已然形",
           "sourceRow": 298
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "むつかしけれ",
@@ -421,7 +445,8 @@
           "form": "已然形",
           "sourceRow": 462
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "やんごとなき",
@@ -438,7 +463,8 @@
           "form": "連体形",
           "sourceRow": 377
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "よそほしかり",
@@ -455,7 +481,8 @@
           "form": "連用形",
           "sourceRow": 482
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "わきかたけれ",
@@ -472,7 +499,8 @@
           "form": "已然形",
           "sourceRow": 388
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "雲かくれゆく",
@@ -489,7 +517,8 @@
           "form": "終止形",
           "sourceRow": 178
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "忌まはしかる",
@@ -506,7 +535,8 @@
           "form": "連体形",
           "sourceRow": 493
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "見ぐるしかる",
@@ -523,7 +553,8 @@
           "form": "連体形",
           "sourceRow": 492
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "古めかしかり",
@@ -540,7 +571,8 @@
           "form": "連用形",
           "sourceRow": 485
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "思しこがるれ",
@@ -557,7 +589,8 @@
           "form": "已然形",
           "sourceRow": 252
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "生れさせ給へ",
@@ -574,7 +607,8 @@
           "form": "已然形",
           "sourceRow": 261
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "聞きにくから",
@@ -591,7 +625,8 @@
           "form": "未然形",
           "sourceRow": 394
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "あやふけれ",
@@ -608,7 +643,8 @@
           "form": "已然形",
           "sourceRow": 392
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いちはやき",
@@ -625,7 +661,8 @@
           "form": "連体形",
           "sourceRow": 380
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いとどしく",
@@ -642,7 +679,8 @@
           "form": "連用形",
           "sourceRow": 441
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いひかくれ",
@@ -659,7 +697,8 @@
           "form": "已然形",
           "sourceRow": 269
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "うみ落とす",
@@ -676,7 +715,8 @@
           "form": "終止形",
           "sourceRow": 155
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "うれしけれ",
@@ -693,7 +733,8 @@
           "form": "已然形",
           "sourceRow": 467
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おもしろし",
@@ -710,7 +751,8 @@
           "form": "終止形",
           "sourceRow": 369
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "かうはしき",
@@ -727,7 +769,8 @@
           "form": "連体形",
           "sourceRow": 458
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "かひなけれ",
@@ -744,7 +787,8 @@
           "form": "已然形",
           "sourceRow": 385
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "くやしかり",
@@ -761,7 +805,8 @@
           "form": "連用形",
           "sourceRow": 480
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "しりがたし",
@@ -778,7 +823,8 @@
           "form": "終止形",
           "sourceRow": 373
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "すゝしから",
@@ -795,7 +841,8 @@
           "form": "未然形",
           "sourceRow": 472
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "すみよかる",
@@ -812,7 +859,8 @@
           "form": "連体形",
           "sourceRow": 419
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "すみ憂かり",
@@ -829,7 +877,8 @@
           "form": "連用形",
           "sourceRow": 413
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "たてまつる",
@@ -846,7 +895,8 @@
           "form": "終止形",
           "sourceRow": 171
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "たのしかる",
@@ -863,7 +913,8 @@
           "form": "連体形",
           "sourceRow": 489
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "つけ試みる",
@@ -880,7 +931,8 @@
           "form": "連体形",
           "sourceRow": 217
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "つたなけれ",
@@ -897,7 +949,8 @@
           "form": "已然形",
           "sourceRow": 389
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "つれなかり",
@@ -914,7 +967,8 @@
           "form": "連用形",
           "sourceRow": 414
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "のどけから",
@@ -931,7 +985,8 @@
           "form": "未然形",
           "sourceRow": 397
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "はかなかる",
@@ -948,7 +1003,8 @@
           "form": "連体形",
           "sourceRow": 426
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "はしたなく",
@@ -965,7 +1021,8 @@
           "form": "連用形",
           "sourceRow": 363
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "はるけかり",
@@ -982,7 +1039,8 @@
           "form": "連用形",
           "sourceRow": 405
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ひさしかれ",
@@ -999,7 +1057,8 @@
           "form": "命令形",
           "sourceRow": 498
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "みしかゝり",
@@ -1016,7 +1075,8 @@
           "form": "連用形",
           "sourceRow": 416
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "めざましき",
@@ -1033,7 +1093,8 @@
           "form": "連体形",
           "sourceRow": 455
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "めやすかる",
@@ -1050,7 +1111,8 @@
           "form": "連体形",
           "sourceRow": 422
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "やさしかり",
@@ -1067,7 +1129,8 @@
           "form": "連用形",
           "sourceRow": 486
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ゆかしかり",
@@ -1084,7 +1147,8 @@
           "form": "連用形",
           "sourceRow": 481
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "わひしけれ",
@@ -1101,7 +1165,8 @@
           "form": "已然形",
           "sourceRow": 464
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "引き乗せよ",
@@ -1118,7 +1183,8 @@
           "form": "命令形",
           "sourceRow": 319
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "勧めたまへ",
@@ -1135,7 +1201,8 @@
           "form": "已然形",
           "sourceRow": 255
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "願はしかる",
@@ -1152,7 +1219,8 @@
           "form": "連体形",
           "sourceRow": 496
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "求めたまへ",
@@ -1169,7 +1237,8 @@
           "form": "已然形",
           "sourceRow": 251
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "口惜しかり",
@@ -1186,7 +1255,8 @@
           "form": "連用形",
           "sourceRow": 483
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "思はしかる",
@@ -1203,7 +1273,8 @@
           "form": "連体形",
           "sourceRow": 490
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "似げなから",
@@ -1220,7 +1291,8 @@
           "form": "未然形",
           "sourceRow": 401
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "似つかはし",
@@ -1237,7 +1309,8 @@
           "form": "終止形",
           "sourceRow": 452
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "取り難かり",
@@ -1254,7 +1327,8 @@
           "form": "連用形",
           "sourceRow": 411
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "心のとけき",
@@ -1271,7 +1345,8 @@
           "form": "連体形",
           "sourceRow": 384
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "心苦しけれ",
@@ -1288,7 +1363,8 @@
           "form": "已然形",
           "sourceRow": 461
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "羨ましから",
@@ -1305,7 +1381,8 @@
           "form": "未然形",
           "sourceRow": 477
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "嘆かしけれ",
@@ -1322,7 +1399,8 @@
           "form": "已然形",
           "sourceRow": 463
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "別れがたく",
@@ -1339,7 +1417,8 @@
           "form": "連用形",
           "sourceRow": 364
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "本意なかる",
@@ -1356,7 +1435,8 @@
           "form": "連体形",
           "sourceRow": 427
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "目出たけれ",
@@ -1373,7 +1453,8 @@
           "form": "已然形",
           "sourceRow": 391
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "あいなく",
@@ -1390,7 +1471,8 @@
           "form": "連用形",
           "sourceRow": 368
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "あさから",
@@ -1407,7 +1489,8 @@
           "form": "未然形",
           "sourceRow": 404
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "あしかれ",
@@ -1424,7 +1507,8 @@
           "form": "命令形",
           "sourceRow": 499
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "あつしく",
@@ -1441,7 +1525,8 @@
           "form": "連用形",
           "sourceRow": 444
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "あやしく",
@@ -1458,7 +1543,8 @@
           "form": "連用形",
           "sourceRow": 442
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いきうし",
@@ -1475,7 +1561,8 @@
           "form": "終止形",
           "sourceRow": 375
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いみじく",
@@ -1492,7 +1579,8 @@
           "form": "連用形",
           "sourceRow": 437
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "うかがふ",
@@ -1509,7 +1597,8 @@
           "form": "連体形",
           "sourceRow": 199
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "うらむれ",
@@ -1526,7 +1615,8 @@
           "form": "已然形",
           "sourceRow": 299
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "うるはし",
@@ -1543,7 +1633,8 @@
           "form": "終止形",
           "sourceRow": 449
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おかしく",
@@ -1560,7 +1651,8 @@
           "form": "連用形",
           "sourceRow": 438
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おとなび",
@@ -1577,7 +1669,8 @@
           "form": "未然形",
           "sourceRow": 43
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おなしく",
@@ -1594,7 +1687,8 @@
           "form": "連用形",
           "sourceRow": 443
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おぼしき",
@@ -1611,7 +1705,8 @@
           "form": "連体形",
           "sourceRow": 457
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "かそへよ",
@@ -1628,7 +1723,8 @@
           "form": "命令形",
           "sourceRow": 311
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "かたぶけ",
@@ -1645,7 +1741,8 @@
           "form": "已然形",
           "sourceRow": 244
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "くだくる",
@@ -1662,7 +1759,8 @@
           "form": "連体形",
           "sourceRow": 239
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "くだけよ",
@@ -1679,7 +1777,8 @@
           "form": "命令形",
           "sourceRow": 337
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こかるれ",
@@ -1696,7 +1795,8 @@
           "form": "已然形",
           "sourceRow": 280
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こきくれ",
@@ -1713,7 +1813,8 @@
           "form": "已然形",
           "sourceRow": 300
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こひしき",
@@ -1730,7 +1831,8 @@
           "form": "連体形",
           "sourceRow": 454
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こぼるる",
@@ -1747,7 +1849,8 @@
           "form": "連体形",
           "sourceRow": 238
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "さし出づ",
@@ -1764,7 +1867,8 @@
           "form": "終止形",
           "sourceRow": 128
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "しをるれ",
@@ -1781,7 +1885,8 @@
           "form": "已然形",
           "sourceRow": 276
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "たなひく",
@@ -1798,7 +1903,8 @@
           "form": "終止形",
           "sourceRow": 176
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "つよから",
@@ -1815,7 +1921,8 @@
           "form": "未然形",
           "sourceRow": 396
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "とゝめよ",
@@ -1832,7 +1939,8 @@
           "form": "命令形",
           "sourceRow": 310
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "とめくれ",
@@ -1849,7 +1957,8 @@
           "form": "已然形",
           "sourceRow": 266
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "なぐさま",
@@ -1866,7 +1975,8 @@
           "form": "未然形",
           "sourceRow": 53
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ねたかる",
@@ -1883,7 +1993,8 @@
           "form": "連体形",
           "sourceRow": 425
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ほしかり",
@@ -1900,7 +2011,8 @@
           "form": "連用形",
           "sourceRow": 484
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "まうけよ",
@@ -1917,7 +2029,8 @@
           "form": "命令形",
           "sourceRow": 335
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "めぐり来",
@@ -1934,7 +2047,8 @@
           "form": "連用形",
           "sourceRow": 98
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "めづらし",
@@ -1951,7 +2065,8 @@
           "form": "終止形",
           "sourceRow": 445
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ものせよ",
@@ -1968,7 +2083,8 @@
           "form": "命令形",
           "sourceRow": 323
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "もりくる",
@@ -1985,7 +2101,8 @@
           "form": "連体形",
           "sourceRow": 237
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "やけをり",
@@ -2002,7 +2119,8 @@
           "form": "終止形",
           "sourceRow": 168
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "やしなは",
@@ -2019,7 +2137,8 @@
           "form": "未然形",
           "sourceRow": 40
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "やすから",
@@ -2036,7 +2155,8 @@
           "form": "未然形",
           "sourceRow": 400
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "やすらふ",
@@ -2053,7 +2173,8 @@
           "form": "終止形",
           "sourceRow": 177
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "よしなし",
@@ -2070,7 +2191,8 @@
           "form": "終止形",
           "sourceRow": 374
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "わするれ",
@@ -2087,7 +2209,8 @@
           "form": "已然形",
           "sourceRow": 278
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "わづらふ",
@@ -2104,7 +2227,8 @@
           "form": "連体形",
           "sourceRow": 234
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "わろかり",
@@ -2121,7 +2245,8 @@
           "form": "連用形",
           "sourceRow": 406
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "をしへよ",
@@ -2138,7 +2263,8 @@
           "form": "命令形",
           "sourceRow": 350
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "引き見よ",
@@ -2155,7 +2281,8 @@
           "form": "命令形",
           "sourceRow": 340
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "久しかれ",
@@ -2172,7 +2299,8 @@
           "form": "命令形",
           "sourceRow": 500
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "急ぎ見れ",
@@ -2189,7 +2317,8 @@
           "form": "已然形",
           "sourceRow": 292
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "恐ろしき",
@@ -2206,7 +2335,8 @@
           "form": "連体形",
           "sourceRow": 460
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "苦しから",
@@ -2223,7 +2353,8 @@
           "form": "未然形",
           "sourceRow": 474
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "見わたせ",
@@ -2240,7 +2371,8 @@
           "form": "已然形",
           "sourceRow": 241
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "御覧ずれ",
@@ -2257,7 +2389,8 @@
           "form": "已然形",
           "sourceRow": 260
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "御覧ぜよ",
@@ -2274,7 +2407,8 @@
           "form": "命令形",
           "sourceRow": 324
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "思ひいづ",
@@ -2291,7 +2425,8 @@
           "form": "終止形",
           "sourceRow": 146
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "心うかる",
@@ -2308,7 +2443,8 @@
           "form": "連体形",
           "sourceRow": 420
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "新枕すれ",
@@ -2325,7 +2461,8 @@
           "form": "已然形",
           "sourceRow": 274
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "尋ね来る",
@@ -2342,7 +2479,8 @@
           "form": "連体形",
           "sourceRow": 225
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "大殿籠れ",
@@ -2359,7 +2497,8 @@
           "form": "命令形",
           "sourceRow": 317
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "恥づかし",
@@ -2376,7 +2515,8 @@
           "form": "終止形",
           "sourceRow": 451
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "調伏せよ",
@@ -2393,7 +2533,8 @@
           "form": "命令形",
           "sourceRow": 339
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "程なかる",
@@ -2410,7 +2551,8 @@
           "form": "連体形",
           "sourceRow": 424
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "貧しけれ",
@@ -2427,7 +2569,8 @@
           "form": "已然形",
           "sourceRow": 465
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "物うかる",
@@ -2444,7 +2587,8 @@
           "form": "連体形",
           "sourceRow": 423
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "聞こゆれ",
@@ -2461,7 +2605,8 @@
           "form": "已然形",
           "sourceRow": 254
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "歩み来る",
@@ -2478,7 +2623,8 @@
           "form": "連体形",
           "sourceRow": 200
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "乏しから",
@@ -2495,7 +2641,8 @@
           "form": "未然形",
           "sourceRow": 473
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "木高かれ",
@@ -2512,7 +2659,8 @@
           "form": "命令形",
           "sourceRow": 429
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "目近から",
@@ -2529,7 +2677,8 @@
           "form": "未然形",
           "sourceRow": 399
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "夜深かり",
@@ -2546,7 +2695,8 @@
           "form": "連用形",
           "sourceRow": 408
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "立ち去ら",
@@ -2563,7 +2713,8 @@
           "form": "未然形",
           "sourceRow": 59
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "立ち来れ",
@@ -2580,7 +2731,8 @@
           "form": "已然形",
           "sourceRow": 291
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "露けかり",
@@ -2597,7 +2749,8 @@
           "form": "連用形",
           "sourceRow": 412
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "いだす",
@@ -2614,7 +2767,8 @@
           "form": "終止形",
           "sourceRow": 141
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いぬる",
@@ -2631,7 +2785,8 @@
           "form": "連体形",
           "sourceRow": 201
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いのれ",
@@ -2648,7 +2803,8 @@
           "form": "已然形",
           "sourceRow": 277
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いませ",
@@ -2665,7 +2821,8 @@
           "form": "命令形",
           "sourceRow": 307
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いやし",
@@ -2682,7 +2839,8 @@
           "form": "終止形",
           "sourceRow": 450
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "うから",
@@ -2699,7 +2857,8 @@
           "form": "未然形",
           "sourceRow": 398
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "うつり",
@@ -2716,7 +2875,8 @@
           "form": "連用形",
           "sourceRow": 61
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "うらむ",
@@ -2733,7 +2893,8 @@
           "form": "終止形",
           "sourceRow": 121
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おこさ",
@@ -2750,7 +2911,8 @@
           "form": "未然形",
           "sourceRow": 60
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おはし",
@@ -2767,7 +2929,8 @@
           "form": "連用形",
           "sourceRow": 97
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おはす",
@@ -2784,7 +2947,8 @@
           "form": "終止形",
           "sourceRow": 159
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おぼえ",
@@ -2801,7 +2965,8 @@
           "form": "連用形",
           "sourceRow": 110
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おほく",
@@ -2818,7 +2983,8 @@
           "form": "連用形",
           "sourceRow": 362
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "かゝれ",
@@ -2835,7 +3001,8 @@
           "form": "命令形",
           "sourceRow": 348
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "かたし",
@@ -2852,7 +3019,8 @@
           "form": "終止形",
           "sourceRow": 371
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "かよふ",
@@ -2869,7 +3037,8 @@
           "form": "連体形",
           "sourceRow": 186
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "くるれ",
@@ -2886,7 +3055,8 @@
           "form": "已然形",
           "sourceRow": 248
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こたへ",
@@ -2903,7 +3073,8 @@
           "form": "未然形",
           "sourceRow": 30
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こふれ",
@@ -2920,7 +3091,8 @@
           "form": "已然形",
           "sourceRow": 267
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こぼた",
@@ -2937,7 +3109,8 @@
           "form": "未然形",
           "sourceRow": 33
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こりよ",
@@ -2954,7 +3127,8 @@
           "form": "命令形",
           "sourceRow": 333
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "しかる",
@@ -2971,7 +3145,8 @@
           "form": "連体形",
           "sourceRow": 205
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "しけき",
@@ -2988,7 +3163,8 @@
           "form": "連体形",
           "sourceRow": 379
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "しぬる",
@@ -3005,7 +3181,8 @@
           "form": "連体形",
           "sourceRow": 182
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "しろく",
@@ -3022,7 +3199,8 @@
           "form": "連用形",
           "sourceRow": 366
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "そひ行",
@@ -3039,7 +3217,8 @@
           "form": "終止形",
           "sourceRow": 179
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "たがへ",
@@ -3056,7 +3235,8 @@
           "form": "未然形",
           "sourceRow": 27
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "たのま",
@@ -3073,7 +3253,8 @@
           "form": "未然形",
           "sourceRow": 12
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ちかく",
@@ -3090,7 +3271,8 @@
           "form": "連用形",
           "sourceRow": 367
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ちりく",
@@ -3107,7 +3289,8 @@
           "form": "終止形",
           "sourceRow": 151
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "つかひ",
@@ -3124,7 +3307,8 @@
           "form": "連用形",
           "sourceRow": 84
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "とまれ",
@@ -3141,7 +3325,8 @@
           "form": "命令形",
           "sourceRow": 331
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ながむ",
@@ -3158,7 +3343,8 @@
           "form": "終止形",
           "sourceRow": 149
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "なかれ",
@@ -3175,7 +3361,8 @@
           "form": "命令形",
           "sourceRow": 430
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ならは",
@@ -3192,7 +3379,8 @@
           "form": "未然形",
           "sourceRow": 9
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "のぶる",
@@ -3209,7 +3397,8 @@
           "form": "連体形",
           "sourceRow": 208
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "はげし",
@@ -3226,7 +3415,8 @@
           "form": "終止形",
           "sourceRow": 447
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "はべり",
@@ -3243,7 +3433,8 @@
           "form": "連用形",
           "sourceRow": 68
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "はべる",
@@ -3260,7 +3451,8 @@
           "form": "連体形",
           "sourceRow": 219
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "はべれ",
@@ -3277,7 +3469,8 @@
           "form": "已然形",
           "sourceRow": 289
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ほろび",
@@ -3294,7 +3487,8 @@
           "form": "連用形",
           "sourceRow": 72
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "まかづ",
@@ -3311,7 +3505,8 @@
           "form": "終止形",
           "sourceRow": 165
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "まどひ",
@@ -3328,7 +3523,8 @@
           "form": "連用形",
           "sourceRow": 99
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "みちく",
@@ -3345,7 +3541,8 @@
           "form": "終止形",
           "sourceRow": 136
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "めくめ",
@@ -3362,7 +3559,8 @@
           "form": "已然形",
           "sourceRow": 258
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "わくる",
@@ -3379,7 +3577,8 @@
           "form": "連体形",
           "sourceRow": 203
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "わぶれ",
@@ -3396,7 +3595,8 @@
           "form": "已然形",
           "sourceRow": 268
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "をそく",
@@ -3413,7 +3613,8 @@
           "form": "連用形",
           "sourceRow": 365
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "悪しく",
@@ -3430,7 +3631,8 @@
           "form": "連用形",
           "sourceRow": 440
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "案ずる",
@@ -3447,7 +3649,8 @@
           "form": "連体形",
           "sourceRow": 212
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "遠けれ",
@@ -3464,7 +3667,8 @@
           "form": "已然形",
           "sourceRow": 387
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "往ぬる",
@@ -3481,7 +3685,8 @@
           "form": "連体形",
           "sourceRow": 224
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "往ぬれ",
@@ -3498,7 +3703,8 @@
           "form": "已然形",
           "sourceRow": 297
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "下りよ",
@@ -3515,7 +3721,8 @@
           "form": "命令形",
           "sourceRow": 318
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "下るる",
@@ -3532,7 +3739,8 @@
           "form": "連体形",
           "sourceRow": 215
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "下るれ",
@@ -3549,7 +3757,8 @@
           "form": "已然形",
           "sourceRow": 290
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "過ぎよ",
@@ -3566,7 +3775,8 @@
           "form": "命令形",
           "sourceRow": 341
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "過ぐる",
@@ -3583,7 +3793,8 @@
           "form": "連体形",
           "sourceRow": 188
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "過ぐれ",
@@ -3600,7 +3811,8 @@
           "form": "已然形",
           "sourceRow": 288
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "快から",
@@ -3617,7 +3829,8 @@
           "form": "未然形",
           "sourceRow": 393
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "悔ゆれ",
@@ -3634,7 +3847,8 @@
           "form": "已然形",
           "sourceRow": 286
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "帰り来",
@@ -3651,7 +3865,8 @@
           "form": "連用形",
           "sourceRow": 104
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "起きよ",
@@ -3668,7 +3883,8 @@
           "form": "命令形",
           "sourceRow": 342
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "久しく",
@@ -3685,7 +3901,8 @@
           "form": "連用形",
           "sourceRow": 439
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "求むる",
@@ -3702,7 +3919,8 @@
           "form": "連体形",
           "sourceRow": 223
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "空しき",
@@ -3719,7 +3937,8 @@
           "form": "連体形",
           "sourceRow": 459
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "軽かる",
@@ -3736,7 +3955,8 @@
           "form": "連体形",
           "sourceRow": 421
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "見せよ",
@@ -3753,7 +3973,8 @@
           "form": "命令形",
           "sourceRow": 320
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "見ゆる",
@@ -3770,7 +3991,8 @@
           "form": "連体形",
           "sourceRow": 221
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "御覧じ",
@@ -3787,7 +4009,8 @@
           "form": "連用形",
           "sourceRow": 113
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "御覧ぜ",
@@ -3804,7 +4027,8 @@
           "form": "未然形",
           "sourceRow": 57
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "広けれ",
@@ -3821,7 +4045,8 @@
           "form": "已然形",
           "sourceRow": 390
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "黒かり",
@@ -3838,7 +4063,8 @@
           "form": "連用形",
           "sourceRow": 407
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "恨むる",
@@ -3855,7 +4081,8 @@
           "form": "連体形",
           "sourceRow": 240
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "仕ふる",
@@ -3872,7 +4099,8 @@
           "form": "連体形",
           "sourceRow": 189
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "死ぬれ",
@@ -3889,7 +4117,8 @@
           "form": "已然形",
           "sourceRow": 295
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "試みよ",
@@ -3906,7 +4135,8 @@
           "form": "命令形",
           "sourceRow": 328
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "疾かり",
@@ -3923,7 +4153,8 @@
           "form": "連用形",
           "sourceRow": 415
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "重かる",
@@ -3940,7 +4171,8 @@
           "form": "連体形",
           "sourceRow": 428
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "出づれ",
@@ -3957,7 +4189,8 @@
           "form": "已然形",
           "sourceRow": 253
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "出でよ",
@@ -3974,7 +4207,8 @@
           "form": "命令形",
           "sourceRow": 321
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "助けよ",
@@ -3991,7 +4225,8 @@
           "form": "命令形",
           "sourceRow": 336
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "尋ぬる",
@@ -4008,7 +4243,8 @@
           "form": "連体形",
           "sourceRow": 220
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "尋ね来",
@@ -4025,7 +4261,8 @@
           "form": "連用形",
           "sourceRow": 74
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "据うる",
@@ -4042,7 +4279,8 @@
           "form": "連体形",
           "sourceRow": 204
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "奏せよ",
@@ -4059,7 +4297,8 @@
           "form": "命令形",
           "sourceRow": 349
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "憎から",
@@ -4076,7 +4315,8 @@
           "form": "未然形",
           "sourceRow": 395
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "尊かり",
@@ -4093,7 +4333,8 @@
           "form": "連用形",
           "sourceRow": 410
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "損ずる",
@@ -4110,7 +4351,8 @@
           "form": "連体形",
           "sourceRow": 210
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "長かる",
@@ -4127,7 +4369,8 @@
           "form": "連体形",
           "sourceRow": 418
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "長かれ",
@@ -4144,7 +4387,8 @@
           "form": "命令形",
           "sourceRow": 431
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "忍ふる",
@@ -4161,7 +4405,8 @@
           "form": "連体形",
           "sourceRow": 222
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "忍ぶれ",
@@ -4178,7 +4423,8 @@
           "form": "已然形",
           "sourceRow": 294
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "悲しき",
@@ -4195,7 +4441,8 @@
           "form": "連体形",
           "sourceRow": 456
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "物悲し",
@@ -4212,7 +4459,8 @@
           "form": "終止形",
           "sourceRow": 448
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "夢見る",
@@ -4229,7 +4477,8 @@
           "form": "連体形",
           "sourceRow": 209
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "明から",
@@ -4246,7 +4495,8 @@
           "form": "未然形",
           "sourceRow": 402
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "用ゐよ",
@@ -4263,7 +4513,8 @@
           "form": "命令形",
           "sourceRow": 352
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "用ゐる",
@@ -4280,7 +4531,8 @@
           "form": "終止形",
           "sourceRow": 160
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "落つる",
@@ -4297,7 +4549,8 @@
           "form": "連体形",
           "sourceRow": 190
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "乱るる",
@@ -4314,7 +4567,8 @@
           "form": "連体形",
           "sourceRow": 206
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "あげ",
@@ -4331,7 +4585,8 @@
           "form": "未然形",
           "sourceRow": 44
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "あら",
@@ -4348,7 +4603,8 @@
           "form": "未然形",
           "sourceRow": 14
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ある",
@@ -4365,7 +4621,8 @@
           "form": "連体形",
           "sourceRow": 185
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いけ",
@@ -4382,7 +4639,8 @@
           "form": "已然形",
           "sourceRow": 257
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いつ",
@@ -4399,7 +4657,8 @@
           "form": "終止形",
           "sourceRow": 153
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いな",
@@ -4416,7 +4675,8 @@
           "form": "未然形",
           "sourceRow": 47
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いに",
@@ -4433,7 +4693,8 @@
           "form": "連用形",
           "sourceRow": 77
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いね",
@@ -4450,7 +4711,8 @@
           "form": "命令形",
           "sourceRow": 343
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "いふ",
@@ -4467,7 +4729,8 @@
           "form": "連体形",
           "sourceRow": 181
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "うへ",
@@ -4484,7 +4747,8 @@
           "form": "連用形",
           "sourceRow": 108
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おい",
@@ -4501,7 +4765,8 @@
           "form": "連用形",
           "sourceRow": 95
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おし",
@@ -4518,7 +4783,8 @@
           "form": "終止形",
           "sourceRow": 446
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おふ",
@@ -4535,7 +4801,8 @@
           "form": "終止形",
           "sourceRow": 154
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "おら",
@@ -4552,7 +4819,8 @@
           "form": "未然形",
           "sourceRow": 26
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "きか",
@@ -4569,7 +4837,8 @@
           "form": "未然形",
           "sourceRow": 4
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "きよ",
@@ -4586,7 +4855,8 @@
           "form": "命令形",
           "sourceRow": 309
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "きり",
@@ -4603,7 +4873,8 @@
           "form": "連用形",
           "sourceRow": 69
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "きる",
@@ -4620,7 +4891,8 @@
           "form": "連体形",
           "sourceRow": 227
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "くる",
@@ -4637,7 +4909,8 @@
           "form": "連体形",
           "sourceRow": 195
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こえ",
@@ -4654,7 +4927,8 @@
           "form": "未然形",
           "sourceRow": 39
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こき",
@@ -4671,7 +4945,8 @@
           "form": "連体形",
           "sourceRow": 382
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こひ",
@@ -4688,7 +4963,8 @@
           "form": "未然形",
           "sourceRow": 48
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こふ",
@@ -4705,7 +4981,8 @@
           "form": "終止形",
           "sourceRow": 138
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "こよ",
@@ -4722,7 +4999,8 @@
           "form": "命令形",
           "sourceRow": 346
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "され",
@@ -4747,7 +5025,8 @@
           "form": "已然形",
           "sourceRow": 270
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "しね",
@@ -4764,7 +5043,8 @@
           "form": "命令形",
           "sourceRow": 325
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "しら",
@@ -4781,7 +5061,8 @@
           "form": "未然形",
           "sourceRow": 28
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "しる",
@@ -4798,7 +5079,8 @@
           "form": "連体形",
           "sourceRow": 183
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "すて",
@@ -4815,7 +5097,8 @@
           "form": "未然形",
           "sourceRow": 37
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "する",
@@ -4832,7 +5115,8 @@
           "form": "連体形",
           "sourceRow": 193
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "すれ",
@@ -4849,7 +5133,8 @@
           "form": "已然形",
           "sourceRow": 272
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "せよ",
@@ -4866,7 +5151,8 @@
           "form": "命令形",
           "sourceRow": 313
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "たつ",
@@ -4883,7 +5169,8 @@
           "form": "連体形",
           "sourceRow": 197
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "たて",
@@ -4900,7 +5187,8 @@
           "form": "已然形",
           "sourceRow": 284
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ちれ",
@@ -4917,7 +5205,8 @@
           "form": "命令形",
           "sourceRow": 306
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "つき",
@@ -4934,7 +5223,8 @@
           "form": "未然形",
           "sourceRow": 25
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "つけ",
@@ -4959,7 +5249,8 @@
           "form": "連用形",
           "sourceRow": 119
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "とく",
@@ -4976,7 +5267,8 @@
           "form": "終止形",
           "sourceRow": 139
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "とつ",
@@ -4993,7 +5285,8 @@
           "form": "終止形",
           "sourceRow": 124
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "なか",
@@ -5010,7 +5303,8 @@
           "form": "未然形",
           "sourceRow": 34
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "なく",
@@ -5027,7 +5321,8 @@
           "form": "連用形",
           "sourceRow": 361
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "なぐ",
@@ -5044,7 +5339,8 @@
           "form": "終止形",
           "sourceRow": 127
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "なけ",
@@ -5061,7 +5357,8 @@
           "form": "命令形",
           "sourceRow": 301
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "なり",
@@ -5078,7 +5375,8 @@
           "form": "連用形",
           "sourceRow": 109
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "なれ",
@@ -5095,7 +5393,8 @@
           "form": "已然形",
           "sourceRow": 279
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ぬる",
@@ -5112,7 +5411,8 @@
           "form": "連体形",
           "sourceRow": 236
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ねぢ",
@@ -5129,7 +5429,8 @@
           "form": "連用形",
           "sourceRow": 65
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ふか",
@@ -5146,7 +5447,8 @@
           "form": "未然形",
           "sourceRow": 49
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ふり",
@@ -5163,7 +5465,8 @@
           "form": "連用形",
           "sourceRow": 92
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ふる",
@@ -5180,7 +5483,8 @@
           "form": "終止形",
           "sourceRow": 170
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ふれ",
@@ -5197,7 +5501,8 @@
           "form": "已然形",
           "sourceRow": 265
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "まて",
@@ -5214,7 +5519,8 @@
           "form": "已然形",
           "sourceRow": 250
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "みゆ",
@@ -5231,7 +5537,8 @@
           "form": "終止形",
           "sourceRow": 167
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "みよ",
@@ -5248,7 +5555,8 @@
           "form": "命令形",
           "sourceRow": 308
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "みる",
@@ -5265,7 +5573,8 @@
           "form": "連体形",
           "sourceRow": 192
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "みれ",
@@ -5282,7 +5591,8 @@
           "form": "已然形",
           "sourceRow": 281
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "やけ",
@@ -5299,7 +5609,8 @@
           "form": "命令形",
           "sourceRow": 304
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "やる",
@@ -5316,7 +5627,8 @@
           "form": "連体形",
           "sourceRow": 226
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "ゆけ",
@@ -5333,7 +5645,8 @@
           "form": "命令形",
           "sourceRow": 303
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "よし",
@@ -5350,7 +5663,8 @@
           "form": "終止形",
           "sourceRow": 376
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "よみ",
@@ -5367,7 +5681,8 @@
           "form": "連用形",
           "sourceRow": 76
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "よめ",
@@ -5384,7 +5699,8 @@
           "form": "命令形",
           "sourceRow": 330
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "わか",
@@ -5401,7 +5717,8 @@
           "form": "未然形",
           "sourceRow": 19
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "をる",
@@ -5418,7 +5735,8 @@
           "form": "連体形",
           "sourceRow": 232
         }
-      ]
+      ],
+      "boundaryConfidence": "kana-only-needs-tokenizer"
     },
     {
       "surface": "暗き",
@@ -5435,7 +5753,8 @@
           "form": "連体形",
           "sourceRow": 378
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "往に",
@@ -5452,7 +5771,8 @@
           "form": "連用形",
           "sourceRow": 114
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "過ぎ",
@@ -5469,7 +5789,8 @@
           "form": "連用形",
           "sourceRow": 87
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "過ぐ",
@@ -5486,7 +5807,8 @@
           "form": "終止形",
           "sourceRow": 131
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "覚ゆ",
@@ -5503,7 +5825,8 @@
           "form": "終止形",
           "sourceRow": 144
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "寒き",
@@ -5520,7 +5843,8 @@
           "form": "連体形",
           "sourceRow": 383
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "寄せ",
@@ -5537,7 +5861,8 @@
           "form": "未然形",
           "sourceRow": 10
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "帰る",
@@ -5554,7 +5879,8 @@
           "form": "連体形",
           "sourceRow": 214
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "起せ",
@@ -5571,7 +5897,8 @@
           "form": "命令形",
           "sourceRow": 359
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "急げ",
@@ -5588,7 +5915,8 @@
           "form": "已然形",
           "sourceRow": 263
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "求よ",
@@ -5605,7 +5933,8 @@
           "form": "命令形",
           "sourceRow": 312
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "汲む",
@@ -5622,7 +5951,8 @@
           "form": "終止形",
           "sourceRow": 163
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "泣く",
@@ -5639,7 +5969,8 @@
           "form": "連体形",
           "sourceRow": 235
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "泣け",
@@ -5656,7 +5987,8 @@
           "form": "已然形",
           "sourceRow": 271
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "去ぬ",
@@ -5673,7 +6005,8 @@
           "form": "終止形",
           "sourceRow": 157
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "契り",
@@ -5690,7 +6023,8 @@
           "form": "連用形",
           "sourceRow": 106
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "経る",
@@ -5707,7 +6041,8 @@
           "form": "連体形",
           "sourceRow": 191
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "結ば",
@@ -5724,7 +6059,8 @@
           "form": "未然形",
           "sourceRow": 23
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "見え",
@@ -5741,7 +6077,8 @@
           "form": "連用形",
           "sourceRow": 85
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "見よ",
@@ -5758,7 +6095,8 @@
           "form": "命令形",
           "sourceRow": 327
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "見る",
@@ -5775,7 +6113,8 @@
           "form": "終止形",
           "sourceRow": 126
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "見れ",
@@ -5792,7 +6131,8 @@
           "form": "已然形",
           "sourceRow": 245
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "言ひ",
@@ -5809,7 +6149,8 @@
           "form": "連用形",
           "sourceRow": 116
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "好め",
@@ -5826,7 +6167,8 @@
           "form": "已然形",
           "sourceRow": 262
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "更け",
@@ -5843,7 +6185,8 @@
           "form": "連用形",
           "sourceRow": 101
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "行く",
@@ -5860,7 +6203,8 @@
           "form": "連体形",
           "sourceRow": 196
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "行け",
@@ -5877,7 +6221,8 @@
           "form": "命令形",
           "sourceRow": 357
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "行は",
@@ -5894,7 +6239,8 @@
           "form": "未然形",
           "sourceRow": 11
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "降ら",
@@ -5911,7 +6257,8 @@
           "form": "未然形",
           "sourceRow": 15
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "降る",
@@ -5928,7 +6275,8 @@
           "form": "連体形",
           "sourceRow": 229
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "高し",
@@ -5945,7 +6293,8 @@
           "form": "終止形",
           "sourceRow": 370
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "困じ",
@@ -5962,7 +6311,8 @@
           "form": "連用形",
           "sourceRow": 103
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "恨み",
@@ -5979,7 +6329,8 @@
           "form": "連用形",
           "sourceRow": 82
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "咲く",
@@ -5996,7 +6347,8 @@
           "form": "連体形",
           "sourceRow": 230
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "作れ",
@@ -6013,7 +6365,8 @@
           "form": "命令形",
           "sourceRow": 356
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "参れ",
@@ -6030,7 +6383,8 @@
           "form": "命令形",
           "sourceRow": 329
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "思す",
@@ -6047,7 +6401,8 @@
           "form": "連体形",
           "sourceRow": 218
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "思ひ",
@@ -6064,7 +6419,8 @@
           "form": "連用形",
           "sourceRow": 81
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "思ふ",
@@ -6081,7 +6437,8 @@
           "form": "連体形",
           "sourceRow": 202
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "思へ",
@@ -6098,7 +6455,8 @@
           "form": "已然形",
           "sourceRow": 246
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "死な",
@@ -6115,7 +6473,8 @@
           "form": "未然形",
           "sourceRow": 2
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "死に",
@@ -6132,7 +6491,8 @@
           "form": "連用形",
           "sourceRow": 66
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "死ぬ",
@@ -6149,7 +6509,8 @@
           "form": "終止形",
           "sourceRow": 125
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "死ね",
@@ -6166,7 +6527,8 @@
           "form": "命令形",
           "sourceRow": 344
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "侍り",
@@ -6183,7 +6545,8 @@
           "form": "連用形",
           "sourceRow": 111
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "持て",
@@ -6200,7 +6563,8 @@
           "form": "命令形",
           "sourceRow": 358
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "偲ぶ",
@@ -6217,7 +6581,8 @@
           "form": "終止形",
           "sourceRow": 148
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "射よ",
@@ -6234,7 +6599,8 @@
           "form": "命令形",
           "sourceRow": 332
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "射れ",
@@ -6251,7 +6617,8 @@
           "form": "已然形",
           "sourceRow": 287
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "取る",
@@ -6268,7 +6635,8 @@
           "form": "連体形",
           "sourceRow": 211
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "守れ",
@@ -6285,7 +6653,8 @@
           "form": "命令形",
           "sourceRow": 355
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "蹴よ",
@@ -6302,7 +6671,8 @@
           "form": "命令形",
           "sourceRow": 334
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "住む",
@@ -6319,7 +6689,8 @@
           "form": "連体形",
           "sourceRow": 184
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "出で",
@@ -6336,7 +6707,8 @@
           "form": "連用形",
           "sourceRow": 105
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "書け",
@@ -6353,7 +6725,8 @@
           "form": "命令形",
           "sourceRow": 353
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "少し",
@@ -6370,7 +6743,8 @@
           "form": "終止形",
           "sourceRow": 372
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "消ゆ",
@@ -6387,7 +6761,8 @@
           "form": "終止形",
           "sourceRow": 161
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "笑は",
@@ -6404,7 +6779,8 @@
           "form": "未然形",
           "sourceRow": 8
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "笑ふ",
@@ -6421,7 +6797,8 @@
           "form": "連体形",
           "sourceRow": 198
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "寝よ",
@@ -6438,7 +6815,8 @@
           "form": "命令形",
           "sourceRow": 351
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "深き",
@@ -6455,7 +6833,8 @@
           "form": "連体形",
           "sourceRow": 381
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "尋ぬ",
@@ -6472,7 +6851,8 @@
           "form": "終止形",
           "sourceRow": 143
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "吹く",
@@ -6489,7 +6869,8 @@
           "form": "終止形",
           "sourceRow": 180
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "成行",
@@ -6506,7 +6887,8 @@
           "form": "終止形",
           "sourceRow": 175
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "生く",
@@ -6523,7 +6905,8 @@
           "form": "終止形",
           "sourceRow": 129
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "生ふ",
@@ -6540,7 +6923,8 @@
           "form": "終止形",
           "sourceRow": 142
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "絶え",
@@ -6557,7 +6941,8 @@
           "form": "未然形",
           "sourceRow": 5
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "奏し",
@@ -6574,7 +6959,8 @@
           "form": "連用形",
           "sourceRow": 73
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "漕げ",
@@ -6591,7 +6977,8 @@
           "form": "已然形",
           "sourceRow": 256
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "走ら",
@@ -6608,7 +6995,8 @@
           "form": "未然形",
           "sourceRow": 41
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "送れ",
@@ -6625,7 +7013,8 @@
           "form": "已然形",
           "sourceRow": 243
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "待つ",
@@ -6642,7 +7031,8 @@
           "form": "連体形",
           "sourceRow": 213
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "待て",
@@ -6659,7 +7049,8 @@
           "form": "命令形",
           "sourceRow": 316
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "通ふ",
@@ -6676,7 +7067,8 @@
           "form": "終止形",
           "sourceRow": 140
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "伝へ",
@@ -6693,7 +7085,8 @@
           "form": "連用形",
           "sourceRow": 117
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "得る",
@@ -6710,7 +7103,8 @@
           "form": "連体形",
           "sourceRow": 194
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "遁れ",
@@ -6727,7 +7121,8 @@
           "form": "未然形",
           "sourceRow": 22
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "曇ら",
@@ -6744,7 +7139,8 @@
           "form": "未然形",
           "sourceRow": 58
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "入る",
@@ -6761,7 +7157,8 @@
           "form": "終止形",
           "sourceRow": 134
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "入れ",
@@ -6778,7 +7175,8 @@
           "form": "已然形",
           "sourceRow": 273
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "忍ば",
@@ -6795,7 +7193,8 @@
           "form": "未然形",
           "sourceRow": 31
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "忍ぶ",
@@ -6812,7 +7211,8 @@
           "form": "終止形",
           "sourceRow": 135
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "破れ",
@@ -6829,7 +7229,8 @@
           "form": "未然形",
           "sourceRow": 7
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "犯さ",
@@ -6846,7 +7247,8 @@
           "form": "未然形",
           "sourceRow": 45
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "描け",
@@ -6863,7 +7265,8 @@
           "form": "命令形",
           "sourceRow": 360
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "病し",
@@ -6880,7 +7283,8 @@
           "form": "連用形",
           "sourceRow": 88
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "負ふ",
@@ -6897,7 +7301,8 @@
           "form": "連体形",
           "sourceRow": 187
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "聞き",
@@ -6914,7 +7319,8 @@
           "form": "連用形",
           "sourceRow": 118
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "訪る",
@@ -6931,7 +7337,8 @@
           "form": "終止形",
           "sourceRow": 164
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "忘れ",
@@ -6948,7 +7355,8 @@
           "form": "未然形",
           "sourceRow": 24
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "明け",
@@ -6965,7 +7373,8 @@
           "form": "未然形",
           "sourceRow": 51
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "迷は",
@@ -6982,7 +7391,8 @@
           "form": "未然形",
           "sourceRow": 29
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "鳴く",
@@ -6999,7 +7409,8 @@
           "form": "終止形",
           "sourceRow": 169
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "来よ",
@@ -7016,7 +7427,8 @@
           "form": "命令形",
           "sourceRow": 345
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "来れ",
@@ -7033,7 +7445,8 @@
           "form": "已然形",
           "sourceRow": 296
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     },
     {
       "surface": "立て",
@@ -7050,7 +7463,12 @@
           "form": "命令形",
           "sourceRow": 305
         }
-      ]
+      ],
+      "boundaryConfidence": "kanji-anchored"
     }
-  ]
+  ],
+  "boundarySummary": {
+    "kanjiAnchored": 209,
+    "kanaOnlyNeedsTokenizer": 204
+  }
 }
