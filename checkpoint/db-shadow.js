@@ -281,6 +281,50 @@ function trustedLargerTokenContainer(boundaryHits,hit){
 }
 
 
+
+function exactHyakuninEvidenceForHit(text,hit){
+  const entries=window.CHECKPOINT_DATA?.hyakuninDisambiguationEvidence?.entries;
+  if(!Array.isArray(entries)) return null;
+  const matches=[];
+  for(const e of entries){
+    if(!e.phrase || !e.focusSurface || !e.analysisUnit) continue;
+    let pos=0;
+    while(true){
+      const p=text.indexOf(e.phrase,pos);
+      if(p<0) break;
+      const focusStart=p+(Number.isInteger(e.focusOffset)?e.focusOffset:e.phrase.indexOf(e.focusSurface));
+      const focusEnd=focusStart+e.focusSurface.length;
+      if(hit.start===focusStart && hit.end===focusEnd && hit.surface===e.focusSurface){
+        matches.push({
+          poem:e.poem,
+          phrase:e.phrase,
+          phraseStart:p,
+          phraseEnd:p+e.phrase.length,
+          focusSurface:e.focusSurface,
+          analysisUnit:e.analysisUnit,
+          analysisUnitStart:p+(Number.isInteger(e.analysisUnitOffset)?e.analysisUnitOffset:e.phrase.indexOf(e.analysisUnit)),
+          analysisUnitEnd:p+(Number.isInteger(e.analysisUnitOffset)?e.analysisUnitOffset:e.phrase.indexOf(e.analysisUnit))+e.analysisUnit.length,
+          analysis:e.analysis,
+          caution:e.caution||"",
+          evidenceStatus:e.evidenceStatus||"context-reviewed"
+        });
+      }
+      pos=p+Math.max(1,e.phrase.length);
+    }
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.analysisUnit.length-a.analysisUnit.length) || (b.phrase.length-a.phrase.length));
+  return matches[0];
+}
+
+function hitCandidateIds(hit){
+  return new Set([
+    ...(hit.discriminationCandidates||[]).map(x=>x.id).filter(Boolean),
+    ...(hit.projectCandidates||[]).map(x=>x.id).filter(Boolean)
+  ]);
+}
+
+
 function resolveDbShadowHits(text){
   const raw=rawSurfaceIndexHits(text);
   const whole=knownWholeInflectedHits(text);
@@ -289,6 +333,44 @@ function resolveDbShadowHits(text){
   const resolved=[];
 
   for(const h of raw){
+    const exactPhraseEvidence=exactHyakuninEvidenceForHit(text,h);
+    if(exactPhraseEvidence){
+      const candidateId=exactPhraseEvidence.analysis?.candidateId||null;
+      const largerUnit=exactPhraseEvidence.analysisUnit.length>h.surface.length;
+      if(exactPhraseEvidence.analysis?.kind==="non_auxiliary"){
+        suppressed.push({
+          ...h,
+          suppressedReason:"audited-exact-phrase-nonauxiliary",
+          suppressedBy:exactPhraseEvidence.analysisUnit,
+          exactPhraseEvidence
+        });
+        continue;
+      }
+      if(largerUnit){
+        suppressed.push({
+          ...h,
+          suppressedReason:"audited-exact-phrase-larger-unit",
+          suppressedBy:exactPhraseEvidence.analysisUnit,
+          exactPhraseEvidence
+        });
+        continue;
+      }
+      if(candidateId && hitCandidateIds(h).has(candidateId)){
+        resolved.push({
+          ...h,
+          analysisConfidence:"audited-exact-phrase",
+          contextResolution:{
+            status:"resolved-by-audited-exact-phrase",
+            mode:"exact-context-reviewed",
+            supportCandidateIds:[candidateId],
+            exactPhraseEvidence,
+            evidence:"hyakunin_disambiguation_evidence.json"
+          }
+        });
+        continue;
+      }
+    }
+
     const boundaryContainer=trustedLargerTokenContainer(boundaryHits,h);
     if(boundaryContainer){
       suppressed.push({
@@ -382,6 +464,8 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     knownWholeFormHitCount:state.whole.length,
     knownBoundaryTokenHitCount:state.boundaryHits?.length||0,
     contextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-connection").length,
+    exactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-exact-phrase").length,
+    exactPhraseSuppressedCount:state.suppressed.filter(h=>String(h.suppressedReason||"").startsWith("audited-exact-phrase-")).length,
     contextSupportedButSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="context-supported-but-not-unique").length,
     legacyComparableRawHitCount:comparableLegacyRaw.length,
     legacyComparableUniqueHitCount:comparableLegacy.length,
