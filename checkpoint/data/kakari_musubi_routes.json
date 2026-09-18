@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint 係り結び→同形識別ルート",
   "sources": [
@@ -27,18 +27,30 @@
     "係助詞らしい文字列が近くにあるだけでは結びと断定しない。",
     "本文範囲の係り先が未解析の段階では candidate-support に留める。",
     "USB-3212で示された候補の活用形と、30例で監査済みの結び活用形が一致するときだけ候補支持信号を付ける。",
-    "この信号だけで learner-visible な正解表示や候補除外を行わない。"
+    "この信号だけで learner-visible な正解表示や候補除外を行わない。",
+    "「や」「か」は一般文字列としての誤一致が多いため、現段階のshadow自動走査では無効。証拠ルート自体は保持する。"
   ],
   "particleProfiles": [
     {
       "particles": [
-        "ぞ",
+        "ぞ"
+      ],
+      "expectedEndingForm": "連体形",
+      "evidenceCount": 13,
+      "evidenceStatus": "context-reviewed",
+      "automaticSurfaceScan": true,
+      "scanNote": "shadow-only; scope unresolved"
+    },
+    {
+      "particles": [
         "や",
         "か"
       ],
       "expectedEndingForm": "連体形",
-      "evidenceCount": 15,
-      "evidenceStatus": "context-reviewed"
+      "evidenceCount": 2,
+      "evidenceStatus": "context-reviewed",
+      "automaticSurfaceScan": false,
+      "scanNote": "一文字表面一致の誤信号が多いため、形態解析または係り先解析まで自動信号化しない。"
     },
     {
       "particles": [
@@ -46,7 +58,9 @@
       ],
       "expectedEndingForm": "已然形",
       "evidenceCount": 15,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "automaticSurfaceScan": true,
+      "scanNote": "shadow-only; scope unresolved"
     }
   ],
   "routes": [
