@@ -1,0 +1,7056 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 監査済み活用形表面インデックス（500例）",
+  "source": {
+    "title": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+    "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+    "totalRows": 500
+  },
+  "policy": [
+    "原文targetが2文字以上で、500例内の活用形・品詞が一意に一致する表面形だけを収録する。",
+    "文中で候補表面形の直前に完全一致した場合のみ、接続判定の証拠として使用する。",
+    "この一致だけで学習者向け正解を表示しない。",
+    "同じ表面形が複数の活用形に出るもの、一文字targetは境界誤認を避けるため除外する。"
+  ],
+  "entryCount": 413,
+  "entries": [
+    {
+      "surface": "出でおはしましがたから",
+      "length": 11,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "出でおわしまし難し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 403
+        }
+      ]
+    },
+    {
+      "surface": "読み据ゑがたかる",
+      "length": 8,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "読み据え難し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 417
+        }
+      ]
+    },
+    {
+      "surface": "こはごはしから",
+      "length": 7,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "強々し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 476
+        }
+      ]
+    },
+    {
+      "surface": "さうざうしかる",
+      "length": 7,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "そうぞうし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 491
+        }
+      ]
+    },
+    {
+      "surface": "はかばかしかる",
+      "length": 7,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "捗々し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 495
+        }
+      ]
+    },
+    {
+      "surface": "ほと〳〵しかる",
+      "length": 7,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "殆し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 497
+        }
+      ]
+    },
+    {
+      "surface": "むねむねしから",
+      "length": 7,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "宗々し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 469
+        }
+      ]
+    },
+    {
+      "surface": "わづらはしかり",
+      "length": 7,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "煩わし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 488
+        }
+      ]
+    },
+    {
+      "surface": "をさをさしから",
+      "length": 7,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "長長し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 478
+        }
+      ]
+    },
+    {
+      "surface": "をちかへりなく",
+      "length": 7,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "復ち返り鳴く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 173
+        }
+      ]
+    },
+    {
+      "surface": "思ひまゐらすれ",
+      "length": 7,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "思ひ参らす",
+          "conjugationClass": "サ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 264
+        }
+      ]
+    },
+    {
+      "surface": "恥ぢがましかる",
+      "length": 7,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "恥がまし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 494
+        }
+      ]
+    },
+    {
+      "surface": "あさましかり",
+      "length": 6,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "浅まし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 487
+        }
+      ]
+    },
+    {
+      "surface": "いとほしけれ",
+      "length": 6,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "いとおし",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 468
+        }
+      ]
+    },
+    {
+      "surface": "いはけなかり",
+      "length": 6,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "いわけなし",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 409
+        }
+      ]
+    },
+    {
+      "surface": "うつくしけれ",
+      "length": 6,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "美し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 466
+        }
+      ]
+    },
+    {
+      "surface": "かぎりなけれ",
+      "length": 6,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "限り無し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 386
+        }
+      ]
+    },
+    {
+      "surface": "さわがしから",
+      "length": 6,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "騒がし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 471
+        }
+      ]
+    },
+    {
+      "surface": "すさましかり",
+      "length": 6,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "凄まじ",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 479
+        }
+      ]
+    },
+    {
+      "surface": "たどたどしき",
+      "length": 6,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "たどたどし",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 453
+        }
+      ]
+    },
+    {
+      "surface": "たのもしから",
+      "length": 6,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "頼もし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 475
+        }
+      ]
+    },
+    {
+      "surface": "なつかしから",
+      "length": 6,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "懐かし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 470
+        }
+      ]
+    },
+    {
+      "surface": "ふりさけみれ",
+      "length": 6,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "振り放け見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 298
+        }
+      ]
+    },
+    {
+      "surface": "むつかしけれ",
+      "length": 6,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "難し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 462
+        }
+      ]
+    },
+    {
+      "surface": "やんごとなき",
+      "length": 6,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "やんごとなし",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 377
+        }
+      ]
+    },
+    {
+      "surface": "よそほしかり",
+      "length": 6,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "装おし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 482
+        }
+      ]
+    },
+    {
+      "surface": "わきかたけれ",
+      "length": 6,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "分き難し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 388
+        }
+      ]
+    },
+    {
+      "surface": "雲かくれゆく",
+      "length": 6,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "雲隠れ行く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 178
+        }
+      ]
+    },
+    {
+      "surface": "忌まはしかる",
+      "length": 6,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "忌まわし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 493
+        }
+      ]
+    },
+    {
+      "surface": "見ぐるしかる",
+      "length": 6,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "見苦し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 492
+        }
+      ]
+    },
+    {
+      "surface": "古めかしかり",
+      "length": 6,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "古めかし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 485
+        }
+      ]
+    },
+    {
+      "surface": "思しこがるれ",
+      "length": 6,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "思し焦がる",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 252
+        }
+      ]
+    },
+    {
+      "surface": "生れさせ給へ",
+      "length": 6,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "生まれさせ給ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 261
+        }
+      ]
+    },
+    {
+      "surface": "聞きにくから",
+      "length": 6,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "聞き難し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 394
+        }
+      ]
+    },
+    {
+      "surface": "あやふけれ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "危うし",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 392
+        }
+      ]
+    },
+    {
+      "surface": "いちはやき",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "逸早し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 380
+        }
+      ]
+    },
+    {
+      "surface": "いとどしく",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "いとどし",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 441
+        }
+      ]
+    },
+    {
+      "surface": "いひかくれ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "言ひ掛く",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 269
+        }
+      ]
+    },
+    {
+      "surface": "うみ落とす",
+      "length": 5,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "生み落とす",
+          "conjugationClass": "サ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 155
+        }
+      ]
+    },
+    {
+      "surface": "うれしけれ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "嬉し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 467
+        }
+      ]
+    },
+    {
+      "surface": "おもしろし",
+      "length": 5,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "面白し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 369
+        }
+      ]
+    },
+    {
+      "surface": "かうはしき",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "香ばし",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 458
+        }
+      ]
+    },
+    {
+      "surface": "かひなけれ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "甲斐無し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 385
+        }
+      ]
+    },
+    {
+      "surface": "くやしかり",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "悔し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 480
+        }
+      ]
+    },
+    {
+      "surface": "しりがたし",
+      "length": 5,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "知り難し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 373
+        }
+      ]
+    },
+    {
+      "surface": "すゝしから",
+      "length": 5,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "涼し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 472
+        }
+      ]
+    },
+    {
+      "surface": "すみよかる",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "住み良し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 419
+        }
+      ]
+    },
+    {
+      "surface": "すみ憂かり",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "住み憂し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 413
+        }
+      ]
+    },
+    {
+      "surface": "たてまつる",
+      "length": 5,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "奉る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 171
+        }
+      ]
+    },
+    {
+      "surface": "たのしかる",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "楽し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 489
+        }
+      ]
+    },
+    {
+      "surface": "つけ試みる",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "付け試みる",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 217
+        }
+      ]
+    },
+    {
+      "surface": "つたなけれ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "拙し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 389
+        }
+      ]
+    },
+    {
+      "surface": "つれなかり",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "つれなし",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 414
+        }
+      ]
+    },
+    {
+      "surface": "のどけから",
+      "length": 5,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "長閑けし",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 397
+        }
+      ]
+    },
+    {
+      "surface": "はかなかる",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "儚し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 426
+        }
+      ]
+    },
+    {
+      "surface": "はしたなく",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "はしたなし",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 363
+        }
+      ]
+    },
+    {
+      "surface": "はるけかり",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "遥けし",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 405
+        }
+      ]
+    },
+    {
+      "surface": "ひさしかれ",
+      "length": 5,
+      "consensusForm": "命令形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "久し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "命令形",
+          "sourceRow": 498
+        }
+      ]
+    },
+    {
+      "surface": "みしかゝり",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "短し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 416
+        }
+      ]
+    },
+    {
+      "surface": "めざましき",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "目覚まし",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 455
+        }
+      ]
+    },
+    {
+      "surface": "めやすかる",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "目安し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 422
+        }
+      ]
+    },
+    {
+      "surface": "やさしかり",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "優し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 486
+        }
+      ]
+    },
+    {
+      "surface": "ゆかしかり",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "床し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 481
+        }
+      ]
+    },
+    {
+      "surface": "わひしけれ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "侘し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 464
+        }
+      ]
+    },
+    {
+      "surface": "引き乗せよ",
+      "length": 5,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "引き乗す",
+          "conjugationClass": "サ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 319
+        }
+      ]
+    },
+    {
+      "surface": "勧めたまへ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "勧め給ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 255
+        }
+      ]
+    },
+    {
+      "surface": "願はしかる",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "願わし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 496
+        }
+      ]
+    },
+    {
+      "surface": "求めたまへ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "求め給ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 251
+        }
+      ]
+    },
+    {
+      "surface": "口惜しかり",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "口惜し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 483
+        }
+      ]
+    },
+    {
+      "surface": "思はしかる",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "思わし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 490
+        }
+      ]
+    },
+    {
+      "surface": "似げなから",
+      "length": 5,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "似気無し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 401
+        }
+      ]
+    },
+    {
+      "surface": "似つかはし",
+      "length": 5,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "似付かわし",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 452
+        }
+      ]
+    },
+    {
+      "surface": "取り難かり",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "取り難し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 411
+        }
+      ]
+    },
+    {
+      "surface": "心のとけき",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "心長閑し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 384
+        }
+      ]
+    },
+    {
+      "surface": "心苦しけれ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "心苦し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 461
+        }
+      ]
+    },
+    {
+      "surface": "羨ましから",
+      "length": 5,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "羨まし",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 477
+        }
+      ]
+    },
+    {
+      "surface": "嘆かしけれ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "嘆かし",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 463
+        }
+      ]
+    },
+    {
+      "surface": "別れがたく",
+      "length": 5,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "別れ難し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 364
+        }
+      ]
+    },
+    {
+      "surface": "本意なかる",
+      "length": 5,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "本意無し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 427
+        }
+      ]
+    },
+    {
+      "surface": "目出たけれ",
+      "length": 5,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "めでたし",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 391
+        }
+      ]
+    },
+    {
+      "surface": "あいなく",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "あいなし",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 368
+        }
+      ]
+    },
+    {
+      "surface": "あさから",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "浅し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 404
+        }
+      ]
+    },
+    {
+      "surface": "あしかれ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "悪し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "命令形",
+          "sourceRow": 499
+        }
+      ]
+    },
+    {
+      "surface": "あつしく",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "篤し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 444
+        }
+      ]
+    },
+    {
+      "surface": "あやしく",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "怪し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 442
+        }
+      ]
+    },
+    {
+      "surface": "いきうし",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "行き憂し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 375
+        }
+      ]
+    },
+    {
+      "surface": "いみじく",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "いみじ",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 437
+        }
+      ]
+    },
+    {
+      "surface": "うかがふ",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "窺う",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 199
+        }
+      ]
+    },
+    {
+      "surface": "うらむれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "恨む",
+          "conjugationClass": "マ行上二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 299
+        }
+      ]
+    },
+    {
+      "surface": "うるはし",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "麗し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 449
+        }
+      ]
+    },
+    {
+      "surface": "おかしく",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "可笑し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 438
+        }
+      ]
+    },
+    {
+      "surface": "おとなび",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "大人ぶ",
+          "conjugationClass": "バ行上二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 43
+        }
+      ]
+    },
+    {
+      "surface": "おなしく",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "同じ",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 443
+        }
+      ]
+    },
+    {
+      "surface": "おぼしき",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "思し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 457
+        }
+      ]
+    },
+    {
+      "surface": "かそへよ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "数ふ",
+          "conjugationClass": "ハ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 311
+        }
+      ]
+    },
+    {
+      "surface": "かたぶけ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "傾く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 244
+        }
+      ]
+    },
+    {
+      "surface": "くだくる",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "砕く",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 239
+        }
+      ]
+    },
+    {
+      "surface": "くだけよ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "砕く",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 337
+        }
+      ]
+    },
+    {
+      "surface": "こかるれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "焦がる",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 280
+        }
+      ]
+    },
+    {
+      "surface": "こきくれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "漕ぎ来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 300
+        }
+      ]
+    },
+    {
+      "surface": "こひしき",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "恋し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 454
+        }
+      ]
+    },
+    {
+      "surface": "こぼるる",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "零れる",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 238
+        }
+      ]
+    },
+    {
+      "surface": "さし出づ",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ダ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "差し出づ",
+          "conjugationClass": "ダ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 128
+        }
+      ]
+    },
+    {
+      "surface": "しをるれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "萎る",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 276
+        }
+      ]
+    },
+    {
+      "surface": "たなひく",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "棚引く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 176
+        }
+      ]
+    },
+    {
+      "surface": "つよから",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "強し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 396
+        }
+      ]
+    },
+    {
+      "surface": "とゝめよ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "留む",
+          "conjugationClass": "マ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 310
+        }
+      ]
+    },
+    {
+      "surface": "とめくれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "尋め来る",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 266
+        }
+      ]
+    },
+    {
+      "surface": "なぐさま",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "慰む",
+          "conjugationClass": "マ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 53
+        }
+      ]
+    },
+    {
+      "surface": "ねたかる",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "妬し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 425
+        }
+      ]
+    },
+    {
+      "surface": "ほしかり",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "欲し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 484
+        }
+      ]
+    },
+    {
+      "surface": "まうけよ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "設く",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 335
+        }
+      ]
+    },
+    {
+      "surface": "めぐり来",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "巡り来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 98
+        }
+      ]
+    },
+    {
+      "surface": "めづらし",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "珍し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 445
+        }
+      ]
+    },
+    {
+      "surface": "ものせよ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "ものす",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 323
+        }
+      ]
+    },
+    {
+      "surface": "もりくる",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "漏り来る",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 237
+        }
+      ]
+    },
+    {
+      "surface": "やけをり",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "焼け居り",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 168
+        }
+      ]
+    },
+    {
+      "surface": "やしなは",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "養ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 40
+        }
+      ]
+    },
+    {
+      "surface": "やすから",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "安し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 400
+        }
+      ]
+    },
+    {
+      "surface": "やすらふ",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "休らふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 177
+        }
+      ]
+    },
+    {
+      "surface": "よしなし",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "由無し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 374
+        }
+      ]
+    },
+    {
+      "surface": "わするれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "忘る",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 278
+        }
+      ]
+    },
+    {
+      "surface": "わづらふ",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "患う",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 234
+        }
+      ]
+    },
+    {
+      "surface": "わろかり",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "悪し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 406
+        }
+      ]
+    },
+    {
+      "surface": "をしへよ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "教ふ",
+          "conjugationClass": "ハ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 350
+        }
+      ]
+    },
+    {
+      "surface": "引き見よ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "引き見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 340
+        }
+      ]
+    },
+    {
+      "surface": "久しかれ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "久し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "命令形",
+          "sourceRow": 500
+        }
+      ]
+    },
+    {
+      "surface": "急ぎ見れ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "急ぎ見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 292
+        }
+      ]
+    },
+    {
+      "surface": "恐ろしき",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "恐ろし",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 460
+        }
+      ]
+    },
+    {
+      "surface": "苦しから",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "苦し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 474
+        }
+      ]
+    },
+    {
+      "surface": "見わたせ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見渡す",
+          "conjugationClass": "サ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 241
+        }
+      ]
+    },
+    {
+      "surface": "御覧ずれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "御覧ず",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 260
+        }
+      ]
+    },
+    {
+      "surface": "御覧ぜよ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "御覧ず",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 324
+        }
+      ]
+    },
+    {
+      "surface": "思ひいづ",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ダ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "思ひ出づ",
+          "conjugationClass": "ダ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 146
+        }
+      ]
+    },
+    {
+      "surface": "心うかる",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "心憂し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 420
+        }
+      ]
+    },
+    {
+      "surface": "新枕すれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "新枕す",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 274
+        }
+      ]
+    },
+    {
+      "surface": "尋ね来る",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "尋ね来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 225
+        }
+      ]
+    },
+    {
+      "surface": "大殿籠れ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "大殿籠る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 317
+        }
+      ]
+    },
+    {
+      "surface": "恥づかし",
+      "length": 4,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "恥ずかし",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 451
+        }
+      ]
+    },
+    {
+      "surface": "調伏せよ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "調伏す",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 339
+        }
+      ]
+    },
+    {
+      "surface": "程なかる",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "程無し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 424
+        }
+      ]
+    },
+    {
+      "surface": "貧しけれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "貧し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 465
+        }
+      ]
+    },
+    {
+      "surface": "物うかる",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "物憂し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 423
+        }
+      ]
+    },
+    {
+      "surface": "聞こゆれ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "聞こゆ",
+          "conjugationClass": "ヤ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 254
+        }
+      ]
+    },
+    {
+      "surface": "歩み来る",
+      "length": 4,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "歩み来る",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 200
+        }
+      ]
+    },
+    {
+      "surface": "乏しから",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "乏し",
+          "conjugationClass": "シク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 473
+        }
+      ]
+    },
+    {
+      "surface": "木高かれ",
+      "length": 4,
+      "consensusForm": "命令形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "木高し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "命令形",
+          "sourceRow": 429
+        }
+      ]
+    },
+    {
+      "surface": "目近から",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "目近し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 399
+        }
+      ]
+    },
+    {
+      "surface": "夜深かり",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "夜深し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 408
+        }
+      ]
+    },
+    {
+      "surface": "立ち去ら",
+      "length": 4,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "立ち去る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 59
+        }
+      ]
+    },
+    {
+      "surface": "立ち来れ",
+      "length": 4,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "立ち来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 291
+        }
+      ]
+    },
+    {
+      "surface": "露けかり",
+      "length": 4,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "露けし",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 412
+        }
+      ]
+    },
+    {
+      "surface": "いだす",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "出だす",
+          "conjugationClass": "サ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 141
+        }
+      ]
+    },
+    {
+      "surface": "いぬる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "往ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 201
+        }
+      ]
+    },
+    {
+      "surface": "いのれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "祈る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 277
+        }
+      ]
+    },
+    {
+      "surface": "いませ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "坐す",
+          "conjugationClass": "サ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 307
+        }
+      ]
+    },
+    {
+      "surface": "いやし",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "卑し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 450
+        }
+      ]
+    },
+    {
+      "surface": "うから",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "憂し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 398
+        }
+      ]
+    },
+    {
+      "surface": "うつり",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "映る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 61
+        }
+      ]
+    },
+    {
+      "surface": "うらむ",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "恨む",
+          "conjugationClass": "マ行上二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 121
+        }
+      ]
+    },
+    {
+      "surface": "おこさ",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "起こす",
+          "conjugationClass": "サ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 60
+        }
+      ]
+    },
+    {
+      "surface": "おはし",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "おはす",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 97
+        }
+      ]
+    },
+    {
+      "surface": "おはす",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "おはす",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 159
+        }
+      ]
+    },
+    {
+      "surface": "おぼえ",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "覚ゆ",
+          "conjugationClass": "ヤ行下二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 110
+        }
+      ]
+    },
+    {
+      "surface": "おほく",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "多し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 362
+        }
+      ]
+    },
+    {
+      "surface": "かゝれ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "かかり",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 348
+        }
+      ]
+    },
+    {
+      "surface": "かたし",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "難し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 371
+        }
+      ]
+    },
+    {
+      "surface": "かよふ",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "通ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 186
+        }
+      ]
+    },
+    {
+      "surface": "くるれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "暮る",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 248
+        }
+      ]
+    },
+    {
+      "surface": "こたへ",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "答ふ",
+          "conjugationClass": "ハ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 30
+        }
+      ]
+    },
+    {
+      "surface": "こふれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "恋ふ",
+          "conjugationClass": "ハ行上二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 267
+        }
+      ]
+    },
+    {
+      "surface": "こぼた",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "毀つ",
+          "conjugationClass": "タ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 33
+        }
+      ]
+    },
+    {
+      "surface": "こりよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "懲る",
+          "conjugationClass": "ラ行上二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 333
+        }
+      ]
+    },
+    {
+      "surface": "しかる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "さり（然り）",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 205
+        }
+      ]
+    },
+    {
+      "surface": "しけき",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "繁し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 379
+        }
+      ]
+    },
+    {
+      "surface": "しぬる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "死ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 182
+        }
+      ]
+    },
+    {
+      "surface": "しろく",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "白し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 366
+        }
+      ]
+    },
+    {
+      "surface": "そひ行",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "沿ひ行く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 179
+        }
+      ]
+    },
+    {
+      "surface": "たがへ",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "違ふ",
+          "conjugationClass": "ハ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 27
+        }
+      ]
+    },
+    {
+      "surface": "たのま",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "頼む",
+          "conjugationClass": "マ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 12
+        }
+      ]
+    },
+    {
+      "surface": "ちかく",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "近し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 367
+        }
+      ]
+    },
+    {
+      "surface": "ちりく",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "散り来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 151
+        }
+      ]
+    },
+    {
+      "surface": "つかひ",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "使ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 84
+        }
+      ]
+    },
+    {
+      "surface": "とまれ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "泊まる",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 331
+        }
+      ]
+    },
+    {
+      "surface": "ながむ",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "眺む",
+          "conjugationClass": "マ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 149
+        }
+      ]
+    },
+    {
+      "surface": "なかれ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "無し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "命令形",
+          "sourceRow": 430
+        }
+      ]
+    },
+    {
+      "surface": "ならは",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "習ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 9
+        }
+      ]
+    },
+    {
+      "surface": "のぶる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "伸びる",
+          "conjugationClass": "バ行上二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 208
+        }
+      ]
+    },
+    {
+      "surface": "はげし",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "激し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 447
+        }
+      ]
+    },
+    {
+      "surface": "はべり",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "侍り（はべり）",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 68
+        }
+      ]
+    },
+    {
+      "surface": "はべる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "侍り（はべり）",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 219
+        }
+      ]
+    },
+    {
+      "surface": "はべれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "侍り（はべり）",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 289
+        }
+      ]
+    },
+    {
+      "surface": "ほろび",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "滅ぶ",
+          "conjugationClass": "バ行上二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 72
+        }
+      ]
+    },
+    {
+      "surface": "まかづ",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ダ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "罷づ（まかづ）",
+          "conjugationClass": "ダ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 165
+        }
+      ]
+    },
+    {
+      "surface": "まどひ",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "惑ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 99
+        }
+      ]
+    },
+    {
+      "surface": "みちく",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "満ち来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 136
+        }
+      ]
+    },
+    {
+      "surface": "めくめ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "恵む",
+          "conjugationClass": "マ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 258
+        }
+      ]
+    },
+    {
+      "surface": "わくる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "分ける",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 203
+        }
+      ]
+    },
+    {
+      "surface": "わぶれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "わぶ",
+          "conjugationClass": "バ行上二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 268
+        }
+      ]
+    },
+    {
+      "surface": "をそく",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "遅し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 365
+        }
+      ]
+    },
+    {
+      "surface": "悪しく",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "悪し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 440
+        }
+      ]
+    },
+    {
+      "surface": "案ずる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "案ずる",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 212
+        }
+      ]
+    },
+    {
+      "surface": "遠けれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "遠し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 387
+        }
+      ]
+    },
+    {
+      "surface": "往ぬる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "往ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 224
+        }
+      ]
+    },
+    {
+      "surface": "往ぬれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "往ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 297
+        }
+      ]
+    },
+    {
+      "surface": "下りよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "下る（おる）",
+          "conjugationClass": "ラ行上二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 318
+        }
+      ]
+    },
+    {
+      "surface": "下るる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "下る（おる）",
+          "conjugationClass": "ラ行上二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 215
+        }
+      ]
+    },
+    {
+      "surface": "下るれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "下る（おる）",
+          "conjugationClass": "ラ行上二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 290
+        }
+      ]
+    },
+    {
+      "surface": "過ぎよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ガ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "過ぐ",
+          "conjugationClass": "ガ行上二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 341
+        }
+      ]
+    },
+    {
+      "surface": "過ぐる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ガ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "過ぐ",
+          "conjugationClass": "ガ行上二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 188
+        }
+      ]
+    },
+    {
+      "surface": "過ぐれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ガ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "過ぐ",
+          "conjugationClass": "ガ行上二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 288
+        }
+      ]
+    },
+    {
+      "surface": "快から",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "快し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 393
+        }
+      ]
+    },
+    {
+      "surface": "悔ゆれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "悔ゆ",
+          "conjugationClass": "ヤ行上二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 286
+        }
+      ]
+    },
+    {
+      "surface": "帰り来",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "返り来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 104
+        }
+      ]
+    },
+    {
+      "surface": "起きよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "起く",
+          "conjugationClass": "カ行上二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 342
+        }
+      ]
+    },
+    {
+      "surface": "久しく",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "久し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 439
+        }
+      ]
+    },
+    {
+      "surface": "求むる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "求む",
+          "conjugationClass": "マ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 223
+        }
+      ]
+    },
+    {
+      "surface": "空しき",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "空し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 459
+        }
+      ]
+    },
+    {
+      "surface": "軽かる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "かろし",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 421
+        }
+      ]
+    },
+    {
+      "surface": "見せよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見す",
+          "conjugationClass": "サ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 320
+        }
+      ]
+    },
+    {
+      "surface": "見ゆる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見ゆ",
+          "conjugationClass": "ヤ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 221
+        }
+      ]
+    },
+    {
+      "surface": "御覧じ",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "御覧ず",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 113
+        }
+      ]
+    },
+    {
+      "surface": "御覧ぜ",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "御覧ず",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 57
+        }
+      ]
+    },
+    {
+      "surface": "広けれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "広し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "已然形",
+          "sourceRow": 390
+        }
+      ]
+    },
+    {
+      "surface": "黒かり",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "黒し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 407
+        }
+      ]
+    },
+    {
+      "surface": "恨むる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "恨む",
+          "conjugationClass": "マ行上二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 240
+        }
+      ]
+    },
+    {
+      "surface": "仕ふる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "仕える",
+          "conjugationClass": "ハ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 189
+        }
+      ]
+    },
+    {
+      "surface": "死ぬれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "死ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 295
+        }
+      ]
+    },
+    {
+      "surface": "試みよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "試みる",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 328
+        }
+      ]
+    },
+    {
+      "surface": "疾かり",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "疾し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 415
+        }
+      ]
+    },
+    {
+      "surface": "重かる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "重し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 428
+        }
+      ]
+    },
+    {
+      "surface": "出づれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ダ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "出づ",
+          "conjugationClass": "ダ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 253
+        }
+      ]
+    },
+    {
+      "surface": "出でよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ダ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "出づ",
+          "conjugationClass": "ダ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 321
+        }
+      ]
+    },
+    {
+      "surface": "助けよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "助く",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 336
+        }
+      ]
+    },
+    {
+      "surface": "尋ぬる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "尋ぬ",
+          "conjugationClass": "ナ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 220
+        }
+      ]
+    },
+    {
+      "surface": "尋ね来",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "尋ね来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 74
+        }
+      ]
+    },
+    {
+      "surface": "据うる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ワ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "据える",
+          "conjugationClass": "ワ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 204
+        }
+      ]
+    },
+    {
+      "surface": "奏せよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "奏す",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 349
+        }
+      ]
+    },
+    {
+      "surface": "憎から",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "憎し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 395
+        }
+      ]
+    },
+    {
+      "surface": "尊かり",
+      "length": 3,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "尊し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連用形",
+          "sourceRow": 410
+        }
+      ]
+    },
+    {
+      "surface": "損ずる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "損ずる",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 210
+        }
+      ]
+    },
+    {
+      "surface": "長かる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "長し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "連体形",
+          "sourceRow": 418
+        }
+      ]
+    },
+    {
+      "surface": "長かれ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "長し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "命令形",
+          "sourceRow": 431
+        }
+      ]
+    },
+    {
+      "surface": "忍ふる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "忍ぶ",
+          "conjugationClass": "バ行上二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 222
+        }
+      ]
+    },
+    {
+      "surface": "忍ぶれ",
+      "length": 3,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "忍ぶ",
+          "conjugationClass": "バ行上二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 294
+        }
+      ]
+    },
+    {
+      "surface": "悲しき",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "悲し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 456
+        }
+      ]
+    },
+    {
+      "surface": "物悲し",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "物悲し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 448
+        }
+      ]
+    },
+    {
+      "surface": "夢見る",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "夢見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 209
+        }
+      ]
+    },
+    {
+      "surface": "明から",
+      "length": 3,
+      "consensusForm": "未然形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "明し",
+          "conjugationClass": "ク活用",
+          "series": "補助活用",
+          "form": "未然形",
+          "sourceRow": 402
+        }
+      ]
+    },
+    {
+      "surface": "用ゐよ",
+      "length": 3,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ワ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "用ゐる",
+          "conjugationClass": "ワ行上一段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 352
+        }
+      ]
+    },
+    {
+      "surface": "用ゐる",
+      "length": 3,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ワ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "用ゐる",
+          "conjugationClass": "ワ行上一段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 160
+        }
+      ]
+    },
+    {
+      "surface": "落つる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "落ちる",
+          "conjugationClass": "タ行上二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 190
+        }
+      ]
+    },
+    {
+      "surface": "乱るる",
+      "length": 3,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "乱れる",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 206
+        }
+      ]
+    },
+    {
+      "surface": "あげ",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ガ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "上ぐ",
+          "conjugationClass": "ガ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 44
+        }
+      ]
+    },
+    {
+      "surface": "あら",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "あり",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 14
+        }
+      ]
+    },
+    {
+      "surface": "ある",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "あり",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 185
+        }
+      ]
+    },
+    {
+      "surface": "いけ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "行く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 257
+        }
+      ]
+    },
+    {
+      "surface": "いつ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ダ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "出づ",
+          "conjugationClass": "ダ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 153
+        }
+      ]
+    },
+    {
+      "surface": "いな",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "往ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 47
+        }
+      ]
+    },
+    {
+      "surface": "いに",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "往ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 77
+        }
+      ]
+    },
+    {
+      "surface": "いね",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "往ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 343
+        }
+      ]
+    },
+    {
+      "surface": "いふ",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "言ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 181
+        }
+      ]
+    },
+    {
+      "surface": "うへ",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ワ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "植う",
+          "conjugationClass": "ワ行下二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 108
+        }
+      ]
+    },
+    {
+      "surface": "おい",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "生ふ",
+          "conjugationClass": "ハ行上二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 95
+        }
+      ]
+    },
+    {
+      "surface": "おし",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "シク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "惜し",
+          "conjugationClass": "シク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 446
+        }
+      ]
+    },
+    {
+      "surface": "おふ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "生ふ",
+          "conjugationClass": "ハ行上二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 154
+        }
+      ]
+    },
+    {
+      "surface": "おら",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "折る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 26
+        }
+      ]
+    },
+    {
+      "surface": "きか",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "聞く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 4
+        }
+      ]
+    },
+    {
+      "surface": "きよ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "着る",
+          "conjugationClass": "カ行上一段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 309
+        }
+      ]
+    },
+    {
+      "surface": "きり",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "切る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 69
+        }
+      ]
+    },
+    {
+      "surface": "きる",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "着る",
+          "conjugationClass": "カ行上一段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 227
+        }
+      ]
+    },
+    {
+      "surface": "くる",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 195
+        }
+      ]
+    },
+    {
+      "surface": "こえ",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "越ゆ",
+          "conjugationClass": "ハ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 39
+        }
+      ]
+    },
+    {
+      "surface": "こき",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "濃し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 382
+        }
+      ]
+    },
+    {
+      "surface": "こひ",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "恋ふ",
+          "conjugationClass": "ハ行上二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 48
+        }
+      ]
+    },
+    {
+      "surface": "こふ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "恋ふ",
+          "conjugationClass": "ハ行上二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 138
+        }
+      ]
+    },
+    {
+      "surface": "こよ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 346
+        }
+      ]
+    },
+    {
+      "surface": "され",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": null,
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "去る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 249
+        },
+        {
+          "pos": "動詞",
+          "lemma": "さり（然り）",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 270
+        }
+      ]
+    },
+    {
+      "surface": "しね",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "死ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 325
+        }
+      ]
+    },
+    {
+      "surface": "しら",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "知る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 28
+        }
+      ]
+    },
+    {
+      "surface": "しる",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "知る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 183
+        }
+      ]
+    },
+    {
+      "surface": "すて",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "捨つ",
+          "conjugationClass": "タ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 37
+        }
+      ]
+    },
+    {
+      "surface": "する",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "す",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 193
+        }
+      ]
+    },
+    {
+      "surface": "すれ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "す",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 272
+        }
+      ]
+    },
+    {
+      "surface": "せよ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "す",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 313
+        }
+      ]
+    },
+    {
+      "surface": "たつ",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "立つ",
+          "conjugationClass": "タ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 197
+        }
+      ]
+    },
+    {
+      "surface": "たて",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "発つ",
+          "conjugationClass": "タ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 284
+        }
+      ]
+    },
+    {
+      "surface": "ちれ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "散る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 306
+        }
+      ]
+    },
+    {
+      "surface": "つき",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "尽く",
+          "conjugationClass": "カ行上二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 25
+        }
+      ]
+    },
+    {
+      "surface": "つけ",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": null,
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "告ぐ",
+          "conjugationClass": "ガ行下二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 93
+        },
+        {
+          "pos": "動詞",
+          "lemma": "付く",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 119
+        }
+      ]
+    },
+    {
+      "surface": "とく",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "溶く",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 139
+        }
+      ]
+    },
+    {
+      "surface": "とつ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ダ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "閉づ",
+          "conjugationClass": "ダ行上二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 124
+        }
+      ]
+    },
+    {
+      "surface": "なか",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "鳴く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 34
+        }
+      ]
+    },
+    {
+      "surface": "なく",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "無し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連用形",
+          "sourceRow": 361
+        }
+      ]
+    },
+    {
+      "surface": "なぐ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ガ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "凪ぐ",
+          "conjugationClass": "ガ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 127
+        }
+      ]
+    },
+    {
+      "surface": "なけ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "鳴く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 301
+        }
+      ]
+    },
+    {
+      "surface": "なり",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "成る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 109
+        }
+      ]
+    },
+    {
+      "surface": "なれ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "成る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 279
+        }
+      ]
+    },
+    {
+      "surface": "ぬる",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "寝（ぬ）",
+          "conjugationClass": "ナ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 236
+        }
+      ]
+    },
+    {
+      "surface": "ねぢ",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ダ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "捩づ（ねづ）",
+          "conjugationClass": "ダ行上二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 65
+        }
+      ]
+    },
+    {
+      "surface": "ふか",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "吹く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 49
+        }
+      ]
+    },
+    {
+      "surface": "ふり",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "降る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 92
+        }
+      ]
+    },
+    {
+      "surface": "ふる",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "降る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 170
+        }
+      ]
+    },
+    {
+      "surface": "ふれ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "経（ふ）",
+          "conjugationClass": "ハ行下二段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 265
+        }
+      ]
+    },
+    {
+      "surface": "まて",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "待つ",
+          "conjugationClass": "タ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 250
+        }
+      ]
+    },
+    {
+      "surface": "みゆ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見ゆ",
+          "conjugationClass": "ヤ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 167
+        }
+      ]
+    },
+    {
+      "surface": "みよ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 308
+        }
+      ]
+    },
+    {
+      "surface": "みる",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 192
+        }
+      ]
+    },
+    {
+      "surface": "みれ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 281
+        }
+      ]
+    },
+    {
+      "surface": "やけ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "焼く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 304
+        }
+      ]
+    },
+    {
+      "surface": "やる",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "遣る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 226
+        }
+      ]
+    },
+    {
+      "surface": "ゆけ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "行く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 303
+        }
+      ]
+    },
+    {
+      "surface": "よし",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "良し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 376
+        }
+      ]
+    },
+    {
+      "surface": "よみ",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "読む",
+          "conjugationClass": "マ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 76
+        }
+      ]
+    },
+    {
+      "surface": "よめ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "読む",
+          "conjugationClass": "マ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 330
+        }
+      ]
+    },
+    {
+      "surface": "わか",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "分く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 19
+        }
+      ]
+    },
+    {
+      "surface": "をる",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "をり",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 232
+        }
+      ]
+    },
+    {
+      "surface": "暗き",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "暗し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 378
+        }
+      ]
+    },
+    {
+      "surface": "往に",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "往ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 114
+        }
+      ]
+    },
+    {
+      "surface": "過ぎ",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ガ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "過ぐ",
+          "conjugationClass": "ガ行上二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 87
+        }
+      ]
+    },
+    {
+      "surface": "過ぐ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ガ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "過ぐ",
+          "conjugationClass": "ガ行上二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 131
+        }
+      ]
+    },
+    {
+      "surface": "覚ゆ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "覚ゆ",
+          "conjugationClass": "ヤ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 144
+        }
+      ]
+    },
+    {
+      "surface": "寒き",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "寒し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 383
+        }
+      ]
+    },
+    {
+      "surface": "寄せ",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "寄す",
+          "conjugationClass": "サ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 10
+        }
+      ]
+    },
+    {
+      "surface": "帰る",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "返る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 214
+        }
+      ]
+    },
+    {
+      "surface": "起せ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "起こす",
+          "conjugationClass": "サ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 359
+        }
+      ]
+    },
+    {
+      "surface": "急げ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ガ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "急ぐ",
+          "conjugationClass": "ガ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 263
+        }
+      ]
+    },
+    {
+      "surface": "求よ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "求む",
+          "conjugationClass": "マ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 312
+        }
+      ]
+    },
+    {
+      "surface": "汲む",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "汲む",
+          "conjugationClass": "マ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 163
+        }
+      ]
+    },
+    {
+      "surface": "泣く",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "泣く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 235
+        }
+      ]
+    },
+    {
+      "surface": "泣け",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "泣く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 271
+        }
+      ]
+    },
+    {
+      "surface": "去ぬ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "往ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 157
+        }
+      ]
+    },
+    {
+      "surface": "契り",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "契る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 106
+        }
+      ]
+    },
+    {
+      "surface": "経る",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "経（ふ）",
+          "conjugationClass": "ハ行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 191
+        }
+      ]
+    },
+    {
+      "surface": "結ば",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "結ぶ",
+          "conjugationClass": "バ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 23
+        }
+      ]
+    },
+    {
+      "surface": "見え",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見ゆ",
+          "conjugationClass": "ヤ行下二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 85
+        }
+      ]
+    },
+    {
+      "surface": "見よ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 327
+        }
+      ]
+    },
+    {
+      "surface": "見る",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 126
+        }
+      ]
+    },
+    {
+      "surface": "見れ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "見る",
+          "conjugationClass": "マ行上一段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 245
+        }
+      ]
+    },
+    {
+      "surface": "言ひ",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "言ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 116
+        }
+      ]
+    },
+    {
+      "surface": "好め",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "好む",
+          "conjugationClass": "マ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 262
+        }
+      ]
+    },
+    {
+      "surface": "更け",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "更く",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 101
+        }
+      ]
+    },
+    {
+      "surface": "行く",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "行く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 196
+        }
+      ]
+    },
+    {
+      "surface": "行け",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "行く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 357
+        }
+      ]
+    },
+    {
+      "surface": "行は",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "行ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 11
+        }
+      ]
+    },
+    {
+      "surface": "降ら",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "降る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 15
+        }
+      ]
+    },
+    {
+      "surface": "降る",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "降る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 229
+        }
+      ]
+    },
+    {
+      "surface": "高し",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "高し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 370
+        }
+      ]
+    },
+    {
+      "surface": "困じ",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "困ず",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 103
+        }
+      ]
+    },
+    {
+      "surface": "恨み",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "恨む",
+          "conjugationClass": "マ行上二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 82
+        }
+      ]
+    },
+    {
+      "surface": "咲く",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "咲く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 230
+        }
+      ]
+    },
+    {
+      "surface": "作れ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "作る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 356
+        }
+      ]
+    },
+    {
+      "surface": "参れ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "参る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 329
+        }
+      ]
+    },
+    {
+      "surface": "思す",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "思す",
+          "conjugationClass": "サ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 218
+        }
+      ]
+    },
+    {
+      "surface": "思ひ",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "思ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 81
+        }
+      ]
+    },
+    {
+      "surface": "思ふ",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "思ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 202
+        }
+      ]
+    },
+    {
+      "surface": "思へ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "思ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 246
+        }
+      ]
+    },
+    {
+      "surface": "死な",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "死ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 2
+        }
+      ]
+    },
+    {
+      "surface": "死に",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "死ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 66
+        }
+      ]
+    },
+    {
+      "surface": "死ぬ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "死ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 125
+        }
+      ]
+    },
+    {
+      "surface": "死ね",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "死ぬ",
+          "conjugationClass": "ナ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 344
+        }
+      ]
+    },
+    {
+      "surface": "侍り",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "侍り（はべり）",
+          "conjugationClass": "ラ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 111
+        }
+      ]
+    },
+    {
+      "surface": "持て",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "持つ",
+          "conjugationClass": "タ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 358
+        }
+      ]
+    },
+    {
+      "surface": "偲ぶ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "偲ぶ",
+          "conjugationClass": "バ行上二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 148
+        }
+      ]
+    },
+    {
+      "surface": "射よ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "射る",
+          "conjugationClass": "ヤ行上一段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 332
+        }
+      ]
+    },
+    {
+      "surface": "射れ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行上一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "射る",
+          "conjugationClass": "ヤ行上一段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 287
+        }
+      ]
+    },
+    {
+      "surface": "取る",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "取る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 211
+        }
+      ]
+    },
+    {
+      "surface": "守れ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "守る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 355
+        }
+      ]
+    },
+    {
+      "surface": "蹴よ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下一段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "蹴る",
+          "conjugationClass": "カ行下一段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 334
+        }
+      ]
+    },
+    {
+      "surface": "住む",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "マ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "住む",
+          "conjugationClass": "マ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 184
+        }
+      ]
+    },
+    {
+      "surface": "出で",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ダ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "出づ",
+          "conjugationClass": "ダ行下二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 105
+        }
+      ]
+    },
+    {
+      "surface": "書け",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "書く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 353
+        }
+      ]
+    },
+    {
+      "surface": "少し",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "少なし",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "終止形",
+          "sourceRow": 372
+        }
+      ]
+    },
+    {
+      "surface": "消ゆ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "消ゆ",
+          "conjugationClass": "ヤ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 161
+        }
+      ]
+    },
+    {
+      "surface": "笑は",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "笑ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 8
+        }
+      ]
+    },
+    {
+      "surface": "笑ふ",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "笑ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 198
+        }
+      ]
+    },
+    {
+      "surface": "寝よ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "寝（ぬ）",
+          "conjugationClass": "ナ行下二段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 351
+        }
+      ]
+    },
+    {
+      "surface": "深き",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "形容詞",
+      "consensusClass": "ク活用",
+      "analyses": [
+        {
+          "pos": "形容詞",
+          "lemma": "深し",
+          "conjugationClass": "ク活用",
+          "series": "本活用",
+          "form": "連体形",
+          "sourceRow": 381
+        }
+      ]
+    },
+    {
+      "surface": "尋ぬ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ナ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "尋ぬ",
+          "conjugationClass": "ナ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 143
+        }
+      ]
+    },
+    {
+      "surface": "吹く",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "吹く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 180
+        }
+      ]
+    },
+    {
+      "surface": "成行",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "成り行く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 175
+        }
+      ]
+    },
+    {
+      "surface": "生く",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "生く",
+          "conjugationClass": "カ行上二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 129
+        }
+      ]
+    },
+    {
+      "surface": "生ふ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "生ふ",
+          "conjugationClass": "ハ行上二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 142
+        }
+      ]
+    },
+    {
+      "surface": "絶え",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ヤ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "絶ゆ",
+          "conjugationClass": "ヤ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 5
+        }
+      ]
+    },
+    {
+      "surface": "奏し",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "奏す",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 73
+        }
+      ]
+    },
+    {
+      "surface": "漕げ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ガ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "漕ぐ",
+          "conjugationClass": "ガ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 256
+        }
+      ]
+    },
+    {
+      "surface": "走ら",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "走る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 41
+        }
+      ]
+    },
+    {
+      "surface": "送れ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "送る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 243
+        }
+      ]
+    },
+    {
+      "surface": "待つ",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "待つ",
+          "conjugationClass": "タ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 213
+        }
+      ]
+    },
+    {
+      "surface": "待て",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "待つ",
+          "conjugationClass": "タ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 316
+        }
+      ]
+    },
+    {
+      "surface": "通ふ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "通ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 140
+        }
+      ]
+    },
+    {
+      "surface": "伝へ",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "伝ふ",
+          "conjugationClass": "ハ行下二段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 117
+        }
+      ]
+    },
+    {
+      "surface": "得る",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ア行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "得（う）",
+          "conjugationClass": "ア行下二段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 194
+        }
+      ]
+    },
+    {
+      "surface": "遁れ",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "逃る",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 22
+        }
+      ]
+    },
+    {
+      "surface": "曇ら",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "曇る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 58
+        }
+      ]
+    },
+    {
+      "surface": "入る",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "入る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 134
+        }
+      ]
+    },
+    {
+      "surface": "入れ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "入る",
+          "conjugationClass": "ラ行四段活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 273
+        }
+      ]
+    },
+    {
+      "surface": "忍ば",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "忍ぶ",
+          "conjugationClass": "バ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 31
+        }
+      ]
+    },
+    {
+      "surface": "忍ぶ",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "バ行上二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "忍ぶ",
+          "conjugationClass": "バ行上二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 135
+        }
+      ]
+    },
+    {
+      "surface": "破れ",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "破る",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 7
+        }
+      ]
+    },
+    {
+      "surface": "犯さ",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "犯す",
+          "conjugationClass": "サ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 45
+        }
+      ]
+    },
+    {
+      "surface": "描け",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "書く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 360
+        }
+      ]
+    },
+    {
+      "surface": "病し",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "サ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "病す",
+          "conjugationClass": "サ行変格活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 88
+        }
+      ]
+    },
+    {
+      "surface": "負ふ",
+      "length": 2,
+      "consensusForm": "連体形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "負う",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "連体形",
+          "sourceRow": 187
+        }
+      ]
+    },
+    {
+      "surface": "聞き",
+      "length": 2,
+      "consensusForm": "連用形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "聞く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "連用形",
+          "sourceRow": 118
+        }
+      ]
+    },
+    {
+      "surface": "訪る",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "訪る",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 164
+        }
+      ]
+    },
+    {
+      "surface": "忘れ",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ラ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "忘る",
+          "conjugationClass": "ラ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 24
+        }
+      ]
+    },
+    {
+      "surface": "明け",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行下二段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "明く",
+          "conjugationClass": "カ行下二段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 51
+        }
+      ]
+    },
+    {
+      "surface": "迷は",
+      "length": 2,
+      "consensusForm": "未然形",
+      "consensusPos": "動詞",
+      "consensusClass": "ハ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "迷ふ",
+          "conjugationClass": "ハ行四段活用",
+          "series": "",
+          "form": "未然形",
+          "sourceRow": 29
+        }
+      ]
+    },
+    {
+      "surface": "鳴く",
+      "length": 2,
+      "consensusForm": "終止形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "鳴く",
+          "conjugationClass": "カ行四段活用",
+          "series": "",
+          "form": "終止形",
+          "sourceRow": 169
+        }
+      ]
+    },
+    {
+      "surface": "来よ",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 345
+        }
+      ]
+    },
+    {
+      "surface": "来れ",
+      "length": 2,
+      "consensusForm": "已然形",
+      "consensusPos": "動詞",
+      "consensusClass": "カ行変格活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "来（く）",
+          "conjugationClass": "カ行変格活用",
+          "series": "",
+          "form": "已然形",
+          "sourceRow": 296
+        }
+      ]
+    },
+    {
+      "surface": "立て",
+      "length": 2,
+      "consensusForm": "命令形",
+      "consensusPos": "動詞",
+      "consensusClass": "タ行四段活用",
+      "analyses": [
+        {
+          "pos": "動詞",
+          "lemma": "立つ",
+          "conjugationClass": "タ行四段活用",
+          "series": "",
+          "form": "命令形",
+          "sourceRow": 305
+        }
+      ]
+    }
+  ]
+}
