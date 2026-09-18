@@ -49,6 +49,8 @@
     "legacy_gap_classification_20260919.json を追加し、DB未収録による欠落が0であることを確認した。",
     "動詞360＋形容詞140の監査済み500例から、2文字以上・活用形と品詞が一意な413表面形を接続resolver用インデックスとして追加した。",
     "ぬ・ね・ば・るは、直前に監査済み活用形が完全一致しUSB-3212の接続条件で候補が一意になる場合だけshadow側でresolvedへ昇格する。",
-    "し・に・て・な・せは接続証拠を候補支持に使うが、単独ではcontext-required抑制を解除しない。"
+    "し・に・て・な・せは接続証拠を候補支持に使うが、単独ではcontext-required抑制を解除しない。",
+    "監査済み500例から413表面形のexact-form indexを作成。209 kanji-anchoredのみ自動context resolverに使用し、204 kana-onlyはtokenizer待ち。",
+    "context resolver再監査でDB resolvedは69→70。新規resolvedは「見れ＋ば」1件。仮名のみ語形の広域自動利用は語内部誤一致のため採用しない。"
   ]
 }
