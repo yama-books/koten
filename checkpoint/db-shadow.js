@@ -185,9 +185,12 @@ function detectFromSurfaceIndex(text){
 function shadowAuditLegacyVsDb(text, legacyHits){
   const state=resolveDbShadowHits(text);
   const dbHits=state.resolved;
-  const comparableLegacy=(legacyHits||[]).filter(h=>h.type==="grammar" || h.type==="identify");
+  const comparableLegacyRaw=(legacyHits||[]).filter(h=>h.type==="grammar" || h.type==="identify");
   const key=h=>`${h.start}:${h.end}:${h.pattern||h.surface}`;
-  const legacyKeys=new Set(comparableLegacy.map(key));
+  const legacyByKey=new Map();
+  for(const h of comparableLegacyRaw) if(!legacyByKey.has(key(h))) legacyByKey.set(key(h),h);
+  const comparableLegacy=[...legacyByKey.values()];
+  const legacyKeys=new Set(legacyByKey.keys());
   const dbKeys=new Set(dbHits.map(key));
   const dbOnly=dbHits.filter(h=>!legacyKeys.has(key(h)));
   const legacyOnly=comparableLegacy.filter(h=>!dbKeys.has(key(h)));
@@ -209,6 +212,9 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     dbResolvedHitCount:dbHits.length,
     dbSuppressedCount:state.suppressed.length,
     knownWholeFormHitCount:state.whole.length,
+    legacyComparableRawHitCount:comparableLegacyRaw.length,
+    legacyComparableUniqueHitCount:comparableLegacy.length,
+    legacyDuplicateHitCount:comparableLegacyRaw.length-comparableLegacy.length,
     legacyComparableHitCount:comparableLegacy.length,
     matchedCount:both.length,
     kakariSignalHitCount:signalHits.length,
