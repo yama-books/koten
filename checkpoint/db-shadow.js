@@ -143,6 +143,106 @@ function preferredLargerDbContainer(raw,hit){
   return candidates[0]||null;
 }
 
+
+function auditedPreviousFormEvidence(text,hitStart){
+  const entries=window.CHECKPOINT_DATA?.auditedInflectedFormIndex?.entries;
+  if(!Array.isArray(entries)) return null;
+  const matches=[];
+  for(const e of entries){
+    const surface=e.surface;
+    if(!surface || !e.consensusForm) continue;
+    const start=hitStart-surface.length;
+    if(start<0) continue;
+    if(text.slice(start,hitStart)!==surface) continue;
+    matches.push({
+      surface,start,end:hitStart,
+      form:e.consensusForm,
+      pos:e.consensusPos||null,
+      conjugationClass:e.consensusClass||null,
+      analyses:e.analyses||[]
+    });
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.surface.length-a.surface.length) || a.start-b.start);
+  const maxLen=matches[0].surface.length;
+  const top=matches.filter(x=>x.surface.length===maxLen);
+  const forms=[...new Set(top.map(x=>x.form))];
+  const classes=[...new Set(top.map(x=>x.conjugationClass).filter(Boolean))];
+  if(forms.length!==1) return null;
+  return {
+    surface:top[0].surface,
+    start:top[0].start,
+    end:hitStart,
+    form:forms[0],
+    conjugationClass:classes.length===1?classes[0]:null,
+    matches:top,
+    evidence:"audited_inflected_form_index_500.json"
+  };
+}
+
+function classMatchesRule(actualClass,includes){
+  if(!Array.isArray(includes) || !includes.length) return true;
+  if(!actualClass) return false;
+  return includes.some(x=>actualClass.includes(x));
+}
+
+function contextResolverEntry(surface){
+  const entries=window.CHECKPOINT_DATA?.contextResolverRules?.entries;
+  if(!Array.isArray(entries)) return null;
+  return entries.find(x=>x.surface===surface) || null;
+}
+
+function resolveContextRequiredHit(text,hit){
+  const cfg=contextResolverEntry(hit.surface);
+  if(!cfg) return null;
+  const prev=auditedPreviousFormEvidence(text,hit.start);
+  if(!prev) return {
+    status:"awaiting-audited-preceding-form",
+    mode:cfg.mode,
+    supportCandidateIds:[],
+    previousEvidence:null
+  };
+  const matchedRules=(cfg.rules||[]).filter(r =>
+    r.previousForm===prev.form &&
+    classMatchesRule(prev.conjugationClass,r.previousClassIncludes)
+  );
+  const ids=[...new Set(matchedRules.flatMap(r=>r.supportCandidateIds||[]))];
+  if(!ids.length) return {
+    status:"audited-form-found-no-rule-match",
+    mode:cfg.mode,
+    supportCandidateIds:[],
+    previousEvidence:prev
+  };
+  const candidateIds=new Set([
+    ...(hit.discriminationCandidates||[]).map(x=>x.id).filter(Boolean),
+    ...(hit.projectCandidates||[]).map(x=>x.id).filter(Boolean)
+  ]);
+  const supported=ids.filter(id=>candidateIds.has(id));
+  if(!supported.length) return {
+    status:"rule-support-not-present-in-hit-candidates",
+    mode:cfg.mode,
+    supportCandidateIds:ids,
+    previousEvidence:prev
+  };
+  if(cfg.mode==="singleCandidateResolve" && supported.length===1){
+    return {
+      status:"resolved-by-audited-connection",
+      mode:cfg.mode,
+      supportCandidateIds:supported,
+      previousEvidence:prev,
+      evidence:"context_resolver_rules.json + audited_inflected_form_index_500.json"
+    };
+  }
+  return {
+    status:"candidate-support-only",
+    mode:cfg.mode,
+    supportCandidateIds:supported,
+    previousEvidence:prev,
+    evidence:"context_resolver_rules.json + audited_inflected_form_index_500.json"
+  };
+}
+
+
 function resolveDbShadowHits(text){
   const raw=rawSurfaceIndexHits(text);
   const whole=knownWholeInflectedHits(text);
@@ -167,7 +267,22 @@ function resolveDbShadowHits(text){
     }
 
     if(h.matchPolicy==="context-required"){
-      suppressed.push({...h,suppressedReason:"context-required-not-yet-resolved"});
+      const contextResolution=resolveContextRequiredHit(text,h);
+      if(contextResolution?.status==="resolved-by-audited-connection"){
+        resolved.push({
+          ...h,
+          contextResolution,
+          analysisConfidence:"connection-supported-candidate"
+        });
+        continue;
+      }
+      suppressed.push({
+        ...h,
+        contextResolution,
+        suppressedReason:contextResolution?.status==="candidate-support-only"
+          ? "context-supported-but-not-unique"
+          : "context-required-not-yet-resolved"
+      });
       continue;
     }
     resolved.push(h);
@@ -212,6 +327,8 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     dbResolvedHitCount:dbHits.length,
     dbSuppressedCount:state.suppressed.length,
     knownWholeFormHitCount:state.whole.length,
+    contextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-connection").length,
+    contextSupportedButSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="context-supported-but-not-unique").length,
     legacyComparableRawHitCount:comparableLegacyRaw.length,
     legacyComparableUniqueHitCount:comparableLegacy.length,
     legacyDuplicateHitCount:comparableLegacyRaw.length-comparableLegacy.length,
@@ -231,7 +348,8 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     suppressedDbHits:state.suppressed.map(h=>({
       surface:h.surface,start:h.start,end:h.end,
       reason:h.suppressedReason,suppressedBy:h.suppressedBy||null,
-      contextSignals:h.contextSignals||[]
+      contextSignals:h.contextSignals||[],
+      contextResolution:h.contextResolution||null
     })),
     note:"shadow audit only; kakari-musubi signals are candidate support and never resolve scope by themselves."
   };
