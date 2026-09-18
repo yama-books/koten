@@ -100,3 +100,30 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 - `auxiliary_verification_queue.json` を追加。全28助動詞を一次資料照合待ちとして管理し、意味・接続・活用型・六活用形・表面形を個別確認してから human-confirmed に昇格する。
 - `auxiliary_master.json` v0.3 では USB-3212 の部分証拠を持たせたが、未照合セルは空欄のまま。DB-authoritative detection は primary-source 確認まで false。
 - 正本 `古典文法_一次データ索引.md` は桐原書店『新しい古典文法 四訂新版』付録の構造化データであることが過去HANDOFFから確認できる。ただし現チャットではファイル本体を直接取得できていないため、モデル知識による補完は行わない。
+
+
+## 2026-09-19 追加: shadow detector 監査
+
+- `kakari_musubi_routes.json` を追加し、本文監査済み30例と USB-3212 の候補活用形を接続した。
+- ただし raw 文字列距離だけで係り結びを自動適用すると、長文 `とぞ申しける` で `申し` 内部の `し`、`ける` 内部の `る` へ誤った候補支持が出た。
+- そのため、係り結びは **形態境界＋係り先範囲が確定した後だけ** `kakariSupportForResolvedParticle()` を呼ぶ。自動近傍走査は全係助詞で停止。
+- `surface_match_policy.json` v0.2 で `ぬ・ね・ば・む` も context-required に追加。
+- DB 内で大きい意味単位がある場合、内部の短い表面形を `larger-db-surface-preferred` で抑制。
+- 既存4サンプル計990文字の比較:
+  - legacy 文法/識別 hit: 348
+  - DB raw hit: 310
+  - raw被覆: 89.1%
+  - DB resolved: 69
+  - resolved一致率: 19.8%
+  - DB only: 0
+  - legacy only: 252
+- 19.8%は正答率ではない。context-required を未解決のまま通さないための保守的ゲート通過率。
+- 係り結び route API 回帰テスト 8/8 成功。
+- 形容詞の内部一致抑制（`かひなけれ`→`けれ`, `みしかゝり`→`しか`）2/2 成功。
+- 監査記録: `SHADOW_AUDIT_2026-09-19.md`, `data/shadow_audit_20260919.json`
+
+### 次の優先作業
+1. legacyOnly 252件を「未収録」と「意図的抑制」に分類
+2. 接続だけで安全に解ける context-required 表面形から resolver を追加
+3. 係助詞の品詞同定と係り先範囲解析を別レイヤとして設計
+4. 一次資料参照可能になり次第、助動詞の verified 化を再開
