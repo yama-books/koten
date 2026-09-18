@@ -1,0 +1,2055 @@
+{
+  "schemaVersion": 1,
+  "status": "phase2-context-sampling-candidates-generated",
+  "generatedAt": "2026-09-19",
+  "source": [
+    "glyph-distribution-derived-part1.json",
+    "glyph-distribution-derived-part2.json"
+  ],
+  "methodology": {
+    "shareField": "share_within_kana_same_diacritic",
+    "differenceCandidate": "within the same work group, share range >= 0.25 and maximum observed count >= 5",
+    "dominanceReversal": "for the same kana × jibo × no-diacritic group, the highest-share glyph differs between witnesses",
+    "warning": "Candidate ranking is only for selecting contexts to inspect. It is not a historical correctness score or universal rule."
+  },
+  "shareDifferenceCandidates": [
+    {
+      "work_id": "ise_monogatari",
+      "kana": "や",
+      "glyph_id": "U+1B0DE",
+      "character": "𛃞",
+      "jibo": "也",
+      "diacritic": "none",
+      "share_range": 0.9389313,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 246,
+        "share": 0.9389313
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 0,
+        "share": 0
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "さ",
+      "glyph_id": "U+1B03F",
+      "character": "𛀿",
+      "jibo": "左",
+      "diacritic": "none",
+      "share_range": 0.84913793,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 197,
+        "share": 0.84913793
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 0,
+        "share": 0
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "を",
+      "glyph_id": "U+1B11C",
+      "character": "𛄜",
+      "jibo": "遠",
+      "diacritic": "none",
+      "share_range": 0.83864741,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 353,
+        "share": 0.86519608
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 6,
+        "share": 0.02654867
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "り",
+      "glyph_id": "U+308A",
+      "character": "り",
+      "jibo": "利",
+      "diacritic": "none",
+      "share_range": 0.77972087,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 901,
+        "share": 0.89473684
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 72,
+        "share": 0.11501597
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "や",
+      "glyph_id": "U+3084",
+      "character": "や",
+      "jibo": "也",
+      "diacritic": "none",
+      "share_range": 0.77358491,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 123,
+        "share": 0.77358491
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 0,
+        "share": 0
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "り",
+      "glyph_id": "U+1B0F2",
+      "character": "𛃲",
+      "jibo": "利",
+      "diacritic": "none",
+      "share_range": 0.74920128,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 469,
+        "share": 0.74920128
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 0,
+        "share": 0
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "て",
+      "glyph_id": "U+3066",
+      "character": "て",
+      "jibo": "天",
+      "diacritic": "none",
+      "share_range": 0.73700602,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 687,
+        "share": 0.88076923
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 68,
+        "share": 0.14376321
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "て",
+      "glyph_id": "U+1B073",
+      "character": "𛁳",
+      "jibo": "天",
+      "diacritic": "none",
+      "share_range": 0.73579173,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 402,
+        "share": 0.84989429
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 89,
+        "share": 0.11410256
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "あ",
+      "glyph_id": "U+3042",
+      "character": "あ",
+      "jibo": "安",
+      "diacritic": "none",
+      "share_range": 0.71535581,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 191,
+        "share": 0.71535581
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 0,
+        "share": 0
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "あ",
+      "glyph_id": "U+1B004",
+      "character": "𛀄",
+      "jibo": "阿",
+      "diacritic": "none",
+      "share_range": 0.71535581,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 239,
+        "share": 1
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 76,
+        "share": 0.28464419
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "も",
+      "glyph_id": "U+3082",
+      "character": "も",
+      "jibo": "毛",
+      "diacritic": "none",
+      "share_range": 0.71314569,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 107,
+        "share": 0.71812081
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 2,
+        "share": 0.00497512
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "な",
+      "glyph_id": "U+1B082",
+      "character": "𛂂",
+      "jibo": "奈",
+      "diacritic": "none",
+      "share_range": 0.67292938,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 526,
+        "share": 0.74084507
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 29,
+        "share": 0.06791569
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "を",
+      "glyph_id": "U+3092",
+      "character": "を",
+      "jibo": "遠",
+      "diacritic": "none",
+      "share_range": 0.64927121,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 170,
+        "share": 0.75221239
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 42,
+        "share": 0.10294118
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "え",
+      "glyph_id": "U+3048",
+      "character": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "share_range": 0.59777424,
+      "high": {
+        "witness": "brsk002",
+        "label": "諸国方言物類称呼 巻二",
+        "count": 33,
+        "share": 0.89189189
+      },
+      "low": {
+        "witness": "brsk001",
+        "label": "諸国方言物類称呼 巻一",
+        "count": 5,
+        "share": 0.29411765
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "す",
+      "glyph_id": "U+1B051",
+      "character": "𛁑",
+      "jibo": "須",
+      "diacritic": "none",
+      "share_range": 0.53920455,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 95,
+        "share": 0.59375
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 12,
+        "share": 0.05454545
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "さ",
+      "glyph_id": "U+3055",
+      "character": "さ",
+      "jibo": "左",
+      "diacritic": "none",
+      "share_range": 0.53211902,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 222,
+        "share": 0.59677419
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 15,
+        "share": 0.06465517
+      }
+    },
+    {
+      "work_id": "hanashimadai",
+      "kana": "つ",
+      "glyph_id": "U+3064",
+      "character": "つ",
+      "jibo": "川",
+      "diacritic": "dakuten",
+      "share_range": 0.52777778,
+      "high": {
+        "witness": "hnsd001",
+        "label": "比翼連理花廼志満台 初編上",
+        "count": 11,
+        "share": 0.91666667
+      },
+      "low": {
+        "witness": "hnsd003",
+        "label": "比翼連理花廼志満台 初編下",
+        "count": 7,
+        "share": 0.38888889
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "は",
+      "glyph_id": "U+1B0A6",
+      "character": "𛂦",
+      "jibo": "者",
+      "diacritic": "none",
+      "share_range": 0.5053258,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 563,
+        "share": 0.67505995
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 83,
+        "share": 0.16973415
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "む",
+      "glyph_id": "U+3080",
+      "character": "む",
+      "jibo": "武",
+      "diacritic": "none",
+      "share_range": 0.49875884,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 401,
+        "share": 0.97804878
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 81,
+        "share": 0.47928994
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "え",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "jibo": "衣",
+      "diacritic": "none",
+      "share_range": 0.48012718,
+      "high": {
+        "witness": "brsk001",
+        "label": "諸国方言物類称呼 巻一",
+        "count": 10,
+        "share": 0.58823529
+      },
+      "low": {
+        "witness": "brsk002",
+        "label": "諸国方言物類称呼 巻二",
+        "count": 4,
+        "share": 0.10810811
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "な",
+      "glyph_id": "U+306A",
+      "character": "な",
+      "jibo": "奈",
+      "diacritic": "none",
+      "share_range": 0.46522083,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 263,
+        "share": 0.61592506
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 107,
+        "share": 0.15070423
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ろ",
+      "glyph_id": "U+308D",
+      "character": "ろ",
+      "jibo": "呂",
+      "diacritic": "none",
+      "share_range": 0.4589372,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 70,
+        "share": 0.77777778
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 22,
+        "share": 0.31884058
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ろ",
+      "glyph_id": "U+1B106",
+      "character": "𛄆",
+      "jibo": "路",
+      "diacritic": "none",
+      "share_range": 0.4589372,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 47,
+        "share": 0.68115942
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 20,
+        "share": 0.22222222
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ま",
+      "glyph_id": "U+1B0C2",
+      "character": "𛃂",
+      "jibo": "万",
+      "diacritic": "none",
+      "share_range": 0.44983195,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 225,
+        "share": 0.49450549
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 13,
+        "share": 0.04467354
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "む",
+      "glyph_id": "U+1B0D1",
+      "character": "𛃑",
+      "jibo": "無",
+      "diacritic": "none",
+      "share_range": 0.43367008,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 77,
+        "share": 0.4556213
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 9,
+        "share": 0.02195122
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "も",
+      "glyph_id": "U+1B0D9",
+      "character": "𛃙",
+      "jibo": "毛",
+      "diacritic": "none",
+      "share_range": 0.42640822,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 193,
+        "share": 0.4800995
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 8,
+        "share": 0.05369128
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "ゆ",
+      "glyph_id": "U+1B0E5",
+      "character": "𛃥",
+      "jibo": "由",
+      "diacritic": "none",
+      "share_range": 0.42424243,
+      "high": {
+        "witness": "brsk003",
+        "label": "諸国方言物類称呼 巻三",
+        "count": 25,
+        "share": 0.75757576
+      },
+      "low": {
+        "witness": "brsk002",
+        "label": "諸国方言物類称呼 巻二",
+        "count": 4,
+        "share": 0.33333333
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "つ",
+      "glyph_id": "U+3064",
+      "character": "つ",
+      "jibo": "川",
+      "diacritic": "dakuten",
+      "share_range": 0.41666667,
+      "high": {
+        "witness": "brsk003",
+        "label": "諸国方言物類称呼 巻三",
+        "count": 47,
+        "share": 0.97916667
+      },
+      "low": {
+        "witness": "brsk001",
+        "label": "諸国方言物類称呼 巻一",
+        "count": 9,
+        "share": 0.5625
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "ゆ",
+      "glyph_id": "U+1B0E4",
+      "character": "𛃤",
+      "jibo": "由",
+      "diacritic": "none",
+      "share_range": 0.41666667,
+      "high": {
+        "witness": "brsk002",
+        "label": "諸国方言物類称呼 巻二",
+        "count": 5,
+        "share": 0.41666667
+      },
+      "low": {
+        "witness": "brsk005",
+        "label": "諸国方言物類称呼 巻五",
+        "count": 0,
+        "share": 0
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ほ",
+      "glyph_id": "U+1B0C0",
+      "character": "𛃀",
+      "jibo": "本",
+      "diacritic": "none",
+      "share_range": 0.40869405,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 109,
+        "share": 0.71710526
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 33,
+        "share": 0.30841121
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ゐ",
+      "glyph_id": "U+1B10E",
+      "character": "𛄎",
+      "jibo": "井",
+      "diacritic": "none",
+      "share_range": 0.40844156,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 15,
+        "share": 0.53571429
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 7,
+        "share": 0.12727273
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ほ",
+      "glyph_id": "U+1B0BB",
+      "character": "𛂻",
+      "jibo": "保",
+      "diacritic": "none",
+      "share_range": 0.40771028,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 57,
+        "share": 0.53271028
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 19,
+        "share": 0.125
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "く",
+      "glyph_id": "U+1B02C",
+      "character": "𛀬",
+      "jibo": "久",
+      "diacritic": "none",
+      "share_range": 0.39148936,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 92,
+        "share": 0.39148936
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 0,
+        "share": 0
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ゐ",
+      "glyph_id": "U+3090",
+      "character": "ゐ",
+      "jibo": "爲",
+      "diacritic": "none",
+      "share_range": 0.39025974,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 47,
+        "share": 0.85454545
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 13,
+        "share": 0.46428571
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "た",
+      "glyph_id": "U+305F",
+      "character": "た",
+      "jibo": "太",
+      "diacritic": "none",
+      "share_range": 0.38481299,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 163,
+        "share": 0.44054054
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 36,
+        "share": 0.05572755
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "く",
+      "glyph_id": "U+304F",
+      "character": "く",
+      "jibo": "久",
+      "diacritic": "none",
+      "share_range": 0.37366708,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 412,
+        "share": 0.96941176
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 140,
+        "share": 0.59574468
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "せ",
+      "glyph_id": "U+1B055",
+      "character": "𛁕",
+      "jibo": "勢",
+      "diacritic": "none",
+      "share_range": 0.3658183,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 37,
+        "share": 0.3814433
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 2,
+        "share": 0.015625
+      }
+    },
+    {
+      "work_id": "hanashimadai",
+      "kana": "つ",
+      "glyph_id": "U+1B06A",
+      "character": "𛁪",
+      "jibo": "川",
+      "diacritic": "dakuten",
+      "share_range": 0.36111111,
+      "high": {
+        "witness": "hnsd003",
+        "label": "比翼連理花廼志満台 初編下",
+        "count": 8,
+        "share": 0.44444444
+      },
+      "low": {
+        "witness": "hnsd001",
+        "label": "比翼連理花廼志満台 初編上",
+        "count": 1,
+        "share": 0.08333333
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "へ",
+      "glyph_id": "U+3078",
+      "character": "へ",
+      "jibo": "部",
+      "diacritic": "dakuten",
+      "share_range": 0.3520202,
+      "high": {
+        "witness": "brsk004",
+        "label": "諸国方言物類称呼 巻四",
+        "count": 31,
+        "share": 0.86111111
+      },
+      "low": {
+        "witness": "brsk005",
+        "label": "諸国方言物類称呼 巻五",
+        "count": 28,
+        "share": 0.50909091
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "へ",
+      "glyph_id": "U+1B0B6",
+      "character": "𛂶",
+      "jibo": "遍",
+      "diacritic": "dakuten",
+      "share_range": 0.3520202,
+      "high": {
+        "witness": "brsk005",
+        "label": "諸国方言物類称呼 巻五",
+        "count": 27,
+        "share": 0.49090909
+      },
+      "low": {
+        "witness": "brsk004",
+        "label": "諸国方言物類称呼 巻四",
+        "count": 5,
+        "share": 0.13888889
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "し",
+      "glyph_id": "U+1B045",
+      "character": "𛁅",
+      "jibo": "之",
+      "diacritic": "dakuten",
+      "share_range": 0.35096154,
+      "high": {
+        "witness": "brsk001",
+        "label": "諸国方言物類称呼 巻一",
+        "count": 26,
+        "share": 0.8125
+      },
+      "low": {
+        "witness": "brsk002",
+        "label": "諸国方言物類称呼 巻二",
+        "count": 24,
+        "share": 0.46153846
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "に",
+      "glyph_id": "U+1B08C",
+      "character": "𛂌",
+      "jibo": "爾",
+      "diacritic": "none",
+      "share_range": 0.35049965,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 556,
+        "share": 0.6275395
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 146,
+        "share": 0.27703985
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "か",
+      "glyph_id": "U+304B",
+      "character": "か",
+      "jibo": "加",
+      "diacritic": "dakuten",
+      "share_range": 0.34894614,
+      "high": {
+        "witness": "brsk004",
+        "label": "諸国方言物類称呼 巻四",
+        "count": 30,
+        "share": 0.49180328
+      },
+      "low": {
+        "witness": "brsk001",
+        "label": "諸国方言物類称呼 巻一",
+        "count": 4,
+        "share": 0.14285714
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "は",
+      "glyph_id": "U+1B09E",
+      "character": "𛂞",
+      "jibo": "八",
+      "diacritic": "none",
+      "share_range": 0.34808962,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 291,
+        "share": 0.59509202
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 206,
+        "share": 0.2470024
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "に",
+      "glyph_id": "U+1B08D",
+      "character": "𛂍",
+      "jibo": "耳",
+      "diacritic": "none",
+      "share_range": 0.34307871,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 204,
+        "share": 0.38709677
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 39,
+        "share": 0.04401806
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ゆ",
+      "glyph_id": "U+1B0E6",
+      "character": "𛃦",
+      "jibo": "由",
+      "diacritic": "none",
+      "share_range": 0.33831089,
+      "high": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 15,
+        "share": 0.34883721
+      },
+      "low": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 1,
+        "share": 0.01052632
+      }
+    },
+    {
+      "work_id": "wakan_roeishu",
+      "kana": "ね",
+      "glyph_id": "U+1B097",
+      "character": "𛂗",
+      "jibo": "禰",
+      "diacritic": "none",
+      "share_range": 0.3362069,
+      "high": {
+        "witness": "wakn001",
+        "label": "和漢朗詠集 上巻",
+        "count": 17,
+        "share": 0.5862069
+      },
+      "low": {
+        "witness": "wakn002",
+        "label": "和漢朗詠集 下巻",
+        "count": 3,
+        "share": 0.25
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "に",
+      "glyph_id": "U+1B08C",
+      "character": "𛂌",
+      "jibo": "爾",
+      "diacritic": "none",
+      "share_range": 0.33393116,
+      "high": {
+        "witness": "brsk001",
+        "label": "諸国方言物類称呼 巻一",
+        "count": 434,
+        "share": 0.73310811
+      },
+      "low": {
+        "witness": "brsk002",
+        "label": "諸国方言物類称呼 巻二",
+        "count": 485,
+        "share": 0.39917695
+      }
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "け",
+      "glyph_id": "U+1B035",
+      "character": "𛀵",
+      "jibo": "氣",
+      "diacritic": "none",
+      "share_range": 0.33250369,
+      "high": {
+        "witness": "200014445",
+        "label": "伊勢物語（国文研200014445）",
+        "count": 309,
+        "share": 0.37184116
+      },
+      "low": {
+        "witness": "issg001",
+        "label": "伊勢物語（嵯峨本第二種）",
+        "count": 19,
+        "share": 0.03933747
+      }
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "し",
+      "glyph_id": "U+1B048",
+      "character": "𛁈",
+      "jibo": "志",
+      "diacritic": "dakuten",
+      "share_range": 0.33173077,
+      "high": {
+        "witness": "brsk002",
+        "label": "諸国方言物類称呼 巻二",
+        "count": 27,
+        "share": 0.51923077
+      },
+      "low": {
+        "witness": "brsk001",
+        "label": "諸国方言物類称呼 巻一",
+        "count": 6,
+        "share": 0.1875
+      }
+    }
+  ],
+  "sameJiboDominanceReversals": [
+    {
+      "work_id": "umegoyomi",
+      "kana": "ま",
+      "jibo": "末",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "umgy001",
+          "label": "春色梅児与美 巻一",
+          "glyph_id": "U+307E",
+          "character": "ま",
+          "count": 63,
+          "share": 0.47727273
+        },
+        {
+          "witness": "umgy002",
+          "label": "春色梅児与美 巻二",
+          "glyph_id": "U+307E",
+          "character": "ま",
+          "count": 67,
+          "share": 0.55833333
+        },
+        {
+          "witness": "umgy003",
+          "label": "春色梅児与美 巻三",
+          "glyph_id": "U+1B0C4",
+          "character": "𛃄",
+          "count": 53,
+          "share": 0.59550562
+        }
+      ]
+    },
+    {
+      "work_id": "umegoyomi",
+      "kana": "る",
+      "jibo": "留",
+      "glyph_count": 5,
+      "dominant_by_witness": [
+        {
+          "witness": "umgy001",
+          "label": "春色梅児与美 巻一",
+          "glyph_id": "U+1B0FB",
+          "character": "𛃻",
+          "count": 87,
+          "share": 0.6744186
+        },
+        {
+          "witness": "umgy002",
+          "label": "春色梅児与美 巻二",
+          "glyph_id": "U+308B",
+          "character": "る",
+          "count": 51,
+          "share": 0.5049505
+        },
+        {
+          "witness": "umgy003",
+          "label": "春色梅児与美 巻三",
+          "glyph_id": "U+1B0FB",
+          "character": "𛃻",
+          "count": 60,
+          "share": 0.75
+        }
+      ]
+    },
+    {
+      "work_id": "umegoyomi",
+      "kana": "を",
+      "jibo": "遠",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "umgy001",
+          "label": "春色梅児与美 巻一",
+          "glyph_id": "U+1B11C",
+          "character": "𛄜",
+          "count": 76,
+          "share": 0.54285714
+        },
+        {
+          "witness": "umgy002",
+          "label": "春色梅児与美 巻二",
+          "glyph_id": "U+3092",
+          "character": "を",
+          "count": 71,
+          "share": 0.52205882
+        },
+        {
+          "witness": "umgy003",
+          "label": "春色梅児与美 巻三",
+          "glyph_id": "U+3092",
+          "character": "を",
+          "count": 58,
+          "share": 0.57425743
+        }
+      ]
+    },
+    {
+      "work_id": "hanashimadai",
+      "kana": "て",
+      "jibo": "天",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "hnsd001",
+          "label": "比翼連理花廼志満台 初編上",
+          "glyph_id": "U+3066",
+          "character": "て",
+          "count": 88,
+          "share": 0.57142857
+        },
+        {
+          "witness": "hnsd002",
+          "label": "比翼連理花廼志満台 初編中",
+          "glyph_id": "U+3066",
+          "character": "て",
+          "count": 95,
+          "share": 0.52486188
+        },
+        {
+          "witness": "hnsd003",
+          "label": "比翼連理花廼志満台 初編下",
+          "glyph_id": "U+1B073",
+          "character": "𛁳",
+          "count": 102,
+          "share": 0.52307692
+        }
+      ]
+    },
+    {
+      "work_id": "hanashimadai",
+      "kana": "ね",
+      "jibo": "禰",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "hnsd001",
+          "label": "比翼連理花廼志満台 初編上",
+          "glyph_id": "U+1B097",
+          "character": "𛂗",
+          "count": 14,
+          "share": 0.53846154
+        },
+        {
+          "witness": "hnsd002",
+          "label": "比翼連理花廼志満台 初編中",
+          "glyph_id": "U+306D",
+          "character": "ね",
+          "count": 14,
+          "share": 0.42424242
+        },
+        {
+          "witness": "hnsd003",
+          "label": "比翼連理花廼志満台 初編下",
+          "glyph_id": "U+1B097",
+          "character": "𛂗",
+          "count": 20,
+          "share": 0.48780488
+        }
+      ]
+    },
+    {
+      "work_id": "hanashimadai",
+      "kana": "る",
+      "jibo": "留",
+      "glyph_count": 5,
+      "dominant_by_witness": [
+        {
+          "witness": "hnsd001",
+          "label": "比翼連理花廼志満台 初編上",
+          "glyph_id": "U+308B",
+          "character": "る",
+          "count": 55,
+          "share": 0.50458716
+        },
+        {
+          "witness": "hnsd002",
+          "label": "比翼連理花廼志満台 初編中",
+          "glyph_id": "U+308B",
+          "character": "る",
+          "count": 54,
+          "share": 0.51923077
+        },
+        {
+          "witness": "hnsd003",
+          "label": "比翼連理花廼志満台 初編下",
+          "glyph_id": "U+1B0FB",
+          "character": "𛃻",
+          "count": 67,
+          "share": 0.59292035
+        }
+      ]
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "え",
+      "jibo": "衣",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "brsk001",
+          "label": "諸国方言物類称呼 巻一",
+          "glyph_id": "U+1B012",
+          "character": "𛀒",
+          "count": 10,
+          "share": 0.58823529
+        },
+        {
+          "witness": "brsk002",
+          "label": "諸国方言物類称呼 巻二",
+          "glyph_id": "U+3048",
+          "character": "え",
+          "count": 33,
+          "share": 0.89189189
+        },
+        {
+          "witness": "brsk003",
+          "label": "諸国方言物類称呼 巻三",
+          "glyph_id": "U+3048",
+          "character": "え",
+          "count": 6,
+          "share": 0.6
+        },
+        {
+          "witness": "brsk004",
+          "label": "諸国方言物類称呼 巻四",
+          "glyph_id": "U+3048",
+          "character": "え",
+          "count": 11,
+          "share": 0.73333333
+        },
+        {
+          "witness": "brsk005",
+          "label": "諸国方言物類称呼 巻五",
+          "glyph_id": "U+3048",
+          "character": "え",
+          "count": 17,
+          "share": 0.65384615
+        }
+      ]
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "な",
+      "jibo": "奈",
+      "glyph_count": 4,
+      "dominant_by_witness": [
+        {
+          "witness": "brsk001",
+          "label": "諸国方言物類称呼 巻一",
+          "glyph_id": "U+306A",
+          "character": "な",
+          "count": 98,
+          "share": 0.50777202
+        },
+        {
+          "witness": "brsk002",
+          "label": "諸国方言物類称呼 巻二",
+          "glyph_id": "U+1B082",
+          "character": "𛂂",
+          "count": 148,
+          "share": 0.37279597
+        },
+        {
+          "witness": "brsk003",
+          "label": "諸国方言物類称呼 巻三",
+          "glyph_id": "U+306A",
+          "character": "な",
+          "count": 121,
+          "share": 0.42907801
+        },
+        {
+          "witness": "brsk004",
+          "label": "諸国方言物類称呼 巻四",
+          "glyph_id": "U+306A",
+          "character": "な",
+          "count": 109,
+          "share": 0.48444444
+        },
+        {
+          "witness": "brsk005",
+          "label": "諸国方言物類称呼 巻五",
+          "glyph_id": "U+306A",
+          "character": "な",
+          "count": 163,
+          "share": 0.50153846
+        }
+      ]
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "ほ",
+      "jibo": "保",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "brsk001",
+          "label": "諸国方言物類称呼 巻一",
+          "glyph_id": "U+1B0BB",
+          "character": "𛂻",
+          "count": 5,
+          "share": 0.16129032
+        },
+        {
+          "witness": "brsk002",
+          "label": "諸国方言物類称呼 巻二",
+          "glyph_id": "U+307B",
+          "character": "ほ",
+          "count": 16,
+          "share": 0.24615385
+        },
+        {
+          "witness": "brsk003",
+          "label": "諸国方言物類称呼 巻三",
+          "glyph_id": "U+307B",
+          "character": "ほ",
+          "count": 4,
+          "share": 0.08888889
+        },
+        {
+          "witness": "brsk004",
+          "label": "諸国方言物類称呼 巻四",
+          "glyph_id": "U+307B",
+          "character": "ほ",
+          "count": 3,
+          "share": 0.11111111
+        },
+        {
+          "witness": "brsk005",
+          "label": "諸国方言物類称呼 巻五",
+          "glyph_id": "U+1B0BB",
+          "character": "𛂻",
+          "count": 1,
+          "share": 0.03846154
+        }
+      ]
+    },
+    {
+      "work_id": "butsurui_shoko",
+      "kana": "ゆ",
+      "jibo": "由",
+      "glyph_count": 4,
+      "dominant_by_witness": [
+        {
+          "witness": "brsk001",
+          "label": "諸国方言物類称呼 巻一",
+          "glyph_id": "U+1B0E5",
+          "character": "𛃥",
+          "count": 12,
+          "share": 0.75
+        },
+        {
+          "witness": "brsk002",
+          "label": "諸国方言物類称呼 巻二",
+          "glyph_id": "U+1B0E4",
+          "character": "𛃤",
+          "count": 5,
+          "share": 0.41666667
+        },
+        {
+          "witness": "brsk003",
+          "label": "諸国方言物類称呼 巻三",
+          "glyph_id": "U+1B0E5",
+          "character": "𛃥",
+          "count": 25,
+          "share": 0.75757576
+        },
+        {
+          "witness": "brsk004",
+          "label": "諸国方言物類称呼 巻四",
+          "glyph_id": "U+1B0E5",
+          "character": "𛃥",
+          "count": 22,
+          "share": 0.66666667
+        },
+        {
+          "witness": "brsk005",
+          "label": "諸国方言物類称呼 巻五",
+          "glyph_id": "U+1B0E5",
+          "character": "𛃥",
+          "count": 17,
+          "share": 0.60714286
+        }
+      ]
+    },
+    {
+      "work_id": "wakan_roeishu",
+      "kana": "も",
+      "jibo": "毛",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "wakn001",
+          "label": "和漢朗詠集 上巻",
+          "glyph_id": "U+1B0DA",
+          "character": "𛃚",
+          "count": 55,
+          "share": 0.52884615
+        },
+        {
+          "witness": "wakn002",
+          "label": "和漢朗詠集 下巻",
+          "glyph_id": "U+1B0D9",
+          "character": "𛃙",
+          "count": 40,
+          "share": 0.51282051
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "さ",
+      "jibo": "左",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+3055",
+          "character": "さ",
+          "count": 222,
+          "share": 0.59677419
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B03F",
+          "character": "𛀿",
+          "count": 197,
+          "share": 0.84913793
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "て",
+      "jibo": "天",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+3066",
+          "character": "て",
+          "count": 687,
+          "share": 0.88076923
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B073",
+          "character": "𛁳",
+          "count": 402,
+          "share": 0.84989429
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "な",
+      "jibo": "奈",
+      "glyph_count": 4,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B082",
+          "character": "𛂂",
+          "count": 526,
+          "share": 0.74084507
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+306A",
+          "character": "な",
+          "count": 263,
+          "share": 0.61592506
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ね",
+      "jibo": "年",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B094",
+          "character": "𛂔",
+          "count": 10,
+          "share": 0.12048193
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B092",
+          "character": "𛂒",
+          "count": 8,
+          "share": 0.17021277
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "の",
+      "jibo": "能",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B09C",
+          "character": "𛂜",
+          "count": 69,
+          "share": 0.07128099
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B09B",
+          "character": "𛂛",
+          "count": 70,
+          "share": 0.1141925
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ほ",
+      "jibo": "保",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+307B",
+          "character": "ほ",
+          "count": 24,
+          "share": 0.15789474
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B0BB",
+          "character": "𛂻",
+          "count": 57,
+          "share": 0.53271028
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "も",
+      "jibo": "毛",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B0DA",
+          "character": "𛃚",
+          "count": 207,
+          "share": 0.51492537
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+3082",
+          "character": "も",
+          "count": 107,
+          "share": 0.71812081
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "や",
+      "jibo": "也",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B0DE",
+          "character": "𛃞",
+          "count": 246,
+          "share": 0.9389313
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+3084",
+          "character": "や",
+          "count": 123,
+          "share": 0.77358491
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "り",
+      "jibo": "利",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+308A",
+          "character": "り",
+          "count": 901,
+          "share": 0.89473684
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B0F2",
+          "character": "𛃲",
+          "count": 469,
+          "share": 0.74920128
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "れ",
+      "jibo": "禮",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+308C",
+          "character": "れ",
+          "count": 109,
+          "share": 0.22803347
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B0FE",
+          "character": "𛃾",
+          "count": 87,
+          "share": 0.2909699
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "を",
+      "jibo": "遠",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B11C",
+          "character": "𛄜",
+          "count": 353,
+          "share": 0.86519608
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+3092",
+          "character": "を",
+          "count": 170,
+          "share": 0.75221239
+        }
+      ]
+    }
+  ],
+  "priorityContextSampling": [
+    {
+      "work_id": "ise_monogatari",
+      "kana": "や",
+      "jibo": "也",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B0DE",
+          "character": "𛃞",
+          "count": 246,
+          "share": 0.9389313
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+3084",
+          "character": "や",
+          "count": 123,
+          "share": 0.77358491
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "さ",
+      "jibo": "左",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+3055",
+          "character": "さ",
+          "count": 222,
+          "share": 0.59677419
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B03F",
+          "character": "𛀿",
+          "count": 197,
+          "share": 0.84913793
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "り",
+      "jibo": "利",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+308A",
+          "character": "り",
+          "count": 901,
+          "share": 0.89473684
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B0F2",
+          "character": "𛃲",
+          "count": 469,
+          "share": 0.74920128
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "て",
+      "jibo": "天",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+3066",
+          "character": "て",
+          "count": 687,
+          "share": 0.88076923
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B073",
+          "character": "𛁳",
+          "count": 402,
+          "share": 0.84989429
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "を",
+      "jibo": "遠",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B11C",
+          "character": "𛄜",
+          "count": 353,
+          "share": 0.86519608
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+3092",
+          "character": "を",
+          "count": 170,
+          "share": 0.75221239
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "な",
+      "jibo": "奈",
+      "glyph_count": 4,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B082",
+          "character": "𛂂",
+          "count": 526,
+          "share": 0.74084507
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+306A",
+          "character": "な",
+          "count": 263,
+          "share": 0.61592506
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "も",
+      "jibo": "毛",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+1B0DA",
+          "character": "𛃚",
+          "count": 207,
+          "share": 0.51492537
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+3082",
+          "character": "も",
+          "count": 107,
+          "share": 0.71812081
+        }
+      ]
+    },
+    {
+      "work_id": "ise_monogatari",
+      "kana": "ほ",
+      "jibo": "保",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "200014445",
+          "label": "伊勢物語（国文研200014445）",
+          "glyph_id": "U+307B",
+          "character": "ほ",
+          "count": 24,
+          "share": 0.15789474
+        },
+        {
+          "witness": "issg001",
+          "label": "伊勢物語（嵯峨本第二種）",
+          "glyph_id": "U+1B0BB",
+          "character": "𛂻",
+          "count": 57,
+          "share": 0.53271028
+        }
+      ]
+    },
+    {
+      "work_id": "umegoyomi",
+      "kana": "る",
+      "jibo": "留",
+      "glyph_count": 5,
+      "dominant_by_witness": [
+        {
+          "witness": "umgy001",
+          "label": "春色梅児与美 巻一",
+          "glyph_id": "U+1B0FB",
+          "character": "𛃻",
+          "count": 87,
+          "share": 0.6744186
+        },
+        {
+          "witness": "umgy002",
+          "label": "春色梅児与美 巻二",
+          "glyph_id": "U+308B",
+          "character": "る",
+          "count": 51,
+          "share": 0.5049505
+        },
+        {
+          "witness": "umgy003",
+          "label": "春色梅児与美 巻三",
+          "glyph_id": "U+1B0FB",
+          "character": "𛃻",
+          "count": 60,
+          "share": 0.75
+        }
+      ]
+    },
+    {
+      "work_id": "umegoyomi",
+      "kana": "を",
+      "jibo": "遠",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "umgy001",
+          "label": "春色梅児与美 巻一",
+          "glyph_id": "U+1B11C",
+          "character": "𛄜",
+          "count": 76,
+          "share": 0.54285714
+        },
+        {
+          "witness": "umgy002",
+          "label": "春色梅児与美 巻二",
+          "glyph_id": "U+3092",
+          "character": "を",
+          "count": 71,
+          "share": 0.52205882
+        },
+        {
+          "witness": "umgy003",
+          "label": "春色梅児与美 巻三",
+          "glyph_id": "U+3092",
+          "character": "を",
+          "count": 58,
+          "share": 0.57425743
+        }
+      ]
+    },
+    {
+      "work_id": "hanashimadai",
+      "kana": "て",
+      "jibo": "天",
+      "glyph_count": 2,
+      "dominant_by_witness": [
+        {
+          "witness": "hnsd001",
+          "label": "比翼連理花廼志満台 初編上",
+          "glyph_id": "U+3066",
+          "character": "て",
+          "count": 88,
+          "share": 0.57142857
+        },
+        {
+          "witness": "hnsd002",
+          "label": "比翼連理花廼志満台 初編中",
+          "glyph_id": "U+3066",
+          "character": "て",
+          "count": 95,
+          "share": 0.52486188
+        },
+        {
+          "witness": "hnsd003",
+          "label": "比翼連理花廼志満台 初編下",
+          "glyph_id": "U+1B073",
+          "character": "𛁳",
+          "count": 102,
+          "share": 0.52307692
+        }
+      ]
+    },
+    {
+      "work_id": "wakan_roeishu",
+      "kana": "も",
+      "jibo": "毛",
+      "glyph_count": 3,
+      "dominant_by_witness": [
+        {
+          "witness": "wakn001",
+          "label": "和漢朗詠集 上巻",
+          "glyph_id": "U+1B0DA",
+          "character": "𛃚",
+          "count": 55,
+          "share": 0.52884615
+        },
+        {
+          "witness": "wakn002",
+          "label": "和漢朗詠集 下巻",
+          "glyph_id": "U+1B0D9",
+          "character": "𛃙",
+          "count": 40,
+          "share": 0.51282051
+        }
+      ]
+    }
+  ]
+}
