@@ -137,7 +137,8 @@ const CHECKPOINT_DATA_PATHS = {
   lexicon:"./data/basic_lexicon.json", discrimination:"./data/discrimination_rules.json", corpusEvidence:"./data/corpus_evidence.json",
   surfaceIndex:"./data/surface_index.json", kanaRules:"./data/kana_rules.json",
   discriminationSource:"./data/discrimination_source_usb3212.json", auxiliaryEvidenceUsb3212:"./data/auxiliary_evidence_usb3212.json",
-  auxiliaryCorpusEvidence:"./data/auxiliary_corpus_evidence_20260918.json", auxiliaryVerificationQueue:"./data/auxiliary_verification_queue.json"
+  auxiliaryCorpusEvidence:"./data/auxiliary_corpus_evidence_20260918.json", auxiliaryVerificationQueue:"./data/auxiliary_verification_queue.json",
+  kakariMusubiEvidence:"./data/kakari_musubi_evidence.json"
 };
 
 async function loadCheckpointData(){
