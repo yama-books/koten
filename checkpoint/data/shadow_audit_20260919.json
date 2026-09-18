@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -18,18 +18,20 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 69,
-    "dbSuppressed": 241,
-    "matched": 69,
+    "dbResolved": 70,
+    "dbSuppressed": 240,
+    "matched": 70,
     "dbOnly": 0,
-    "legacyOnlyUnique": 241,
+    "legacyOnlyUnique": 240,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.223,
+    "resolvedMatchRateOfUniqueLegacy": 0.22580645161290322,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 207,
+      "context-required-not-yet-resolved": 206,
       "larger-db-surface-preferred": 34
     },
-    "automaticKakariSignals": 0
+    "automaticKakariSignals": 0,
+    "contextResolvedByAuditedConnection": 1,
+    "contextSupportedButSuppressed": 0
   },
   "samples": [
     {
@@ -88,13 +90,13 @@
       "legacyUnique": 273,
       "legacyDuplicates": 33,
       "dbRaw": 273,
-      "dbResolved": 60,
-      "dbSuppressed": 213,
-      "matched": 60,
+      "dbResolved": 61,
+      "dbSuppressed": 212,
+      "matched": 61,
       "dbOnly": 0,
-      "legacyOnlyUnique": 213,
+      "legacyOnlyUnique": 212,
       "suppressionReasons": {
-        "context-required-not-yet-resolved": 185,
+        "context-required-not-yet-resolved": 184,
         "larger-db-surface-preferred": 28
       }
     }
@@ -168,13 +170,41 @@
     "DB resolved は69位置（22.3%）。残る241位置は未収録ではなく、207位置を context-required、34位置を larger-db-surface-preferred として意図的に保留・抑制した。",
     "識別サンプルと長文では、なむ・らむ・にて・ばや等の内部にある短い表面形を larger-db-surface-preferred で抑制できた。",
     "係り結びを raw文字列距離だけで自動接続すると「とぞ申しける」の「し」「る」等へ誤信号が出たため、自動走査を停止した。",
-    "係り結び30例は route API に接続し、形態境界と係り先が確定した後だけ候補支持として使用する。"
+    "係り結び30例は route API に接続し、形態境界と係り先が確定した後だけ候補支持として使用する。",
+    "500例から2文字以上・活用形/品詞一意の413表面形を作成したが、仮名のみの語形は語内部誤一致が起こり得るため自動接続resolverから除外した。",
+    "kanji-anchored 209表面形だけを直前語証拠として用いた結果、「見れ＋ば」を已然形＋確定条件の候補支持として1件だけ安全にresolvedへ昇格できた。"
   ],
   "next": [
-    "形態境界をDB側で増やし context-required hit を安全に解決する。",
+    "形態境界/tokenizer層を設計し、仮名のみ204表面形を安全に使えるようにする。",
+    "監査済み直前語形で候補が一意になる接続resolverを、一次資料の範囲内で拡張する。",
     "係助詞の品詞同定と係り先範囲解析を追加した後、kakari route API を自動呼出しする。",
-    "legacyOnly を表面形別に集計し、DBに未収録の候補と意図的抑制を分離する。",
     "一次資料が参照可能になったら auxiliary_master の verified 項目を増やす。"
   ],
-  "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。"
+  "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。",
+  "contextResolver": {
+    "sourceFiles": [
+      "audited_inflected_form_index_500.json",
+      "context_resolver_rules.json",
+      "discrimination_source_usb3212.json"
+    ],
+    "auditedIndex": {
+      "entries": 413,
+      "kanjiAnchored": 209,
+      "kanaOnlyNeedsTokenizer": 204
+    },
+    "ruleSurfaces": 9,
+    "resolvedCases": [
+      {
+        "sample": "安倍晴明・長文サンプル",
+        "surface": "ば",
+        "context": "開いて見れば",
+        "previousSurface": "見れ",
+        "previousForm": "已然形",
+        "supportedCandidateId": "conjunctive_ba_fixed",
+        "status": "resolved-by-audited-connection"
+      }
+    ],
+    "safetyFinding": "仮名のみの監査済み語形を境界なしで使うと「ごとく」内部の「とく」を動詞「溶く」と誤認する等の危険があるため、自動resolverではkanji-anchoredのみ採用。仮名のみ204表面形はtokenizer/形態境界解析まで保留。",
+    "interpretation": "resolved 70/310 = 22.6%。増加は1件のみだが、一次資料未確認情報を使わず、監査済み接続だけで安全に昇格した。"
+  }
 }
