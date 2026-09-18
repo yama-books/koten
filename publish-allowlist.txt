@@ -51,6 +51,17 @@ assets/mascot/**
 packages/hyakunin/**
 # unit:kanazukai
 packages/kanazukai/**
+# unit:vintage-kana
+vintage-kana/index.html
+vintage-kana/README.md
+vintage-kana/HANDOFF.md
+vintage-kana/DESIGN_HISTORY.md
+vintage-kana/SOURCES.md
+vintage-kana/RESEARCH_PLAN.md
+vintage-kana/DATA_MODEL.md
+vintage-kana/INTEGRATION_NOTES.md
+vintage-kana/data/*.json
+vintage-kana/docs/history/README.md
 
 [build-extensions]
 # build-artifact extensions
