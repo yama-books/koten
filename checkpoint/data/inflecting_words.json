@@ -1,0 +1,483 @@
+{
+  "schemaVersion": "0.2",
+  "updated": "2026-09-18",
+  "title": "Checkpoint 特徴的な用言",
+  "sources": [
+    {
+      "title": "kobun_yoshu_note_v1.3_lexicon_viewpoints.html",
+      "role": "既存敬語プロトタイプ"
+    },
+    {
+      "title": "動詞360例_公開前注記分類済_正本候補_2026-09-18.xlsx",
+      "driveFileId": "1gbQjqqBuutZTYoU1kPudwtZ0KPRrXBtp",
+      "role": "学校文法見出し・識別注意"
+    },
+    {
+      "title": "活用表アプリ_コーパス収集・監査ログ",
+      "driveFileId": "1wQOPXy0Ia245QenqyuIEbHkLKkTsh3qpk9FEpZk9TXs",
+      "role": "監査方針"
+    }
+  ],
+  "entries": [
+    {
+      "lemma": "給ふ",
+      "category": "honorific",
+      "surfaceForms": [
+        "給は",
+        "給ひ",
+        "給ふ",
+        "給へ",
+        "給ふる",
+        "給ふれ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "参る",
+      "category": "honorific",
+      "surfaceForms": [
+        "参ら",
+        "参り",
+        "参る",
+        "参れ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "奉る",
+      "category": "honorific",
+      "surfaceForms": [
+        "奉ら",
+        "奉り",
+        "奉る",
+        "奉れ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "申す",
+      "category": "honorific",
+      "surfaceForms": [
+        "申さ",
+        "申し",
+        "申す",
+        "申せ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "候ふ",
+      "category": "honorific",
+      "surfaceForms": [
+        "候は",
+        "候ひ",
+        "候ふ",
+        "候へ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "侍り",
+      "category": "honorific",
+      "surfaceForms": [
+        "侍ら",
+        "侍り",
+        "侍る",
+        "侍れ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "召す",
+      "category": "honorific",
+      "surfaceForms": [
+        "召さ",
+        "召し",
+        "召す",
+        "召せ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "のたまふ",
+      "category": "honorific",
+      "surfaceForms": [
+        "のたまは",
+        "のたまひ",
+        "のたまふ",
+        "のたまへ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "おはす",
+      "category": "honorific",
+      "surfaceForms": [
+        "おはせ",
+        "おはし",
+        "おはす",
+        "おはする",
+        "おはすれ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "おはします",
+      "category": "honorific",
+      "surfaceForms": [
+        "おはしまさ",
+        "おはしまし",
+        "おはします",
+        "おはしませ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "聞こゆ",
+      "category": "honorific",
+      "surfaceForms": [
+        "聞こえ",
+        "聞こゆ",
+        "聞こゆる",
+        "聞こゆれ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "聞こえさす",
+      "category": "honorific",
+      "surfaceForms": [
+        "聞こえさせ",
+        "聞こえさし",
+        "聞こえさす",
+        "聞こえさする",
+        "聞こえさすれ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "参らす",
+      "category": "honorific",
+      "surfaceForms": [
+        "参らせ",
+        "参らし",
+        "参らす",
+        "参らする",
+        "参らすれ"
+      ],
+      "headwordRoute": "ask-first-when-inflected",
+      "guidance": [
+        "見出し語",
+        "誰の動作か",
+        "誰への敬意か",
+        "本動詞か補助動詞か"
+      ],
+      "reviewStatus": "existing-prototype-recheck"
+    },
+    {
+      "lemma": "来（く）",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "カ行変格活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "す",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "サ行変格活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "死ぬ",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "ナ行変格活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "往ぬ",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "ナ行変格活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "あり",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "ラ行変格活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "をり",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "ラ行変格活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "寝（ぬ）",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "ナ行下二段活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "分く",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "複数活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "折る",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "複数活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "忍ぶ",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "複数活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "頼む",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "複数活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "慰む",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "複数活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "破る",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "複数活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "違ふ",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "複数活用注意",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "明く",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "複数活用注意",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "恋ふ",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "ハ行上二段活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    },
+    {
+      "lemma": "越ゆ",
+      "category": "distinctive-verb",
+      "surfaceForms": [],
+      "schoolGrammarClass": "ヤ行下二段活用",
+      "headwordRoute": "context-dependent",
+      "guidance": [
+        "見出し語",
+        "活用種類",
+        "前後の接続"
+      ],
+      "reviewStatus": "drive-chj-audited"
+    }
+  ]
+}
