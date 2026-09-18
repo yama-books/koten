@@ -135,7 +135,8 @@ function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;"
 const CHECKPOINT_DATA_PATHS = {
   manifest:"./data/manifest.json", auxiliaries:"./data/auxiliary_master.json", inflectingWords:"./data/inflecting_words.json",
   lexicon:"./data/basic_lexicon.json", discrimination:"./data/discrimination_rules.json", corpusEvidence:"./data/corpus_evidence.json",
-  surfaceIndex:"./data/surface_index.json", kanaRules:"./data/kana_rules.json"
+  surfaceIndex:"./data/surface_index.json", kanaRules:"./data/kana_rules.json",
+  discriminationSource:"./data/discrimination_source_usb3212.json", auxiliaryEvidenceUsb3212:"./data/auxiliary_evidence_usb3212.json"
 };
 
 async function loadCheckpointData(){
