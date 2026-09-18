@@ -66,3 +66,13 @@ legacy unique 310位置はすべて surface_index に存在することを確認
 - `hyakunin_disambiguation_evidence.json` に百人一首の要注意17例を exact phrase evidence 化。
 - `hyakunin_disambiguation_regression_20260919.json`: 17/17 PASS。
 - 「に」の連体形前接では、USB-3212に従い格助詞・接続助詞の両候補を保持するようresolverを修正。
+
+
+## 追加: 双方向resolver・shadow v0.5
+
+- USB-3212の後続cueを `context_resolver_rules.json` に追加。
+- 連用形＋`に`＋`けり`、連用形＋`て`＋`む/けり/き/まし` のshadow resolverを実装。
+- 単体回帰4/4 PASS。テスト文字列は配線確認用で、新規コーパス証拠ではない。
+- 百人一首 exact phrase の `知らぬ` が識別サンプルに一致し、resolved 70→71。
+- 4サンプル最新版: resolved 71 / suppressed 239 / DB only 0 / resolved率22.9%。
+- suppression内訳: context-required 187 / larger-db 32 / known-larger-token 20。
