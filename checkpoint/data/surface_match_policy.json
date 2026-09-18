@@ -21,7 +21,7 @@
     {
       "surface": "て",
       "policy": "context-required",
-      "reason": "接続助詞・助動詞活用形のほか語内部一致を避ける。"
+      "reason": "接続助詞・助動詞活用形などと衝突する。"
     },
     {
       "surface": "と",
