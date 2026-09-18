@@ -1,12 +1,238 @@
 {
-  "schemaVersion":"0.2","updated":"2026-09-18","title":"Checkpoint 同形識別ルート",
-  "policy":{"showQuestionNotAnswer":true,"order":["表面形","接続","活用","前後","係り結び","文脈"],"largestMeaningfulUnitFirst":true},
-  "entries":[
-    ["が",["前の語","文のつながり"]],["けれ",["一語か","前の形"]],["し",["後ろ","一語か"]],["しか",["一語か","前の形"]],
-    ["して",["一語か","意味"]],["せ",["呼応","活用"]],["たり",["前の形","一語か","意味"]],["て",["前後","接続"]],
-    ["と",["意味","前後"]],["とも",["一語か","意味"]],["な",["呼応","前後"]],["なむ",["一語か","係り結び"]],
-    ["なり",["前の形","一語か","意味"]],["に",["前の形","後ろ"]],["にて",["一語か","前の形"]],["ぬ",["直前の活用形","後ろ","係り結び"]],
-    ["ね",["前後","係り結び"]],["ば",["直前の活用形","意味"]],["ばや",["一語か","意味"]],["らむ",["一語か","直前の形"]],
-    ["る",["一語か","直前の形"]],["を",["意味","文のつながり"]],["む",["直前の活用形","語の切れ目"]],["ましか",["まとまり","呼応"]]
-  ].map(([surface,firstLook])=>({surface,firstLook,answerHidden:true,reviewStatus:"existing-prototype / USB-3212再照合待ち"}))
+  "schemaVersion": "0.2",
+  "updated": "2026-09-18",
+  "title": "Checkpoint 同形識別ルート",
+  "policy": {
+    "showQuestionNotAnswer": true,
+    "order": [
+      "表面形",
+      "接続",
+      "活用",
+      "前後",
+      "係り結び",
+      "文脈"
+    ],
+    "largestMeaningfulUnitFirst": true
+  },
+  "entries": [
+    {
+      "surface": "が",
+      "firstLook": [
+        "前の語",
+        "文のつながり"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "けれ",
+      "firstLook": [
+        "一語か",
+        "前の形"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "し",
+      "firstLook": [
+        "後ろ",
+        "一語か"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "しか",
+      "firstLook": [
+        "一語か",
+        "前の形"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "して",
+      "firstLook": [
+        "一語か",
+        "意味"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "せ",
+      "firstLook": [
+        "呼応",
+        "活用"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "たり",
+      "firstLook": [
+        "前の形",
+        "一語か",
+        "意味"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "て",
+      "firstLook": [
+        "前後",
+        "接続"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "と",
+      "firstLook": [
+        "意味",
+        "前後"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "とも",
+      "firstLook": [
+        "一語か",
+        "意味"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "な",
+      "firstLook": [
+        "呼応",
+        "前後"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "なむ",
+      "firstLook": [
+        "一語か",
+        "係り結び"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "なり",
+      "firstLook": [
+        "前の形",
+        "一語か",
+        "意味"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "に",
+      "firstLook": [
+        "前の形",
+        "後ろ"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "にて",
+      "firstLook": [
+        "一語か",
+        "前の形"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "ぬ",
+      "firstLook": [
+        "直前の活用形",
+        "後ろ",
+        "係り結び"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "ね",
+      "firstLook": [
+        "前後",
+        "係り結び"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "ば",
+      "firstLook": [
+        "直前の活用形",
+        "意味"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "ばや",
+      "firstLook": [
+        "一語か",
+        "意味"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "らむ",
+      "firstLook": [
+        "一語か",
+        "直前の形"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "る",
+      "firstLook": [
+        "一語か",
+        "直前の形"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "を",
+      "firstLook": [
+        "意味",
+        "文のつながり"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "む",
+      "firstLook": [
+        "直前の活用形",
+        "語の切れ目"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    },
+    {
+      "surface": "ましか",
+      "firstLook": [
+        "まとまり",
+        "呼応"
+      ],
+      "answerHidden": true,
+      "reviewStatus": "existing-prototype / USB-3212再照合待ち"
+    }
+  ]
 }
