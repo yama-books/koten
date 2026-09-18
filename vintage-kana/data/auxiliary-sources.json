@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "status": "active",
+  "updatedAt": "2026-09-19",
+  "purpose": "Resources useful for comparison, methodology, or future tooling that are not part of the canonical 15-witness NINJAL Hentaigana DB corpus.",
+  "rules": [
+    "Do not merge auxiliary witnesses into the canonical 15-witness distribution corpus.",
+    "Do not treat a same-work/same-edition-family copy as identical to a canonical witness unless copy-level identity is verified.",
+    "Machine-derived labels may guide candidate discovery but are not attestation authority by themselves."
+  ],
+  "sources": [
+    {
+      "auxiliary_source_id": "aux-ise-codh-200024934",
+      "type": "auxiliary_comparison_witness",
+      "work_id": "ise_monogatari",
+      "title": "伊勢物語",
+      "repository": "国文学研究資料館 鉄心斎文庫 / CODH 日本古典籍データセット",
+      "bibliographic_id": "200024934",
+      "shelfmark": "98-561-1～2",
+      "date": "1608[慶長13]年",
+      "medium": "古活字版",
+      "edition_family": "嵯峨本第二種",
+      "edition_subtype": "第二種本イ版（慶長13年再刊甲種本）",
+      "volumes": 2,
+      "collation_note": "上52丁・下66丁",
+      "relation_to_core_witness": "Same work and same Saga-bon second-type family as core witness issg001, but a different holding/copy. Exact subtype/copy identity of issg001 is not yet verified.",
+      "source_url": "https://codh.rois.ac.jp/pmjt/book/200024934/",
+      "license": "CC BY-SA 4.0",
+      "intended_use": [
+        "bibliographic comparison",
+        "edition-family comparison",
+        "possible visual/context comparison after copy-level differences are controlled"
+      ],
+      "prohibited_use": [
+        "substituting for issg001 attested examples",
+        "assuming glyph positions are identical to issg001"
+      ],
+      "review_status": "source-checked"
+    },
+    {
+      "auxiliary_source_id": "aux-jibo-zenodo-18765466",
+      "type": "methodological_dataset",
+      "title": "Jibo-labeled classical hiragana image dataset",
+      "creators": [
+        "Michael R. Zeng",
+        "Herman Chau",
+        "Paul S. Atkins"
+      ],
+      "year": 2026,
+      "doi": "10.5281/zenodo.18765466",
+      "source_url": "https://zenodo.org/records/18765466",
+      "derived_from": "CODH Kotenseki Kuzushiji Dataset v2",
+      "method_note": "Jibo labels were bootstrapped with a model trained using the NINJAL Hentaigana Jikei Database and then corrected by human inspection. The creators explicitly warn that mistakes may remain.",
+      "license": "Underlying dataset terms: CC BY-SA 4.0",
+      "intended_use": [
+        "future OCR/jibo-recognition research",
+        "candidate-generation experiments",
+        "comparison of data-model approaches"
+      ],
+      "prohibited_use": [
+        "treating machine-derived labels as primary attestation evidence",
+        "using unverified labels as human-confirmed examples"
+      ],
+      "review_status": "source-checked"
+    }
+  ]
+}
