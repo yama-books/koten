@@ -116,7 +116,8 @@
           "なら": 153,
           "なれ": 59,
           "也": 9,
-          "otherVariants": 6
+          "otherVariants": 6,
+          "boundaryEncodedNari": 3
         },
         "nareAudit": {
           "total": 59,
