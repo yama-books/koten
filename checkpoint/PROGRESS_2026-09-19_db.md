@@ -43,3 +43,15 @@ legacy unique 310位置はすべて surface_index に存在することを確認
 
 優先度は `て`・`に`・`と`・`し`・`る`・`を`・`ば`・`な`。
 ただし一次資料未確認の助動詞活用表を推測で埋めることはしない。
+
+
+## 追加: 500例 exact-form context resolver
+
+- 500例から2文字以上・品詞/活用形一意の413表面形を抽出。
+- うち209を kanji-anchored、204を kana-only-needs-tokenizer に分類。
+- USB-3212接続規則と組み合わせる `context_resolver_rules.json` を追加。
+- `ぬ・ね・ば・る` は候補が一意になる場合のみshadow resolvedへ昇格。
+- `し・に・て・な・せ` はsupport-onlyで、通常は抑制を解除しない。
+- 仮名のみ語形の自動利用は、語内部誤一致（例: 「ごとく」中の「とく」）を確認したため停止。
+- 4サンプル再監査: resolved 69→70、suppressed 241→240、DB only 0。
+- 新規resolved: 「開いて見れば」の `見れ＋ば` 1件。
