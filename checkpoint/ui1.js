@@ -15,7 +15,10 @@ function render(){
 
   const level=document.getElementById("checkLevel").value;
   const limit=LEVEL_LIMIT[level];
-  const detected=detect(text, level);\n  if(typeof shadowAuditLegacyVsDb==="function" && window.CHECKPOINT_DATA?.surfaceIndex){\n    shadowAuditLegacyVsDb(text, detected.hits);\n  }
+  const detected=detect(text, level);
+  if(typeof shadowAuditLegacyVsDb==="function" && window.CHECKPOINT_DATA?.surfaceIndex){
+    shadowAuditLegacyVsDb(text, detected.hits);
+  }
 
   const notDismissed=detected.hits.filter(h=>!dismissedKeys.has(hitKey(h)));
   const hits=notDismissed.filter(h=>h.tier<=limit);
