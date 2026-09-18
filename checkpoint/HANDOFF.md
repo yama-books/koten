@@ -163,3 +163,14 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 5. context-requiredで保留
 
 仮名のみの語境界を推測で突破しない。
+
+
+## 2026-09-19 追加: 双方向context resolver
+
+- `context_resolver_rules.json` にUSB-3212の後続cueを明示。
+- shadowでは、監査済みkanji-anchored連用形に続く `に＋けり`、`て＋む/けり/き/まし` を候補支持に使用可能。
+- 単体回帰 `context_resolver_regression_20260919.json` は4/4 PASS。ただしテスト文字列は配線確認用で、新しい文法証拠ではない。
+- 百人一首 exact phrase `知らぬ` が既存識別サンプルにも一致し、`ぬ` を打消「ず」連体形候補としてshadow resolvedへ昇格。
+- 4サンプル最新版: raw 310 / resolved 71 / suppressed 239 / DB only 0。
+- suppressed: context-required 187 / larger-db 32 / known-larger-token 20。
+- learner-visible検出はまだlegacyのまま。shadowのresolvedをそのまま正解表示へ接続しない。
