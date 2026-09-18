@@ -20,7 +20,7 @@
 - 助動詞180例: target / anchor監査完了
   - anchor必須 8例、すべてanchor内でtargetが一意
   - 原文表記と正規化キーが異なる 32例、すべて原文targetを本文で確認
-- 形容動詞: 120例を一次選抜・target監査済み。raw CSV再照合120/120通過。活用表・実例の二層データ化を開始
+- 形容動詞: 120例を一次選抜・target監査済み。raw CSV再照合120/120通過。二層データ化を完了し、表ドリル用117語幹のうち既存1語幹を除く116項目をmainへ接続済み
 
 ## 重要な教材設計
 
@@ -43,5 +43,7 @@
 - `data/adjectival-noun-integration-audit.json`: 活用表セルと実例索引の回帰監査
 - `adjv-runtime-adapter.js`: 形容動詞二層データの副作用なし互換アダプタ
 - `adjv-runtime-smoke.html`: 本番indexから独立した読込スモーク確認
+
+現行 `index.html` は `adjv-runtime-adapter.js` を起動時に読み込み、形容動詞の表ドリル項目を追加する。本文なし項目では用例欄を表示せず、JSON読込に失敗した場合は従来の埋め込みデータだけで起動する。
 
 最終更新: 2026-09-19
