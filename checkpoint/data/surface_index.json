@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "0.1",
+  "generatedFrom": "auxiliary_master.json",
+  "policy": "一次資料照合前の項目は候補マーキング専用。正解表示には使わない。",
+  "surfaces": [
+    {
+      "surface": "べから",
+      "candidates": [
+        {
+          "lemma": "べし",
+          "reviewStatus": "drive-ai-audit-primary-source-pending",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "べかり",
+      "candidates": [
+        {
+          "lemma": "べし",
+          "reviewStatus": "drive-ai-audit-primary-source-pending",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "べかる",
+      "candidates": [
+        {
+          "lemma": "べし",
+          "reviewStatus": "drive-ai-audit-primary-source-pending",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "べけれ",
+      "candidates": [
+        {
+          "lemma": "べし",
+          "reviewStatus": "drive-ai-audit-primary-source-pending",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "ましか",
+      "candidates": [
+        {
+          "lemma": "まし",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "けら",
+      "candidates": [
+        {
+          "lemma": "けり",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "けり",
+      "candidates": [
+        {
+          "lemma": "けり",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "ける",
+      "candidates": [
+        {
+          "lemma": "けり",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "けれ",
+      "candidates": [
+        {
+          "lemma": "けり",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "たら",
+      "candidates": [
+        {
+          "lemma": "たり",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        },
+        {
+          "lemma": "たり〈断定〉",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "たり",
+      "candidates": [
+        {
+          "lemma": "たり",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        },
+        {
+          "lemma": "たり〈断定〉",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "たる",
+      "candidates": [
+        {
+          "lemma": "たり",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        },
+        {
+          "lemma": "たり〈断定〉",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "たれ",
+      "candidates": [
+        {
+          "lemma": "たり",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        },
+        {
+          "lemma": "たり〈断定〉",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "べき",
+      "candidates": [
+        {
+          "lemma": "べし",
+          "reviewStatus": "drive-ai-audit-primary-source-pending",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "べく",
+      "candidates": [
+        {
+          "lemma": "べし",
+          "reviewStatus": "drive-ai-audit-primary-source-pending",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "べし",
+      "candidates": [
+        {
+          "lemma": "べし",
+          "reviewStatus": "drive-ai-audit-primary-source-pending",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "まし",
+      "candidates": [
+        {
+          "lemma": "まし",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "らむ",
+      "candidates": [
+        {
+          "lemma": "らむ",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "じ",
+      "candidates": [
+        {
+          "lemma": "じ",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    },
+    {
+      "surface": "む",
+      "candidates": [
+        {
+          "lemma": "む",
+          "reviewStatus": "existing-prototype-primary-source-recheck",
+          "detectionConfidence": "exact-surface",
+          "analysisConfidence": "candidate-only"
+        }
+      ]
+    }
+  ]
+}
