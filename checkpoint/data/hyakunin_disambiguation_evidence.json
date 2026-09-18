@@ -29,7 +29,8 @@
       },
       "caution": "打消「ず」と誤認しやすい。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 32,
@@ -44,7 +45,8 @@
       },
       "caution": "完了「ぬ」ではない。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 36,
@@ -59,7 +61,8 @@
       },
       "caution": "「ぬる」を一語の動詞等として誤認しない。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 37,
@@ -74,7 +77,8 @@
       },
       "caution": "完了との識別注意。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 46,
@@ -89,7 +93,8 @@
       },
       "caution": "完了ではない。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 47,
@@ -104,7 +109,8 @@
       },
       "caution": "「ね」の識別注意。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 52,
@@ -119,7 +125,8 @@
       },
       "caution": "「ぬれ」は動詞「濡れ」ではない。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 55,
@@ -134,7 +141,8 @@
       },
       "caution": "「ぬれ」は動詞「濡れ」ではない。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 61,
@@ -149,7 +157,8 @@
       },
       "caution": "打消ではない。",
       "focusOffset": 3,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 3
     },
     {
       "poem": 65,
@@ -164,7 +173,8 @@
       },
       "caution": "完了ではない。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 75,
@@ -178,8 +188,9 @@
         "candidateId": "verb_inu_contains_nu"
       },
       "caution": "この「ぬ」は助動詞ではない。",
-      "focusOffset": 0,
-      "evidenceStatus": "context-reviewed"
+      "focusOffset": 1,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 0
     },
     {
       "poem": 78,
@@ -194,7 +205,8 @@
       },
       "caution": "文脈で打消と取り違えやすい。",
       "focusOffset": 3,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 3
     },
     {
       "poem": 82,
@@ -209,7 +221,8 @@
       },
       "caution": "完了ではない。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 87,
@@ -224,7 +237,8 @@
       },
       "caution": "「干ぬ＝乾かない」。",
       "focusOffset": 1,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 1
     },
     {
       "poem": 92,
@@ -239,7 +253,8 @@
       },
       "caution": "完了ではない。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 92,
@@ -254,7 +269,8 @@
       },
       "caution": "「ね」の識別注意。",
       "focusOffset": 2,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
     },
     {
       "poem": 97,
@@ -269,7 +285,8 @@
       },
       "caution": "「来てしまった」の完了ではない。",
       "focusOffset": 1,
-      "evidenceStatus": "context-reviewed"
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 1
     }
   ]
 }
