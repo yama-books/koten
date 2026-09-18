@@ -123,8 +123,8 @@
     "witnessCount": 15,
     "nonzeroRecordCount": 2046
   },
-  "zeroHandling": "not-yet-materialized",
-  "ratioStatus": "deferred",
+  "zeroHandling": "derived-files-materialize-inferred-zero; raw source files remain nonzero-only",
+  "ratioStatus": "derived-two-denominator-shares-calculated",
   "retrievedAt": "2026-09-18",
   "supplements": [
     {
@@ -141,5 +141,44 @@
     "kanaCount": 48,
     "witnessCount": 15,
     "nonzeroRecordCount": 2061
+  },
+  "derived": {
+    "methodology": "See ../AGGREGATION_RULES.md",
+    "core": {
+      "recordCount": 3750,
+      "observedNonzeroRecordCount": 2046,
+      "inferredZeroRecordCount": 1704,
+      "formCount": 250,
+      "parts": [
+        {
+          "path": "glyph-distribution-derived-part1.json",
+          "recordCount": 3120,
+          "formCount": 208,
+          "observedNonzeroRecordCount": 1691,
+          "inferredZeroRecordCount": 1429
+        },
+        {
+          "path": "glyph-distribution-derived-part2.json",
+          "recordCount": 630,
+          "formCount": 42,
+          "observedNonzeroRecordCount": 355,
+          "inferredZeroRecordCount": 275
+        }
+      ]
+    },
+    "supplemental": {
+      "path": "glyph-distribution-derived-supplemental.json",
+      "recordCount": 15,
+      "formCount": 1,
+      "observedNonzeroRecordCount": 15,
+      "inferredZeroRecordCount": 0
+    },
+    "validation": {
+      "ratioRange": "all ratios 0..1",
+      "allFormsGroupCount": 705,
+      "sameDiacriticNonzeroGroupCount": 961,
+      "maxRoundedSumDeviation": 2e-8,
+      "status": "passed"
+    }
   }
 }
