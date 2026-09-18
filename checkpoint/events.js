@@ -93,4 +93,5 @@ document.getElementById("focusExtra").addEventListener("click",(e)=>{
   }
 });
 document.getElementById("drawer").addEventListener("click",(e)=>{ if(e.target.id==="drawer") closeDrawer(); });
-render();\nloadCheckpointData().then(()=>render());
+render();
+loadCheckpointData().then(()=>render());
