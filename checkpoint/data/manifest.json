@@ -20,7 +20,9 @@
     "surfaceMatchPolicy": "surface_match_policy.json",
     "kakariMusubiRoutes": "kakari_musubi_routes.json",
     "shadowAudit": "shadow_audit_20260919.json",
-    "legacyGapClassification": "legacy_gap_classification_20260919.json"
+    "legacyGapClassification": "legacy_gap_classification_20260919.json",
+    "auditedInflectedFormIndex": "audited_inflected_form_index_500.json",
+    "contextResolverRules": "context_resolver_rules.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -44,6 +46,9 @@
     "shadow route API 8/8、形容詞内部一致抑制 2/2 の回帰テストを通過。",
     "shadow監査で legacy raw 348件のうち38件が同一位置・同一表面形の重複ルールと判明。unique 310位置で再集計した。",
     "surface_index raw は legacy unique 310/310位置を被覆。69位置をresolved、207をcontext-required、34をlarger-db-surface-preferredとして保留・抑制。",
-    "legacy_gap_classification_20260919.json を追加し、DB未収録による欠落が0であることを確認した。"
+    "legacy_gap_classification_20260919.json を追加し、DB未収録による欠落が0であることを確認した。",
+    "動詞360＋形容詞140の監査済み500例から、2文字以上・活用形と品詞が一意な413表面形を接続resolver用インデックスとして追加した。",
+    "ぬ・ね・ば・るは、直前に監査済み活用形が完全一致しUSB-3212の接続条件で候補が一意になる場合だけshadow側でresolvedへ昇格する。",
+    "し・に・て・な・せは接続証拠を候補支持に使うが、単独ではcontext-required抑制を解除しない。"
   ]
 }
