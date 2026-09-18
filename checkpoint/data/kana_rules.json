@@ -1,0 +1,23 @@
+{
+  "schemaVersion":"0.2","updated":"2026-09-18","title":"Checkpoint 歴史的仮名遣い規則",
+  "source":{"repositoryPath":"仮名遣い規則_一次データ.md","sourceDocumentStatus":"原ファイルは pending 表記","projectDecision":"ユーザー承認済みとしてCheckpointでは approved 扱い","note":"規則内容を変えず、表示では主規則を先に出し、例外は必要時に展開する。"},
+  "reviewStatus":"approved-by-user",
+  "entries":[
+    {"id":"H1","chip":"は→わ","parent":null,"rule":"語中・語尾のハ行「は・ひ・ふ・へ・ほ」は、現代仮名遣いで「わ・い・う・え・お」になることがある。","exception":false},
+    {"id":"H1-a","chip":"語頭はそのまま","parent":"H1","rule":"語頭のハ行は H1 の変換対象にしない。","exception":true},
+    {"id":"H1-b","chip":"複合語はそのまま","parent":"H1","rule":"複合語の後部要素の語頭にあるハ行は H1 の変換対象にしない。","exception":true},
+    {"id":"H1-c","chip":"助詞は・へ","parent":"H1","rule":"助詞の「は」「へ」は表記を変えない。","exception":true},
+    {"id":"W1","chip":"ゐゑ→いえ","parent":null,"rule":"「ゐ」は「い」、「ゑ」は「え」に直す。","exception":false},
+    {"id":"W2","chip":"を→お","parent":null,"rule":"助詞ではない「を」は「お」に直す。","exception":false},
+    {"id":"W2-a","chip":"助詞を","parent":"W2","rule":"助詞の「を」は表記を変えない。","exception":true},
+    {"id":"D1","chip":"ぢづ→じず","parent":null,"rule":"原則として「ぢ」は「じ」、「づ」は「ず」に直す。","exception":false},
+    {"id":"D1-a","chip":"ぢづ のまま","parent":"D1","rule":"同音の連呼または二語の連合で生じた「ぢ」「づ」は表記を保つ。","exception":true},
+    {"id":"K1","chip":"くわ→か","parent":null,"rule":"合拗音の「くわ・ぐわ」は「か・が」に直す。","exception":false},
+    {"id":"N1","chip":"む→ん","parent":null,"rule":"助動詞「む・らむ・けむ・むず」や助詞「なむ」など、指定された文法形の「む」を「ん」に直す。","exception":false},
+    {"id":"L1","chip":"au→ō","parent":null,"rule":"歴史的表記の「ア段＋う」を現代仮名遣いの「オ段＋う」へ直す。","exception":false},
+    {"id":"L2","chip":"iu→yū","parent":null,"rule":"歴史的表記の「イ段＋う」を現代仮名遣いの「拗音ゅ＋う」へ直す。","exception":false},
+    {"id":"L3","chip":"eu→yō","parent":null,"rule":"歴史的表記の「エ段＋う」を現代仮名遣いの「拗音ょ＋う」へ直す。","exception":false},
+    {"id":"L4","chip":null,"parent":null,"rule":"オ段＋うは表記を変えない。","exception":false,"display":false},
+    {"id":"S1","chip":"小さく書く","parent":null,"rule":"拗音の「や・ゆ・よ」と促音の「つ」を現代仮名遣いでは小書きにする。","exception":false}
+  ]
+}
