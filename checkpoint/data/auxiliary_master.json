@@ -1,13 +1,13 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-18",
   "title": "Checkpoint 助動詞マスター",
   "policy": {
     "schoolGrammarFirst": true,
     "answersHiddenFromLearner": true,
     "detectionAndAnalysisConfidenceSeparated": true,
-    "primaryReference": "『新しい古典文法 四訂新版』付録（一次資料）",
-    "important": "一次資料未照合の活用表・接続は公開判定に使わない。"
+    "primaryReference": "『新しい古典文法 四訂新版』付録／古典文法_一次データ索引.md",
+    "important": "一次資料未照合の活用表・接続は正解判定へ使わない。legacy prototype detection と DB-authoritative detection を区別する。"
   },
   "count": 28,
   "entries": [
@@ -20,7 +20,29 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "る",
+            "form": "終止形",
+            "connection": "四段・ナ変・ラ変の未然形",
+            "sourceSurface": "る"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "らる",
@@ -31,7 +53,22 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "す",
@@ -42,7 +79,29 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "せ",
+            "form": "未然形・連用形",
+            "connection": "四段・ナ変・ラ変の未然形",
+            "sourceSurface": "せ"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "さす",
@@ -53,7 +112,22 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "しむ",
@@ -64,7 +138,22 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "ず",
@@ -75,7 +164,35 @@
       "conjugationTable": null,
       "reviewStatus": "drive-ai-audit-primary-source-pending",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P0-primary-source-check",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "ぬ",
+            "form": "連体形",
+            "connection": "未然形",
+            "sourceSurface": "ぬ"
+          },
+          {
+            "surface": "ね",
+            "form": "已然形",
+            "connection": "未然形",
+            "sourceSurface": "ね"
+          }
+        ],
+        "chjCorpusEvidence": "auxiliary_corpus_evidence_20260918.json",
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "む",
@@ -88,7 +205,35 @@
       "conjugationTable": null,
       "reviewStatus": "existing-prototype-primary-source-recheck",
       "enabledForDetection": true,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "む",
+            "form": "終止形・連体形",
+            "connection": "未然形",
+            "sourceSurface": "なむ/らむ"
+          },
+          {
+            "surface": "む",
+            "form": "終止形・連体形",
+            "connection": "強意「ぬ」の未然形「な」",
+            "sourceSurface": "なむ"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "むず",
@@ -99,7 +244,22 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "じ",
@@ -112,7 +272,22 @@
       "conjugationTable": null,
       "reviewStatus": "existing-prototype-primary-source-recheck",
       "enabledForDetection": true,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "まし",
@@ -126,7 +301,22 @@
       "conjugationTable": null,
       "reviewStatus": "existing-prototype-primary-source-recheck",
       "enabledForDetection": true,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "まほし",
@@ -137,7 +327,22 @@
       "conjugationTable": null,
       "reviewStatus": "drive-ai-audit-primary-source-pending",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P0-primary-source-check",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": "auxiliary_corpus_evidence_20260918.json",
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "たし",
@@ -148,7 +353,22 @@
       "conjugationTable": null,
       "reviewStatus": "drive-ai-audit-primary-source-pending",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P0-primary-source-check",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": "auxiliary_corpus_evidence_20260918.json",
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "き",
@@ -159,7 +379,41 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "せ",
+            "form": "未然形",
+            "connection": "連用形",
+            "sourceSurface": "せ"
+          },
+          {
+            "surface": "し",
+            "form": "連体形",
+            "connection": "連用形",
+            "sourceSurface": "し"
+          },
+          {
+            "surface": "しか",
+            "form": "已然形",
+            "connection": "連用形",
+            "sourceSurface": "しか"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "けり",
@@ -175,7 +429,29 @@
       "conjugationTable": null,
       "reviewStatus": "existing-prototype-primary-source-recheck",
       "enabledForDetection": true,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "けれ",
+            "form": "已然形",
+            "connection": "連用形",
+            "sourceSurface": "けれ"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "つ",
@@ -186,7 +462,29 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "て",
+            "form": "未然形・連用形",
+            "connection": "連用形",
+            "sourceSurface": "て"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "ぬ",
@@ -197,7 +495,47 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "な",
+            "form": "未然形",
+            "connection": "連用形",
+            "sourceSurface": "な"
+          },
+          {
+            "surface": "に",
+            "form": "連用形",
+            "connection": "連用形",
+            "sourceSurface": "に"
+          },
+          {
+            "surface": "ぬ",
+            "form": "終止形",
+            "connection": "連用形",
+            "sourceSurface": "ぬ"
+          },
+          {
+            "surface": "ね",
+            "form": "命令形",
+            "connection": "連用形",
+            "sourceSurface": "ね"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "たり",
@@ -213,7 +551,29 @@
       "conjugationTable": null,
       "reviewStatus": "existing-prototype-primary-source-recheck",
       "enabledForDetection": true,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "たり",
+            "form": "連用形・終止形",
+            "connection": "連用形",
+            "sourceSurface": "たり"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "り",
@@ -224,7 +584,35 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "ら",
+            "form": "未然形",
+            "connection": "四段已然形・サ変未然形",
+            "sourceSurface": "らむ"
+          },
+          {
+            "surface": "る",
+            "form": "連体形",
+            "connection": "四段已然形・サ変未然形",
+            "sourceSurface": "る"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "べし",
@@ -243,7 +631,22 @@
       "conjugationTable": null,
       "reviewStatus": "drive-ai-audit-primary-source-pending",
       "enabledForDetection": true,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P0-primary-source-check",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": "auxiliary_corpus_evidence_20260918.json",
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "まじ",
@@ -254,7 +657,22 @@
       "conjugationTable": null,
       "reviewStatus": "drive-ai-audit-primary-source-pending",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P0-primary-source-check",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": "auxiliary_corpus_evidence_20260918.json",
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "らむ",
@@ -267,7 +685,29 @@
       "conjugationTable": null,
       "reviewStatus": "existing-prototype-primary-source-recheck",
       "enabledForDetection": true,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "らむ",
+            "form": "終止形・連体形",
+            "connection": "終止形（ラ変は連体形）",
+            "sourceSurface": "らむ"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "けむ",
@@ -278,7 +718,22 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "らし",
@@ -289,7 +744,22 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "めり",
@@ -300,7 +770,22 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "なり_伝聞_推定_",
@@ -311,7 +796,29 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "なり",
+            "form": "連用形・終止形",
+            "connection": "終止形（ラ変は連体形）",
+            "sourceSurface": "なり"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "なり_断定_",
@@ -322,7 +829,35 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "なり",
+            "form": "連用形・終止形",
+            "connection": "体言・連体形",
+            "sourceSurface": "なり"
+          },
+          {
+            "surface": "に",
+            "form": "連用形",
+            "connection": "体言・連体形",
+            "sourceSurface": "に"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "たり_断定_",
@@ -338,7 +873,35 @@
       "conjugationTable": null,
       "reviewStatus": "existing-prototype-primary-source-recheck",
       "enabledForDetection": true,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P1-ambiguity-critical",
+        "usb3212PartialEvidence": [
+          {
+            "surface": "たり",
+            "form": "連用形",
+            "connection": "体言",
+            "sourceSurface": "たり"
+          },
+          {
+            "surface": "と",
+            "form": "連用形",
+            "connection": "体言",
+            "sourceSurface": "と"
+          }
+        ],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     },
     {
       "id": "ごとし",
@@ -349,7 +912,22 @@
       "conjugationTable": null,
       "reviewStatus": "inventory-only-primary-source-required",
       "enabledForDetection": false,
-      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。",
+      "verification": {
+        "state": "primary-source-pending",
+        "priority": "P2-complete-master",
+        "usb3212PartialEvidence": [],
+        "chjCorpusEvidence": null,
+        "requiredChecks": [
+          "meaningCategories",
+          "connection",
+          "conjugationType",
+          "conjugationTable",
+          "surfaceForms"
+        ],
+        "promotionRule": "all required checks against primary reference + human confirmation"
+      },
+      "dbAuthoritativeForDetection": false
     }
   ]
 }
