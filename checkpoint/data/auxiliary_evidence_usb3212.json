@@ -1,0 +1,223 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-18",
+  "title": "USB-3212由来 助動詞部分証拠",
+  "source": "discrimination_source_usb3212.json",
+  "policy": "全活用表を完成させる資料ではない。識別表で明示された活用形・接続だけを evidence fragment として保持し、auxiliary_master の verified 昇格には別途全表照合を要する。",
+  "entries": [
+    {
+      "lemma": "けり",
+      "attested": [
+        {
+          "surface": "けれ",
+          "form": "已然形",
+          "connection": "連用形",
+          "sourceSurface": "けれ"
+        }
+      ]
+    },
+    {
+      "lemma": "き",
+      "attested": [
+        {
+          "surface": "せ",
+          "form": "未然形",
+          "connection": "連用形",
+          "sourceSurface": "せ"
+        },
+        {
+          "surface": "し",
+          "form": "連体形",
+          "connection": "連用形",
+          "sourceSurface": "し"
+        },
+        {
+          "surface": "しか",
+          "form": "已然形",
+          "connection": "連用形",
+          "sourceSurface": "しか"
+        }
+      ]
+    },
+    {
+      "lemma": "す〈使役・尊敬〉",
+      "attested": [
+        {
+          "surface": "せ",
+          "form": "未然形・連用形",
+          "connection": "四段・ナ変・ラ変の未然形",
+          "sourceSurface": "せ"
+        }
+      ]
+    },
+    {
+      "lemma": "つ",
+      "attested": [
+        {
+          "surface": "て",
+          "form": "未然形・連用形",
+          "connection": "連用形",
+          "sourceSurface": "て"
+        }
+      ]
+    },
+    {
+      "lemma": "たり〈完了・存続〉",
+      "attested": [
+        {
+          "surface": "たり",
+          "form": "連用形・終止形",
+          "connection": "連用形",
+          "sourceSurface": "たり"
+        }
+      ]
+    },
+    {
+      "lemma": "たり〈断定〉",
+      "attested": [
+        {
+          "surface": "たり",
+          "form": "連用形",
+          "connection": "体言",
+          "sourceSurface": "たり"
+        },
+        {
+          "surface": "と",
+          "form": "連用形",
+          "connection": "体言",
+          "sourceSurface": "と"
+        }
+      ]
+    },
+    {
+      "lemma": "ぬ〈完了・強意〉",
+      "attested": [
+        {
+          "surface": "な",
+          "form": "未然形",
+          "connection": "連用形",
+          "sourceSurface": "な"
+        },
+        {
+          "surface": "に",
+          "form": "連用形",
+          "connection": "連用形",
+          "sourceSurface": "に"
+        },
+        {
+          "surface": "ぬ",
+          "form": "終止形",
+          "connection": "連用形",
+          "sourceSurface": "ぬ"
+        },
+        {
+          "surface": "ね",
+          "form": "命令形",
+          "connection": "連用形",
+          "sourceSurface": "ね"
+        }
+      ]
+    },
+    {
+      "lemma": "ず",
+      "attested": [
+        {
+          "surface": "ぬ",
+          "form": "連体形",
+          "connection": "未然形",
+          "sourceSurface": "ぬ"
+        },
+        {
+          "surface": "ね",
+          "form": "已然形",
+          "connection": "未然形",
+          "sourceSurface": "ね"
+        }
+      ]
+    },
+    {
+      "lemma": "む",
+      "attested": [
+        {
+          "surface": "む",
+          "form": "終止形・連体形",
+          "connection": "未然形",
+          "sourceSurface": "なむ/らむ"
+        },
+        {
+          "surface": "む",
+          "form": "終止形・連体形",
+          "connection": "強意「ぬ」の未然形「な」",
+          "sourceSurface": "なむ"
+        }
+      ]
+    },
+    {
+      "lemma": "なり〈断定〉",
+      "attested": [
+        {
+          "surface": "なり",
+          "form": "連用形・終止形",
+          "connection": "体言・連体形",
+          "sourceSurface": "なり"
+        },
+        {
+          "surface": "に",
+          "form": "連用形",
+          "connection": "体言・連体形",
+          "sourceSurface": "に"
+        }
+      ]
+    },
+    {
+      "lemma": "なり〈伝聞・推定〉",
+      "attested": [
+        {
+          "surface": "なり",
+          "form": "連用形・終止形",
+          "connection": "終止形（ラ変は連体形）",
+          "sourceSurface": "なり"
+        }
+      ]
+    },
+    {
+      "lemma": "り",
+      "attested": [
+        {
+          "surface": "ら",
+          "form": "未然形",
+          "connection": "四段已然形・サ変未然形",
+          "sourceSurface": "らむ"
+        },
+        {
+          "surface": "る",
+          "form": "連体形",
+          "connection": "四段已然形・サ変未然形",
+          "sourceSurface": "る"
+        }
+      ]
+    },
+    {
+      "lemma": "らむ",
+      "attested": [
+        {
+          "surface": "らむ",
+          "form": "終止形・連体形",
+          "connection": "終止形（ラ変は連体形）",
+          "sourceSurface": "らむ"
+        }
+      ]
+    },
+    {
+      "lemma": "る〈受身・尊敬・自発・可能〉",
+      "attested": [
+        {
+          "surface": "る",
+          "form": "終止形",
+          "connection": "四段・ナ変・ラ変の未然形",
+          "sourceSurface": "る"
+        }
+      ]
+    }
+  ]
+}
