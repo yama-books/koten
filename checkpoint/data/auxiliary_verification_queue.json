@@ -1,0 +1,547 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-18",
+  "title": "Checkpoint 助動詞一次資料照合キュー",
+  "primaryReference": "『新しい古典文法 四訂新版』付録／ローカル古典文法_一次データ索引.md",
+  "blocker": "現チャットから正本ファイル本体を直接参照できていないため、human-confirmed 昇格を停止中。",
+  "rules": [
+    "一次資料未確認の接続・活用をモデル知識で補完しない。",
+    "USB-3212は識別に現れた部分証拠として使い、全活用表の代替にしない。",
+    "CHJ実測は実在・分布の証拠として使い、0件を不存在の証拠にしない。",
+    "一次資料照合時は meaning / connection / conjugationType / sixForms を独立に確認する。"
+  ],
+  "items": [
+    {
+      "lemma": "る",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "らる",
+      "priority": "P2-complete-master",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "す",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "さす",
+      "priority": "P2-complete-master",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "しむ",
+      "priority": "P2-complete-master",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "ず",
+      "priority": "P0-primary-source-check",
+      "currentStatus": "drive-ai-audit-primary-source-pending",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": true,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "む",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "existing-prototype-primary-source-recheck",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": true
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "むず",
+      "priority": "P2-complete-master",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "じ",
+      "priority": "P2-complete-master",
+      "currentStatus": "existing-prototype-primary-source-recheck",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": true
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "まし",
+      "priority": "P2-complete-master",
+      "currentStatus": "existing-prototype-primary-source-recheck",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": true
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "まほし",
+      "priority": "P0-primary-source-check",
+      "currentStatus": "drive-ai-audit-primary-source-pending",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": true,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "たし",
+      "priority": "P0-primary-source-check",
+      "currentStatus": "drive-ai-audit-primary-source-pending",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": true,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "き",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "けり",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "existing-prototype-primary-source-recheck",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": true
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "つ",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "ぬ",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "たり",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "existing-prototype-primary-source-recheck",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": true
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "り",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "べし",
+      "priority": "P0-primary-source-check",
+      "currentStatus": "drive-ai-audit-primary-source-pending",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": true,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "まじ",
+      "priority": "P0-primary-source-check",
+      "currentStatus": "drive-ai-audit-primary-source-pending",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": true,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "らむ",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "existing-prototype-primary-source-recheck",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": true
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "けむ",
+      "priority": "P2-complete-master",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "らし",
+      "priority": "P2-complete-master",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "めり",
+      "priority": "P2-complete-master",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "なり〈伝聞・推定〉",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "なり〈断定〉",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "たり〈断定〉",
+      "priority": "P1-ambiguity-critical",
+      "currentStatus": "existing-prototype-primary-source-recheck",
+      "availableEvidence": {
+        "usb3212Partial": true,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": true
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    },
+    {
+      "lemma": "ごとし",
+      "priority": "P2-complete-master",
+      "currentStatus": "inventory-only-primary-source-required",
+      "availableEvidence": {
+        "usb3212Partial": false,
+        "chjFiveSpeciesAudit": false,
+        "prototypeOnly": false
+      },
+      "requiredChecks": [
+        "meaningCategories",
+        "connection",
+        "conjugationType",
+        "conjugationTable",
+        "surfaceForms"
+      ],
+      "promotionTarget": "human-confirmed",
+      "publishDetectionBeforePromotion": false
+    }
+  ]
+}
