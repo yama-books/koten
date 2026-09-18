@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.4",
+  "schemaVersion": "0.5",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -18,21 +18,22 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 70,
-    "dbSuppressed": 240,
-    "matched": 70,
+    "dbResolved": 71,
+    "dbSuppressed": 239,
+    "matched": 71,
     "dbOnly": 0,
-    "legacyOnlyUnique": 240,
+    "legacyOnlyUnique": 239,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.22580645161290322,
+    "resolvedMatchRateOfUniqueLegacy": 0.22903225806451613,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 188,
+      "context-required-not-yet-resolved": 187,
       "larger-db-surface-preferred": 32,
       "known-larger-token": 20
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
-    "contextSupportedButSuppressed": 0
+    "contextSupportedButSuppressed": 0,
+    "exactPhraseResolved": 1
   },
   "samples": [
     {
@@ -74,13 +75,13 @@
       "legacyUnique": 16,
       "legacyDuplicates": 4,
       "dbRaw": 16,
-      "dbResolved": 5,
-      "dbSuppressed": 11,
-      "matched": 5,
+      "dbResolved": 6,
+      "dbSuppressed": 10,
+      "matched": 6,
       "dbOnly": 0,
-      "legacyOnlyUnique": 11,
+      "legacyOnlyUnique": 10,
       "suppressionReasons": {
-        "context-required-not-yet-resolved": 5,
+        "context-required-not-yet-resolved": 4,
         "larger-db-surface-preferred": 6
       }
     },
@@ -170,6 +171,13 @@
       "failed": 0,
       "source": "hyakunin_disambiguation_regression_20260919.json",
       "behavior": "監査済み句に完全一致した場合のみ、ぬ・ねを候補支持し、ぬる・ぬれ・いぬでは内部の短いhitを抑制。"
+    },
+    "bidirectionalContext": {
+      "tested": 4,
+      "passed": 4,
+      "failed": 0,
+      "source": "context_resolver_regression_20260919.json",
+      "note": "単体テスト文字列は配線確認用であり、新規文法証拠ではない。"
     }
   },
   "designFindings": [
@@ -182,12 +190,14 @@
     "500例から2文字以上・活用形/品詞一意の413表面形を作成したが、仮名のみの語形は語内部誤一致が起こり得るため自動接続resolverから除外した。",
     "kanji-anchored 209表面形だけを直前語証拠として用いた結果、「見れ＋ば」を已然形＋確定条件の候補支持として1件だけ安全にresolvedへ昇格できた。",
     "known_token_boundary_index の trusted larger token により、4サンプルで20位置の短い内部hitを追加抑制できた。resolved数は変えず、context-requiredを188まで減らした。",
-    "百人一首監査済み17句を exact phrase evidence 化し、回帰17/17 PASS。一般化せず、完全一致時だけ使用する。"
+    "百人一首監査済み17句を exact phrase evidence 化し、回帰17/17 PASS。一般化せず、完全一致時だけ使用する。",
+    "百人一首 exact phrase evidence により識別サンプル「知らぬ」の「ぬ」1位置を追加resolved。4サンプル総計は71/310=22.9%。",
+    "USB-3212の前後cueを使う双方向resolverを追加し、監査済み前接語形＋明示された後続助動詞の組合せを4ケースで回帰確認した。"
   ],
   "next": [
-    "known_token_boundary_index をCHJ監査済み複合動詞・語彙へ段階的に拡張する。",
-    "仮名のみ204表面形は、exact phrase / trusted token chain で境界が立つ場合だけ限定利用する。",
-    "「に」「て」の後続助動詞を使うresolverはUSB-3212のcueと整合する範囲でshadow実験する。",
+    "exact phrase evidence を一般規則へ自動一般化せず、同形監査資料が増えるたびに証拠DBを追加する。",
+    "known-token boundaryでcontext-required 187位置の内部一致をさらに分離する。",
+    "双方向resolverを実コーパス例で監査し、synthetic単体テストとは別にevidence-backed回帰を作る。",
     "係助詞の品詞同定と係り先範囲解析を追加した後、kakari route API を自動呼出しする。",
     "一次資料が参照可能になったら auxiliary_master の verified 項目を増やす。"
   ],
@@ -262,5 +272,16 @@
       ]
     ],
     "interpretation": "resolved数は増やさず、語内部の一文字候補を独立候補として扱わないことでノイズを減らす。"
+  },
+  "exactPhraseImpact": {
+    "fourSampleResolvedIncrement": 1,
+    "case": {
+      "sample": "識別サンプル",
+      "phrase": "知らぬ",
+      "surface": "ぬ",
+      "supportedCandidateId": "aux_zu_rentai_nu",
+      "status": "resolved-by-audited-exact-phrase"
+    },
+    "interpretation": "百人一首監査の既知表面連鎖「知らぬ」が識別サンプルにも現れたため、同じ表面連鎖に限定して候補支持した。"
   }
 }
