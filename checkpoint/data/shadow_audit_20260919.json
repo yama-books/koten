@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.3",
+  "schemaVersion": "0.4",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -26,8 +26,9 @@
     "rawCoverageOfUniqueLegacy": 1,
     "resolvedMatchRateOfUniqueLegacy": 0.22580645161290322,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 206,
-      "larger-db-surface-preferred": 34
+      "context-required-not-yet-resolved": 188,
+      "larger-db-surface-preferred": 32,
+      "known-larger-token": 20
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
@@ -162,6 +163,13 @@
           "knownWhole": "みしかゝり"
         }
       ]
+    },
+    "hyakuninExactPhrase": {
+      "tested": 17,
+      "passed": 17,
+      "failed": 0,
+      "source": "hyakunin_disambiguation_regression_20260919.json",
+      "behavior": "監査済み句に完全一致した場合のみ、ぬ・ねを候補支持し、ぬる・ぬれ・いぬでは内部の短いhitを抑制。"
     }
   },
   "designFindings": [
@@ -172,11 +180,14 @@
     "係り結びを raw文字列距離だけで自動接続すると「とぞ申しける」の「し」「る」等へ誤信号が出たため、自動走査を停止した。",
     "係り結び30例は route API に接続し、形態境界と係り先が確定した後だけ候補支持として使用する。",
     "500例から2文字以上・活用形/品詞一意の413表面形を作成したが、仮名のみの語形は語内部誤一致が起こり得るため自動接続resolverから除外した。",
-    "kanji-anchored 209表面形だけを直前語証拠として用いた結果、「見れ＋ば」を已然形＋確定条件の候補支持として1件だけ安全にresolvedへ昇格できた。"
+    "kanji-anchored 209表面形だけを直前語証拠として用いた結果、「見れ＋ば」を已然形＋確定条件の候補支持として1件だけ安全にresolvedへ昇格できた。",
+    "known_token_boundary_index の trusted larger token により、4サンプルで20位置の短い内部hitを追加抑制できた。resolved数は変えず、context-requiredを188まで減らした。",
+    "百人一首監査済み17句を exact phrase evidence 化し、回帰17/17 PASS。一般化せず、完全一致時だけ使用する。"
   ],
   "next": [
-    "形態境界/tokenizer層を設計し、仮名のみ204表面形を安全に使えるようにする。",
-    "監査済み直前語形で候補が一意になる接続resolverを、一次資料の範囲内で拡張する。",
+    "known_token_boundary_index をCHJ監査済み複合動詞・語彙へ段階的に拡張する。",
+    "仮名のみ204表面形は、exact phrase / trusted token chain で境界が立つ場合だけ限定利用する。",
+    "「に」「て」の後続助動詞を使うresolverはUSB-3212のcueと整合する範囲でshadow実験する。",
     "係助詞の品詞同定と係り先範囲解析を追加した後、kakari route API を自動呼出しする。",
     "一次資料が参照可能になったら auxiliary_master の verified 項目を増やす。"
   ],
@@ -206,5 +217,50 @@
     ],
     "safetyFinding": "仮名のみの監査済み語形を境界なしで使うと「ごとく」内部の「とく」を動詞「溶く」と誤認する等の危険があるため、自動resolverではkanji-anchoredのみ採用。仮名のみ204表面形はtokenizer/形態境界解析まで保留。",
     "interpretation": "resolved 70/310 = 22.6%。増加は1件のみだが、一次資料未確認情報を使わず、監査済み接続だけで安全に昇格した。"
+  },
+  "boundaryLayer": {
+    "sourceFile": "known_token_boundary_index.json",
+    "entryCount": 290,
+    "strategy": "trusted larger token contains short hit -> suppress short hit",
+    "fourSampleSuppressionCount": 20,
+    "examples": [
+      [
+        "せ",
+        "参らせ"
+      ],
+      [
+        "と",
+        "例のごとく"
+      ],
+      [
+        "な",
+        "なでふ"
+      ],
+      [
+        "し",
+        "召し"
+      ],
+      [
+        "せ",
+        "寄せ"
+      ],
+      [
+        "が",
+        "いかが"
+      ],
+      [
+        "し",
+        "申し"
+      ],
+      [
+        "し",
+        "悪しく"
+      ],
+      [
+        "る",
+        "かかる"
+      ]
+    ],
+    "interpretation": "resolved数は増やさず、語内部の一文字候補を独立候補として扱わないことでノイズを減らす。"
   }
 }
