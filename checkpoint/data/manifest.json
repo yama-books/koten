@@ -23,7 +23,8 @@
     "legacyGapClassification": "legacy_gap_classification_20260919.json",
     "auditedInflectedFormIndex": "audited_inflected_form_index_500.json",
     "contextResolverRules": "context_resolver_rules.json",
-    "knownTokenBoundaryIndex": "known_token_boundary_index.json"
+    "knownTokenBoundaryIndex": "known_token_boundary_index.json",
+    "hyakuninDisambiguationEvidence": "hyakunin_disambiguation_evidence.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -54,6 +55,8 @@
     "監査済み500例から413表面形のexact-form indexを作成。209 kanji-anchoredのみ自動context resolverに使用し、204 kana-onlyはtokenizer待ち。",
     "context resolver再監査でDB resolvedは69→70。新規resolvedは「見れ＋ば」1件。仮名のみ語形の広域自動利用は語内部誤一致のため採用しない。",
     "500例のkanji-anchored語形と curated lexicon / inflecting words を統合した known_token_boundary_index.json を追加。",
-    "短い識別表面形がより長い既知語の内部に完全包含される場合、shadow側で known-larger-token として抑制する。"
+    "短い識別表面形がより長い既知語の内部に完全包含される場合、shadow側で known-larger-token として抑制する。",
+    "百人一首文節監査の要注意17例を exact phrase evidence として追加し、同じ句が出た場合だけshadow識別へ使う。",
+    "ぬ・ねが監査済み句で一意に確認できる場合は exact phrase で候補支持し、ぬる・ぬれ・いぬ等の大きい単位では内部の短いhitを抑制する。"
   ]
 }
