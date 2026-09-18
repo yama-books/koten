@@ -193,6 +193,51 @@ function contextResolverEntry(surface){
   return entries.find(x=>x.surface===surface) || null;
 }
 
+
+function rightContextResolverRules(surface){
+  const rules=window.CHECKPOINT_DATA?.contextResolverRules?.rightContextRules;
+  if(!Array.isArray(rules)) return [];
+  return rules.filter(x=>x.surface===surface);
+}
+
+function resolveByBidirectionalContext(text,hit,previousEvidence){
+  if(!previousEvidence) return null;
+  const rules=rightContextResolverRules(hit.surface);
+  if(!rules.length) return null;
+  const candidateIds=hitCandidateIds(hit);
+  for(const r of rules){
+    if(r.previousForm && r.previousForm!==previousEvidence.form) continue;
+    if(!classMatchesRule(previousEvidence.conjugationClass,r.previousClassIncludes)) continue;
+    const next=(r.nextStartsWith||[]).find(s=>text.startsWith(s,hit.end));
+    if(!next) continue;
+    const supported=(r.supportCandidateIds||[]).filter(id=>candidateIds.has(id));
+    if(r.mode==="singleCandidateResolve" && supported.length===1){
+      return {
+        status:"resolved-by-audited-bidirectional-context",
+        mode:r.mode,
+        supportCandidateIds:supported,
+        previousEvidence,
+        nextSurface:next,
+        sourceCue:r.sourceCue||null,
+        evidence:"context_resolver_rules.json + discrimination_source_usb3212.json"
+      };
+    }
+    if(supported.length){
+      return {
+        status:"candidate-support-only",
+        mode:r.mode||"supportOnly",
+        supportCandidateIds:supported,
+        previousEvidence,
+        nextSurface:next,
+        sourceCue:r.sourceCue||null,
+        evidence:"context_resolver_rules.json + discrimination_source_usb3212.json"
+      };
+    }
+  }
+  return null;
+}
+
+
 function resolveContextRequiredHit(text,hit){
   const cfg=contextResolverEntry(hit.surface);
   if(!cfg) return null;
@@ -403,7 +448,7 @@ function resolveDbShadowHits(text){
 
     if(h.matchPolicy==="context-required"){
       const contextResolution=resolveContextRequiredHit(text,h);
-      if(contextResolution?.status==="resolved-by-audited-connection"){
+      if(contextResolution?.status==="resolved-by-audited-connection" || contextResolution?.status==="resolved-by-audited-bidirectional-context"){
         resolved.push({
           ...h,
           contextResolution,
@@ -465,6 +510,7 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     knownBoundaryTokenHitCount:state.boundaryHits?.length||0,
     contextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-connection").length,
     exactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-exact-phrase").length,
+    bidirectionalContextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-bidirectional-context").length,
     exactPhraseSuppressedCount:state.suppressed.filter(h=>String(h.suppressedReason||"").startsWith("audited-exact-phrase-")).length,
     contextSupportedButSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="context-supported-but-not-unique").length,
     legacyComparableRawHitCount:comparableLegacyRaw.length,
