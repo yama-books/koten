@@ -132,3 +132,14 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 4. 一次資料参照可能になり次第、助動詞の verified 化を再開
 
 - 位置別分類の詳細は `data/legacy_gap_classification_20260919.json` に保存。
+
+
+## 2026-09-19 追加: 監査済み活用形resolver
+
+- `audited_inflected_form_index_500.json`: 動詞360＋形容詞140から、2文字以上かつ活用形・品詞が一意の413表面形を作成。
+- 日本語の無空白本文では仮名だけの語形を境界なしで使うと誤一致するため、209の kanji-anchored のみ自動context resolverへ使用。204の kana-only はtokenizer待ち。
+- `context_resolver_rules.json`: USB-3212の接続規則だけを使い、context-required hit の候補支持を行う。
+- singleCandidateResolve 対象: `ぬ・ね・ば・る`。supportOnly: `し・に・て・な・せ`。
+- 既存4サンプル再監査で DB resolved 69→70。新規1件は「開いて見れば」の「見れ（已然形）＋ば」で、確定条件候補を出典付きで支持。
+- 仮名のみ表面形を広く自動利用する案は不採用。例として「ごとく」内部の「とく」を動詞「溶く」と誤認し得た。
+- このresolverはshadow専用で、学習者画面の正解表示には未接続。
