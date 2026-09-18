@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -10,32 +10,40 @@
       "安倍晴明・長文サンプル"
     ],
     "totalTextLength": 990,
-    "comparison": "legacy の grammar/identify hit と DB shadow detector の表面位置一致",
-    "caution": "rawCoverage / resolvedMatchRate は精度・正答率ではない。DB移行時の被覆と保守的ゲートの通過率を示す。"
+    "comparison": "legacy の grammar/identify hit を位置＋表面形で重複排除し、DB shadow detector と比較",
+    "caution": "coverage / resolved rate は精度・正答率ではない。legacy側には同一位置・同一表面形の重複ルールが38件あったため、unique位置で比較する。"
   },
   "totals": {
-    "legacyComparable": 348,
+    "legacyComparableRaw": 348,
+    "legacyComparableUnique": 310,
+    "legacyDuplicateHits": 38,
     "dbRaw": 310,
     "dbResolved": 69,
     "dbSuppressed": 241,
     "matched": 69,
     "dbOnly": 0,
-    "legacyOnly": 252,
-    "rawCoverageOfLegacy": 0.891,
-    "resolvedMatchRateOfLegacy": 0.198,
+    "legacyOnlyUnique": 241,
+    "rawCoverageOfUniqueLegacy": 1,
+    "resolvedMatchRateOfUniqueLegacy": 0.223,
+    "suppressionReasons": {
+      "context-required-not-yet-resolved": 207,
+      "larger-db-surface-preferred": 34
+    },
     "automaticKakariSignals": 0
   },
   "samples": [
     {
       "name": "枕草子サンプル",
       "textLength": 46,
-      "legacyComparable": 9,
+      "legacyRaw": 9,
+      "legacyUnique": 9,
+      "legacyDuplicates": 0,
       "dbRaw": 9,
       "dbResolved": 3,
       "dbSuppressed": 6,
       "matched": 3,
       "dbOnly": 0,
-      "legacyOnly": 6,
+      "legacyOnlyUnique": 6,
       "suppressionReasons": {
         "context-required-not-yet-resolved": 6
       }
@@ -43,13 +51,15 @@
     {
       "name": "和歌サンプル",
       "textLength": 30,
-      "legacyComparable": 13,
+      "legacyRaw": 13,
+      "legacyUnique": 12,
+      "legacyDuplicates": 1,
       "dbRaw": 12,
       "dbResolved": 1,
       "dbSuppressed": 11,
       "matched": 1,
       "dbOnly": 0,
-      "legacyOnly": 11,
+      "legacyOnlyUnique": 11,
       "suppressionReasons": {
         "context-required-not-yet-resolved": 11
       }
@@ -57,13 +67,15 @@
     {
       "name": "識別サンプル",
       "textLength": 37,
-      "legacyComparable": 20,
+      "legacyRaw": 20,
+      "legacyUnique": 16,
+      "legacyDuplicates": 4,
       "dbRaw": 16,
       "dbResolved": 5,
       "dbSuppressed": 11,
       "matched": 5,
       "dbOnly": 0,
-      "legacyOnly": 13,
+      "legacyOnlyUnique": 11,
       "suppressionReasons": {
         "context-required-not-yet-resolved": 5,
         "larger-db-surface-preferred": 6
@@ -72,13 +84,15 @@
     {
       "name": "安倍晴明・長文サンプル",
       "textLength": 877,
-      "legacyComparable": 306,
+      "legacyRaw": 306,
+      "legacyUnique": 273,
+      "legacyDuplicates": 33,
       "dbRaw": 273,
       "dbResolved": 60,
       "dbSuppressed": 213,
       "matched": 60,
       "dbOnly": 0,
-      "legacyOnly": 222,
+      "legacyOnlyUnique": 213,
       "suppressionReasons": {
         "context-required-not-yet-resolved": 185,
         "larger-db-surface-preferred": 28
@@ -149,10 +163,11 @@
     }
   },
   "designFindings": [
-    "surface_index の raw hit は legacy比較対象の約89.1%を覆う。",
-    "現在の DB resolved は legacy 比較対象の19.8%だけを通す。低い値は未完成というより、文脈未解決の一文字候補を意図的に止めている影響が大きい。",
+    "legacy の348 hitには同一位置・同一表面形の重複が38件あり、unique位置では310件だった。",
+    "surface_index raw hit は4サンプルの legacy unique 310位置を310/310すべて被覆した。",
+    "DB resolved は69位置（22.3%）。残る241位置は未収録ではなく、207位置を context-required、34位置を larger-db-surface-preferred として意図的に保留・抑制した。",
     "識別サンプルと長文では、なむ・らむ・にて・ばや等の内部にある短い表面形を larger-db-surface-preferred で抑制できた。",
-    "係り結びを raw文字列距離だけで自動接続すると「とぞ申しける」の「し」「る」などへ誤信号が出たため、自動走査を停止した。",
+    "係り結びを raw文字列距離だけで自動接続すると「とぞ申しける」の「し」「る」等へ誤信号が出たため、自動走査を停止した。",
     "係り結び30例は route API に接続し、形態境界と係り先が確定した後だけ候補支持として使用する。"
   ],
   "next": [
@@ -160,5 +175,6 @@
     "係助詞の品詞同定と係り先範囲解析を追加した後、kakari route API を自動呼出しする。",
     "legacyOnly を表面形別に集計し、DBに未収録の候補と意図的抑制を分離する。",
     "一次資料が参照可能になったら auxiliary_master の verified 項目を増やす。"
-  ]
+  ],
+  "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。"
 }
