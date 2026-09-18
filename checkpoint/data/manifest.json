@@ -15,7 +15,9 @@
     "auxiliaryEvidenceUsb3212": "auxiliary_evidence_usb3212.json",
     "auxiliaryCorpusEvidence": "auxiliary_corpus_evidence_20260918.json",
     "auxiliaryVerificationQueue": "auxiliary_verification_queue.json",
-    "kakariMusubiEvidence": "kakari_musubi_evidence.json"
+    "kakariMusubiEvidence": "kakari_musubi_evidence.json",
+    "adjectiveSurfaceCollisionEvidence": "adjective_surface_collision_evidence.json",
+    "surfaceMatchPolicy": "surface_match_policy.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -28,6 +30,8 @@
     "助動詞5種のCHJ実測値と旧AI監査の誤探索条件を corpus evidence として分離した。",
     "全28助動詞について一次資料照合キューを作成し、primary-source-pending のまま必要確認項目を明示した。",
     "auxiliary_master v0.3 はUSB-3212の部分証拠を保持するが、未確認セルを補完しない。",
-    "本文個別監査済みの係り結び30例（連体形15・已然形15）を detector evidence として追加した。"
+    "本文個別監査済みの係り結び30例（連体形15・已然形15）を detector evidence として追加した。",
+    "形容詞140例から「けれ」内部一致16例、「しか」内部一致33例を抽出し、既知の大きい活用語を優先する証拠DBを追加した。",
+    "一文字識別形は文字列一致だけで通常表示せず、context-required とするマッチ方針を追加した。"
   ]
 }
