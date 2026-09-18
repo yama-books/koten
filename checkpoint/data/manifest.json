@@ -24,7 +24,8 @@
     "auditedInflectedFormIndex": "audited_inflected_form_index_500.json",
     "contextResolverRules": "context_resolver_rules.json",
     "knownTokenBoundaryIndex": "known_token_boundary_index.json",
-    "hyakuninDisambiguationEvidence": "hyakunin_disambiguation_evidence.json"
+    "hyakuninDisambiguationEvidence": "hyakunin_disambiguation_evidence.json",
+    "hyakuninDisambiguationRegression": "hyakunin_disambiguation_regression_20260919.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -57,6 +58,8 @@
     "500例のkanji-anchored語形と curated lexicon / inflecting words を統合した known_token_boundary_index.json を追加。",
     "短い識別表面形がより長い既知語の内部に完全包含される場合、shadow側で known-larger-token として抑制する。",
     "百人一首文節監査の要注意17例を exact phrase evidence として追加し、同じ句が出た場合だけshadow識別へ使う。",
-    "ぬ・ねが監査済み句で一意に確認できる場合は exact phrase で候補支持し、ぬる・ぬれ・いぬ等の大きい単位では内部の短いhitを抑制する。"
+    "ぬ・ねが監査済み句で一意に確認できる場合は exact phrase で候補支持し、ぬる・ぬれ・いぬ等の大きい単位では内部の短いhitを抑制する。",
+    "known-token boundaryにより4サンプルで内部の短いhit20位置を追加抑制し、context-requiredは188位置まで減少。",
+    "百人一首の監査済み要注意17句をexact phrase evidence化し、回帰17/17 PASS。一般規則へは自動一般化しない。"
   ]
 }
