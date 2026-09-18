@@ -12,7 +12,9 @@
     "corpusEvidence": "corpus_evidence.json",
     "kanaRules": "kana_rules.json",
     "discriminationSource": "discrimination_source_usb3212.json",
-    "auxiliaryEvidenceUsb3212": "auxiliary_evidence_usb3212.json"
+    "auxiliaryEvidenceUsb3212": "auxiliary_evidence_usb3212.json",
+    "auxiliaryCorpusEvidence": "auxiliary_corpus_evidence_20260918.json",
+    "auxiliaryVerificationQueue": "auxiliary_verification_queue.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -21,6 +23,9 @@
     "仮名遣い16規則を kana_rules.json に分離。例外は主表示から折りたたむ。",
     "USB-3212の22表面形を出典付きで構造化し、アプリ用ルートと出典データを分離した。",
     "助動詞についてはUSB-3212で明示された活用形・接続だけを部分証拠として別JSON化した。",
-    "動詞360＋形容詞140の500例正本候補から、教材表示注記31例を19群の特徴的用言として追加した。"
+    "動詞360＋形容詞140の500例正本候補から、教材表示注記31例を19群の特徴的用言として追加した。",
+    "助動詞5種のCHJ実測値と旧AI監査の誤探索条件を corpus evidence として分離した。",
+    "全28助動詞について一次資料照合キューを作成し、primary-source-pending のまま必要確認項目を明示した。",
+    "auxiliary_master v0.3 はUSB-3212の部分証拠を保持するが、未確認セルを補完しない。"
   ]
 }
