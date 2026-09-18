@@ -17,7 +17,8 @@
     "auxiliary180SelectionId": "1ELVAclhwDd08bUY6VzOUgcD0TTM9gPrz",
     "auxiliary180AuditId": "1pL6VsYgzdQfyI-kgrOQZlO3ZJpXHVTXB",
     "adjectivalNounSearchFolderId": "1t5HuAv8eLxXEF4J5AlS-MS1RzDK3FoKT",
-    "adjectivalNounPrepublishAuditId": "1b-LU-wVx-hKinWEuMDlUqphAzfObYyw7xfKg8Ab4Ov8"
+    "adjectivalNounPrepublishAuditId": "1b-LU-wVx-hKinWEuMDlUqphAzfObYyw7xfKg8Ab4Ov8",
+    "adjectivalNounPrivateAuditDocId": "1HilSjL8gSRFr8pSOvXfkgBTyTqowvOrwQDxFwes1bok"
   },
   "datasets": {
     "verbs": {
@@ -206,7 +207,9 @@
           "tari-renyou-tari": 1,
           "tari-shushi-tari": 7,
           "tari-rentai-taru": 8
-        }
+        },
+        "appStagingFile": "conj/data/adjectival-noun-app-staging-120.json",
+        "exampleTextStatus": "private-drive-staged"
       },
       "integration": {
         "paradigmFile": "conj/data/adjectival-noun-paradigms.json",
@@ -231,6 +234,14 @@
           "missingTarget": 0,
           "anchorNonUnique": 0
         }
+      },
+      "privateContextAudit": {
+        "joined": 120,
+        "targetRediscovered": 120,
+        "missing": 0,
+        "targetMiss": 0,
+        "storage": "Google Drive only",
+        "rawTextPublished": false
       }
     }
   },
@@ -242,10 +253,10 @@
     "preserveRareCellScarcity": true
   },
   "next": [
-    "現行index.htmlに二層データを安全に読ませる互換層を作る",
-    "CHJ取得本文はGitHubへ自動複製せず、公開可能本文だけを実例ドリルへ接続する",
-    "タリ活用「たら・たれ」を必要に応じて検索範囲拡張で探索",
-    "ナリ活用特殊形「な／なん／なっ」6件を音便・縮約研究候補として別管理",
-    "助動詞180例を一次資料確認済み正本候補へ更新"
+    "現行index.htmlの一次資料差分を修正（たし補助活用命令形「たかれ」を除去）",
+    "形容動詞app-staging JSONのロード／互換層を実装",
+    "本文未公開の形容動詞120例は実例問題へ流さない",
+    "公開可能な引用本文ソース確定後にexampleEnabledを段階的に有効化",
+    "タリ活用「たら・たれ」を必要に応じて検索範囲拡張で探索"
   ]
 }
