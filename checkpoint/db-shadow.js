@@ -248,6 +248,9 @@ function resolveContextRequiredHit(text,hit){
     supportCandidateIds:[],
     previousEvidence:null
   };
+  const bidirectional=resolveByBidirectionalContext(text,hit,prev);
+  if(bidirectional) return bidirectional;
+
   const matchedRules=(cfg.rules||[]).filter(r =>
     r.previousForm===prev.form &&
     classMatchesRule(prev.conjugationClass,r.previousClassIncludes)
