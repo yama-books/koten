@@ -1,0 +1,355 @@
+{
+  "schemaVersion": "0.2",
+  "updated": "2026-09-18",
+  "title": "Checkpoint 助動詞マスター",
+  "policy": {
+    "schoolGrammarFirst": true,
+    "answersHiddenFromLearner": true,
+    "detectionAndAnalysisConfidenceSeparated": true,
+    "primaryReference": "『新しい古典文法 四訂新版』付録（一次資料）",
+    "important": "一次資料未照合の活用表・接続は公開判定に使わない。"
+  },
+  "count": 28,
+  "entries": [
+    {
+      "id": "る",
+      "lemma": "る",
+      "meaningsNote": "受身・尊敬・自発・可能",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "らる",
+      "lemma": "らる",
+      "meaningsNote": "受身・尊敬・自発・可能",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "す",
+      "lemma": "す",
+      "meaningsNote": "使役・尊敬",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "さす",
+      "lemma": "さす",
+      "meaningsNote": "使役・尊敬",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "しむ",
+      "lemma": "しむ",
+      "meaningsNote": "使役・尊敬",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "ず",
+      "lemma": "ず",
+      "meaningsNote": "打消",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "drive-ai-audit-primary-source-pending",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "む",
+      "lemma": "む",
+      "meaningsNote": "推量・意志など",
+      "formsForDetection": [
+        "む"
+      ],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "existing-prototype-primary-source-recheck",
+      "enabledForDetection": true,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "むず",
+      "lemma": "むず",
+      "meaningsNote": "推量・意志など",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "じ",
+      "lemma": "じ",
+      "meaningsNote": "打消推量・打消意志",
+      "formsForDetection": [
+        "じ"
+      ],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "existing-prototype-primary-source-recheck",
+      "enabledForDetection": true,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "まし",
+      "lemma": "まし",
+      "meaningsNote": "反実仮想・ためらいなど",
+      "formsForDetection": [
+        "ましか",
+        "まし"
+      ],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "existing-prototype-primary-source-recheck",
+      "enabledForDetection": true,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "まほし",
+      "lemma": "まほし",
+      "meaningsNote": "希望",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "drive-ai-audit-primary-source-pending",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "たし",
+      "lemma": "たし",
+      "meaningsNote": "希望",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "drive-ai-audit-primary-source-pending",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "き",
+      "lemma": "き",
+      "meaningsNote": "過去",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "けり",
+      "lemma": "けり",
+      "meaningsNote": "過去・詠嘆",
+      "formsForDetection": [
+        "けら",
+        "けり",
+        "ける",
+        "けれ"
+      ],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "existing-prototype-primary-source-recheck",
+      "enabledForDetection": true,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "つ",
+      "lemma": "つ",
+      "meaningsNote": "完了・強意",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "ぬ",
+      "lemma": "ぬ",
+      "meaningsNote": "完了・強意",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "たり",
+      "lemma": "たり",
+      "meaningsNote": "完了・存続",
+      "formsForDetection": [
+        "たら",
+        "たり",
+        "たる",
+        "たれ"
+      ],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "existing-prototype-primary-source-recheck",
+      "enabledForDetection": true,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "り",
+      "lemma": "り",
+      "meaningsNote": "完了・存続",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "べし",
+      "lemma": "べし",
+      "meaningsNote": "推量・意志・可能・当然・命令・適当など",
+      "formsForDetection": [
+        "べから",
+        "べかり",
+        "べく",
+        "べし",
+        "べき",
+        "べかる",
+        "べけれ"
+      ],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "drive-ai-audit-primary-source-pending",
+      "enabledForDetection": true,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "まじ",
+      "lemma": "まじ",
+      "meaningsNote": "打消推量・打消意志・不可能・打消当然・禁止・不適当など",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "drive-ai-audit-primary-source-pending",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "らむ",
+      "lemma": "らむ",
+      "meaningsNote": "現在推量・原因推量・伝聞婉曲など",
+      "formsForDetection": [
+        "らむ"
+      ],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "existing-prototype-primary-source-recheck",
+      "enabledForDetection": true,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "けむ",
+      "lemma": "けむ",
+      "meaningsNote": "過去推量・原因推量・伝聞婉曲など",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "らし",
+      "lemma": "らし",
+      "meaningsNote": "推定",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "めり",
+      "lemma": "めり",
+      "meaningsNote": "推定・婉曲",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "なり_伝聞_推定_",
+      "lemma": "なり〈伝聞・推定〉",
+      "meaningsNote": "伝聞・推定",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "なり_断定_",
+      "lemma": "なり〈断定〉",
+      "meaningsNote": "断定・存在",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "たり_断定_",
+      "lemma": "たり〈断定〉",
+      "meaningsNote": "断定",
+      "formsForDetection": [
+        "たら",
+        "たり",
+        "たる",
+        "たれ"
+      ],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "existing-prototype-primary-source-recheck",
+      "enabledForDetection": true,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    },
+    {
+      "id": "ごとし",
+      "lemma": "ごとし",
+      "meaningsNote": "比況・例示・推定",
+      "formsForDetection": [],
+      "connection": null,
+      "conjugationTable": null,
+      "reviewStatus": "inventory-only-primary-source-required",
+      "enabledForDetection": false,
+      "note": "一次資料『新しい古典文法 四訂新版』付録で接続・活用を確認後に verified へ昇格する。"
+    }
+  ]
+}
