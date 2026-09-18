@@ -479,5 +479,594 @@
       ],
       "reviewStatus": "drive-chj-audited"
     }
-  ]
+  ],
+  "corpusAuditedDistinctive": {
+    "source": {
+      "title": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+      "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+      "selection": "教材表示注記が付いた31例を、見出し語×活用種類で19群に集約"
+    },
+    "groupCount": 19,
+    "exampleCount": 31,
+    "entries": [
+      {
+        "pos": "動詞",
+        "lemma": "破る",
+        "class": "ラ行下二段活用",
+        "count": 1,
+        "forms": [
+          "未然形"
+        ],
+        "targets": [
+          "破れ"
+        ],
+        "note": "別の活用・用法あり。この用例ではラ行下二段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            7
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "頼む",
+        "class": "マ行四段活用",
+        "count": 1,
+        "forms": [
+          "未然形"
+        ],
+        "targets": [
+          "たのま"
+        ],
+        "note": "別の活用・用法あり。この用例ではマ行四段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            12
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "分く",
+        "class": "カ行四段活用",
+        "count": 1,
+        "forms": [
+          "未然形"
+        ],
+        "targets": [
+          "わか"
+        ],
+        "note": "別の活用・用法あり。この用例ではカ行四段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            19
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "折る",
+        "class": "ラ行四段活用",
+        "count": 3,
+        "forms": [
+          "未然形"
+        ],
+        "targets": [
+          "おら"
+        ],
+        "note": "別の活用・用法あり。この用例ではラ行四段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            26,
+            35,
+            46
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "違ふ",
+        "class": "ハ行下二段活用",
+        "count": 1,
+        "forms": [
+          "未然形"
+        ],
+        "targets": [
+          "たがへ"
+        ],
+        "note": "別の活用・用法あり。この用例ではハ行下二段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            27
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "忍ぶ",
+        "class": "バ行四段活用",
+        "count": 1,
+        "forms": [
+          "未然形"
+        ],
+        "targets": [
+          "忍ば"
+        ],
+        "note": "別の活用・用法あり。この用例ではバ行四段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            31
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "明く",
+        "class": "カ行下二段活用",
+        "count": 1,
+        "forms": [
+          "未然形"
+        ],
+        "targets": [
+          "明け"
+        ],
+        "note": "別の活用・用法あり。この用例ではカ行下二段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            51
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "慰む",
+        "class": "マ行四段活用",
+        "count": 1,
+        "forms": [
+          "未然形"
+        ],
+        "targets": [
+          "なぐさま"
+        ],
+        "note": "別の活用・用法あり。この用例ではマ行四段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            53
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "居る（ゐる）",
+        "class": "ワ行上一段活用",
+        "count": 1,
+        "forms": [
+          "連用形"
+        ],
+        "targets": [
+          "ゐ"
+        ],
+        "note": "同じ表記や近い語形に別活用あり。この用例ではワ行上一段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            64
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "切る",
+        "class": "ラ行四段活用",
+        "count": 1,
+        "forms": [
+          "連用形"
+        ],
+        "targets": [
+          "きり"
+        ],
+        "note": "同じ表記や近い語形に別活用あり。この用例ではラ行四段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            69
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "率る（ゐる）",
+        "class": "ワ行上一段活用",
+        "count": 1,
+        "forms": [
+          "連用形"
+        ],
+        "targets": [
+          "率"
+        ],
+        "note": "同じ表記や近い語形に別活用あり。この用例ではワ行上一段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            70
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "恨む",
+        "class": "マ行上二段活用",
+        "count": 5,
+        "forms": [
+          "連用形",
+          "終止形",
+          "連体形",
+          "已然形"
+        ],
+        "targets": [
+          "恨み",
+          "うらむ",
+          "恨むる",
+          "うらむれ"
+        ],
+        "note": "同形・別活用注意。この用例群ではマ行上二段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            82,
+            121,
+            147,
+            240,
+            299
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "入る",
+        "class": "ラ行四段活用",
+        "count": 2,
+        "forms": [
+          "終止形",
+          "已然形"
+        ],
+        "targets": [
+          "入る",
+          "入れ"
+        ],
+        "note": "別の活用・用法あり。この用例群ではラ行四段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            134,
+            273
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "忍ぶ",
+        "class": "バ行上二段活用",
+        "count": 3,
+        "forms": [
+          "終止形",
+          "連体形",
+          "已然形"
+        ],
+        "targets": [
+          "忍ぶ",
+          "忍ふる",
+          "忍ぶれ"
+        ],
+        "note": "別の活用・用法あり。この用例群ではバ行上二段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            135,
+            222,
+            294
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "偲ぶ",
+        "class": "バ行上二段活用",
+        "count": 1,
+        "forms": [
+          "終止形"
+        ],
+        "targets": [
+          "偲ぶ"
+        ],
+        "note": "別の活用・用法あり。この用例ではバ行上二段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            148
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "分ける",
+        "class": "カ行下二段活用",
+        "count": 1,
+        "forms": [
+          "連体形"
+        ],
+        "targets": [
+          "わくる"
+        ],
+        "note": "別の活用・用法あり。この用例ではカ行下二段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            203
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "乱れる",
+        "class": "ラ行下二段活用",
+        "count": 1,
+        "forms": [
+          "連体形"
+        ],
+        "targets": [
+          "乱るる"
+        ],
+        "note": "別の活用・用法あり。この用例ではラ行下二段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            206
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "砕く",
+        "class": "カ行下二段活用",
+        "count": 1,
+        "forms": [
+          "連体形"
+        ],
+        "targets": [
+          "くだくる"
+        ],
+        "note": "別の活用・用法あり。この用例ではカ行下二段活用。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            239
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      },
+      {
+        "pos": "動詞",
+        "lemma": "来（く）",
+        "class": "カ行変格活用",
+        "count": 4,
+        "forms": [
+          "命令形"
+        ],
+        "targets": [
+          "来",
+          "こ",
+          "来よ",
+          "こよ"
+        ],
+        "note": "命令形に「こ」「こよ」等の異形あり。",
+        "category": "corpus-distinctive",
+        "guidance": [
+          "見出し語",
+          "活用種類",
+          "本文中の活用形",
+          "前後の接続"
+        ],
+        "reviewStatus": "drive-500-milestone-audited",
+        "evidence": {
+          "driveFileId": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+          "file": "古典活用用例_500例マイルストーン_動詞360_形容詞140_2026-09-18.xlsx",
+          "sourceRows": [
+            322,
+            338,
+            345,
+            346
+          ],
+          "auditStatus": "public-ready-learning-note"
+        }
+      }
+    ]
+  }
 }
