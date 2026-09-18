@@ -1,0 +1,275 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "小倉百人一首・同形識別 exact phrase evidence",
+  "source": {
+    "title": "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+    "auditDate": "2026-09-05",
+    "section": "6. 古文解析アプリ向け「要注意」表面形"
+  },
+  "policy": [
+    "本文全体ではなく、監査済みの完全一致句が出現したときだけ使用する。",
+    "同じ表面形の一般規則へ自動一般化しない。",
+    "analysisUnit が raw surface より大きい場合は、短い raw hit を独立分析せず大きい単位を優先する。",
+    "non_auxiliary は内部の助動詞らしい文字列を抑制する。",
+    "learner-visible な正解自動表示には直結させず、shadow resolver の出典付き証拠として使う。"
+  ],
+  "entryCount": 17,
+  "entries": [
+    {
+      "poem": 28,
+      "phrase": "枯れぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "終止形",
+        "candidateId": "aux_nu_terminal"
+      },
+      "caution": "打消「ず」と誤認しやすい。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 32,
+      "phrase": "あへぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了「ぬ」ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 36,
+      "phrase": "明けぬる",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬる",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "連体形",
+        "candidateId": "aux_nu_rentai_nuru"
+      },
+      "caution": "「ぬる」を一語の動詞等として誤認しない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 37,
+      "phrase": "とめぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了との識別注意。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 46,
+      "phrase": "知らぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 47,
+      "phrase": "見えね",
+      "focusSurface": "ね",
+      "analysisUnit": "ね",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "已然形",
+        "candidateId": "aux_zu_izen_ne"
+      },
+      "caution": "「ね」の識別注意。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 52,
+      "phrase": "明けぬれば",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬれ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "已然形",
+        "candidateId": "aux_nu_izen_nure"
+      },
+      "caution": "「ぬれ」は動詞「濡れ」ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 55,
+      "phrase": "なりぬれど",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬれ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "已然形",
+        "candidateId": "aux_nu_izen_nure"
+      },
+      "caution": "「ぬれ」は動詞「濡れ」ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 61,
+      "phrase": "にほひぬる",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬる",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "連体形",
+        "candidateId": "aux_nu_rentai_nuru"
+      },
+      "caution": "打消ではない。",
+      "focusOffset": 3,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 65,
+      "phrase": "ほさぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 75,
+      "phrase": "いぬめり",
+      "focusSurface": "ぬ",
+      "analysisUnit": "いぬ",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "往ぬ",
+        "form": "終止形",
+        "candidateId": "verb_inu_contains_nu"
+      },
+      "caution": "この「ぬ」は助動詞ではない。",
+      "focusOffset": 0,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 78,
+      "phrase": "寝覚めぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "終止形",
+        "candidateId": "aux_nu_terminal"
+      },
+      "caution": "文脈で打消と取り違えやすい。",
+      "focusOffset": 3,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 82,
+      "phrase": "堪へぬは",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 87,
+      "phrase": "ひぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "「干ぬ＝乾かない」。",
+      "focusOffset": 1,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 92,
+      "phrase": "見えぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 92,
+      "phrase": "知らね",
+      "focusSurface": "ね",
+      "analysisUnit": "ね",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "已然形",
+        "candidateId": "aux_zu_izen_ne"
+      },
+      "caution": "「ね」の識別注意。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed"
+    },
+    {
+      "poem": 97,
+      "phrase": "来ぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "「来てしまった」の完了ではない。",
+      "focusOffset": 1,
+      "evidenceStatus": "context-reviewed"
+    }
+  ]
+}
