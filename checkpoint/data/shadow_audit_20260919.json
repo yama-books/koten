@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint DB shadow audit 2026-09-19",
+  "scope": {
+    "samples": [
+      "枕草子サンプル",
+      "和歌サンプル",
+      "識別サンプル",
+      "安倍晴明・長文サンプル"
+    ],
+    "totalTextLength": 990,
+    "comparison": "legacy の grammar/identify hit と DB shadow detector の表面位置一致",
+    "caution": "rawCoverage / resolvedMatchRate は精度・正答率ではない。DB移行時の被覆と保守的ゲートの通過率を示す。"
+  },
+  "totals": {
+    "legacyComparable": 348,
+    "dbRaw": 310,
+    "dbResolved": 69,
+    "dbSuppressed": 241,
+    "matched": 69,
+    "dbOnly": 0,
+    "legacyOnly": 252,
+    "rawCoverageOfLegacy": 0.891,
+    "resolvedMatchRateOfLegacy": 0.198,
+    "automaticKakariSignals": 0
+  },
+  "samples": [
+    {
+      "name": "枕草子サンプル",
+      "textLength": 46,
+      "legacyComparable": 9,
+      "dbRaw": 9,
+      "dbResolved": 3,
+      "dbSuppressed": 6,
+      "matched": 3,
+      "dbOnly": 0,
+      "legacyOnly": 6,
+      "suppressionReasons": {
+        "context-required-not-yet-resolved": 6
+      }
+    },
+    {
+      "name": "和歌サンプル",
+      "textLength": 30,
+      "legacyComparable": 13,
+      "dbRaw": 12,
+      "dbResolved": 1,
+      "dbSuppressed": 11,
+      "matched": 1,
+      "dbOnly": 0,
+      "legacyOnly": 11,
+      "suppressionReasons": {
+        "context-required-not-yet-resolved": 11
+      }
+    },
+    {
+      "name": "識別サンプル",
+      "textLength": 37,
+      "legacyComparable": 20,
+      "dbRaw": 16,
+      "dbResolved": 5,
+      "dbSuppressed": 11,
+      "matched": 5,
+      "dbOnly": 0,
+      "legacyOnly": 13,
+      "suppressionReasons": {
+        "context-required-not-yet-resolved": 5,
+        "larger-db-surface-preferred": 6
+      }
+    },
+    {
+      "name": "安倍晴明・長文サンプル",
+      "textLength": 877,
+      "legacyComparable": 306,
+      "dbRaw": 273,
+      "dbResolved": 60,
+      "dbSuppressed": 213,
+      "matched": 60,
+      "dbOnly": 0,
+      "legacyOnly": 222,
+      "suppressionReasons": {
+        "context-required-not-yet-resolved": 185,
+        "larger-db-surface-preferred": 28
+      }
+    }
+  ],
+  "regression": {
+    "kakariRouteApi": {
+      "tested": 8,
+      "passed": 8,
+      "cases": [
+        [
+          "し",
+          "ぞ",
+          "aux_ki_rentai"
+        ],
+        [
+          "しか",
+          "こそ",
+          "aux_ki_izen"
+        ],
+        [
+          "けれ",
+          "こそ",
+          "aux_keri_izen"
+        ],
+        [
+          "ぬ",
+          "ぞ",
+          "aux_zu_rentai_nu"
+        ],
+        [
+          "ね",
+          "こそ",
+          "aux_zu_izen_ne"
+        ],
+        [
+          "る",
+          "ぞ",
+          "aux_ri_rentai_ru"
+        ],
+        [
+          "る",
+          "や",
+          "aux_ri_rentai_ru"
+        ],
+        [
+          "し",
+          "か",
+          "aux_ki_rentai"
+        ]
+      ],
+      "behavior": "scopeLinked=false では route-available-awaiting-scope、true で scope-linked-candidate-support。候補支持に留め、正解確定しない。"
+    },
+    "adjectiveCollisionSuppression": {
+      "tested": 2,
+      "passed": 2,
+      "cases": [
+        {
+          "trigger": "けれ",
+          "knownWhole": "かひなけれ"
+        },
+        {
+          "trigger": "しか",
+          "knownWhole": "みしかゝり"
+        }
+      ]
+    }
+  },
+  "designFindings": [
+    "surface_index の raw hit は legacy比較対象の約89.1%を覆う。",
+    "現在の DB resolved は legacy 比較対象の19.8%だけを通す。低い値は未完成というより、文脈未解決の一文字候補を意図的に止めている影響が大きい。",
+    "識別サンプルと長文では、なむ・らむ・にて・ばや等の内部にある短い表面形を larger-db-surface-preferred で抑制できた。",
+    "係り結びを raw文字列距離だけで自動接続すると「とぞ申しける」の「し」「る」などへ誤信号が出たため、自動走査を停止した。",
+    "係り結び30例は route API に接続し、形態境界と係り先が確定した後だけ候補支持として使用する。"
+  ],
+  "next": [
+    "形態境界をDB側で増やし context-required hit を安全に解決する。",
+    "係助詞の品詞同定と係り先範囲解析を追加した後、kakari route API を自動呼出しする。",
+    "legacyOnly を表面形別に集計し、DBに未収録の候補と意図的抑制を分離する。",
+    "一次資料が参照可能になったら auxiliary_master の verified 項目を増やす。"
+  ]
+}
