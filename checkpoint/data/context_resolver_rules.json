@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint context-required 接続resolver規則",
+  "sources": [
+    {
+      "file": "discrimination_source_usb3212.json",
+      "role": "候補ごとの接続・活用形"
+    },
+    {
+      "file": "audited_inflected_form_index_500.json",
+      "role": "直前語の監査済み活用形"
+    }
+  ],
+  "policy": [
+    "resolverは直前の監査済み語形が候補表面形に隣接するときだけ発火する。",
+    "singleCandidateResolve は出典上、直前活用形で候補が一意に分かれる場合に限定する。",
+    "supportOnly は候補支持情報だけを付け、context-required抑制を解除しない。",
+    "一次資料未確認の助動詞活用表を補完する用途には使わない。"
+  ],
+  "entries": [
+    {
+      "surface": "ぬ",
+      "mode": "singleCandidateResolve",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_nu_terminal"
+          ]
+        },
+        {
+          "previousForm": "未然形",
+          "supportCandidateIds": [
+            "aux_zu_rentai_nu"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "ね",
+      "mode": "singleCandidateResolve",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_nu_imperative"
+          ]
+        },
+        {
+          "previousForm": "未然形",
+          "supportCandidateIds": [
+            "aux_zu_izen_ne"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "ば",
+      "mode": "singleCandidateResolve",
+      "rules": [
+        {
+          "previousForm": "未然形",
+          "supportCandidateIds": [
+            "conjunctive_ba_hypothetical"
+          ]
+        },
+        {
+          "previousForm": "已然形",
+          "supportCandidateIds": [
+            "conjunctive_ba_fixed"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "る",
+      "mode": "singleCandidateResolve",
+      "rules": [
+        {
+          "previousForm": "未然形",
+          "previousClassIncludes": [
+            "四段活用",
+            "ナ行変格活用",
+            "ラ行変格活用"
+          ],
+          "supportCandidateIds": [
+            "aux_ru_terminal"
+          ]
+        },
+        {
+          "previousForm": "已然形",
+          "previousClassIncludes": [
+            "四段活用"
+          ],
+          "supportCandidateIds": [
+            "aux_ri_rentai_ru"
+          ]
+        },
+        {
+          "previousForm": "未然形",
+          "previousClassIncludes": [
+            "サ行変格活用"
+          ],
+          "supportCandidateIds": [
+            "aux_ri_rentai_ru"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "せ",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_ki_mizen"
+          ]
+        },
+        {
+          "previousForm": "未然形",
+          "previousClassIncludes": [
+            "四段活用",
+            "ナ行変格活用",
+            "ラ行変格活用"
+          ],
+          "supportCandidateIds": [
+            "aux_su_mizen_renyo"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "な",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_nu_mizen"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "し",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_ki_rentai"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "に",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_nu_renyo_ni"
+          ]
+        },
+        {
+          "previousForm": "連体形",
+          "supportCandidateIds": [
+            "conjunctive_particle_ni"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "て",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_tsu_mizen_renyo",
+            "conjunctive_particle_te"
+          ]
+        }
+      ]
+    }
+  ]
+}
