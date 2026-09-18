@@ -143,3 +143,23 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 - 既存4サンプル再監査で DB resolved 69→70。新規1件は「開いて見れば」の「見れ（已然形）＋ば」で、確定条件候補を出典付きで支持。
 - 仮名のみ表面形を広く自動利用する案は不採用。例として「ごとく」内部の「とく」を動詞「溶く」と誤認し得た。
 - このresolverはshadow専用で、学習者画面の正解表示には未接続。
+
+
+## 2026-09-19 追加: known-token boundary と百人一首 exact evidence
+
+- `known_token_boundary_index.json`: 500例のkanji-anchored語形＋basic lexicon＋inflecting wordsを統合した trusted whole-token DB。290表面形。
+- 既知の大きい語の内部にある短い識別表面形は `known-larger-token` でshadow抑制する。
+- 4サンプルでは20位置を追加抑制。context-required は206→188へ減少したが、resolvedは70のまま。これは解決率向上ではなく誤マーキング候補の削減。
+- `hyakunin_disambiguation_evidence.json`: 百人一首文節監査の要注意17例を完全一致限定の識別証拠として追加。
+- exact phrase 回帰17/17 PASS。ぬ・ねの候補支持、ぬる・ぬれの大単位優先、`いぬめり` の「ぬ」非助動詞抑制を確認。
+- 百人一首証拠はその句の監査結果であり、同じ表面形の一般規則へ自動一般化しない。
+- `context_resolver_rules.json` の「に＋前が連体形」は、USB-3212に従って格助詞・接続助詞の両候補を保持するよう修正した。
+
+### 現在の安全側優先順位
+1. exact context-reviewed phrase
+2. trusted larger token
+3. explicit largest DB unit
+4. kanji-anchored audited preceding form + USB-3212接続
+5. context-requiredで保留
+
+仮名のみの語境界を推測で突破しない。
