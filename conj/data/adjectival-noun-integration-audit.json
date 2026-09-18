@@ -1,0 +1,19 @@
+{
+  "updated": "2026-09-19",
+  "status": "passed",
+  "inputs": {
+    "paradigms": "conj/data/adjectival-noun-paradigms.json",
+    "examples": "conj/data/adjectival-noun-example-index-120.json"
+  },
+  "checks": {
+    "exampleRecords": 120,
+    "mappedToParadigmCell": 120,
+    "unmapped": 0,
+    "disabledCellReferences": 0,
+    "targetAuditPassed": 120
+  },
+  "groupCounts": {
+    "undefined": 120
+  },
+  "unmapped": []
+}
