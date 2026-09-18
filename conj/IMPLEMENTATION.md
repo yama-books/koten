@@ -202,3 +202,45 @@ Driveに残す:
 - ナリ活用の `なり` を連用形／終止形で誤分類しない
 - 係り結び `こそ ... なれ` を命令形にしない
 - CHJ raw本文をGitHub公開データへ混入させない
+
+## 12. 形容動詞の二層データ配線
+
+2026-09-19から、形容動詞は活用表と実例をファイル単位でも分離する。
+
+### 活用表側
+- `data/adjectival-noun-paradigms.json`
+  - ナリ／タリの正規セル
+  - `paradigmVerified`
+  - `corpusAttested`
+  - `exampleEnabled`
+- `data/adjectival-noun-lemma-pool.json`
+  - 表ドリルで提示できる監査済み語幹
+  - 117語幹（ナリ94 / タリ23）
+  - 活用セルの正本にはしない
+
+### 実例側
+- `data/adjectival-noun-example-index-120.json`
+  - 120例の軽量メタデータ
+  - `paradigmId / formIndex / track` で活用表セルを参照
+  - CHJ本文・anchorは含めない
+- Drive公開前監査シート
+  - File ID: `1b-LU-wVx-hKinWEuMDlUqphAzfObYyw7xfKg8Ab4Ov8`
+  - 本文断片・anchorを保持
+
+### 回帰監査
+- `data/adjectival-noun-integration-audit.json`
+- 120 / 120が正規セルへ対応すること
+- `exampleEnabled=false` のセルを実例が参照しないこと
+- 120 / 120でtarget監査済みであること
+
+### 現行index.htmlとの互換方針
+現行 `items` は `lemma / forms / forms2 / target / example` を同一オブジェクトに持つ。
+新データをこの形へ永久変換して戻すのではなく、次の順で移行する。
+
+1. 表ドリル用ソースと実例用ソースを別ロード
+2. 表示時だけ必要な互換ビューを組み立てる
+3. 表ドリルは本文がなくても成立させる
+4. 実例ドリルは `exampleEnabled=true` かつ公開可能本文のあるレコードだけ選ぶ
+5. 旧 `items` を一括削除せず、品詞単位で段階移行する
+
+
