@@ -32,13 +32,18 @@ title:
 witness_id:
 witness_name:
 volume:
+creator:
 date:
 period:
 genre:
 medium:
 holding_institution:
+shelfmark:
+source_material_id:
 source_url:
+bibliographic_source_url:
 license:
+license_source_url:
 bibliographic_status:
 review_status:
 notes:
@@ -46,6 +51,8 @@ notes:
 
 `work` と `witness` を分ける。
 同じ作品でも異なる本・版を同一資料として潰さない。
+
+書誌確認では、変体仮名字形DBのviewer URLとは別に、所蔵機関の書誌ページを `bibliographic_source_url` に保存する。画像利用条件の根拠ページは `license_source_url` に保存し、請求記号・資料IDも可能な限り構造化して保持する。
 
 ## 3. 実例
 
