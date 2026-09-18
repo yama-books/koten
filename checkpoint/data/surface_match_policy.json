@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-18",
+  "title": "Checkpoint 表面形マッチ方針",
+  "defaults": {
+    "longestMeaningfulUnitFirst": true,
+    "exactStringDetectionDoesNotEqualAnalysis": true,
+    "oneCharacterSubstringDetection": "shadow-only-unless-context-supported"
+  },
+  "entries": [
+    {
+      "surface": "し",
+      "policy": "context-required",
+      "reason": "一文字で語内部一致が極めて多い。"
+    },
+    {
+      "surface": "に",
+      "policy": "context-required",
+      "reason": "助詞・活用語尾・助動詞活用形など候補が多い。"
+    },
+    {
+      "surface": "て",
+      "policy": "context-required",
+      "reason": "接続助詞・助動詞活用形のほか語内部一致を避ける。"
+    },
+    {
+      "surface": "と",
+      "policy": "context-required",
+      "reason": "助詞・活用語尾・副詞内部など候補が多い。"
+    },
+    {
+      "surface": "な",
+      "policy": "context-required",
+      "reason": "助詞・助動詞・動詞活用語尾との衝突が多い。"
+    },
+    {
+      "surface": "る",
+      "policy": "context-required",
+      "reason": "助動詞・活用語尾・動詞語尾との衝突が多い。"
+    },
+    {
+      "surface": "を",
+      "policy": "context-required",
+      "reason": "助詞として頻出し、仮名遣い規則とも衝突する。"
+    },
+    {
+      "surface": "が",
+      "policy": "context-required",
+      "reason": "格助詞・接続助詞の識別は前後関係が必要。"
+    },
+    {
+      "surface": "せ",
+      "policy": "context-required",
+      "reason": "サ変・過去「き」・使役尊敬「す」が衝突する。"
+    },
+    {
+      "surface": "けれ",
+      "policy": "prefer-known-whole-word",
+      "evidence": "adjective_surface_collision_evidence.json"
+    },
+    {
+      "surface": "しか",
+      "policy": "prefer-known-whole-word",
+      "evidence": "adjective_surface_collision_evidence.json"
+    },
+    {
+      "surface": "なむ",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "にて",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "ばや",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "らむ",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "して",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "とも",
+      "policy": "largest-meaningful-unit-first"
+    }
+  ]
+}
