@@ -1,0 +1,105 @@
+const HONORIFIC_RULES = [
+  ...["給は","給ひ","給ふ","給へ","給ふる","給ふれ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:1, lemma:"給ふ",
+    hint1:"「給ふ」の活用形候補です。まず、尊敬か謙譲か、本動詞か補助動詞かを分けて考えてみましょう。",
+    hint2:"尊敬語になる場合と、まれに謙譲語になる場合があります。前の語とのつながりと活用形を確認しましょう。",
+    examples:["袴を給ふ：本動詞か","泣き給ふ：補助動詞か","思ひ給ふ：下二段の可能性も確認"],
+    candidates:["尊敬語「給ふ」（本動詞）","尊敬語「給ふ」（補助動詞）","謙譲語「給ふ」（補助動詞・下二段）"], ref:"「敬語：給ふ（四段／下二段、本動詞／補助動詞）」"
+  })),
+  ...["参ら","参り","参る","参れ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:1, lemma:"参る",
+    hint1:"「参る」を確認します。本文の形から見出し語を考えたあと、誰の動作か、どのような敬意が関わるかを見ましょう。",
+    hint2:"謙譲の本動詞が中心ですが、文脈によって尊敬の本動詞になる用法もあります。",
+    examples:["御前に参る：移動の方向を見る","物を参る：何をする意味か確認"],
+    candidates:["謙譲語「参る」（本動詞）","尊敬語「参る」（本動詞）"], ref:"「敬語：参る」"
+  })),
+  ...["奉ら","奉り","奉る","奉れ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:1, lemma:"奉る",
+    hint1:"「奉る」を確認します。敬語の種類と、本動詞・補助動詞を分けて考えましょう。",
+    hint2:"謙譲では本動詞・補助動詞の両方があり、文脈によって尊敬の本動詞になる用法もあります。",
+    examples:["花を奉る：本動詞か","会ひ奉る：補助動詞か"],
+    candidates:["謙譲語「奉る」（本動詞）","謙譲語「奉る」（補助動詞）","尊敬語「奉る」（本動詞）"], ref:"「敬語：奉る」"
+  })),
+  ...["申さ","申し","申す","申せ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:1, lemma:"申す",
+    hint1:"「申す」を確認します。発話者と相手を確認しましょう。",
+    hint2:"謙譲語として、本動詞と補助動詞の両方を考えます。",
+    examples:["君に申す：本動詞か","読み申す：補助動詞か"],
+    candidates:["謙譲語「申す」（本動詞）","謙譲語「申す」（補助動詞）"], ref:"「敬語：申す」"
+  })),
+  ...["候は","候ひ","候ふ","候へ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:2, lemma:"候ふ",
+    hint1:"「候ふ」は謙譲・丁寧の両方を確認したい語です。",
+    hint2:"本動詞としての謙譲・丁寧、補助動詞としての丁寧を切り分けてみましょう。",
+    examples:["御前に候ふ：仕える意味か","かく候ふ：丁寧表現か","～て候ふ：補助動詞か"],
+    candidates:["謙譲語「候ふ」（本動詞）","丁寧語「候ふ」（本動詞）","丁寧語「候ふ」（補助動詞）"], ref:"「敬語：候ふ」"
+  })),
+  ...["侍ら","侍り","侍る","侍れ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:2, lemma:"侍り",
+    hint1:"「侍り」は謙譲・丁寧の両方を確認したい語です。",
+    hint2:"本動詞としての謙譲・丁寧、補助動詞としての丁寧を切り分けてみましょう。",
+    examples:["御前に侍り：仕える意味か","仏像侍り：丁寧な存在表現か","行き侍り：補助動詞か"],
+    candidates:["謙譲語「侍り」（本動詞）","丁寧語「侍り」（本動詞）","丁寧語「侍り」（補助動詞）"], ref:"「敬語：侍り」"
+  })),
+  ...["召さ","召し","召す","召せ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:1, lemma:"召す",
+    hint1:"尊敬語「召す」の候補です。目的語によって普通語に直したときの意味が変わります。",
+    hint2:"本動詞として、呼ぶ・食べる・飲む・着る・乗る等のどれに当たるか文脈で確認しましょう。",
+    examples:["人を召す","御衣を召す"], candidates:["尊敬語「召す」（本動詞）"], ref:"「敬語：召す」"
+  })),
+  ...["のたまは","のたまひ","のたまふ","のたまへ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:1, lemma:"のたまふ",
+    hint1:"発話に関する尊敬語の候補です。誰が発言しているか確認しましょう。",
+    hint2:"本動詞として「おっしゃる」に近い働きをします。主語判定の手掛かりにもなります。",
+    examples:["帝のたまふ"], candidates:["尊敬語「のたまふ」（本動詞）"], ref:"「敬語：のたまふ」"
+  })),
+  ...["おはせ","おはし","おはす","おはする","おはすれ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:1, lemma:"おはす",
+    hint1:"尊敬語「おはす」の候補です。本動詞か補助動詞かを確認しましょう。",
+    hint2:"本動詞なら「いらっしゃる」等、補助動詞なら上の動作に尊敬を添えます。",
+    examples:["御前におはす：本動詞か","帰りおはす：補助動詞か"], candidates:["尊敬語「おはす」（本動詞）","尊敬語「おはす」（補助動詞）"], ref:"「敬語：おはす」"
+  })),
+  ...["おはしまさ","おはしまし","おはします","おはしませ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:1, lemma:"おはします",
+    hint1:"強い尊敬を表す「おはします」の候補です。本動詞か補助動詞かを確認しましょう。",
+    hint2:"人物関係と、前に別の動詞があるかを見てみましょう。",
+    examples:["御所におはします：本動詞か","～しおはします：補助動詞か"], candidates:["尊敬語「おはします」（本動詞）","尊敬語「おはします」（補助動詞）"], ref:"「敬語：おはします」"
+  })),
+  ...["聞こえ","聞こゆ","聞こゆる","聞こゆれ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:2, lemma:"聞こゆ",
+    hint1:"「聞こゆ」は敬語用法と、非敬語の「聞こえる」を識別したい語です。",
+    hint2:"謙譲の本動詞・補助動詞か、一般動詞かを文脈から考えましょう。",
+    examples:["君に聞こゆ：謙譲か","声聞こゆ：一般動詞か"], candidates:["謙譲語「聞こゆ」（本動詞）","謙譲語「聞こゆ」（補助動詞）","一般動詞「聞こゆ」"], ref:"「敬語／一般動詞：聞こゆ」"
+  })),
+  ...["聞こえさせ","聞こえさし","聞こえさす","聞こえさする","聞こえさすれ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:2, lemma:"聞こえさす",
+    hint1:"謙譲語「聞こえさす」の候補です。本動詞か補助動詞かを確認しましょう。",
+    hint2:"発話・伝達の相手と、前に別の動詞があるかを見てみましょう。",
+    examples:["御消息聞こえさす"], candidates:["謙譲語「聞こえさす」（本動詞）","謙譲語「聞こえさす」（補助動詞）"], ref:"「敬語：聞こえさす」"
+  })),
+  ...["参らせ","参らし","参らす","参らする","参らすれ"].map(pattern => ({
+    type:"honorific", pattern, tierOverride:2, lemma:"参らす",
+    hint1:"謙譲語「参らす」の候補です。本動詞か補助動詞かを確認しましょう。",
+    hint2:"物を差し上げる本動詞か、別の動作に謙譲を添える補助動詞かを切り分けます。",
+    examples:["文を参らす：本動詞か","～し参らす：補助動詞か"], candidates:["謙譲語「参らす」（本動詞）","謙譲語「参らす」（補助動詞）"], ref:"「敬語：参らす」"
+  }))
+];
+
+const KANA_RULE_DEFS = [
+  {id:"H1", chip:"は→わ", tier:3, mode:"context", brief:"語中・語尾のハ行「は・ひ・ふ・へ・ほ」は、現代仮名遣いで「わ・い・う・え・お」になることがあります。", examples:["【位置】にほひ：語の途中の「ひ・ほ」に注目","【位置】笑ふ：語尾の「ふ」に注目"], cautions:["H1-a 語頭のハ行はそのまま","H1-b 複合語の後部要素の語頭もそのまま","H1-c 助詞「は」「へ」はそのまま"], reviewStatus:"approved"},
+  {id:"H1-a", chip:"語頭はそのまま", tier:3, mode:"exception", parent:"H1", brief:"語頭のハ行は H1 の変換対象にしません。", examples:["【語頭】はな：そのまま"], reviewStatus:"approved"},
+  {id:"H1-b", chip:"複合語はそのまま", tier:4, mode:"exception", parent:"H1", brief:"複合語の後ろの要素の語頭にあるハ行も変えません。語の境界の判断が必要です。", examples:["【語の切れ目】あさひ：「ひ」は後ろの要素の語頭","【語の切れ目】をりふし：「ふ」は後ろの要素の語頭"], reviewStatus:"approved"},
+  {id:"H1-c", chip:"助詞は・へ", tier:3, mode:"exception", parent:"H1", brief:"助詞の「は」「へ」は表記を変えません。", examples:["【助詞】花は：そのまま","【助詞】都へ：そのまま"], reviewStatus:"approved"},
+  {id:"W1", chip:"ゐゑ→いえ", tier:2, mode:"safe", brief:"「ゐ」は「い」、「ゑ」は「え」に直します。", examples:["【文字】ゐる → いる","【文字】こゑ → こえ"], reviewStatus:"approved"},
+  {id:"W2", chip:"を→お", tier:4, mode:"context", brief:"助詞ではない「を」は、現代仮名遣いで「お」に直します。", examples:["【助詞か確認】をとこ → おとこ","【助詞か確認】とを → とお"], reviewStatus:"approved"},
+  {id:"W2-a", chip:"助詞を", tier:4, mode:"exception", parent:"W2", brief:"助詞の「を」は表記を変えません。", examples:["【助詞】本を：そのまま"], reviewStatus:"approved"},
+  {id:"D1", chip:"ぢづ→じず", tier:2, mode:"context", brief:"原則として「ぢ」は「じ」、「づ」は「ず」に直します。例外があるので語全体も確認します。", examples:["【文字】もみぢ → もみじ","【文字】みづ → みず"], reviewStatus:"approved"},
+  {id:"D1-a", chip:"ぢづ のまま", tier:3, mode:"exception", parent:"D1", brief:"同じ音のくり返しや、二語が組み合わさって生じた「ぢ・づ」はそのままです。", examples:["【例外】つづく／ちぢむ","【語の組合せ】みかづき／はなぢ"], reviewStatus:"approved"},
+  {id:"K1", chip:"くわ→か", tier:2, mode:"safe", brief:"合拗音の「くわ・ぐわ」は、現代仮名遣いで「か・が」に直します。", examples:["【まとまり】くわし（菓子）→ かし","【まとまり】ぐわん（願）→ がん"], reviewStatus:"approved"},
+  {id:"N1", chip:"む→ん", tier:3, mode:"grammar", brief:"助動詞「む・らむ・けむ・むず」や助詞「なむ」など、指定された文法形では「む」を「ん」に直します。", examples:["【文法形】らむ → らん","【文法形】ねむ → ねん"], reviewStatus:"approved"},
+  {id:"L1", chip:"au→ō", tier:4, mode:"context", brief:"歴史的表記でア段＋うになる形は、現代仮名遣いでオ段＋うになる規則です。", examples:["【長音】かうし → こうし","【長音】あふぎ → おうぎ"], reviewStatus:"approved"},
+  {id:"L2", chip:"iu→yū", tier:4, mode:"context", brief:"歴史的表記でイ段＋うになる形は、現代仮名遣いで「ゅ＋う」の形になる規則です。", examples:["【長音】いうげん → ゆうげん","【長音】きう → きゅう"], reviewStatus:"approved"},
+  {id:"L3", chip:"eu→yō", tier:4, mode:"context", brief:"歴史的表記でエ段＋うになる形は、現代仮名遣いで「ょ＋う」の形になる規則です。", examples:["【長音】せうと → しょうと","【長音】けふ → きょう"], reviewStatus:"approved"},
+  {id:"L4", chip:"オ段＋う", tier:5, mode:"record-only", brief:"オ段＋うは発音上の長音規則として記録しますが、現代仮名遣いの表記は変えません。", examples:["【記録のみ】ようい → ようい"], reviewStatus:"approved"},
+  {id:"S1", chip:"小さく書く", tier:4, mode:"context", brief:"拗音の「や・ゆ・よ」と促音の「つ」は、現代仮名遣いでは小さく書く規則です。", examples:["【小書き】しやう → しょう","【小書き】きつと → きっと"], reviewStatus:"approved"}
+];
