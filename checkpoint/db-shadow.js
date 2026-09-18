@@ -21,6 +21,20 @@ function checkpointKakariParticleProfile(particle){
   return profiles.find(x=>(x.particles||[]).includes(particle)) || null;
 }
 
+function kakariSupportForResolvedParticle(surface,particle,scopeLinked=false){
+  const route=checkpointKakariRoutes(surface).find(x=>(x.particles||[]).includes(particle));
+  if(!route) return null;
+  return {
+    surface,particle,
+    expectedEndingForm:route.expectedEndingForm,
+    supportCandidateIds:route.supportCandidateIds||[],
+    scopeLinkRequired:route.scopeLinkRequired!==false,
+    scopeLinked:!!scopeLinked,
+    status:scopeLinked ? "scope-linked-candidate-support" : "route-available-awaiting-scope",
+    evidence:"kakari_musubi_evidence.json + discrimination_source_usb3212.json"
+  };
+}
+
 function knownWholeInflectedHits(text){
   const groups=window.CHECKPOINT_DATA?.adjectiveSurfaceCollisionEvidence?.collisionGroups;
   if(!Array.isArray(groups)) return [];
