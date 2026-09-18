@@ -96,7 +96,7 @@
       }
     },
     "adjectivalNouns": {
-      "status": "raw-distribution-audited; selection-pending",
+      "status": "primary-selection-complete / target-audited",
       "targetSelection": 120,
       "provisionalSelection": {
         "nari": 96,
@@ -134,6 +134,21 @@
             "total": 1,
             "pattern": "なれかし"
           }
+        },
+        "grammaticalAudit": {
+          "mizenNara": 153,
+          "renyouNi": 3314,
+          "renyouNari": 56,
+          "shushiNari": 237,
+          "rentaiNaru": 819,
+          "izenNare": 58,
+          "meireiNare": 1,
+          "specialUnselected": {
+            "な": 3,
+            "なん": 1,
+            "なっ": 2
+          },
+          "note": "「なり」は同形のため後続語・句読点・引用構造で連用形／終止形を分類。也9件は連用2・終止7。特殊6件は初期120例から除外。"
         }
       },
       "tari": {
@@ -156,6 +171,40 @@
           "平治物語": 2,
           "枕草子": 1,
           "宇治拾遺物語": 1
+        },
+        "grammaticalAudit": {
+          "renyouTo": 22,
+          "renyouTari": 1,
+          "shushiTari": 7,
+          "rentaiTaru": 16,
+          "mizenTara": 0,
+          "izenTare": 0,
+          "meireiTare": 0
+        }
+      },
+      "selection": {
+        "total": 120,
+        "nari": 96,
+        "tari": 24,
+        "era": {
+          "heian": 58,
+          "kamakura": 62
+        },
+        "targetAuditPassed": 120,
+        "blockers": 0,
+        "file": "conj/data/adjectival-noun-selection-120.json",
+        "groups": {
+          "nari-mizen-nara": 15,
+          "nari-renyou-ni": 20,
+          "nari-renyou-nari": 8,
+          "nari-shushi-nari": 16,
+          "nari-rentai-naru": 18,
+          "nari-izen-nare": 18,
+          "nari-meirei-nare": 1,
+          "tari-renyou-to": 8,
+          "tari-renyou-tari": 1,
+          "tari-shushi-tari": 7,
+          "tari-rentai-taru": 8
         }
       }
     }
@@ -168,10 +217,10 @@
     "preserveRareCellScarcity": true
   },
   "next": [
-    "ナリ活用「なり」283件を連用形／終止形へ監査",
-    "形容動詞120例を層化選抜",
-    "形容動詞のtarget / anchor / 原文表記監査",
-    "必要ならタリ活用「たら・たれ」を対象時代・作品拡張で探索",
+    "形容動詞120例の本文引用範囲・anchorをDrive側の公開前データへ整形",
+    "タリ活用「たら・たれ」を必要に応じて検索範囲拡張で探索",
+    "ナリ活用特殊形「な／なん／なっ」6件を音便・縮約研究候補として別管理",
+    "形容動詞120例をアプリ投入用JSONへ変換",
     "助動詞180例を一次資料確認済み正本候補へ更新",
     "軽量JSONを現行index.htmlへ段階的に接続"
   ]
