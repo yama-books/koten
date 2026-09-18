@@ -16,7 +16,8 @@
     "verbAdjective500Id": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
     "auxiliary180SelectionId": "1ELVAclhwDd08bUY6VzOUgcD0TTM9gPrz",
     "auxiliary180AuditId": "1pL6VsYgzdQfyI-kgrOQZlO3ZJpXHVTXB",
-    "adjectivalNounSearchFolderId": "1t5HuAv8eLxXEF4J5AlS-MS1RzDK3FoKT"
+    "adjectivalNounSearchFolderId": "1t5HuAv8eLxXEF4J5AlS-MS1RzDK3FoKT",
+    "adjectivalNounPrepublishAuditId": "1b-LU-wVx-hKinWEuMDlUqphAzfObYyw7xfKg8Ab4Ov8"
   },
   "datasets": {
     "verbs": {
@@ -96,7 +97,7 @@
       }
     },
     "adjectivalNouns": {
-      "status": "primary-selection-complete / target-audited",
+      "status": "primary-selection-complete / raw-context-revalidated / runtime-schema-ready",
       "targetSelection": 120,
       "provisionalSelection": {
         "nari": 96,
@@ -206,6 +207,30 @@
           "tari-shushi-tari": 7,
           "tari-rentai-taru": 8
         }
+      },
+      "integration": {
+        "paradigmFile": "conj/data/adjectival-noun-paradigms.json",
+        "exampleIndexFile": "conj/data/adjectival-noun-example-index-120.json",
+        "lemmaPoolFile": "conj/data/adjectival-noun-lemma-pool.json",
+        "integrationAuditFile": "conj/data/adjectival-noun-integration-audit.json",
+        "lemmaPool": {
+          "total": 117,
+          "nari": 94,
+          "tari": 23
+        },
+        "audit": {
+          "exampleRecords": 120,
+          "mappedToParadigmCell": 120,
+          "unmapped": 0,
+          "disabledCellReferences": 0,
+          "targetAuditPassed": 120
+        },
+        "driveRawContextAudit": {
+          "records": 120,
+          "missingRaw": 0,
+          "missingTarget": 0,
+          "anchorNonUnique": 0
+        }
       }
     }
   },
@@ -217,11 +242,10 @@
     "preserveRareCellScarcity": true
   },
   "next": [
-    "形容動詞120例の本文引用範囲・anchorをDrive側の公開前データへ整形",
+    "現行index.htmlに二層データを安全に読ませる互換層を作る",
+    "CHJ取得本文はGitHubへ自動複製せず、公開可能本文だけを実例ドリルへ接続する",
     "タリ活用「たら・たれ」を必要に応じて検索範囲拡張で探索",
     "ナリ活用特殊形「な／なん／なっ」6件を音便・縮約研究候補として別管理",
-    "形容動詞120例をアプリ投入用JSONへ変換",
-    "助動詞180例を一次資料確認済み正本候補へ更新",
-    "軽量JSONを現行index.htmlへ段階的に接続"
+    "助動詞180例を一次資料確認済み正本候補へ更新"
   ]
 }
