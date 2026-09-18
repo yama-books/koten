@@ -287,3 +287,23 @@ raw: 46件
 
 現在は各項目に `target` と `example` が直結している。このため120例をそのまま `items` に追加せず、活用表データと実例データを分離した互換層を先に実装する。
 
+### 本番接続前の検証ブランチ
+
+- branch: `conj-adjv-runtime-preview`
+- `index.html` 接続試作 commit: `a230c00f6d6baf9eb4294537cd6aed668cc3816a`
+- `main` の `index.html` は未変更
+
+試作内容:
+- `adjv-runtime-adapter.js` を読み込む
+- 形容動詞の表ドリル用117語幹を生成
+- 既存 `いたづらなり` と重複する1語幹を除外し、116項目を追加
+- 本文なし項目では用例欄を自動非表示・トグル無効化
+- JSON読込失敗時は従来の埋め込みデータだけで起動する
+- JavaScript構文チェック: 通過
+- アダプタ実データ検証: 通過
+  - tableItems 117
+  - exampleRefs 120
+  - validation errors 0
+
+ブラウザ実機での最終表示確認前なので、まだ `main` へは反映しない。
+
