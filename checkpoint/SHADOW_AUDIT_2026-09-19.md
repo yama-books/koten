@@ -158,3 +158,47 @@ resolved率は **70 / 310 = 22.6%**。
 - `いぬめり` は動詞「往ぬ」の内部なので、助動詞らしい `ぬ` hit を抑制
 
 回帰は **17/17 PASS**。
+
+
+## 双方向 context resolver
+
+USB-3212の識別cueには、前接活用形だけでなく「後ろに何が続くか」を見る項目がある。
+これを `context_resolver_rules.json` に明示した。
+
+現段階で自動resolvedを許すのは:
+
+- `連用形 + に + けり` → 完了「ぬ」連用形候補
+- `連用形 + て + む / けり / き / まし` → 完了「つ」未然・連用形候補
+
+ただし前接語は、500例監査DBの kanji-anchored exact form に一致する場合に限る。
+
+配線回帰:
+- `言ひてけり`
+- `言ひにけり`
+- `悪しくてけり`
+- `思ひてむ`
+
+4/4 PASS。
+
+これらのテスト文字列自体を新しいコーパス証拠とは扱わない。
+目的は、すでにある前接証拠とUSB-3212の後続cueを正しく組み合わせられるかの単体確認。
+
+## 4サンプル再監査 v0.5
+
+百人一首 exact phrase evidence の `知らぬ` が識別サンプルにも一致したため、
+その `ぬ` 1位置が追加resolvedとなった。
+
+- legacy unique: 310
+- DB raw: 310
+- DB resolved: **71**
+- DB suppressed: **239**
+- resolved率: **22.9%**
+- DB only: 0
+
+suppressed 239の内訳:
+- context-required: **187**
+- larger-db-surface-preferred: **32**
+- known-larger-token: **20**
+
+resolved率の上昇そのものより、出典のない推測を増やさずに
+「内部一致を黙らせる」「完全一致監査句だけを通す」を分離できたことを重視する。
