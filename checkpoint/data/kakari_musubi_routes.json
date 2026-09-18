@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "Checkpoint 係り結び→同形識別ルート",
   "sources": [
@@ -28,7 +28,8 @@
     "本文範囲の係り先が未解析の段階では candidate-support に留める。",
     "USB-3212で示された候補の活用形と、30例で監査済みの結び活用形が一致するときだけ候補支持信号を付ける。",
     "この信号だけで learner-visible な正解表示や候補除外を行わない。",
-    "「や」「か」は一般文字列としての誤一致が多いため、現段階のshadow自動走査では無効。証拠ルート自体は保持する。"
+    "「や」「か」は一般文字列としての誤一致が多いため、現段階のshadow自動走査では無効。証拠ルート自体は保持する。",
+    "raw文字列距離だけで係り先を推定しない。形態境界と係り先が解決された後に route API を呼ぶ。"
   ],
   "particleProfiles": [
     {
@@ -38,8 +39,8 @@
       "expectedEndingForm": "連体形",
       "evidenceCount": 13,
       "evidenceStatus": "context-reviewed",
-      "automaticSurfaceScan": true,
-      "scanNote": "shadow-only; scope unresolved"
+      "automaticSurfaceScan": false,
+      "scanNote": "「とぞ申しける」で「申し」の内部のし等へ誤信号が出たため、形態境界・係り先確定まで自動走査しない。"
     },
     {
       "particles": [
@@ -59,8 +60,8 @@
       "expectedEndingForm": "已然形",
       "evidenceCount": 15,
       "evidenceStatus": "context-reviewed",
-      "automaticSurfaceScan": true,
-      "scanNote": "shadow-only; scope unresolved"
+      "automaticSurfaceScan": false,
+      "scanNote": "係り先の範囲確定なしに近傍語へ信号を撒かない。"
     }
   ],
   "routes": [
