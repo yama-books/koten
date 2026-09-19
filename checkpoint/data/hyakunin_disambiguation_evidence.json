@@ -1,0 +1,543 @@
+{
+  "schemaVersion": "0.3",
+  "updated": "2026-09-19",
+  "title": "小倉百人一首・同形識別 exact phrase evidence",
+  "source": {
+    "title": "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+    "auditDate": "2026-09-05",
+    "section": "6. 古文解析アプリ向け「要注意」表面形"
+  },
+  "policy": [
+    "本文全体ではなく、監査済みの完全一致句が出現したときだけ使用する。",
+    "同じ表面形の一般規則へ自動一般化しない。",
+    "analysisUnit が raw surface より大きい場合は、短い raw hit を独立分析せず大きい単位を優先する。",
+    "non_auxiliary は内部の助動詞らしい文字列を抑制する。",
+    "learner-visible な正解自動表示には直結させず、shadow resolver の出典付き証拠として使う。",
+    "第9首の追加9件はユーザー監査＋複数の外部文法解説を突き合わせた passage-specific evidence であり、一般規則へ展開しない。"
+  ],
+  "entryCount": 29,
+  "entries": [
+    {
+      "poem": 28,
+      "phrase": "枯れぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "終止形",
+        "candidateId": "aux_nu_terminal"
+      },
+      "caution": "打消「ず」と誤認しやすい。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 32,
+      "phrase": "あへぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了「ぬ」ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 36,
+      "phrase": "明けぬる",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬる",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "連体形",
+        "candidateId": "aux_nu_rentai_nuru"
+      },
+      "caution": "「ぬる」を一語の動詞等として誤認しない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 37,
+      "phrase": "とめぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了との識別注意。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 46,
+      "phrase": "知らぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 47,
+      "phrase": "見えね",
+      "focusSurface": "ね",
+      "analysisUnit": "ね",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "已然形",
+        "candidateId": "aux_zu_izen_ne"
+      },
+      "caution": "「ね」の識別注意。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 52,
+      "phrase": "明けぬれば",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬれ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "已然形",
+        "candidateId": "aux_nu_izen_nure"
+      },
+      "caution": "「ぬれ」は動詞「濡れ」ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 55,
+      "phrase": "なりぬれど",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬれ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "已然形",
+        "candidateId": "aux_nu_izen_nure"
+      },
+      "caution": "「ぬれ」は動詞「濡れ」ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 61,
+      "phrase": "にほひぬる",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬる",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "連体形",
+        "candidateId": "aux_nu_rentai_nuru"
+      },
+      "caution": "打消ではない。",
+      "focusOffset": 3,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 3
+    },
+    {
+      "poem": 65,
+      "phrase": "ほさぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 75,
+      "phrase": "いぬめり",
+      "focusSurface": "ぬ",
+      "analysisUnit": "いぬ",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "往ぬ",
+        "form": "終止形",
+        "candidateId": "verb_inu_contains_nu"
+      },
+      "caution": "この「ぬ」は助動詞ではない。",
+      "focusOffset": 1,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 0
+    },
+    {
+      "poem": 78,
+      "phrase": "寝覚めぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "終止形",
+        "candidateId": "aux_nu_terminal"
+      },
+      "caution": "文脈で打消と取り違えやすい。",
+      "focusOffset": 3,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 3
+    },
+    {
+      "poem": 82,
+      "phrase": "堪へぬは",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 87,
+      "phrase": "ひぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "「干ぬ＝乾かない」。",
+      "focusOffset": 1,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 1
+    },
+    {
+      "poem": 92,
+      "phrase": "見えぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "完了ではない。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 92,
+      "phrase": "知らね",
+      "focusSurface": "ね",
+      "analysisUnit": "ね",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "已然形",
+        "candidateId": "aux_zu_izen_ne"
+      },
+      "caution": "「ね」の識別注意。",
+      "focusOffset": 2,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 2
+    },
+    {
+      "poem": 97,
+      "phrase": "来ぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ず",
+        "form": "連体形",
+        "candidateId": "aux_zu_rentai_nu"
+      },
+      "caution": "「来てしまった」の完了ではない。",
+      "focusOffset": 1,
+      "evidenceStatus": "context-reviewed",
+      "analysisUnitOffset": 1
+    },
+    {
+      "poem": 1,
+      "phrase": "ぬれつつ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬれ",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "濡る",
+        "form": null,
+        "candidateId": "verb_nuru_nure_contains_nu"
+      },
+      "caution": "この「ぬ」は助動詞ではなく、動詞「濡る」の語形内部。",
+      "focusOffset": 0,
+      "analysisUnitOffset": 0,
+      "evidenceStatus": "project-source-reviewed",
+      "sourceNote": "設計計画書 §12 が『第1首「ぬれつつ」：「ぬれ」は動詞「濡る」。助動詞ではない』と明示。"
+    },
+    {
+      "poem": 53,
+      "phrase": "ひとりぬる夜",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬる",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "寝（ぬ）",
+        "form": "連体形",
+        "candidateId": "verb_nu_nuru_contains_nu"
+      },
+      "caution": "完了の助動詞「ぬ」ではなく、動詞「寝（ぬ）」の連体形。",
+      "focusOffset": 3,
+      "analysisUnitOffset": 3,
+      "evidenceStatus": "project-source-reviewed",
+      "sourceNote": "設計計画書 §12 が『「ぬる」は動詞「寝」の連体形』と明示。文節監査も第53首を「ひとり/寝る/夜の」とする。"
+    },
+    {
+      "poem": 53,
+      "phrase": "ひとりぬる夜",
+      "focusSurface": "る",
+      "analysisUnit": "ぬる",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "寝（ぬ）",
+        "form": "連体形",
+        "candidateId": "verb_nu_nuru_contains_ru"
+      },
+      "caution": "この「る」は助動詞候補として切り出さず、動詞「寝（ぬ）」連体形「ぬる」の内部として扱う。",
+      "focusOffset": 4,
+      "analysisUnitOffset": 3,
+      "evidenceStatus": "project-source-reviewed",
+      "sourceNote": "同じ「ぬる」全体が動詞「寝（ぬ）」連体形であるという明示に基づく境界抑制。"
+    },
+    {
+      "poem": 9,
+      "phrase": "うつりにけりな",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "連用形",
+        "candidateId": "aux_nu_renyo_ni"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "うつりにけりな",
+      "focusSurface": "な",
+      "analysisUnit": "な",
+      "analysis": {
+        "kind": "particle",
+        "lemma": "な",
+        "candidateId": "sentence_particle_na"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "いたづらに",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "analysis": {
+        "kind": "adjectival-inflection",
+        "lemma": "いたづらなり",
+        "form": "連用形",
+        "candidateId": "nari_adjective_renyo_ni"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "わが身",
+      "focusSurface": "が",
+      "analysisUnit": "が",
+      "analysis": {
+        "kind": "particle",
+        "lemma": "が",
+        "candidateId": "case_particle_ga"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "世にふる",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "analysis": {
+        "kind": "particle",
+        "lemma": "に",
+        "candidateId": "case_particle_ni"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "世にふる",
+      "focusSurface": "る",
+      "analysisUnit": "ふる",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "ふる"
+      },
+      "caution": "「降る／経る」の掛詞を含む動詞語形の内部。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "せ",
+      "analysisUnit": "せ",
+      "analysis": {
+        "kind": "verb",
+        "lemma": "す",
+        "form": "未然形",
+        "candidateId": "sahen_su_mizen"
+      },
+      "caution": "文節監査の「ながめ/せし/まに」を踏まえ、第9首の完全一致句に限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "き",
+        "form": "連体形",
+        "candidateId": "aux_ki_rentai"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "analysis": {
+        "kind": "particle",
+        "lemma": "に",
+        "candidateId": "case_particle_ni"
+      },
+      "caution": "名詞「ま」＋格助詞「に」。第9首限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+      "role": "要注意表面形と文節監査"
+    },
+    {
+      "title": "古典関係アプリ_設計計画書_2026-08-29.md",
+      "role": "助動詞ではない類似形の明示例（第1首・第53首）"
+    },
+    {
+      "title": "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+      "role": "第9首「にけり」の完了「ぬ」連用形＋「けり」の照合",
+      "url": "https://www.asahi-net.or.jp/~sg2h-ymst/yamatouta/intro/jodousi01.html"
+    },
+    {
+      "title": "Benesse 百人一首 009",
+      "role": "第9首の語句・文法照合",
+      "url": "https://benesse.jp/kyouiku/hyakuninisshu/009.html"
+    },
+    {
+      "title": "品詞分解屋 百人一首9番",
+      "role": "第9首の品詞分解照合",
+      "url": "https://kobunzukin.blog.fc2.com/blog-entry-37.html"
+    }
+  ]
+}

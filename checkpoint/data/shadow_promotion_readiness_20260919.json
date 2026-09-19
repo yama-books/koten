@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "0.3",
+  "updated": "2026-09-20",
+  "title": "Checkpoint shadow promotion readiness audit",
+  "shadowVersion": "0.15-stage2-generalization",
+  "recommendation": "stay-stage-2-build-passage-independent-morphology-before-next-hard-rule",
+  "summary": "4作品blindをgold先固定で完了。blind 136位置でwrongResolved 0、boundaryは57/61、grammar strict resolve 18/75=24.0%。第四平家blindはboundary 10/10・false-positive 0だが、right-context morphologyのunseen-work coverage不足が露呈。learner-visible promotionは行わない。",
+  "observed": {
+    "legacyUnique": 310,
+    "dbRaw": 310,
+    "rawCoverage": 1,
+    "dbOnly": 0,
+    "resolved": 187,
+    "resolvedRate": 0.603225806451613,
+    "suppressed": 123,
+    "contextHoldTotal": 9,
+    "intentionalBenchmark": 4,
+    "primarySourceHold": 5,
+    "unclassifiedContextRequired": 0,
+    "sampleRawDistribution": {
+      "sample1": 9,
+      "sample2": 12,
+      "sample3": 16,
+      "sample4": 273
+    },
+    "abeShareOfRaw": 0.8806451612903226,
+    "strictResolved": 145,
+    "ambiguousResolved": 42,
+    "strictResolvedRate": 0.46774193548387094
+  },
+  "gates": [
+    {
+      "id": "G1",
+      "status": "PASS",
+      "evidence": "310/310 raw coverage"
+    },
+    {
+      "id": "G2",
+      "status": "PASS",
+      "evidence": "DB only 0"
+    },
+    {
+      "id": "G3",
+      "status": "PASS",
+      "evidence": "unclassified context-required 0"
+    },
+    {
+      "id": "G4",
+      "status": "PASS",
+      "evidence": "徒然草・伊勢物語・方丈記・平家物語の4作品でgold先固定→blind baseline凍結済み。計136位置。"
+    },
+    {
+      "id": "G5",
+      "status": "PASS_WITH_LIMITATION",
+      "evidence": "4作品cross-passage blind。wrongResolved 0。grammar strict resolveは18/75=24.0%で低く、morphology input coverageも未十分。"
+    },
+    {
+      "id": "G6",
+      "status": "PENDING",
+      "evidence": "developer debug overlayとsignal-only local syntaxは実装済みだが、hold-aware learner UIは未実装。"
+    },
+    {
+      "id": "G7",
+      "status": "PASS",
+      "evidence": "primary-source-required 5位置を明示holdしresolvedへ上げていない。"
+    },
+    {
+      "id": "G8",
+      "status": "PENDING",
+      "evidence": "4作品blindでwrongResolved 0だがgrammar strict resolve 18/75。unseen-work morphology coverage不足を解消してからカテゴリ別recallを再評価する。"
+    }
+  ],
+  "nextRecommendedWork": [
+    "goldから平家exact morphologyを追加せず、passage-independent morphology providerをsignal-onlyで設計する。",
+    "providerはevidence tier / source / exact-vs-derivedを返し、derived signal単独でcandidate削除・resolved昇格しない。",
+    "ては left form + right auxiliary-chain/independent-start の複合featureとして研究する。第四blindでは接続助詞て2件と完了つ連用形て1件が同段落に共存した。",
+    "新hard resolverを作る場合は第五の未使用作品をgold先固定してblind評価する。",
+    "G6 hold-aware learner UIは別レーン。learner-visible detectorはlegacy維持。"
+  ],
+  "currentStage": "stage-2-evidence-backed-debug-overlay",
+  "independentGold": {
+    "works": 4,
+    "checkpoint": "stage2_generalization_checkpoint_20260920.json",
+    "blindCombined": {
+      "positions": 136,
+      "strictPass": 75,
+      "strictPassRate": 0.5514705882352942,
+      "resolveTargets": 75,
+      "strictCorrectResolve": 18,
+      "resolveRecall": 0.24,
+      "suppressTargets": 61,
+      "correctSuppression": 57,
+      "suppressionRecall": 0.9344262295081968,
+      "falsePositiveResolved": 4,
+      "wrongResolved": 0
+    },
+    "currentDevelopmentCombined": {
+      "positions": 136,
+      "strictPass": 85,
+      "strictPassRate": 0.625,
+      "resolveTargets": 75,
+      "strictCorrectResolve": 24,
+      "resolveRecall": 0.32,
+      "suppressTargets": 61,
+      "correctSuppression": 61,
+      "suppressionRecall": 1,
+      "hardErrors": 0
+    },
+    "warning": "currentDevelopmentCombinedは前3作品のgold確認後修正を含む。平家はbaseline直後。blind generalization scoreはblindCombinedを使う。"
+  },
+  "independentGoldSets": [
+    {
+      "work": "徒然草第52段 仁和寺にある法師",
+      "goldFile": "tsurezure52_independent_gold_20260919.json",
+      "baselineFile": "tsurezure52_shadow_baseline_v014.json",
+      "positions": 55,
+      "strictPass": 32,
+      "strictPassRate": 0.5818181818181818,
+      "resolveTargets": 30,
+      "strictCorrectResolve": 7,
+      "strictResolveRecall": 0.23333333333333334,
+      "suppressionTargets": 25,
+      "suppressionCorrect": 25,
+      "falsePositiveResolved": 0,
+      "wrongResolved": 0,
+      "note": "完全blind baseline。resolver調整前にgoldをfreeze。"
+    },
+    {
+      "work": "伊勢物語第6段 芥川（冒頭）",
+      "goldFile": "ise6_akutagawa_independent_gold_20260919.json",
+      "baselineFile": "ise6_akutagawa_shadow_baseline_v014.json",
+      "positions": 35,
+      "strictPass": 17,
+      "strictPassRate": 0.4857142857142857,
+      "resolveTargets": 23,
+      "strictCorrectResolve": 8,
+      "strictResolveRecall": 0.34782608695652173,
+      "suppressionTargets": 12,
+      "suppressionCorrect": 9,
+      "falsePositiveResolved": 3,
+      "wrongResolved": 0,
+      "note": "完全blind baseline。3件の語内部false-positiveを確認。"
+    },
+    {
+      "work": "方丈記冒頭 ゆく河の流れ",
+      "goldFile": "hojoki_opening_independent_gold_20260919.json",
+      "baselineFile": "hojoki_opening_shadow_baseline_v015.json",
+      "positions": 22,
+      "strictPass": 14,
+      "strictPassRate": 0.6363636363636364,
+      "resolveTargets": 8,
+      "strictCorrectResolve": 1,
+      "strictResolveRecall": 0.125,
+      "suppressionTargets": 14,
+      "suppressionCorrect": 13,
+      "falsePositiveResolved": 1,
+      "wrongResolved": 0,
+      "note": "第三作品blind。source-reviewed morphology等の2作品development改善後にgoldをfreezeし、shadow無調整でbaseline保存。"
+    },
+    {
+      "work": "平家物語「敦盛の最期」熊谷決断段落",
+      "goldFile": "heike_atsumori_independent_gold_20260920.json",
+      "baselineFile": "heike_atsumori_shadow_baseline_v015.json",
+      "positions": 24,
+      "strictPass": 12,
+      "strictPassRate": 0.5,
+      "resolveTargets": 14,
+      "strictCorrectResolve": 2,
+      "strictResolveRecall": 0.14285714285714285,
+      "suppressionTargets": 10,
+      "suppressionCorrect": 10,
+      "falsePositiveResolved": 0,
+      "wrongResolved": 0,
+      "note": "第四作品blind。gold commit後にresolver無調整でbaseline保存。て5 hitに接続助詞・語内部・完了つ連用形が共存。"
+    }
+  ],
+  "postBaselineBoundaryPatch": {
+    "addedKnownTokens": [
+      "まじかり",
+      "呼ばひわたり",
+      "からうじて"
+    ],
+    "purpose": "blind評価で確認した語内部false-positiveだけを、source-reviewed larger-token boundaryとして修復。",
+    "result": {
+      "iseSuppressionCorrect": "12/12",
+      "iseFalsePositiveResolved": 0,
+      "tsurezureBaselineBehavior": "unchanged",
+      "existingFourSampleBehavior": "unchanged"
+    }
+  },
+  "postBlindBoundaryPatches": [
+    {
+      "afterBaseline": "ise6_akutagawa_shadow_baseline_v014.json",
+      "addedKnownTokens": [
+        "まじかり",
+        "呼ばひわたり",
+        "からうじて"
+      ],
+      "purpose": "語内部false-positiveのみをsource-reviewed larger-token boundaryとして修復。",
+      "result": "伊勢 suppression 12/12・false-positive 0。徒然草・既存4サンプル不変。"
+    },
+    {
+      "afterBaseline": "hojoki_opening_shadow_baseline_v015.json",
+      "addedKnownTokens": [
+        "しかも"
+      ],
+      "purpose": "第三blindで確認した語内部false-positiveをwhole-token boundaryとして修復。",
+      "result": "3 development gold boundary suppression 51/51。hard error 0。"
+    }
+  ],
+  "localSyntaxFeatureAudit": {
+    "file": "local_syntax_feature_audit_20260919.json",
+    "unresolvedOrAmbiguousExpectedResolvePositions": 39,
+    "signalCoverage": {
+      "previousMorphology": 14,
+      "leftTrustedToken": 7,
+      "rightTrustedToken": 4,
+      "punctuationAfter": 14,
+      "matchedRightContextCue": 0
+    },
+    "note": "旧2作品・約31件の途中測定を再実行する代わりに、failure taxonomyと3作品39位置のsignal-only監査へ発展済み。"
+  },
+  "reconciliation": {
+    "checkedOn": "2026-09-20",
+    "finding": "21:01 JSTの2作品停止記録が、18:56-19:05 JSTに完了していた第三gold・baseline・local syntax成果物より後から追記され、readinessの一部だけを2作品状態へ戻していた。",
+    "authority": "Git ancestry + current code/data artifacts",
+    "supersededSnapshot": "2026-09-19 21:01 JST two-blind pause",
+    "effectiveState": "v0.15-stage2-generalization / 3 blind works / local syntax signal-only",
+    "keyCommits": {
+      "hojokiGoldFreeze": "4a46315c5864c70a3cf9f1453524d87c7e53eb70",
+      "hojokiBlindBaseline": "555b5076b591b4b7c9d74e0cd7dcc8f0252d45c9",
+      "localSyntaxAudit": "54500390704b072ded254cc9bbcec48ec7abbd8f",
+      "stage2ShadowAudit": "aab08af7d8de08e4f9068d244793e16a3ba8c2b9"
+    }
+  },
+  "rightContextSignal": {
+    "file": "local_syntax_right_context_audit_20260920.json",
+    "mode": "signal-only",
+    "positions": 39,
+    "nextMorphology": 15,
+    "rightRoles": {
+      "independentInflectingCandidate": 14,
+      "punctuationBoundary": 14,
+      "unknown": 8,
+      "trustedTokenBoundary": 2,
+      "grammarSurfaceAmbiguous": 1,
+      "auxiliarySequenceCandidate": 0
+    },
+    "teObservation": "未解決て11位置のうち読点なし3位置は3/3で即時の独立活用語。development相関のため第四blind前はhard rule化しない。",
+    "regression": "existing 4 samples and 3 development gold decision paths unchanged"
+  },
+  "fourthBlindFeatureGap": {
+    "file": "heike_atsumori_feature_gap_audit_20260920.json",
+    "finding": "right-context morphologyのunseen-work coverage不足。exact Heike morphologyはgold汚染になるため追加しない。",
+    "teCases": "接続助詞2 / 語内部2 / 完了つ連用形1"
+  }
+}

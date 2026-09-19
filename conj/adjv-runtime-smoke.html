@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>形容動詞 二層データ スモーク確認</title>
+<style>
+body{font-family:system-ui,-apple-system,"Yu Gothic",sans-serif;max-width:900px;margin:32px auto;padding:0 18px;line-height:1.65}
+.ok{font-weight:700}
+pre{white-space:pre-wrap;word-break:break-word;background:#f6f6f6;padding:12px;border-radius:8px}
+table{border-collapse:collapse;width:100%;margin-top:16px}
+th,td{border:1px solid #ccc;padding:7px;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<h1>形容動詞 二層データ スモーク確認</h1>
+<p>本番 <code>index.html</code> には接続していない。活用表用データと実例索引を別ロードできることだけを確認するページ。</p>
+<div id="status">読み込み中…</div>
+<div id="summary"></div>
+<pre id="sample"></pre>
+<script src="./adjv-runtime-adapter.js"></script>
+<script>
+(async()=>{
+  const status=document.getElementById("status");
+  try{
+    const rt=await ConjAdjvRuntime.load();
+    status.className="ok";
+    status.textContent="PASS";
+    const counts={
+      tableItems:rt.tableItems.length,
+      nari:rt.tableItems.filter(x=>x.paradigmId==="adjv-nari").length,
+      tari:rt.tableItems.filter(x=>x.paradigmId==="adjv-tari").length,
+      exampleRefs:rt.exampleRefs.length,
+      auditMapped:rt.audit.checks.mappedToParadigmCell,
+      disabledCellReferences:rt.audit.checks.disabledCellReferences
+    };
+    document.getElementById("summary").innerHTML=
+      "<table><tbody>"+
+      Object.entries(counts).map(([k,v])=>"<tr><th>"+k+"</th><td>"+v+"</td></tr>").join("")+
+      "</tbody></table>";
+    document.getElementById("sample").textContent=JSON.stringify(rt.tableItems.slice(0,2),null,2);
+  }catch(err){
+    status.textContent="FAIL: "+err.message;
+  }
+})();
+</script>
+</body>
+</html>

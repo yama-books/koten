@@ -1,0 +1,321 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 外部文法照合メモ 2026-09-19",
+  "status": "secondary-source-crosscheck-only",
+  "policy": [
+    "学校文法の一次資料正本ではない。shadow resolver の安全確認・境界確認に限定して使う。",
+    "このファイルの情報だけで auxiliary_master の human-confirmed / primary-source-verified へ昇格しない。",
+    "同形衝突がある場合は一般化せず、より長い監査済み文脈に限定する。"
+  ],
+  "entries": [
+    {
+      "id": "bakari-token-boundary",
+      "surface": "ばかり",
+      "finding": "副助詞として一語で立項されるため、内部の一文字「ば」は独立候補として扱わない。",
+      "use": "boundary-suppression-only",
+      "sources": [
+        {
+          "title": "精選版 日本国語大辞典「ばかり」",
+          "provider": "コトバンク",
+          "url": "https://kotobank.jp/word/%E3%81%B0%E3%81%8B%E3%82%8A-357062"
+        }
+      ]
+    },
+    {
+      "id": "tamau-h4-izen",
+      "surface": "給へ",
+      "finding": "尊敬用法の「給ふ」はハ行四段活用で、已然形は「給へ」。下二段「給ふ」と同形衝突があるため、resolverでは「し給へ」等の長い文脈に限定する。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "古文単語「たまふ/給ふ/賜ふ」の意味・解説",
+          "provider": "マナペディア",
+          "url": "https://manapedia.jp/m/text/4002?device=sp"
+        }
+      ]
+    },
+    {
+      "id": "mousu-s4-izen",
+      "surface": "申せ",
+      "finding": "「申す」はサ行四段活用で、已然形は「申せ」。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "2009センター古文解説～文法～動詞編 第1回 サ行四段活用動詞「申す」",
+          "provider": "FC2ブログ",
+          "url": "https://centerkobun2009.blog85.fc2.com/blog-entry-1.html"
+        }
+      ]
+    },
+    {
+      "id": "notamau-h4-izen",
+      "surface": "のたまへ",
+      "finding": "「のたまふ」はハ行四段活用で、已然形は「のたまへ」。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "のたまふ",
+          "provider": "ウィクショナリー日本語版",
+          "url": "https://ja.wiktionary.org/wiki/%E3%81%AE%E3%81%9F%E3%81%BE%E3%81%B5"
+        },
+        {
+          "title": "古文単語「のたまふ/宣ふ」の意味・解説",
+          "provider": "マナペディア",
+          "url": "https://manapedia.jp/text/4273"
+        }
+      ]
+    },
+    {
+      "id": "tari-izen-tare",
+      "surface": "たれ",
+      "finding": "完了・存続の助動詞「たり」の已然形は「たれ」。一般の「たれ」を自動確定せず、当該句「投げ上げたれ」に限定する。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "助動詞「たり」「り」",
+          "provider": "古文文法",
+          "url": "https://kobuntext.com/kobun/6118"
+        },
+        {
+          "title": "たり",
+          "provider": "ウィクショナリー日本語版",
+          "url": "https://ja.wiktionary.org/wiki/%E3%81%9F%E3%82%8A"
+        }
+      ]
+    },
+    {
+      "id": "mashi-mashika-mizen",
+      "surface": "ましか",
+      "finding": "反実仮想「ましかば」の「ましか」は未然形として用いられる。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "まし",
+          "provider": "デジタル大辞泉（コトバンク）",
+          "url": "https://kotobank.jp/word/%E3%81%BE%E3%81%97-634100"
+        },
+        {
+          "title": "古文の助動詞「まし」の意味や活用",
+          "provider": "百人一首で始める古文書講座",
+          "url": "https://honda-n2.com/kobun-jodoushi-mashi"
+        }
+      ]
+    },
+    {
+      "id": "nashi-adjective-ku",
+      "surface": "なし",
+      "finding": "「なし」は文語形容詞ク活用。安倍晴明本文の「物もなし」完全一致で、内部の一文字「な」「し」を独立識別候補から外すための境界確認にのみ使用する。",
+      "use": "passage-specific-boundary-only",
+      "sources": [
+        {
+          "title": "精選版 日本国語大辞典「無し」",
+          "provider": "コトバンク",
+          "url": "https://kotobank.jp/word/%E7%84%A1%E3%81%97-588659"
+        },
+        {
+          "title": "デジタル大辞泉「ク活用」",
+          "provider": "コトバンク",
+          "url": "https://kotobank.jp/word/%E3%81%8F%E6%B4%BB%E7%94%A8-3210015"
+        }
+      ]
+    },
+    {
+      "id": "sahen-su-renyo-shi",
+      "surface": "し",
+      "finding": "古典文法のサ行変格活用「す」の連用形は「し」。名詞・漢語などと複合動詞を作りやすく、「むとす」も『む＋と＋サ変す』として分析できる。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "高等学校古文/動詞 サ行変格活用",
+          "provider": "Wikibooks",
+          "url": "https://ja.wikibooks.org/wiki/%E9%AB%98%E7%AD%89%E5%AD%A6%E6%A0%A1%E5%8F%A4%E6%96%87/%E5%8B%95%E8%A9%9E"
+        },
+        {
+          "title": "むず（んず）助動詞",
+          "provider": "減点されない古文",
+          "url": "https://hohoemashi.com/muzu/"
+        },
+        {
+          "title": "建立",
+          "provider": "Wiktionary日本語版",
+          "url": "https://ja.wiktionary.org/wiki/%E5%BB%BA%E7%AB%8B"
+        },
+        {
+          "title": "呪詛",
+          "provider": "Wiktionary日本語版",
+          "url": "https://ja.wiktionary.org/wiki/%E5%91%AA%E8%A9%9B"
+        }
+      ]
+    },
+    {
+      "id": "awasu-sage2-boundary",
+      "surface": "合せ",
+      "finding": "文語「合す」はサ行下二段活用として立項される。安倍晴明本文「うち合せて」の内部「せ」を独立識別候補から外す境界確認にのみ使用する。",
+      "use": "passage-specific-boundary-only",
+      "sources": [
+        {
+          "title": "精選版 日本国語大辞典「合す」",
+          "provider": "コトバンク",
+          "url": "https://kotobank.jp/word/%E5%90%88%E3%81%99-428899"
+        }
+      ]
+    },
+    {
+      "id": "te-conjunctive-vs-tsu",
+      "surface": "て",
+      "finding": "接続助詞「て」は連用形に付き単純接続等を表す。完了「つ」の未然・連用形も「て」だが、後続助動詞「む・き・けり」等との連鎖が典型的識別cue。本文完全一致監査でのみ候補確定に使う。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "埼玉県立春日部東高等学校 古典文法 助動詞「つ」資料",
+          "url": "https://kasukabehigashi-h.spec.ed.jp/wysiwyg/file/download/76/5495"
+        },
+        {
+          "title": "古文の文法 接続助詞「て・して」",
+          "url": "https://kobun-benkyou.jimdoweb.com/%E5%8A%A9%E8%A9%9E/%E6%8E%A5%E7%B6%9A%E5%8A%A9%E8%A9%9E-4-%E3%81%A6-%E3%81%97%E3%81%A6-%E3%81%A7-%E3%81%A4%E3%81%A4-%E3%81%AA%E3%81%8C%E3%82%89/"
+        }
+      ]
+    },
+    {
+      "id": "wo-case-particle",
+      "surface": "を",
+      "finding": "格助詞は体言・体言相当語句に付き後続述語との格関係を示す。「を」は動作対象等を示す。安倍晴明本文では直前が体言・体言句である完全一致箇所だけを格助詞候補へresolvedする。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "古文の文法 格助詞(1)用法",
+          "url": "https://kobun-benkyou.jimdoweb.com/%E5%8A%A9%E8%A9%9E/%E6%A0%BC%E5%8A%A9%E8%A9%9E-1-%E7%94%A8%E6%B3%95/"
+        },
+        {
+          "title": "Z会 古文助詞識別資料",
+          "url": "https://www.zkai.co.jp/wp-content/uploads/sites/18/2021/09/05203111/38.L3T-L3TK-L3TF81CS6_tokuyama.pdf"
+        }
+      ]
+    },
+    {
+      "id": "tote-analysis-boundary",
+      "surface": "とて",
+      "finding": "「とて」は一語の格助詞相当とする分析と「格助詞と＋接続助詞て」とする分析が併存するため、内部「て」を一意確定せず大きい単位として保留する。",
+      "use": "passage-specific-boundary-only",
+      "sources": [
+        {
+          "title": "マナペディア 竹取物語品詞分解",
+          "url": "https://manapedia.jp/text/2236?m=aaa&page=3"
+        },
+        {
+          "title": "精選版 日本国語大辞典「とて」",
+          "url": "https://kotobank.jp/word/%E3%81%A8%E3%81%A6-584150"
+        }
+      ]
+    },
+    {
+      "id": "sate-lexical-boundary",
+      "surface": "さて",
+      "finding": "「さて」は接続詞・感動詞等として一語で立項される。本文「さてそれは」の内部「て」は独立識別対象にしない。",
+      "use": "passage-specific-boundary-only",
+      "sources": [
+        {
+          "title": "デジタル大辞泉「さて」",
+          "url": "https://kotobank.jp/word/%E6%89%A8-511273"
+        }
+      ]
+    },
+    {
+      "id": "ni-case-and-adverb-boundary",
+      "surface": "に",
+      "finding": "格助詞「に」は体言・体言相当語句に付き場所・対象・目的・結果等を示す。一方「たちまちに」は副詞として一まとまりの分析例がある。安倍晴明本文ではpassage-specificに分離する。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "Try IT 古文『助詞の種類』",
+          "url": "https://www.try-it.jp/chapters-14470/lessons-14721/"
+        },
+        {
+          "title": "マナペディア 方丈記『安元の大火』品詞分解",
+          "url": "https://manapedia.jp/text/2406?m=aaa&page=2"
+        },
+        {
+          "title": "マナペディア 古文単語『たちまち』",
+          "url": "https://manapedia.jp/text/5394"
+        }
+      ]
+    },
+    {
+      "id": "ni-verbal-clause-hold",
+      "surface": "に",
+      "finding": "連体形＋「に」は格助詞・接続助詞の双方が学校文法資料で現れうる。安倍晴明本文の「給ひけるに／見給ふに／走らするに／問はるるに」はv0.13では保留する。",
+      "use": "ambiguity-hold",
+      "sources": [
+        {
+          "title": "USB-3212『に』識別",
+          "role": "格助詞・接続助詞双方を候補化"
+        },
+        {
+          "title": "マナペディア 若紫 品詞分解",
+          "url": "https://manapedia.jp/m/text/3553"
+        },
+        {
+          "title": "マナペディア 和泉式部日記 品詞分解",
+          "url": "https://manapedia.jp/m/text/3935"
+        }
+      ]
+    },
+    {
+      "id": "to-case-and-larger-unit",
+      "surface": "と",
+      "finding": "「む＋と＋す」「じ＋と＋す」では「と」は格助詞。名付け・変化・引用でも格助詞例がある。一方「日ごと」「こと」の内部の「と」は独立させない。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "マナペディア 土佐日記『せむとす』品詞分解",
+          "url": "https://manapedia.jp/text/9898"
+        },
+        {
+          "title": "マナペディア 方丈記『けるとなむ』品詞分解",
+          "url": "https://manapedia.jp/text/2406?device=pc"
+        },
+        {
+          "title": "マナペディア 竹取物語冒頭 品詞分解",
+          "url": "https://manapedia.jp/text/2200"
+        }
+      ]
+    },
+    {
+      "id": "ga-case-vs-conjunctive",
+      "surface": "が",
+      "finding": "連体形「ける」後で前後の文を接続する「が」は接続助詞。体言に付いて所属・連体修飾を作る「が」は格助詞として扱う。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "Try IT 古文『助詞の種類』",
+          "url": "https://www.try-it.jp/chapters-14470/lessons-14721/"
+        },
+        {
+          "title": "マナペディア 宇治拾遺物語『尼、地蔵を見奉ること』",
+          "url": "https://manapedia.jp/text/5381"
+        },
+        {
+          "title": "マナペディア 東歌 品詞分解",
+          "url": "https://manapedia.jp/text/2141"
+        }
+      ]
+    },
+    {
+      "id": "makura-akarite-te",
+      "surface": "て",
+      "finding": "枕草子『春はあけぼの』の「少し明かりて」は、「明かり」をラ行四段活用「あかる」連用形、「て」を接続助詞とする複数の品詞分解が一致する。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "マナペディア『春はあけぼの』品詞分解",
+          "url": "https://manapedia.jp/m/text/2213"
+        },
+        {
+          "title": "品詞分解屋 枕草子 第1段 春はあけぼの",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-17.html"
+        }
+      ]
+    }
+  ]
+}

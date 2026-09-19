@@ -1,0 +1,225 @@
+{
+  "schemaVersion": "0.2",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 百人一首同形識別 exact phrase 回帰",
+  "source": "hyakunin_disambiguation_evidence.json",
+  "tested": 26,
+  "passed": 26,
+  "failed": 0,
+  "policy": "監査済み・複数照合済みの完全一致句だけをテストし、一般化精度とはみなさない。",
+  "expectedBreakdown": {
+    "exactResolve": 20,
+    "largerUnitSuppress": 4,
+    "nonAuxiliarySuppress": 2
+  },
+  "cases": [
+    {
+      "poem": 28,
+      "phrase": "枯れぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 32,
+      "phrase": "あへぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 36,
+      "phrase": "明けぬる",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬる",
+      "expected": "audited-exact-phrase-larger-unit",
+      "result": "PASS"
+    },
+    {
+      "poem": 37,
+      "phrase": "とめぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 46,
+      "phrase": "知らぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 47,
+      "phrase": "見えね",
+      "focusSurface": "ね",
+      "analysisUnit": "ね",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 52,
+      "phrase": "明けぬれば",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬれ",
+      "expected": "audited-exact-phrase-larger-unit",
+      "result": "PASS"
+    },
+    {
+      "poem": 55,
+      "phrase": "なりぬれど",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬれ",
+      "expected": "audited-exact-phrase-larger-unit",
+      "result": "PASS"
+    },
+    {
+      "poem": 61,
+      "phrase": "にほひぬる",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬる",
+      "expected": "audited-exact-phrase-larger-unit",
+      "result": "PASS"
+    },
+    {
+      "poem": 65,
+      "phrase": "ほさぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 75,
+      "phrase": "いぬめり",
+      "focusSurface": "ぬ",
+      "analysisUnit": "いぬ",
+      "expected": "audited-exact-phrase-nonauxiliary",
+      "result": "PASS"
+    },
+    {
+      "poem": 78,
+      "phrase": "寝覚めぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 82,
+      "phrase": "堪へぬは",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 87,
+      "phrase": "ひぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 92,
+      "phrase": "見えぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 92,
+      "phrase": "知らね",
+      "focusSurface": "ね",
+      "analysisUnit": "ね",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 97,
+      "phrase": "来ぬ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "うつりにけりな",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "うつりにけりな",
+      "focusSurface": "な",
+      "analysisUnit": "な",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "いたづらに",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "わが身",
+      "focusSurface": "が",
+      "analysisUnit": "が",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "世にふる",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "世にふる",
+      "focusSurface": "る",
+      "analysisUnit": "ふる",
+      "expected": "audited-exact-phrase-nonauxiliary",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "せ",
+      "analysisUnit": "せ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    }
+  ]
+}

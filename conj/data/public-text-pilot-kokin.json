@@ -1,0 +1,71 @@
+{
+  "updated": "2026-09-19",
+  "work": "古今和歌集",
+  "status": "pilot / all-gates-passed",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "古今和歌集",
+    "url": "https://ja.wikisource.org/wiki/古今和歌集",
+    "validationStatus": "100% verified on Wikisource",
+    "rightsVerified": true,
+    "rightsStatus": "public-domain-marked-on-Wikisource",
+    "publicationTextLicenseNote": "Wikisourceページ下部の利用条件も別途遵守する。"
+  },
+  "records": [
+    {
+      "id": "adjv-052",
+      "chjTarget": "愚かなり",
+      "publicTarget": "おろかなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/古今和歌集仮名序",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "漢字／かな表記差。終止形「なり」を確認。",
+      "excerpt": "さかしおろかなりとしろしめしけむ",
+      "sourceLine": 131
+    },
+    {
+      "id": "adjv-062",
+      "chjTarget": "あだなる",
+      "publicTarget": "あたなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/古今和歌集/巻十",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "濁点表記差。連体形「なる」を確認。",
+      "excerpt": "我はけさうひにそ見つる花の色をあたなる物といふへかりけり",
+      "sourceLine": 241
+    },
+    {
+      "id": "adjv-003",
+      "chjTarget": "妙なり",
+      "publicTarget": "たへなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/古今和歌集仮名序",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "語幹の漢字表記「妙」と仮名表記「たへ」の差。連用形「なり」＋「けり」を確認。",
+      "excerpt": "うたにあやしうたへなりけり",
+      "sourceLine": 132
+    },
+    {
+      "id": "adjv-080",
+      "chjTarget": "たくみに",
+      "publicTarget": "たくみにて",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/古今和歌集仮名序",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連用形「に」＋接続助詞「て」を確認。",
+      "excerpt": "ふんやのやすひではことばゝたくみにてそのさまみにおはず",
+      "sourceLine": 133
+    }
+  ],
+  "counts": {
+    "total": 4,
+    "rightsVerified": 4,
+    "targetVerified": 4,
+    "excerptReviewed": 4,
+    "publicationEnabled": 4
+  }
+}

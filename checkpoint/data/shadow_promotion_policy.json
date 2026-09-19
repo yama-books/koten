@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "0.3",
+  "updated": "2026-09-19",
+  "title": "Checkpoint shadow → learner-visible 昇格方針",
+  "currentStage": "stage-2-evidence-backed-debug-overlay",
+  "stages": [
+    {
+      "id": "stage-0",
+      "name": "legacy-only",
+      "description": "従来ルールだけを学習者向け表示に使う。"
+    },
+    {
+      "id": "stage-1",
+      "name": "shadow-telemetry",
+      "description": "DB/shadowは裏側で比較・監査する。現在地。"
+    },
+    {
+      "id": "stage-2",
+      "name": "evidence-backed-debug-overlay",
+      "description": "高信頼evidenceだけ開発者向けに可視化し、legacyとの不一致を監査する。"
+    },
+    {
+      "id": "stage-3",
+      "name": "selective-learner-promotion",
+      "description": "独立gold監査済みの限定カテゴリだけ学習者向け候補生成へ採用する。"
+    },
+    {
+      "id": "stage-4",
+      "name": "global-shadow-replacement",
+      "description": "十分な一般化監査後にlegacy detectorを置換する。"
+    }
+  ],
+  "gates": [
+    {
+      "id": "G1",
+      "name": "legacy-position-coverage",
+      "requirement": "監査サンプル上でlegacy unique位置をraw DBが100%被覆",
+      "threshold": "100%"
+    },
+    {
+      "id": "G2",
+      "name": "db-only-zero",
+      "requirement": "監査サンプルで説明不能なDB-only位置が0",
+      "threshold": 0
+    },
+    {
+      "id": "G3",
+      "name": "unclassified-context-zero",
+      "requirement": "context-required位置がresolvedまたは明示holdに分類済み",
+      "threshold": 0
+    },
+    {
+      "id": "G4",
+      "name": "independent-gold-regression",
+      "requirement": "resolver作成に使ったevidenceとは独立したgold setでカテゴリ別精度を検証",
+      "threshold": "required"
+    },
+    {
+      "id": "G5",
+      "name": "cross-passage-generalization",
+      "requirement": "単一教材に偏らない複数作品・複数文体で回帰",
+      "threshold": "required"
+    },
+    {
+      "id": "G6",
+      "name": "hold-aware-ui",
+      "requirement": "一意判定不可・一次資料待ちを『正解』として表示しないUIが実装済み",
+      "threshold": "required"
+    },
+    {
+      "id": "G7",
+      "name": "primary-source-policy",
+      "requirement": "primary-source-requiredを自動昇格させない保証",
+      "threshold": "required"
+    },
+    {
+      "id": "G8",
+      "name": "strict-disambiguation-readiness",
+      "requirement": "候補を一意化するカテゴリについて、複数の未使用作品で誤確定がなく、十分な独立例数とrecallを確認してからlearner-visibleへ昇格する。",
+      "threshold": "category-specific evidence required"
+    }
+  ],
+  "rules": [
+    "resolved率だけを昇格判断に使わない。",
+    "passage-specific evidenceの成功を一般化精度として数えない。",
+    "holdは失敗ではないが、正解としても数えない。",
+    "独立gold setがない状態でglobal replacementをしない。",
+    "learner-visible昇格判定ではlegacy resolved率ではなくstrict resolvedと誤確定率を用いる。",
+    "ambiguous resolvedは検出成功ではあっても識別成功として数えない。",
+    "goldを一度評価に使用した作品は以後development setとして扱い、次の一般化検証には未使用作品を使う。",
+    "boundary suppressionの成功とgrammar disambiguationの成功を別指標で評価する。",
+    "wrongResolved=0でもrecallが低いカテゴリはlearner-visibleへ昇格しない。"
+  ],
+  "metricDefinitions": {
+    "legacyResolved": "historical compatibility metric. resolved配列に入った位置数で、候補が一意とは限らない。",
+    "strictResolved": "候補IDまたは助動詞lemmaが一意に支持されたresolved位置。",
+    "ambiguousResolved": "resolved配列には入るが候補集合が複数残る位置。学習者向け正解表示へは昇格不可。"
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint legacy unique位置分類",
+  "sampleScope": "既存4サンプル・990文字",
+  "totals": {
+    "legacyRaw": 348,
+    "legacyUnique": 310,
+    "legacyDuplicates": 38,
+    "matched": 69,
+    "contextRequired": 207,
+    "largerDbUnit": 34,
+    "knownWholeForm": 0,
+    "dbAbsent": 0
+  },
+  "interpretation": "surface_index の未収録は0。次工程は context-required resolver の精度向上。",
+  "prioritySurfaces": [
+    {
+      "surface": "て",
+      "total": 39,
+      "contextRequired": 28,
+      "largerDbUnit": 11
+    },
+    {
+      "surface": "に",
+      "total": 34,
+      "contextRequired": 28,
+      "largerDbUnit": 6
+    },
+    {
+      "surface": "し",
+      "total": 30,
+      "contextRequired": 25,
+      "largerDbUnit": 5
+    },
+    {
+      "surface": "と",
+      "total": 27,
+      "contextRequired": 27,
+      "largerDbUnit": 0
+    },
+    {
+      "surface": "る",
+      "total": 24,
+      "contextRequired": 24,
+      "largerDbUnit": 0
+    },
+    {
+      "surface": "を",
+      "total": 21,
+      "contextRequired": 21,
+      "largerDbUnit": 0
+    },
+    {
+      "surface": "ば",
+      "total": 18,
+      "contextRequired": 17,
+      "largerDbUnit": 1
+    },
+    {
+      "surface": "な",
+      "total": 17,
+      "contextRequired": 14,
+      "largerDbUnit": 3
+    },
+    {
+      "surface": "む",
+      "total": 11,
+      "contextRequired": 3,
+      "largerDbUnit": 8
+    },
+    {
+      "surface": "せ",
+      "total": 10,
+      "contextRequired": 10,
+      "largerDbUnit": 0
+    },
+    {
+      "surface": "が",
+      "total": 7,
+      "contextRequired": 7,
+      "largerDbUnit": 0
+    },
+    {
+      "surface": "ぬ",
+      "total": 2,
+      "contextRequired": 2,
+      "largerDbUnit": 0
+    },
+    {
+      "surface": "ね",
+      "total": 1,
+      "contextRequired": 1,
+      "largerDbUnit": 0
+    }
+  ],
+  "resolvedSurfaces": [
+    {
+      "surface": "けれ",
+      "uniquePositions": 8
+    },
+    {
+      "surface": "けり",
+      "uniquePositions": 7
+    },
+    {
+      "surface": "たり",
+      "uniquePositions": 7
+    },
+    {
+      "surface": "たる",
+      "uniquePositions": 7
+    },
+    {
+      "surface": "ける",
+      "uniquePositions": 6
+    },
+    {
+      "surface": "にて",
+      "uniquePositions": 6
+    },
+    {
+      "surface": "して",
+      "uniquePositions": 5
+    },
+    {
+      "surface": "なり",
+      "uniquePositions": 5
+    },
+    {
+      "surface": "らむ",
+      "uniquePositions": 5
+    },
+    {
+      "surface": "なむ",
+      "uniquePositions": 3
+    }
+  ]
+}

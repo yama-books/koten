@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint passage evidence + context hold 回帰",
+  "expectedTotals": {
+    "raw": 310,
+    "resolved": 187,
+    "suppressed": 123,
+    "contextHoldTotal": 9,
+    "intentionalAmbiguityBenchmark": 4,
+    "primarySourceHold": 5,
+    "unclassifiedContextRequired": 0,
+    "dbOnly": 0
+  },
+  "expectedPassageResolution": [
+    {
+      "sample": 1,
+      "surface": "て",
+      "context": "すこしあかりて、紫だち",
+      "status": "resolved-by-source-exact-passage",
+      "candidateId": "conjunctive_particle_te"
+    }
+  ],
+  "expectedHolds": [
+    {
+      "sample": 3,
+      "surface": "ぬ",
+      "start": 3,
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "sample": 3,
+      "surface": "を",
+      "start": 13,
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "sample": 3,
+      "surface": "と",
+      "start": 24,
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "sample": 3,
+      "surface": "な",
+      "start": 33,
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "sample": 4,
+      "surface": "に",
+      "start": 37,
+      "holdType": "primary-source-required"
+    },
+    {
+      "sample": 4,
+      "surface": "に",
+      "start": 421,
+      "holdType": "primary-source-required"
+    },
+    {
+      "sample": 4,
+      "surface": "に",
+      "start": 651,
+      "holdType": "primary-source-required"
+    },
+    {
+      "sample": 4,
+      "surface": "に",
+      "start": 721,
+      "holdType": "primary-source-required"
+    },
+    {
+      "sample": 4,
+      "surface": "せ",
+      "start": 866,
+      "holdType": "primary-source-required"
+    }
+  ],
+  "safety": [
+    "hold位置はresolvedへ昇格しない。",
+    "識別サンプル4件にはexact正解evidenceを与えない。",
+    "一次資料待ち5件を二次資料だけで正本化しない。",
+    "一般実本文evidenceは完全一致時だけ発火する。",
+    "learner-visible detectorはlegacyのまま。"
+  ],
+  "result": "PASS"
+}

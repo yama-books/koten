@@ -1,0 +1,86 @@
+{
+  "updated": "2026-09-19",
+  "work": "枕草子",
+  "status": "pilot / partial",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "枕草紙 (國文大觀)",
+    "url": "https://ja.wikisource.org/wiki/枕草紙_(國文大觀)",
+    "bibliographicSource": "『國文大觀』日記草子部",
+    "rightsVerified": true,
+    "rightsStatus": "PD-old-80-expired / US public domain marked on Wikisource",
+    "sourceLicense": "CC BY-SA 4.0",
+    "note": "Wikisourceページで原資料のPD表示と転写テキストのCC BY-SA表示を確認。"
+  },
+  "records": [
+    {
+      "id": "adjv-072",
+      "chjTarget": "なよらかなる",
+      "publicTarget": "なよらかなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/枕草紙_(國文大觀)",
+      "excerpt": "櫻の直衣の少しなよらかなるに、濃き紫の指貫",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "「清涼殿の丑寅の隅の」に対応。連体形「なる」を同版で確認。"
+    },
+    {
+      "id": "adjv-094",
+      "chjTarget": "のどかに",
+      "publicTarget": "のどかに",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/枕草紙_(國文大觀)",
+      "excerpt": "三月三日、うらうらとのどかに照りたる",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "CHJ巻名は「正月一日は」。同一章段中の選抜箇所を同版で確認。連用形「に」。"
+    },
+    {
+      "id": "adjv-011",
+      "chjTarget": "あらはなれ",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": null,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "CHJ選抜箇所「戸のあきたるがあらはなれば」は別公開サイトで確認できるが、再利用条件を固定できる國文大觀版で同一箇所・同一語形を確認できず保留。"
+    },
+    {
+      "id": "adjv-023",
+      "chjTarget": "あさはかなれ",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": null,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "CHJ選抜箇所「屋のさまも…あさはかなれど」は一般公開本文で確認できるが、採用可能な固定版の再利用条件と語形照合を一体で確定できず保留。"
+    },
+    {
+      "id": "adjv-048",
+      "chjTarget": "心ことなり",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": "https://ja.wikisource.org/wiki/枕草紙_(國文大觀)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "國文大觀版は同じ「市は」の箇所を「心ことなるなり」とし、選抜した終止形「心ことなり」と文法形が一致しないため別例へすり替えず保留。"
+    },
+    {
+      "id": "adjv-105",
+      "chjTarget": "凜々と",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": null,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "「十二月二十四日…凜々として氷鋪けり」は他公開本文で存在確認できるが、固定した國文大觀版の検索可能本文では同一箇所を照合できず保留。"
+    }
+  ],
+  "counts": {
+    "total": 6,
+    "rightsVerified": 6,
+    "targetVerified": 2,
+    "excerptReviewed": 2,
+    "publicationEnabled": 2
+  }
+}

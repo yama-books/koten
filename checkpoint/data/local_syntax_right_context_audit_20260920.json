@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "title": "Checkpoint local syntax right-context signal audit",
+  "stage": "stage-2-evidence-backed-debug-overlay",
+  "mode": "signal-only",
+  "baseline": "local_syntax_feature_audit_20260919.json",
+  "scope": {
+    "works": [
+      "徒然草52",
+      "伊勢物語6 芥川",
+      "方丈記冒頭"
+    ],
+    "positions": 39,
+    "definition": "3 development goldで unresolved or ambiguous の expected-resolve 位置。旧監査の39位置を固定して再集計。",
+    "targetSurfaces": {
+      "に": 11,
+      "を": 7,
+      "て": 11,
+      "と": 5,
+      "し": 2,
+      "けれ": 1,
+      "なり": 1,
+      "なむ": 1
+    }
+  },
+  "addedSignals": {
+    "nextMorphology": {
+      "covered": 15,
+      "rate": 0.38461538461538464,
+      "bySurface": {
+        "に": 5,
+        "を": 3,
+        "て": 4,
+        "と": 3,
+        "し": 0,
+        "けれ": 0,
+        "なり": 0,
+        "なむ": 0
+      }
+    },
+    "rightTokenRoleSignal": {
+      "counts": {
+        "independent-inflecting-candidate": 14,
+        "punctuation-boundary": 14,
+        "unknown": 8,
+        "trusted-token-boundary": 2,
+        "grammar-surface-ambiguous": 1,
+        "auxiliary-sequence-candidate": 0
+      }
+    }
+  },
+  "focusedFindings": {
+    "te": {
+      "positions": 11,
+      "previousMorphology": 10,
+      "nextMorphology": 4,
+      "punctuationBoundaryAfter": 8,
+      "immediateIndependentInflecting": 3,
+      "observation": "読点なし3位置は3/3で右側に独立活用語を観測。development内では接続助詞「て」と整合するが、完了「つ」との一般識別規則にはまだしない。",
+      "safety": "第四の未使用作品で同条件をblind評価するまでhard resolverへ昇格しない。"
+    },
+    "ni": {
+      "positions": 11,
+      "nextMorphology": 5,
+      "trustedRightBoundary": 2,
+      "counterexamples": [
+        "方丈記「水にあらず」: 右側「あら」は独立活用語だが、goldは断定「なり」連用形。",
+        "伊勢物語「暗きに来けり」: 右側「来」は独立活用語で、goldは格助詞。"
+      ],
+      "conclusion": "右側独立活用語だけでは格助詞/断定を一意化できない。"
+    },
+    "wo": {
+      "positions": 7,
+      "nextMorphology": 3,
+      "conclusion": "右側活用語は目的語構造のsignalにはなるが、同段落の「けるを」格助詞/接続助詞反例を解消しない。"
+    },
+    "to": {
+      "positions": 5,
+      "nextMorphology": 3,
+      "conclusion": "右側活用語signalのみで格助詞/断定たり等を一意化しない。"
+    }
+  },
+  "behaviorImpact": {
+    "resolverChanged": false,
+    "candidatesRemoved": false,
+    "learnerVisibleChanged": false,
+    "note": "db-shadow.jsの追加はlocalSyntaxFeatures payloadのみ。resolved/suppressed分岐には接続していない。"
+  },
+  "next": [
+    "第四の未使用作品で『連用形＋て＋即時独立活用語』条件の反例有無をblind確認する。",
+    "auxiliary-sequence-candidateが今回39位置では0だったため、助動詞列signalのカバレッジを別未使用本文で観測する。",
+    "に/を/とは節構造・係り先featureを設計し、隣接token signal単独でhard rule化しない。",
+    "learner-visible detectorはlegacyのまま維持する。"
+  ],
+  "regression": {
+    "existingFourSamples": {
+      "before": {
+        "raw": 310,
+        "resolved": 187,
+        "suppressed": 123,
+        "strict": 145,
+        "ambiguous": 42,
+        "unspecified": 0
+      },
+      "after": {
+        "raw": 310,
+        "resolved": 187,
+        "suppressed": 123,
+        "strict": 145,
+        "ambiguous": 42,
+        "unspecified": 0
+      },
+      "resolvedPositionDiff": 0,
+      "suppressedPositionDiff": 0
+    },
+    "developmentGoldDecisionPath": {
+      "works": [
+        "徒然草52",
+        "伊勢物語6 芥川",
+        "方丈記冒頭"
+      ],
+      "result": "resolved/suppressed position sets unchanged before vs after signal patch",
+      "note": "この比較はresolver decision-path不変確認。blind/development scoreの再定義ではない。"
+    }
+  }
+}

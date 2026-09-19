@@ -43,6 +43,10 @@ jobs:
           mkdir -p _site/100 _site/kana
           cp -r packages/hyakunin/dist/. _site/100/
           cp -r packages/kanazukai/dist/. _site/kana/
+          # conj/ vintage-kana/ checkpoint/ は独立した静的アプリ。ビルド不要・内部構造は無加工でそのまま置く。
+          cp -r conj _site/conj
+          cp -r vintage-kana _site/vintage-kana
+          cp -r checkpoint _site/checkpoint
           # 404 はリポジトリ名を含む本物の base へ向ける。ソースの 404 はローカル開発用で /100/ を指す。
           printf %s "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/$REPO/100/\">" > _site/100/404.html
           printf %s "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/$REPO/kana/\">" > _site/kana/404.html
@@ -57,6 +61,9 @@ jobs:
           <ul>
             <li><a href="/$REPO/100/">百人一首練習帳</a></li>
             <li><a href="/$REPO/kana/">歴史的仮名遣い確認ツール（準備中）</a></li>
+            <li><a href="/$REPO/conj/">活用ドリル（開発中）</a></li>
+            <li><a href="/$REPO/vintage-kana/">vintage-kana（開発中）</a></li>
+            <li><a href="/$REPO/checkpoint/">checkpoint（開発中）</a></li>
           </ul>
           <p><a href="https://github.com/${{ github.repository }}">ソースと既知の制約</a></p>
           </body></html>

@@ -1,0 +1,68 @@
+{
+  "updated": "2026-09-19",
+  "work": "大和物語",
+  "status": "pilot / all-gates-passed",
+  "provider": "やたがらすナビ",
+  "edition": {
+    "title": "三条西家旧蔵伝為氏筆本『大和物語』",
+    "url": "https://yatanavi.org/text/yamato/index.html",
+    "bibliographicSource": "三条西家旧蔵伝冷泉為氏筆本。影印: 古文学秘籍叢刊 上下（1933）",
+    "rightsVerified": true,
+    "sourceLicense": "CC BY-SA 4.0",
+    "rightsNote": "作品トップで底本・著作権者を明記。各ページのフッタで特記なき内容はCC BY-SA 4.0。翻刻部分は自由利用可と明記。",
+    "editorialNote": "校訂本文は濁点・句読点・段落・送り仮名・仮名遣い等を適宜整えているため、CHJ targetとpublicTargetを分離する。"
+  },
+  "records": [
+    {
+      "id": "adjv-081",
+      "chjTarget": "まちどほに",
+      "publicTarget": "待ち遠に",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/yamato/u_yamato074",
+      "excerpt": "宿近く移して植ゑしかひもなく待ち遠にのみ見ゆる花かな",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第74段。連用形「に」を確認。"
+    },
+    {
+      "id": "adjv-029",
+      "chjTarget": "ただなら",
+      "publicTarget": "ただなら",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/yamato/u_yamato113",
+      "excerpt": "大空もただならぬかな神無月われのみ下に時雨ると思へば",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第113段。未然形「なら」＋打消「ぬ」を確認。"
+    },
+    {
+      "id": "adjv-063",
+      "chjTarget": "すずろなる",
+      "publicTarget": "すずろなる",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/yamato/u_yamato148",
+      "excerpt": "すずろなる者に、何かは物多く賜はん",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第148段。連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-043",
+      "chjTarget": "清らなり",
+      "publicTarget": "きよらなり",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/yamato/u_yamato149",
+      "excerpt": "この女、顔・形、いときよらなり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第149段。漢字／かな表記差。終止形「なり」を確認。"
+    }
+  ],
+  "counts": {
+    "total": 4,
+    "rightsVerified": 4,
+    "targetVerified": 4,
+    "excerptReviewed": 4,
+    "publicationEnabled": 4
+  }
+}

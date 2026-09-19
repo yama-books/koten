@@ -1,0 +1,95 @@
+{
+  "updated": "2026-09-19",
+  "work": "保元物語",
+  "status": "blocked-with-reason / rights-clear-target-verification-blocked",
+  "provider": "Wikimedia Commons / NDL scan",
+  "edition": {
+    "title": "有朋堂文庫『保元物語 ; 平治物語 ; 北条九代記』",
+    "url": "https://commons.wikimedia.org/wiki/File:NDL1186667_保元物語_;_平治物語_;_北条九代記_part1.pdf",
+    "bibliographicSource": "武笠三校・有朋堂書店・1927",
+    "rightsVerified": true,
+    "rightsStatus": "public domain scan / PD-Japan",
+    "editionFixed": true,
+    "note": "Wikimedia Commons / NDL由来の旧版本スキャン。原資料・機械的スキャンともPD扱い。"
+  },
+  "blocker": "対象10例を同一版で安全に検索・照合できるテキスト層を確保できない。Wikisourceは底本選択ページのみで本文転写が未整備。画像/PDFからの推測転記は行わない。",
+  "records": [
+    {
+      "id": "adjv-004",
+      "chjTarget": "和らかなり",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-017",
+      "chjTarget": "無慙なれ",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-036",
+      "chjTarget": "しづかなら",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-054",
+      "chjTarget": "さだかなり",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-084",
+      "chjTarget": "俄に",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-098",
+      "chjTarget": "忙然たり",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-107",
+      "chjTarget": "嵯々と",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-109",
+      "chjTarget": "眇々と",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-112",
+      "chjTarget": "爛干と",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-115",
+      "chjTarget": "渺茫たる",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    }
+  ],
+  "counts": {
+    "total": 10,
+    "rightsVerified": 10,
+    "targetVerified": 0,
+    "excerptReviewed": 0,
+    "publicationEnabled": 0
+  }
+}

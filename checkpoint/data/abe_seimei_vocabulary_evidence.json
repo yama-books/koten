@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "安倍晴明『宇治拾遺物語』語彙証拠",
+  "source": {
+    "title": "安倍晴明_本文・文法・語彙整理.docx",
+    "section": "④ 中学生には難しいと考えられる語"
+  },
+  "policy": [
+    "ユーザー提供教材に明示された語彙説明を内部DBとして保持する。",
+    "Checkpoint UIでは答えを即表示せず、辞書・見出し語案内の根拠として使う。",
+    "一般古語辞典の正本を代替するものではない。"
+  ],
+  "entryCount": 29,
+  "entries": [
+    {
+      "surface": "安倍晴明",
+      "meaning": "平安時代の陰陽師。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "御堂関白",
+      "meaning": "藤原道長を指す呼び名。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "いづく",
+      "meaning": "どこ。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "やすく",
+      "meaning": "たやすく。簡単に。ここでは「わけない」の意。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "案",
+      "meaning": "予想・考え。「案のごとく」で「予想どおり」。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "糺す",
+      "meaning": "調べて正す。ここでは、誰が行ったことか調べる。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "不便",
+      "meaning": "気の毒・いとしいの意。ここでは犬をかわいがり、大切にする意。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "建立",
+      "meaning": "寺院などを建てること。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "塞がる",
+      "meaning": "前をふさいで通れないようにする。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "御衣",
+      "meaning": "身分の高い人の衣服。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "裾",
+      "meaning": "衣服の下の端。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "やう",
+      "meaning": "事情・わけ。「やうある事」で「何かわけのあること」。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "則ち",
+      "meaning": "すぐに。さっそく。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "呪詛",
+      "meaning": "人を呪うこと。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "朱砂",
+      "meaning": "赤色の鉱物・顔料。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "懐",
+      "meaning": "衣服の胸元。ふところ。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "誦ず",
+      "meaning": "呪文や経文などを声に出して唱える。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "白鷺",
+      "meaning": "白いサギ。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "古る",
+      "meaning": "古くなる。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "からめ取る",
+      "meaning": "捕らえて縛る。捕縛する。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "故",
+      "meaning": "理由。「呪詛の故」で「呪詛をした理由」。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "かたり",
+      "meaning": "頼み・依頼・働きかけの意と考えられる。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "仕る",
+      "meaning": "「する」の謙譲語。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "流罪",
+      "meaning": "遠い土地へ追放する刑。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "本国",
+      "meaning": "その人の出身国・本来の国。ここでは播磨国。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "怨霊",
+      "meaning": "恨みを抱き、災いをもたらすと考えられた死者の霊。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "崇り",
+      "meaning": "本文の表記。意味は「祟り」で、災いをもたらすこと。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "左府",
+      "meaning": "左大臣の異称。",
+      "sourceStatus": "user-source-reviewed"
+    },
+    {
+      "surface": "云々",
+      "meaning": "「などという」「以下略」ほどの意。",
+      "sourceStatus": "user-source-reviewed"
+    }
+  ]
+}

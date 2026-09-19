@@ -1,0 +1,980 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "title": "Checkpoint 平家物語「敦盛の最期」第四独立gold blind shadow評価",
+  "goldFile": "heike_atsumori_independent_gold_20260920.json",
+  "shadowVersion": "v0.15-stage2-right-context-signal",
+  "frozenEvaluation": true,
+  "rule": "gold commit 85f8197824fc9e0a35480839555b693d16f45014 後に現行shadowを初実行。このbaselineは今後の修正後も上書きしない。",
+  "summary": {
+    "goldPositions": 24,
+    "shadowRaw": 24,
+    "shadowResolvedArray": 4,
+    "shadowSuppressedArray": 20,
+    "strictPass": 12,
+    "strictPassRate": 0.5,
+    "goldResolveTargets": 14,
+    "strictCorrectResolve": 2,
+    "strictResolveRecall": 0.14285714285714285,
+    "goldSuppressTargets": 10,
+    "correctSuppression": 10,
+    "suppressionRecall": 1,
+    "falsePositiveResolved": 0,
+    "wrongResolved": 0,
+    "wrongSuppressed": 0,
+    "unresolvedContext": 10,
+    "resolvedButAmbiguous": 2,
+    "missing": 0
+  },
+  "interpretation": [
+    "第四の未使用作品でもlarger-unit suppressionは10/10。false-positive resolved 0、wrongResolved 0。",
+    "文法strict resolveは2/14で、引き続き安全側のunder-resolvingが主問題。",
+    "resolved-but-ambiguousは「とも」「けれ」の2位置。",
+    "未解決の接続助詞「て」2位置と完了「つ」連用形「て」1位置はいずれも誤確定せずholdされた。",
+    "今回の新規right-context signalは、未使用作品の語形がsource-reviewed token morphologyに未収録のため「て」識別の直接coverageを増やさなかった。これは仮説反証ではなくtoken morphology coverage不足として扱う。",
+    "goldに合わせたexact morphology/evidence追加は行わない。次はpassage-independentなtokenizer/morphology coverageを検討する。"
+  ],
+  "outcomeCounts": {
+    "PASS_SUPPRESSED": 10,
+    "UNRESOLVED_CONTEXT": 10,
+    "PASS_RESOLVED_LEMMA": 2,
+    "RESOLVED_AMBIGUOUS": 2
+  },
+  "entries": [
+    {
+      "id": "heike-atsumori-gold-001",
+      "surface": "に",
+      "start": 5,
+      "end": 6,
+      "context": "熊谷あまりにいとほしくて、いづくに刀",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "あまりに",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "熊谷あまり",
+          "nextChars": "いとほしくて、い",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-002",
+      "surface": "と",
+      "start": 7,
+      "end": 8,
+      "context": "熊谷あまりにいとほしくて、いづくに刀を立",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "いとほしく",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "谷あまりにい",
+          "nextChars": "ほしくて、いづく",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-003",
+      "surface": "し",
+      "start": 9,
+      "end": 10,
+      "context": "熊谷あまりにいとほしくて、いづくに刀を立つべ",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "いとほしく",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "まりにいとほ",
+          "nextChars": "くて、いづくに刀",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-004",
+      "surface": "て",
+      "start": 11,
+      "end": 12,
+      "context": "谷あまりにいとほしくて、いづくに刀を立つべしと",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "punctuation-boundary",
+            "basis": "immediate-punctuation"
+          },
+          "previousChars": "にいとほしく",
+          "nextChars": "、いづくに刀を立",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": true
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-005",
+      "surface": "に",
+      "start": 16,
+      "end": 17,
+      "context": "いとほしくて、いづくに刀を立つべしともおぼえず",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": {
+            "surface": "いづく",
+            "start": 13,
+            "end": 16,
+            "trust": "curated"
+          },
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "くて、いづく",
+          "nextChars": "刀を立つべしとも",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-006",
+      "surface": "を",
+      "start": 18,
+      "end": 19,
+      "context": "ほしくて、いづくに刀を立つべしともおぼえず、目",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "、いづくに刀",
+          "nextChars": "立つべしともおぼ",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-007",
+      "surface": "べし",
+      "start": 21,
+      "end": 23,
+      "context": "て、いづくに刀を立つべしともおぼえず、目もくれ心",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "べし",
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only",
+        "supportCandidateIds": [],
+        "supportAuxiliaryLemma": null,
+        "decision": {
+          "state": "specific",
+          "basis": "single-candidate-inventory",
+          "identity": "aux:べし"
+        },
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "grammar-surface-ambiguous",
+            "basis": "immediate-indexed-grammar-surface",
+            "grammarSurface": {
+              "surface": "とも",
+              "auxiliaryLemmas": [],
+              "discriminationCandidateIds": [
+                "to_plus_mo",
+                "conjunctive_particle_tomo"
+              ],
+              "projectCandidateIds": [],
+              "uniqueAuxiliaryOnly": false
+            }
+          },
+          "previousChars": "くに刀を立つ",
+          "nextChars": "ともおぼえず、目",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-008",
+      "surface": "し",
+      "start": 22,
+      "end": 23,
+      "context": "、いづくに刀を立つべしともおぼえず、目もくれ心",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "べし",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "べし",
+        "localSyntaxFeatures": null
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-009",
+      "surface": "とも",
+      "start": 23,
+      "end": 25,
+      "context": "いづくに刀を立つべしともおぼえず、目もくれ心も消",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "to_plus_mo",
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": [],
+        "supportAuxiliaryLemma": null,
+        "decision": {
+          "state": "ambiguous",
+          "basis": "multiple-candidate-inventory",
+          "candidateCount": 2
+        },
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "刀を立つべし",
+          "nextChars": "おぼえず、目もく",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-010",
+      "surface": "と",
+      "start": 23,
+      "end": 24,
+      "context": "いづくに刀を立つべしともおぼえず、目もくれ心も",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "とも",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "とも",
+        "localSyntaxFeatures": null
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-011",
+      "surface": "て",
+      "start": 39,
+      "end": 40,
+      "context": "、目もくれ心も消えはてて、前後不覚におぼえけれ",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "はて",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "grammar-surface-ambiguous",
+            "basis": "immediate-indexed-grammar-surface",
+            "grammarSurface": {
+              "surface": "て",
+              "auxiliaryLemmas": [],
+              "discriminationCandidateIds": [
+                "aux_tsu_mizen_renyo",
+                "conjunctive_particle_te"
+              ],
+              "projectCandidateIds": [],
+              "uniqueAuxiliaryOnly": false
+            }
+          },
+          "previousChars": "れ心も消えは",
+          "nextChars": "て、前後不覚にお",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-012",
+      "surface": "て",
+      "start": 40,
+      "end": 41,
+      "context": "目もくれ心も消えはてて、前後不覚におぼえけれど",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "punctuation-boundary",
+            "basis": "immediate-punctuation"
+          },
+          "previousChars": "心も消えはて",
+          "nextChars": "、前後不覚におぼ",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": true
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-013",
+      "surface": "に",
+      "start": 46,
+      "end": 47,
+      "context": "消えはてて、前後不覚におぼえけれども、さてしも",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "nari_adjective_renyo_ni",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "て、前後不覚",
+          "nextChars": "おぼえけれども、",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-014",
+      "surface": "けれ",
+      "start": 50,
+      "end": 52,
+      "context": "て、前後不覚におぼえけれども、さてしもあるべき事",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_keri_izen",
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": [],
+        "supportAuxiliaryLemma": null,
+        "decision": {
+          "state": "ambiguous",
+          "basis": "multiple-candidate-inventory",
+          "candidateCount": 6
+        },
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "不覚におぼえ",
+          "nextChars": "ども、さてしもあ",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-015",
+      "surface": "て",
+      "start": 56,
+      "end": 57,
+      "context": "におぼえけれども、さてしもあるべき事ならねば、",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "さて",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "grammar-surface-ambiguous",
+            "basis": "immediate-indexed-grammar-surface",
+            "grammarSurface": {
+              "surface": "し",
+              "auxiliaryLemmas": [],
+              "discriminationCandidateIds": [
+                "sahen_su_renyo",
+                "aux_ki_rentai",
+                "adverbial_particle_shi"
+              ],
+              "projectCandidateIds": [],
+              "uniqueAuxiliaryOnly": false
+            }
+          },
+          "previousChars": "けれども、さ",
+          "nextChars": "しもあるべき事な",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-016",
+      "surface": "し",
+      "start": 57,
+      "end": 58,
+      "context": "おぼえけれども、さてしもあるべき事ならねば、泣",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "adverbial_particle_shi",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "れども、さて",
+          "nextChars": "もあるべき事なら",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-017",
+      "surface": "る",
+      "start": 60,
+      "end": 61,
+      "context": "けれども、さてしもあるべき事ならねば、泣く泣く",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ある",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-token",
+        "suppressedBy": "ある",
+        "localSyntaxFeatures": null
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-018",
+      "surface": "べき",
+      "start": 61,
+      "end": 63,
+      "context": "れども、さてしもあるべき事ならねば、泣く泣く頸を",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "べし",
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only",
+        "supportCandidateIds": [],
+        "supportAuxiliaryLemma": null,
+        "decision": {
+          "state": "specific",
+          "basis": "single-candidate-inventory",
+          "identity": "aux:べし"
+        },
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": {
+            "surface": "ある",
+            "start": 59,
+            "end": 61,
+            "trust": "curated"
+          },
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "さてしもある",
+          "nextChars": "事ならねば、泣く",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-019",
+      "surface": "な",
+      "start": 64,
+      "end": 65,
+      "context": "、さてしもあるべき事ならねば、泣く泣く頸をぞか",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なら",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "もあるべき事",
+          "nextChars": "らねば、泣く泣く",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-020",
+      "surface": "ね",
+      "start": 66,
+      "end": 67,
+      "context": "てしもあるべき事ならねば、泣く泣く頸をぞかいて",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_zu_izen_ne",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "grammar-surface-ambiguous",
+            "basis": "immediate-indexed-grammar-surface",
+            "grammarSurface": {
+              "surface": "ば",
+              "auxiliaryLemmas": [],
+              "discriminationCandidateIds": [
+                "conjunctive_ba_hypothetical",
+                "conjunctive_ba_fixed",
+                "particle_wa_voiced_ba"
+              ],
+              "projectCandidateIds": [],
+              "uniqueAuxiliaryOnly": false
+            }
+          },
+          "previousChars": "るべき事なら",
+          "nextChars": "ば、泣く泣く頸を",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-021",
+      "surface": "ば",
+      "start": 67,
+      "end": 68,
+      "context": "しもあるべき事ならねば、泣く泣く頸をぞかいてん",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_ba_fixed",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": {
+            "surface": "泣く",
+            "start": 69,
+            "end": 71,
+            "form": "連体形",
+            "pos": "動詞",
+            "conjugationClass": "カ行四段活用",
+            "evidence": "audited_inflected_form_index_500.json",
+            "skippedBetween": "、"
+          },
+          "rightTokenRoleSignal": {
+            "role": "punctuation-boundary",
+            "basis": "immediate-punctuation"
+          },
+          "previousChars": "べき事ならね",
+          "nextChars": "、泣く泣く頸をぞ",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": true
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-022",
+      "surface": "を",
+      "start": 74,
+      "end": 75,
+      "context": "ならねば、泣く泣く頸をぞかいてんげる。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "、泣く泣く頸",
+          "nextChars": "ぞかいてんげる。",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-023",
+      "surface": "て",
+      "start": 78,
+      "end": 79,
+      "context": "、泣く泣く頸をぞかいてんげる。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_tsu_mizen_renyo",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "unknown",
+            "basis": "insufficient-signal"
+          },
+          "previousChars": "く頸をぞかい",
+          "nextChars": "んげる。",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": false
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    },
+    {
+      "id": "heike-atsumori-gold-024",
+      "surface": "る",
+      "start": 81,
+      "end": 82,
+      "context": "泣く頸をぞかいてんげる。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "げる（けり連体形の音変化）",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null,
+        "localSyntaxFeatures": {
+          "policy": "local_syntax_feature_policy.json",
+          "mode": "signal-only",
+          "leftTrustedToken": null,
+          "rightTrustedToken": null,
+          "previousMorphology": null,
+          "nextMorphology": null,
+          "rightTokenRoleSignal": {
+            "role": "punctuation-boundary",
+            "basis": "immediate-punctuation"
+          },
+          "previousChars": "ぞかいてんげ",
+          "nextChars": "。",
+          "quoteBoundary": {
+            "before": false,
+            "after": false
+          },
+          "punctuationBoundary": {
+            "before": false,
+            "after": true
+          },
+          "matchedRightContextCue": []
+        }
+      }
+    }
+  ]
+}

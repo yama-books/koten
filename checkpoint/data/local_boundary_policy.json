@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 局所境界シグナル方針",
+  "mode": "signal-only",
+  "punctuationChars": [
+    "、",
+    "。",
+    "！",
+    "？",
+    "!",
+    "?",
+    "「",
+    "」",
+    "『",
+    "』",
+    "（",
+    "）",
+    "(",
+    ")",
+    "\n"
+  ],
+  "quoteOpeners": [
+    "「",
+    "『"
+  ],
+  "quoteClosers": [
+    "」",
+    "』"
+  ],
+  "sentenceStops": [
+    "。",
+    "！",
+    "？",
+    "!",
+    "?",
+    "\n"
+  ],
+  "policy": [
+    "context-required hitの前後1〜2文字だけを観測し、全文形態素解析の前に安全な境界候補を記録する。",
+    "signal-only段階では、句読点・文字種遷移・引用境界だけを理由に候補をresolvedへ昇格しない。",
+    "既に出典付きhard-boundary規則がある場合だけ別resolverでresolvedを許す。",
+    "漢字→ひらがな等の文字種遷移は語境界の手がかりに留め、語境界そのものとはみなさない。",
+    "学習者向け表示には接続せず、shadow auditの分析材料だけに使う。"
+  ],
+  "charClasses": [
+    "han",
+    "hiragana",
+    "katakana",
+    "latin",
+    "digit",
+    "punctuation",
+    "space",
+    "other"
+  ],
+  "nextStep": "109件のsignal分布を監査し、複数証拠が一致するケースだけresolver候補へ上げる。"
+}

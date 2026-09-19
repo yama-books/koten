@@ -1,0 +1,163 @@
+{
+  "updated": "2026-09-19",
+  "authority": "『新しい古典文法 四訂新版』付録",
+  "policy": {
+    "separateParadigmAndExamples": true,
+    "note": "活用表セルの正当性と実例の存在を分離。実例未確認セルも活用表では学習する。"
+  },
+  "paradigms": [
+    {
+      "id": "adjv-nari",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "series": "ナリ活用",
+      "forms": [
+        {
+          "form": "未然形",
+          "formIndex": 0,
+          "main": [
+            "なら"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": true,
+          "exampleEnabled": true
+        },
+        {
+          "form": "連用形",
+          "formIndex": 1,
+          "main": [
+            "なり"
+          ],
+          "sub": [
+            "に"
+          ],
+          "paradigmVerified": true,
+          "corpusAttested": true,
+          "exampleEnabled": true
+        },
+        {
+          "form": "終止形",
+          "formIndex": 2,
+          "main": [
+            "なり"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": true,
+          "exampleEnabled": true
+        },
+        {
+          "form": "連体形",
+          "formIndex": 3,
+          "main": [
+            "なる"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": true,
+          "exampleEnabled": true
+        },
+        {
+          "form": "已然形",
+          "formIndex": 4,
+          "main": [
+            "なれ"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": true,
+          "exampleEnabled": true
+        },
+        {
+          "form": "命令形",
+          "formIndex": 5,
+          "main": [
+            "なれ"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": true,
+          "exampleEnabled": true,
+          "note": "今回母集団では「なれかし」1例を命令形候補として採用"
+        }
+      ]
+    },
+    {
+      "id": "adjv-tari",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "series": "タリ活用",
+      "forms": [
+        {
+          "form": "未然形",
+          "formIndex": 0,
+          "main": [
+            "たら"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": false,
+          "exampleEnabled": false
+        },
+        {
+          "form": "連用形",
+          "formIndex": 1,
+          "main": [
+            "たり"
+          ],
+          "sub": [
+            "と"
+          ],
+          "paradigmVerified": true,
+          "corpusAttested": true,
+          "exampleEnabled": true
+        },
+        {
+          "form": "終止形",
+          "formIndex": 2,
+          "main": [
+            "たり"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": true,
+          "exampleEnabled": true
+        },
+        {
+          "form": "連体形",
+          "formIndex": 3,
+          "main": [
+            "たる"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": true,
+          "exampleEnabled": true
+        },
+        {
+          "form": "已然形",
+          "formIndex": 4,
+          "main": [
+            "たれ"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": false,
+          "exampleEnabled": false
+        },
+        {
+          "form": "命令形",
+          "formIndex": 5,
+          "main": [
+            "たれ"
+          ],
+          "sub": [],
+          "paradigmVerified": true,
+          "corpusAttested": false,
+          "exampleEnabled": false
+        }
+      ]
+    }
+  ]
+}

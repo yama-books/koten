@@ -1,0 +1,6531 @@
+{
+  "schemaVersion": "0.4",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 既知語境界インデックス",
+  "policy": [
+    "学習者向け解析ではなくshadow検出の内部重複抑制に使う。",
+    "監査済み500例はkanji-anchored表面形だけを採用する。",
+    "basic_lexicon と inflecting_words の登録表面形は curated whole-token として扱う。",
+    "短い識別表面形が、より長い既知語の内部に完全包含される場合は、その短い表面形を独立候補として自動表示しない。",
+    "この抑制は『長い語の分析が正しい』ことまで意味せず、文字列内部の過剰マーキングを避けるための境界証拠に限る。",
+    "全500例DBで活用形が曖昧でも、2文字以上かつ漢字を含む監査済みtargetは、文法確定ではなく語境界抑制専用のtrusted tokenとして利用できる。",
+    "v1.3のBASIC_WORDSフィルタをDB境界レイヤへ移し、既存挙動をshadowでも再現する。",
+    "外部辞書で一語性を照合した機能語は、出典を明示したうえで文法確定ではなく内部hit抑制専用のtrusted tokenとして追加できる。",
+    "独立gold blind baseline後に発見した語内部false-positiveは、文法正解を直接追加せず、複数資料で一語と確認できるlarger-token boundaryとして追加する。"
+  ],
+  "entryCount": 339,
+  "suppressibleCount": 339,
+  "entries": [
+    {
+      "surface": "出でおはしましがたから",
+      "length": 11,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "読み据ゑがたかる",
+      "length": 8,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "思ひまゐらすれ",
+      "length": 7,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "サ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "恥ぢがましかる",
+      "length": 7,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "雲かくれゆく",
+      "length": 6,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "忌まはしかる",
+      "length": 6,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "見ぐるしかる",
+      "length": 6,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "古めかしかり",
+      "length": 6,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "思しこがるれ",
+      "length": 6,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ラ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "生れさせ給へ",
+      "length": 6,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞きにくから",
+      "length": 6,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞こえさする",
+      "length": 6,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "聞こえさす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞こえさすれ",
+      "length": 6,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "聞こえさす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "うみ落とす",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おはしまさ",
+      "length": 5,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "おはします",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おはしまし",
+      "length": 5,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "おはします",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おはします",
+      "length": 5,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "おはします",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おはしませ",
+      "length": 5,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "おはします",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "からめ取る",
+      "length": 5,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "すみ憂かり",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "つけ試みる",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "案のごとく",
+      "length": 5,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "案",
+            "ごとし"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "引き乗せよ",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "サ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "勧めたまへ",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "願はしかる",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "求めたまへ",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "口惜しかり",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "思はしかる",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "似げなから",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "似つかはし",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "取り出だし",
+      "length": 5,
+      "sources": [
+        {
+          "source": "external-dictionary-crosscheck",
+          "trust": "high",
+          "title": "精選版 日本国語大辞典「取り出だす」",
+          "url": "https://kotobank.jp/word/%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%A0%E3%81%99-585658",
+          "note": "サ行四段動詞「取り出だす」の活用語形。境界抑制のみに使用。"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "取り難かり",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "心のとけき",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "心苦しけれ",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "羨ましから",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "嘆かしけれ",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞こえさし",
+      "length": 5,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "聞こえさす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞こえさす",
+      "length": 5,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "聞こえさす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞こえさせ",
+      "length": 5,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "聞こえさす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "別れがたく",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "本意なかる",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "目出たけれ",
+      "length": 5,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "例のごとく",
+      "length": 5,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "例の",
+            "ごとし"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "あらはせ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "あらはす"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "いかさま",
+      "length": 4,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "いかさま"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "いよいよ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "うらむれ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "恨む",
+          "class": "マ行上二段活用",
+          "forms": [
+            "連用形",
+            "終止形",
+            "連体形",
+            "已然形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おはする",
+      "length": 4,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "おはす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おはすれ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "おはす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "くだくる",
+      "length": 4,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "砕く",
+          "class": "カ行下二段活用",
+          "forms": [
+            "連体形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "さし出づ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "たちまち",
+      "length": 4,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "たなびき",
+      "length": 4,
+      "sources": [
+        {
+          "source": "external-grammar-crosscheck",
+          "trust": "high",
+          "title": "マナペディア「たなびく／棚引く」",
+          "url": "https://manapedia.jp/text/4091",
+          "note": "カ行四段活用の連用形「たなびき」を枕草子の当該文で明示。境界抑制のみに使用。"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "なぐさま",
+      "length": 4,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "慰む",
+          "class": "マ行四段活用",
+          "forms": [
+            "未然形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "のたまは",
+      "length": 4,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "のたまふ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "のたまひ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "のたまふ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "のたまふ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "のたまふ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "のたまへ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "のたまふ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "めぐり来",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "やうある",
+      "length": 4,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "やう"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "安倍晴明",
+      "length": 4,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "引き見よ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "久しかれ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "急ぎ見れ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "恐ろしき",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "苦しから",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "見わたせ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "御堂関白",
+      "length": 4,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "御覧ずれ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "御覧ぜよ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "参らする",
+      "length": 4,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "参らす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "参らすれ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "参らす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "思ひいづ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "心うかる",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "新枕すれ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "尋ね来る",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "大殿籠れ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "恥づかし",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "調伏せよ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "程なかる",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "貧しけれ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "物うかる",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞こゆる",
+      "length": 4,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "聞こゆ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞こゆれ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "聞こゆ",
+          "category": "honorific"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "歩み来る",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "乏しから",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "木高かれ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "目近から",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "夜深かり",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "立ち去ら",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "立ち来れ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "露けかり",
+      "length": 4,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "いかが",
+      "length": 3,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "いかが"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "いづく",
+      "length": 3,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "いづく"
+          ]
+        },
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "いつも",
+      "length": 3,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "うらむ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "恨む",
+          "class": "マ行上二段活用",
+          "forms": [
+            "連用形",
+            "終止形",
+            "連体形",
+            "已然形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おはし",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "おはす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おはす",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "おはす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おはせ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "おはす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "かかる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "かかり"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "かたり",
+      "length": 3,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "ごとく",
+      "length": 3,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "ごとし"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "しばし",
+      "length": 3,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "すこし",
+      "length": 3,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "そひ行",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "たがへ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "違ふ",
+          "class": "ハ行下二段活用",
+          "forms": [
+            "未然形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "たのま",
+      "length": 3,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "頼む",
+          "class": "マ行四段活用",
+          "forms": [
+            "未然形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "なでふ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "なでふ"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "ばかり",
+      "length": 3,
+      "sources": [
+        {
+          "source": "external-dictionary-crosscheck",
+          "trust": "high",
+          "title": "精選版 日本国語大辞典「ばかり」",
+          "provider": "コトバンク",
+          "url": "https://kotobank.jp/word/%E3%81%B0%E3%81%8B%E3%82%8A-357062",
+          "note": "副詞助（副助詞）として一語で立項。境界抑制のみに使用。"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "やすく",
+      "length": 3,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "やすし"
+          ]
+        },
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "わくる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "分ける",
+          "class": "カ行下二段活用",
+          "forms": [
+            "連体形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "悪しく",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "悪し"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "案ずる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "遠けれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "往ぬる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "往ぬれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "下りよ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ラ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "下るる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ラ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "下るれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ラ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "過ぎよ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "過ぐる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "過ぐれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "快から",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "悔ゆれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ヤ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "帰り来",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "起きよ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "カ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "久しく",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "求むる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "マ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "給ふる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "給ふ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "給ふれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "給ふ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "空しき",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "軽かる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "見せよ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "サ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "見ゆる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "遣はし",
+      "length": 3,
+      "sources": [
+        {
+          "source": "user-source-reviewed",
+          "trust": "high",
+          "title": "安倍晴明_本文・文法・語彙整理.docx",
+          "evidence": "歴史的仮名遣いの語として「遣はし → 遣わし」を明示",
+          "use": "boundary-only"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "御越し",
+      "length": 3,
+      "sources": [
+        {
+          "source": "user-source-reviewed",
+          "trust": "high",
+          "title": "安倍晴明_本文・文法・語彙整理.docx",
+          "evidence": "読みが難しい語・敬語表現として「御越し」を明示",
+          "use": "boundary-only"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "御覧じ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "御覧ぜ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "広けれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "黒かり",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "恨むる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "マ行上二段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "恨む",
+          "class": "マ行上二段活用",
+          "forms": [
+            "連用形",
+            "終止形",
+            "連体形",
+            "已然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "塞がる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "参らし",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "参らす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "参らす",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "参らす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "参らせ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "参らす",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "仕ふる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ハ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "死ぬれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "試みよ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "疾かり",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "重かる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "出づれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "出でよ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "出で来",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "助けよ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "カ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "尋ぬる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ナ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "尋ね来",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "据うる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ワ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "奏せよ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "憎から",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "尊かり",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "損ずる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "長かる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "長かれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "忍ふる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "バ行上二段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "忍ぶ",
+          "class": "バ行上二段活用",
+          "forms": [
+            "終止形",
+            "連体形",
+            "已然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "忍ぶれ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "バ行上二段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "忍ぶ",
+          "class": "バ行上二段活用",
+          "forms": [
+            "終止形",
+            "連体形",
+            "已然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "悲しき",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "物悲し",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "形容詞",
+          "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞こえ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "聞こゆ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞こゆ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "聞こゆ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "夢見る",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "明から",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "用ゐよ",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ワ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "用ゐる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ワ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "落つる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "タ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "乱るる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ラ行下二段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "乱れる",
+          "class": "ラ行下二段活用",
+          "forms": [
+            "連体形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "あり",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "ある",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "おら",
+      "length": 2,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "折る",
+          "class": "ラ行四段活用",
+          "forms": [
+            "未然形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "きと",
+      "length": 2,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "きと"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "きり",
+      "length": 2,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "切る",
+          "class": "ラ行四段活用",
+          "forms": [
+            "連用形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "こよ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "来（く）",
+          "class": "カ行変格活用",
+          "forms": [
+            "命令形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "もし",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "やう",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "わか",
+      "length": 2,
+      "sources": [
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "分く",
+          "class": "カ行四段活用",
+          "forms": [
+            "未然形"
+          ]
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "わざ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "わざ"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "暗き",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "云々",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "怨霊",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "往に",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "過ぎ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "過ぐ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "覚ゆ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "寒き",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "寄せ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "サ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "帰る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "起き",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "起せ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "急げ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ガ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "求め",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "求よ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "マ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "汲む",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "マ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "泣く",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "泣け",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "給は",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "給ふ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "給ひ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "給ふ",
+          "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "給ふ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "給ふ",
+          "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "給へ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "給ふ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "去ぬ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "契り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "経る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ハ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "結ば",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "バ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "建立",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "見え",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "見よ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "見る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "見れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "言ひ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "古る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "呼ぶ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "御衣",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "候は",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "候ふ",
+          "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "候ひ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "候ふ",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "候ふ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "候ふ",
+          "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "候へ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "候ふ",
+          "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "向後",
+      "length": 2,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "向後"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "好め",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "マ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "更け",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "カ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "行く",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "行け",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "行は",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "降ら",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "降り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "降る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "高し",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "困じ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "恨み",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "マ行上二段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "恨む",
+          "class": "マ行上二段活用",
+          "forms": [
+            "連用形",
+            "終止形",
+            "連体形",
+            "已然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "左府",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "咲く",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "作れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "参ら",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "参る",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "参り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "参る",
+          "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "参る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "参る",
+          "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "参れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "参る",
+          "category": "honorific"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "仕る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "思す",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "思ひ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "思ふ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "思へ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "死な",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "死に",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "死ぬ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "死ね",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "侍ら",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "侍り",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "侍り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ラ行変格活用"
+        },
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "侍り",
+          "category": "honorific"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "侍る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "侍り",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "侍れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "侍り",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "持て",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "タ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "偲ぶ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "バ行上二段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "偲ぶ",
+          "class": "バ行上二段活用",
+          "forms": [
+            "終止形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "射よ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ヤ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "射れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ヤ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "取り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "取る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "守れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "朱砂",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "呪詛",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "蹴よ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "カ行下一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "住む",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "マ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "出で",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "書け",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "召さ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "召す",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "召し",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "召す",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "召す",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "召す",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "召せ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "召す",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "少し",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "消ゆ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "笑は",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "笑ふ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "寝よ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "ナ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "深き",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "形容詞",
+          "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "申さ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "申す",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "申し",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "申す",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "申す",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "申す",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "申せ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "申す",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "尋ぬ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ナ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "尋ね",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "吹く",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "崇り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "成行",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "生く",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "カ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "生ふ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ハ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "絶え",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "奏し",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "漕げ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ガ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "走ら",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "送れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "則ち",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "待つ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "タ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "待て",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "タ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "知る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "通ふ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "伝へ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "ハ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "得る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ア行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "遁れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ラ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "曇ら",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "入り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "入る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "入る",
+          "class": "ラ行四段活用",
+          "forms": [
+            "終止形",
+            "已然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "入れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "ラ行四段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "入る",
+          "class": "ラ行四段活用",
+          "forms": [
+            "終止形",
+            "已然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "忍ば",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "バ行四段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "忍ぶ",
+          "class": "バ行四段活用",
+          "forms": [
+            "未然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "忍ぶ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "バ行上二段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "忍ぶ",
+          "class": "バ行上二段活用",
+          "forms": [
+            "終止形",
+            "連体形",
+            "已然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "破れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ラ行下二段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "破る",
+          "class": "ラ行下二段活用",
+          "forms": [
+            "未然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "白鷺",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "犯さ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "描け",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "病し",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "不便",
+      "length": 2,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "不便なり"
+          ]
+        },
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "負ふ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連体形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞き",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "連用形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞け",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "奉ら",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "奉る",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "奉り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "奉る",
+          "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "奉る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "奉る",
+          "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "奉れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "inflectingWords",
+          "trust": "curated",
+          "lemma": "奉る",
+          "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "訪る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "ラ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "忘れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ラ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "本国",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "明け",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "カ行下二段活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "明く",
+          "class": "カ行下二段活用",
+          "forms": [
+            "未然形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "迷は",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "未然形",
+          "pos": "動詞",
+          "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "鳴く",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "終止形",
+          "pos": "動詞",
+          "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "来よ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "カ行変格活用"
+        },
+        {
+          "source": "corpusDistinctive",
+          "trust": "high",
+          "lemma": "来（く）",
+          "class": "カ行変格活用",
+          "forms": [
+            "命令形"
+          ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "来れ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "已然形",
+          "pos": "動詞",
+          "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "立て",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500",
+          "trust": "high",
+          "form": "命令形",
+          "pos": "動詞",
+          "class": "タ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "流罪",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "例の",
+      "length": 2,
+      "sources": [
+        {
+          "source": "basicLexicon",
+          "trust": "curated",
+          "headwordCandidates": [
+            "例の"
+          ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "糺す",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "誦ず",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "まじかり",
+      "length": 4,
+      "sources": [
+        {
+          "source": "Ise6-independent-gold-post-baseline",
+          "trust": "source-reviewed",
+          "pos": "助動詞",
+          "lemma": "まじ",
+          "form": "連用形"
+        },
+        {
+          "source": "品詞分解屋 伊勢物語第6段",
+          "trust": "secondary",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-151.html"
+        }
+      ],
+      "trust": "source-reviewed",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "呼ばひわたり",
+      "length": 6,
+      "sources": [
+        {
+          "source": "Ise6-independent-gold-post-baseline",
+          "trust": "source-reviewed",
+          "pos": "動詞",
+          "lemma": "呼ばひわたる",
+          "form": "連用形"
+        },
+        {
+          "source": "品詞分解屋 伊勢物語第6段",
+          "trust": "secondary",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-151.html"
+        }
+      ],
+      "trust": "source-reviewed",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "からうじて",
+      "length": 5,
+      "sources": [
+        {
+          "source": "Ise6-independent-gold-post-baseline",
+          "trust": "source-reviewed",
+          "pos": "副詞",
+          "lemma": "からうじて",
+          "form": null
+        },
+        {
+          "source": "品詞分解屋 伊勢物語第6段",
+          "trust": "secondary",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-151.html"
+        }
+      ],
+      "trust": "source-reviewed",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "しかも",
+      "length": 3,
+      "sources": [
+        {
+          "source": "Hojoki-third-blind-post-baseline",
+          "trust": "source-reviewed",
+          "pos": "接続詞",
+          "lemma": "しかも"
+        },
+        {
+          "source": "マナペディア 方丈記『ゆく河の流れ』品詞分解",
+          "trust": "secondary",
+          "url": "https://manapedia.jp/m/text/2223"
+        },
+        {
+          "source": "品詞分解屋 方丈記『ゆく河の流れ』",
+          "trust": "secondary",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-148.html"
+        }
+      ],
+      "trust": "source-reviewed",
+      "canSuppressInternalSurface": true
+    }
+  ]
+}

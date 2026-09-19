@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "0.2",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 表面形マッチ方針",
+  "defaults": {
+    "longestMeaningfulUnitFirst": true,
+    "exactStringDetectionDoesNotEqualAnalysis": true,
+    "oneCharacterSubstringDetection": "shadow-only-unless-context-supported",
+    "nestedSurfacePolicy": "prefer-explicit-largest-meaningful-unit"
+  },
+  "entries": [
+    {
+      "surface": "し",
+      "policy": "context-required",
+      "reason": "一文字で語内部一致が極めて多い。"
+    },
+    {
+      "surface": "に",
+      "policy": "context-required",
+      "reason": "助詞・活用語尾・助動詞活用形など候補が多い。"
+    },
+    {
+      "surface": "て",
+      "policy": "context-required",
+      "reason": "接続助詞・助動詞活用形などと衝突する。"
+    },
+    {
+      "surface": "と",
+      "policy": "context-required",
+      "reason": "助詞・活用語尾・副詞内部など候補が多い。"
+    },
+    {
+      "surface": "な",
+      "policy": "context-required",
+      "reason": "助詞・助動詞・動詞活用語尾との衝突が多い。"
+    },
+    {
+      "surface": "る",
+      "policy": "context-required",
+      "reason": "助動詞・活用語尾・動詞語尾との衝突が多い。"
+    },
+    {
+      "surface": "を",
+      "policy": "context-required",
+      "reason": "助詞として頻出し、仮名遣い規則とも衝突する。"
+    },
+    {
+      "surface": "が",
+      "policy": "context-required",
+      "reason": "格助詞・接続助詞の識別は前後関係が必要。"
+    },
+    {
+      "surface": "せ",
+      "policy": "context-required",
+      "reason": "サ変・過去「き」・使役尊敬「す」が衝突する。"
+    },
+    {
+      "surface": "けれ",
+      "policy": "prefer-known-whole-word",
+      "evidence": "adjective_surface_collision_evidence.json"
+    },
+    {
+      "surface": "しか",
+      "policy": "prefer-known-whole-word",
+      "evidence": "adjective_surface_collision_evidence.json"
+    },
+    {
+      "surface": "なむ",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "にて",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "ばや",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "らむ",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "して",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "とも",
+      "policy": "largest-meaningful-unit-first"
+    },
+    {
+      "surface": "ぬ",
+      "policy": "context-required",
+      "reason": "完了「ぬ」・打消「ず」の連体形・動詞語形内部などの衝突があり、一文字一致だけでは確定できない。"
+    },
+    {
+      "surface": "ね",
+      "policy": "context-required",
+      "reason": "完了「ぬ」の命令形・打消「ず」の已然形・語内部一致などがあり、前後関係が必要。"
+    },
+    {
+      "surface": "ば",
+      "policy": "context-required",
+      "reason": "未然形接続・已然形接続・係助詞「は」の濁音化などを接続から見分ける必要がある。"
+    },
+    {
+      "surface": "む",
+      "policy": "context-required",
+      "reason": "単独助動詞候補のほか「なむ・らむ」等の大きい単位内部にも現れるため、文字列一致だけでは通常表示しない。"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "updated": "2026-09-19",
+  "work": "蜻蛉日記",
+  "status": "pilot / all-gates-passed",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "蜻蛉日記 (國文大觀)",
+    "url": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
+    "bibliographicSource": "國文大觀 日記草子部",
+    "rightsVerified": true,
+    "rightsStatus": "listed in Wikisource PD-old-80-expired category",
+    "publicationTextLicenseNote": "WikisourceテキストはCC BY-SA利用条件を遵守する。"
+  },
+  "records": [
+    {
+      "id": "adjv-016",
+      "chjTarget": "忍びやかなれ",
+      "publicTarget": "忍びやかなれ",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
+      "excerpt": "忍びやかなれば萬につけて淚もろく覺ゆ",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "已然形「なれ」＋接続助詞「ば」を確認。"
+    },
+    {
+      "id": "adjv-027",
+      "chjTarget": "思はずなれ",
+      "publicTarget": "思はずなれ",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
+      "excerpt": "世に久しきことのいと思はずなれば塵ばかり惜しきにはあらず",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "已然形「なれ」＋接続助詞「ば」を確認。"
+    },
+    {
+      "id": "adjv-051",
+      "chjTarget": "あまりなり",
+      "publicTarget": "あまりなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
+      "excerpt": "いと情なし。あまりなりなどものすれば",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "終止形「なり」を確認。"
+    },
+    {
+      "id": "adjv-075",
+      "chjTarget": "ねんごろなる",
+      "publicTarget": "懇なる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
+      "excerpt": "その程の心ばへしも懇なるやうなりけり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "公開版は語幹を漢字「懇」で表記。連体形「なる」を確認。"
+    }
+  ],
+  "counts": {
+    "total": 4,
+    "rightsVerified": 4,
+    "targetVerified": 4,
+    "excerptReviewed": 4,
+    "publicationEnabled": 4
+  }
+}

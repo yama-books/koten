@@ -1,0 +1,251 @@
+{
+  "updated": "2026-09-19",
+  "authority": {
+    "schoolGrammar": "『新しい古典文法 四訂新版』付録",
+    "corpusRole": "CHJ / UniDic は実例探索・分布確認用。学校文法表示の正本ではない。"
+  },
+  "storagePolicy": {
+    "googleDrive": "raw corpus, audit workbooks, primary sources, intermediate artifacts",
+    "github": "public app, lightweight verified metadata, summaries, handoff and implementation notes",
+    "publishRawCHJ": false
+  },
+  "drive": {
+    "folderId": "14yu_3H1MeHkc9rQbwl6_HGhoL_mqHqbU",
+    "auditLogId": "1wQOPXy0Ia245QenqyuIEbHkLKkTsh3qpk9FEpZk9TXs",
+    "verb360Id": "1gbQjqqBuutZTYoU1kPudwtZ0KPRrXBtp",
+    "verbAdjective500Id": "1_wXHHe4j-yPxuENmS-leMsnudsWXcVzT",
+    "auxiliary180SelectionId": "1ELVAclhwDd08bUY6VzOUgcD0TTM9gPrz",
+    "auxiliary180AuditId": "1pL6VsYgzdQfyI-kgrOQZlO3ZJpXHVTXB",
+    "adjectivalNounSearchFolderId": "1t5HuAv8eLxXEF4J5AlS-MS1RzDK3FoKT",
+    "adjectivalNounPrepublishAuditId": "1b-LU-wVx-hKinWEuMDlUqphAzfObYyw7xfKg8Ab4Ov8"
+  },
+  "datasets": {
+    "verbs": {
+      "selected": 360,
+      "publishable": 329,
+      "publishableWithNote": 31,
+      "blockers": 0
+    },
+    "adjectives": {
+      "selected": 140,
+      "milestoneWithVerbs": 500
+    },
+    "auxiliariesFirstBatch": {
+      "selected": 180,
+      "lemmas": [
+        "ず",
+        "べし",
+        "まじ",
+        "まほし",
+        "たし"
+      ],
+      "targetAnchorAudit": {
+        "anchorRequired": 8,
+        "anchorUniquePassed": 8,
+        "originalSurfaceDiff": 32,
+        "originalSurfacePresentPassed": 32,
+        "blockers": 0
+      },
+      "rareCells": {
+        "べかる": {
+          "paradigmVerified": true,
+          "chjCount": 6,
+          "corpusAttested": true,
+          "tableEnabled": true,
+          "exampleEnabled": true
+        },
+        "まじかる": {
+          "paradigmVerified": true,
+          "chjSurfaceCount": 0,
+          "externalAttestation": "音便・表記上「まじか」と実現する用例候補を確認",
+          "tableEnabled": true,
+          "exampleEnabled": "with-note"
+        },
+        "まほしかる": {
+          "paradigmVerified": true,
+          "chjCount": 3,
+          "works": [
+            "徒然草"
+          ],
+          "corpusAttested": true,
+          "tableEnabled": true,
+          "exampleEnabled": true
+        },
+        "たから": {
+          "paradigmVerified": true,
+          "premodernChjCount": 8,
+          "corpusAttested": true,
+          "tableEnabled": true,
+          "exampleEnabled": true
+        },
+        "たかり": {
+          "paradigmVerified": true,
+          "premodernChjCount": 2,
+          "corpusAttested": true,
+          "tableEnabled": true,
+          "exampleEnabled": true
+        },
+        "たかる": {
+          "paradigmVerified": true,
+          "chjAllCount": 0,
+          "externalConfirmedCount": 0,
+          "corpusAttested": false,
+          "tableEnabled": true,
+          "exampleEnabled": false,
+          "policy": "表では学習し、歴史的実例が確認できるまで実例問題には出さない"
+        }
+      }
+    },
+    "adjectivalNouns": {
+      "status": "primary-selection-complete / raw-context-revalidated / runtime-schema-ready",
+      "targetSelection": 120,
+      "provisionalSelection": {
+        "nari": 96,
+        "tari": 24,
+        "rationale": "raw頻度を尊重しつつタリ活用の学習機会を確保する教育的補正。最終配分は監査後に確定。"
+      },
+      "nari": {
+        "raw": 4644,
+        "era": {
+          "heian": 2362,
+          "kamakura": 2282
+        },
+        "surfaces": {
+          "に": 3312,
+          "なる": 819,
+          "なり": 283,
+          "なら": 153,
+          "なれ": 59,
+          "也": 9,
+          "otherVariants": 6,
+          "boundaryEncodedNari": 3
+        },
+        "nareAudit": {
+          "total": 59,
+          "izen": {
+            "total": 58,
+            "patterns": {
+              "なれば": 26,
+              "なれど": 9,
+              "なれども": 5,
+              "こそ…なれ。": 18
+            }
+          },
+          "imperativeCandidate": {
+            "total": 1,
+            "pattern": "なれかし"
+          }
+        },
+        "grammaticalAudit": {
+          "mizenNara": 153,
+          "renyouNi": 3314,
+          "renyouNari": 56,
+          "shushiNari": 237,
+          "rentaiNaru": 819,
+          "izenNare": 58,
+          "meireiNare": 1,
+          "specialUnselected": {
+            "な": 3,
+            "なん": 1,
+            "なっ": 2
+          },
+          "note": "「なり」は同形のため後続語・句読点・引用構造で連用形／終止形を分類。也9件は連用2・終止7。特殊6件は初期120例から除外。"
+        }
+      },
+      "tari": {
+        "raw": 46,
+        "era": {
+          "heian": 1,
+          "kamakura": 45
+        },
+        "surfaces": {
+          "と": 22,
+          "たる": 16,
+          "たり": 8,
+          "たら": 0,
+          "たれ": 0
+        },
+        "works": {
+          "平家物語": 28,
+          "十訓抄": 9,
+          "保元物語": 5,
+          "平治物語": 2,
+          "枕草子": 1,
+          "宇治拾遺物語": 1
+        },
+        "grammaticalAudit": {
+          "renyouTo": 22,
+          "renyouTari": 1,
+          "shushiTari": 7,
+          "rentaiTaru": 16,
+          "mizenTara": 0,
+          "izenTare": 0,
+          "meireiTare": 0
+        }
+      },
+      "selection": {
+        "total": 120,
+        "nari": 96,
+        "tari": 24,
+        "era": {
+          "heian": 58,
+          "kamakura": 62
+        },
+        "targetAuditPassed": 120,
+        "blockers": 0,
+        "file": "conj/data/adjectival-noun-selection-120.json",
+        "groups": {
+          "nari-mizen-nara": 15,
+          "nari-renyou-ni": 20,
+          "nari-renyou-nari": 8,
+          "nari-shushi-nari": 16,
+          "nari-rentai-naru": 18,
+          "nari-izen-nare": 18,
+          "nari-meirei-nare": 1,
+          "tari-renyou-to": 8,
+          "tari-renyou-tari": 1,
+          "tari-shushi-tari": 7,
+          "tari-rentai-taru": 8
+        }
+      },
+      "integration": {
+        "paradigmFile": "conj/data/adjectival-noun-paradigms.json",
+        "exampleIndexFile": "conj/data/adjectival-noun-example-index-120.json",
+        "lemmaPoolFile": "conj/data/adjectival-noun-lemma-pool.json",
+        "integrationAuditFile": "conj/data/adjectival-noun-integration-audit.json",
+        "lemmaPool": {
+          "total": 117,
+          "nari": 94,
+          "tari": 23
+        },
+        "audit": {
+          "exampleRecords": 120,
+          "mappedToParadigmCell": 120,
+          "unmapped": 0,
+          "disabledCellReferences": 0,
+          "targetAuditPassed": 120
+        },
+        "driveRawContextAudit": {
+          "records": 120,
+          "missingRaw": 0,
+          "missingTarget": 0,
+          "anchorNonUnique": 0
+        }
+      }
+    }
+  },
+  "implementationPrinciples": {
+    "separateParadigmAndExamples": true,
+    "separateNormalizedKeyAndOriginalTarget": true,
+    "useAnchorWhenTargetRepeats": true,
+    "neverInventCorpusExamples": true,
+    "preserveRareCellScarcity": true
+  },
+  "next": [
+    "現行index.htmlに二層データを安全に読ませる互換層を作る",
+    "CHJ取得本文はGitHubへ自動複製せず、公開可能本文だけを実例ドリルへ接続する",
+    "タリ活用「たら・たれ」を必要に応じて検索範囲拡張で探索",
+    "ナリ活用特殊形「な／なん／なっ」6件を音便・縮約研究候補として別管理",
+    "助動詞180例を一次資料確認済み正本候補へ更新"
+  ]
+}

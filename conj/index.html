@@ -1289,6 +1289,7 @@ td.wrong{background:var(--bad)!important}
   </main>
 </div>
 
+<script src="./adjv-runtime-adapter.js"></script>
 <script>
 const F=a=>a;
 const items=[
@@ -2413,16 +2414,25 @@ function render(){
   document.getElementById("lemma").textContent=current.lemma;
   renderKindInitial();
   document.getElementById("posTag").textContent=current.label;
-  const compactExample=current.example.replace(/[　 ]+/g,"");
+  const compactExample=(current.example||"").replace(/[　 ]+/g,"");
   const compactTarget=(current.target||"").replace(/[　 ]+/g,"");
   document.getElementById("exampleText").innerHTML=highlight(compactExample,compactTarget);
-  if(current.poem){
+  const exampleToggle=document.getElementById("showExample");
+  const hasExample=current.exampleAvailable!==false && compactExample.length>0;
+  exampleToggle.disabled=!hasExample;
+  const exampleToggleLabel=exampleToggle.closest("label");
+  if(exampleToggleLabel) exampleToggleLabel.style.opacity=hasExample?"":"0.55";
+
+  if(!hasExample){
+    document.getElementById("exampleFoot").textContent="活用表ドリル";
+  }else if(current.poem){
     const author=poemAuthors[current.poem]||"";
     document.getElementById("exampleFoot").textContent=`小倉百人一首 ${kansuji(current.poem)}番（${author}）`;
   }else{
     document.getElementById("exampleFoot").textContent=current.source||"練習用例";
   }
-  const showing=document.getElementById("showExample").checked;
+
+  const showing=hasExample && exampleToggle.checked;
   document.getElementById("examplePanel").style.display=showing?"block":"none";
   const layout=document.querySelector(".study-layout");
   if(showing){
@@ -2587,7 +2597,38 @@ document.addEventListener("keydown",e=>{
     answered?nextQuestion():grade(false);
   }
 });
-nextQuestion();
+async function loadAdjvRuntimeItems(){
+  const status={loaded:false,added:0,error:null};
+  try{
+    if(!window.ConjAdjvRuntime) throw new Error("ConjAdjvRuntime is unavailable");
+    const runtime=await window.ConjAdjvRuntime.load({base:"./data/"});
+    const existing=new Set(items.filter(x=>x.pos==="adjv").map(x=>x.lemma));
+    const additions=runtime.tableItems
+      .filter(x=>!existing.has(x.lemma))
+      .map(x=>({
+        ...x,
+        example:"",
+        target:"",
+        source:"活用表ドリル",
+        exampleAvailable:false
+      }));
+    items.push(...additions);
+    status.loaded=true;
+    status.added=additions.length;
+  }catch(error){
+    status.error=String(error&&error.message?error.message:error);
+    console.warn("形容動詞の追加データを読み込めませんでした。従来データで続行します。",error);
+  }
+  window.__conjAdjvRuntimeStatus=status;
+  return status;
+}
+
+async function bootConj(){
+  await loadAdjvRuntimeItems();
+  nextQuestion();
+}
+bootConj();
+
 </script>
 </body>
 </html>

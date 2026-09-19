@@ -1,0 +1,74 @@
+{
+  "updated": "2026-09-19",
+  "work": "平治物語",
+  "status": "blocked-with-reason / rights-clear-target-verification-blocked",
+  "provider": "Wikimedia Commons / NDL scan",
+  "edition": {
+    "title": "有朋堂文庫『保元物語 ; 平治物語 ; 北条九代記』",
+    "url": "https://commons.wikimedia.org/wiki/File:NDL1186667_保元物語_;_平治物語_;_北条九代記_part2.pdf",
+    "bibliographicSource": "武笠三校・有朋堂書店・1927",
+    "rightsVerified": true,
+    "rightsStatus": "public domain scan / PD-Japan",
+    "editionFixed": true,
+    "note": "Wikimedia Commons上で原資料・機械的スキャンともパブリックドメイン表示。"
+  },
+  "blocker": "対象7例を同一版で安全に検索・照合できるテキスト層を確保できない。Wikisourceは底本選択ページのみで本文転写が未整備。画像/PDFからの推測転記は行わない。",
+  "records": [
+    {
+      "id": "adjv-001",
+      "chjTarget": "静かなれ",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-022",
+      "chjTarget": "無慚なれ",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-040",
+      "chjTarget": "穏便なら",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-058",
+      "chjTarget": "平なり",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-088",
+      "chjTarget": "いるがせに",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-113",
+      "chjTarget": "まんまんたる",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-114",
+      "chjTarget": "漫々たる",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    }
+  ],
+  "counts": {
+    "total": 7,
+    "rightsVerified": 7,
+    "targetVerified": 0,
+    "excerptReviewed": 0,
+    "publicationEnabled": 0
+  }
+}

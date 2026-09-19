@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkpoint β0.1 | 古文予習</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+  <header>
+    <h1>古文予習 <span style="font-size:.45em;color:var(--muted);font-family:inherit">Checkpoint β0.1</span></h1>
+    <div class="subtitle">答えを決めるのは学習者。アプリは「立ち止まる場所」を示します。数字を上げるほど、意味を教えるのではなく、確認する場所を細かく増やします。</div>
+  </header>
+
+  <section class="card">
+    <div class="label">本文</div>
+    <textarea id="input">春はあけぼの。やうやう白くなりゆく山ぎは、すこしあかりて、紫だちたる雲のほそくたなびきたる。</textarea>
+    <div class="level-control">
+      <label for="checkLevel">確認範囲</label>
+      <select id="checkLevel">
+        <option value="1">1 重要ポイントだけ</option>
+        <option value="2" selected>2 標準の予習</option>
+        <option value="3">3 文法を詳しく</option>
+        <option value="4">4 語彙まで細かく</option>
+        <option value="5">5 すべての候補</option>
+      </select>
+      <span class="filter-note">
+        1：見落としたくない識別・敬語だけ ／
+        2：授業前の標準的な予習 ／
+        3：助詞・活用形まで確認 ／
+        4：基本古語・語彙も広く確認 ／
+        5：弱い候補や部分一致まで全部見る<br>
+        ※ 数字は難易度ではなく、<strong>確認する範囲の広さ</strong>を表します。
+      </span>
+    </div>
+    <div class="row">
+      <button class="primary" id="analyze">予習をはじめる</button>
+      <button class="secondary" id="sample1">枕草子サンプル</button>
+      <button class="secondary" id="sample2">和歌サンプル</button>
+      <button class="secondary" id="sample3">識別サンプル</button>
+      <button class="secondary" id="sample4">安倍晴明・長文サンプル</button>
+      <button class="ghost" id="clear">消去</button>
+    </div>
+    <div class="status">※ アプリの見立ては外れてもOKです。正解判定より、「見落としやすい場所を拾って自分で確かめる」ことを優先します。「ここはわかる」は、この本文を見ている間だけ候補を隠します。</div>
+  </section>
+
+  <section class="card" id="resultCard">
+    <div class="label">本文上の予習ポイント</div>
+    <div class="legend">
+      <span><i class="demo-line"></i> 文法</span>
+      <span><i class="demo-dotted"></i> 識別</span>
+      <span><i class="demo-bg"></i> 語彙・表記</span>
+      <span><i class="demo-honorific"></i> 敬語</span>
+    </div>
+    <div class="reading" id="reading"></div>
+    <div class="summary-grid" id="summary"></div>
+    <div class="suppressed" id="filterStatus"></div>
+    <details id="shadowDebugPanel" hidden style="margin-top:12px">
+      <summary>開発者用 shadow 監査</summary>
+      <div class="status" id="shadowDebugSummary" style="margin-top:8px"></div>
+      <pre id="shadowDebugDetails" style="white-space:pre-wrap;overflow:auto;max-height:360px;font-size:12px;line-height:1.5"></pre>
+    </details>
+    <div class="status" style="margin-top:8px">
+      候補名までは一覧で確認できます。各候補の説明・例・見るポイントは、小さな「ミニ解説」ボタンを押したときだけ開きます。
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="label">予習チェックリスト</div>
+    <div class="status">本文を見ながら、「何を確認すればよいか」だけを一覧にします。項目を選ぶとヒントを開けます。</div>
+    <div class="list" id="checklist"></div>
+  </section>
+
+  <footer>
+    この試作は学習支援UIの検証用です。活用・品詞・語義を完全自動判定しません。アプリの見立てが外れることも含め、最終判断を学習者に残します。
+  </footer>
+</div>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-inner">
+    <div class="drawer-head">
+      <div>
+        <h3 id="drawerWord">語</h3>
+        <div class="category" id="drawerCategory"></div>
+      </div>
+      <button class="close" id="closeDrawer" aria-label="閉じる">×</button>
+    </div>
+
+    <div class="focus-overview" id="focusOverview"></div>
+
+    <section class="focus-card">
+      <div class="focus-meta" id="focusMeta"></div>
+      <div class="focus-question" id="focusQuestion"></div>
+
+      <button class="primary focus-main-action" id="focusMainAction" type="button"></button>
+
+      <div class="focus-guidance" id="focusGuidance"></div>
+      <div class="focus-tools" id="focusTools"></div>
+      <div class="focus-extra" id="focusExtra"></div>
+    </section>
+
+    <div class="focus-footer">
+      <button class="known-btn" id="markPointKnown" type="button">✓ ここはわかる</button>
+      <button class="ghost" id="nextPoint" type="button"></button>
+    </div>
+  </div>
+</div>
+
+<script src="core1.js"></script>
+<script src="core2.js"></script>
+<script src="core3.js"></script>
+<script src="core4.js"></script>
+<script src="db-shadow.js"></script>
+<script src="detect1.js"></script>
+<script src="detect2.js"></script>
+<script src="detect3.js"></script>
+<script src="ui1.js"></script>
+<script src="ui2.js"></script>
+<script src="ui3.js"></script>
+<script src="events.js"></script></body>
+</html>

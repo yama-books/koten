@@ -1,0 +1,579 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 伊勢物語第6段『芥川』独立gold 初見shadow評価",
+  "goldFile": "ise6_akutagawa_independent_gold_20260919.json",
+  "shadowVersion": "v0.14-pre-tuning",
+  "frozenEvaluation": true,
+  "rule": "gold commit後、resolver/evidence無変更の状態で実行。今後の修正後もこのbaselineを上書きしない。",
+  "summary": {
+    "goldPositions": 35,
+    "shadowRaw": 35,
+    "shadowResolvedArray": 14,
+    "shadowSuppressedArray": 21,
+    "strictPass": 17,
+    "strictPassRate": 0.4857142857142857,
+    "goldResolveTargets": 23,
+    "strictCorrectResolve": 8,
+    "strictResolveRecall": 0.34782608695652173,
+    "goldSuppressTargets": 12,
+    "correctSuppression": 9,
+    "suppressionRecall": 0.75,
+    "falsePositiveResolved": 3,
+    "wrongResolved": 0,
+    "wrongSuppressed": 0,
+    "unresolvedContext": 12,
+    "resolvedButAmbiguous": 3
+  },
+  "interpretation": [
+    "徒然草goldと同様、文法disambiguationはunder-resolving傾向。",
+    "larger-unit suppressionは9/12。3件のfalse-positive resolvedは語内部境界不足。",
+    "false-positive 3件は「まじかり」内じ、「呼ばひわたり」内たり、「からうじて」内じ。",
+    "goldの正解候補と異なる候補を一意確定したwrongResolvedは0。",
+    "cross-passageで、境界層は概ね強いがknown-token coverage不足、文法resolverは保守的という共通傾向が確認できた。"
+  ],
+  "outcomeCounts": {
+    "PASS_RESOLVED_LEMMA": 6,
+    "FALSE_POSITIVE_RESOLVED": 3,
+    "PASS_SUPPRESSED": 9,
+    "UNRESOLVED_CONTEXT": 12,
+    "RESOLVED_AMBIGUOUS": 3,
+    "PASS_RESOLVED": 2
+  },
+  "entries": [
+    {
+      "id": "ise6-gold-001",
+      "surface": "けり",
+      "start": 5,
+      "end": 7,
+      "context": "昔、男ありけり。女のえ得まじかりける",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり",
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "ise6-gold-002",
+      "surface": "じ",
+      "start": 13,
+      "end": 14,
+      "context": "りけり。女のえ得まじかりけるを、年を経て呼",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "まじかり",
+      "outcome": "FALSE_POSITIVE_RESOLVED",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "ise6-gold-003",
+      "surface": "ける",
+      "start": 16,
+      "end": 18,
+      "context": "。女のえ得まじかりけるを、年を経て呼ばひわた",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり",
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "ise6-gold-004",
+      "surface": "る",
+      "start": 17,
+      "end": 18,
+      "context": "女のえ得まじかりけるを、年を経て呼ばひわた",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ける",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "ける"
+      }
+    },
+    {
+      "id": "ise6-gold-005",
+      "surface": "を",
+      "start": 18,
+      "end": 19,
+      "context": "のえ得まじかりけるを、年を経て呼ばひわたり",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-006",
+      "surface": "を",
+      "start": 21,
+      "end": 22,
+      "context": "まじかりけるを、年を経て呼ばひわたりけるを",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-007",
+      "surface": "て",
+      "start": 23,
+      "end": 24,
+      "context": "かりけるを、年を経て呼ばひわたりけるを、か",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-008",
+      "surface": "ば",
+      "start": 25,
+      "end": 26,
+      "context": "けるを、年を経て呼ばひわたりけるを、からう",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "呼ばひわたり",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-009",
+      "surface": "たり",
+      "start": 28,
+      "end": 30,
+      "context": "、年を経て呼ばひわたりけるを、からうじて盗み",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "呼ばひわたり",
+      "outcome": "FALSE_POSITIVE_RESOLVED",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous"
+      }
+    },
+    {
+      "id": "ise6-gold-010",
+      "surface": "ける",
+      "start": 30,
+      "end": 32,
+      "context": "を経て呼ばひわたりけるを、からうじて盗み出で",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり",
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "ise6-gold-011",
+      "surface": "る",
+      "start": 31,
+      "end": 32,
+      "context": "経て呼ばひわたりけるを、からうじて盗み出で",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ける",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "ける"
+      }
+    },
+    {
+      "id": "ise6-gold-012",
+      "surface": "を",
+      "start": 32,
+      "end": 33,
+      "context": "て呼ばひわたりけるを、からうじて盗み出でて",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_wo",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-013",
+      "surface": "じ",
+      "start": 37,
+      "end": 38,
+      "context": "たりけるを、からうじて盗み出でて、いと暗き",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "からうじて",
+      "outcome": "FALSE_POSITIVE_RESOLVED",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "ise6-gold-014",
+      "surface": "て",
+      "start": 38,
+      "end": 39,
+      "context": "りけるを、からうじて盗み出でて、いと暗きに",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "からうじて",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-015",
+      "surface": "て",
+      "start": 43,
+      "end": 44,
+      "context": "からうじて盗み出でて、いと暗きに来けり。芥",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-supported-but-not-unique",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-016",
+      "surface": "と",
+      "start": 46,
+      "end": 47,
+      "context": "じて盗み出でて、いと暗きに来けり。芥川とい",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "いと",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-017",
+      "surface": "に",
+      "start": 49,
+      "end": 50,
+      "context": "み出でて、いと暗きに来けり。芥川といふ河を",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-supported-but-not-unique",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-018",
+      "surface": "けり",
+      "start": 51,
+      "end": 53,
+      "context": "でて、いと暗きに来けり。芥川といふ河を率て行",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり",
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "ise6-gold-019",
+      "surface": "と",
+      "start": 56,
+      "end": 57,
+      "context": "暗きに来けり。芥川といふ河を率て行きければ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-020",
+      "surface": "を",
+      "start": 60,
+      "end": 61,
+      "context": "けり。芥川といふ河を率て行きければ、草の上",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-021",
+      "surface": "て",
+      "start": 62,
+      "end": 63,
+      "context": "。芥川といふ河を率て行きければ、草の上に置",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-022",
+      "surface": "けれ",
+      "start": 65,
+      "end": 67,
+      "context": "といふ河を率て行きければ、草の上に置きたりけ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_keri_izen",
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": []
+      }
+    },
+    {
+      "id": "ise6-gold-023",
+      "surface": "ば",
+      "start": 67,
+      "end": 68,
+      "context": "ふ河を率て行きければ、草の上に置きたりける",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_ba_fixed",
+      "outcome": "PASS_RESOLVED",
+      "observed": {
+        "kind": "resolved",
+        "status": "resolved-by-source-left-surface",
+        "analysisConfidence": "connection-supported-candidate",
+        "supportCandidateIds": [
+          "conjunctive_ba_fixed"
+        ]
+      }
+    },
+    {
+      "id": "ise6-gold-024",
+      "surface": "に",
+      "start": 72,
+      "end": 73,
+      "context": "行きければ、草の上に置きたりける露を、「か",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-025",
+      "surface": "たり",
+      "start": 75,
+      "end": 77,
+      "context": "れば、草の上に置きたりける露を、「かれは何ぞ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "perfect_tari_renyo_terminal",
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": []
+      }
+    },
+    {
+      "id": "ise6-gold-026",
+      "surface": "ける",
+      "start": 77,
+      "end": 79,
+      "context": "、草の上に置きたりける露を、「かれは何ぞ」と",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり",
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "ise6-gold-027",
+      "surface": "る",
+      "start": 78,
+      "end": 79,
+      "context": "草の上に置きたりける露を、「かれは何ぞ」と",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ける",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "ける"
+      }
+    },
+    {
+      "id": "ise6-gold-028",
+      "surface": "を",
+      "start": 80,
+      "end": 81,
+      "context": "上に置きたりける露を、「かれは何ぞ」となむ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-029",
+      "surface": "と",
+      "start": 89,
+      "end": 90,
+      "context": "を、「かれは何ぞ」となむ男に問ひける。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to",
+      "outcome": "PASS_RESOLVED",
+      "observed": {
+        "kind": "resolved",
+        "status": "resolved-by-source-hard-boundary",
+        "analysisConfidence": "connection-supported-candidate",
+        "supportCandidateIds": [
+          "case_particle_to"
+        ]
+      }
+    },
+    {
+      "id": "ise6-gold-030",
+      "surface": "なむ",
+      "start": 90,
+      "end": 92,
+      "context": "、「かれは何ぞ」となむ男に問ひける。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "project_kakari_namu",
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": []
+      }
+    },
+    {
+      "id": "ise6-gold-031",
+      "surface": "な",
+      "start": 90,
+      "end": 91,
+      "context": "、「かれは何ぞ」となむ男に問ひける。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なむ",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "なむ"
+      }
+    },
+    {
+      "id": "ise6-gold-032",
+      "surface": "む",
+      "start": 91,
+      "end": 92,
+      "context": "「かれは何ぞ」となむ男に問ひける。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なむ",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "なむ"
+      }
+    },
+    {
+      "id": "ise6-gold-033",
+      "surface": "に",
+      "start": 93,
+      "end": 94,
+      "context": "れは何ぞ」となむ男に問ひける。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "ise6-gold-034",
+      "surface": "ける",
+      "start": 96,
+      "end": 98,
+      "context": "ぞ」となむ男に問ひける。",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり",
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "ise6-gold-035",
+      "surface": "る",
+      "start": 97,
+      "end": 98,
+      "context": "」となむ男に問ひける。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ける",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "ける"
+      }
+    }
+  ]
+}

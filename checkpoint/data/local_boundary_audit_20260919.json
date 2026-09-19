@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "0.3",
+  "updated": "2026-09-19",
+  "title": "Checkpoint local boundary signal audit 2026-09-19",
+  "detector": "shadow v0.13",
+  "invariant": {
+    "raw": 310,
+    "resolved": 186,
+    "suppressed": 124,
+    "contextRequired": 10,
+    "note": "signal-only層そのものは判定しない。v0.13の減少はsource exact particle evidenceによる。"
+  },
+  "unresolvedBySurface": {
+    "に": 4,
+    "て": 1,
+    "ぬ": 1,
+    "を": 1,
+    "と": 1,
+    "な": 1,
+    "せ": 1
+  },
+  "signalBySurface": {
+    "に": {
+      "count": 4,
+      "rightPunctuation": 4,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 4
+    },
+    "て": {
+      "count": 1,
+      "rightPunctuation": 1,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 1
+    },
+    "ぬ": {
+      "count": 1,
+      "rightPunctuation": 1,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 1
+    },
+    "を": {
+      "count": 1,
+      "rightPunctuation": 0,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 1
+    },
+    "と": {
+      "count": 1,
+      "rightPunctuation": 0,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 0
+    },
+    "な": {
+      "count": 1,
+      "rightPunctuation": 0,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 0
+    },
+    "せ": {
+      "count": 1,
+      "rightPunctuation": 0,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 0
+    }
+  },
+  "findings": [
+    "v0.13では主要surfaceの未解決が消え、残10件は意図的holdへ収束した。",
+    "安倍晴明の残「に」4件はすべて連体形＋にで、格助詞・接続助詞の学校文法上の立て方が資料間で揺れる。",
+    "識別サンプルの4件は曖昧性テストとして維持する価値が高い。",
+    "signal-only方針は維持し、句読点だけでresolvedにしない。"
+  ],
+  "next": [
+    "一次資料で連体形＋「に」の扱いを確定する。",
+    "枕草子「あかりて」は出典付きexact evidence化を検討する。",
+    "識別サンプルはテスト意図を文書化し、正解固定しない。"
+  ]
+}

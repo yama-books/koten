@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "title": "Checkpoint fourth blind feature-coverage gap audit — 平家物語 敦盛の最期",
+  "goldFile": "heike_atsumori_independent_gold_20260920.json",
+  "baselineFile": "heike_atsumori_shadow_baseline_v015.json",
+  "mode": "post-blind analysis; no resolver tuning",
+  "scope": {
+    "goldResolveTargets": 14,
+    "strictCorrectResolve": 2,
+    "resolvedAmbiguous": 2,
+    "unresolvedContext": 10
+  },
+  "architectureFinding": "right-context signalの一般化以前に、unseen passageでprevious/next morphologyを供給するpassage-independent morphology層が不足。",
+  "teCases": [
+    {
+      "start": 11,
+      "form": "て",
+      "gold": "conjunctive_particle_te",
+      "current": "UNRESOLVED_CONTEXT",
+      "previousMorphology": null,
+      "rightRole": "punctuation-boundary",
+      "note": "形容詞「いとほしく」連用形＋て。"
+    },
+    {
+      "start": 39,
+      "form": "て",
+      "gold": "suppressInsideLargerUnit",
+      "current": "PASS_SUPPRESSED",
+      "previousMorphology": null,
+      "rightRole": "grammar-surface-ambiguous",
+      "note": "複合動詞「消えはて」の内部。"
+    },
+    {
+      "start": 40,
+      "form": "て",
+      "gold": "conjunctive_particle_te",
+      "current": "UNRESOLVED_CONTEXT",
+      "previousMorphology": null,
+      "rightRole": "punctuation-boundary",
+      "note": "「消えはて」連用形＋接続助詞て。"
+    },
+    {
+      "start": 56,
+      "form": "て",
+      "gold": "suppressInsideLargerUnit",
+      "current": "PASS_SUPPRESSED",
+      "previousMorphology": null,
+      "rightRole": "grammar-surface-ambiguous",
+      "note": "副詞「さて」内部。"
+    },
+    {
+      "start": 78,
+      "form": "て",
+      "gold": "aux_tsu_mizen_renyo",
+      "current": "UNRESOLVED_CONTEXT",
+      "previousMorphology": null,
+      "rightRole": "unknown",
+      "note": "「かいてんげる」の完了つ連用形て。"
+    }
+  ],
+  "observations": [
+    "同一短段落に『接続助詞て』『語内部て』『完了つ連用形て』が共存し、表面形だけの一般化を強く否定する。",
+    "接続助詞て2件は直後に読点、完了つのて1件は直後に音変化したauxiliary chainが続く。ただし句読点は版依存のためhard cueにしない。",
+    "previousMorphologyは5つのて全てでnull。development3作品で見えた『連用形＋て』signalをblindで直接試す前提入力が欠けた。",
+    "exact Heike token morphologyをgoldからresolverへ追加するとblind汚染になるため行わない。",
+    "まず既存approved/audited資産から本文非依存に形態情報を供給する方法を作り、次の未使用作品で再blindする。"
+  ],
+  "safeNextArchitecture": [
+    "morphology providerをresolverから分離し、evidence tier / source / exact-vs-derivedを返す。",
+    "derived morphologyは当面signal-only。candidate削除やresolved昇格に使わない。",
+    "right sideは auxiliary-chain-start / independent-inflecting-start / punctuation-boundary / unknown を別featureとして保持する。",
+    "passage-specific gold/evidenceをprovider辞書へ自動投入しない。"
+  ]
+}

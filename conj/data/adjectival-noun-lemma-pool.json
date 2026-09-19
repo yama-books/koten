@@ -1,0 +1,1539 @@
+{
+  "updated": "2026-09-19",
+  "status": "table-drill lemma pool / no raw text",
+  "note": "形容動詞の活用表ドリル用語幹候補。活用セル自体は adjectival-noun-paradigms.json を正本とし、実例本文とは分離する。",
+  "counts": {
+    "total": 117,
+    "nari": 94,
+    "tari": 23
+  },
+  "lemmas": [
+    {
+      "id": "adjv-lemma-001",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "あさはか",
+      "lemma": "あさはかなり",
+      "exampleIds": [
+        "adjv-023"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-002",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "あざやか",
+      "lemma": "あざやかなり",
+      "exampleIds": [
+        "adjv-096"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-003",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "あざらか",
+      "lemma": "あざらかなり",
+      "exampleIds": [
+        "adjv-068"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-004",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "あだ",
+      "lemma": "あだなり",
+      "exampleIds": [
+        "adjv-062"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-005",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "あながち",
+      "lemma": "あながちなり",
+      "exampleIds": [
+        "adjv-082"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-006",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "あばら",
+      "lemma": "あばらなり",
+      "exampleIds": [
+        "adjv-060"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-007",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "あまり",
+      "lemma": "あまりなり",
+      "exampleIds": [
+        "adjv-051"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-008",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "あらは",
+      "lemma": "あらはなり",
+      "exampleIds": [
+        "adjv-011"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-009",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "あり顔",
+      "lemma": "あり顔なり",
+      "exampleIds": [
+        "adjv-045"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-010",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "いささか",
+      "lemma": "いささかなり",
+      "exampleIds": [
+        "adjv-061"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-011",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "いたづら",
+      "lemma": "いたづらなり",
+      "exampleIds": [
+        "adjv-019"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-012",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "いるがせ",
+      "lemma": "いるがせなり",
+      "exampleIds": [
+        "adjv-088"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-013",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "うららか",
+      "lemma": "うららかなり",
+      "exampleIds": [
+        "adjv-008"
+      ],
+      "attestedForms": [
+        "連用形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-014",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "おだやか",
+      "lemma": "おだやかなり",
+      "exampleIds": [
+        "adjv-037"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-015",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "おぼろ",
+      "lemma": "おぼろなり",
+      "exampleIds": [
+        "adjv-076"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-016",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "おぼろけ",
+      "lemma": "おぼろけなり",
+      "exampleIds": [
+        "adjv-038"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-017",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "おろか",
+      "lemma": "おろかなり",
+      "exampleIds": [
+        "adjv-066"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-018",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "おろそか",
+      "lemma": "おろそかなり",
+      "exampleIds": [
+        "adjv-039"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-019",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "かやう",
+      "lemma": "かやうなり",
+      "exampleIds": [
+        "adjv-009"
+      ],
+      "attestedForms": [
+        "連用形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-020",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "きびは",
+      "lemma": "きびはなり",
+      "exampleIds": [
+        "adjv-069"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-021",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "きよら",
+      "lemma": "きよらなり",
+      "exampleIds": [
+        "adjv-064"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-022",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "きららか",
+      "lemma": "きららかなり",
+      "exampleIds": [
+        "adjv-042"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-023",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "けうら",
+      "lemma": "けうらなり",
+      "exampleIds": [
+        "adjv-044"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-024",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "こと",
+      "lemma": "ことなり",
+      "exampleIds": [
+        "adjv-030"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-025",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "さすが",
+      "lemma": "さすがなり",
+      "exampleIds": [
+        "adjv-002"
+      ],
+      "attestedForms": [
+        "連用形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-026",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "さだか",
+      "lemma": "さだかなり",
+      "exampleIds": [
+        "adjv-054"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-027",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "さまざま",
+      "lemma": "さまざまなり",
+      "exampleIds": [
+        "adjv-018"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-028",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "さやか",
+      "lemma": "さやかなり",
+      "exampleIds": [
+        "adjv-026"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-029",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "さら",
+      "lemma": "さらなり",
+      "exampleIds": [
+        "adjv-053"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-030",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "しづか",
+      "lemma": "しづかなり",
+      "exampleIds": [
+        "adjv-036"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-031",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "しめやか",
+      "lemma": "しめやかなり",
+      "exampleIds": [
+        "adjv-049"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-032",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "すずろ",
+      "lemma": "すずろなり",
+      "exampleIds": [
+        "adjv-063"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-033",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "すみやか",
+      "lemma": "すみやかなり",
+      "exampleIds": [
+        "adjv-057"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-034",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "たくみ",
+      "lemma": "たくみなり",
+      "exampleIds": [
+        "adjv-080"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-035",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "たしか",
+      "lemma": "たしかなり",
+      "exampleIds": [
+        "adjv-031"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-036",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "ただ",
+      "lemma": "ただなり",
+      "exampleIds": [
+        "adjv-029"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-037",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "たまさか",
+      "lemma": "たまさかなり",
+      "exampleIds": [
+        "adjv-077"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-038",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "つややか",
+      "lemma": "つややかなり",
+      "exampleIds": [
+        "adjv-065"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-039",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "とりどり",
+      "lemma": "とりどりなり",
+      "exampleIds": [
+        "adjv-007"
+      ],
+      "attestedForms": [
+        "連用形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-040",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "なかなか",
+      "lemma": "なかなかなり",
+      "exampleIds": [
+        "adjv-050"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-041",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "なべて",
+      "lemma": "なべてなり",
+      "exampleIds": [
+        "adjv-032"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-042",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "なほざり",
+      "lemma": "なほざりなり",
+      "exampleIds": [
+        "adjv-092"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-043",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "なよらか",
+      "lemma": "なよらかなり",
+      "exampleIds": [
+        "adjv-072"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-044",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "にはか",
+      "lemma": "にはかなり",
+      "exampleIds": [
+        "adjv-090"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-045",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "ねむごろ",
+      "lemma": "ねむごろなり",
+      "exampleIds": [
+        "adjv-025"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-046",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "ねんごろ",
+      "lemma": "ねんごろなり",
+      "exampleIds": [
+        "adjv-075"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-047",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "のどか",
+      "lemma": "のどかなり",
+      "exampleIds": [
+        "adjv-094"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-048",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "はなやか",
+      "lemma": "はなやかなり",
+      "exampleIds": [
+        "adjv-021"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-049",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "はるか",
+      "lemma": "はるかなり",
+      "exampleIds": [
+        "adjv-005"
+      ],
+      "attestedForms": [
+        "連用形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-050",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "ひそか",
+      "lemma": "ひそかなり",
+      "exampleIds": [
+        "adjv-091"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-051",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "ひた黒",
+      "lemma": "ひた黒なり",
+      "exampleIds": [
+        "adjv-059"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-052",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "ふさやか",
+      "lemma": "ふさやかなり",
+      "exampleIds": [
+        "adjv-041"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-053",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "ほのか",
+      "lemma": "ほのかなり",
+      "exampleIds": [
+        "adjv-013"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-054",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "まう",
+      "lemma": "まうなり",
+      "exampleIds": [
+        "adjv-089"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-055",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "まちどほ",
+      "lemma": "まちどほなり",
+      "exampleIds": [
+        "adjv-081"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-056",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "まほ",
+      "lemma": "まほなり",
+      "exampleIds": [
+        "adjv-034"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-057",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "まめ",
+      "lemma": "まめなり",
+      "exampleIds": [
+        "adjv-014",
+        "adjv-035"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ",
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-058",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "まめやか",
+      "lemma": "まめやかなり",
+      "exampleIds": [
+        "adjv-083"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-059",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "まれ",
+      "lemma": "まれなり",
+      "exampleIds": [
+        "adjv-055"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-060",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "みそか",
+      "lemma": "みそかなり",
+      "exampleIds": [
+        "adjv-079"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-061",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "むざん",
+      "lemma": "むざんなり",
+      "exampleIds": [
+        "adjv-024"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-062",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "めづらか",
+      "lemma": "めづらかなり",
+      "exampleIds": [
+        "adjv-073"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-063",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "やはらか",
+      "lemma": "やはらかなり",
+      "exampleIds": [
+        "adjv-006"
+      ],
+      "attestedForms": [
+        "連用形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-064",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "わづか",
+      "lemma": "わづかなり",
+      "exampleIds": [
+        "adjv-071"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-065",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "ゐややか",
+      "lemma": "ゐややかなり",
+      "exampleIds": [
+        "adjv-047"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-066",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "安らか",
+      "lemma": "安らかなり",
+      "exampleIds": [
+        "adjv-033"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-067",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "穏便",
+      "lemma": "穏便なり",
+      "exampleIds": [
+        "adjv-040"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-068",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "俄",
+      "lemma": "俄なり",
+      "exampleIds": [
+        "adjv-084"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-069",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "閑か",
+      "lemma": "閑かなり",
+      "exampleIds": [
+        "adjv-085"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-070",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "稀",
+      "lemma": "稀なり",
+      "exampleIds": [
+        "adjv-046"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-071",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "愚か",
+      "lemma": "愚かなり",
+      "exampleIds": [
+        "adjv-012",
+        "adjv-052"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ",
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-072",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "顕証",
+      "lemma": "顕証なり",
+      "exampleIds": [
+        "adjv-015"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-073",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "更",
+      "lemma": "更なり",
+      "exampleIds": [
+        "adjv-056"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-074",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "思はず",
+      "lemma": "思はずなり",
+      "exampleIds": [
+        "adjv-027"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-075",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "若やか",
+      "lemma": "若やかなり",
+      "exampleIds": [
+        "adjv-074"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-076",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "手はなち",
+      "lemma": "手はなちなり",
+      "exampleIds": [
+        "adjv-093"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-077",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "心こと",
+      "lemma": "心ことなり",
+      "exampleIds": [
+        "adjv-048"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-078",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "神妙",
+      "lemma": "神妙なり",
+      "exampleIds": [
+        "adjv-010"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-079",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "清ら",
+      "lemma": "清らなり",
+      "exampleIds": [
+        "adjv-043"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-080",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "声花",
+      "lemma": "声花なり",
+      "exampleIds": [
+        "adjv-087"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-081",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "静か",
+      "lemma": "静かなり",
+      "exampleIds": [
+        "adjv-001"
+      ],
+      "attestedForms": [
+        "命令形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-082",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "切",
+      "lemma": "切なり",
+      "exampleIds": [
+        "adjv-067"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-083",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "絶え絶え",
+      "lemma": "絶え絶えなり",
+      "exampleIds": [
+        "adjv-095"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-084",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "然様",
+      "lemma": "然様なり",
+      "exampleIds": [
+        "adjv-028"
+      ],
+      "attestedForms": [
+        "未然形|main|なら"
+      ]
+    },
+    {
+      "id": "adjv-lemma-085",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "大き",
+      "lemma": "大きなり",
+      "exampleIds": [
+        "adjv-020"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-086",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "同様",
+      "lemma": "同様なり",
+      "exampleIds": [
+        "adjv-086"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-087",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "忍びやか",
+      "lemma": "忍びやかなり",
+      "exampleIds": [
+        "adjv-016"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-088",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "微妙",
+      "lemma": "微妙なり",
+      "exampleIds": [
+        "adjv-070"
+      ],
+      "attestedForms": [
+        "連体形|main|なる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-089",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "平",
+      "lemma": "平なり",
+      "exampleIds": [
+        "adjv-058"
+      ],
+      "attestedForms": [
+        "終止形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-090",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "妙",
+      "lemma": "妙なり",
+      "exampleIds": [
+        "adjv-003"
+      ],
+      "attestedForms": [
+        "連用形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-091",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "無慙",
+      "lemma": "無慙なり",
+      "exampleIds": [
+        "adjv-017"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-092",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "無慚",
+      "lemma": "無慚なり",
+      "exampleIds": [
+        "adjv-022"
+      ],
+      "attestedForms": [
+        "已然形|main|なれ"
+      ]
+    },
+    {
+      "id": "adjv-lemma-093",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "和らか",
+      "lemma": "和らかなり",
+      "exampleIds": [
+        "adjv-004"
+      ],
+      "attestedForms": [
+        "連用形|main|なり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-094",
+      "paradigmId": "adjv-nari",
+      "series": "ナリ活用",
+      "normalizedStem": "懃",
+      "lemma": "懃なり",
+      "exampleIds": [
+        "adjv-078"
+      ],
+      "attestedForms": [
+        "連用形|sub|に"
+      ]
+    },
+    {
+      "id": "adjv-lemma-095",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "まんまん",
+      "lemma": "まんまんたり",
+      "exampleIds": [
+        "adjv-113"
+      ],
+      "attestedForms": [
+        "連体形|main|たる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-096",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "峨々",
+      "lemma": "峨々たり",
+      "exampleIds": [
+        "adjv-116"
+      ],
+      "attestedForms": [
+        "連体形|main|たる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-097",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "厚々",
+      "lemma": "厚々たり",
+      "exampleIds": [
+        "adjv-106"
+      ],
+      "attestedForms": [
+        "連用形|sub|と"
+      ]
+    },
+    {
+      "id": "adjv-lemma-098",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "嵯々",
+      "lemma": "嵯々たり",
+      "exampleIds": [
+        "adjv-107"
+      ],
+      "attestedForms": [
+        "連用形|sub|と"
+      ]
+    },
+    {
+      "id": "adjv-lemma-099",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "深々",
+      "lemma": "深々たり",
+      "exampleIds": [
+        "adjv-111"
+      ],
+      "attestedForms": [
+        "連用形|sub|と"
+      ]
+    },
+    {
+      "id": "adjv-lemma-100",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "凄々",
+      "lemma": "凄々たり",
+      "exampleIds": [
+        "adjv-119"
+      ],
+      "attestedForms": [
+        "連体形|main|たる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-101",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "清脆",
+      "lemma": "清脆たり",
+      "exampleIds": [
+        "adjv-110"
+      ],
+      "attestedForms": [
+        "連用形|sub|と"
+      ]
+    },
+    {
+      "id": "adjv-lemma-102",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "漠々",
+      "lemma": "漠々たり",
+      "exampleIds": [
+        "adjv-118"
+      ],
+      "attestedForms": [
+        "連体形|main|たる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-103",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "片々",
+      "lemma": "片々たり",
+      "exampleIds": [
+        "adjv-101"
+      ],
+      "attestedForms": [
+        "終止形|main|たり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-104",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "忙然",
+      "lemma": "忙然たり",
+      "exampleIds": [
+        "adjv-098"
+      ],
+      "attestedForms": [
+        "終止形|main|たり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-105",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "漫々",
+      "lemma": "漫々たり",
+      "exampleIds": [
+        "adjv-114"
+      ],
+      "attestedForms": [
+        "連体形|main|たる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-106",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "嶮々",
+      "lemma": "嶮々たり",
+      "exampleIds": [
+        "adjv-117"
+      ],
+      "attestedForms": [
+        "連体形|main|たる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-107",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "曠々",
+      "lemma": "曠々たり",
+      "exampleIds": [
+        "adjv-100"
+      ],
+      "attestedForms": [
+        "終止形|main|たり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-108",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "渺々",
+      "lemma": "渺々たり",
+      "exampleIds": [
+        "adjv-120"
+      ],
+      "attestedForms": [
+        "連体形|main|たる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-109",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "渺茫",
+      "lemma": "渺茫たり",
+      "exampleIds": [
+        "adjv-108",
+        "adjv-115"
+      ],
+      "attestedForms": [
+        "連用形|sub|と",
+        "連体形|main|たる"
+      ]
+    },
+    {
+      "id": "adjv-lemma-110",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "滉漾",
+      "lemma": "滉漾たり",
+      "exampleIds": [
+        "adjv-102"
+      ],
+      "attestedForms": [
+        "終止形|main|たり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-111",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "爛干",
+      "lemma": "爛干たり",
+      "exampleIds": [
+        "adjv-112"
+      ],
+      "attestedForms": [
+        "連用形|sub|と"
+      ]
+    },
+    {
+      "id": "adjv-lemma-112",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "眇々",
+      "lemma": "眇々たり",
+      "exampleIds": [
+        "adjv-109"
+      ],
+      "attestedForms": [
+        "連用形|sub|と"
+      ]
+    },
+    {
+      "id": "adjv-lemma-113",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "茫々",
+      "lemma": "茫々たり",
+      "exampleIds": [
+        "adjv-104"
+      ],
+      "attestedForms": [
+        "終止形|main|たり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-114",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "颯々",
+      "lemma": "颯々たり",
+      "exampleIds": [
+        "adjv-097"
+      ],
+      "attestedForms": [
+        "連用形|main|たり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-115",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "凜々",
+      "lemma": "凜々たり",
+      "exampleIds": [
+        "adjv-105"
+      ],
+      "attestedForms": [
+        "連用形|sub|と"
+      ]
+    },
+    {
+      "id": "adjv-lemma-116",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "奫淪",
+      "lemma": "奫淪たり",
+      "exampleIds": [
+        "adjv-103"
+      ],
+      "attestedForms": [
+        "終止形|main|たり"
+      ]
+    },
+    {
+      "id": "adjv-lemma-117",
+      "paradigmId": "adjv-tari",
+      "series": "タリ活用",
+      "normalizedStem": "瀼々",
+      "lemma": "瀼々たり",
+      "exampleIds": [
+        "adjv-099"
+      ],
+      "attestedForms": [
+        "終止形|main|たり"
+      ]
+    }
+  ]
+}

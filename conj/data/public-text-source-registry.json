@@ -1,0 +1,651 @@
+{
+  "updated": "2026-09-19",
+  "status": "candidate-source-discovery / no-public-example-text-yet",
+  "policyFile": "conj/PUBLIC_TEXT_SOURCE_POLICY.md",
+  "gates": [
+    "sourceFound",
+    "rightsVerified",
+    "targetVerified",
+    "excerptReviewed"
+  ],
+  "publicationRule": "all four gates must be true before exampleEnabledPublic may become true",
+  "providerPolicies": {
+    "wikisource": {
+      "policyUrl": "https://ja.wikisource.org/wiki/Wikisource:COPY",
+      "platformPolicyChecked": true,
+      "note": "投稿コンテンツの一般ライセンスだけでなく、原資料・個別ページの著作権タグと底本情報を確認してから再利用する。"
+    },
+    "aozora": {
+      "policyUrl": "https://www.aozora.gr.jp/guide/kijyunn.html",
+      "platformPolicyChecked": true,
+      "note": "著作権の切れている青空文庫収録ファイルは規準上、複製・再配布・共有可能。ただし作品ごとのファイル種別・底本・表記を別途確認する。"
+    }
+  },
+  "summary": {
+    "works": 21,
+    "wikisourceCandidateFound": 17,
+    "notYetFound": 4,
+    "publicationReadyWorks": 12,
+    "publicExamplesConnected": 64,
+    "rightsVerifiedWorks": 20,
+    "targetVerifiedExamples": 66,
+    "excerptReviewedExamples": 64,
+    "publicationReadyExamples": 64,
+    "auditStatusKnownWorks": 21,
+    "blockedWorks": 5,
+    "partialWorks": 4,
+    "classroomCandidateWorks": 9,
+    "classroomCandidateExamples": 56
+  },
+  "works": [
+    {
+      "work": "平家物語",
+      "exampleCount": 16,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/平家物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "PUBLIC: 権利クリアな画像資料は複数あるが、16 targetを同一の再利用可能な検索本文で照合できず保留。CLASSROOM: 公開校訂本文を35条条件下で使う候補として再監査可能。",
+      "codh": {
+        "candidateFound": true,
+        "candidateUrl": "https://codh.rois.ac.jp/pmjt/book/200003072/",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 0,
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "寛永元年古活字版画像・メタデータ。"
+      },
+      "archives": {
+        "candidateFound": true,
+        "candidateUrl": "https://www.digital.archives.go.jp/file/1271378.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 0,
+        "sourceLicense": "CC0 1.0",
+        "rightsNote": "慶長刊中院本。画像二次利用可。"
+      },
+      "auditStatus": "blocked-with-reason",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-article35-delivery-check-and-target-audit"
+    },
+    {
+      "work": "保元物語",
+      "exampleCount": 10,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/保元物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "権利はクリア。対象10例を同一版で検索・照合できる本文層がなく、画像/PDFからの推測転記を避けるため公開保留。",
+      "commons": {
+        "candidateFound": true,
+        "candidateUrl": "https://commons.wikimedia.org/wiki/File:NDL1186667_保元物語_;_平治物語_;_北条九代記_part1.pdf",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 0,
+        "edition": "有朋堂文庫・1927",
+        "rightsNote": "Wikimedia Commons / NDL由来のpublic domain scan。"
+      },
+      "auditStatus": "blocked-with-reason",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
+    },
+    {
+      "work": "十訓抄",
+      "exampleCount": 9,
+      "wikisource": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "9例中5例を同一作品公開版で4ゲート完了。引用漢詩4例はparallel witnessのみ確認し未公開。",
+      "yatanavi": {
+        "candidateFound": true,
+        "candidateUrl": "https://yatanavi.org/text/jikkinsho/index.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 5,
+        "edition": "宮内庁書陵部本",
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "校訂本文CC BY-SA 4.0、翻刻自由利用可。"
+      },
+      "parallelWitness": {
+        "provider": "Wikisource 和漢朗詠集",
+        "targetVerificationCount": 4,
+        "note": "引用漢詩4例に同訓読語形あり。ただしsame-work witnessではないため公開未接続。"
+      },
+      "auditStatus": "partial",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
+    },
+    {
+      "work": "平治物語",
+      "exampleCount": 7,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/平治物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "権利はクリア。対象7例を同一版で検索・照合できる本文層がなく、画像/PDFからの推測転記を避けるため公開保留。",
+      "commons": {
+        "candidateFound": true,
+        "candidateUrl": "https://commons.wikimedia.org/wiki/File:NDL1186667_保元物語_;_平治物語_;_北条九代記_part2.pdf",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 0,
+        "edition": "有朋堂文庫・1927",
+        "rightsNote": "Wikimedia Commonsでpublic domain scan / PD-Japan表示。"
+      },
+      "auditStatus": "blocked-with-reason",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
+    },
+    {
+      "work": "宇治拾遺物語",
+      "exampleCount": 6,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/宇治拾遺物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "やたがらすナビ陽明文庫本で6例すべてtargetと短い引用範囲を監査済み。公開実例JSONへ6例接続済み。",
+      "yatanavi": {
+        "candidateFound": true,
+        "candidateUrl": "https://yatanavi.org/text/yomeiuji/index.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 6,
+        "edition": "陽明文庫本",
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "作品トップで底本・著作権者・編集方針を確認。校訂本文はWikiのCC BY-SA 4.0、翻刻部分は自由利用可。"
+      },
+      "auditStatus": "publicationReady"
+    },
+    {
+      "work": "枕草子",
+      "exampleCount": 6,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/枕草紙_(國文大觀)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 2,
+        "edition": "國文大觀 日記草子部",
+        "rightsNote": "WikisourceでPD-old-80-expired / US PD表示、転写テキストCC BY-SA 4.0を確認。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "6例中2例を國文大觀版で4ゲート完了。残り4例は版差・文法形差・固定版での同一箇所照合不足のため未公開。",
+      "auditStatus": "partial",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
+    },
+    {
+      "work": "源氏物語",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/源氏物語_(渋谷栄一校訂)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 5,
+        "edition": "渋谷栄一校訂",
+        "sourceLicense": "CC BY-SA 3.0",
+        "rightsNote": "Wikisource作品ページでCC BY-SA 3.0を明示。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "渋谷栄一校訂Wikisource版で5例すべて同一箇所・同一文法形を確認し公開接続済み。",
+      "auditStatus": "publicationReady"
+    },
+    {
+      "work": "更級日記",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/更級日記",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "群書類從版 + 有朋堂文庫版（各例のsame-work witnessを固定）",
+        "rightsNote": "両版とも原資料PD表示を確認。Wikisource転写テキストはCC BY-SA 4.0。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "5例中4例をWikisource旧版本で4ゲート完了。adjv-033 安らかならは選抜箇所を固定版で照合できず未公開。",
+      "auditStatus": "partial",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
+    },
+    {
+      "work": "紫式部日記",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/紫式部日記_(渋谷栄一校訂)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 5,
+        "edition": "渋谷栄一校訂",
+        "sourceLicense": "CC BY-SA 3.0",
+        "rightsNote": "Wikisourceページ自体がCC BY-SA 3.0で許諾。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "渋谷栄一校訂Wikisource版で5例すべて同一箇所・同一文法形を確認し公開接続済み。",
+      "auditStatus": "publicationReady"
+    },
+    {
+      "work": "堤中納言物語",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/堤中納言物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "PUBLIC: 権利クリアな画像資料はあるが、5 targetを検索可能本文で照合できず保留。CLASSROOM: 35条適用候補として別管理可能だが、CHJ raw本文は使用せず別ソースの規約・target確認が必要。",
+      "publicSources": [
+        {
+          "provider": "Wikimedia Commons / NDL",
+          "url": "https://commons.wikimedia.org/wiki/File:NDL2550700_堤中納言物語_10巻.(1).pdf",
+          "rightsVerified": true,
+          "type": "public-domain scan"
+        },
+        {
+          "provider": "khirin / 国立歴史民俗博物館",
+          "url": "https://khirin.rekihaku.ac.jp/pid/nmjh_collection/H-600-721.html",
+          "rightsVerified": true,
+          "type": "CC BY-SA 4.0 image collection"
+        }
+      ],
+      "auditStatus": "blocked-with-reason",
+      "codh": {
+        "candidateFound": true,
+        "candidateUrl": "https://codh.rois.ac.jp/pmjt/book/200020217/",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 0,
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "日本古典籍データセットの画像・メタデータはCC BY-SA 4.0。"
+      },
+      "classroomCandidate": true,
+      "classroomStatus": "needs-source-terms-and-target-check"
+    },
+    {
+      "work": "徒然草",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/徒然草_(國文大觀)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 5,
+        "edition": "國文大觀 日記草子部",
+        "rightsNote": "WikisourceページでPD-old-80-expiredおよび米国PD表示を確認。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "5例すべて公開本文でtargetと短い引用範囲を監査済み。公開実例JSONへ5例接続済み。",
+      "excerptReviewedExamples": 1,
+      "publicationEnabledExamples": 1
+    },
+    {
+      "work": "土佐日記",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 5,
+        "edition": "國文大觀 日記草子部",
+        "rightsNote": "WikisourceページでPD-old-80-expiredおよび米国PD表示を確認。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "5例すべて公開本文でtargetと短い引用範囲を監査済み。公開実例JSONへ5例接続済み。",
+      "excerptReviewedExamples": 1,
+      "publicationEnabledExamples": 1
+    },
+    {
+      "work": "方丈記",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/方丈記_(國文大觀)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 2,
+        "edition": "國文大觀 日記草子部（明治36）",
+        "rightsNote": "Wikisourceページで日本・米国のパブリックドメイン表示を確認。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "5例中2例を同版公開本文で再確認。残り3例はtarget未照合のため未公開。",
+      "auditStatus": "partial",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
+    },
+    {
+      "work": "伊勢物語",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/伊勢物語_(群書類從)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "群書類從卷第三百七 物語部一",
+        "rightsNote": "WikisourceのPD-oldカテゴリに伊勢物語を確認。ページテキストはCC BY-SA条件を遵守。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "4例すべて公開本文でtargetと短い引用範囲を監査済み。公開実例JSONへ4例接続済み。"
+    },
+    {
+      "work": "古今和歌集",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/古今和歌集",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "Wikisource 古今和歌集（100%検証済み）",
+        "rightsNote": "Wikisource作品ページでパブリックドメイン表示を確認。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "4例すべて公開本文でtargetと短い引用範囲を監査済み。公開実例JSONへ4例接続済み。",
+      "excerptReviewedExamples": 1,
+      "publicationEnabledExamples": 1
+    },
+    {
+      "work": "今昔物語集",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/今昔物語集",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "やたがらすナビ版で4例すべてtargetと短い引用範囲を監査済み。公開実例JSONへ4例接続済み。",
+      "yatanavi": {
+        "candidateFound": true,
+        "candidateUrl": "https://yatanavi.org/text/k_konjaku/index.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "芳賀矢一校訂『攷証今昔物語集』冨山房・1921",
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "電子本文ページにCC BY-SA 4.0を明示。底本・正規化方針も凡例に明記。"
+      }
+    },
+    {
+      "work": "大和物語",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "やたがらすナビ版で4例すべてtargetと短い引用範囲を監査済み。公開実例JSONへ4例接続済み。",
+      "yatanavi": {
+        "candidateFound": true,
+        "candidateUrl": "https://yatanavi.org/text/yamato/index.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "三条西家旧蔵伝冷泉為氏筆本",
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "作品トップで底本・著作権者を明示。フッタで特記なきWiki内容はCC BY-SA 4.0。"
+      }
+    },
+    {
+      "work": "竹取物語",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "國民文庫",
+        "rightsNote": "Wikisourceページで日本および米国のPD表示を確認。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "4例すべて公開本文でtargetと短い引用範囲を監査済み。公開実例JSONへ4例接続済み。",
+      "excerptReviewedExamples": 1,
+      "publicationEnabledExamples": 1
+    },
+    {
+      "work": "落窪物語",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "公開可能な画像資料は確認したが、4 targetを検索・照合できる再利用本文を未確保。画像から推測転記せず保留。別公開本文または確実な転写経路を得た時点で再訪。",
+      "candidates": [
+        {
+          "provider": "Wikisource",
+          "url": "https://ja.wikisource.org/wiki/カテゴリ:校註日本文学大系",
+          "note": "第5巻に『落窪物語』収録情報はあるが、現状Wikisource本文ページは未整備。"
+        },
+        {
+          "provider": "CODH 日本古典籍データセット",
+          "url": "https://codh.rois.ac.jp/pmjt/book/200019761/",
+          "rights": "CC BY-SA 4.0",
+          "note": "画像資料は再利用可能だが、4 targetを検索可能な本文で照合する経路が未確立。"
+        }
+      ],
+      "auditStatus": "blocked-with-reason",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
+    },
+    {
+      "work": "蜻蛉日記",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "國文大觀 日記草子部",
+        "rightsNote": "WikisourceのPD-old-80-expiredカテゴリに蜻蛉日記 (國文大觀)を確認。"
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "4例すべて公開本文でtargetと短い引用範囲を監査済み。公開実例JSONへ4例接続済み。"
+    },
+    {
+      "work": "平中物語",
+      "exampleCount": 3,
+      "wikisource": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": true,
+      "note": "やたがらすナビ版で3例すべてtargetと短い引用範囲を監査済み。公開実例JSONへ3例接続済み。",
+      "yatanavi": {
+        "candidateFound": true,
+        "candidateUrl": "https://yatanavi.org/text/heichu/index.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 3,
+        "edition": "静嘉堂文庫本（孤本）",
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "作品トップで底本・著作権者を明記。翻刻部分は自由利用可。Wiki内容は特記なき限りCC BY-SA 4.0。"
+      }
+    }
+  ]
+}

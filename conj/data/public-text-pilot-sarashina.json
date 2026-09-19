@@ -1,0 +1,86 @@
+{
+  "updated": "2026-09-19",
+  "work": "更級日記",
+  "status": "pilot / partial",
+  "provider": "Wikisource",
+  "editions": [
+    {
+      "title": "さらしな日記 (群書類從)",
+      "url": "https://ja.wikisource.org/wiki/さらしな日記_(群書類從)",
+      "bibliographicSource": "群書類從卷第三百二十八 紀行部二・編者 塙保己一",
+      "rightsVerified": true,
+      "rightsStatus": "public-domain-marked-on-Wikisource",
+      "sourceLicense": "CC BY-SA 4.0"
+    },
+    {
+      "title": "更級日記 (有朋堂文庫)",
+      "url": "https://ja.wikisource.org/wiki/更級日記_(有朋堂文庫)",
+      "rightsVerified": true,
+      "rightsStatus": "PD-old-50-1996 / US public domain marked on Wikisource",
+      "sourceLicense": "CC BY-SA 4.0"
+    }
+  ],
+  "records": [
+    {
+      "id": "adjv-093",
+      "chjTarget": "手はなちに",
+      "publicTarget": "てばなちに",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/さらしな日記_(群書類從)",
+      "excerpt": "これはおとこなどもそはねばいとてばなちにあらあらしげにて",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "上洛の旅。かな表記差。連用形「に」を確認。"
+    },
+    {
+      "id": "adjv-071",
+      "chjTarget": "わづかなる",
+      "publicTarget": "わづかなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/さらしな日記_(群書類從)",
+      "excerpt": "山のなからばかりの木の下のわづかなるに",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "上洛の旅・足柄山。連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-009",
+      "chjTarget": "かやうなり",
+      "publicTarget": "かやうなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/更級日記_(有朋堂文庫)",
+      "excerpt": "月のいみじう明きに、かやうなりし夜、宮にまゐりて",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "物詣での記。連用形「なり」＋過去「し」を確認。"
+    },
+    {
+      "id": "adjv-053",
+      "chjTarget": "さらなり",
+      "publicTarget": "更なり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/更級日記_(有朋堂文庫)",
+      "excerpt": "とあるを、見る心地いへば更なり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "家居の記。漢字表記差。終止形「なり」を確認。"
+    },
+    {
+      "id": "adjv-033",
+      "chjTarget": "安らかなら",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": null,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "CHJでは「わが身ひとつならば、安らかならましを」。一般公開資料で語形は確認できるが、採用可能なWikisource旧版本では当該父の発言部分が欠ける／同一箇所を固定版で照合できないため保留。"
+    }
+  ],
+  "counts": {
+    "total": 5,
+    "rightsVerified": 5,
+    "targetVerified": 4,
+    "excerptReviewed": 4,
+    "publicationEnabled": 4
+  }
+}

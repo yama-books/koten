@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-18",
+  "title": "Checkpoint 基本語彙・見出し語候補",
+  "checkpointNote": "外部辞書本文は保持せず、見出し語候補と復元根拠だけを管理する。",
+  "entries": [
+    {
+      "surface": "なでふ",
+      "headwordCandidates": [
+        "なでふ"
+      ],
+      "headwordBasis": "surface_same",
+      "headwordConfidence": "medium",
+      "headwordVerified": false
+    },
+    {
+      "surface": "いかさま",
+      "headwordCandidates": [
+        "いかさま"
+      ],
+      "headwordBasis": "surface_same",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    },
+    {
+      "surface": "きと",
+      "headwordCandidates": [
+        "きと"
+      ],
+      "headwordBasis": "surface_same",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    },
+    {
+      "surface": "不便",
+      "headwordCandidates": [
+        "不便なり"
+      ],
+      "headwordBasis": "manual_restore",
+      "headwordConfidence": "medium",
+      "headwordVerified": false
+    },
+    {
+      "surface": "向後",
+      "headwordCandidates": [
+        "向後"
+      ],
+      "headwordBasis": "surface_same",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    },
+    {
+      "surface": "例のごとく",
+      "headwordCandidates": [
+        "例の",
+        "ごとし"
+      ],
+      "headwordBasis": "phrase_split",
+      "headwordConfidence": "medium",
+      "headwordVerified": false
+    },
+    {
+      "surface": "例の",
+      "headwordCandidates": [
+        "例の"
+      ],
+      "headwordBasis": "surface_same",
+      "headwordConfidence": "medium",
+      "headwordVerified": false
+    },
+    {
+      "surface": "ごとく",
+      "headwordCandidates": [
+        "ごとし"
+      ],
+      "headwordBasis": "inflection_restore",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    },
+    {
+      "surface": "やうある",
+      "headwordCandidates": [
+        "やう"
+      ],
+      "headwordBasis": "phrase_focus",
+      "headwordConfidence": "medium",
+      "headwordVerified": false
+    },
+    {
+      "surface": "かかる",
+      "headwordCandidates": [
+        "かかり"
+      ],
+      "headwordBasis": "manual_restore",
+      "headwordConfidence": "medium",
+      "headwordVerified": false
+    },
+    {
+      "surface": "いかが",
+      "headwordCandidates": [
+        "いかが"
+      ],
+      "headwordBasis": "surface_same",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    },
+    {
+      "surface": "いづく",
+      "headwordCandidates": [
+        "いづく"
+      ],
+      "headwordBasis": "surface_same",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    },
+    {
+      "surface": "やすく",
+      "headwordCandidates": [
+        "やすし"
+      ],
+      "headwordBasis": "inflection_restore",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    },
+    {
+      "surface": "悪しく",
+      "headwordCandidates": [
+        "悪し"
+      ],
+      "headwordBasis": "inflection_restore",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    },
+    {
+      "surface": "あらはせ",
+      "headwordCandidates": [
+        "あらはす"
+      ],
+      "headwordBasis": "inflection_restore",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    },
+    {
+      "surface": "案のごとく",
+      "headwordCandidates": [
+        "案",
+        "ごとし"
+      ],
+      "headwordBasis": "phrase_split",
+      "headwordConfidence": "medium",
+      "headwordVerified": false
+    },
+    {
+      "surface": "わざ",
+      "headwordCandidates": [
+        "わざ"
+      ],
+      "headwordBasis": "surface_same",
+      "headwordConfidence": "high",
+      "headwordVerified": false
+    }
+  ]
+}

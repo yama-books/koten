@@ -1,0 +1,59 @@
+{
+  "updated": "2026-09-19",
+  "work": "堤中納言物語",
+  "status": "blocked-with-reason / public-text-verification-blocked",
+  "publicMode": {
+    "source": {
+      "provider": "CODH 日本古典籍データセット",
+      "url": "https://codh.rois.ac.jp/pmjt/book/200020217/",
+      "rightsVerified": true,
+      "sourceLicense": "CC BY-SA 4.0",
+      "editionFixed": true,
+      "note": "国文研所蔵『堤中納言物語』画像資料。画像・メタデータはCC BY-SA 4.0。"
+    },
+    "blocker": "5選抜例を同一の検索可能本文で安全に照合できるテキスト層を未確保。画像からの推測転記はしない。",
+    "publicEligible": false
+  },
+  "classroomMode": {
+    "classroomCandidate": true,
+    "status": "needs-source-terms-and-target-check",
+    "note": "学校授業内限定では著作権法35条に基づく利用余地がある。ただしCHJ raw本文は使わず、合法的にアクセスできる別本文についてsourceTermsChecked / targetVerified / excerptReviewedを満たす必要がある。"
+  },
+  "records": [
+    {
+      "id": "adjv-007",
+      "chjTarget": "とりどりなり",
+      "targetVerified": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-021",
+      "chjTarget": "はなやかなれ",
+      "targetVerified": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-041",
+      "chjTarget": "ふさやかなら",
+      "targetVerified": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-069",
+      "chjTarget": "きびはなる",
+      "targetVerified": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-092",
+      "chjTarget": "なほざりに",
+      "targetVerified": false,
+      "exampleEnabledPublic": false
+    }
+  ],
+  "counts": {
+    "total": 5,
+    "publicEnabled": 0,
+    "targetVerified": 0
+  }
+}

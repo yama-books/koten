@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "0.8",
+  "updated": "2026-09-19",
+  "title": "Checkpoint context-required 残件バックログ",
+  "basis": "既存4サンプル計990文字、shadow detector v0.14-pre-gold",
+  "total": 9,
+  "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
+  "categories": [
+    {
+      "surface": "に",
+      "count": 4,
+      "layer": "syntax+morphology",
+      "priority": "HOLD",
+      "why": "安倍晴明の連体形＋「に」4件。格助詞／接続助詞の学校文法上の立て方が資料間で揺れる。",
+      "nextEvidence": "『新しい古典文法 四訂新版』原資料確認。",
+      "holdType": "primary-source-required"
+    },
+    {
+      "surface": "せ",
+      "count": 1,
+      "layer": "morphology",
+      "priority": "HOLD",
+      "why": "「不便にせさせ給ひ」の最初の「せ」。助動詞「さす」の接続をprimary sourceで未確認。",
+      "nextEvidence": "『新しい古典文法 四訂新版』原資料確認。",
+      "holdType": "primary-source-required"
+    },
+    {
+      "surface": "ぬ",
+      "count": 1,
+      "layer": "benchmark",
+      "priority": "BENCHMARK",
+      "why": "識別サンプルの意図的曖昧性テスト。",
+      "nextEvidence": "正解固定せず候補保持能力を監査。",
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "surface": "を",
+      "count": 1,
+      "layer": "benchmark",
+      "priority": "BENCHMARK",
+      "why": "識別サンプルの意図的曖昧性テスト。",
+      "nextEvidence": "正解固定せず候補保持能力を監査。",
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "surface": "と",
+      "count": 1,
+      "layer": "benchmark",
+      "priority": "BENCHMARK",
+      "why": "識別サンプルの意図的曖昧性テスト。",
+      "nextEvidence": "正解固定せず候補保持能力を監査。",
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "surface": "な",
+      "count": 1,
+      "layer": "benchmark",
+      "priority": "BENCHMARK",
+      "why": "識別サンプルの意図的曖昧性テスト。",
+      "nextEvidence": "正解固定せず候補保持能力を監査。",
+      "holdType": "intentional-ambiguity-benchmark"
+    }
+  ],
+  "strategy": [
+    "まず語内部誤一致をknown-token boundaryで除外する。",
+    "引用符など明示的な文字境界だけで候補が一意になる場合は hard-boundary resolver を使う。",
+    "次に一次資料・監査済みコーパスが示す接続だけをresolverへ入れる。",
+    "文節構造が必要な「に・と・を・が」は局所tokenizer/係り先解析が入るまで無理にresolvedへ上げない。",
+    "shadow resolvedをlearner-visible正解表示へ直結しない。"
+  ],
+  "latestChange": [
+    "枕草子「あかりて」の「て」1件をpassage-specific secondary multi-source evidenceでresolved。",
+    "旧残10→hold9。hold内訳はbenchmark4 / primary-source-required5。",
+    "unclassified context-requiredは0。",
+    "次は独立gold setの固定と無調整初見評価。"
+  ],
+  "resolvedSinceV08": {
+    "total": 120,
+    "note": "v0.8のcontext-required130→10。resolvedへの昇格と、境界/非助動詞・larger-unit抑制への安全な再分類を合算。",
+    "previousThroughV012": 92,
+    "v013ParticleReduction": 28
+  },
+  "unclassifiedTotal": 0,
+  "classifiedHolds": {
+    "intentionalAmbiguityBenchmark": 4,
+    "primarySourceRequired": 5
+  }
+}

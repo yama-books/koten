@@ -1,0 +1,493 @@
+{
+  "schemaVersion": "0.6",
+  "updated": "2026-09-19",
+  "title": "安倍晴明『宇治拾遺物語』 exact grammar evidence",
+  "source": {
+    "title": "安倍晴明_本文・文法・語彙整理.docx",
+    "pages": "1-7",
+    "basis": "ユーザー提供文書の助動詞・係り結び・敬語整理をexact phrase evidenceとして構造化"
+  },
+  "policy": [
+    "文書に明示された本文箇所と分析だけを使い、未記載箇所へ一般化しない。",
+    "suppressInsideLargerUnit は短いsubstring hitの誤解析を防ぐための境界制御であり、一般文法規則を生成しない。",
+    "resolveCandidate / resolveAuxiliaryLemma はexact phrase一致時だけshadow候補支持に使う。",
+    "learner-visible正解表示へ直結させない。",
+    "複数資料で明示される同一本文箇所は、出典を sources に分けて保持する。",
+    "助動詞一覧にない一文字助詞は、資料からの欠落だけを根拠に品詞を推測しない。"
+  ],
+  "entryCount": 38,
+  "entries": [
+    {
+      "phrase": "御堂へ参らせ給ひ",
+      "focusSurface": "せ",
+      "focusOccurrence": 0,
+      "action": "resolveCandidate",
+      "candidateId": "aux_su_mizen_renyo",
+      "analysisUnit": "せ",
+      "sourceAnalysis": "助動詞「す」・尊敬",
+      "focusOffset": 5,
+      "analysisUnitOffset": 5,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "なむ飼はせ給ひ",
+      "focusSurface": "せ",
+      "focusOccurrence": 0,
+      "action": "resolveCandidate",
+      "candidateId": "aux_su_mizen_renyo",
+      "analysisUnit": "せ",
+      "sourceAnalysis": "助動詞「す」・尊敬",
+      "focusOffset": 4,
+      "analysisUnitOffset": 4,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "所を、掘らせて見給ふ",
+      "focusSurface": "せ",
+      "focusOccurrence": 0,
+      "action": "resolveCandidate",
+      "candidateId": "aux_su_mizen_renyo",
+      "analysisUnit": "せ",
+      "sourceAnalysis": "助動詞「す」・使役",
+      "focusOffset": 5,
+      "analysisUnitOffset": 5,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "下部を走らするに",
+      "focusSurface": "る",
+      "focusOccurrence": 0,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "する",
+      "sourceAnalysis": "助動詞「す」・使役",
+      "focusOffset": 6,
+      "analysisUnitOffset": 5,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "呪詛の故を問はるるに",
+      "focusSurface": "る",
+      "focusOccurrence": 0,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "るる",
+      "sourceAnalysis": "助動詞「る」・受身",
+      "focusOffset": 7,
+      "analysisUnitOffset": 7,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "呪詛の故を問はるるに",
+      "focusSurface": "る",
+      "focusOccurrence": 1,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "るる",
+      "sourceAnalysis": "助動詞「る」・受身",
+      "focusOffset": 8,
+      "analysisUnitOffset": 7,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "中へ落ち入りにけり",
+      "focusSurface": "に",
+      "focusOccurrence": 0,
+      "action": "resolveCandidate",
+      "candidateId": "aux_nu_renyo_ni",
+      "analysisUnit": "に",
+      "sourceAnalysis": "助動詞「ぬ」・完了",
+      "focusOffset": 6,
+      "analysisUnitOffset": 6,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "播磨へ追ひ下されにけり",
+      "focusSurface": "に",
+      "focusOccurrence": 0,
+      "action": "resolveCandidate",
+      "candidateId": "aux_nu_renyo_ni",
+      "analysisUnit": "に",
+      "sourceAnalysis": "助動詞「ぬ」・完了",
+      "focusOffset": 8,
+      "analysisUnitOffset": 8,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "崇りをなされけり",
+      "focusSurface": "な",
+      "focusOccurrence": 0,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "なされ",
+      "sourceAnalysis": "助動詞「る」・尊敬を含む語形",
+      "focusOffset": 3,
+      "analysisUnitOffset": 3,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "門を入らむとし",
+      "focusSurface": "らむ",
+      "focusOccurrence": 0,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "入らむ",
+      "sourceAnalysis": "助動詞「む」を含む。ここでは「らむ」一語ではない。",
+      "focusOffset": 3,
+      "analysisUnitOffset": 2,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "門を入らむとし",
+      "focusSurface": "む",
+      "focusOccurrence": 0,
+      "action": "resolveAuxiliaryLemma",
+      "auxiliaryLemma": "む",
+      "analysisUnit": "む",
+      "sourceAnalysis": "助動詞「む」・意志等",
+      "focusOffset": 4,
+      "analysisUnitOffset": 4,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "申さむとし",
+      "focusSurface": "む",
+      "focusOccurrence": 0,
+      "action": "resolveAuxiliaryLemma",
+      "auxiliaryLemma": "む",
+      "analysisUnit": "む",
+      "sourceAnalysis": "助動詞「む」・意志等",
+      "focusOffset": 2,
+      "analysisUnitOffset": 2,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "やうある事ならむ",
+      "focusSurface": "な",
+      "focusOccurrence": 0,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "なら",
+      "sourceAnalysis": "断定の助動詞「なり」を含む「なら」＋助動詞「む」",
+      "focusOffset": 5,
+      "analysisUnitOffset": 5,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "やうある事ならむ",
+      "focusSurface": "らむ",
+      "focusOccurrence": 0,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "ならむ",
+      "sourceAnalysis": "断定「なり」＋助動詞「む」。現在推量「らむ」一語ではない。",
+      "focusOffset": 6,
+      "analysisUnitOffset": 5,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "やうある事ならむ",
+      "focusSurface": "む",
+      "focusOccurrence": 0,
+      "action": "resolveAuxiliaryLemma",
+      "auxiliaryLemma": "む",
+      "analysisUnit": "む",
+      "sourceAnalysis": "助動詞「む」・推量等",
+      "focusOffset": 7,
+      "analysisUnitOffset": 7,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "見候はむ",
+      "focusSurface": "む",
+      "focusOccurrence": 0,
+      "action": "resolveAuxiliaryLemma",
+      "auxiliaryLemma": "む",
+      "analysisUnit": "む",
+      "sourceAnalysis": "助動詞「む」・意志等",
+      "focusOffset": 3,
+      "analysisUnitOffset": 3,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "落ちつかむ所",
+      "focusSurface": "む",
+      "focusOccurrence": 0,
+      "action": "resolveAuxiliaryLemma",
+      "auxiliaryLemma": "む",
+      "analysisUnit": "む",
+      "sourceAnalysis": "助動詞「む」・推量/意志等",
+      "focusOffset": 4,
+      "analysisUnitOffset": 4,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "仕りたるらむ",
+      "focusSurface": "らむ",
+      "focusOccurrence": 0,
+      "action": "resolveAuxiliaryLemma",
+      "auxiliaryLemma": "らむ",
+      "analysisUnit": "らむ",
+      "sourceAnalysis": "助動詞「らむ」・現在推量等",
+      "focusOffset": 4,
+      "analysisUnitOffset": 4,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "御越しあらましかば",
+      "focusSurface": "ましか",
+      "focusOccurrence": 0,
+      "action": "resolveAuxiliaryLemma",
+      "auxiliaryLemma": "まし",
+      "analysisUnit": "ましか",
+      "sourceAnalysis": "助動詞「まし」・反実仮想",
+      "focusOffset": 5,
+      "analysisUnitOffset": 5,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "通力のものにて",
+      "focusSurface": "にて",
+      "focusOccurrence": 0,
+      "action": "resolveCandidate",
+      "candidateId": "copula_nari_ni_plus_te",
+      "analysisUnit": "にて",
+      "sourceAnalysis": "断定の助動詞「なり」",
+      "focusOffset": 5,
+      "analysisUnitOffset": 5,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "老法師にてありける",
+      "focusSurface": "にて",
+      "focusOccurrence": 0,
+      "action": "resolveCandidate",
+      "candidateId": "copula_nari_ni_plus_te",
+      "analysisUnit": "にて",
+      "sourceAnalysis": "断定の助動詞「なり」",
+      "focusOffset": 3,
+      "analysisUnitOffset": 3,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "科にはあらず",
+      "focusSurface": "に",
+      "focusOccurrence": 0,
+      "action": "resolveCandidate",
+      "candidateId": "copula_nari_renyo_ni",
+      "analysisUnit": "に",
+      "sourceAnalysis": "断定の助動詞「なり」",
+      "focusOffset": 1,
+      "analysisUnitOffset": 1,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "黄なる紙捻",
+      "focusSurface": "な",
+      "focusOccurrence": 0,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "黄なる",
+      "sourceAnalysis": "形容動詞「黄なり」の連体形。断定の助動詞ではない。",
+      "focusOffset": 1,
+      "analysisUnitOffset": 0,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "黄なる紙捻",
+      "focusSurface": "る",
+      "focusOccurrence": 0,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "黄なる",
+      "sourceAnalysis": "形容動詞「黄なり」の連体形。助動詞「る」ではない。",
+      "focusOffset": 2,
+      "analysisUnitOffset": 0,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "車より降りて入らむとし給へば",
+      "focusSurface": "らむ",
+      "focusOccurrence": 0,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "入らむ",
+      "sourceAnalysis": "ワークシートで助動詞「む」を含む表現として明示。「らむ」一語としては扱わない。",
+      "focusOffset": 7,
+      "analysisUnitOffset": 6,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "車より降りて入らむとし給へば",
+      "focusSurface": "む",
+      "focusOccurrence": 0,
+      "action": "resolveAuxiliaryLemma",
+      "auxiliaryLemma": "む",
+      "analysisUnit": "む",
+      "sourceAnalysis": "ワークシートで助動詞「む」を含む表現として明示。",
+      "focusOffset": 8,
+      "analysisUnitOffset": 8,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "不便にせさせ給ひけるとなむ",
+      "focusSurface": "に",
+      "focusOccurrence": 0,
+      "action": "resolveCandidate",
+      "candidateId": "nari_adjective_renyo_ni",
+      "analysisUnit": "に",
+      "sourceAnalysis": "形容動詞「不便なり」の連用形を含む表現として明示。",
+      "focusOffset": 2,
+      "analysisUnitOffset": 2,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "phrase": "不便にせさせ給ひけるとなむ",
+      "focusSurface": "せ",
+      "focusOccurrence": 1,
+      "action": "suppressInsideLargerUnit",
+      "analysisUnit": "させ",
+      "sourceAnalysis": "助動詞「さす」・尊敬を含む表現。第二の「せ」は「させ」の内部。",
+      "focusOffset": 5,
+      "analysisUnitOffset": 4,
+      "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "id": "abe-nashi-na-boundary",
+      "phrase": "物もなし",
+      "focusSurface": "な",
+      "analysisUnit": "なし",
+      "action": "suppressInsideLargerUnit",
+      "sourceAnalysis": "形容詞「なし」の語内部。外部辞書照合を境界確認にのみ使用。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-nashi-shi-boundary",
+      "phrase": "物もなし",
+      "focusSurface": "し",
+      "analysisUnit": "なし",
+      "action": "suppressInsideLargerUnit",
+      "sourceAnalysis": "形容詞「なし」の語内部。過去「き」等の独立「し」ではない。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-konryu-shi",
+      "phrase": "建立し給ひて",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「建立＋す」のサ変連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-otomo-shi-keri",
+      "phrase": "御供しけり",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "名詞「御供」＋サ変「す」の連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-otomo-shi-keru",
+      "phrase": "御供しけるが",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "名詞「御供」＋サ変「す」の連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-muto-shi-tamau",
+      "phrase": "入らむとし給へば",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「む＋と＋す」のサ変「す」連用形「し」。同一表面句2箇所に限定。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-jito-shi",
+      "phrase": "入れ奉らじとしければ",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「じ＋と＋す」のサ変「す」連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-muto-shi-mousu",
+      "phrase": "引きとどめ申さむとしければ",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「む＋と＋す」のサ変「す」連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-juso-shi",
+      "phrase": "呪詛し奉りて",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「呪詛＋す」のサ変連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-uchiawase-se-boundary",
+      "phrase": "土器を二つうち合せて",
+      "focusSurface": "せ",
+      "analysisUnit": "うち合せ",
+      "action": "suppressInsideLargerUnit",
+      "sourceAnalysis": "文語動詞「合す」の活用語形内部。独立のサ変「せ」・助動詞「せ」候補ではない。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "安倍晴明_本文・文法・語彙整理.docx",
+      "role": "本文・助動詞・係り結び・敬語・形容詞形容動詞の整理"
+    },
+    {
+      "title": "安倍晴明_ワークシート_解答なし_横書き_テキストのみ_修正版.txt",
+      "role": "助動詞を含む表現・係り結び・形容詞形容動詞の確認"
+    }
+  ]
+}

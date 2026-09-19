@@ -1,0 +1,383 @@
+{
+  "schemaVersion": "0.4",
+  "updated": "2026-09-19",
+  "title": "Checkpoint context-required 接続resolver規則",
+  "sources": [
+    {
+      "file": "discrimination_source_usb3212.json",
+      "role": "候補ごとの接続・活用形"
+    },
+    {
+      "file": "audited_inflected_form_index_500.json",
+      "role": "直前語の監査済み活用形"
+    },
+    {
+      "file": "source_reviewed_token_morphology.json",
+      "role": "audited500未収録時のexact token形態情報。secondary-source-reviewed。"
+    }
+  ],
+  "policy": [
+    "resolverは直前の監査済み語形が候補表面形に隣接するときだけ発火する。",
+    "singleCandidateResolve は出典上、直前活用形で候補が一意に分かれる場合に限定する。",
+    "supportOnly は候補支持情報だけを付け、context-required抑制を解除しない。",
+    "一次資料未確認の助動詞活用表を補完する用途には使わない。",
+    "「に」の前が連体形でも格助詞・接続助詞の両候補がUSB-3212上で成立するため、候補支持は両方を保持する。",
+    "引用符など文字境界だけで候補が一意になる規則は hardBoundaryRules に分離し、直前文字が完全一致した場合だけ発火する。",
+    "audited500の一意なkanji-anchored evidenceを常にsource-reviewed token morphologyより優先する。",
+    "multi-candidate surfaceはtrusted preceding tokenの活用形と右文脈が同時に規則へ一致した場合だけ一意化する。"
+  ],
+  "entries": [
+    {
+      "surface": "ぬ",
+      "mode": "singleCandidateResolve",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_nu_terminal"
+          ]
+        },
+        {
+          "previousForm": "未然形",
+          "supportCandidateIds": [
+            "aux_zu_rentai_nu"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "ね",
+      "mode": "singleCandidateResolve",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_nu_imperative"
+          ]
+        },
+        {
+          "previousForm": "未然形",
+          "supportCandidateIds": [
+            "aux_zu_izen_ne"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "ば",
+      "mode": "singleCandidateResolve",
+      "rules": [
+        {
+          "previousForm": "未然形",
+          "supportCandidateIds": [
+            "conjunctive_ba_hypothetical"
+          ]
+        },
+        {
+          "previousForm": "已然形",
+          "supportCandidateIds": [
+            "conjunctive_ba_fixed"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "る",
+      "mode": "singleCandidateResolve",
+      "rules": [
+        {
+          "previousForm": "未然形",
+          "previousClassIncludes": [
+            "四段活用",
+            "ナ行変格活用",
+            "ラ行変格活用"
+          ],
+          "supportCandidateIds": [
+            "aux_ru_terminal"
+          ]
+        },
+        {
+          "previousForm": "已然形",
+          "previousClassIncludes": [
+            "四段活用"
+          ],
+          "supportCandidateIds": [
+            "aux_ri_rentai_ru"
+          ]
+        },
+        {
+          "previousForm": "未然形",
+          "previousClassIncludes": [
+            "サ行変格活用"
+          ],
+          "supportCandidateIds": [
+            "aux_ri_rentai_ru"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "せ",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_ki_mizen"
+          ]
+        },
+        {
+          "previousForm": "未然形",
+          "previousClassIncludes": [
+            "四段活用",
+            "ナ行変格活用",
+            "ラ行変格活用"
+          ],
+          "supportCandidateIds": [
+            "aux_su_mizen_renyo"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "な",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_nu_mizen"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "し",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_ki_rentai"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "に",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_nu_renyo_ni"
+          ]
+        },
+        {
+          "previousForm": "連体形",
+          "supportCandidateIds": [
+            "case_particle_ni",
+            "conjunctive_particle_ni"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "て",
+      "mode": "supportOnly",
+      "rules": [
+        {
+          "previousForm": "連用形",
+          "supportCandidateIds": [
+            "aux_tsu_mizen_renyo",
+            "conjunctive_particle_te"
+          ]
+        }
+      ]
+    }
+  ],
+  "rightContextRules": [
+    {
+      "surface": "に",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "けり"
+      ],
+      "supportCandidateIds": [
+        "aux_nu_renyo_ni"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「に」: 完了「ぬ」連用形は、直前が連用形で後ろに「けり」等の助動詞が続くか確認。"
+    },
+    {
+      "surface": "て",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "む",
+        "けり",
+        "き",
+        "まし"
+      ],
+      "supportCandidateIds": [
+        "aux_tsu_mizen_renyo"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「て」: 完了「つ」未然・連用形は、後ろに「む・けり・き・まし」等が続く助動詞連鎖を確認。"
+    }
+  ],
+  "leftSurfaceRules": [
+    {
+      "surface": "ば",
+      "previousSurface": "けれ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「けれ」の出典候補はいずれも、該当箇所を已然形または已然形を含む切り方として扱う。「ば」は已然形接続なら確定条件候補。",
+      "evidenceFiles": [
+        "discrimination_source_usb3212.json"
+      ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "し給へ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "尊敬の補助動詞「給ふ」四段活用の已然形「給へ」＋已然形接続の「ば」。下二段「給ふ」との同形衝突を避けるため「し給へ」に限定。",
+      "evidenceFiles": [
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "ましか",
+      "previousFormEvidence": "未然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_hypothetical"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "反実仮想「ましかば」の「ましか」は未然形として用いられる。",
+      "evidenceFiles": [
+        "abe_seimei_grammar_evidence.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "申せ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "四段動詞「申す」の已然形「申せ」＋已然形接続の「ば」。",
+      "evidenceFiles": [
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "のたまへ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "四段動詞「のたまふ」の已然形「のたまへ」＋已然形接続の「ば」。",
+      "evidenceFiles": [
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "投げ上げたれ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "当該句の「たれ」を完了・存続「たり」の已然形として照合し、已然形接続の「ば」を支持。一般の「たれ＋ば」へは拡張しない。",
+      "evidenceFiles": [
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    }
+  ],
+  "hardBoundaryRules": [
+    {
+      "surface": "と",
+      "previousChars": [
+        "」",
+        "』"
+      ],
+      "supportCandidateIds": [
+        "case_particle_to"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「と」: 格助詞「と」は引用を表す文・句に接続する。",
+      "safety": "quote-close-boundary-only"
+    }
+  ],
+  "ambiguousSurfaceRules": [
+    {
+      "surface": "けれ",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "ば"
+      ],
+      "supportCandidateIds": [
+        "aux_keri_izen"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "trusted tokenの連用形直後に「けれ」が始まり、さらに已然形接続の「ば」が続く場合。語内部の形容詞「けれ」等はtoken境界で除外する。",
+      "safety": "left-token-boundary + right-ba required"
+    },
+    {
+      "surface": "しか",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "ど",
+        "ども"
+      ],
+      "supportCandidateIds": [
+        "aux_ki_izen"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "trusted tokenの連用形直後の「しか」かつ已然形接続の「ど／ども」。",
+      "safety": "left-token-boundary + right-do required"
+    },
+    {
+      "surface": "たり",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "けり",
+        "ける",
+        "けれ"
+      ],
+      "supportCandidateIds": [
+        "perfect_tari_renyo_terminal"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "trusted用言連用形直後の「たり」で、後ろに過去「けり」の活用形が続く助動詞連鎖。",
+      "safety": "left-token-boundary + following-keri-form required"
+    },
+    {
+      "surface": "して",
+      "previousChars": [
+        "ず"
+      ],
+      "supportCandidateIds": [
+        "conjunctive_particle_shite"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「して」: 接続助詞は「ずして」等、前の活用語と接続助詞としてまとまるか確認する。",
+      "safety": "literal-zushi-te-only",
+      "evidenceFiles": [
+        "discrimination_source_usb3212.json"
+      ]
+    }
+  ]
+}

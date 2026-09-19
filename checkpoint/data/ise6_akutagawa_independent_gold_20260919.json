@@ -1,0 +1,371 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 独立gold set 2: 伊勢物語第6段「芥川」冒頭",
+  "work": "伊勢物語",
+  "section": "第6段 芥川",
+  "excerptRange": "昔、男ありけり。〜「かれは何ぞ」となむ男に問ひける。",
+  "purpose": "徒然草goldへ合わせてresolverを変更する前に、別時代・別文体でcross-passage blind baselineを取る。",
+  "freeze": {
+    "status": "FROZEN_BEFORE_SHADOW_EVALUATION",
+    "shadowVersionAtFreeze": "v0.14-pre-tuning",
+    "rule": "このgold固定後に初めてshadow結果と比較する。採点結果を見てgoldを書き換えない。"
+  },
+  "text": "昔、男ありけり。女のえ得まじかりけるを、年を経て呼ばひわたりけるを、からうじて盗み出でて、いと暗きに来けり。芥川といふ河を率て行きければ、草の上に置きたりける露を、「かれは何ぞ」となむ男に問ひける。",
+  "textLength": 99,
+  "evaluationUniverse": {
+    "basis": "surface_index.json の表面形が本文に文字列一致する全位置。resolver出力はgold作成に未使用。",
+    "rawPositions": 35,
+    "expectedActionCounts": {
+      "resolveAuxiliaryLemma": 6,
+      "suppressInsideLargerUnit": 12,
+      "resolveCandidate": 17
+    }
+  },
+  "sourcePolicy": [
+    "本文と品詞分解を複数の外部資料で照合する。",
+    "外部Web資料は独立評価用goldの根拠であり、学校文法masterのprimary-source-verifiedには昇格させない。",
+    "表記差がgold位置に影響する場合は採用本文を固定し、別表記を混在させない。"
+  ],
+  "sourceRefs": [
+    {
+      "title": "品詞分解屋 伊勢物語 第6段『芥川』品詞分解",
+      "url": "https://kobunzukin.blog.fc2.com/blog-entry-151.html",
+      "role": "全文tokenization・品詞・活用の主照合"
+    },
+    {
+      "title": "マナペディア 伊勢物語『芥川・白玉か』品詞分解",
+      "url": "https://manapedia.jp/text/2228",
+      "role": "独立した第二照合"
+    },
+    {
+      "title": "くらすらん 伊勢物語 第6段 芥川 品詞分解と現代語訳",
+      "url": "https://nbataro.blog.fc2.com/blog-entry-403.html",
+      "role": "本文表記・全文照合"
+    }
+  ],
+  "notes": [
+    "「まじかり」内部の「じ」は独立助動詞「じ」としない。",
+    "「呼ばひわたり」内部の「ば」「たり」は独立候補としない。",
+    "「からうじて」は副詞一語として、内部「じ」「て」を独立候補としない。",
+    "「なむ」は係助詞として採点し、内部「な」「む」は独立させない。",
+    "「たり」@75は存続の助動詞「たり」連用形として採点する。"
+  ],
+  "entries": [
+    {
+      "id": "ise6-gold-001",
+      "surface": "けり",
+      "start": 5,
+      "end": 7,
+      "context": "昔、男ありけり。女のえ得まじかりける",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり"
+    },
+    {
+      "id": "ise6-gold-002",
+      "surface": "じ",
+      "start": 13,
+      "end": 14,
+      "context": "りけり。女のえ得まじかりけるを、年を経て呼",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "まじかり"
+    },
+    {
+      "id": "ise6-gold-003",
+      "surface": "ける",
+      "start": 16,
+      "end": 18,
+      "context": "。女のえ得まじかりけるを、年を経て呼ばひわた",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり"
+    },
+    {
+      "id": "ise6-gold-004",
+      "surface": "る",
+      "start": 17,
+      "end": 18,
+      "context": "女のえ得まじかりけるを、年を経て呼ばひわた",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ける"
+    },
+    {
+      "id": "ise6-gold-005",
+      "surface": "を",
+      "start": 18,
+      "end": 19,
+      "context": "のえ得まじかりけるを、年を経て呼ばひわたり",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo"
+    },
+    {
+      "id": "ise6-gold-006",
+      "surface": "を",
+      "start": 21,
+      "end": 22,
+      "context": "まじかりけるを、年を経て呼ばひわたりけるを",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo"
+    },
+    {
+      "id": "ise6-gold-007",
+      "surface": "て",
+      "start": 23,
+      "end": 24,
+      "context": "かりけるを、年を経て呼ばひわたりけるを、か",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te"
+    },
+    {
+      "id": "ise6-gold-008",
+      "surface": "ば",
+      "start": 25,
+      "end": 26,
+      "context": "けるを、年を経て呼ばひわたりけるを、からう",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "呼ばひわたり"
+    },
+    {
+      "id": "ise6-gold-009",
+      "surface": "たり",
+      "start": 28,
+      "end": 30,
+      "context": "、年を経て呼ばひわたりけるを、からうじて盗み",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "呼ばひわたり"
+    },
+    {
+      "id": "ise6-gold-010",
+      "surface": "ける",
+      "start": 30,
+      "end": 32,
+      "context": "を経て呼ばひわたりけるを、からうじて盗み出で",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり"
+    },
+    {
+      "id": "ise6-gold-011",
+      "surface": "る",
+      "start": 31,
+      "end": 32,
+      "context": "経て呼ばひわたりけるを、からうじて盗み出で",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ける"
+    },
+    {
+      "id": "ise6-gold-012",
+      "surface": "を",
+      "start": 32,
+      "end": 33,
+      "context": "て呼ばひわたりけるを、からうじて盗み出でて",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_wo"
+    },
+    {
+      "id": "ise6-gold-013",
+      "surface": "じ",
+      "start": 37,
+      "end": 38,
+      "context": "たりけるを、からうじて盗み出でて、いと暗き",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "からうじて"
+    },
+    {
+      "id": "ise6-gold-014",
+      "surface": "て",
+      "start": 38,
+      "end": 39,
+      "context": "りけるを、からうじて盗み出でて、いと暗きに",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "からうじて"
+    },
+    {
+      "id": "ise6-gold-015",
+      "surface": "て",
+      "start": 43,
+      "end": 44,
+      "context": "からうじて盗み出でて、いと暗きに来けり。芥",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te"
+    },
+    {
+      "id": "ise6-gold-016",
+      "surface": "と",
+      "start": 46,
+      "end": 47,
+      "context": "じて盗み出でて、いと暗きに来けり。芥川とい",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "いと"
+    },
+    {
+      "id": "ise6-gold-017",
+      "surface": "に",
+      "start": 49,
+      "end": 50,
+      "context": "み出でて、いと暗きに来けり。芥川といふ河を",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni"
+    },
+    {
+      "id": "ise6-gold-018",
+      "surface": "けり",
+      "start": 51,
+      "end": 53,
+      "context": "でて、いと暗きに来けり。芥川といふ河を率て行",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり"
+    },
+    {
+      "id": "ise6-gold-019",
+      "surface": "と",
+      "start": 56,
+      "end": 57,
+      "context": "暗きに来けり。芥川といふ河を率て行きければ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to"
+    },
+    {
+      "id": "ise6-gold-020",
+      "surface": "を",
+      "start": 60,
+      "end": 61,
+      "context": "けり。芥川といふ河を率て行きければ、草の上",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo"
+    },
+    {
+      "id": "ise6-gold-021",
+      "surface": "て",
+      "start": 62,
+      "end": 63,
+      "context": "。芥川といふ河を率て行きければ、草の上に置",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te"
+    },
+    {
+      "id": "ise6-gold-022",
+      "surface": "けれ",
+      "start": 65,
+      "end": 67,
+      "context": "といふ河を率て行きければ、草の上に置きたりけ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_keri_izen"
+    },
+    {
+      "id": "ise6-gold-023",
+      "surface": "ば",
+      "start": 67,
+      "end": 68,
+      "context": "ふ河を率て行きければ、草の上に置きたりける",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_ba_fixed"
+    },
+    {
+      "id": "ise6-gold-024",
+      "surface": "に",
+      "start": 72,
+      "end": 73,
+      "context": "行きければ、草の上に置きたりける露を、「か",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni"
+    },
+    {
+      "id": "ise6-gold-025",
+      "surface": "たり",
+      "start": 75,
+      "end": 77,
+      "context": "れば、草の上に置きたりける露を、「かれは何ぞ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "perfect_tari_renyo_terminal"
+    },
+    {
+      "id": "ise6-gold-026",
+      "surface": "ける",
+      "start": 77,
+      "end": 79,
+      "context": "、草の上に置きたりける露を、「かれは何ぞ」と",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり"
+    },
+    {
+      "id": "ise6-gold-027",
+      "surface": "る",
+      "start": 78,
+      "end": 79,
+      "context": "草の上に置きたりける露を、「かれは何ぞ」と",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ける"
+    },
+    {
+      "id": "ise6-gold-028",
+      "surface": "を",
+      "start": 80,
+      "end": 81,
+      "context": "上に置きたりける露を、「かれは何ぞ」となむ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo"
+    },
+    {
+      "id": "ise6-gold-029",
+      "surface": "と",
+      "start": 89,
+      "end": 90,
+      "context": "を、「かれは何ぞ」となむ男に問ひける。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to"
+    },
+    {
+      "id": "ise6-gold-030",
+      "surface": "なむ",
+      "start": 90,
+      "end": 92,
+      "context": "、「かれは何ぞ」となむ男に問ひける。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "project_kakari_namu"
+    },
+    {
+      "id": "ise6-gold-031",
+      "surface": "な",
+      "start": 90,
+      "end": 91,
+      "context": "、「かれは何ぞ」となむ男に問ひける。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なむ"
+    },
+    {
+      "id": "ise6-gold-032",
+      "surface": "む",
+      "start": 91,
+      "end": 92,
+      "context": "「かれは何ぞ」となむ男に問ひける。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なむ"
+    },
+    {
+      "id": "ise6-gold-033",
+      "surface": "に",
+      "start": 93,
+      "end": 94,
+      "context": "れは何ぞ」となむ男に問ひける。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni"
+    },
+    {
+      "id": "ise6-gold-034",
+      "surface": "ける",
+      "start": 96,
+      "end": 98,
+      "context": "ぞ」となむ男に問ひける。",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "けり"
+    },
+    {
+      "id": "ise6-gold-035",
+      "surface": "る",
+      "start": 97,
+      "end": 98,
+      "context": "」となむ男に問ひける。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ける"
+    }
+  ]
+}

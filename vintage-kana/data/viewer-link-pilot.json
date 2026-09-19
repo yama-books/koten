@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "status": "technical-pilot-only-not-attested",
+  "updatedAt": "2026-09-19",
+  "purpose": "Record publicly indexed coordinate-bearing Fuminoha viewer URLs while the occurrence extraction route is being reverse-engineered.",
+  "warning": "Entries in this file are NOT attested examples. They only demonstrate public page/coordinate/unicode addressing.",
+  "urlPattern": "<viewer-page>.html?X=<x>&Y=<y>&unicode=<unicode>",
+  "samples": [
+    {
+      "source_witness": "200014445",
+      "viewer_page": "200014445_00014",
+      "reported_page_label": "P.010",
+      "x": 3240,
+      "y": 680,
+      "unicode": "U+305D",
+      "url": "https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/200014445/html/200014445_00014.html?X=3240&Y=0680&unicode=U+305D",
+      "discovery_method": "public-search-index",
+      "review_status": "technical-only"
+    },
+    {
+      "source_witness": "200014445",
+      "viewer_page": "200014445_00037",
+      "reported_page_label": "P.033",
+      "x": 2259,
+      "y": 833,
+      "unicode": "U+3078",
+      "url": "https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/200014445/html/200014445_00037.html?X=2259&Y=0833&unicode=U+3078",
+      "discovery_method": "public-search-index",
+      "review_status": "technical-only"
+    },
+    {
+      "source_witness": "200014445",
+      "viewer_page": "200014445_00062",
+      "reported_page_label": "P.058",
+      "x": 2704,
+      "y": 777,
+      "unicode": "U+308F",
+      "url": "https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/200014445/html/200014445_00062.html?X=2704&Y=0777&unicode=U+308F",
+      "discovery_method": "public-search-index",
+      "review_status": "technical-only"
+    },
+    {
+      "source_witness": "200014445",
+      "viewer_page": "200014445_00080",
+      "reported_page_label": "P.076",
+      "x": 3011,
+      "y": 1747,
+      "unicode": "U+306C",
+      "url": "https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/200014445/html/200014445_00080.html?X=3011&Y=1747&unicode=U+306C",
+      "discovery_method": "public-search-index",
+      "review_status": "technical-only"
+    },
+    {
+      "source_witness": "200014445",
+      "viewer_page": "200014445_00017",
+      "x": 2551,
+      "y": 1832,
+      "unicode": "U+3080",
+      "url": "https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/200014445/html/200014445_00017.html?X=2551&Y=1832&unicode=U+3080",
+      "discovery_method": "public-search-index-2026-09-19",
+      "context_snippet_available": true,
+      "review_status": "technical-only"
+    }
+  ],
+  "targetStatus": {
+    "target": "200014445 / U+1B0DE / 𛃞",
+    "frequencyConfirmed": 246,
+    "coordinateUrlsEnumerated": false,
+    "blocker": "Public search indexing exposes some coordinate URLs but has not yielded stable enumeration for supplementary-plane U+1B0DE."
+  },
+  "parallelSourceRoutes": {
+    "ninjal_history_images": {
+      "description": "NINJAL Japanese-history source archive provides JPG/PDF/IIIF for NINJAL-owned witnesses.",
+      "saga_manifest": "https://dglb01.ninjal.ac.jp/ninjaldl/isesaga/001/manifest.json",
+      "saga_transcription_note": "The current NINJAL history-materials page for isesaga advertises image/IIIF publication; a separate transcription dataset was not confirmed there."
+    },
+    "ninjal_text_dataset": {
+      "description": "NINJAL Text Data Sets for Research on the History of Japanese provides CC BY 4.0 transcriptions for several canonical witnesses.",
+      "confirmed_for": [
+        "umegoyomi",
+        "hanashimadai",
+        "butsurui_shoko"
+      ],
+      "examples": {
+        "umegoyomi": "https://www2.ninjal.ac.jp/textdb_dataset/umgy/",
+        "hanashimadai": "https://www2.ninjal.ac.jp/textdb_dataset/hnsd/",
+        "butsurui_shoko": "https://www2.ninjal.ac.jp/textdb_dataset/"
+      }
+    }
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint source-reviewed token morphology",
+  "role": "audited500で未収録の語形を、複数資料で確認したexact token morphologyとしてresolverへ補助入力する。grammar masterではない。",
+  "policy": [
+    "特定本文のcandidate正解は保持しない。surface/lemma/POS/form/conjugationClassだけを保持する。",
+    "audited_inflected_form_index_500.jsonに同じsurfaceの一意なevidenceがある場合はそちらを優先する。",
+    "secondary-source-reviewedでありprimary-source-verifiedではない。",
+    "exact token surfaceが識別hitの直前に隣接するときだけprevious-form evidenceとして使用する。",
+    "このレイヤの追加後の一般化性能は、未使用の第三作品goldで評価する。"
+  ],
+  "sourceRefs": [
+    {
+      "work": "徒然草52",
+      "url": "https://kobunzukin.blog.fc2.com/blog-entry-1.html",
+      "gold": "tsurezure52_independent_gold_20260919.json"
+    },
+    {
+      "work": "伊勢物語6",
+      "url": "https://kobunzukin.blog.fc2.com/blog-entry-151.html",
+      "gold": "ise6_akutagawa_independent_gold_20260919.json"
+    }
+  ],
+  "entries": [
+    {
+      "surface": "ざり",
+      "lemma": "ず",
+      "pos": "助動詞",
+      "form": "連用形",
+      "conjugationClass": "特殊活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "覚え",
+      "lemma": "覚ゆ",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ヤ行下二段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "思ひ立ち",
+      "lemma": "思ひ立つ",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "タ行四段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "詣で",
+      "lemma": "詣づ",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ダ行下二段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "拝み",
+      "lemma": "拝む",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "マ行四段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "心得",
+      "lemma": "心得",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ア行下二段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "帰り",
+      "lemma": "帰る",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ラ行四段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "あひ",
+      "lemma": "あふ",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ハ行四段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "果たし",
+      "lemma": "果たす",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "サ行四段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "侍り",
+      "lemma": "侍り",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ラ行変格活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "おはし",
+      "lemma": "おはす",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "サ行変格活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "参り",
+      "lemma": "参る",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ラ行四段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "登り",
+      "lemma": "登る",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ラ行四段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "ゆかしかり",
+      "lemma": "ゆかし",
+      "pos": "形容詞",
+      "form": "連用形",
+      "conjugationClass": "シク活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "参る",
+      "lemma": "参る",
+      "pos": "動詞",
+      "form": "連体形",
+      "conjugationClass": "ラ行四段活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "あら",
+      "lemma": "あり",
+      "pos": "動詞",
+      "form": "未然形",
+      "conjugationClass": "ラ行変格活用",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "まほしき",
+      "lemma": "まほし",
+      "pos": "助動詞",
+      "form": "連体形",
+      "conjugationClass": "形容詞型",
+      "sourceWork": "徒然草52",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "得",
+      "lemma": "得（う）",
+      "pos": "動詞",
+      "form": "終止形",
+      "conjugationClass": "ア行下二段活用",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "まじかり",
+      "lemma": "まじ",
+      "pos": "助動詞",
+      "form": "連用形",
+      "conjugationClass": "形容詞型",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "経",
+      "lemma": "経（ふ）",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ハ行下二段活用",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "呼ばひわたり",
+      "lemma": "呼ばひわたる",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ラ行四段活用",
+      "sourceWork": "伊勢物語6",
+      "orthographyNote": "参照資料では「よばひわたり」表記。評価本文の漢字表記に対応。",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "盗み出で",
+      "lemma": "盗み出づ",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ダ行下二段活用",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "来",
+      "lemma": "来（く）",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "カ行変格活用",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "いふ",
+      "lemma": "いふ",
+      "pos": "動詞",
+      "form": "連体形",
+      "conjugationClass": "ハ行四段活用",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "率",
+      "lemma": "率る",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ワ行上一段活用",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "行き",
+      "lemma": "行く",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "カ行四段活用",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "置き",
+      "lemma": "置く",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "カ行四段活用",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    },
+    {
+      "surface": "問ひ",
+      "lemma": "問ふ",
+      "pos": "動詞",
+      "form": "連用形",
+      "conjugationClass": "ハ行四段活用",
+      "sourceWork": "伊勢物語6",
+      "trust": "source-reviewed-secondary",
+      "usage": "resolver-support-only"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "updated": "2026-09-19",
+  "work": "今昔物語集",
+  "status": "pilot / all-gates-passed",
+  "provider": "やたがらすナビ",
+  "edition": {
+    "title": "攷証今昔物語集（本文）",
+    "url": "https://yatanavi.org/text/k_konjaku/index.html",
+    "bibliographicSource": "芳賀矢一校訂『攷証今昔物語集』冨山房・大正10年（1921）",
+    "transcriptionPolicy": "旧字体→新字体、漢字カタカナ交じり→漢字ひらがな交じり、句読点等を補う",
+    "rightsVerified": true,
+    "sourceLicense": "CC BY-SA 4.0",
+    "rightsStatus": "provider explicitly licenses wiki content CC BY-SA 4.0",
+    "note": "原資料の権利状態を独自断定せず、公開電子本文に明示されたCC BY-SA 4.0を再利用根拠とする。"
+  },
+  "records": [
+    {
+      "id": "adjv-078",
+      "chjTarget": "懃ニ",
+      "publicTarget": "懃に",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/k_konjaku/k_konjaku15-1",
+      "excerpt": "智光は心に智の深くして、懃に学問を好て、止事無き学生と成ぬ。",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連用形「に」を確認。"
+    },
+    {
+      "id": "adjv-059",
+      "chjTarget": "ヒタ黒ナル",
+      "publicTarget": "ひた黒なる",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/k_konjaku/k_konjaku15-15",
+      "excerpt": "房の前に切懸を立渡したる外より見れば、ひた黒なる田笠と云ふ物の、鉉破れ下たるを着たる老法師の",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-070",
+      "chjTarget": "微妙ナル",
+      "publicTarget": "微妙なる",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/k_konjaku/k_konjaku15-19",
+      "excerpt": "千万の国を過て、飛び行て、微妙なる世界に至ぬ。皆七宝の地也。",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-028",
+      "chjTarget": "然様ナラ",
+      "publicTarget": "然様なら",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/k_konjaku/k_konjaku27-15",
+      "excerpt": "此れに依て、然様ならむ所には、独りなどは立入るまじき事也",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "未然形「なら」＋推量「む」を確認。"
+    }
+  ],
+  "counts": {
+    "total": 4,
+    "rightsVerified": 4,
+    "targetVerified": 4,
+    "excerptReviewed": 4,
+    "publicationEnabled": 4
+  }
+}

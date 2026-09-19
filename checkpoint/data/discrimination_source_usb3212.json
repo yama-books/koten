@@ -1,0 +1,788 @@
+{
+  "schemaVersion": "0.3",
+  "updated": "2026-09-18",
+  "title": "USB-3212『紛らわしい語の識別』構造化データ",
+  "source": {
+    "file": "USB-3212_紛らわしい語の識別.pdf",
+    "pages": "162-172（PDF 1-6ページ）",
+    "basis": "ユーザー提供PDFを画像として目視転記・要約",
+    "scope": "候補分類・接続・識別の着眼点。例文本文は原則として転載せず、アプリ用に要約。"
+  },
+  "policy": {
+    "preserveSourceTaxonomy": true,
+    "doNotTreatAsCompleteGrammarMaster": true,
+    "projectExtensionsSeparated": true
+  },
+  "entries": [
+    {
+      "surface": "が",
+      "pages": [
+        162
+      ],
+      "candidates": [
+        {
+          "id": "case_particle_ga",
+          "label": "格助詞「が」",
+          "pos": "格助詞",
+          "connection": [
+            "体言",
+            "連体形"
+          ],
+          "cue": "連体形に直接続く場合は、後ろに体言・準体助詞「の」を補えるか確認する。"
+        },
+        {
+          "id": "conjunctive_particle_ga",
+          "label": "接続助詞「が」",
+          "pos": "接続助詞",
+          "connection": [
+            "連体形"
+          ],
+          "cue": "前後が文として続き、連体形の後ろに体言等を補う読みにならないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "けれ",
+      "pages": [
+        162,
+        163
+      ],
+      "candidates": [
+        {
+          "id": "aux_keri_izen",
+          "label": "過去の助動詞「けり」の已然形「けれ」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "直前が連用形か確認する。"
+        },
+        {
+          "id": "adjective_izen_part",
+          "label": "形容詞ク活用の已然形の活用語尾（またはその一部）",
+          "pos": "形容詞",
+          "connection": [
+            "語内部"
+          ],
+          "cue": "「けれ」だけを独立させず、前まで含めて一語の形容詞にならないか確認する。"
+        },
+        {
+          "id": "yodan_ke_plus_ri_re",
+          "label": "カ行四段動詞の已然形語尾「け」＋完了・存続「り」の已然形「れ」",
+          "pos": "動詞＋助動詞",
+          "connection": [
+            "四段動詞已然形＋り"
+          ],
+          "cue": "「け｜れ」と切れないか確認する。"
+        },
+        {
+          "id": "adjective_type_aux_izen_part",
+          "label": "「べし・まじ・まほし」など形容詞型活用の助動詞の已然形の一部",
+          "pos": "助動詞",
+          "connection": [
+            "語内部"
+          ],
+          "cue": "「けれ」を一語として取り出さず、助動詞全体の活用形にならないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "し",
+      "pages": [
+        163
+      ],
+      "candidates": [
+        {
+          "id": "sahen_su_renyo",
+          "label": "サ変動詞「す」の連用形「し」",
+          "pos": "動詞",
+          "connection": [
+            "文節内"
+          ],
+          "cue": "「する」の動作として意味が通るか確認する。"
+        },
+        {
+          "id": "aux_ki_rentai",
+          "label": "過去の助動詞「き」の連体形「し」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "直前が連用形で、後ろに体言等が続くか確認する。"
+        },
+        {
+          "id": "adverbial_particle_shi",
+          "label": "副助詞「し」（強意）",
+          "pos": "副助詞",
+          "connection": [
+            "各種語"
+          ],
+          "cue": "「し」を除いても文意の骨格が大きく変わらないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "しか",
+      "pages": [
+        163
+      ],
+      "candidates": [
+        {
+          "id": "aux_ki_izen",
+          "label": "過去の助動詞「き」の已然形「しか」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "直前が連用形で、後ろに「ば・ど」等が続く形か確認する。"
+        },
+        {
+          "id": "aux_ki_rentai_plus_ka",
+          "label": "過去「き」の連体形「し」＋係助詞「か」",
+          "pos": "助動詞＋係助詞",
+          "connection": [
+            "連用形＋か"
+          ],
+          "cue": "文末などで疑問の「か」が独立して働いていないか確認する。"
+        },
+        {
+          "id": "wish_particle_fragment",
+          "label": "終助詞「てしか（な）・にしか（な）」の一部",
+          "pos": "終助詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "文末で願望を表す「てしか（な）／にしか（な）」の一部ではないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "して",
+      "pages": [
+        164
+      ],
+      "candidates": [
+        {
+          "id": "sahen_shi_plus_te",
+          "label": "サ変動詞「す」の連用形「し」＋接続助詞「て」",
+          "pos": "動詞＋接続助詞",
+          "connection": [
+            "し＋て"
+          ],
+          "cue": "「し｜て」と二語に切り、「す」に戻せるか確認する。"
+        },
+        {
+          "id": "case_particle_shite",
+          "label": "格助詞「して」",
+          "pos": "格助詞",
+          "connection": [
+            "体言",
+            "体言に準ずる語"
+          ],
+          "cue": "手段・方法・動作主などの関係を示していないか確認する。"
+        },
+        {
+          "id": "conjunctive_particle_shite",
+          "label": "接続助詞「して」",
+          "pos": "接続助詞",
+          "connection": [
+            "形容詞・形容動詞・形容詞型活用語の連用形"
+          ],
+          "cue": "「ずして」等、前の活用語と接続助詞としてまとまらないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "せ",
+      "pages": [
+        164
+      ],
+      "candidates": [
+        {
+          "id": "sahen_su_mizen",
+          "label": "サ変動詞「す」の未然形「せ」",
+          "pos": "動詞",
+          "connection": [
+            "語内部"
+          ],
+          "cue": "「す」に戻して「する」の意味が成立するか確認する。"
+        },
+        {
+          "id": "aux_ki_mizen",
+          "label": "過去の助動詞「き」の未然形「せ」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "「せば～まし」のような反実仮想の呼応がないか確認する。"
+        },
+        {
+          "id": "aux_su_mizen_renyo",
+          "label": "使役・尊敬の助動詞「す」の未然形・連用形「せ」",
+          "pos": "助動詞",
+          "connection": [
+            "四段・ナ変・ラ変の未然形"
+          ],
+          "cue": "使役・尊敬の意味と、直前の未然形接続が成立するか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "たり",
+      "pages": [
+        164
+      ],
+      "candidates": [
+        {
+          "id": "tari_adjective_renyo_terminal",
+          "label": "形容動詞タリ活用の連用形・終止形の活用語尾「たり」",
+          "pos": "形容動詞",
+          "connection": [
+            "漢語等の語幹"
+          ],
+          "cue": "前まで含めて状態・性質を表す一語の形容動詞にならないか確認する。"
+        },
+        {
+          "id": "copula_tari_renyo",
+          "label": "断定の助動詞「たり」の連用形「たり」",
+          "pos": "助動詞",
+          "connection": [
+            "体言"
+          ],
+          "cue": "「～であり／～として」に近い断定の意味が成立するか確認する。"
+        },
+        {
+          "id": "perfect_tari_renyo_terminal",
+          "label": "完了・存続の助動詞「たり」の連用形・終止形「たり」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "直前が連用形で、完了・存続の意味が成立するか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "て",
+      "pages": [
+        165
+      ],
+      "candidates": [
+        {
+          "id": "aux_tsu_mizen_renyo",
+          "label": "完了の助動詞「つ」の未然形・連用形「て」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "後ろに「む・けり・き・まし」等が続く助動詞連鎖にならないか確認する。"
+        },
+        {
+          "id": "conjunctive_particle_te",
+          "label": "接続助詞「て」",
+          "pos": "接続助詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "現代語の「～て」に近く前後をつなぐ働きか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "と",
+      "pages": [
+        165
+      ],
+      "candidates": [
+        {
+          "id": "tari_adjective_renyo_to",
+          "label": "形容動詞タリ活用の連用形の活用語尾「と」",
+          "pos": "形容動詞",
+          "connection": [
+            "語内部"
+          ],
+          "cue": "前まで含めて状態・性質を表す形容動詞にならないか確認する。"
+        },
+        {
+          "id": "copula_tari_renyo_to",
+          "label": "断定の助動詞「たり」の連用形「と」",
+          "pos": "助動詞",
+          "connection": [
+            "体言"
+          ],
+          "cue": "「～であり／～として」に近い断定の意味が成立するか確認する。"
+        },
+        {
+          "id": "case_particle_to",
+          "label": "格助詞「と」",
+          "pos": "格助詞",
+          "connection": [
+            "体言",
+            "引用を表す文・句"
+          ],
+          "cue": "引用・共同・並列等の関係を示していないか確認する。"
+        },
+        {
+          "id": "adverb_fragment_to",
+          "label": "副詞の一部の「と」",
+          "pos": "副詞",
+          "connection": [
+            "語内部"
+          ],
+          "cue": "「と」だけを独立させず、前まで含めて一語の副詞にならないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "とも",
+      "pages": [
+        166
+      ],
+      "candidates": [
+        {
+          "id": "to_plus_mo",
+          "label": "格助詞「と」＋係助詞「も」",
+          "pos": "格助詞＋係助詞",
+          "connection": [
+            "体言等／引用句＋も"
+          ],
+          "cue": "「も」を除いても基本的な文意が成り立つか確認する。"
+        },
+        {
+          "id": "conjunctive_particle_tomo",
+          "label": "接続助詞「とも」",
+          "pos": "接続助詞",
+          "connection": [
+            "終止形（形容詞は連用形）"
+          ],
+          "cue": "逆接の仮定条件として「たとえ～ても」に近い関係にならないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "な",
+      "pages": [
+        166
+      ],
+      "candidates": [
+        {
+          "id": "aux_nu_mizen",
+          "label": "完了の助動詞「ぬ」の未然形「な」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "後ろに「ば・む・まし」等が続かないか確認する。"
+        },
+        {
+          "id": "sentence_particle_na",
+          "label": "終助詞「な」（禁止・詠嘆）",
+          "pos": "終助詞",
+          "connection": [
+            "終止形（ラ変は連体形）"
+          ],
+          "cue": "文末で禁止・詠嘆として働くか確認する。"
+        },
+        {
+          "id": "adverb_na_prohibition",
+          "label": "副詞「な」（禁止）",
+          "pos": "副詞",
+          "connection": [
+            "「な～そ」の呼応"
+          ],
+          "cue": "後ろに終助詞「そ」があり、禁止の呼応を作っていないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "なむ",
+      "pages": [
+        166
+      ],
+      "candidates": [
+        {
+          "id": "aux_nu_mizen_plus_mu",
+          "label": "強意の助動詞「ぬ」の未然形「な」＋推量・意志の助動詞「む」",
+          "pos": "助動詞＋助動詞",
+          "connection": [
+            "連用形＋む"
+          ],
+          "cue": "直前が連用形で、「な｜む」と助動詞を二つに分けられないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "なり",
+      "pages": [
+        167
+      ],
+      "candidates": [
+        {
+          "id": "verb_naru_renyo",
+          "label": "ラ行四段動詞「なる」の連用形「なり」",
+          "pos": "動詞",
+          "connection": [
+            "語彙的用法"
+          ],
+          "cue": "「になる／となる」等の変化・成立の意味で述語になっていないか確認する。"
+        },
+        {
+          "id": "nari_adjective_renyo_terminal",
+          "label": "形容動詞ナリ活用の連用形・終止形の活用語尾「なり」",
+          "pos": "形容動詞",
+          "connection": [
+            "語内部"
+          ],
+          "cue": "前まで含めて状態・性質を表す形容動詞にならないか確認する。"
+        },
+        {
+          "id": "copula_nari_renyo_terminal",
+          "label": "断定の助動詞「なり」の連用形・終止形「なり」",
+          "pos": "助動詞",
+          "connection": [
+            "体言",
+            "連体形"
+          ],
+          "cue": "「～である」に近い断定が成立するか確認する。"
+        },
+        {
+          "id": "hearsay_nari_renyo_terminal",
+          "label": "伝聞・推定の助動詞「なり」の連用形・終止形「なり」",
+          "pos": "助動詞",
+          "connection": [
+            "終止形（ラ変は連体形）"
+          ],
+          "cue": "音・伝聞・推定の文脈と接続を確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "に",
+      "pages": [
+        168
+      ],
+      "candidates": [
+        {
+          "id": "nari_adjective_renyo_ni",
+          "label": "形容動詞ナリ活用の連用形の活用語尾「に」",
+          "pos": "形容動詞",
+          "connection": [
+            "語内部"
+          ],
+          "cue": "前まで含めて一語の形容動詞にならないか確認する。"
+        },
+        {
+          "id": "copula_nari_renyo_ni",
+          "label": "断定の助動詞「なり」の連用形「に」",
+          "pos": "助動詞",
+          "connection": [
+            "体言",
+            "連体形"
+          ],
+          "cue": "後ろに「あり」等が続き、断定「～で」の意味にならないか確認する。"
+        },
+        {
+          "id": "aux_nu_renyo_ni",
+          "label": "完了の助動詞「ぬ」の連用形「に」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "直前が連用形で、後ろに「けり」等の助動詞が続かないか確認する。"
+        },
+        {
+          "id": "case_particle_ni",
+          "label": "格助詞「に」",
+          "pos": "格助詞",
+          "connection": [
+            "体言",
+            "連体形"
+          ],
+          "cue": "場所・時間・対象等の格関係を示していないか確認する。"
+        },
+        {
+          "id": "conjunctive_particle_ni",
+          "label": "接続助詞「に」",
+          "pos": "接続助詞",
+          "connection": [
+            "連体形"
+          ],
+          "cue": "前後の文をつなぎ、「～のに／～から／～と」等の関係を作っていないか確認する。"
+        },
+        {
+          "id": "adverb_fragment_ni",
+          "label": "副詞の一部の「に」",
+          "pos": "副詞",
+          "connection": [
+            "語内部"
+          ],
+          "cue": "前まで含めて一語の副詞・連用修飾語にならないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "にて",
+      "pages": [
+        169
+      ],
+      "candidates": [
+        {
+          "id": "nari_adjective_ni_plus_te",
+          "label": "形容動詞ナリ活用の連用形「に」＋接続助詞「て」",
+          "pos": "形容動詞＋接続助詞",
+          "connection": [
+            "に＋て"
+          ],
+          "cue": "前まで含めて形容動詞を作り、「に｜て」と切れないか確認する。"
+        },
+        {
+          "id": "copula_nari_ni_plus_te",
+          "label": "断定の助動詞「なり」の連用形「に」＋接続助詞「て」",
+          "pos": "助動詞＋接続助詞",
+          "connection": [
+            "体言・連体形＋に＋て"
+          ],
+          "cue": "「～で、～であって」に近い断定＋接続にならないか確認する。"
+        },
+        {
+          "id": "case_particle_nite",
+          "label": "格助詞「にて」",
+          "pos": "格助詞",
+          "connection": [
+            "体言"
+          ],
+          "cue": "場所・時間・原因・理由・手段・材料等の関係を示していないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "ぬ",
+      "pages": [
+        169
+      ],
+      "candidates": [
+        {
+          "id": "aux_nu_terminal",
+          "label": "完了の助動詞「ぬ」の終止形「ぬ」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "直前が連用形か確認する。"
+        },
+        {
+          "id": "aux_zu_rentai_nu",
+          "label": "打消の助動詞「ず」の連体形「ぬ」",
+          "pos": "助動詞",
+          "connection": [
+            "未然形"
+          ],
+          "cue": "後ろに体言があるか、または係助詞「ぞ・なむ・や・か」の結びになっていないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "ね",
+      "pages": [
+        169
+      ],
+      "candidates": [
+        {
+          "id": "aux_nu_imperative",
+          "label": "完了の助動詞「ぬ」の命令形「ね」",
+          "pos": "助動詞",
+          "connection": [
+            "連用形"
+          ],
+          "cue": "文末等で命令として成立するか確認する。"
+        },
+        {
+          "id": "aux_zu_izen_ne",
+          "label": "打消の助動詞「ず」の已然形「ね」",
+          "pos": "助動詞",
+          "connection": [
+            "未然形"
+          ],
+          "cue": "後ろに「ば・ど・ども」が続くか、係助詞「こそ」の結びになっていないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "ば",
+      "pages": [
+        170
+      ],
+      "candidates": [
+        {
+          "id": "conjunctive_ba_hypothetical",
+          "label": "接続助詞「ば」（仮定条件）",
+          "pos": "接続助詞",
+          "connection": [
+            "未然形"
+          ],
+          "cue": "直前が未然形で、「もし～なら」に近い仮定条件か確認する。"
+        },
+        {
+          "id": "conjunctive_ba_fixed",
+          "label": "接続助詞「ば」（確定条件）",
+          "pos": "接続助詞",
+          "connection": [
+            "已然形"
+          ],
+          "cue": "直前が已然形で、原因・理由、偶然条件、恒常条件などの確定条件か確認する。"
+        },
+        {
+          "id": "particle_wa_voiced_ba",
+          "label": "係助詞「は」が濁音化した「ば」",
+          "pos": "係助詞",
+          "connection": [
+            "格助詞等に後続"
+          ],
+          "cue": "「名をば」等、条件ではなく対象等を強く取り立て、除いても文の骨格が保たれるか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "ばや",
+      "pages": [
+        170
+      ],
+      "candidates": [
+        {
+          "id": "sentence_particle_baya",
+          "label": "終助詞「ばや」",
+          "pos": "終助詞",
+          "connection": [
+            "未然形"
+          ],
+          "cue": "文末で自己の願望「～したい」を表すか確認する。"
+        },
+        {
+          "id": "hypothetical_ba_plus_ya",
+          "label": "仮定条件の接続助詞「ば」＋係助詞「や」",
+          "pos": "接続助詞＋係助詞",
+          "connection": [
+            "未然形＋や"
+          ],
+          "cue": "仮定条件に疑問・反語の「や」が加わっていないか確認する。"
+        },
+        {
+          "id": "fixed_ba_plus_ya",
+          "label": "確定条件の接続助詞「ば」＋係助詞「や」",
+          "pos": "接続助詞＋係助詞",
+          "connection": [
+            "已然形＋や"
+          ],
+          "cue": "確定条件に疑問・反語の「や」が加わっていないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "らむ",
+      "pages": [
+        171
+      ],
+      "candidates": [
+        {
+          "id": "aux_ri_ra_plus_mu",
+          "label": "完了・存続の助動詞「り」の未然形「ら」＋推量・婉曲の助動詞「む」",
+          "pos": "助動詞＋助動詞",
+          "connection": [
+            "四段已然形／サ変未然形＋ら＋む"
+          ],
+          "cue": "「ら｜む」と切れ、前に「り」が成立する接続条件があるか確認する。"
+        },
+        {
+          "id": "aux_ramu",
+          "label": "現在推量の助動詞「らむ」",
+          "pos": "助動詞",
+          "connection": [
+            "終止形（ラ変は連体形）"
+          ],
+          "cue": "現在の事柄について推量・原因推量等を表す一語の助動詞にならないか確認する。"
+        },
+        {
+          "id": "r_verb_mizen_plus_mu",
+          "label": "ラ行四段・ラ変動詞の未然形語尾「ら」＋助動詞「む」",
+          "pos": "動詞＋助動詞",
+          "connection": [
+            "動詞未然形＋む"
+          ],
+          "cue": "「ら」が前の動詞の活用語尾で、「む」だけが助動詞ではないか確認する。"
+        },
+        {
+          "id": "adjective_kara_plus_mu",
+          "label": "形容詞の未然形活用語尾の一部「から」＋推量・婉曲の助動詞「む」",
+          "pos": "形容詞＋助動詞",
+          "connection": [
+            "形容詞未然形＋む"
+          ],
+          "cue": "「ら」を独立させず、前の「から」までが形容詞の未然形ではないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "る",
+      "pages": [
+        171
+      ],
+      "candidates": [
+        {
+          "id": "aux_ru_terminal",
+          "label": "自発・可能・受身・尊敬の助動詞「る」の終止形「る」",
+          "pos": "助動詞",
+          "connection": [
+            "四段・ナ変・ラ変の未然形"
+          ],
+          "cue": "直前が対象活用の未然形で、受身・尊敬・自発・可能のいずれかが成立するか確認する。"
+        },
+        {
+          "id": "aux_ri_rentai_ru",
+          "label": "完了・存続の助動詞「り」の連体形「る」",
+          "pos": "助動詞",
+          "connection": [
+            "四段已然形",
+            "サ変未然形"
+          ],
+          "cue": "直前が「り」の接続条件を満たし、後ろに体言等が続く連体形ではないか確認する。"
+        }
+      ]
+    },
+    {
+      "surface": "を",
+      "pages": [
+        172
+      ],
+      "candidates": [
+        {
+          "id": "case_particle_wo",
+          "label": "格助詞「を」",
+          "pos": "格助詞",
+          "connection": [
+            "体言",
+            "連体形"
+          ],
+          "cue": "動作対象等の格関係を示していないか確認する。連体形に直接付く場合は省略された体言を補えるかも見る。"
+        },
+        {
+          "id": "conjunctive_particle_wo",
+          "label": "接続助詞「を」",
+          "pos": "接続助詞",
+          "connection": [
+            "連体形（体言に付く場合もある）"
+          ],
+          "cue": "「～のに／～が／～ところ」等の関係で下へ続き、省略体言を補う読みにならないか確認する。"
+        },
+        {
+          "id": "interjection_particle_wo",
+          "label": "間投助詞「を」",
+          "pos": "間投助詞",
+          "connection": [
+            "各種語"
+          ],
+          "cue": "詠嘆・語調を添え、除いても文意の骨格が大きく変わらないか確認する。"
+        }
+      ]
+    }
+  ]
+}

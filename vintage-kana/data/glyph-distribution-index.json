@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "status": "phase1-nonzero-complete-47-of-47",
+  "target": {
+    "description": "学術情報交換用変体仮名の47音価を初回分布収集の対象とする",
+    "kana": [
+      "あ",
+      "い",
+      "う",
+      "え",
+      "お",
+      "か",
+      "き",
+      "く",
+      "け",
+      "こ",
+      "さ",
+      "し",
+      "す",
+      "せ",
+      "そ",
+      "た",
+      "ち",
+      "つ",
+      "て",
+      "と",
+      "な",
+      "に",
+      "ぬ",
+      "ね",
+      "の",
+      "は",
+      "ひ",
+      "ふ",
+      "へ",
+      "ほ",
+      "ま",
+      "み",
+      "む",
+      "め",
+      "も",
+      "や",
+      "ゆ",
+      "よ",
+      "ら",
+      "り",
+      "る",
+      "れ",
+      "ろ",
+      "わ",
+      "ゐ",
+      "ゑ",
+      "を"
+    ],
+    "count": 47,
+    "supplementalNote": "国語研字形DBには「ん」も存在する。初回47音価収集とは分け、現代文入力等の要件を踏まえて補遺として扱う。"
+  },
+  "parts": [
+    {
+      "path": "glyph-distribution.json",
+      "kana": [
+        "あ",
+        "い",
+        "う",
+        "え",
+        "お",
+        "か",
+        "き",
+        "く",
+        "け",
+        "こ",
+        "さ",
+        "し",
+        "す",
+        "せ",
+        "そ",
+        "た",
+        "ち",
+        "つ",
+        "て",
+        "と",
+        "な",
+        "に",
+        "ぬ",
+        "ね",
+        "の",
+        "は",
+        "ひ",
+        "ふ",
+        "へ",
+        "ほ",
+        "ま",
+        "み",
+        "む",
+        "め",
+        "も",
+        "わ"
+      ],
+      "kanaCount": 36,
+      "nonzeroRecordCount": 1691
+    },
+    {
+      "path": "glyph-distribution-part2.json",
+      "kana": [
+        "や",
+        "ゆ",
+        "よ",
+        "ら",
+        "り",
+        "る",
+        "れ",
+        "ろ",
+        "ゐ",
+        "ゑ",
+        "を"
+      ],
+      "kanaCount": 11,
+      "nonzeroRecordCount": 355
+    }
+  ],
+  "totals": {
+    "kanaCount": 47,
+    "witnessCount": 15,
+    "nonzeroRecordCount": 2046
+  },
+  "zeroHandling": "derived-files-materialize-inferred-zero; raw source files remain nonzero-only",
+  "ratioStatus": "derived-two-denominator-shares-calculated",
+  "retrievedAt": "2026-09-18",
+  "supplements": [
+    {
+      "path": "glyph-distribution-supplemental.json",
+      "kana": [
+        "ん"
+      ],
+      "kanaCount": 1,
+      "nonzeroRecordCount": 15,
+      "relationshipToCore": "supplemental"
+    }
+  ],
+  "totalsWithSupplement": {
+    "kanaCount": 48,
+    "witnessCount": 15,
+    "nonzeroRecordCount": 2061
+  },
+  "derived": {
+    "methodology": "See ../AGGREGATION_RULES.md",
+    "core": {
+      "recordCount": 3750,
+      "observedNonzeroRecordCount": 2046,
+      "inferredZeroRecordCount": 1704,
+      "formCount": 250,
+      "parts": [
+        {
+          "path": "glyph-distribution-derived-part1.json",
+          "recordCount": 3120,
+          "formCount": 208,
+          "observedNonzeroRecordCount": 1691,
+          "inferredZeroRecordCount": 1429
+        },
+        {
+          "path": "glyph-distribution-derived-part2.json",
+          "recordCount": 630,
+          "formCount": 42,
+          "observedNonzeroRecordCount": 355,
+          "inferredZeroRecordCount": 275
+        }
+      ]
+    },
+    "supplemental": {
+      "path": "glyph-distribution-derived-supplemental.json",
+      "recordCount": 15,
+      "formCount": 1,
+      "observedNonzeroRecordCount": 15,
+      "inferredZeroRecordCount": 0
+    },
+    "validation": {
+      "ratioRange": "all ratios 0..1",
+      "allFormsGroupCount": 705,
+      "sameDiacriticNonzeroGroupCount": 961,
+      "maxRoundedSumDeviation": 2e-8,
+      "status": "passed"
+    }
+  }
+}
