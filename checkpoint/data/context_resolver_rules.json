@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 接続resolver規則",
   "sources": [
@@ -10,6 +10,10 @@
     {
       "file": "audited_inflected_form_index_500.json",
       "role": "直前語の監査済み活用形"
+    },
+    {
+      "file": "source_reviewed_token_morphology.json",
+      "role": "audited500未収録時のexact token形態情報。secondary-source-reviewed。"
     }
   ],
   "policy": [
@@ -18,7 +22,9 @@
     "supportOnly は候補支持情報だけを付け、context-required抑制を解除しない。",
     "一次資料未確認の助動詞活用表を補完する用途には使わない。",
     "「に」の前が連体形でも格助詞・接続助詞の両候補がUSB-3212上で成立するため、候補支持は両方を保持する。",
-    "引用符など文字境界だけで候補が一意になる規則は hardBoundaryRules に分離し、直前文字が完全一致した場合だけ発火する。"
+    "引用符など文字境界だけで候補が一意になる規則は hardBoundaryRules に分離し、直前文字が完全一致した場合だけ発火する。",
+    "audited500の一意なkanji-anchored evidenceを常にsource-reviewed token morphologyより優先する。",
+    "multi-candidate surfaceはtrusted preceding tokenの活用形と右文脈が同時に規則へ一致した場合だけ一意化する。"
   ],
   "entries": [
     {
@@ -313,6 +319,50 @@
       "mode": "singleCandidateResolve",
       "sourceCue": "USB-3212「と」: 格助詞「と」は引用を表す文・句に接続する。",
       "safety": "quote-close-boundary-only"
+    }
+  ],
+  "ambiguousSurfaceRules": [
+    {
+      "surface": "けれ",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "ば"
+      ],
+      "supportCandidateIds": [
+        "aux_keri_izen"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "trusted tokenの連用形直後に「けれ」が始まり、さらに已然形接続の「ば」が続く場合。語内部の形容詞「けれ」等はtoken境界で除外する。",
+      "safety": "left-token-boundary + right-ba required"
+    },
+    {
+      "surface": "しか",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "ど",
+        "ども"
+      ],
+      "supportCandidateIds": [
+        "aux_ki_izen"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "trusted tokenの連用形直後の「しか」かつ已然形接続の「ど／ども」。",
+      "safety": "left-token-boundary + right-do required"
+    },
+    {
+      "surface": "たり",
+      "previousForm": "連用形",
+      "nextStartsWith": [
+        "けり",
+        "ける",
+        "けれ"
+      ],
+      "supportCandidateIds": [
+        "perfect_tari_renyo_terminal"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "trusted用言連用形直後の「たり」で、後ろに過去「けり」の活用形が続く助動詞連鎖。",
+      "safety": "left-token-boundary + following-keri-form required"
     }
   ]
 }
