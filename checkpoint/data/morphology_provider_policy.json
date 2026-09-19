@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "title": "Checkpoint passage-independent morphology provider policy",
+  "mode": "signal-only",
+  "purpose": [
+    "作品個別goldに依存せず、既存の監査済み形態データから局所形態シグナルを返す。",
+    "shadowの観測可能性を上げるが、learner-visible判定や候補削除には直結させない。"
+  ],
+  "sourcePrecedence": [
+    {
+      "tier": "audited-exact-resolver-eligible",
+      "source": "audited_inflected_form_index_500.json",
+      "matchMode": "exact",
+      "use": "既存resolverで利用中のkanji-anchored一意活用形。providerでも最優先。"
+    },
+    {
+      "tier": "secondary-reviewed-exact-resolver-support",
+      "source": "source_reviewed_token_morphology.json",
+      "matchMode": "exact",
+      "use": "既存のsource-reviewed secondary exact token。primary-source-verifiedではない。"
+    },
+    {
+      "tier": "audited-corpus-exact-signal",
+      "source": "audited_inflection_evidence_500_full.json",
+      "matchMode": "exact",
+      "use": "500例全表面形のうちanalysis signatureが一意な2文字以上のexact表面形。signal-only。"
+    },
+    {
+      "tier": "corpus-derived-suffix-signal",
+      "source": "audited_inflection_evidence_500_full.json",
+      "matchMode": "derived-suffix",
+      "use": "監査500例から統計的に導いた語尾signature。signal-only。"
+    }
+  ],
+  "exactSignalPolicy": {
+    "minimumSurfaceLength": 2,
+    "requireSingleAnalysisSignature": true,
+    "note": "kana-onlyを含めるがsignal-only。1文字exactは語内部誤一致が多いため除外。"
+  },
+  "derivedSuffixPolicy": {
+    "enabled": true,
+    "suffixLengths": [
+      3,
+      2
+    ],
+    "minimumSupport": 3,
+    "requireUnanimousSignature": true,
+    "requiredConsensusFields": [
+      "pos",
+      "form",
+      "conjugationClass"
+    ],
+    "direction": "previous-only",
+    "note": "同一suffixを持つ監査表面形が3件以上あり、POS/form/classが全件一致する場合だけ観測シグナルを出す。語境界確定やlemma復元には使わない。"
+  },
+  "outputContract": {
+    "required": [
+      "surface",
+      "form",
+      "pos",
+      "conjugationClass",
+      "evidenceTier",
+      "source",
+      "matchMode",
+      "resolverEligible"
+    ],
+    "optional": [
+      "lemma",
+      "supportCount",
+      "examples",
+      "skippedBetween"
+    ]
+  },
+  "safety": [
+    "このproviderの新規tierはlocalSyntaxFeaturesの観測値だけに使う。",
+    "audited-corpus-exact-signalとcorpus-derived-suffix-signalはcandidate削除・suppression解除・resolved昇格に使わない。",
+    "平家物語『敦盛の最期』goldからexact morphologyを追加しない。",
+    "derived suffixは作品別goldを参照して生成しない。監査済み500例だけから毎回生成する。",
+    "句読点をskipしたnext exact signalは統語的接続を意味しない。",
+    "hard rule化する場合は別作品の未使用goldを先にfreezeしblind評価する。"
+  ],
+  "releaseRelevance": [
+    "公開版ではlearner-visible detectorはlegacyを維持できる。",
+    "shadow研究のcoverage不足を作品別手修正で埋めず、汎化レイヤとして評価できる。",
+    "providerのsignal-only性が崩れた場合は公開ゲート違反とする。"
+  ]
+}
