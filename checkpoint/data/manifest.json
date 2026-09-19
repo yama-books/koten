@@ -62,7 +62,9 @@
     "heikeAtsumoriIndependentGold": "heike_atsumori_independent_gold_20260920.json",
     "heikeAtsumoriShadowBaseline": "heike_atsumori_shadow_baseline_v015.json",
     "heikeAtsumoriFeatureGapAudit": "heike_atsumori_feature_gap_audit_20260920.json",
-    "stage2GeneralizationCheckpoint4Works": "stage2_generalization_checkpoint_20260920.json"
+    "stage2GeneralizationCheckpoint4Works": "stage2_generalization_checkpoint_20260920.json",
+    "morphologyProviderPolicy": "morphology_provider_policy.json",
+    "morphologyProviderAudit": "morphology_provider_audit_20260920.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -146,6 +148,9 @@
     "3 development goldの未解決39位置でnextMorphology 15/39。未解決「て」の読点なし3件は3/3で右側独立活用語だが、第四blind前はhard rule化しない。",
     "第四blindとして平家物語「敦盛の最期」24位置をgold先固定し、baselineを凍結。",
     "4 blind works合算: 136位置 / strict PASS 75 / grammar strict 18/75 / boundary 57/61 / wrongResolved 0。",
-    "第四blindはboundary 10/10・false-positive resolved 0。right-context morphologyのunseen-work coverage不足を別auditへ分離。"
+    "第四blindはboundary 10/10・false-positive resolved 0。right-context morphologyのunseen-work coverage不足を別auditへ分離。",
+    "passage-independent morphology providerをsignal-onlyで追加。既存resolver用exact evidenceを最優先し、500例full exactとcorpus-derived suffixを観測専用tierとして返す。",
+    "corpus-derived suffixは監査500例で3件以上かつPOS/form/class全一致の2-3文字suffixのみ。候補削除・resolved昇格には使わない。",
+    "第四blind平家『敦盛の最期』ではgold由来exact morphologyを追加せず、previous morphology signalが3/24位置（grammar target 3/14）まで増加。『て』5件の一般分離には未到達。"
   ]
 }
