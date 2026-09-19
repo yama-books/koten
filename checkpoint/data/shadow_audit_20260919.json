@@ -1,6 +1,6 @@
 {
   "schemaVersion": "0.15-stage2-generalization",
-  "updated": "2026-09-19",
+  "updated": "2026-09-20",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
     "samples": [
@@ -490,34 +490,33 @@
   },
   "strictMetricNote": "旧dbResolved 187はcompatibility metric。候補まで一意なstrict resolvedは145、複数候補が残るambiguous resolvedは42。learner-visible判断にはstrictを用いる。",
   "independentGold": {
-    "checkpoint": "stage2_generalization_checkpoint_20260919.json",
-    "blindWorks": 3,
+    "works": 4,
+    "blindCheckpoint": "stage2_generalization_checkpoint_20260920.json",
     "blindCombined": {
-      "positions": 112,
-      "strictPass": 63,
-      "strictPassRate": 0.5625,
-      "grammarResolveTargets": 61,
-      "strictGrammarResolve": 16,
-      "strictGrammarResolveRate": 0.26229508196721313,
-      "boundaryTargets": 51,
-      "boundaryCorrect": 47,
-      "boundaryRate": 0.9215686274509803,
-      "wrongResolved": 0,
-      "falsePositiveResolved": 4
+      "positions": 136,
+      "strictPass": 75,
+      "strictPassRate": 0.5514705882352942,
+      "resolveTargets": 75,
+      "strictCorrectResolve": 18,
+      "resolveRecall": 0.24,
+      "suppressTargets": 61,
+      "correctSuppression": 57,
+      "suppressionRecall": 0.9344262295081968,
+      "falsePositiveResolved": 4,
+      "wrongResolved": 0
     },
-    "developmentCurrent": {
-      "positions": 112,
-      "strictPass": 73,
-      "strictPassRate": 0.6517857142857143,
-      "grammarResolveTargets": 61,
-      "strictGrammarResolve": 22,
-      "strictGrammarResolveRate": 0.36065573770491804,
-      "boundaryTargets": 51,
-      "boundaryCorrect": 51,
-      "boundaryRate": 1,
+    "developmentCombined": {
+      "positions": 136,
+      "strictPass": 85,
+      "strictPassRate": 0.625,
+      "resolveTargets": 75,
+      "strictCorrectResolve": 24,
+      "resolveRecall": 0.32,
+      "suppressTargets": 61,
+      "correctSuppression": 61,
+      "suppressionRecall": 1,
       "hardErrors": 0
-    },
-    "caveat": "developmentCurrentはgold確認後の改善を含むためblind scoreではない。"
+    }
   },
   "localSyntaxFeatureAudit": {
     "file": "local_syntax_feature_audit_20260919.json",
@@ -527,5 +526,11 @@
     "rightTrustedToken": 4,
     "punctuationAfter": 14,
     "mode": "signal-only"
+  },
+  "fourthBlind": {
+    "gold": "heike_atsumori_independent_gold_20260920.json",
+    "baseline": "heike_atsumori_shadow_baseline_v015.json",
+    "featureGapAudit": "heike_atsumori_feature_gap_audit_20260920.json",
+    "summary": "24 positions / strict 12 / grammar 2/14 / boundary 10/10 / falsePositive 0 / wrongResolved 0"
   }
 }
