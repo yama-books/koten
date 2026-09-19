@@ -650,3 +650,21 @@ gold先固定→shadow無調整baseline保存まで完了。
 - primary-source hold 5件維持
 
 次工程は **passage-independent morphology provider のsignal-only設計**。平家gold由来exact morphologyは追加しない。
+
+
+## 2026-09-20 公開β準備
+
+- passage-independent morphology providerをsignal-onlyで実装。
+- 500例full exact（2文字以上・一意分析）と、500例から自動生成するunanimous suffix signatureを観測tierとして追加。
+- 第四blind平家へgold由来exact morphologyを追加せず、previous morphology signalは3/24位置まで拡張。
+- resolver decision pathは変更なし。learner-visible detectorはlegacy維持。
+- 通常UIで毎回実行されていたshadow auditを停止し、`?debug=shadow` / `#shadow-debug` 時のみ実行するよう修正。
+- 約38万文字の `audited_inflection_evidence_500_full.json` 等、provider関連4データをshadow debug時のみlazy-load。
+- 公開前静的preflight:
+  - HTML参照ローカルアセット 13/13存在
+  - JS 12/12構文PASS
+  - loader JSON 31/31存在・parse PASS
+- `public_release_preflight_20260920.json` を追加。legacy-visible public betaは `CONDITIONAL_PASS`。
+- 残ブロッカーは runtime browser/mobile smoke と production統合確認。
+- GitHub APIの `main...checkpoint-main` compareは `No common ancestor`。Checkpoint側では履歴改変せず、統合担当側の確認事項とする。
+- shadow promotion readiness v0.4。G6/G8はshadow昇格レーンで継続し、公開βとは分離。
