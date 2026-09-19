@@ -6,11 +6,12 @@
 
 - `index.html` inline JavaScript: **PASS**
   - GitHub上の現行 `index.html` を取得し、V8で構文コンパイル確認
-  - current blob SHA: `58faf47be35078577bdc88b4dcb7a6b71777b17e`
+  - current blob SHA: `3ee43df8bd2f75997bd5e90523f12fda91d72bb6`
 - `ui-glyph-master.json`: **PASS**
-  - Phase 1分布から生成済み
-  - 48音価
-  - 251字体（現行平仮名・濁点項目を含む派生マスター。公開UI本体は U+1B*** / diacritic=none を使用）
+  - Phase 1分布から生成済みの軽量UIキャッシュ
+  - 47音価
+  - 138変体仮名字体（U+1B*** / diacritic=none）
+  - 各字体に初期15資料での観察総数・観察witness数を保持
 - `attested-examples.json`:
   - total 49
   - exact 10
@@ -27,7 +28,7 @@
 
 ## 現行UIで実装済み
 
-- Phase 1分布データから観察済み変体仮名を動的生成
+- Phase 1由来の軽量キャッシュから観察済み変体仮名を動的生成
 - 対応する仮名で絞り込み
 - 字母クイズ
 - 「書いてみる」で利用者が字体を明示選択
