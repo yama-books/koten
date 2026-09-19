@@ -257,3 +257,65 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
   - context-required **130**（132→130）
   - 新規抑制2件: 第9首 `ながめ` 内部の `な`・`が`
 - unresolved: `て28 / に24 / と23 / を21 / し13 / ば8 / な4 / が4 / せ3 / る1 / ぬ1`
+
+
+## 2026-09-19 継続チェックポイント: shadow v0.9
+
+### 現在地
+既存4サンプル・legacy unique 310位置に対して:
+- DB raw: **310**
+- DB resolved: **105**
+- DB suppressed: **205**
+- DB only: **0**
+- resolved率: **33.9%**
+- context-required: **109**
+
+現行未解決:
+`て28 / に24 / を21 / し13 / と10 / な4 / が4 / せ3 / る1 / ぬ1`
+
+### 今回追加したもの
+- `data/external_grammar_crosscheck_20260919.json`
+  - 外部文法照合を一次資料確認と分離。
+  - shadow resolver安全確認専用。auxiliary_masterをprimary-source-verifiedへ昇格させない。
+- `data/boundary_resolver_regression_20260919.json`
+  - v0.9の期待値と安全条件を固定。
+- `context_resolver_rules.json` v0.2
+  - 閉じ引用符 `」/』` 直後の `と` を hard-boundary rule 化。
+  - `し給へ / ましか / 申せ / のたまへ / 投げ上げたれ` + `ば` を長い左文脈限定で追加。
+- `known_token_boundary_index.json` v0.2
+  - 副助詞 `ばかり` をwhole-token境界として追加。
+- `db-shadow.js`
+  - `resolved-by-source-hard-boundary` を実装。
+
+### v0.8からの差分
+- 引用符直後の `と`: 13位置 resolved。
+- `ばかり` 内部の `ば`: 2位置 suppression。
+- source-limited `ば`: 6位置 resolved。
+- context-required: **130 → 109**。
+- `ば` は既存4サンプル上では context-required 0。
+- raw 310 / DB only 0 は維持。
+
+### 安全判断
+- `給へば` を一般規則化しない。尊敬四段と謙譲下二段の同形衝突があるため、今回のresolverは `し給へ` に限定。
+- `たれば` も一般規則化しない。今回は `投げ上げたれ` という長い文脈に限定。
+- `ましかば` は反実仮想の監査済み句＋外部照合を合わせてshadow支持。
+- `ばかり` は意味判定に使わず、内部の一文字hitを黙らせる境界証拠だけに使う。
+- learner-visible detector はまだlegacy。shadow resolvedを正解表示へ直結しない。
+
+### 次回の再開地点
+次の主戦場は `て / に / を / し / と`。
+優先順位:
+1. context-required周辺だけを見る **局所 boundary/tokenizer 層** を設計する。
+2. まず既知語内部・句読点・引用境界など、品詞推定なしで切れる境界を増やす。
+3. その後、監査済み活用形＋USB-3212接続で候補支持。
+4. `に / と / を / が` のように統語構造が必要なものは、候補が一意にならなければ保留。
+5. 一次資料 `新しい古典文法 四訂新版` が参照可能になったら auxiliary_master の verified 化を別レーンで再開する。
+
+### 再開時に先に読むもの
+1. `checkpoint/HANDOFF.md` のこの節
+2. `checkpoint/PROGRESS_2026-09-19_db.md` の shadow v0.9 節
+3. `checkpoint/data/shadow_audit_20260919.json`
+4. `checkpoint/data/context_required_backlog_20260919.json`
+5. `checkpoint/data/boundary_resolver_regression_20260919.json`
+6. `checkpoint/data/context_resolver_rules.json`
+7. `checkpoint/db-shadow.js`
