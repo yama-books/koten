@@ -683,3 +683,32 @@ JavaScript構文PASS。
 この変更以前に vintage-kana の作業コミットが `main` に入っているが、
 今後はその履歴を巻き戻さず、現時点の `main` を基点として
 `vintage-kana-main` を作成し、以後の変更を分離する。
+
+
+## 23. vintage-kana-main ブランチプレビュー
+
+main を触らずに専用ブランチの現行UIを確認するため、branch直結のHTMLプレビューを使用する。
+
+開発用プレビュー:
+`https://raw.githack.com/yama-books/koten/vintage-kana-main/vintage-kana/index.html`
+
+用途:
+- `vintage-kana-main` の最新 `vintage-kana/index.html` を確認
+- main / GitHub Pages本番へ反映前のブラウザQA
+- RC更新の都度このURLを再利用可能
+
+注意:
+- これは第三者のGitHub raw HTML表示サービスを経由する開発プレビュー
+- 正式公開URLではない
+- 正式公開は koten本体側が `vintage-kana-main` を main へ取り込んだ後に GitHub Pages で確認する
+- プレビューで外部JSON取得に失敗しても、RC3にはHTML内蔵fallbackがあるため教材表示は継続する
+
+現行ブランチUI:
+- 一次公開準備版 1.0 RC3
+- 通常の平仮名＋字母カード
+- 変体仮名カード
+- 濁音／半濁音／小書き仮名対応
+- 実資料画像表示
+- publication approved 4件のみ読解教材に表示
+
+今後の書込み先は必ず `vintage-kana-main`。
