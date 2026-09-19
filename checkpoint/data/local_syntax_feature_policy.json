@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint local syntax feature policy",
+  "mode": "signal-only",
+  "targets": [
+    "に",
+    "を",
+    "と",
+    "て",
+    "し",
+    "して",
+    "けれ",
+    "しか",
+    "たり",
+    "なり",
+    "なむ"
+  ],
+  "signals": [
+    {
+      "id": "leftTrustedToken",
+      "description": "hit直前で終わるknown-token boundary。最長一致を保持。"
+    },
+    {
+      "id": "rightTrustedToken",
+      "description": "hit直後から始まるknown-token boundary。最長一致を保持。"
+    },
+    {
+      "id": "previousMorphology",
+      "description": "audited500優先、source-reviewed token morphologyをfallbackとした直前語のPOS/form/class。"
+    },
+    {
+      "id": "previousChars",
+      "description": "直前最大6文字。規則化せず観測用。"
+    },
+    {
+      "id": "nextChars",
+      "description": "直後最大8文字。後続助動詞・句読点・引用境界の観測用。"
+    },
+    {
+      "id": "quoteBoundary",
+      "description": "直前/直後の括弧・引用符境界。"
+    },
+    {
+      "id": "punctuationBoundary",
+      "description": "直前/直後の句読点。"
+    },
+    {
+      "id": "matchedRightContextCue",
+      "description": "既存context_resolver_rulesのrightContextRulesに文字列上合う後続cue。"
+    }
+  ],
+  "candidateCautions": {
+    "に": [
+      "名詞＋にだけでは格助詞と断定「なり」連用形を一意化しない。",
+      "連体形＋にだけでは格助詞と接続助詞を一意化しない。",
+      "連用形＋に＋けり等は完了「ぬ」連用形を強く支持できる。"
+    ],
+    "を": [
+      "連体形＋をだけでは格助詞・接続助詞を一意化しない。",
+      "伊勢物語goldで同じ「けるを」に格助詞/接続助詞双方の実例がある。"
+    ],
+    "と": [
+      "体言＋とだけでは格助詞と断定「たり」連用形を一意化しない。",
+      "閉じ引用符直後は既存hard-boundary規則で格助詞を支持する。"
+    ],
+    "て": [
+      "連用形＋てだけでは完了「つ」と接続助詞を一意化しない。",
+      "後続む・けり・き・まし等は完了「つ」を支持する。"
+    ],
+    "し": [
+      "連用形直後だけでは過去「き」連体形を一意化しない。右側の体言化・係助詞等を別途観測する。"
+    ]
+  },
+  "safety": [
+    "このレイヤ単独ではresolved/suppressedを変更しない。",
+    "signalから候補を削除しない。",
+    "hard rule化はdevelopment gold回帰後、未使用作品blindで再検証する。"
+  ]
+}
