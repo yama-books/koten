@@ -1,0 +1,6141 @@
+{
+  "updated": "2026-09-19",
+  "schemaVersion": 1,
+  "status": "app-bridge / short-excerpt-generated",
+  "authority": {
+    "paradigm": "『新しい古典文法 四訂新版』付録",
+    "examples": "CHJ検索結果から選抜済み120例。原文target監査済み。"
+  },
+  "policy": {
+    "rawCorpusPublished": false,
+    "excerptOnly": true,
+    "note": "CHJ raw CSVは公開せず、選抜例についてtarget周辺の短い本文断片のみを保持する。"
+  },
+  "counts": {
+    "total": 120,
+    "nari": 96,
+    "tari": 24
+  },
+  "items": [
+    {
+      "id": "adjv-001",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "静かなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "静かなれ",
+      "example": "…かりければ、　「ともかくも、事落居して、世間静かなれかし」　とぞ、京中の上下歎きけれ。",
+      "source": "平治物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410440",
+      "sampleId": "30-平治1246_01010",
+      "start": 5600,
+      "selectedForm": "命令形",
+      "group": "nari-meirei-nare",
+      "anchor": "も、事落居して、世間静かなれかし」　とぞ、京中の上下",
+      "normalizedStem": "静か",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-002",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "さすがなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "さすがなり",
+      "example": "…、男ありけり。　あはじともいはざりける女の、さすがなりけるがもとに、いひやりける。　秋の野にささわけし朝の…",
+      "source": "伊勢物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120140",
+      "sampleId": "20-伊勢0920_00001",
+      "start": 65140,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-nari",
+      "anchor": "もいはざりける女の、さすがなりけるがもとに、いひやりけ",
+      "normalizedStem": "さすが",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-003",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "妙なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "妙なり",
+      "example": "…た、山部赤人といふ人ありけり。　歌にあやしく妙なりけり。　人麿は赤人が上に立たむことかたく、赤人は人麿…",
+      "source": "古今和歌集",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00110024",
+      "sampleId": "20-古今0906_00001",
+      "start": 24340,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-nari",
+      "anchor": "けり。　歌にあやしく妙なりけり。　人麿は赤人が上に",
+      "normalizedStem": "妙",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-004",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "和らかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "和らかなり",
+      "example": "…宵の上には星の位穏やかに、蒼海の内には浪の音和らかなりつる御代の、たちまちに乱れぬるこそ悲しけれ」　と万人…",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410232",
+      "sampleId": "30-保元1223_01004",
+      "start": 29200,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-nari",
+      "anchor": "、蒼海の内には浪の音和らかなりつる御代の、たちまちに乱",
+      "normalizedStem": "和らか",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-005",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "はるかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "はるかなり",
+      "example": "…はらざりけり　また、ある人のいへる、　天雲のはるかなりつる桂川袖をひててもわたりぬるかな　また、ある人、よ…",
+      "source": "土佐日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00130054",
+      "sampleId": "20-土佐0934_00001",
+      "start": 115600,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-nari",
+      "anchor": "人のいへる、　天雲のはるかなりつる桂川袖をひててもわた",
+      "normalizedStem": "はるか",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-006",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "やはらかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "やはらかなり",
+      "example": "　召伯が政のやはらかなりし、州民甘棠の詠をなし、羊祜があはれみのひろかりし、…",
+      "source": "十訓抄",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00510029",
+      "sampleId": "30-十訓1252_01004",
+      "start": 70,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-nari",
+      "anchor": "　召伯が政のやはらかなりし、州民甘棠の詠をなし、",
+      "normalizedStem": "やはらか",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-007",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "とりどりなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "とりどりなり",
+      "example": "…ける御志ども、はてゆかしくこそ侍れ。　なほ、とりどりなりける中にも、めづらしきは、なほ立ちまさりやありけむに…",
+      "source": "堤中納言物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00170468",
+      "sampleId": "20-堤中1055_00001",
+      "start": 214620,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-nari",
+      "anchor": "くこそ侍れ。　なほ、とりどりなりける中にも、めづらしきは",
+      "normalizedStem": "とりどり",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-008",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "うららかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "うららかなり",
+      "example": "　今は昔、春つかた、日うららかなりけるに、六十ばかりの女のありけるが、虫打ち取りてゐた…",
+      "source": "宇治拾遺物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00500131",
+      "sampleId": "30-宇治1220_03016",
+      "start": 120,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-nari",
+      "anchor": "今は昔、春つかた、日うららかなりけるに、六十ばかりの女の",
+      "normalizedStem": "うららか",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-009",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "かやうなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "かやうなり",
+      "example": "…らふ人、筑前に下りて後、月のいみじう明きに、かやうなりし夜、宮に参りてあひては、つゆまどろまずながめ明かい…",
+      "source": "更級日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260351",
+      "sampleId": "20-更級1059_00004",
+      "start": 41510,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-nari",
+      "anchor": "月のいみじう明きに、かやうなりし夜、宮に参りてあひては",
+      "normalizedStem": "かやう",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-010",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "神妙なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "神妙なれ",
+      "example": "…訴訟を存知して、木刀を帯しける用意のほどこそ神妙なれ。　弓箭に携らむ者のはかりことは、尤もかうこそあらま…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450025",
+      "sampleId": "30-平家1250_01002",
+      "start": 18960,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "しける用意のほどこそ神妙なれ。　弓箭に携らむ者のはか",
+      "normalizedStem": "神妙",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-011",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "あらはなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "あらはなれ",
+      "example": "…らぬに、大殿油さし出でたれば、戸のあきたるがあらはなれば、琵琶の御琴を、たたざまに持たせたまへり。　紅の御…",
+      "source": "枕草子",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00180177",
+      "sampleId": "20-枕草1001_00090",
+      "start": 730,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "れば、戸のあきたるがあらはなれば、琵琶の御琴を、たたざ",
+      "normalizedStem": "あらは",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-012",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "愚かなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "愚かなれ",
+      "example": "…て、しづかなるいとまなく、一生を苦しむるこそ愚かなれ。　財多ければ身を守るに貧し。　害を買ひ、累を招くな…",
+      "source": "徒然草",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440110",
+      "sampleId": "30-徒然1336_01038",
+      "start": 300,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "、一生を苦しむるこそ愚かなれ。　財多ければ身を守るに",
+      "normalizedStem": "愚か",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-013",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "ほのかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "ほのかなれ",
+      "example": "…しきも這ひわたる時はべべかめる。　容貌なむ、ほのかなれど、いとらうたげにはべる。　一日、前駆追ひて渡る車の…",
+      "source": "源氏物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00200149",
+      "sampleId": "20-源氏1010_00004",
+      "start": 51970,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "かめる。　容貌なむ、ほのかなれど、いとらうたげにはべる",
+      "normalizedStem": "ほのか",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-014",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "まめなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "まめなれ",
+      "example": "…身、心の苦しみを知れれば、苦しむ時は休めつ、まめなれば使ふ。　使ふとても、たびたび過さず。　もの憂しとて…",
+      "source": "方丈記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440035",
+      "sampleId": "30-方丈1212_00012",
+      "start": 8110,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "、苦しむ時は休めつ、まめなれば使ふ。　使ふとても、た",
+      "normalizedStem": "まめ",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-015",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "顕証なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "顕証なれ",
+      "example": "…くいまめかしき、たてまつれり。　あなたはいと顕証なれば、この奥にやをらすべりとどまりてゐたり。　中務の乳…",
+      "source": "紫式部日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260219",
+      "sampleId": "20-紫式1010_00001",
+      "start": 344110,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "れり。　あなたはいと顕証なれば、この奥にやをらすべり",
+      "normalizedStem": "顕証",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-016",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "忍びやかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "忍びやかなれ",
+      "example": "…も、心にしみてあはれにをかしうおぼゆ。　かい忍びやかなれば、よろづにつけて涙もろくおぼゆ。　その泉川も渡りて…",
+      "source": "蜻蛉日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00130160",
+      "sampleId": "20-蜻蛉0974_00003",
+      "start": 47640,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "かしうおぼゆ。　かい忍びやかなれば、よろづにつけて涙もろ",
+      "normalizedStem": "忍びやか",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-017",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "無慙なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "無慙なれ",
+      "example": "…や、拾二人、おめおめと生捕りにせられけるこそ無慙なれ。　基盛、よき敵搦め取りて、勇の色を顕し、晩に及びて…",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410237",
+      "sampleId": "30-保元1223_01006",
+      "start": 2730,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "捕りにせられけるこそ無慙なれ。　基盛、よき敵搦め取り",
+      "normalizedStem": "無慙",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-018",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "さまざまなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "さまざまなれ",
+      "example": "…。　所詮は、行はなににてもあれ、衆生の宿執、さまざまなれば、仏の御教へもまたさまざまなり。　いづれもおろかな…",
+      "source": "十訓抄",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00510275",
+      "sampleId": "30-十訓1252_06038",
+      "start": 3130,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "もあれ、衆生の宿執、さまざまなれば、仏の御教へもまたさま",
+      "normalizedStem": "さまざま",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-019",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "いたづらなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "いたづらなれ",
+      "example": "…やあらむ、漢詩などいふべし。　船も出ださで、いたづらなれば、ある人のよめる、　磯ふりの寄する磯には年月をいつ…",
+      "source": "土佐日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00130032",
+      "sampleId": "20-土佐0934_00001",
+      "start": 51460,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "し。　船も出ださで、いたづらなれば、ある人のよめる、　磯",
+      "normalizedStem": "いたづら",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-020",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "大きなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "大きなれ",
+      "example": "…事、宿り給へ」といへば、皆おりゐにけり。　屋大きなれども人のありげもなし。　ただ女一人ぞあるけはひしける…",
+      "source": "宇治拾遺物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00500039",
+      "sampleId": "30-宇治1220_01008",
+      "start": 810,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "皆おりゐにけり。　屋大きなれども人のありげもなし。　",
+      "normalizedStem": "大き",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-021",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "はなやかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "はなやかなれ",
+      "example": "…いわうの宮にもなどか」、　三の君、「紫苑の、はなやかなれば、皇后宮の御さまにもがな」、　　四の君、「中宮は、…",
+      "source": "堤中納言物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00170473",
+      "sampleId": "20-堤中1055_00001",
+      "start": 221040,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "　三の君、「紫苑の、はなやかなれば、皇后宮の御さまにもが",
+      "normalizedStem": "はなやか",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-022",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "無慚なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "無慚なれ",
+      "example": "…涙をこぼしながら、嬉しげなる顔に見えけるこそ無慚なれ。　金王丸、暇を乞ひて出でしかば、　「頭殿の行末を問…",
+      "source": "平治物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410487",
+      "sampleId": "30-平治1246_02006",
+      "start": 6060,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "なる顔に見えけるこそ無慚なれ。　金王丸、暇を乞ひて出",
+      "normalizedStem": "無慚",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-023",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "あさはかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "あさはかなれ",
+      "example": "…り。　屋のさまもはかなだち、廊めきて端近に、あさはかなれどをかしきに、げにぞかしがましと思ふばかりに鳴き合ひ…",
+      "source": "枕草子",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00180185",
+      "sampleId": "20-枕草1001_00095",
+      "start": 5720,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "ち、廊めきて端近に、あさはかなれどをかしきに、げにぞかし",
+      "normalizedStem": "あさはか",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-024",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "むざんなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "むざんなれ",
+      "example": "…かじと、泣く〳〵又出で立ちける、心のうちこそむざんなれ。　独り参らむは、余りに物うしとて、妹の祇女をも相具…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450042",
+      "sampleId": "30-平家1250_01006",
+      "start": 34580,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "ちける、心のうちこそむざんなれ。　独り参らむは、余りに",
+      "normalizedStem": "むざん",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-025",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "ねむごろなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "ねむごろなれ",
+      "example": "…てなしのままに、今も参り仕うまつりたまふことねむごろなれば、その御子どももさまざま参りたまへど、この君に似る…",
+      "source": "源氏物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00220053",
+      "sampleId": "20-源氏1010_00021",
+      "start": 132220,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "仕うまつりたまふことねむごろなれば、その御子どももさまざ",
+      "normalizedStem": "ねむごろ",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-026",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "さやかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "さやかなれ",
+      "example": "…せたる車の轅も、霜いたくきらめきて、有明の月さやかなれども、隈なくはあらぬに、人離れなる御堂の廊に、なみな…",
+      "source": "徒然草",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440162",
+      "sampleId": "30-徒然1336_01105",
+      "start": 510,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "きらめきて、有明の月さやかなれども、隈なくはあらぬに、",
+      "normalizedStem": "さやか",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-027",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "思はずなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "思はずなれ",
+      "example": "…　つねに聞こゆるやうに、世に久しきことのいと思はずなれば、ちりばかり惜しきにはあらで、ただこの幼き人の上な…",
+      "source": "蜻蛉日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00130176",
+      "sampleId": "20-蜻蛉0974_00004",
+      "start": 23250,
+      "selectedForm": "已然形",
+      "group": "nari-izen-nare",
+      "anchor": "世に久しきことのいと思はずなれば、ちりばかり惜しきには",
+      "normalizedStem": "思はず",
+      "canonicalEnding": "なれ",
+      "originalEnding": "なれ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-028",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "然様なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "然様ナラ",
+      "example": "…定メテ鬼ナドニテコソハ有ケメ。　　此レニ依テ然様ナラム所ニハ、独リマニハ立入マジキ事也、トナム語リ伝ヘタ…",
+      "source": "今昔物語集",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00380058",
+      "sampleId": "30-今昔1100_27015",
+      "start": 13910,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "ケメ。　　此レニ依テ然様ナラム所ニハ、独リマニハ立入",
+      "normalizedStem": "然様",
+      "canonicalEnding": "なら",
+      "originalEnding": "ナラ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-029",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "ただなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "ただなら",
+      "example": "…　かくて、これは、女、通ひける時に、　大空もただならぬかな神無月われのみしたにしぐると思へば　これも、お…",
+      "source": "大和物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120337",
+      "sampleId": "20-大和0951_00001",
+      "start": 190790,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "ひける時に、　大空もただならぬかな神無月われのみした",
+      "normalizedStem": "ただ",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-030",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "ことなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "ことなら",
+      "example": "…ひて、せちに怨じけり。　されば、かくなむ。　ことならば明かしはててよ衣でに降れる涙の色も見すべく　返し、…",
+      "source": "平中物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120500",
+      "sampleId": "20-平中0960_00001",
+      "start": 137200,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "されば、かくなむ。　ことならば明かしはててよ衣でに降",
+      "normalizedStem": "こと",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-031",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "たしかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "たしかなら",
+      "example": "…はむ。　なほのたまへ」と聞こえたまへり。　＜たしかならぬことにもこそあれ＞と思ひて、物も言はで、やみぬ。",
+      "source": "落窪物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00170188",
+      "sampleId": "20-落窪0986_00002",
+      "start": 247650,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "聞こえたまへり。　＜たしかならぬことにもこそあれ＞と思",
+      "normalizedStem": "たしか",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-032",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "なべてなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "なべてなら",
+      "example": "…れて山に住む。　さまざまの御祈りはじまりて、なべてならぬ法ども行はるれど、さらにそのしるしなし。　京のなら…",
+      "source": "方丈記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440021",
+      "sampleId": "30-方丈1212_00005",
+      "start": 1690,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "の御祈りはじまりて、なべてならぬ法ども行はるれど、さら",
+      "normalizedStem": "なべて",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-033",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "安らかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "安らかなら",
+      "example": "…のおそろしきにつけても、わが身ひとつならば、安らかならましを、ところせうひき具して、いはまほしきこともえい…",
+      "source": "更級日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260315",
+      "sampleId": "20-更級1059_00002",
+      "start": 66230,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "わが身ひとつならば、安らかならましを、ところせうひき具",
+      "normalizedStem": "安らか",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-034",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "まほなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "まほなら",
+      "example": "…ろしき扇ども見ゆ。　　うちとけたるをりこそ、まほならぬかたちもうちまじりて見えわかれけれ、心をつくしてつ…",
+      "source": "紫式部日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260156",
+      "sampleId": "20-紫式1010_00001",
+      "start": 114380,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "ちとけたるをりこそ、まほならぬかたちもうちまじりて見",
+      "normalizedStem": "まほ",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-035",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "まめなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "まめなら",
+      "example": "…かの穴ごとに、燕は巣をくひはべる。　それに、まめならむ男ども率てまかりて、足座を結ひあげて、うかがはせむ…",
+      "source": "竹取物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120051",
+      "sampleId": "20-竹取0900_00001",
+      "start": 108380,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "ひはべる。　それに、まめならむ男ども率てまかりて、足",
+      "normalizedStem": "まめ",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-036",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "しづかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "しづかなら",
+      "example": "…ば、何と聞き分けたる事はなけれども、道々関々しづかならず。　京中の家々には、門戸を閉ぢ、資財雑具、東西南北…",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410231",
+      "sampleId": "30-保元1223_01004",
+      "start": 27760,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "なけれども、道々関々しづかならず。　京中の家々には、門",
+      "normalizedStem": "しづか",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-037",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "おだやかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "おだやかなら",
+      "example": "…便なるはすくなし。　　あるいは自由のかたにておだやかならず。　これ、わが涯分をはからず、さしもなき身を高く思…",
+      "source": "十訓抄",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00510109",
+      "sampleId": "30-十訓1252_02000",
+      "start": 500,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "るいは自由のかたにておだやかならず。　これ、わが涯分をは",
+      "normalizedStem": "おだやか",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-038",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "おぼろけなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "おぼろけなら",
+      "example": "…思ひて走り来て、「何事ぞ」と問ふに、泣くさまおぼろけならず。　「いかなる事のあるぞ」とて見まはすに、観音の御…",
+      "source": "宇治拾遺物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00500287",
+      "sampleId": "30-宇治1220_09003",
+      "start": 37990,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "」と問ふに、泣くさまおぼろけならず。　「いかなる事のある",
+      "normalizedStem": "おぼろけ",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-039",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "おろそかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "おろそかなら",
+      "example": "…吾山の興隆をのみ思へり。　又国家を祈り奉る事おろそかならず、衆徒をはぐくむ心ざしもふかかりき。　両所山王、定…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450102",
+      "sampleId": "30-平家1250_02002",
+      "start": 8490,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "　又国家を祈り奉る事おろそかならず、衆徒をはぐくむ心ざし",
+      "normalizedStem": "おろそか",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-040",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "穏便なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "穏便なら",
+      "example": "…た、当座も恥辱なり。　就中、首実検ははなはだ穏便ならず」　と宣へば、別当、　「それは天気にて候ひしかば」…",
+      "source": "平治物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410436",
+      "sampleId": "30-平治1246_01009",
+      "start": 12610,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "中、首実検ははなはだ穏便ならず」　と宣へば、別当、　",
+      "normalizedStem": "穏便",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-041",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "ふさやかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "ふさやかなら",
+      "example": "…袿ばかりにて、いと多かり。　すそもそがねば、ふさやかならねど、ととのほりて、なかなかうつくしげなり。　「かく…",
+      "source": "堤中納言物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00170417",
+      "sampleId": "20-堤中1055_00001",
+      "start": 80710,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "。　すそもそがねば、ふさやかならねど、ととのほりて、なか",
+      "normalizedStem": "ふさやか",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-042",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "きららかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "きららかなら",
+      "example": "…、一きはしみじみと見ゆるぞかし。　今めかしくきららかならねど、木だちものふりて、わざとならぬ庭の草も心あるさ…",
+      "source": "徒然草",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440088",
+      "sampleId": "30-徒然1336_01010",
+      "start": 900,
+      "selectedForm": "未然形",
+      "group": "nari-mizen-nara",
+      "anchor": "ぞかし。　今めかしくきららかならねど、木だちものふりて、",
+      "normalizedStem": "きららか",
+      "canonicalEnding": "なら",
+      "originalEnding": "なら",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-043",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "清らなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "清らなり",
+      "example": "…郡にすむ男女ありけり。　この女、顔かたちいと清らなり。　年ごろ思ひかはしてすむに、この女、いとわろくなり…",
+      "source": "大和物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120381",
+      "sampleId": "20-大和0951_00001",
+      "start": 309450,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "この女、顔かたちいと清らなり。　年ごろ思ひかはしてす",
+      "normalizedStem": "清ら",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-044",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "けうらなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "けうらなり",
+      "example": "…はらに寄るべくだにあらざりけり。　異人よりはけうらなりと思しける人も、かれに思し合すれば、人にもあらず。　…",
+      "source": "竹取物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120063",
+      "sampleId": "20-竹取0900_00001",
+      "start": 149540,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "りけり。　異人よりはけうらなりと思しける人も、かれに思",
+      "normalizedStem": "けうら",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-045",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "あり顔なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "あり顔なり",
+      "example": "…たれば、いとをかしげに見たまへるけしきも、志あり顔なり。　　あこぎがもとには、和泉の家より、　「＜昔の人の…",
+      "source": "落窪物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00170056",
+      "sampleId": "20-落窪0986_00001",
+      "start": 134980,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "たまへるけしきも、志あり顔なり。　　あこぎがもとには、",
+      "normalizedStem": "あり顔",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-046",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "稀なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "稀なり",
+      "example": "…れど、これをまことかと尋ぬれば、昔ありし家は稀なり。　或は去年焼けて、今年作れり。　或は大家ほろびて小…",
+      "source": "方丈記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440015",
+      "sampleId": "30-方丈1212_00001",
+      "start": 1500,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "ぬれば、昔ありし家は稀なり。　或は去年焼けて、今年",
+      "normalizedStem": "稀",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-047",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "ゐややかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "ゐややかなり",
+      "example": "…返り事す。　家の人の出で入り、にくげならず、ゐややかなり。　十六日。　今日の夜さつかた、京へ上る。　ついでに…",
+      "source": "土佐日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00130053",
+      "sampleId": "20-土佐0934_00001",
+      "start": 112760,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "入り、にくげならず、ゐややかなり。　十六日。　今日の夜さ",
+      "normalizedStem": "ゐややか",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-048",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "心ことなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "心ことなり",
+      "example": "…かならずそこに泊るは、観音の縁のあるにやと、心ことなり。　をふさの市。　しかまの市。　飛鳥の市。",
+      "source": "枕草子",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00180046",
+      "sampleId": "20-枕草1001_00012",
+      "start": 630,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "音の縁のあるにやと、心ことなり。　をふさの市。　しかま",
+      "normalizedStem": "心こと",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-049",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "しめやかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "しめやかなり",
+      "example": "…念仏ぞする。　寺々の初夜もみな行ひはてていとしめやかなり。　清水の方ぞ光多く見え、人のけはひもしげかりける。…",
+      "source": "源氏物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00200178",
+      "sampleId": "20-源氏1010_00004",
+      "start": 161450,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "もみな行ひはてていとしめやかなり。　清水の方ぞ光多く見え",
+      "normalizedStem": "しめやか",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-050",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "なかなかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "なかなかなり",
+      "example": "…将など、つぎつぎに寄り来つつとぶらふも、いとなかなかなり。　今宵は無きものと思はれてやみなばやと思ふを、人に…",
+      "source": "紫式部日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260173",
+      "sampleId": "20-紫式1010_00001",
+      "start": 176430,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "つつとぶらふも、いとなかなかなり。　今宵は無きものと思は",
+      "normalizedStem": "なかなか",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-051",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "あまりなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "あまりなり",
+      "example": "…ごともすまじと思ふも、これかれ「いと情なし、あまりなり」などものすれば、　穂に出でていはじやさらにおほよそ…",
+      "source": "蜻蛉日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00130110",
+      "sampleId": "20-蜻蛉0974_00001",
+      "start": 60080,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "れかれ「いと情なし、あまりなり」などものすれば、　穂に",
+      "normalizedStem": "あまり",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-052",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "愚かなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "愚かなり",
+      "example": "…しるべなき闇にたどれる心々を見たまひて、賢し愚かなりとしろしめしけむ。　しかあるのみにあらず、さざれ石に…",
+      "source": "古今和歌集",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00110023",
+      "sampleId": "20-古今0906_00001",
+      "start": 18970,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "々を見たまひて、賢し愚かなりとしろしめしけむ。　しか",
+      "normalizedStem": "愚か",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-053",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "さらなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "さらなり",
+      "example": "…　となむおぼえし」　とあるを見る心地、いへばさらなり。　返事に、　子しのびを聞くにつけてもとどめ置きしち…",
+      "source": "更級日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260319",
+      "sampleId": "20-更級1059_00002",
+      "start": 78400,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "るを見る心地、いへばさらなり。　返事に、　子しのびを",
+      "normalizedStem": "さら",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-054",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "さだかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "さだかなり",
+      "example": "…の空に雨をそそき、四海浪静かにして、鳴鳳の声さだかなり。　されば、誰の人かこの御位を傾くべきなれども、近衛…",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410216",
+      "sampleId": "30-保元1223_01001",
+      "start": 16380,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "静かにして、鳴鳳の声さだかなり。　されば、誰の人かこの",
+      "normalizedStem": "さだか",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-055",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "まれなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "まれなり",
+      "example": "…思ひ寄られけり。　　かの名をば知れる人、いとまれなり。",
+      "source": "十訓抄",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00510065",
+      "sampleId": "30-十訓1252_01023",
+      "start": 1410,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "名をば知れる人、いとまれなり。",
+      "normalizedStem": "まれ",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-056",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "更なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "更なり",
+      "example": "…ど皮籠どもに入れて取らせ、初めの夜の宿衣はた更なり。　馬に鞍置きながら取らせてこそ送りけれ。　　きう者…",
+      "source": "宇治拾遺物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00500063",
+      "sampleId": "30-宇治1220_01018",
+      "start": 36920,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "、初めの夜の宿衣はた更なり。　馬に鞍置きながら取ら",
+      "normalizedStem": "更",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-057",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "すみやかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "すみやかなり",
+      "example": "…へり。　子孫の官途も、竜の雲に昇るよりは、猶すみやかなり。　九代の先蹤をこえ給ふこそ目出たけれ。",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450028",
+      "sampleId": "30-平家1250_01003",
+      "start": 10230,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "の雲に昇るよりは、猶すみやかなり。　九代の先蹤をこえ給ふ",
+      "normalizedStem": "すみやか",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-058",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "平なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "平なり",
+      "example": "…ぬと思え候ふぞ。　今、年号も平治なり。　都も平なり。　我等も平氏なり。　三事相応して、などか軍に勝たざ…",
+      "source": "平治物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410447",
+      "sampleId": "30-平治1246_01014",
+      "start": 7870,
+      "selectedForm": "終止形",
+      "group": "nari-shushi-nari",
+      "anchor": "号も平治なり。　都も平なり。　我等も平氏なり。　三",
+      "normalizedStem": "平",
+      "canonicalEnding": "なり",
+      "originalEnding": "なり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-059",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "ひた黒なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "ヒタ黒ナル",
+      "example": "…ル間、房ノ前ニ切懸ヲ立渡シタル外ヨリ見レバ、ヒタ黒ナル田笠ト云フ物ノ、鉉破レ下タルヲ着タル老法師ノ、䒾ノ腰…",
+      "source": "今昔物語集",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00360056",
+      "sampleId": "30-今昔1100_15015",
+      "start": 7380,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "シタル外ヨリ見レバ、ヒタ黒ナル田笠ト云フ物ノ、鉉破レ下",
+      "normalizedStem": "ひた黒",
+      "canonicalEnding": "なる",
+      "originalEnding": "ナル",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-060",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "あばらなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "あばらなる",
+      "example": "…さへいといみじう鳴り、雨もいたう降りければ、あばらなる倉に、女をば奥におし入れて、男、弓、胡簶を負ひて戸口…",
+      "source": "伊勢物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120118",
+      "sampleId": "20-伊勢0920_00001",
+      "start": 12300,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "もいたう降りければ、あばらなる倉に、女をば奥におし入れ",
+      "normalizedStem": "あばら",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-061",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "いささかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "いささかなる",
+      "example": "…取らせよ』とて、これなむ給ひ置きたる」とて、いささかなる文ぞある。　使、「しかしかなむいひつる」とて語れば、…",
+      "source": "平中物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120523",
+      "sampleId": "20-平中0960_00001",
+      "start": 202100,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "給ひ置きたる」とて、いささかなる文ぞある。　使、「しかし",
+      "normalizedStem": "いささか",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-062",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "あだなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "あだなる",
+      "example": "…び　つらゆき　我は今朝うひにぞ見つる花の色をあだなる物といふべかりけり　をみなへし　とものり　白露を玉に…",
+      "source": "古今和歌集",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00110185",
+      "sampleId": "20-古今0906_00011",
+      "start": 5160,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "ひにぞ見つる花の色をあだなる物といふべかりけり　をみ",
+      "normalizedStem": "あだ",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-063",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "すずろなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "すずろなる",
+      "example": "…いとおほく蘆の値にとらせよ」といひければ、「すずろなる者に、なにか物おほくたばむ」など、ある人々いひければ…",
+      "source": "大和物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120379",
+      "sampleId": "20-大和0951_00001",
+      "start": 303470,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "よ」といひければ、「すずろなる者に、なにか物おほくたば",
+      "normalizedStem": "すずろ",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-064",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "きよらなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "きよらなる",
+      "example": "…て、まもりあへり。　　立てる人どもは、装束のきよらなること物にも似ず。　飛ぶ車一つ具したり。　羅蓋さしたり…",
+      "source": "竹取物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120071",
+      "sampleId": "20-竹取0900_00001",
+      "start": 179260,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "てる人どもは、装束のきよらなること物にも似ず。　飛ぶ車",
+      "normalizedStem": "きよら",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-065",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "つややかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "つややかなる",
+      "example": "…きて見れば、白き袿のいと清げなる、掻練のいとつややかなる一襲、山吹なる。　また衣のあるは、女の裳着たるやうに…",
+      "source": "落窪物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00170096",
+      "sampleId": "20-落窪0986_00001",
+      "start": 273460,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "清げなる、掻練のいとつややかなる一襲、山吹なる。　また衣",
+      "normalizedStem": "つややか",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-066",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "おろかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "おろかなる",
+      "example": "…人の心まどはす事、色欲にはしかず。　人の心はおろかなるものかな。　匂ひなどはかりのものなるに、しばらく衣裳…",
+      "source": "徒然草",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440087",
+      "sampleId": "30-徒然1336_01008",
+      "start": 250,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "はしかず。　人の心はおろかなるものかな。　匂ひなどはか",
+      "normalizedStem": "おろか",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-067",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "切なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "切なる",
+      "example": "…こぶ事あれども、大きに楽しむに能はず。　歎き切なる時も、声をあげて泣く事なし。　進退やすからず。　起居…",
+      "source": "方丈記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440026",
+      "sampleId": "30-方丈1212_00007",
+      "start": 1320,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "しむに能はず。　歎き切なる時も、声をあげて泣く事な",
+      "normalizedStem": "切",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-068",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "あざらかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "あざらかなる",
+      "example": "…君、例の病おこりて、いたく悩む。　　ある人、あざらかなる物持て来たり。　米して返り事す。　男ども、ひそかにい…",
+      "source": "土佐日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00130050",
+      "sampleId": "20-土佐0934_00001",
+      "start": 102190,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "く悩む。　　ある人、あざらかなる物持て来たり。　米して返",
+      "normalizedStem": "あざらか",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-069",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "きびはなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "きびはなる",
+      "example": "…けば、十四、五ばかりの子ども見えて、いと若くきびはなるかぎり十二、三ばかり、ありつる童のやうなる子どもなど…",
+      "source": "堤中納言物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00170448",
+      "sampleId": "20-堤中1055_00001",
+      "start": 152920,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "ども見えて、いと若くきびはなるかぎり十二、三ばかり、あ",
+      "normalizedStem": "きびは",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-070",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "微妙なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "微妙ナル",
+      "example": "…西ニ向テ飛ビ行ク。　千万ノ国ヲ過テ飛ビ行テ、微妙ナル世界ニ至ヌ。　皆七宝ノ地也。　其ノ所ニシテ我ガ身ヲ見…",
+      "source": "今昔物語集",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00360066",
+      "sampleId": "30-今昔1100_15019",
+      "start": 1920,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "ノ国ヲ過テ飛ビ行テ、微妙ナル世界ニ至ヌ。　皆七宝ノ地",
+      "normalizedStem": "微妙",
+      "canonicalEnding": "なる",
+      "originalEnding": "ナル",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-071",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "わづかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "わづかなる",
+      "example": "…の下に踏まる。　山のなからばかりの、木の下のわづかなるに、葵のただ三筋ばかりあるを、「世ばなれてかかる山中…",
+      "source": "更級日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260288",
+      "sampleId": "20-更級1059_00001",
+      "start": 35750,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "らばかりの、木の下のわづかなるに、葵のただ三筋ばかりあ",
+      "normalizedStem": "わづか",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-072",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "なよらかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "なよらかなる",
+      "example": "…きこぼれたる昼方、大納言殿、桜の直衣のすこしなよらかなるに、濃き紫の固紋の指貫、白き御衣ども、うへには濃き綾…",
+      "source": "枕草子",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00180049",
+      "sampleId": "20-枕草1001_00021",
+      "start": 1760,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "殿、桜の直衣のすこしなよらかなるに、濃き紫の固紋の指貫、",
+      "normalizedStem": "なよらか",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-073",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "めづらかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "めづらかなる",
+      "example": "…とながらせたまひて、急ぎ参らせて御覧ずるに、めづらかなる児の御容貌なり。　一の皇子は、右大臣の女御の御腹にて…",
+      "source": "源氏物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00200018",
+      "sampleId": "20-源氏1010_00001",
+      "start": 5930,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "参らせて御覧ずるに、めづらかなる児の御容貌なり。　一の皇",
+      "normalizedStem": "めづらか",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-074",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "若やかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "若やかなる",
+      "example": "…むも、かかる所といひながら、かたはらいたし、若やかなる人こそ、もののほど知らぬやうにあだへたるも罪ゆるさる…",
+      "source": "紫式部日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260161",
+      "sampleId": "20-紫式1010_00001",
+      "start": 134980,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "ら、かたはらいたし、若やかなる人こそ、もののほど知らぬ",
+      "normalizedStem": "若やか",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-075",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "ねんごろなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "ねんごろなる",
+      "example": "…、とかうものしつ。　そのほどの心ばへはしも、ねんごろなるやうなりけり。　　さて、九月ばかりになりて、出でにた…",
+      "source": "蜻蛉日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00130099",
+      "sampleId": "20-蜻蛉0974_00001",
+      "start": 27150,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "ほどの心ばへはしも、ねんごろなるやうなりけり。　　さて、",
+      "normalizedStem": "ねんごろ",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-076",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "おぼろなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "おぼろなる",
+      "example": "…ざりければ、外の方を見いだしてふせるに、月のおぼろなるに、小さき童をさきに立てて人立てり。　男、いとうれし…",
+      "source": "伊勢物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120173",
+      "sampleId": "20-伊勢0920_00001",
+      "start": 137230,
+      "selectedForm": "連体形",
+      "group": "nari-rentai-naru",
+      "anchor": "だしてふせるに、月のおぼろなるに、小さき童をさきに立て",
+      "normalizedStem": "おぼろ",
+      "canonicalEnding": "なる",
+      "originalEnding": "なる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-077",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "たまさかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "たまさかに",
+      "example": "…にけり。　つねに、ものいひつたへさする人に、たまさかにあひにけり。　さて、それして、「築地を越えてなむまゐ…",
+      "source": "平中物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120492",
+      "sampleId": "20-平中0960_00001",
+      "start": 110140,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "ひつたへさする人に、たまさかにあひにけり。　さて、それ",
+      "normalizedStem": "たまさか",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-078",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "懃なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "懃ニ",
+      "example": "…常ニ寝タリケリ。　智光ハ、心ニ智ノ深クシテ、懃ニ学問ヲ好テ、止事無キ学生ト成ヌ。　　而ル間、頼光既ニ…",
+      "source": "今昔物語集",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00360027",
+      "sampleId": "30-今昔1100_15001",
+      "start": 1150,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "、心ニ智ノ深クシテ、懃ニ学問ヲ好テ、止事無キ学生",
+      "normalizedStem": "懃",
+      "canonicalEnding": "に",
+      "originalEnding": "ニ",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-079",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "みそかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "みそかに",
+      "example": "…けぢめ見せぬ心なむありける。　　むかし、男、みそかに語らふわざもせざりければ、いづくなりけむ、あやしさに…",
+      "source": "伊勢物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120166",
+      "sampleId": "20-伊勢0920_00001",
+      "start": 119910,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "る。　　むかし、男、みそかに語らふわざもせざりければ",
+      "normalizedStem": "みそか",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-080",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "たくみなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "たくみに",
+      "example": "…やはかなにもなりまさるかな　文屋康秀は、詞はたくみにて、そのさま身におはず。　いはば、商人のよき衣着たら…",
+      "source": "古今和歌集",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00110026",
+      "sampleId": "20-古今0906_00001",
+      "start": 31390,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "な　文屋康秀は、詞はたくみにて、そのさま身におはず。",
+      "normalizedStem": "たくみ",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-081",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "まちどほなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "まちどほに",
+      "example": "…見えければ、　宿近くうつして植ゑしかひもなくまちどほにのみ見ゆる花かな　とよみたまへりける。　　おなじ中納…",
+      "source": "大和物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120303",
+      "sampleId": "20-大和0951_00001",
+      "start": 109950,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "して植ゑしかひもなくまちどほにのみ見ゆる花かな　とよみ",
+      "normalizedStem": "まちどほ",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-082",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "あながちなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "あながちに",
+      "example": "…あはせざらむやは」と思ひて頼みをかけたり。　あながちに心ざしを見え歩く。　　これを見つけて、翁、かぐや姫に…",
+      "source": "竹取物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00120021",
+      "sampleId": "20-竹取0900_00001",
+      "start": 13200,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "て頼みをかけたり。　あながちに心ざしを見え歩く。　　こ",
+      "normalizedStem": "あながち",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-083",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "まめやかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "まめやかに",
+      "example": "…、あこぎ返事書く。　「御文は、御覧じつれど、まめやかに苦しげなる御けしきにてなむ、御返事も。　さて、いと長…",
+      "source": "落窪物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00170048",
+      "sampleId": "20-落窪0986_00001",
+      "start": 109290,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "文は、御覧じつれど、まめやかに苦しげなる御けしきにてな",
+      "normalizedStem": "まめやか",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-084",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "俄なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "俄に",
+      "example": "…に、明くる十六日、御悩重らせたまふによつて、俄に御位をすべらせましますと聞えしが、その夜の戌剋に、遂…",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410216",
+      "sampleId": "30-保元1223_01001",
+      "start": 13710,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "らせたまふによつて、俄に御位をすべらせましますと",
+      "normalizedStem": "俄",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-085",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "閑かなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "閑かに",
+      "example": "…がひ、仏の教へにそむけるに似たりといへども、閑かに諸法実相の理を案ずるに、かの狂言綺語の戯れ、かへりて…",
+      "source": "十訓抄",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00510018",
+      "sampleId": "30-十訓1252_00001",
+      "start": 6170,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "に似たりといへども、閑かに諸法実相の理を案ずるに、",
+      "normalizedStem": "閑か",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-086",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "同様なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "同様に",
+      "example": "…の里の人の夢にもこの定に見えたりとて、あまた同様に語れば、心も得で年も暮れぬ。　　さて、次の年の九十月…",
+      "source": "宇治拾遺物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00500027",
+      "sampleId": "30-宇治1220_01002",
+      "start": 2850,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "見えたりとて、あまた同様に語れば、心も得で年も暮れ",
+      "normalizedStem": "同様",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-087",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "声花なり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "声花に",
+      "example": "…納言家成卿、いまだ播磨守たりし時、聟に取つて声花にもてなされければ、それも五節に、　「播磨よねは、とく…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450024",
+      "sampleId": "30-平家1250_01002",
+      "start": 12610,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "たりし時、聟に取つて声花にもてなされければ、それも",
+      "normalizedStem": "声花",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-088",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "いるがせなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "いるがせに",
+      "example": "…んづく、末代の流れにおよびて、人驕つて朝威をいるがせにし、民は武くして野心をさしはさむ。　よく用意をいたし…",
+      "source": "平治物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410409",
+      "sampleId": "30-平治1246_01001",
+      "start": 1650,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "びて、人驕つて朝威をいるがせにし、民は武くして野心をさ",
+      "normalizedStem": "いるがせ",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-089",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "まうなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "まうに",
+      "example": "…言が書けるも、げにさることぞかし。　いきほひまうにののしりたるにつけて、いみじとはみえず、僧賀ひじりの…",
+      "source": "徒然草",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440082",
+      "sampleId": "30-徒然1336_01001",
+      "start": 2450,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "とぞかし。　いきほひまうにののしりたるにつけて、い",
+      "normalizedStem": "まう",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-090",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "にはかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "にはかに",
+      "example": "　また、治承四年水無月のころ、にはかに都遷り侍りき。　いと思ひの外なりし事なり。　おほかた…",
+      "source": "方丈記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00440019",
+      "sampleId": "30-方丈1212_00004",
+      "start": 160,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "承四年水無月のころ、にはかに都遷り侍りき。　いと思ひ",
+      "normalizedStem": "にはか",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-091",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "ひそかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "ひそかに",
+      "example": "…る物持て来たり。　米して返り事す。　男ども、ひそかにいふなり。　「『飯粒して、もつ釣る』とや」。　かうや…",
+      "source": "土佐日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00130050",
+      "sampleId": "20-土佐0934_00001",
+      "start": 102440,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "返り事す。　男ども、ひそかにいふなり。　「『飯粒して",
+      "normalizedStem": "ひそか",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-092",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "なほざりなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "なほざりに",
+      "example": "…ひたまへり。　「しかじかの人のもとになむ。　なほざりにやはべる」と聞こゆ。　われも、いかでさるべからむたよ…",
+      "source": "堤中納言物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00170427",
+      "sampleId": "20-堤中1055_00001",
+      "start": 101840,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "の人のもとになむ。　なほざりにやはべる」と聞こゆ。　わ",
+      "normalizedStem": "なほざり",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-093",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "手はなちなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "手はなちに",
+      "example": "…どしたるに、これはをとこなども添はねば、いと手はなちに、あらあらしげにて、苫といふものを一重うちふきたれば…",
+      "source": "更級日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260282",
+      "sampleId": "20-更級1059_00001",
+      "start": 11630,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "なども添はねば、いと手はなちに、あらあらしげにて、苫と",
+      "normalizedStem": "手はなち",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-094",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "のどかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "のどかに",
+      "example": "…そいとあはれなれ。　　三月三日は、うらうらとのどかに照りたる。　桃の花の今咲きはじむる。　柳などをかしき…",
+      "source": "枕草子",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00180030",
+      "sampleId": "20-枕草1001_00003",
+      "start": 11120,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "月三日は、うらうらとのどかに照りたる。　桃の花の今咲",
+      "normalizedStem": "のどか",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-095",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "絶え絶えなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "絶え絶えに",
+      "example": "…　五六日さぶらひたまひて、大殿に二三日など、絶え絶えにまかでたまへど、ただ今は、幼き御ほどに、罪なく思しな…",
+      "source": "源氏物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00200049",
+      "sampleId": "20-源氏1010_00001",
+      "start": 113450,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "、大殿に二三日など、絶え絶えにまかでたまへど、ただ今は",
+      "normalizedStem": "絶え絶え",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-096",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "あざやかなり",
+      "kind": "ナリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "なら"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なり"
+        ],
+        [
+          "なる"
+        ],
+        [
+          "なれ"
+        ],
+        [
+          "なれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "に"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "あざやかに",
+      "example": "…覧ず。　竜頭鷁首の生けるかたち思ひやられて、あざやかにうるはし。　　行幸は辰の刻と、まだ暁より、人々けさう…",
+      "source": "紫式部日記",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00260153",
+      "sampleId": "20-紫式1010_00001",
+      "start": 102770,
+      "selectedForm": "連用形",
+      "group": "nari-renyou-ni",
+      "anchor": "かたち思ひやられて、あざやかにうるはし。　　行幸は辰の",
+      "normalizedStem": "あざやか",
+      "canonicalEnding": "に",
+      "originalEnding": "に",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-097",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "颯々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "颯々たり",
+      "example": "…代応和のころほひ、三五夜中新月白くさえ、涼風颯々たりし夜なか半に、御門清涼殿にして玄象をぞあそばされける…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00460082",
+      "sampleId": "30-平家1250_07018",
+      "start": 3070,
+      "selectedForm": "連用形",
+      "group": "tari-renyou-tari",
+      "anchor": "中新月白くさえ、涼風颯々たりし夜なか半に、御門清涼殿",
+      "normalizedStem": "颯々",
+      "canonicalEnding": "たり",
+      "originalEnding": "たり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-098",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "忙然たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "忙然たり",
+      "example": "…召せども、禁中皆眩れにけり。　天下ことごとく忙然たり。　中印和漢を尋ぬるに、親に先立つ子、子に後るる親、…",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410216",
+      "sampleId": "30-保元1223_01001",
+      "start": 15280,
+      "selectedForm": "終止形",
+      "group": "tari-shushi-tari",
+      "anchor": "り。　天下ことごとく忙然たり。　中印和漢を尋ぬるに、",
+      "normalizedStem": "忙然",
+      "canonicalEnding": "たり",
+      "originalEnding": "たり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-099",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "瀼々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "瀼々たり",
+      "example": "…おぼゆれ。　　強呉滅びて荊棘あり　姑蘇台の露瀼々たり　暴秦は衰へて虎狼なし　咸陽宮の煙片々たり　　なかに…",
+      "source": "十訓抄",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00510118",
+      "sampleId": "30-十訓1252_02005",
+      "start": 1870,
+      "selectedForm": "終止形",
+      "group": "tari-shushi-tari",
+      "anchor": "荊棘あり　姑蘇台の露瀼々たり　暴秦は衰へて虎狼なし　",
+      "normalizedStem": "瀼々",
+      "canonicalEnding": "たり",
+      "originalEnding": "たり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-100",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "曠々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "曠々たり",
+      "example": "…ぬ。　王宮の体をみるに、外墎渺々として、其内曠々たり。　其内に七宝所成の大極殿あり。　高広金色にして、凡…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450458",
+      "sampleId": "30-平家1250_06009",
+      "start": 8070,
+      "selectedForm": "終止形",
+      "group": "tari-shushi-tari",
+      "anchor": "外墎渺々として、其内曠々たり。　其内に七宝所成の大極",
+      "normalizedStem": "曠々",
+      "canonicalEnding": "たり",
+      "originalEnding": "たり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-101",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "片々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "片々たり",
+      "example": "…露瀼々たり　暴秦は衰へて虎狼なし　咸陽宮の煙片々たり　　なかにも唐太宗の御時、魏徴、徳政の三つの品を定め…",
+      "source": "十訓抄",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00510118",
+      "sampleId": "30-十訓1252_02005",
+      "start": 2080,
+      "selectedForm": "終止形",
+      "group": "tari-shushi-tari",
+      "anchor": "虎狼なし　咸陽宮の煙片々たり　　なかにも唐太宗の御時",
+      "normalizedStem": "片々",
+      "canonicalEnding": "たり",
+      "originalEnding": "たり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-102",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "滉漾たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "滉漾たり",
+      "example": "…海にむかへるが如し。　影南山を浸して青くして滉漾たり。　浪西日を沈めて紅にして奫淪たり。　彼無熱池の底に…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00460025",
+      "sampleId": "30-平家1250_07004",
+      "start": 2540,
+      "selectedForm": "終止形",
+      "group": "tari-shushi-tari",
+      "anchor": "南山を浸して青くして滉漾たり。　浪西日を沈めて紅にし",
+      "normalizedStem": "滉漾",
+      "canonicalEnding": "たり",
+      "originalEnding": "たり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-103",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "奫淪たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "奫淪たり",
+      "example": "…て青くして滉漾たり。　浪西日を沈めて紅にして奫淪たり。　彼無熱池の底には金銀の砂をしき、昆明池の渚には徳…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00460025",
+      "sampleId": "30-平家1250_07004",
+      "start": 2700,
+      "selectedForm": "終止形",
+      "group": "tari-shushi-tari",
+      "anchor": "西日を沈めて紅にして奫淪たり。　彼無熱池の底には金銀",
+      "normalizedStem": "奫淪",
+      "canonicalEnding": "たり",
+      "originalEnding": "たり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-104",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "茫々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "茫々たり",
+      "example": "…風索々たり。　南には蒼海漫々として岸うつ浪も茫々たり。　「恋せばやせぬべし、こひせずもありけり」　と、明…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00460286",
+      "sampleId": "30-平家1250_10006",
+      "start": 13650,
+      "selectedForm": "終止形",
+      "group": "tari-shushi-tari",
+      "anchor": "漫々として岸うつ浪も茫々たり。　「恋せばやせぬべし、",
+      "normalizedStem": "茫々",
+      "canonicalEnding": "たり",
+      "originalEnding": "たり",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-105",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "凜々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "凜々と",
+      "example": "…き寄せ、あらはになされてわぶるもをかし。　「凜々として氷鋪けり」といふことを、かへすがへす誦しておはす…",
+      "source": "枕草子",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00180437",
+      "sampleId": "20-枕草1001_00283",
+      "start": 4670,
+      "selectedForm": "連用形",
+      "group": "tari-renyou-to",
+      "anchor": "わぶるもをかし。　「凜々として氷鋪けり」といふこと",
+      "normalizedStem": "凜々",
+      "canonicalEnding": "と",
+      "originalEnding": "と",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-106",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "厚々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "厚々と",
+      "example": "…くたいといふ物を、なべてにも似ず、太き糸して厚々とこまかに強げにしたるを持て来たり。　悦びて取りて着た…",
+      "source": "宇治拾遺物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00500256",
+      "sampleId": "30-宇治1220_08003",
+      "start": 27490,
+      "selectedForm": "連用形",
+      "group": "tari-renyou-to",
+      "anchor": "にも似ず、太き糸して厚々とこまかに強げにしたるを持",
+      "normalizedStem": "厚々",
+      "canonicalEnding": "と",
+      "originalEnding": "と",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-107",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "嵯々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "嵯々と",
+      "example": "…づれも為ん方なく、さこそは悲しく思ひけめ。　嵯々として行方を知らず、眇々として遥かの道に出でにけり。",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410334",
+      "sampleId": "30-保元1223_02011",
+      "start": 31480,
+      "selectedForm": "連用形",
+      "group": "tari-renyou-to",
+      "anchor": "は悲しく思ひけめ。　嵯々として行方を知らず、眇々と",
+      "normalizedStem": "嵯々",
+      "canonicalEnding": "と",
+      "originalEnding": "と",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-108",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "渺茫たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "渺茫と",
+      "example": "…のたとへ一つにて、これらを申すべし。　　楚思渺茫として、雲水冷じ　商声清脆として、管絃秋なり　白　　　…",
+      "source": "十訓抄",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00510044",
+      "sampleId": "30-十訓1252_01010",
+      "start": 1190,
+      "selectedForm": "連用形",
+      "group": "tari-renyou-to",
+      "anchor": "を申すべし。　　楚思渺茫として、雲水冷じ　商声清脆",
+      "normalizedStem": "渺茫",
+      "canonicalEnding": "と",
+      "originalEnding": "と",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-109",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "眇々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "眇々と",
+      "example": "…は悲しく思ひけめ。　嵯々として行方を知らず、眇々として遥かの道に出でにけり。　蒼梧の煙の靡く方にたぐひ…",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410334",
+      "sampleId": "30-保元1223_02011",
+      "start": 31600,
+      "selectedForm": "連用形",
+      "group": "tari-renyou-to",
+      "anchor": "として行方を知らず、眇々として遥かの道に出でにけり",
+      "normalizedStem": "眇々",
+      "canonicalEnding": "と",
+      "originalEnding": "と",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-110",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "清脆たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "清脆と",
+      "example": "…申すべし。　　楚思渺茫として、雲水冷じ　商声清脆として、管絃秋なり　白　　　この詩をば「頌声聞きにくし…",
+      "source": "十訓抄",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00510044",
+      "sampleId": "30-十訓1252_01010",
+      "start": 1320,
+      "selectedForm": "連用形",
+      "group": "tari-renyou-to",
+      "anchor": "して、雲水冷じ　商声清脆として、管絃秋なり　白　　",
+      "normalizedStem": "清脆",
+      "canonicalEnding": "と",
+      "originalEnding": "と",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-111",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "深々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "深々と",
+      "example": "…り。　冥々として人もなく、行歩に前途まよひ、深々として山ふかし。　只㵎谷に鳥の一声ばかりにて、苔のぬれ…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450105",
+      "sampleId": "30-平家1250_02002",
+      "start": 22340,
+      "selectedForm": "連用形",
+      "group": "tari-renyou-to",
+      "anchor": "、行歩に前途まよひ、深々として山ふかし。　只㵎谷に",
+      "normalizedStem": "深々",
+      "canonicalEnding": "と",
+      "originalEnding": "と",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-112",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "爛干たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "爛干と",
+      "example": "…しみ、魚にあらざれども洪魚の思ひに沈む。　涙爛干として、魂飛揚す、前途程遠し、後会その期を知らず。　さ…",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410334",
+      "sampleId": "30-保元1223_02011",
+      "start": 32430,
+      "selectedForm": "連用形",
+      "group": "tari-renyou-to",
+      "anchor": "魚の思ひに沈む。　涙爛干として、魂飛揚す、前途程遠",
+      "normalizedStem": "爛干",
+      "canonicalEnding": "と",
+      "originalEnding": "と",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-113",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "まんまんたり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "まんまんたる",
+      "example": "…、従容してこそ入りたまひしに、この光頼卿は、まんまんたる兵どもに憚る所もなくてぞ入りたまふ。　兵、弓を平め、…",
+      "source": "平治物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410433",
+      "sampleId": "30-平治1246_01009",
+      "start": 1980,
+      "selectedForm": "連体形",
+      "group": "tari-rentai-taru",
+      "anchor": "しに、この光頼卿は、まんまんたる兵どもに憚る所もなくてぞ",
+      "normalizedStem": "まんまん",
+      "canonicalEnding": "たる",
+      "originalEnding": "たる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-114",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "漫々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "漫々たる",
+      "example": "…つい立ちて、静かに歩み出でられければ、庭上に漫々たる兵ども、これを見て、　「あはれ、大剛の人かな。　この…",
+      "source": "平治物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410434",
+      "sampleId": "30-平治1246_01009",
+      "start": 6030,
+      "selectedForm": "連体形",
+      "group": "tari-rentai-taru",
+      "anchor": "でられければ、庭上に漫々たる兵ども、これを見て、　「",
+      "normalizedStem": "漫々",
+      "canonicalEnding": "たる",
+      "originalEnding": "たる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-115",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "渺茫たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "渺茫たる",
+      "example": "…船のめしすゑ屋形に埋もれさせたまひつつ、南海渺茫たる旅泊に漂はせたまひける、宿執のほどこそあさましけれ。…",
+      "source": "保元物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00410373",
+      "sampleId": "30-保元1223_03003",
+      "start": 19010,
+      "selectedForm": "連体形",
+      "group": "tari-rentai-taru",
+      "anchor": "させたまひつつ、南海渺茫たる旅泊に漂はせたまひける、",
+      "normalizedStem": "渺茫",
+      "canonicalEnding": "たる",
+      "originalEnding": "たる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-116",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "峨々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "峨々たる",
+      "example": "…つて、宝号を唱ふるに、感応おこたる事なし。　峨々たる嶺のたかきをば、神徳のたかきに喩へ、嶮々たる谷のふか…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450173",
+      "sampleId": "30-平家1250_02015",
+      "start": 11270,
+      "selectedForm": "連体形",
+      "group": "tari-rentai-taru",
+      "anchor": "応おこたる事なし。　峨々たる嶺のたかきをば、神徳のた",
+      "normalizedStem": "峨々",
+      "canonicalEnding": "たる",
+      "originalEnding": "たる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-117",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "嶮々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "嶮々たる",
+      "example": "…峨々たる嶺のたかきをば、神徳のたかきに喩へ、嶮々たる谷のふかきをば、弘誓のふかきに准へて、雲を分きてのぼ…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450173",
+      "sampleId": "30-平家1250_02015",
+      "start": 11490,
+      "selectedForm": "連体形",
+      "group": "tari-rentai-taru",
+      "anchor": "神徳のたかきに喩へ、嶮々たる谷のふかきをば、弘誓のふ",
+      "normalizedStem": "嶮々",
+      "canonicalEnding": "たる",
+      "originalEnding": "たる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-118",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "漠々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "漠々たる",
+      "example": "…でて、かさねて斗藪の行をくはたてんと思ふ。　漠々たる寒嵐の底、旅泊に臥して夢をやぶり、凄々たる微陽のまへ…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450397",
+      "sampleId": "30-平家1250_05011",
+      "start": 16680,
+      "selectedForm": "連体形",
+      "group": "tari-rentai-taru",
+      "anchor": "くはたてんと思ふ。　漠々たる寒嵐の底、旅泊に臥して夢",
+      "normalizedStem": "漠々",
+      "canonicalEnding": "たる",
+      "originalEnding": "たる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-119",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "凄々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "凄々たる",
+      "example": "…　漠々たる寒嵐の底、旅泊に臥して夢をやぶり、凄々たる微陽のまへ、遠路に臨んで、眼をきはむ。　遂に枌楡の砌…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00450397",
+      "sampleId": "30-平家1250_05011",
+      "start": 16890,
+      "selectedForm": "連体形",
+      "group": "tari-rentai-taru",
+      "anchor": "に臥して夢をやぶり、凄々たる微陽のまへ、遠路に臨んで",
+      "normalizedStem": "凄々",
+      "canonicalEnding": "たる",
+      "originalEnding": "たる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    },
+    {
+      "id": "adjv-120",
+      "pos": "adjv",
+      "label": "形容動詞",
+      "lemma": "渺々たり",
+      "kind": "タリ活用",
+      "adjv": true,
+      "forms": [
+        [
+          "たら"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たり"
+        ],
+        [
+          "たる"
+        ],
+        [
+          "たれ"
+        ],
+        [
+          "たれ"
+        ]
+      ],
+      "forms2": [
+        null,
+        [
+          "と"
+        ],
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": "渺々たる",
+      "example": "…るみ山、鶉浜なンどいふ峨々たる嶮難をしのぎ、渺々たる平沙へぞおもむき給ふ。　いつならはしの御事なれば、御…",
+      "source": "平家物語",
+      "sourceLink": "https://japanknowledge.com/hvst/display/?lid=80110V00460118",
+      "sampleId": "30-平家1250_08004",
+      "start": 11580,
+      "selectedForm": "連体形",
+      "group": "tari-rentai-taru",
+      "anchor": "々たる嶮難をしのぎ、渺々たる平沙へぞおもむき給ふ。　",
+      "normalizedStem": "渺々",
+      "canonicalEnding": "たる",
+      "originalEnding": "たる",
+      "reviewStatus": "target-audited / short-excerpt-generated"
+    }
+  ]
+}
