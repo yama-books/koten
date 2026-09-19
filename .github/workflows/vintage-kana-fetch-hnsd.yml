@@ -36,6 +36,9 @@ jobs:
           out = Path("vintage-kana/tmp/hnsd-001.utf8.txt")
           out.parent.mkdir(parents=True, exist_ok=True)
           out.write_text(text, encoding="utf-8")
+          manifest_url = "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/manifest.json"
+          manifest_raw = urlopen(manifest_url, timeout=30).read()
+          Path("vintage-kana/tmp/hnsd-001.manifest.json").write_bytes(manifest_raw)
           Path("vintage-kana/tmp/hnsd-001.fetch-meta.txt").write_text(
               f"source={url}\ndecoding={used}\nbytes={len(raw)}\nchars={len(text)}\n",
               encoding="utf-8"
@@ -45,6 +48,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add vintage-kana/tmp/hnsd-001.utf8.txt vintage-kana/tmp/hnsd-001.fetch-meta.txt
+          git add vintage-kana/tmp/hnsd-001.utf8.txt vintage-kana/tmp/hnsd-001.fetch-meta.txt vintage-kana/tmp/hnsd-001.manifest.json
           git commit -m "chore(vintage-kana): temporary NINJAL transcript bridge"
           git push
