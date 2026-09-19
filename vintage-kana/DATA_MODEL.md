@@ -1,6 +1,6 @@
 # DATA_MODEL — vintage-kana
 
-最終更新: 2026-09-18
+最終更新: 2026-09-19
 
 ## 1. 字体マスター
 
@@ -60,10 +60,11 @@ notes:
 example_id:
 provenance_type: attested
 
-glyph_id:
+glyph_id:        # 国語研字形DB／字体マスター上の代表字体ID。原画像の筆跡との完全一致を意味しない
 kana:
 jibo:
 diacritic: none | dakuten | handakuten | other | unknown
+glyph_assignment_basis: ninjal-hentaiganaDB | human-exact | other
 
 source_work:
 source_witness:
@@ -89,6 +90,8 @@ renmen: true | false | unknown
 
 evidence:
 review_status:
+human_confirmation_scope: none | kana-jibo-context | exact-glyph
+publication_status: pending | approved | excluded
 reviewed_by:
 reviewed_at:
 notes:
@@ -146,10 +149,34 @@ evidence:
   - `renmen` 等を確認済みまたは明示的に判定不能とした
   - `context_alignment_status: exact`
 - `human-confirmed`
-  - 人間が原画像と表示内容を確認
-  - 教材公開候補にできる
+  - 人間が原画像と翻字対応、教材表示内容を確認
+  - `human_confirmation_scope` で確認範囲を明示する
+  - `publication_status: approved` のものだけ公開読解教材に出せる
 
-この段階分けにより、「実在する出現」と「文脈解析済み」を混同しない。
+### Unicode代表字体と原画像の筆跡を分ける
+
+国語研字形DBの `glyph_id / character` は、データベース上でその出現に付与された代表字体IDとして保持する。
+ただし、歴史資料中の手書き字形はフォントの代表字形と完全一致するとは限らない。
+
+そのため人間確認では、次を分離する。
+
+- `human_confirmation_scope: kana-jibo-context`
+  - 原画像中の文字の読み（対応する仮名）
+  - 字母
+  - 公式翻字との対応
+  - 教材表示としての妥当性
+  を確認した状態。
+  - Unicode代表字体との輪郭完全一致までは要求しない。
+- `human_confirmation_scope: exact-glyph`
+  - 上記に加えて、原画像の字形を特定Unicode字体として人間が厳密同定した状態。
+
+一次公開の読解教材では、原則 `kana-jibo-context` まで確認できれば公開可とする。
+UIではフォント字形を「対応字体の代表表示」として扱い、原資料の筆跡そのものと誤認させない。
+
+同じ字母から現代標準平仮名と複数の変体仮名が生じる場合があるため、
+「字母が同じ」ことと「Unicode字体が同一」ことを同義にしない。
+
+この段階分けにより、「実在する出現」「文脈解析済み」「人間確認済みの読み・字母」「Unicode字形の厳密同定」を混同しない。
 
 ## 7. 資料別字体分布
 
