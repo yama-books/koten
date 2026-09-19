@@ -149,7 +149,8 @@ const CHECKPOINT_DATA_PATHS = {
   localBoundaryPolicy:"./data/local_boundary_policy.json",
   abeSeimeiParticleEvidence:"./data/abe_seimei_particle_evidence.json",
   passageDisambiguationEvidence:"./data/passage_disambiguation_evidence.json",
-  contextHoldPolicy:"./data/context_hold_policy.json"
+  contextHoldPolicy:"./data/context_hold_policy.json",
+  sourceReviewedTokenMorphology:"./data/source_reviewed_token_morphology.json"
 };
 
 async function loadCheckpointData(){
