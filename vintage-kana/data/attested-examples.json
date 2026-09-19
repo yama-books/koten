@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "phase2-context-checked-five-milestone",
+  "status": "phase2-context-checked-ten-milestone",
   "examples": [
     {
       "example_id": "att-brsk005-u3057-f07b-x0563-y2069",
@@ -2322,20 +2322,340 @@
       "notes": "Phase 2C-2 context-checked. Phase 2C-1で一意対応済みの対象「え」について、同一底本の国語研高解像度原画像（巻五9ウ / brsk005-020）を直接確認。前接「た」から対象の現行平仮名「え」へ連続する筆線を視認したため renmen=true。教材利用は human-confirmed 前のため未実施。",
       "text_alignment_method": "unique-normalized-kana-on-folio",
       "text_alignment_evidence": "巻五9ウの公式翻字本文では平仮名「え」は「たえ」の1箇所のみ。字形DBでは同丁 brsk005-020 に U+3048 の対象出現が1件（ID0137, X=1347, Y=3169）のため一意に対応。"
+    },
+    {
+      "example_id": "att-hnsd001-u1b094-hnsd001-014-id0052-x1142-y0718",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "hanashimadai",
+      "source_witness": "hnsd001",
+      "source_volume": "初編上",
+      "source_location": {
+        "folio": "2ウ",
+        "viewer_page": "hnsd001-014",
+        "occurrence_image_id": "ID0052",
+        "x": 1142,
+        "y": 718,
+        "sampling_strategy": "context10-witness-diversification"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/bunken.php?title=hananosimadai",
+      "source_image_locator": "2ウ",
+      "context_alignment_status": "exact",
+      "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/hnsd/txt/hnsd-001.txt#2ウ",
+      "context_original": null,
+      "transcription": "くらしかねたるその折節",
+      "normalized_reading": "くらしかねたる",
+      "word": "くらしかねたる",
+      "position_in_word": "medial",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": "か",
+      "next_char": "た",
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), 比翼連理花廼志満台_初編上; image locator U+306D_hnsd001-014_ID0052_X1142_Y0718.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-hnsd",
+          "locator": "初編上 2ウ。国語研公式翻字 hnsd-001.txt と同一底本原画像を照合。同丁の公式翻字には「ね」が2箇所ある。原画像上の対象座標の縦列と、直後の「おもる瘧病」等の周辺本文を照合し、前半の「くらしかねたる」の「ね」に一意対応。"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-history-source-image",
+          "locator": "初編上 2ウ / hnsd001-014。IIIF manifestで丁ラベルと画像寸法を確認し、字形DB occurrence ID0052 (X=1142, Y=718) を国語研原画像上で直接確認。連綿は画像確認済みだが true/false の二値判定を安全に行えないため unknown とした。"
+        }
+      ],
+      "review_status": "context-checked",
+      "reviewed_by": "context-image-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字には「ね」が2箇所ある。原画像上の対象座標の縦列と、直後の「おもる瘧病」等の周辺本文を照合し、前半の「くらしかねたる」の「ね」に一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。",
+      "text_alignment_method": "source-image-disambiguated-normalized-kana-on-folio",
+      "text_alignment_evidence": "同丁の公式翻字には「ね」が2箇所ある。原画像上の対象座標の縦列と、直後の「おもる瘧病」等の周辺本文を照合し、前半の「くらしかねたる」の「ね」に一意対応。"
+    },
+    {
+      "example_id": "att-hnsd001-u1b094-hnsd001-015-id0119-x1611-y1645",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "hanashimadai",
+      "source_witness": "hnsd001",
+      "source_volume": "初編上",
+      "source_location": {
+        "folio": "3オ",
+        "viewer_page": "hnsd001-015",
+        "occurrence_image_id": "ID0119",
+        "x": 1611,
+        "y": 1645,
+        "sampling_strategy": "context10-witness-diversification"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/bunken.php?title=hananosimadai",
+      "source_image_locator": "3オ",
+      "context_alignment_status": "exact",
+      "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/hnsd/txt/hnsd-001.txt#3オ",
+      "context_original": null,
+      "transcription": "お春はむねをくるしめて",
+      "normalized_reading": "むね",
+      "word": "むね",
+      "position_in_word": "final",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": "む",
+      "next_char": "を",
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), 比翼連理花廼志満台_初編上; image locator U+306D_hnsd001-015_ID0119_X1611_Y1645.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-hnsd",
+          "locator": "初編上 3オ。国語研公式翻字 hnsd-001.txt と同一底本原画像を照合。同丁の公式翻字で平仮名「ね」は「むね」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-history-source-image",
+          "locator": "初編上 3オ / hnsd001-015。IIIF manifestで丁ラベルと画像寸法を確認し、字形DB occurrence ID0119 (X=1611, Y=1645) を国語研原画像上で直接確認。連綿は画像確認済みだが true/false の二値判定を安全に行えないため unknown とした。"
+        }
+      ],
+      "review_status": "context-checked",
+      "reviewed_by": "context-image-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字で平仮名「ね」は「むね」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。",
+      "text_alignment_method": "unique-normalized-kana-on-folio",
+      "text_alignment_evidence": "同丁の公式翻字で平仮名「ね」は「むね」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。"
+    },
+    {
+      "example_id": "att-hnsd001-u1b094-hnsd001-026-id0111-x0522-y1719",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "hanashimadai",
+      "source_witness": "hnsd001",
+      "source_volume": "初編上",
+      "source_location": {
+        "folio": "8ウ",
+        "viewer_page": "hnsd001-026",
+        "occurrence_image_id": "ID0111",
+        "x": 522,
+        "y": 1719,
+        "sampling_strategy": "context10-witness-diversification"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/bunken.php?title=hananosimadai",
+      "source_image_locator": "8ウ",
+      "context_alignment_status": "exact",
+      "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/hnsd/txt/hnsd-001.txt#8ウ",
+      "context_original": null,
+      "transcription": "汲みとりかねておもはずもなみだに",
+      "normalized_reading": "かねて",
+      "word": "かねて",
+      "position_in_word": "medial",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": "か",
+      "next_char": "て",
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), 比翼連理花廼志満台_初編上; image locator U+306D_hnsd001-026_ID0111_X0522_Y1719.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-hnsd",
+          "locator": "初編上 8ウ。国語研公式翻字 hnsd-001.txt と同一底本原画像を照合。同丁の公式翻字で平仮名「ね」は「かねて」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-history-source-image",
+          "locator": "初編上 8ウ / hnsd001-026。IIIF manifestで丁ラベルと画像寸法を確認し、字形DB occurrence ID0111 (X=522, Y=1719) を国語研原画像上で直接確認。連綿は画像確認済みだが true/false の二値判定を安全に行えないため unknown とした。"
+        }
+      ],
+      "review_status": "context-checked",
+      "reviewed_by": "context-image-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字で平仮名「ね」は「かねて」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。",
+      "text_alignment_method": "unique-normalized-kana-on-folio",
+      "text_alignment_evidence": "同丁の公式翻字で平仮名「ね」は「かねて」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。"
+    },
+    {
+      "example_id": "att-hnsd001-u1b094-hnsd001-036-id0103-x1181-y1131",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "hanashimadai",
+      "source_witness": "hnsd001",
+      "source_volume": "初編上",
+      "source_location": {
+        "folio": "13ウ",
+        "viewer_page": "hnsd001-036",
+        "occurrence_image_id": "ID0103",
+        "x": 1181,
+        "y": 1131,
+        "sampling_strategy": "context10-witness-diversification"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/bunken.php?title=hananosimadai",
+      "source_image_locator": "13ウ",
+      "context_alignment_status": "exact",
+      "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/hnsd/txt/hnsd-001.txt#13ウ",
+      "context_original": null,
+      "transcription": "むねうちくもる朧夜の",
+      "normalized_reading": "むね",
+      "word": "むね",
+      "position_in_word": "final",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": "む",
+      "next_char": "う",
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), 比翼連理花廼志満台_初編上; image locator U+306D_hnsd001-036_ID0103_X1181_Y1131.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-hnsd",
+          "locator": "初編上 13ウ。国語研公式翻字 hnsd-001.txt と同一底本原画像を照合。同丁の公式翻字で平仮名「ね」は「むね」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-history-source-image",
+          "locator": "初編上 13ウ / hnsd001-036。IIIF manifestで丁ラベルと画像寸法を確認し、字形DB occurrence ID0103 (X=1181, Y=1131) を国語研原画像上で直接確認。連綿は画像確認済みだが true/false の二値判定を安全に行えないため unknown とした。"
+        }
+      ],
+      "review_status": "context-checked",
+      "reviewed_by": "context-image-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字で平仮名「ね」は「むね」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。",
+      "text_alignment_method": "unique-normalized-kana-on-folio",
+      "text_alignment_evidence": "同丁の公式翻字で平仮名「ね」は「むね」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。"
+    },
+    {
+      "example_id": "att-hnsd001-u1b094-hnsd001-039-id0054-x0627-y2254",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "hanashimadai",
+      "source_witness": "hnsd001",
+      "source_volume": "初編上",
+      "source_location": {
+        "folio": "15オ",
+        "viewer_page": "hnsd001-039",
+        "occurrence_image_id": "ID0054",
+        "x": 627,
+        "y": 2254,
+        "sampling_strategy": "context10-witness-diversification"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/bunken.php?title=hananosimadai",
+      "source_image_locator": "15オ",
+      "context_alignment_status": "exact",
+      "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/hnsd/txt/hnsd-001.txt#15オ",
+      "context_original": null,
+      "transcription": "おはるはむねもてき",
+      "normalized_reading": "むね",
+      "word": "むね",
+      "position_in_word": "final",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": "む",
+      "next_char": "も",
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), 比翼連理花廼志満台_初編上; image locator U+306D_hnsd001-039_ID0054_X0627_Y2254.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-hnsd",
+          "locator": "初編上 15オ。国語研公式翻字 hnsd-001.txt と同一底本原画像を照合。同丁の公式翻字には「ね」が2箇所（「きつね」「むね」）ある。原画像上の対象座標と周辺の「おはるはむねもてき」「惑と轟く」を照合し、後者「むね」の「ね」に一意対応。"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-history-source-image",
+          "locator": "初編上 15オ / hnsd001-039。IIIF manifestで丁ラベルと画像寸法を確認し、字形DB occurrence ID0054 (X=627, Y=2254) を国語研原画像上で直接確認。連綿は画像確認済みだが true/false の二値判定を安全に行えないため unknown とした。"
+        }
+      ],
+      "review_status": "context-checked",
+      "reviewed_by": "context-image-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字には「ね」が2箇所（「きつね」「むね」）ある。原画像上の対象座標と周辺の「おはるはむねもてき」「惑と轟く」を照合し、後者「むね」の「ね」に一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。",
+      "text_alignment_method": "source-image-disambiguated-normalized-kana-on-folio",
+      "text_alignment_evidence": "同丁の公式翻字には「ね」が2箇所（「きつね」「むね」）ある。原画像上の対象座標と周辺の「おはるはむねもてき」「惑と轟く」を照合し、後者「むね」の「ね」に一意対応。"
     }
   ],
   "lastUpdatedAt": "2026-09-19",
   "reviewPolicy": "source-checked attested records may have page-level context only; context-checked requires exact glyph-to-transcription alignment plus direct source-image review of required paleographic context",
   "stats": {
-    "totalExamples": 44,
+    "totalExamples": 49,
     "sourceChecked": 39,
     "exactText": 0,
-    "contextChecked": 5,
+    "contextChecked": 10,
     "humanConfirmed": 0,
-    "variantGlyphExamples": 39,
+    "variantGlyphExamples": 44,
     "iseMonogatariExamples": 33,
-    "sourceCheckedOrBetter": 44,
-    "exact": 5,
-    "exactTextReached": 5
+    "sourceCheckedOrBetter": 49,
+    "exact": 10,
+    "exactTextReached": 10
   }
 }
