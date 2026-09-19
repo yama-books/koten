@@ -1,0 +1,973 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 徒然草52 独立gold 初見shadow評価",
+  "goldFile": "tsurezure52_independent_gold_20260919.json",
+  "shadowVersion": "v0.14-pre-gold",
+  "frozenEvaluation": true,
+  "rule": "gold commit後、resolver/evidence無変更の状態で実行。今後resolverを変更してもこのbaseline結果は上書きしない。",
+  "summary": {
+    "goldPositions": 55,
+    "shadowRaw": 55,
+    "shadowResolvedArray": 12,
+    "shadowSuppressedArray": 44,
+    "strictPass": 32,
+    "strictPassRate": 0.5818181818181818,
+    "goldResolveTargets": 30,
+    "strictCorrectResolve": 7,
+    "strictResolveRecall": 0.23333333333333334,
+    "goldSuppressTargets": 25,
+    "correctSuppression": 25,
+    "suppressionRecall": 1,
+    "falsePositiveResolved": 0,
+    "wrongResolved": 0,
+    "wrongSuppressed": 0,
+    "unresolvedContext": 19,
+    "resolvedButAmbiguous": 4
+  },
+  "interpretation": [
+    "larger-unit suppressionは25/25で初見goldに一致。",
+    "候補まで一意に確定できたresolveは7/30。",
+    "誤った候補確定・誤suppression・false-positive resolvedは0。",
+    "4位置はresolved配列に入るが候補が一意化されておらず、厳密にはdisambiguatedとは数えない。",
+    "現行shadowは安全側だが、一般本文でのdisambiguation recallはまだ低い。"
+  ],
+  "outcomeCounts": {
+    "UNRESOLVED_CONTEXT": 19,
+    "PASS_SUPPRESSED": 25,
+    "RESOLVED_AMBIGUOUS": 4,
+    "PASS_RESOLVED": 3,
+    "PASS_RESOLVED_LEMMA": 4
+  },
+  "entries": [
+    {
+      "id": "tsurezure52-gold-001",
+      "surface": "に",
+      "start": 3,
+      "end": 4,
+      "context": "仁和寺にある法師、年寄るまで石清",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-002",
+      "surface": "る",
+      "start": 5,
+      "end": 6,
+      "context": "仁和寺にある法師、年寄るまで石清水を",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "ある",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-token",
+        "suppressedBy": "ある"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-003",
+      "surface": "る",
+      "start": 11,
+      "end": 12,
+      "context": "和寺にある法師、年寄るまで石清水を拝まざりけれ",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "寄る",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-004",
+      "surface": "を",
+      "start": 17,
+      "end": 18,
+      "context": "師、年寄るまで石清水を拝まざりければ、心うく覚",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-005",
+      "surface": "けれ",
+      "start": 22,
+      "end": 24,
+      "context": "まで石清水を拝まざりければ、心うく覚えて、あると",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_keri_izen",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": []
+      }
+    },
+    {
+      "id": "tsurezure52-gold-006",
+      "surface": "ば",
+      "start": 24,
+      "end": 25,
+      "context": "石清水を拝まざりければ、心うく覚えて、あるとき",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_ba_fixed",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "PASS_RESOLVED",
+      "observed": {
+        "kind": "resolved",
+        "status": "resolved-by-source-left-surface",
+        "analysisConfidence": "connection-supported-candidate",
+        "supportCandidateIds": [
+          "conjunctive_ba_fixed"
+        ]
+      }
+    },
+    {
+      "id": "tsurezure52-gold-007",
+      "surface": "て",
+      "start": 31,
+      "end": 32,
+      "context": "りければ、心うく覚えて、あるとき思ひ立ちて、た",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-008",
+      "surface": "る",
+      "start": 34,
+      "end": 35,
+      "context": "ば、心うく覚えて、あるとき思ひ立ちて、ただひと",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "ある",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-token",
+        "suppressedBy": "ある"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-009",
+      "surface": "と",
+      "start": 35,
+      "end": 36,
+      "context": "、心うく覚えて、あるとき思ひ立ちて、ただひとり",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "とき",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-010",
+      "surface": "て",
+      "start": 41,
+      "end": 42,
+      "context": "て、あるとき思ひ立ちて、ただひとり、徒歩より詣",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-011",
+      "surface": "と",
+      "start": 46,
+      "end": 47,
+      "context": "き思ひ立ちて、ただひとり、徒歩より詣でけり。極",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "ひとり",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-012",
+      "surface": "けり",
+      "start": 55,
+      "end": 57,
+      "context": "ひとり、徒歩より詣でけり。極楽寺・高良などを拝み",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": "けり",
+      "expectedAnalysisUnit": null,
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-013",
+      "surface": "な",
+      "start": 64,
+      "end": 65,
+      "context": "でけり。極楽寺・高良などを拝みて、かばかりと心",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "など",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-014",
+      "surface": "を",
+      "start": 66,
+      "end": 67,
+      "context": "り。極楽寺・高良などを拝みて、かばかりと心得て",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-015",
+      "surface": "て",
+      "start": 69,
+      "end": 70,
+      "context": "楽寺・高良などを拝みて、かばかりと心得て帰りに",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-016",
+      "surface": "ば",
+      "start": 72,
+      "end": 73,
+      "context": "高良などを拝みて、かばかりと心得て帰りにけり。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "かばかり",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-token",
+        "suppressedBy": "ばかり"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-017",
+      "surface": "と",
+      "start": 75,
+      "end": 76,
+      "context": "どを拝みて、かばかりと心得て帰りにけり。さて、",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-018",
+      "surface": "て",
+      "start": 78,
+      "end": 79,
+      "context": "みて、かばかりと心得て帰りにけり。さて、かたへ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-019",
+      "surface": "に",
+      "start": 81,
+      "end": 82,
+      "context": "かばかりと心得て帰りにけり。さて、かたへの人に",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_nu_renyo_ni",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-020",
+      "surface": "けり",
+      "start": 82,
+      "end": 84,
+      "context": "ばかりと心得て帰りにけり。さて、かたへの人にあひ",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": "けり",
+      "expectedAnalysisUnit": null,
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-021",
+      "surface": "て",
+      "start": 86,
+      "end": 87,
+      "context": "心得て帰りにけり。さて、かたへの人にあひて、「",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "さて",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-022",
+      "surface": "に",
+      "start": 93,
+      "end": 94,
+      "context": "り。さて、かたへの人にあひて、「年ごろ思ひつる",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-023",
+      "surface": "て",
+      "start": 96,
+      "end": 97,
+      "context": "て、かたへの人にあひて、「年ごろ思ひつること果",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-024",
+      "surface": "る",
+      "start": 105,
+      "end": 106,
+      "context": "ひて、「年ごろ思ひつること果たし侍りぬ。聞きし",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "つる",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-025",
+      "surface": "と",
+      "start": 107,
+      "end": 108,
+      "context": "、「年ごろ思ひつること果たし侍りぬ。聞きしにも",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "こと",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-026",
+      "surface": "し",
+      "start": 110,
+      "end": 111,
+      "context": "ごろ思ひつること果たし侍りぬ。聞きしにも過ぎて",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "果たし",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-027",
+      "surface": "ぬ",
+      "start": 113,
+      "end": 114,
+      "context": "ひつること果たし侍りぬ。聞きしにも過ぎて、尊く",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_nu_terminal",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "PASS_RESOLVED",
+      "observed": {
+        "kind": "resolved",
+        "status": "resolved-by-audited-connection",
+        "analysisConfidence": "connection-supported-candidate",
+        "supportCandidateIds": [
+          "aux_nu_terminal"
+        ]
+      }
+    },
+    {
+      "id": "tsurezure52-gold-028",
+      "surface": "し",
+      "start": 117,
+      "end": 118,
+      "context": "と果たし侍りぬ。聞きしにも過ぎて、尊くこそおは",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_ki_rentai",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-supported-but-not-unique"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-029",
+      "surface": "に",
+      "start": 118,
+      "end": 119,
+      "context": "果たし侍りぬ。聞きしにも過ぎて、尊くこそおはし",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-030",
+      "surface": "て",
+      "start": 122,
+      "end": 123,
+      "context": "りぬ。聞きしにも過ぎて、尊くこそおはしけれ。そ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-supported-but-not-unique"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-031",
+      "surface": "し",
+      "start": 130,
+      "end": 131,
+      "context": "過ぎて、尊くこそおはしけれ。そも、参りたる人ご",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "おはし",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-token",
+        "suppressedBy": "おはし"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-032",
+      "surface": "けれ",
+      "start": 131,
+      "end": 133,
+      "context": "ぎて、尊くこそおはしけれ。そも、参りたる人ごとに",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_keri_izen",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": []
+      }
+    },
+    {
+      "id": "tsurezure52-gold-033",
+      "surface": "たる",
+      "start": 139,
+      "end": 141,
+      "context": "はしけれ。そも、参りたる人ごとに山へ登りしは、何",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": "たり",
+      "expectedAnalysisUnit": null,
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-034",
+      "surface": "る",
+      "start": 140,
+      "end": 141,
+      "context": "しけれ。そも、参りたる人ごとに山へ登りしは、何",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "たる",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "たる"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-035",
+      "surface": "と",
+      "start": 143,
+      "end": 144,
+      "context": "。そも、参りたる人ごとに山へ登りしは、何事かあ",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "人ごと",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-036",
+      "surface": "に",
+      "start": 144,
+      "end": 145,
+      "context": "そも、参りたる人ごとに山へ登りしは、何事かあり",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-037",
+      "surface": "し",
+      "start": 149,
+      "end": 150,
+      "context": "たる人ごとに山へ登りしは、何事かありけん、ゆか",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_ki_rentai",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-038",
+      "surface": "しか",
+      "start": 162,
+      "end": 164,
+      "context": "何事かありけん、ゆかしかりしかど、神へ参るこそ本",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "ゆかしかり",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-inflected-word",
+        "suppressedBy": "ゆかしかり"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-039",
+      "surface": "し",
+      "start": 162,
+      "end": 163,
+      "context": "何事かありけん、ゆかしかりしかど、神へ参るこそ",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "ゆかしかり",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "しか"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-040",
+      "surface": "しか",
+      "start": 165,
+      "end": 167,
+      "context": "ありけん、ゆかしかりしかど、神へ参るこそ本意なれ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_ki_izen",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": []
+      }
+    },
+    {
+      "id": "tsurezure52-gold-041",
+      "surface": "し",
+      "start": 165,
+      "end": 166,
+      "context": "ありけん、ゆかしかりしかど、神へ参るこそ本意な",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "しか",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "しか"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-042",
+      "surface": "る",
+      "start": 172,
+      "end": 173,
+      "context": "しかりしかど、神へ参るこそ本意なれと思ひて、山",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "参る",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-token",
+        "suppressedBy": "参る"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-043",
+      "surface": "な",
+      "start": 177,
+      "end": 178,
+      "context": "ど、神へ参るこそ本意なれと思ひて、山までは見ず",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "なれ",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-044",
+      "surface": "と",
+      "start": 179,
+      "end": 180,
+      "context": "神へ参るこそ本意なれと思ひて、山までは見ず」と",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-045",
+      "surface": "て",
+      "start": 182,
+      "end": 183,
+      "context": "るこそ本意なれと思ひて、山までは見ず」とぞ言ひ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-supported-but-not-unique"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-046",
+      "surface": "と",
+      "start": 191,
+      "end": 192,
+      "context": "ひて、山までは見ず」とぞ言ひける。少しのことに",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "PASS_RESOLVED",
+      "observed": {
+        "kind": "resolved",
+        "status": "resolved-by-source-hard-boundary",
+        "analysisConfidence": "connection-supported-candidate",
+        "supportCandidateIds": [
+          "case_particle_to"
+        ]
+      }
+    },
+    {
+      "id": "tsurezure52-gold-047",
+      "surface": "ける",
+      "start": 195,
+      "end": 197,
+      "context": "までは見ず」とぞ言ひける。少しのことにも、先達は",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": "けり",
+      "expectedAnalysisUnit": null,
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "candidate-only"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-048",
+      "surface": "る",
+      "start": 196,
+      "end": 197,
+      "context": "では見ず」とぞ言ひける。少しのことにも、先達は",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "ける",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "ける"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-049",
+      "surface": "し",
+      "start": 199,
+      "end": 200,
+      "context": "ず」とぞ言ひける。少しのことにも、先達はあらま",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "少し",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-token",
+        "suppressedBy": "少し"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-050",
+      "surface": "と",
+      "start": 202,
+      "end": 203,
+      "context": "ぞ言ひける。少しのことにも、先達はあらまほしき",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "こと",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-051",
+      "surface": "に",
+      "start": 203,
+      "end": 204,
+      "context": "言ひける。少しのことにも、先達はあらまほしきこ",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved"
+      }
+    },
+    {
+      "id": "tsurezure52-gold-052",
+      "surface": "し",
+      "start": 213,
+      "end": 214,
+      "context": "にも、先達はあらまほしきことなり。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "まほしき",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-053",
+      "surface": "と",
+      "start": 216,
+      "end": 217,
+      "context": "先達はあらまほしきことなり。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "こと",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "tsurezure52-gold-054",
+      "surface": "なり",
+      "start": 217,
+      "end": 219,
+      "context": "達はあらまほしきことなり。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "copula_nari_renyo_terminal",
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": null,
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": []
+      }
+    },
+    {
+      "id": "tsurezure52-gold-055",
+      "surface": "な",
+      "start": 217,
+      "end": 218,
+      "context": "達はあらまほしきことなり。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedCandidateId": null,
+      "expectedAuxiliaryLemma": null,
+      "expectedAnalysisUnit": "なり",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "なり"
+      }
+    }
+  ]
+}
