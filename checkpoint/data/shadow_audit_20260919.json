@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.11",
+  "schemaVersion": "0.12",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -18,20 +18,21 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 121,
-    "dbSuppressed": 189,
-    "matched": 121,
+    "dbResolved": 161,
+    "dbSuppressed": 149,
+    "matched": 161,
     "dbOnly": 0,
-    "legacyOnlyUnique": 189,
+    "legacyOnlyUnique": 149,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.3903225806451613,
+    "resolvedMatchRateOfUniqueLegacy": 0.5193548387096775,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 85,
+      "context-required-not-yet-resolved": 38,
       "indexed-larger-surface": 48,
       "known-larger-token": 39,
       "audited-exact-phrase-nonauxiliary": 1,
       "source-exact-bunsetu-lexical-unit": 2,
-      "source-exact-phrase-larger-unit": 14
+      "source-exact-phrase-larger-unit": 14,
+      "source-exact-particle-larger-unit": 7
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
@@ -40,7 +41,9 @@
     "leftSurfaceResolved": 12,
     "sourceExactPhraseResolved": 25,
     "sourceExactPhraseSuppressed": 14,
-    "hardBoundaryResolved": 13
+    "hardBoundaryResolved": 13,
+    "sourceExactParticleResolved": 40,
+    "sourceExactParticleSuppressed": 7
   },
   "samples": [
     {
@@ -112,16 +115,17 @@
       "legacyUnique": 273,
       "legacyDuplicates": 33,
       "dbRaw": 273,
-      "dbResolved": 103,
-      "dbSuppressed": 170,
-      "matched": 103,
+      "dbResolved": 143,
+      "dbSuppressed": 130,
+      "matched": 143,
       "dbOnly": 0,
-      "legacyOnlyUnique": 170,
+      "legacyOnlyUnique": 130,
       "suppressionReasons": {
-        "context-required-not-yet-resolved": 80,
+        "context-required-not-yet-resolved": 33,
         "indexed-larger-surface": 39,
         "known-larger-token": 37,
-        "source-exact-phrase-larger-unit": 14
+        "source-exact-phrase-larger-unit": 14,
+        "source-exact-particle-larger-unit": 7
       },
       "resolutionReasons": {
         "resolved-by-source-exact-phrase": 17,
@@ -238,6 +242,21 @@
       "passed": 38,
       "failed": 0,
       "source": "abe_seimei_grammar_regression_20260919.json"
+    },
+    "abeParticle": {
+      "source": "abe_seimei_particle_regression_20260919.json",
+      "result": "PASS",
+      "evidenceEntries": 42,
+      "effectPositions": 47,
+      "resolved": 40,
+      "suppressed": 7,
+      "expectedTotals": {
+        "raw": 310,
+        "resolved": 161,
+        "suppressed": 149,
+        "contextRequired": 38,
+        "dbOnly": 0
+      }
     }
   },
   "designFindings": [
@@ -271,14 +290,19 @@
     "「物もなし」を安倍晴明本文のexact phraseに限定して形容詞「なし」の内部「な・し」を抑制。",
     "残っていた安倍晴明本文の「し」8位置はノイズとして消さず、建立し・御供し・む/じ＋とし・呪詛しをサ変「す」連用形としてexact passage限定でresolved。",
     "「うち合せて」内部の「せ」は文語動詞「合す」の活用語形内部としてpassage-specific suppression。",
-    "停止時点: raw 310 / resolved 121 / suppressed 189 / context-required 85 / resolved率39.0% / DB only 0。"
+    "停止時点: raw 310 / resolved 121 / suppressed 189 / context-required 85 / resolved率39.0% / DB only 0。",
+    "安倍晴明本文に助詞専用exact evidence層を新設し、文法・助動詞evidenceと分離した。",
+    "安倍晴明本文の「て」20位置を接続助詞候補、「を」20位置を格助詞候補としてpassage-specific resolved。",
+    "「とて」6位置は一語扱い／と＋て分析の揺れを保持して内部「て」を抑制。「さて」内部「て」1位置も語内部として抑制。",
+    "v0.11→v0.12でcontext-required 85→38、resolved 121→161。raw 310 / DB only 0を維持。",
+    "停止時点resolved率は161/310=51.9%。正答率ではなく保守的gate通過率。"
   ],
   "next": [
-    "残85位置は「て28・を21・に20・と10」が主ボトルネック。次に「が3・な1・せ1・ぬ1」。",
-    "「し」は既存4サンプルではcontext-required 0まで整理済み。",
-    "局所boundary signal単独ではresolveしない。source-reviewed whole-token / passage-specific exact evidenceを先に増やす。",
-    "「不便にせさせ給ひ」の最初の「せ」は、さすの接続がauxiliary_masterで一次資料待ちのため保留。",
-    "一次資料『新しい古典文法 四訂新版』が参照できたら、助動詞masterのverified化を再開する。"
+    "残38位置の主対象は「に20 / と10」。次いで「が3」、他は各1。",
+    "安倍晴明サンプルの「て」「を」はcontext-required 0。別サンプルに各1件のみ残る。",
+    "次は「に」を体言接続／連体形接続／断定なり／完了ぬへ分ける局所syntax evidenceを作る。",
+    "「と」は日ごと内部・む/じ＋とす・引用・結果格等を混ぜず、larger-unitとexact passageの二段階で監査する。",
+    "learner-visibleはlegacyのまま維持する。"
   ],
   "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。",
   "contextResolver": {
@@ -400,14 +424,14 @@
     "role": "evidence preservation + trusted boundary; not grammar-authoritative"
   },
   "unresolvedBySurface": {
-    "て": 28,
-    "を": 21,
     "に": 20,
     "と": 10,
     "が": 3,
+    "て": 1,
+    "ぬ": 1,
+    "を": 1,
     "な": 1,
-    "せ": 1,
-    "ぬ": 1
+    "せ": 1
   },
   "abeSeimeiEvidence": {
     "grammarFile": "abe_seimei_grammar_evidence.json",
