@@ -1097,6 +1097,7 @@ function shadowAuditLegacyVsDb(text, legacyHits){
       reason:h.suppressedReason,suppressedBy:h.suppressedBy||null,
       contextSignals:h.contextSignals||[],
       contextResolution:h.contextResolution||null,
+      holdPolicy:h.holdPolicy||null,
       boundarySignals:h.boundarySignals||null
     })),
     note:"shadow audit only; kakari-musubi signals are candidate support and never resolve scope by themselves."
