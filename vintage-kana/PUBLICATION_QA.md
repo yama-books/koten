@@ -4,8 +4,10 @@
 
 ## 自動・構文検査
 
-- `index.html` inline JavaScript: **旧0.6でPASS / 0.7は再確認対象**
-  - 0.7では公開ゲートと代表字体説明を変更したため、再度構文・実ブラウザ確認を行う
+- `index.html` inline JavaScript: **PASS（0.7）**
+  - GitHub上の現行0.7をV8で構文コンパイル確認
+  - current blob SHA: `34a2d0e371922616c09d276242e96911dffcfcaf`
+  - 実フィルタ条件 `human-confirmed && publication_status=approved` を確認
 - `ui-glyph-master.json`: **PASS**
   - Phase 1分布から生成済みの軽量UIキャッシュ
   - 47音価
@@ -127,3 +129,24 @@ UI 0.7:
 - 問いを「この字体は何と読む？」から「この資料では何と読む？」へ変更
 - フォントを「対応字体の代表表示」と明記
 - 原資料の手書き字形と輪郭が完全一致しない場合がある旨を表示
+
+
+## UI 0.7 静的公開ゲート検算
+
+PASS:
+- JavaScript構文: PASS
+- strict gate: `review_status === "human-confirmed" && publication_status === "approved"`
+- publication approved: 4件
+  - P1 「見えず」 / え / 衣
+  - P2 「見えない」 / え / 衣
+  - P3 「むね」 / ね / 年
+  - P4 「かねて」 / ね / 年
+- approved 4件の `kana / jibo / word / transcription / source_image_ref` 欠落: 0
+- P5: `publication_status: excluded` のため読解タブ非表示
+
+残る公開前QAは実ブラウザ面:
+1. PCでWebフォント表示
+2. 4タブ操作
+3. モバイル幅
+4. GitHub Pages実配信
+5. 典拠リンク遷移
