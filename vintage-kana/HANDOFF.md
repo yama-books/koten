@@ -14,14 +14,16 @@
 1. `DESIGN_HISTORY.md` — 詳細な経緯・意図・撤廃理由
 2. `ROADMAP.md` — 全体工程・現在位置・区切り条件
 3. この `HANDOFF.md` — 現在の作業状態
-4. `SESSION_CHECKPOINT_2026-09-19_PHASE2.md` — Phase 2移行後の最新チェックポイント
-5. `SESSION_CHECKPOINT_2026-09-19.md` — Phase 1完了時点のチェックポイント
-6. `VIEWER_EXTRACTION_NOTES.md` — 原資料位置・文脈取得の技術調査
-7. `AGGREGATION_RULES.md` — 0件補完・比率計算の規則
-8. `SOURCES.md` — 典拠
-9. `RESEARCH_PLAN.md` — 資料収集手順
-10. `DATA_MODEL.md` — データ構造
-11. `INTEGRATION_NOTES.md` — koten全体との統合注意
+4. `SESSION_CHECKPOINT_2026-09-19_1110_END.md` — 本セッション終了時点の最新チェックポイント
+5. `NEXT_SESSION_PROMPT_2026-09-19.md` — 次セッション開始用プロンプト
+6. `SESSION_CHECKPOINT_2026-09-19_PHASE2.md` — Phase 2移行後の旧チェックポイント
+7. `SESSION_CHECKPOINT_2026-09-19.md` — Phase 1完了時点のチェックポイント
+8. `VIEWER_EXTRACTION_NOTES.md` — 原資料位置・文脈取得の技術調査
+9. `AGGREGATION_RULES.md` — 0件補完・比率計算の規則
+10. `SOURCES.md` — 典拠
+11. `RESEARCH_PLAN.md` — 資料収集手順
+12. `DATA_MODEL.md` — データ構造
+13. `INTEGRATION_NOTES.md` — koten全体との統合注意
 
 ## 1. 現在地
 
