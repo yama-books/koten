@@ -115,7 +115,7 @@ function renderKnownHistory(text,detectedHits){
     return;
   }
 
-  status.textContent=`${known.length}件。本文中から隠したポイントです。必要なら個別に戻せます。`;
+  status.textContent=`${known.length}件。本文中から隠したポイントです。戻すと、現在の確認レベルで表示対象なら本文・チェックリストに戻ります。`;
   list.innerHTML=known.map((h,idx)=>`
     <div class="known-item">
       <div class="known-item-main">
