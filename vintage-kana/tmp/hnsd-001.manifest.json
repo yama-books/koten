@@ -1,0 +1,1647 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@type": "sc:Manifest",
+  "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/manifest.json",
+  "label": [
+    {
+      "@value": "比翼連理花廼志満台 初編上",
+      "@language": "ja"
+    }
+  ],
+  "metadata": [
+    {
+      "label": "Author",
+      "value": [
+        {
+          "@value": "松亭金水[作]，歌川国直[画]",
+          "@language": "ja"
+        }
+      ]
+    },
+    {
+      "label": "published",
+      "value": [
+        {
+          "@value": "国立国語研究所",
+          "@language": "ja"
+        }
+      ]
+    },
+    {
+      "label": "年代",
+      "Value": "初編：1836[天保7]年刊か, 二編：1836[天保7]年序, 三編：1837[天保8]年刊, 四編：1838[天保9]年序"
+    },
+    {
+      "label": "請求記号",
+      "value": "初編：W99/Sh96/1  二編：W99/Sh96/2  三編：W99/Sh96/3  四編：W99/Sh96/4"
+    },
+    {
+      "label": "資料ID",
+      "value": "初編：1002334520  二編：1002334538  三編：1002334546  四編：1002334553"
+    }
+  ],
+  "description": "",
+  "viewingDirection": "right-to-left",
+  "viewingHint": "paged",
+  "license": "https://creativecommons.org/licenses/by/4.0/deed.ja",
+  "attribution": "https://www.ninjal.ac.jp/",
+  "logo": "https://dglb01.ninjal.ac.jp/ninjaldl/images/NINJAL_logo.svg",
+  "related": {
+    "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/",
+    "format": "text/html"
+  },
+  "within": "https://dglb01.ninjal.ac.jp/ninjaldl/",
+  "sequences": [
+    {
+      "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/sequence/normal.json",
+      "@type": "sc:Sequence",
+      "label": "Current Page Order",
+      "canvases": [
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-001.json",
+          "@type": "sc:Canvas",
+          "label": "表紙",
+          "width": 2053,
+          "height": 2871,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-001.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-001.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2053,
+                "height": 2871,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-001.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-001.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-001.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-002.json",
+          "@type": "sc:Canvas",
+          "label": "表紙見返",
+          "width": 1837,
+          "height": 2871,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-002.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-002.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1837,
+                "height": 2871,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-002.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-002.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-002.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-003.json",
+          "@type": "sc:Canvas",
+          "label": "口1オ",
+          "width": 1781,
+          "height": 2879,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-003.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-003.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1781,
+                "height": 2879,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-003.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-003.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-003.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-004.json",
+          "@type": "sc:Canvas",
+          "label": "口1ウ",
+          "width": 1871,
+          "height": 2887,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-004.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-004.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1871,
+                "height": 2887,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-004.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-004.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-004.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-005.json",
+          "@type": "sc:Canvas",
+          "label": "口2オ",
+          "width": 1805,
+          "height": 2886,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-005.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-005.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1805,
+                "height": 2886,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-005.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-005.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-005.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-006.json",
+          "@type": "sc:Canvas",
+          "label": "口2ウ",
+          "width": 1957,
+          "height": 2883,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-006.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-006.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1957,
+                "height": 2883,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-006.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-006.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-006.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-007.json",
+          "@type": "sc:Canvas",
+          "label": "口3オ",
+          "width": 1782,
+          "height": 2889,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-007.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-007.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1782,
+                "height": 2889,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-007.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-007.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-007.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-008.json",
+          "@type": "sc:Canvas",
+          "label": "口3ウ",
+          "width": 1925,
+          "height": 2871,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-008.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-008.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1925,
+                "height": 2871,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-008.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-008.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-008.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-009.json",
+          "@type": "sc:Canvas",
+          "label": "口4オ",
+          "width": 1810,
+          "height": 2890,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-009.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-009.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1810,
+                "height": 2890,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-009.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-009.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-009.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-010.json",
+          "@type": "sc:Canvas",
+          "label": "口4ウ",
+          "width": 1884,
+          "height": 2870,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-010.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-010.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1884,
+                "height": 2870,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-010.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-010.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-010.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-011.json",
+          "@type": "sc:Canvas",
+          "label": "1オ",
+          "width": 1857,
+          "height": 2903,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-011.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-011.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1857,
+                "height": 2903,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-011.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-011.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-011.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-012.json",
+          "@type": "sc:Canvas",
+          "label": "1ウ",
+          "width": 1880,
+          "height": 2874,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-012.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-012.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1880,
+                "height": 2874,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-012.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-012.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-012.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-013.json",
+          "@type": "sc:Canvas",
+          "label": "2オ",
+          "width": 1805,
+          "height": 2895,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-013.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-013.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1805,
+                "height": 2895,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-013.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-013.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-013.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-014.json",
+          "@type": "sc:Canvas",
+          "label": "2ウ",
+          "width": 1940,
+          "height": 2888,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-014.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-014.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1940,
+                "height": 2888,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-014.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-014.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-014.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-015.json",
+          "@type": "sc:Canvas",
+          "label": "3オ",
+          "width": 1909,
+          "height": 2895,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-015.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-015.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1909,
+                "height": 2895,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-015.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-015.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-015.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-016.json",
+          "@type": "sc:Canvas",
+          "label": "3ウ",
+          "width": 1957,
+          "height": 2893,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-016.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-016.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1957,
+                "height": 2893,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-016.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-016.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-016.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-017.json",
+          "@type": "sc:Canvas",
+          "label": "4オ",
+          "width": 1894,
+          "height": 2877,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-017.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-017.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1894,
+                "height": 2877,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-017.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-017.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-017.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-018.json",
+          "@type": "sc:Canvas",
+          "label": "4ウ",
+          "width": 1987,
+          "height": 2943,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-018.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-018.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1987,
+                "height": 2943,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-018.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-018.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-018.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-019.json",
+          "@type": "sc:Canvas",
+          "label": "5オ",
+          "width": 1877,
+          "height": 2895,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-019.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-019.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1877,
+                "height": 2895,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-019.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-019.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-019.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-020.json",
+          "@type": "sc:Canvas",
+          "label": "5ウ",
+          "width": 1985,
+          "height": 2915,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-020.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-020.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1985,
+                "height": 2915,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-020.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-020.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-020.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-021.json",
+          "@type": "sc:Canvas",
+          "label": "6オ",
+          "width": 1893,
+          "height": 2883,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-021.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-021.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1893,
+                "height": 2883,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-021.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-021.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-021.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-022.json",
+          "@type": "sc:Canvas",
+          "label": "6ウ",
+          "width": 1985,
+          "height": 2915,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-022.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-022.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1985,
+                "height": 2915,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-022.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-022.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-022.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-023.json",
+          "@type": "sc:Canvas",
+          "label": "7オ",
+          "width": 1897,
+          "height": 2879,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-023.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-023.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1897,
+                "height": 2879,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-023.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-023.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-023.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-024.json",
+          "@type": "sc:Canvas",
+          "label": "7ウ",
+          "width": 1928,
+          "height": 2893,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-024.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-024.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1928,
+                "height": 2893,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-024.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-024.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-024.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-025.json",
+          "@type": "sc:Canvas",
+          "label": "8オ",
+          "width": 1832,
+          "height": 2880,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-025.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-025.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1832,
+                "height": 2880,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-025.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-025.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-025.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-026.json",
+          "@type": "sc:Canvas",
+          "label": "8ウ",
+          "width": 2005,
+          "height": 2911,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-026.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-026.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2005,
+                "height": 2911,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-026.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-026.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-026.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-027.json",
+          "@type": "sc:Canvas",
+          "label": "9オ",
+          "width": 1857,
+          "height": 2851,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-027.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-027.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1857,
+                "height": 2851,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-027.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-027.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-027.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-028.json",
+          "@type": "sc:Canvas",
+          "label": "9ウ",
+          "width": 2065,
+          "height": 3219,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-028.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-028.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2065,
+                "height": 3219,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-028.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-028.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-028.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-029.json",
+          "@type": "sc:Canvas",
+          "label": "10オ",
+          "width": 1869,
+          "height": 2875,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-029.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-029.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1869,
+                "height": 2875,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-029.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-029.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-029.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-030.json",
+          "@type": "sc:Canvas",
+          "label": "10ウ",
+          "width": 2039,
+          "height": 2930,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-030.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-030.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2039,
+                "height": 2930,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-030.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-030.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-030.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-031.json",
+          "@type": "sc:Canvas",
+          "label": "11オ",
+          "width": 1929,
+          "height": 2851,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-031.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-031.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1929,
+                "height": 2851,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-031.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-031.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-031.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-032.json",
+          "@type": "sc:Canvas",
+          "label": "11ウ",
+          "width": 2065,
+          "height": 3219,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-032.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-032.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2065,
+                "height": 3219,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-032.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-032.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-032.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-033.json",
+          "@type": "sc:Canvas",
+          "label": "12オ",
+          "width": 2018,
+          "height": 2916,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-033.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-033.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2018,
+                "height": 2916,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-033.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-033.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-033.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-034.json",
+          "@type": "sc:Canvas",
+          "label": "12ウ",
+          "width": 2011,
+          "height": 2907,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-034.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-034.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2011,
+                "height": 2907,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-034.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-034.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-034.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-035.json",
+          "@type": "sc:Canvas",
+          "label": "13オ",
+          "width": 1917,
+          "height": 2859,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-035.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-035.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1917,
+                "height": 2859,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-035.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-035.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-035.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-036.json",
+          "@type": "sc:Canvas",
+          "label": "13ウ",
+          "width": 2005,
+          "height": 2935,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-036.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-036.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2005,
+                "height": 2935,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-036.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-036.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-036.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-037.json",
+          "@type": "sc:Canvas",
+          "label": "14オ",
+          "width": 1920,
+          "height": 2885,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-037.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-037.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1920,
+                "height": 2885,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-037.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-037.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-037.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-038.json",
+          "@type": "sc:Canvas",
+          "label": "14ウ",
+          "width": 1964,
+          "height": 2888,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-038.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-038.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1964,
+                "height": 2888,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-038.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-038.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-038.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-039.json",
+          "@type": "sc:Canvas",
+          "label": "15オ",
+          "width": 1905,
+          "height": 2867,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-039.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-039.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1905,
+                "height": 2867,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-039.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-039.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-039.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-040.json",
+          "@type": "sc:Canvas",
+          "label": "15ウ",
+          "width": 2029,
+          "height": 2935,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-040.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-040.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2029,
+                "height": 2935,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-040.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-040.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-040.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-041.json",
+          "@type": "sc:Canvas",
+          "label": "16オ",
+          "width": 1921,
+          "height": 2871,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-041.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-041.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1921,
+                "height": 2871,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-041.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-041.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-041.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-042.json",
+          "@type": "sc:Canvas",
+          "label": "16ウ",
+          "width": 1982,
+          "height": 2914,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-042.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-042.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1982,
+                "height": 2914,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-042.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-042.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-042.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-043.json",
+          "@type": "sc:Canvas",
+          "label": "17オ",
+          "width": 2065,
+          "height": 3219,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-043.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-043.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2065,
+                "height": 3219,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-043.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-043.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-043.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-044.json",
+          "@type": "sc:Canvas",
+          "label": "17ウ",
+          "width": 2033,
+          "height": 2935,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-044.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-044.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2033,
+                "height": 2935,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-044.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-044.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-044.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-045.json",
+          "@type": "sc:Canvas",
+          "label": "18オ",
+          "width": 1913,
+          "height": 2871,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-045.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-045.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1913,
+                "height": 2871,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-045.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-045.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-045.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-046.json",
+          "@type": "sc:Canvas",
+          "label": "18ウ",
+          "width": 2065,
+          "height": 2931,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-046.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-046.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2065,
+                "height": 2931,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-046.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-046.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-046.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-047.json",
+          "@type": "sc:Canvas",
+          "label": "19オ",
+          "width": 1949,
+          "height": 2867,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-047.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-047.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 1949,
+                "height": 2867,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-047.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-047.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-047.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        },
+        {
+          "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-048.json",
+          "@type": "sc:Canvas",
+          "label": "19ウ",
+          "width": 2065,
+          "height": 2931,
+          "images": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/annotation/hnsd001-048.json",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-048.tiff/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2065,
+                "height": 2931,
+                "service": {
+                  "@context": "https://iiif.io/api/image/2/context.json",
+                  "@id": "https://dglb01.ninjal.ac.jp/iiif/hananosimadai/001/tiff/hnsd001-048.tiff",
+                  "profile": "https://iiif.io/api/image/2/level1.json"
+                }
+              },
+              "on": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/canvas/hnsd001-048.json"
+            }
+          ],
+          "otherContent": [
+            {
+              "@id": "https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/list/hnsd001-048.json",
+              "@type": "sc:AnnotationList"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
