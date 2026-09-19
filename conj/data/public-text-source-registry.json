@@ -26,14 +26,14 @@
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
     "publicationReadyWorks": 10,
-    "publicExamplesConnected": 50,
-    "rightsVerifiedWorks": 13,
-    "targetVerifiedExamples": 52,
-    "excerptReviewedExamples": 50,
-    "publicationReadyExamples": 50,
-    "auditStatusKnownWorks": 14,
+    "publicExamplesConnected": 54,
+    "rightsVerifiedWorks": 14,
+    "targetVerifiedExamples": 56,
+    "excerptReviewedExamples": 54,
+    "publicationReadyExamples": 54,
+    "auditStatusKnownWorks": 15,
     "blockedWorks": 1,
-    "partialWorks": 3
+    "partialWorks": 4
   },
   "works": [
     {
@@ -212,9 +212,11 @@
       "wikisource": {
         "candidateFound": true,
         "candidateUrl": "https://ja.wikisource.org/wiki/更級日記",
-        "rightsVerified": false,
-        "editionFixed": false,
-        "targetVerificationCount": 0
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "群書類從版 + 有朋堂文庫版（各例のsame-work witnessを固定）",
+        "rightsNote": "両版とも原資料PD表示を確認。Wikisource転写テキストはCC BY-SA 4.0。"
       },
       "aozora": {
         "candidateFound": false,
@@ -224,7 +226,8 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "note": "5例中4例をWikisource旧版本で4ゲート完了。adjv-033 安らかならは選抜箇所を固定版で照合できず未公開。",
+      "auditStatus": "partial"
     },
     {
       "work": "紫式部日記",
