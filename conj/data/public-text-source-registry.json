@@ -27,8 +27,8 @@
     "notYetFound": 4,
     "publicationReadyWorks": 0,
     "publicExamplesConnected": 0,
-    "rightsVerifiedWorks": 2,
-    "targetVerifiedExamples": 6
+    "rightsVerifiedWorks": 3,
+    "targetVerifiedExamples": 11
   },
   "works": [
     {
@@ -236,10 +236,12 @@
       "exampleCount": 5,
       "wikisource": {
         "candidateFound": true,
-        "candidateUrl": "https://ja.wikisource.org/wiki/徒然草",
-        "rightsVerified": false,
-        "editionFixed": false,
-        "targetVerificationCount": 0
+        "candidateUrl": "https://ja.wikisource.org/wiki/徒然草_(國文大觀)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 5,
+        "edition": "國文大觀 日記草子部",
+        "rightsNote": "WikisourceページでPD-old-80-expiredおよび米国PD表示を確認。"
       },
       "aozora": {
         "candidateFound": false,
@@ -249,7 +251,7 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "note": "5例すべて公開本文で対応語形を再確認。短い引用範囲・出典表示の最終監査前なので未公開。"
     },
     {
       "work": "土佐日記",
