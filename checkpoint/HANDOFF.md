@@ -174,3 +174,15 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 - 4サンプル最新版: raw 310 / resolved 71 / suppressed 239 / DB only 0。
 - suppressed: context-required 187 / larger-db 32 / known-larger-token 20。
 - learner-visible検出はまだlegacyのまま。shadowのresolvedをそのまま正解表示へ接続しない。
+
+
+## 2026-09-19 追加: shadow v0.6
+
+- `audited_inflection_evidence_500_full.json`: 動詞360＋形容詞140の全500例を、447表面形・19曖昧表面形として保持。曖昧なものを一意化せず、全分析を残す。
+- `known_token_boundary_index.json` に v1.3 BASIC_WORDS 28語を移行。既存の部分一致フィルタをDBレイヤへ寄せた。
+- 1文字hitが長いindexed grammar/discrimination surface内にある場合、`indexed-larger-surface` で短いhitを抑制する。分析正解の確定ではなく、最大の意味単位優先の実装。
+- USB-3212出典から `けれ＋ば` の接続ルートを追加。6箇所の `ば` を已然形接続＝確定条件候補としてshadow resolved。ただし「けれ」自体の候補は確定しない。
+- 4サンプル: raw 310 / resolved 77 / suppressed 233 / DB only 0。resolved率24.8%。
+- suppression: indexed-larger 51 / known-larger-token 31 / context-required 151。
+- 残151は `context_required_backlog_20260919.json` に整理。A群は `て28・に28・と23・を21` で、文節/統語境界が主ボトルネック。
+- learner-visible detectorはまだlegacy。shadow側の改善をそのまま正解表示へつながない。
