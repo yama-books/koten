@@ -1,0 +1,78 @@
+{
+  "updated": "2026-09-19",
+  "work": "源氏物語",
+  "status": "pilot / all-gates-passed",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "源氏物語 (渋谷栄一校訂)",
+    "url": "https://ja.wikisource.org/wiki/源氏物語_(渋谷栄一校訂)",
+    "rightsVerified": true,
+    "sourceLicense": "CC BY-SA 3.0",
+    "rightsStatus": "Wikisource work page explicitly licensed CC BY-SA 3.0",
+    "note": "桐壺・夕顔・乙女の5選抜箇所を同一校訂版で照合。"
+  },
+  "records": [
+    {
+      "id": "adjv-073",
+      "chjTarget": "めづらかなる",
+      "publicTarget": "めづらかなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/源氏物語/桐壺",
+      "excerpt": "急ぎ参らせて御覧ずるに、めづらかなる稚児の御容貌なり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "桐壺。連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-095",
+      "chjTarget": "絶え絶えに",
+      "publicTarget": "絶え絶えに",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/源氏物語/桐壺",
+      "excerpt": "大殿に二三日など、絶え絶えにまかでたまへど",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "桐壺。連用形「に」を確認。"
+    },
+    {
+      "id": "adjv-013",
+      "chjTarget": "ほのかなれ",
+      "publicTarget": "ほのかなれ",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/源氏物語/夕顔",
+      "excerpt": "容貌なむ、ほのかなれど、いとらうたげにはべる",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "夕顔。已然形「なれ」＋接続助詞「ど」を確認。"
+    },
+    {
+      "id": "adjv-049",
+      "chjTarget": "しめやかなり",
+      "publicTarget": "しめやかなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/源氏物語/夕顔",
+      "excerpt": "寺々の初夜も、みな行ひ果てて、いとしめやかなり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "夕顔。終止形「なり」を確認。"
+    },
+    {
+      "id": "adjv-025",
+      "chjTarget": "ねむごろなれ",
+      "publicTarget": "ねむごろなれ",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/源氏物語/乙女",
+      "excerpt": "今も参り仕うまつりたまふことねむごろなれば、その御子どももさまざま参りたまへど",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "乙女（CHJ巻名「少女」）。已然形「なれ」＋接続助詞「ば」を確認。"
+    }
+  ],
+  "counts": {
+    "total": 5,
+    "rightsVerified": 5,
+    "targetVerified": 5,
+    "excerptReviewed": 5,
+    "publicationEnabled": 5
+  }
+}
