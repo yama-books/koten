@@ -232,6 +232,72 @@
       "evidenceFiles": [
         "discrimination_source_usb3212.json"
       ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "し給へ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "尊敬の補助動詞「給ふ」四段活用の已然形「給へ」＋已然形接続の「ば」。下二段「給ふ」との同形衝突を避けるため「し給へ」に限定。",
+      "evidenceFiles": [
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "ましか",
+      "previousFormEvidence": "未然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_hypothetical"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "反実仮想「ましかば」の「ましか」は未然形として用いられる。",
+      "evidenceFiles": [
+        "abe_seimei_grammar_evidence.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "申せ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "四段動詞「申す」の已然形「申せ」＋已然形接続の「ば」。",
+      "evidenceFiles": [
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "のたまへ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "四段動詞「のたまふ」の已然形「のたまへ」＋已然形接続の「ば」。",
+      "evidenceFiles": [
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "surface": "ば",
+      "previousSurface": "投げ上げたれ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "当該句の「たれ」を完了・存続「たり」の已然形として照合し、已然形接続の「ば」を支持。一般の「たれ＋ば」へは拡張しない。",
+      "evidenceFiles": [
+        "external_grammar_crosscheck_20260919.json"
+      ]
     }
   ],
   "hardBoundaryRules": [
