@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "Checkpoint 既知語境界インデックス",
   "policy": [
@@ -10,10 +10,11 @@
     "この抑制は『長い語の分析が正しい』ことまで意味せず、文字列内部の過剰マーキングを避けるための境界証拠に限る。",
     "全500例DBで活用形が曖昧でも、2文字以上かつ漢字を含む監査済みtargetは、文法確定ではなく語境界抑制専用のtrusted tokenとして利用できる。",
     "v1.3のBASIC_WORDSフィルタをDB境界レイヤへ移し、既存挙動をshadowでも再現する。",
-    "外部辞書で一語性を照合した機能語は、出典を明示したうえで文法確定ではなく内部hit抑制専用のtrusted tokenとして追加できる。"
+    "外部辞書で一語性を照合した機能語は、出典を明示したうえで文法確定ではなく内部hit抑制専用のtrusted tokenとして追加できる。",
+    "独立gold blind baseline後に発見した語内部false-positiveは、文法正解を直接追加せず、複数資料で一語と確認できるlarger-token boundaryとして追加する。"
   ],
-  "entryCount": 335,
-  "suppressibleCount": 335,
+  "entryCount": 338,
+  "suppressibleCount": 338,
   "entries": [
     {
       "surface": "出でおはしましがたから",
@@ -6440,6 +6441,66 @@
         }
       ],
       "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "まじかり",
+      "length": 4,
+      "sources": [
+        {
+          "source": "Ise6-independent-gold-post-baseline",
+          "trust": "source-reviewed",
+          "pos": "助動詞",
+          "lemma": "まじ",
+          "form": "連用形"
+        },
+        {
+          "source": "品詞分解屋 伊勢物語第6段",
+          "trust": "secondary",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-151.html"
+        }
+      ],
+      "trust": "source-reviewed",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "呼ばひわたり",
+      "length": 6,
+      "sources": [
+        {
+          "source": "Ise6-independent-gold-post-baseline",
+          "trust": "source-reviewed",
+          "pos": "動詞",
+          "lemma": "呼ばひわたる",
+          "form": "連用形"
+        },
+        {
+          "source": "品詞分解屋 伊勢物語第6段",
+          "trust": "secondary",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-151.html"
+        }
+      ],
+      "trust": "source-reviewed",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "からうじて",
+      "length": 5,
+      "sources": [
+        {
+          "source": "Ise6-independent-gold-post-baseline",
+          "trust": "source-reviewed",
+          "pos": "副詞",
+          "lemma": "からうじて",
+          "form": null
+        },
+        {
+          "source": "品詞分解屋 伊勢物語第6段",
+          "trust": "secondary",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-151.html"
+        }
+      ],
+      "trust": "source-reviewed",
       "canSuppressInternalSurface": true
     }
   ]
