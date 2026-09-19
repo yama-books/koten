@@ -1,23 +1,28 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint 安倍晴明 助詞 exact passage evidence 回帰",
   "source": "abe_seimei_particle_evidence.json",
-  "evidenceEntries": 42,
+  "evidenceEntries": 70,
   "expectedEffects": {
-    "totalPositions": 47,
-    "resolved": 40,
-    "suppressed": 7,
+    "totalPositions": 75,
+    "resolved": 65,
+    "suppressed": 10,
     "conjunctiveTeResolved": 20,
     "caseWoResolved": 20,
+    "caseNiResolved": 15,
+    "caseToResolved": 7,
+    "gaResolved": 3,
     "toteInnerTeSuppressed": 6,
-    "sateInnerTeSuppressed": 1
+    "sateInnerTeSuppressed": 1,
+    "adverbialNiSuppressed": 1,
+    "toInsideLargerUnitSuppressed": 2
   },
   "expectedTotalsAfterApply": {
     "raw": 310,
-    "resolved": 161,
-    "suppressed": 149,
-    "contextRequired": 38,
+    "resolved": 186,
+    "suppressed": 124,
+    "contextRequired": 10,
     "dbOnly": 0
   },
   "safety": [
@@ -25,7 +30,10 @@
     "「とて」は分析揺れを保持し、内部「て」をresolvedへ上げない。",
     "「さて」は一語の内部として「て」を抑制する。",
     "別本文へ一般化しない。",
-    "learner-visible detectorには接続しない。"
+    "learner-visible detectorには接続しない。",
+    "「～けるに／～給ふに／～するに／～るるに」の4位置は分析揺れがあるため保留する。",
+    "「たちまちに」は副詞全体を優先し、内部「に」を一文字候補としてresolvedしない。",
+    "「日ごと」「こと」の内部「と」はlarger-unit suppressionとする。"
   ],
   "result": "PASS"
 }
