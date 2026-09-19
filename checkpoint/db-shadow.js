@@ -1022,6 +1022,33 @@ function resolveDbShadowHits(text){
   return {raw,resolved,suppressed,whole,boundaryHits,exactKakariLinks};
 }
 
+function resolvedDecisionState(hit){
+  const supportedIds=hit?.contextResolution?.supportCandidateIds||[];
+  if(supportedIds.length===1){
+    return {state:"specific",basis:"context-candidate",candidateId:supportedIds[0]};
+  }
+  if(hit?.contextResolution?.supportAuxiliaryLemma){
+    return {state:"specific",basis:"context-auxiliary-lemma",auxiliaryLemma:hit.contextResolution.supportAuxiliaryLemma};
+  }
+
+  const aux=(hit?.auxiliaryCandidates||[]).map(x=>x.lemma).filter(Boolean);
+  const disc=(hit?.discriminationCandidates||[]).map(x=>x.id).filter(Boolean);
+  const proj=(hit?.projectCandidates||[]).map(x=>x.id).filter(Boolean);
+  const identities=[...new Set([...aux.map(x=>"aux:"+x),...disc.map(x=>"disc:"+x),...proj.map(x=>"proj:"+x)])];
+
+  if(identities.length===1){
+    return {state:"specific",basis:"single-candidate-inventory",identity:identities[0]};
+  }
+  if(identities.length>1){
+    return {state:"ambiguous",basis:"multiple-candidate-inventory",candidateCount:identities.length};
+  }
+
+  if(hit?.knownInflectedForm || hit?.knownWholeForm){
+    return {state:"specific",basis:"trusted-whole-form"};
+  }
+  return {state:"unspecified",basis:"no-candidate-identity"};
+}
+
 function detectFromSurfaceIndex(text){
   return resolveDbShadowHits(text).resolved;
 }
@@ -1049,11 +1076,20 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     signalConfidence:s.signalConfidence
   })));
 
+  const decisionStates=dbHits.map(h=>({hit:h,decision:resolvedDecisionState(h)}));
+  const strictResolvedCount=decisionStates.filter(x=>x.decision.state==="specific").length;
+  const ambiguousResolvedCount=decisionStates.filter(x=>x.decision.state==="ambiguous").length;
+  const unspecifiedResolvedCount=decisionStates.filter(x=>x.decision.state==="unspecified").length;
+
   const audit={
     timestamp:new Date().toISOString(),
     textLength:text.length,
     dbRawHitCount:state.raw.length,
     dbResolvedHitCount:dbHits.length,
+    strictResolvedHitCount:strictResolvedCount,
+    ambiguousResolvedHitCount:ambiguousResolvedCount,
+    unspecifiedResolvedHitCount:unspecifiedResolvedCount,
+    strictResolvedRateOfRaw:state.raw.length ? strictResolvedCount/state.raw.length : 0,
     dbSuppressedCount:state.suppressed.length,
     knownWholeFormHitCount:state.whole.length,
     knownBoundaryTokenHitCount:state.boundaryHits?.length||0,
