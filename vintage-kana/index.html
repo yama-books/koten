@@ -24,7 +24,13 @@ h1{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;margin:0;font-size:clamp
 .pill{border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:rgba(255,255,255,.66);font-size:12px;white-space:nowrap}
 .fontOk{border-color:#9fc0a6;background:#eef6ef;color:var(--ok)}.fontWarn{border-color:#d7b0a9;background:#fbefed;color:var(--danger)}
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);margin:14px 0}
-.notice{background:#f7f3e9;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.8}
+.notice{background:#f7f3e9;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.7}
+.basics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.basicBox{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px}
+.basicBox b{display:block;font-size:14px;margin-bottom:4px}
+.basicBox span{font-size:12px;line-height:1.6;color:var(--muted)}
+details.moreInfo{margin-top:2px}
+details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}
 .tab{border:1px solid var(--line);border-radius:13px;padding:12px;background:#fff;color:var(--ink);font-weight:700}
 .tab.active{background:var(--accent2);border-color:#9dac95}
@@ -69,7 +75,7 @@ textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:1
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){header{display:block}.pill{display:inline-block;margin-top:10px}.tabs{grid-template-columns:1fr 1fr}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:15px}}
+@media(max-width:720px){header{display:block}.pill{display:inline-block;margin-top:10px}.tabs{grid-template-columns:1fr 1fr}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.basics{grid-template-columns:1fr}.panel{padding:15px}}
 </style>
 </head>
 <body>
@@ -77,21 +83,21 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 <header>
   <div>
     <h1>変体仮名を読む・知る・書いてみる</h1>
-    <p class="tagline">字母をたどりながら、変体仮名の字形を知り、読んで、書いてみるための学習アプリ。</p>
+    <p class="tagline">昔のひらがなの形を、見て・覚えて・使ってみる学習アプリ。</p>
   </div>
   <div>
-    <div class="pill">一次公開準備版 1.0 RC4</div>
+    <div class="pill">一次公開準備版 1.0 RC5</div>
     <div class="pill" id="fontStatus" style="margin-top:7px">字体フォント確認中…</div>
     <div class="pill" id="dataStatus" style="margin-top:7px">教材データ確認中…</div>
   </div>
 </header>
 
 <section class="panel">
-  <div class="notice">
-    字形の候補と資料内件数は、国立国語研究所の公開資料をもとにした初期15資料の観察結果です。
-    件数は「歴史的な正しさ」や使用確率を表すものではありません。
-    フォント字形は対応字体の代表表示であり、原資料の手書き字形と輪郭が完全一致するとは限りません。
+  <div class="basics">
+    <div class="basicBox"><b>変体仮名とは？</b><span>昔使われていた、今とは形のちがうひらがなです。</span></div>
+    <div class="basicBox"><b>字母とは？</b><span>ひらがなのもとになった漢字です。たとえば「え」の字母は「衣」です。</span></div>
   </div>
+  <div class="notice">このアプリの字形と件数は、国立国語研究所の公開資料をもとにしています。</div>
 
   <div class="tabs">
     <button class="tab active" data-view="browse">字形を見る</button>
@@ -100,7 +106,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   </div>
 
   <div id="browse" class="view active">
-    <div class="label">対応する仮名で絞り込む</div>
+    <div class="label">読みたい仮名を選ぶ</div>
     <div id="filters" class="kanaFilters"></div>
     <div id="browseSummary" class="summary"></div>
     <div id="cards" class="cards"><div class="loading">字体データを読み込んでいます…</div></div>
@@ -108,7 +114,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 
   <div id="quiz" class="view">
     <div class="quizBox">
-      <div class="note">この変体仮名の字母は？</div>
+      <div class="note">この文字のもとになった漢字は？</div>
       <div id="quizGlyph" class="quizGlyph">…</div>
       <div id="choices" class="choices"></div>
       <div id="feedback" class="feedback"></div>
@@ -120,10 +126,8 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <div class="label">現代の仮名文を入力</div>
     <textarea id="sourceText">あいうえお かきくけこ</textarea>
     <div class="note">
-      自動で「昔らしい」字体に変換する機能ではありません。原文のままを初期値とし、
-      初期資料群で実際に観察された対応字体から、利用者自身が選びます。<br>
-      濁音・半濁音は対応する清音字体に濁点・半濁点を付けて表示します。
-      「ゃ・ゅ・ょ・っ」などの小書きは、対応する基本仮名の字体を小さく表示する現代的な補助表現です。
+      文を入力し、変えたい文字の形を選んでください。<br>
+      「で」などの濁音や、「ゃ・ゅ・ょ・っ」などの小さい仮名にも対応しています。
     </div>
     <div id="composeRows" class="composeRows"></div>
     <div class="label" style="margin-top:15px">表示</div>
@@ -133,19 +137,20 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <section class="panel sources">
-  <div class="label">典拠とデータの読み方</div>
-  <div class="note">
-    字体・対応する仮名・字母の基準:
-    <a href="https://cid.ninjal.ac.jp/kana/list/" target="_blank" rel="noopener">国立国語研究所「学術情報交換用変体仮名」</a>。
-    資料別の観察:
-    <a href="https://cid.ninjal.ac.jp/hentaiganaDB/" target="_blank" rel="noopener">国立国語研究所「変体仮名字形データベース」</a>。
-    実資料画像・翻字は各所蔵機関・国語研の公開資料へ遡れる形で記録しています。
-    このアプリの初期コーパスは限られた資料群の観察であり、時代全体の「標準」を示すものではありません。
-  </div>
+  <div class="label">出典</div>
+  <div class="note">字形や字母は、国立国語研究所の公開データをもとにしています。</div>
+  <details class="moreInfo">
+    <summary>くわしい情報</summary>
+    <div class="note" style="margin-top:8px">
+      <a href="https://cid.ninjal.ac.jp/kana/list/" target="_blank" rel="noopener">学術情報交換用変体仮名</a> ／
+      <a href="https://cid.ninjal.ac.jp/hentaiganaDB/" target="_blank" rel="noopener">変体仮名字形データベース</a><br>
+      表示件数は、このアプリで調べた初期15資料の中で見つかった数です。
+    </div>
+  </details>
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC4 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
+  vintage-kana / release candidate 1.0 RC5
 </footer>
 </div>
 
@@ -256,7 +261,7 @@ function renderCards(){
  document.getElementById("browseSummary").innerHTML=
    '<span class="stat">通常の平仮名 '+standardCount+' 字体</span>'+
    '<span class="stat">変体仮名 '+variantCount+' 字体</span>'+
-   '<span class="stat">観察済み音価 '+new Set(GLYPHS.map(x=>x.kana)).size+'</span>';
+   '<span class="stat">データのある読み '+new Set(GLYPHS.map(x=>x.kana)).size+'</span>';
 
  root.innerHTML="";
  rows.forEach(e=>{
@@ -266,11 +271,11 @@ function renderCards(){
      d.innerHTML='<div class="standardBadge">通常の平仮名</div>'+
        '<div class="glyph">'+escapeHtml(e.character)+'</div>'+
        '<div class="meta">対応する仮名　<b>'+escapeHtml(e.kana)+'</b><br>字母　<b>'+escapeHtml(e.jibo)+'</b></div>'+
-       '<div class="note" style="margin-top:6px">変体仮名ではありません。比較のため同じ字母体系の中に表示しています。</div>';
+       '<div class="note" style="margin-top:6px">今ふつうに使うひらがなです。</div>';
    }else{
      d.innerHTML='<div class="glyph">'+escapeHtml(e.character)+'</div>'+
        '<div class="meta">対応する仮名　<b>'+escapeHtml(e.kana)+'</b><br>字母　<b>'+escapeHtml(e.jibo)+'</b></div>'+
-       '<div class="note" style="margin-top:6px">初期15資料で '+e.totalObserved.toLocaleString()+'件 / '+e.witnessCount+'資料に観察</div>';
+       '<div class="note" style="margin-top:6px">資料で '+e.totalObserved.toLocaleString()+'件 見つかっています。</div>';
    }
    root.appendChild(d);
  });
@@ -292,7 +297,7 @@ function newQuiz(){
      if(j!==quizEntry.jibo)b.classList.add("wrong");
      document.getElementById("feedback").textContent=
        (j===quizEntry.jibo?"正解です。":"字母は「"+quizEntry.jibo+"」です。")+
-       " 対応する仮名は「"+quizEntry.kana+"」。初期資料群では"+quizEntry.totalObserved.toLocaleString()+"件観察されています。";
+       " 読みは「"+quizEntry.kana+"」です。";
    };
    root.appendChild(b);
  });
@@ -331,7 +336,7 @@ function renderCompose(){
    row.append(left,cand);rows.appendChild(row);
  });
 
- if(!needed.length) rows.innerHTML='<div class="note">対応候補のある仮名を入力すると、ここに字体候補が表示されます。</div>';
+ if(!needed.length) rows.innerHTML='<div class="note">ひらがなを入力すると、選べる字形がここに出ます。</div>';
  document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
 }
 
