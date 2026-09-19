@@ -662,3 +662,24 @@ JavaScript構文PASS。
 
 現行 index.html: 一次公開準備版 1.0 RC3
 JavaScript構文PASS。
+
+
+## 22. ブランチ運用変更 — vintage-kana-main
+
+2026-09-20以降、`vintage-kana/` 関係の作業は専用集約ブランチ
+`vintage-kana-main`
+で行う。
+
+運用ルール:
+- `main` へ直接pushしない
+- `main` をforce-pushしない
+- 他ブランチを削除しない
+- 他ブランチをforce-pushしない
+- 既存の `vintage-kana-*` ブランチ群は保持
+- PRを作る場合のマージ先は `vintage-kana-main`
+- koten本体チームが必要に応じて `vintage-kana-main` から `main` へ取り込む
+- 今後のHANDOFF / QA / ROADMAP / index.html / data更新も原則 `vintage-kana-main` 上で行う
+
+この変更以前に vintage-kana の作業コミットが `main` に入っているが、
+今後はその履歴を巻き戻さず、現時点の `main` を基点として
+`vintage-kana-main` を作成し、以後の変更を分離する。
