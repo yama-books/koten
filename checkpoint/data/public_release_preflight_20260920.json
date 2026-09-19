@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "title": "Checkpoint public release preflight",
+  "releaseTrack": "public-beta-legacy-visible",
+  "branch": "checkpoint-main",
+  "status": "CONDITIONAL_PASS",
+  "principle": [
+    "公開βではlearner-visible detectorをlegacyのまま維持する。",
+    "shadow detector / morphology providerは研究・監査専用で、通常利用では実行しない。",
+    "shadow promotion readinessとpublic beta release readinessを別ゲートとして扱う。"
+  ],
+  "checks": [
+    {
+      "id": "R1",
+      "name": "branch-policy",
+      "status": "PASS",
+      "evidence": "Checkpoint作業はcheckpoint-mainのみ。mainへ直接pushしない。"
+    },
+    {
+      "id": "R2",
+      "name": "html-local-assets",
+      "status": "PASS",
+      "evidence": "index.html参照ローカルアセット13件すべて存在。styles.css + JS 12本。"
+    },
+    {
+      "id": "R3",
+      "name": "javascript-syntax",
+      "status": "PASS",
+      "evidence": "core1-4, db-shadow, detect1-3, ui1-3, events の12本をFunction parserで構文確認し全件PASS。"
+    },
+    {
+      "id": "R4",
+      "name": "external-json-load-targets",
+      "status": "PASS",
+      "evidence": "core4.jsのCHECKPOINT_DATA_PATHSが参照するJSON 31件を全件取得し、JSON.parse全件PASS。"
+    },
+    {
+      "id": "R5",
+      "name": "shadow-normal-ui-isolation",
+      "status": "PASS",
+      "evidence": "ui1.jsでshadowAuditLegacyVsDb()をshadowDebugEnabled()時だけ実行するよう変更。通常公開UIはshadow解析を実行しない。"
+    },
+    {
+      "id": "R6",
+      "name": "heavy-shadow-data-lazy-load",
+      "status": "PASS",
+      "evidence": "約38万文字のaudited_inflection_evidence_500_full.jsonを含むprovider関連4データをdebug=shadow/#shadow-debug時だけloadするよう変更。"
+    },
+    {
+      "id": "R7",
+      "name": "primary-source-hold-protection",
+      "status": "PASS",
+      "evidence": "一次資料待ち5位置はhold維持。新morphology providerの新規tierはsignal-onlyでresolverEligible=false。"
+    },
+    {
+      "id": "R8",
+      "name": "runtime-browser-smoke",
+      "status": "PENDING",
+      "evidence": "現在のツール環境から公開Pages URLを直接取得できず、実ブラウザでの入力・drawer・スマホ操作の最終smokeは未実施。"
+    },
+    {
+      "id": "R9",
+      "name": "production-integration",
+      "status": "PENDING",
+      "evidence": "checkpoint-mainからproduction mainへの統合はkoten側チーム担当。Checkpoint側からmainへ直接pushしない。"
+    },
+    {
+      "id": "R10",
+      "name": "branch-ancestry-integration-health",
+      "status": "ATTENTION",
+      "evidence": "2026-09-20のmain...checkpoint-main比較はGitHub APIで『No common ancestor』。main側の履歴変更可能性があり、統合担当側で確認が必要。Checkpoint側では履歴改変・force-pushを行わない。"
+    }
+  ],
+  "shadowPromotionNotRequiredForThisTrack": {
+    "currentStage": "stage-2-evidence-backed-debug-overlay",
+    "pending": [
+      "G6 hold-aware learner UI",
+      "G8 strict-disambiguation readiness"
+    ],
+    "note": "これらはshadowをlearner-visibleへ昇格する条件。legacy-visible public betaの公開そのものを止める条件とは分離する。"
+  },
+  "morphologyProvider": {
+    "policy": "morphology_provider_policy.json",
+    "audit": "morphology_provider_audit_20260920.json",
+    "mode": "signal-only",
+    "heikePostBlind": "24位置中3位置でprevious morphology signal。gold由来exact morphology追加なし。"
+  },
+  "releaseBlockers": [
+    "実ブラウザ/スマホでの最終runtime smoke",
+    "checkpoint-mainをproductionへ取り込む際のbranch ancestry確認"
+  ],
+  "nonBlockersForLegacyPublicBeta": [
+    "shadow grammar recallがまだ低いこと",
+    "G6/G8がpendingであること",
+    "一次資料待ち5位置がholdのままであること"
+  ],
+  "next": [
+    "実ブラウザで公開候補を開き、本文入力・マーカー・drawer・レベル切替・debug非表示をsmoke testする。",
+    "統合担当はmainとcheckpoint-mainの共通祖先なし状態を確認し、通常merge可能か、必要なら安全なcherry-pick/ファイル単位統合方針を決める。",
+    "公開β後もshadow promotionは別レーンで第五blindから継続する。"
+  ]
+}
