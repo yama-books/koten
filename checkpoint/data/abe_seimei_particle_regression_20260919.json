@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 安倍晴明 助詞 exact passage evidence 回帰",
+  "source": "abe_seimei_particle_evidence.json",
+  "evidenceEntries": 42,
+  "expectedEffects": {
+    "totalPositions": 47,
+    "resolved": 40,
+    "suppressed": 7,
+    "conjunctiveTeResolved": 20,
+    "caseWoResolved": 20,
+    "toteInnerTeSuppressed": 6,
+    "sateInnerTeSuppressed": 1
+  },
+  "expectedTotalsAfterApply": {
+    "raw": 310,
+    "resolved": 161,
+    "suppressed": 149,
+    "contextRequired": 38,
+    "dbOnly": 0
+  },
+  "safety": [
+    "安倍晴明本文の完全一致箇所だけに適用する。",
+    "「とて」は分析揺れを保持し、内部「て」をresolvedへ上げない。",
+    "「さて」は一語の内部として「て」を抑制する。",
+    "別本文へ一般化しない。",
+    "learner-visible detectorには接続しない。"
+  ],
+  "result": "PASS"
+}
