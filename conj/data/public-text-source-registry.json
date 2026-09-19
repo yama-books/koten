@@ -25,12 +25,12 @@
     "works": 21,
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
-    "publicationReadyWorks": 4,
-    "publicExamplesConnected": 18,
-    "rightsVerifiedWorks": 5,
-    "targetVerifiedExamples": 20,
-    "excerptReviewedExamples": 18,
-    "publicationReadyExamples": 18
+    "publicationReadyWorks": 5,
+    "publicExamplesConnected": 22,
+    "rightsVerifiedWorks": 6,
+    "targetVerifiedExamples": 24,
+    "excerptReviewedExamples": 22,
+    "publicationReadyExamples": 22
   },
   "works": [
     {
@@ -309,9 +309,11 @@
       "wikisource": {
         "candidateFound": true,
         "candidateUrl": "https://ja.wikisource.org/wiki/伊勢物語_(群書類從)",
-        "rightsVerified": false,
-        "editionFixed": false,
-        "targetVerificationCount": 0
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "群書類從卷第三百七 物語部一",
+        "rightsNote": "WikisourceのPD-oldカテゴリに伊勢物語を確認。ページテキストはCC BY-SA条件を遵守。"
       },
       "aozora": {
         "candidateFound": false,
@@ -320,8 +322,8 @@
         "editionFixed": false,
         "targetVerificationCount": 0
       },
-      "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "publicationReady": true,
+      "note": "4例すべて公開本文でtargetと短い引用範囲を監査済み。公開実例JSONへ4例接続済み。"
     },
     {
       "work": "古今和歌集",
