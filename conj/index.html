@@ -2612,22 +2612,55 @@ document.addEventListener("keydown",e=>{
   }
 });
 async function loadAdjvRuntimeItems(){
-  const status={loaded:false,added:0,error:null};
+  const status={loaded:false,added:0,merged:0,publicExamplesAttached:0,error:null};
   try{
     if(!window.ConjAdjvRuntime) throw new Error("ConjAdjvRuntime is unavailable");
     const runtime=await window.ConjAdjvRuntime.load({base:"./data/"});
-    const existing=new Set(items.filter(x=>x.pos==="adjv").map(x=>x.lemma));
-    const additions=runtime.tableItems
-      .filter(x=>!existing.has(x.lemma))
-      .map(x=>({
-        ...x,
-        example:x.example||"",
-        target:x.target||"",
-        source:x.source||"活用表ドリル",
-        sourceUrl:x.sourceUrl||"",
-        sourceLicense:x.sourceLicense||"",
-        exampleAvailable:x.exampleAvailable===true
-      }));
+    const existingByLemma=new Map(
+      items.filter(x=>x.pos==="adjv").map(x=>[x.lemma,x])
+    );
+    const additions=[];
+
+    for(const runtimeItem of runtime.tableItems){
+      const existingItem=existingByLemma.get(runtimeItem.lemma);
+      if(existingItem){
+        existingItem.forms=runtimeItem.forms;
+        existingItem.forms2=runtimeItem.forms2;
+        existingItem.kind=runtimeItem.kind;
+        existingItem.adjv=true;
+        existingItem.twoTrack=true;
+        existingItem.paradigmId=runtimeItem.paradigmId;
+        existingItem.sourceExampleIds=runtimeItem.sourceExampleIds;
+
+        if(runtimeItem.exampleAvailable===true){
+          existingItem.example=runtimeItem.example||"";
+          existingItem.target=runtimeItem.target||"";
+          existingItem.source=runtimeItem.source||"公開実例";
+          existingItem.sourceUrl=runtimeItem.sourceUrl||"";
+          existingItem.sourceLicense=runtimeItem.sourceLicense||"";
+          existingItem.publicExampleId=runtimeItem.publicExampleId||null;
+          existingItem.sourceExampleId=runtimeItem.sourceExampleId||null;
+          existingItem.exampleAvailable=true;
+          existingItem.poem=null;
+          status.publicExamplesAttached++;
+        }
+        status.merged++;
+        continue;
+      }
+
+      const addition={
+        ...runtimeItem,
+        example:runtimeItem.example||"",
+        target:runtimeItem.target||"",
+        source:runtimeItem.source||"活用表ドリル",
+        sourceUrl:runtimeItem.sourceUrl||"",
+        sourceLicense:runtimeItem.sourceLicense||"",
+        exampleAvailable:runtimeItem.exampleAvailable===true
+      };
+      if(addition.exampleAvailable) status.publicExamplesAttached++;
+      additions.push(addition);
+    }
+
     items.push(...additions);
     status.loaded=true;
     status.added=additions.length;
