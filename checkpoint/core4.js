@@ -156,12 +156,34 @@ const CHECKPOINT_DATA_PATHS = {
   localSyntaxFeaturePolicy:"./data/local_syntax_feature_policy.json"
 };
 
+function checkpointShadowDataRequested(){
+  try{
+    const params=new URLSearchParams(window.location.search||"");
+    return params.get("debug")==="shadow" || window.location.hash==="#shadow-debug";
+  }catch(_err){
+    return false;
+  }
+}
+
+const CHECKPOINT_SHADOW_ONLY_DATA_KEYS=new Set([
+  "sourceReviewedTokenMorphology",
+  "auditedInflectionEvidenceFull",
+  "morphologyProviderPolicy",
+  "localSyntaxFeaturePolicy"
+]);
+
 async function loadCheckpointData(){
   const loaded={};
+  const shadowDataRequested=checkpointShadowDataRequested();
   for(const [key,path] of Object.entries(CHECKPOINT_DATA_PATHS)){
+    if(CHECKPOINT_SHADOW_ONLY_DATA_KEYS.has(key) && !shadowDataRequested){
+      loaded[key]=null;
+      continue;
+    }
     try{ const res=await fetch(path,{cache:"no-store"}); if(!res.ok) throw new Error(`${res.status}`); loaded[key]=await res.json(); }
     catch(err){ loaded[key]=null; }
   }
   window.CHECKPOINT_DATA=loaded;
   document.documentElement.dataset.externalData=loaded.manifest ? "loaded" : "fallback";
+  document.documentElement.dataset.shadowData=shadowDataRequested ? "requested" : "skipped";
 }
