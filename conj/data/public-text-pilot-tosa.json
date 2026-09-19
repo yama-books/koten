@@ -1,7 +1,7 @@
 {
   "updated": "2026-09-19",
   "work": "土佐日記",
-  "status": "pilot / all-targets-verified",
+  "status": "pilot / partial-publication-enabled",
   "provider": "Wikisource",
   "edition": {
     "title": "土佐日記 (國文大觀)",
@@ -17,8 +17,8 @@
       "publicTarget": "はるかなり",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
       "note": "連用形「なり」＋完了「つる」を確認。"
     },
     {
@@ -66,7 +66,7 @@
     "total": 5,
     "rightsVerified": 5,
     "targetVerified": 5,
-    "excerptReviewed": 0,
-    "publicationEnabled": 0
+    "excerptReviewed": 1,
+    "publicationEnabled": 1
   }
 }
