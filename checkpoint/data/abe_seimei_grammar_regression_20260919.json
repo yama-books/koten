@@ -3,13 +3,14 @@
   "updated": "2026-09-19",
   "title": "Checkpoint 安倍晴明 exact grammar evidence 回帰",
   "source": "abe_seimei_grammar_evidence.json",
-  "tested": 24,
-  "passed": 24,
+  "tested": 28,
+  "passed": 28,
   "failed": 0,
   "policy": "ユーザー提供『安倍晴明_本文・文法・語彙整理.docx』に明示された句だけを完全一致で検証。一般規則へ自動一般化しない。",
   "breakdown": {
-    "resolveCandidateOrLemma": 15,
-    "suppressInsideLargerUnit": 9
+    "resolveCandidateOrLemma": 17,
+    "suppressInsideLargerUnit": 11
   },
-  "result": "PASS"
+  "result": "PASS",
+  "note": "追加4件（2回目の入らむ、形容動詞不便なり、さす内部境界）を含めて28/28 PASS。"
 }
