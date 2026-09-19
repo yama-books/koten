@@ -604,3 +604,22 @@ P2の旧 rejected は撤回し、P1と同一基準で publication approved と�
 4. GitHub Pages実配信
 5. 典拠リンク遷移
 6. 一次公開
+
+
+## 18. 一次公開RC / UI 0.8
+
+詳細チェックポイント:
+- `SESSION_CHECKPOINT_2026-09-19_PUBLICATION_RC.md`
+
+現在:
+- publication approved 4件
+- publication excluded 1件
+- rejected 0
+- UI 0.8
+- JavaScript構文 PASS
+- strict publication gate PASS
+- Webフォント読込診断実装済み
+- 一次公開まで概算 約92%
+
+残りはPC・モバイル・GitHub Pagesの実ブラウザQAと、公開版表記への変更。
+研究追加や人間裁定追加は一次公開の必須工程ではない。
