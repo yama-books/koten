@@ -101,6 +101,24 @@
           "url": "https://honda-n2.com/kobun-jodoushi-mashi"
         }
       ]
+    },
+    {
+      "id": "nashi-adjective-ku",
+      "surface": "なし",
+      "finding": "「なし」は文語形容詞ク活用。安倍晴明本文の「物もなし」完全一致で、内部の一文字「な」「し」を独立識別候補から外すための境界確認にのみ使用する。",
+      "use": "passage-specific-boundary-only",
+      "sources": [
+        {
+          "title": "精選版 日本国語大辞典「無し」",
+          "provider": "コトバンク",
+          "url": "https://kotobank.jp/word/%E7%84%A1%E3%81%97-588659"
+        },
+        {
+          "title": "デジタル大辞泉「ク活用」",
+          "provider": "コトバンク",
+          "url": "https://kotobank.jp/word/%E3%81%8F%E6%B4%BB%E7%94%A8-3210015"
+        }
+      ]
     }
   ]
 }
