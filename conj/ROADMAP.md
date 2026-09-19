@@ -352,3 +352,24 @@ Phase Dはこの層を構築している。
 詳細: `EDUCATIONAL_USE_POLICY.md`
 
 Phase Dのblocked例は、将来 `classroomCandidate` として再評価可能。
+
+
+## 8. PAUSED checkpoint（2026-09-19 11:02 JST）
+
+Status: **PAUSED BY USER**
+
+理由:
+ChatGPT側の表示が一部出現・消失する不安定挙動があり、作業経過の損失を避けるため安全停止。
+
+停止位置:
+- Phase D / D1
+- 19 / 21作品 status確定
+- 64 / 120例 公開接続
+- 次の未完了Milestone: D-19 堤中納言物語5例
+
+再開前の必須事項:
+1. 「教材化のためには、普段どのように用例を収集するのか？」へ回答
+2. registry / public examples件数を再同期
+3. ユーザーの明示的な継続指示を確認
+
+それまではD-19以降を進めない。
