@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.14-pre-gold",
+  "schemaVersion": "0.15-stage2-generalization",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -48,7 +48,11 @@
     "sourceExactPassageResolved": 1,
     "intentionalAmbiguityHold": 4,
     "primarySourceHold": 5,
-    "unclassifiedContextRequired": 0
+    "unclassifiedContextRequired": 0,
+    "strictResolved": 145,
+    "ambiguousResolved": 42,
+    "unspecifiedResolved": 0,
+    "strictResolvedRateOfRaw": 0.46774193548387094
   },
   "samples": [
     {
@@ -309,11 +313,11 @@
     "停止時点resolved率は60.0%。正答率ではなく保守的gate通過率。"
   ],
   "next": [
-    "次回は徒然草第52段を候補に独立gold setを先に固定する。",
-    "gold固定までresolver/evidenceを追加しない。",
-    "現行shadowを無調整でgoldへ走らせ初見性能を測る。",
-    "primary-source hold 5件は『新しい古典文法 四訂新版』原資料確認まで維持。",
-    "learner-visibleはlegacyのまま維持する。"
+    "local syntax layerでright-token morphology/token boundaryを増やし、助動詞列と独立語開始をsignalとして分ける。",
+    "「て」は直前連用形10/11まで取得済みだが、句読点だけではhard resolveしない。",
+    "「に・を・と」は3作品の反例から単純隣接規則化を禁止し、節構造・係り先の設計へ進む。",
+    "新hard ruleを追加する場合は第四の未使用作品でblind評価する。",
+    "learner-visibleはlegacyのまま。"
   ],
   "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。",
   "contextResolver": {
@@ -483,5 +487,45 @@
       "G5 cross-passage-generalization",
       "G6 hold-aware-ui"
     ]
+  },
+  "strictMetricNote": "旧dbResolved 187はcompatibility metric。候補まで一意なstrict resolvedは145、複数候補が残るambiguous resolvedは42。learner-visible判断にはstrictを用いる。",
+  "independentGold": {
+    "checkpoint": "stage2_generalization_checkpoint_20260919.json",
+    "blindWorks": 3,
+    "blindCombined": {
+      "positions": 112,
+      "strictPass": 63,
+      "strictPassRate": 0.5625,
+      "grammarResolveTargets": 61,
+      "strictGrammarResolve": 16,
+      "strictGrammarResolveRate": 0.26229508196721313,
+      "boundaryTargets": 51,
+      "boundaryCorrect": 47,
+      "boundaryRate": 0.9215686274509803,
+      "wrongResolved": 0,
+      "falsePositiveResolved": 4
+    },
+    "developmentCurrent": {
+      "positions": 112,
+      "strictPass": 73,
+      "strictPassRate": 0.6517857142857143,
+      "grammarResolveTargets": 61,
+      "strictGrammarResolve": 22,
+      "strictGrammarResolveRate": 0.36065573770491804,
+      "boundaryTargets": 51,
+      "boundaryCorrect": 51,
+      "boundaryRate": 1,
+      "hardErrors": 0
+    },
+    "caveat": "developmentCurrentはgold確認後の改善を含むためblind scoreではない。"
+  },
+  "localSyntaxFeatureAudit": {
+    "file": "local_syntax_feature_audit_20260919.json",
+    "unresolvedOrAmbiguousPositions": 39,
+    "previousMorphology": 14,
+    "leftTrustedToken": 7,
+    "rightTrustedToken": 4,
+    "punctuationAfter": 14,
+    "mode": "signal-only"
   }
 }
