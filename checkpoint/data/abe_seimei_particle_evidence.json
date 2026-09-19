@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint 安倍晴明 助詞 exact passage evidence",
   "source": {
@@ -11,9 +11,10 @@
     "別本文・別作品へ一般化しない。",
     "USB-3212の候補定義と外部文法照合を補助根拠にするが、primary-source-verifiedとは扱わない。",
     "「とて」は分析の揺れを保持し、内部「て」を一意resolvedにしない。",
-    "learner-visible正解表示には直結させずshadow detector限定。"
+    "learner-visible正解表示には直結させずshadow detector限定。",
+    "「～けるに／～給ふに／～するに／～るるに」の4例は格助詞・接続助詞の分析揺れがあるためv0.13では保留する。"
   ],
-  "entryCount": 42,
+  "entryCount": 70,
   "entries": [
     {
       "id": "abe-particle-01",
@@ -718,6 +719,479 @@
       "action": "resolveCandidate",
       "candidateId": "case_particle_wo",
       "sourceAnalysis": "本文完全一致。直前が体言・体言相当句で、後続述語との格関係を作る格助詞「を」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-100",
+      "phrase": "、日ごとに御堂へ参",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-101",
+      "phrase": "犬御さきに塞がるや",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-102",
+      "phrase": "がるやうにまはりて",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-103",
+      "phrase": "て、晴明に、「きと",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-104",
+      "phrase": "」と召しに遣はした",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-105",
+      "phrase": "ふ物を道に埋みて候",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-106",
+      "phrase": "はいづくにか埋みた",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-107",
+      "phrase": "て十文字にからげた",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-108",
+      "phrase": "れば、中には物もな",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-109",
+      "phrase": "土器の底に書きたる",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-110",
+      "phrase": "晴明が外には知りた",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-111",
+      "phrase": "、鳥の姿に引き結び",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-112",
+      "phrase": "ちに白鷺になりて、",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-113",
+      "phrase": "里小路辺に、古りた",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-114",
+      "phrase": "公は死後に怨霊とな",
+      "focusSurface": "に",
+      "focusOffset": 4,
+      "analysisUnit": "に",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ni",
+      "sourceAnalysis": "本文完全一致。体言・体言相当語句と後続語の場所・対象・結果・目的等の格関係を作る格助詞「に」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-115",
+      "phrase": "げたれば、たちまちに白鷺にな",
+      "focusSurface": "に",
+      "focusOffset": 9,
+      "analysisUnit": "たちまちに",
+      "analysisUnitOffset": 4,
+      "action": "suppressInsideLargerUnit",
+      "sourceAnalysis": "「たちまちに」は副詞として一まとまり。内部「に」を独立識別対象にしない。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-116",
+      "phrase": "て後は、日ごとに御堂へ",
+      "focusSurface": "と",
+      "focusOffset": 6,
+      "analysisUnit": "日ごと",
+      "analysisUnitOffset": 4,
+      "action": "suppressInsideLargerUnit",
+      "sourceAnalysis": "「日ごと」の語内部。独立した「と」としない。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-117",
+      "phrase": "を入らむとし給へば",
+      "focusSurface": "と",
+      "focusOffset": 4,
+      "analysisUnit": "と",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_to",
+      "sourceAnalysis": "本文完全一致。「む/じ＋と＋す」、名付け・変化、または引用内容を受ける格助詞「と」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-118",
+      "phrase": "れ奉らじとしければ",
+      "focusSurface": "と",
+      "focusOffset": 4,
+      "analysisUnit": "と",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_to",
+      "sourceAnalysis": "本文完全一致。「む/じ＋と＋す」、名付け・変化、または引用内容を受ける格助詞「と」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-119",
+      "phrase": "て入らむとし給へば",
+      "focusSurface": "と",
+      "focusOffset": 4,
+      "analysisUnit": "と",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_to",
+      "sourceAnalysis": "本文完全一致。「む/じ＋と＋す」、名付け・変化、または引用内容を受ける格助詞「と」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-120",
+      "phrase": "め申さむとしければ",
+      "focusSurface": "と",
+      "focusOffset": 4,
+      "analysisUnit": "と",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_to",
+      "sourceAnalysis": "本文完全一致。「む/じ＋と＋す」、名付け・変化、または引用内容を受ける格助詞「と」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-121",
+      "phrase": "後に怨霊となりて、",
+      "focusSurface": "と",
+      "focusOffset": 4,
+      "analysisUnit": "と",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_to",
+      "sourceAnalysis": "本文完全一致。「む/じ＋と＋す」、名付け・変化、または引用内容を受ける格助詞「と」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-122",
+      "phrase": "悪霊左府と名づく云",
+      "focusSurface": "と",
+      "focusOffset": 4,
+      "analysisUnit": "と",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_to",
+      "sourceAnalysis": "本文完全一致。「む/じ＋と＋す」、名付け・変化、または引用内容を受ける格助詞「と」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-123",
+      "phrase": "給ひけるとなむ。",
+      "focusSurface": "と",
+      "focusOffset": 4,
+      "analysisUnit": "と",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_to",
+      "sourceAnalysis": "本文完全一致。「む/じ＋と＋す」、名付け・変化、または引用内容を受ける格助詞「と」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-124",
+      "phrase": "\n「かかることのあるは",
+      "focusSurface": "と",
+      "focusOffset": 6,
+      "analysisUnit": "こと",
+      "analysisUnitOffset": 4,
+      "action": "suppressInsideLargerUnit",
+      "sourceAnalysis": "名詞「こと」の語内部。独立した「と」としない。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-125",
+      "phrase": "供しけるが、門を入",
+      "focusSurface": "が",
+      "focusOffset": 4,
+      "analysisUnit": "が",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "conjunctive_particle_ga",
+      "sourceAnalysis": "連体形「ける」の後で前後の文を接続する接続助詞「が」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-126",
+      "phrase": "\n「晴明が外には知",
+      "focusSurface": "が",
+      "focusOffset": 4,
+      "analysisUnit": "が",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ga",
+      "sourceAnalysis": "体言に付き所属・連体修飾関係を作る格助詞「が」として監査。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "discrimination_source_usb3212.json",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-particle-127",
+      "phrase": "も、道摩が科にはあ",
+      "focusSurface": "が",
+      "focusOffset": 4,
+      "analysisUnit": "が",
+      "analysisUnitOffset": 4,
+      "action": "resolveCandidate",
+      "candidateId": "case_particle_ga",
+      "sourceAnalysis": "体言に付き所属・連体修飾関係を作る格助詞「が」として監査。",
       "evidenceStatus": "passage-specific-multi-source-reviewed",
       "sourceRefs": [
         "安倍晴明_本文・文法・語彙整理.docx",
