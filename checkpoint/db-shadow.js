@@ -9,6 +9,50 @@ function checkpointSurfacePolicy(surface){
   return entries.find(x=>x.surface===surface) || null;
 }
 
+function checkpointLocalBoundaryPolicy(){
+  return window.CHECKPOINT_DATA?.localBoundaryPolicy || null;
+}
+
+function checkpointCharClass(ch){
+  if(!ch) return "boundary";
+  const policy=checkpointLocalBoundaryPolicy();
+  if((policy?.punctuationChars||[]).includes(ch)) return "punctuation";
+  if(/\s/.test(ch)) return "space";
+  if(/[\u3400-\u9fff\uf900-\ufaff]/.test(ch)) return "han";
+  if(/[\u3040-\u309f]/.test(ch)) return "hiragana";
+  if(/[\u30a0-\u30ff]/.test(ch)) return "katakana";
+  if(/[A-Za-z]/.test(ch)) return "latin";
+  if(/[0-9０-９]/.test(ch)) return "digit";
+  return "other";
+}
+
+function localBoundarySignalsForHit(text,hit){
+  const policy=checkpointLocalBoundaryPolicy();
+  if(!policy || policy.mode!=="signal-only") return null;
+  const previousChar=hit.start>0 ? text.slice(hit.start-1,hit.start) : "";
+  const nextChar=hit.end<text.length ? text.slice(hit.end,hit.end+1) : "";
+  const previous2=text.slice(Math.max(0,hit.start-2),hit.start);
+  const next2=text.slice(hit.end,Math.min(text.length,hit.end+2));
+  const punctuation=new Set(policy.punctuationChars||[]);
+  const quoteOpeners=new Set(policy.quoteOpeners||[]);
+  const quoteClosers=new Set(policy.quoteClosers||[]);
+  const sentenceStops=new Set(policy.sentenceStops||[]);
+  return {
+    previousChar,nextChar,previous2,next2,
+    previousClass:checkpointCharClass(previousChar),
+    hitFirstClass:checkpointCharClass((hit.surface||"").slice(0,1)),
+    hitLastClass:checkpointCharClass((hit.surface||"").slice(-1)),
+    nextClass:checkpointCharClass(nextChar),
+    atTextStart:hit.start===0,atTextEnd:hit.end===text.length,
+    leftPunctuation:punctuation.has(previousChar),rightPunctuation:punctuation.has(nextChar),
+    leftQuoteClose:quoteClosers.has(previousChar),rightQuoteOpen:quoteOpeners.has(nextChar),
+    leftSentenceStop:sentenceStops.has(previousChar),rightSentenceStop:sentenceStops.has(nextChar),
+    leftScriptTransition:!!previousChar && checkpointCharClass(previousChar)!==checkpointCharClass((hit.surface||"").slice(0,1)),
+    rightScriptTransition:!!nextChar && checkpointCharClass((hit.surface||"").slice(-1))!==checkpointCharClass(nextChar),
+    mode:"signal-only"
+  };
+}
+
 function checkpointKakariRoutes(surface){
   const routes=window.CHECKPOINT_DATA?.kakariMusubiRoutes?.routes;
   if(!Array.isArray(routes)) return [];
@@ -777,6 +821,7 @@ function resolveDbShadowHits(text){
       suppressed.push({
         ...h,
         contextResolution,
+        boundarySignals:localBoundarySignalsForHit(text,h),
         suppressedReason:contextResolution?.status==="candidate-support-only"
           ? "context-supported-but-not-unique"
           : "context-required-not-yet-resolved"
@@ -867,7 +912,8 @@ function shadowAuditLegacyVsDb(text, legacyHits){
       surface:h.surface,start:h.start,end:h.end,
       reason:h.suppressedReason,suppressedBy:h.suppressedBy||null,
       contextSignals:h.contextSignals||[],
-      contextResolution:h.contextResolution||null
+      contextResolution:h.contextResolution||null,
+      boundarySignals:h.boundarySignals||null
     })),
     note:"shadow audit only; kakari-musubi signals are candidate support and never resolve scope by themselves."
   };
