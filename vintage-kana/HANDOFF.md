@@ -208,3 +208,45 @@ prototype v0.1〜v0.3では、フォント表示、縦書き、字母表示、�
 `https://yama-books.github.io/koten/vintage-kana/`
 
 ローカル資源復帰後は `INTEGRATION_NOTES.md` に従い、既存の全体設計との差分を確認する。
+
+
+## 10. 2026-09-19 15:16 JST 停止チェックポイント
+
+ユーザー指示により、この地点でセッションを停止する。
+
+### 最新状態
+
+- `ROADMAP.md` を新設し、全体Phase・区切り条件・チェックポイント規則を固定。
+- 現在位置: **Phase 2B → Phase 2C 移行確定**
+- `data/attested-examples.json`:
+  - total: 42
+  - source-checked: 42
+  - context-checked: 0
+  - human-confirmed: 0
+  - 『伊勢物語』: 33
+  - 変体仮名字形: 38
+- 公式字形ページHTMLから、個別出現の page / occurrence ID / X / Y を直接列挙できる取得経路を確認。
+- 『伊勢物語』では比較可能な Stage A セットが成立済み。
+  - 例: ね / 字母「年」
+    - 国文研本 U+1B094 𛂔: 10例
+    - 嵯峨本 U+1B092 𛂒: 8例
+
+### 再開地点
+
+次回は Stage A の大量追加から再開しない。
+
+1. `ROADMAP.md` を読む
+2. 本 `HANDOFF.md` を読む
+3. `SESSION_CHECKPOINT_2026-09-19_PHASE2.md`
+4. `VIEWER_EXTRACTION_NOTES.md`
+5. `data/attested-examples.json`
+
+を確認し、**Phase 2C の最初の `context-checked` 1件を作ること**から再開する。
+
+初回候補:
+- 『諸国方言物類称呼』巻五
+- すでに Stage A として登録済みの実例
+- 公式翻刻TXTと原画像を同一底本で照合し、対象字形と翻刻文字を厳密に対応させる
+
+最初の区切り:
+- `context-checked = 1` 達成時点でチェックポイントを更新する。
