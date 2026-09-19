@@ -391,3 +391,22 @@ main接続後の状態を再確認した。
 - script終端不具合修正: `29fc1e33cd91a61e5575d3c093d9d785bdf4ab15`
 
 次工程は、公開可能な本文ソースを作品単位で整理し、確認済み実例だけを段階的に実例ドリルへ接続すること。
+
+## 13. runtime全整合検査（2026-09-19）
+
+形容動詞二層runtimeについて、現行mainを含む横断検査を実施し全項目PASS。
+
+正本監査:
+- `data/adjectival-noun-integration-audit.json`
+- `deploymentSmoke.status = "passed"`
+- commit: `5aea4f74f8ab11edd187afc3a85f03c6bfc028e1`
+
+確認値:
+- 語幹117（ナリ94 / タリ23）
+- main追加116
+- 実例索引120
+- 公開本文混入0
+- main接続・fallback・no-example guardすべてPASS
+- 「たし」は `たかる` を保持し、誤った `たかれ` は無し
+
+次は、120実例について**本文再配布可否を作品・提供元単位で確認する段階**。CHJ本文は引き続きDriveから公開側へ複製しない。
