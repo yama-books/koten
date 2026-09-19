@@ -1,62 +1,68 @@
 {
   "updated": "2026-09-19",
   "work": "大和物語",
-  "status": "pilot / public-domain-source-found / target-image-verification-pending",
-  "provider": "国立国会図書館デジタルコレクション",
+  "status": "pilot / all-gates-passed",
+  "provider": "やたがらすナビ",
   "edition": {
-    "title": "大和物語",
-    "publication": "谷岡七左衛門、明暦3年（1657）、5冊",
-    "parentPid": "2607357",
-    "url": "https://dl.ndl.go.jp/pid/2607357",
+    "title": "三条西家旧蔵伝為氏筆本『大和物語』",
+    "url": "https://yatanavi.org/text/yamato/index.html",
+    "bibliographicSource": "三条西家旧蔵伝冷泉為氏筆本。影印: 古文学秘籍叢刊 上下（1933）",
     "rightsVerified": true,
-    "rightsStatus": "pdm",
-    "accessStatus": "internet-public",
-    "note": "NDLサーチでインターネット公開・著作権情報pdmを確認。JTI本文はコピー不可のため公開例ソースとして不採用。"
+    "sourceLicense": "CC BY-SA 4.0",
+    "rightsNote": "作品トップで底本・著作権者を明記。各ページのフッタで特記なき内容はCC BY-SA 4.0。翻刻部分は自由利用可と明記。",
+    "editorialNote": "校訂本文は濁点・句読点・段落・送り仮名・仮名遣い等を適宜整えているため、CHJ targetとpublicTargetを分離する。"
   },
   "records": [
     {
-      "id": "adjv-029",
-      "chjTarget": "ただなら",
-      "publicTarget": null,
-      "targetVerified": false,
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "第113段付近の用例候補まで確認。NDL画像による同版照合待ち。"
+      "id": "adjv-081",
+      "chjTarget": "まちどほに",
+      "publicTarget": "待ち遠に",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/yamato/u_yamato074",
+      "excerpt": "宿近く移して植ゑしかひもなく待ち遠にのみ見ゆる花かな",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第74段。連用形「に」を確認。"
     },
     {
-      "id": "adjv-043",
-      "chjTarget": "清らなり",
-      "publicTarget": null,
-      "targetVerified": false,
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "第149段「顔かたちいと清らなり」の用例候補まで確認。NDL画像による同版照合待ち。"
+      "id": "adjv-029",
+      "chjTarget": "ただなら",
+      "publicTarget": "ただなら",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/yamato/u_yamato113",
+      "excerpt": "大空もただならぬかな神無月われのみ下に時雨ると思へば",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第113段。未然形「なら」＋打消「ぬ」を確認。"
     },
     {
       "id": "adjv-063",
       "chjTarget": "すずろなる",
-      "publicTarget": null,
-      "targetVerified": false,
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "検索可能な二次公開本文で用例位置候補を確認。NDL画像による同版照合待ち。"
+      "publicTarget": "すずろなる",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/yamato/u_yamato148",
+      "excerpt": "すずろなる者に、何かは物多く賜はん",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第148段。連体形「なる」を確認。"
     },
     {
-      "id": "adjv-081",
-      "chjTarget": "まちどほに",
-      "publicTarget": null,
-      "targetVerified": false,
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "第74段「まちどほにのみ見ゆる花かな」の位置候補を確認。NDL画像による同版照合待ち。"
+      "id": "adjv-043",
+      "chjTarget": "清らなり",
+      "publicTarget": "きよらなり",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/yamato/u_yamato149",
+      "excerpt": "この女、顔・形、いときよらなり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第149段。漢字／かな表記差。終止形「なり」を確認。"
     }
   ],
   "counts": {
     "total": 4,
     "rightsVerified": 4,
-    "targetVerified": 0,
-    "excerptReviewed": 0,
-    "publicationEnabled": 0
-  },
-  "blocker": "再利用可能性は確定したが、公開する文字列はNDLのPDM画像を直接確認して転写する必要がある。検索しやすいJTI本文は再配布不可なので流用しない。"
+    "targetVerified": 4,
+    "excerptReviewed": 4,
+    "publicationEnabled": 4
+  }
 }
