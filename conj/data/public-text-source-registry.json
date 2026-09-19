@@ -30,7 +30,10 @@
     "rightsVerifiedWorks": 10,
     "targetVerifiedExamples": 39,
     "excerptReviewedExamples": 37,
-    "publicationReadyExamples": 37
+    "publicationReadyExamples": 37,
+    "auditStatusKnownWorks": 11,
+    "blockedWorks": 1,
+    "partialWorks": 1
   },
   "works": [
     {
@@ -451,7 +454,21 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "第1次探索では候補ページ未確認。追加探索対象。"
+      "note": "公開可能な画像資料は確認したが、4 targetを検索・照合できる再利用本文を未確保。画像から推測転記せず保留。別公開本文または確実な転写経路を得た時点で再訪。",
+      "candidates": [
+        {
+          "provider": "Wikisource",
+          "url": "https://ja.wikisource.org/wiki/カテゴリ:校註日本文学大系",
+          "note": "第5巻に『落窪物語』収録情報はあるが、現状Wikisource本文ページは未整備。"
+        },
+        {
+          "provider": "CODH 日本古典籍データセット",
+          "url": "https://codh.rois.ac.jp/pmjt/book/200019761/",
+          "rights": "CC BY-SA 4.0",
+          "note": "画像資料は再利用可能だが、4 targetを検索可能な本文で照合する経路が未確立。"
+        }
+      ],
+      "auditStatus": "blocked-with-reason"
     },
     {
       "work": "蜻蛉日記",
