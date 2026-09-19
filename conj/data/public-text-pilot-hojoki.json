@@ -1,7 +1,7 @@
 {
   "updated": "2026-09-19",
   "work": "方丈記",
-  "status": "pilot / partial-target-verification",
+  "status": "pilot / partial-target-verification / source-page-fetch-blocked",
   "provider": "Wikisource",
   "edition": {
     "title": "方丈記 (國文大觀)",
@@ -39,7 +39,8 @@
       "targetVerified": false,
       "sourcePage": null,
       "excerptReviewed": false,
-      "exampleEnabledPublic": false
+      "exampleEnabledPublic": false,
+      "note": "CHJ監査文脈を再特定: 「また、治承四年水無月のころ、にはかに都遷り侍りき。」固定Wikisource底本のページ単位照合が未完のため公開保留。"
     },
     {
       "id": "adjv-067",
@@ -48,7 +49,8 @@
       "targetVerified": false,
       "sourcePage": null,
       "excerptReviewed": false,
-      "exampleEnabledPublic": false
+      "exampleEnabledPublic": false,
+      "note": "CHJ監査文脈を再特定: 「歎き切なる時も、声をあげて泣くことなし。」固定Wikisource底本のページ単位照合が未完のため公開保留。"
     },
     {
       "id": "adjv-014",
@@ -57,7 +59,8 @@
       "targetVerified": false,
       "sourcePage": null,
       "excerptReviewed": false,
-      "exampleEnabledPublic": false
+      "exampleEnabledPublic": false,
+      "note": "CHJ監査文脈を再特定: 「苦しむ時は休めつ、まめなれば使ふ。」固定Wikisource底本のページ単位照合が未完のため公開保留。"
     }
   ],
   "counts": {
@@ -66,5 +69,6 @@
     "targetVerified": 2,
     "excerptReviewed": 0,
     "publicationEnabled": 0
-  }
+  },
+  "blocker": "固定した『國文大觀』版のWikisource Page名前空間が取得経路で安定して読めず、未照合3例は推測で公開化しない。"
 }
