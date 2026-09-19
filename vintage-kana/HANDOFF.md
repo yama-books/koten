@@ -13,12 +13,14 @@
 
 1. `DESIGN_HISTORY.md` — 詳細な経緯・意図・撤廃理由
 2. この `HANDOFF.md` — 現在の作業状態
-3. `SESSION_CHECKPOINT_2026-09-19.md` — 会話終了時点の確定状態
-4. `AGGREGATION_RULES.md` — 0件補完・比率計算の規則
-5. `SOURCES.md` — 典拠
-6. `RESEARCH_PLAN.md` — 資料収集手順
-7. `DATA_MODEL.md` — データ構造
-8. `INTEGRATION_NOTES.md` — koten全体との統合注意
+3. `SESSION_CHECKPOINT_2026-09-19_PHASE2.md` — Phase 2移行後の最新チェックポイント
+4. `SESSION_CHECKPOINT_2026-09-19.md` — Phase 1完了時点のチェックポイント
+5. `VIEWER_EXTRACTION_NOTES.md` — 原資料位置・文脈取得の技術調査
+6. `AGGREGATION_RULES.md` — 0件補完・比率計算の規則
+7. `SOURCES.md` — 典拠
+8. `RESEARCH_PLAN.md` — 資料収集手順
+9. `DATA_MODEL.md` — データ構造
+10. `INTEGRATION_NOTES.md` — koten全体との統合注意
 
 ## 1. 現在地
 
@@ -152,13 +154,14 @@ CODH「日本古典籍くずし字データセット」
 
 1. `sources.json` の書誌一次確認結果を維持し、必要な追加書誌だけ個別監査する
 2. `data/context-sampling-candidates.json` の優先候補を使う
-3. 『伊勢物語』2資料の「や・り・て・さ・を」から原資料へ戻り、語・位置・前後文字・連綿を採取する
-4. `attested-examples.json` に保存する
-5. 先行研究と観察結果を照合する
-6. 字母・字体クイズ候補を生成する
-7. 短い `attested` 読解教材を生成する
-8. 人間が典拠と表示を確認する
-9. 「書いてみる」候補表示を実例データと接続する
+3. `VIEWER_EXTRACTION_NOTES.md` に従い、まず『伊勢物語』国文研本の `や / 𛃞` で個別出現位置の取得経路を確立する
+4. 経路確立後、『伊勢物語』2資料の「や・り・て・さ・を」から原資料へ戻り、語・位置・前後文字・連綿を採取する
+5. `attested-examples.json` に保存する
+6. 先行研究と観察結果を照合する
+7. 字母・字体クイズ候補を生成する
+8. 短い `attested` 読解教材を生成する
+9. 人間が典拠と表示を確認する
+10. 「書いてみる」候補表示を実例データと接続する
 
 ## 7. 停止条件
 
