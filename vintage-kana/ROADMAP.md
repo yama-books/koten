@@ -11,14 +11,14 @@
 ```text
 Phase 0  設計原則・典拠設計                 ✅ 完了
 Phase 1  字体分布コーパス                   ✅ 完了
-Phase 2  実例コーパス                       ▶ 進行中
+Phase 2  実例コーパス                       ✅ MVP区切り到達
   2A 書誌・候補選定                         ✅ 完了
   2B Stage A: source-checked 実例採取        ✅ パイプライン成立・必要量確保
-  2C Stage B: context-checked 文脈対応        ▶ 進行中（context-checked 5件達成）
+  2C Stage B: context-checked 文脈対応        ✅ MVP区切り到達（context-checked 10件）
   2D 比較可能な実例セット整備                ⏳
 Phase 3  観察結果と先行研究の照合             ◐ 一部着手
-Phase 4  教材データ生成                       ⏳
-Phase 5  アプリUIへの接続                     ⏳
+Phase 4  教材データ生成                       ▶ MVP着手
+Phase 5  アプリUIへの接続                     ▶ MVP監査・実装
 Phase 6  人間確認・公開品質保証               ⏳
 Phase 7  継続拡張                             ⏳
 ```
@@ -28,20 +28,20 @@ Phase 7  継続拡張                             ⏳
 - 中核47音価の非ゼロ分布: 2,046件
 - 派生セル: 3,750
 - 補遺「ん」: 15件
-- `attested-examples.json`: **44件**
+- `attested-examples.json`: **49件**
   - source-checked（現在のreview_status）: **39**
-  - source-checked以上: **44**
+  - source-checked以上: **49**
   - exact-text（現在のalignment状態）: **0**
-  - exact: **5**
-  - exact-text以上到達: **5**
-  - context-checked: **5**
+  - exact: **10**
+  - exact-text以上到達: **10**
+  - context-checked: **10**
   - human-confirmed: **0**
-  - 変体仮名字形 U+1B***: **39**
+  - 変体仮名字形 U+1B***: **44**
   - 『伊勢物語』: **33**
 
-したがって現在の最大のボトルネックは、
-**「実在位置を確認した Stage A 実例を、語・前後文字・連綿まで確定した Stage B 実例へ昇格すること」**
-である。
+Phase 2C のMVP区切り条件 `context-checked=10` を達成した。
+一次公開を優先するため、ここからは実例の追加研究を主工程にせず、
+**教材データ生成・UI接続・公開対象例の human-confirmed・公開QA** をボトルネックとして扱う。
 
 ---
 
@@ -182,7 +182,7 @@ Phase 1 の件数を「教材」へ直接変換せず、原資料上の個別出
 
 ## Phase 2C — Stage B: 文脈対応
 
-状態: ⏳ 次の主工程
+状態: ✅ MVP区切り到達
 
 ### 目的
 
@@ -224,7 +224,7 @@ Stage A の「位置が分かる実例」を二段階で深める。
 2. **exact-text 5件** ✅
 3. **context-checked 1件** ✅
 4. **context-checked 5件** ✅
-5. context-checked 10件 ← 現在ここ
+5. **context-checked 10件** ✅
 
 ただし、同一ページや同一語に偏らせず、
 - 2 witness 以上
@@ -316,7 +316,7 @@ Phase 2C で context-checked が10件程度に達した後。
 
 # Phase 4 — 教材データ生成
 
-状態: ⏳
+状態: ▶ MVP着手
 
 ## 4A 字体・字母クイズ
 
@@ -346,7 +346,7 @@ Phase 2とは独立して開始可能だが、
 
 # Phase 5 — アプリUIへの接続
 
-状態: ⏳
+状態: ▶ MVP監査・実装
 
 ## 5A 字体詳細
 
@@ -460,34 +460,34 @@ human-confirmed:
 
 # 現在の次アクション
 
-**現在位置: Phase 2C-2 / 最初の context-checked 1件を確定する工程**
+**現在位置: 一次公開MVP製品化 / Phase 4・5へ移行**
 
-次の順で進める。
+1. Phase 2C `context-checked=10` ✅
+2. Phase 2 の追加採取を主工程から外す ✅
+3. 既存UI・試作・データ接続を監査する ← 現在
+4. 字体・字母クイズのMVP教材データを生成
+5. context-checked 10件から公開候補を限定し、人間確認手順を作る
+6. 字体詳細・実例表示・読解の最小UIへ接続
+7. 公開に実際に使う例だけ `human-confirmed` へ昇格
+8. 出典・ライセンス・フォント・モバイル/PC QA
+9. 一次公開
 
-1. Stage A 監査 ✅
-2. Stage A の大量追加を主工程から外し、Phase 2Cへ移行 ✅
-3. 公式翻刻と個別出現を一意対応できる候補を選ぶ ✅
-4. exact-text 1件を確定 ✅
-5. exact-text 5件まで再現し、方法の安定性を確認 ✅
-6. 原画像確認経路を確立し、最初の context-checked 1件を作る ✅
-7. context-checked 5件 ✅、10件へ拡張 ← 現在
-8. 各節目でチェックポイントを更新する
+### 2026-09-19 context-checked 10件達成
 
-### 2026-09-19 15:34 JST 進捗
+『比翼連理花廼志満台』初編上の U+1B094 𛂔（ね）5件を追加。
+国語研公式翻字・IIIF manifest・同一底本原画像を照合し、5件とも `context_alignment_status: exact` / `review_status: context-checked` とした。
+2ウ・15オは同丁に「ね」が複数あるため原画像周辺本文で一意化し、3オ・8ウ・13ウは同丁の「ね」が各1箇所のため一意対応した。
+連綿は全5件で原画像確認済みだが二値判定を安全に行えないため `renmen: unknown` とし、未確認ではなく「確認済み判定不能」と記録した。
 
-- ローカル非接触を維持。
-- 巻五4オの高解像度本文JPEG `/005/jpg/brsk005-009.jpg` の取得経路が成立。
-- Google Slides経由で 1620×2500 px の原画像を取得済み。
-- 現在は `brsk005-009 / ID0346 / X474 Y2151` の対象字体・周辺筆線・連綿を画像上で判定中。
-- `context-checked` は判定完了まで 0 件を維持。
+現在:
+- total 49
+- exact 10
+- context-checked 10
+- human-confirmed 0
+- witness は brsk005 / hnsd001 の2資料へ拡張
+- 対象音価は「え」「ね」へ拡張
 
-### GitHub/Web-only セッション注記（2026-09-19）
-
-Work 資源枯渇中のため、現在はローカルを触らず GitHub `yama-books/koten` と公開Web資料だけで進行中。
-最初の候補は巻五4オ `brsk005-009 / U+1B012 / ID0346 / X474 Y2151` に固定した。
-国語研公式の資料ページ・IIIF manifest・同一底本翻字の経路は確認済みだが、
-現在のチャット環境では原画像ピクセルを安定表示できず、`renmen` の視認確認は未達。
-したがって `context-checked = 0` を維持し、Stage A追加へ戻らず原画像確認を継続する。
+Phase 2C は一次公開MVPの区切りを達成。研究拡張より製品化を優先する。
 
 ---
 
