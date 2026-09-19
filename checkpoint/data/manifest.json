@@ -36,7 +36,8 @@
     "abeSeimeiKakariEvidence": "abe_seimei_kakari_evidence.json",
     "abeSeimeiKakariRegression": "abe_seimei_kakari_regression_20260919.json",
     "hyakuninBunsetuBoundaryEvidence": "hyakunin_bunsetu_boundary_evidence.json",
-    "externalGrammarCrosscheck": "external_grammar_crosscheck_20260919.json"
+    "externalGrammarCrosscheck": "external_grammar_crosscheck_20260919.json",
+    "boundaryResolverRegression": "boundary_resolver_regression_20260919.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -94,6 +95,7 @@
     "第9首では名詞「ながめ」の内部の一文字「な」「が」だけを抑制し、「せし」「まに」内部は文法候補を勝手に消さない。",
     "百人一首文節監査を助動詞正解表ではなく境界証拠として使う hyakunin_bunsetu_boundary_evidence.json を追加。",
     "第9首『ながめ』内部の『な』『が』2位置をexact lexical boundaryで抑制し、context-requiredは130。",
-    "外部文法照合は primary-source-verified と分離し、shadow resolver / token boundary の安全確認専用 evidence として保持する。"
+    "外部文法照合は primary-source-verified と分離し、shadow resolver / token boundary の安全確認専用 evidence として保持する。",
+    "boundary/context resolver回帰fixtureを追加し、4サンプル raw 310 / resolved 105 / context-required 109 を現行期待値として固定した。"
   ]
 }
