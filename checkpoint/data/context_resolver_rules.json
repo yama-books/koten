@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 接続resolver規則",
   "sources": [
@@ -17,7 +17,8 @@
     "singleCandidateResolve は出典上、直前活用形で候補が一意に分かれる場合に限定する。",
     "supportOnly は候補支持情報だけを付け、context-required抑制を解除しない。",
     "一次資料未確認の助動詞活用表を補完する用途には使わない。",
-    "「に」の前が連体形でも格助詞・接続助詞の両候補がUSB-3212上で成立するため、候補支持は両方を保持する。"
+    "「に」の前が連体形でも格助詞・接続助詞の両候補がUSB-3212上で成立するため、候補支持は両方を保持する。",
+    "引用符など文字境界だけで候補が一意になる規則は hardBoundaryRules に分離し、直前文字が完全一致した場合だけ発火する。"
   ],
   "entries": [
     {
@@ -231,6 +232,21 @@
       "evidenceFiles": [
         "discrimination_source_usb3212.json"
       ]
+    }
+  ],
+  "hardBoundaryRules": [
+    {
+      "surface": "と",
+      "previousChars": [
+        "」",
+        "』"
+      ],
+      "supportCandidateIds": [
+        "case_particle_to"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「と」: 格助詞「と」は引用を表す文・句に接続する。",
+      "safety": "quote-close-boundary-only"
     }
   ]
 }
