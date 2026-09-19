@@ -92,5 +92,36 @@
     "auxiliary-sequence-candidateが今回39位置では0だったため、助動詞列signalのカバレッジを別未使用本文で観測する。",
     "に/を/とは節構造・係り先featureを設計し、隣接token signal単独でhard rule化しない。",
     "learner-visible detectorはlegacyのまま維持する。"
-  ]
+  ],
+  "regression": {
+    "existingFourSamples": {
+      "before": {
+        "raw": 310,
+        "resolved": 187,
+        "suppressed": 123,
+        "strict": 145,
+        "ambiguous": 42,
+        "unspecified": 0
+      },
+      "after": {
+        "raw": 310,
+        "resolved": 187,
+        "suppressed": 123,
+        "strict": 145,
+        "ambiguous": 42,
+        "unspecified": 0
+      },
+      "resolvedPositionDiff": 0,
+      "suppressedPositionDiff": 0
+    },
+    "developmentGoldDecisionPath": {
+      "works": [
+        "徒然草52",
+        "伊勢物語6 芥川",
+        "方丈記冒頭"
+      ],
+      "result": "resolved/suppressed position sets unchanged before vs after signal patch",
+      "note": "この比較はresolver decision-path不変確認。blind/development scoreの再定義ではない。"
+    }
+  }
 }
