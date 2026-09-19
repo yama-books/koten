@@ -623,3 +623,18 @@ P2の旧 rejected は撤回し、P1と同一基準で publication approved と�
 
 残りはPC・モバイル・GitHub Pagesの実ブラウザQAと、公開版表記への変更。
 研究追加や人間裁定追加は一次公開の必須工程ではない。
+
+
+## 19. UI 0.9 / Pages JSONフォールバック
+
+実ブラウザでWebフォントは正常、JSON取得のみ失敗する症状を確認。
+UI 0.9で公開に必要なデータをHTML内へ軽量フォールバックし、
+JSON失敗時も表示できるよう修正。
+
+- 138字体
+- publication approved 4件
+- 必要な2witness情報
+
+を内蔵。通常は外部JSON優先。
+右上に教材データ状態を表示。
+JavaScript構文PASS。
