@@ -14,7 +14,7 @@ th,td{border:1px solid #ccc;padding:7px;text-align:left;vertical-align:top}
 </head>
 <body>
 <h1>形容動詞 二層データ スモーク確認</h1>
-<p>本番 <code>index.html</code> には接続していない。活用表用データと実例索引を別ロードできることだけを確認するページ。</p>
+<p>本番 <code>index.html</code> に接続済み。二層データの整合、main 接続、本文非公開の境界、用例なし項目の安全な表示をまとめて確認するページ。</p>
 <div id="status">読み込み中…</div>
 <div id="summary"></div>
 <pre id="sample"></pre>
@@ -38,17 +38,37 @@ th,td{border:1px solid #ccc;padding:7px;text-align:left;vertical-align:top}
       tashiSegment.includes('F(["たかる"])') &&
       !tashiSegment.includes('F(["たかれ"])');
 
+    const embeddedItadura=indexText.includes('id:"itadura"') && indexText.includes('lemma:"いたづらなり"');
+    const noExampleRendering=
+      indexText.includes("current.exampleAvailable!==false") &&
+      indexText.includes("exampleAvailable:false");
+    const forbiddenExampleKeys=["example","exampleText","anchor","rawText","rawContext","preContext","postContext"];
+    const rawTextLeak=(rt.examples.records||[]).some(record=>
+      forbiddenExampleKeys.some(key=>Object.prototype.hasOwnProperty.call(record,key))
+    );
+    const expectedAdditions=rt.tableItems.filter(x=>x.lemma!=="いたづらなり").length;
     const counts={
       tableItems:rt.tableItems.length,
       nari:rt.tableItems.filter(x=>x.paradigmId==="adjv-nari").length,
       tari:rt.tableItems.filter(x=>x.paradigmId==="adjv-tari").length,
+      expectedMainAdditions:expectedAdditions,
       exampleRefs:rt.exampleRefs.length,
       auditMapped:rt.audit.checks.mappedToParadigmCell,
       disabledCellReferences:rt.audit.checks.disabledCellReferences,
       mainConnected,
+      embeddedItadura,
+      noExampleRendering,
+      rawTextLeak,
       tashiCorrection
     };
+    if(rt.tableItems.length!==117) throw new Error("tableItems != 117");
+    if(counts.nari!==94 || counts.tari!==23) throw new Error("lemma pool split mismatch");
+    if(expectedAdditions!==116) throw new Error("expected main additions != 116");
+    if(rt.exampleRefs.length!==120) throw new Error("exampleRefs != 120");
     if(!mainConnected) throw new Error("main index is not connected to adjv runtime");
+    if(!embeddedItadura) throw new Error("embedded いたづらなり fallback is missing");
+    if(!noExampleRendering) throw new Error("no-example rendering guard is missing");
+    if(rawTextLeak) throw new Error("raw/example text leaked into public example index");
     if(!tashiCorrection) throw new Error("tashi paradigm correction is not present");
 
     document.getElementById("summary").innerHTML=
