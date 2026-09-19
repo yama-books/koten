@@ -476,6 +476,80 @@ function trustedLargerTokenContainer(boundaryHits,hit){
 
 
 
+function exactPassageEvidenceForHit(text,hit){
+  const entries=window.CHECKPOINT_DATA?.passageDisambiguationEvidence?.entries;
+  if(!Array.isArray(entries)) return null;
+  const matches=[];
+  for(const e of entries){
+    if(!e.passage || !e.focusSurface || !e.analysisUnit) continue;
+    let pos=0;
+    while(true){
+      const p=text.indexOf(e.passage,pos);
+      if(p<0) break;
+      const focusOffset=Number.isInteger(e.focusOffset)?e.focusOffset:e.passage.indexOf(e.focusSurface);
+      const unitOffset=Number.isInteger(e.analysisUnitOffset)?e.analysisUnitOffset:e.passage.indexOf(e.analysisUnit);
+      const focusStart=p+focusOffset;
+      const focusEnd=focusStart+e.focusSurface.length;
+      if(hit.start===focusStart && hit.end===focusEnd && hit.surface===e.focusSurface){
+        matches.push({
+          id:e.id||null,
+          work:e.work||null,
+          passage:e.passage,
+          passageStart:p,
+          passageEnd:p+e.passage.length,
+          focusSurface:e.focusSurface,
+          analysisUnit:e.analysisUnit,
+          analysisUnitStart:p+unitOffset,
+          analysisUnitEnd:p+unitOffset+e.analysisUnit.length,
+          action:e.action,
+          candidateId:e.candidateId||null,
+          sourceAnalysis:e.sourceAnalysis||"",
+          evidenceStatus:e.evidenceStatus||"passage-specific-reviewed"
+        });
+      }
+      pos=p+Math.max(1,e.passage.length);
+    }
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.analysisUnit.length-a.analysisUnit.length)||(b.passage.length-a.passage.length));
+  return matches[0];
+}
+
+function contextHoldForHit(text,hit){
+  const entries=window.CHECKPOINT_DATA?.contextHoldPolicy?.entries;
+  if(!Array.isArray(entries)) return null;
+  const matches=[];
+  for(const e of entries){
+    if(!e.passage || !e.focusSurface || !e.holdType) continue;
+    let pos=0;
+    while(true){
+      const p=text.indexOf(e.passage,pos);
+      if(p<0) break;
+      const focusOffset=Number.isInteger(e.focusOffset)?e.focusOffset:e.passage.indexOf(e.focusSurface);
+      const focusStart=p+focusOffset;
+      const focusEnd=focusStart+e.focusSurface.length;
+      if(hit.start===focusStart && hit.end===focusEnd && hit.surface===e.focusSurface){
+        matches.push({
+          id:e.id||null,
+          passage:e.passage,
+          passageStart:p,
+          passageEnd:p+e.passage.length,
+          focusSurface:e.focusSurface,
+          holdType:e.holdType,
+          issue:e.issue||null,
+          reason:e.reason||"",
+          sourceRefs:e.sourceRefs||[],
+          learnerVisible:e.learnerVisible===true
+        });
+      }
+      pos=p+Math.max(1,e.passage.length);
+    }
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.passage.length-a.passage.length));
+  return matches[0];
+}
+
 function exactAbeParticleEvidenceForHit(text,hit){
   const entries=window.CHECKPOINT_DATA?.abeSeimeiParticleEvidence?.entries;
   if(!Array.isArray(entries)) return null;
@@ -709,6 +783,35 @@ function resolveDbShadowHits(text){
   const resolved=[];
 
   for(const h of raw){
+    const passageEvidence=exactPassageEvidenceForHit(text,h);
+    if(passageEvidence){
+      if(passageEvidence.action==="suppressInsideLargerUnit"){
+        suppressed.push({
+          ...h,
+          suppressedReason:"source-exact-passage-larger-unit",
+          suppressedBy:passageEvidence.analysisUnit,
+          exactPassageEvidence:passageEvidence
+        });
+        continue;
+      }
+      if(passageEvidence.action==="resolveCandidate" &&
+         passageEvidence.candidateId &&
+         hitCandidateIds(h).has(passageEvidence.candidateId)){
+        resolved.push({
+          ...h,
+          analysisConfidence:"source-exact-passage",
+          contextResolution:{
+            status:"resolved-by-source-exact-passage",
+            mode:"exact-passage-reviewed",
+            supportCandidateIds:[passageEvidence.candidateId],
+            exactPassageEvidence:passageEvidence,
+            evidence:"passage_disambiguation_evidence.json"
+          }
+        });
+        continue;
+      }
+    }
+
     const abeParticleEvidence=exactAbeParticleEvidenceForHit(text,h);
     if(abeParticleEvidence){
       if(abeParticleEvidence.action==="suppressInsideLargerUnit"){
@@ -885,13 +988,20 @@ function resolveDbShadowHits(text){
         });
         continue;
       }
+      const holdPolicy=contextHoldForHit(text,h);
+      const holdReason=holdPolicy?.holdType==="intentional-ambiguity-benchmark"
+        ? "context-intentional-ambiguity-benchmark"
+        : holdPolicy?.holdType==="primary-source-required"
+          ? "context-primary-source-hold"
+          : null;
       suppressed.push({
         ...h,
         contextResolution,
+        holdPolicy,
         boundarySignals:localBoundarySignalsForHit(text,h),
-        suppressedReason:contextResolution?.status==="candidate-support-only"
+        suppressedReason:holdReason || (contextResolution?.status==="candidate-support-only"
           ? "context-supported-but-not-unique"
-          : "context-required-not-yet-resolved"
+          : "context-required-not-yet-resolved")
       });
       continue;
     }
@@ -954,6 +1064,11 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     sourceExactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-phrase").length,
     sourceExactParticleResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-particle").length,
     sourceExactParticleSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-particle-larger-unit").length,
+    sourceExactPassageResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-passage").length,
+    sourceExactPassageSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-passage-larger-unit").length,
+    intentionalAmbiguityHoldCount:state.suppressed.filter(h=>h.suppressedReason==="context-intentional-ambiguity-benchmark").length,
+    primarySourceHoldCount:state.suppressed.filter(h=>h.suppressedReason==="context-primary-source-hold").length,
+    unclassifiedContextRequiredCount:state.suppressed.filter(h=>h.suppressedReason==="context-required-not-yet-resolved" || h.suppressedReason==="context-supported-but-not-unique").length,
     sourceExactPhraseSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-phrase-larger-unit").length,
     bidirectionalContextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-bidirectional-context").length,
     leftSurfaceResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-left-surface").length,
