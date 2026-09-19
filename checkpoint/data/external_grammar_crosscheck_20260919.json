@@ -300,6 +300,22 @@
           "url": "https://manapedia.jp/text/2141"
         }
       ]
+    },
+    {
+      "id": "makura-akarite-te",
+      "surface": "て",
+      "finding": "枕草子『春はあけぼの』の「少し明かりて」は、「明かり」をラ行四段活用「あかる」連用形、「て」を接続助詞とする複数の品詞分解が一致する。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "マナペディア『春はあけぼの』品詞分解",
+          "url": "https://manapedia.jp/m/text/2213"
+        },
+        {
+          "title": "品詞分解屋 枕草子 第1段 春はあけぼの",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-17.html"
+        }
+      ]
     }
   ]
 }
