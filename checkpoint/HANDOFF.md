@@ -941,3 +941,55 @@ blind後のdevelopment:
 - secondary Web資料を『新しい古典文法 四訂新版』のprimary verification代替にしない。
 - passage-specific evidenceを一般文法規則へ自動一般化しない。
 - learner-visibleへshadow resolvedを直結しない。
+
+
+
+## 2026-09-20 Stage 2 継続: right-context signal-only 拡張
+
+Git履歴照合訂正後、`local_syntax_feature_audit_20260919.json` の39位置を入力として右側signalを追加した。
+
+### 実装
+- `db-shadow.js`
+  - `nextMorphology`: hit右側の audited500 / source-reviewed morphology を観測
+  - `rightTokenRoleSignal`: 句読点境界 / auxiliary列候補 / 独立活用語候補 / 文法surface曖昧 / trusted boundary / unknown を観測
+- `local_syntax_feature_policy.json` v0.2
+- `local_syntax_right_context_audit_20260920.json`
+
+すべて **signal-only**。candidate削除・resolved昇格には接続していない。
+
+### 39位置の追加coverage
+- nextMorphology: **15/39**
+- right role:
+  - independent-inflecting-candidate 14
+  - punctuation-boundary 14
+  - unknown 8
+  - trusted-token-boundary 2
+  - grammar-surface-ambiguous 1
+  - auxiliary-sequence-candidate 0
+
+特に未解決 `て` 11位置:
+- previous morphology 10/11
+- punctuation after 8/11
+- nextMorphology 4/11
+- **読点なし3位置は3/3で immediate next = 独立活用語**
+
+これは次のblind検証候補であり、現時点ではhard rule化しない。
+
+### 反例維持
+`に` は右側独立活用語が見えても一意化できない。
+- 方丈記 `水にあらず`: 断定「なり」連用形
+- 伊勢物語 `暗きに来けり`: 格助詞
+
+したがって right-token signal は `に/を/と` のhard ruleには使わず、節構造レイヤの入力に留める。
+
+### 回帰
+既存4サンプルは変更前後とも:
+- raw 310 / resolved 187 / suppressed 123
+- strict **145** / ambiguous **42** / unspecified 0
+- resolved位置差分 0 / suppressed位置差分 0
+
+3 development goldでもresolved/suppressed位置集合に差分0。
+learner-visible detectorはlegacyのまま。
+
+### 次
+第四の未使用作品を **gold先固定** し、特に `連用形＋て＋即時独立活用語` がblind本文でも安全なsignalか確認する。goldを見てresolverを先に調整しない。
