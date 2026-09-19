@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 一般実本文 passage-specific 識別 evidence",
+  "policy": [
+    "特定作品・特定句の完全一致時だけshadow resolverへ使用する。",
+    "Web品詞分解の一致はsecondary crosscheckとして扱い、学校文法masterのprimary-source-verifiedには昇格しない。",
+    "learner-visible正解表示へ直接接続しない。"
+  ],
+  "entries": [
+    {
+      "id": "makura-haru-akarite-te",
+      "work": "枕草子",
+      "passage": "すこしあかりて、紫だち",
+      "focusSurface": "て",
+      "focusOffset": 6,
+      "analysisUnit": "て",
+      "analysisUnitOffset": 6,
+      "action": "resolveCandidate",
+      "candidateId": "conjunctive_particle_te",
+      "sourceAnalysis": "「あかり」はラ行四段活用「あかる」の連用形、「て」は接続助詞とする複数の品詞分解が一致。",
+      "evidenceStatus": "passage-specific-secondary-multi-source",
+      "sourceRefs": [
+        {
+          "title": "マナペディア『春はあけぼの』品詞分解",
+          "url": "https://manapedia.jp/m/text/2213"
+        },
+        {
+          "title": "品詞分解屋 枕草子 第1段 春はあけぼの",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-17.html"
+        }
+      ]
+    }
+  ]
+}
