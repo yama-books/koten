@@ -4,9 +4,8 @@
 
 ## 自動・構文検査
 
-- `index.html` inline JavaScript: **PASS**
-  - GitHub上の現行 `index.html` を取得し、V8で構文コンパイル確認
-  - current blob SHA: `bbe9234b5c0345a12bd8d79787290b16e4737eab`
+- `index.html` inline JavaScript: **旧0.6でPASS / 0.7は再確認対象**
+  - 0.7では公開ゲートと代表字体説明を変更したため、再度構文・実ブラウザ確認を行う
 - `ui-glyph-master.json`: **PASS**
   - Phase 1分布から生成済みの軽量UIキャッシュ
   - 47音価
@@ -14,17 +13,20 @@
   - 各字体に初期15資料での観察総数・観察witness数を保持
 - `attested-examples.json`:
   - total 49
-  - exact 10
-  - context-checked 10
-  - human-confirmed 0
+  - exact alignment 10
+  - context-checked 6
+  - human-confirmed 4
+  - rejected 0
+  - publication approved 4
+  - publication excluded 1
 
 ## UI公開ゲート
 
-現行 `index.html` の「実資料を読む」は:
-`review_status === "human-confirmed"`
+現行 `index.html` 0.7 の「実資料を読む」は:
+`review_status === "human-confirmed" && publication_status === "approved"`
 だけを表示する。
 
-したがって human-confirmed=0 の現在、研究途中のcontext-checked 10件が公開読解教材として誤表示されることはない。
+現在は P1〜P4 の4件が公開対象。P5は史料実例として保持するが `publication_status: excluded` のため表示されない。
 
 ## 現行UIで実装済み
 
@@ -34,14 +36,15 @@
 - 「書いてみる」で利用者が字体を明示選択
 - 自動ランダム変換なし
 - 観察件数を歴史的正しさ・確率として表示しない注意書き
-- human-confirmed限定の実資料読解タブ
+- human-confirmed + publication approved限定の実資料読解タブ
+- フォント字形を「対応字体の代表表示」と明記し、原資料の手書き筆跡との完全一致を暗示しない
 - 出典リンク・典拠説明
 
 ## 残る人間QA
 
 一次公開までに必要:
-1. `PUBLICATION_REVIEW_QUEUE.md` の候補を原画像・翻字・表示で人間確認
-2. 最低3件、推奨5件を `human-confirmed` へ昇格
+1. ~~公開候補の人間確認~~ → **完了（P1〜P4 approved / P5 excluded）**
+2. ~~最低3件 human-confirmed~~ → **4件で達成**
 3. PC実ブラウザでNoto Serif Hentaigana表示確認
 4. モバイル幅でレイアウト確認
 5. GitHub Pages実配信で4タブ操作確認
@@ -99,3 +102,28 @@ UIキャッシュ:
 - 対象字「ね」は人間確認OK
 - ただし教材表示候補「むねもてき」は意味・切り出しが不明瞭なため、一次公開から除外
 - 史料実例自体は有効なので `context-checked` を維持し、`rejected` にはしない
+
+
+## 2026-09-19 字形同定モデル改訂 / UI 0.7
+
+人間確認で、同じ字母「衣」由来の「え」について、原資料の手書き筆跡とUnicodeフォント代表字形の輪郭が一致しない場合があることを確認した。
+
+設計変更:
+- `glyph_id / character` は国語研字形DB上の代表字体IDとして保持
+- 人間確認の通常スコープを `kana-jibo-context` とする
+- 読み・字母・翻字対応・教材表示が確認できれば一次公開可
+- Unicode字形の輪郭完全一致が必要な場合だけ `exact-glyph` として別確認
+- 公開ゲートは `review_status=human-confirmed AND publication_status=approved`
+
+現在:
+- P1: approved / kana-jibo-context
+- P2: approved / kana-jibo-context（旧rejectedを再裁定）
+- P3: approved / kana-jibo-context
+- P4: approved / kana-jibo-context
+- P5: excluded（史料実例はcontext-checked維持）
+- publication approved: **4件**
+
+UI 0.7:
+- 問いを「この字体は何と読む？」から「この資料では何と読む？」へ変更
+- フォントを「対応字体の代表表示」と明記
+- 原資料の手書き字形と輪郭が完全一致しない場合がある旨を表示
