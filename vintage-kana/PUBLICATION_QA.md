@@ -164,3 +164,31 @@ UI 0.8でヘッダーに変体仮名Webフォントの読込状態を表示す�
 
 判定対象は `Noto Serif Hentaigana` と U+1B012 の実文字。
 JavaScript構文検査: **PASS**。
+
+
+## UI 0.9 / Pages JSON取得フォールバック
+
+実ブラウザ確認で:
+- Noto Serif Hentaigana: 読込済み
+- 外部JSON: 取得失敗
+- 画面: 「字体データを読み込めませんでした」
+
+を確認。
+
+対策:
+- `ui-glyph-master.json` の138字体をHTML内にも軽量フォールバックとして内蔵
+- 公開承認4件を読解用フォールバックとして内蔵
+- 必要な2witnessの最小source情報を内蔵
+- 通常はJSONを優先
+- JSON取得失敗時だけ内蔵データへ自動切替
+- 右上に教材データ状態を表示
+  - `教材データ: 読込済み`
+  - `教材データ: 内蔵データで表示中`
+
+現行:
+- UI 0.9
+- current index blob: `9925b2966e5f65dd560bd1cf4c3a5d8aef02e743`
+- JavaScript構文: PASS
+- strict publication gate: PASS
+
+これによりPages側のJSON配信不調があっても一次公開MVPは表示可能。
