@@ -1,7 +1,7 @@
 {
   "app": "Checkpoint",
   "beta": "0.1",
-  "updated": "2026-09-19",
+  "updated": "2026-09-20",
   "dataMode": "hybrid",
   "files": {
     "auxiliaryMaster": "auxiliary_master.json",
@@ -57,7 +57,8 @@
     "sourceReviewedTokenMorphology": "source_reviewed_token_morphology.json",
     "stage2GeneralizationCheckpoint": "stage2_generalization_checkpoint_20260919.json",
     "localSyntaxFeaturePolicy": "local_syntax_feature_policy.json",
-    "localSyntaxFeatureAudit": "local_syntax_feature_audit_20260919.json"
+    "localSyntaxFeatureAudit": "local_syntax_feature_audit_20260919.json",
+    "localSyntaxRightContextAudit": "local_syntax_right_context_audit_20260920.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -136,6 +137,8 @@
     "独立gold 2本目として伊勢物語第6段『芥川』冒頭35位置をshadow評価前にfreeze。blind baselineはstrict PASS 17/35（48.6%）、文法resolve 8/23、larger-unit suppression 9/12、false-positive resolved 3。",
     "伊勢物語blind baseline後、語内部false-positive 3件（まじかり内じ／呼ばひわたり内たり／からうじて内じ）だけをknown-token boundaryへ追加。修正後はsuppression 12/12、false-positive 0。既存4サンプルと徒然草goldは不変。",
     "resolved指標をstrict / ambiguousへ分離。既存4サンプルではresolved187のうちstrict145、ambiguous42。",
-    "stage-2 evidence-backed debug overlayへ移行。learner-visible detectorはlegacyのまま。"
+    "stage-2 evidence-backed debug overlayへ移行。learner-visible detectorはlegacyのまま。",
+    "local syntax right-context signalを追加。nextMorphologyとrightTokenRoleSignalは観測専用でresolver判定を変えない。",
+    "3 development goldの未解決39位置でnextMorphology 15/39。未解決「て」の読点なし3件は3/3で右側独立活用語だが、第四blind前はhard rule化しない。"
   ]
 }
