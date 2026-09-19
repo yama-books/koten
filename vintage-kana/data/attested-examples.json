@@ -2251,12 +2251,17 @@
           "type": "attested_context",
           "source_id": "ninjal-history-source-image",
           "locator": "巻五6ウ / brsk005-014。国語研高解像度本文JPEG（https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/jpg/brsk005-014.jpg）を直接画像確認。字形DB occurrence ID0153 (X=1181, Y=1197) と公式翻字「のべて見えないと云」を照合し、前接「見」から対象 𛀒（え）へ連続する筆線を確認。"
+        },
+        {
+          "type": "human_review",
+          "source_id": "publication-review-2026-09-19-p2",
+          "locator": "P2。人間確認により、原画像の「見えない」の対象『え』は現代仮名と同じ通常の『え』に見え、U+1B012 𛀒 の実例としては不採用と裁定。確認対象位置または字形DB対応の再調査が必要。"
         }
       ],
-      "review_status": "context-checked",
-      "reviewed_by": "context-image-pass-2026-09-19",
+      "review_status": "rejected",
+      "reviewed_by": "human-publication-review-2026-09-19",
       "reviewed_at": "2026-09-19",
-      "notes": "Phase 2C-2 context-checked. Phase 2C-1で一意対応済みの対象「え」について、同一底本の国語研高解像度原画像（巻五6ウ / brsk005-014）を直接確認。前接「見」から対象 𛀒（え）へ連続する筆線を視認したため renmen=true。教材利用は human-confirmed 前のため未実施。",
+      "notes": "Phase 2C-2 context-checked. Phase 2C-1で一意対応済みの対象「え」について、同一底本の国語研高解像度原画像（巻五6ウ / brsk005-014）を直接確認。前接「見」から対象 𛀒（え）へ連続する筆線を視認したため renmen=true。教材利用は human-confirmed 前のため未実施。 2026-09-19 human review: 『見えない』の対象『え』は現代仮名と同じ通常の『え』に見えるため、U+1B012 𛀒 の公開実例としてはNG。位置対応または字体分類の再調査対象。",
       "text_alignment_method": "unique-normalized-kana-on-folio",
       "text_alignment_evidence": "巻五6ウの公式翻字本文では平仮名「え」は「見えない」の1箇所のみ。字形DBでは同丁 brsk005-014 に U+1B012 の対象出現が1件（ID0153, X=1181, Y=1197）のため一意に対応。"
     },
@@ -2655,12 +2660,13 @@
     "totalExamples": 49,
     "sourceChecked": 39,
     "exactText": 0,
-    "contextChecked": 9,
+    "contextChecked": 8,
     "humanConfirmed": 1,
     "variantGlyphExamples": 44,
     "iseMonogatariExamples": 33,
     "sourceCheckedOrBetter": 49,
     "exact": 10,
-    "exactTextReached": 10
+    "exactTextReached": 10,
+    "rejected": 1
   }
 }
