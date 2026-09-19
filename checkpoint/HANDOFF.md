@@ -319,3 +319,44 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 5. `checkpoint/data/boundary_resolver_regression_20260919.json`
 6. `checkpoint/data/context_resolver_rules.json`
 7. `checkpoint/db-shadow.js`
+
+
+## 2026-09-19 17:41 JST セッション停止チェックポイント
+
+### 正本現在値
+- shadow: **v0.11**
+- legacy unique: 310
+- DB raw: **310**
+- resolved: **121**
+- suppressed: **189**
+- DB only: **0**
+- resolved率: **39.0%**
+- context-required: **85**
+
+残件:
+`て28 / を21 / に20 / と10 / が3 / な1 / せ1 / ぬ1`
+
+### 今回の重要成果
+1. 引用符直後の `と` 13件を hard-boundary でresolved。
+2. `ば` は4サンプル上のcontext-requiredを0まで整理。
+3. local boundary signal層を導入。ただしsignal単独ではresolveしない。
+4. 百人一首第9首を完全一致evidence化し、和歌サンプルのcontext-requiredを0へ。
+5. `遣はし / 御越し / たなびき / 取り出だし / 物もなし / うち合せて` の内部短hitを、出典付き境界として安全に整理。
+6. 安倍晴明本文の残 `し` 8位置をサ変「す」連用形としてpassage-specificにresolved。学習価値があるため抑制しなかった。
+7. Abe grammar evidence は38件、回帰38/38 PASS。
+
+### 次回の最優先
+- `て28 / を21 / に20 / と10` を中心に、局所boundary/tokenizerを設計・監査する。
+- まずwhole-tokenとexact passage evidenceを増やし、signalだけで品詞確定しない。
+- `不便にせさせ給ひ` の最初の `せ` は一次資料待ち。
+- learner-visibleはlegacyのまま維持し、shadowの安全性検証を続ける。
+
+### 再開時に読む順
+1. この節
+2. `data/shadow_audit_20260919.json`
+3. `data/context_required_backlog_20260919.json`
+4. `data/local_boundary_policy.json`
+5. `data/local_boundary_audit_20260919.json`
+6. `data/abe_seimei_grammar_evidence.json`
+7. `data/hyakunin_disambiguation_evidence.json`
+8. `db-shadow.js`
