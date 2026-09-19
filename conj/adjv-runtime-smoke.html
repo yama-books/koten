@@ -32,7 +32,7 @@ th,td{border:1px solid #ccc;padding:7px;text-align:left;vertical-align:top}
     const tashiPos=indexText.indexOf('{id:"tashi_aux"');
     const tashiSegment=tashiPos>=0?indexText.slice(tashiPos,tashiPos+1000):"";
     const mainConnected=
-      indexText.includes('<script src="./adjv-runtime-adapter.js"></script>') &&
+      indexText.includes('<script src="./adjv-runtime-adapter.js"') &&
       indexText.includes("loadAdjvRuntimeItems");
     const tashiCorrection=
       tashiSegment.includes('F(["たかる"])') &&
