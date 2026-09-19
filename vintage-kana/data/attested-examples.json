@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "phase6-human-confirmation-in-progress",
+  "status": "phase6-minimum-human-confirmed-reached",
   "examples": [
     {
       "example_id": "att-brsk005-u3057-f07b-x0563-y2069",
@@ -2492,7 +2492,7 @@
       "context_alignment_status": "exact",
       "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/hnsd/txt/hnsd-001.txt#8ウ",
       "context_original": null,
-      "transcription": "汲みとりかねておもはずもなみだに",
+      "transcription": "汲｛くみ｝とりかねておもはずもなみだに",
       "normalized_reading": "かねて",
       "word": "かねて",
       "position_in_word": "medial",
@@ -2521,12 +2521,17 @@
           "type": "attested_context",
           "source_id": "ninjal-history-source-image",
           "locator": "初編上 8ウ / hnsd001-026。IIIF manifestで丁ラベルと画像寸法を確認し、字形DB occurrence ID0111 (X=522, Y=1719) を国語研原画像上で直接確認。連綿は画像確認済みだが true/false の二値判定を安全に行えないため unknown とした。"
+        },
+        {
+          "type": "human_review",
+          "source_id": "publication-review-2026-09-19-p4",
+          "locator": "P4。人間確認により、原画像の「汲｛くみ｝とりかねて」の「ね」を U+1B094 𛂔 / 字母「年」と確認し、教材採用可と裁定。公式翻字は「汲み」と平文化せず、「汲」に「くみ」の振り仮名が付く構造を保持する。"
         }
       ],
-      "review_status": "context-checked",
-      "reviewed_by": "context-image-pass-2026-09-19",
+      "review_status": "human-confirmed",
+      "reviewed_by": "human-publication-review-2026-09-19",
       "reviewed_at": "2026-09-19",
-      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字で平仮名「ね」は「かねて」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。",
+      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字で平仮名「ね」は「かねて」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。 2026-09-19 human review: 「汲｛くみ｝とりかねて」の「ね」を U+1B094 𛂔 / 字母「年」と確認し教材採用可。公式翻字表示は「汲み」と単純化せず、「汲」に「くみ」の振り仮名が付く構造を保持する。",
       "text_alignment_method": "unique-normalized-kana-on-folio",
       "text_alignment_evidence": "同丁の公式翻字で平仮名「ね」は「かねて」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。"
     },
@@ -2665,8 +2670,8 @@
     "totalExamples": 49,
     "sourceChecked": 39,
     "exactText": 0,
-    "contextChecked": 7,
-    "humanConfirmed": 2,
+    "contextChecked": 6,
+    "humanConfirmed": 3,
     "variantGlyphExamples": 44,
     "iseMonogatariExamples": 33,
     "sourceCheckedOrBetter": 49,
