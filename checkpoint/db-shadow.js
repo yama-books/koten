@@ -374,12 +374,20 @@ function ambiguousSurfaceResolverRules(surface){
 function resolveAmbiguousSurfaceHit(text,hit){
   const rules=ambiguousSurfaceResolverRules(hit.surface);
   if(!rules.length) return null;
-  const prev=previousFormEvidence(text,hit.start);
-  if(!prev) return null;
   const candidateIds=hitCandidateIds(hit);
   for(const r of rules){
-    if(r.previousForm && r.previousForm!==prev.form) continue;
-    if(!classMatchesRule(prev.conjugationClass,r.previousClassIncludes)) continue;
+    let prev=null;
+    if(r.previousForm || (r.previousClassIncludes||[]).length){
+      prev=previousFormEvidence(text,hit.start);
+      if(!prev) continue;
+      if(r.previousForm && r.previousForm!==prev.form) continue;
+      if(!classMatchesRule(prev.conjugationClass,r.previousClassIncludes)) continue;
+    }
+    let previousChars=null;
+    if((r.previousChars||[]).length){
+      previousChars=(r.previousChars||[]).find(s=>hit.start>=s.length && text.slice(hit.start-s.length,hit.start)===s);
+      if(!previousChars) continue;
+    }
     const next=(r.nextStartsWith||[]).find(s=>text.startsWith(s,hit.end));
     if((r.nextStartsWith||[]).length && !next) continue;
     const supported=(r.supportCandidateIds||[]).filter(id=>candidateIds.has(id));
@@ -389,10 +397,11 @@ function resolveAmbiguousSurfaceHit(text,hit){
         mode:r.mode,
         supportCandidateIds:supported,
         previousEvidence:prev,
+        previousChars:previousChars||null,
         nextSurface:next||null,
         sourceCue:r.sourceCue||null,
         safety:r.safety||null,
-        evidence:"context_resolver_rules.json + "+prev.evidence
+        evidence:prev ? "context_resolver_rules.json + "+prev.evidence : "context_resolver_rules.json + discrimination_source_usb3212.json"
       };
     }
   }
