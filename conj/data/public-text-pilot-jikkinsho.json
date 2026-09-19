@@ -1,0 +1,128 @@
+{
+  "updated": "2026-09-19",
+  "work": "十訓抄",
+  "status": "pilot / partial-publication-ready",
+  "provider": "やたがらすナビ",
+  "edition": {
+    "title": "宮内庁書陵部本『十訓抄』",
+    "url": "https://yatanavi.org/text/jikkinsho/index.html",
+    "bibliographicSource": "宮内庁書陵部本。影印: 笠間影印叢刊『御所本十訓抄』",
+    "rightsVerified": true,
+    "sourceLicense": "CC BY-SA 4.0",
+    "rightsNote": "校訂本文はCC BY-SA 4.0、翻刻部分は自由利用可と作品トップに明記。"
+  },
+  "policyNote": "同一作品の公開本文でtargetを確認できた例だけ公開接続する。引用漢詩4例は別作品『和漢朗詠集』Wikisourceに同じ訓読語形のparallel witnessがあるが、十訓抄の公開版そのものでは助詞・助動詞を表出しないため今回は未公開。",
+  "records": [
+    {
+      "id": "adjv-006",
+      "chjTarget": "やはらかなり",
+      "publicTarget": "やはらかなり",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/jikkinsho/s_jikkinsho01-04",
+      "excerpt": "召伯が政のやはらかなりし、州民甘棠の詠をなし",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連用形「なり」＋過去「し」。"
+    },
+    {
+      "id": "adjv-018",
+      "chjTarget": "さまざまなれ",
+      "publicTarget": "さまざまなれ",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/jikkinsho/s_jikkinsho06-38",
+      "excerpt": "衆生の宿執、さまざまなれば、仏の御教へもまた、さまざまなり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "已然形「なれ」＋接続助詞「ば」。"
+    },
+    {
+      "id": "adjv-037",
+      "chjTarget": "おだやかなら",
+      "publicTarget": "おだやかなら",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/jikkinsho/s_jikkinsho02-00",
+      "excerpt": "あるいは、自由の方にて、おだやかならず",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "未然形「なら」＋打消「ず」。"
+    },
+    {
+      "id": "adjv-055",
+      "chjTarget": "まれなり",
+      "publicTarget": "まれなり",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/jikkinsho/s_jikkinsho01-23",
+      "excerpt": "かの名をば知れる人、いとまれなり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "終止形「なり」。"
+    },
+    {
+      "id": "adjv-085",
+      "chjTarget": "閑かに",
+      "publicTarget": "閑かに",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/jikkinsho/s_jikkinsho00-00",
+      "excerpt": "閑かに諸法実相の理を案ずるに",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連用形「に」。公開版のルビを表示用excerptでは除いた基底本文。"
+    },
+    {
+      "id": "adjv-099",
+      "chjTarget": "瀼々たり",
+      "publicTarget": null,
+      "targetVerified": false,
+      "parallelTargetVerified": true,
+      "parallelSource": "https://ja.wikisource.org/wiki/和漢朗詠集",
+      "parallelTarget": "瀼々たり",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "十訓抄公開版は漢文「姑蘇臺之露瀼々」。和漢朗詠集Wikisourceには訓読「瀼々たり」があるが、same-work witnessではないため保留。"
+    },
+    {
+      "id": "adjv-101",
+      "chjTarget": "片々たり",
+      "publicTarget": null,
+      "targetVerified": false,
+      "parallelTargetVerified": true,
+      "parallelSource": "https://ja.wikisource.org/wiki/和漢朗詠集",
+      "parallelTarget": "片々たり",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "十訓抄公開版は漢文「咸陽宮之煙片々」。和漢朗詠集Wikisourceに訓読あり。same-work witnessではないため保留。"
+    },
+    {
+      "id": "adjv-108",
+      "chjTarget": "渺茫と",
+      "publicTarget": null,
+      "targetVerified": false,
+      "parallelTargetVerified": true,
+      "parallelSource": "https://ja.wikisource.org/wiki/和漢朗詠集",
+      "parallelTarget": "眇茫と",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "十訓抄公開版は漢文「楚思渺茫雲水冷」。和漢朗詠集Wikisourceは「眇茫として」と訓読。字形差もあるため保留。"
+    },
+    {
+      "id": "adjv-110",
+      "chjTarget": "清脆と",
+      "publicTarget": null,
+      "targetVerified": false,
+      "parallelTargetVerified": true,
+      "parallelSource": "https://ja.wikisource.org/wiki/和漢朗詠集",
+      "parallelTarget": "清脆と",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "十訓抄公開版は漢文「商声清脆管絃秋」。和漢朗詠集Wikisourceは「清脆として」と訓読。same-work witnessではないため保留。"
+    }
+  ],
+  "counts": {
+    "total": 9,
+    "rightsVerified": 9,
+    "targetVerifiedSameWork": 5,
+    "parallelTargetVerified": 4,
+    "excerptReviewed": 5,
+    "publicationEnabled": 5
+  }
+}
