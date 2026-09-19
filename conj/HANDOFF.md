@@ -439,3 +439,22 @@ main接続後の状態を再確認した。
 
 原文表記差は `publicTarget` で分離し、CHJ側targetを上書きしない。
 次は土佐日記・竹取物語等を同じゲートで監査し、target照合を増やす。
+
+
+## 15. 公開本文4ゲート: 竹取物語完了（2026-09-19）
+
+『竹取物語』（國民文庫・Wikisource）の4例は、sourceFound / rightsVerified / targetVerified / excerptReviewed の全ゲートを通過した。
+
+- adjv-035 `まめなら`
+- adjv-044 `けうらなり`
+- adjv-064 `清（けう）らなる`
+- adjv-082 `強（あながち）に`
+
+`data/adjectival-noun-public-examples.json` に4例を接続済み。公開実例総数は7。
+
+次の安全な開始地点:
+1. 土佐日記5例のexcerptReviewedを進める
+2. 徒然草5例
+3. 古今和歌集4例
+4. 各作品完了ごとにpublic examples / source registry / PROGRESSを更新
+5. 作品単位で4ゲート完了するまでは未監査例を公開しない
