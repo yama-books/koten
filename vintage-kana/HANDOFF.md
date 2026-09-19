@@ -531,3 +531,22 @@ Phase 2C のMVP区切り後、そのままPhase 4・5へ移行した。
 6. 公開版表記へ更新して一次公開
 
 GitHub/Web-only・ローカル非接触方針は維持。
+
+
+## 16. 2026-09-19 21:06 JST 一時停止
+
+チャット／ツール実行が硬直気味になったため、依頼者指示で一時停止。
+
+詳細:
+- `SESSION_CHECKPOINT_2026-09-19_2106_PAUSE.md`
+
+停止時点:
+- Phase 2C MVP区切り: **context-checked 10件達成済み**
+- total 49 / exact 10 / context-checked 10 / human-confirmed 0
+- 一次公開UI 0.5〜読解UI 0.6 実装済み
+- 公開候補5件は `PUBLICATION_REVIEW_QUEUE.md` に固定済み
+- 公開面は human-confirmed のみ表示する安全ゲート実装済み
+- JavaScript構文検査 PASS
+- 一次公開までの進捗概算: **約80〜85%完了 / 残り約15〜20%**
+
+再開は研究追加ではなく、公開候補P1〜P5の人間確認と実ブラウザQAから行う。
