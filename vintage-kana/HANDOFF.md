@@ -387,3 +387,32 @@ Phase 2C-1 で字形DB occurrence と公式翻字の一意対応は済んでい�
 - 9ウ「たえ」
 
 を原画像確認し、次の区切り `context-checked = 5` を目指す。
+
+
+## 13. Phase 2C-2: context-checked 5件達成
+
+ローカル非接触のまま、Phase 2C-1 exact-text 5件をすべて原画像確認し Stage B へ昇格した。
+
+現在:
+- total: 44
+- review_status=source-checked: 39
+- source-checked以上: 44
+- alignment exact-text: 0
+- alignment exact: 5
+- context-checked: 5
+- human-confirmed: 0
+
+5件はいずれも『諸国方言物類称呼』巻五。
+4件は U+1B012 𛀒、1件は U+3048 え。
+各ページの国語研高解像度JPEGを直接画像確認し、対象字形と公式翻字の対応および連綿を確認した。
+5件とも `renmen=true`。
+
+### 次
+
+ROADMAPの偏り制約に従い、次の context-checked 5件は
+- 別字体
+- 可能なら別witness
+- 前・中・後の複数位置
+
+を含める。
+まず『伊勢物語』Stage A 33件から、原画像と本文を同一witnessで対応できる候補を選ぶ。

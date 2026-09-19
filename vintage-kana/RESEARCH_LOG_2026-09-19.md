@@ -415,3 +415,24 @@ Stage A追加ではなく、同じ4オ候補の原画像表示を最優先する
 
 ROADMAPの最初のStage B節目 `context-checked=1` を達成。
 次は残り4件を同じ方法で確認し、5件到達を目指す。
+
+
+## 17. Phase 2C-2 context-checked 5件達成
+
+Phase 2C-1 exact-text 5件を、同一底本の国語研高解像度原画像で全件確認した。
+
+結果:
+1. 4オ / U+1B012 / 「見えず」 / renmen=true
+2. 6ウ / U+1B012 / 「見えない」 / renmen=true
+3. 7オ / U+1B012 / 「見えたり」 / renmen=true
+4. 16ウ / U+1B012 / 「見えたり」 / renmen=true
+5. 9ウ / U+3048 / 「たえ」 / renmen=true
+
+全件を:
+- `context_alignment_status: exact`
+- `review_status: context-checked`
+
+へ更新。
+
+5件とも同一witness・同じ音価「え」に偏るため、この結果だけから一般規則化しない。
+次の5件は別字体・別witnessを含むようにする。

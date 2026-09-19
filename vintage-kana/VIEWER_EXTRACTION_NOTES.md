@@ -261,3 +261,25 @@ Google Slides の公開URL画像取り込みを経由し、PPTXへ書き出し�
 
 注意:
 このブリッジは取得手段であり、典拠はGoogle Slidesではなく国語研公開原画像である。
+
+
+## 14. Phase 2C-2 バッチ確認: exact-text 5件を原画像確認
+
+Google Slides ブリッジを使い、次の高解像度本文JPEGを一括取得した。
+
+- `brsk005-009.jpg` (4オ)
+- `brsk005-014.jpg` (6ウ)
+- `brsk005-015.jpg` (7オ)
+- `brsk005-034.jpg` (16ウ)
+- `brsk005-020.jpg` (9ウ)
+
+PPTXへ書き出した埋め込みJPEGは各ページ 1327×2048 px。
+原画像上で exact-text 5件の対象位置を拡大し、対象字形と周辺筆線を確認した。
+
+結果:
+- 5件すべてで対象文字が連綿に参加
+- `renmen=true`
+- `context_alignment_status=exact`
+- `review_status=context-checked`
+
+Google Slidesは取得ブリッジにすぎず、根拠は国語研公開画像。

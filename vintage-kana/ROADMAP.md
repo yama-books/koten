@@ -14,7 +14,7 @@ Phase 1  字体分布コーパス                   ✅ 完了
 Phase 2  実例コーパス                       ▶ 進行中
   2A 書誌・候補選定                         ✅ 完了
   2B Stage A: source-checked 実例採取        ✅ パイプライン成立・必要量確保
-  2C Stage B: context-checked 文脈対応        ▶ 進行中（context-checked 1件達成）
+  2C Stage B: context-checked 文脈対応        ▶ 進行中（context-checked 5件達成）
   2D 比較可能な実例セット整備                ⏳
 Phase 3  観察結果と先行研究の照合             ◐ 一部着手
 Phase 4  教材データ生成                       ⏳
@@ -29,10 +29,12 @@ Phase 7  継続拡張                             ⏳
 - 派生セル: 3,750
 - 補遺「ん」: 15件
 - `attested-examples.json`: **44件**
-  - source-checked: **44**
-  - exact-text（現在 exact-text 状態）: **4**
-  - exact / context-checked: **1**
-  - exact-text 到達経験: **5**
+  - source-checked（現在のreview_status）: **39**
+  - source-checked以上: **44**
+  - exact-text（現在のalignment状態）: **0**
+  - exact: **5**
+  - exact-text以上到達: **5**
+  - context-checked: **5**
   - human-confirmed: **0**
   - 変体仮名字形 U+1B***: **39**
   - 『伊勢物語』: **33**
@@ -221,8 +223,8 @@ Stage A の「位置が分かる実例」を二段階で深める。
 1. **exact-text 1件** ✅
 2. **exact-text 5件** ✅
 3. **context-checked 1件** ✅
-4. context-checked 5件 ← 現在ここ
-5. context-checked 10件
+4. **context-checked 5件** ✅
+5. context-checked 10件 ← 現在ここ
 
 ただし、同一ページや同一語に偏らせず、
 - 2 witness 以上
@@ -468,7 +470,7 @@ human-confirmed:
 4. exact-text 1件を確定 ✅
 5. exact-text 5件まで再現し、方法の安定性を確認 ✅
 6. 原画像確認経路を確立し、最初の context-checked 1件を作る ✅
-7. context-checked 5件、10件へ拡張 ← 現在
+7. context-checked 5件 ✅、10件へ拡張 ← 現在
 8. 各節目でチェックポイントを更新する
 
 ### 2026-09-19 15:34 JST 進捗
@@ -523,3 +525,19 @@ Work 資源枯渇中のため、現在はローカルを触らず GitHub `yama-b
 
 次の区切りは **context-checked 5件**。
 同じ exact-text 5件の残り4件を優先して原画像確認する。
+
+
+### 2026-09-19 context-checked 5件達成
+
+Phase 2C-1 で exact-text にした『諸国方言物類称呼』巻五の5件すべてを、
+同一底本の国語研高解像度原画像で確認し `context-checked` へ昇格した。
+
+- 4オ U+1B012 𛀒 「見えず」: `renmen=true`（対象から後続「ず」へ連続）
+- 6ウ U+1B012 𛀒 「見えない」: `renmen=true`（前接「見」から対象へ連続）
+- 7オ U+1B012 𛀒 「見えたり」: `renmen=true`（前接「見」から対象へ連続）
+- 16ウ U+1B012 𛀒 「見えたり」: `renmen=true`（前接「見」から対象へ連続）
+- 9ウ U+3048 え 「たえ」: `renmen=true`（前接「た」から対象へ連続）
+
+`human-confirmed` は 0 件のまま。
+次の節目は **context-checked 10件**。
+同一ページ・同一語への偏りを避けるため、次の5件は別の字体・witnessを含める。
