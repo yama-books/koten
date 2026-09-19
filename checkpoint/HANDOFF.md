@@ -360,3 +360,61 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 6. `data/abe_seimei_grammar_evidence.json`
 7. `data/hyakunin_disambiguation_evidence.json`
 8. `db-shadow.js`
+
+
+## 2026-09-19 次区切りチェックポイント: shadow v0.12
+
+### 一旦のゴール達成
+前回停止時 `context-required 85 / resolved 121` から、同程度の進捗を目標に進めた。
+今回の終了値:
+- legacy unique: 310
+- DB raw: **310**
+- resolved: **161**
+- suppressed: **149**
+- DB only: **0**
+- resolved率: **51.9%**
+- context-required: **38**
+
+前回比:
+- resolved **+40**
+- context-required **-47**
+
+### 今回の中核
+`abe_seimei_particle_evidence.json` を新設し、文法・助動詞evidenceと助詞evidenceを分離。
+
+本文上47位置:
+- `て` 20位置 → 接続助詞候補として exact resolved
+- `を` 20位置 → 格助詞候補として exact resolved
+- `とて` 内部 `て` 6位置 → 分析揺れ保持の larger-unit suppression
+- `さて` 内部 `て` 1位置 → lexical larger-unit suppression
+
+回帰:
+- `abe_seimei_particle_regression_20260919.json`
+- expected: 47 effects = 40 resolved + 7 suppressed
+- full 4-sample result: raw 310 / resolved 161 / suppressed 149 / context-required 38 / DB only 0
+
+### 残38
+`に20 / と10 / が3 / て1 / ぬ1 / を1 / な1 / せ1`
+
+### 次回の優先順位
+1. `に20`
+   - 体言＋格助詞
+   - 連体形＋接続助詞
+   - 断定「なり」連用形
+   - 完了「ぬ」連用形
+   を passage-specific evidence と局所構文で分離。
+2. `と10`
+   - `日ごと` の語内部
+   - `む/じ＋と＋す`
+   - 引用
+   - 名詞＋と
+   を混ぜずに処理。
+3. `が3`
+   - 接続助詞1件と格助詞2件の可能性を本文構造で監査。
+4. 各1件の `て/ぬ/を/な/せ` は別サンプルまたは一次資料待ちなので、無理にまとめない。
+
+### 維持する安全策
+- exact evidenceは当該本文だけ。
+- 外部Web照合はprimary-source-verifiedへ昇格しない。
+- local boundary signal単独ではresolveしない。
+- learner-visible detectorはlegacyのまま。
