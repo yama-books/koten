@@ -477,10 +477,64 @@ function hitCandidateIds(hit){
 }
 
 
+
+function exactAbeKakariLinks(text){
+  const entries=window.CHECKPOINT_DATA?.abeSeimeiKakariEvidence?.entries;
+  if(!Array.isArray(entries)) return [];
+  const links=[];
+  for(const e of entries){
+    if(!e.phrase || !e.particle) continue;
+    let pos=0;
+    while(true){
+      const p=text.indexOf(e.phrase,pos);
+      if(p<0) break;
+      const particleLocal=Number.isInteger(e.particleOffset) ? e.particleOffset : e.phrase.indexOf(e.particle);
+      const particleStart=p+particleLocal;
+      let endingStart=null,endingEnd=null;
+      if(e.endingSurface){
+        const local=e.phrase.lastIndexOf(e.endingSurface);
+        if(local>=0){
+          endingStart=p+local;
+          endingEnd=endingStart+e.endingSurface.length;
+        }
+      }
+      links.push({
+        id:e.id||null,
+        phrase:e.phrase,
+        phraseStart:p,
+        phraseEnd:p+e.phrase.length,
+        particle:e.particle,
+        particleStart,
+        particleEnd:particleStart+e.particle.length,
+        relation:e.relation||"係り結び",
+        expectedEndingForm:e.expectedEndingForm||null,
+        endingSurface:e.endingSurface||null,
+        endingStart,endingEnd,
+        sourceAnalysis:e.sourceAnalysis||"",
+        scopeLinked:true,
+        evidence:"abe_seimei_kakari_evidence.json"
+      });
+      pos=p+Math.max(1,e.phrase.length);
+    }
+  }
+  return links;
+}
+
+function kakariLinksForHit(links,hit){
+  return (links||[]).filter(x =>
+    x.endingSurface &&
+    x.endingStart===hit.start &&
+    x.endingEnd===hit.end &&
+    x.endingSurface===hit.surface
+  );
+}
+
+
 function resolveDbShadowHits(text){
   const raw=rawSurfaceIndexHits(text);
   const whole=knownWholeInflectedHits(text);
   const boundaryHits=knownBoundaryTokenHits(text);
+  const exactKakariLinks=exactAbeKakariLinks(text);
   const suppressed=[];
   const resolved=[];
 
@@ -634,8 +688,17 @@ function resolveDbShadowHits(text){
   }
 
   resolved.push(...whole);
+  for(const h of resolved){
+    const links=kakariLinksForHit(exactKakariLinks,h);
+    if(links.length){
+      h.scopeLinkedKakari=links;
+      h.analysisConfidence=h.analysisConfidence==="candidate-only"
+        ? "scope-linked-candidate-support"
+        : h.analysisConfidence;
+    }
+  }
   resolved.sort((a,b)=>a.start-b.start || (b.end-b.start)-(a.end-a.start));
-  return {raw,resolved,suppressed,whole,boundaryHits};
+  return {raw,resolved,suppressed,whole,boundaryHits,exactKakariLinks};
 }
 
 function detectFromSurfaceIndex(text){
@@ -673,6 +736,8 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     dbSuppressedCount:state.suppressed.length,
     knownWholeFormHitCount:state.whole.length,
     knownBoundaryTokenHitCount:state.boundaryHits?.length||0,
+    exactKakariLinkCount:state.exactKakariLinks?.length||0,
+    exactKakariSupportedHitCount:dbHits.filter(h=>(h.scopeLinkedKakari||[]).length).length,
     contextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-connection").length,
     exactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-exact-phrase").length,
     sourceExactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-phrase").length,
