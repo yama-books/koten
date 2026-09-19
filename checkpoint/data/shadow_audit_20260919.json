@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.12",
+  "schemaVersion": "0.13",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -18,21 +18,21 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 161,
-    "dbSuppressed": 149,
-    "matched": 161,
+    "dbResolved": 186,
+    "dbSuppressed": 124,
+    "matched": 186,
     "dbOnly": 0,
-    "legacyOnlyUnique": 149,
+    "legacyOnlyUnique": 124,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.5193548387096775,
+    "resolvedMatchRateOfUniqueLegacy": 0.6,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 38,
+      "context-required-not-yet-resolved": 10,
       "indexed-larger-surface": 48,
       "known-larger-token": 39,
       "audited-exact-phrase-nonauxiliary": 1,
       "source-exact-bunsetu-lexical-unit": 2,
-      "source-exact-phrase-larger-unit": 14,
-      "source-exact-particle-larger-unit": 7
+      "source-exact-particle-larger-unit": 10,
+      "source-exact-phrase-larger-unit": 14
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
@@ -42,8 +42,8 @@
     "sourceExactPhraseResolved": 25,
     "sourceExactPhraseSuppressed": 14,
     "hardBoundaryResolved": 13,
-    "sourceExactParticleResolved": 40,
-    "sourceExactParticleSuppressed": 7
+    "sourceExactParticleResolved": 65,
+    "sourceExactParticleSuppressed": 10
   },
   "samples": [
     {
@@ -115,17 +115,17 @@
       "legacyUnique": 273,
       "legacyDuplicates": 33,
       "dbRaw": 273,
-      "dbResolved": 143,
-      "dbSuppressed": 130,
-      "matched": 143,
+      "dbResolved": 168,
+      "dbSuppressed": 105,
+      "matched": 168,
       "dbOnly": 0,
-      "legacyOnlyUnique": 130,
+      "legacyOnlyUnique": 105,
       "suppressionReasons": {
-        "context-required-not-yet-resolved": 33,
+        "context-required-not-yet-resolved": 5,
         "indexed-larger-surface": 39,
         "known-larger-token": 37,
         "source-exact-phrase-larger-unit": 14,
-        "source-exact-particle-larger-unit": 7
+        "source-exact-particle-larger-unit": 10
       },
       "resolutionReasons": {
         "resolved-by-source-exact-phrase": 17,
@@ -246,15 +246,15 @@
     "abeParticle": {
       "source": "abe_seimei_particle_regression_20260919.json",
       "result": "PASS",
-      "evidenceEntries": 42,
-      "effectPositions": 47,
-      "resolved": 40,
-      "suppressed": 7,
+      "evidenceEntries": 70,
+      "effectPositions": 75,
+      "resolved": 65,
+      "suppressed": 10,
       "expectedTotals": {
         "raw": 310,
-        "resolved": 161,
-        "suppressed": 149,
-        "contextRequired": 38,
+        "resolved": 186,
+        "suppressed": 124,
+        "contextRequired": 10,
         "dbOnly": 0
       }
     }
@@ -295,14 +295,20 @@
     "安倍晴明本文の「て」20位置を接続助詞候補、「を」20位置を格助詞候補としてpassage-specific resolved。",
     "「とて」6位置は一語扱い／と＋て分析の揺れを保持して内部「て」を抑制。「さて」内部「て」1位置も語内部として抑制。",
     "v0.11→v0.12でcontext-required 85→38、resolved 121→161。raw 310 / DB only 0を維持。",
-    "停止時点resolved率は161/310=51.9%。正答率ではなく保守的gate通過率。"
+    "停止時点resolved率は161/310=51.9%。正答率ではなく保守的gate通過率。",
+    "安倍晴明本文の「に」15位置を格助詞としてexact resolvedし、「たちまちに」内部1位置は副詞全体優先でsuppression。",
+    "安倍晴明本文の「と」は7位置を格助詞としてresolvedし、「日ごと」「こと」内部2位置をlarger-unit suppression。",
+    "安倍晴明本文の「が」は接続助詞1位置・格助詞2位置をpassage-specific resolved。",
+    "「～けるに／～給ふに／～するに／～るるに」4位置は格助詞・接続助詞の分析揺れを理由に保留。",
+    "v0.12→v0.13でcontext-required 38→10、resolved 161→186。raw 310 / DB only 0を維持。",
+    "停止時点resolved率は60.0%。正答率ではなく保守的gate通過率。"
   ],
   "next": [
-    "残38位置の主対象は「に20 / と10」。次いで「が3」、他は各1。",
-    "安倍晴明サンプルの「て」「を」はcontext-required 0。別サンプルに各1件のみ残る。",
-    "次は「に」を体言接続／連体形接続／断定なり／完了ぬへ分ける局所syntax evidenceを作る。",
-    "「と」は日ごと内部・む/じ＋とす・引用・結果格等を混ぜず、larger-unitとexact passageの二段階で監査する。",
-    "learner-visibleはlegacyのまま維持する。"
+    "残10位置は、安倍晴明5（に4・せ1）、識別サンプル4（ぬ・を・と・な各1）、枕草子1（て）。",
+    "安倍晴明の「に」4件は分析揺れを解消する一次資料または採用する学校文法方針が決まるまで保留。",
+    "「不便にせさせ給ひ」の最初の「せ」は助動詞「さす」の一次資料接続確認待ち。",
+    "識別サンプル4件は曖昧性テストとして残す価値があるため、安易にexact解答化しない。",
+    "枕草子「あかりて」は本文出典を使ったexact evidence化候補。"
   ],
   "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。",
   "contextResolver": {
@@ -424,12 +430,11 @@
     "role": "evidence preservation + trusted boundary; not grammar-authoritative"
   },
   "unresolvedBySurface": {
-    "に": 20,
-    "と": 10,
-    "が": 3,
+    "に": 4,
     "て": 1,
     "ぬ": 1,
     "を": 1,
+    "と": 1,
     "な": 1,
     "せ": 1
   },
