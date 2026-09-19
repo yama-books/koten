@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 独立gold set 3: 方丈記冒頭「ゆく河の流れ」",
+  "work": "方丈記",
+  "section": "冒頭 ゆく河の流れ",
+  "excerptRange": "ゆく河の流れは絶えずして〜またかくのごとし。",
+  "purpose": "徒然草・伊勢物語をdevelopment setへ移した後、token morphology＋strict ambiguous-surface rulesの一般化をblind評価する第三作品。",
+  "freeze": {
+    "status": "FROZEN_BEFORE_SHADOW_EVALUATION",
+    "shadowVersionAtFreeze": "v0.15-token-morphology",
+    "rule": "このgoldをcommitした後に初めて現行shadowを実行する。採点結果を見てgoldを書き換えない。"
+  },
+  "text": "ゆく河の流れは絶えずして、しかも、もとの水にあらず。よどみに浮かぶうたかたは、かつ消えかつ結びて、久しくとどまりたるためしなし。世の中にある人とすみかと、またかくのごとし。",
+  "textLength": 86,
+  "evaluationUniverse": {
+    "basis": "surface_index.json の表面形が本文に文字列一致する全位置。shadow resolver出力はgold作成に未使用。",
+    "rawPositions": 22,
+    "expectedActionCounts": {
+      "resolveCandidate": 7,
+      "suppressInsideLargerUnit": 14,
+      "resolveAuxiliaryLemma": 1
+    }
+  },
+  "sourcePolicy": [
+    "本文・品詞分解を独立した複数資料で照合する。",
+    "外部Web資料はblind評価goldの根拠であり、grammar masterをprimary-source-verifiedへ昇格させる根拠にはしない。",
+    "資料に明示されない一般規則はgoldへ持ち込まない。"
+  ],
+  "sourceRefs": [
+    {
+      "title": "マナペディア 方丈記『ゆく河の流れ』品詞分解",
+      "url": "https://manapedia.jp/m/text/2223",
+      "role": "全文tokenization・品詞・活用の主照合"
+    },
+    {
+      "title": "品詞分解屋 方丈記『ゆく河の流れ』品詞分解",
+      "url": "https://kobunzukin.blog.fc2.com/blog-entry-148.html",
+      "role": "独立した第二照合"
+    }
+  ],
+  "notes": [
+    "「して」は接続助詞一語として採点し、内部「し」「て」は抑制対象。",
+    "「しかも」は接続詞一語として、内部「しか」「し」を抑制。",
+    "「水に」の「に」は断定「なり」連用形。格助詞として採点しない。",
+    "「よどみに」「世の中に」は格助詞。",
+    "「久しく」「とどまり」「ためし」「なし」「ある」「ごとし」の内部短hitは独立候補としない。",
+    "「たる」は存続の助動詞「たり」の連体形。"
+  ],
+  "entries": [
+    {
+      "id": "hojoki-opening-gold-001",
+      "surface": "して",
+      "start": 10,
+      "end": 12,
+      "context": "河の流れは絶えずして、しかも、もとの水に",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_shite"
+    },
+    {
+      "id": "hojoki-opening-gold-002",
+      "surface": "し",
+      "start": 10,
+      "end": 11,
+      "context": "河の流れは絶えずして、しかも、もとの水",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "して"
+    },
+    {
+      "id": "hojoki-opening-gold-003",
+      "surface": "て",
+      "start": 11,
+      "end": 12,
+      "context": "の流れは絶えずして、しかも、もとの水に",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "して"
+    },
+    {
+      "id": "hojoki-opening-gold-004",
+      "surface": "しか",
+      "start": 13,
+      "end": 15,
+      "context": "れは絶えずして、しかも、もとの水にあらず",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "しかも"
+    },
+    {
+      "id": "hojoki-opening-gold-005",
+      "surface": "し",
+      "start": 13,
+      "end": 14,
+      "context": "れは絶えずして、しかも、もとの水にあら",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "しかも"
+    },
+    {
+      "id": "hojoki-opening-gold-006",
+      "surface": "と",
+      "start": 18,
+      "end": 19,
+      "context": "して、しかも、もとの水にあらず。よどみ",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "もと"
+    },
+    {
+      "id": "hojoki-opening-gold-007",
+      "surface": "に",
+      "start": 21,
+      "end": 22,
+      "context": "しかも、もとの水にあらず。よどみに浮か",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "copula_nari_renyo_ni"
+    },
+    {
+      "id": "hojoki-opening-gold-008",
+      "surface": "に",
+      "start": 29,
+      "end": 30,
+      "context": "にあらず。よどみに浮かぶうたかたは、か",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni"
+    },
+    {
+      "id": "hojoki-opening-gold-009",
+      "surface": "て",
+      "start": 47,
+      "end": 48,
+      "context": "かつ消えかつ結びて、久しくとどまりたる",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te"
+    },
+    {
+      "id": "hojoki-opening-gold-010",
+      "surface": "し",
+      "start": 50,
+      "end": 51,
+      "context": "えかつ結びて、久しくとどまりたるためし",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "久しく"
+    },
+    {
+      "id": "hojoki-opening-gold-011",
+      "surface": "と",
+      "start": 52,
+      "end": 53,
+      "context": "つ結びて、久しくとどまりたるためしなし",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "とどまり"
+    },
+    {
+      "id": "hojoki-opening-gold-012",
+      "surface": "たる",
+      "start": 56,
+      "end": 58,
+      "context": "、久しくとどまりたるためしなし。世の中に",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "たり"
+    },
+    {
+      "id": "hojoki-opening-gold-013",
+      "surface": "る",
+      "start": 57,
+      "end": 58,
+      "context": "久しくとどまりたるためしなし。世の中に",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "たる"
+    },
+    {
+      "id": "hojoki-opening-gold-014",
+      "surface": "し",
+      "start": 60,
+      "end": 61,
+      "context": "とどまりたるためしなし。世の中にある人",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ためし"
+    },
+    {
+      "id": "hojoki-opening-gold-015",
+      "surface": "な",
+      "start": 61,
+      "end": 62,
+      "context": "どまりたるためしなし。世の中にある人と",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なし"
+    },
+    {
+      "id": "hojoki-opening-gold-016",
+      "surface": "し",
+      "start": 62,
+      "end": 63,
+      "context": "まりたるためしなし。世の中にある人とす",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なし"
+    },
+    {
+      "id": "hojoki-opening-gold-017",
+      "surface": "に",
+      "start": 67,
+      "end": 68,
+      "context": "めしなし。世の中にある人とすみかと、ま",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni"
+    },
+    {
+      "id": "hojoki-opening-gold-018",
+      "surface": "る",
+      "start": 69,
+      "end": 70,
+      "context": "なし。世の中にある人とすみかと、またか",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ある"
+    },
+    {
+      "id": "hojoki-opening-gold-019",
+      "surface": "と",
+      "start": 71,
+      "end": 72,
+      "context": "。世の中にある人とすみかと、またかくの",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to"
+    },
+    {
+      "id": "hojoki-opening-gold-020",
+      "surface": "と",
+      "start": 75,
+      "end": 76,
+      "context": "にある人とすみかと、またかくのごとし。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to"
+    },
+    {
+      "id": "hojoki-opening-gold-021",
+      "surface": "と",
+      "start": 83,
+      "end": 84,
+      "context": "と、またかくのごとし。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ごとし"
+    },
+    {
+      "id": "hojoki-opening-gold-022",
+      "surface": "し",
+      "start": 84,
+      "end": 85,
+      "context": "、またかくのごとし。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ごとし"
+    }
+  ]
+}
