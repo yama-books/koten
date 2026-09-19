@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 2-work blind gold failure taxonomy",
+  "basis": [
+    "tsurezure52_shadow_baseline_v014.json",
+    "ise6_akutagawa_shadow_baseline_v014.json",
+    "伊勢物語の3件boundary false-positive修正後の現行shadow"
+  ],
+  "totalExpectedResolveFailures": 38,
+  "byBucket": {
+    "left-token-boundary-or-morphology-missing": 25,
+    "resolved-candidate-set-not-unique": 7,
+    "token-known-morphology-not-connected": 1,
+    "morphology-known-rule-nonunique": 5
+  },
+  "bySurface": {
+    "に": 9,
+    "を": 7,
+    "けれ": 3,
+    "て": 10,
+    "と": 3,
+    "し": 2,
+    "しか": 1,
+    "なり": 1,
+    "たり": 1,
+    "なむ": 1
+  },
+  "interpretation": [
+    "最大要因はresolver規則そのものより、直前tokenの境界・活用情報が届いていないこと。",
+    "「て」は連用形が分かっても完了「つ」と接続助詞が残るため、形態情報だけで一意化しない。",
+    "「に」は連体形後に格助詞・接続助詞が残るため、形態情報だけで一意化しない。",
+    "伊勢物語の二つの「けるを」が格助詞／接続助詞に分かれるため、「けるを」という局所文字列を一般規則化しない。",
+    "候補集合のままresolvedに入る多文字surfaceはstrict resolvedでは成功扱いしない。"
+  ],
+  "recommendedArchitecture": [
+    "一次のaudited500を最優先し、次にsource-reviewed token morphologyをfallbackとして使う。",
+    "source-reviewed morphologyはsurface/lemma/POS/form/classの語形事実だけを保持し、本文の正解candidateは保持しない。",
+    "multi-candidate surfaceは、trusted token boundaryと接続条件の組合せで一意になる場合だけstrict resolvedへ上げる。",
+    "開発に使用した2作品とは別の第三作品で、変更後のblind generalizationを再評価する。"
+  ]
+}
