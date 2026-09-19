@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.3",
+  "schemaVersion": "0.4",
   "updated": "2026-09-19",
   "title": "Checkpoint 既知語境界インデックス",
   "policy": [
@@ -13,8 +13,8 @@
     "外部辞書で一語性を照合した機能語は、出典を明示したうえで文法確定ではなく内部hit抑制専用のtrusted tokenとして追加できる。",
     "独立gold blind baseline後に発見した語内部false-positiveは、文法正解を直接追加せず、複数資料で一語と確認できるlarger-token boundaryとして追加する。"
   ],
-  "entryCount": 338,
-  "suppressibleCount": 338,
+  "entryCount": 339,
+  "suppressibleCount": 339,
   "entries": [
     {
       "surface": "出でおはしましがたから",
@@ -6498,6 +6498,30 @@
           "source": "品詞分解屋 伊勢物語第6段",
           "trust": "secondary",
           "url": "https://kobunzukin.blog.fc2.com/blog-entry-151.html"
+        }
+      ],
+      "trust": "source-reviewed",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "しかも",
+      "length": 3,
+      "sources": [
+        {
+          "source": "Hojoki-third-blind-post-baseline",
+          "trust": "source-reviewed",
+          "pos": "接続詞",
+          "lemma": "しかも"
+        },
+        {
+          "source": "マナペディア 方丈記『ゆく河の流れ』品詞分解",
+          "trust": "secondary",
+          "url": "https://manapedia.jp/m/text/2223"
+        },
+        {
+          "source": "品詞分解屋 方丈記『ゆく河の流れ』",
+          "trust": "secondary",
+          "url": "https://kobunzukin.blog.fc2.com/blog-entry-148.html"
         }
       ],
       "trust": "source-reviewed",
