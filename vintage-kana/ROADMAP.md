@@ -365,7 +365,7 @@ UIは `human-confirmed` のみ表示する。候補5件を `PUBLICATION_REVIEW_Q
 
 ## 5B 読解
 
-状態: ▶ human-confirmed投入待ち
+状態: ✅ MVP実装・公開承認4件投入済み
 
 - 一字
 - 語
@@ -394,7 +394,7 @@ UIは `human-confirmed` のみ表示する。候補5件を `PUBLICATION_REVIEW_Q
 
 # Phase 6 — 人間確認・公開品質保証
 
-状態: ⏳
+状態: ▶ 人間確認ゲート達成 / 実ブラウザ・Pages QA中
 
 ## 完了条件
 
@@ -472,16 +472,16 @@ human-confirmed:
 
 # 現在の次アクション
 
-**現在位置: 一次公開MVP製品化 / Phase 4・5へ移行**
+**現在位置: Phase 6 / 一次公開QA**
 
 1. Phase 2C `context-checked=10` ✅
 2. Phase 2 の追加採取を主工程から外す ✅
-3. 既存UI・試作・データ接続を監査する ← 現在
-4. 字体・字母クイズのMVP教材データを生成
-5. context-checked 10件から公開候補を限定し、人間確認手順を作る
-6. 字体詳細・実例表示・読解の最小UIへ接続
-7. 公開に実際に使う例だけ `human-confirmed` へ昇格
-8. 出典・ライセンス・フォント・モバイル/PC QA
+3. UI 0.7 / 字形一覧・字母クイズ・書いてみる・実資料を読む ✅
+4. 人間確認 P1〜P5 ✅
+5. publication approved 4件 / 最低3件ゲート ✅
+6. PC実ブラウザでフォント・4タブ操作 ← 現在
+7. モバイル幅確認
+8. GitHub Pages実配信・典拠リンク確認
 9. 一次公開
 
 ### 2026-09-19 context-checked 10件達成
@@ -567,3 +567,13 @@ Phase 2C-1 で exact-text にした『諸国方言物類称呼』巻五の5件�
 - 現行 `index.html` のinline JavaScriptはV8構文検査PASS。
 
 現在の主ボトルネックはコード実装ではなく、**公開候補3〜5件の人間確認と実ブラウザ表示QA**。
+
+
+### 2026-09-19 人間確認ゲート達成
+
+- P1〜P4: `human-confirmed` + `publication_status: approved`
+- P5: `publication_status: excluded`（史料実例はcontext-checked維持）
+- 公開承認: 4件
+
+人間確認の通常範囲を `kana-jibo-context` とし、原資料の手書き字形とUnicodeフォント代表字形の輪郭完全一致は一次公開の必須条件から外した。
+`glyph_id / character` は国語研字形DB上の代表字体IDとして保持する。
