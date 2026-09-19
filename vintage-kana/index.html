@@ -61,6 +61,9 @@ textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:1
 .preview{margin-top:14px;min-height:130px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:40px;line-height:1.8;word-break:break-all}
 .readGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
 .readCard{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:15px}
+.sourceImageFrame{margin:10px 0 12px;border:1px solid var(--line);border-radius:12px;background:#e9e4da;overflow:hidden}
+.sourceImageFrame img{display:block;width:100%;height:300px;object-fit:contain;background:#e9e4da}
+.sourceImageNote{padding:7px 9px;background:#fffaf0;border-top:1px solid var(--line);font-size:10px;color:var(--muted);line-height:1.6}
 .readHead{display:flex;align-items:center;gap:12px}
 .readGlyph{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:52px;line-height:1}
 .readText{font-family:"Yu Mincho",serif;font-size:18px;line-height:1.7;margin:10px 0}
@@ -83,7 +86,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <p class="tagline">字母と実資料をたどりながら、読めなかった文字が少しずつ読めるようになるための学習アプリ。</p>
   </div>
   <div>
-    <div class="pill">一次公開準備版 0.9</div>
+    <div class="pill">一次公開準備版 1.0 RC</div>
     <div class="pill" id="fontStatus" style="margin-top:7px">字体フォント確認中…</div>
     <div class="pill" id="dataStatus" style="margin-top:7px">教材データ確認中…</div>
   </div>
@@ -153,7 +156,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 0.9 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
+  vintage-kana / release candidate 1.0 RC ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
 </footer>
 </div>
 
@@ -342,7 +345,8 @@ function renderRead(){
    const d=document.createElement("article");d.className="readCard";
    const location=e.source_location?.folio||e.source_image_locator||e.source_location?.viewer_page||"";
    const href=e.source_image_ref||src?.bibliographic_source_url||src?.source_url||"";
-   d.innerHTML='<div class="note">この資料では何と読む？</div>'+
+   d.innerHTML='<div class="note">実際の資料を見て読んでみよう</div>'+
+     (href?'<div class="sourceImageFrame"><img src="'+escapeHtml(href)+'" loading="lazy" alt="'+escapeHtml((src?.witness_name||e.source_witness)+' '+location+' 原資料画像')+'"><div class="sourceImageNote">国立国語研究所公開画像。タップ／クリックで下のリンクから原画像を開けます。</div></div>':"")+
      '<div class="readHead"><div class="readGlyph">'+escapeHtml(e.character)+'</div><div class="note">対応字体の代表表示<br>'+escapeHtml(src?.witness_name||e.source_witness)+' '+escapeHtml(location)+'</div></div>'+
      '<details class="answer"><summary>答えを見る</summary><div class="answerBody">'+
        '<div class="meta">対応する仮名 <b>'+escapeHtml(e.kana)+'</b>　字母 <b>'+escapeHtml(e.jibo)+'</b></div>'+
