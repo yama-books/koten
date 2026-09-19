@@ -418,3 +418,66 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 - 外部Web照合はprimary-source-verifiedへ昇格しない。
 - local boundary signal単独ではresolveしない。
 - learner-visible detectorはlegacyのまま。
+
+
+## 2026-09-19 次区切りチェックポイント: shadow v0.13
+
+### 現在値
+- legacy unique: 310
+- DB raw: **310**
+- resolved: **186**
+- suppressed: **124**
+- DB only: **0**
+- resolved率: **60.0%**
+- context-required: **10**
+
+v0.12比:
+- resolved **161→186**
+- context-required **38→10**
+- 今回28位置を処理。
+
+### 今回処理したもの
+#### `に` 16位置
+- 格助詞として15位置resolved。
+- `たちまちに` は副詞全体を優先し、内部 `に` 1位置をlarger-unit suppression。
+
+#### `と` 9位置
+- `む/じ＋と＋す`、名付け・変化・引用内容等の7位置を格助詞としてresolved。
+- `日ごと` / `こと` の内部 `と` 2位置をlarger-unit suppression。
+
+#### `が` 3位置
+- `御供しけるが、` の1位置を接続助詞。
+- `晴明が外` / `道摩が科` の2位置を格助詞。
+- すべてpassage-specific exact evidence。
+
+### 意図的に残した `に` 4位置
+1. `参らせ給ひけるに、白き犬を…`
+2. `掘らせて見給ふに、土五尺…`
+3. `下部を走らするに、六条坊門…`
+4. `呪詛の故を問はるるに、…`
+
+USB-3212では連体形＋`に` に格助詞・接続助詞双方の候補があり、外部の学校文法系品詞分解でも両方の立て方が存在する。
+**v0.13では一意化しない。**
+一次資料『新しい古典文法 四訂新版』で、このアプリが採用する学校文法基準を確認してから裁定する。
+
+### 残10
+`に4 / て1 / ぬ1 / を1 / と1 / な1 / せ1`
+
+サンプル別:
+- 枕草子: `て1`
+- 百人一首: 0
+- 識別テスト: `ぬ/を/と/な` 各1
+- 安倍晴明: `に4 / せ1`
+
+### 次回の再開方針
+1. 残10を無理にゼロにすることを目標にしない。
+2. まず `新しい古典文法 四訂新版` の一次資料確認で `連体形＋に` と `せ/さす` を裁定。
+3. 枕草子 `あかりて` は出典付きexact evidence化候補。
+4. 識別テスト4件は曖昧性テストとして残す価値を検討し、教材テストなら正解固定、stress testならholdを維持。
+5. shadowが十分安定したら、learner-visible移行の閾値・表示方針を別途決める。
+
+### 安全策
+- learner-visible detectorはまだlegacy。
+- passage-specific evidenceを一般文法ルールへ自動一般化しない。
+- Web照合はsecondary crosscheckでありprimary-source-verifiedではない。
+- local boundary signal単独ではresolveしない。
