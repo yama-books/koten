@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint local syntax feature audit across 3 development golds",
+  "basis": [
+    "徒然草52・伊勢物語6・方丈記冒頭のgoldを一度blind評価した後のdevelopment状態",
+    "local_syntax_feature_policy.json v0.1",
+    "shadow v0.15-stage2-generalization"
+  ],
+  "unresolvedOrAmbiguousExpectedResolvePositions": 39,
+  "signalCoverage": {
+    "leftTrustedToken": 7,
+    "rightTrustedToken": 4,
+    "previousMorphology": 14,
+    "matchedRightContextCue": 0,
+    "punctuationAfter": 14,
+    "quoteBefore": 0
+  },
+  "bySurface": {
+    "に": {
+      "count": 11,
+      "leftTrustedToken": 1,
+      "rightTrustedToken": 2,
+      "previousMorphology": 1,
+      "rightCue": 0,
+      "punctuationAfter": 0
+    },
+    "を": {
+      "count": 7,
+      "leftTrustedToken": 0,
+      "rightTrustedToken": 0,
+      "previousMorphology": 0,
+      "rightCue": 0,
+      "punctuationAfter": 3
+    },
+    "て": {
+      "count": 11,
+      "leftTrustedToken": 3,
+      "rightTrustedToken": 1,
+      "previousMorphology": 10,
+      "rightCue": 0,
+      "punctuationAfter": 8
+    },
+    "と": {
+      "count": 5,
+      "leftTrustedToken": 1,
+      "rightTrustedToken": 1,
+      "previousMorphology": 0,
+      "rightCue": 0,
+      "punctuationAfter": 1
+    },
+    "し": {
+      "count": 2,
+      "leftTrustedToken": 1,
+      "rightTrustedToken": 0,
+      "previousMorphology": 2,
+      "rightCue": 0,
+      "punctuationAfter": 0
+    },
+    "けれ": {
+      "count": 1,
+      "leftTrustedToken": 1,
+      "rightTrustedToken": 0,
+      "previousMorphology": 1,
+      "rightCue": 0,
+      "punctuationAfter": 1
+    },
+    "なり": {
+      "count": 1,
+      "leftTrustedToken": 0,
+      "rightTrustedToken": 0,
+      "previousMorphology": 0,
+      "rightCue": 0,
+      "punctuationAfter": 1
+    },
+    "なむ": {
+      "count": 1,
+      "leftTrustedToken": 0,
+      "rightTrustedToken": 0,
+      "previousMorphology": 0,
+      "rightCue": 0,
+      "punctuationAfter": 0
+    }
+  },
+  "findings": [
+    "最大の改善余地は「て」。11件中10件で直前の連用形まで分かっているが、完了「つ」/接続助詞の双方が残る。",
+    "学校文法資料では助動詞「つ」の「て」は「てむ・てき・てけり」等の後続助動詞、接続助詞「て」は読点を置けることが識別目安として示される。",
+    "ただし句読点は編集上の表記でもあるため、punctuationAfter単独ではhard resolveしない。",
+    "「に」は名詞＋にでも格助詞/断定「なり」があり、連体形＋にでも格助詞/接続助詞がある。token境界だけでは不足。",
+    "「を」は伊勢物語の同型「けるを」に格助詞/接続助詞双方があり、局所表面形の一般化は禁止。",
+    "「し」は2/2で直前連用形を取得できるが、現在のUSB-3212接続情報だけでは一意化せずsupport-onlyを維持。",
+    "rightContextCueが0なのは、既存cueが主に「に＋けり」「て＋助動詞列」のhard-resolve済み位置へ作用し、残件には該当しないため。"
+  ],
+  "nextArchitecture": [
+    "right-token morphology/token boundaryを拡張し、助動詞列か独立語開始かをsignalとして区別する。",
+    "接続助詞「て」は「直前連用形＋右側が独立語」の組合せを研究候補とするが、まずdevelopment goldで反例探索する。",
+    "に/を/と は節構造・係り先を必要とするため、単純な隣接token ruleを作らない。",
+    "新しいhard ruleは第四の未使用作品でblind評価する。"
+  ],
+  "evidenceRefs": [
+    {
+      "title": "埼玉県立春日部東高等学校 古典文法講座 助動詞「つ」",
+      "url": "https://kasukabehigashi-h.spec.ed.jp/wysiwyg/file/download/76/5495",
+      "role": "「てむ・てき・てけり」と接続助詞「て」の読点cue"
+    },
+    {
+      "title": "古文の文法 接続助詞「て・して」",
+      "url": "https://kobun-benkyou.jimdoweb.com/%E5%8A%A9%E8%A9%9E/%E6%8E%A5%E7%B6%9A%E5%8A%A9%E8%A9%9E-4-%E3%81%A6-%E3%81%97%E3%81%A6-%E3%81%A7-%E3%81%A4%E3%81%A4-%E3%81%AA%E3%81%8C%E3%82%89/",
+      "role": "連用形接続・単純接続の照合"
+    }
+  ]
+}
