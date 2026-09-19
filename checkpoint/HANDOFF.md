@@ -743,3 +743,136 @@ Stage 3 selective learner promotionにはまだ進まない。
 - 方丈記blind baseline: `555b5076b591b4b7c9d74e0cd7dcc8f0252d45c9`
 - stage2 checkpoint: `5e7179d53377a5a24e859d88422eff9c2f63e430`
 - local syntax audit: `54500390704b072ded254cc9bbcec48ec7abbd8f`
+
+
+## 2026-09-19 一時停止チェックポイント: stage-2 / independent gold 2本完了
+
+### 今回ここまで完了
+
+#### 1. 独立gold 1本目: 徒然草第52段
+`tsurezure52_independent_gold_20260919.json`
+- **shadow評価前にfreeze**
+- 評価位置: **55**
+- expected:
+  - resolveCandidate 26
+  - resolveAuxiliaryLemma 4
+  - suppressInsideLargerUnit 25
+
+blind baseline:
+`tsurezure52_shadow_baseline_v014.json`
+- strict PASS: **32/55 = 58.2%**
+- resolve対象30件のうちstrict correct: **7/30**
+- larger-unit suppression: **25/25**
+- false-positive resolved: **0**
+- wrong resolved: **0**
+- unresolved context: 19
+- resolvedだがcandidate未一意: 4
+
+重要:
+境界抑制は非常に強いが、一般本文の文法disambiguationはunder-resolving。
+
+#### 2. resolved指標をstrict / ambiguousへ分離
+`db-shadow.js` に `resolvedDecisionState()` を追加。
+
+既存4サンプル:
+- raw 310
+- resolved配列 187
+- **strict resolved 145**
+- **ambiguous resolved 42**
+- suppressed 123
+
+従来の `resolved=187` は互換用指標として残すが、learner-visible昇格判断には使わない。
+今後はstrict resolvedと誤確定率を主要指標とする。
+
+#### 3. stage-2へ移行
+`shadow_promotion_policy.json`:
+- currentStage = `stage-2-evidence-backed-debug-overlay`
+
+開発者debug overlay:
+- `?debug=shadow` または `#shadow-debug`
+- strict / ambiguous / hold / DB-only 等を表示。
+- 通常学習者UIは変更なし。
+- learner-visible detectorは依然legacy。
+
+#### 4. 独立gold 2本目: 伊勢物語第6段「芥川」
+`ise6_akutagawa_independent_gold_20260919.json`
+- **shadow評価前にfreeze**
+- 評価位置: **35**
+- expected:
+  - resolveCandidate 17
+  - resolveAuxiliaryLemma 6
+  - suppressInsideLargerUnit 12
+
+blind baseline:
+`ise6_akutagawa_shadow_baseline_v014.json`
+- strict PASS: **17/35 = 48.6%**
+- resolve対象23件のうちstrict correct: **8/23**
+- larger-unit suppression: **9/12**
+- false-positive resolved: **3**
+- wrong candidate resolved: **0**
+
+false-positive 3件:
+1. `まじかり` 内の `じ`
+2. `呼ばひわたり` 内の `たり`
+3. `からうじて` 内の `じ`
+
+#### 5. blind baseline後の安全修復
+`known_token_boundary_index.json` v0.3
+
+追加:
+- `まじかり`
+- `呼ばひわたり`
+- `からうじて`
+
+これは文法正解を追加する修正ではなく、
+**source-reviewed larger-token boundaryを追加して内部短hitを抑制するだけ**。
+
+修正後:
+- 伊勢物語 suppression **12/12**
+- false-positive resolved **3→0**
+- 徒然草gold: 変化なし
+- 既存4サンプル: 変化なし
+
+### 2本のblind goldから見えた共通傾向
+
+1. larger-token boundaryは強い。
+2. known-token coverageの穴はfalse-positiveにつながる。
+3. 文法disambiguationは安全側だがunder-resolving。
+4. `て / に / を / と / し` が主な未解決surface。
+5. exact passage evidenceの追加だけで埋めるのは避ける。
+6. 次はtokenizer / 前接語境界 / 活用形 evidenceの一般化が主戦場。
+
+### 次回最優先
+
+直前に実行しようとして途中停止した:
+**「2本のgoldで未解決の約31件について、known-token boundaryが左語をどこまで拾えているか測る」**
+処理を再実行する。
+
+注意:
+- 最後のtool実行は途中で停止したため、**その結果は未取得・未採用**。
+- 途中結果を推測して記録しない。
+
+その後:
+1. 左語token境界coverageを集計。
+2. `て / に / を / と / し` 共通失敗を分類。
+3. passage-specific ruleではなく一般resolver改善案を作る。
+4. frozen goldは変更せず再評価。
+5. さらに別作品1本のblind goldを追加。
+6. learner-visible切替はまだ行わない。
+
+### 一次資料hold
+引き続き:
+- 安倍晴明 連体形＋`に` 4件
+- 「せさせ給ひ」の `せ` 1件
+は『新しい古典文法 四訂新版』原資料確認待ち。
+
+### 現段階の判定
+- stage-2到達
+- G1 PASS
+- G2 PASS
+- G3 PASS
+- G4 PARTIAL（blind gold 2本）
+- G5 PARTIAL（2作品）
+- G6 PENDING
+- G7 PASS
+- global learner-visible promotion はまだ不可
