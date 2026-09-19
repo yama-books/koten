@@ -71,10 +71,9 @@
     }
   ],
   "nextRecommendedWork": [
-    "right-token morphology / token boundaryをsignal-onlyで拡張する。",
-    "次tokenが助動詞列開始か独立語開始かをfeature化する。feature単独では候補を削除・resolveしない。",
-    "に/を/とは節構造・係り先レイヤを設計し、名詞＋に・ける＋を等の局所文字列ruleを作らない。",
-    "新hard resolverへ昇格する一般条件ができた場合、既存3 development goldを回帰した後、第四の未使用作品をgold先固定してblind評価する。",
+    "第四の未使用作品をgold先固定し、現行resolverを無調整でblind baseline保存する。",
+    "第四blindでは特に『連用形＋て＋即時独立活用語』signalの反例有無を観測する。結果を見る前にhard ruleを追加しない。",
+    "に/を/とはright-token signalだけで一意化せず、節構造・係り先レイヤへ進む。",
     "G6 hold-aware learner UIは別レーンで設計するが、learner-visible detectorはlegacyのまま維持する。"
   ],
   "currentStage": "stage-2-evidence-backed-debug-overlay",
@@ -216,5 +215,21 @@
       "localSyntaxAudit": "54500390704b072ded254cc9bbcec48ec7abbd8f",
       "stage2ShadowAudit": "aab08af7d8de08e4f9068d244793e16a3ba8c2b9"
     }
+  },
+  "rightContextSignal": {
+    "file": "local_syntax_right_context_audit_20260920.json",
+    "mode": "signal-only",
+    "positions": 39,
+    "nextMorphology": 15,
+    "rightRoles": {
+      "independentInflectingCandidate": 14,
+      "punctuationBoundary": 14,
+      "unknown": 8,
+      "trustedTokenBoundary": 2,
+      "grammarSurfaceAmbiguous": 1,
+      "auxiliarySequenceCandidate": 0
+    },
+    "teObservation": "未解決て11位置のうち読点なし3位置は3/3で即時の独立活用語。development相関のため第四blind前はhard rule化しない。",
+    "regression": "existing 4 samples and 3 development gold decision paths unchanged"
   }
 }
