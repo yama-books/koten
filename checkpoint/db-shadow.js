@@ -562,6 +562,126 @@ function trustedLargerTokenContainer(boundaryHits,hit){
 
 
 
+
+function nextContentStart(text,hitEnd){
+  let start=hitEnd;
+  while(start<text.length && /[\s、。，．]/.test(text.slice(start,start+1))) start++;
+  return {start,skipped:text.slice(hitEnd,start)};
+}
+
+function auditedNextFormEvidence(text,hitEnd){
+  const entries=window.CHECKPOINT_DATA?.auditedInflectedFormIndex?.entries;
+  if(!Array.isArray(entries)) return null;
+  const anchor=nextContentStart(text,hitEnd);
+  const matches=[];
+  for(const e of entries){
+    const surface=e.surface;
+    if(!surface || !e.consensusForm) continue;
+    if(e.boundaryConfidence!=="kanji-anchored") continue;
+    if(!text.startsWith(surface,anchor.start)) continue;
+    matches.push({
+      surface,start:anchor.start,end:anchor.start+surface.length,
+      form:e.consensusForm,pos:e.consensusPos||null,
+      conjugationClass:e.consensusClass||null,analyses:e.analyses||[]
+    });
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.surface.length-a.surface.length)||a.start-b.start);
+  const maxLen=matches[0].surface.length;
+  const top=matches.filter(x=>x.surface.length===maxLen);
+  const forms=[...new Set(top.map(x=>x.form))];
+  const classes=[...new Set(top.map(x=>x.conjugationClass).filter(Boolean))];
+  const positions=[...new Set(top.map(x=>x.pos).filter(Boolean))];
+  if(forms.length!==1) return null;
+  return {
+    surface:top[0].surface,start:top[0].start,end:top[0].end,
+    form:forms[0],pos:positions.length===1?positions[0]:null,
+    conjugationClass:classes.length===1?classes[0]:null,
+    matches:top,evidence:"audited_inflected_form_index_500.json",
+    skippedBetween:anchor.skipped
+  };
+}
+
+function sourceReviewedNextFormEvidence(text,hitEnd){
+  const entries=window.CHECKPOINT_DATA?.sourceReviewedTokenMorphology?.entries;
+  if(!Array.isArray(entries)) return null;
+  const anchor=nextContentStart(text,hitEnd);
+  const matches=[];
+  for(const e of entries){
+    if(!e.surface || !e.form) continue;
+    if(e.usage && e.usage!=="resolver-support-only") continue;
+    if(!text.startsWith(e.surface,anchor.start)) continue;
+    matches.push({
+      surface:e.surface,start:anchor.start,end:anchor.start+e.surface.length,
+      form:e.form,pos:e.pos||null,conjugationClass:e.conjugationClass||null,
+      lemma:e.lemma||null,trust:e.trust||"source-reviewed-secondary",
+      sourceWork:e.sourceWork||null
+    });
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.surface.length-a.surface.length)||a.start-b.start);
+  const maxLen=matches[0].surface.length;
+  const top=matches.filter(x=>x.surface.length===maxLen);
+  const forms=[...new Set(top.map(x=>x.form))];
+  const classes=[...new Set(top.map(x=>x.conjugationClass).filter(Boolean))];
+  const positions=[...new Set(top.map(x=>x.pos).filter(Boolean))];
+  if(forms.length!==1) return null;
+  return {
+    surface:top[0].surface,start:top[0].start,end:top[0].end,
+    form:forms[0],pos:positions.length===1?positions[0]:null,
+    conjugationClass:classes.length===1?classes[0]:null,
+    matches:top,evidence:"source_reviewed_token_morphology.json",
+    skippedBetween:anchor.skipped
+  };
+}
+
+function nextFormEvidence(text,hitEnd){
+  return auditedNextFormEvidence(text,hitEnd) || sourceReviewedNextFormEvidence(text,hitEnd);
+}
+
+function nextIndexedGrammarSignal(text,hitEnd){
+  const entries=window.CHECKPOINT_DATA?.surfaceIndex?.surfaces;
+  if(!Array.isArray(entries)) return null;
+  const matches=entries.filter(e=>e.surface && text.startsWith(e.surface,hitEnd))
+    .sort((a,b)=>b.surface.length-a.surface.length);
+  if(!matches.length) return null;
+  const e=matches[0];
+  const aux=[...new Set((e.auxiliaryCandidates||[]).map(x=>x.lemma).filter(Boolean))];
+  const disc=(e.discriminationCandidates||[]).map(x=>x.id).filter(Boolean);
+  const proj=(e.projectCandidates||[]).map(x=>x.id).filter(Boolean);
+  return {
+    surface:e.surface,
+    auxiliaryLemmas:aux,
+    discriminationCandidateIds:disc,
+    projectCandidateIds:proj,
+    uniqueAuxiliaryOnly:aux.length===1 && disc.length===0 && proj.length===0
+  };
+}
+
+function rightTokenRoleSignal(text,hit,rightTrustedToken,nextMorphology){
+  const nextChar=text.slice(hit.end,hit.end+1);
+  if(["、","。","，","．"].includes(nextChar)){
+    return {role:"punctuation-boundary",basis:"immediate-punctuation"};
+  }
+  const grammar=nextIndexedGrammarSignal(text,hit.end);
+  if(grammar?.uniqueAuxiliaryOnly){
+    return {role:"auxiliary-sequence-candidate",basis:"immediate-unique-auxiliary-surface",grammarSurface:grammar};
+  }
+  if(nextMorphology?.pos==="助動詞"){
+    return {role:"auxiliary-sequence-candidate",basis:"next-morphology",surface:nextMorphology.surface};
+  }
+  if(["動詞","形容詞","形容動詞"].includes(nextMorphology?.pos)){
+    return {role:"independent-inflecting-candidate",basis:"next-morphology",surface:nextMorphology.surface};
+  }
+  if(grammar){
+    return {role:"grammar-surface-ambiguous",basis:"immediate-indexed-grammar-surface",grammarSurface:grammar};
+  }
+  if(rightTrustedToken){
+    return {role:"trusted-token-boundary",basis:"known-token-boundary",surface:rightTrustedToken.surface};
+  }
+  return {role:"unknown",basis:"insufficient-signal"};
+}
+
 function localSyntaxFeaturesForHit(text,hit,boundaryHits){
   const boundaries=Array.isArray(boundaryHits)?boundaryHits:[];
   const left=boundaries.filter(x=>x.end===hit.start)
@@ -569,6 +689,7 @@ function localSyntaxFeaturesForHit(text,hit,boundaryHits){
   const right=boundaries.filter(x=>x.start===hit.end)
     .sort((a,b)=>(b.end-b.start)-(a.end-a.start))[0]||null;
   const prevMorph=previousFormEvidence(text,hit.start);
+  const nextMorph=nextFormEvidence(text,hit.end);
   const rightRules=rightContextResolverRules(hit.surface);
   const matchedRightContextCue=[];
   for(const r of rightRules){
@@ -583,19 +704,27 @@ function localSyntaxFeaturesForHit(text,hit,boundaryHits){
   const after=text.slice(hit.end,Math.min(text.length,hit.end+8));
   const prevChar=text.slice(Math.max(0,hit.start-1),hit.start);
   const nextChar=text.slice(hit.end,hit.end+1);
+  const rightToken=right?{surface:right.surface,start:right.start,end:right.end,trust:right.trust||null}:null;
   return {
     policy:"local_syntax_feature_policy.json",
     mode:"signal-only",
     leftTrustedToken:left?{surface:left.surface,start:left.start,end:left.end,trust:left.trust||null}:null,
-    rightTrustedToken:right?{surface:right.surface,start:right.start,end:right.end,trust:right.trust||null}:null,
+    rightTrustedToken:rightToken,
     previousMorphology:prevMorph?{
       surface:prevMorph.surface,form:prevMorph.form,pos:prevMorph.pos||null,
       conjugationClass:prevMorph.conjugationClass||null,evidence:prevMorph.evidence||null
     }:null,
+    nextMorphology:nextMorph?{
+      surface:nextMorph.surface,start:nextMorph.start,end:nextMorph.end,
+      form:nextMorph.form,pos:nextMorph.pos||null,
+      conjugationClass:nextMorph.conjugationClass||null,
+      evidence:nextMorph.evidence||null,skippedBetween:nextMorph.skippedBetween||""
+    }:null,
+    rightTokenRoleSignal:rightTokenRoleSignal(text,hit,rightToken,nextMorph),
     previousChars:before,
     nextChars:after,
     quoteBoundary:{
-      before:["」","』","」","』","”","’"].includes(prevChar),
+      before:["」","』","”","’"].includes(prevChar),
       after:["「","『","“","‘"].includes(nextChar)
     },
     punctuationBoundary:{
@@ -605,7 +734,6 @@ function localSyntaxFeaturesForHit(text,hit,boundaryHits){
     matchedRightContextCue
   };
 }
-
 
 function exactPassageEvidenceForHit(text,hit){
   const entries=window.CHECKPOINT_DATA?.passageDisambiguationEvidence?.entries;
