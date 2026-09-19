@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "小倉百人一首・同形識別 exact phrase evidence",
   "source": {
@@ -12,9 +12,10 @@
     "同じ表面形の一般規則へ自動一般化しない。",
     "analysisUnit が raw surface より大きい場合は、短い raw hit を独立分析せず大きい単位を優先する。",
     "non_auxiliary は内部の助動詞らしい文字列を抑制する。",
-    "learner-visible な正解自動表示には直結させず、shadow resolver の出典付き証拠として使う。"
+    "learner-visible な正解自動表示には直結させず、shadow resolver の出典付き証拠として使う。",
+    "第9首の追加9件はユーザー監査＋複数の外部文法解説を突き合わせた passage-specific evidence であり、一般規則へ展開しない。"
   ],
-  "entryCount": 20,
+  "entryCount": 29,
   "entries": [
     {
       "poem": 28,
@@ -338,6 +339,180 @@
       "analysisUnitOffset": 3,
       "evidenceStatus": "project-source-reviewed",
       "sourceNote": "同じ「ぬる」全体が動詞「寝（ぬ）」連体形であるという明示に基づく境界抑制。"
+    },
+    {
+      "poem": 9,
+      "phrase": "うつりにけりな",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "ぬ",
+        "form": "連用形",
+        "candidateId": "aux_nu_renyo_ni"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "うつりにけりな",
+      "focusSurface": "な",
+      "analysisUnit": "な",
+      "analysis": {
+        "kind": "particle",
+        "lemma": "な",
+        "candidateId": "sentence_particle_na"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "いたづらに",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "analysis": {
+        "kind": "adjectival-inflection",
+        "lemma": "いたづらなり",
+        "form": "連用形",
+        "candidateId": "nari_adjective_renyo_ni"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "わが身",
+      "focusSurface": "が",
+      "analysisUnit": "が",
+      "analysis": {
+        "kind": "particle",
+        "lemma": "が",
+        "candidateId": "case_particle_ga"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "世にふる",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "analysis": {
+        "kind": "particle",
+        "lemma": "に",
+        "candidateId": "case_particle_ni"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "世にふる",
+      "focusSurface": "る",
+      "analysisUnit": "ふる",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "ふる"
+      },
+      "caution": "「降る／経る」の掛詞を含む動詞語形の内部。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "せ",
+      "analysisUnit": "せ",
+      "analysis": {
+        "kind": "verb",
+        "lemma": "す",
+        "form": "未然形",
+        "candidateId": "sahen_su_mizen"
+      },
+      "caution": "文節監査の「ながめ/せし/まに」を踏まえ、第9首の完全一致句に限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "analysis": {
+        "kind": "auxiliary",
+        "lemma": "き",
+        "form": "連体形",
+        "candidateId": "aux_ki_rentai"
+      },
+      "caution": "第9首の完全一致句限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "analysis": {
+        "kind": "particle",
+        "lemma": "に",
+        "candidateId": "case_particle_ni"
+      },
+      "caution": "名詞「ま」＋格助詞「に」。第9首限定。",
+      "evidenceStatus": "passage-specific-multi-source-reviewed",
+      "sourceRefs": [
+        "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+        "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+        "Benesse 百人一首 第9首",
+        "品詞分解屋 百人一首9番"
+      ]
     }
   ],
   "sources": [
@@ -348,6 +523,21 @@
     {
       "title": "古典関係アプリ_設計計画書_2026-08-29.md",
       "role": "助動詞ではない類似形の明示例（第1首・第53首）"
+    },
+    {
+      "title": "和歌のための文語文法「助動詞の種類と機能1（過去・完了）」",
+      "role": "第9首「にけり」の完了「ぬ」連用形＋「けり」の照合",
+      "url": "https://www.asahi-net.or.jp/~sg2h-ymst/yamatouta/intro/jodousi01.html"
+    },
+    {
+      "title": "Benesse 百人一首 009",
+      "role": "第9首の語句・文法照合",
+      "url": "https://benesse.jp/kyouiku/hyakuninisshu/009.html"
+    },
+    {
+      "title": "品詞分解屋 百人一首9番",
+      "role": "第9首の品詞分解照合",
+      "url": "https://kobunzukin.blog.fc2.com/blog-entry-37.html"
     }
   ]
 }
