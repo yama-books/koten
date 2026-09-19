@@ -57,6 +57,8 @@ textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:1
 .glyphChoice{border:1px solid var(--line);border-radius:10px;background:#fff;padding:6px 9px;min-width:76px}
 .glyphChoice.active{background:var(--accent2);border-color:#9dac95}
 .glyphChoice .g{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:28px;display:block;line-height:1.2}
+.glyphChoice .g.smallGlyph{font-size:20px;line-height:1.45}
+.preview .smallGlyph{display:inline-block;font-size:.68em;line-height:1;vertical-align:.18em}
 .glyphChoice small{color:var(--muted);font-size:10px}
 .preview{margin-top:14px;min-height:130px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:40px;line-height:1.8;word-break:break-all}
 .readGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
@@ -86,7 +88,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <p class="tagline">字母と実資料をたどりながら、読めなかった文字が少しずつ読めるようになるための学習アプリ。</p>
   </div>
   <div>
-    <div class="pill">一次公開準備版 1.0 RC</div>
+    <div class="pill">一次公開準備版 1.0 RC2</div>
     <div class="pill" id="fontStatus" style="margin-top:7px">字体フォント確認中…</div>
     <div class="pill" id="dataStatus" style="margin-top:7px">教材データ確認中…</div>
   </div>
@@ -129,7 +131,9 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <textarea id="sourceText">あいうえお かきくけこ</textarea>
     <div class="note">
       自動で「昔らしい」字体に変換する機能ではありません。原文のままを初期値とし、
-      初期資料群で実際に観察された対応字体から、利用者自身が選びます。
+      初期資料群で実際に観察された対応字体から、利用者自身が選びます。<br>
+      濁音・半濁音は対応する清音字体に濁点・半濁点を付けて表示します。
+      「ゃ・ゅ・ょ・っ」などの小書きは、対応する基本仮名の字体を小さく表示する現代的な補助表現です。
     </div>
     <div id="composeRows" class="composeRows"></div>
     <div class="label" style="margin-top:15px">表示</div>
@@ -156,12 +160,36 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
+  vintage-kana / release candidate 1.0 RC2 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
 </footer>
 </div>
 
 <script>
 const KANA_ORDER=[..."あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん"];
+const VOICED_BASE={
+ "が":["か","\u3099"],"ぎ":["き","\u3099"],"ぐ":["く","\u3099"],"げ":["け","\u3099"],"ご":["こ","\u3099"],
+ "ざ":["さ","\u3099"],"じ":["し","\u3099"],"ず":["す","\u3099"],"ぜ":["せ","\u3099"],"ぞ":["そ","\u3099"],
+ "だ":["た","\u3099"],"ぢ":["ち","\u3099"],"づ":["つ","\u3099"],"で":["て","\u3099"],"ど":["と","\u3099"],
+ "ば":["は","\u3099"],"び":["ひ","\u3099"],"ぶ":["ふ","\u3099"],"べ":["へ","\u3099"],"ぼ":["ほ","\u3099"],
+ "ぱ":["は","\u309A"],"ぴ":["ひ","\u309A"],"ぷ":["ふ","\u309A"],"ぺ":["へ","\u309A"],"ぽ":["ほ","\u309A"],
+ "ゔ":["う","\u3099"]
+};
+const SMALL_BASE={"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お","ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ"};
+function composeInfo(ch){
+ if(VOICED_BASE[ch]) return {input:ch,base:VOICED_BASE[ch][0],mark:VOICED_BASE[ch][1],small:false};
+ if(SMALL_BASE[ch]) return {input:ch,base:SMALL_BASE[ch],mark:"",small:true};
+ return {input:ch,base:ch,mark:"",small:false};
+}
+function hasGlyphChoices(ch){
+ const info=composeInfo(ch);
+ return GLYPHS.some(x=>x.kana===info.base);
+}
+function renderSelectedToken(ch){
+ const sel=selected[ch];
+ if(!sel || sel.keep) return escapeHtml(ch);
+ const text=escapeHtml(sel.text);
+ return sel.small?'<span class="smallGlyph">'+text+'</span>':text;
+}
 const FALLBACK_GLYPHS=[{"kana":"あ","glyph_id":"U+1B004","character":"𛀄","jibo":"阿","totalObserved":391,"witnessCount":14},{"kana":"い","glyph_id":"U+1B006","character":"𛀆","jibo":"以","totalObserved":143,"witnessCount":9},{"kana":"い","glyph_id":"U+1B007","character":"𛀇","jibo":"伊","totalObserved":15,"witnessCount":2},{"kana":"う","glyph_id":"U+1B00A","character":"𛀊","jibo":"宇","totalObserved":6,"witnessCount":1},{"kana":"え","glyph_id":"U+1B00F","character":"𛀏","jibo":"盈","totalObserved":4,"witnessCount":2},{"kana":"え","glyph_id":"U+1B011","character":"𛀑","jibo":"衣","totalObserved":11,"witnessCount":3},{"kana":"え","glyph_id":"U+1B012","character":"𛀒","jibo":"衣","totalObserved":74,"witnessCount":9},{"kana":"お","glyph_id":"U+1B014","character":"𛀔","jibo":"於","totalObserved":1,"witnessCount":1},{"kana":"お","glyph_id":"U+1B015","character":"𛀕","jibo":"於","totalObserved":2,"witnessCount":2},{"kana":"か","glyph_id":"U+1B018","character":"𛀘","jibo":"加","totalObserved":29,"witnessCount":6},{"kana":"か","glyph_id":"U+1B019","character":"𛀙","jibo":"可","totalObserved":54,"witnessCount":10},{"kana":"か","glyph_id":"U+1B01A","character":"𛀚","jibo":"可","totalObserved":2880,"witnessCount":15},{"kana":"か","glyph_id":"U+1B01F","character":"𛀟","jibo":"閑","totalObserved":26,"witnessCount":2},{"kana":"き","glyph_id":"U+1B025","character":"𛀥","jibo":"幾","totalObserved":36,"witnessCount":8},{"kana":"き","glyph_id":"U+1B026","character":"𛀦","jibo":"支","totalObserved":76,"witnessCount":7},{"kana":"き","glyph_id":"U+1B02A","character":"𛀪","jibo":"起","totalObserved":321,"witnessCount":15},{"kana":"く","glyph_id":"U+1B02C","character":"𛀬","jibo":"久","totalObserved":96,"witnessCount":3},{"kana":"く","glyph_id":"U+1B030","character":"𛀰","jibo":"具","totalObserved":22,"witnessCount":5},{"kana":"け","glyph_id":"U+1B033","character":"𛀳","jibo":"介","totalObserved":839,"witnessCount":14},{"kana":"け","glyph_id":"U+1B034","character":"𛀴","jibo":"希","totalObserved":63,"witnessCount":5},{"kana":"け","glyph_id":"U+1B035","character":"𛀵","jibo":"氣","totalObserved":328,"witnessCount":2},{"kana":"け","glyph_id":"U+1B036","character":"𛀶","jibo":"計","totalObserved":6,"witnessCount":2},{"kana":"け","glyph_id":"U+1B037","character":"𛀷","jibo":"遣","totalObserved":72,"witnessCount":5},{"kana":"こ","glyph_id":"U+1B038","character":"𛀸","jibo":"古","totalObserved":155,"witnessCount":14},{"kana":"さ","glyph_id":"U+1B03E","character":"𛀾","jibo":"佐","totalObserved":218,"witnessCount":7},{"kana":"さ","glyph_id":"U+1B03F","character":"𛀿","jibo":"左","totalObserved":199,"witnessCount":3},{"kana":"し","glyph_id":"U+1B045","character":"𛁅","jibo":"之","totalObserved":3606,"witnessCount":15},{"kana":"し","glyph_id":"U+1B048","character":"𛁈","jibo":"志","totalObserved":744,"witnessCount":15},{"kana":"す","glyph_id":"U+1B04B","character":"𛁋","jibo":"壽","totalObserved":3,"witnessCount":3},{"kana":"す","glyph_id":"U+1B04C","character":"𛁌","jibo":"數","totalObserved":1,"witnessCount":1},{"kana":"す","glyph_id":"U+1B04E","character":"𛁎","jibo":"春","totalObserved":57,"witnessCount":2},{"kana":"す","glyph_id":"U+1B04F","character":"𛁏","jibo":"春","totalObserved":763,"witnessCount":13},{"kana":"す","glyph_id":"U+1B050","character":"𛁐","jibo":"須","totalObserved":5,"witnessCount":4},{"kana":"す","glyph_id":"U+1B051","character":"𛁑","jibo":"須","totalObserved":295,"witnessCount":13},{"kana":"せ","glyph_id":"U+1B052","character":"𛁒","jibo":"世","totalObserved":56,"witnessCount":6},{"kana":"せ","glyph_id":"U+1B055","character":"𛁕","jibo":"勢","totalObserved":43,"witnessCount":4},{"kana":"そ","glyph_id":"U+1B05A","character":"𛁚","jibo":"曾","totalObserved":296,"witnessCount":9},{"kana":"そ","glyph_id":"U+1B05B","character":"𛁛","jibo":"楚","totalObserved":17,"witnessCount":6},{"kana":"た","glyph_id":"U+1B05E","character":"𛁞","jibo":"堂","totalObserved":139,"witnessCount":8},{"kana":"た","glyph_id":"U+1B05F","character":"𛁟","jibo":"多","totalObserved":53,"witnessCount":12},{"kana":"た","glyph_id":"U+1B060","character":"𛁠","jibo":"多","totalObserved":2108,"witnessCount":15},{"kana":"ち","glyph_id":"U+1B062","character":"𛁢","jibo":"千","totalObserved":1,"witnessCount":1},{"kana":"ち","glyph_id":"U+1B063","character":"𛁣","jibo":"地","totalObserved":4,"witnessCount":3},{"kana":"ち","glyph_id":"U+1B066","character":"𛁦","jibo":"知","totalObserved":1,"witnessCount":1},{"kana":"つ","glyph_id":"U+1B069","character":"𛁩","jibo":"川","totalObserved":208,"witnessCount":13},{"kana":"つ","glyph_id":"U+1B06A","character":"𛁪","jibo":"川","totalObserved":152,"witnessCount":6},{"kana":"つ","glyph_id":"U+1B06B","character":"𛁫","jibo":"津","totalObserved":44,"witnessCount":12},{"kana":"つ","glyph_id":"U+1B06D","character":"𛁭","jibo":"徒","totalObserved":305,"witnessCount":15},{"kana":"て","glyph_id":"U+1B06E","character":"𛁮","jibo":"亭","totalObserved":3,"witnessCount":3},{"kana":"て","glyph_id":"U+1B070","character":"𛁰","jibo":"傳","totalObserved":2,"witnessCount":1},{"kana":"て","glyph_id":"U+1B073","character":"𛁳","jibo":"天","totalObserved":914,"witnessCount":15},{"kana":"て","glyph_id":"U+1B074","character":"𛁴","jibo":"帝","totalObserved":7,"witnessCount":4},{"kana":"と","glyph_id":"U+1B07B","character":"𛁻","jibo":"登","totalObserved":179,"witnessCount":10},{"kana":"な","glyph_id":"U+1B07F","character":"𛁿","jibo":"名","totalObserved":1,"witnessCount":1},{"kana":"な","glyph_id":"U+1B080","character":"𛂀","jibo":"奈","totalObserved":5,"witnessCount":3},{"kana":"な","glyph_id":"U+1B081","character":"𛂁","jibo":"奈","totalObserved":440,"witnessCount":14},{"kana":"な","glyph_id":"U+1B082","character":"𛂂","jibo":"奈","totalObserved":2189,"witnessCount":15},{"kana":"な","glyph_id":"U+1B084","character":"𛂄","jibo":"那","totalObserved":113,"witnessCount":8},{"kana":"な","glyph_id":"U+1B085","character":"𛂅","jibo":"那","totalObserved":112,"witnessCount":11},{"kana":"に","glyph_id":"U+1B087","character":"𛂇","jibo":"丹","totalObserved":180,"witnessCount":6},{"kana":"に","glyph_id":"U+1B088","character":"𛂈","jibo":"二","totalObserved":5,"witnessCount":2},{"kana":"に","glyph_id":"U+1B08B","character":"𛂋","jibo":"爾","totalObserved":874,"witnessCount":15},{"kana":"に","glyph_id":"U+1B08C","character":"𛂌","jibo":"爾","totalObserved":3802,"witnessCount":15},{"kana":"に","glyph_id":"U+1B08D","character":"𛂍","jibo":"耳","totalObserved":301,"witnessCount":7},{"kana":"に","glyph_id":"U+1B08E","character":"𛂎","jibo":"而","totalObserved":1,"witnessCount":1},{"kana":"ぬ","glyph_id":"U+1B091","character":"𛂑","jibo":"怒","totalObserved":28,"witnessCount":4},{"kana":"ね","glyph_id":"U+1B092","character":"𛂒","jibo":"年","totalObserved":42,"witnessCount":9},{"kana":"ね","glyph_id":"U+1B094","character":"𛂔","jibo":"年","totalObserved":56,"witnessCount":10},{"kana":"ね","glyph_id":"U+1B097","character":"𛂗","jibo":"禰","totalObserved":219,"witnessCount":14},{"kana":"の","glyph_id":"U+1B099","character":"𛂙","jibo":"乃","totalObserved":391,"witnessCount":9},{"kana":"の","glyph_id":"U+1B09A","character":"𛂚","jibo":"濃","totalObserved":61,"witnessCount":2},{"kana":"の","glyph_id":"U+1B09B","character":"𛂛","jibo":"能","totalObserved":80,"witnessCount":6},{"kana":"の","glyph_id":"U+1B09C","character":"𛂜","jibo":"能","totalObserved":335,"witnessCount":12},{"kana":"の","glyph_id":"U+1B09D","character":"𛂝","jibo":"農","totalObserved":52,"witnessCount":6},{"kana":"は","glyph_id":"U+1B09E","character":"𛂞","jibo":"八","totalObserved":2882,"witnessCount":15},{"kana":"は","glyph_id":"U+1B09F","character":"𛂟","jibo":"半","totalObserved":1,"witnessCount":1},{"kana":"は","glyph_id":"U+1B0A2","character":"𛂢","jibo":"盤","totalObserved":18,"witnessCount":2},{"kana":"は","glyph_id":"U+1B0A3","character":"𛂣","jibo":"盤","totalObserved":123,"witnessCount":12},{"kana":"は","glyph_id":"U+1B0A6","character":"𛂦","jibo":"者","totalObserved":1360,"witnessCount":15},{"kana":"ひ","glyph_id":"U+1B0A9","character":"𛂩","jibo":"悲","totalObserved":4,"witnessCount":1},{"kana":"ひ","glyph_id":"U+1B0AA","character":"𛂪","jibo":"日","totalObserved":146,"witnessCount":3},{"kana":"ひ","glyph_id":"U+1B0AF","character":"𛂯","jibo":"飛","totalObserved":78,"witnessCount":7},{"kana":"ふ","glyph_id":"U+1B0B1","character":"𛂱","jibo":"婦","totalObserved":27,"witnessCount":5},{"kana":"ふ","glyph_id":"U+1B0B2","character":"𛂲","jibo":"布","totalObserved":82,"witnessCount":4},{"kana":"へ","glyph_id":"U+1B0B6","character":"𛂶","jibo":"遍","totalObserved":87,"witnessCount":11},{"kana":"へ","glyph_id":"U+1B0B9","character":"𛂹","jibo":"部","totalObserved":1,"witnessCount":1},{"kana":"ほ","glyph_id":"U+1B0BB","character":"𛂻","jibo":"保","totalObserved":89,"witnessCount":7},{"kana":"ほ","glyph_id":"U+1B0C0","character":"𛃀","jibo":"本","totalObserved":445,"witnessCount":15},{"kana":"ま","glyph_id":"U+1B0C2","character":"𛃂","jibo":"万","totalObserved":257,"witnessCount":5},{"kana":"ま","glyph_id":"U+1B0C3","character":"𛃃","jibo":"末","totalObserved":16,"witnessCount":1},{"kana":"ま","glyph_id":"U+1B0C4","character":"𛃄","jibo":"末","totalObserved":172,"witnessCount":10},{"kana":"ま","glyph_id":"U+1B0C5","character":"𛃅","jibo":"滿","totalObserved":128,"witnessCount":9},{"kana":"ま","glyph_id":"U+1B0C6","character":"𛃆","jibo":"滿","totalObserved":80,"witnessCount":10},{"kana":"ま","glyph_id":"U+1B0C7","character":"𛃇","jibo":"萬","totalObserved":1,"witnessCount":1},{"kana":"み","glyph_id":"U+1B0C9","character":"𛃉","jibo":"三","totalObserved":775,"witnessCount":15},{"kana":"み","glyph_id":"U+1B0CE","character":"𛃎","jibo":"見","totalObserved":179,"witnessCount":7},{"kana":"む","glyph_id":"U+1B0D1","character":"𛃑","jibo":"無","totalObserved":88,"witnessCount":4},{"kana":"む","glyph_id":"U+1B0D3","character":"𛃓","jibo":"舞","totalObserved":25,"witnessCount":3},{"kana":"め","glyph_id":"U+1B0D4","character":"𛃔","jibo":"免","totalObserved":34,"witnessCount":6},{"kana":"も","glyph_id":"U+1B0D7","character":"𛃗","jibo":"母","totalObserved":1,"witnessCount":1},{"kana":"も","glyph_id":"U+1B0D9","character":"𛃙","jibo":"毛","totalObserved":579,"witnessCount":10},{"kana":"も","glyph_id":"U+1B0DA","character":"𛃚","jibo":"毛","totalObserved":1153,"witnessCount":15},{"kana":"も","glyph_id":"U+1B0DC","character":"𛃜","jibo":"裳","totalObserved":2,"witnessCount":2},{"kana":"や","glyph_id":"U+1B0DD","character":"𛃝","jibo":"也","totalObserved":412,"witnessCount":8},{"kana":"や","glyph_id":"U+1B0DE","character":"𛃞","jibo":"也","totalObserved":502,"witnessCount":4},{"kana":"や","glyph_id":"U+1B0DF","character":"𛃟","jibo":"屋","totalObserved":114,"witnessCount":5},{"kana":"ゆ","glyph_id":"U+1B0E4","character":"𛃤","jibo":"由","totalObserved":24,"witnessCount":4},{"kana":"ゆ","glyph_id":"U+1B0E5","character":"𛃥","jibo":"由","totalObserved":316,"witnessCount":13},{"kana":"ゆ","glyph_id":"U+1B0E6","character":"𛃦","jibo":"由","totalObserved":34,"witnessCount":3},{"kana":"よ","glyph_id":"U+1B0EA","character":"𛃪","jibo":"與","totalObserved":6,"witnessCount":2},{"kana":"よ","glyph_id":"U+1B0EB","character":"𛃫","jibo":"與","totalObserved":50,"witnessCount":5},{"kana":"ら","glyph_id":"U+1B0ED","character":"𛃭","jibo":"羅","totalObserved":42,"witnessCount":3},{"kana":"ら","glyph_id":"U+1B0EE","character":"𛃮","jibo":"良","totalObserved":4,"witnessCount":2},{"kana":"ら","glyph_id":"U+1B0F0","character":"𛃰","jibo":"良","totalObserved":1730,"witnessCount":9},{"kana":"り","glyph_id":"U+1B0F1","character":"𛃱","jibo":"利","totalObserved":2,"witnessCount":1},{"kana":"り","glyph_id":"U+1B0F2","character":"𛃲","jibo":"利","totalObserved":938,"witnessCount":1},{"kana":"り","glyph_id":"U+1B0F4","character":"𛃴","jibo":"梨","totalObserved":2,"witnessCount":1},{"kana":"り","glyph_id":"U+1B0F6","character":"𛃶","jibo":"里","totalObserved":1550,"witnessCount":15},{"kana":"る","glyph_id":"U+1B0D8","character":"𛃘","jibo":"留","totalObserved":2,"witnessCount":1},{"kana":"る","glyph_id":"U+1B0F8","character":"𛃸","jibo":"流","totalObserved":370,"witnessCount":6},{"kana":"る","glyph_id":"U+1B0F9","character":"𛃹","jibo":"留","totalObserved":28,"witnessCount":4},{"kana":"る","glyph_id":"U+1B0FA","character":"𛃺","jibo":"留","totalObserved":16,"witnessCount":4},{"kana":"る","glyph_id":"U+1B0FB","character":"𛃻","jibo":"留","totalObserved":3848,"witnessCount":15},{"kana":"る","glyph_id":"U+1B0FC","character":"𛃼","jibo":"累","totalObserved":198,"witnessCount":10},{"kana":"る","glyph_id":"U+1B0FD","character":"𛃽","jibo":"類","totalObserved":322,"witnessCount":12},{"kana":"れ","glyph_id":"U+1B0FE","character":"𛃾","jibo":"禮","totalObserved":226,"witnessCount":7},{"kana":"れ","glyph_id":"U+1B0FF","character":"𛃿","jibo":"禮","totalObserved":136,"witnessCount":5},{"kana":"れ","glyph_id":"U+1B100","character":"𛄀","jibo":"連","totalObserved":2174,"witnessCount":15},{"kana":"ろ","glyph_id":"U+1B106","character":"𛄆","jibo":"路","totalObserved":164,"witnessCount":8},{"kana":"わ","glyph_id":"U+1B109","character":"𛄉","jibo":"和","totalObserved":20,"witnessCount":2},{"kana":"わ","glyph_id":"U+1B10A","character":"𛄊","jibo":"和","totalObserved":203,"witnessCount":9},{"kana":"わ","glyph_id":"U+1B10B","character":"𛄋","jibo":"王","totalObserved":80,"witnessCount":7},{"kana":"わ","glyph_id":"U+1B10C","character":"𛄌","jibo":"王","totalObserved":353,"witnessCount":12},{"kana":"ゐ","glyph_id":"U+1B10D","character":"𛄍","jibo":"井","totalObserved":2,"witnessCount":1},{"kana":"ゐ","glyph_id":"U+1B10E","character":"𛄎","jibo":"井","totalObserved":50,"witnessCount":4},{"kana":"ゑ","glyph_id":"U+1B113","character":"𛄓","jibo":"衞","totalObserved":2,"witnessCount":1},{"kana":"を","glyph_id":"U+1B11A","character":"𛄚","jibo":"越","totalObserved":556,"witnessCount":15},{"kana":"を","glyph_id":"U+1B11C","character":"𛄜","jibo":"遠","totalObserved":3538,"witnessCount":15}];
 const FALLBACK_ATTESTED=[{"example_id":"att-brsk005-u1b012-brsk005-009-id0346-x0474-y2151","review_status":"human-confirmed","publication_status":"approved","character":"𛀒","kana":"え","jibo":"衣","source_witness":"brsk005","source_location":{"folio":"4オ","viewer_page":"brsk005-009","occurrence_image_id":"ID0346","x":474,"y":2151},"source_image_locator":"4オ","source_image_ref":"https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/jpg/brsk005-009.jpg","word":"見えず","transcription":"正字とは見えず"},{"example_id":"att-brsk005-u1b012-brsk005-014-id0153-x1181-y1197","review_status":"human-confirmed","publication_status":"approved","character":"𛀒","kana":"え","jibo":"衣","source_witness":"brsk005","source_location":{"folio":"6ウ","viewer_page":"brsk005-014","occurrence_image_id":"ID0153","x":1181,"y":1197},"source_image_locator":"6ウ","source_image_ref":"https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/jpg/brsk005-014.jpg","word":"見えない","transcription":"のべて見えないと云"},{"example_id":"att-hnsd001-u1b094-hnsd001-015-id0119-x1611-y1645","review_status":"human-confirmed","publication_status":"approved","character":"𛂔","kana":"ね","jibo":"年","source_witness":"hnsd001","source_location":{"folio":"3オ","viewer_page":"hnsd001-015","occurrence_image_id":"ID0119","x":1611,"y":1645,"sampling_strategy":"context10-witness-diversification"},"source_image_locator":"3オ","source_image_ref":"https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/jpg/hnsd001-015.jpg","word":"むね","transcription":"お春はむねをくるしめて"},{"example_id":"att-hnsd001-u1b094-hnsd001-026-id0111-x0522-y1719","review_status":"human-confirmed","publication_status":"approved","character":"𛂔","kana":"ね","jibo":"年","source_witness":"hnsd001","source_location":{"folio":"8ウ","viewer_page":"hnsd001-026","occurrence_image_id":"ID0111","x":522,"y":1719,"sampling_strategy":"context10-witness-diversification"},"source_image_locator":"8ウ","source_image_ref":"https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/jpg/hnsd001-026.jpg","word":"かねて","transcription":"汲｛くみ｝とりかねておもはずもなみだに"}];
 const FALLBACK_SOURCES=[{"witness_id":"hnsd001","witness_name":"比翼連理花廼志満台　初編上","source_url":"https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/hnsd001/html/hnsd001-001.html","bibliographic_source_url":"https://dglb01.ninjal.ac.jp/ninjaldl/bunken.php?title=hananosimadai"},{"witness_id":"brsk005","witness_name":"諸国方言物類称呼　巻之五","source_url":"https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/brsk005/html/brsk005-003.html","bibliographic_source_url":"https://dglb01.ninjal.ac.jp/ninjaldl/bunken.php?title=buturuisyoko"}];
@@ -282,29 +310,39 @@ function newQuiz(){
 
 function renderCompose(){
  const text=document.getElementById("sourceText").value;
- const needed=[...new Set([...text].filter(ch=>GLYPHS.some(x=>x.kana===ch)))];
+ const needed=[...new Set([...text].filter(ch=>hasGlyphChoices(ch)))];
  const rows=document.getElementById("composeRows");rows.innerHTML="";
+
  needed.forEach(k=>{
-   if(!(k in selected))selected[k]=k;
+   const info=composeInfo(k);
+   if(!(k in selected)) selected[k]={keep:true,text:k,small:false};
+
    const row=document.createElement("div");row.className="composeRow";
    const left=document.createElement("div");left.className="composeKana";left.textContent=k;
    const cand=document.createElement("div");cand.className="candidates";
 
    const keep=document.createElement("button");
-   keep.className="glyphChoice"+(selected[k]===k?" active":"");
+   keep.className="glyphChoice"+(selected[k]?.keep?" active":"");
    keep.innerHTML='<span class="g">'+escapeHtml(k)+'</span><small>そのまま</small>';
-   keep.onclick=()=>{selected[k]=k;renderCompose()};cand.appendChild(keep);
+   keep.onclick=()=>{selected[k]={keep:true,text:k,small:false};renderCompose()};cand.appendChild(keep);
 
-   GLYPHS.filter(x=>x.kana===k).forEach(e=>{
+   GLYPHS.filter(x=>x.kana===info.base).forEach(e=>{
+     const out=e.character+info.mark;
+     const active=!selected[k]?.keep && selected[k]?.text===out && !!selected[k]?.small===info.small;
      const b=document.createElement("button");
-     b.className="glyphChoice"+(selected[k]===e.character?" active":"");
-     b.innerHTML='<span class="g">'+escapeHtml(e.character)+'</span><small>字母 '+escapeHtml(e.jibo)+' / '+e.totalObserved.toLocaleString()+'件</small>';
-     b.onclick=()=>{selected[k]=e.character;renderCompose()};cand.appendChild(b);
+     b.className="glyphChoice"+(active?" active":"");
+     b.innerHTML='<span class="g'+(info.small?' smallGlyph':'')+'">'+escapeHtml(out)+'</span><small>'+
+       (info.small?'小書き表示 / ':'')+
+       '字母 '+escapeHtml(e.jibo)+' / '+e.totalObserved.toLocaleString()+'件'+
+       (info.mark==="\u3099"?' / 濁点':info.mark==="\u309A"?' / 半濁点':'')+
+       '</small>';
+     b.onclick=()=>{selected[k]={keep:false,text:out,small:info.small};renderCompose()};cand.appendChild(b);
    });
    row.append(left,cand);rows.appendChild(row);
  });
- if(!needed.length)rows.innerHTML='<div class="note">対応候補のある仮名を入力すると、ここに字体候補が表示されます。</div>';
- document.getElementById("preview").textContent=[...text].map(ch=>selected[ch]||ch).join("");
+
+ if(!needed.length) rows.innerHTML='<div class="note">対応候補のある仮名を入力すると、ここに字体候補が表示されます。</div>';
+ document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
 }
 
 async function checkHentaiganaFont(){
