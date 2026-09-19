@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "0.6",
+  "schemaVersion": "0.7",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 残件バックログ",
-  "basis": "既存4サンプル計990文字、shadow detector v0.12",
-  "total": 38,
+  "basis": "既存4サンプル計990文字、shadow detector v0.13",
+  "total": 10,
   "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
   "categories": [
     {
@@ -16,15 +16,15 @@
     },
     {
       "surface": "に",
-      "count": 20,
+      "count": 4,
       "layer": "syntax+morphology",
       "priority": "A",
-      "why": "格助詞・接続助詞・ナリ活用・断定「なり」・完了「ぬ」等が衝突。",
-      "nextEvidence": "後続助動詞、体言/連体形境界、既知語内部の三方向で分ける。"
+      "why": "安倍晴明本文の残4件は「給ひけるに／見給ふに／走らするに／問はるるに」。連体形＋にを格助詞・接続助詞のどちらに立てるか資料間で揺れる。",
+      "nextEvidence": "採用する学校文法基準を一次資料で確定するまでhold。"
     },
     {
       "surface": "と",
-      "count": 10,
+      "count": 1,
       "layer": "syntax+boundary",
       "priority": "A",
       "why": "引用符直後13件はhard-boundaryで解消。残10件は格助詞（引用・内容）・タリ活用・断定「たり」・語内部等が衝突。",
@@ -45,14 +45,6 @@
       "priority": "B",
       "why": "助動詞「ぬ」未然・終助詞・禁止副詞・語内部が衝突。",
       "nextEvidence": "「な～そ」呼応、後続助動詞、既知語内部を分離。"
-    },
-    {
-      "surface": "が",
-      "count": 3,
-      "layer": "syntax+boundary",
-      "priority": "B",
-      "why": "格助詞・接続助詞に加え語内部一致がある。",
-      "nextEvidence": "既知語境界を先に増やし、残りを前後の述語構造で判定。"
     },
     {
       "surface": "せ",
@@ -79,16 +71,16 @@
     "shadow resolvedをlearner-visible正解表示へ直結しない。"
   ],
   "latestChange": [
-    "安倍晴明本文の助詞exact passage evidence層を新設。",
-    "接続助詞「て」20位置、格助詞「を」20位置をexact passage限定でresolved。",
-    "「とて」内部「て」6位置と「さて」内部「て」1位置をlarger-unit suppression。",
-    "context-required 85→38。resolved 121→161。raw 310 / DB only 0は維持。",
-    "残件は「に20 / と10」が約79%を占める。"
+    "安倍晴明本文の「に」16位置を処理（格助詞15 resolved + 「たちまちに」1 suppression）。",
+    "「と」9位置を処理（格助詞7 resolved + 「日ごと」「こと」内部2 suppression）。",
+    "「が」3位置を処理（接続助詞1 + 格助詞2 resolved）。",
+    "context-required 38→10。resolved 161→186。raw 310 / DB only 0は維持。",
+    "残10件はすべて保留理由を明示できる状態。"
   ],
   "resolvedSinceV08": {
-    "total": 92,
-    "note": "v0.8のcontext-required130→38。resolvedへの昇格と、境界/非助動詞・larger-unit抑制への安全な再分類を合算。",
-    "previousV011Reduction": 45,
-    "v012ParticleReduction": 47
+    "total": 120,
+    "note": "v0.8のcontext-required130→10。resolvedへの昇格と、境界/非助動詞・larger-unit抑制への安全な再分類を合算。",
+    "previousThroughV012": 92,
+    "v013ParticleReduction": 28
   }
 }
