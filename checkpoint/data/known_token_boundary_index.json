@@ -11,8 +11,8 @@
     "全500例DBで活用形が曖昧でも、2文字以上かつ漢字を含む監査済みtargetは、文法確定ではなく語境界抑制専用のtrusted tokenとして利用できる。",
     "v1.3のBASIC_WORDSフィルタをDB境界レイヤへ移し、既存挙動をshadowでも再現する。"
   ],
-  "entryCount": 308,
-  "suppressibleCount": 308,
+  "entryCount": 330,
+  "suppressibleCount": 330,
   "entries": [
     {
       "surface": "出でおはしましがたから",
@@ -345,6 +345,19 @@
           "trust": "curated",
           "lemma": "おはします",
           "category": "honorific"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "からめ取る",
+      "length": 5,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
         }
       ],
       "trust": "curated",
@@ -1054,6 +1067,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "安倍晴明",
+      "length": 4,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "引き見よ",
       "length": 4,
       "sources": [
@@ -1177,6 +1203,19 @@
         }
       ],
       "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "御堂関白",
+      "length": 4,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
       "canSuppressInternalSurface": true
     },
     {
@@ -1693,6 +1732,11 @@
           "headwordCandidates": [
             "いづく"
           ]
+        },
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
         }
       ],
       "trust": "curated",
@@ -1783,6 +1827,19 @@
           "headwordCandidates": [
             "かかり"
           ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "かたり",
+      "length": 3,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
         }
       ],
       "trust": "curated",
@@ -1909,6 +1966,11 @@
           "headwordCandidates": [
             "やすし"
           ]
+        },
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
         }
       ],
       "trust": "curated",
@@ -2522,6 +2584,19 @@
         }
       ],
       "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "塞がる",
+      "length": 3,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
       "canSuppressInternalSurface": true
     },
     {
@@ -3312,6 +3387,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "やう",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "わか",
       "length": 2,
       "sources": [
@@ -3362,6 +3450,32 @@
         }
       ],
       "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "云々",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "怨霊",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
       "canSuppressInternalSurface": true
     },
     {
@@ -3821,6 +3935,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "建立",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "見え",
       "length": 2,
       "sources": [
@@ -3936,6 +4063,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "古る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "呼ぶ",
       "length": 2,
       "sources": [
@@ -3947,6 +4087,19 @@
         }
       ],
       "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "御衣",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
       "canSuppressInternalSurface": true
     },
     {
@@ -4271,6 +4424,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "左府",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "咲く",
       "length": 2,
       "sources": [
@@ -4386,6 +4552,19 @@
           "trust": "high",
           "analysisSignatureCount": 1,
           "formConsensus": "命令形"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "仕る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
         }
       ],
       "trust": "curated",
@@ -4787,6 +4966,32 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "朱砂",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "呪詛",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "蹴よ",
       "length": 2,
       "sources": [
@@ -5164,6 +5369,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "崇り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "成行",
       "length": 2,
       "sources": [
@@ -5329,6 +5547,19 @@
         }
       ],
       "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "則ち",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
       "canSuppressInternalSurface": true
     },
     {
@@ -5664,6 +5895,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "白鷺",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "犯さ",
       "length": 2,
       "sources": [
@@ -5736,6 +5980,11 @@
           "headwordCandidates": [
             "不便なり"
           ]
+        },
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
         }
       ],
       "trust": "curated",
@@ -5906,6 +6155,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "本国",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "明け",
       "length": 2,
       "sources": [
@@ -6050,6 +6312,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "流罪",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "例の",
       "length": 2,
       "sources": [
@@ -6059,6 +6334,32 @@
           "headwordCandidates": [
             "例の"
           ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "糺す",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "誦ず",
+      "length": 2,
+      "sources": [
+        {
+          "source": "abeSeimeiVocabulary",
+          "trust": "curated",
+          "note": "安倍晴明_本文・文法・語彙整理.docx ④"
         }
       ],
       "trust": "curated",
