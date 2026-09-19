@@ -323,3 +323,35 @@ Stage A の大量追加へは戻らない。
 6. `context-checked = 1` 到達時に ROADMAP / HANDOFF / チェックポイントを即更新する。
 
 画像を直接確認できない環境では、OCR・別伝本・推測による代用を行わない。
+
+
+### 2026-09-19 15:34 JST 追記: 原画像取得経路成立
+
+GitHub/Web-only 継続中。ローカルは引き続き一切触っていない。
+
+Phase 2C-2 の初回候補:
+`att-brsk005-u1b012-brsk005-009-id0346-x0474-y2151`
+（『諸国方言物類称呼』巻五4オ、「正字とは見えず」の「え」）
+
+#### 原画像取得の進展
+
+国語研公開画像について、サムネイルだけでなく高解像度JPEGへの直接経路を確認した。
+
+- サムネイル:
+  `https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/s/brsk005-009s-.jpg`
+- 高解像度本文画像:
+  `https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/jpg/brsk005-009.jpg`
+
+Google Slides の `createImage` を経由すると、この高解像度JPEGを取得・レンダリングできることを実測した。
+高解像度画像は 1620×2500 px として取得できた。
+
+これにより、前回の「current-tool image retrieval unavailable」という阻害要因は解消方向へ進んだ。
+
+#### 現在位置
+
+- exact-text: 5
+- context-checked: 0
+- 現在の作業: 高解像度4オ画像上で対象位置を拡大し、対象字体と周辺筆線、`renmen` を直接確認する
+- 次の区切り: `context-checked = 1`
+
+まだ画像判定は完了していないため、`attested-examples.json` の昇格は行っていない。

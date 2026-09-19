@@ -217,3 +217,28 @@ U+3048_brsk005-034_ID0151_X1237_Y1854.jpg
 `context-checked` へは昇格させない。
 
 次回は同じ4オ候補を優先し、画像が表示できる環境で直接確認する。
+
+
+## 12. 高解像度本文JPEGの取得経路
+
+Phase 2C-2 の原画像確認について、国語研「日本語史研究資料」の本文画像に
+サムネイルとは別の高解像度JPEG経路があることを確認した。
+
+巻五4オ（viewer page `brsk005-009`）:
+
+```text
+thumbnail:
+https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/s/brsk005-009s-.jpg
+
+full image:
+https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/jpg/brsk005-009.jpg
+```
+
+Google Slides API の `createImage` で full image URL を取得できることを実測し、
+1620×2500 px の本文画像としてレンダリングできた。
+
+この経路は、現在のチャット環境から国語研サーバーへ直接画像取得できない場合の
+**Web-only原画像確認ブリッジ**として利用できる。
+
+次は `brsk005-009 / ID0346 / X474 Y2151` を高解像度画像上で照合し、
+対象字体と周辺筆線、連綿を直接確認する。

@@ -470,6 +470,14 @@ human-confirmed:
 7. context-checked 5件、10件へ拡張
 8. 各節目でチェックポイントを更新する
 
+### 2026-09-19 15:34 JST 進捗
+
+- ローカル非接触を維持。
+- 巻五4オの高解像度本文JPEG `/005/jpg/brsk005-009.jpg` の取得経路が成立。
+- Google Slides経由で 1620×2500 px の原画像を取得済み。
+- 現在は `brsk005-009 / ID0346 / X474 Y2151` の対象字体・周辺筆線・連綿を画像上で判定中。
+- `context-checked` は判定完了まで 0 件を維持。
+
 ### GitHub/Web-only セッション注記（2026-09-19）
 
 Work 資源枯渇中のため、現在はローカルを触らず GitHub `yama-books/koten` と公開Web資料だけで進行中。
