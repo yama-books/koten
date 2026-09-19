@@ -27,14 +27,14 @@
     "notYetFound": 4,
     "publicationReadyWorks": 12,
     "publicExamplesConnected": 64,
-    "rightsVerifiedWorks": 19,
+    "rightsVerifiedWorks": 20,
     "targetVerifiedExamples": 66,
     "excerptReviewedExamples": 64,
     "publicationReadyExamples": 64,
-    "auditStatusKnownWorks": 20,
-    "blockedWorks": 4,
+    "auditStatusKnownWorks": 21,
+    "blockedWorks": 5,
     "partialWorks": 4,
-    "classroomCandidateWorks": 1
+    "classroomCandidateWorks": 2
   },
   "works": [
     {
@@ -55,7 +55,28 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "note": "PUBLIC: 権利クリアな画像資料は複数あるが、16 targetを同一の再利用可能な検索本文で照合できず保留。CLASSROOM: 公開校訂本文を35条条件下で使う候補として再監査可能。",
+      "codh": {
+        "candidateFound": true,
+        "candidateUrl": "https://codh.rois.ac.jp/pmjt/book/200003072/",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 0,
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "寛永元年古活字版画像・メタデータ。"
+      },
+      "archives": {
+        "candidateFound": true,
+        "candidateUrl": "https://www.digital.archives.go.jp/file/1271378.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 0,
+        "sourceLicense": "CC0 1.0",
+        "rightsNote": "慶長刊中院本。画像二次利用可。"
+      },
+      "auditStatus": "blocked-with-reason",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-article35-delivery-check-and-target-audit"
     },
     {
       "work": "保元物語",
