@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint context-required 残件バックログ",
+  "basis": "既存4サンプル計990文字、shadow detector v0.6",
+  "total": 151,
+  "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
+  "categories": [
+    {
+      "surface": "て",
+      "count": 28,
+      "layer": "syntax+morphology",
+      "priority": "A",
+      "why": "接続助詞と完了「つ」活用形が衝突。前接連用形だけでは一意にならず、後続助動詞や文節境界が必要。",
+      "nextEvidence": "USB-3212の後続cueを実コーパス例で監査し、exact-context evidenceを増やす。"
+    },
+    {
+      "surface": "に",
+      "count": 28,
+      "layer": "syntax+morphology",
+      "priority": "A",
+      "why": "格助詞・接続助詞・ナリ活用・断定「なり」・完了「ぬ」等が衝突。",
+      "nextEvidence": "後続助動詞、体言/連体形境界、既知語内部の三方向で分ける。"
+    },
+    {
+      "surface": "と",
+      "count": 23,
+      "layer": "syntax+boundary",
+      "priority": "A",
+      "why": "格助詞、タリ活用、断定「たり」、副詞内部など。引用・語境界の解析が必要。",
+      "nextEvidence": "引用符境界・既知語境界・前接体言/句を別レイヤ化。"
+    },
+    {
+      "surface": "を",
+      "count": 21,
+      "layer": "syntax",
+      "priority": "A",
+      "why": "格助詞・接続助詞・間投助詞を文構造で区別する必要がある。",
+      "nextEvidence": "体言/連体形の前接と文節境界を取得する。"
+    },
+    {
+      "surface": "し",
+      "count": 13,
+      "layer": "boundary+morphology",
+      "priority": "B",
+      "why": "サ変連用・過去「き」連体・副助詞・語内部が衝突。",
+      "nextEvidence": "既知語DBを増やして語内部を先に除外し、後続体言/助動詞を監査する。"
+    },
+    {
+      "surface": "な",
+      "count": 8,
+      "layer": "boundary+morphology",
+      "priority": "B",
+      "why": "助動詞「ぬ」未然・終助詞・禁止副詞・語内部が衝突。",
+      "nextEvidence": "「な～そ」呼応、後続助動詞、既知語内部を分離。"
+    },
+    {
+      "surface": "ば",
+      "count": 8,
+      "layer": "connection",
+      "priority": "B",
+      "why": "未然形接続・已然形接続・係助詞「は」の濁音化。",
+      "nextEvidence": "監査済み直前活用形を増やす。USB-3212由来の「けれ＋ば」は既に6件resolved。"
+    },
+    {
+      "surface": "が",
+      "count": 6,
+      "layer": "syntax+boundary",
+      "priority": "B",
+      "why": "格助詞・接続助詞に加え語内部一致がある。",
+      "nextEvidence": "既知語境界を先に増やし、残りを前後の述語構造で判定。"
+    },
+    {
+      "surface": "る",
+      "count": 6,
+      "layer": "boundary+morphology",
+      "priority": "B",
+      "why": "助動詞「る」・完了存続「り」連体・動詞語尾/語内部が衝突。",
+      "nextEvidence": "より大きい活用語形のwhole-token証拠を増やす。"
+    },
+    {
+      "surface": "せ",
+      "count": 6,
+      "layer": "morphology",
+      "priority": "B",
+      "why": "サ変・過去「き」・使役尊敬「す」が衝突。",
+      "nextEvidence": "前接活用形と後続助動詞/敬語を監査済み例で接続。"
+    },
+    {
+      "surface": "む",
+      "count": 3,
+      "layer": "morphology",
+      "priority": "C",
+      "why": "助動詞「む」自体と前語の活用語尾を含む切り方が衝突。",
+      "nextEvidence": "未然形のwhole-token evidenceを増やす。"
+    },
+    {
+      "surface": "ぬ",
+      "count": 1,
+      "layer": "morphology",
+      "priority": "C",
+      "why": "完了「ぬ」終止と打消「ず」連体の識別。",
+      "nextEvidence": "残件「咲きぬ」は一次資料/監査済み句が得られるまで保留。"
+    }
+  ],
+  "strategy": [
+    "まず語内部誤一致をknown-token boundaryで除外する。",
+    "次に一次資料・監査済みコーパスが示す接続だけをresolverへ入れる。",
+    "文節構造が必要な「に・と・を・が」はtokenizer/係り先解析が入るまで無理にresolvedへ上げない。",
+    "shadow resolvedをlearner-visible正解表示へ直結しない。"
+  ]
+}
