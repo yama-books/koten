@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.10",
+  "schemaVersion": "0.11",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -18,28 +18,28 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 113,
-    "dbSuppressed": 197,
-    "matched": 113,
+    "dbResolved": 121,
+    "dbSuppressed": 189,
+    "matched": 121,
     "dbOnly": 0,
-    "legacyOnlyUnique": 197,
+    "legacyOnlyUnique": 189,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.36451612903225805,
+    "resolvedMatchRateOfUniqueLegacy": 0.3903225806451613,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 98,
+      "context-required-not-yet-resolved": 85,
       "indexed-larger-surface": 48,
-      "known-larger-token": 37,
+      "known-larger-token": 39,
       "audited-exact-phrase-nonauxiliary": 1,
       "source-exact-bunsetu-lexical-unit": 2,
-      "source-exact-phrase-larger-unit": 11
+      "source-exact-phrase-larger-unit": 14
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
     "contextSupportedButSuppressed": 0,
     "exactPhraseResolved": 9,
     "leftSurfaceResolved": 12,
-    "sourceExactPhraseResolved": 17,
-    "sourceExactPhraseSuppressed": 11,
+    "sourceExactPhraseResolved": 25,
+    "sourceExactPhraseSuppressed": 14,
     "hardBoundaryResolved": 13
   },
   "samples": [
@@ -57,8 +57,8 @@
       "legacyOnlyUnique": 6,
       "suppressionReasons": {
         "indexed-larger-surface": 3,
-        "known-larger-token": 1,
-        "context-required-not-yet-resolved": 2
+        "known-larger-token": 2,
+        "context-required-not-yet-resolved": 1
       },
       "resolutionReasons": {
         "plain": 3
@@ -112,16 +112,16 @@
       "legacyUnique": 273,
       "legacyDuplicates": 33,
       "dbRaw": 273,
-      "dbResolved": 95,
-      "dbSuppressed": 178,
-      "matched": 95,
+      "dbResolved": 103,
+      "dbSuppressed": 170,
+      "matched": 103,
       "dbOnly": 0,
-      "legacyOnlyUnique": 178,
+      "legacyOnlyUnique": 170,
       "suppressionReasons": {
-        "context-required-not-yet-resolved": 92,
+        "context-required-not-yet-resolved": 80,
         "indexed-larger-surface": 39,
-        "known-larger-token": 36,
-        "source-exact-phrase-larger-unit": 11
+        "known-larger-token": 37,
+        "source-exact-phrase-larger-unit": 14
       },
       "resolutionReasons": {
         "resolved-by-source-exact-phrase": 17,
@@ -232,6 +232,12 @@
       "source": "local_boundary_audit_20260919.json",
       "result": "PASS",
       "invariant": "signal-only層はresolved/suppressed分類を単独では変更しない。"
+    },
+    "abeGrammar": {
+      "tested": 38,
+      "passed": 38,
+      "failed": 0,
+      "source": "abe_seimei_grammar_regression_20260919.json"
     }
   },
   "designFindings": [
@@ -260,13 +266,19 @@
     "安倍晴明sourceで「遣はし」「御越し」をwhole-token境界化し、内部「し」2位置を追加抑制した。",
     "百人一首第9首の完全一致9箇所を passage-specific evidence 化し、8位置resolved・「ふる」内部の「る」1位置をnonauxiliary suppressionへ移した。",
     "和歌サンプルはcontext-required 9→0。全体は raw 310 / resolved 113 / suppressed 197 / context-required 98。",
-    "local_boundary_policy / audit を signal-only で導入し、句読点・文字種遷移を観測するが、それ単独では判定に使わない。"
+    "local_boundary_policy / audit を signal-only で導入し、句読点・文字種遷移を観測するが、それ単独では判定に使わない。",
+    "verified whole-token境界として「たなびき」「取り出だし」を追加し、内部の「な」「し」を抑制。",
+    "「物もなし」を安倍晴明本文のexact phraseに限定して形容詞「なし」の内部「な・し」を抑制。",
+    "残っていた安倍晴明本文の「し」8位置はノイズとして消さず、建立し・御供し・む/じ＋とし・呪詛しをサ変「す」連用形としてexact passage限定でresolved。",
+    "「うち合せて」内部の「せ」は文語動詞「合す」の活用語形内部としてpassage-specific suppression。",
+    "停止時点: raw 310 / resolved 121 / suppressed 189 / context-required 85 / resolved率39.0% / DB only 0。"
   ],
   "next": [
-    "残98位置は「て28・を21・に20・し10・と10」が中心。局所境界signalだけではresolveしない。",
-    "source-reviewed whole-token と passage-specific exact evidence を先に増やす。",
-    "局所boundary/tokenizerは、反例監査を作ってから複数signal一致時のみ候補支持へ使う。",
-    "一次資料が参照可能になったら auxiliary_master の verified 化を別レーンで続ける。"
+    "残85位置は「て28・を21・に20・と10」が主ボトルネック。次に「が3・な1・せ1・ぬ1」。",
+    "「し」は既存4サンプルではcontext-required 0まで整理済み。",
+    "局所boundary signal単独ではresolveしない。source-reviewed whole-token / passage-specific exact evidenceを先に増やす。",
+    "「不便にせさせ給ひ」の最初の「せ」は、さすの接続がauxiliary_masterで一次資料待ちのため保留。",
+    "一次資料『新しい古典文法 四訂新版』が参照できたら、助動詞masterのverified化を再開する。"
   ],
   "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。",
   "contextResolver": {
@@ -389,13 +401,12 @@
   },
   "unresolvedBySurface": {
     "て": 28,
-    "に": 20,
     "を": 21,
-    "し": 10,
+    "に": 20,
     "と": 10,
-    "な": 3,
     "が": 3,
-    "せ": 2,
+    "な": 1,
+    "せ": 1,
     "ぬ": 1
   },
   "abeSeimeiEvidence": {
