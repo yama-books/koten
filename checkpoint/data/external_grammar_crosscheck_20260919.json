@@ -119,6 +119,34 @@
           "url": "https://kotobank.jp/word/%E3%81%8F%E6%B4%BB%E7%94%A8-3210015"
         }
       ]
+    },
+    {
+      "id": "sahen-su-renyo-shi",
+      "surface": "し",
+      "finding": "古典文法のサ行変格活用「す」の連用形は「し」。名詞・漢語などと複合動詞を作りやすく、「むとす」も『む＋と＋サ変す』として分析できる。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "高等学校古文/動詞 サ行変格活用",
+          "provider": "Wikibooks",
+          "url": "https://ja.wikibooks.org/wiki/%E9%AB%98%E7%AD%89%E5%AD%A6%E6%A0%A1%E5%8F%A4%E6%96%87/%E5%8B%95%E8%A9%9E"
+        },
+        {
+          "title": "むず（んず）助動詞",
+          "provider": "減点されない古文",
+          "url": "https://hohoemashi.com/muzu/"
+        },
+        {
+          "title": "建立",
+          "provider": "Wiktionary日本語版",
+          "url": "https://ja.wiktionary.org/wiki/%E5%BB%BA%E7%AB%8B"
+        },
+        {
+          "title": "呪詛",
+          "provider": "Wiktionary日本語版",
+          "url": "https://ja.wiktionary.org/wiki/%E5%91%AA%E8%A9%9B"
+        }
+      ]
     }
   ]
 }
