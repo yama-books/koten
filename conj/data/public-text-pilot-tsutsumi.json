@@ -1,79 +1,59 @@
 {
   "updated": "2026-09-19",
   "work": "堤中納言物語",
-  "status": "blocked-with-reason / reusable-images-found-searchable-text-not-fixed",
-  "sources": [
-    {
-      "provider": "Wikimedia Commons / NDL",
-      "title": "堤中納言物語 10巻",
-      "url": "https://commons.wikimedia.org/wiki/File:NDL2550700_堤中納言物語_10巻.(1).pdf",
+  "status": "blocked-with-reason / public-text-verification-blocked",
+  "publicMode": {
+    "source": {
+      "provider": "CODH 日本古典籍データセット",
+      "url": "https://codh.rois.ac.jp/pmjt/book/200020217/",
       "rightsVerified": true,
-      "rightsStatus": "public domain mechanical scan of public-domain original",
-      "editionFixed": false,
-      "note": "公開古典籍画像として利用可能だが、5 selected targetsを安全に検索照合できる本文層を確保できない。"
+      "sourceLicense": "CC BY-SA 4.0",
+      "editionFixed": true,
+      "note": "国文研所蔵『堤中納言物語』画像資料。画像・メタデータはCC BY-SA 4.0。"
     },
-    {
-      "provider": "京都大学貴重資料デジタルアーカイブ",
-      "title": "堤中納言物語",
-      "url": "https://rmda.kulib.kyoto-u.ac.jp/item/rb00000146",
-      "rightsVerified": true,
-      "rightsStatus": "reuse policy available at provider",
-      "editionFixed": false,
-      "note": "画像資料。検索可能な本文としては使用しない。"
-    },
-    {
-      "provider": "khirin / 国立歴史民俗博物館",
-      "title": "高松宮家伝来禁裏本 堤中納言物語",
-      "url": "https://khirin.rekihaku.ac.jp/pid/nmjh_collection/H-600-721.html",
-      "rightsVerified": true,
-      "rightsStatus": "CC BY-SA 4.0",
-      "editionFixed": false,
-      "note": "画像・資料メタデータの再利用条件は明確だが、selected targetの検索可能本文ではない。"
-    }
-  ],
-  "blocker": "5 selected targetsは複数の一般公開Web本文で語形の存在を確認できるが、再利用条件と底本を固定できる単一の検索可能本文を確保できない。CHJ優先ルールに従い、無許諾転写サイトや画像からの推測転記を公開実例には使わない。",
+    "blocker": "5選抜例を同一の検索可能本文で安全に照合できるテキスト層を未確保。画像からの推測転記はしない。",
+    "publicEligible": false
+  },
+  "classroomMode": {
+    "classroomCandidate": true,
+    "status": "needs-source-terms-and-target-check",
+    "note": "学校授業内限定では著作権法35条に基づく利用余地がある。ただしCHJ raw本文は使わず、合法的にアクセスできる別本文についてsourceTermsChecked / targetVerified / excerptReviewedを満たす必要がある。"
+  },
   "records": [
     {
       "id": "adjv-007",
       "chjTarget": "とりどりなり",
       "targetVerified": false,
-      "excerptReviewed": false,
       "exampleEnabledPublic": false
     },
     {
       "id": "adjv-021",
       "chjTarget": "はなやかなれ",
       "targetVerified": false,
-      "excerptReviewed": false,
       "exampleEnabledPublic": false
     },
     {
       "id": "adjv-041",
       "chjTarget": "ふさやかなら",
       "targetVerified": false,
-      "excerptReviewed": false,
       "exampleEnabledPublic": false
     },
     {
       "id": "adjv-069",
       "chjTarget": "きびはなる",
       "targetVerified": false,
-      "excerptReviewed": false,
       "exampleEnabledPublic": false
     },
     {
       "id": "adjv-092",
       "chjTarget": "なほざりに",
       "targetVerified": false,
-      "excerptReviewed": false,
       "exampleEnabledPublic": false
     }
   ],
   "counts": {
     "total": 5,
-    "rightsVerifiedAtWorkLevel": true,
-    "targetVerified": 0,
-    "excerptReviewed": 0,
-    "publicationEnabled": 0
+    "publicEnabled": 0,
+    "targetVerified": 0
   }
 }
