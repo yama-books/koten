@@ -1,7 +1,7 @@
 {
   "updated": "2026-09-19",
   "work": "古今和歌集",
-  "status": "pilot / all-targets-verified",
+  "status": "pilot / partial-publication-enabled",
   "provider": "Wikisource",
   "edition": {
     "title": "古今和歌集",
@@ -28,8 +28,8 @@
       "publicTarget": "あたなる",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/古今和歌集/巻十",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
       "note": "濁点表記差。連体形「なる」を確認。"
     },
     {
@@ -57,7 +57,7 @@
     "total": 4,
     "rightsVerified": 4,
     "targetVerified": 4,
-    "excerptReviewed": 0,
-    "publicationEnabled": 0
+    "excerptReviewed": 1,
+    "publicationEnabled": 1
   }
 }
