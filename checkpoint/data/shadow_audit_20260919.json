@@ -18,18 +18,18 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 85,
-    "dbSuppressed": 225,
-    "matched": 85,
+    "dbResolved": 86,
+    "dbSuppressed": 224,
+    "matched": 86,
     "dbOnly": 0,
-    "legacyOnlyUnique": 225,
+    "legacyOnlyUnique": 224,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.27419354838709675,
+    "resolvedMatchRateOfUniqueLegacy": 0.27741935483870966,
     "suppressionReasons": {
-      "indexed-larger-surface": 49,
+      "context-required-not-yet-resolved": 132,
+      "indexed-larger-surface": 48,
       "known-larger-token": 33,
-      "context-required-not-yet-resolved": 134,
-      "source-exact-phrase-larger-unit": 9
+      "source-exact-phrase-larger-unit": 11
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
@@ -338,30 +338,28 @@
   },
   "unresolvedBySurface": {
     "て": 28,
-    "に": 28,
+    "に": 24,
     "と": 23,
     "を": 21,
     "し": 13,
-    "な": 8,
     "ば": 8,
-    "が": 6,
-    "る": 6,
-    "せ": 6,
-    "む": 3,
+    "な": 5,
+    "が": 5,
+    "せ": 3,
+    "る": 1,
     "ぬ": 1
   },
   "abeSeimeiEvidence": {
     "grammarFile": "abe_seimei_grammar_evidence.json",
+    "grammarRegression": "abe_seimei_grammar_regression_20260919.json",
+    "grammarEntries": 28,
+    "grammarRegressionResult": "28/28 PASS",
     "vocabularyFile": "abe_seimei_vocabulary_evidence.json",
-    "grammarEntries": 24,
     "vocabularyEntries": 29,
-    "exactResolved": 15,
-    "exactLargerUnitSuppressed": 9,
-    "importantCorrections": [
-      "「入らむ」の内部の「らむ」を現在推量「らむ」一語として扱わない。",
-      "「ならむ」は断定「なり」を含む形＋「む」であり、内部の「らむ」を一語として扱わない。",
-      "「黄なる」は形容動詞「黄なり」の連体形として、内部の「な」「る」を独立候補にしない。",
-      "「かたり」の内部の「たり」を助動詞候補として扱わない。"
-    ]
+    "kakariFile": "abe_seimei_kakari_evidence.json",
+    "kakariRegression": "abe_seimei_kakari_regression_20260919.json",
+    "kakariLinks": 5,
+    "kakariEndingHitsLinked": 4,
+    "kakariEllipsis": 1
   }
 }
