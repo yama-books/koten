@@ -579,3 +579,27 @@ baseline後boundary修復:
 - selective learner promotion: 未実施
 
 ※ 数値は工数ベースの概算。単純なresolved率ではない。
+
+
+## 2026-09-20 Git履歴照合訂正 / Stage 2 現行状態
+
+21:01追記の「blind gold 2本完了」は、実装・監査成果物より古い並行スナップショットだった。Git履歴を照合し、以下を現行とする。
+
+- independent blind gold **3作品**: 徒然草52 / 伊勢物語6 / 方丈記冒頭
+- blind合算: **112 positions / strict PASS 63 / grammar strict resolve 16/61 / boundary 47/51 / wrongResolved 0**
+- blind false-positive resolved 4件はすべて larger-token boundary不足
+- post-blind development: **strict PASS 73/112 / grammar strict resolve 22/61 / boundary 51/51 / hard error 0**
+- 既存4サンプル: raw 310 / old resolved 187 / **strict 145 / ambiguous 42** / suppressed 123 / DB only 0
+
+途中停止していた左語coverage測定は、その後の成果物で実質完了済み:
+- `cross_gold_failure_taxonomy_20260919.json`: 2作品 expected-resolve failure 38を4bucketへ分類
+- `local_syntax_feature_audit_20260919.json`: 3作品の unresolved/ambiguous expected-resolve **39** を監査
+  - previous morphology 14
+  - left trusted token 7
+  - right trusted token 4
+  - punctuation after 14
+  - right hard cue 0
+
+現行の次手は、旧31件測定のやり直しではなく **right-token morphology / 助動詞列開始 vs 独立語開始のsignal-only feature拡張**。その後も `に/を/と` は節構造なしにhard rule化しない。新hard ruleを作る場合は第四作品をgold先固定してblind評価する。
+
+learner-visible detectorはlegacyを維持。primary-source hold 5件も維持する。
