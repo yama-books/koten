@@ -1,26 +1,31 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "Checkpoint local boundary signal audit 2026-09-19",
-  "detector": "shadow v0.12",
+  "detector": "shadow v0.13",
   "invariant": {
     "raw": 310,
-    "resolved": 161,
-    "suppressed": 149,
-    "contextRequired": 38,
-    "note": "signal-only層そのものは判定しない。v0.12の減少はsource exact particle evidenceによる。"
+    "resolved": 186,
+    "suppressed": 124,
+    "contextRequired": 10,
+    "note": "signal-only層そのものは判定しない。v0.13の減少はsource exact particle evidenceによる。"
   },
   "unresolvedBySurface": {
-    "に": 20,
-    "と": 10,
-    "が": 3,
+    "に": 4,
     "て": 1,
     "ぬ": 1,
     "を": 1,
+    "と": 1,
     "な": 1,
     "せ": 1
   },
   "signalBySurface": {
+    "に": {
+      "count": 4,
+      "rightPunctuation": 4,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 4
+    },
     "て": {
       "count": 1,
       "rightPunctuation": 1,
@@ -40,28 +45,16 @@
       "rightScriptTransition": 1
     },
     "と": {
-      "count": 10,
+      "count": 1,
       "rightPunctuation": 0,
-      "leftScriptTransition": 2,
-      "rightScriptTransition": 2
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 0
     },
     "な": {
       "count": 1,
       "rightPunctuation": 0,
       "leftScriptTransition": 0,
       "rightScriptTransition": 0
-    },
-    "に": {
-      "count": 20,
-      "rightPunctuation": 6,
-      "leftScriptTransition": 10,
-      "rightScriptTransition": 14
-    },
-    "が": {
-      "count": 3,
-      "rightPunctuation": 1,
-      "leftScriptTransition": 2,
-      "rightScriptTransition": 3
     },
     "せ": {
       "count": 1,
@@ -71,13 +64,14 @@
     }
   },
   "findings": [
-    "v0.12では安倍晴明本文の「て」「を」をpassage-specific evidenceで処理したため、signal監査の本丸は「に」「と」に移った。",
-    "「に」20件は格助詞・接続助詞・断定なり・完了ぬ等の衝突が残り、文字種signalだけでは決めない。",
-    "「と」10件は「日ごと」内部、む/じ＋とす、引用、名詞＋と等を分離する必要がある。",
-    "signal-only方針は維持する。"
+    "v0.13では主要surfaceの未解決が消え、残10件は意図的holdへ収束した。",
+    "安倍晴明の残「に」4件はすべて連体形＋にで、格助詞・接続助詞の学校文法上の立て方が資料間で揺れる。",
+    "識別サンプルの4件は曖昧性テストとして維持する価値が高い。",
+    "signal-only方針は維持し、句読点だけでresolvedにしない。"
   ],
   "next": [
-    "「に」の前接単位POS/活用をexact passageで監査する。",
-    "「と」のlarger-unit・引用構造を先に分ける。"
+    "一次資料で連体形＋「に」の扱いを確定する。",
+    "枕草子「あかりて」は出典付きexact evidence化を検討する。",
+    "識別サンプルはテスト意図を文書化し、正解固定しない。"
   ]
 }
