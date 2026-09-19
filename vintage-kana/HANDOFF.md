@@ -550,3 +550,57 @@ GitHub/Web-only・ローカル非接触方針は維持。
 - 一次公開までの進捗概算: **約80〜85%完了 / 残り約15〜20%**
 
 再開は研究追加ではなく、公開候補P1〜P5の人間確認と実ブラウザQAから行う。
+
+
+## 17. 2026-09-19 人間確認完了 / UI 0.7
+
+一次公開候補P1〜P5の人間裁定を完了。
+
+### 判定
+
+- P1: human-confirmed / publication approved
+- P2: human-confirmed / publication approved
+- P3: human-confirmed / publication approved
+- P4: human-confirmed / publication approved
+- P5: publication excluded / context-checked維持
+
+現在:
+- total 49
+- context-checked 6
+- human-confirmed 4
+- rejected 0
+- publication approved 4
+- publication excluded 1
+
+一次公開MVPの最低3件ゲートは達成。
+
+### 重要なデータモデル変更
+
+人間確認を通じ、原資料中の手書き字形とUnicodeフォントの代表字形を完全一致させることを公開条件にしない方針へ変更した。
+
+- `glyph_id / character`: 国語研字形DB上の代表字体ID
+- `human_confirmation_scope: kana-jibo-context`: 読み・字母・翻字対応・教材表示を人間確認
+- `human_confirmation_scope: exact-glyph`: Unicode字体まで厳密同定する場合のみ使用
+- `publication_status: approved | excluded | pending`
+- 公開ゲート: `human-confirmed && publication_status=approved`
+
+P1/P2はともに「え」・字母「衣」として承認。
+P2の旧 rejected は撤回し、P1と同一基準で publication approved とした。
+
+### UI 0.7
+
+- 「この字体は何と読む？」→「この資料では何と読む？」
+- フォント字形は「対応字体の代表表示」と明記
+- 原資料の手書き筆跡とフォント代表字形は完全一致しない場合がある旨を表示
+- 読解表示は `human-confirmed && publication_status=approved` のみ
+
+### 次
+
+研究追加へ戻らず、公開QAを続行する。
+
+1. index.html 0.7 JavaScript構文再確認
+2. PC実ブラウザでフォント・4タブ操作
+3. モバイル幅レイアウト
+4. GitHub Pages実配信
+5. 典拠リンク遷移
+6. 一次公開
