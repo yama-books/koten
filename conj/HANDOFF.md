@@ -584,3 +584,18 @@ ROADMAPを現在地の正本として継続する。
 作品単位の権利・底本確認 + 用例単位のtarget/excerpt監査方式を継続する。
 
 次: Milestone D-13 枕草子6例。
+
+
+## 29. Milestone D-13 枕草子 partial（2026-09-19）
+
+『枕草子』6例を監査一巡し、國文大觀版で文法形まで一致する2例を公開接続。4例は版差・固定版照合不足のため保留。
+
+現在地:
+- 監査status確定: 14 / 21作品
+- publicationReady: 10
+- partial: 3
+- blocked-with-reason: 1
+- 公開実例: 50 / 120
+- runtime errors: 0
+
+次: Milestone D-14 更級日記5例。
