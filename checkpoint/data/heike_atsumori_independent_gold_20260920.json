@@ -1,0 +1,285 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "title": "Checkpoint 独立gold set 4: 平家物語「敦盛の最期」熊谷決断段落",
+  "work": "平家物語",
+  "section": "巻第九 敦盛最期",
+  "excerptRange": "熊谷あまりにいとほしくて〜頸をぞかいてんげる。",
+  "purpose": "3作品をdevelopment setへ固定した後、right-context signal-only層、とくに『連用形＋て＋右側独立活用語』仮説を未使用作品でblind評価する第四作品。",
+  "freeze": {
+    "status": "FROZEN_BEFORE_SHADOW_EVALUATION",
+    "shadowVersionAtFreeze": "v0.15-stage2-right-context-signal",
+    "rule": "このgoldをcommitした後に初めて現行shadowを実行する。採点結果を見てgoldを書き換えない。"
+  },
+  "unusedWorkCheck": "2026-09-20時点のcheckpoint関連Git履歴で平家物語の既存blind/evidence commitを検出せず。竹取物語・土佐日記は既存public exampleがあるため避けた。",
+  "text": "熊谷あまりにいとほしくて、いづくに刀を立つべしともおぼえず、目もくれ心も消えはてて、前後不覚におぼえけれども、さてしもあるべき事ならねば、泣く泣く頸をぞかいてんげる。",
+  "textLength": 83,
+  "evaluationUniverse": {
+    "basis": "surface_index.json の表面形が本文に文字列一致する全位置24件。shadow resolver出力はgold作成に未使用。",
+    "rawPositions": 24,
+    "expectedActionCounts": {
+      "suppressInsideLargerUnit": 10,
+      "resolveCandidate": 12,
+      "resolveAuxiliaryLemma": 2
+    }
+  },
+  "sourcePolicy": [
+    "本文・文法は独立した複数Web資料で照合する。",
+    "Web資料はblind評価gold用のsecondary crosscheckであり、『新しい古典文法 四訂新版』のprimary-source-verified状態を更新しない。",
+    "goldは本文中の該当位置だけを採点し、ここからpassage-specific resolver ruleを自動生成しない。"
+  ],
+  "sourceRefs": [
+    {
+      "title": "未形の空 平家物語「敦盛の最期」全語句・品詞分解",
+      "url": "https://sorahirune.blog.fc2.com/blog-entry-436.html",
+      "role": "本文該当段落の品詞・活用・てんげる分析の主照合"
+    },
+    {
+      "title": "日本古典文学摘集 平家物語 巻第九の一六 敦盛 原文",
+      "url": "https://www.koten.net/heike/gen/141/",
+      "role": "独立した本文照合"
+    },
+    {
+      "title": "光村図書 令和7年度版学習指導書訂正資料",
+      "url": "https://assets.mitsumura-tosho.co.jp/5217/6095/1487/07c_kokugo_shidosho_teisei.pdf",
+      "role": "「かいてんげる」= てけり音変化・係り結びによる連体形の確認"
+    },
+    {
+      "title": "コトバンク「とも」",
+      "url": "https://kotobank.jp/word/%E3%81%A8%E3%82%82-584976",
+      "role": "連語「とも」= 格助詞と＋係助詞も の独立照合"
+    }
+  ],
+  "notes": [
+    "「あまりに」は副詞、「いとほしく」は形容詞連用形なので内部の短い「に／と／し」はlarger-unit suppression。",
+    "最初の「て」は接続助詞。",
+    "「いづくに」の「に」と「刀を」の「を」は格助詞。",
+    "「べし」は助動詞。内部の「し」はlarger-unit suppression。",
+    "「べしともおぼえず」の「とも」は連語（格助詞「と」＋係助詞「も」）としてto_plus_mo、「と」単独hitはlarger-unit suppression。",
+    "「消えはてて」は「消えはて」（複合動詞連用形）＋接続助詞「て」。連続する2つの「て」を別判定する。",
+    "「前後不覚に」はナリ活用形容動詞の連用形。",
+    "「けれ」は過去「けり」の已然形。",
+    "「さてしも」は副詞「さて」＋強意の副助詞「し」＋係助詞「も」。したがって「さて」内部の「て」は抑制し、「し」は副助詞としてresolve。",
+    "「ある」内部の「る」、「なら」内部の「な」はlarger-unit suppression。",
+    "「ね」は打消「ず」の已然形、「ば」は已然形接続の接続助詞。",
+    "末尾「かいてんげる」は「かい」＋完了「つ」連用形「て」＋「けり」連体形の音変化。表面「る」は後半の大きい単位内部として抑制する。"
+  ],
+  "entries": [
+    {
+      "id": "heike-atsumori-gold-001",
+      "surface": "に",
+      "start": 5,
+      "end": 6,
+      "context": "熊谷あまりにいとほしくて、いづくに刀",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "あまりに"
+    },
+    {
+      "id": "heike-atsumori-gold-002",
+      "surface": "と",
+      "start": 7,
+      "end": 8,
+      "context": "熊谷あまりにいとほしくて、いづくに刀を立",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "いとほしく"
+    },
+    {
+      "id": "heike-atsumori-gold-003",
+      "surface": "し",
+      "start": 9,
+      "end": 10,
+      "context": "熊谷あまりにいとほしくて、いづくに刀を立つべ",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "いとほしく"
+    },
+    {
+      "id": "heike-atsumori-gold-004",
+      "surface": "て",
+      "start": 11,
+      "end": 12,
+      "context": "谷あまりにいとほしくて、いづくに刀を立つべしと",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te"
+    },
+    {
+      "id": "heike-atsumori-gold-005",
+      "surface": "に",
+      "start": 16,
+      "end": 17,
+      "context": "いとほしくて、いづくに刀を立つべしともおぼえず",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni"
+    },
+    {
+      "id": "heike-atsumori-gold-006",
+      "surface": "を",
+      "start": 18,
+      "end": 19,
+      "context": "ほしくて、いづくに刀を立つべしともおぼえず、目",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo"
+    },
+    {
+      "id": "heike-atsumori-gold-007",
+      "surface": "べし",
+      "start": 21,
+      "end": 23,
+      "context": "て、いづくに刀を立つべしともおぼえず、目もくれ心",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "べし"
+    },
+    {
+      "id": "heike-atsumori-gold-008",
+      "surface": "し",
+      "start": 22,
+      "end": 23,
+      "context": "、いづくに刀を立つべしともおぼえず、目もくれ心",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "べし"
+    },
+    {
+      "id": "heike-atsumori-gold-009",
+      "surface": "とも",
+      "start": 23,
+      "end": 25,
+      "context": "いづくに刀を立つべしともおぼえず、目もくれ心も消",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "to_plus_mo"
+    },
+    {
+      "id": "heike-atsumori-gold-010",
+      "surface": "と",
+      "start": 23,
+      "end": 24,
+      "context": "いづくに刀を立つべしともおぼえず、目もくれ心も",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "とも"
+    },
+    {
+      "id": "heike-atsumori-gold-011",
+      "surface": "て",
+      "start": 39,
+      "end": 40,
+      "context": "、目もくれ心も消えはてて、前後不覚におぼえけれ",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "はて"
+    },
+    {
+      "id": "heike-atsumori-gold-012",
+      "surface": "て",
+      "start": 40,
+      "end": 41,
+      "context": "目もくれ心も消えはてて、前後不覚におぼえけれど",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te"
+    },
+    {
+      "id": "heike-atsumori-gold-013",
+      "surface": "に",
+      "start": 46,
+      "end": 47,
+      "context": "消えはてて、前後不覚におぼえけれども、さてしも",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "nari_adjective_renyo_ni"
+    },
+    {
+      "id": "heike-atsumori-gold-014",
+      "surface": "けれ",
+      "start": 50,
+      "end": 52,
+      "context": "て、前後不覚におぼえけれども、さてしもあるべき事",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_keri_izen"
+    },
+    {
+      "id": "heike-atsumori-gold-015",
+      "surface": "て",
+      "start": 56,
+      "end": 57,
+      "context": "におぼえけれども、さてしもあるべき事ならねば、",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "さて"
+    },
+    {
+      "id": "heike-atsumori-gold-016",
+      "surface": "し",
+      "start": 57,
+      "end": 58,
+      "context": "おぼえけれども、さてしもあるべき事ならねば、泣",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "adverbial_particle_shi"
+    },
+    {
+      "id": "heike-atsumori-gold-017",
+      "surface": "る",
+      "start": 60,
+      "end": 61,
+      "context": "けれども、さてしもあるべき事ならねば、泣く泣く",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ある"
+    },
+    {
+      "id": "heike-atsumori-gold-018",
+      "surface": "べき",
+      "start": 61,
+      "end": 63,
+      "context": "れども、さてしもあるべき事ならねば、泣く泣く頸を",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "べし"
+    },
+    {
+      "id": "heike-atsumori-gold-019",
+      "surface": "な",
+      "start": 64,
+      "end": 65,
+      "context": "、さてしもあるべき事ならねば、泣く泣く頸をぞか",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なら"
+    },
+    {
+      "id": "heike-atsumori-gold-020",
+      "surface": "ね",
+      "start": 66,
+      "end": 67,
+      "context": "てしもあるべき事ならねば、泣く泣く頸をぞかいて",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_zu_izen_ne"
+    },
+    {
+      "id": "heike-atsumori-gold-021",
+      "surface": "ば",
+      "start": 67,
+      "end": 68,
+      "context": "しもあるべき事ならねば、泣く泣く頸をぞかいてん",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_ba_fixed"
+    },
+    {
+      "id": "heike-atsumori-gold-022",
+      "surface": "を",
+      "start": 74,
+      "end": 75,
+      "context": "ならねば、泣く泣く頸をぞかいてんげる。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_wo"
+    },
+    {
+      "id": "heike-atsumori-gold-023",
+      "surface": "て",
+      "start": 78,
+      "end": 79,
+      "context": "、泣く泣く頸をぞかいてんげる。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "aux_tsu_mizen_renyo"
+    },
+    {
+      "id": "heike-atsumori-gold-024",
+      "surface": "る",
+      "start": 81,
+      "end": 82,
+      "context": "泣く頸をぞかいてんげる。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "げる（けり連体形の音変化）"
+    }
+  ]
+}
