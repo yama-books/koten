@@ -993,3 +993,48 @@ learner-visible detectorはlegacyのまま。
 
 ### 次
 第四の未使用作品を **gold先固定** し、特に `連用形＋て＋即時独立活用語` がblind本文でも安全なsignalか確認する。goldを見てresolverを先に調整しない。
+
+
+
+## 2026-09-20 第四blind完了: 平家物語「敦盛の最期」
+
+right-context signal実装後、未使用作品として『平家物語』「敦盛の最期」熊谷決断段落83字を選び、**shadow実行前にgoldを固定**した。
+
+- gold: `heike_atsumori_independent_gold_20260920.json`
+- gold固定commit: `85f8197824fc9e0a35480839555b693d16f45014`
+- baseline: `heike_atsumori_shadow_baseline_v015.json`
+- baseline固定commit: `e0ab7e4df46bf31848e45a3e8077882d4273fbba`
+
+### blind結果
+- gold 24
+- strict PASS **12/24 = 50.0%**
+- grammar resolve target 14
+- strict correct resolve **2/14 = 14.3%**
+- larger-unit suppression **10/10 = 100%**
+- false-positive resolved **0**
+- wrong resolved **0**
+- unresolved context 10
+- resolved but ambiguous 2（`とも`, `けれ`）
+
+### 「て」について得た重要な材料
+同一83字内に detector surface `て` が5位置あり、goldでは:
+- 接続助詞 `て`: 2
+- larger-unit内部: 2（`消えはて`, `さて`）
+- 完了 `つ` 連用形 `て`: 1（`かいてんげる`）
+
+したがって **「連用形＋て」だけでは一般化不能**。右側が独立節開始かauxiliary chainか等の構造が必要。
+
+ただし今回のblindでは previous/next morphology が新作品語彙を十分認識できず、development3作品で見えたright-context仮説は入力coverage不足で直接検証できなかった。これは仮説反証とせず、`heike_atsumori_feature_gap_audit_20260920.json` に分離した。
+
+### 4作品blind合算
+- positions **136**
+- strict PASS **75/136 = 55.1%**
+- grammar strict resolve **18/75 = 24.0%**
+- boundary suppression **57/61 = 93.4%**
+- false-positive resolved 4（過去3作品のblind boundary gap）
+- wrongResolved **0**
+
+development（過去のpost-blind boundary修復込み）では boundary **61/61**、hard error 0。
+
+### 次
+平家goldからexact morphologyを足さない。既存approved/audited資産から本文非依存に形態情報を供給する morphology provider を **signal-only** で設計する。新hard ruleへ進むなら第五作品をgold先固定する。
