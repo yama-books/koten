@@ -1,50 +1,43 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint local boundary signal audit 2026-09-19",
-  "detector": "shadow v0.10 candidate",
+  "detector": "shadow v0.12",
   "invariant": {
     "raw": 310,
-    "resolved": 113,
-    "suppressed": 197,
-    "contextRequired": 98,
-    "note": "local boundary signal層そのものはresolved/suppressed分類を変更しない。v0.9以後の件数変化はAbe source token boundaryと百人一首第9首exact evidenceによる。"
+    "resolved": 161,
+    "suppressed": 149,
+    "contextRequired": 38,
+    "note": "signal-only層そのものは判定しない。v0.12の減少はsource exact particle evidenceによる。"
   },
   "unresolvedBySurface": {
-    "て": 28,
     "に": 20,
-    "を": 21,
-    "し": 10,
     "と": 10,
-    "な": 3,
     "が": 3,
-    "せ": 2,
-    "ぬ": 1
+    "て": 1,
+    "ぬ": 1,
+    "を": 1,
+    "な": 1,
+    "せ": 1
   },
   "signalBySurface": {
     "て": {
-      "count": 28,
-      "rightPunctuation": 16,
-      "leftScriptTransition": 2,
-      "rightScriptTransition": 27
+      "count": 1,
+      "rightPunctuation": 1,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 1
     },
-    "に": {
-      "count": 20,
-      "rightPunctuation": 6,
-      "leftScriptTransition": 10,
-      "rightScriptTransition": 14
+    "ぬ": {
+      "count": 1,
+      "rightPunctuation": 1,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 1
     },
     "を": {
-      "count": 21,
-      "rightPunctuation": 2,
-      "leftScriptTransition": 18,
-      "rightScriptTransition": 18
-    },
-    "し": {
-      "count": 10,
-      "rightPunctuation": 2,
-      "leftScriptTransition": 4,
-      "rightScriptTransition": 6
+      "count": 1,
+      "rightPunctuation": 0,
+      "leftScriptTransition": 0,
+      "rightScriptTransition": 1
     },
     "と": {
       "count": 10,
@@ -53,10 +46,16 @@
       "rightScriptTransition": 2
     },
     "な": {
-      "count": 3,
+      "count": 1,
       "rightPunctuation": 0,
       "leftScriptTransition": 0,
       "rightScriptTransition": 0
+    },
+    "に": {
+      "count": 20,
+      "rightPunctuation": 6,
+      "leftScriptTransition": 10,
+      "rightScriptTransition": 14
     },
     "が": {
       "count": 3,
@@ -65,28 +64,20 @@
       "rightScriptTransition": 3
     },
     "せ": {
-      "count": 2,
-      "rightPunctuation": 0,
-      "leftScriptTransition": 1,
-      "rightScriptTransition": 0
-    },
-    "ぬ": {
       "count": 1,
-      "rightPunctuation": 1,
+      "rightPunctuation": 0,
       "leftScriptTransition": 0,
-      "rightScriptTransition": 1
+      "rightScriptTransition": 0
     }
   },
   "findings": [
-    "句読点や文字種遷移は偏りを示すが、それ単独では語境界・品詞を確定しない。",
-    "「て」は28件中16件が直後句読点だが、接続助詞と助動詞「つ」の識別根拠として句読点だけを使わない。",
-    "「を」は21件中18件で左右いずれかに文字種遷移があるが、格助詞・接続助詞・間投助詞の識別には統語情報が必要。",
-    "百人一首第9首はpassage-specific exact evidenceでcontext-required 9→0。一般規則化していない。",
-    "安倍晴明sourceで「遣はし」「御越し」をwhole-token境界化し、内部「し」2件を追加抑制した。"
+    "v0.12では安倍晴明本文の「て」「を」をpassage-specific evidenceで処理したため、signal監査の本丸は「に」「と」に移った。",
+    "「に」20件は格助詞・接続助詞・断定なり・完了ぬ等の衝突が残り、文字種signalだけでは決めない。",
+    "「と」10件は「日ごと」内部、む/じ＋とす、引用、名詞＋と等を分離する必要がある。",
+    "signal-only方針は維持する。"
   ],
   "next": [
-    "source-reviewed whole-tokenを先に増やし、明らかな内部hitを除去する。",
-    "次にexact passage grammar evidenceを増やす。",
-    "signalの組合せだけでresolvedへ昇格するルールは、反例監査を作ってから導入する。"
+    "「に」の前接単位POS/活用をexact passageで監査する。",
+    "「と」のlarger-unit・引用構造を先に分ける。"
   ]
 }
