@@ -26,7 +26,9 @@
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
     "publicationReadyWorks": 0,
-    "publicExamplesConnected": 0
+    "publicExamplesConnected": 0,
+    "rightsVerifiedWorks": 1,
+    "targetVerifiedExamples": 2
   },
   "works": [
     {
@@ -274,10 +276,12 @@
       "exampleCount": 5,
       "wikisource": {
         "candidateFound": true,
-        "candidateUrl": "https://ja.wikisource.org/wiki/方丈記",
-        "rightsVerified": false,
-        "editionFixed": false,
-        "targetVerificationCount": 0
+        "candidateUrl": "https://ja.wikisource.org/wiki/方丈記_(國文大觀)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 2,
+        "edition": "國文大觀 日記草子部（明治36）",
+        "rightsNote": "Wikisourceページで日本・米国のパブリックドメイン表示を確認。"
       },
       "aozora": {
         "candidateFound": false,
@@ -287,7 +291,7 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "note": "5例中2例を同版公開本文で再確認。残り3例はtarget未照合のため未公開。"
     },
     {
       "work": "伊勢物語",
