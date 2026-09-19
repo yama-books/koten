@@ -153,3 +153,12 @@ legacy unique 310位置はすべて surface_index に存在することを確認
 - resolved率 **27.7%**。
 - context-required は **132**。
 - source exact evidenceで `入らむ/ならむ` 内部の `らむ` 誤優先、`黄なる` 内部の `な/る`、`問はるる` 内部の一文字 `る` 等を抑制。
+
+
+## 追加: 百人一首文節境界 / shadow v0.8
+
+- `hyakunin_bunsetu_boundary_evidence.json` を追加。
+- 第9首の監査済み `ながめ/せし/まに` から、明示された名詞 `ながめ` の語内部だけを境界証拠化。
+- `ながめ` 内部の `な`・`が` 2位置を抑制。
+- `せし`・`まに` は内部品詞を勝手に確定せず保留。
+- resolved 86 / context-required **130** / DB only 0。
