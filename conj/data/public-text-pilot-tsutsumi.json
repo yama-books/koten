@@ -1,0 +1,79 @@
+{
+  "updated": "2026-09-19",
+  "work": "堤中納言物語",
+  "status": "blocked-with-reason / reusable-images-found-searchable-text-not-fixed",
+  "sources": [
+    {
+      "provider": "Wikimedia Commons / NDL",
+      "title": "堤中納言物語 10巻",
+      "url": "https://commons.wikimedia.org/wiki/File:NDL2550700_堤中納言物語_10巻.(1).pdf",
+      "rightsVerified": true,
+      "rightsStatus": "public domain mechanical scan of public-domain original",
+      "editionFixed": false,
+      "note": "公開古典籍画像として利用可能だが、5 selected targetsを安全に検索照合できる本文層を確保できない。"
+    },
+    {
+      "provider": "京都大学貴重資料デジタルアーカイブ",
+      "title": "堤中納言物語",
+      "url": "https://rmda.kulib.kyoto-u.ac.jp/item/rb00000146",
+      "rightsVerified": true,
+      "rightsStatus": "reuse policy available at provider",
+      "editionFixed": false,
+      "note": "画像資料。検索可能な本文としては使用しない。"
+    },
+    {
+      "provider": "khirin / 国立歴史民俗博物館",
+      "title": "高松宮家伝来禁裏本 堤中納言物語",
+      "url": "https://khirin.rekihaku.ac.jp/pid/nmjh_collection/H-600-721.html",
+      "rightsVerified": true,
+      "rightsStatus": "CC BY-SA 4.0",
+      "editionFixed": false,
+      "note": "画像・資料メタデータの再利用条件は明確だが、selected targetの検索可能本文ではない。"
+    }
+  ],
+  "blocker": "5 selected targetsは複数の一般公開Web本文で語形の存在を確認できるが、再利用条件と底本を固定できる単一の検索可能本文を確保できない。CHJ優先ルールに従い、無許諾転写サイトや画像からの推測転記を公開実例には使わない。",
+  "records": [
+    {
+      "id": "adjv-007",
+      "chjTarget": "とりどりなり",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-021",
+      "chjTarget": "はなやかなれ",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-041",
+      "chjTarget": "ふさやかなら",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-069",
+      "chjTarget": "きびはなる",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-092",
+      "chjTarget": "なほざりに",
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    }
+  ],
+  "counts": {
+    "total": 5,
+    "rightsVerifiedAtWorkLevel": true,
+    "targetVerified": 0,
+    "excerptReviewed": 0,
+    "publicationEnabled": 0
+  }
+}
