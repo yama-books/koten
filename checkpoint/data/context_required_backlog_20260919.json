@@ -2,8 +2,8 @@
   "schemaVersion": "0.1",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 残件バックログ",
-  "basis": "既存4サンプル計990文字、shadow detector v0.6",
-  "total": 151,
+  "basis": "既存4サンプル計990文字、shadow detector v0.7",
+  "total": 134,
   "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
   "categories": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "surface": "に",
-      "count": 28,
+      "count": 25,
       "layer": "syntax+morphology",
       "priority": "A",
       "why": "格助詞・接続助詞・ナリ活用・断定「なり」・完了「ぬ」等が衝突。",
@@ -48,7 +48,7 @@
     },
     {
       "surface": "な",
-      "count": 8,
+      "count": 5,
       "layer": "boundary+morphology",
       "priority": "B",
       "why": "助動詞「ぬ」未然・終助詞・禁止副詞・語内部が衝突。",
@@ -64,7 +64,7 @@
     },
     {
       "surface": "が",
-      "count": 6,
+      "count": 5,
       "layer": "syntax+boundary",
       "priority": "B",
       "why": "格助詞・接続助詞に加え語内部一致がある。",
@@ -72,7 +72,7 @@
     },
     {
       "surface": "る",
-      "count": 6,
+      "count": 1,
       "layer": "boundary+morphology",
       "priority": "B",
       "why": "助動詞「る」・完了存続「り」連体・動詞語尾/語内部が衝突。",
@@ -80,19 +80,11 @@
     },
     {
       "surface": "せ",
-      "count": 6,
+      "count": 4,
       "layer": "morphology",
       "priority": "B",
       "why": "サ変・過去「き」・使役尊敬「す」が衝突。",
       "nextEvidence": "前接活用形と後続助動詞/敬語を監査済み例で接続。"
-    },
-    {
-      "surface": "む",
-      "count": 3,
-      "layer": "morphology",
-      "priority": "C",
-      "why": "助動詞「む」自体と前語の活用語尾を含む切り方が衝突。",
-      "nextEvidence": "未然形のwhole-token evidenceを増やす。"
     },
     {
       "surface": "ぬ",
@@ -108,5 +100,11 @@
     "次に一次資料・監査済みコーパスが示す接続だけをresolverへ入れる。",
     "文節構造が必要な「に・と・を・が」はtokenizer/係り先解析が入るまで無理にresolvedへ上げない。",
     "shadow resolvedをlearner-visible正解表示へ直結しない。"
+  ],
+  "latestChange": [
+    "安倍晴明_本文・文法・語彙整理.docx のexact phrase grammar evidence 24件を追加。",
+    "同資料の難語29語を語彙DB化し、known-token boundaryへ追加。",
+    "「塞がる」内部の「が・る」と、「かたり」内部の「たり」を追加抑制。",
+    "安倍晴明exact evidenceで15件resolved、9件larger-unit抑制。"
   ]
 }
