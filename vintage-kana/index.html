@@ -63,6 +63,9 @@ textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:1
 .readHead{display:flex;align-items:center;gap:12px}
 .readGlyph{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:52px;line-height:1}
 .readText{font-family:"Yu Mincho",serif;font-size:18px;line-height:1.7;margin:10px 0}
+.answer{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.answer summary{cursor:pointer;font-weight:700;color:var(--accent);font-size:13px}
+.answerBody{padding-top:9px}
 .empty{padding:24px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:1.9;text-align:center;background:#fff}
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
@@ -78,7 +81,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <h1>変体仮名を読む・知る・書いてみる</h1>
     <p class="tagline">字母と実資料をたどりながら、読めなかった文字が少しずつ読めるようになるための学習アプリ。</p>
   </div>
-  <div class="pill">一次公開準備版 0.5</div>
+  <div class="pill">一次公開準備版 0.6</div>
 </header>
 
 <section class="panel">
@@ -144,7 +147,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 0.5 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
+  vintage-kana / release candidate 0.6 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
 </footer>
 </div>
 
@@ -289,10 +292,14 @@ function renderRead(){
    const d=document.createElement("article");d.className="readCard";
    const location=e.source_location?.folio||e.source_image_locator||e.source_location?.viewer_page||"";
    const href=e.source_image_ref||src?.bibliographic_source_url||src?.source_url||"";
-   d.innerHTML='<div class="readHead"><div class="readGlyph">'+escapeHtml(e.character)+'</div><div class="meta">対応する仮名 <b>'+escapeHtml(e.kana)+'</b><br>字母 <b>'+escapeHtml(e.jibo)+'</b></div></div>'+
-     '<div class="readText">'+escapeHtml(e.transcription||e.word||"")+'</div>'+
-     '<div class="note">'+escapeHtml(src?.witness_name||e.source_witness)+' '+escapeHtml(location)+'</div>'+
-     (href?'<div class="note" style="margin-top:7px"><a href="'+escapeHtml(href)+'" target="_blank" rel="noopener">典拠を確認する</a></div>':"");
+   d.innerHTML='<div class="note">この字体は何と読む？</div>'+
+     '<div class="readHead"><div class="readGlyph">'+escapeHtml(e.character)+'</div><div class="note">'+escapeHtml(src?.witness_name||e.source_witness)+' '+escapeHtml(location)+'</div></div>'+
+     '<details class="answer"><summary>答えを見る</summary><div class="answerBody">'+
+       '<div class="meta">対応する仮名 <b>'+escapeHtml(e.kana)+'</b>　字母 <b>'+escapeHtml(e.jibo)+'</b></div>'+
+       '<div class="readText">実資料中：'+escapeHtml(e.word||e.transcription||"")+'</div>'+
+       (e.transcription&&e.transcription!==e.word?'<div class="note">周辺翻字：'+escapeHtml(e.transcription)+'</div>':"")+
+       (href?'<div class="note" style="margin-top:8px"><a href="'+escapeHtml(href)+'" target="_blank" rel="noopener">原画像で確かめる</a></div>':"")+
+     '</div></details>';
    grid.appendChild(d);
  });
  root.innerHTML="";root.appendChild(grid);
