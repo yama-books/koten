@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "phase2-source-checked-variant-pilot-established",
+  "status": "phase2-source-checked-ise-comparison-pilot-established",
   "examples": [
     {
       "example_id": "att-brsk005-u3057-f07b-x0563-y2069",
@@ -500,15 +500,516 @@
       "reviewed_by": "research-pass-2026-09-19",
       "reviewed_at": "2026-09-19",
       "notes": "Stage A variant-form sample. Official glyph-frequency page's U+1B012 section exposes page/occurrence ID/X/Y via the occurrence image filename. Exact glyph-to-transcription character alignment and renmen remain pending; not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b012-200014445-00005-id0078-x2873-y1800",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00005",
+        "occurrence_image_id": "ID0078",
+        "x": 2873,
+        "y": 1800,
+        "sampling_position": "early"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness 200014445; image locator U+3048_200014445_00005_ID0078_X2873_Y1800.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b012-200014445-00020-id0189-x1616-y1714",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00020",
+        "occurrence_image_id": "ID0189",
+        "x": 1616,
+        "y": 1714,
+        "sampling_position": "early-middle"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness 200014445; image locator U+3048_200014445_00020_ID0189_X1616_Y1714.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b012-200014445-00036-id0197-x1203-y1322",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00036",
+        "occurrence_image_id": "ID0197",
+        "x": 1203,
+        "y": 1322,
+        "sampling_position": "middle"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness 200014445; image locator U+3048_200014445_00036_ID0197_X1203_Y1322.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b012-200014445-00053-id0156-x2172-y1293",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00053",
+        "occurrence_image_id": "ID0156",
+        "x": 2172,
+        "y": 1293,
+        "sampling_position": "middle-late"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness 200014445; image locator U+3048_200014445_00053_ID0156_X2172_Y1293.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b012-200014445-00080-id0030-x3032-y2153",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00080",
+        "occurrence_image_id": "ID0030",
+        "x": 3032,
+        "y": 2153,
+        "sampling_position": "late"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness 200014445; image locator U+3048_200014445_00080_ID0030_X3032_Y2153.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b012-issg001-005-id0059-x0696-y0501",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-005",
+        "occurrence_image_id": "ID0059",
+        "x": 696,
+        "y": 501,
+        "sampling_position": "early"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness issg001; image locator U+3048_issg001-005_ID0059_X0696_Y0501.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b012-issg001-030-id0064-x0851-y1244",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-030",
+        "occurrence_image_id": "ID0064",
+        "x": 851,
+        "y": 1244,
+        "sampling_position": "early-middle"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness issg001; image locator U+3048_issg001-030_ID0064_X0851_Y1244.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b012-issg001-046-id0012-x1164-y1328",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-046",
+        "occurrence_image_id": "ID0012",
+        "x": 1164,
+        "y": 1328,
+        "sampling_position": "middle"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness issg001; image locator U+3048_issg001-046_ID0012_X1164_Y1328.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b012-issg001-125-id0017-x1157-y1601",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-125",
+        "occurrence_image_id": "ID0017",
+        "x": 1157,
+        "y": 1601,
+        "sampling_position": "late"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness issg001; image locator U+3048_issg001-125_ID0017_X1157_Y1601.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b012-issg001-132-id0055-x0786-y0355",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B012",
+      "character": "𛀒",
+      "kana": "え",
+      "jibo": "衣",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-132",
+        "occurrence_image_id": "ID0055",
+        "x": 786,
+        "y": 355,
+        "sampling_position": "late"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B012 section (え / 字母 衣), witness issg001; image locator U+3048_issg001-132_ID0055_X0786_Y0355.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "え / 字母 衣 / 𛀒 / U+1B012 / MJ090018"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
     }
   ],
   "lastUpdatedAt": "2026-09-19",
   "reviewPolicy": "source-checked attested records may have page-level context only; context-checked requires exact glyph-to-transcription alignment",
   "stats": {
-    "totalExamples": 9,
-    "sourceChecked": 9,
+    "totalExamples": 19,
+    "sourceChecked": 19,
     "contextChecked": 0,
     "humanConfirmed": 0,
-    "variantGlyphExamples": 5
+    "variantGlyphExamples": 15,
+    "iseMonogatariExamples": 10
   }
 }
