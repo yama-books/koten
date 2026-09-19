@@ -1,7 +1,7 @@
 {
   "updated": "2026-09-19",
   "work": "古今和歌集",
-  "status": "pilot / partial-target-verification",
+  "status": "pilot / all-targets-verified",
   "provider": "Wikisource",
   "edition": {
     "title": "古今和歌集",
@@ -35,26 +35,28 @@
     {
       "id": "adjv-003",
       "chjTarget": "妙なり",
-      "publicTarget": null,
-      "targetVerified": false,
-      "sourcePage": null,
+      "publicTarget": "たへなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/古今和歌集仮名序",
       "excerptReviewed": false,
-      "exampleEnabledPublic": false
+      "exampleEnabledPublic": false,
+      "note": "語幹の漢字表記「妙」と仮名表記「たへ」の差。連用形「なり」＋「けり」を確認。"
     },
     {
       "id": "adjv-080",
       "chjTarget": "たくみに",
-      "publicTarget": null,
-      "targetVerified": false,
-      "sourcePage": null,
+      "publicTarget": "たくみにて",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/古今和歌集仮名序",
       "excerptReviewed": false,
-      "exampleEnabledPublic": false
+      "exampleEnabledPublic": false,
+      "note": "連用形「に」＋接続助詞「て」を確認。"
     }
   ],
   "counts": {
     "total": 4,
     "rightsVerified": 4,
-    "targetVerified": 2,
+    "targetVerified": 4,
     "excerptReviewed": 0,
     "publicationEnabled": 0
   }
