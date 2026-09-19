@@ -1,10 +1,10 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "Checkpoint shadow promotion readiness audit",
-  "shadowVersion": "0.14-pre-tuning",
-  "recommendation": "stay-stage-2-build-more-independent-gold",
-  "summary": "raw被覆・DB-only・未分類contextは良好だが、独立gold setと複数作品一般化監査が不足。global learner-visible切替はまだ行わない。",
+  "shadowVersion": "0.15-stage2-generalization",
+  "recommendation": "stay-stage-2-build-local-syntax-and-fourth-blind-gold",
+  "summary": "3作品blind評価によりboundary層の安全性とgrammar resolverのunder-resolvingを分離できた。Stage 2は継続。learner-visible promotionはまだ行わない。",
   "observed": {
     "legacyUnique": 310,
     "dbRaw": 310,
@@ -46,46 +46,65 @@
     },
     {
       "id": "G4",
-      "status": "PARTIAL",
-      "evidence": "徒然草52でblind baseline完了。55位置中strict PASS 32、誤確定0、resolve recall 7/30。追加独立goldが必要。"
+      "status": "PASS",
+      "evidence": "3作品でgold先固定→blind baselineを凍結済み。"
     },
     {
       "id": "G5",
-      "status": "PENDING",
-      "evidence": "独立作品は徒然草1本まで。もう1作品以上でcross-passage blind評価が必要。"
+      "status": "PASS_WITH_LIMITATION",
+      "evidence": "徒然草・伊勢物語・方丈記の3作品でcross-passage blind評価済み。ただしgrammar resolve recallはblind合算16/61で低い。"
     },
     {
       "id": "G6",
       "status": "PENDING",
-      "evidence": "hold-aware learner UIは未実装。"
+      "evidence": "developer debug overlayはあるがhold-aware learner UIは未実装。"
     },
     {
       "id": "G7",
       "status": "PASS",
       "evidence": "primary-source-required 5位置を明示holdしresolvedへ上げていない。"
+    },
+    {
+      "id": "G8",
+      "status": "PENDING",
+      "evidence": "blind wrongResolvedは0だがgrammar strict resolve recall 16/61。カテゴリ別の独立例数とrecallが不足。"
     }
   ],
   "nextRecommendedWork": [
-    "現goldへ合わせたresolver調整をまだ行わず、別作品でもう1本blind goldを固定・評価する。",
-    "2本目でもlarger-unit suppressionの安全性とunder-resolving傾向が再現するか確認する。",
-    "その後に一般規則の改善候補を、複数gold共通の失敗だけから抽出する。",
-    "一次資料へアクセスできたらprimary-source hold 5件を別レーンで裁定する。"
+    "に/を/と/て/し向けのlocal syntax feature layerをまずsignal-onlyで作る。",
+    "名詞＋に、ける＋を、連用形＋ては実例上単純規則化できないため、候補ごとの前後token条件を保持する。",
+    "新しいhard resolverは3つのdevelopment goldで回帰後、第四の未使用作品でblind評価する。",
+    "hold-aware learner UIはG6として別レーンで設計する。"
   ],
   "currentStage": "stage-2-evidence-backed-debug-overlay",
   "independentGold": {
-    "file": "tsurezure52_independent_gold_20260919.json",
-    "baseline": "tsurezure52_shadow_baseline_v014.json",
-    "goldPositions": 55,
-    "strictPass": 32,
-    "strictPassRate": 0.5818181818181818,
-    "resolveTargets": 30,
-    "strictCorrectResolve": 7,
-    "strictResolveRecall": 0.23333333333333334,
-    "suppressionTargets": 25,
-    "correctSuppression": 25,
-    "falsePositiveResolved": 0,
-    "wrongResolved": 0,
-    "wrongSuppressed": 0,
-    "assessment": "安全側だがunder-resolving。4位置は旧resolved指標では成功に見えるが候補未一意。"
+    "works": 3,
+    "checkpoint": "stage2_generalization_checkpoint_20260919.json",
+    "blindCombined": {
+      "positions": 112,
+      "strictPass": 63,
+      "strictPassRate": 0.5625,
+      "resolveTargets": 61,
+      "strictCorrectResolve": 16,
+      "resolveRecall": 0.26229508196721313,
+      "suppressTargets": 51,
+      "correctSuppression": 47,
+      "suppressionRecall": 0.9215686274509803,
+      "falsePositiveResolved": 4,
+      "wrongResolved": 0
+    },
+    "currentDevelopmentCombined": {
+      "positions": 112,
+      "strictPass": 73,
+      "strictPassRate": 0.6517857142857143,
+      "resolveTargets": 61,
+      "strictCorrectResolve": 22,
+      "resolveRecall": 0.36065573770491804,
+      "suppressTargets": 51,
+      "correctSuppression": 51,
+      "suppressionRecall": 1,
+      "hardErrors": 0
+    },
+    "warning": "currentDevelopmentCombinedはgold確認後の修正を含み、blind generalization scoreではない。"
   }
 }
