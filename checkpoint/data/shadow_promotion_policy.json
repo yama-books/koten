@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "Checkpoint shadow → learner-visible 昇格方針",
   "currentStage": "stage-2-evidence-backed-debug-overlay",
@@ -72,6 +72,12 @@
       "name": "primary-source-policy",
       "requirement": "primary-source-requiredを自動昇格させない保証",
       "threshold": "required"
+    },
+    {
+      "id": "G8",
+      "name": "strict-disambiguation-readiness",
+      "requirement": "候補を一意化するカテゴリについて、複数の未使用作品で誤確定がなく、十分な独立例数とrecallを確認してからlearner-visibleへ昇格する。",
+      "threshold": "category-specific evidence required"
     }
   ],
   "rules": [
@@ -80,7 +86,10 @@
     "holdは失敗ではないが、正解としても数えない。",
     "独立gold setがない状態でglobal replacementをしない。",
     "learner-visible昇格判定ではlegacy resolved率ではなくstrict resolvedと誤確定率を用いる。",
-    "ambiguous resolvedは検出成功ではあっても識別成功として数えない。"
+    "ambiguous resolvedは検出成功ではあっても識別成功として数えない。",
+    "goldを一度評価に使用した作品は以後development setとして扱い、次の一般化検証には未使用作品を使う。",
+    "boundary suppressionの成功とgrammar disambiguationの成功を別指標で評価する。",
+    "wrongResolved=0でもrecallが低いカテゴリはlearner-visibleへ昇格しない。"
   ],
   "metricDefinitions": {
     "legacyResolved": "historical compatibility metric. resolved配列に入った位置数で、候補が一意とは限らない。",
