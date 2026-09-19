@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint shadow Stage 2 generalization checkpoint",
+  "stage": "stage-2-evidence-backed-debug-overlay",
+  "blindBaselines": {
+    "note": "各goldを先にfreezeし、その時点のresolverを無調整で初回評価した値。後から上書きしない。",
+    "works": [
+      {
+        "work": "徒然草52",
+        "goldPositions": 55,
+        "strictPass": 32,
+        "strictPassRate": 0.5818181818181818,
+        "resolveTargets": 30,
+        "strictCorrectResolve": 7,
+        "resolveRecall": 0.23333333333333334,
+        "suppressTargets": 25,
+        "correctSuppression": 25,
+        "falsePositiveResolved": 0,
+        "wrongResolved": 0,
+        "baseline": "tsurezure52_shadow_baseline_v014.json"
+      },
+      {
+        "work": "伊勢物語6 芥川",
+        "goldPositions": 35,
+        "strictPass": 17,
+        "strictPassRate": 0.4857142857142857,
+        "resolveTargets": 23,
+        "strictCorrectResolve": 8,
+        "resolveRecall": 0.34782608695652173,
+        "suppressTargets": 12,
+        "correctSuppression": 9,
+        "falsePositiveResolved": 3,
+        "wrongResolved": 0,
+        "baseline": "ise6_akutagawa_shadow_baseline_v014.json"
+      },
+      {
+        "work": "方丈記冒頭",
+        "goldPositions": 22,
+        "strictPass": 14,
+        "strictPassRate": 0.6363636363636364,
+        "resolveTargets": 8,
+        "strictCorrectResolve": 1,
+        "resolveRecall": 0.125,
+        "suppressTargets": 14,
+        "correctSuppression": 13,
+        "falsePositiveResolved": 1,
+        "wrongResolved": 0,
+        "baseline": "hojoki_opening_shadow_baseline_v015.json"
+      }
+    ],
+    "combined": {
+      "goldPositions": 112,
+      "strictPass": 63,
+      "strictPassRate": 0.5625,
+      "resolveTargets": 61,
+      "strictCorrectResolve": 16,
+      "resolveRecall": 0.26229508196721313,
+      "suppressTargets": 51,
+      "correctSuppression": 47,
+      "suppressionRecall": 0.9215686274509803,
+      "falsePositiveResolved": 4,
+      "wrongResolved": 0
+    }
+  },
+  "developmentAfterBlind": {
+    "changes": [
+      "伊勢物語blindで露呈した larger-token gaps: まじかり / 呼ばひわたり / からうじて を boundary DBへ追加。",
+      "徒然草・伊勢物語をdevelopment setへ移し、source-reviewed token morphology 28語形を追加。",
+      "trusted連用形＋右文脈で一意になる ければ / しかど / たり＋けり系をstrict resolverへ追加。",
+      "方丈記第三blind後、接続詞「しかも」をwhole-token boundaryへ追加。",
+      "USB-3212明示cue「ずして」を literal-left rule で接続助詞「して」へstrict resolve。"
+    ],
+    "currentResults": [
+      {
+        "work": "徒然草52",
+        "goldPositions": 55,
+        "strictPass": 35,
+        "strictPassRate": 0.6363636363636364,
+        "resolveTargets": 30,
+        "strictCorrectResolve": 10,
+        "resolveRecall": 0.3333333333333333,
+        "suppressTargets": 25,
+        "correctSuppression": 25,
+        "hardErrors": 0
+      },
+      {
+        "work": "伊勢物語6 芥川",
+        "goldPositions": 35,
+        "strictPass": 22,
+        "strictPassRate": 0.6285714285714286,
+        "resolveTargets": 23,
+        "strictCorrectResolve": 10,
+        "resolveRecall": 0.43478260869565216,
+        "suppressTargets": 12,
+        "correctSuppression": 12,
+        "hardErrors": 0
+      },
+      {
+        "work": "方丈記冒頭",
+        "goldPositions": 22,
+        "strictPass": 16,
+        "strictPassRate": 0.7272727272727273,
+        "resolveTargets": 8,
+        "strictCorrectResolve": 2,
+        "resolveRecall": 0.25,
+        "suppressTargets": 14,
+        "correctSuppression": 14,
+        "hardErrors": 0
+      }
+    ],
+    "combined": {
+      "goldPositions": 112,
+      "strictPass": 73,
+      "strictPassRate": 0.6517857142857143,
+      "resolveTargets": 61,
+      "strictCorrectResolve": 22,
+      "resolveRecall": 0.36065573770491804,
+      "suppressTargets": 51,
+      "correctSuppression": 51,
+      "suppressionRecall": 1,
+      "hardErrors": 0
+    },
+    "caveat": "currentResultsはgold確認後のdevelopment結果を含むため、blind generalization scoreとして扱わない。"
+  },
+  "stableExistingSamples": {
+    "raw": 310,
+    "legacyResolvedArray": 187,
+    "strictResolved": 145,
+    "ambiguousResolved": 42,
+    "suppressed": 123,
+    "dbOnly": 0,
+    "contextHolds": 9,
+    "unclassifiedContextRequired": 0,
+    "note": "token morphology・boundary・strict rules追加後も既存4サンプルの位置数・strict/ambiguous内訳は変化なし。"
+  },
+  "conclusions": [
+    "whole-token/larger-unit boundary層は3作品currentで51/51に到達し、現時点の最も安定した層。",
+    "blind baselineでは誤ったcandidateの一意確定（wrongResolved）は3作品とも0。false positiveは語内部境界4件だった。",
+    "文法disambiguationは安全側だが低recall。blind baseline合算16/61、development後でも22/61。",
+    "「名詞＋に」「けるを」「連用形＋て」は局所形態情報だけでは一意化できない実例が得られた。",
+    "learner-visible global promotionはまだ不可。"
+  ],
+  "next": [
+    "局所syntax layerをsignal-onlyで設計し、前後tokenのPOS/form、引用境界、節継続を構造化する。",
+    "に/を/と/て/しを一律規則化せず、candidateごとの必要条件をfeatureとして持つ。",
+    "新たなhard resolverを加える場合は、現在の3作品ではdevelopmentし、第四の未使用作品でblind評価する。",
+    "G6 hold-aware learner UIはdetector品質と並行して設計するが、正解表示への昇格は行わない。"
+  ]
+}
