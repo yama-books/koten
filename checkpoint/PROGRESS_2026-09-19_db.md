@@ -617,3 +617,18 @@ learner-visible detectorはlegacyを維持。primary-source hold 5件も維持�
 - 3 development gold decision-path差分0
 
 次は第四未使用作品をgold先固定してblind評価。learner-visibleはlegacy維持。
+
+
+
+## 2026-09-20 第四blind: 平家物語「敦盛の最期」
+
+gold先固定→shadow無調整baseline保存まで完了。
+
+- 24 positions / strict 12（50.0%）
+- grammar 2/14（14.3%）
+- boundary 10/10
+- false-positive 0 / wrongResolved 0
+- `て` 5位置 = 接続助詞2 / 語内部2 / 完了つ1
+
+4 blind works合算: 136 / strict75 / grammar18/75 / boundary57/61 / wrongResolved0。
+次工程はexact passage morphology追加ではなく、passage-independent morphology providerのsignal-only設計。
