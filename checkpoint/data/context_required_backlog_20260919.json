@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 残件バックログ",
-  "basis": "既存4サンプル計990文字、shadow detector v0.7",
-  "total": 134,
+  "basis": "既存4サンプル計990文字、shadow detector v0.8",
+  "total": 130,
   "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
   "categories": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "surface": "に",
-      "count": 25,
+      "count": 24,
       "layer": "syntax+morphology",
       "priority": "A",
       "why": "格助詞・接続助詞・ナリ活用・断定「なり」・完了「ぬ」等が衝突。",
@@ -48,7 +48,7 @@
     },
     {
       "surface": "な",
-      "count": 5,
+      "count": 4,
       "layer": "boundary+morphology",
       "priority": "B",
       "why": "助動詞「ぬ」未然・終助詞・禁止副詞・語内部が衝突。",
@@ -64,7 +64,7 @@
     },
     {
       "surface": "が",
-      "count": 5,
+      "count": 4,
       "layer": "syntax+boundary",
       "priority": "B",
       "why": "格助詞・接続助詞に加え語内部一致がある。",
@@ -80,7 +80,7 @@
     },
     {
       "surface": "せ",
-      "count": 4,
+      "count": 3,
       "layer": "morphology",
       "priority": "B",
       "why": "サ変・過去「き」・使役尊敬「す」が衝突。",
@@ -102,9 +102,9 @@
     "shadow resolvedをlearner-visible正解表示へ直結しない。"
   ],
   "latestChange": [
-    "安倍晴明_本文・文法・語彙整理.docx のexact phrase grammar evidence 24件を追加。",
-    "同資料の難語29語を語彙DB化し、known-token boundaryへ追加。",
-    "「塞がる」内部の「が・る」と、「かたり」内部の「たり」を追加抑制。",
-    "安倍晴明exact evidenceで15件resolved、9件larger-unit抑制。"
+    "安倍晴明 exact grammar evidence 28件、係り結び exact scope 5件を反映。",
+    "百人一首文節監査の第9首『ながめ』を exact lexical boundary として追加。",
+    "名詞『ながめ』内部の一文字『な』『が』2位置を source-exact-bunsetu-lexical-unit として抑制。",
+    "resolved数は86のまま。context-required は132→130。"
   ]
 }
