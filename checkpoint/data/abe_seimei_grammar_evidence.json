@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.4",
+  "schemaVersion": "0.5",
   "updated": "2026-09-19",
   "title": "安倍晴明『宇治拾遺物語』 exact grammar evidence",
   "source": {
@@ -15,7 +15,7 @@
     "複数資料で明示される同一本文箇所は、出典を sources に分けて保持する。",
     "助動詞一覧にない一文字助詞は、資料からの欠落だけを根拠に品詞を推測しない。"
   ],
-  "entryCount": 30,
+  "entryCount": 37,
   "entries": [
     {
       "phrase": "御堂へ参らせ給ひ",
@@ -362,6 +362,104 @@
       "analysisUnit": "なし",
       "action": "suppressInsideLargerUnit",
       "sourceAnalysis": "形容詞「なし」の語内部。過去「き」等の独立「し」ではない。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-konryu-shi",
+      "phrase": "建立し給ひて",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「建立＋す」のサ変連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-otomo-shi-keri",
+      "phrase": "御供しけり",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "名詞「御供」＋サ変「す」の連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-otomo-shi-keru",
+      "phrase": "御供しけるが",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "名詞「御供」＋サ変「す」の連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-muto-shi-tamau",
+      "phrase": "入らむとし給へば",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「む＋と＋す」のサ変「す」連用形「し」。同一表面句2箇所に限定。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-jito-shi",
+      "phrase": "入れ奉らじとしければ",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「じ＋と＋す」のサ変「す」連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-muto-shi-mousu",
+      "phrase": "引きとどめ申さむとしければ",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「む＋と＋す」のサ変「す」連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-sahen-juso-shi",
+      "phrase": "呪詛し奉りて",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "action": "resolveCandidate",
+      "candidateId": "sahen_su_renyo",
+      "sourceAnalysis": "「呪詛＋す」のサ変連用形「し」。",
       "evidenceStatus": "user-source-exact+secondary-crosscheck",
       "sourceRefs": [
         "安倍晴明_本文・文法・語彙整理.docx",
