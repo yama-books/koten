@@ -1,0 +1,65 @@
+name: vintage-kana build UI glyph master
+on:
+  push:
+    paths:
+      - '.github/workflows/vintage-kana-build-ui-data.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build compact UI glyph master
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path("vintage-kana/data")
+          inputs=["glyph-distribution.json","glyph-distribution-part2.json","glyph-distribution-supplemental.json"]
+          unique={}
+          for name in inputs:
+              p=base/name
+              if not p.exists():
+                  continue
+              data=json.loads(p.read_text(encoding="utf-8"))
+              rows=data.get("distributions", data.get("records", []))
+              for r in rows:
+                  kana=r.get("kana")
+                  gid=r.get("glyph_id")
+                  char=r.get("character")
+                  jibo=r.get("jibo")
+                  dia=r.get("diacritic","none")
+                  if not (kana and gid and char and jibo):
+                      continue
+                  key=(kana,gid,dia)
+                  if key not in unique:
+                      unique[key]={
+                          "kana":kana,
+                          "glyph_id":gid,
+                          "character":char,
+                          "jibo":jibo,
+                          "diacritic":dia
+                      }
+          kana_order=list("あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん")
+          order={k:i for i,k in enumerate(kana_order)}
+          rows=sorted(unique.values(),key=lambda r:(order.get(r["kana"],999),r["diacritic"]!="none",r["glyph_id"]))
+          out={
+              "schemaVersion":1,
+              "status":"derived-from-phase1-observed-distributions",
+              "description":"初期15資料のPhase 1分布コーパスで1件以上観察された字体をUI用に重複除去した派生データ。標準字体の完全一覧を意味しない。",
+              "sourceFiles":inputs,
+              "glyphCount":len(rows),
+              "kanaCount":len(set(r["kana"] for r in rows)),
+              "glyphs":rows
+          }
+          (base/"ui-glyph-master.json").write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          print(out["kanaCount"],out["glyphCount"])
+          PY
+      - name: Commit derived UI data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add vintage-kana/data/ui-glyph-master.json
+          git commit -m "vintage-kana: derive compact UI glyph master"
+          git push
