@@ -45,7 +45,7 @@ function renderShadowDebugPanel(text, legacyHits, audit){
   );
 
   summary.textContent =
-    `legacy unique ${legacyUnique} / DB raw ${state.raw.length} / resolved ${state.resolved.length} / suppressed ${state.suppressed.length} / `+
+    `legacy unique ${legacyUnique} / DB raw ${state.raw.length} / resolved ${state.resolved.length} / strict ${audit?.strictResolvedHitCount??"?"} / ambiguous ${audit?.ambiguousResolvedHitCount??"?"} / suppressed ${state.suppressed.length} / `+
     `hold benchmark ${benchmark.length} / primary ${primary.length} / unclassified ${unclassified.length} / DB only ${audit?.dbOnly?.length??"?"}`;
 
   const resolvedReasons=shadowDebugCountBy(state.resolved,h=>
