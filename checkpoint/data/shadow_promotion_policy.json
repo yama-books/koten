@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint shadow → learner-visible 昇格方針",
-  "currentStage": "stage-1-shadow-telemetry",
+  "currentStage": "stage-2-evidence-backed-debug-overlay",
   "stages": [
     {
       "id": "stage-0",
@@ -78,6 +78,13 @@
     "resolved率だけを昇格判断に使わない。",
     "passage-specific evidenceの成功を一般化精度として数えない。",
     "holdは失敗ではないが、正解としても数えない。",
-    "独立gold setがない状態でglobal replacementをしない。"
-  ]
+    "独立gold setがない状態でglobal replacementをしない。",
+    "learner-visible昇格判定ではlegacy resolved率ではなくstrict resolvedと誤確定率を用いる。",
+    "ambiguous resolvedは検出成功ではあっても識別成功として数えない。"
+  ],
+  "metricDefinitions": {
+    "legacyResolved": "historical compatibility metric. resolved配列に入った位置数で、候補が一意とは限らない。",
+    "strictResolved": "候補IDまたは助動詞lemmaが一意に支持されたresolved位置。",
+    "ambiguousResolved": "resolved配列には入るが候補集合が複数残る位置。学習者向け正解表示へは昇格不可。"
+  }
 }
