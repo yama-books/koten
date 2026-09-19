@@ -186,3 +186,16 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 - suppression: indexed-larger 51 / known-larger-token 31 / context-required 151。
 - 残151は `context_required_backlog_20260919.json` に整理。A群は `て28・に28・と23・を21` で、文節/統語境界が主ボトルネック。
 - learner-visible detectorはまだlegacy。shadow側の改善をそのまま正解表示へつながない。
+
+
+## 2026-09-19 追加: 全500例DB・境界拡張
+
+- `audited_inflection_evidence_500_full.json` を新設。500監査例を **447表面形**として全保持し、同一表面形の複数分析を捨てない。曖昧表面形は19件。
+- 既存の `audited_inflected_form_index_500.json` は活用形・品詞が一意な413表面形のcontext resolver用。新しいfull DBは「証拠保存＋語境界」の役割。
+- full DBのうち2文字以上かつ漢字を含む監査済みtargetを語境界専用trusted tokenへ追加し、`known_token_boundary_index.json` は拡張済み。
+- raw DB内の一文字hitが、より長い索引済み文法単位に完全包含される場合は `indexed-larger-surface` で抑制する処理を追加。
+- USB-3212に基づき `けれ＋ば` は「ば」の確定条件候補を支持できるため、`resolved-by-source-left-surface` を追加。安倍晴明サンプルで6件resolved。
+- 最新4サンプル監査: legacy unique 310 / DB raw 310 / resolved **77** / suppressed **233** / DB only 0。
+- suppressed内訳: `context-required-not-yet-resolved` **151** / `indexed-larger-surface` **51** / `known-larger-token` **31**。
+- unresolved上位: `て 28 / に 28 / と 23 / を 21 / し 13 / な 8 / ば 8 / が 6 / る 6 / せ 6 / む 3 / ぬ 1`。
+- ここからはresolved数を無理に上げず、①既知語内部、②接続根拠あり、③本当に文脈解析が必要、の3群へ分解する。
