@@ -1,0 +1,61 @@
+{
+  "updated": "2026-09-19",
+  "work": "古今和歌集",
+  "status": "pilot / partial-target-verification",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "古今和歌集",
+    "url": "https://ja.wikisource.org/wiki/古今和歌集",
+    "validationStatus": "100% verified on Wikisource",
+    "rightsVerified": true,
+    "rightsStatus": "public-domain-marked-on-Wikisource",
+    "publicationTextLicenseNote": "Wikisourceページ下部の利用条件も別途遵守する。"
+  },
+  "records": [
+    {
+      "id": "adjv-052",
+      "chjTarget": "愚かなり",
+      "publicTarget": "おろかなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/古今和歌集仮名序",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "漢字／かな表記差。終止形「なり」を確認。"
+    },
+    {
+      "id": "adjv-062",
+      "chjTarget": "あだなる",
+      "publicTarget": "あたなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/古今和歌集/巻十",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "濁点表記差。連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-003",
+      "chjTarget": "妙なり",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": null,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-080",
+      "chjTarget": "たくみに",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": null,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    }
+  ],
+  "counts": {
+    "total": 4,
+    "rightsVerified": 4,
+    "targetVerified": 2,
+    "excerptReviewed": 0,
+    "publicationEnabled": 0
+  }
+}
