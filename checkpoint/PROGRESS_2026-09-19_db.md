@@ -76,3 +76,27 @@ legacy unique 310位置はすべて surface_index に存在することを確認
 - 百人一首 exact phrase の `知らぬ` が識別サンプルに一致し、resolved 70→71。
 - 4サンプル最新版: resolved 71 / suppressed 239 / DB only 0 / resolved率22.9%。
 - suppression内訳: context-required 187 / larger-db 32 / known-larger-token 20。
+
+
+## 追加: shadow v0.6 / 残件151
+
+- 1文字context-required hitが、より長いindexed grammar/discrimination surface内に完全包含される場合、短いhitを `indexed-larger-surface` として抑制。
+  - 例: `な→なり`, `る→たる`, `る→ける`, `し→ましか`
+- USB-3212に基づく `けれ＋ば` resolverを追加。長文サンプルの6箇所を確定条件候補としてshadow resolvedへ昇格。
+- v1.3の BASIC_WORDS 28語をDB境界レイヤへ移行し、known-larger-token抑制は20→31位置。
+- 500例全件を `audited_inflection_evidence_500_full.json` に保存:
+  - 500行
+  - 447表面形
+  - 19曖昧表面形
+  - 曖昧分析を捨てず全候補を保持
+- 4サンプル最新版:
+  - raw 310
+  - resolved **77**
+  - suppressed **233**
+  - DB only 0
+  - resolved率 **24.8%**
+- suppressed内訳:
+  - indexed-larger-surface 51
+  - known-larger-token 31
+  - context-required 151
+- 残151位置は `context_required_backlog_20260919.json` に表面形別・必要レイヤ別で整理。
