@@ -2423,13 +2423,27 @@ function render(){
   const exampleToggleLabel=exampleToggle.closest("label");
   if(exampleToggleLabel) exampleToggleLabel.style.opacity=hasExample?"":"0.55";
 
+  const exampleFoot=document.getElementById("exampleFoot");
+  exampleFoot.textContent="";
   if(!hasExample){
-    document.getElementById("exampleFoot").textContent="活用表ドリル";
+    exampleFoot.textContent="活用表ドリル";
   }else if(current.poem){
     const author=poemAuthors[current.poem]||"";
-    document.getElementById("exampleFoot").textContent=`小倉百人一首 ${kansuji(current.poem)}番（${author}）`;
+    exampleFoot.textContent=`小倉百人一首 ${kansuji(current.poem)}番（${author}）`;
+  }else if(current.sourceUrl){
+    const sourceLink=document.createElement("a");
+    sourceLink.href=current.sourceUrl;
+    sourceLink.target="_blank";
+    sourceLink.rel="noopener noreferrer";
+    sourceLink.textContent=current.source||"出典";
+    exampleFoot.appendChild(sourceLink);
+    if(current.sourceLicense){
+      const license=document.createElement("span");
+      license.textContent=` / ${current.sourceLicense}`;
+      exampleFoot.appendChild(license);
+    }
   }else{
-    document.getElementById("exampleFoot").textContent=current.source||"練習用例";
+    exampleFoot.textContent=current.source||"練習用例";
   }
 
   const showing=hasExample && exampleToggle.checked;
@@ -2607,10 +2621,12 @@ async function loadAdjvRuntimeItems(){
       .filter(x=>!existing.has(x.lemma))
       .map(x=>({
         ...x,
-        example:"",
-        target:"",
-        source:"活用表ドリル",
-        exampleAvailable:false
+        example:x.example||"",
+        target:x.target||"",
+        source:x.source||"活用表ドリル",
+        sourceUrl:x.sourceUrl||"",
+        sourceLicense:x.sourceLicense||"",
+        exampleAvailable:x.exampleAvailable===true
       }));
     items.push(...additions);
     status.loaded=true;
