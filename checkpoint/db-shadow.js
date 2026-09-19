@@ -485,6 +485,52 @@ function resolveDbShadowHits(text){
   const resolved=[];
 
   for(const h of raw){
+    const abeEvidence=exactAbeEvidenceForHit(text,h);
+    if(abeEvidence){
+      if(abeEvidence.mode==="larger-unit-suppress"){
+        suppressed.push({
+          ...h,
+          suppressedReason:"passage-source-larger-unit",
+          suppressedBy:abeEvidence.analysisUnit,
+          passageSourceEvidence:abeEvidence
+        });
+        continue;
+      }
+      if(abeEvidence.mode==="candidate-id-resolve"){
+        const ids=hitCandidateIds(h);
+        if(abeEvidence.candidateId && ids.has(abeEvidence.candidateId)){
+          resolved.push({
+            ...h,
+            analysisConfidence:"passage-source-exact",
+            contextResolution:{
+              status:"resolved-by-passage-source-exact",
+              mode:abeEvidence.mode,
+              supportCandidateIds:[abeEvidence.candidateId],
+              passageSourceEvidence:abeEvidence,
+              evidence:"abe_seimei_passage_evidence.json"
+            }
+          });
+          continue;
+        }
+      }
+      if(abeEvidence.mode==="auxiliary-lemma-resolve"){
+        if(abeEvidence.auxiliaryLemma && hitSupportsAuxiliaryLemma(h,abeEvidence.auxiliaryLemma)){
+          resolved.push({
+            ...h,
+            analysisConfidence:"passage-source-exact",
+            contextResolution:{
+              status:"resolved-by-passage-source-exact",
+              mode:abeEvidence.mode,
+              supportAuxiliaryLemmas:[abeEvidence.auxiliaryLemma],
+              passageSourceEvidence:abeEvidence,
+              evidence:"abe_seimei_passage_evidence.json"
+            }
+          });
+          continue;
+        }
+      }
+    }
+
     const abeExactEvidence=exactAbeEvidenceForHit(text,h);
     if(abeExactEvidence){
       if(abeExactEvidence.action==="suppressInsideLargerUnit"){
@@ -675,6 +721,8 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     knownBoundaryTokenHitCount:state.boundaryHits?.length||0,
     contextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-connection").length,
     exactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-exact-phrase").length,
+    passageSourceResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-passage-source-exact").length,
+    passageSourceSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="passage-source-larger-unit").length,
     sourceExactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-phrase").length,
     sourceExactPhraseSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-phrase-larger-unit").length,
     bidirectionalContextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-bidirectional-context").length,
