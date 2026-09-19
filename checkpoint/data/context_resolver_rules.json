@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.3",
+  "schemaVersion": "0.4",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 接続resolver規則",
   "sources": [
@@ -363,6 +363,21 @@
       "mode": "singleCandidateResolve",
       "sourceCue": "trusted用言連用形直後の「たり」で、後ろに過去「けり」の活用形が続く助動詞連鎖。",
       "safety": "left-token-boundary + following-keri-form required"
+    },
+    {
+      "surface": "して",
+      "previousChars": [
+        "ず"
+      ],
+      "supportCandidateIds": [
+        "conjunctive_particle_shite"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「して」: 接続助詞は「ずして」等、前の活用語と接続助詞としてまとまるか確認する。",
+      "safety": "literal-zushi-te-only",
+      "evidenceFiles": [
+        "discrimination_source_usb3212.json"
+      ]
     }
   ]
 }
