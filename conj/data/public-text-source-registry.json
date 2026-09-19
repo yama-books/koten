@@ -26,14 +26,14 @@
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
     "publicationReadyWorks": 10,
-    "publicExamplesConnected": 48,
-    "rightsVerifiedWorks": 12,
-    "targetVerifiedExamples": 50,
-    "excerptReviewedExamples": 48,
-    "publicationReadyExamples": 48,
-    "auditStatusKnownWorks": 13,
+    "publicExamplesConnected": 50,
+    "rightsVerifiedWorks": 13,
+    "targetVerifiedExamples": 52,
+    "excerptReviewedExamples": 50,
+    "publicationReadyExamples": 50,
+    "auditStatusKnownWorks": 14,
     "blockedWorks": 1,
-    "partialWorks": 2
+    "partialWorks": 3
   },
   "works": [
     {
@@ -168,10 +168,12 @@
       "exampleCount": 6,
       "wikisource": {
         "candidateFound": true,
-        "candidateUrl": "https://ja.wikisource.org/wiki/枕草子",
-        "rightsVerified": false,
-        "editionFixed": false,
-        "targetVerificationCount": 0
+        "candidateUrl": "https://ja.wikisource.org/wiki/枕草紙_(國文大觀)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 2,
+        "edition": "國文大觀 日記草子部",
+        "rightsNote": "WikisourceでPD-old-80-expired / US PD表示、転写テキストCC BY-SA 4.0を確認。"
       },
       "aozora": {
         "candidateFound": false,
@@ -181,7 +183,8 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "note": "6例中2例を國文大觀版で4ゲート完了。残り4例は版差・文法形差・固定版での同一箇所照合不足のため未公開。",
+      "auditStatus": "partial"
     },
     {
       "work": "源氏物語",
