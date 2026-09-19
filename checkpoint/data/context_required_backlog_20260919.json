@@ -1,14 +1,14 @@
 {
-  "schemaVersion": "0.5",
+  "schemaVersion": "0.6",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 残件バックログ",
-  "basis": "既存4サンプル計990文字、shadow detector v0.11",
-  "total": 85,
+  "basis": "既存4サンプル計990文字、shadow detector v0.12",
+  "total": 38,
   "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
   "categories": [
     {
       "surface": "て",
-      "count": 28,
+      "count": 1,
       "layer": "syntax+morphology",
       "priority": "A",
       "why": "接続助詞と完了「つ」活用形が衝突。前接連用形だけでは一意にならず、後続助動詞や文節境界が必要。",
@@ -32,7 +32,7 @@
     },
     {
       "surface": "を",
-      "count": 21,
+      "count": 1,
       "layer": "syntax",
       "priority": "A",
       "why": "格助詞・接続助詞・間投助詞を文構造で区別する必要がある。",
@@ -79,23 +79,16 @@
     "shadow resolvedをlearner-visible正解表示へ直結しない。"
   ],
   "latestChange": [
-    "「たなびき」「取り出だし」を出典付きwhole-token境界として追加。",
-    "安倍晴明本文「物もなし」の内部「な・し」をexact phrase限定で抑制。",
-    "安倍晴明本文の残「し」8位置を、passage-specific exact evidenceでサ変「す」連用形としてresolved。",
-    "「うち合せて」の内部「せ」をpassage-specific境界として抑制。",
-    "v0.10の98残件から85へ減少。resolved 113→121、raw 310 / DB only 0は不変。"
+    "安倍晴明本文の助詞exact passage evidence層を新設。",
+    "接続助詞「て」20位置、格助詞「を」20位置をexact passage限定でresolved。",
+    "「とて」内部「て」6位置と「さて」内部「て」1位置をlarger-unit suppression。",
+    "context-required 85→38。resolved 121→161。raw 310 / DB only 0は維持。",
+    "残件は「に20 / と10」が約79%を占める。"
   ],
   "resolvedSinceV08": {
-    "total": 45,
-    "hardBoundaryQuotedTo": 13,
-    "bakariInternalSuppression": 2,
-    "sourceLimitedBa": 6,
-    "abeSourceTokenSuppression": 4,
-    "hyakuninPoem9Resolved": 8,
-    "hyakuninPoem9NonAuxSuppression": 1,
-    "abeNashiSuppression": 2,
-    "abeSahenShiResolved": 8,
-    "abeUchiawaseSuppression": 1,
-    "note": "v0.8のcontext-required130→85。resolvedへの昇格と、境界/非助動詞抑制への安全な再分類を合算した減少数。"
+    "total": 92,
+    "note": "v0.8のcontext-required130→38。resolvedへの昇格と、境界/非助動詞・larger-unit抑制への安全な再分類を合算。",
+    "previousV011Reduction": 45,
+    "v012ParticleReduction": 47
   }
 }
