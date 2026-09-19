@@ -28,8 +28,9 @@ Phase 7  継続拡張                             ⏳
 - 中核47音価の非ゼロ分布: 2,046件
 - 派生セル: 3,750
 - 補遺「ん」: 15件
-- `attested-examples.json`: **42件**
-  - source-checked: **42**
+- `attested-examples.json`: **44件**
+  - source-checked: **44**
+  - exact-text: **5**
   - context-checked: **0**
   - human-confirmed: **0**
   - 変体仮名字形 U+1B***: **38**
@@ -216,9 +217,9 @@ Stage A の「位置が分かる実例」を二段階で深める。
 
 ### 最初の完了目標
 
-1. **exact-text 1件** ← 現在ここ
-2. exact-text 5件
-3. **context-checked 1件**
+1. **exact-text 1件** ✅
+2. **exact-text 5件** ✅
+3. **context-checked 1件** ← 現在ここ
 4. context-checked 5件
 5. context-checked 10件
 
@@ -456,17 +457,18 @@ human-confirmed:
 
 # 現在の次アクション
 
-**現在位置: Phase 2C-1 / exact-text の最初の1件を確定中**
+**現在位置: Phase 2C-2 / 最初の context-checked 1件を確定する工程**
 
 次の順で進める。
 
-1. 42件の Stage A 監査 ✅
+1. Stage A 監査 ✅
 2. Stage A の大量追加を主工程から外し、Phase 2Cへ移行 ✅
 3. 公式翻刻と個別出現を一意対応できる候補を選ぶ ✅
-4. 最初の exact-text 1件を確定する ← 現在
-5. exact-text を5件まで再現し、方法の安定性を確認
-6. 原画像確認経路を確立し、最初の context-checked 1件を作る
-7. 各節目でチェックポイントを更新する
+4. exact-text 1件を確定 ✅
+5. exact-text 5件まで再現し、方法の安定性を確認 ✅
+6. 原画像確認経路を確立し、最初の context-checked 1件を作る ← 現在
+7. context-checked 5件、10件へ拡張
+8. 各節目でチェックポイントを更新する
 
 ---
 
