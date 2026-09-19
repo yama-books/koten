@@ -131,6 +131,11 @@
     "source-reviewed token morphology 28語形を追加。secondary-source-reviewedでありgrammar masterのprimary verificationには使わない。",
     "local syntax feature layerをsignal-onlyで追加。直前/直後trusted token、previous morphology、引用・句読点、right-context cueを記録するが判定は変えない。",
     "3 development goldの残39位置では previous morphology 14、うち「て」は11件中10件で取得。形態情報だけでの限界を可視化した。",
-    "USB-3212の明示cue「ずして」をliteral-left ruleとして接続助詞「して」へstrict resolve。"
+    "USB-3212の明示cue「ずして」をliteral-left ruleとして接続助詞「して」へstrict resolve。",
+    "独立gold 1本目として徒然草第52段55位置をshadow評価前にfreeze。blind baselineはstrict PASS 32/55（58.2%）、文法resolve 7/30、larger-unit suppression 25/25、誤確定0。",
+    "独立gold 2本目として伊勢物語第6段『芥川』冒頭35位置をshadow評価前にfreeze。blind baselineはstrict PASS 17/35（48.6%）、文法resolve 8/23、larger-unit suppression 9/12、false-positive resolved 3。",
+    "伊勢物語blind baseline後、語内部false-positive 3件（まじかり内じ／呼ばひわたり内たり／からうじて内じ）だけをknown-token boundaryへ追加。修正後はsuppression 12/12、false-positive 0。既存4サンプルと徒然草goldは不変。",
+    "resolved指標をstrict / ambiguousへ分離。既存4サンプルではresolved187のうちstrict145、ambiguous42。",
+    "stage-2 evidence-backed debug overlayへ移行。learner-visible detectorはlegacyのまま。"
   ]
 }
