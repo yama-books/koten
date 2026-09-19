@@ -46,7 +46,16 @@
     "contextHoldPolicy": "context_hold_policy.json",
     "passageHoldRegression": "passage_hold_regression_20260919.json",
     "shadowPromotionPolicy": "shadow_promotion_policy.json",
-    "shadowPromotionReadiness": "shadow_promotion_readiness_20260919.json"
+    "shadowPromotionReadiness": "shadow_promotion_readiness_20260919.json",
+    "tsurezure52IndependentGold": "tsurezure52_independent_gold_20260919.json",
+    "tsurezure52ShadowBaseline": "tsurezure52_shadow_baseline_v014.json",
+    "ise6AkutagawaIndependentGold": "ise6_akutagawa_independent_gold_20260919.json",
+    "ise6AkutagawaShadowBaseline": "ise6_akutagawa_shadow_baseline_v014.json",
+    "hojokiOpeningIndependentGold": "hojoki_opening_independent_gold_20260919.json",
+    "hojokiOpeningShadowBaseline": "hojoki_opening_shadow_baseline_v015.json",
+    "crossGoldFailureTaxonomy": "cross_gold_failure_taxonomy_20260919.json",
+    "sourceReviewedTokenMorphology": "source_reviewed_token_morphology.json",
+    "stage2GeneralizationCheckpoint": "stage2_generalization_checkpoint_20260919.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -112,6 +121,11 @@
     "shadow v0.13: 安倍晴明本文の「に・と・が」exact evidenceを追加し、raw 310 / resolved 186 / context-required 10。連体形＋「に」4件は分析揺れのため意図的hold。",
     "shadow v0.14準備: 枕草子「あかりて」を一般実本文exact evidenceでresolvedし、残9件を intentional-ambiguity-benchmark 4 / primary-source-required 5 に分類。未分類context-requiredは0。",
     "shadow→learner-visible昇格ゲートを定義。resolved率だけでは切替せず、独立gold・複数作品一般化・hold-aware UIを必須条件とする。",
-    "開発者向けshadow debug overlayを追加。通常UIでは非表示で、?debug=shadow または #shadow-debug のときだけ表示。"
+    "開発者向けshadow debug overlayを追加。通常UIでは非表示で、?debug=shadow または #shadow-debug のときだけ表示。",
+    "独立goldを徒然草52・伊勢物語6・方丈記冒頭の3作品でgold先固定→blind評価の順に実施。",
+    "旧resolved指標をstrict resolved / ambiguous resolvedへ分離。既存4サンプルは strict 145 / ambiguous 42 / old resolved 187。",
+    "3作品blind baseline合算112位置: strict PASS 63、grammar strict resolve 16/61、larger-unit suppression 47/51、wrong candidate resolve 0。",
+    "blind後の安全修正で boundary 51/51、current strict PASS 73/112。ただしdevelopment後の値なのでblind scoreとして扱わない。",
+    "source-reviewed token morphology 28語形を追加。secondary-source-reviewedでありgrammar masterのprimary verificationには使わない。"
   ]
 }
