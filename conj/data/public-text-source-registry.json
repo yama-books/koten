@@ -31,9 +31,9 @@
     "targetVerifiedExamples": 50,
     "excerptReviewedExamples": 48,
     "publicationReadyExamples": 48,
-    "auditStatusKnownWorks": 12,
+    "auditStatusKnownWorks": 13,
     "blockedWorks": 1,
-    "partialWorks": 1
+    "partialWorks": 2
   },
   "works": [
     {
@@ -331,7 +331,8 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "5例中2例を同版公開本文で再確認。残り3例はtarget未照合のため未公開。"
+      "note": "5例中2例を同版公開本文で再確認。残り3例はtarget未照合のため未公開。",
+      "auditStatus": "partial"
     },
     {
       "work": "伊勢物語",
