@@ -1,10 +1,10 @@
 {
   "schemaVersion": "0.3",
-  "updated": "2026-09-19",
+  "updated": "2026-09-20",
   "title": "Checkpoint shadow promotion readiness audit",
   "shadowVersion": "0.15-stage2-generalization",
-  "recommendation": "stay-stage-2-generalize-before-promotion",
-  "summary": "3作品blind評価によりboundary層の安全性とgrammar resolverのunder-resolvingを分離できた。Stage 2は継続。learner-visible promotionはまだ行わない。",
+  "recommendation": "stay-stage-2-expand-right-context-and-fourth-blind-gold",
+  "summary": "Git履歴を再照合し、3作品blind＋local syntax signal-onlyを現行正本として再確定。boundary層はdevelopment 51/51、grammar resolverはunder-resolving。Stage 2継続、learner-visible promotionは行わない。",
   "observed": {
     "legacyUnique": 310,
     "dbRaw": 310,
@@ -46,18 +46,18 @@
     },
     {
       "id": "G4",
-      "status": "PARTIAL",
-      "evidence": "独立gold 2本、計90位置でblind評価済み。誤候補一意確定は0だが、strict resolve recallは徒然草7/30・伊勢8/23でunder-resolving。"
+      "status": "PASS",
+      "evidence": "徒然草・伊勢物語・方丈記の3作品でgold先固定→blind baseline凍結済み。計112位置。"
     },
     {
       "id": "G5",
-      "status": "PARTIAL",
-      "evidence": "徒然草・伊勢物語の2作品でcross-passage blind評価済み。さらに1作品以上と一般resolver改善後の再評価が望ましい。"
+      "status": "PASS_WITH_LIMITATION",
+      "evidence": "3作品でcross-passage blind評価済み。wrongResolved 0だがgrammar strict resolve recallはblind合算16/61で低い。"
     },
     {
       "id": "G6",
       "status": "PENDING",
-      "evidence": "開発者debug overlayは実装済みだが、learner-visible hold-aware UIは未実装。"
+      "evidence": "developer debug overlayとsignal-only local syntaxは実装済みだが、hold-aware learner UIは未実装。"
     },
     {
       "id": "G7",
@@ -71,12 +71,11 @@
     }
   ],
   "nextRecommendedWork": [
-    "途中停止した『未解決31件の左語token境界カバレッジ測定』を再実行する。",
-    "2本のblind goldで共通する未解決 surface（て・に・を・と・し）だけから一般resolver改善候補を抽出する。",
-    "exact passage evidenceを増殖させず、tokenizer / 前接語境界 / 活用形 evidence を先に強化する。",
-    "一般resolver改善後、goldを変更せず再評価してbaseline差分を測る。",
-    "さらに別作品1本でblind goldを追加しG5を強化する。",
-    "hold-aware learner UIは一般resolverが安定してから実装する。"
+    "right-token morphology / token boundaryをsignal-onlyで拡張する。",
+    "次tokenが助動詞列開始か独立語開始かをfeature化する。feature単独では候補を削除・resolveしない。",
+    "に/を/とは節構造・係り先レイヤを設計し、名詞＋に・ける＋を等の局所文字列ruleを作らない。",
+    "新hard resolverへ昇格する一般条件ができた場合、既存3 development goldを回帰した後、第四の未使用作品をgold先固定してblind評価する。",
+    "G6 hold-aware learner UIは別レーンで設計するが、learner-visible detectorはlegacyのまま維持する。"
   ],
   "currentStage": "stage-2-evidence-backed-debug-overlay",
   "independentGold": {
@@ -123,6 +122,7 @@
       "suppressionTargets": 25,
       "suppressionCorrect": 25,
       "falsePositiveResolved": 0,
+      "wrongResolved": 0,
       "note": "完全blind baseline。resolver調整前にgoldをfreeze。"
     },
     {
@@ -138,7 +138,24 @@
       "suppressionTargets": 12,
       "suppressionCorrect": 9,
       "falsePositiveResolved": 3,
+      "wrongResolved": 0,
       "note": "完全blind baseline。3件の語内部false-positiveを確認。"
+    },
+    {
+      "work": "方丈記冒頭 ゆく河の流れ",
+      "goldFile": "hojoki_opening_independent_gold_20260919.json",
+      "baselineFile": "hojoki_opening_shadow_baseline_v015.json",
+      "positions": 22,
+      "strictPass": 14,
+      "strictPassRate": 0.6363636363636364,
+      "resolveTargets": 8,
+      "strictCorrectResolve": 1,
+      "strictResolveRecall": 0.125,
+      "suppressionTargets": 14,
+      "suppressionCorrect": 13,
+      "falsePositiveResolved": 1,
+      "wrongResolved": 0,
+      "note": "第三作品blind。source-reviewed morphology等の2作品development改善後にgoldをfreezeし、shadow無調整でbaseline保存。"
     }
   ],
   "postBaselineBoundaryPatch": {
@@ -153,6 +170,51 @@
       "iseFalsePositiveResolved": 0,
       "tsurezureBaselineBehavior": "unchanged",
       "existingFourSampleBehavior": "unchanged"
+    }
+  },
+  "postBlindBoundaryPatches": [
+    {
+      "afterBaseline": "ise6_akutagawa_shadow_baseline_v014.json",
+      "addedKnownTokens": [
+        "まじかり",
+        "呼ばひわたり",
+        "からうじて"
+      ],
+      "purpose": "語内部false-positiveのみをsource-reviewed larger-token boundaryとして修復。",
+      "result": "伊勢 suppression 12/12・false-positive 0。徒然草・既存4サンプル不変。"
+    },
+    {
+      "afterBaseline": "hojoki_opening_shadow_baseline_v015.json",
+      "addedKnownTokens": [
+        "しかも"
+      ],
+      "purpose": "第三blindで確認した語内部false-positiveをwhole-token boundaryとして修復。",
+      "result": "3 development gold boundary suppression 51/51。hard error 0。"
+    }
+  ],
+  "localSyntaxFeatureAudit": {
+    "file": "local_syntax_feature_audit_20260919.json",
+    "unresolvedOrAmbiguousExpectedResolvePositions": 39,
+    "signalCoverage": {
+      "previousMorphology": 14,
+      "leftTrustedToken": 7,
+      "rightTrustedToken": 4,
+      "punctuationAfter": 14,
+      "matchedRightContextCue": 0
+    },
+    "note": "旧2作品・約31件の途中測定を再実行する代わりに、failure taxonomyと3作品39位置のsignal-only監査へ発展済み。"
+  },
+  "reconciliation": {
+    "checkedOn": "2026-09-20",
+    "finding": "21:01 JSTの2作品停止記録が、18:56-19:05 JSTに完了していた第三gold・baseline・local syntax成果物より後から追記され、readinessの一部だけを2作品状態へ戻していた。",
+    "authority": "Git ancestry + current code/data artifacts",
+    "supersededSnapshot": "2026-09-19 21:01 JST two-blind pause",
+    "effectiveState": "v0.15-stage2-generalization / 3 blind works / local syntax signal-only",
+    "keyCommits": {
+      "hojokiGoldFreeze": "4a46315c5864c70a3cf9f1453524d87c7e53eb70",
+      "hojokiBlindBaseline": "555b5076b591b4b7c9d74e0cd7dcc8f0252d45c9",
+      "localSyntaxAudit": "54500390704b072ded254cc9bbcec48ec7abbd8f",
+      "stage2ShadowAudit": "aab08af7d8de08e4f9068d244793e16a3ba8c2b9"
     }
   }
 }
