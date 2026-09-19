@@ -90,6 +90,8 @@
     "安倍晴明教材の係り結び5表現をexact scope-link化し、回帰5/5 PASS。",
     "最新4サンプルshadowは86 resolved / 224 suppressed / DB only 0。context-requiredは132。",
     "百人一首文節監査の明示語彙境界をexact passage限定で利用するレイヤを追加。",
-    "第9首では名詞「ながめ」の内部の一文字「な」「が」だけを抑制し、「せし」「まに」内部は文法候補を勝手に消さない。"
+    "第9首では名詞「ながめ」の内部の一文字「な」「が」だけを抑制し、「せし」「まに」内部は文法候補を勝手に消さない。",
+    "百人一首文節監査を助動詞正解表ではなく境界証拠として使う hyakunin_bunsetu_boundary_evidence.json を追加。",
+    "第9首『ながめ』内部の『な』『が』2位置をexact lexical boundaryで抑制し、context-requiredは130。"
   ]
 }
