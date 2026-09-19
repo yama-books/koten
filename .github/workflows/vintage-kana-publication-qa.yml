@@ -1,0 +1,84 @@
+name: vintage-kana publication QA
+on:
+  push:
+    paths:
+      - '.github/workflows/vintage-kana-publication-qa.yml'
+permissions:
+  contents: write
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run static QA
+        run: |
+          python - <<'PY'
+          import json,re,subprocess
+          from pathlib import Path
+          root=Path("vintage-kana")
+          html=(root/"index.html").read_text(encoding="utf-8")
+          scripts=re.findall(r"<script>([\s\S]*?)</script>",html)
+          if not scripts:
+              raise SystemExit("inline script not found")
+          Path("/tmp/vintage-kana-inline.js").write_text(scripts[-1],encoding="utf-8")
+          subprocess.run(["node","--check","/tmp/vintage-kana-inline.js"],check=True)
+
+          parts=[]
+          for name in ["glyph-distribution.json","glyph-distribution-part2.json","glyph-distribution-supplemental.json"]:
+              data=json.loads((root/"data"/name).read_text(encoding="utf-8"))
+              parts.extend(data.get("distributions",data.get("records",[])))
+          agg={}
+          for r in parts:
+              if r.get("diacritic")!="none" or not str(r.get("glyph_id","")).startswith("U+1B"):
+                  continue
+              key=(r.get("kana"),r.get("glyph_id"),r.get("diacritic"))
+              x=agg.setdefault(key,{"kana":r.get("kana"),"count":0,"w":set()})
+              x["count"]+=int(r.get("count") or 0)
+              if r.get("source_witness"): x["w"].add(r["source_witness"])
+
+          att=json.loads((root/"data"/"attested-examples.json").read_text(encoding="utf-8"))
+          ex=att["examples"]
+          ctx=sum(x.get("review_status")=="context-checked" for x in ex)
+          hum=sum(x.get("review_status")=="human-confirmed" for x in ex)
+          exact=sum(x.get("context_alignment_status")=="exact" for x in ex)
+          kana=len(set(x["kana"] for x in agg.values()))
+          report=f"""# PUBLICATION_QA
+
+自動点検日: 2026-09-19
+
+## 静的検査
+
+- index.html inline JavaScript: PASS (`node --check`)
+- Phase 1 JSON parse: PASS
+- attested-examples.json parse: PASS
+- UIが参照する相対パス: repository内に存在
+- 観察済み変体仮名字体（U+1B*** / diacritic=none）: **{len(agg)}字体**
+- 対応音価: **{kana}**
+- context-checked: **{ctx}**
+- alignment exact: **{exact}**
+- human-confirmed: **{hum}**
+
+## 公開ゲート
+
+`index.html` の「実資料を読む」は `review_status === "human-confirmed"` の実例だけを表示する。
+したがって現在 human-confirmed=0 の間は研究途中の10件を公開教材として表示しない。
+
+## 残る人間QA
+
+- 公開候補実例の原画像・翻字・表示を人間が確認し human-confirmed へ昇格
+- PCブラウザでフォント表示確認
+- モバイル幅でレイアウト確認
+- GitHub Pages実配信で4タブの操作確認
+- 出典リンク遷移確認
+
+自動QAは人間による原画像読解・表示確認を代替しない。
+"""
+          (root/"PUBLICATION_QA.md").write_text(report,encoding="utf-8")
+          PY
+      - name: Commit QA report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add vintage-kana/PUBLICATION_QA.md
+          git commit -m "vintage-kana: record publication static QA"
+          git push
