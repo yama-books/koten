@@ -584,3 +584,162 @@ USB-3212では連体形＋`に` に格助詞・接続助詞双方の候補があ
 ### 通常UI
 learner-visible detectorは依然legacy。
 shadow debug overlayも通常はhidden。
+
+
+## 2026-09-19 Stage 2 チェックポイント: 3作品blind generalization完了
+
+### 現在地
+shadowは **v0.15-stage2-generalization** 相当。
+learner-visibleは引き続きlegacy。
+
+既存4サンプル:
+- raw **310**
+- old resolved **187**
+- strict resolved **145**
+- ambiguous resolved **42**
+- suppressed **123**
+- DB only **0**
+- context hold **9**
+- unclassified context-required **0**
+
+old resolvedはcompatibility metric。今後の品質判断はstrict resolvedを優先する。
+
+### 独立gold 3作品
+goldを先にcommitし、その後にshadowを無調整で初回評価したbaselineを永久保存。
+
+#### 徒然草52
+- gold: `tsurezure52_independent_gold_20260919.json`
+- baseline: `tsurezure52_shadow_baseline_v014.json`
+- 55 positions
+- blind strict PASS 32
+- grammar strict resolve 7/30
+- suppression 25/25
+- wrongResolved 0
+
+#### 伊勢物語6「芥川」
+- gold: `ise6_akutagawa_independent_gold_20260919.json`
+- baseline: `ise6_akutagawa_shadow_baseline_v014.json`
+- 35 positions
+- blind strict PASS 17
+- grammar strict resolve 8/23
+- suppression 9/12
+- false-positive 3
+- wrongResolved 0
+
+#### 方丈記冒頭
+- gold: `hojoki_opening_independent_gold_20260919.json`
+- baseline: `hojoki_opening_shadow_baseline_v015.json`
+- 22 positions
+- blind strict PASS 14
+- grammar strict resolve 1/8
+- suppression 13/14
+- false-positive 1
+- wrongResolved 0
+
+### blind合算
+- 112 positions
+- strict PASS **63/112 = 56.3%**
+- grammar strict resolve **16/61 = 26.2%**
+- larger-unit suppression **47/51 = 92.2%**
+- wrong candidate resolve **0**
+- false-positive resolved 4件はすべて語内部boundary不足
+
+このblind値は今後上書きしない。
+
+### blind後のdevelopment
+安全側修正:
+- boundary: `まじかり / 呼ばひわたり / からうじて / しかも`
+- source-reviewed token morphology 28語形
+- strict contextual rules:
+  - trusted連用形 + `ければ`
+  - trusted連用形 + `しかど/ども`
+  - trusted連用形 + `たり＋けり系`
+- USB-3212明示cue `ずして`
+
+current development:
+- strict PASS **73/112 = 65.2%**
+- grammar strict resolve **22/61 = 36.1%**
+- larger-unit suppression **51/51**
+- hard error 0
+
+**注意:** current development値はgoldを見た後の改善を含むのでblind性能として扱わない。
+
+### failure taxonomy
+`cross_gold_failure_taxonomy_20260919.json`
+
+2作品時点のexpected-resolve failure 38:
+- left-token boundary / morphology missing: 25
+- resolved candidate set not unique: 7
+- token known but morphology not connected: 1
+- morphology known but rule nonunique: 5
+
+これを受けてtoken morphology層を追加した。
+
+### local syntax signal-only
+`local_syntax_feature_policy.json`
+`local_syntax_feature_audit_20260919.json`
+
+3 development goldの残39:
+- previous morphology 14
+- left trusted token 7
+- right trusted token 4
+- punctuation after 14
+- matched right-context hard cue 0
+
+`て` は11件中10件で直前連用形を取得済み。
+埼玉県立春日部東高の文法資料でも、助動詞「つ」の「て」は `てむ / てき / てけり` 等、接続助詞「て」は読点を置けることが識別目安とされる。
+ただし句読点は版依存なのでsignal-onlyを維持。
+
+### 重要な反例
+1. 方丈記
+   - `水にあらず`: 断定「なり」連用形
+   - `よどみに浮かぶ`: 格助詞
+   → 名詞＋にだけでは決めない。
+
+2. 伊勢物語
+   - 同じ段落の `けるを` に格助詞・接続助詞双方あり。
+   → `けるを` を文字列rule化しない。
+
+3. `て`
+   - 連用形接続だけでは完了「つ」/接続助詞が衝突。
+   → punctuation aloneでresolveしない。
+
+### 昇格ゲート
+- G1 legacy coverage: PASS
+- G2 DB-only zero: PASS
+- G3 unclassified context zero: PASS
+- G4 independent gold: PASS
+- G5 cross-passage: PASS_WITH_LIMITATION
+- G6 hold-aware learner UI: PENDING
+- G7 primary-source hold protection: PASS
+- G8 strict disambiguation readiness: PENDING
+
+Stage 3 selective learner promotionにはまだ進まない。
+
+### 一次資料hold
+引き続き:
+- 安倍晴明 連体形＋`に` 4件
+- `不便にせさせ給ひ` の最初の `せ` 1件
+は『新しい古典文法 四訂新版』原資料確認までhold。
+
+### 次回の推奨再開地点
+1. `local_syntax_feature_audit_20260919.json` を読む。
+2. right-token morphology / boundaryをsignalとして増やす。
+3. 「次が助動詞列か、独立語か」をfeature化する。
+4. `に/を/と` は節構造・係り先レイヤを設計する。
+5. hard resolverへ昇格する一般規則ができたら、**第四の未使用作品を先にgold固定**してblind評価。
+6. learner-visibleは変更しない。
+
+### 主要commit
+- 徒然草gold freeze: `1cb0d5baca470172843e4ef8063653a1fc271e53`
+- 徒然草blind baseline: `f19a4c2389600ad1cbce4e0d02ade20d26ce0f1b`
+- strict metric: `fb29d377b98a74a18de53e7fd3785e67e3546d73`
+- 伊勢物語gold freeze: `2f36a6d7b0aee96e4f5b4be547852f86c3842e40`
+- 伊勢物語blind baseline: `78527f91716dadfe47a75da19f6e1c2b94ebf097`
+- 伊勢boundary patch: `ea283eef13dff068fb01b17b4b8c70a800700ed2`
+- token morphology: `48055d9a21915c346587750f44edfcb18e037375`
+- token morphology resolver: `099e0e09b6030c9b458641dcf8d0e69a75262361`
+- 方丈記gold freeze: `4a46315c5864c70a3cf9f1453524d87c7e53eb70`
+- 方丈記blind baseline: `555b5076b591b4b7c9d74e0cd7dcc8f0252d45c9`
+- stage2 checkpoint: `5e7179d53377a5a24e859d88422eff9c2f63e430`
+- local syntax audit: `54500390704b072ded254cc9bbcec48ec7abbd8f`
