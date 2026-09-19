@@ -476,6 +476,44 @@ function trustedLargerTokenContainer(boundaryHits,hit){
 
 
 
+function exactAbeParticleEvidenceForHit(text,hit){
+  const entries=window.CHECKPOINT_DATA?.abeSeimeiParticleEvidence?.entries;
+  if(!Array.isArray(entries)) return null;
+  const matches=[];
+  for(const e of entries){
+    if(!e.phrase || !e.focusSurface || !e.analysisUnit) continue;
+    let pos=0;
+    while(true){
+      const p=text.indexOf(e.phrase,pos);
+      if(p<0) break;
+      const focusOffset=Number.isInteger(e.focusOffset)?e.focusOffset:e.phrase.indexOf(e.focusSurface);
+      const unitOffset=Number.isInteger(e.analysisUnitOffset)?e.analysisUnitOffset:e.phrase.indexOf(e.analysisUnit);
+      const focusStart=p+focusOffset;
+      const focusEnd=focusStart+e.focusSurface.length;
+      if(hit.start===focusStart && hit.end===focusEnd && hit.surface===e.focusSurface){
+        matches.push({
+          id:e.id||null,
+          phrase:e.phrase,
+          phraseStart:p,
+          phraseEnd:p+e.phrase.length,
+          focusSurface:e.focusSurface,
+          analysisUnit:e.analysisUnit,
+          analysisUnitStart:p+unitOffset,
+          analysisUnitEnd:p+unitOffset+e.analysisUnit.length,
+          action:e.action,
+          candidateId:e.candidateId||null,
+          sourceAnalysis:e.sourceAnalysis||"",
+          evidenceStatus:e.evidenceStatus||"passage-specific-reviewed"
+        });
+      }
+      pos=p+Math.max(1,e.phrase.length);
+    }
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.analysisUnit.length-a.analysisUnit.length)||(b.phrase.length-a.phrase.length));
+  return matches[0];
+}
+
 function exactAbeEvidenceForHit(text,hit){
   const entries=window.CHECKPOINT_DATA?.abeSeimeiGrammarEvidence?.entries;
   if(!Array.isArray(entries)) return null;
@@ -671,6 +709,35 @@ function resolveDbShadowHits(text){
   const resolved=[];
 
   for(const h of raw){
+    const abeParticleEvidence=exactAbeParticleEvidenceForHit(text,h);
+    if(abeParticleEvidence){
+      if(abeParticleEvidence.action==="suppressInsideLargerUnit"){
+        suppressed.push({
+          ...h,
+          suppressedReason:"source-exact-particle-larger-unit",
+          suppressedBy:abeParticleEvidence.analysisUnit,
+          exactParticleEvidence:abeParticleEvidence
+        });
+        continue;
+      }
+      if(abeParticleEvidence.action==="resolveCandidate" &&
+         abeParticleEvidence.candidateId &&
+         hitCandidateIds(h).has(abeParticleEvidence.candidateId)){
+        resolved.push({
+          ...h,
+          analysisConfidence:"source-exact-particle",
+          contextResolution:{
+            status:"resolved-by-source-exact-particle",
+            mode:"exact-passage-particle",
+            supportCandidateIds:[abeParticleEvidence.candidateId],
+            exactParticleEvidence:abeParticleEvidence,
+            evidence:"abe_seimei_particle_evidence.json"
+          }
+        });
+        continue;
+      }
+    }
+
     const abeExactEvidence=exactAbeEvidenceForHit(text,h);
     if(abeExactEvidence){
       if(abeExactEvidence.action==="suppressInsideLargerUnit"){
@@ -885,6 +952,8 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     contextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-connection").length,
     exactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-exact-phrase").length,
     sourceExactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-phrase").length,
+    sourceExactParticleResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-particle").length,
+    sourceExactParticleSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-particle-larger-unit").length,
     sourceExactPhraseSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-phrase-larger-unit").length,
     bidirectionalContextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-bidirectional-context").length,
     leftSurfaceResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-left-surface").length,
