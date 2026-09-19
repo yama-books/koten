@@ -144,6 +144,64 @@ function preferredLargerDbContainer(raw,hit){
 }
 
 
+
+function indexedLargerDbContainer(raw,hit){
+  if([...(hit.surface||"")].length!==1) return null;
+  const candidates=raw.filter(x=>{
+    if(x===hit) return false;
+    if(!(x.start<=hit.start && x.end>=hit.end)) return false;
+    if((x.end-x.start)<=(hit.end-hit.start)) return false;
+    const hasIndexedAnalysis=(x.auxiliaryCandidates||[]).length ||
+      (x.discriminationCandidates||[]).length ||
+      (x.projectCandidates||[]).length;
+    return !!hasIndexedAnalysis;
+  });
+  candidates.sort((a,b)=>(b.end-b.start)-(a.end-a.start) || a.start-b.start);
+  return candidates[0]||null;
+}
+
+function leftSurfaceResolverRules(surface){
+  const rules=window.CHECKPOINT_DATA?.contextResolverRules?.leftSurfaceRules;
+  if(!Array.isArray(rules)) return [];
+  return rules.filter(x=>x.surface===surface);
+}
+
+function resolveByLeftIndexedSurface(text,hit){
+  const rules=leftSurfaceResolverRules(hit.surface);
+  if(!rules.length) return null;
+  const candidateIds=hitCandidateIds(hit);
+  for(const r of rules){
+    const prev=r.previousSurface||"";
+    if(!prev) continue;
+    const start=hit.start-prev.length;
+    if(start<0 || text.slice(start,hit.start)!==prev) continue;
+    const supported=(r.supportCandidateIds||[]).filter(id=>candidateIds.has(id));
+    if(r.mode==="singleCandidateResolve" && supported.length===1){
+      return {
+        status:"resolved-by-source-left-surface",
+        mode:r.mode,
+        supportCandidateIds:supported,
+        previousSurface:prev,
+        previousFormEvidence:r.previousFormEvidence||null,
+        sourceCue:r.sourceCue||null,
+        evidence:(r.evidenceFiles||[]).join(" + ")||"context_resolver_rules.json"
+      };
+    }
+    if(supported.length){
+      return {
+        status:"candidate-support-only",
+        mode:r.mode||"supportOnly",
+        supportCandidateIds:supported,
+        previousSurface:prev,
+        previousFormEvidence:r.previousFormEvidence||null,
+        sourceCue:r.sourceCue||null
+      };
+    }
+  }
+  return null;
+}
+
+
 function auditedPreviousFormEvidence(text,hitStart){
   const entries=window.CHECKPOINT_DATA?.auditedInflectedFormIndex?.entries;
   if(!Array.isArray(entries)) return null;
@@ -239,6 +297,8 @@ function resolveByBidirectionalContext(text,hit,previousEvidence){
 
 
 function resolveContextRequiredHit(text,hit){
+  const leftSurfaceResolution=resolveByLeftIndexedSurface(text,hit);
+  if(leftSurfaceResolution) return leftSurfaceResolution;
   const cfg=contextResolverEntry(hit.surface);
   if(!cfg) return null;
   const prev=auditedPreviousFormEvidence(text,hit.start);
@@ -433,6 +493,19 @@ function resolveDbShadowHits(text){
       continue;
     }
 
+    const indexedContainer=indexedLargerDbContainer(raw,h);
+    if(indexedContainer){
+      suppressed.push({
+        ...h,
+        suppressedReason:"indexed-larger-surface",
+        suppressedBy:indexedContainer.surface,
+        boundaryEvidence:{
+          basis:"strict containment by a longer indexed grammar/discrimination surface"
+        }
+      });
+      continue;
+    }
+
     const wholeContainer=whole.find(w =>
       h.start>=w.start && h.end<=w.end &&
       h.surface!==w.surface &&
@@ -451,7 +524,7 @@ function resolveDbShadowHits(text){
 
     if(h.matchPolicy==="context-required"){
       const contextResolution=resolveContextRequiredHit(text,h);
-      if(contextResolution?.status==="resolved-by-audited-connection" || contextResolution?.status==="resolved-by-audited-bidirectional-context"){
+      if(contextResolution?.status==="resolved-by-audited-connection" || contextResolution?.status==="resolved-by-audited-bidirectional-context" || contextResolution?.status==="resolved-by-source-left-surface"){
         resolved.push({
           ...h,
           contextResolution,
@@ -514,6 +587,7 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     contextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-connection").length,
     exactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-exact-phrase").length,
     bidirectionalContextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-bidirectional-context").length,
+    leftSurfaceResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-left-surface").length,
     exactPhraseSuppressedCount:state.suppressed.filter(h=>String(h.suppressedReason||"").startsWith("audited-exact-phrase-")).length,
     contextSupportedButSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="context-supported-but-not-unique").length,
     legacyComparableRawHitCount:comparableLegacyRaw.length,
