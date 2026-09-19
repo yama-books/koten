@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "title": "Checkpoint mobile usability and understood-point history audit",
+  "branch": "checkpoint-main",
+  "scope": "static mobile readiness + browser-free interaction wiring + legacy detector performance indication",
+  "status": "STATIC_PASS_RUNTIME_DEVICE_PENDING",
+  "mobileChecks": [
+    {
+      "id": "M1",
+      "name": "viewport",
+      "status": "PASS",
+      "evidence": "index.html has width=device-width, initial-scale=1."
+    },
+    {
+      "id": "M2",
+      "name": "responsive-breakpoints",
+      "status": "PASS",
+      "evidence": "680px and 430px breakpoints; summary grid collapses and narrow footer stacks."
+    },
+    {
+      "id": "M3",
+      "name": "input-font-size",
+      "status": "PASS",
+      "evidence": "textarea font-size 17px, avoiding common iOS focus zoom trigger below 16px."
+    },
+    {
+      "id": "M4",
+      "name": "touch-targets",
+      "status": "PASS",
+      "evidence": "primary mobile controls, close, drawer actions, restore actions and mini controls have min-height 44px."
+    },
+    {
+      "id": "M5",
+      "name": "drawer-mobile-scroll",
+      "status": "PASS",
+      "evidence": "drawer has overflow-y:auto, -webkit-overflow-scrolling:touch, overscroll-behavior:contain, 92dvh fallback, body scroll lock."
+    },
+    {
+      "id": "M6",
+      "name": "safe-area",
+      "status": "PASS",
+      "evidence": "shell and drawer use env(safe-area-inset-bottom) padding."
+    },
+    {
+      "id": "M7",
+      "name": "fixed-width-risk",
+      "status": "PASS",
+      "evidence": "content uses max-width:920px; fixed widths are only legend swatches and close button. No fixed content column width."
+    },
+    {
+      "id": "M8",
+      "name": "one-character-inline-hit",
+      "status": "PASS_WITH_ALTERNATIVE",
+      "evidence": "single-character inline marks remain physically narrow, but every active point is also available through large checklist items. Inline marks use generous reading line-height."
+    },
+    {
+      "id": "M9",
+      "name": "long-sample-legacy-detector",
+      "status": "PASS_INDICATIVE",
+      "evidence": "browser-free V8 benchmark on 877-character Abe sample: 500 runs / 1011ms, average ~2.022ms per detect. This is not a phone benchmark but shows no obvious algorithmic blow-up."
+    },
+    {
+      "id": "M10",
+      "name": "live-device-runtime",
+      "status": "PENDING",
+      "evidence": "deployment workflow publishes only pushes to main. checkpoint-main cannot be honestly device-tested at the public Pages URL until integration or an explicit preview deployment."
+    }
+  ],
+  "understoodHistory": {
+    "status": "IMPLEMENTED",
+    "behavior": [
+      "「ここはわかる」で隠したpoints are listed under the checklist.",
+      "Each row shows surface, category, and a short context snippet with the target bracketed.",
+      "Each row has a 44px mobile restore button.",
+      "All understood points can be restored at once.",
+      "History is aria-live for assistive feedback.",
+      "History is scoped to the current text; changing the text clears dismissed keys automatically.",
+      "The panel stays hidden when there are no understood points."
+    ],
+    "files": [
+      "index.html",
+      "core1.js",
+      "ui1.js",
+      "events.js",
+      "styles.css"
+    ],
+    "wiringAudit": {
+      "eventTargets": "all newly added static IDs exist in index.html",
+      "dynamicTargetNote": "focusAnswerResult is intentionally generated dynamically by ui3.js",
+      "javascriptSyntax": "12/12 JS files parse after changes"
+    }
+  },
+  "deploymentFinding": {
+    "workflow": ".github/workflows/deploy-pages.yml",
+    "trigger": "push branches: [main] + workflow_dispatch",
+    "consequence": "checkpoint-main changes are not visible on the current public Pages URL until the integration/deployment step.",
+    "safety": "Do not manually deploy checkpoint-main over production Pages without explicit coordination, because main is used by the other koten team."
+  },
+  "nextDeviceSmoke": [
+    "After safe production integration, open /checkpoint/ on iPhone Safari.",
+    "Paste or load sample 3 and sample 4.",
+    "Tap a one-character mark and a checklist item.",
+    "Open/scroll/close drawer; confirm background does not scroll.",
+    "Tap 「ここはわかる」 on 2-3 points; confirm history appears below checklist.",
+    "Restore one item, then restore all.",
+    "Change the input text and confirm understood history clears.",
+    "Rotate portrait/landscape and confirm no horizontal overflow.",
+    "Confirm normal URL does not show shadow debug; ?debug=shadow is developer-only."
+  ]
+}
