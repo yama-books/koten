@@ -28,7 +28,8 @@
     "hyakuninDisambiguationRegression": "hyakunin_disambiguation_regression_20260919.json",
     "contextResolverRegression": "context_resolver_regression_20260919.json",
     "auditedInflectionEvidenceFull": "audited_inflection_evidence_500_full.json",
-    "contextRequiredBacklog": "context_required_backlog_20260919.json"
+    "contextRequiredBacklog": "context_required_backlog_20260919.json",
+    "auditedInflectionEvidence500Full": "audited_inflection_evidence_500_full.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -69,6 +70,9 @@
     "500例全件を447表面形・19曖昧表面形として audited_inflection_evidence_500_full.json に保持。曖昧分析を捨てず、将来のresolverへ渡す。",
     "v1.3 BASIC_WORDSフィルタを known_token_boundary_index へ移行し、既存の部分一致抑制をDBレイヤでも再現する。",
     "shadow v0.6: indexed-larger-surface 51位置を抑制し、USB-3212由来の「けれ＋ば」6位置をresolved。4サンプルresolvedは77/310。",
-    "context-required残151位置を表面形別・必要解析レイヤ別に backlog JSONへ整理。"
+    "context-required残151位置を表面形別・必要解析レイヤ別に backlog JSONへ整理。",
+    "500監査例を447表面形のfull evidence DBとして保存し、19の多義・多活用表面形も失わず保持。",
+    "full evidence DBのkanji-anchored targetを境界証拠へ追加し、最新shadowは77 resolved / 233 suppressed / DB only 0。",
+    "USB-3212の「けれ」已然形根拠と「ば」接続を組み合わせ、けれ＋ば6件をshadow resolvedへ昇格。"
   ]
 }
