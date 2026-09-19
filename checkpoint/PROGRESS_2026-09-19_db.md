@@ -162,3 +162,55 @@ legacy unique 310位置はすべて surface_index に存在することを確認
 - `ながめ` 内部の `な`・`が` 2位置を抑制。
 - `せし`・`まに` は内部品詞を勝手に確定せず保留。
 - resolved 86 / context-required **130** / DB only 0。
+
+
+## 追加: hard-boundary / source-limited `ば` resolver / shadow v0.9
+
+既存4サンプルの context-required 130位置を再分類し、文字境界だけで安全に解けるものと、長い左文脈で安全に接続判定できるものを先に処理した。
+
+### 実装
+- `context_resolver_rules.json` v0.2
+  - 閉じ引用符 `」/』` 直後の `と` を hard-boundary rule として分離。
+  - USB-3212の「格助詞『と』は引用を表す文・句に接続」の根拠だけを使用。
+- `db-shadow.js`
+  - `resolved-by-source-hard-boundary` を追加。
+  - hard-boundary rule は learner-visible detector へは接続しない。
+- `known_token_boundary_index.json` v0.2
+  - 副助詞 `ばかり` をwhole-token境界として追加。
+  - 内部の一文字 `ば` を独立候補として扱わない。意味判定には使わない。
+- `external_grammar_crosscheck_20260919.json`
+  - 外部文法照合を一次資料確認と分離して保存。
+  - `給へ / 申せ / のたまへ / たれ / ましか` の形をshadow用安全確認として保持。
+  - auxiliary_master の primary-source-verified には昇格しない。
+- `context_resolver_rules.json` の leftSurfaceRules を追加。
+  - `し給へ + ば` 2件 → 確定条件候補
+  - `ましか + ば` 1件 → 仮定条件候補
+  - `申せ + ば` 1件 → 確定条件候補
+  - `のたまへ + ば` 1件 → 確定条件候補
+  - `投げ上げたれ + ば` 1件 → 確定条件候補
+  - 同形衝突を避けるため、一般の `給へば` / `たれば` へは広げない。
+- `boundary_resolver_regression_20260919.json` を追加。
+
+### 4サンプル再監査
+- legacy unique: 310
+- DB raw: **310**
+- DB resolved: **105**
+- DB suppressed: **205**
+- DB only: **0**
+- resolved率: **33.9%**
+- context-required: **109**
+
+v0.8からの変化:
+- 引用符直後の `と`: 13位置 resolved
+- `ばかり` 内部の `ば`: 2位置 suppression
+- source-limited `ば`: 6位置 resolved
+- context-required **130 → 109**
+
+現在の未解決:
+`て28 / に24 / を21 / し13 / と10 / な4 / が4 / せ3 / る1 / ぬ1`
+
+### 判断
+- `ば` は既存4サンプル上では context-required 0になった。ただし一般規則化はしない。
+- `と` は引用境界13件を解消した。残10件は内容格助詞・タリ活用・断定・語内部等を混ぜずに別レイヤで扱う。
+- 次の主ボトルネックは `て / に / を / し / と`。特に `て / に / を` は文節・語境界が必要で、無理なresolved化をしない。
+- 次段階は全文tokenizerではなく、context-required周辺だけを見る **局所 boundary/tokenizer 層** を検討する。
