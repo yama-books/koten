@@ -36,3 +36,6 @@ https://yama-books.github.io/koten/checkpoint/
 - shadow detector は研究・監査専用。通常公開UIは legacy detector を使用する
 
 詳しい引継ぎは HANDOFF.md を参照。
+
+## 公開統合
+production `main` への安全な取り込み手順は `PRODUCTION_INTEGRATION.md` を参照。
