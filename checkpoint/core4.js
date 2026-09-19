@@ -142,7 +142,8 @@ const CHECKPOINT_DATA_PATHS = {
   adjectiveSurfaceCollisionEvidence:"./data/adjective_surface_collision_evidence.json", surfaceMatchPolicy:"./data/surface_match_policy.json",
   auditedInflectedFormIndex:"./data/audited_inflected_form_index_500.json", contextResolverRules:"./data/context_resolver_rules.json",
   knownTokenBoundaryIndex:"./data/known_token_boundary_index.json",
-  hyakuninDisambiguationEvidence:"./data/hyakunin_disambiguation_evidence.json"
+  hyakuninDisambiguationEvidence:"./data/hyakunin_disambiguation_evidence.json",
+  abeSeimeiGrammarEvidence:"./data/abe_seimei_grammar_evidence.json"
 };
 
 async function loadCheckpointData(){
