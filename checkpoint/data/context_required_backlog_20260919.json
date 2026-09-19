@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "0.4",
+  "schemaVersion": "0.5",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 残件バックログ",
-  "basis": "既存4サンプル計990文字、shadow detector v0.10",
-  "total": 98,
+  "basis": "既存4サンプル計990文字、shadow detector v0.11",
+  "total": 85,
   "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
   "categories": [
     {
@@ -39,16 +39,8 @@
       "nextEvidence": "体言/連体形の前接と文節境界を取得する。"
     },
     {
-      "surface": "し",
-      "count": 10,
-      "layer": "boundary+morphology",
-      "priority": "B",
-      "why": "サ変連用・過去「き」連体・副助詞・語内部が衝突。",
-      "nextEvidence": "既知語DBを増やして語内部を先に除外し、後続体言/助動詞を監査する。"
-    },
-    {
       "surface": "な",
-      "count": 3,
+      "count": 1,
       "layer": "boundary+morphology",
       "priority": "B",
       "why": "助動詞「ぬ」未然・終助詞・禁止副詞・語内部が衝突。",
@@ -64,7 +56,7 @@
     },
     {
       "surface": "せ",
-      "count": 2,
+      "count": 1,
       "layer": "morphology",
       "priority": "B",
       "why": "サ変・過去「き」・使役尊敬「す」が衝突。",
@@ -87,20 +79,23 @@
     "shadow resolvedをlearner-visible正解表示へ直結しない。"
   ],
   "latestChange": [
-    "local boundary signal層をsignal-onlyで追加。件数を動かさず前後文字・句読点・文字種遷移を監査可能にした。",
-    "安倍晴明sourceの「遣はし」「御越し」をwhole-token境界化し、内部「し」2位置を抑制。",
-    "百人一首第9首をユーザー文節監査＋複数外部資料で完全一致照合し、8位置resolved・1位置nonauxiliary suppression。",
-    "和歌サンプルのcontext-requiredは9→0。",
-    "全体は resolved 105→113、context-required 109→98。raw 310 / DB only 0は維持。"
+    "「たなびき」「取り出だし」を出典付きwhole-token境界として追加。",
+    "安倍晴明本文「物もなし」の内部「な・し」をexact phrase限定で抑制。",
+    "安倍晴明本文の残「し」8位置を、passage-specific exact evidenceでサ変「す」連用形としてresolved。",
+    "「うち合せて」の内部「せ」をpassage-specific境界として抑制。",
+    "v0.10の98残件から85へ減少。resolved 113→121、raw 310 / DB only 0は不変。"
   ],
   "resolvedSinceV08": {
-    "total": 32,
+    "total": 45,
     "hardBoundaryQuotedTo": 13,
     "bakariInternalSuppression": 2,
     "sourceLimitedBa": 6,
-    "abeSourceTokenSuppression": 2,
+    "abeSourceTokenSuppression": 4,
     "hyakuninPoem9Resolved": 8,
     "hyakuninPoem9NonAuxSuppression": 1,
-    "note": "v0.8のcontext-required130→98。うち27はresolvedへの昇格、5は境界/非助動詞抑制への再分類。"
+    "abeNashiSuppression": 2,
+    "abeSahenShiResolved": 8,
+    "abeUchiawaseSuppression": 1,
+    "note": "v0.8のcontext-required130→85。resolvedへの昇格と、境界/非助動詞抑制への安全な再分類を合算した減少数。"
   }
 }
