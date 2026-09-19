@@ -141,3 +141,15 @@ legacy unique 310位置はすべて surface_index に存在することを確認
   - context-required **134**
   - resolved率 **27.4%**
   - DB only 0
+
+
+## 追加: 安倍晴明 exact evidence 強化 / shadow 86
+
+- `abe_seimei_grammar_evidence.json` を24→28ケースへ拡張。
+- grammar exact regression: **28/28 PASS**。
+- `abe_seimei_kakari_evidence.json` を追加し、係り結び5表現をexact scope-link化。
+- kakari regression: **5/5 PASS**。
+- 4サンプル最新版: raw 310 / resolved **86** / suppressed **224** / DB only 0。
+- resolved率 **27.7%**。
+- context-required は **132**。
+- source exact evidenceで `入らむ/ならむ` 内部の `らむ` 誤優先、`黄なる` 内部の `な/る`、`問はるる` 内部の一文字 `る` 等を抑制。
