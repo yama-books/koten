@@ -1,0 +1,53 @@
+# PUBLICATION_QA
+
+最終更新: 2026-09-19
+
+## 自動・構文検査
+
+- `index.html` inline JavaScript: **PASS**
+  - GitHub上の現行 `index.html` を取得し、V8で構文コンパイル確認
+  - current blob SHA: `58faf47be35078577bdc88b4dcb7a6b71777b17e`
+- `ui-glyph-master.json`: **PASS**
+  - Phase 1分布から生成済み
+  - 48音価
+  - 251字体（現行平仮名・濁点項目を含む派生マスター。公開UI本体は U+1B*** / diacritic=none を使用）
+- `attested-examples.json`:
+  - total 49
+  - exact 10
+  - context-checked 10
+  - human-confirmed 0
+
+## UI公開ゲート
+
+現行 `index.html` の「実資料を読む」は:
+`review_status === "human-confirmed"`
+だけを表示する。
+
+したがって human-confirmed=0 の現在、研究途中のcontext-checked 10件が公開読解教材として誤表示されることはない。
+
+## 現行UIで実装済み
+
+- Phase 1分布データから観察済み変体仮名を動的生成
+- 対応する仮名で絞り込み
+- 字母クイズ
+- 「書いてみる」で利用者が字体を明示選択
+- 自動ランダム変換なし
+- 観察件数を歴史的正しさ・確率として表示しない注意書き
+- human-confirmed限定の実資料読解タブ
+- 出典リンク・典拠説明
+
+## 残る人間QA
+
+一次公開までに必要:
+1. `PUBLICATION_REVIEW_QUEUE.md` の候補を原画像・翻字・表示で人間確認
+2. 最低3件、推奨5件を `human-confirmed` へ昇格
+3. PC実ブラウザでNoto Serif Hentaigana表示確認
+4. モバイル幅でレイアウト確認
+5. GitHub Pages実配信で4タブ操作確認
+6. 典拠リンク遷移確認
+
+## 留保
+
+この静的QAは、人間による原画像読解・表示確認を代替しない。
+GitHub Pagesの実配信URLは現在のチャットWeb取得環境から直接確認できなかったため、
+配信面の最終操作確認は人間QA項目として残す。
