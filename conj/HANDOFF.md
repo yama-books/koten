@@ -361,3 +361,14 @@ commit: `6baf8cfdedfe3aad39d4f68cf2fedbbc76c6c13d`
 3. 実例本文を公開可能なものだけ段階接続
 4. タリ活用 `たら / たれ` は必要に応じて検索範囲拡張
 5. 助動詞180例を一次資料確認済み正本候補へ更新
+
+
+### 配備後スモーク検査
+
+`adjv-runtime-smoke.html` を更新し、runtime JSONの整合だけでなく、配備された `index.html` が
+- `adjv-runtime-adapter.js` を読み込むこと
+- `loadAdjvRuntimeItems` を持つこと
+- 助動詞 `たし` に `たかる` があり `たかれ` がないこと
+を検査するようにした。
+
+commit: `8492c240dbc70c3d865f492160ecd9f1eb6212dc`
