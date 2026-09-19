@@ -147,6 +147,19 @@
           "url": "https://ja.wiktionary.org/wiki/%E5%91%AA%E8%A9%9B"
         }
       ]
+    },
+    {
+      "id": "awasu-sage2-boundary",
+      "surface": "合せ",
+      "finding": "文語「合す」はサ行下二段活用として立項される。安倍晴明本文「うち合せて」の内部「せ」を独立識別候補から外す境界確認にのみ使用する。",
+      "use": "passage-specific-boundary-only",
+      "sources": [
+        {
+          "title": "精選版 日本国語大辞典「合す」",
+          "provider": "コトバンク",
+          "url": "https://kotobank.jp/word/%E5%90%88%E3%81%99-428899"
+        }
+      ]
     }
   ]
 }
