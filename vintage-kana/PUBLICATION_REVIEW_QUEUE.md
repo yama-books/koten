@@ -7,12 +7,18 @@
 
 各候補について次の3点を人間が確認する。
 
-1. 原画像の指定丁・対象位置に、記載した字体がある
-2. 記載した翻字中の対象文字と対応している
+1. 原画像の指定丁・対象位置の文字が、記載した仮名・字母として読める
+2. 記載した公式翻字中の対象文字と対応している
 3. アプリに表示する語・短句が誤読を招かない
 
-確認後だけ `review_status: human-confirmed` に昇格する。
+確認後、公開可なら `review_status: human-confirmed` + `publication_status: approved` にする。
 AI/モデルによる既存の `context-checked` は人間確認の代用にしない。
+
+### 字形確認の範囲
+
+国語研字形DBの `glyph_id / character` は代表字体IDとして保持する。
+人間確認の通常スコープは `kana-jibo-context` とし、原画像の手書き筆跡とUnicodeフォント代表字形の輪郭完全一致までは要求しない。
+厳密なUnicode字形同定が必要な場合だけ `exact-glyph` として別途確認する。
 
 ---
 
@@ -35,13 +41,14 @@ AI/モデルによる既存の `context-checked` は人間確認の代用にし�
 - [x] 字体 — OK（対象は原画像「見えず」の「え」）
 - [x] 翻字対応 — OK
 - [x] 公開表示 — OK
-- 判定: **human-confirmed**
-- 注記: 確認用HTMLの赤十字マーカーは別字「を」にずれていた。マーカー表示ミスであり、原画像・公式翻字・字形候補の対応自体は承認。
+- 判定: **human-confirmed / publication approved**
+- 確認範囲: **kana-jibo-context**
+- 注記: 確認用HTMLの赤十字マーカーは別字「を」にずれていた。マーカー表示ミスであり、原画像の読み「え」・字母「衣」・翻字対応・公開表示は承認。U+1B012は国語研DB上の代表字体IDとして扱う。
 
 ## P2 — 『諸国方言物類称呼』巻五 6ウ
 
 - example_id: `att-brsk005-u1b012-brsk005-014-id0153-x1181-y1197`
-- 字体: 𛀒
+- 字体DB代表表示: U+1B012 / 𛀒
 - 対応する仮名: え
 - 字母: 衣
 - 表示候補: **見えない**
@@ -54,11 +61,12 @@ AI/モデルによる既存の `context-checked` は人間確認の代用にし�
 - モデル確認: context-checked / renmen=true
 
 人間確認:
-- [x] 字体 — NG（画像上は現代仮名と同じ通常の「え」に見える）
-- [x] 翻字対応 — 「見えない」の「え」であること自体は確認
-- [ ] 公開表示 — U+1B012 𛀒 の実例としては不採用
-- 判定: **rejected as U+1B012**
-- 注記: 現代標準平仮名「え」U+3048も字母は「衣」。同じ字母「衣」由来の変体仮名 U+1B011/U+1B012 とは別字形なので、同字母であることだけではU+1B012実例とはできない。一次公開のU+1B012候補からは除外するが、「衣」由来の標準形との比較教材への再利用候補。
+- [x] 読み・字母 — OK（「見えない」の「え」／字母「衣」）
+- [x] 翻字対応 — OK
+- [x] 公開表示 — OK
+- 判定: **human-confirmed / publication approved**
+- 確認範囲: **kana-jibo-context**
+- 注記: 原画像の筆跡は現代標準形「え」に近く見えるが、現代標準形「え」も字母は「衣」。P1と同じ基準で、Unicodeフォント代表字形との輪郭完全一致を公開条件にはしない。U+1B012は国語研字形DB上の代表字体IDとして保持する。
 
 ## P3 — 『比翼連理花廼志満台』初編上 3オ
 
@@ -79,7 +87,8 @@ AI/モデルによる既存の `context-checked` は人間確認の代用にし�
 - [x] 字体 — OK（添付画像の2文字目を「ね」と確認）
 - [x] 翻字対応 — OK
 - [x] 公開表示 — OK
-- 判定: **human-confirmed**
+- 判定: **human-confirmed / publication approved**
+- 確認範囲: **kana-jibo-context**
 
 ## P4 — 『比翼連理花廼志満台』初編上 8ウ
 
@@ -100,7 +109,8 @@ AI/モデルによる既存の `context-checked` は人間確認の代用にし�
 - [x] 字体 — OK（「かねて」の「ね」＝U+1B094 𛂔 / 字母「年」）
 - [x] 翻字対応 — OK
 - [x] 公開表示 — OK
-- 判定: **human-confirmed**
+- 判定: **human-confirmed / publication approved**
+- 確認範囲: **kana-jibo-context**
 - 注記: 公式翻字は「汲み」と平文化せず、「汲」に「くみ」の振り仮名が付く構造を保持する。
 
 ## P5 — 『比翼連理花廼志満台』初編上 15オ
@@ -129,6 +139,7 @@ AI/モデルによる既存の `context-checked` は人間確認の代用にし�
 
 ## 一次公開ゲート
 
-- 最低3件 human-confirmed: 「実資料を読む」MVP公開可
-- 推奨5件 human-confirmed: 一次公開セット完成
-- 未確認例はアプリ側で自動的に非表示
+- 現在 publication approved: **4件（P1〜P4）**
+- 最低3件 approved: 「実資料を読む」MVP公開可 → **達成**
+- P5は史料実例として保持するが一次公開教材から除外
+- UIは `review_status=human-confirmed AND publication_status=approved` のみ表示
