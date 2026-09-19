@@ -372,3 +372,22 @@ commit: `6baf8cfdedfe3aad39d4f68cf2fedbbc76c6c13d`
 を検査するようにした。
 
 commit: `8492c240dbc70c3d865f492160ecd9f1eb6212dc`
+
+## 12. 配備スモーク再検証（2026-09-19）
+
+main接続後の状態を再確認した。
+
+- 正規runtime層は `adjv-runtime-adapter.js` + 4つの軽量JSON
+- CHJ本文・anchorはDrive正本にのみ保持する方針を維持
+- 一時的に作成された本文断片入りGitHubファイルは削除済み
+- `adjv-runtime-smoke.html` の旧説明をmain接続済みに更新
+- スモークを117語幹 / 116追加 / 120実例索引 / 本文非混入 / no-example表示まで拡張
+- inline smoke scriptに literal `</script>` が含まれていた既存不具合を修正
+- 修正後のinline JavaScript構文検査はPASS
+
+関連commit:
+- policy整合修復: `49c8e993c96c68f99d7a97ed38b804d73948edde`
+- smoke強化: `12b68374f31553af283f499996b723342df26dcf`
+- script終端不具合修正: `29fc1e33cd91a61e5575d3c093d9d785bdf4ab15`
+
+次工程は、公開可能な本文ソースを作品単位で整理し、確認済み実例だけを段階的に実例ドリルへ接続すること。
