@@ -373,3 +373,143 @@ v0.13の残10件を、単なる未解決から「解消可能」「意図的benc
 
 次回:
 『徒然草』第52段「仁和寺にある法師」を候補に**先に独立goldを固定**し、resolverを触らず現行shadowの初見性能を測る。
+
+
+## Stage 2 generalization: 3作品blind gold + local syntax signal
+
+### 独立goldを3本固定
+goldは必ずshadow実行前にcommitしてから初見評価した。
+
+1. 徒然草第52段「仁和寺にある法師」
+   - 55位置
+   - blind strict PASS **32/55 = 58.2%**
+   - grammar strict resolve **7/30**
+   - larger-unit suppression **25/25**
+   - wrongResolved 0
+
+2. 伊勢物語第6段「芥川」冒頭
+   - 35位置
+   - blind strict PASS **17/35 = 48.6%**
+   - grammar strict resolve **8/23**
+   - larger-unit suppression **9/12**
+   - false-positive resolved 3
+   - wrongResolved 0
+
+3. 方丈記冒頭「ゆく河の流れ」
+   - 22位置
+   - blind strict PASS **14/22 = 63.6%**
+   - grammar strict resolve **1/8**
+   - larger-unit suppression **13/14**
+   - false-positive resolved 1
+   - wrongResolved 0
+
+blind合算:
+- 112位置
+- strict PASS **63/112 = 56.3%**
+- grammar strict resolve **16/61 = 26.2%**
+- boundary suppression **47/51 = 92.2%**
+- wrong candidate resolve **0**
+- false-positive resolved 4件はすべてlarger-token境界不足。
+
+### blind後に行った安全修正
+- `まじかり`
+- `呼ばひわたり`
+- `からうじて`
+- `しかも`
+
+をknown-token boundaryへ追加。文法正解を直接追加せず、内部短hitを抑制するだけ。
+
+その結果、現在の3 development gold:
+- boundary suppression **51/51**
+- hard error **0**
+
+### strict resolved指標
+旧 `resolved` は候補集合が複数残る位置も含んでいたため、以下へ分離:
+- existing 4 samples raw 310
+- old resolved 187
+- **strict resolved 145**
+- **ambiguous resolved 42**
+- suppressed 123
+- DB only 0
+
+learner-visible昇格判断にはold resolved率を使わずstrictを使う。
+
+### source-reviewed token morphology
+`source_reviewed_token_morphology.json` を新設。
+- 28 exact token forms
+- surface / lemma / POS / form / classのみ保持
+- passage-specific candidate正解は保持しない
+- audited500を常に優先
+- secondary-source-reviewedでありprimary verifiedではない
+
+これをresolverへfallback接続。
+
+### strict context rules
+trusted token形態＋右文脈が揃う場合だけ:
+- `けれ＋ば`
+- `しか＋ど/ども`
+- `たり＋けり系`
+
+をstrict resolve可能にした。
+
+USB-3212明示cueの
+- `ずして`
+も literal-left 条件で接続助詞「して」としてstrict resolve。
+
+### development current
+gold確認後の値なのでblind scoreとしては扱わない:
+- strict PASS **73/112 = 65.2%**
+- grammar strict resolve **22/61 = 36.1%**
+- boundary suppression **51/51**
+- hard error 0
+
+### local syntax signal-only layer
+`local_syntax_feature_policy.json` と `local_syntax_feature_audit_20260919.json` を追加。
+
+残39（unresolved or ambiguous expected-resolve）:
+- previous morphology取得: **14**
+- left trusted token: **7**
+- right trusted token: **4**
+- punctuation after: **14**
+- matched hard right-context cue: **0**
+
+surface別:
+- `に 11`
+- `て 11`
+- `を 7`
+- `と 5`
+- `し 2`
+- `けれ 1`
+- `なり 1`
+- `なむ 1`
+
+特に `て` は11件中10件で直前連用形まで取得済み。
+ただし完了「つ」／接続助詞が衝突するので、読点だけではhard resolveしない。
+
+### 実データで確認した禁止事項
+- 名詞＋`に` → 一律格助詞化しない。
+  - 方丈記 `水にあらず` は断定「なり」連用形
+  - `よどみに浮かぶ` は格助詞
+- `けるを` → 一律接続/格助詞化しない。
+  - 伊勢物語同一段落に格助詞・接続助詞双方あり
+- 連用形＋`て` → 一律接続助詞化しない。
+  - 完了「つ」の未然・連用形も同形
+
+### 現在の昇格判断
+Stage 2継続。
+- G1 coverage PASS
+- G2 DB-only zero PASS
+- G3 unclassified context zero PASS
+- G4 independent gold PASS
+- G5 cross-passage PASS_WITH_LIMITATION
+- G6 hold-aware learner UI PENDING
+- G7 primary-source hold protection PASS
+- G8 strict disambiguation readiness PENDING
+
+learner-visible detectorはlegacyのまま。
+
+### 次回
+1. right-token morphology / token boundaryをsignalとして拡張。
+2. 助動詞列開始と独立語開始を区別するfeatureを作る。
+3. `に/を/と` は節構造・係り先なしにhard rule化しない。
+4. 新hard ruleを加えた場合、**第四の未使用作品**をgold先固定してblind評価する。
