@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.13",
+  "schemaVersion": "0.14-pre-gold",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -18,21 +18,22 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 186,
-    "dbSuppressed": 124,
-    "matched": 186,
+    "dbResolved": 187,
+    "dbSuppressed": 123,
+    "matched": 187,
     "dbOnly": 0,
-    "legacyOnlyUnique": 124,
+    "legacyOnlyUnique": 123,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.6,
+    "resolvedMatchRateOfUniqueLegacy": 0.603225806451613,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 10,
       "indexed-larger-surface": 48,
       "known-larger-token": 39,
       "audited-exact-phrase-nonauxiliary": 1,
       "source-exact-bunsetu-lexical-unit": 2,
       "source-exact-particle-larger-unit": 10,
-      "source-exact-phrase-larger-unit": 14
+      "source-exact-phrase-larger-unit": 14,
+      "context-intentional-ambiguity-benchmark": 4,
+      "context-primary-source-hold": 5
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
@@ -43,7 +44,11 @@
     "sourceExactPhraseSuppressed": 14,
     "hardBoundaryResolved": 13,
     "sourceExactParticleResolved": 65,
-    "sourceExactParticleSuppressed": 10
+    "sourceExactParticleSuppressed": 10,
+    "sourceExactPassageResolved": 1,
+    "intentionalAmbiguityHold": 4,
+    "primarySourceHold": 5,
+    "unclassifiedContextRequired": 0
   },
   "samples": [
     {
@@ -304,11 +309,11 @@
     "停止時点resolved率は60.0%。正答率ではなく保守的gate通過率。"
   ],
   "next": [
-    "残10位置は、安倍晴明5（に4・せ1）、識別サンプル4（ぬ・を・と・な各1）、枕草子1（て）。",
-    "安倍晴明の「に」4件は分析揺れを解消する一次資料または採用する学校文法方針が決まるまで保留。",
-    "「不便にせさせ給ひ」の最初の「せ」は助動詞「さす」の一次資料接続確認待ち。",
-    "識別サンプル4件は曖昧性テストとして残す価値があるため、安易にexact解答化しない。",
-    "枕草子「あかりて」は本文出典を使ったexact evidence化候補。"
+    "次回は徒然草第52段を候補に独立gold setを先に固定する。",
+    "gold固定までresolver/evidenceを追加しない。",
+    "現行shadowを無調整でgoldへ走らせ初見性能を測る。",
+    "primary-source hold 5件は『新しい古典文法 四訂新版』原資料確認まで維持。",
+    "learner-visibleはlegacyのまま維持する。"
   ],
   "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。",
   "contextResolver": {
@@ -431,7 +436,6 @@
   },
   "unresolvedBySurface": {
     "に": 4,
-    "て": 1,
     "ぬ": 1,
     "を": 1,
     "と": 1,
@@ -457,5 +461,27 @@
     "currentCase": "第9首",
     "suppressedInFourSamples": 2,
     "interpretation": "文節監査が名詞『ながめ』と明示した範囲だけで、内部の『な』『が』を独立文法候補から外した。『せし』『まに』は内部文法を推測せず保留。"
+  },
+  "contextState": {
+    "totalHold": 9,
+    "intentionalAmbiguityBenchmark": 4,
+    "primarySourceRequired": 5,
+    "unclassified": 0,
+    "note": "v0.14-pre-goldではcontext位置を単なる未解決ではなくhold理由で分類。holdはresolvedに数えない。"
+  },
+  "promotionReadiness": {
+    "stage": "stage-1-shadow-telemetry",
+    "recommendation": "stay-stage-1",
+    "pass": [
+      "G1 legacy-position-coverage",
+      "G2 db-only-zero",
+      "G3 unclassified-context-zero",
+      "G7 primary-source-hold-protection"
+    ],
+    "pending": [
+      "G4 independent-gold-regression",
+      "G5 cross-passage-generalization",
+      "G6 hold-aware-ui"
+    ]
   }
 }
