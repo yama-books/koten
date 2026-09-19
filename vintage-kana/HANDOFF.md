@@ -355,3 +355,35 @@ Google Slides の `createImage` を経由すると、この高解像度JPEGを�
 - 次の区切り: `context-checked = 1`
 
 まだ画像判定は完了していないため、`attested-examples.json` の昇格は行っていない。
+
+
+## 12. Phase 2C-2: context-checked 1件達成
+
+GitHub/Web-only、ローカル非接触のまま最初の context-checked を成立させた。
+
+対象:
+`att-brsk005-u1b012-brsk005-009-id0346-x0474-y2151`
+
+『諸国方言物類称呼』巻五4オ、「正字とは見えず」の「え」。
+Phase 2C-1 で字形DB occurrence と公式翻字の一意対応は済んでいた。
+今回、国語研高解像度本文画像 `brsk005-009.jpg` を取得し、原画像上で U+1B012 𛀒 を同定した。
+
+対象字形から後続「ず」へ連続する筆線を視認したため:
+- `renmen: true`
+- `context_alignment_status: exact`
+- `review_status: context-checked`
+
+とした。
+
+これはAI/モデルによる画像文脈確認であり、人間確認ではない。
+`human-confirmed` は 0 件のまま。
+
+### 次
+
+同じ取得経路で exact-text 残り4件:
+- 6ウ「見えない」
+- 7オ「見えたり」
+- 16ウ「見えたり」
+- 9ウ「たえ」
+
+を原画像確認し、次の区切り `context-checked = 5` を目指す。

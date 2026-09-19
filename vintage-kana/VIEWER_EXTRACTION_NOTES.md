@@ -242,3 +242,22 @@ Google Slides API の `createImage` で full image URL を取得できること�
 
 次は `brsk005-009 / ID0346 / X474 Y2151` を高解像度画像上で照合し、
 対象字体と周辺筆線、連綿を直接確認する。
+
+
+## 13. Google Slides ブリッジで Phase 2C-2 原画像確認成立
+
+国語研高解像度JPEGを現在のチャット環境で直接取得できない場合でも、
+Google Slides の公開URL画像取り込みを経由し、PPTXへ書き出して埋め込み画像を取り出すことで
+原画像ピクセルを確認できることを実証した。
+
+初回成立例:
+- `brsk005-009` / 巻五4オ
+- full JPEG: `https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/jpg/brsk005-009.jpg`
+- target: U+1B012 / ID0346 / X474 Y2151
+- exact-text: 「正字とは見えず」の「え」
+
+拡大確認により、対象 𛀒 から後続「ず」へ連続筆線があると判定した。
+よって `renmen=true` とし、最初の `context-checked` を成立させた。
+
+注意:
+このブリッジは取得手段であり、典拠はGoogle Slidesではなく国語研公開原画像である。

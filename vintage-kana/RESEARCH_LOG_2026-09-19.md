@@ -390,3 +390,28 @@ Stage A追加ではなく、同じ4オ候補の原画像表示を最優先する
 
 現時点では筆線・連綿の最終判定前なので、
 `renmen: unknown` / `exact-text` / `source-checked` を維持する。
+
+
+## 16. Phase 2C-2 context-checked 1件達成
+
+巻五4オの exact-text 実例を国語研高解像度原画像で確認した。
+
+対象:
+- `att-brsk005-u1b012-brsk005-009-id0346-x0474-y2151`
+- U+1B012 / 𛀒 / え / 衣
+- 「正字とは見えず」の「え」
+
+確認:
+- 同一底本原画像上に対象字形を同定
+- 公式翻字との位置対応に矛盾なし
+- 対象字形から後続「ず」への連続筆線を視認
+- `renmen=true`
+
+更新:
+- `context_alignment_status: exact`
+- `review_status: context-checked`
+
+人間確認ではないため `human-confirmed` には上げていない。
+
+ROADMAPの最初のStage B節目 `context-checked=1` を達成。
+次は残り4件を同じ方法で確認し、5件到達を目指す。
