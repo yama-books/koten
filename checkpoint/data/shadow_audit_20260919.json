@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.8",
+  "schemaVersion": "0.9",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -18,17 +18,17 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 86,
-    "dbSuppressed": 224,
-    "matched": 86,
+    "dbResolved": 105,
+    "dbSuppressed": 205,
+    "matched": 105,
     "dbOnly": 0,
-    "legacyOnlyUnique": 224,
+    "legacyOnlyUnique": 205,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.27741935483870966,
+    "resolvedMatchRateOfUniqueLegacy": 0.3387096774193548,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 130,
+      "context-required-not-yet-resolved": 109,
       "indexed-larger-surface": 48,
-      "known-larger-token": 33,
+      "known-larger-token": 35,
       "source-exact-bunsetu-lexical-unit": 2,
       "source-exact-phrase-larger-unit": 11
     },
@@ -36,9 +36,10 @@
     "contextResolvedByAuditedConnection": 1,
     "contextSupportedButSuppressed": 0,
     "exactPhraseResolved": 1,
-    "leftSurfaceResolved": 6,
-    "sourceExactPhraseResolved": 15,
-    "sourceExactPhraseSuppressed": 9
+    "leftSurfaceResolved": 12,
+    "sourceExactPhraseResolved": 17,
+    "sourceExactPhraseSuppressed": 11,
+    "hardBoundaryResolved": 13
   },
   "samples": [
     {
@@ -54,7 +55,12 @@
       "dbOnly": 0,
       "legacyOnlyUnique": 6,
       "suppressionReasons": {
-        "context-required-not-yet-resolved": 6
+        "indexed-larger-surface": 3,
+        "known-larger-token": 1,
+        "context-required-not-yet-resolved": 2
+      },
+      "resolutionReasons": {
+        "plain": 3
       }
     },
     {
@@ -70,7 +76,11 @@
       "dbOnly": 0,
       "legacyOnlyUnique": 11,
       "suppressionReasons": {
-        "context-required-not-yet-resolved": 11
+        "context-required-not-yet-resolved": 9,
+        "source-exact-bunsetu-lexical-unit": 2
+      },
+      "resolutionReasons": {
+        "plain": 1
       }
     },
     {
@@ -87,7 +97,11 @@
       "legacyOnlyUnique": 10,
       "suppressionReasons": {
         "context-required-not-yet-resolved": 4,
-        "larger-db-surface-preferred": 6
+        "indexed-larger-surface": 6
+      },
+      "resolutionReasons": {
+        "resolved-by-audited-exact-phrase": 1,
+        "plain": 5
       }
     },
     {
@@ -97,16 +111,23 @@
       "legacyUnique": 273,
       "legacyDuplicates": 33,
       "dbRaw": 273,
-      "dbResolved": 75,
-      "dbSuppressed": 198,
-      "matched": 75,
+      "dbResolved": 95,
+      "dbSuppressed": 178,
+      "matched": 95,
       "dbOnly": 0,
-      "legacyOnlyUnique": 198,
+      "legacyOnlyUnique": 178,
       "suppressionReasons": {
-        "indexed-larger-surface": 43,
-        "known-larger-token": 33,
-        "context-required-not-yet-resolved": 113,
-        "source-exact-phrase-larger-unit": 9
+        "context-required-not-yet-resolved": 94,
+        "indexed-larger-surface": 39,
+        "known-larger-token": 34,
+        "source-exact-phrase-larger-unit": 11
+      },
+      "resolutionReasons": {
+        "resolved-by-source-exact-phrase": 17,
+        "plain": 52,
+        "resolved-by-source-left-surface": 12,
+        "resolved-by-source-hard-boundary": 13,
+        "resolved-by-audited-connection": 1
       }
     }
   ],
@@ -191,6 +212,20 @@
       "passed": 24,
       "failed": 0,
       "source": "abe_seimei_grammar_regression_20260919.json"
+    },
+    "boundaryResolver": {
+      "source": "boundary_resolver_regression_20260919.json",
+      "result": "PASS",
+      "expected": {
+        "raw": 310,
+        "resolved": 105,
+        "suppressed": 205,
+        "contextRequired": 109,
+        "hardBoundaryResolved": 13,
+        "leftSurfaceResolved": 12,
+        "bakariInternalSuppressed": 2
+      },
+      "safety": "learner-visible detector unchanged; external crosscheck remains secondary-source-only"
     }
   },
   "designFindings": [
@@ -210,13 +245,18 @@
     "USB-3212に基づく「けれ＋ば」resolverで、長文サンプルの6個の「ば」を確定条件候補としてshadow resolvedへ昇格した。",
     "v1.3 BASIC_WORDS 28語をDB境界レイヤへ移植し、known-larger-tokenは20→31位置へ増えた。",
     "ユーザー提供の安倍晴明文法整理をexact context evidence化し、危険だった「入らむ／ならむ」内部の「らむ」誤検出を局所的に抑制した。",
-    "安倍晴明語彙29語をDB化し、「塞がる」内部の「が・る」、「かたり」内部の「たり」をwhole-token境界で抑制した。"
+    "安倍晴明語彙29語をDB化し、「塞がる」内部の「が・る」、「かたり」内部の「たり」をwhole-token境界で抑制した。",
+    "閉じ引用符直後の「と」13位置を、USB-3212の引用接続根拠に基づく hard-boundary resolver で格助詞候補へ安全にresolvedした。",
+    "副助詞「ばかり」を外部辞書照合済みのwhole-token境界として追加し、安倍晴明サンプル内の内部「ば」2位置を抑制した。",
+    "「し給へ＋ば」2件、「ましか＋ば」1件、「申せ＋ば」1件、「のたまへ＋ば」1件、「投げ上げたれ＋ば」1件を、同形衝突を避けた長い左文脈に限定してresolvedした。",
+    "外部文法照合は auxiliary_master の一次資料確認とは分離し、shadow resolver の安全確認専用 evidence として保持する。",
+    "4サンプル最新版は raw 310 / resolved 105 / suppressed 205 / context-required 109。resolved率33.9%。"
   ],
   "next": [
-    "A群の「て28・に25・と23・を21」は、文節/統語境界が主ボトルネック。exact教材証拠を増やすかtokenizer層を導入する。",
-    "B群の「し13・ば8・な5・が5・せ4」は、接続またはwhole-token証拠を増やす。",
-    "残る「る1・ぬ1」は個別監査候補として扱う。",
-    "一次資料が参照可能になったら auxiliary_master の verified 項目を増やす。"
+    "残109位置のうち「て28・に24・を21・し13・と10」が主要ボトルネック。まず語境界・局所文節境界を増やす。",
+    "「と」は引用境界13件を解消済み。残10件は内容格助詞・語内部・断定/タリ活用候補を混同しないよう別レイヤで扱う。",
+    "「ば」は既存4サンプル上のcontext-requiredを0まで解消したが、一般化せず回帰fixtureを維持する。",
+    "一次資料が参照可能になったら auxiliary_master の verified 項目を増やし、外部照合規則のうち必要なものを置換する。"
   ],
   "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。",
   "contextResolver": {
@@ -340,10 +380,9 @@
   "unresolvedBySurface": {
     "て": 28,
     "に": 24,
-    "と": 23,
+    "と": 10,
     "を": 21,
     "し": 13,
-    "ば": 8,
     "な": 4,
     "が": 4,
     "せ": 3,
