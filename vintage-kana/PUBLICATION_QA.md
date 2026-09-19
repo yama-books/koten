@@ -6,7 +6,7 @@
 
 - `index.html` inline JavaScript: **PASS**
   - GitHub上の現行 `index.html` を取得し、V8で構文コンパイル確認
-  - current blob SHA: `3ee43df8bd2f75997bd5e90523f12fda91d72bb6`
+  - current blob SHA: `bbe9234b5c0345a12bd8d79787290b16e4737eab`
 - `ui-glyph-master.json`: **PASS**
   - Phase 1分布から生成済みの軽量UIキャッシュ
   - 47音価
@@ -69,3 +69,12 @@ UIキャッシュ:
 - 138字体
 - 47音価
 - 必須項目欠落 0件
+
+
+## 読解UI 0.6
+
+- human-confirmed例だけを問題化
+- 問題面では字体を提示し、答えを即表示しない
+- 「答えを見る」で対応する仮名・字母・実資料中の語・周辺翻字を表示
+- 対象ページ原画像へ直接戻れる
+- 更新後JavaScript構文検査: PASS
