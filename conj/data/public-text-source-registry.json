@@ -25,12 +25,12 @@
     "works": 21,
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
-    "publicationReadyWorks": 6,
-    "publicExamplesConnected": 26,
-    "rightsVerifiedWorks": 7,
-    "targetVerifiedExamples": 28,
-    "excerptReviewedExamples": 26,
-    "publicationReadyExamples": 26
+    "publicationReadyWorks": 7,
+    "publicExamplesConnected": 30,
+    "rightsVerifiedWorks": 8,
+    "targetVerifiedExamples": 32,
+    "excerptReviewedExamples": 30,
+    "publicationReadyExamples": 30
   },
   "works": [
     {
@@ -366,8 +366,18 @@
         "editionFixed": false,
         "targetVerificationCount": 0
       },
-      "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "publicationReady": true,
+      "note": "やたがらすナビ版で4例すべてtargetと短い引用範囲を監査済み。公開実例JSONへ4例接続済み。",
+      "yatanavi": {
+        "candidateFound": true,
+        "candidateUrl": "https://yatanavi.org/text/k_konjaku/index.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "芳賀矢一校訂『攷証今昔物語集』冨山房・1921",
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "電子本文ページにCC BY-SA 4.0を明示。底本・正規化方針も凡例に明記。"
+      }
     },
     {
       "work": "大和物語",
