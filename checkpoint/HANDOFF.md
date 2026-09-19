@@ -481,3 +481,106 @@ USB-3212では連体形＋`に` に格助詞・接続助詞双方の候補があ
 - passage-specific evidenceを一般文法ルールへ自動一般化しない。
 - Web照合はsecondary crosscheckでありprimary-source-verifiedではない。
 - local boundary signal単独ではresolveしない。
+
+
+## 2026-09-19 一時停止チェックポイント: shadow v0.14 準備完了
+
+### 停止理由
+ユーザー指示によりここで一時停止。**徒然草を使う独立gold set監査にはまだ着手しない。**
+次回はこの節から再開する。
+
+### v0.13から実装済み
+1. `passage_disambiguation_evidence.json`
+   - 一般実本文用のpassage-specific evidence層を新設。
+   - 枕草子「すこしあかりて、紫だち」の `て` を、複数の外部品詞分解照合に基づき接続助詞候補としてexact resolved。
+   - Web照合はsecondaryであり、primary-source-verifiedにはしない。
+
+2. `context_hold_policy.json`
+   - 一意判定できない位置を、単なる「未解決」ではなく理由付きholdへ分類。
+   - `intentional-ambiguity-benchmark`: 識別サンプル4件
+     - 花咲き**ぬ**
+     - 来なむ**を**
+     - 思ひけれど の内部候補 **と**
+     - いか**な**らむ
+   - `primary-source-required`: 安倍晴明5件
+     - 連体形＋`に` 4件
+     - 「不便に**せ**させ給ひ」1件
+
+3. `db-shadow.js`
+   - `resolved-by-source-exact-passage` を追加。
+   - `context-intentional-ambiguity-benchmark` を追加。
+   - `context-primary-source-hold` を追加。
+   - auditに
+     - passage exact resolved
+     - intentional benchmark hold
+     - primary-source hold
+     - unclassified context-required
+     の件数を出すようにした。
+
+4. v0.14準備時の実測
+   - raw: **310**
+   - resolved: **187**
+   - suppressed: **123**
+   - resolved率: **60.3%**
+   - context hold: **9**
+     - intentional benchmark: **4**
+     - primary-source hold: **5**
+   - **unclassified context-required: 0**
+   - DB only: 0
+   - 旧v0.13の「あかりて」1件だけresolvedへ昇格。
+
+5. `passage_hold_regression_20260919.json`
+   - expected: raw310 / resolved187 / suppressed123 / hold9 / unclassified0 / DB-only0
+   - 枕草子「あかりて」1件 + hold9件を固定。
+
+6. shadow→learner-visible昇格方針
+   - `shadow_promotion_policy.json`
+   - `shadow_promotion_readiness_20260919.json`
+   - 現在ステージは **stage-1 shadow telemetry継続**。
+   - G1 raw coverage: PASS
+   - G2 DB-only zero: PASS
+   - G3 unclassified context zero: PASS
+   - G4 independent gold regression: PENDING
+   - G5 cross-passage generalization: PENDING
+   - G6 hold-aware learner UI: PENDING
+   - G7 primary-source hold protection: PASS
+   - **global learner-visible切替はまだ行わない。**
+
+7. 開発者向けdebug overlay
+   - `index.html` と `ui1.js` に実装。
+   - 通常画面では非表示。
+   - `?debug=shadow` または `#shadow-debug` のときだけ表示。
+   - legacy unique / DB raw / resolved / suppressed / hold / unclassified / DB-only、
+     resolved理由、suppression理由、hold理由を確認できる。
+   - 学習者向け挙動は変更していない。
+
+### 未完了・次回最優先
+**独立gold setを作って現行shadowを調整前の状態で評価する。**
+
+候補作品:
+- 『徒然草』第52段「仁和寺にある法師」
+
+選定理由:
+- 現在のresolver作成に使っていない別作品。
+- `に・を・て・と・ぬ・し・ば・しか` など識別surfaceを含む。
+- 複数の品詞分解資料でgoldを固定しやすい。
+- 安倍晴明偏重（現4サンプルrawの273/310）を緩和できる。
+
+### 次回の重要手順
+1. **先にgoldを固定する。**
+2. gold作成後までresolver・evidenceを追加しない。
+3. 現行shadowを無調整で徒然草へ走らせ、初見性能を測る。
+4. false positive / unresolved / larger-unit suppressionを分類。
+5. その結果をG4/G5の昇格判定に使う。
+6. 成績を見てから一般規則を修正する。goldに合わせて先にresolverをいじらない。
+
+### 一次資料待ち
+『新しい古典文法 四訂新版』原資料は、現在アクセス可能なFile Library/GitHubでは確認できなかった。
+したがって:
+- 連体形＋`に` 4件
+- 「せさせ給ひ」の `せ` 1件
+はprimary-source holdを維持。
+
+### 通常UI
+learner-visible detectorは依然legacy。
+shadow debug overlayも通常はhidden。
