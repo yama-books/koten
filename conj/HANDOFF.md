@@ -410,3 +410,32 @@ main接続後の状態を再確認した。
 - 「たし」は `たかる` を保持し、誤った `たかれ` は無し
 
 次は、120実例について**本文再配布可否を作品・提供元単位で確認する段階**。CHJ本文は引き続きDriveから公開側へ複製しない。
+
+## 14. 公開実例本文ソース監査
+
+形容動詞120例について、CHJ本文をGitHubへ複製せず、再利用条件を確認できる公開本文から実例を再構成する工程を開始。
+
+追加:
+- `PUBLIC_TEXT_SOURCE_POLICY.md`
+  - 4ゲート: sourceFound / rightsVerified / targetVerified / excerptReviewed
+  - 全ゲート通過前は `exampleEnabledPublic = false`
+- `data/public-text-source-registry.json`
+  - 21作品の候補台帳
+  - 第1次探索でWikisource候補17作品
+
+パイロット進捗:
+- 方丈記: 権利確認5/5、target照合2/5、公開0
+  - `data/public-text-pilot-hojoki.json`
+- 古今和歌集: 権利確認4/4、target照合4/4、公開0
+  - `data/public-text-pilot-kokin.json`
+- 徒然草: 権利確認5/5、target照合5/5、公開0
+  - `data/public-text-pilot-tsurezure.json`
+
+合計:
+- rightsVerified作品: 3
+- targetVerified例: 11 / 120
+- excerptReviewed: 0
+- 公開実例接続: 0
+
+原文表記差は `publicTarget` で分離し、CHJ側targetを上書きしない。
+次は土佐日記・竹取物語等を同じゲートで監査し、target照合を増やす。
