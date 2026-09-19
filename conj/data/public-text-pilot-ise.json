@@ -1,0 +1,67 @@
+{
+  "updated": "2026-09-19",
+  "work": "伊勢物語",
+  "status": "pilot / all-gates-passed",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "伊勢物語 (群書類從)",
+    "url": "https://ja.wikisource.org/wiki/伊勢物語_(群書類從)",
+    "bibliographicSource": "群書類從卷第三百七 物語部一・編者 塙保己一",
+    "rightsVerified": true,
+    "rightsStatus": "listed in Wikisource PD-old category",
+    "publicationTextLicenseNote": "WikisourceテキストはCC BY-SA利用条件を遵守する。"
+  },
+  "records": [
+    {
+      "id": "adjv-002",
+      "chjTarget": "さすがなり",
+      "publicTarget": "さすがなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/伊勢物語_(群書類從)",
+      "excerpt": "昔おとこありけり。あはじともいはざりける女の。さすがなりけるがもとにいひやりける。",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連用形「なり」＋過去「ける」を確認。"
+    },
+    {
+      "id": "adjv-060",
+      "chjTarget": "あばらなる",
+      "publicTarget": "あばらなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/伊勢物語_(群書類從)",
+      "excerpt": "あばらなるいたじきに。月のかたむくまでふせりて。",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-076",
+      "chjTarget": "おぼろなる",
+      "publicTarget": "おぼろなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/伊勢物語_(群書類從)",
+      "excerpt": "月のおぼろなるに人のかげするを見れば",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-079",
+      "chjTarget": "みそかに",
+      "publicTarget": "みそかに",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/伊勢物語_(群書類從)",
+      "excerpt": "むかし男。女をみそかにかたらふわざもせざりければ。",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連用形「に」を確認。"
+    }
+  ],
+  "counts": {
+    "total": 4,
+    "rightsVerified": 4,
+    "targetVerified": 4,
+    "excerptReviewed": 4,
+    "publicationEnabled": 4
+  }
+}
