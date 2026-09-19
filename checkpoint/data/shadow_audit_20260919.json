@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.6",
+  "schemaVersion": "0.7",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -18,23 +18,26 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 77,
-    "dbSuppressed": 233,
-    "matched": 77,
+    "dbResolved": 85,
+    "dbSuppressed": 225,
+    "matched": 85,
     "dbOnly": 0,
-    "legacyOnlyUnique": 233,
+    "legacyOnlyUnique": 225,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.24838709677419354,
+    "resolvedMatchRateOfUniqueLegacy": 0.27419354838709675,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 151,
-      "indexed-larger-surface": 51,
-      "known-larger-token": 31
+      "indexed-larger-surface": 49,
+      "known-larger-token": 33,
+      "context-required-not-yet-resolved": 134,
+      "source-exact-phrase-larger-unit": 9
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
     "contextSupportedButSuppressed": 0,
     "exactPhraseResolved": 1,
-    "leftSurfaceResolved": 6
+    "leftSurfaceResolved": 6,
+    "sourceExactPhraseResolved": 15,
+    "sourceExactPhraseSuppressed": 9
   },
   "samples": [
     {
@@ -93,15 +96,16 @@
       "legacyUnique": 273,
       "legacyDuplicates": 33,
       "dbRaw": 273,
-      "dbResolved": 67,
-      "dbSuppressed": 206,
-      "matched": 67,
+      "dbResolved": 75,
+      "dbSuppressed": 198,
+      "matched": 75,
       "dbOnly": 0,
-      "legacyOnlyUnique": 206,
+      "legacyOnlyUnique": 198,
       "suppressionReasons": {
-        "indexed-larger-surface": 45,
-        "known-larger-token": 31,
-        "context-required-not-yet-resolved": 130
+        "indexed-larger-surface": 43,
+        "known-larger-token": 33,
+        "context-required-not-yet-resolved": 113,
+        "source-exact-phrase-larger-unit": 9
       }
     }
   ],
@@ -180,6 +184,12 @@
       "failed": 0,
       "source": "context_resolver_regression_20260919.json",
       "note": "単体テスト文字列は配線確認用であり、新規文法証拠ではない。"
+    },
+    "abeSeimeiExactGrammar": {
+      "tested": 24,
+      "passed": 24,
+      "failed": 0,
+      "source": "abe_seimei_grammar_regression_20260919.json"
     }
   },
   "designFindings": [
@@ -197,12 +207,14 @@
     "USB-3212の前後cueを使う双方向resolverを追加し、監査済み前接語形＋明示された後続助動詞の組合せを4ケースで回帰確認した。",
     "indexed larger surfaceによる1文字内部hit抑制を一般化し、51位置を大きい分析単位側へ寄せた。",
     "USB-3212に基づく「けれ＋ば」resolverで、長文サンプルの6個の「ば」を確定条件候補としてshadow resolvedへ昇格した。",
-    "v1.3 BASIC_WORDS 28語をDB境界レイヤへ移植し、known-larger-tokenは20→31位置へ増えた。"
+    "v1.3 BASIC_WORDS 28語をDB境界レイヤへ移植し、known-larger-tokenは20→31位置へ増えた。",
+    "ユーザー提供の安倍晴明文法整理をexact context evidence化し、危険だった「入らむ／ならむ」内部の「らむ」誤検出を局所的に抑制した。",
+    "安倍晴明語彙29語をDB化し、「塞がる」内部の「が・る」、「かたり」内部の「たり」をwhole-token境界で抑制した。"
   ],
   "next": [
-    "context_required_backlog_20260919.json のA群（て・に・と・を）を文節境界レイヤと組み合わせる。",
-    "B群（し・な・ば・が・る・せ）はwhole-token/接続の監査済み証拠を増やして段階的に削る。",
-    "500例全表面形447件のanchorを利用したexact-context regressionを増やす。",
+    "A群の「て28・に25・と23・を21」は、文節/統語境界が主ボトルネック。exact教材証拠を増やすかtokenizer層を導入する。",
+    "B群の「し13・ば8・な5・が5・せ4」は、接続またはwhole-token証拠を増やす。",
+    "残る「る1・ぬ1」は個別監査候補として扱う。",
     "一次資料が参照可能になったら auxiliary_master の verified 項目を増やす。"
   ],
   "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。",
@@ -337,5 +349,19 @@
     "せ": 6,
     "む": 3,
     "ぬ": 1
+  },
+  "abeSeimeiEvidence": {
+    "grammarFile": "abe_seimei_grammar_evidence.json",
+    "vocabularyFile": "abe_seimei_vocabulary_evidence.json",
+    "grammarEntries": 24,
+    "vocabularyEntries": 29,
+    "exactResolved": 15,
+    "exactLargerUnitSuppressed": 9,
+    "importantCorrections": [
+      "「入らむ」の内部の「らむ」を現在推量「らむ」一語として扱わない。",
+      "「ならむ」は断定「なり」を含む形＋「む」であり、内部の「らむ」を一語として扱わない。",
+      "「黄なる」は形容動詞「黄なり」の連体形として、内部の「な」「る」を独立候補にしない。",
+      "「かたり」の内部の「たり」を助動詞候補として扱わない。"
+    ]
   }
 }
