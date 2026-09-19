@@ -390,6 +390,50 @@ function trustedLargerTokenContainer(boundaryHits,hit){
 
 
 
+
+function exactAbeEvidenceForHit(text,hit){
+  const entries=window.CHECKPOINT_DATA?.abeSeimeiGrammarEvidence?.entries;
+  if(!Array.isArray(entries)) return null;
+  const matches=[];
+  for(const e of entries){
+    if(!e.phrase || !e.focusSurface || !e.analysisUnit) continue;
+    let pos=0;
+    while(true){
+      const p=text.indexOf(e.phrase,pos);
+      if(p<0) break;
+      const focusOffset=Number.isInteger(e.focusOffset)?e.focusOffset:e.phrase.indexOf(e.focusSurface);
+      const unitOffset=Number.isInteger(e.analysisUnitOffset)?e.analysisUnitOffset:e.phrase.indexOf(e.analysisUnit);
+      const focusStart=p+focusOffset;
+      const focusEnd=focusStart+e.focusSurface.length;
+      if(hit.start===focusStart && hit.end===focusEnd && hit.surface===e.focusSurface){
+        matches.push({
+          phrase:e.phrase,
+          phraseStart:p,
+          phraseEnd:p+e.phrase.length,
+          focusSurface:e.focusSurface,
+          analysisUnit:e.analysisUnit,
+          analysisUnitStart:p+unitOffset,
+          analysisUnitEnd:p+unitOffset+e.analysisUnit.length,
+          action:e.action,
+          candidateId:e.candidateId||null,
+          auxiliaryLemma:e.auxiliaryLemma||null,
+          sourceAnalysis:e.sourceAnalysis||"",
+          evidenceStatus:e.evidenceStatus||"user-source-reviewed"
+        });
+      }
+      pos=p+Math.max(1,e.phrase.length);
+    }
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.analysisUnit.length-a.analysisUnit.length)||(b.phrase.length-a.phrase.length));
+  return matches[0];
+}
+
+function hitHasAuxiliaryLemma(hit,lemma){
+  return (hit.auxiliaryCandidates||[]).some(x=>x.lemma===lemma);
+}
+
+
 function exactHyakuninEvidenceForHit(text,hit){
   const entries=window.CHECKPOINT_DATA?.hyakuninDisambiguationEvidence?.entries;
   if(!Array.isArray(entries)) return null;
@@ -441,6 +485,51 @@ function resolveDbShadowHits(text){
   const resolved=[];
 
   for(const h of raw){
+    const abeExactEvidence=exactAbeEvidenceForHit(text,h);
+    if(abeExactEvidence){
+      if(abeExactEvidence.action==="suppressInsideLargerUnit"){
+        suppressed.push({
+          ...h,
+          suppressedReason:"source-exact-phrase-larger-unit",
+          suppressedBy:abeExactEvidence.analysisUnit,
+          exactPhraseEvidence:abeExactEvidence
+        });
+        continue;
+      }
+      if(abeExactEvidence.action==="resolveCandidate" &&
+         abeExactEvidence.candidateId &&
+         hitCandidateIds(h).has(abeExactEvidence.candidateId)){
+        resolved.push({
+          ...h,
+          analysisConfidence:"source-exact-phrase",
+          contextResolution:{
+            status:"resolved-by-source-exact-phrase",
+            mode:"exact-user-source",
+            supportCandidateIds:[abeExactEvidence.candidateId],
+            exactPhraseEvidence:abeExactEvidence,
+            evidence:"abe_seimei_grammar_evidence.json"
+          }
+        });
+        continue;
+      }
+      if(abeExactEvidence.action==="resolveAuxiliaryLemma" &&
+         abeExactEvidence.auxiliaryLemma &&
+         hitHasAuxiliaryLemma(h,abeExactEvidence.auxiliaryLemma)){
+        resolved.push({
+          ...h,
+          analysisConfidence:"source-exact-phrase",
+          contextResolution:{
+            status:"resolved-by-source-exact-phrase",
+            mode:"exact-user-source",
+            supportAuxiliaryLemma:abeExactEvidence.auxiliaryLemma,
+            exactPhraseEvidence:abeExactEvidence,
+            evidence:"abe_seimei_grammar_evidence.json"
+          }
+        });
+        continue;
+      }
+    }
+
     const exactPhraseEvidence=exactHyakuninEvidenceForHit(text,h);
     if(exactPhraseEvidence){
       const candidateId=exactPhraseEvidence.analysis?.candidateId||null;
@@ -586,6 +675,8 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     knownBoundaryTokenHitCount:state.boundaryHits?.length||0,
     contextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-connection").length,
     exactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-exact-phrase").length,
+    sourceExactPhraseResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-phrase").length,
+    sourceExactPhraseSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-phrase-larger-unit").length,
     bidirectionalContextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-bidirectional-context").length,
     leftSurfaceResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-left-surface").length,
     exactPhraseSuppressedCount:state.suppressed.filter(h=>String(h.suppressedReason||"").startsWith("audited-exact-phrase-")).length,
