@@ -3,7 +3,7 @@
   "updated": "2026-09-19",
   "title": "Checkpoint shadow promotion readiness audit",
   "shadowVersion": "0.15-stage2-generalization",
-  "recommendation": "stay-stage-2-build-local-syntax-and-fourth-blind-gold",
+  "recommendation": "stay-stage-2-generalize-before-promotion",
   "summary": "3作品blind評価によりboundary層の安全性とgrammar resolverのunder-resolvingを分離できた。Stage 2は継続。learner-visible promotionはまだ行わない。",
   "observed": {
     "legacyUnique": 310,
@@ -46,18 +46,18 @@
     },
     {
       "id": "G4",
-      "status": "PASS",
-      "evidence": "3作品でgold先固定→blind baselineを凍結済み。"
+      "status": "PARTIAL",
+      "evidence": "独立gold 2本、計90位置でblind評価済み。誤候補一意確定は0だが、strict resolve recallは徒然草7/30・伊勢8/23でunder-resolving。"
     },
     {
       "id": "G5",
-      "status": "PASS_WITH_LIMITATION",
-      "evidence": "徒然草・伊勢物語・方丈記の3作品でcross-passage blind評価済み。ただしgrammar resolve recallはblind合算16/61で低い。"
+      "status": "PARTIAL",
+      "evidence": "徒然草・伊勢物語の2作品でcross-passage blind評価済み。さらに1作品以上と一般resolver改善後の再評価が望ましい。"
     },
     {
       "id": "G6",
       "status": "PENDING",
-      "evidence": "developer debug overlayはあるがhold-aware learner UIは未実装。"
+      "evidence": "開発者debug overlayは実装済みだが、learner-visible hold-aware UIは未実装。"
     },
     {
       "id": "G7",
@@ -71,10 +71,12 @@
     }
   ],
   "nextRecommendedWork": [
-    "に/を/と/て/し向けのlocal syntax feature layerをまずsignal-onlyで作る。",
-    "名詞＋に、ける＋を、連用形＋ては実例上単純規則化できないため、候補ごとの前後token条件を保持する。",
-    "新しいhard resolverは3つのdevelopment goldで回帰後、第四の未使用作品でblind評価する。",
-    "hold-aware learner UIはG6として別レーンで設計する。"
+    "途中停止した『未解決31件の左語token境界カバレッジ測定』を再実行する。",
+    "2本のblind goldで共通する未解決 surface（て・に・を・と・し）だけから一般resolver改善候補を抽出する。",
+    "exact passage evidenceを増殖させず、tokenizer / 前接語境界 / 活用形 evidence を先に強化する。",
+    "一般resolver改善後、goldを変更せず再評価してbaseline差分を測る。",
+    "さらに別作品1本でblind goldを追加しG5を強化する。",
+    "hold-aware learner UIは一般resolverが安定してから実装する。"
   ],
   "currentStage": "stage-2-evidence-backed-debug-overlay",
   "independentGold": {
@@ -106,5 +108,51 @@
       "hardErrors": 0
     },
     "warning": "currentDevelopmentCombinedはgold確認後の修正を含み、blind generalization scoreではない。"
+  },
+  "independentGoldSets": [
+    {
+      "work": "徒然草第52段 仁和寺にある法師",
+      "goldFile": "tsurezure52_independent_gold_20260919.json",
+      "baselineFile": "tsurezure52_shadow_baseline_v014.json",
+      "positions": 55,
+      "strictPass": 32,
+      "strictPassRate": 0.5818181818181818,
+      "resolveTargets": 30,
+      "strictCorrectResolve": 7,
+      "strictResolveRecall": 0.23333333333333334,
+      "suppressionTargets": 25,
+      "suppressionCorrect": 25,
+      "falsePositiveResolved": 0,
+      "note": "完全blind baseline。resolver調整前にgoldをfreeze。"
+    },
+    {
+      "work": "伊勢物語第6段 芥川（冒頭）",
+      "goldFile": "ise6_akutagawa_independent_gold_20260919.json",
+      "baselineFile": "ise6_akutagawa_shadow_baseline_v014.json",
+      "positions": 35,
+      "strictPass": 17,
+      "strictPassRate": 0.4857142857142857,
+      "resolveTargets": 23,
+      "strictCorrectResolve": 8,
+      "strictResolveRecall": 0.34782608695652173,
+      "suppressionTargets": 12,
+      "suppressionCorrect": 9,
+      "falsePositiveResolved": 3,
+      "note": "完全blind baseline。3件の語内部false-positiveを確認。"
+    }
+  ],
+  "postBaselineBoundaryPatch": {
+    "addedKnownTokens": [
+      "まじかり",
+      "呼ばひわたり",
+      "からうじて"
+    ],
+    "purpose": "blind評価で確認した語内部false-positiveだけを、source-reviewed larger-token boundaryとして修復。",
+    "result": {
+      "iseSuppressionCorrect": "12/12",
+      "iseFalsePositiveResolved": 0,
+      "tsurezureBaselineBehavior": "unchanged",
+      "existingFourSampleBehavior": "unchanged"
+    }
   }
 }
