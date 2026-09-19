@@ -58,6 +58,7 @@ function insideBasicWord(text, hit, level){
 }
 
 let dismissedKeys = new Set();
+let dismissedTextSnapshot = "";
 let currentDrawerHit = null;
 let currentDrawerHits = [];
 let currentPointIndex = 0;
