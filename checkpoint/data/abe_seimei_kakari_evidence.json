@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "安倍晴明『宇治拾遺物語』 exact kakari-musubi evidence",
+  "sources": [
+    {
+      "title": "安倍晴明_本文・文法・語彙整理.docx",
+      "role": "係り結び5表現の明示説明"
+    },
+    {
+      "title": "安倍晴明_ワークシート_解答なし_横書き_テキストのみ_修正版.txt",
+      "role": "係り結び5表現の抜き出し"
+    }
+  ],
+  "policy": [
+    "完全一致した本文句だけをscope-linked evidenceとして扱う。",
+    "一般の「ぞ・なむ・や・か」へ自動一般化しない。",
+    "結びの流れ・結び省略は通常の連体形/已然形結びと分けて保持する。",
+    "学習者への正解表示ではなく、係り先範囲解析と回帰監査の根拠に使う。"
+  ],
+  "entries": [
+    {
+      "id": "abe-namu-flow",
+      "phrase": "白き犬を愛してなむ飼はせ給ひければ",
+      "particle": "なむ",
+      "particleOffset": 7,
+      "relation": "結びの流れ",
+      "expectedEndingForm": "連体形（本来）",
+      "endingSurface": "けれ",
+      "sourceAnalysis": "本来は連体形で結ぶが、接続助詞「ば」に続くため「結びの流れ」。"
+    },
+    {
+      "id": "abe-ka-taru",
+      "phrase": "さてそれはいづくにか埋みたる",
+      "particle": "か",
+      "particleOffset": 9,
+      "relation": "係り結び",
+      "expectedEndingForm": "連体形",
+      "endingSurface": "たる",
+      "sourceAnalysis": "係助詞「か」－結び「たる」（連体形）。"
+    },
+    {
+      "id": "abe-ya-ramu",
+      "phrase": "もし道摩法師や仕りたるらむ",
+      "particle": "や",
+      "particleOffset": 6,
+      "relation": "係り結び",
+      "expectedEndingForm": "連体形（終止形と同形）",
+      "endingSurface": "らむ",
+      "sourceAnalysis": "係助詞「や」－結び「らむ」。"
+    },
+    {
+      "id": "abe-zo-keru",
+      "phrase": "とぞ申しける",
+      "particle": "ぞ",
+      "particleOffset": 1,
+      "relation": "係り結び",
+      "expectedEndingForm": "連体形",
+      "endingSurface": "ける",
+      "sourceAnalysis": "係助詞「ぞ」－結び「ける」（連体形）。"
+    },
+    {
+      "id": "abe-namu-ellipsis",
+      "phrase": "不便にせさせ給ひけるとなむ",
+      "particle": "なむ",
+      "particleOffset": 11,
+      "relation": "結び省略",
+      "expectedEndingForm": null,
+      "endingSurface": null,
+      "sourceAnalysis": "文末で結びが省略された形と考えられる。"
+    }
+  ]
+}
