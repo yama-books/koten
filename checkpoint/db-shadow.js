@@ -434,6 +434,53 @@ function hitHasAuxiliaryLemma(hit,lemma){
 }
 
 
+
+function exactHyakuninBunsetuBoundaryForHit(text,hit){
+  const entries=window.CHECKPOINT_DATA?.hyakuninBunsetuBoundaryEvidence?.entries;
+  if(!Array.isArray(entries)) return null;
+  const matches=[];
+  for(const e of entries){
+    if(!e.passage || !Array.isArray(e.explicitLexicalUnits)) continue;
+    let passagePos=0;
+    while(true){
+      const p=text.indexOf(e.passage,passagePos);
+      if(p<0) break;
+      for(const unit of e.explicitLexicalUnits){
+        if(!unit.surface || !Array.isArray(unit.suppressInternalSurfaces)) continue;
+        let localPos=0;
+        while(true){
+          const u=e.passage.indexOf(unit.surface,localPos);
+          if(u<0) break;
+          const start=p+u;
+          const end=start+unit.surface.length;
+          if(unit.suppressInternalSurfaces.includes(hit.surface) &&
+             hit.start>=start && hit.end<=end &&
+             (end-start)>(hit.end-hit.start)){
+            matches.push({
+              poem:e.poem||null,
+              passage:e.passage,
+              passageStart:p,
+              passageEnd:p+e.passage.length,
+              lexicalUnit:unit.surface,
+              lexicalUnitStart:start,
+              lexicalUnitEnd:end,
+              partOfSpeech:unit.partOfSpeech||null,
+              reason:unit.reason||"",
+              source:"hyakunin_bunsetu_boundary_evidence.json"
+            });
+          }
+          localPos=u+Math.max(1,unit.surface.length);
+        }
+      }
+      passagePos=p+Math.max(1,e.passage.length);
+    }
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.lexicalUnit.length-a.lexicalUnit.length));
+  return matches[0];
+}
+
+
 function exactHyakuninEvidenceForHit(text,hit){
   const entries=window.CHECKPOINT_DATA?.hyakuninDisambiguationEvidence?.entries;
   if(!Array.isArray(entries)) return null;
@@ -582,6 +629,17 @@ function resolveDbShadowHits(text){
         });
         continue;
       }
+    }
+
+    const bunsetuBoundaryEvidence=exactHyakuninBunsetuBoundaryForHit(text,h);
+    if(bunsetuBoundaryEvidence){
+      suppressed.push({
+        ...h,
+        suppressedReason:"source-exact-bunsetu-lexical-unit",
+        suppressedBy:bunsetuBoundaryEvidence.lexicalUnit,
+        bunsetuBoundaryEvidence
+      });
+      continue;
     }
 
     const exactPhraseEvidence=exactHyakuninEvidenceForHit(text,h);
@@ -745,6 +803,7 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     bidirectionalContextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-bidirectional-context").length,
     leftSurfaceResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-left-surface").length,
     exactPhraseSuppressedCount:state.suppressed.filter(h=>String(h.suppressedReason||"").startsWith("audited-exact-phrase-")).length,
+    bunsetuBoundarySuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-bunsetu-lexical-unit").length,
     contextSupportedButSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="context-supported-but-not-unique").length,
     legacyComparableRawHitCount:comparableLegacyRaw.length,
     legacyComparableUniqueHitCount:comparableLegacy.length,
