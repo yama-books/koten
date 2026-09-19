@@ -27,12 +27,12 @@
     "notYetFound": 4,
     "publicationReadyWorks": 12,
     "publicExamplesConnected": 64,
-    "rightsVerifiedWorks": 16,
+    "rightsVerifiedWorks": 17,
     "targetVerifiedExamples": 66,
     "excerptReviewedExamples": 64,
     "publicationReadyExamples": 64,
-    "auditStatusKnownWorks": 17,
-    "blockedWorks": 1,
+    "auditStatusKnownWorks": 18,
+    "blockedWorks": 2,
     "partialWorks": 4
   },
   "works": [
@@ -130,7 +130,17 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "note": "権利はクリア。対象7例を同一版で検索・照合できる本文層がなく、画像/PDFからの推測転記を避けるため公開保留。",
+      "commons": {
+        "candidateFound": true,
+        "candidateUrl": "https://commons.wikimedia.org/wiki/File:NDL1186667_保元物語_;_平治物語_;_北条九代記_part2.pdf",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 0,
+        "edition": "有朋堂文庫・1927",
+        "rightsNote": "Wikimedia Commonsでpublic domain scan / PD-Japan表示。"
+      },
+      "auditStatus": "blocked-with-reason"
     },
     {
       "work": "宇治拾遺物語",
