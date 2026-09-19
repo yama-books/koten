@@ -603,3 +603,17 @@ baseline後boundary修復:
 現行の次手は、旧31件測定のやり直しではなく **right-token morphology / 助動詞列開始 vs 独立語開始のsignal-only feature拡張**。その後も `に/を/と` は節構造なしにhard rule化しない。新hard ruleを作る場合は第四作品をgold先固定してblind評価する。
 
 learner-visible detectorはlegacyを維持。primary-source hold 5件も維持する。
+
+
+
+## 2026-09-20 right-context signal-only 拡張
+
+3 development goldの残39位置に対し、`nextMorphology` と `rightTokenRoleSignal` を追加。判定は変更しない。
+
+- nextMorphology **15/39**
+- `て` 11位置: previous morphology 10、punctuation after 8、next morphology 4
+- 読点なしの未解決 `て` 3位置は **3/3で右側独立活用語**
+- 既存4サンプル回帰: raw310 / resolved187 / strict145 / ambiguous42 / suppressed123、位置差分0
+- 3 development gold decision-path差分0
+
+次は第四未使用作品をgold先固定してblind評価。learner-visibleはlegacy維持。
