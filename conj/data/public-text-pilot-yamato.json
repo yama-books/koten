@@ -1,0 +1,62 @@
+{
+  "updated": "2026-09-19",
+  "work": "大和物語",
+  "status": "pilot / public-domain-source-found / target-image-verification-pending",
+  "provider": "国立国会図書館デジタルコレクション",
+  "edition": {
+    "title": "大和物語",
+    "publication": "谷岡七左衛門、明暦3年（1657）、5冊",
+    "parentPid": "2607357",
+    "url": "https://dl.ndl.go.jp/pid/2607357",
+    "rightsVerified": true,
+    "rightsStatus": "pdm",
+    "accessStatus": "internet-public",
+    "note": "NDLサーチでインターネット公開・著作権情報pdmを確認。JTI本文はコピー不可のため公開例ソースとして不採用。"
+  },
+  "records": [
+    {
+      "id": "adjv-029",
+      "chjTarget": "ただなら",
+      "publicTarget": null,
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "第113段付近の用例候補まで確認。NDL画像による同版照合待ち。"
+    },
+    {
+      "id": "adjv-043",
+      "chjTarget": "清らなり",
+      "publicTarget": null,
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "第149段「顔かたちいと清らなり」の用例候補まで確認。NDL画像による同版照合待ち。"
+    },
+    {
+      "id": "adjv-063",
+      "chjTarget": "すずろなる",
+      "publicTarget": null,
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "検索可能な二次公開本文で用例位置候補を確認。NDL画像による同版照合待ち。"
+    },
+    {
+      "id": "adjv-081",
+      "chjTarget": "まちどほに",
+      "publicTarget": null,
+      "targetVerified": false,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "第74段「まちどほにのみ見ゆる花かな」の位置候補を確認。NDL画像による同版照合待ち。"
+    }
+  ],
+  "counts": {
+    "total": 4,
+    "rightsVerified": 4,
+    "targetVerified": 0,
+    "excerptReviewed": 0,
+    "publicationEnabled": 0
+  },
+  "blocker": "再利用可能性は確定したが、公開する文字列はNDLのPDM画像を直接確認して転写する必要がある。検索しやすいJTI本文は再配布不可なので流用しない。"
+}
