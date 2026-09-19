@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.9",
+  "schemaVersion": "0.10",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -18,24 +18,25 @@
     "legacyComparableUnique": 310,
     "legacyDuplicateHits": 38,
     "dbRaw": 310,
-    "dbResolved": 105,
-    "dbSuppressed": 205,
-    "matched": 105,
+    "dbResolved": 113,
+    "dbSuppressed": 197,
+    "matched": 113,
     "dbOnly": 0,
-    "legacyOnlyUnique": 205,
+    "legacyOnlyUnique": 197,
     "rawCoverageOfUniqueLegacy": 1,
-    "resolvedMatchRateOfUniqueLegacy": 0.3387096774193548,
+    "resolvedMatchRateOfUniqueLegacy": 0.36451612903225805,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 109,
+      "context-required-not-yet-resolved": 98,
       "indexed-larger-surface": 48,
-      "known-larger-token": 35,
+      "known-larger-token": 37,
+      "audited-exact-phrase-nonauxiliary": 1,
       "source-exact-bunsetu-lexical-unit": 2,
       "source-exact-phrase-larger-unit": 11
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
     "contextSupportedButSuppressed": 0,
-    "exactPhraseResolved": 1,
+    "exactPhraseResolved": 9,
     "leftSurfaceResolved": 12,
     "sourceExactPhraseResolved": 17,
     "sourceExactPhraseSuppressed": 11,
@@ -70,13 +71,13 @@
       "legacyUnique": 12,
       "legacyDuplicates": 1,
       "dbRaw": 12,
-      "dbResolved": 1,
-      "dbSuppressed": 11,
-      "matched": 1,
+      "dbResolved": 9,
+      "dbSuppressed": 3,
+      "matched": 9,
       "dbOnly": 0,
-      "legacyOnlyUnique": 11,
+      "legacyOnlyUnique": 3,
       "suppressionReasons": {
-        "context-required-not-yet-resolved": 9,
+        "audited-exact-phrase-nonauxiliary": 1,
         "source-exact-bunsetu-lexical-unit": 2
       },
       "resolutionReasons": {
@@ -117,9 +118,9 @@
       "dbOnly": 0,
       "legacyOnlyUnique": 178,
       "suppressionReasons": {
-        "context-required-not-yet-resolved": 94,
+        "context-required-not-yet-resolved": 92,
         "indexed-larger-surface": 39,
-        "known-larger-token": 34,
+        "known-larger-token": 36,
         "source-exact-phrase-larger-unit": 11
       },
       "resolutionReasons": {
@@ -194,11 +195,11 @@
       ]
     },
     "hyakuninExactPhrase": {
-      "tested": 17,
-      "passed": 17,
+      "tested": 26,
+      "passed": 26,
       "failed": 0,
       "source": "hyakunin_disambiguation_regression_20260919.json",
-      "behavior": "監査済み句に完全一致した場合のみ、ぬ・ねを候補支持し、ぬる・ぬれ・いぬでは内部の短いhitを抑制。"
+      "behavior": "第9首追加9件を含む完全一致限定。一般化しない。"
     },
     "bidirectionalContext": {
       "tested": 4,
@@ -226,6 +227,11 @@
         "bakariInternalSuppressed": 2
       },
       "safety": "learner-visible detector unchanged; external crosscheck remains secondary-source-only"
+    },
+    "localBoundarySignal": {
+      "source": "local_boundary_audit_20260919.json",
+      "result": "PASS",
+      "invariant": "signal-only層はresolved/suppressed分類を単独では変更しない。"
     }
   },
   "designFindings": [
@@ -250,13 +256,17 @@
     "副助詞「ばかり」を外部辞書照合済みのwhole-token境界として追加し、安倍晴明サンプル内の内部「ば」2位置を抑制した。",
     "「し給へ＋ば」2件、「ましか＋ば」1件、「申せ＋ば」1件、「のたまへ＋ば」1件、「投げ上げたれ＋ば」1件を、同形衝突を避けた長い左文脈に限定してresolvedした。",
     "外部文法照合は auxiliary_master の一次資料確認とは分離し、shadow resolver の安全確認専用 evidence として保持する。",
-    "4サンプル最新版は raw 310 / resolved 105 / suppressed 205 / context-required 109。resolved率33.9%。"
+    "4サンプル最新版は raw 310 / resolved 105 / suppressed 205 / context-required 109。resolved率33.9%。",
+    "安倍晴明sourceで「遣はし」「御越し」をwhole-token境界化し、内部「し」2位置を追加抑制した。",
+    "百人一首第9首の完全一致9箇所を passage-specific evidence 化し、8位置resolved・「ふる」内部の「る」1位置をnonauxiliary suppressionへ移した。",
+    "和歌サンプルはcontext-required 9→0。全体は raw 310 / resolved 113 / suppressed 197 / context-required 98。",
+    "local_boundary_policy / audit を signal-only で導入し、句読点・文字種遷移を観測するが、それ単独では判定に使わない。"
   ],
   "next": [
-    "残109位置のうち「て28・に24・を21・し13・と10」が主要ボトルネック。まず語境界・局所文節境界を増やす。",
-    "「と」は引用境界13件を解消済み。残10件は内容格助詞・語内部・断定/タリ活用候補を混同しないよう別レイヤで扱う。",
-    "「ば」は既存4サンプル上のcontext-requiredを0まで解消したが、一般化せず回帰fixtureを維持する。",
-    "一次資料が参照可能になったら auxiliary_master の verified 項目を増やし、外部照合規則のうち必要なものを置換する。"
+    "残98位置は「て28・を21・に20・し10・と10」が中心。局所境界signalだけではresolveしない。",
+    "source-reviewed whole-token と passage-specific exact evidence を先に増やす。",
+    "局所boundary/tokenizerは、反例監査を作ってから複数signal一致時のみ候補支持へ使う。",
+    "一次資料が参照可能になったら auxiliary_master の verified 化を別レーンで続ける。"
   ],
   "correctionNote": "v0.1で raw legacy hit 348を分母にしたため raw coverage 89.1% と記録したが、legacy重複38件を含む比較だった。v0.2では unique位置310を分母とし coverage 100% に訂正。",
   "contextResolver": {
@@ -379,14 +389,13 @@
   },
   "unresolvedBySurface": {
     "て": 28,
-    "に": 24,
-    "と": 10,
+    "に": 20,
     "を": 21,
-    "し": 13,
-    "な": 4,
-    "が": 4,
-    "せ": 3,
-    "る": 1,
+    "し": 10,
+    "と": 10,
+    "な": 3,
+    "が": 3,
+    "せ": 2,
     "ぬ": 1
   },
   "abeSeimeiEvidence": {
