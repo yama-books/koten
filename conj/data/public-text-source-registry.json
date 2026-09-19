@@ -33,7 +33,8 @@
     "publicationReadyExamples": 64,
     "auditStatusKnownWorks": 20,
     "blockedWorks": 4,
-    "partialWorks": 4
+    "partialWorks": 4,
+    "classroomCandidateWorks": 1
   },
   "works": [
     {
@@ -295,7 +296,7 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "再利用可能な画像資料は複数確認したが、CHJ選抜5例を底本・再利用条件ごと固定して検索照合できる本文を未確保。無許諾転写や画像推測は使用せず保留。",
+      "note": "PUBLIC: 権利クリアな画像資料はあるが、5 targetを検索可能本文で照合できず保留。CLASSROOM: 35条適用候補として別管理可能だが、CHJ raw本文は使用せず別ソースの規約・target確認が必要。",
       "publicSources": [
         {
           "provider": "Wikimedia Commons / NDL",
@@ -310,7 +311,18 @@
           "type": "CC BY-SA 4.0 image collection"
         }
       ],
-      "auditStatus": "blocked-with-reason"
+      "auditStatus": "blocked-with-reason",
+      "codh": {
+        "candidateFound": true,
+        "candidateUrl": "https://codh.rois.ac.jp/pmjt/book/200020217/",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 0,
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "日本古典籍データセットの画像・メタデータはCC BY-SA 4.0。"
+      },
+      "classroomCandidate": true,
+      "classroomStatus": "needs-source-terms-and-target-check"
     },
     {
       "work": "徒然草",
