@@ -632,3 +632,21 @@ gold先固定→shadow無調整baseline保存まで完了。
 
 4 blind works合算: 136 / strict75 / grammar18/75 / boundary57/61 / wrongResolved0。
 次工程はexact passage morphology追加ではなく、passage-independent morphology providerのsignal-only設計。
+
+
+## 2026-09-20 一時停止 / checkpoint-main 運用へ移行
+
+リポジトリ運用変更により、Checkpointの今後の正本ブランチを **`checkpoint-main`** に変更。
+`main` への直接push・force-push・他ブランチ削除は禁止。PR baseも `checkpoint-main`。
+
+停止時点:
+- 4 blind works = 136 positions
+- strict PASS 75/136
+- grammar strict 18/75
+- boundary blind 57/61 / development 61/61
+- wrongResolved 0
+- existing 4 samples strict145 / ambiguous42 / raw310 / DB only0
+- learner-visible = legacy
+- primary-source hold 5件維持
+
+次工程は **passage-independent morphology provider のsignal-only設計**。平家gold由来exact morphologyは追加しない。
