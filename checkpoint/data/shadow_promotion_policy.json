@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint shadow → learner-visible 昇格方針",
+  "currentStage": "stage-1-shadow-telemetry",
+  "stages": [
+    {
+      "id": "stage-0",
+      "name": "legacy-only",
+      "description": "従来ルールだけを学習者向け表示に使う。"
+    },
+    {
+      "id": "stage-1",
+      "name": "shadow-telemetry",
+      "description": "DB/shadowは裏側で比較・監査する。現在地。"
+    },
+    {
+      "id": "stage-2",
+      "name": "evidence-backed-debug-overlay",
+      "description": "高信頼evidenceだけ開発者向けに可視化し、legacyとの不一致を監査する。"
+    },
+    {
+      "id": "stage-3",
+      "name": "selective-learner-promotion",
+      "description": "独立gold監査済みの限定カテゴリだけ学習者向け候補生成へ採用する。"
+    },
+    {
+      "id": "stage-4",
+      "name": "global-shadow-replacement",
+      "description": "十分な一般化監査後にlegacy detectorを置換する。"
+    }
+  ],
+  "gates": [
+    {
+      "id": "G1",
+      "name": "legacy-position-coverage",
+      "requirement": "監査サンプル上でlegacy unique位置をraw DBが100%被覆",
+      "threshold": "100%"
+    },
+    {
+      "id": "G2",
+      "name": "db-only-zero",
+      "requirement": "監査サンプルで説明不能なDB-only位置が0",
+      "threshold": 0
+    },
+    {
+      "id": "G3",
+      "name": "unclassified-context-zero",
+      "requirement": "context-required位置がresolvedまたは明示holdに分類済み",
+      "threshold": 0
+    },
+    {
+      "id": "G4",
+      "name": "independent-gold-regression",
+      "requirement": "resolver作成に使ったevidenceとは独立したgold setでカテゴリ別精度を検証",
+      "threshold": "required"
+    },
+    {
+      "id": "G5",
+      "name": "cross-passage-generalization",
+      "requirement": "単一教材に偏らない複数作品・複数文体で回帰",
+      "threshold": "required"
+    },
+    {
+      "id": "G6",
+      "name": "hold-aware-ui",
+      "requirement": "一意判定不可・一次資料待ちを『正解』として表示しないUIが実装済み",
+      "threshold": "required"
+    },
+    {
+      "id": "G7",
+      "name": "primary-source-policy",
+      "requirement": "primary-source-requiredを自動昇格させない保証",
+      "threshold": "required"
+    }
+  ],
+  "rules": [
+    "resolved率だけを昇格判断に使わない。",
+    "passage-specific evidenceの成功を一般化精度として数えない。",
+    "holdは失敗ではないが、正解としても数えない。",
+    "独立gold setがない状態でglobal replacementをしない。"
+  ]
+}
