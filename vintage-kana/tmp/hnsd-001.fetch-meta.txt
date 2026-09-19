@@ -1,0 +1,4 @@
+source=https://www2.ninjal.ac.jp/textdb_dataset/hnsd/txt/hnsd-001.txt
+decoding=utf-8-sig
+bytes=41239
+chars=14193
