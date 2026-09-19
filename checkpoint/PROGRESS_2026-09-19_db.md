@@ -100,3 +100,18 @@ legacy unique 310位置はすべて surface_index に存在することを確認
   - known-larger-token 31
   - context-required 151
 - 残151位置は `context_required_backlog_20260919.json` に表面形別・必要レイヤ別で整理。
+
+
+## 追加: 全500例 evidence DB と shadow 77/310
+
+- Driveの500例マイルストーンを引用符対応CSVとして再読込し、500行→447表面形へ再構成。
+- `audited_inflection_evidence_500_full.json`:
+  - 500例全件の target / lemma / 活用種類 / 活用形 / anchor / source を保持
+  - 447表面形
+  - 19表面形は複数分析を保持
+  - consensus は500例内部の一致状況であり一般文法の一意性とは扱わない
+- `known_token_boundary_index.json` をfull DBのkanji-anchored targetで増補。
+- `indexed-larger-surface` 抑制を追加。例: `なり` 内の `な`、`たる` 内の `る`、`ける` 内の `る`、`ましか` 内の `し`。
+- `けれ＋ば` をUSB-3212の已然形根拠でsource-left-surface resolverに追加し、長文で6件resolved。
+- 最新4サンプル: raw 310 / resolved **77** / suppressed **233** / DB only 0。
+- suppressed: context-required 151 / indexed-larger-surface 51 / known-larger-token 31。
