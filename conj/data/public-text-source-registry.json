@@ -25,12 +25,12 @@
     "works": 21,
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
-    "publicationReadyWorks": 8,
-    "publicExamplesConnected": 34,
-    "rightsVerifiedWorks": 9,
-    "targetVerifiedExamples": 36,
-    "excerptReviewedExamples": 34,
-    "publicationReadyExamples": 34
+    "publicationReadyWorks": 9,
+    "publicExamplesConnected": 37,
+    "rightsVerifiedWorks": 10,
+    "targetVerifiedExamples": 39,
+    "excerptReviewedExamples": 37,
+    "publicationReadyExamples": 37
   },
   "works": [
     {
@@ -492,8 +492,18 @@
         "editionFixed": false,
         "targetVerificationCount": 0
       },
-      "publicationReady": false,
-      "note": "第1次探索では候補ページ未確認。追加探索対象。"
+      "publicationReady": true,
+      "note": "やたがらすナビ版で3例すべてtargetと短い引用範囲を監査済み。公開実例JSONへ3例接続済み。",
+      "yatanavi": {
+        "candidateFound": true,
+        "candidateUrl": "https://yatanavi.org/text/heichu/index.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 3,
+        "edition": "静嘉堂文庫本（孤本）",
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "作品トップで底本・著作権者を明記。翻刻部分は自由利用可。Wiki内容は特記なき限りCC BY-SA 4.0。"
+      }
     }
   ]
 }
