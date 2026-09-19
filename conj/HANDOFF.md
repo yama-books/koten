@@ -614,3 +614,20 @@ ROADMAPを現在地の正本として継続する。
 - runtime errors: 0
 
 次: Milestone D-15 紫式部日記5例。
+
+
+## 31. Milestone D-15 紫式部日記完了（2026-09-19）
+
+『紫式部日記』5例を渋谷栄一校訂Wikisource版で4ゲート完了。
+
+現在地:
+- 監査status確定: 16 / 21作品
+- publicationReady: 11
+- partial: 4
+- blocked-with-reason: 1
+- 公開実例: 59 / 120
+- runtime errors: 0
+
+同版のライセンスはCC BY-SA 3.0として保持。
+
+次: Milestone D-16 源氏物語5例。
