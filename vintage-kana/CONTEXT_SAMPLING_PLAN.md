@@ -85,3 +85,40 @@ Phase 1 の資料別字体分布から抽出した差の大きい字体につい
 `data/context-sampling-candidates.json`
 
 ここにある score / share は採取順を決めるための記述統計であり、「自然さ」「正しさ」を意味しない。
+
+
+## 段階的な保存
+
+実例収集は二段階に分ける。
+
+### Stage A: source-checked attested
+
+次が確定できれば、`provenance_type: attested` / `review_status: source-checked` として保存してよい。
+
+- witness
+- 対象字形
+- 個別出現位置（ページ、可能なら座標）
+- 出現位置へ戻れるURL
+- 同じページの翻刻または原画像参照先
+
+この段階では、字形と翻刻中の文字位置が厳密に対応していない場合、
+`context_alignment_status: page-level`
+とし、語・前後文字・連綿を推測しない。
+
+### Stage B: context-checked
+
+原画像と翻刻を位置対応させた後、
+
+- word
+- position_in_word
+- previous_char
+- next_char
+- renmen
+- 必要に応じて bunsetsu_position / grammatical_role
+
+を確定し、`review_status: context-checked`、
+`context_alignment_status: exact` へ昇格する。
+
+公開教材にはこの上で人間確認を要求する。
+
+この段階化は、実在する字形出現をコーパスへ取り込みつつ、未確認の文脈解析を混入させないために行う。
