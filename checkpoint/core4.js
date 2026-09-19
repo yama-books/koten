@@ -143,7 +143,8 @@ const CHECKPOINT_DATA_PATHS = {
   auditedInflectedFormIndex:"./data/audited_inflected_form_index_500.json", contextResolverRules:"./data/context_resolver_rules.json",
   knownTokenBoundaryIndex:"./data/known_token_boundary_index.json",
   hyakuninDisambiguationEvidence:"./data/hyakunin_disambiguation_evidence.json",
-  abeSeimeiGrammarEvidence:"./data/abe_seimei_grammar_evidence.json"
+  abeSeimeiGrammarEvidence:"./data/abe_seimei_grammar_evidence.json",
+  abeSeimeiKakariEvidence:"./data/abe_seimei_kakari_evidence.json"
 };
 
 async function loadCheckpointData(){
