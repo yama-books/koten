@@ -1,16 +1,16 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint 百人一首同形識別 exact phrase 回帰",
   "source": "hyakunin_disambiguation_evidence.json",
-  "tested": 17,
-  "passed": 17,
+  "tested": 26,
+  "passed": 26,
   "failed": 0,
-  "policy": "監査済み完全一致句だけをテストし、一般化精度とはみなさない。",
+  "policy": "監査済み・複数照合済みの完全一致句だけをテストし、一般化精度とはみなさない。",
   "expectedBreakdown": {
-    "exactResolve": 12,
+    "exactResolve": 20,
     "largerUnitSuppress": 4,
-    "nonAuxiliarySuppress": 1
+    "nonAuxiliarySuppress": 2
   },
   "cases": [
     {
@@ -146,6 +146,78 @@
       "phrase": "来ぬ",
       "focusSurface": "ぬ",
       "analysisUnit": "ぬ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "うつりにけりな",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "うつりにけりな",
+      "focusSurface": "な",
+      "analysisUnit": "な",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "いたづらに",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "わが身",
+      "focusSurface": "が",
+      "analysisUnit": "が",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "世にふる",
+      "focusSurface": "に",
+      "analysisUnit": "に",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "世にふる",
+      "focusSurface": "る",
+      "analysisUnit": "ふる",
+      "expected": "audited-exact-phrase-nonauxiliary",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "せ",
+      "analysisUnit": "せ",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "し",
+      "analysisUnit": "し",
+      "expected": "resolved-by-audited-exact-phrase",
+      "result": "PASS"
+    },
+    {
+      "poem": 9,
+      "phrase": "ながめせしまに",
+      "focusSurface": "に",
+      "analysisUnit": "に",
       "expected": "resolved-by-audited-exact-phrase",
       "result": "PASS"
     }
