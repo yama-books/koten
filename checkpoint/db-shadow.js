@@ -166,6 +166,45 @@ function leftSurfaceResolverRules(surface){
   return rules.filter(x=>x.surface===surface);
 }
 
+function hardBoundaryResolverRules(surface){
+  const rules=window.CHECKPOINT_DATA?.contextResolverRules?.hardBoundaryRules;
+  if(!Array.isArray(rules)) return [];
+  return rules.filter(x=>x.surface===surface);
+}
+
+function resolveByHardBoundary(text,hit){
+  const rules=hardBoundaryResolverRules(hit.surface);
+  if(!rules.length) return null;
+  const candidateIds=hitCandidateIds(hit);
+  const previousChar=hit.start>0 ? text.slice(hit.start-1,hit.start) : "";
+  for(const r of rules){
+    if(Array.isArray(r.previousChars) && r.previousChars.length && !r.previousChars.includes(previousChar)) continue;
+    const supported=(r.supportCandidateIds||[]).filter(id=>candidateIds.has(id));
+    if(r.mode==="singleCandidateResolve" && supported.length===1){
+      return {
+        status:"resolved-by-source-hard-boundary",
+        mode:r.mode,
+        supportCandidateIds:supported,
+        previousChar,
+        sourceCue:r.sourceCue||null,
+        safety:r.safety||null,
+        evidence:"context_resolver_rules.json + discrimination_source_usb3212.json"
+      };
+    }
+    if(supported.length){
+      return {
+        status:"candidate-support-only",
+        mode:r.mode||"supportOnly",
+        supportCandidateIds:supported,
+        previousChar,
+        sourceCue:r.sourceCue||null,
+        safety:r.safety||null
+      };
+    }
+  }
+  return null;
+}
+
 function resolveByLeftIndexedSurface(text,hit){
   const rules=leftSurfaceResolverRules(hit.surface);
   if(!rules.length) return null;
@@ -297,6 +336,8 @@ function resolveByBidirectionalContext(text,hit,previousEvidence){
 
 
 function resolveContextRequiredHit(text,hit){
+  const hardBoundaryResolution=resolveByHardBoundary(text,hit);
+  if(hardBoundaryResolution) return hardBoundaryResolution;
   const leftSurfaceResolution=resolveByLeftIndexedSurface(text,hit);
   if(leftSurfaceResolution) return leftSurfaceResolution;
   const cfg=contextResolverEntry(hit.surface);
@@ -725,7 +766,7 @@ function resolveDbShadowHits(text){
 
     if(h.matchPolicy==="context-required"){
       const contextResolution=resolveContextRequiredHit(text,h);
-      if(contextResolution?.status==="resolved-by-audited-connection" || contextResolution?.status==="resolved-by-audited-bidirectional-context" || contextResolution?.status==="resolved-by-source-left-surface"){
+      if(contextResolution?.status==="resolved-by-audited-connection" || contextResolution?.status==="resolved-by-audited-bidirectional-context" || contextResolution?.status==="resolved-by-source-left-surface" || contextResolution?.status==="resolved-by-source-hard-boundary"){
         resolved.push({
           ...h,
           contextResolution,
@@ -802,6 +843,7 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     sourceExactPhraseSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-phrase-larger-unit").length,
     bidirectionalContextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-audited-bidirectional-context").length,
     leftSurfaceResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-left-surface").length,
+    hardBoundaryResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-hard-boundary").length,
     exactPhraseSuppressedCount:state.suppressed.filter(h=>String(h.suppressedReason||"").startsWith("audited-exact-phrase-")).length,
     bunsetuBoundarySuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-bunsetu-lexical-unit").length,
     contextSupportedButSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="context-supported-but-not-unique").length,
