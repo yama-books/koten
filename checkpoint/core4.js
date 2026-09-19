@@ -144,7 +144,8 @@ const CHECKPOINT_DATA_PATHS = {
   knownTokenBoundaryIndex:"./data/known_token_boundary_index.json",
   hyakuninDisambiguationEvidence:"./data/hyakunin_disambiguation_evidence.json",
   abeSeimeiGrammarEvidence:"./data/abe_seimei_grammar_evidence.json",
-  abeSeimeiKakariEvidence:"./data/abe_seimei_kakari_evidence.json"
+  abeSeimeiKakariEvidence:"./data/abe_seimei_kakari_evidence.json",
+  hyakuninBunsetuBoundaryEvidence:"./data/hyakunin_bunsetu_boundary_evidence.json"
 };
 
 async function loadCheckpointData(){
