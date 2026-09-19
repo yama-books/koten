@@ -251,3 +251,52 @@ v0.8（context-required 130 / resolved 86）から:
 - 外部文法照合は `external_grammar_crosscheck_20260919.json` に隔離し、primary-source-verifiedへ昇格しない。
 
 次回は残85件のうち `て / を / に / と` の局所境界・統語判定を主対象とする。
+
+
+## 追加: 安倍晴明 助詞 exact evidence / shadow v0.12
+
+前回停止地点 v0.11（context-required 85 / resolved 121）から、同程度の進捗を一旦のゴールとして助詞層を追加した。
+
+### 新設
+- `data/abe_seimei_particle_evidence.json`
+  - 文法・助動詞evidenceと分離した助詞専用のpassage-specific evidence。
+  - 42 evidence entries が本文上47位置に作用。
+- `data/abe_seimei_particle_regression_20260919.json`
+  - 47位置の期待動作を固定。
+- `db-shadow.js`
+  - `resolved-by-source-exact-particle`
+  - `source-exact-particle-larger-unit`
+  を追加。
+- loader / manifest に新データを登録。
+
+### 今回処理した47位置
+- 接続助詞 `て`: **20位置 resolved**
+- 格助詞 `を`: **20位置 resolved**
+- `とて` 内部の `て`: **6位置 suppression**
+  - 「とて」一語扱いと「と＋て」分析の揺れを保持し、一意化しない。
+- `さて` 内部の `て`: **1位置 suppression**
+
+### 安全条件
+- 安倍晴明本文の完全一致箇所だけ。
+- 別本文へ一般化しない。
+- USB-3212の候補定義＋外部文法照合は補助根拠で、primary-source-verifiedとはしない。
+- learner-visible detectorには接続しない。
+
+### v0.12 実測
+- legacy unique: 310
+- DB raw: **310**
+- resolved: **161**
+- suppressed: **149**
+- DB only: **0**
+- resolved率: **51.9%**
+- context-required: **38**
+
+v0.11→v0.12:
+- resolved **121→161**
+- context-required **85→38**
+- 差分47位置は 40 resolved + 7 larger-unit suppression。
+
+残38:
+`に20 / と10 / が3 / て1 / ぬ1 / を1 / な1 / せ1`
+
+主ボトルネックは `に` と `と` に収束。
