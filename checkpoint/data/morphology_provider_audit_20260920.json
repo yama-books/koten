@@ -1,0 +1,269 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "title": "Checkpoint passage-independent morphology provider audit",
+  "stage": "post-fourth-blind-development-signal-audit",
+  "policy": "morphology_provider_policy.json",
+  "implementation": {
+    "files": [
+      "core4.js",
+      "db-shadow.js",
+      "data/morphology_provider_policy.json",
+      "data/local_syntax_feature_policy.json"
+    ],
+    "learnerVisibleChanged": false,
+    "resolverDecisionPathChanged": false,
+    "newSignalTiers": [
+      "audited-corpus-exact-signal",
+      "corpus-derived-suffix-signal"
+    ]
+  },
+  "derivationAudit": {
+    "source": "audited_inflection_evidence_500_full.json",
+    "sourceSurfaceCount": 447,
+    "suffixLengths": [
+      3,
+      2
+    ],
+    "minimumSupport": 3,
+    "requireUnanimousSignature": true,
+    "stableSuffixSignatureCount": 9,
+    "stableSuffixSignatures": [
+      {
+        "suffix": "しから",
+        "length": 3,
+        "supportCount": 10,
+        "pos": "形容詞",
+        "form": "未然形",
+        "conjugationClass": "シク活用",
+        "examples": [
+          "こはごはしから",
+          "むねむねしから",
+          "をさをさしから",
+          "さわがしから",
+          "たのもしから"
+        ]
+      },
+      {
+        "suffix": "しかり",
+        "length": 3,
+        "supportCount": 10,
+        "pos": "形容詞",
+        "form": "連用形",
+        "conjugationClass": "シク活用",
+        "examples": [
+          "わづらはしかり",
+          "あさましかり",
+          "すさましかり",
+          "よそほしかり",
+          "古めかしかり"
+        ]
+      },
+      {
+        "suffix": "しけれ",
+        "length": 3,
+        "supportCount": 8,
+        "pos": "形容詞",
+        "form": "已然形",
+        "conjugationClass": "シク活用",
+        "examples": [
+          "いとほしけれ",
+          "うつくしけれ",
+          "むつかしけれ",
+          "うれしけれ",
+          "わひしけれ"
+        ]
+      },
+      {
+        "suffix": "しき",
+        "length": 2,
+        "supportCount": 8,
+        "pos": "形容詞",
+        "form": "連体形",
+        "conjugationClass": "シク活用",
+        "examples": [
+          "たどたどしき",
+          "かうはしき",
+          "めざましき",
+          "おぼしき",
+          "こひしき"
+        ]
+      },
+      {
+        "suffix": "しく",
+        "length": 2,
+        "supportCount": 7,
+        "pos": "形容詞",
+        "form": "連用形",
+        "conjugationClass": "シク活用",
+        "examples": [
+          "いとどしく",
+          "あつしく",
+          "あやしく",
+          "おかしく",
+          "おなしく"
+        ]
+      },
+      {
+        "suffix": "しかれ",
+        "length": 3,
+        "supportCount": 3,
+        "pos": "形容詞",
+        "form": "命令形",
+        "conjugationClass": "シク活用",
+        "examples": [
+          "ひさしかれ",
+          "あしかれ",
+          "久しかれ"
+        ]
+      },
+      {
+        "suffix": "なかる",
+        "length": 3,
+        "supportCount": 3,
+        "pos": "形容詞",
+        "form": "連体形",
+        "conjugationClass": "ク活用",
+        "examples": [
+          "はかなかる",
+          "本意なかる",
+          "程なかる"
+        ]
+      },
+      {
+        "suffix": "なけれ",
+        "length": 3,
+        "supportCount": 3,
+        "pos": "形容詞",
+        "form": "已然形",
+        "conjugationClass": "ク活用",
+        "examples": [
+          "かぎりなけれ",
+          "かひなけれ",
+          "つたなけれ"
+        ]
+      },
+      {
+        "suffix": "けよ",
+        "length": 2,
+        "supportCount": 3,
+        "pos": "動詞",
+        "form": "命令形",
+        "conjugationClass": "カ行下二段活用",
+        "examples": [
+          "くだけよ",
+          "まうけよ",
+          "助けよ"
+        ]
+      }
+    ]
+  },
+  "heikeAtsumoriPostBlindAudit": {
+    "gold": "heike_atsumori_independent_gold_20260920.json",
+    "frozenBeforeProvider": true,
+    "totalGoldPositions": 24,
+    "grammarTargets": 14,
+    "previousMorphologySignalPositions": 3,
+    "grammarTargetsWithPreviousMorphologySignal": 3,
+    "signalBreakdown": {
+      "corpus-derived-suffix-signal": 1,
+      "audited-corpus-exact-signal": 2
+    },
+    "observedCases": [
+      {
+        "hit": {
+          "surface": "て",
+          "start": 11
+        },
+        "expectedAction": "resolveCandidate",
+        "signal": {
+          "surface": "しく",
+          "pos": "形容詞",
+          "form": "連用形",
+          "conjugationClass": "シク活用",
+          "evidenceTier": "corpus-derived-suffix-signal",
+          "supportCount": 7
+        },
+        "note": "『いとほしくて』。500例由来のsuffix signalであり、接続助詞てのhard resolveには使用しない。"
+      },
+      {
+        "hit": {
+          "surface": "けれ",
+          "start": 50
+        },
+        "expectedAction": "resolveCandidate",
+        "signal": {
+          "surface": "おぼえ",
+          "pos": "動詞",
+          "form": "連用形",
+          "conjugationClass": "ヤ行下二段活用",
+          "evidenceTier": "audited-corpus-exact-signal"
+        },
+        "note": "kana-only exact morphologyをsignal-onlyで観測。既存hard resolverへ昇格しない。"
+      },
+      {
+        "hit": {
+          "surface": "べき",
+          "start": 61
+        },
+        "expectedAction": "resolveAuxiliaryLemma",
+        "signal": {
+          "surface": "ある",
+          "pos": "動詞",
+          "form": "連体形",
+          "conjugationClass": "ラ行変格活用",
+          "evidenceTier": "audited-corpus-exact-signal"
+        },
+        "note": "kana-only exact morphologyをsignal-onlyで観測。"
+      }
+    ],
+    "tePositions": {
+      "total": 5,
+      "signaled": 1,
+      "details": [
+        {
+          "start": 11,
+          "role": "conjunctive",
+          "previousSignal": "しく:形容詞連用形",
+          "providerTier": "corpus-derived-suffix-signal"
+        },
+        {
+          "start": 39,
+          "role": "inside-larger-unit",
+          "previousSignal": null
+        },
+        {
+          "start": 40,
+          "role": "conjunctive",
+          "previousSignal": null
+        },
+        {
+          "start": 56,
+          "role": "inside-larger-unit",
+          "previousSignal": null
+        },
+        {
+          "start": 78,
+          "role": "aux-tsu-renyo",
+          "previousSignal": null
+        }
+      ]
+    },
+    "interpretation": [
+      "作品個別gold morphologyを追加せず、第四blind本文でprevious morphology coverageが0相当から3位置へ増えた。",
+      "ただし『て』5位置のうちsignalは1位置だけで、完了つと接続助詞てを一般に分離できる段階ではない。",
+      "coverage増加をresolver精度向上と混同しない。"
+    ]
+  },
+  "regressionInvariant": [
+    "previousFormEvidence() は既存resolver専用のまま変更していない。",
+    "新providerは localSyntaxFeaturesForHit() のpreviousMorphology / nextMorphology観測値にだけ接続。",
+    "audited-corpus-exact-signal / corpus-derived-suffix-signal は resolveContextRequiredHit() / resolveAmbiguousSurfaceHit() から参照されない。",
+    "したがって本変更単独ではresolved/suppressedのdecision pathを変更しない。"
+  ],
+  "next": [
+    "第五未使用作品goldをfreezeするまでは、新provider signalをhard resolverへ昇格しない。",
+    "右側auxiliary-chain signalと左側morphology signalの複合特徴を研究する。",
+    "公開準備はlearner-visible legacyを維持したまま、mobile/JSON load/hold表示の別ゲートで進める。"
+  ]
+}
