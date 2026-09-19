@@ -29,5 +29,25 @@
   "notes": [
     "groupCountsは paradigmId|form|track|canonicalEnding 単位。",
     "本文・anchorはGoogle Driveの公開前監査データに保持し、GitHubの実例索引には複製しない。"
-  ]
+  ],
+  "deploymentSmoke": {
+    "status": "passed",
+    "checkedAt": "2026-09-19",
+    "adapterSyntax": true,
+    "smokeInlineSyntax": true,
+    "lemmaPoolTotal": 117,
+    "nariLemmaPool": 94,
+    "tariLemmaPool": 23,
+    "expectedMainAdditions": 116,
+    "exampleIndexRecords": 120,
+    "publicExampleIndexRawTextLeakCount": 0,
+    "mainAdapterScript": true,
+    "mainLoader": true,
+    "mainBoot": true,
+    "noExampleGuard": true,
+    "embeddedItaduraFallback": true,
+    "tashiHasTakaru": true,
+    "tashiHasTakare": false,
+    "note": "GitHub上の現行main・runtime・4 JSON・smokeを横断したリポジトリ側検査。実機ブラウザ表示確認とは別。"
+  }
 }
