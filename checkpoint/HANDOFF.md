@@ -8,7 +8,7 @@
 - 英名 / GitHubフォルダ: Checkpoint / `checkpoint`
 - 日本語表示: 現在「古文予習」
 - 公開β: https://yama-books.github.io/koten/checkpoint/
-- GitHub: `yama-books/koten` の `main`
+- GitHub: `yama-books/koten`。Checkpoint開発正本は `checkpoint-main`（production `main` への直接push禁止）
 - Google Drive: 「古文予習ノート_作業」を正本候補・監査・研究データ置場とする
 
 ## 学習設計
@@ -1091,3 +1091,114 @@ Checkpointチームの作業対象は今後 **`checkpoint-main` ブランチ** �
 8. learner-visible global promotionはまだ行わない。
 
 再開用短句: **「checkpoint-main の HANDOFF 最終節から再開。次は passage-independent morphology provider signal-only」**
+
+
+## 2026-09-20 公開β準備: passage-independent morphology provider / public preflight
+
+### 方針
+- 公開βとshadow→learner-visible昇格を別レーンに分離した。
+- **公開βは learner-visible detector = legacy のまま進める。**
+- shadow detector / morphology provider は研究・監査専用。通常公開画面の判定へ接続しない。
+- Checkpoint開発は `checkpoint-main` のみ。production `main` へ直接push・force-pushしない。
+
+### passage-independent morphology provider
+- `data/morphology_provider_policy.json` を追加。
+- `db-shadow.js` に作品非依存の形態signal providerを追加。
+- 返却メタデータ:
+  - `evidenceTier`
+  - `source`
+  - `matchMode`（exact / derived-suffix）
+  - `resolverEligible`
+  - `supportCount`
+- 新しい観測tier:
+  1. `audited-corpus-exact-signal`
+     - `audited_inflection_evidence_500_full.json` の一意分析・2文字以上exact surface
+     - kana-onlyも観測可だが signal-only
+  2. `corpus-derived-suffix-signal`
+     - 監査500例だけから生成
+     - suffix長 3 / 2
+     - support 3件以上
+     - POS / form / conjugationClass 全一致のみ
+     - **候補削除・suppression解除・resolved昇格には使用しない**
+- 既存 `previousFormEvidence()` はresolver専用として変更していないため、新providerはresolver decision pathへ入っていない。
+- 平家物語「敦盛の最期」のgold由来exact morphologyは追加していない。
+
+### provider post-blind audit
+`data/morphology_provider_audit_20260920.json`
+
+第四blind 平家24位置:
+- previous morphology signal: **3/24**
+- grammar targetでsignalあり: **3/14**
+- 内訳:
+  - `いとほしく + て` → `しく` = 形容詞シク活用・連用形（500例suffix support 7）
+  - `おぼえ + けれ` → `おぼえ` = 動詞・連用形（full500 exact signal）
+  - `ある + べき` → `ある` = 動詞・連体形（full500 exact signal）
+- 「て」5位置のsignalは1位置のみ。接続助詞て / 語内部 / 完了つ連用形を一般分離できる段階ではない。
+- coverage向上をresolver精度向上として数えない。
+
+### 公開UIのshadow隔離
+公開前に性能上の問題を修正:
+- 従来 `ui1.js` はshadow debug panelが非表示でも `shadowAuditLegacyVsDb()` を毎render実行していた。
+- 修正後は `?debug=shadow` または `#shadow-debug` のときだけshadow auditを実行。
+- 通常公開UIではshadow解析を実行しない。
+
+さらに `core4.js` でprovider関連の重い研究データをlazy-load:
+- `sourceReviewedTokenMorphology`
+- `auditedInflectionEvidenceFull`
+- `morphologyProviderPolicy`
+- `localSyntaxFeaturePolicy`
+
+特に `audited_inflection_evidence_500_full.json` は約38万文字。通常公開経路では取得せず、shadow debug時のみ読む。
+
+### 公開前静的preflight
+`data/public_release_preflight_20260920.json`
+
+結果:
+- index.html参照ローカルアセット: **13/13存在**
+- JS: **12/12 構文PASS**
+- `CHECKPOINT_DATA_PATHS` のJSON: **31/31存在・JSON.parse PASS**
+- primary-source hold 5位置: 保護継続
+- learner-visible detector: legacy維持
+- shadow G6/G8 pendingは、shadow昇格条件でありlegacy-visible公開βとは分離
+
+公開βの残ブロッカー:
+1. 実ブラウザ / スマホ runtime smoke
+2. production統合経路の確認
+
+### branch統合上の注意
+2026-09-20時点でGitHub APIの `main...checkpoint-main` 比較は **No common ancestor** を返した。
+- 原因をCheckpoint側で推測して履歴を書き換えない。
+- `main` へのforce-push / reset / direct mergeはしない。
+- production統合担当側で、安全な統合方法（通常merge可否、必要ならcherry-pick / ファイル単位統合）を確認する。
+
+### readiness
+`data/shadow_promotion_readiness_20260919.json` を v0.4 へ更新。
+- shadow: stage-2維持
+- provider: implemented signal-only
+- 新hard resolverを作る場合: **第五未使用作品goldを先にfreeze → blind**
+- public beta: `CONDITIONAL_PASS`
+  - static checks PASS
+  - runtime smoke PENDING
+  - production integration PENDING
+
+### 今回の主要コミット（checkpoint-main）
+- `deb1aa0be42653a4bc0ecf2e86d3f6b00e35112a` provider用data load
+- `849b78bfd7a4d65546f108669df33721fb67a942` passage-independent morphology signals
+- `898fb435b8cc277f18b98ad32a00c806bcc4c2fa` provider safety policy
+- `0ebe20075d4c1004062fb0d52f806b848ff04837` provider audit
+- `a7a6f001681e91a1865c65bbb1229333223f1044` normal UIでshadow auditを停止
+- `71d1dd68e9dc0870b45939e5062e2a2680e89eea` heavy shadow data lazy-load
+- `7e610ef6cbd3a0430acc10260e3cf03a1023c3f9` public release preflight
+- `43c906c34180e6a336142431d023393c2b837516` readiness v0.4
+
+### 次回再開
+最優先:
+1. `checkpoint-main` を確認
+2. `public_release_preflight_20260920.json` のR8 runtime browser/mobile smoke
+3. normal URLでshadow panel非表示・shadow data skippedを確認
+4. 入力 → マーカー → drawer → レベル切替 → リセットのsmoke
+5. production統合担当へ No common ancestor 状態を伝える
+6. shadow研究は公開作業とは分け、hard rule追加前に第五blindをfreeze
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。公開βruntime smokeを実施」**
