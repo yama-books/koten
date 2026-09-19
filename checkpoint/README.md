@@ -23,6 +23,12 @@ CHJ / UniDic は候補発見・実例・判定根拠に使い、学校文法の�
 ## 公開β
 https://yama-books.github.io/koten/checkpoint/
 
+## モバイル・学習履歴
+- スマホ向けに44px操作領域、safe-area、drawerのモバイルスクロールを調整
+- 「ここはわかる」で隠したポイントはチェックリスト下部に一覧化
+- 個別に「戻す」／「すべて戻す」が可能
+- 履歴は現在の本文だけに保持し、本文を変更すると自動クリア
+
 ## リポジトリ運用
 - Checkpoint の開発正本ブランチ: `checkpoint-main`
 - Checkpoint 作業を `main` へ直接 push しない
