@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.7",
+  "schemaVersion": "0.8",
   "updated": "2026-09-19",
   "title": "Checkpoint DB shadow audit 2026-09-19",
   "scope": {
@@ -26,9 +26,10 @@
     "rawCoverageOfUniqueLegacy": 1,
     "resolvedMatchRateOfUniqueLegacy": 0.27741935483870966,
     "suppressionReasons": {
-      "context-required-not-yet-resolved": 132,
+      "context-required-not-yet-resolved": 130,
       "indexed-larger-surface": 48,
       "known-larger-token": 33,
+      "source-exact-bunsetu-lexical-unit": 2,
       "source-exact-phrase-larger-unit": 11
     },
     "automaticKakariSignals": 0,
@@ -343,8 +344,8 @@
     "を": 21,
     "し": 13,
     "ば": 8,
-    "な": 5,
-    "が": 5,
+    "な": 4,
+    "が": 4,
     "せ": 3,
     "る": 1,
     "ぬ": 1
@@ -361,5 +362,12 @@
     "kakariLinks": 5,
     "kakariEndingHitsLinked": 4,
     "kakariEllipsis": 1
+  },
+  "hyakuninBunsetuBoundary": {
+    "source": "hyakunin_bunsetu_boundary_evidence.json",
+    "currentEntries": 1,
+    "currentCase": "第9首",
+    "suppressedInFourSamples": 2,
+    "interpretation": "文節監査が名詞『ながめ』と明示した範囲だけで、内部の『な』『が』を独立文法候補から外した。『せし』『まに』は内部文法を推測せず保留。"
   }
 }
