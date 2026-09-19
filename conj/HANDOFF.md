@@ -567,3 +567,20 @@ ROADMAPを現在地の正本として継続する。
 - 公開実例総数: 42
 - 十訓抄 status: partial
 - 次: D-12 宇治拾遺物語6例
+
+
+## 28. Milestone D-12 宇治拾遺物語完了（2026-09-19）
+
+『宇治拾遺物語』6例を、やたがらすナビ陽明文庫本で4ゲート完了。
+
+現在地:
+- 監査status確定: 13 / 21作品
+- publicationReady: 10
+- partial: 2
+- blocked-with-reason: 1
+- 公開実例: 48 / 120
+- runtime errors: 0
+
+作品単位の権利・底本確認 + 用例単位のtarget/excerpt監査方式を継続する。
+
+次: Milestone D-13 枕草子6例。
