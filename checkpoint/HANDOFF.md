@@ -1202,3 +1202,113 @@ Checkpointチームの作業対象は今後 **`checkpoint-main` ブランチ** �
 
 再開短句:
 **「checkpoint-main HANDOFF最終節から再開。公開βruntime smokeを実施」**
+
+
+## 2026-09-20 継続: スマホ対応・「わかる」履歴
+
+### 「ここはわかる」履歴
+学習者が `✓ ここはわかる` を押したポイントを、予習チェックリスト下部に一覧表示する機能を追加。
+
+仕様:
+- 表面形
+- カテゴリ
+- 前後8文字程度の文脈（対象を【】で表示）
+- 各行の `戻す`
+- `すべて戻す`
+- 0件時は履歴パネル非表示
+- `aria-live="polite"` で更新通知
+- 確認レベル変更では履歴を維持
+- 本文自体を変更した場合は `dismissedKeys` を自動クリア
+- 「戻す」後、現在の確認レベル対象なら本文・チェックリストへ再表示
+
+実装:
+- `index.html`: `knownHistory / knownHistoryStatus / knownList / restoreAllKnown`
+- `core1.js`: `dismissedTextSnapshot`
+- `ui1.js`: `knownPointContext / uniqueKnownHits / renderKnownHistory`
+- `events.js`: 個別復帰・全件復帰
+- `styles.css`: desktop/mobile history layout
+
+### スマホ向けUI改善
+`styles.css` / `events.js` を調整:
+- viewport metaは既存でOK
+- 680px / 430px breakpoint
+- mobile主要操作を44px以上
+- iPhone下部safe-area対応
+- drawerを `92dvh` 対応
+- drawer open時にbody scroll lock
+- drawer自体はtouch scroll維持
+- 430px以下ではdrawer footerを縦積み
+- 「わかる」履歴も1列化
+- textarea 17pxを維持し、iOSの16px未満focus zoomを回避
+
+一文字の本文マーカー自体は横幅が小さいが、同じポイントを大きいチェックリスト項目から開けるため、スマホではチェックリストを代替タップ面として使える。
+
+### mobile static audit
+`data/mobile_ui_audit_20260920.json`
+
+結果: **STATIC_PASS_RUNTIME_DEVICE_PENDING**
+
+主なPASS:
+- viewport
+- responsive breakpoints
+- 44px touch targets
+- safe-area
+- 92dvh drawer
+- drawer scroll / background lock
+- fixed-width overflow riskなし
+- understood-history responsive layout
+- JS最終構文 **12/12 PASS**
+
+legacy detectorの計算量参考:
+- 安倍晴明長文サンプル 877文字
+- browser-free V8で500回実行
+- 1011ms合計
+- 平均 **約2.022ms / detect**
+
+これはiPhone実測値ではないが、通常公開経路で明らかな計算量爆発は見られない。
+
+### 実機確認がまだPENDINGの理由
+`.github/workflows/deploy-pages.yml` は:
+- push trigger = `main`
+- `checkpoint-main` は通常Pagesへ配信されない
+
+したがって、現在の公開URLで `checkpoint-main` の最新UIを確認したと偽装しない。
+また他チームがproduction mainを使用しているため、Checkpoint側からpreview目的でproduction Pagesを上書きしない。
+
+production統合後にiPhone Safariで確認:
+1. portrait / landscape
+2. 横スクロールなし
+3. sample3 / sample4
+4. 一文字マーカーとチェックリスト双方からdrawerを開く
+5. drawer scroll中に背景が動かない
+6. 「ここはわかる」2-3件 → 履歴一覧
+7. 個別 `戻す`
+8. `すべて戻す`
+9. 本文変更 → 履歴自動クリア
+10. normal URLでshadow debug非表示
+
+### release preflight更新
+`public_release_preflight_20260920.json`
+- R8: `PARTIAL_PASS`（mobile static PASS / device runtime pending）
+- R11: `PASS`（understood-point history）
+- legacy-visible public betaは引き続き `CONDITIONAL_PASS`
+
+### 今回の主要コミット
+- `b90bf6cf68d27a9b79cdb5e2d5abd92f1f307cd6` understood history HTML
+- `4b3c213999a64999031d3582f6539b6123092847` current-text scope
+- `1545f4fa0232df0698c911e571b4e25c7e3f4f90` history rendering
+- `f8a223d95caf81f91b395f594785c3981ff45ab5` restore actions / mobile drawer lock
+- `8a016e5f3692e9a632edca0b1bc583ec659a5d47` responsive / safe-area styling
+- `14803fdc62c0389e89e2ed94f5af4f73d0540215` mobile UI audit
+- `d3fad0d89a6b5f9f65420146d3b96bd589159ac1` release preflight update
+- `ec3e9ac2929fb70bf55b068bbe46e3c2b5774dbd` restore-level explanation
+
+### 次回の公開作業
+1. `checkpoint-main` を維持
+2. production統合方法をkoten側で確認
+3. 統合後のPagesをiPhone Safariで上記10項目smoke
+4. 問題なければ public beta runtime gateをPASSへ
+5. shadow研究は第五blindを別レーンで継続
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。production統合後のiPhone smokeへ」**
