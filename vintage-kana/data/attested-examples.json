@@ -1,5 +1,62 @@
 {
   "schemaVersion": 1,
-  "status": "skeleton",
-  "examples": []
+  "status": "phase2-source-checked-pilot-started",
+  "examples": [
+    {
+      "example_id": "att-brsk005-u3057-f07b-x0563-y2069",
+      "provenance_type": "attested",
+      "glyph_id": "U+3057",
+      "character": "し",
+      "kana": "し",
+      "jibo": "之",
+      "diacritic": "none",
+      "source_work": "butsurui_shoko",
+      "source_witness": "brsk005",
+      "source_volume": "巻之五",
+      "source_location": {
+        "folio": "7ウ",
+        "viewer_page": "brsk005-016",
+        "viewer_display_page": "P.014",
+        "x": 563,
+        "y": 2069
+      },
+      "occurrence_url": "https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/brsk005/html/brsk005-016.html?X=0563&Y=2069&unicode=U+3057",
+      "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/show.php?issue=5&num=16&page=15&title=buturuisyoko",
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/brsk/txt/brsk-005.txt#7ウ",
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+3057 し（字母：之）; 諸国方言物類称呼_巻之五は3件。個別出現URLは brsk005-016 X=0563 Y=2069."
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-fuminoha",
+          "locator": "brsk005-016 / P.014。viewerページに同ページ翻刻あり。"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-brsk",
+          "locator": "巻五 7ウ。底本は国語研 W52-5/Ko85/5, 資料ID1001089836。"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A pilot. 個別出現座標と同一ページの公式翻刻までは追跡済み。対象字形と翻刻中の具体的な語・前後文字・連綿の文字単位対応は未確認のため、context-checked へは昇格させない。教材には使用しない。"
+    }
+  ],
+  "lastUpdatedAt": "2026-09-19",
+  "reviewPolicy": "source-checked attested records may have page-level context only; context-checked requires exact glyph-to-transcription alignment"
 }
