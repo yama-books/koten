@@ -1,0 +1,78 @@
+{
+  "updated": "2026-09-19",
+  "work": "紫式部日記",
+  "status": "pilot / all-gates-passed",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "紫式部日記 (渋谷栄一校訂)",
+    "url": "https://ja.wikisource.org/wiki/紫式部日記_(渋谷栄一校訂)",
+    "rightsVerified": true,
+    "sourceLicense": "CC BY-SA 3.0",
+    "rightsStatus": "Wikisource page explicitly licensed CC BY-SA 3.0",
+    "note": "同一校訂版で5選抜箇所の語形・文法形を照合。"
+  },
+  "records": [
+    {
+      "id": "adjv-015",
+      "chjTarget": "顕証なれ",
+      "publicTarget": "顕証なれ",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/紫式部日記_(渋谷栄一校訂)",
+      "excerpt": "あなたはいと顕証なれば、この奥にやをらすべりとどまりてゐたり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "已然形「なれ」＋接続助詞「ば」を確認。"
+    },
+    {
+      "id": "adjv-034",
+      "chjTarget": "まほなら",
+      "publicTarget": "まほなら",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/紫式部日記_(渋谷栄一校訂)",
+      "excerpt": "うちとけたる折こそ、まほならぬかたちもうちまじりて見え分かれけれ",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "未然形「なら」＋打消「ぬ」を確認。"
+    },
+    {
+      "id": "adjv-050",
+      "chjTarget": "なかなかなり",
+      "publicTarget": "なかなかなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/紫式部日記_(渋谷栄一校訂)",
+      "excerpt": "侍従の宰相、左の宰相の中将、公信の中将など、次々に寄り来つつとぶらふも、いとなかなかなり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "終止形「なり」を確認。"
+    },
+    {
+      "id": "adjv-074",
+      "chjTarget": "若やかなる",
+      "publicTarget": "若やかなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/紫式部日記_(渋谷栄一校訂)",
+      "excerpt": "若やかなる人こそ、もののほど知らぬやうにあだへたるも罪許さるれ",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-096",
+      "chjTarget": "あざやかに",
+      "publicTarget": "あざやかに",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/紫式部日記_(渋谷栄一校訂)",
+      "excerpt": "龍頭鷁首の生けるかたち思ひやられて、あざやかにうるはし",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連用形「に」を確認。"
+    }
+  ],
+  "counts": {
+    "total": 5,
+    "rightsVerified": 5,
+    "targetVerified": 5,
+    "excerptReviewed": 5,
+    "publicationEnabled": 5
+  }
+}
