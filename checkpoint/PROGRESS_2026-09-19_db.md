@@ -668,3 +668,26 @@ gold先固定→shadow無調整baseline保存まで完了。
 - 残ブロッカーは runtime browser/mobile smoke と production統合確認。
 - GitHub APIの `main...checkpoint-main` compareは `No common ancestor`。Checkpoint側では履歴改変せず、統合担当側の確認事項とする。
 - shadow promotion readiness v0.4。G6/G8はshadow昇格レーンで継続し、公開βとは分離。
+
+
+## 2026-09-20 スマホ対応・「わかる」履歴
+
+- 「ここはわかる」で隠したポイントを、チェックリスト下部に文脈付き一覧表示。
+- 個別「戻す」・「すべて戻す」を実装。
+- 本文変更時に `dismissedKeys` を自動クリアし、履歴をcurrent textへ限定。
+- mobile:
+  - 44px touch target
+  - safe-area
+  - 92dvh drawer
+  - drawer open時body scroll lock
+  - 430px以下footer縦積み
+  - history 1列化
+- mobile static audit: `mobile_ui_audit_20260920.json`
+  - STATIC_PASS_RUNTIME_DEVICE_PENDING
+- JS最終構文 12/12 PASS。
+- 安倍晴明877文字long sampleをlegacy detectorだけでbrowser-free V8 500回計測し、平均約2.022ms/detect。
+- deploy-pages workflowはmain pushのみ。checkpoint-main最新UIのiPhone実機smokeはproduction統合後に実施する。
+- public preflight:
+  - R8 PARTIAL_PASS
+  - R11 understood history PASS
+  - release status CONDITIONAL_PASS継続。
