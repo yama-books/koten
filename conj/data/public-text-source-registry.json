@@ -25,15 +25,15 @@
     "works": 21,
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
-    "publicationReadyWorks": 9,
-    "publicExamplesConnected": 42,
-    "rightsVerifiedWorks": 11,
-    "targetVerifiedExamples": 44,
-    "excerptReviewedExamples": 42,
-    "publicationReadyExamples": 42,
+    "publicationReadyWorks": 10,
+    "publicExamplesConnected": 48,
+    "rightsVerifiedWorks": 12,
+    "targetVerifiedExamples": 50,
+    "excerptReviewedExamples": 48,
+    "publicationReadyExamples": 48,
     "auditStatusKnownWorks": 12,
     "blockedWorks": 1,
-    "partialWorks": 2
+    "partialWorks": 1
   },
   "works": [
     {
@@ -149,8 +149,19 @@
         "editionFixed": false,
         "targetVerificationCount": 0
       },
-      "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "publicationReady": true,
+      "note": "やたがらすナビ陽明文庫本で6例すべてtargetと短い引用範囲を監査済み。公開実例JSONへ6例接続済み。",
+      "yatanavi": {
+        "candidateFound": true,
+        "candidateUrl": "https://yatanavi.org/text/yomeiuji/index.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 6,
+        "edition": "陽明文庫本",
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "作品トップで底本・著作権者・編集方針を確認。校訂本文はWikiのCC BY-SA 4.0、翻刻部分は自由利用可。"
+      },
+      "auditStatus": "publicationReady"
     },
     {
       "work": "枕草子",
