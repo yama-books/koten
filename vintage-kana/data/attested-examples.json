@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "phase2-source-checked-ise-comparison-pilot-established",
+  "status": "phase2-source-checked-ise-same-jibo-reversal-captured",
   "examples": [
     {
       "example_id": "att-brsk005-u3057-f07b-x0563-y2069",
@@ -1000,16 +1000,1166 @@
       "reviewed_by": "research-pass-2026-09-19",
       "reviewed_at": "2026-09-19",
       "notes": "Stage A Ise comparative sample. Official glyph-frequency page exposes the occurrence page/ID/X/Y under the U+1B012 section. The occurrence image click resolves to dummy.png in the current retrieval environment, so exact glyph-to-transcription alignment and renmen are pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b092-200014445-00051-id0267-x0746-y1738",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00051",
+        "occurrence_image_id": "ID0267",
+        "x": 746,
+        "y": 1738,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00051_ID0267_X0746_Y1738.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b092-200014445-00075-id0010-x3183-y1732",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00075",
+        "occurrence_image_id": "ID0010",
+        "x": 3183,
+        "y": 1732,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00075_ID0010_X3183_Y1732.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b092-issg001-042-id0037-x0916-y0358",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-042",
+        "occurrence_image_id": "ID0037",
+        "x": 916,
+        "y": 358,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-042_ID0037_X0916_Y0358.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b092-issg001-042-id0073-x0697-y0436",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-042",
+        "occurrence_image_id": "ID0073",
+        "x": 697,
+        "y": 436,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-042_ID0073_X0697_Y0436.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b092-issg001-043-id0007-x1101-y0812",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-043",
+        "occurrence_image_id": "ID0007",
+        "x": 1101,
+        "y": 812,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-043_ID0007_X1101_Y0812.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b092-issg001-052-id0026-x1026-y1523",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-052",
+        "occurrence_image_id": "ID0026",
+        "x": 1026,
+        "y": 1523,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-052_ID0026_X1026_Y1523.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b092-issg001-060-id0042-x0847-y0601",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-060",
+        "occurrence_image_id": "ID0042",
+        "x": 847,
+        "y": 601,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-060_ID0042_X0847_Y0601.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b092-issg001-073-id0128-x0200-y0937",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-073",
+        "occurrence_image_id": "ID0128",
+        "x": 200,
+        "y": 937,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-073_ID0128_X0200_Y0937.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b092-issg001-080-id0076-x0755-y0616",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-080",
+        "occurrence_image_id": "ID0076",
+        "x": 755,
+        "y": 616,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-080_ID0076_X0755_Y0616.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b092-issg001-132-id0068-x0644-y1282",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B092",
+      "character": "𛂒",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-132",
+        "occurrence_image_id": "ID0068",
+        "x": 644,
+        "y": 1282,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B092 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-132_ID0068_X0644_Y1282.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂒 / U+1B092 / MJ090152"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00027-id0062-x2822-y1777",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00027",
+        "occurrence_image_id": "ID0062",
+        "x": 2822,
+        "y": 1777,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00027_ID0062_X2822_Y1777.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00028-id0074-x2526-y1564",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00028",
+        "occurrence_image_id": "ID0074",
+        "x": 2526,
+        "y": 1564,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00028_ID0074_X2526_Y1564.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00048-id0192-x1860-y0726",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00048",
+        "occurrence_image_id": "ID0192",
+        "x": 1860,
+        "y": 726,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00048_ID0192_X1860_Y0726.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00050-id0194-x1588-y1970",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00050",
+        "occurrence_image_id": "ID0194",
+        "x": 1588,
+        "y": 1970,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00050_ID0194_X1588_Y1970.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00054-id0053-x2814-y1205",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00054",
+        "occurrence_image_id": "ID0053",
+        "x": 2814,
+        "y": 1205,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00054_ID0053_X2814_Y1205.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00059-id0134-x2277-y1903",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00059",
+        "occurrence_image_id": "ID0134",
+        "x": 2277,
+        "y": 1903,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00059_ID0134_X2277_Y1903.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00061-id0280-x1023-y1843",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00061",
+        "occurrence_image_id": "ID0280",
+        "x": 1023,
+        "y": 1843,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00061_ID0280_X1023_Y1843.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00070-id0104-x2192-y1460",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00070",
+        "occurrence_image_id": "ID0104",
+        "x": 2192,
+        "y": 1460,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00070_ID0104_X2192_Y1460.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00070-id0239-x0895-y1411",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00070",
+        "occurrence_image_id": "ID0239",
+        "x": 895,
+        "y": 1411,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00070_ID0239_X0895_Y1411.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-200014445-u1b094-200014445-00074-id0266-x0887-y0550",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "200014445",
+      "source_volume": null,
+      "source_location": {
+        "viewer_page": "200014445_00074",
+        "occurrence_image_id": "ID0266",
+        "x": 887,
+        "y": 550,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness 200014445; image locator U+306D_200014445_00074_ID0266_X0887_Y0550.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b094-issg001-055-id0153-x0222-y1641",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-055",
+        "occurrence_image_id": "ID0153",
+        "x": 222,
+        "y": 1641,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-055_ID0153_X0222_Y1641.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b094-issg001-071-id0083-x0537-y1275",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-071",
+        "occurrence_image_id": "ID0083",
+        "x": 537,
+        "y": 1275,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-071_ID0083_X0537_Y1275.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
+    },
+    {
+      "example_id": "att-issg001-u1b094-issg001-079-id0118-x0306-y1433",
+      "provenance_type": "attested",
+      "glyph_id": "U+1B094",
+      "character": "𛂔",
+      "kana": "ね",
+      "jibo": "年",
+      "diacritic": "none",
+      "source_work": "ise_monogatari",
+      "source_witness": "issg001",
+      "source_volume": "下巻",
+      "source_location": {
+        "viewer_page": "issg001-079",
+        "occurrence_image_id": "ID0118",
+        "x": 306,
+        "y": 1433,
+        "sampling_strategy": "all-observed-for-targeted-ise-witness"
+      },
+      "occurrence_url": null,
+      "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B306D.html",
+      "source_image_ref": null,
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": null,
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "U+1B094 section (ね / 字母 年), witness issg001; image locator U+306D_issg001-079_ID0118_X0306_Y1433.jpg"
+        },
+        {
+          "type": "master_list",
+          "source_id": "ninjal-kana-list",
+          "locator": "ね / 字母 年 / 𛂔 / U+1B094 / MJ090154"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A, complete occurrence capture for this targeted Ise witness/glyph pair. Exact glyph-to-transcription alignment, word context, and renmen remain pending. Not for teaching."
     }
   ],
   "lastUpdatedAt": "2026-09-19",
   "reviewPolicy": "source-checked attested records may have page-level context only; context-checked requires exact glyph-to-transcription alignment",
   "stats": {
-    "totalExamples": 19,
-    "sourceChecked": 19,
+    "totalExamples": 42,
+    "sourceChecked": 42,
     "contextChecked": 0,
     "humanConfirmed": 0,
-    "variantGlyphExamples": 15,
-    "iseMonogatariExamples": 10
+    "variantGlyphExamples": 38,
+    "iseMonogatariExamples": 33
   }
 }
