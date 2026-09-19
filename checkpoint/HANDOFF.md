@@ -199,3 +199,15 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 - suppressed内訳: `context-required-not-yet-resolved` **151** / `indexed-larger-surface` **51** / `known-larger-token` **31**。
 - unresolved上位: `て 28 / に 28 / と 23 / を 21 / し 13 / な 8 / ば 8 / が 6 / る 6 / せ 6 / む 3 / ぬ 1`。
 - ここからはresolved数を無理に上げず、①既知語内部、②接続根拠あり、③本当に文脈解析が必要、の3群へ分解する。
+
+
+## 2026-09-19 追加: 安倍晴明 source evidence
+
+- File Libraryの `安倍晴明_本文・文法・語彙整理.docx` に、本文全体・助動詞一覧・係り結び・敬語・歴史的仮名遣い・難語が整理されていることを再確認。
+- 同文書を `abe_seimei_grammar_evidence.json` 24件と `abe_seimei_vocabulary_evidence.json` 29件へ分離してDB化。
+- grammar evidenceは完全一致句だけに適用し、別本文へ一般化しない。回帰24/24 PASS。
+- exact evidenceで、`入らむ` と `ならむ` 内部の `らむ` を「現在推量らむ」一語として扱う誤検出を抑制。これは本アプリの「最大の意味単位＋切り方をヒントで示す」方針に直結する重要修正。
+- `黄なる` は同文書に「形容動詞『黄なり』の連体形、断定ではない」と明示されているため内部の `な・る` を抑制。
+- 難語DBの `塞がる` と `かたり` をwhole-token境界へ入れ、内部の `が・る・たり` を抑制。
+- 4サンプル shadow v0.7: raw 310 / resolved 85 / suppressed 225 / context-required 134 / DB only 0。
+- learner-visible detectorは依然legacy。source-exact結果も、現段階ではshadow監査に限定する。
