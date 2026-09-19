@@ -1,7 +1,7 @@
 {
   "updated": "2026-09-19",
   "work": "土佐日記",
-  "status": "pilot / partial-publication-enabled",
+  "status": "pilot / all-gates-passed",
   "provider": "Wikisource",
   "edition": {
     "title": "土佐日記 (國文大觀)",
@@ -19,7 +19,9 @@
       "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
-      "note": "連用形「なり」＋完了「つる」を確認。"
+      "note": "連用形「なり」＋完了「つる」を確認。",
+      "excerpt": "あまぐものはるかなりつる桂川そでをひでゝもわたりぬるかな",
+      "sourceLine": 403
     },
     {
       "id": "adjv-019",
@@ -27,9 +29,11 @@
       "publicTarget": "いたづらなれ",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "已然形「なれ」＋接続助詞「ば」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "已然形「なれ」＋接続助詞「ば」を確認。",
+      "excerpt": "船もいださでいたづらなればある人の詠める",
+      "sourceLine": 230
     },
     {
       "id": "adjv-047",
@@ -37,9 +41,11 @@
       "publicTarget": "ゐやゝかなり",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "踊り字表記差。終止形「なり」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "踊り字表記差。終止形「なり」を確認。",
+      "excerpt": "家の人のいで入りにくげならずゐやゝかなり",
+      "sourceLine": 396
     },
     {
       "id": "adjv-068",
@@ -47,9 +53,11 @@
       "publicTarget": "あさらかなる",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "濁点表記差。連体形「なる」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "濁点表記差。連体形「なる」を確認。",
+      "excerpt": "ある人あさらかなる物もてきたり",
+      "sourceLine": 370
     },
     {
       "id": "adjv-091",
@@ -57,16 +65,18 @@
       "publicTarget": "密に",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "漢字／かな表記差。連用形「に」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "漢字／かな表記差。連用形「に」を確認。",
+      "excerpt": "男ども密にいふなり",
+      "sourceLine": 370
     }
   ],
   "counts": {
     "total": 5,
     "rightsVerified": 5,
     "targetVerified": 5,
-    "excerptReviewed": 1,
-    "publicationEnabled": 1
+    "excerptReviewed": 5,
+    "publicationEnabled": 5
   }
 }
