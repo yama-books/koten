@@ -65,7 +65,8 @@
     "stage2GeneralizationCheckpoint4Works": "stage2_generalization_checkpoint_20260920.json",
     "morphologyProviderPolicy": "morphology_provider_policy.json",
     "morphologyProviderAudit": "morphology_provider_audit_20260920.json",
-    "publicReleasePreflight": "public_release_preflight_20260920.json"
+    "publicReleasePreflight": "public_release_preflight_20260920.json",
+    "mobileUiAudit": "mobile_ui_audit_20260920.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -156,6 +157,10 @@
     "公開βとshadow learner-visible昇格を別ゲート化。legacy-visible public betaは静的preflightを通し、shadow G6/G8 pendingは別レーンとして保持。",
     "通常公開UIではshadowAuditLegacyVsDbを実行しないようui1.jsを変更。debug=shadow/#shadow-debug時のみshadow解析。",
     "約38万文字の500例full morphology DBを含むprovider関連データはshadow debug時だけlazy-loadし、通常公開経路の負荷から分離。",
-    "2026-09-20時点でmain...checkpoint-main比較がNo common ancestor。Checkpoint側は履歴改変せず、production統合担当側の確認事項としてrelease preflightに記録。"
+    "2026-09-20時点でmain...checkpoint-main比較がNo common ancestor。Checkpoint側は履歴改変せず、production統合担当側の確認事項としてrelease preflightに記録。",
+    "スマホ向けに44pxタップ領域、safe-area、92dvh drawer、背景スクロール停止、430px以下のfooter縦積みを追加。",
+    "「ここはわかる」で隠したポイントを文脈付き一覧として表示し、個別復帰・全件復帰を追加。本文変更時は履歴を自動リセット。",
+    "877文字の安倍晴明long sampleをlegacy detectorのみでbrowser-free V8計測し、平均約2.022ms/detect（500回計測）。端末実測ではないが計算量の異常増大は見られない。",
+    "checkpoint-mainはdeploy-pages workflowのmain push対象外。実機Pages smokeはproduction統合後に実施する。"
   ]
 }
