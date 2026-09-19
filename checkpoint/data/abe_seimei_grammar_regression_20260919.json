@@ -1,16 +1,16 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "Checkpoint 安倍晴明 exact grammar evidence 回帰",
   "source": "abe_seimei_grammar_evidence.json",
-  "tested": 30,
-  "passed": 30,
+  "tested": 38,
+  "passed": 38,
   "failed": 0,
   "policy": "ユーザー提供『安倍晴明_本文・文法・語彙整理.docx』に明示された句だけを完全一致で検証。一般規則へ自動一般化しない。",
   "breakdown": {
-    "resolveCandidateOrLemma": 17,
-    "suppressInsideLargerUnit": 13
+    "resolveCandidateOrLemma": 24,
+    "suppressInsideLargerUnit": 14
   },
   "result": "PASS",
-  "note": "既存28件に「物もなし」内部の「な」「し」境界抑制2件を追加し、30/30 PASS。外部辞書照合は境界確認にのみ使用。"
+  "note": "停止時点38/38 PASS。30件時点以後、サ変「し」exact evidence 7件と「うち合せて」内部「せ」境界1件を追加。『入らむとし給へば』は同一evidenceが本文中2位置に一致するため、実位置ではsource-exact resolvedが1件多い。"
 }
