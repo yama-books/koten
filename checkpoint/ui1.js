@@ -78,8 +78,64 @@ function renderShadowDebugPanel(text, legacyHits, audit){
   ].join("\n");
 }
 
+
+function knownPointContext(text,h){
+  const left=Math.max(0,h.start-8);
+  const right=Math.min(text.length,h.end+8);
+  const before=text.slice(left,h.start);
+  const focus=text.slice(h.start,h.end) || h.pattern || "";
+  const after=text.slice(h.end,right);
+  return `${left>0?"…":""}${before}【${focus}】${after}${right<text.length?"…":""}`;
+}
+
+function uniqueKnownHits(detectedHits){
+  const out=[];
+  const seen=new Set();
+  for(const h of detectedHits||[]){
+    const key=hitKey(h);
+    if(!dismissedKeys.has(key) || seen.has(key)) continue;
+    seen.add(key);
+    out.push(h);
+  }
+  return out.sort((a,b)=>a.start-b.start || a.end-b.end || String(a.type).localeCompare(String(b.type)));
+}
+
+function renderKnownHistory(text,detectedHits){
+  const box=document.getElementById("knownHistory");
+  const status=document.getElementById("knownHistoryStatus");
+  const list=document.getElementById("knownList");
+  if(!box || !status || !list) return;
+
+  const known=uniqueKnownHits(detectedHits);
+  window.__knownHits=known;
+  box.hidden=known.length===0;
+  if(!known.length){
+    status.textContent="";
+    list.innerHTML="";
+    return;
+  }
+
+  status.textContent=`${known.length}件。本文中から隠したポイントです。必要なら個別に戻せます。`;
+  list.innerHTML=known.map((h,idx)=>`
+    <div class="known-item">
+      <div class="known-item-main">
+        <div class="known-item-title">
+          <span class="word">${escapeHtml(h.pattern)}</span>
+          <span class="pill">${escapeHtml(drawerPointLabel(h))}</span>
+        </div>
+        <div class="known-context">${escapeHtml(knownPointContext(text,h))}</div>
+      </div>
+      <button class="ghost known-restore-one" type="button" data-known-index="${idx}" aria-label="${escapeHtml(h.pattern)}を予習ポイントに戻す">戻す</button>
+    </div>
+  `).join("");
+}
+
 function render(){
   const text=document.getElementById("input").value.trim();
+  if(text!==dismissedTextSnapshot){
+    dismissedKeys.clear();
+    dismissedTextSnapshot=text;
+  }
   const reading=document.getElementById("reading");
   const checklist=document.getElementById("checklist");
   const summary=document.getElementById("summary");
@@ -90,6 +146,7 @@ function render(){
     checklist.innerHTML='<div class="empty">まだ予習ポイントはありません。</div>';
     summary.innerHTML='';
     filterStatus.textContent='';
+    renderKnownHistory("",[]);
     renderShadowDebugPanel("",[],null);
     return;
   }
@@ -108,6 +165,7 @@ function render(){
 
   const levelSuppressed=notDismissed.length-hits.length;
   const knownSuppressed=detected.hits.length-notDismissed.length;
+  renderKnownHistory(text,detected.hits);
 
   const segments=mergeDisplaySegments(buildSegments(text,hits));
   reading.innerHTML=segments.map((seg,idx)=>{
