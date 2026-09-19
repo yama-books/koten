@@ -81,3 +81,38 @@ Wikisource全体の投稿コンテンツには原則としてCC BY-SA 4.0等が�
   - https://ja.wikisource.org/wiki/Wikisource:COPY
 - Creative Commons BY-SA 4.0
   - https://creativecommons.org/licenses/by-sa/4.0/deed.ja
+
+
+## 中納言収録作品の扱い（2026-09-19追記）
+
+中納言 / CHJへの収録時点で、研究利用のための権利処理・資料選定が行われていることは、公開本文候補を探す上で強い事前フィルターとみなす。
+
+ただし、CHJの利用規約上「研究成果・知見の公表」が許されることと、CHJ本文そのものをWebアプリへ再配布できることは同一ではないため、公開アプリへの本文搭載では次の単位で監査する。
+
+### 権利ゲートの単位
+
+原則として **作品 × 提供元 × 底本（版）** の単位で一度だけ確認する。
+
+確認項目:
+- sourceFound
+- rightsVerified
+- editionFixed
+
+同じ作品・同じ提供元・同じ底本の各用例で、権利確認を繰り返さない。
+
+### 用例ごとに残す確認
+
+各実例では以下だけを個別確認する。
+- targetVerified
+- publicTarget
+- excerptReviewed
+
+つまり、
+
+**作品単位: 権利・底本**
++
+**用例単位: 語形・短い引用範囲**
+
+の二層監査とする。
+
+CHJ収録済みであることは「公開候補としての信頼度を高める材料」として扱うが、それ単独では `rightsVerified=true` にしない。
