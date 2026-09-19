@@ -1,0 +1,70 @@
+{
+  "updated": "2026-09-19",
+  "work": "方丈記",
+  "status": "pilot / partial-target-verification",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "方丈記 (國文大觀)",
+    "url": "https://ja.wikisource.org/wiki/方丈記_(國文大觀)",
+    "bibliographicSource": "丸岡桂・松下大三郎 共編『国文大観』9 日記草子部、板倉屋書房、明治36",
+    "rightsVerified": true,
+    "rightsStatus": "public-domain-marked-on-Wikisource",
+    "publicationTextLicenseNote": "ページ下部のWikisource利用条件も別途遵守する。"
+  },
+  "records": [
+    {
+      "id": "adjv-046",
+      "chjTarget": "稀なり",
+      "publicTarget": "まれなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/Page:Kokubun_taikan_09_part2.djvu/43",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "表記差のみ。終止形「なり」を確認。"
+    },
+    {
+      "id": "adjv-032",
+      "chjTarget": "なべてなら",
+      "publicTarget": "なべてならぬ",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/Page:Kokubun_taikan_09_part2.djvu/46",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "未然形「なら」＋打消「ぬ」を確認。"
+    },
+    {
+      "id": "adjv-090",
+      "chjTarget": "にはかに",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": null,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-067",
+      "chjTarget": "切なる",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": null,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-014",
+      "chjTarget": "まめなれ",
+      "publicTarget": null,
+      "targetVerified": false,
+      "sourcePage": null,
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false
+    }
+  ],
+  "counts": {
+    "total": 5,
+    "rightsVerified": 5,
+    "targetVerified": 2,
+    "excerptReviewed": 0,
+    "publicationEnabled": 0
+  }
+}
