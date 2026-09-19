@@ -174,3 +174,46 @@ U+3048_brsk005-034_ID0151_X1237_Y1854.jpg
 6. 人間確認前は `source-checked` 止まりとする
 
 特に『伊勢物語』の優先字体 `U+1B0DE / U+1B0F2 / U+1B073 / U+1B03F / U+1B11C` に同じ方法を適用する。
+
+
+## 11. Phase 2C-2 原画像経路の再確認（GitHub/Web-only セッション）
+
+2026-09-19、Phase 2C-1 の exact-text 5件から最初の原画像確認候補として
+`brsk005-009 / 4オ / U+1B012 / ID0346 / X474 Y2151` を選定した。
+
+### 公式経路
+
+国語研「日本語史研究資料」の IIIF 一覧に、次の manifest が正式掲載されている。
+
+`https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/manifest.json`
+
+資料ページ:
+`https://dglb01.ninjal.ac.jp/ninjaldl/show.php?issue=005&title=buturuisyoko`
+
+同一底本の公式翻字:
+`https://www2.ninjal.ac.jp/textdb_dataset/brsk/txt/brsk-005.txt`
+
+したがって、Phase 2C-2 に必要な「同一 witness の原画像＋公式翻字」自体は公開されている。
+
+### 現環境での取得結果
+
+- IIIF 一覧ページから巻五 manifest の存在までは取得可能。
+- manifest 本体の取得は現在のWeb取得系で cache miss / internal error となる。
+- JPG/PDF の画像ピクセルも、このセッションの実行環境では安定取得できない。
+- コード実行環境側からの外部取得も利用できないため、画像を視認したことにはできない。
+
+これは **source unavailable** ではなく **current-tool image retrieval unavailable** と区別する。
+
+### コーパスへの影響
+
+原画像を視認していない以上、
+- `renmen`
+- 接続状態
+- 原画像周辺の視覚的確認
+
+を確定しない。
+
+対象レコードは `exact-text / source-checked` に留め、
+`context-checked` へは昇格させない。
+
+次回は同じ4オ候補を優先し、画像が表示できる環境で直接確認する。

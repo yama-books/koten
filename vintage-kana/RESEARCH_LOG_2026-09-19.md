@@ -330,3 +330,47 @@ Stage Aの個別出現と、国語研「日本語史研究用テキストデー�
 review_status は `source-checked` のまま。
 
 次工程は原画像確認による最初の `context-checked` 1件。
+
+
+## 14. Phase 2C-2 GitHub/Web-only 継続
+
+Work の資源枯渇中につき、依頼者の指示でローカルには一切触れず、
+GitHub `yama-books/koten` の `main` と公開Web資料だけで継続した。
+
+### 現在の正本状態
+
+- total: 44
+- source-checked: 44
+- exact-text: 5
+- context-checked: 0
+- human-confirmed: 0
+- 変体仮名字形: 39
+- 『伊勢物語』: 33
+
+### 最初の context-checked 候補
+
+巻五4オ:
+- U+1B012 / 𛀒 / え / 衣
+- `brsk005-009`
+- `ID0346`
+- X=474 / Y=2151
+- 「正字とは見えず」の「え」
+
+exact-text の一意対応は既に成立しているため、残る必須作業は原画像での対象字体・周辺筆線・連綿確認。
+
+### 原画像取得調査
+
+国語研公式の資料ページ、巻五 IIIF manifest、同一底本の公式翻字経路を再確認した。
+IIIF一覧には巻五 manifest が明示されている。
+
+一方、このチャット環境では manifest / JPG / PDF の画像実体を安定取得できず、
+対象文字周辺を視認できなかった。
+
+このため今回はデータを昇格させない。
+`renmen: unknown`、`context_alignment_status: exact-text`、`review_status: source-checked`
+を維持した。
+
+### 次
+
+Stage A追加ではなく、同じ4オ候補の原画像表示を最優先する。
+画像が直接確認できた場合にのみ最初の `context-checked` へ進む。

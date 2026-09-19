@@ -33,7 +33,7 @@ Phase 7  継続拡張                             ⏳
   - exact-text: **5**
   - context-checked: **0**
   - human-confirmed: **0**
-  - 変体仮名字形 U+1B***: **38**
+  - 変体仮名字形 U+1B***: **39**
   - 『伊勢物語』: **33**
 
 したがって現在の最大のボトルネックは、
@@ -469,6 +469,14 @@ human-confirmed:
 6. 原画像確認経路を確立し、最初の context-checked 1件を作る ← 現在
 7. context-checked 5件、10件へ拡張
 8. 各節目でチェックポイントを更新する
+
+### GitHub/Web-only セッション注記（2026-09-19）
+
+Work 資源枯渇中のため、現在はローカルを触らず GitHub `yama-books/koten` と公開Web資料だけで進行中。
+最初の候補は巻五4オ `brsk005-009 / U+1B012 / ID0346 / X474 Y2151` に固定した。
+国語研公式の資料ページ・IIIF manifest・同一底本翻字の経路は確認済みだが、
+現在のチャット環境では原画像ピクセルを安定表示できず、`renmen` の視認確認は未達。
+したがって `context-checked = 0` を維持し、Stage A追加へ戻らず原画像確認を継続する。
 
 ---
 

@@ -250,3 +250,76 @@ prototype v0.1〜v0.3では、フォント表示、縦書き、字母表示、�
 
 最初の区切り:
 - `context-checked = 1` 達成時点でチェックポイントを更新する。
+
+
+## 11. 2026-09-19 GitHub/Web-only 継続チェックポイント
+
+Work の資源枯渇中につき、依頼者の指示で **本セッションではローカルを一切触らない**。
+`C:\Users\user\AI開発\koten` は参照・変更とも行わず、当面は GitHub `yama-books/koten` の `main` を正本として作業する。
+公開Web資料は調査・検証のために併用する。
+
+### 現在値
+
+`data/attested-examples.json`:
+- total: 44
+- source-checked: 44
+- exact-text: 5
+- context-checked: 0
+- human-confirmed: 0
+- 変体仮名字形: 39
+- 『伊勢物語』: 33
+
+現在位置は **Phase 2C-2 / 最初の context-checked 1件を作る工程** のまま。
+Stage A の大量追加へは戻らない。
+
+### 最初の原画像確認候補
+
+`att-brsk005-u1b012-brsk005-009-id0346-x0474-y2151`
+
+- 資料: 『諸国方言物類称呼』巻五
+- 丁: 4オ
+- 字体: U+1B012 / 𛀒 / え / 字母「衣」
+- viewer page: `brsk005-009`
+- occurrence: `ID0346`
+- 座標: X=474, Y=2151
+- exact-text: 「正字とは見えず」の「え」
+- word: 「見えず」
+- previous_char: 「見」
+- next_char: 「ず」
+
+同一底本の国語研公式翻字と、字形DBの個別出現は一意対応済み。
+
+### 本セッションで確認した原画像経路
+
+国語研の公式公開経路として次を確認した。
+
+- 巻五資料ページ:
+  `https://dglb01.ninjal.ac.jp/ninjaldl/show.php?issue=005&title=buturuisyoko`
+- 巻五 IIIF manifest:
+  `https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/manifest.json`
+- 公式翻字:
+  `https://www2.ninjal.ac.jp/textdb_dataset/brsk/txt/brsk-005.txt`
+
+国語研のIIIF一覧に巻五 manifest が正式掲載されていること、資料ページ側で画像・翻字の公開と CC BY 4.0 表示があることを再確認した。
+
+ただし現在のチャット実行環境では、manifest / JPG の**画像ピクセルそのものの取得・表示が安定せず**、原画像の筆線を視認して `renmen` を判定できなかった。
+これは資料不存在ではなく、このセッションの取得環境上の制約として扱う。
+
+### 判定
+
+- `renmen` は推測せず `unknown` を維持。
+- `review_status` は `source-checked` のまま。
+- `context_alignment_status` は `exact-text` のまま。
+- `context-checked` は 0 件のまま。
+- `attested-examples.json` 自体には変更を加えていない。
+
+### 次の再開点
+
+1. Stage A は増やさない。
+2. 上記4オの原画像ピクセルを表示できる経路を確保する。
+3. `brsk005-009 / ID0346 / X474 Y2151` の対象字体と周辺筆線を直接確認する。
+4. 連綿・接続状態を画像で確定できた場合だけ `renmen` を更新する。
+5. 矛盾がなければ `context_alignment_status: exact`、`review_status: context-checked` へ昇格する。
+6. `context-checked = 1` 到達時に ROADMAP / HANDOFF / チェックポイントを即更新する。
+
+画像を直接確認できない環境では、OCR・別伝本・推測による代用を行わない。
