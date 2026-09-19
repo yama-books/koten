@@ -1,0 +1,375 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 方丈記冒頭 第三独立gold blind shadow評価",
+  "goldFile": "hojoki_opening_independent_gold_20260919.json",
+  "shadowVersion": "v0.15-token-morphology",
+  "frozenEvaluation": true,
+  "rule": "gold commit後に現行shadowを初実行。このbaselineは今後の修正後も上書きしない。",
+  "summary": {
+    "goldPositions": 22,
+    "shadowRaw": 22,
+    "shadowResolvedArray": 3,
+    "shadowSuppressedArray": 19,
+    "strictPass": 14,
+    "strictPassRate": 0.6363636363636364,
+    "goldResolveTargets": 8,
+    "strictCorrectResolve": 1,
+    "strictResolveRecall": 0.125,
+    "goldSuppressTargets": 14,
+    "correctSuppression": 13,
+    "suppressionRecall": 0.9285714285714286,
+    "falsePositiveResolved": 1,
+    "wrongResolved": 0,
+    "wrongSuppressed": 0,
+    "unresolvedContext": 6,
+    "resolvedButAmbiguous": 1
+  },
+  "interpretation": [
+    "第三の未使用作品でもlarger-unit suppressionは13/14と高い。",
+    "false-positive resolvedは接続詞「しかも」内部の「しか」1件。",
+    "wrongResolvedは0。文法resolverは誤確定よりunder-resolvingが主問題。",
+    "strict grammar resolveは1/8で、learner-visible昇格には不足。",
+    "徒然草・伊勢物語で追加したtoken morphology/strict rulesが重大な誤確定を持ち込んだ兆候はこの範囲ではない。"
+  ],
+  "outcomeCounts": {
+    "RESOLVED_AMBIGUOUS": 1,
+    "PASS_SUPPRESSED": 13,
+    "FALSE_POSITIVE_RESOLVED": 1,
+    "UNRESOLVED_CONTEXT": 6,
+    "PASS_RESOLVED_LEMMA": 1
+  },
+  "entries": [
+    {
+      "id": "hojoki-opening-gold-001",
+      "surface": "して",
+      "start": 10,
+      "end": 12,
+      "context": "河の流れは絶えずして、しかも、もとの水に",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_shite",
+      "outcome": "RESOLVED_AMBIGUOUS",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous",
+        "supportCandidateIds": []
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-002",
+      "surface": "し",
+      "start": 10,
+      "end": 11,
+      "context": "河の流れは絶えずして、しかも、もとの水",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "して",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "して"
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-003",
+      "surface": "て",
+      "start": 11,
+      "end": 12,
+      "context": "の流れは絶えずして、しかも、もとの水に",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "して",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "して"
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-004",
+      "surface": "しか",
+      "start": 13,
+      "end": 15,
+      "context": "れは絶えずして、しかも、もとの水にあらず",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "しかも",
+      "outcome": "FALSE_POSITIVE_RESOLVED",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous"
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-005",
+      "surface": "し",
+      "start": 13,
+      "end": 14,
+      "context": "れは絶えずして、しかも、もとの水にあら",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "しかも",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "しか"
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-006",
+      "surface": "と",
+      "start": 18,
+      "end": 19,
+      "context": "して、しかも、もとの水にあらず。よどみ",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "もと",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-007",
+      "surface": "に",
+      "start": 21,
+      "end": 22,
+      "context": "しかも、もとの水にあらず。よどみに浮か",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "copula_nari_renyo_ni",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-008",
+      "surface": "に",
+      "start": 29,
+      "end": 30,
+      "context": "にあらず。よどみに浮かぶうたかたは、か",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-009",
+      "surface": "て",
+      "start": 47,
+      "end": 48,
+      "context": "かつ消えかつ結びて、久しくとどまりたる",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "conjunctive_particle_te",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-010",
+      "surface": "し",
+      "start": 50,
+      "end": 51,
+      "context": "えかつ結びて、久しくとどまりたるためし",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "久しく",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-token",
+        "suppressedBy": "久しく"
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-011",
+      "surface": "と",
+      "start": 52,
+      "end": 53,
+      "context": "つ結びて、久しくとどまりたるためしなし",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "とどまり",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-012",
+      "surface": "たる",
+      "start": 56,
+      "end": 58,
+      "context": "、久しくとどまりたるためしなし。世の中に",
+      "expectedAction": "resolveAuxiliaryLemma",
+      "expectedAuxiliaryLemma": "たり",
+      "outcome": "PASS_RESOLVED_LEMMA",
+      "observed": {
+        "kind": "resolved",
+        "status": null,
+        "analysisConfidence": "ambiguous"
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-013",
+      "surface": "る",
+      "start": 57,
+      "end": 58,
+      "context": "久しくとどまりたるためしなし。世の中に",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "たる",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "indexed-larger-surface",
+        "suppressedBy": "たる"
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-014",
+      "surface": "し",
+      "start": 60,
+      "end": 61,
+      "context": "とどまりたるためしなし。世の中にある人",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ためし",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-015",
+      "surface": "な",
+      "start": 61,
+      "end": 62,
+      "context": "どまりたるためしなし。世の中にある人と",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なし",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-016",
+      "surface": "し",
+      "start": 62,
+      "end": 63,
+      "context": "まりたるためしなし。世の中にある人とす",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "なし",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-017",
+      "surface": "に",
+      "start": 67,
+      "end": 68,
+      "context": "めしなし。世の中にある人とすみかと、ま",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_ni",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-018",
+      "surface": "る",
+      "start": 69,
+      "end": 70,
+      "context": "なし。世の中にある人とすみかと、またか",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ある",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "known-larger-token",
+        "suppressedBy": "ある"
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-019",
+      "surface": "と",
+      "start": 71,
+      "end": 72,
+      "context": "。世の中にある人とすみかと、またかくの",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-020",
+      "surface": "と",
+      "start": 75,
+      "end": 76,
+      "context": "にある人とすみかと、またかくのごとし。",
+      "expectedAction": "resolveCandidate",
+      "expectedCandidateId": "case_particle_to",
+      "outcome": "UNRESOLVED_CONTEXT",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-021",
+      "surface": "と",
+      "start": 83,
+      "end": 84,
+      "context": "と、またかくのごとし。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ごとし",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    },
+    {
+      "id": "hojoki-opening-gold-022",
+      "surface": "し",
+      "start": 84,
+      "end": 85,
+      "context": "、またかくのごとし。",
+      "expectedAction": "suppressInsideLargerUnit",
+      "expectedAnalysisUnit": "ごとし",
+      "outcome": "PASS_SUPPRESSED",
+      "observed": {
+        "kind": "suppressed",
+        "reason": "context-required-not-yet-resolved",
+        "suppressedBy": null
+      }
+    }
+  ]
+}
