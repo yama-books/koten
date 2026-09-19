@@ -477,3 +477,65 @@ Google Sheets `IMPORTDATA` も外部URLアクセス許可エラーで失敗し�
 
 したがって、上記5候補はまだ `exact-text` / `context-checked` へ昇格させない。
 次作業は、同一底本公式翻刻の安全な抽出経路を確立し、文字位置を一意対応できたものだけをStage Bへ進める。
+
+
+## 19. GitHub Actions取得ブリッジ成立 / context-checked 10件達成
+
+### 長大TXT取得問題の解消
+
+国語研公式 `hnsd-001.txt` が通常のWeb取得層では1巨大行として扱われ、
+Google Sheets `IMPORTDATA` も外部URL許可エラーになったため、
+GitHub Actions上で公開URLを直接取得する短命ブリッジを作成した。
+
+取得結果:
+- source: `https://www2.ninjal.ac.jp/textdb_dataset/hnsd/txt/hnsd-001.txt`
+- decoding: UTF-8 BOM
+- bytes: 41,239
+- chars: 14,193
+- 改行をLFへ正規化
+
+同じブリッジでIIIF manifestも取得:
+`https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/manifest.json`
+
+### manifestによるページ対応
+
+- hnsd001-014 = 2ウ
+- hnsd001-015 = 3オ
+- hnsd001-026 = 8ウ
+- hnsd001-036 = 13ウ
+- hnsd001-039 = 15オ
+
+原画像寸法もmanifestから取得し、字形DBのX/Y座標を取得済み画像へ正規化して対象位置を確認した。
+
+### U+1B094 / 𛂔 / ね / 年 の5件
+
+1. 2ウ / ID0052 / X1142 Y718 / 「くらしかねたる」
+2. 3オ / ID0119 / X1611 Y1645 / 「むね」
+3. 8ウ / ID0111 / X522 Y1719 / 「かねて」
+4. 13ウ / ID0103 / X1181 Y1131 / 「むね」
+5. 15オ / ID0054 / X627 Y2254 / 「むね」
+
+3オ・8ウ・13ウは公式翻字の同丁で平仮名「ね」が各1箇所のため一意対応。
+2ウと15オは同丁に2箇所あるため、原画像の対象座標と周辺本文を使って一意化した。
+
+5件とも:
+- `context_alignment_status: exact`
+- `review_status: context-checked`
+
+原画像上で接筆状態まで確認したが、true/false を安全に二値化できるほど明瞭でないため:
+- `renmen: unknown`
+- notes/evidence に「画像確認済み判定不能」と明記
+
+### 到達値
+
+- total: 49
+- source-checked: 39
+- source-checked以上: 49
+- exact: 10
+- exact-text以上: 10
+- context-checked: 10
+- human-confirmed: 0
+- 変体仮名字形: 44
+
+これで Phase 2C の一次公開MVP区切りを達成。
+追加採取を主工程から外し、教材生成・UI接続・公開対象例の人間確認・QAへ移る。
