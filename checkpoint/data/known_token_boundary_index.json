@@ -7,10 +7,11 @@
     "監査済み500例はkanji-anchored表面形だけを採用する。",
     "basic_lexicon と inflecting_words の登録表面形は curated whole-token として扱う。",
     "短い識別表面形が、より長い既知語の内部に完全包含される場合は、その短い表面形を独立候補として自動表示しない。",
-    "この抑制は『長い語の分析が正しい』ことまで意味せず、文字列内部の過剰マーキングを避けるための境界証拠に限る。"
+    "この抑制は『長い語の分析が正しい』ことまで意味せず、文字列内部の過剰マーキングを避けるための境界証拠に限る。",
+    "全500例DBで活用形が曖昧でも、2文字以上かつ漢字を含む監査済みtargetは、文法確定ではなく語境界抑制専用のtrusted tokenとして利用できる。"
   ],
-  "entryCount": 290,
-  "suppressibleCount": 290,
+  "entryCount": 295,
+  "suppressibleCount": 295,
   "entries": [
     {
       "surface": "出でおはしましがたから",
@@ -22,6 +23,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -37,6 +44,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -52,6 +65,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "サ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -67,6 +86,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -82,6 +107,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -97,6 +128,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -112,6 +149,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -127,6 +170,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -142,6 +191,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ラ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -157,6 +212,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -172,6 +233,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -215,6 +282,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -286,6 +359,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -301,6 +380,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -332,6 +417,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "サ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -347,6 +438,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -362,6 +459,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -377,6 +480,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -392,6 +501,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -407,6 +522,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -422,6 +543,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -437,6 +564,12 @@
           "form": "終止形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -452,6 +585,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -467,6 +606,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -482,6 +627,12 @@
           "form": "已然形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -497,6 +648,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -512,6 +669,12 @@
           "form": "已然形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -569,6 +732,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -584,6 +753,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -599,6 +774,12 @@
           "form": "已然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -725,6 +906,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -813,6 +1000,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -843,6 +1036,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -858,6 +1057,12 @@
           "form": "命令形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -873,6 +1078,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -888,6 +1099,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -903,6 +1120,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -918,6 +1141,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -933,6 +1162,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -948,6 +1183,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -991,6 +1232,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -1006,6 +1253,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1021,6 +1274,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -1036,6 +1295,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1051,6 +1316,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -1066,6 +1337,12 @@
           "form": "終止形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -1081,6 +1358,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -1096,6 +1379,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1111,6 +1400,12 @@
           "form": "已然形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -1126,6 +1421,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1161,6 +1462,12 @@
           "trust": "curated",
           "lemma": "聞こゆ",
           "category": "honorific"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "curated",
@@ -1176,6 +1483,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1191,6 +1504,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -1206,6 +1525,12 @@
           "form": "命令形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -1221,6 +1546,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -1236,6 +1567,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -1251,6 +1588,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -1266,6 +1609,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -1281,6 +1630,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -1418,6 +1773,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -1521,6 +1882,12 @@
           "headwordCandidates": [
             "悪し"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "curated",
@@ -1536,6 +1903,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1551,6 +1924,12 @@
           "form": "已然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -1566,6 +1945,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1581,6 +1966,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -1596,6 +1987,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ラ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -1611,6 +2008,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ラ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1626,6 +2029,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ラ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -1641,6 +2050,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -1656,6 +2071,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1671,6 +2092,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -1686,6 +2113,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -1701,6 +2134,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ヤ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -1716,6 +2155,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -1731,6 +2176,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "カ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -1746,6 +2197,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -1761,6 +2218,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "マ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1804,6 +2267,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1819,6 +2288,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1834,6 +2309,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "サ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -1849,6 +2330,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1864,6 +2351,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -1879,6 +2372,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -1894,6 +2393,12 @@
           "form": "已然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -1909,6 +2414,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -1936,6 +2447,12 @@
             "連体形",
             "已然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -1993,6 +2510,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ハ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2008,6 +2531,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -2023,6 +2552,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -2038,6 +2573,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -2053,6 +2594,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2068,6 +2615,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -2083,6 +2636,26 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "出で来",
+      "length": 3,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
         }
       ],
       "trust": "high",
@@ -2098,6 +2671,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "カ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -2113,6 +2692,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ナ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2128,6 +2713,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -2143,6 +2734,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ワ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2158,6 +2755,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -2173,6 +2776,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -2188,6 +2797,12 @@
           "form": "連用形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -2203,6 +2818,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2218,6 +2839,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2233,6 +2860,12 @@
           "form": "命令形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -2259,6 +2892,12 @@
             "連体形",
             "已然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2285,6 +2924,12 @@
             "連体形",
             "已然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -2300,6 +2945,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2315,6 +2966,12 @@
           "form": "終止形",
           "pos": "形容詞",
           "class": "シク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -2358,6 +3015,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2373,6 +3036,12 @@
           "form": "未然形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -2388,6 +3057,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ワ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -2403,6 +3078,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ワ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -2418,6 +3099,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "タ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2442,6 +3129,12 @@
           "forms": [
             "連体形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2555,6 +3248,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2570,6 +3269,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -2585,6 +3290,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -2600,6 +3311,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ガ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -2615,6 +3332,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -2630,6 +3353,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2645,6 +3374,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "サ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -2660,6 +3395,26 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "起き",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
         }
       ],
       "trust": "high",
@@ -2675,6 +3430,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -2690,6 +3451,26 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ガ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "求め",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
         }
       ],
       "trust": "high",
@@ -2705,6 +3486,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "マ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -2720,6 +3507,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "マ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -2735,6 +3528,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2750,6 +3549,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -2821,6 +3626,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -2836,6 +3647,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -2851,6 +3668,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ハ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -2866,6 +3689,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "バ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -2881,6 +3710,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -2896,6 +3731,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -2911,6 +3752,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -2926,6 +3773,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "マ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -2941,6 +3794,26 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "呼ぶ",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
         }
       ],
       "trust": "high",
@@ -3027,6 +3900,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "マ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -3042,6 +3921,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "カ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -3057,6 +3942,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3072,6 +3963,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -3087,6 +3984,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -3102,6 +4005,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -3117,6 +4026,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3132,6 +4047,12 @@
           "form": "終止形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3147,6 +4068,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -3174,6 +4101,12 @@
             "連体形",
             "已然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -3189,6 +4122,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3204,6 +4143,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -3267,6 +4212,12 @@
           "trust": "curated",
           "lemma": "参る",
           "category": "honorific"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "curated",
@@ -3282,6 +4233,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3297,6 +4254,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -3312,6 +4275,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3327,6 +4296,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -3342,6 +4317,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -3357,6 +4338,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -3372,6 +4359,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3387,6 +4380,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ナ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -3422,6 +4421,12 @@
           "trust": "curated",
           "lemma": "侍り",
           "category": "honorific"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "curated",
@@ -3465,6 +4470,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "タ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -3489,6 +4500,12 @@
           "forms": [
             "終止形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3504,6 +4521,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ヤ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -3519,6 +4542,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ヤ行上一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -3534,6 +4563,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3549,6 +4584,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -3564,6 +4605,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "カ行下一段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -3579,6 +4626,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "マ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3594,6 +4647,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "ダ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -3609,6 +4668,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -3680,6 +4745,12 @@
           "form": "終止形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3695,6 +4766,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3710,6 +4787,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -3725,6 +4808,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3740,6 +4829,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "ナ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -3755,6 +4850,12 @@
           "form": "連体形",
           "pos": "形容詞",
           "class": "ク活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3826,6 +4927,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ナ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3841,6 +4948,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3856,6 +4969,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3871,6 +4990,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "カ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3886,6 +5011,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ハ行上二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -3901,6 +5032,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ヤ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -3916,6 +5053,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -3931,6 +5074,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ガ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -3946,6 +5095,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -3961,6 +5116,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -3976,6 +5137,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "タ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -3991,6 +5158,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "タ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -4006,6 +5179,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -4021,6 +5200,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "ハ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -4036,6 +5221,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ア行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -4051,6 +5242,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ラ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -4066,6 +5263,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ラ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -4091,6 +5294,12 @@
             "終止形",
             "已然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -4116,6 +5325,12 @@
             "終止形",
             "已然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -4140,6 +5355,12 @@
           "forms": [
             "未然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -4166,6 +5387,12 @@
             "連体形",
             "已然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -4190,6 +5417,12 @@
           "forms": [
             "未然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -4205,6 +5438,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "サ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -4220,6 +5459,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -4235,6 +5480,12 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "サ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
         }
       ],
       "trust": "high",
@@ -4265,6 +5516,12 @@
           "form": "連体形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連体形"
         }
       ],
       "trust": "high",
@@ -4280,6 +5537,26 @@
           "form": "連用形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "連用形"
+        }
+      ],
+      "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "聞け",
+      "length": 2,
+      "sources": [
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 2,
+          "formConsensus": null
         }
       ],
       "trust": "high",
@@ -4351,6 +5628,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "ラ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -4366,6 +5649,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ラ行下二段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -4390,6 +5679,12 @@
           "forms": [
             "未然形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -4405,6 +5700,12 @@
           "form": "未然形",
           "pos": "動詞",
           "class": "ハ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "未然形"
         }
       ],
       "trust": "high",
@@ -4420,6 +5721,12 @@
           "form": "終止形",
           "pos": "動詞",
           "class": "カ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "終止形"
         }
       ],
       "trust": "high",
@@ -4444,6 +5751,12 @@
           "forms": [
             "命令形"
           ]
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
@@ -4459,6 +5772,12 @@
           "form": "已然形",
           "pos": "動詞",
           "class": "カ行変格活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "已然形"
         }
       ],
       "trust": "high",
@@ -4474,6 +5793,12 @@
           "form": "命令形",
           "pos": "動詞",
           "class": "タ行四段活用"
+        },
+        {
+          "source": "audited500-full",
+          "trust": "high",
+          "analysisSignatureCount": 1,
+          "formConsensus": "命令形"
         }
       ],
       "trust": "high",
