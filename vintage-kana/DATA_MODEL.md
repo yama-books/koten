@@ -69,7 +69,11 @@ source_work:
 source_witness:
 source_volume:
 source_location:
+occurrence_url:
+source_image_ref:
 
+context_alignment_status: none | page-level | exact
+page_transcription_ref:
 context_original:
 transcription:
 normalized_reading:
@@ -83,7 +87,6 @@ previous_char:
 next_char:
 renmen: true | false | unknown
 
-source_image_ref:
 evidence:
 review_status:
 reviewed_by:
@@ -123,6 +126,26 @@ evidence:
 - `rejected`
 
 公開読解問題は原則 `human-confirmed` のみ。
+
+### 実例の段階的確認
+
+`provenance_type: attested` は「実資料上の出現そのものへ遡れる」ことを示す。
+一方、語・前後文字・連綿等の文脈解析が完了したことまでは意味しない。
+
+- `source-checked`
+  - witness と個別出現位置（ページ・座標・字形）が一次資料／国語研字形DBで追跡可能
+  - 文脈の文字単位対応は未完了でもよい
+  - `context_alignment_status: none | page-level`
+  - 未確認の `word / previous_char / next_char / renmen` は推測せず null / unknown
+- `context-checked`
+  - 対象字形と翻刻の位置対応を確認
+  - 語・前後文字等を必要範囲で確定
+  - `context_alignment_status: exact`
+- `human-confirmed`
+  - 人間が原画像と表示内容を確認
+  - 教材公開候補にできる
+
+この段階分けにより、「実在する出現」と「文脈解析済み」を混同しない。
 
 ## 7. 資料別字体分布
 
