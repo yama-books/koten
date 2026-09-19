@@ -12,15 +12,16 @@
 その後、必要に応じて次を読む。
 
 1. `DESIGN_HISTORY.md` — 詳細な経緯・意図・撤廃理由
-2. この `HANDOFF.md` — 現在の作業状態
-3. `SESSION_CHECKPOINT_2026-09-19_PHASE2.md` — Phase 2移行後の最新チェックポイント
-4. `SESSION_CHECKPOINT_2026-09-19.md` — Phase 1完了時点のチェックポイント
-5. `VIEWER_EXTRACTION_NOTES.md` — 原資料位置・文脈取得の技術調査
-6. `AGGREGATION_RULES.md` — 0件補完・比率計算の規則
-7. `SOURCES.md` — 典拠
-8. `RESEARCH_PLAN.md` — 資料収集手順
-9. `DATA_MODEL.md` — データ構造
-10. `INTEGRATION_NOTES.md` — koten全体との統合注意
+2. `ROADMAP.md` — 全体工程・現在位置・区切り条件
+3. この `HANDOFF.md` — 現在の作業状態
+4. `SESSION_CHECKPOINT_2026-09-19_PHASE2.md` — Phase 2移行後の最新チェックポイント
+5. `SESSION_CHECKPOINT_2026-09-19.md` — Phase 1完了時点のチェックポイント
+6. `VIEWER_EXTRACTION_NOTES.md` — 原資料位置・文脈取得の技術調査
+7. `AGGREGATION_RULES.md` — 0件補完・比率計算の規則
+8. `SOURCES.md` — 典拠
+9. `RESEARCH_PLAN.md` — 資料収集手順
+10. `DATA_MODEL.md` — データ構造
+11. `INTEGRATION_NOTES.md` — koten全体との統合注意
 
 ## 1. 現在地
 
@@ -57,10 +58,11 @@
 未完了:
 - 15資料の年代・ジャンル・媒体・所蔵・画像利用条件の一次確認（2026-09-19完了。国文研200014445の書写年のみ一点確定を避け留保付き）
 - 分布差が大きい字体の候補抽出（2026-09-19完了、`data/context-sampling-candidates.json`）
-- Stage A 実例採取を開始（`data/attested-examples.json`: source-checked 9件、うち変体仮名 U+1B012 / 𛀒 5件）
+- Stage A 実例: `data/attested-examples.json` 44件（source-checked 44）
 - 公式字形ページHTMLから個別出現の page / occurrence ID / X / Y を直接列挙する方法を確認
 - 高頻度の『伊勢物語』優先字体では個別出現行の取得経路が未確立
-- 候補字体からの文字単位文脈採取（`context-checked`）は次工程
+- Phase 2C-1 exact-text 5件を達成（U+1B012 𛀒 4件 + U+3048 え 1件を一意対応）
+- Phase 2C-2: 原画像で連綿等を確認し、最初の `context-checked` 1件を作るのが現在の主工程
 - 先行研究との照合
 - `attested-examples.json` の本格増補
 - 分布コーパスのアプリUI接続
@@ -157,9 +159,10 @@ CODH「日本古典籍くずし字データセット」
 
 1. `sources.json` の書誌一次確認結果を維持し、必要な追加書誌だけ個別監査する
 2. `data/context-sampling-candidates.json` の優先候補を使う
-3. `VIEWER_EXTRACTION_NOTES.md` の公式字形ページ直接列挙方式を使い、Stage A の取得を拡張する
-4. 『伊勢物語』国文研本の `や / 𛃞` 等、高頻度セクションの個別出現取得経路を特定する
-5. 取得できた『伊勢物語』2資料の優先字体から、語・位置・前後文字・連綿を文字単位で対応させ `context-checked` へ昇格する
+3. Phase 2C-1 の exact-text 5件達成済み
+4. 原資料画像を取得・確認できる経路を確立する
+5. exact-text 5件のうち少なくとも1件で連綿・接続等を原画像確認し、`context-checked` へ昇格する
+6. 並行して『伊勢物語』高頻度優先字体の個別出現取得経路を継続調査する
 6. `attested-examples.json` を段階的に増補する
 7. 先行研究と観察結果を照合する
 8. 字母・字体クイズ候補を生成する
