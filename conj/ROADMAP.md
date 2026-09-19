@@ -286,3 +286,25 @@ Status: **PENDING**
 - registry集計
 - runtime errors
 をROADMAPに反映する。
+
+
+## 6. 権利監査の効率化ルール
+
+Phase Dでは、権利確認を実例単位で繰り返さない。
+
+### 作品単位ゲート
+`work + provider + edition` ごとに:
+- sourceFound
+- rightsVerified
+- editionFixed
+
+### 用例単位ゲート
+各recordごとに:
+- targetVerified
+- publicTarget
+- excerptReviewed
+
+CHJ / 中納言収録済みであることは、公開候補探索の強い事前フィルターとして扱う。
+ただしCHJ本文そのものの再配布権とは分けて管理する。
+
+これにより、同じ作品の5例なら「権利調査5回」ではなく「権利調査1回＋語形監査5回」で処理する。
