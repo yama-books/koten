@@ -27,12 +27,12 @@
     "notYetFound": 4,
     "publicationReadyWorks": 12,
     "publicExamplesConnected": 64,
-    "rightsVerifiedWorks": 18,
+    "rightsVerifiedWorks": 19,
     "targetVerifiedExamples": 66,
     "excerptReviewedExamples": 64,
     "publicationReadyExamples": 64,
-    "auditStatusKnownWorks": 19,
-    "blockedWorks": 3,
+    "auditStatusKnownWorks": 20,
+    "blockedWorks": 4,
     "partialWorks": 4
   },
   "works": [
@@ -295,7 +295,22 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "note": "再利用可能な画像資料は複数確認したが、CHJ選抜5例を底本・再利用条件ごと固定して検索照合できる本文を未確保。無許諾転写や画像推測は使用せず保留。",
+      "publicSources": [
+        {
+          "provider": "Wikimedia Commons / NDL",
+          "url": "https://commons.wikimedia.org/wiki/File:NDL2550700_堤中納言物語_10巻.(1).pdf",
+          "rightsVerified": true,
+          "type": "public-domain scan"
+        },
+        {
+          "provider": "khirin / 国立歴史民俗博物館",
+          "url": "https://khirin.rekihaku.ac.jp/pid/nmjh_collection/H-600-721.html",
+          "rightsVerified": true,
+          "type": "CC BY-SA 4.0 image collection"
+        }
+      ],
+      "auditStatus": "blocked-with-reason"
     },
     {
       "work": "徒然草",
