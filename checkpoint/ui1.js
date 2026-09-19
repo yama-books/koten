@@ -1,3 +1,83 @@
+function shadowDebugEnabled(){
+  try{
+    const params=new URLSearchParams(window.location.search||"");
+    return params.get("debug")==="shadow" || window.location.hash==="#shadow-debug";
+  }catch(_err){
+    return false;
+  }
+}
+
+function shadowDebugCountBy(items, keyFn){
+  const out={};
+  for(const item of items||[]){
+    const key=keyFn(item)||"unknown";
+    out[key]=(out[key]||0)+1;
+  }
+  return out;
+}
+
+function renderShadowDebugPanel(text, legacyHits, audit){
+  const panel=document.getElementById("shadowDebugPanel");
+  const summary=document.getElementById("shadowDebugSummary");
+  const details=document.getElementById("shadowDebugDetails");
+  if(!panel || !summary || !details) return;
+
+  const enabled=shadowDebugEnabled();
+  panel.hidden=!enabled;
+  if(!enabled) return;
+
+  if(!text || typeof resolveDbShadowHits!=="function"){
+    summary.textContent="本文を入力するとshadow監査を表示します。";
+    details.textContent="";
+    return;
+  }
+
+  const state=resolveDbShadowHits(text);
+  window.CHECKPOINT_LAST_SHADOW_STATE=state;
+
+  const legacyComparable=(legacyHits||[]).filter(h=>h.type==="grammar" || h.type==="identify");
+  const legacyUnique=new Set(legacyComparable.map(h=>`${h.start}:${h.end}:${h.pattern||h.surface}`)).size;
+  const benchmark=state.suppressed.filter(h=>h.suppressedReason==="context-intentional-ambiguity-benchmark");
+  const primary=state.suppressed.filter(h=>h.suppressedReason==="context-primary-source-hold");
+  const unclassified=state.suppressed.filter(h=>
+    h.suppressedReason==="context-required-not-yet-resolved" ||
+    h.suppressedReason==="context-supported-but-not-unique"
+  );
+
+  summary.textContent =
+    `legacy unique ${legacyUnique} / DB raw ${state.raw.length} / resolved ${state.resolved.length} / suppressed ${state.suppressed.length} / `+
+    `hold benchmark ${benchmark.length} / primary ${primary.length} / unclassified ${unclassified.length} / DB only ${audit?.dbOnly?.length??"?"}`;
+
+  const resolvedReasons=shadowDebugCountBy(state.resolved,h=>
+    h.contextResolution?.status || h.analysisConfidence || "plain"
+  );
+  const suppressedReasons=shadowDebugCountBy(state.suppressed,h=>h.suppressedReason||"unknown");
+  const holdLines=[...benchmark,...primary].map(h=>
+    `  [${h.holdPolicy?.holdType||"hold"}] ${h.surface}@${h.start}: ${h.holdPolicy?.issue||h.holdPolicy?.reason||""}`
+  );
+  const unclassifiedLines=unclassified.map(h=>
+    `  [unclassified] ${h.surface}@${h.start}: ${h.contextResolution?.status||h.suppressedReason}`
+  );
+  const dbOnlyLines=(audit?.dbOnly||[]).map(h=>`  ${h.surface}@${h.start}-${h.end} ${h.analysisConfidence||""}`);
+
+  details.textContent=[
+    "resolved reasons",
+    ...Object.entries(resolvedReasons).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`  ${k}: ${v}`),
+    "",
+    "suppressed reasons",
+    ...Object.entries(suppressedReasons).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`  ${k}: ${v}`),
+    "",
+    "holds",
+    ...(holdLines.length?holdLines:["  none"]),
+    "",
+    "unclassified context",
+    ...(unclassifiedLines.length?unclassifiedLines:["  none"]),
+    "",
+    "DB only",
+    ...(dbOnlyLines.length?dbOnlyLines:["  none"])
+  ].join("\n");
+}
+
 function render(){
   const text=document.getElementById("input").value.trim();
   const reading=document.getElementById("reading");
@@ -10,15 +90,18 @@ function render(){
     checklist.innerHTML='<div class="empty">まだ予習ポイントはありません。</div>';
     summary.innerHTML='';
     filterStatus.textContent='';
+    renderShadowDebugPanel("",[],null);
     return;
   }
 
   const level=document.getElementById("checkLevel").value;
   const limit=LEVEL_LIMIT[level];
   const detected=detect(text, level);
+  let shadowAudit=null;
   if(typeof shadowAuditLegacyVsDb==="function" && window.CHECKPOINT_DATA?.surfaceIndex){
-    shadowAuditLegacyVsDb(text, detected.hits);
+    shadowAudit=shadowAuditLegacyVsDb(text, detected.hits);
   }
+  renderShadowDebugPanel(text,detected.hits,shadowAudit);
 
   const notDismissed=detected.hits.filter(h=>!dismissedKeys.has(hitKey(h)));
   const hits=notDismissed.filter(h=>h.tier<=limit);
