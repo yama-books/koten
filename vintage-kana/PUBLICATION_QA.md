@@ -6,7 +6,7 @@
 
 - `index.html` inline JavaScript: **PASS（0.7）**
   - GitHub上の現行0.7をV8で構文コンパイル確認
-  - current blob SHA: `34a2d0e371922616c09d276242e96911dffcfcaf`
+  - current blob SHA: `9991f10a0f153d6501d4b005ab17948d368448ac`
   - 実フィルタ条件 `human-confirmed && publication_status=approved` を確認
 - `ui-glyph-master.json`: **PASS**
   - Phase 1分布から生成済みの軽量UIキャッシュ
@@ -131,7 +131,7 @@ UI 0.7:
 - 原資料の手書き字形と輪郭が完全一致しない場合がある旨を表示
 
 
-## UI 0.7 静的公開ゲート検算
+## UI 0.8 静的公開ゲート検算
 
 PASS:
 - JavaScript構文: PASS
@@ -150,3 +150,17 @@ PASS:
 3. モバイル幅
 4. GitHub Pages実配信
 5. 典拠リンク遷移
+
+
+### Webフォント診断
+
+UI 0.8でヘッダーに変体仮名Webフォントの読込状態を表示する診断を追加。
+
+表示:
+- 「字体フォント: 読込済み」
+- 「字体フォント: 未読込」
+- 「字体フォント: 読込失敗」
+- ブラウザが FontFaceSet API 非対応の場合は「ブラウザ確認不可」
+
+判定対象は `Noto Serif Hentaigana` と U+1B012 の実文字。
+JavaScript構文検査: **PASS**。
