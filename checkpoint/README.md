@@ -23,4 +23,10 @@ CHJ / UniDic は候補発見・実例・判定根拠に使い、学校文法の�
 ## 公開β
 https://yama-books.github.io/koten/checkpoint/
 
+## リポジトリ運用
+- Checkpoint の開発正本ブランチ: `checkpoint-main`
+- Checkpoint 作業を `main` へ直接 push しない
+- production `main` への統合は koten 側の統合工程で行う
+- shadow detector は研究・監査専用。通常公開UIは legacy detector を使用する
+
 詳しい引継ぎは HANDOFF.md を参照。
