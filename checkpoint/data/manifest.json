@@ -103,6 +103,7 @@
     "boundary/context resolver回帰fixtureを追加し、4サンプル raw 310 / resolved 105 / context-required 109 を現行期待値として固定した。",
     "局所boundary/tokenizerの前段として local_boundary_policy.json を signal-only で追加。境界シグナル単独ではresolvedへ昇格しない。",
     "shadow v0.10: 百人一首第9首の完全一致文法evidenceとAbe source whole-token境界を追加し、raw 310 / resolved 113 / context-required 98。",
-    "安倍晴明本文の助詞exact evidence層を追加。20件の接続助詞「て」、20件の格助詞「を」をresolvedし、「とて」内部6件と「さて」内部1件を安全側suppressionする。"
+    "安倍晴明本文の助詞exact evidence層を追加。20件の接続助詞「て」、20件の格助詞「を」をresolvedし、「とて」内部6件と「さて」内部1件を安全側suppressionする。",
+    "shadow v0.13: 安倍晴明本文の「に・と・が」exact evidenceを追加し、raw 310 / resolved 186 / context-required 10。連体形＋「に」4件は分析揺れのため意図的hold。"
   ]
 }
