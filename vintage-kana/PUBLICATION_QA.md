@@ -78,3 +78,16 @@ UIキャッシュ:
 - 「答えを見る」で対応する仮名・字母・実資料中の語・周辺翻字を表示
 - 対象ページ原画像へ直接戻れる
 - 更新後JavaScript構文検査: PASS
+
+
+## 2026-09-19 人間確認ゲート
+
+- P1: human-confirmed
+- P2: rejected as U+1B012（同字母「衣」の標準形との比較教材候補）
+- P3: human-confirmed
+- P4: human-confirmed
+- P5: 未確認
+
+**human-confirmed最低3件到達。**
+一次公開MVPの「実資料を読む」最低件数ゲートは満たした。
+ただし推奨5件セットと実ブラウザ／モバイル／Pages QAは未完了。
