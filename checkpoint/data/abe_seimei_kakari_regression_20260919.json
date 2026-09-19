@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 安倍晴明 exact 係り結び回帰",
+  "source": "abe_seimei_kakari_evidence.json",
+  "tested": 5,
+  "passed": 5,
+  "failed": 0,
+  "breakdown": {
+    "scopeLinks": 5,
+    "endingSurfaceLinked": 4,
+    "ellipsisWithoutEnding": 1
+  },
+  "policy": "ユーザー提供教材に明示された5表現を完全一致で検証。一般係り結び規則へ自動一般化しない。",
+  "result": "PASS"
+}
