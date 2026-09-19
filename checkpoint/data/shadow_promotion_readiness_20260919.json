@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint shadow promotion readiness audit",
+  "shadowVersion": "0.14",
+  "recommendation": "stay-stage-1",
+  "summary": "raw被覆・DB-only・未分類contextは良好だが、独立gold setと複数作品一般化監査が不足。global learner-visible切替はまだ行わない。",
+  "observed": {
+    "legacyUnique": 310,
+    "dbRaw": 310,
+    "rawCoverage": 1,
+    "dbOnly": 0,
+    "resolved": 187,
+    "resolvedRate": 0.603225806451613,
+    "suppressed": 123,
+    "contextHoldTotal": 9,
+    "intentionalBenchmark": 4,
+    "primarySourceHold": 5,
+    "unclassifiedContextRequired": 0,
+    "sampleRawDistribution": {
+      "sample1": 9,
+      "sample2": 12,
+      "sample3": 16,
+      "sample4": 273
+    },
+    "abeShareOfRaw": 0.8806451612903226
+  },
+  "gates": [
+    {
+      "id": "G1",
+      "status": "PASS",
+      "evidence": "310/310 raw coverage"
+    },
+    {
+      "id": "G2",
+      "status": "PASS",
+      "evidence": "DB only 0"
+    },
+    {
+      "id": "G3",
+      "status": "PASS",
+      "evidence": "unclassified context-required 0"
+    },
+    {
+      "id": "G4",
+      "status": "PENDING",
+      "evidence": "現行regressionはresolver作成evidenceと重なるため独立goldではない。"
+    },
+    {
+      "id": "G5",
+      "status": "PENDING",
+      "evidence": "raw 310位置のうち安倍晴明サンプルが273位置（約88.1%）を占める。"
+    },
+    {
+      "id": "G6",
+      "status": "PENDING",
+      "evidence": "hold-aware learner UIは未実装。"
+    },
+    {
+      "id": "G7",
+      "status": "PASS",
+      "evidence": "primary-source-required 5位置を明示holdしresolvedへ上げていない。"
+    }
+  ],
+  "nextRecommendedWork": [
+    "独立gold setを、resolver作成に使っていない別作品から作る。",
+    "まず20〜50箇所程度の同形識別を人手監査し、shadow結果とブラインド比較する。",
+    "stage-2の開発者向けdebug overlayでlegacy/shadow/hold理由を比較できるようにする。",
+    "一次資料へアクセスできたらprimary-source hold 5件を別レーンで裁定する。"
+  ]
+}
