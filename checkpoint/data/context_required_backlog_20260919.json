@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 残件バックログ",
-  "basis": "既存4サンプル計990文字、shadow detector v0.8",
-  "total": 130,
+  "basis": "既存4サンプル計990文字、shadow detector v0.9",
+  "total": 109,
   "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
   "categories": [
     {
@@ -24,11 +24,11 @@
     },
     {
       "surface": "と",
-      "count": 23,
+      "count": 10,
       "layer": "syntax+boundary",
       "priority": "A",
-      "why": "格助詞、タリ活用、断定「たり」、副詞内部など。引用・語境界の解析が必要。",
-      "nextEvidence": "引用符境界・既知語境界・前接体言/句を別レイヤ化。"
+      "why": "引用符直後13件はhard-boundaryで解消。残10件は格助詞（引用・内容）・タリ活用・断定「たり」・語内部等が衝突。",
+      "nextEvidence": "残10件を語内部／内容格助詞／断定・タリ活用候補へ分け、局所境界を監査する。"
     },
     {
       "surface": "を",
@@ -53,14 +53,6 @@
       "priority": "B",
       "why": "助動詞「ぬ」未然・終助詞・禁止副詞・語内部が衝突。",
       "nextEvidence": "「な～そ」呼応、後続助動詞、既知語内部を分離。"
-    },
-    {
-      "surface": "ば",
-      "count": 8,
-      "layer": "connection",
-      "priority": "B",
-      "why": "未然形接続・已然形接続・係助詞「は」の濁音化。",
-      "nextEvidence": "監査済み直前活用形を増やす。USB-3212由来の「けれ＋ば」は既に6件resolved。"
     },
     {
       "surface": "が",
@@ -97,14 +89,23 @@
   ],
   "strategy": [
     "まず語内部誤一致をknown-token boundaryで除外する。",
+    "引用符など明示的な文字境界だけで候補が一意になる場合は hard-boundary resolver を使う。",
     "次に一次資料・監査済みコーパスが示す接続だけをresolverへ入れる。",
-    "文節構造が必要な「に・と・を・が」はtokenizer/係り先解析が入るまで無理にresolvedへ上げない。",
+    "文節構造が必要な「に・と・を・が」は局所tokenizer/係り先解析が入るまで無理にresolvedへ上げない。",
     "shadow resolvedをlearner-visible正解表示へ直結しない。"
   ],
   "latestChange": [
-    "安倍晴明 exact grammar evidence 28件、係り結び exact scope 5件を反映。",
-    "百人一首文節監査の第9首『ながめ』を exact lexical boundary として追加。",
-    "名詞『ながめ』内部の一文字『な』『が』2位置を source-exact-bunsetu-lexical-unit として抑制。",
-    "resolved数は86のまま。context-required は132→130。"
-  ]
+    "閉じ引用符直後の「と」13位置を hard-boundary resolver でresolved。",
+    "副助詞「ばかり」をwhole-token境界として追加し、内部「ば」2位置を抑制。",
+    "「し給へ・ましか・申せ・のたまへ・投げ上げたれ」直後の「ば」6位置を、長い左文脈に限定してresolved。",
+    "外部照合は external_grammar_crosscheck_20260919.json に分離し、primary-source-verified には昇格しない。",
+    "resolved 86→105。context-required 130→109。raw 310 / DB only 0は維持。"
+  ],
+  "resolvedSinceV08": {
+    "total": 21,
+    "hardBoundaryQuotedTo": 13,
+    "bakariInternalSuppression": 2,
+    "sourceLimitedBa": 6,
+    "note": "21はcontext-required減少数。うち19はresolvedへの昇格、2はwhole-token境界による抑制。"
+  }
 }
