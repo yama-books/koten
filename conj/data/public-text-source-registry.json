@@ -25,8 +25,8 @@
     "works": 21,
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
-    "publicationReadyWorks": 1,
-    "publicExamplesConnected": 7,
+    "publicationReadyWorks": 2,
+    "publicExamplesConnected": 11,
     "rightsVerifiedWorks": 5,
     "targetVerifiedExamples": 20,
     "excerptReviewedExamples": 4,
@@ -276,8 +276,8 @@
         "editionFixed": false,
         "targetVerificationCount": 0
       },
-      "publicationReady": false,
-      "note": "5例すべて公開本文で対応語形を再確認。短い引用範囲・出典表示の最終監査前なので未公開。 うち1例は短い引用範囲・出典表示まで監査済み。",
+      "publicationReady": true,
+      "note": "5例すべて公開本文でtargetと短い引用範囲を監査済み。公開実例JSONへ5例接続済み。",
       "excerptReviewedExamples": 1,
       "publicationEnabledExamples": 1
     },
