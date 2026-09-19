@@ -22,6 +22,7 @@ header{display:flex;justify-content:space-between;gap:18px;align-items:flex-star
 h1{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;margin:0;font-size:clamp(27px,4.4vw,42px);font-weight:600;letter-spacing:.07em}
 .tagline{margin:7px 0 0;color:var(--muted);font-size:13px;line-height:1.7}
 .pill{border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:rgba(255,255,255,.66);font-size:12px;white-space:nowrap}
+.fontOk{border-color:#9fc0a6;background:#eef6ef;color:var(--ok)}.fontWarn{border-color:#d7b0a9;background:#fbefed;color:var(--danger)}
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);margin:14px 0}
 .notice{background:#f7f3e9;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.8}
 .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:15px 0}
@@ -81,7 +82,10 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <h1>変体仮名を読む・知る・書いてみる</h1>
     <p class="tagline">字母と実資料をたどりながら、読めなかった文字が少しずつ読めるようになるための学習アプリ。</p>
   </div>
-  <div class="pill">一次公開準備版 0.7</div>
+  <div>
+    <div class="pill">一次公開準備版 0.8</div>
+    <div class="pill" id="fontStatus" style="margin-top:7px">字体フォント確認中…</div>
+  </div>
 </header>
 
 <section class="panel">
@@ -148,7 +152,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 0.7 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
+  vintage-kana / release candidate 0.8 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
 </footer>
 </div>
 
@@ -277,6 +281,28 @@ function renderCompose(){
  document.getElementById("preview").textContent=[...text].map(ch=>selected[ch]||ch).join("");
 }
 
+async function checkHentaiganaFont(){
+ const el=document.getElementById("fontStatus");
+ if(!el)return;
+ if(!document.fonts){
+   el.textContent="字体フォント: ブラウザ確認不可";
+   el.classList.add("fontWarn");
+   return;
+ }
+ try{
+   await Promise.race([
+     document.fonts.load('32px "Noto Serif Hentaigana"',"𛀒"),
+     new Promise((_,reject)=>setTimeout(()=>reject(new Error("font timeout")),6000))
+   ]);
+   const ok=document.fonts.check('32px "Noto Serif Hentaigana"',"𛀒");
+   el.textContent=ok?"字体フォント: 読込済み":"字体フォント: 未読込";
+   el.classList.add(ok?"fontOk":"fontWarn");
+ }catch(err){
+   el.textContent="字体フォント: 読込失敗";
+   el.classList.add("fontWarn");
+ }
+}
+
 function sourceFor(witness){return SOURCES.find(s=>s.witness_id===witness)||null}
 function renderRead(){
  const root=document.getElementById("readExamples");
@@ -314,6 +340,7 @@ document.querySelectorAll(".tab[data-view]").forEach(b=>b.addEventListener("clic
 }));
 document.getElementById("nextQuiz").onclick=newQuiz;
 document.getElementById("sourceText").addEventListener("input",renderCompose);
+checkHentaiganaFont();
 loadData();
 </script>
 </body>
