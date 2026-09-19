@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.4",
   "updated": "2026-09-19",
   "title": "安倍晴明『宇治拾遺物語』 exact grammar evidence",
   "source": {
@@ -15,7 +15,7 @@
     "複数資料で明示される同一本文箇所は、出典を sources に分けて保持する。",
     "助動詞一覧にない一文字助詞は、資料からの欠落だけを根拠に品詞を推測しない。"
   ],
-  "entryCount": 28,
+  "entryCount": 30,
   "entries": [
     {
       "phrase": "御堂へ参らせ給ひ",
@@ -341,6 +341,32 @@
       "focusOffset": 5,
       "analysisUnitOffset": 4,
       "evidenceStatus": "user-source-reviewed"
+    },
+    {
+      "id": "abe-nashi-na-boundary",
+      "phrase": "物もなし",
+      "focusSurface": "な",
+      "analysisUnit": "なし",
+      "action": "suppressInsideLargerUnit",
+      "sourceAnalysis": "形容詞「なし」の語内部。外部辞書照合を境界確認にのみ使用。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-nashi-shi-boundary",
+      "phrase": "物もなし",
+      "focusSurface": "し",
+      "analysisUnit": "なし",
+      "action": "suppressInsideLargerUnit",
+      "sourceAnalysis": "形容詞「なし」の語内部。過去「き」等の独立「し」ではない。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
     }
   ],
   "sources": [
