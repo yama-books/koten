@@ -1,6 +1,6 @@
 {
-  "schemaVersion": "0.1",
-  "updated": "2026-09-19",
+  "schemaVersion": "0.2",
+  "updated": "2026-09-20",
   "title": "Checkpoint local syntax feature policy",
   "mode": "signal-only",
   "targets": [
@@ -48,6 +48,14 @@
     {
       "id": "matchedRightContextCue",
       "description": "既存context_resolver_rulesのrightContextRulesに文字列上合う後続cue。"
+    },
+    {
+      "id": "nextMorphology",
+      "description": "hit直後（空白・句読点のみ観測上skip可）に一致するaudited500 / source-reviewed token morphology。skipした文字列も保持し、判定には使わない。"
+    },
+    {
+      "id": "rightTokenRoleSignal",
+      "description": "直後の句読点、即時の一意auxiliary surface、next morphology、trusted boundaryから『助動詞列候補 / 独立活用語候補 / 文法surface曖昧 / 境界 / 不明』をsignal-only分類する。"
     }
   ],
   "candidateCautions": {
@@ -75,6 +83,13 @@
   "safety": [
     "このレイヤ単独ではresolved/suppressedを変更しない。",
     "signalから候補を削除しない。",
-    "hard rule化はdevelopment gold回帰後、未使用作品blindで再検証する。"
+    "hard rule化はdevelopment gold回帰後、未使用作品blindで再検証する。",
+    "nextMorphology / rightTokenRoleSignal は観測専用で、単独でも組合せでもcandidate削除・resolved昇格を行わない。",
+    "句読点をskipして取得したnextMorphologyは、句読点を越えた統語的連結を意味しない。rightTokenRoleSignalは即時句読点をboundaryとして優先する。"
+  ],
+  "researchNotes": [
+    "3 development goldの未解決39位置でnextMorphology 15/39を取得。",
+    "未解決「て」11件では、読点なし3件が3件とも immediate next morphology = 独立活用語。研究候補だがdevelopment相関なのでhard rule化しない。",
+    "「に」は右側独立活用語が見えても、方丈記「水にあらず」（断定なり連用形）と伊勢「暗きに来けり」（格助詞）の反例対があるため一意化しない。"
   ]
 }
