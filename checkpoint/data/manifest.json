@@ -39,7 +39,9 @@
     "externalGrammarCrosscheck": "external_grammar_crosscheck_20260919.json",
     "boundaryResolverRegression": "boundary_resolver_regression_20260919.json",
     "localBoundaryPolicy": "local_boundary_policy.json",
-    "localBoundaryAudit": "local_boundary_audit_20260919.json"
+    "localBoundaryAudit": "local_boundary_audit_20260919.json",
+    "abeSeimeiParticleEvidence": "abe_seimei_particle_evidence.json",
+    "abeSeimeiParticleRegression": "abe_seimei_particle_regression_20260919.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -100,6 +102,7 @@
     "外部文法照合は primary-source-verified と分離し、shadow resolver / token boundary の安全確認専用 evidence として保持する。",
     "boundary/context resolver回帰fixtureを追加し、4サンプル raw 310 / resolved 105 / context-required 109 を現行期待値として固定した。",
     "局所boundary/tokenizerの前段として local_boundary_policy.json を signal-only で追加。境界シグナル単独ではresolvedへ昇格しない。",
-    "shadow v0.10: 百人一首第9首の完全一致文法evidenceとAbe source whole-token境界を追加し、raw 310 / resolved 113 / context-required 98。"
+    "shadow v0.10: 百人一首第9首の完全一致文法evidenceとAbe source whole-token境界を追加し、raw 310 / resolved 113 / context-required 98。",
+    "安倍晴明本文の助詞exact evidence層を追加。20件の接続助詞「て」、20件の格助詞「を」をresolvedし、「とて」内部6件と「さて」内部1件を安全側suppressionする。"
   ]
 }
