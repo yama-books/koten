@@ -137,3 +137,57 @@ C. Aが不成立なら
 6. `data/context-sampling-candidates.json`
 7. `data/auxiliary-sources.json`
 
+
+
+## 9. 追加チェックポイント: Stage A 実例採取開始
+
+2026-09-19、Phase 2 の取得方式を前進させた。
+
+### 実証済み
+
+国語研字形DBの公式音価ページから、変体仮名字形セクション配下の個別出現について、
+
+- witness
+- viewer page
+- occurrence ID
+- X / Y 座標
+
+をHTMLから直接取得できる場合がある。
+
+検索エンジンの偶然のインデックスに依存しない。
+
+### attested-examples.json
+
+Stage A `source-checked` 実例を9件まで登録。
+
+内訳:
+- 現行平仮名字形を使った取得技術検証: 4件
+- 変体仮名 U+1B012 / 𛀒 / え / 字母「衣」: 5件
+
+全9件:
+- `provenance_type: attested`
+- `review_status: source-checked`
+- `context_alignment_status: page-level`
+
+であり、
+- word
+- previous_char
+- next_char
+- renmen
+等は未確認のため推測していない。
+
+`context-checked` はまだ0件。
+教材利用はまだ行わない。
+
+### 残るボトルネック
+
+『伊勢物語』の研究上の最優先字体は高頻度であり、現在のHTML取得では個別出現行が露出しない場合がある。
+
+特に:
+- U+1B0DE / 𛃞 / や / 也
+- U+1B03F / 𛀿 / さ / 左
+
+は件数と資料別分布まで確認できるが、Stage A の全出現列挙経路は未確立。
+
+次はこの高頻度セクションの取得方法を調べる。
+それが難しい場合は、同じ『伊勢物語』内の比較的少数の候補字体でStage Aを先行し、原資料文脈解析の方式を確立する。
