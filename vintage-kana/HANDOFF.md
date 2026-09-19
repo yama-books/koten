@@ -416,3 +416,62 @@ ROADMAPの偏り制約に従い、次の context-checked 5件は
 
 を含める。
 まず『伊勢物語』Stage A 33件から、原画像と本文を同一witnessで対応できる候補を選ぶ。
+
+
+## 14. Phase 2C MVP区切り: context-checked 10件達成 / 製品化へ移行
+
+一次公開を優先する方針に従い、Phase 2C のMVP区切り `context-checked=10` を達成した。
+
+### 現在値
+
+`data/attested-examples.json`:
+- total: 49
+- review_status=source-checked: 39
+- source-checked以上: 49
+- alignment exact: 10
+- exact-text以上到達: 10
+- context-checked: 10
+- human-confirmed: 0
+- 変体仮名字形: 44
+- 『伊勢物語』: 33
+
+### 今回追加した5件
+
+資料: 『比翼連理花廼志満台』初編上（hnsd001）
+字体: U+1B094 / 𛂔 / ね / 字母「年」
+
+- 2ウ / hnsd001-014 / ID0052 / X1142 Y718 / 「くらしかねたる」
+- 3オ / hnsd001-015 / ID0119 / X1611 Y1645 / 「むね」
+- 8ウ / hnsd001-026 / ID0111 / X522 Y1719 / 「かねて」
+- 13ウ / hnsd001-036 / ID0103 / X1181 Y1131 / 「むね」
+- 15オ / hnsd001-039 / ID0054 / X627 Y2254 / 「むね」
+
+国語研公式翻字 `hnsd-001.txt`、IIIF manifest、同一底本原画像を照合した。
+2ウ・15オは同丁に「ね」が複数あるため原画像周辺本文で一意化。
+3オ・8ウ・13ウは同丁の「ね」が各1箇所で、対象 U+1B094 出現も各1件のため一意対応。
+
+全5件で原画像上の対象字体と周辺を確認した。
+連綿は true/false の二値判定を安全に行えないため `renmen: unknown` とし、
+notes/evidence に「未確認ではなく、画像確認済み判定不能」と明記した。
+
+### 技術的突破
+
+長大な国語研公式TXTがWeb取得層で1行化される問題を、短命のGitHub Actions取得ブリッジで解消。
+公式TXTをUTF-8・改行正規化して取得し、IIIF manifestも同じ経路で取得できた。
+manifestから画像ページと丁ラベルの対応を機械的に確定した。
+
+### 方針転換
+
+ここから Stage A / context-checked の追加収集を主工程にしない。
+一次公開MVPの工程へ移る。
+
+次:
+1. 既存UI・試作・データ接続の監査
+2. 字体・字母クイズのMVP教材データ生成
+3. context-checked 10件から公開対象例を絞る
+4. 公開対象例のみ human-confirmed 手順へ
+5. 字体詳細・実例・読解UIへ接続
+6. 出典・ライセンス・フォント・モバイル/PC QA
+7. 一次公開
+
+ローカル非接触方針は引き続き維持する。
