@@ -170,23 +170,17 @@ function escapeHtml(s){
 
 async function loadData(){
  try{
-   const files=["data/glyph-distribution.json","data/glyph-distribution-part2.json","data/glyph-distribution-supplemental.json"];
-   const glyphParts=await Promise.all(files.map(async url=>{
-     const r=await fetch(url); if(!r.ok) return {}; return r.json();
-   }));
-   const agg=new Map();
-   glyphParts.flatMap(rowsOf).forEach(r=>{
-     if(r.diacritic!=="none" || !/^U\+1B/i.test(r.glyph_id||"")) return;
-     const key=[r.kana,r.glyph_id,r.diacritic].join("|");
-     if(!agg.has(key)) agg.set(key,{kana:r.kana,glyph_id:r.glyph_id,character:r.character,jibo:r.jibo,totalObserved:0,witnesses:new Set()});
-     const x=agg.get(key);
-     x.totalObserved+=Number(r.count)||0;
-     if(r.source_witness)x.witnesses.add(r.source_witness);
-   });
-   GLYPHS=[...agg.values()].map(x=>({...x,witnessCount:x.witnesses.size,witnesses:undefined}))
+   const [glyphRes,attRes,srcRes]=await Promise.all([
+     fetch("data/ui-glyph-master.json"),
+     fetch("data/attested-examples.json"),
+     fetch("data/sources.json")
+   ]);
+   if(!glyphRes.ok) throw new Error("ui-glyph-master.json load failed");
+   const glyphData=await glyphRes.json();
+   GLYPHS=(glyphData.glyphs||[])
      .sort((a,b)=>KANA_ORDER.indexOf(a.kana)-KANA_ORDER.indexOf(b.kana)||a.glyph_id.localeCompare(b.glyph_id));
 
-   const [attRes,srcRes]=await Promise.all([fetch("data/attested-examples.json"),fetch("data/sources.json")]);
+
    if(attRes.ok){const a=await attRes.json();ATTESTED=a.examples||[]}
    if(srcRes.ok){const s=await srcRes.json();SOURCES=s.sources||s||[]}
 
