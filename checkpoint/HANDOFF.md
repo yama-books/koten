@@ -876,3 +876,68 @@ false-positive 3件:
 - G6 PENDING
 - G7 PASS
 - global learner-visible promotion はまだ不可
+
+
+## 2026-09-20 Git履歴照合による訂正: 3作品Stage 2を現行正本とする
+
+21:01 JST に追記された直前節「stage-2 / independent gold 2本完了」は、並行作業の古いスナップショットが後から追記されたものだった。Git ancestry と現行データを照合した結果、**その節は履歴として残すが現行状態としては superseded** とする。
+
+### 照合した順序
+- 伊勢boundary修復: `ea283eef13dff068fb01b17b4b8c70a800700ed2`
+- 2作品failure taxonomy: `f863b5944d16798082b0d3a9603504699aa73cbd`
+- source-reviewed token morphology: `48055d9a21915c346587750f44edfcb18e037375`
+- morphology resolver接続: `099e0e09b6030c9b458641dcf8d0e69a75262361`
+- 方丈記gold freeze: `4a46315c5864c70a3cf9f1453524d87c7e53eb70`
+- 方丈記blind baseline freeze: `555b5076b591b4b7c9d74e0cd7dcc8f0252d45c9`
+- 方丈記post-blind boundary修復（`しかも`）: `5c913268eaca8a5c5059e749595dc25cf8b4275e`
+- local syntax signal audit: `54500390704b072ded254cc9bbcec48ec7abbd8f`
+- Stage 2 shadow audit: `aab08af7d8de08e4f9068d244793e16a3ba8c2b9`
+
+この後の 21:01 の `9250e629` / `e5b31ed7` / `4b1d9aef` / `79c8d795` は、2作品時点の停止記録を追記したが、第三gold・baseline・local syntax実装をrevertしていない。したがってコード・監査成果物と一致する **3作品Stage 2** を現行正本とする。
+
+### 現行のblind / development指標
+blind 3作品合算:
+- 112 positions
+- strict PASS **63/112 = 56.3%**
+- grammar strict resolve **16/61 = 26.2%**
+- boundary suppression **47/51 = 92.2%**
+- wrong candidate resolve **0**
+- false-positive resolved **4**（すべて larger-token boundary不足）
+
+blind後のdevelopment:
+- strict PASS **73/112 = 65.2%**
+- grammar strict resolve **22/61 = 36.1%**
+- boundary suppression **51/51**
+- hard error **0**
+
+既存4サンプルは raw 310 / old resolved 187 / **strict 145 / ambiguous 42** / suppressed 123 / DB only 0 のまま。
+
+### 「左語token境界coverage測定」の扱い
+2作品時点で途中停止した約31件の測定は、その後の作業でより広い形に置き換えられて完了している。
+- `cross_gold_failure_taxonomy_20260919.json`: 2作品の expected-resolve failure **38** を分類
+  - left-token boundary / morphology missing 25
+  - resolved candidate set not unique 7
+  - token known but morphology not connected 1
+  - morphology known but rule nonunique 5
+- `local_syntax_feature_audit_20260919.json`: 3作品development残 **39** をsignal-only監査
+  - previous morphology 14
+  - left trusted token 7
+  - right trusted token 4
+  - punctuation after 14
+  - matched right-context hard cue 0
+
+したがって旧31件の測定を再実行して二重管理せず、この39位置監査を次の入力とする。
+
+### 次の作業
+1. right-token morphology / boundary を **signal-only** で拡張する。
+2. 次tokenが「助動詞列開始」か「独立語開始」かをfeature化する。これだけで候補を削らない。
+3. `に / を / と` は節構造・係り先レイヤを設計し、局所文字列ruleを作らない。
+4. 新hard ruleへ上げる一般条件ができたら、**第四の未使用作品をgold先固定**してblind評価する。
+5. G6 hold-aware learner UI は別レーンで設計するが、learner-visible detectorはlegacyのまま維持する。
+
+### 維持するhold / 安全条件
+- 安倍晴明の連体形＋`に` 4件はprimary-source hold。
+- `不便にせさせ給ひ` の最初の `せ` 1件もprimary-source hold。
+- secondary Web資料を『新しい古典文法 四訂新版』のprimary verification代替にしない。
+- passage-specific evidenceを一般文法規則へ自動一般化しない。
+- learner-visibleへshadow resolvedを直結しない。
