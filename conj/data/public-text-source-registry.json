@@ -25,13 +25,13 @@
     "works": 21,
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
-    "publicationReadyWorks": 11,
-    "publicExamplesConnected": 59,
-    "rightsVerifiedWorks": 15,
-    "targetVerifiedExamples": 61,
-    "excerptReviewedExamples": 59,
-    "publicationReadyExamples": 59,
-    "auditStatusKnownWorks": 16,
+    "publicationReadyWorks": 12,
+    "publicExamplesConnected": 64,
+    "rightsVerifiedWorks": 16,
+    "targetVerifiedExamples": 66,
+    "excerptReviewedExamples": 64,
+    "publicationReadyExamples": 64,
+    "auditStatusKnownWorks": 17,
     "blockedWorks": 1,
     "partialWorks": 4
   },
@@ -191,10 +191,13 @@
       "exampleCount": 5,
       "wikisource": {
         "candidateFound": true,
-        "candidateUrl": "https://ja.wikisource.org/wiki/源氏物語",
-        "rightsVerified": false,
-        "editionFixed": false,
-        "targetVerificationCount": 0
+        "candidateUrl": "https://ja.wikisource.org/wiki/源氏物語_(渋谷栄一校訂)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 5,
+        "edition": "渋谷栄一校訂",
+        "sourceLicense": "CC BY-SA 3.0",
+        "rightsNote": "Wikisource作品ページでCC BY-SA 3.0を明示。"
       },
       "aozora": {
         "candidateFound": false,
@@ -203,8 +206,9 @@
         "editionFixed": false,
         "targetVerificationCount": 0
       },
-      "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "publicationReady": true,
+      "note": "渋谷栄一校訂Wikisource版で5例すべて同一箇所・同一文法形を確認し公開接続済み。",
+      "auditStatus": "publicationReady"
     },
     {
       "work": "更級日記",
