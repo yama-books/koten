@@ -146,7 +146,8 @@ const CHECKPOINT_DATA_PATHS = {
   abeSeimeiGrammarEvidence:"./data/abe_seimei_grammar_evidence.json",
   abeSeimeiKakariEvidence:"./data/abe_seimei_kakari_evidence.json",
   hyakuninBunsetuBoundaryEvidence:"./data/hyakunin_bunsetu_boundary_evidence.json",
-  localBoundaryPolicy:"./data/local_boundary_policy.json"
+  localBoundaryPolicy:"./data/local_boundary_policy.json",
+  abeSeimeiParticleEvidence:"./data/abe_seimei_particle_evidence.json"
 };
 
 async function loadCheckpointData(){
