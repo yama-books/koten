@@ -1,0 +1,63 @@
+{
+  "updated": "2026-09-19",
+  "work": "竹取物語",
+  "status": "pilot / all-targets-verified",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "竹取物語 (國民文庫)",
+    "url": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
+    "validationStatus": "100% verified on Wikisource",
+    "rightsVerified": true,
+    "rightsStatus": "public-domain-marked-on-Wikisource",
+    "publicationTextLicenseNote": "Wikisourceページ下部のCC BY-SA利用条件も遵守する。"
+  },
+  "records": [
+    {
+      "id": "adjv-035",
+      "chjTarget": "まめなら",
+      "publicTarget": "まめなら",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "未然形「なら」を確認（「まめならん」）。"
+    },
+    {
+      "id": "adjv-044",
+      "chjTarget": "けうらなり",
+      "publicTarget": "けうらなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "終止形「なり」を確認。"
+    },
+    {
+      "id": "adjv-064",
+      "chjTarget": "きよらなる",
+      "publicTarget": "清（けう）らなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "底本の傍訓差を保持。連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-082",
+      "chjTarget": "あながちに",
+      "publicTarget": "強（あながち）に",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "漢字／かな表記差。連用形「に」を確認。"
+    }
+  ],
+  "counts": {
+    "total": 4,
+    "rightsVerified": 4,
+    "targetVerified": 4,
+    "excerptReviewed": 0,
+    "publicationEnabled": 0
+  }
+}
