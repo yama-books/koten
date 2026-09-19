@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint boundary/context resolver regression 2026-09-19",
+  "scope": "既存4サンプル。learner-visible detector は変更せず shadow detector のみ。",
+  "expectedTotals": {
+    "raw": 310,
+    "resolved": 105,
+    "suppressed": 205,
+    "contextRequired": 109,
+    "resolvedRate": 0.3387096774193548
+  },
+  "quoteBoundary": {
+    "rule": "閉じ引用符（」/』）直後の「と」",
+    "expectedResolved": 13,
+    "expectedCandidateId": "case_particle_to",
+    "status": "resolved-by-source-hard-boundary"
+  },
+  "bakariBoundary": {
+    "token": "ばかり",
+    "expectedSuppressed": 2,
+    "suppressedSurface": "ば",
+    "reason": "known-larger-token",
+    "use": "boundary-only"
+  },
+  "baLeftSurface": {
+    "previousResolvedBaseline": 6,
+    "expectedNewResolved": 6,
+    "expectedTotalResolvedByLeftSurface": 12,
+    "cases": [
+      {
+        "previousSurface": "し給へ",
+        "expectedCount": 2,
+        "candidateId": "conjunctive_ba_fixed"
+      },
+      {
+        "previousSurface": "ましか",
+        "expectedCount": 1,
+        "candidateId": "conjunctive_ba_hypothetical"
+      },
+      {
+        "previousSurface": "申せ",
+        "expectedCount": 1,
+        "candidateId": "conjunctive_ba_fixed"
+      },
+      {
+        "previousSurface": "のたまへ",
+        "expectedCount": 1,
+        "candidateId": "conjunctive_ba_fixed"
+      },
+      {
+        "previousSurface": "投げ上げたれ",
+        "expectedCount": 1,
+        "candidateId": "conjunctive_ba_fixed"
+      }
+    ]
+  },
+  "safetyAssertions": [
+    "surface_index raw hit は310のまま変化しない。",
+    "引用境界は直前文字が閉じ引用符のときだけ発火する。",
+    "「給へ」は下二段との同形衝突を避けるため「し給へ」に限定する。",
+    "「たれ＋ば」を一般化せず「投げ上げたれ」に限定する。",
+    "「ばかり」は文法正解を与えず内部の一文字hit抑制だけに使う。",
+    "shadow resolved を learner-visible 正解表示へ直結しない。"
+  ]
+}
