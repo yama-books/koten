@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "Checkpoint shadow promotion readiness audit",
-  "shadowVersion": "0.14",
-  "recommendation": "stay-stage-1",
+  "shadowVersion": "0.14-pre-tuning",
+  "recommendation": "stay-stage-2-build-more-independent-gold",
   "summary": "raw被覆・DB-only・未分類contextは良好だが、独立gold setと複数作品一般化監査が不足。global learner-visible切替はまだ行わない。",
   "observed": {
     "legacyUnique": 310,
@@ -23,7 +23,10 @@
       "sample3": 16,
       "sample4": 273
     },
-    "abeShareOfRaw": 0.8806451612903226
+    "abeShareOfRaw": 0.8806451612903226,
+    "strictResolved": 145,
+    "ambiguousResolved": 42,
+    "strictResolvedRate": 0.46774193548387094
   },
   "gates": [
     {
@@ -43,13 +46,13 @@
     },
     {
       "id": "G4",
-      "status": "PENDING",
-      "evidence": "現行regressionはresolver作成evidenceと重なるため独立goldではない。"
+      "status": "PARTIAL",
+      "evidence": "徒然草52でblind baseline完了。55位置中strict PASS 32、誤確定0、resolve recall 7/30。追加独立goldが必要。"
     },
     {
       "id": "G5",
       "status": "PENDING",
-      "evidence": "raw 310位置のうち安倍晴明サンプルが273位置（約88.1%）を占める。"
+      "evidence": "独立作品は徒然草1本まで。もう1作品以上でcross-passage blind評価が必要。"
     },
     {
       "id": "G6",
@@ -63,9 +66,26 @@
     }
   ],
   "nextRecommendedWork": [
-    "独立gold setを、resolver作成に使っていない別作品から作る。",
-    "まず20〜50箇所程度の同形識別を人手監査し、shadow結果とブラインド比較する。",
-    "stage-2の開発者向けdebug overlayでlegacy/shadow/hold理由を比較できるようにする。",
+    "現goldへ合わせたresolver調整をまだ行わず、別作品でもう1本blind goldを固定・評価する。",
+    "2本目でもlarger-unit suppressionの安全性とunder-resolving傾向が再現するか確認する。",
+    "その後に一般規則の改善候補を、複数gold共通の失敗だけから抽出する。",
     "一次資料へアクセスできたらprimary-source hold 5件を別レーンで裁定する。"
-  ]
+  ],
+  "currentStage": "stage-2-evidence-backed-debug-overlay",
+  "independentGold": {
+    "file": "tsurezure52_independent_gold_20260919.json",
+    "baseline": "tsurezure52_shadow_baseline_v014.json",
+    "goldPositions": 55,
+    "strictPass": 32,
+    "strictPassRate": 0.5818181818181818,
+    "resolveTargets": 30,
+    "strictCorrectResolve": 7,
+    "strictResolveRecall": 0.23333333333333334,
+    "suppressionTargets": 25,
+    "correctSuppression": 25,
+    "falsePositiveResolved": 0,
+    "wrongResolved": 0,
+    "wrongSuppressed": 0,
+    "assessment": "安全側だがunder-resolving。4位置は旧resolved指標では成功に見えるが候補未一意。"
+  }
 }
