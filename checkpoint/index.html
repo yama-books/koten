@@ -70,6 +70,16 @@
     <div class="label">予習チェックリスト</div>
     <div class="status">本文を見ながら、「何を確認すればよいか」だけを一覧にします。項目を選ぶとヒントを開けます。</div>
     <div class="list" id="checklist"></div>
+    <div class="known-history" id="knownHistory" hidden>
+      <div class="known-history-head">
+        <div>
+          <div class="label known-history-label">✓ 「わかる」にしたポイント</div>
+          <div class="status known-history-status" id="knownHistoryStatus"></div>
+        </div>
+        <button class="ghost known-restore-all" id="restoreAllKnown" type="button">すべて戻す</button>
+      </div>
+      <div class="known-list" id="knownList" aria-live="polite"></div>
+    </div>
   </section>
 
   <footer>
