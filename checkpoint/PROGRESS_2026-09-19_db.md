@@ -214,3 +214,40 @@ v0.8からの変化:
 - `と` は引用境界13件を解消した。残10件は内容格助詞・タリ活用・断定・語内部等を混ぜずに別レイヤで扱う。
 - 次の主ボトルネックは `て / に / を / し / と`。特に `て / に / を` は文節・語境界が必要で、無理なresolved化をしない。
 - 次段階は全文tokenizerではなく、context-required周辺だけを見る **局所 boundary/tokenizer 層** を検討する。
+
+
+## 2026-09-19 17:41 JST 停止チェックポイント / shadow v0.11
+
+このセッションはここで一時停止。
+
+現行4サンプル:
+- legacy unique: 310
+- DB raw: **310**
+- DB resolved: **121**
+- DB suppressed: **189**
+- DB only: **0**
+- resolved率: **39.0%**
+- context-required: **85**
+
+未解決:
+`て28 / を21 / に20 / と10 / が3 / な1 / せ1 / ぬ1`
+
+v0.8（context-required 130 / resolved 86）から:
+- context-required **130→85**
+- resolved **86→121**
+- raw coverage 310/310 と DB only 0 を維持。
+
+この後半で追加した安全改善:
+- local boundary signal層を signal-only で導入。句読点・文字種遷移を観測するが単独では判定しない。
+- 百人一首第9首を passage-specific exact evidence 化し、和歌サンプルのcontext-requiredを9→0。
+- 安倍晴明sourceの `遣はし / 御越し / 物もなし / うち合せて` 等を、境界またはexact evidenceとして限定利用。
+- `たなびき / 取り出だし` を出典付きwhole-token境界へ追加。
+- 安倍晴明本文で残っていた `し` 8位置は誤検出として消さず、サ変「す」連用形の学習ポイントとしてexact passage限定でresolved。
+- Abe grammar evidence は **38件、回帰38/38 PASS**。
+
+重要な保留:
+- `不便にせさせ給ひ` の最初の `せ` は、助動詞「さす」の接続が一次資料未確認なので保留。
+- learner-visible detectorはまだlegacy。shadow結果を自動正解表示へ接続しない。
+- 外部文法照合は `external_grammar_crosscheck_20260919.json` に隔離し、primary-source-verifiedへ昇格しない。
+
+次回は残85件のうち `て / を / に / と` の局所境界・統語判定を主対象とする。
