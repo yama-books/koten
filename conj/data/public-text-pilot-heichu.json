@@ -1,0 +1,57 @@
+{
+  "updated": "2026-09-19",
+  "work": "平中物語",
+  "status": "pilot / all-gates-passed",
+  "provider": "やたがらすナビ",
+  "edition": {
+    "title": "静嘉堂文庫本『平中物語』",
+    "url": "https://yatanavi.org/text/heichu/index.html",
+    "bibliographicSource": "静嘉堂文庫本（孤本）。参考影印: 『校注平中物語』山田巌・水野清・木村晟、洛文社、1970",
+    "rightsVerified": true,
+    "sourceLicense": "CC BY-SA 4.0",
+    "rightsNote": "作品トップで底本・著作権者を明記。翻刻部分は自由利用可、本Wiki内容は特記なき限りCC BY-SA 4.0。",
+    "editorialNote": "校訂本文は濁点・句読点・鉤括弧・段落・送り仮名・仮名遣い等を調整している。"
+  },
+  "records": [
+    {
+      "id": "adjv-061",
+      "chjTarget": "いささかなる",
+      "publicTarget": "いささかなる",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/heichu/heichu21",
+      "excerpt": "国経の大納言のみもとより、いささかなることのたまへるに",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第21段。連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-077",
+      "chjTarget": "たまさかに",
+      "publicTarget": "たまさかに",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/heichu/heichu24",
+      "excerpt": "常にもの言ひ伝へさする人に、たまさかに会ひにけり",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第24段。連用形「に」を確認。"
+    },
+    {
+      "id": "adjv-030",
+      "chjTarget": "ことなら",
+      "publicTarget": "ことなら",
+      "targetVerified": true,
+      "sourcePage": "https://yatanavi.org/text/heichu/heichu25",
+      "excerpt": "ことならば明かし果ててよ衣手に触れる涙の色も見すべく",
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "第25段。未然形「なら」＋接続助詞「ば」を確認。"
+    }
+  ],
+  "counts": {
+    "total": 3,
+    "rightsVerified": 3,
+    "targetVerified": 3,
+    "excerptReviewed": 3,
+    "publicationEnabled": 3
+  }
+}
