@@ -1,7 +1,7 @@
 {
   "updated": "2026-09-19",
   "work": "徒然草",
-  "status": "pilot / partial-publication-enabled",
+  "status": "pilot / all-gates-passed",
   "provider": "Wikisource",
   "edition": {
     "title": "徒然草 (國文大觀)",
@@ -17,9 +17,11 @@
       "publicTarget": "おろかなれ",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/徒然草_(國文大觀)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "漢字／かな表記差。已然形「なれ」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "漢字／かな表記差。已然形「なれ」を確認。",
+      "excerpt": "一生をくるしむるこそおろかなれ",
+      "sourceLine": 155
     },
     {
       "id": "adjv-026",
@@ -29,7 +31,9 @@
       "sourcePage": "https://ja.wikisource.org/wiki/徒然草_(國文大觀)",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
-      "note": "已然形「なれ」＋接続助詞「ども」を確認。"
+      "note": "已然形「なれ」＋接続助詞「ども」を確認。",
+      "excerpt": "有明の月さやかなれどもくまなくはあらぬに",
+      "sourceLine": 261
     },
     {
       "id": "adjv-042",
@@ -37,9 +41,11 @@
       "publicTarget": "きらゝかなら",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/徒然草_(國文大觀)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "踊り字表記差。未然形「なら」＋打消を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "踊り字表記差。未然形「なら」＋打消を確認。",
+      "excerpt": "今めかしくきらゝかならねど木だちものふりて",
+      "sourceLine": 108
     },
     {
       "id": "adjv-066",
@@ -47,9 +53,11 @@
       "publicTarget": "おろかなる",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/徒然草_(國文大觀)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "連体形「なる」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連体形「なる」を確認。",
+      "excerpt": "人の心はおろかなるものかな",
+      "sourceLine": 106
     },
     {
       "id": "adjv-089",
@@ -57,16 +65,18 @@
       "publicTarget": "まうに",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/徒然草_(國文大觀)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "連用形「に」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "連用形「に」を確認。",
+      "excerpt": "いきほひまうにのゝしりたるにつけて",
+      "sourceLine": 100
     }
   ],
   "counts": {
     "total": 5,
     "rightsVerified": 5,
     "targetVerified": 5,
-    "excerptReviewed": 1,
-    "publicationEnabled": 1
+    "excerptReviewed": 5,
+    "publicationEnabled": 5
   }
 }
