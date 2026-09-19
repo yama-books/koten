@@ -33,7 +33,8 @@
     "abeSeimeiGrammarEvidence": "abe_seimei_grammar_evidence.json",
     "abeSeimeiVocabularyEvidence": "abe_seimei_vocabulary_evidence.json",
     "abeSeimeiGrammarRegression": "abe_seimei_grammar_regression_20260919.json",
-    "abeSeimeiKakariEvidence": "abe_seimei_kakari_evidence.json"
+    "abeSeimeiKakariEvidence": "abe_seimei_kakari_evidence.json",
+    "abeSeimeiKakariRegression": "abe_seimei_kakari_regression_20260919.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -83,6 +84,9 @@
     "安倍晴明教材の明示分析を24件のexact grammar evidence、難語29件のvocabulary evidenceへ構造化。grammar回帰24/24 PASS。",
     "shadow v0.7: resolved 85/310、context-required 134。入らむ/ならむ内部のらむ、黄なる内部のな・る、かたり内部のたり等の誤検出をsource evidenceで抑制。",
     "安倍晴明教材で明示された係り結び5表現をexact scope evidenceとして分離。",
-    "exact kakari evidenceは完全一致句のscope-linkだけを付与し、候補の自動除外や一般化には使わない。"
+    "exact kakari evidenceは完全一致句のscope-linkだけを付与し、候補の自動除外や一般化には使わない。",
+    "Abe grammar exact evidenceを28ケースへ拡張し、回帰28/28 PASS。",
+    "安倍晴明教材の係り結び5表現をexact scope-link化し、回帰5/5 PASS。",
+    "最新4サンプルshadowは86 resolved / 224 suppressed / DB only 0。context-requiredは132。"
   ]
 }
