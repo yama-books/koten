@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.5",
+  "schemaVersion": "0.6",
   "updated": "2026-09-19",
   "title": "安倍晴明『宇治拾遺物語』 exact grammar evidence",
   "source": {
@@ -15,7 +15,7 @@
     "複数資料で明示される同一本文箇所は、出典を sources に分けて保持する。",
     "助動詞一覧にない一文字助詞は、資料からの欠落だけを根拠に品詞を推測しない。"
   ],
-  "entryCount": 37,
+  "entryCount": 38,
   "entries": [
     {
       "phrase": "御堂へ参らせ給ひ",
@@ -460,6 +460,19 @@
       "action": "resolveCandidate",
       "candidateId": "sahen_su_renyo",
       "sourceAnalysis": "「呪詛＋す」のサ変連用形「し」。",
+      "evidenceStatus": "user-source-exact+secondary-crosscheck",
+      "sourceRefs": [
+        "安倍晴明_本文・文法・語彙整理.docx",
+        "external_grammar_crosscheck_20260919.json"
+      ]
+    },
+    {
+      "id": "abe-uchiawase-se-boundary",
+      "phrase": "土器を二つうち合せて",
+      "focusSurface": "せ",
+      "analysisUnit": "うち合せ",
+      "action": "suppressInsideLargerUnit",
+      "sourceAnalysis": "文語動詞「合す」の活用語形内部。独立のサ変「せ」・助動詞「せ」候補ではない。",
       "evidenceStatus": "user-source-exact+secondary-crosscheck",
       "sourceRefs": [
         "安倍晴明_本文・文法・語彙整理.docx",
