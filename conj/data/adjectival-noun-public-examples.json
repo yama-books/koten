@@ -1,0 +1,92 @@
+{
+  "updated": "2026-09-19",
+  "status": "reviewed-public-examples / pilot",
+  "policyFile": "conj/PUBLIC_TEXT_SOURCE_POLICY.md",
+  "counts": {
+    "records": 4,
+    "works": 4
+  },
+  "licensePolicy": {
+    "provider": "Wikisource",
+    "sourceTextLicense": "CC BY-SA 4.0",
+    "note": "各レコードでWikisourceの公開版と対象語形を確認済み。原作品は各ページでパブリックドメイン表示を確認し、Wikisource転写の帰属・ライセンスをUIに表示する。"
+  },
+  "records": [
+    {
+      "id": "public-adjv-035",
+      "sourceExampleId": "adjv-035",
+      "lemmaId": "adjv-lemma-057",
+      "lemma": "まめなり",
+      "form": "未然形",
+      "track": "main",
+      "work": "竹取物語",
+      "publicTarget": "まめなら",
+      "example": "それにまめならん男どもをゐてまかりて",
+      "sourceLabel": "『竹取物語』（國民文庫）・Wikisource",
+      "sourceUrl": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
+      "sourceLicense": "CC BY-SA 4.0",
+      "underlyingRights": "public domain",
+      "rightsVerified": true,
+      "targetVerified": true,
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true
+    },
+    {
+      "id": "public-adjv-005",
+      "sourceExampleId": "adjv-005",
+      "lemmaId": "adjv-lemma-049",
+      "lemma": "はるかなり",
+      "form": "連用形",
+      "track": "main",
+      "work": "土佐日記",
+      "publicTarget": "はるかなり",
+      "example": "あま雲のはるかなりつる桂川袖をひてゝもわたりぬるかな",
+      "sourceLabel": "『土佐日記』（群書類從）・Wikisource",
+      "sourceUrl": "https://ja.wikisource.org/wiki/土左日記_(群書類從)",
+      "sourceLicense": "CC BY-SA 4.0",
+      "underlyingRights": "public domain",
+      "rightsVerified": true,
+      "targetVerified": true,
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true
+    },
+    {
+      "id": "public-adjv-026",
+      "sourceExampleId": "adjv-026",
+      "lemmaId": "adjv-lemma-028",
+      "lemma": "さやかなり",
+      "form": "已然形",
+      "track": "main",
+      "work": "徒然草",
+      "publicTarget": "さやかなれ",
+      "example": "有明の月さやかなれどもくまなくはあらぬに",
+      "sourceLabel": "『徒然草』（國文大觀）・Wikisource",
+      "sourceUrl": "https://ja.wikisource.org/wiki/徒然草_(國文大觀)",
+      "sourceLicense": "CC BY-SA 4.0",
+      "underlyingRights": "public domain",
+      "rightsVerified": true,
+      "targetVerified": true,
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true
+    },
+    {
+      "id": "public-adjv-062",
+      "sourceExampleId": "adjv-062",
+      "lemmaId": "adjv-lemma-004",
+      "lemma": "あだなり",
+      "form": "連体形",
+      "track": "main",
+      "work": "古今和歌集",
+      "publicTarget": "あたなる",
+      "example": "我はけさうひにそ見つる花の色をあたなる物といふへかりけり",
+      "sourceLabel": "『古今和歌集』巻十・Wikisource",
+      "sourceUrl": "https://ja.wikisource.org/wiki/古今和歌集/巻十",
+      "sourceLicense": "CC BY-SA 4.0",
+      "underlyingRights": "public domain",
+      "rightsVerified": true,
+      "targetVerified": true,
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true
+    }
+  ]
+}
