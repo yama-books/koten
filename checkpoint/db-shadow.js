@@ -562,6 +562,51 @@ function trustedLargerTokenContainer(boundaryHits,hit){
 
 
 
+function localSyntaxFeaturesForHit(text,hit,boundaryHits){
+  const boundaries=Array.isArray(boundaryHits)?boundaryHits:[];
+  const left=boundaries.filter(x=>x.end===hit.start)
+    .sort((a,b)=>(b.end-b.start)-(a.end-a.start))[0]||null;
+  const right=boundaries.filter(x=>x.start===hit.end)
+    .sort((a,b)=>(b.end-b.start)-(a.end-a.start))[0]||null;
+  const prevMorph=previousFormEvidence(text,hit.start);
+  const rightRules=rightContextResolverRules(hit.surface);
+  const matchedRightContextCue=[];
+  for(const r of rightRules){
+    const next=(r.nextStartsWith||[]).find(s=>text.startsWith(s,hit.end));
+    if(next) matchedRightContextCue.push({
+      nextSurface:next,
+      supportCandidateIds:r.supportCandidateIds||[],
+      sourceCue:r.sourceCue||null
+    });
+  }
+  const before=text.slice(Math.max(0,hit.start-6),hit.start);
+  const after=text.slice(hit.end,Math.min(text.length,hit.end+8));
+  const prevChar=text.slice(Math.max(0,hit.start-1),hit.start);
+  const nextChar=text.slice(hit.end,hit.end+1);
+  return {
+    policy:"local_syntax_feature_policy.json",
+    mode:"signal-only",
+    leftTrustedToken:left?{surface:left.surface,start:left.start,end:left.end,trust:left.trust||null}:null,
+    rightTrustedToken:right?{surface:right.surface,start:right.start,end:right.end,trust:right.trust||null}:null,
+    previousMorphology:prevMorph?{
+      surface:prevMorph.surface,form:prevMorph.form,pos:prevMorph.pos||null,
+      conjugationClass:prevMorph.conjugationClass||null,evidence:prevMorph.evidence||null
+    }:null,
+    previousChars:before,
+    nextChars:after,
+    quoteBoundary:{
+      before:["」","』","」","』","”","’"].includes(prevChar),
+      after:["「","『","“","‘"].includes(nextChar)
+    },
+    punctuationBoundary:{
+      before:["、","。","，","．"].includes(prevChar),
+      after:["、","。","，","．"].includes(nextChar)
+    },
+    matchedRightContextCue
+  };
+}
+
+
 function exactPassageEvidenceForHit(text,hit){
   const entries=window.CHECKPOINT_DATA?.passageDisambiguationEvidence?.entries;
   if(!Array.isArray(entries)) return null;
@@ -1085,6 +1130,7 @@ function resolveDbShadowHits(text){
         contextResolution,
         holdPolicy,
         boundarySignals:localBoundarySignalsForHit(text,h),
+        localSyntaxFeatures:localSyntaxFeaturesForHit(text,h,boundaryHits),
         suppressedReason:holdReason || (contextResolution?.status==="candidate-support-only"
           ? "context-supported-but-not-unique"
           : "context-required-not-yet-resolved")
@@ -1097,12 +1143,16 @@ function resolveDbShadowHits(text){
       resolved.push({
         ...h,
         contextResolution:ambiguousSurfaceResolution,
+        localSyntaxFeatures:localSyntaxFeaturesForHit(text,h,boundaryHits),
         analysisConfidence:"reviewed-token-context-supported-candidate"
       });
       continue;
     }
 
-    resolved.push(h);
+    resolved.push({
+      ...h,
+      localSyntaxFeatures:localSyntaxFeaturesForHit(text,h,boundaryHits)
+    });
   }
 
   resolved.push(...whole);
@@ -1232,7 +1282,8 @@ function shadowAuditLegacyVsDb(text, legacyHits){
       contextSignals:h.contextSignals||[],
       contextResolution:h.contextResolution||null,
       holdPolicy:h.holdPolicy||null,
-      boundarySignals:h.boundarySignals||null
+      boundarySignals:h.boundarySignals||null,
+      localSyntaxFeatures:h.localSyntaxFeatures||null
     })),
     note:"shadow audit only; kakari-musubi signals are candidate support and never resolve scope by themselves."
   };
