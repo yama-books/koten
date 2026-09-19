@@ -1038,3 +1038,56 @@ development（過去のpost-blind boundary修復込み）では boundary **61/61
 
 ### 次
 平家goldからexact morphologyを足さない。既存approved/audited資産から本文非依存に形態情報を供給する morphology provider を **signal-only** で設計する。新hard ruleへ進むなら第五作品をgold先固定する。
+
+
+## 2026-09-20 一時停止チェックポイント / repository branch policy changed
+
+### リポジトリ運用の恒久変更
+Checkpointチームの作業対象は今後 **`checkpoint-main` ブランチ** とする。
+
+- `checkpoint/` 以下の作業は `main` へ直接pushしない。
+- `main` を含む他ブランチへforce-pushしない。
+- 他ブランチを削除しない。
+- PRを作る場合のbaseは `main` ではなく `checkpoint-main`。
+- 古典学習アプリ本体側が必要に応じて `checkpoint-main` から `main` へ取り込む。
+- 2026-09-20までに `main` へ直接入ってしまったcheckpointコミットは履歴改変せず、そのまま残す。巻き戻し・force-pushはしない。
+
+専用ブランチ `checkpoint-main` は、運用変更時点の `main` を起点に新設済み。**この節以降のCheckpoint記録・実装は `checkpoint-main` のみを正本とする。**
+
+### 停止時点の技術状態
+- stage: **stage-2 evidence-backed debug overlay**
+- learner-visible detector: **legacyのまま**
+- existing 4 samples: raw 310 / resolved array 187 / **strict 145 / ambiguous 42** / suppressed 123 / DB only 0
+- primary-source hold: **5件維持**
+  - 連体形＋`に` 4件
+  - `不便にせさせ給ひ` 最初の `せ` 1件
+- blind gold: **4作品・136位置**
+  - strict PASS **75/136 = 55.1%**
+  - grammar strict resolve **18/75 = 24.0%**
+  - boundary suppression **57/61 = 93.4%**
+  - wrongResolved **0**
+- post-blind development boundary: **61/61 / hard error 0**
+
+第四blind『平家物語・敦盛の最期』:
+- gold 24 / strict 12 / grammar 2/14 / boundary 10/10
+- false-positive resolved 0 / wrongResolved 0
+- `て` 5位置 = 接続助詞2 / larger-unit内部2 / 完了`つ`連用形1
+
+### 直前の実装・監査
+- `db-shadow.js`: `nextMorphology` / `rightTokenRoleSignal` を **signal-only** で追加
+- 既存4サンプル・3 development goldのresolved/suppressed位置集合は変更なし
+- `local_syntax_right_context_audit_20260920.json`: development残39位置で nextMorphology 15/39
+- `heike_atsumori_feature_gap_audit_20260920.json`: unseen workでmorphology入力coverage不足を分離
+- gold由来の平家exact morphologyはresolverへ追加していない
+
+### 次回再開地点
+1. **必ず `checkpoint-main` をcheckout / 正本確認してから作業開始。mainへpushしない。**
+2. 平家goldを辞書化せず、passage-independent morphology providerをsignal-onlyで設計。
+3. providerは evidence tier / source / exact-vs-derived を返す。
+4. derived morphologyはcandidate削除・resolved昇格に使わない。
+5. `て` は left form + right auxiliary-chain / independent-start の複合featureとして研究。
+6. `に/を/と` は節構造・係り先なしにhard rule化しない。
+7. 新hard resolverへ進む場合は、**第五の未使用作品をgold先固定**してblind評価。
+8. learner-visible global promotionはまだ行わない。
+
+再開用短句: **「checkpoint-main の HANDOFF 最終節から再開。次は passage-independent morphology provider signal-only」**
