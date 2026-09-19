@@ -151,6 +151,8 @@ const CHECKPOINT_DATA_PATHS = {
   passageDisambiguationEvidence:"./data/passage_disambiguation_evidence.json",
   contextHoldPolicy:"./data/context_hold_policy.json",
   sourceReviewedTokenMorphology:"./data/source_reviewed_token_morphology.json",
+  auditedInflectionEvidenceFull:"./data/audited_inflection_evidence_500_full.json",
+  morphologyProviderPolicy:"./data/morphology_provider_policy.json",
   localSyntaxFeaturePolicy:"./data/local_syntax_feature_policy.json"
 };
 
