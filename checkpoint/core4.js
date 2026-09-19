@@ -150,7 +150,8 @@ const CHECKPOINT_DATA_PATHS = {
   abeSeimeiParticleEvidence:"./data/abe_seimei_particle_evidence.json",
   passageDisambiguationEvidence:"./data/passage_disambiguation_evidence.json",
   contextHoldPolicy:"./data/context_hold_policy.json",
-  sourceReviewedTokenMorphology:"./data/source_reviewed_token_morphology.json"
+  sourceReviewedTokenMorphology:"./data/source_reviewed_token_morphology.json",
+  localSyntaxFeaturePolicy:"./data/local_syntax_feature_policy.json"
 };
 
 async function loadCheckpointData(){
