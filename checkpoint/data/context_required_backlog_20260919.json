@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "0.3",
+  "schemaVersion": "0.4",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 残件バックログ",
-  "basis": "既存4サンプル計990文字、shadow detector v0.9",
-  "total": 109,
+  "basis": "既存4サンプル計990文字、shadow detector v0.10",
+  "total": 98,
   "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
   "categories": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "surface": "に",
-      "count": 24,
+      "count": 20,
       "layer": "syntax+morphology",
       "priority": "A",
       "why": "格助詞・接続助詞・ナリ活用・断定「なり」・完了「ぬ」等が衝突。",
@@ -40,7 +40,7 @@
     },
     {
       "surface": "し",
-      "count": 13,
+      "count": 10,
       "layer": "boundary+morphology",
       "priority": "B",
       "why": "サ変連用・過去「き」連体・副助詞・語内部が衝突。",
@@ -48,7 +48,7 @@
     },
     {
       "surface": "な",
-      "count": 4,
+      "count": 3,
       "layer": "boundary+morphology",
       "priority": "B",
       "why": "助動詞「ぬ」未然・終助詞・禁止副詞・語内部が衝突。",
@@ -56,23 +56,15 @@
     },
     {
       "surface": "が",
-      "count": 4,
+      "count": 3,
       "layer": "syntax+boundary",
       "priority": "B",
       "why": "格助詞・接続助詞に加え語内部一致がある。",
       "nextEvidence": "既知語境界を先に増やし、残りを前後の述語構造で判定。"
     },
     {
-      "surface": "る",
-      "count": 1,
-      "layer": "boundary+morphology",
-      "priority": "B",
-      "why": "助動詞「る」・完了存続「り」連体・動詞語尾/語内部が衝突。",
-      "nextEvidence": "より大きい活用語形のwhole-token証拠を増やす。"
-    },
-    {
       "surface": "せ",
-      "count": 3,
+      "count": 2,
       "layer": "morphology",
       "priority": "B",
       "why": "サ変・過去「き」・使役尊敬「す」が衝突。",
@@ -95,17 +87,20 @@
     "shadow resolvedをlearner-visible正解表示へ直結しない。"
   ],
   "latestChange": [
-    "閉じ引用符直後の「と」13位置を hard-boundary resolver でresolved。",
-    "副助詞「ばかり」をwhole-token境界として追加し、内部「ば」2位置を抑制。",
-    "「し給へ・ましか・申せ・のたまへ・投げ上げたれ」直後の「ば」6位置を、長い左文脈に限定してresolved。",
-    "外部照合は external_grammar_crosscheck_20260919.json に分離し、primary-source-verified には昇格しない。",
-    "resolved 86→105。context-required 130→109。raw 310 / DB only 0は維持。"
+    "local boundary signal層をsignal-onlyで追加。件数を動かさず前後文字・句読点・文字種遷移を監査可能にした。",
+    "安倍晴明sourceの「遣はし」「御越し」をwhole-token境界化し、内部「し」2位置を抑制。",
+    "百人一首第9首をユーザー文節監査＋複数外部資料で完全一致照合し、8位置resolved・1位置nonauxiliary suppression。",
+    "和歌サンプルのcontext-requiredは9→0。",
+    "全体は resolved 105→113、context-required 109→98。raw 310 / DB only 0は維持。"
   ],
   "resolvedSinceV08": {
-    "total": 21,
+    "total": 32,
     "hardBoundaryQuotedTo": 13,
     "bakariInternalSuppression": 2,
     "sourceLimitedBa": 6,
-    "note": "21はcontext-required減少数。うち19はresolvedへの昇格、2はwhole-token境界による抑制。"
+    "abeSourceTokenSuppression": 2,
+    "hyakuninPoem9Resolved": 8,
+    "hyakuninPoem9NonAuxSuppression": 1,
+    "note": "v0.8のcontext-required130→98。うち27はresolvedへの昇格、5は境界/非助動詞抑制への再分類。"
   }
 }
