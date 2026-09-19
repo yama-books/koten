@@ -2261,7 +2261,7 @@
       "review_status": "rejected",
       "reviewed_by": "human-publication-review-2026-09-19",
       "reviewed_at": "2026-09-19",
-      "notes": "Phase 2C-2 context-checked. Phase 2C-1で一意対応済みの対象「え」について、同一底本の国語研高解像度原画像（巻五6ウ / brsk005-014）を直接確認。前接「見」から対象 𛀒（え）へ連続する筆線を視認したため renmen=true。教材利用は human-confirmed 前のため未実施。 2026-09-19 human review: 『見えない』の対象『え』は現代仮名と同じ通常の『え』に見えるため、U+1B012 𛀒 の公開実例としてはNG。位置対応または字体分類の再調査対象。",
+      "notes": "Phase 2C-2 context-checked. Phase 2C-1で一意対応済みの対象「え」について、同一底本の国語研高解像度原画像（巻五6ウ / brsk005-014）を直接確認。前接「見」から対象 𛀒（え）へ連続する筆線を視認したため renmen=true。教材利用は human-confirmed 前のため未実施。 2026-09-19 human review: 『見えない』の対象『え』は現代仮名と同じ通常の『え』に見えるため、U+1B012 𛀒 の公開実例としてはNG。位置対応または字体分類の再調査対象。 追加確認: 現代標準平仮名 U+3048「え」も字母は「衣」。国語研では同じ字母「衣」由来の変体仮名として U+1B011/U+1B012 を別字形で登録しているため、同字母であることだけでは本画像をU+1B012と同定できない。U+1B012実例としてはrejectedを維持するが、『衣』由来の標準形との比較教材への再利用候補とする。",
       "text_alignment_method": "unique-normalized-kana-on-folio",
       "text_alignment_evidence": "巻五6ウの公式翻字本文では平仮名「え」は「見えない」の1箇所のみ。字形DBでは同丁 brsk005-014 に U+1B012 の対象出現が1件（ID0153, X=1181, Y=1197）のため一意に対応。"
     },
@@ -2452,12 +2452,17 @@
           "type": "attested_context",
           "source_id": "ninjal-history-source-image",
           "locator": "初編上 3オ / hnsd001-015。IIIF manifestで丁ラベルと画像寸法を確認し、字形DB occurrence ID0119 (X=1611, Y=1645) を国語研原画像上で直接確認。連綿は画像確認済みだが true/false の二値判定を安全に行えないため unknown とした。"
+        },
+        {
+          "type": "human_review",
+          "source_id": "publication-review-2026-09-19-p3",
+          "locator": "P3。人間確認により、添付画像の2文字目を『ね』と確認し、対象 U+1B094 𛂔 / 字母『年』の実例として採用可と裁定。公式翻字対応・教材表示『むね』も承認。"
         }
       ],
-      "review_status": "context-checked",
-      "reviewed_by": "context-image-pass-2026-09-19",
+      "review_status": "human-confirmed",
+      "reviewed_by": "human-publication-review-2026-09-19",
       "reviewed_at": "2026-09-19",
-      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字で平仮名「ね」は「むね」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。",
+      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字で平仮名「ね」は「むね」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。 2026-09-19 human review: 添付画像の2文字目を『ね』と確認。字体・公式翻字対応・公開表示『むね』を承認し human-confirmed。",
       "text_alignment_method": "unique-normalized-kana-on-folio",
       "text_alignment_evidence": "同丁の公式翻字で平仮名「ね」は「むね」の1箇所のみ。字形DBの同丁対象 U+1B094 出現も1件のため一意対応。"
     },
@@ -2660,8 +2665,8 @@
     "totalExamples": 49,
     "sourceChecked": 39,
     "exactText": 0,
-    "contextChecked": 8,
-    "humanConfirmed": 1,
+    "contextChecked": 7,
+    "humanConfirmed": 2,
     "variantGlyphExamples": 44,
     "iseMonogatariExamples": 33,
     "sourceCheckedOrBetter": 49,
