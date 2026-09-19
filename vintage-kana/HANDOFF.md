@@ -475,3 +475,59 @@ manifestから画像ページと丁ラベルの対応を機械的に確定した
 7. 一次公開
 
 ローカル非接触方針は引き続き維持する。
+
+
+## 15. 一次公開準備版 0.5 / UI・公開ゲート実装
+
+Phase 2C のMVP区切り後、そのままPhase 4・5へ移行した。
+
+### 実装
+
+`index.html` を旧 prototype 0.4 から一次公開準備版0.5へ更新。
+
+- 「あ・い・う・え」16字の直書きDATAを撤廃
+- Phase 1由来の軽量UIキャッシュ `data/ui-glyph-master.json` を使用
+- UI対象: 47音価 / 観察済み変体仮名138字体
+- 字形を見る
+- 字母クイズ
+- 書いてみる
+- 実資料を読む
+の4タブを実装
+
+「書いてみる」は原文維持を初期値とし、利用者が字体を選ぶ。
+ランダム変換や「歴史的に正しい字体」の自動推薦は行わない。
+
+### 実資料公開ゲート
+
+「実資料を読む」は `review_status === "human-confirmed"` だけを表示する。
+現在 human-confirmed=0 のため、context-checked 10件は公開教材として表示されない。
+
+一次公開候補5件を:
+`PUBLICATION_REVIEW_QUEUE.md`
+に固定した。
+
+### QA
+
+`PUBLICATION_QA.md` 作成。
+
+確認済み:
+- index.html JavaScript構文 PASS
+- UIキャッシュ 138字体 / 47音価 / 必須項目欠落0
+- 一次公開候補5/5件がcontext-checked + exact
+- 5/5件に文字・語・翻字・原画像直リンクあり
+- 5/5件のwitnessがsources.jsonに存在
+- context-checked 10件のsource_image_refを対象ページ原画像直リンクへ統一
+
+### 現在のボトルネック
+
+コード側の主要MVP機能は成立。
+一次公開に残る必須作業は人間QA。
+
+1. 公開候補を原画像・翻字・表示で人間確認
+2. 最低3件、推奨5件を human-confirmed へ昇格
+3. PC実ブラウザでフォント・4タブ操作確認
+4. モバイル幅確認
+5. GitHub Pages実配信・典拠リンク確認
+6. 公開版表記へ更新して一次公開
+
+GitHub/Web-only・ローカル非接触方針は維持。
