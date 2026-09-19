@@ -1,0 +1,453 @@
+{
+  "updated": "2026-09-19",
+  "status": "candidate-source-discovery / no-public-example-text-yet",
+  "policyFile": "conj/PUBLIC_TEXT_SOURCE_POLICY.md",
+  "gates": [
+    "sourceFound",
+    "rightsVerified",
+    "targetVerified",
+    "excerptReviewed"
+  ],
+  "publicationRule": "all four gates must be true before exampleEnabledPublic may become true",
+  "providerPolicies": {
+    "wikisource": {
+      "policyUrl": "https://ja.wikisource.org/wiki/Wikisource:COPY",
+      "platformPolicyChecked": true,
+      "note": "投稿コンテンツの一般ライセンスだけでなく、原資料・個別ページの著作権タグと底本情報を確認してから再利用する。"
+    },
+    "aozora": {
+      "policyUrl": "https://www.aozora.gr.jp/guide/kijyunn.html",
+      "platformPolicyChecked": true,
+      "note": "著作権の切れている青空文庫収録ファイルは規準上、複製・再配布・共有可能。ただし作品ごとのファイル種別・底本・表記を別途確認する。"
+    }
+  },
+  "summary": {
+    "works": 21,
+    "wikisourceCandidateFound": 17,
+    "notYetFound": 4,
+    "publicationReadyWorks": 0,
+    "publicExamplesConnected": 0
+  },
+  "works": [
+    {
+      "work": "平家物語",
+      "exampleCount": 16,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/平家物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "保元物語",
+      "exampleCount": 10,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/保元物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "十訓抄",
+      "exampleCount": 9,
+      "wikisource": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "第1次探索では候補ページ未確認。追加探索対象。"
+    },
+    {
+      "work": "平治物語",
+      "exampleCount": 7,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/平治物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "宇治拾遺物語",
+      "exampleCount": 6,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/宇治拾遺物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "枕草子",
+      "exampleCount": 6,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/枕草子",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "源氏物語",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/源氏物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "更級日記",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/更級日記",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "紫式部日記",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/紫式部日記",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "堤中納言物語",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/堤中納言物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "徒然草",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/徒然草",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "土佐日記",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/土佐日記",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "方丈記",
+      "exampleCount": 5,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/方丈記",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "伊勢物語",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/伊勢物語_(群書類從)",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "古今和歌集",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/古今和歌集",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "今昔物語集",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/今昔物語集",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "大和物語",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "第1次探索では候補ページ未確認。追加探索対象。"
+    },
+    {
+      "work": "竹取物語",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/竹取物語",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "落窪物語",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "第1次探索では候補ページ未確認。追加探索対象。"
+    },
+    {
+      "work": "蜻蛉日記",
+      "exampleCount": 4,
+      "wikisource": {
+        "candidateFound": true,
+        "candidateUrl": "https://ja.wikisource.org/wiki/蜻蛉日記",
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+    },
+    {
+      "work": "平中物語",
+      "exampleCount": 3,
+      "wikisource": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "aozora": {
+        "candidateFound": false,
+        "candidateUrl": null,
+        "rightsVerified": false,
+        "editionFixed": false,
+        "targetVerificationCount": 0
+      },
+      "publicationReady": false,
+      "note": "第1次探索では候補ページ未確認。追加探索対象。"
+    }
+  ]
+}
