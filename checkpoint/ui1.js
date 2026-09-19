@@ -98,7 +98,7 @@ function render(){
   const limit=LEVEL_LIMIT[level];
   const detected=detect(text, level);
   let shadowAudit=null;
-  if(typeof shadowAuditLegacyVsDb==="function" && window.CHECKPOINT_DATA?.surfaceIndex){
+  if(shadowDebugEnabled() && typeof shadowAuditLegacyVsDb==="function" && window.CHECKPOINT_DATA?.surfaceIndex){
     shadowAudit=shadowAuditLegacyVsDb(text, detected.hits);
   }
   renderShadowDebugPanel(text,detected.hits,shadowAudit);
