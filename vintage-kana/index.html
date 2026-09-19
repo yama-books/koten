@@ -280,7 +280,7 @@ function renderCompose(){
 function sourceFor(witness){return SOURCES.find(s=>s.witness_id===witness)||null}
 function renderRead(){
  const root=document.getElementById("readExamples");
- const rows=ATTESTED.filter(x=>x.review_status==="human-confirmed");
+ const rows=ATTESTED.filter(x=>x.review_status==="human-confirmed" && x.publication_status==="approved");
  if(!rows.length){
    const checked=ATTESTED.filter(x=>x.review_status==="context-checked").length;
    root.innerHTML='<div class="empty">公開用の人間確認を終えた実例はまだありません。<br>'+
