@@ -26,9 +26,9 @@
     "rawCoverageOfUniqueLegacy": 1,
     "resolvedMatchRateOfUniqueLegacy": 0.24838709677419354,
     "suppressionReasons": {
+      "context-required-not-yet-resolved": 151,
       "indexed-larger-surface": 51,
-      "known-larger-token": 31,
-      "context-required-not-yet-resolved": 151
+      "known-larger-token": 31
     },
     "automaticKakariSignals": 0,
     "contextResolvedByAuditedConnection": 1,
@@ -312,17 +312,30 @@
     "purpose": "分析確定ではなく、より大きい分析単位を優先する境界制御。"
   },
   "leftSurfaceResolver": {
-    "resolved": 6,
-    "sequence": "けれ＋ば",
-    "supportedCandidateId": "conjunctive_ba_fixed",
-    "evidence": "USB-3212の「けれ」候補はいずれも已然形または已然形を含む切り方であり、「ば」の已然形接続候補を支持。",
-    "caution": "「けれ」自体の分析候補は確定しない。"
+    "rule": "けれ + ば",
+    "source": "USB-3212 discrimination_source_usb3212.json",
+    "resolvedInFourSamples": 6,
+    "status": "resolved-by-source-left-surface"
   },
   "full500Evidence": {
-    "file": "audited_inflection_evidence_500_full.json",
+    "source": "audited_inflection_evidence_500_full.json",
     "rows": 500,
     "surfaces": 447,
     "ambiguousSurfaces": 19,
-    "boundaryUse": "2文字以上・漢字を含む214表面形は、活用分析が曖昧でもwhole-token境界証拠として利用可能。"
+    "role": "evidence preservation + trusted boundary; not grammar-authoritative"
+  },
+  "unresolvedBySurface": {
+    "て": 28,
+    "に": 28,
+    "と": 23,
+    "を": 21,
+    "し": 13,
+    "な": 8,
+    "ば": 8,
+    "が": 6,
+    "る": 6,
+    "せ": 6,
+    "む": 3,
+    "ぬ": 1
   }
 }
