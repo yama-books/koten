@@ -703,3 +703,14 @@ CHJ raw本文は中納言利用規約のため、CLASSROOMでも直接複製し�
 正本: `EDUCATIONAL_USE_POLICY.md`
 
 次のPhase D作業はD-19堤中納言物語5例から継続。
+
+
+## 35. Milestone D-19 堤中納言物語 PUBLIC blocked（2026-09-19）
+
+『堤中納言物語』はCODHのCC BY-SA 4.0画像資料を確保したが、5例の検索可能本文照合ができずPUBLICではblocked-with-reason。
+
+学校授業利用を踏まえCLASSROOM候補として別管理する。ただしCHJ raw本文は使わず、別ソースの利用条件・同一箇所target確認が必要。
+
+- 監査status確定: 20 / 21
+- 公開実例: 64 / 120
+- 次: D-20 平家物語16例
