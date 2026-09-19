@@ -322,6 +322,83 @@ function auditedPreviousFormEvidence(text,hitStart){
   };
 }
 
+function sourceReviewedPreviousFormEvidence(text,hitStart){
+  const entries=window.CHECKPOINT_DATA?.sourceReviewedTokenMorphology?.entries;
+  if(!Array.isArray(entries)) return null;
+  const matches=[];
+  for(const e of entries){
+    if(!e.surface || !e.form) continue;
+    if(e.usage && e.usage!=="resolver-support-only") continue;
+    const start=hitStart-e.surface.length;
+    if(start<0 || text.slice(start,hitStart)!==e.surface) continue;
+    matches.push({
+      surface:e.surface,start,end:hitStart,
+      form:e.form,
+      pos:e.pos||null,
+      conjugationClass:e.conjugationClass||null,
+      lemma:e.lemma||null,
+      trust:e.trust||"source-reviewed-secondary",
+      sourceWork:e.sourceWork||null
+    });
+  }
+  if(!matches.length) return null;
+  matches.sort((a,b)=>(b.surface.length-a.surface.length)||a.start-b.start);
+  const maxLen=matches[0].surface.length;
+  const top=matches.filter(x=>x.surface.length===maxLen);
+  const forms=[...new Set(top.map(x=>x.form))];
+  const classes=[...new Set(top.map(x=>x.conjugationClass).filter(Boolean))];
+  const positions=[...new Set(top.map(x=>x.pos).filter(Boolean))];
+  if(forms.length!==1) return null;
+  return {
+    surface:top[0].surface,
+    start:top[0].start,
+    end:hitStart,
+    form:forms[0],
+    pos:positions.length===1?positions[0]:null,
+    conjugationClass:classes.length===1?classes[0]:null,
+    matches:top,
+    evidence:"source_reviewed_token_morphology.json"
+  };
+}
+
+function previousFormEvidence(text,hitStart){
+  return auditedPreviousFormEvidence(text,hitStart) || sourceReviewedPreviousFormEvidence(text,hitStart);
+}
+
+function ambiguousSurfaceResolverRules(surface){
+  const rules=window.CHECKPOINT_DATA?.contextResolverRules?.ambiguousSurfaceRules;
+  if(!Array.isArray(rules)) return [];
+  return rules.filter(x=>x.surface===surface);
+}
+
+function resolveAmbiguousSurfaceHit(text,hit){
+  const rules=ambiguousSurfaceResolverRules(hit.surface);
+  if(!rules.length) return null;
+  const prev=previousFormEvidence(text,hit.start);
+  if(!prev) return null;
+  const candidateIds=hitCandidateIds(hit);
+  for(const r of rules){
+    if(r.previousForm && r.previousForm!==prev.form) continue;
+    if(!classMatchesRule(prev.conjugationClass,r.previousClassIncludes)) continue;
+    const next=(r.nextStartsWith||[]).find(s=>text.startsWith(s,hit.end));
+    if((r.nextStartsWith||[]).length && !next) continue;
+    const supported=(r.supportCandidateIds||[]).filter(id=>candidateIds.has(id));
+    if(r.mode==="singleCandidateResolve" && supported.length===1){
+      return {
+        status:"resolved-by-reviewed-token-context",
+        mode:r.mode,
+        supportCandidateIds:supported,
+        previousEvidence:prev,
+        nextSurface:next||null,
+        sourceCue:r.sourceCue||null,
+        safety:r.safety||null,
+        evidence:"context_resolver_rules.json + "+prev.evidence
+      };
+    }
+  }
+  return null;
+}
+
 function classMatchesRule(actualClass,includes){
   if(!Array.isArray(includes) || !includes.length) return true;
   if(!actualClass) return false;
@@ -386,7 +463,7 @@ function resolveContextRequiredHit(text,hit){
   if(leftSurfaceResolution) return leftSurfaceResolution;
   const cfg=contextResolverEntry(hit.surface);
   if(!cfg) return null;
-  const prev=auditedPreviousFormEvidence(text,hit.start);
+  const prev=previousFormEvidence(text,hit.start);
   if(!prev) return {
     status:"awaiting-audited-preceding-form",
     mode:cfg.mode,
@@ -1005,6 +1082,17 @@ function resolveDbShadowHits(text){
       });
       continue;
     }
+
+    const ambiguousSurfaceResolution=resolveAmbiguousSurfaceHit(text,h);
+    if(ambiguousSurfaceResolution){
+      resolved.push({
+        ...h,
+        contextResolution:ambiguousSurfaceResolution,
+        analysisConfidence:"reviewed-token-context-supported-candidate"
+      });
+      continue;
+    }
+
     resolved.push(h);
   }
 
@@ -1101,6 +1189,7 @@ function shadowAuditLegacyVsDb(text, legacyHits){
     sourceExactParticleResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-particle").length,
     sourceExactParticleSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-particle-larger-unit").length,
     sourceExactPassageResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-source-exact-passage").length,
+    reviewedTokenContextResolvedCount:dbHits.filter(h=>h.contextResolution?.status==="resolved-by-reviewed-token-context").length,
     sourceExactPassageSuppressedCount:state.suppressed.filter(h=>h.suppressedReason==="source-exact-passage-larger-unit").length,
     intentionalAmbiguityHoldCount:state.suppressed.filter(h=>h.suppressedReason==="context-intentional-ambiguity-benchmark").length,
     primarySourceHoldCount:state.suppressed.filter(h=>h.suppressedReason==="context-primary-source-hold").length,
