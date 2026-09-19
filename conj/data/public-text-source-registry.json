@@ -26,14 +26,14 @@
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
     "publicationReadyWorks": 9,
-    "publicExamplesConnected": 37,
-    "rightsVerifiedWorks": 10,
-    "targetVerifiedExamples": 39,
-    "excerptReviewedExamples": 37,
-    "publicationReadyExamples": 37,
-    "auditStatusKnownWorks": 11,
+    "publicExamplesConnected": 42,
+    "rightsVerifiedWorks": 11,
+    "targetVerifiedExamples": 44,
+    "excerptReviewedExamples": 42,
+    "publicationReadyExamples": 42,
+    "auditStatusKnownWorks": 12,
     "blockedWorks": 1,
-    "partialWorks": 1
+    "partialWorks": 2
   },
   "works": [
     {
@@ -94,7 +94,23 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "第1次探索では候補ページ未確認。追加探索対象。"
+      "note": "9例中5例を同一作品公開版で4ゲート完了。引用漢詩4例はparallel witnessのみ確認し未公開。",
+      "yatanavi": {
+        "candidateFound": true,
+        "candidateUrl": "https://yatanavi.org/text/jikkinsho/index.html",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 5,
+        "edition": "宮内庁書陵部本",
+        "sourceLicense": "CC BY-SA 4.0",
+        "rightsNote": "校訂本文CC BY-SA 4.0、翻刻自由利用可。"
+      },
+      "parallelWitness": {
+        "provider": "Wikisource 和漢朗詠集",
+        "targetVerificationCount": 4,
+        "note": "引用漢詩4例に同訓読語形あり。ただしsame-work witnessではないため公開未接続。"
+      },
+      "auditStatus": "partial"
     },
     {
       "work": "平治物語",
