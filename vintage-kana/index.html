@@ -81,14 +81,15 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <h1>変体仮名を読む・知る・書いてみる</h1>
     <p class="tagline">字母と実資料をたどりながら、読めなかった文字が少しずつ読めるようになるための学習アプリ。</p>
   </div>
-  <div class="pill">一次公開準備版 0.6</div>
+  <div class="pill">一次公開準備版 0.7</div>
 </header>
 
 <section class="panel">
   <div class="notice">
     字形の候補と資料内件数は、国立国語研究所の公開資料をもとにした初期15資料の観察結果です。
     件数は「歴史的な正しさ」や使用確率を表すものではありません。
-    読解教材は、実資料との対応に加えて人間の公開確認を終えた用例だけを表示します。
+    読解教材は、実資料との対応に加えて人間の公開確認を終え、公開承認された用例だけを表示します。
+    フォント字形は対応字体の代表表示であり、原資料の手書き字形と輪郭が完全一致するとは限りません。
   </div>
 
   <div class="tabs">
@@ -129,7 +130,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 
   <div id="read" class="view">
     <div class="label">実資料で確認された用例</div>
-    <div class="note" style="margin-bottom:12px">ここには <code>human-confirmed</code> の用例だけを表示します。研究途中の候補は公開教材へ混ぜません。</div>
+    <div class="note" style="margin-bottom:12px">ここには <code>human-confirmed</code> かつ <code>publication_status: approved</code> の用例だけを表示します。フォント字形は対応字体の代表表示で、原資料の筆跡そのものではありません。</div>
     <div id="readExamples"><div class="loading">実例データを読み込んでいます…</div></div>
   </div>
 </section>
@@ -147,7 +148,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 0.6 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
+  vintage-kana / release candidate 0.7 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
 </footer>
 </div>
 
@@ -292,10 +293,11 @@ function renderRead(){
    const d=document.createElement("article");d.className="readCard";
    const location=e.source_location?.folio||e.source_image_locator||e.source_location?.viewer_page||"";
    const href=e.source_image_ref||src?.bibliographic_source_url||src?.source_url||"";
-   d.innerHTML='<div class="note">この字体は何と読む？</div>'+
-     '<div class="readHead"><div class="readGlyph">'+escapeHtml(e.character)+'</div><div class="note">'+escapeHtml(src?.witness_name||e.source_witness)+' '+escapeHtml(location)+'</div></div>'+
+   d.innerHTML='<div class="note">この資料では何と読む？</div>'+
+     '<div class="readHead"><div class="readGlyph">'+escapeHtml(e.character)+'</div><div class="note">対応字体の代表表示<br>'+escapeHtml(src?.witness_name||e.source_witness)+' '+escapeHtml(location)+'</div></div>'+
      '<details class="answer"><summary>答えを見る</summary><div class="answerBody">'+
        '<div class="meta">対応する仮名 <b>'+escapeHtml(e.kana)+'</b>　字母 <b>'+escapeHtml(e.jibo)+'</b></div>'+
+       '<div class="note">※上のフォント字形は国語研DB上の対応字体の代表表示です。原資料の手書き字形と輪郭が完全一致するとは限りません。</div>'+
        '<div class="readText">実資料中：'+escapeHtml(e.word||e.transcription||"")+'</div>'+
        (e.transcription&&e.transcription!==e.word?'<div class="note">周辺翻字：'+escapeHtml(e.transcription)+'</div>':"")+
        (href?'<div class="note" style="margin-top:8px"><a href="'+escapeHtml(href)+'" target="_blank" rel="noopener">原画像で確かめる</a></div>':"")+
