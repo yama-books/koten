@@ -513,3 +513,69 @@ learner-visible detectorはlegacyのまま。
 2. 助動詞列開始と独立語開始を区別するfeatureを作る。
 3. `に/を/と` は節構造・係り先なしにhard rule化しない。
 4. 新hard ruleを加えた場合、**第四の未使用作品**をgold先固定してblind評価する。
+
+
+## 一時停止: stage-2 / blind gold 2本完了
+
+### 現在地
+- shadow DB / boundary / hold / audit基盤: 実装済み
+- stage-2 developer debug overlay: 実装済み
+- independent blind gold:
+  - 徒然草52段: 55位置
+  - 伊勢物語6段「芥川」: 35位置
+- blind gold合計: **90位置**
+
+### blind評価
+徒然草:
+- strict PASS 32/55 = 58.2%
+- strict resolve 7/30
+- suppression 25/25
+- false-positive 0
+
+伊勢物語 baseline:
+- strict PASS 17/35 = 48.6%
+- strict resolve 8/23
+- suppression 9/12
+- false-positive 3
+
+baseline後boundary修復:
+- `まじかり`
+- `呼ばひわたり`
+- `からうじて`
+をknown-token boundaryへ追加。
+修正後、伊勢物語 suppression 12/12 / false-positive 0。
+徒然草・既存4サンプルへの悪化なし。
+
+### strict metric
+既存4サンプル:
+- raw 310
+- resolved array 187
+- strict resolved **145**
+- ambiguous resolved **42**
+- suppressed 123
+
+### 次回
+途中停止した
+「blind gold未解決位置の左語token boundary coverage測定」
+から再開。
+
+その後:
+1. `て / に / を / と / し` の一般resolver改善
+2. frozen goldで再評価
+3. 3本目blind gold
+4. hold-aware learner UI
+5. selective learner promotion判定
+
+### 進捗目安
+この **DB/shadow→learner-visible昇格トラック** を100%とした場合:
+- 完了: **約72%**
+- 残り: **約28%**
+
+内訳イメージ:
+- データ・境界・shadow基盤: ほぼ完了
+- blind評価基盤: 約2/3完了
+- 一般resolver改善: これから本格化
+- hold-aware UI: 未実装
+- selective learner promotion: 未実施
+
+※ 数値は工数ベースの概算。単純なresolved率ではない。
