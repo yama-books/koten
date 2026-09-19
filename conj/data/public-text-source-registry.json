@@ -27,8 +27,8 @@
     "notYetFound": 4,
     "publicationReadyWorks": 0,
     "publicExamplesConnected": 0,
-    "rightsVerifiedWorks": 1,
-    "targetVerifiedExamples": 2
+    "rightsVerifiedWorks": 2,
+    "targetVerifiedExamples": 4
   },
   "works": [
     {
@@ -319,9 +319,11 @@
       "wikisource": {
         "candidateFound": true,
         "candidateUrl": "https://ja.wikisource.org/wiki/古今和歌集",
-        "rightsVerified": false,
-        "editionFixed": false,
-        "targetVerificationCount": 0
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 2,
+        "edition": "Wikisource 古今和歌集（100%検証済み）",
+        "rightsNote": "Wikisource作品ページでパブリックドメイン表示を確認。"
       },
       "aozora": {
         "candidateFound": false,
@@ -331,7 +333,7 @@
         "targetVerificationCount": 0
       },
       "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "note": "4例中2例を公開本文で再確認。残り2例はtarget未照合のため未公開。"
     },
     {
       "work": "今昔物語集",
