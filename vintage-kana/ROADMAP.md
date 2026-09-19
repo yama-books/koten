@@ -13,8 +13,8 @@ Phase 0  設計原則・典拠設計                 ✅ 完了
 Phase 1  字体分布コーパス                   ✅ 完了
 Phase 2  実例コーパス                       ▶ 進行中
   2A 書誌・候補選定                         ✅ 完了
-  2B Stage A: source-checked 実例採取        ▶ 進行中
-  2C Stage B: context-checked 文脈対応        ⏳ 次の主工程
+  2B Stage A: source-checked 実例採取        ✅ パイプライン成立・必要量確保
+  2C Stage B: context-checked 文脈対応        ▶ 進行中（2C-2）
   2D 比較可能な実例セット整備                ⏳
 Phase 3  観察結果と先行研究の照合             ◐ 一部着手
 Phase 4  教材データ生成                       ⏳
@@ -133,7 +133,7 @@ Phase 1 の件数を「教材」へ直接変換せず、原資料上の個別出
 
 ## Phase 2B — Stage A: source-checked 実例採取
 
-状態: ▶ 進行中
+状態: ✅ パイプライン成立・主工程終了
 
 ### 定義
 
@@ -150,9 +150,9 @@ Phase 1 の件数を「教材」へ直接変換せず、原資料上の個別出
 
 ### 現在値
 
-- source-checked: 42
+- source-checked: 44
 - うち『伊勢物語』: 33
-- うち変体仮名字形: 38
+- うち変体仮名字形: 39
 
 ### ここでの目的
 
