@@ -8,10 +8,11 @@
     "basic_lexicon と inflecting_words の登録表面形は curated whole-token として扱う。",
     "短い識別表面形が、より長い既知語の内部に完全包含される場合は、その短い表面形を独立候補として自動表示しない。",
     "この抑制は『長い語の分析が正しい』ことまで意味せず、文字列内部の過剰マーキングを避けるための境界証拠に限る。",
-    "全500例DBで活用形が曖昧でも、2文字以上かつ漢字を含む監査済みtargetは、文法確定ではなく語境界抑制専用のtrusted tokenとして利用できる。"
+    "全500例DBで活用形が曖昧でも、2文字以上かつ漢字を含む監査済みtargetは、文法確定ではなく語境界抑制専用のtrusted tokenとして利用できる。",
+    "v1.3のBASIC_WORDSフィルタをDB境界レイヤへ移し、既存挙動をshadowでも再現する。"
   ],
-  "entryCount": 295,
-  "suppressibleCount": 295,
+  "entryCount": 308,
+  "suppressibleCount": 308,
   "entries": [
     {
       "surface": "出でおはしましがたから",
@@ -832,6 +833,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "いよいよ",
+      "length": 4,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "うらむれ",
       "length": 4,
       "sources": [
@@ -915,6 +929,19 @@
         }
       ],
       "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "たちまち",
+      "length": 4,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
       "canSuppressInternalSurface": true
     },
     {
@@ -1672,6 +1699,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "いつも",
+      "length": 3,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "うらむ",
       "length": 3,
       "sources": [
@@ -1758,6 +1798,32 @@
           "headwordCandidates": [
             "ごとし"
           ]
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "しばし",
+      "length": 3,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "すこし",
+      "length": 3,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
@@ -3141,6 +3207,32 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "あり",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "ある",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "おら",
       "length": 2,
       "sources": [
@@ -3204,6 +3296,19 @@
         }
       ],
       "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "もし",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
       "canSuppressInternalSurface": true
     },
     {
@@ -3380,6 +3485,11 @@
           "trust": "high",
           "analysisSignatureCount": 1,
           "formConsensus": "未然形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "high",
@@ -3583,6 +3693,11 @@
           "trust": "curated",
           "lemma": "給ふ",
           "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
@@ -3597,6 +3712,11 @@
           "trust": "curated",
           "lemma": "給ふ",
           "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
@@ -3758,6 +3878,11 @@
           "trust": "high",
           "analysisSignatureCount": 1,
           "formConsensus": "終止形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "high",
@@ -3779,6 +3904,11 @@
           "trust": "high",
           "analysisSignatureCount": 1,
           "formConsensus": "已然形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "high",
@@ -3828,6 +3958,11 @@
           "trust": "curated",
           "lemma": "候ふ",
           "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
@@ -3856,6 +3991,11 @@
           "trust": "curated",
           "lemma": "候ふ",
           "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
@@ -3870,6 +4010,11 @@
           "trust": "curated",
           "lemma": "候ふ",
           "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
@@ -4014,6 +4159,19 @@
         }
       ],
       "trust": "high",
+      "canSuppressInternalSurface": true
+    },
+    {
+      "surface": "降り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
       "canSuppressInternalSurface": true
     },
     {
@@ -4177,6 +4335,11 @@
           "trust": "curated",
           "lemma": "参る",
           "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
@@ -4191,6 +4354,11 @@
           "trust": "curated",
           "lemma": "参る",
           "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
@@ -4260,6 +4428,11 @@
           "trust": "high",
           "analysisSignatureCount": 1,
           "formConsensus": "連用形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "high",
@@ -4554,6 +4727,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "取り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "取る",
       "length": 2,
       "sources": [
@@ -4569,6 +4755,11 @@
           "trust": "high",
           "analysisSignatureCount": 1,
           "formConsensus": "連体形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "high",
@@ -4939,6 +5130,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "尋ね",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "吹く",
       "length": 2,
       "sources": [
@@ -5170,6 +5374,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "知る",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "通ふ",
       "length": 2,
       "sources": [
@@ -5275,6 +5492,19 @@
       "canSuppressInternalSurface": true
     },
     {
+      "surface": "入り",
+      "length": 2,
+      "sources": [
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
+        }
+      ],
+      "trust": "curated",
+      "canSuppressInternalSurface": true
+    },
+    {
       "surface": "入る",
       "length": 2,
       "sources": [
@@ -5300,6 +5530,11 @@
           "trust": "high",
           "analysisSignatureCount": 1,
           "formConsensus": "終止形"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "high",
@@ -5585,6 +5820,11 @@
           "trust": "curated",
           "lemma": "奉る",
           "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
@@ -5599,6 +5839,11 @@
           "trust": "curated",
           "lemma": "奉る",
           "category": "honorific"
+        },
+        {
+          "source": "legacyBasicWords",
+          "trust": "curated",
+          "note": "v1.3 BASIC_WORDS filter migration"
         }
       ],
       "trust": "curated",
