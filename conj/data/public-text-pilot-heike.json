@@ -1,0 +1,149 @@
+{
+  "updated": "2026-09-19",
+  "work": "平家物語",
+  "status": "blocked-with-reason / public-text-verification-blocked",
+  "publicMode": {
+    "sources": [
+      {
+        "provider": "CODH 日本古典籍データセット",
+        "url": "https://codh.rois.ac.jp/pmjt/book/200003072/",
+        "rightsVerified": true,
+        "sourceLicense": "CC BY-SA 4.0",
+        "editionFixed": true,
+        "note": "寛永元年古活字版。一方流本。画像・メタデータはCC BY-SA 4.0。"
+      },
+      {
+        "provider": "国立公文書館デジタルアーカイブ",
+        "url": "https://www.digital.archives.go.jp/file/1271378.html",
+        "rightsVerified": true,
+        "sourceLicense": "CC0 1.0",
+        "editionFixed": true,
+        "note": "慶長刊・中院本。画像二次利用可、CC0。"
+      }
+    ],
+    "blocker": "16選抜例を同一の再利用可能な検索本文で安全に照合できるテキスト層を未確保。Wikisourceは底本選択ページのみ。公開Web上の校訂本文は検索可能だが、校訂部分に別著作権がありPUBLIC用の再利用許諾を確認できない。",
+    "publicEligible": false
+  },
+  "classroomMode": {
+    "classroomCandidate": true,
+    "status": "needs-article35-delivery-check-and-target-audit",
+    "possibleSource": {
+      "provider": "日本古典文学摘集",
+      "url": "https://www.koten.net/heike/",
+      "termsUrl": "https://www.koten.net/policy/",
+      "note": "公開校訂本文は運営者に著作権帰属。一般公開再利用は不可だが、著作権法35条の授業内限定利用候補として検討可能。"
+    },
+    "requirements": [
+      "授業の過程・必要最小限",
+      "クラス/授業単位のアクセス制御",
+      "学校設置者の授業目的公衆送信補償金制度の適用確認",
+      "sourceTermsChecked",
+      "same-location targetVerified",
+      "excerptReviewed",
+      "CHJ raw本文を直接複製しない"
+    ]
+  },
+  "records": [
+    {
+      "id": "adjv-010",
+      "chjTarget": "神妙なれ",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-024",
+      "chjTarget": "むざんなれ",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-039",
+      "chjTarget": "おろそかなら",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-057",
+      "chjTarget": "すみやかなり",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-087",
+      "chjTarget": "声花に",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-097",
+      "chjTarget": "颯々たり",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-100",
+      "chjTarget": "曠々たり",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-102",
+      "chjTarget": "滉漾たり",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-103",
+      "chjTarget": "奫淪たり",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-104",
+      "chjTarget": "茫々たり",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-111",
+      "chjTarget": "深々と",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-116",
+      "chjTarget": "峨々たる",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-117",
+      "chjTarget": "嶮々たる",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-118",
+      "chjTarget": "漠々たる",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-119",
+      "chjTarget": "凄々たる",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    },
+    {
+      "id": "adjv-120",
+      "chjTarget": "渺々たる",
+      "targetVerifiedPublic": false,
+      "exampleEnabledPublic": false
+    }
+  ],
+  "counts": {
+    "total": 16,
+    "publicEnabled": 0,
+    "targetVerifiedPublic": 0
+  }
+}
