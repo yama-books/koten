@@ -1,66 +1,64 @@
 {
-  "schemaVersion": "0.7",
+  "schemaVersion": "0.8",
   "updated": "2026-09-19",
   "title": "Checkpoint context-required 残件バックログ",
-  "basis": "既存4サンプル計990文字、shadow detector v0.13",
-  "total": 10,
+  "basis": "既存4サンプル計990文字、shadow detector v0.14-pre-gold",
+  "total": 9,
   "note": "件数はサンプル上の位置数であり、一般コーパス頻度・誤り率ではない。",
   "categories": [
-    {
-      "surface": "て",
-      "count": 1,
-      "layer": "syntax+morphology",
-      "priority": "A",
-      "why": "接続助詞と完了「つ」活用形が衝突。前接連用形だけでは一意にならず、後続助動詞や文節境界が必要。",
-      "nextEvidence": "USB-3212の後続cueを実コーパス例で監査し、exact-context evidenceを増やす。"
-    },
     {
       "surface": "に",
       "count": 4,
       "layer": "syntax+morphology",
-      "priority": "A",
-      "why": "安倍晴明本文の残4件は「給ひけるに／見給ふに／走らするに／問はるるに」。連体形＋にを格助詞・接続助詞のどちらに立てるか資料間で揺れる。",
-      "nextEvidence": "採用する学校文法基準を一次資料で確定するまでhold。"
-    },
-    {
-      "surface": "と",
-      "count": 1,
-      "layer": "syntax+boundary",
-      "priority": "A",
-      "why": "引用符直後13件はhard-boundaryで解消。残10件は格助詞（引用・内容）・タリ活用・断定「たり」・語内部等が衝突。",
-      "nextEvidence": "残10件を語内部／内容格助詞／断定・タリ活用候補へ分け、局所境界を監査する。"
-    },
-    {
-      "surface": "を",
-      "count": 1,
-      "layer": "syntax",
-      "priority": "A",
-      "why": "格助詞・接続助詞・間投助詞を文構造で区別する必要がある。",
-      "nextEvidence": "体言/連体形の前接と文節境界を取得する。"
-    },
-    {
-      "surface": "な",
-      "count": 1,
-      "layer": "boundary+morphology",
-      "priority": "B",
-      "why": "助動詞「ぬ」未然・終助詞・禁止副詞・語内部が衝突。",
-      "nextEvidence": "「な～そ」呼応、後続助動詞、既知語内部を分離。"
+      "priority": "HOLD",
+      "why": "安倍晴明の連体形＋「に」4件。格助詞／接続助詞の学校文法上の立て方が資料間で揺れる。",
+      "nextEvidence": "『新しい古典文法 四訂新版』原資料確認。",
+      "holdType": "primary-source-required"
     },
     {
       "surface": "せ",
       "count": 1,
       "layer": "morphology",
-      "priority": "B",
-      "why": "サ変・過去「き」・使役尊敬「す」が衝突。",
-      "nextEvidence": "前接活用形と後続助動詞/敬語を監査済み例で接続。"
+      "priority": "HOLD",
+      "why": "「不便にせさせ給ひ」の最初の「せ」。助動詞「さす」の接続をprimary sourceで未確認。",
+      "nextEvidence": "『新しい古典文法 四訂新版』原資料確認。",
+      "holdType": "primary-source-required"
     },
     {
       "surface": "ぬ",
       "count": 1,
-      "layer": "morphology",
-      "priority": "C",
-      "why": "完了「ぬ」終止と打消「ず」連体の識別。",
-      "nextEvidence": "残件「咲きぬ」は一次資料/監査済み句が得られるまで保留。"
+      "layer": "benchmark",
+      "priority": "BENCHMARK",
+      "why": "識別サンプルの意図的曖昧性テスト。",
+      "nextEvidence": "正解固定せず候補保持能力を監査。",
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "surface": "を",
+      "count": 1,
+      "layer": "benchmark",
+      "priority": "BENCHMARK",
+      "why": "識別サンプルの意図的曖昧性テスト。",
+      "nextEvidence": "正解固定せず候補保持能力を監査。",
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "surface": "と",
+      "count": 1,
+      "layer": "benchmark",
+      "priority": "BENCHMARK",
+      "why": "識別サンプルの意図的曖昧性テスト。",
+      "nextEvidence": "正解固定せず候補保持能力を監査。",
+      "holdType": "intentional-ambiguity-benchmark"
+    },
+    {
+      "surface": "な",
+      "count": 1,
+      "layer": "benchmark",
+      "priority": "BENCHMARK",
+      "why": "識別サンプルの意図的曖昧性テスト。",
+      "nextEvidence": "正解固定せず候補保持能力を監査。",
+      "holdType": "intentional-ambiguity-benchmark"
     }
   ],
   "strategy": [
@@ -71,16 +69,20 @@
     "shadow resolvedをlearner-visible正解表示へ直結しない。"
   ],
   "latestChange": [
-    "安倍晴明本文の「に」16位置を処理（格助詞15 resolved + 「たちまちに」1 suppression）。",
-    "「と」9位置を処理（格助詞7 resolved + 「日ごと」「こと」内部2 suppression）。",
-    "「が」3位置を処理（接続助詞1 + 格助詞2 resolved）。",
-    "context-required 38→10。resolved 161→186。raw 310 / DB only 0は維持。",
-    "残10件はすべて保留理由を明示できる状態。"
+    "枕草子「あかりて」の「て」1件をpassage-specific secondary multi-source evidenceでresolved。",
+    "旧残10→hold9。hold内訳はbenchmark4 / primary-source-required5。",
+    "unclassified context-requiredは0。",
+    "次は独立gold setの固定と無調整初見評価。"
   ],
   "resolvedSinceV08": {
     "total": 120,
     "note": "v0.8のcontext-required130→10。resolvedへの昇格と、境界/非助動詞・larger-unit抑制への安全な再分類を合算。",
     "previousThroughV012": 92,
     "v013ParticleReduction": 28
+  },
+  "unclassifiedTotal": 0,
+  "classifiedHolds": {
+    "intentionalAmbiguityBenchmark": 4,
+    "primarySourceRequired": 5
   }
 }
