@@ -211,3 +211,35 @@ GitHub Pages向けに standalone HTML を CSS と複数JSへ分割した。概�
 - 難語DBの `塞がる` と `かたり` をwhole-token境界へ入れ、内部の `が・る・たり` を抑制。
 - 4サンプル shadow v0.7: raw 310 / resolved 85 / suppressed 225 / context-required 134 / DB only 0。
 - learner-visible detectorは依然legacy。source-exact結果も、現段階ではshadow監査に限定する。
+
+
+## 2026-09-19 追加: 安倍晴明 exact evidence 強化
+
+- File Library の `安倍晴明_本文・文法・語彙整理.docx` と `安倍晴明_ワークシート_解答なし_横書き_テキストのみ_修正版.txt` を passage-specific evidence として再利用。
+- `abe_seimei_grammar_evidence.json` を24→**28 exact cases**へ拡張。
+  - 2回目の「車より降りて入らむ」: 内部の `らむ` を抑制し `む` を支持
+  - 「不便にせさせ給ひ」: 形容動詞「不便なり」の `に` を支持
+  - 「させ」内部の第二の `せ` を一文字候補として扱わない
+- Abe grammar regression は **28/28 PASS**。
+- `abe_seimei_kakari_evidence.json` を追加。教材に明示された係り結び5表現を完全一致のscope-linkとして保持:
+  1. なむ…ければ（結びの流れ）
+  2. か…たる
+  3. や…らむ
+  4. ぞ…ける
+  5. 文末なむ（結び省略）
+- exact kakari regression は **5/5 PASS**。ending surfaceへ直接linkできたものは4件、結び省略1件。
+- 最新4サンプル:
+  - legacy unique 310
+  - DB raw 310
+  - resolved **86**
+  - suppressed **224**
+  - DB only 0
+  - resolved率 **27.7%**
+- suppressed内訳:
+  - context-required **132**
+  - indexed-larger-surface 48
+  - known-larger-token 33
+  - source-exact-phrase-larger-unit 11
+- unresolved上位:
+  - `て 28 / に 24 / と 23 / を 21 / し 13 / ば 8 / な 5 / が 5 / せ 3 / る 1 / ぬ 1`
+- exact evidence は当該本文限定。一般文法マスターへ自動一般化しない。
