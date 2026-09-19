@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-19",
   "title": "小倉百人一首・同形識別 exact phrase evidence",
   "source": {
@@ -14,7 +14,7 @@
     "non_auxiliary は内部の助動詞らしい文字列を抑制する。",
     "learner-visible な正解自動表示には直結させず、shadow resolver の出典付き証拠として使う。"
   ],
-  "entryCount": 17,
+  "entryCount": 20,
   "entries": [
     {
       "poem": 28,
@@ -287,6 +287,67 @@
       "focusOffset": 1,
       "evidenceStatus": "context-reviewed",
       "analysisUnitOffset": 1
+    },
+    {
+      "poem": 1,
+      "phrase": "ぬれつつ",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬれ",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "濡る",
+        "form": null,
+        "candidateId": "verb_nuru_nure_contains_nu"
+      },
+      "caution": "この「ぬ」は助動詞ではなく、動詞「濡る」の語形内部。",
+      "focusOffset": 0,
+      "analysisUnitOffset": 0,
+      "evidenceStatus": "project-source-reviewed",
+      "sourceNote": "設計計画書 §12 が『第1首「ぬれつつ」：「ぬれ」は動詞「濡る」。助動詞ではない』と明示。"
+    },
+    {
+      "poem": 53,
+      "phrase": "ひとりぬる夜",
+      "focusSurface": "ぬ",
+      "analysisUnit": "ぬる",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "寝（ぬ）",
+        "form": "連体形",
+        "candidateId": "verb_nu_nuru_contains_nu"
+      },
+      "caution": "完了の助動詞「ぬ」ではなく、動詞「寝（ぬ）」の連体形。",
+      "focusOffset": 3,
+      "analysisUnitOffset": 3,
+      "evidenceStatus": "project-source-reviewed",
+      "sourceNote": "設計計画書 §12 が『「ぬる」は動詞「寝」の連体形』と明示。文節監査も第53首を「ひとり/寝る/夜の」とする。"
+    },
+    {
+      "poem": 53,
+      "phrase": "ひとりぬる夜",
+      "focusSurface": "る",
+      "analysisUnit": "ぬる",
+      "analysis": {
+        "kind": "non_auxiliary",
+        "lemma": "寝（ぬ）",
+        "form": "連体形",
+        "candidateId": "verb_nu_nuru_contains_ru"
+      },
+      "caution": "この「る」は助動詞候補として切り出さず、動詞「寝（ぬ）」連体形「ぬる」の内部として扱う。",
+      "focusOffset": 4,
+      "analysisUnitOffset": 3,
+      "evidenceStatus": "project-source-reviewed",
+      "sourceNote": "同じ「ぬる」全体が動詞「寝（ぬ）」連体形であるという明示に基づく境界抑制。"
+    }
+  ],
+  "sources": [
+    {
+      "title": "hyakunin_isshu_bunsetsu_audit_2026-09-05.md",
+      "role": "要注意表面形と文節監査"
+    },
+    {
+      "title": "古典関係アプリ_設計計画書_2026-08-29.md",
+      "role": "助動詞ではない類似形の明示例（第1首・第53首）"
     }
   ]
 }
