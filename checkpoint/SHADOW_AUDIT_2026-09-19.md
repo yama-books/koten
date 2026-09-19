@@ -1,6 +1,47 @@
 # Checkpoint DB shadow audit
 更新: 2026-09-19
 
+
+## 最新チェックポイント: shadow v0.9
+
+以下の既存節には v0.1〜v0.8 の履歴値を残す。**現行値はこの節を正とする。**
+
+| 指標 | 現行値 |
+|---|---:|
+| legacy raw hit | 348 |
+| legacy unique位置 | 310 |
+| DB raw hit | 310 |
+| DB resolved | **105** |
+| DB suppressed | **205** |
+| DB only | **0** |
+| resolved率 | **33.9%** |
+| context-required | **109** |
+
+suppressed 205 の現行内訳:
+- context-required-not-yet-resolved: **109**
+- indexed-larger-surface: **48**
+- known-larger-token: **35**
+- source-exact-bunsetu-lexical-unit: **2**
+- source-exact-phrase-larger-unit: **11**
+
+v0.8 → v0.9:
+- 閉じ引用符直後の `と` 13位置を `resolved-by-source-hard-boundary` へ昇格。
+- 副助詞 `ばかり` の内部 `ば` 2位置を whole-token boundary で抑制。
+- `し給へ / ましか / 申せ / のたまへ / 投げ上げたれ` 直後の `ば` 6位置を長い左文脈限定でresolved。
+- 既存 `けれ＋ば` 6位置と合わせ、left-surface resolved は12位置。
+- context-required は **130 → 109**。
+- raw 310 / DB only 0 は不変。
+
+安全策:
+- 外部文法照合は `external_grammar_crosscheck_20260919.json` に隔離し、primary-source-verified と扱わない。
+- `給へ` の四段／下二段同形を避けるため `し給へ` に限定。
+- `たれ＋ば` を一般化せず、当該 `投げ上げたれ` に限定。
+- learner-visible detector はまだlegacyのまま。
+- 回帰正本: `boundary_resolver_regression_20260919.json`。
+
+現行未解決:
+`て28 / に24 / を21 / し13 / と10 / な4 / が4 / せ3 / る1 / ぬ1`
+
 ## 結果
 
 既存4サンプル、計990文字で legacy の文法・識別 hit と DB shadow detector を比較した。
