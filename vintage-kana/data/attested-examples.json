@@ -2654,12 +2654,17 @@
           "type": "attested_context",
           "source_id": "ninjal-history-source-image",
           "locator": "初編上 15オ / hnsd001-039。IIIF manifestで丁ラベルと画像寸法を確認し、字形DB occurrence ID0054 (X=627, Y=2254) を国語研原画像上で直接確認。連綿は画像確認済みだが true/false の二値判定を安全に行えないため unknown とした。"
+        },
+        {
+          "type": "human_review",
+          "source_id": "publication-review-2026-09-19-p5",
+          "locator": "P5。人間確認により、対象字が『ね』であることは承認。ただし教材表示候補『むねもてき』は意味・切り出しが人間確認者にとって不明瞭で、一次公開教材としては除外と裁定。史料実例自体は有効なため review_status は context-checked を維持。"
         }
       ],
       "review_status": "context-checked",
       "reviewed_by": "context-image-pass-2026-09-19",
       "reviewed_at": "2026-09-19",
-      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字には「ね」が2箇所（「きつね」「むね」）ある。原画像上の対象座標と周辺の「おはるはむねもてき」「惑と轟く」を照合し、後者「むね」の「ね」に一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。",
+      "notes": "Phase 2C-2 context-checked。国語研公式翻字・IIIF manifest・同一底本原画像を照合して対象 𛂔（ね）を確認。同丁の公式翻字には「ね」が2箇所（「きつね」「むね」）ある。原画像上の対象座標と周辺の「おはるはむねもてき」「惑と轟く」を照合し、後者「むね」の「ね」に一意対応。 原画像で接筆状態も確認したが、true/false を安全に二値判定できるほど明瞭でないため renmen=unknown（未確認ではなく、確認済み判定不能）。教材利用は human-confirmed 前のため未実施。 P5 publication decision: 人間確認で対象字『ね』は承認。ただし『むねもてき』は意味・切り出しが不明瞭なため一次公開教材から除外。史料実例としては有効なので context-checked を維持し、rejected にはしない。",
       "text_alignment_method": "source-image-disambiguated-normalized-kana-on-folio",
       "text_alignment_evidence": "同丁の公式翻字には「ね」が2箇所（「きつね」「むね」）ある。原画像上の対象座標と周辺の「おはるはむねもてき」「惑と轟く」を照合し、後者「むね」の「ね」に一意対応。"
     }
