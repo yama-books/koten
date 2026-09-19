@@ -220,6 +220,86 @@
           "url": "https://kotobank.jp/word/%E6%89%A8-511273"
         }
       ]
+    },
+    {
+      "id": "ni-case-and-adverb-boundary",
+      "surface": "に",
+      "finding": "格助詞「に」は体言・体言相当語句に付き場所・対象・目的・結果等を示す。一方「たちまちに」は副詞として一まとまりの分析例がある。安倍晴明本文ではpassage-specificに分離する。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "Try IT 古文『助詞の種類』",
+          "url": "https://www.try-it.jp/chapters-14470/lessons-14721/"
+        },
+        {
+          "title": "マナペディア 方丈記『安元の大火』品詞分解",
+          "url": "https://manapedia.jp/text/2406?m=aaa&page=2"
+        },
+        {
+          "title": "マナペディア 古文単語『たちまち』",
+          "url": "https://manapedia.jp/text/5394"
+        }
+      ]
+    },
+    {
+      "id": "ni-verbal-clause-hold",
+      "surface": "に",
+      "finding": "連体形＋「に」は格助詞・接続助詞の双方が学校文法資料で現れうる。安倍晴明本文の「給ひけるに／見給ふに／走らするに／問はるるに」はv0.13では保留する。",
+      "use": "ambiguity-hold",
+      "sources": [
+        {
+          "title": "USB-3212『に』識別",
+          "role": "格助詞・接続助詞双方を候補化"
+        },
+        {
+          "title": "マナペディア 若紫 品詞分解",
+          "url": "https://manapedia.jp/m/text/3553"
+        },
+        {
+          "title": "マナペディア 和泉式部日記 品詞分解",
+          "url": "https://manapedia.jp/m/text/3935"
+        }
+      ]
+    },
+    {
+      "id": "to-case-and-larger-unit",
+      "surface": "と",
+      "finding": "「む＋と＋す」「じ＋と＋す」では「と」は格助詞。名付け・変化・引用でも格助詞例がある。一方「日ごと」「こと」の内部の「と」は独立させない。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "マナペディア 土佐日記『せむとす』品詞分解",
+          "url": "https://manapedia.jp/text/9898"
+        },
+        {
+          "title": "マナペディア 方丈記『けるとなむ』品詞分解",
+          "url": "https://manapedia.jp/text/2406?device=pc"
+        },
+        {
+          "title": "マナペディア 竹取物語冒頭 品詞分解",
+          "url": "https://manapedia.jp/text/2200"
+        }
+      ]
+    },
+    {
+      "id": "ga-case-vs-conjunctive",
+      "surface": "が",
+      "finding": "連体形「ける」後で前後の文を接続する「が」は接続助詞。体言に付いて所属・連体修飾を作る「が」は格助詞として扱う。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "Try IT 古文『助詞の種類』",
+          "url": "https://www.try-it.jp/chapters-14470/lessons-14721/"
+        },
+        {
+          "title": "マナペディア 宇治拾遺物語『尼、地蔵を見奉ること』",
+          "url": "https://manapedia.jp/text/5381"
+        },
+        {
+          "title": "マナペディア 東歌 品詞分解",
+          "url": "https://manapedia.jp/text/2141"
+        }
+      ]
     }
   ]
 }
