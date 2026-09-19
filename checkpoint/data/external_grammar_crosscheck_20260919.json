@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 外部文法照合メモ 2026-09-19",
+  "status": "secondary-source-crosscheck-only",
+  "policy": [
+    "学校文法の一次資料正本ではない。shadow resolver の安全確認・境界確認に限定して使う。",
+    "このファイルの情報だけで auxiliary_master の human-confirmed / primary-source-verified へ昇格しない。",
+    "同形衝突がある場合は一般化せず、より長い監査済み文脈に限定する。"
+  ],
+  "entries": [
+    {
+      "id": "bakari-token-boundary",
+      "surface": "ばかり",
+      "finding": "副助詞として一語で立項されるため、内部の一文字「ば」は独立候補として扱わない。",
+      "use": "boundary-suppression-only",
+      "sources": [
+        {
+          "title": "精選版 日本国語大辞典「ばかり」",
+          "provider": "コトバンク",
+          "url": "https://kotobank.jp/word/%E3%81%B0%E3%81%8B%E3%82%8A-357062"
+        }
+      ]
+    },
+    {
+      "id": "tamau-h4-izen",
+      "surface": "給へ",
+      "finding": "尊敬用法の「給ふ」はハ行四段活用で、已然形は「給へ」。下二段「給ふ」と同形衝突があるため、resolverでは「し給へ」等の長い文脈に限定する。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "古文単語「たまふ/給ふ/賜ふ」の意味・解説",
+          "provider": "マナペディア",
+          "url": "https://manapedia.jp/m/text/4002?device=sp"
+        }
+      ]
+    },
+    {
+      "id": "mousu-s4-izen",
+      "surface": "申せ",
+      "finding": "「申す」はサ行四段活用で、已然形は「申せ」。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "2009センター古文解説～文法～動詞編 第1回 サ行四段活用動詞「申す」",
+          "provider": "FC2ブログ",
+          "url": "https://centerkobun2009.blog85.fc2.com/blog-entry-1.html"
+        }
+      ]
+    },
+    {
+      "id": "notamau-h4-izen",
+      "surface": "のたまへ",
+      "finding": "「のたまふ」はハ行四段活用で、已然形は「のたまへ」。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "のたまふ",
+          "provider": "ウィクショナリー日本語版",
+          "url": "https://ja.wiktionary.org/wiki/%E3%81%AE%E3%81%9F%E3%81%BE%E3%81%B5"
+        },
+        {
+          "title": "古文単語「のたまふ/宣ふ」の意味・解説",
+          "provider": "マナペディア",
+          "url": "https://manapedia.jp/text/4273"
+        }
+      ]
+    },
+    {
+      "id": "tari-izen-tare",
+      "surface": "たれ",
+      "finding": "完了・存続の助動詞「たり」の已然形は「たれ」。一般の「たれ」を自動確定せず、当該句「投げ上げたれ」に限定する。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "助動詞「たり」「り」",
+          "provider": "古文文法",
+          "url": "https://kobuntext.com/kobun/6118"
+        },
+        {
+          "title": "たり",
+          "provider": "ウィクショナリー日本語版",
+          "url": "https://ja.wiktionary.org/wiki/%E3%81%9F%E3%82%8A"
+        }
+      ]
+    },
+    {
+      "id": "mashi-mashika-mizen",
+      "surface": "ましか",
+      "finding": "反実仮想「ましかば」の「ましか」は未然形として用いられる。",
+      "use": "shadow-context-only",
+      "sources": [
+        {
+          "title": "まし",
+          "provider": "デジタル大辞泉（コトバンク）",
+          "url": "https://kotobank.jp/word/%E3%81%BE%E3%81%97-634100"
+        },
+        {
+          "title": "古文の助動詞「まし」の意味や活用",
+          "provider": "百人一首で始める古文書講座",
+          "url": "https://honda-n2.com/kobun-jodoushi-mashi"
+        }
+      ]
+    }
+  ]
+}
