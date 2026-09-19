@@ -1,7 +1,7 @@
 {
   "updated": "2026-09-19",
   "work": "竹取物語",
-  "status": "pilot / partial-publication-enabled",
+  "status": "pilot / all-gates-passed",
   "provider": "Wikisource",
   "edition": {
     "title": "竹取物語 (國民文庫)",
@@ -20,7 +20,9 @@
       "sourcePage": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
-      "note": "未然形「なら」を確認（「まめならん」）。"
+      "note": "未然形「なら」を確認（「まめならん」）。",
+      "excerpt": "それにまめならん男どもをゐてまかりて",
+      "sourceLine": 139
     },
     {
       "id": "adjv-044",
@@ -28,9 +30,11 @@
       "publicTarget": "けうらなり",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "終止形「なり」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "終止形「なり」を確認。",
+      "excerpt": "こと人よりはけうらなりとおぼしける人の",
+      "sourceLine": 156
     },
     {
       "id": "adjv-064",
@@ -38,9 +42,11 @@
       "publicTarget": "清（けう）らなる",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "底本の傍訓差を保持。連体形「なる」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "底本の傍訓差を保持。連体形「なる」を確認。",
+      "excerpt": "この兒のかたち清（けう）らなること世になく",
+      "sourceLine": 96
     },
     {
       "id": "adjv-082",
@@ -48,16 +54,18 @@
       "publicTarget": "強（あながち）に",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/竹取物語_(國民文庫)",
-      "excerptReviewed": false,
-      "exampleEnabledPublic": false,
-      "note": "漢字／かな表記差。連用形「に」を確認。"
+      "excerptReviewed": true,
+      "exampleEnabledPublic": true,
+      "note": "漢字／かな表記差。連用形「に」を確認。",
+      "excerpt": "強（あながち）に志を見えありく",
+      "sourceLine": 98
     }
   ],
   "counts": {
     "total": 4,
     "rightsVerified": 4,
     "targetVerified": 4,
-    "excerptReviewed": 1,
-    "publicationEnabled": 1
+    "excerptReviewed": 4,
+    "publicationEnabled": 4
   }
 }
