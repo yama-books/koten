@@ -52,3 +52,20 @@
 この静的QAは、人間による原画像読解・表示確認を代替しない。
 GitHub Pagesの実配信URLは現在のチャットWeb取得環境から直接確認できなかったため、
 配信面の最終操作確認は人間QA項目として残す。
+
+
+## 一次公開候補5件の整合性検査
+
+PASS:
+- 5/5件が `attested-examples.json` に存在
+- 5/5件が `review_status: context-checked`
+- 5/5件が `context_alignment_status: exact`
+- 5/5件で `character / word / transcription / source_image_ref` が存在
+- 5/5件で `source_witness` が `sources.json` に存在
+- `source_image_ref` は対象ページの国語研原画像へ直接リンク
+
+UIキャッシュ:
+- schemaVersion 2
+- 138字体
+- 47音価
+- 必須項目欠落 0件
