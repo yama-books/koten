@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint 安倍晴明 exact grammar evidence 回帰",
+  "source": "abe_seimei_grammar_evidence.json",
+  "tested": 24,
+  "passed": 24,
+  "failed": 0,
+  "policy": "ユーザー提供『安倍晴明_本文・文法・語彙整理.docx』に明示された句だけを完全一致で検証。一般規則へ自動一般化しない。",
+  "breakdown": {
+    "resolveCandidateOrLemma": 15,
+    "suppressInsideLargerUnit": 9
+  },
+  "result": "PASS"
+}
