@@ -346,7 +346,7 @@ function renderRead(){
    const location=e.source_location?.folio||e.source_image_locator||e.source_location?.viewer_page||"";
    const href=e.source_image_ref||src?.bibliographic_source_url||src?.source_url||"";
    d.innerHTML='<div class="note">実際の資料を見て読んでみよう</div>'+
-     (href?'<div class="sourceImageFrame"><img src="'+escapeHtml(href)+'" loading="lazy" alt="'+escapeHtml((src?.witness_name||e.source_witness)+' '+location+' 原資料画像')+'"><div class="sourceImageNote">国立国語研究所公開画像。タップ／クリックで下のリンクから原画像を開けます。</div></div>':"")+
+     (href?'<div class="sourceImageFrame"><a href="'+escapeHtml(href)+'" target="_blank" rel="noopener"><img src="'+escapeHtml(href)+'" loading="lazy" alt="'+escapeHtml((src?.witness_name||e.source_witness)+' '+location+' 原資料画像')+'"></a><div class="sourceImageNote">'+escapeHtml(src?.witness_name||e.source_witness)+' '+escapeHtml(location)+' ／ 画像をクリックすると原画像を開きます。</div></div>':"")+
      '<div class="readHead"><div class="readGlyph">'+escapeHtml(e.character)+'</div><div class="note">対応字体の代表表示<br>'+escapeHtml(src?.witness_name||e.source_witness)+' '+escapeHtml(location)+'</div></div>'+
      '<details class="answer"><summary>答えを見る</summary><div class="answerBody">'+
        '<div class="meta">対応する仮名 <b>'+escapeHtml(e.kana)+'</b>　字母 <b>'+escapeHtml(e.jibo)+'</b></div>'+
