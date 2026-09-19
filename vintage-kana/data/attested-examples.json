@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "phase2-source-checked-pilot-started",
+  "status": "phase2-source-checked-pilot-established",
   "examples": [
     {
       "example_id": "att-brsk005-u3057-f07b-x0563-y2069",
@@ -55,8 +55,179 @@
       "reviewed_by": "research-pass-2026-09-19",
       "reviewed_at": "2026-09-19",
       "notes": "Stage A pilot. 個別出現座標と同一ページの公式翻刻までは追跡済み。対象字形と翻刻中の具体的な語・前後文字・連綿の文字単位対応は未確認のため、context-checked へは昇格させない。教材には使用しない。"
+    },
+    {
+      "example_id": "att-brsk005-u3082-f01a-x0475-y2181",
+      "provenance_type": "attested",
+      "glyph_id": "U+3082",
+      "character": "も",
+      "kana": "も",
+      "jibo": "毛",
+      "diacritic": "none",
+      "source_work": "butsurui_shoko",
+      "source_witness": "brsk005",
+      "source_volume": "巻之五",
+      "source_location": {
+        "folio": "1オ",
+        "viewer_page": "brsk005-003",
+        "viewer_display_page": "P.001",
+        "x": 475,
+        "y": 2181
+      },
+      "occurrence_url": "https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/brsk005/html/brsk005-003.html?X=0475&Y=2181&unicode=U+3082",
+      "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/show.php?issue=005&title=buturuisyoko",
+      "source_image_locator": "1オ",
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/brsk/txt/brsk-005.txt#1オ",
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "brsk005-003 1オ X=475 Y=2181 U+3082"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-fuminoha",
+          "locator": "brsk005-003; same-page transcription exposed by the official viewer"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-brsk",
+          "locator": "巻五 1オ; bottom text W52-5/Ko85/5, source ID 1001089836"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A. 個別出現座標と同一ページの公式翻刻参照先を追跡済み。文字単位の翻刻対応、語、前後文字、連綿は未確認。教材には使用しない。"
+    },
+    {
+      "example_id": "att-brsk005-u3082-f01a-x0502-y1633",
+      "provenance_type": "attested",
+      "glyph_id": "U+3082",
+      "character": "も",
+      "kana": "も",
+      "jibo": "毛",
+      "diacritic": "none",
+      "source_work": "butsurui_shoko",
+      "source_witness": "brsk005",
+      "source_volume": "巻之五",
+      "source_location": {
+        "folio": "1オ",
+        "viewer_page": "brsk005-003",
+        "viewer_display_page": "P.001",
+        "x": 502,
+        "y": 1633
+      },
+      "occurrence_url": "https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/brsk005/html/brsk005-003.html?X=0502&Y=1633&unicode=U+3082",
+      "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/show.php?issue=005&title=buturuisyoko",
+      "source_image_locator": "1オ",
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/brsk/txt/brsk-005.txt#1オ",
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "brsk005-003 1オ X=502 Y=1633 U+3082"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-fuminoha",
+          "locator": "brsk005-003; same-page transcription exposed by the official viewer"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-brsk",
+          "locator": "巻五 1オ; bottom text W52-5/Ko85/5, source ID 1001089836"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A. 個別出現座標と同一ページの公式翻刻参照先を追跡済み。文字単位の翻刻対応、語、前後文字、連綿は未確認。教材には使用しない。"
+    },
+    {
+      "example_id": "att-brsk005-u306a-f07a-x0282-y1057",
+      "provenance_type": "attested",
+      "glyph_id": "U+306A",
+      "character": "な",
+      "kana": "な",
+      "jibo": "奈",
+      "diacritic": "none",
+      "source_work": "butsurui_shoko",
+      "source_witness": "brsk005",
+      "source_volume": "巻之五",
+      "source_location": {
+        "folio": "7オ",
+        "viewer_page": "brsk005-015",
+        "viewer_display_page": "P.013",
+        "x": 282,
+        "y": 1057
+      },
+      "occurrence_url": "https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/brsk005/html/brsk005-015.html?X=0282&Y=1057&unicode=U+306A",
+      "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/show.php?issue=005&title=buturuisyoko",
+      "source_image_locator": "7オ",
+      "context_alignment_status": "page-level",
+      "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/brsk/txt/brsk-005.txt#7オ",
+      "context_original": null,
+      "transcription": null,
+      "normalized_reading": null,
+      "word": null,
+      "position_in_word": "unknown",
+      "bunsetsu_position": null,
+      "grammatical_role": null,
+      "previous_char": null,
+      "next_char": null,
+      "renmen": "unknown",
+      "evidence": [
+        {
+          "type": "attested_glyph",
+          "source_id": "ninjal-hentaiganaDB",
+          "locator": "brsk005-015 7オ X=282 Y=1057 U+306A"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-fuminoha",
+          "locator": "brsk005-015; same-page transcription exposed by the official viewer"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-brsk",
+          "locator": "巻五 7オ; bottom text W52-5/Ko85/5, source ID 1001089836"
+        }
+      ],
+      "review_status": "source-checked",
+      "reviewed_by": "research-pass-2026-09-19",
+      "reviewed_at": "2026-09-19",
+      "notes": "Stage A. 個別出現座標と同一ページの公式翻刻参照先を追跡済み。文字単位の翻刻対応、語、前後文字、連綿は未確認。教材には使用しない。"
     }
   ],
   "lastUpdatedAt": "2026-09-19",
-  "reviewPolicy": "source-checked attested records may have page-level context only; context-checked requires exact glyph-to-transcription alignment"
+  "reviewPolicy": "source-checked attested records may have page-level context only; context-checked requires exact glyph-to-transcription alignment",
+  "stats": {
+    "totalExamples": 4,
+    "sourceChecked": 4,
+    "contextChecked": 0,
+    "humanConfirmed": 0
+  }
 }
