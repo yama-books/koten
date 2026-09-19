@@ -680,3 +680,26 @@ ROADMAPを現在地の正本として継続する。
 - Phase D未確定は平家物語のみ
 
 次: D-20 平家物語16例。
+
+
+## 34. 学校授業利用の再利用基準固定（2026-09-19）
+
+再利用可否をPUBLIC / CLASSROOMの二層に分ける。
+
+PUBLIC:
+- 一般公開用
+- PD / open license / permission等を必要とする
+- Phase Dはこの層を作る
+
+CLASSROOM:
+- 授業の教員・生徒に限定
+- 著作権法35条に基づく利用を条件付きで検討可能
+- 一般公開不可
+- 公衆送信補償金制度・必要最小限・権利者利益等を確認
+- PUBLICデータと分離する
+
+CHJ raw本文は中納言利用規約のため、CLASSROOMでも直接複製しない。
+
+正本: `EDUCATIONAL_USE_POLICY.md`
+
+次のPhase D作業はD-19堤中納言物語5例から継続。
