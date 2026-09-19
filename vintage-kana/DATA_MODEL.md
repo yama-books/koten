@@ -72,7 +72,7 @@ source_location:
 occurrence_url:
 source_image_ref:
 
-context_alignment_status: none | page-level | exact
+context_alignment_status: none | page-level | exact-text | exact
 page_transcription_ref:
 context_original:
 transcription:
@@ -135,11 +135,15 @@ evidence:
 - `source-checked`
   - witness と個別出現位置（ページ・座標・字形）が一次資料／国語研字形DBで追跡可能
   - 文脈の文字単位対応は未完了でもよい
-  - `context_alignment_status: none | page-level`
+  - `context_alignment_status: none | page-level | exact-text`
   - 未確認の `word / previous_char / next_char / renmen` は推測せず null / unknown
+- `source-checked` + `context_alignment_status: exact-text`
+  - 対象字形の個別出現位置と、同じ丁の公式翻刻中の文字位置を一意に対応できる
+  - `word / position_in_word / previous_char / next_char` 等の本文情報は記録してよい
+  - ただし連綿・接続など原画像を要する古書体上の文脈は未確認
 - `context-checked`
-  - 対象字形と翻刻の位置対応を確認
-  - 語・前後文字等を必要範囲で確定
+  - 対象字形と翻刻の位置対応に加え、原画像で必要な古書体上の文脈も確認
+  - `renmen` 等を確認済みまたは明示的に判定不能とした
   - `context_alignment_status: exact`
 - `human-confirmed`
   - 人間が原画像と表示内容を確認
