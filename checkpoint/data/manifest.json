@@ -31,7 +31,6 @@
     "contextRequiredBacklog": "context_required_backlog_20260919.json",
     "auditedInflectionEvidence500Full": "audited_inflection_evidence_500_full.json",
     "abeSeimeiGrammarEvidence": "abe_seimei_grammar_evidence.json",
-    "abeSeimeiPassageEvidence": "abe_seimei_passage_evidence.json",
     "abeSeimeiVocabularyEvidence": "abe_seimei_vocabulary_evidence.json",
     "abeSeimeiGrammarRegression": "abe_seimei_grammar_regression_20260919.json"
   },
@@ -80,8 +79,6 @@
     "USB-3212の「けれ」已然形根拠と「ば」接続を組み合わせ、けれ＋ば6件をshadow resolvedへ昇格。",
     "ユーザー提供『安倍晴明_本文・文法・語彙整理.docx』の明示分析を24件のexact phrase evidenceとして構造化。",
     "安倍晴明exact evidenceは該当句完全一致時だけshadowへ使用し、他本文へ一般化しない。",
-    "安倍晴明_本文・文法・語彙整理.docxの明示注釈をpassage-specific exact evidenceとして19件＋係り結び5件構造化。",
-    "passage evidenceは一般規則へ自動一般化せず、完全一致時のみshadow resolverへ使う。",
     "安倍晴明教材の明示分析を24件のexact grammar evidence、難語29件のvocabulary evidenceへ構造化。grammar回帰24/24 PASS。",
     "shadow v0.7: resolved 85/310、context-required 134。入らむ/ならむ内部のらむ、黄なる内部のな・る、かたり内部のたり等の誤検出をsource evidenceで抑制。"
   ]
