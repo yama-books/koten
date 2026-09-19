@@ -25,12 +25,12 @@
     "works": 21,
     "wikisourceCandidateFound": 17,
     "notYetFound": 4,
-    "publicationReadyWorks": 5,
-    "publicExamplesConnected": 22,
-    "rightsVerifiedWorks": 6,
-    "targetVerifiedExamples": 24,
-    "excerptReviewedExamples": 22,
-    "publicationReadyExamples": 22
+    "publicationReadyWorks": 6,
+    "publicExamplesConnected": 26,
+    "rightsVerifiedWorks": 7,
+    "targetVerifiedExamples": 28,
+    "excerptReviewedExamples": 26,
+    "publicationReadyExamples": 26
   },
   "works": [
     {
@@ -438,10 +438,12 @@
       "exampleCount": 4,
       "wikisource": {
         "candidateFound": true,
-        "candidateUrl": "https://ja.wikisource.org/wiki/蜻蛉日記",
-        "rightsVerified": false,
-        "editionFixed": false,
-        "targetVerificationCount": 0
+        "candidateUrl": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
+        "rightsVerified": true,
+        "editionFixed": true,
+        "targetVerificationCount": 4,
+        "edition": "國文大觀 日記草子部",
+        "rightsNote": "WikisourceのPD-old-80-expiredカテゴリに蜻蛉日記 (國文大觀)を確認。"
       },
       "aozora": {
         "candidateFound": false,
@@ -450,8 +452,8 @@
         "editionFixed": false,
         "targetVerificationCount": 0
       },
-      "publicationReady": false,
-      "note": "作品または底本候補ページの存在のみ確認。個別権利表示・底本・targetは未監査。"
+      "publicationReady": true,
+      "note": "4例すべて公開本文でtargetと短い引用範囲を監査済み。公開実例JSONへ4例接続済み。"
     },
     {
       "work": "平中物語",
