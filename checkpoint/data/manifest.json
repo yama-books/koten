@@ -64,7 +64,8 @@
     "heikeAtsumoriFeatureGapAudit": "heike_atsumori_feature_gap_audit_20260920.json",
     "stage2GeneralizationCheckpoint4Works": "stage2_generalization_checkpoint_20260920.json",
     "morphologyProviderPolicy": "morphology_provider_policy.json",
-    "morphologyProviderAudit": "morphology_provider_audit_20260920.json"
+    "morphologyProviderAudit": "morphology_provider_audit_20260920.json",
+    "publicReleasePreflight": "public_release_preflight_20260920.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -151,6 +152,10 @@
     "第四blindはboundary 10/10・false-positive resolved 0。right-context morphologyのunseen-work coverage不足を別auditへ分離。",
     "passage-independent morphology providerをsignal-onlyで追加。既存resolver用exact evidenceを最優先し、500例full exactとcorpus-derived suffixを観測専用tierとして返す。",
     "corpus-derived suffixは監査500例で3件以上かつPOS/form/class全一致の2-3文字suffixのみ。候補削除・resolved昇格には使わない。",
-    "第四blind平家『敦盛の最期』ではgold由来exact morphologyを追加せず、previous morphology signalが3/24位置（grammar target 3/14）まで増加。『て』5件の一般分離には未到達。"
+    "第四blind平家『敦盛の最期』ではgold由来exact morphologyを追加せず、previous morphology signalが3/24位置（grammar target 3/14）まで増加。『て』5件の一般分離には未到達。",
+    "公開βとshadow learner-visible昇格を別ゲート化。legacy-visible public betaは静的preflightを通し、shadow G6/G8 pendingは別レーンとして保持。",
+    "通常公開UIではshadowAuditLegacyVsDbを実行しないようui1.jsを変更。debug=shadow/#shadow-debug時のみshadow解析。",
+    "約38万文字の500例full morphology DBを含むprovider関連データはshadow debug時だけlazy-loadし、通常公開経路の負荷から分離。",
+    "2026-09-20時点でmain...checkpoint-main比較がNo common ancestor。Checkpoint側は履歴改変せず、production統合担当側の確認事項としてrelease preflightに記録。"
   ]
 }
