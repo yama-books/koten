@@ -160,6 +160,66 @@
           "url": "https://kotobank.jp/word/%E5%90%88%E3%81%99-428899"
         }
       ]
+    },
+    {
+      "id": "te-conjunctive-vs-tsu",
+      "surface": "て",
+      "finding": "接続助詞「て」は連用形に付き単純接続等を表す。完了「つ」の未然・連用形も「て」だが、後続助動詞「む・き・けり」等との連鎖が典型的識別cue。本文完全一致監査でのみ候補確定に使う。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "埼玉県立春日部東高等学校 古典文法 助動詞「つ」資料",
+          "url": "https://kasukabehigashi-h.spec.ed.jp/wysiwyg/file/download/76/5495"
+        },
+        {
+          "title": "古文の文法 接続助詞「て・して」",
+          "url": "https://kobun-benkyou.jimdoweb.com/%E5%8A%A9%E8%A9%9E/%E6%8E%A5%E7%B6%9A%E5%8A%A9%E8%A9%9E-4-%E3%81%A6-%E3%81%97%E3%81%A6-%E3%81%A7-%E3%81%A4%E3%81%A4-%E3%81%AA%E3%81%8C%E3%82%89/"
+        }
+      ]
+    },
+    {
+      "id": "wo-case-particle",
+      "surface": "を",
+      "finding": "格助詞は体言・体言相当語句に付き後続述語との格関係を示す。「を」は動作対象等を示す。安倍晴明本文では直前が体言・体言句である完全一致箇所だけを格助詞候補へresolvedする。",
+      "use": "passage-specific-shadow-resolution",
+      "sources": [
+        {
+          "title": "古文の文法 格助詞(1)用法",
+          "url": "https://kobun-benkyou.jimdoweb.com/%E5%8A%A9%E8%A9%9E/%E6%A0%BC%E5%8A%A9%E8%A9%9E-1-%E7%94%A8%E6%B3%95/"
+        },
+        {
+          "title": "Z会 古文助詞識別資料",
+          "url": "https://www.zkai.co.jp/wp-content/uploads/sites/18/2021/09/05203111/38.L3T-L3TK-L3TF81CS6_tokuyama.pdf"
+        }
+      ]
+    },
+    {
+      "id": "tote-analysis-boundary",
+      "surface": "とて",
+      "finding": "「とて」は一語の格助詞相当とする分析と「格助詞と＋接続助詞て」とする分析が併存するため、内部「て」を一意確定せず大きい単位として保留する。",
+      "use": "passage-specific-boundary-only",
+      "sources": [
+        {
+          "title": "マナペディア 竹取物語品詞分解",
+          "url": "https://manapedia.jp/text/2236?m=aaa&page=3"
+        },
+        {
+          "title": "精選版 日本国語大辞典「とて」",
+          "url": "https://kotobank.jp/word/%E3%81%A8%E3%81%A6-584150"
+        }
+      ]
+    },
+    {
+      "id": "sate-lexical-boundary",
+      "surface": "さて",
+      "finding": "「さて」は接続詞・感動詞等として一語で立項される。本文「さてそれは」の内部「て」は独立識別対象にしない。",
+      "use": "passage-specific-boundary-only",
+      "sources": [
+        {
+          "title": "デジタル大辞泉「さて」",
+          "url": "https://kotobank.jp/word/%E6%89%A8-511273"
+        }
+      ]
     }
   ]
 }
