@@ -2,6 +2,46 @@
 更新: 2026-09-19
 
 
+## 最新チェックポイント: shadow v0.12
+
+以下の旧節は履歴として残す。**現行値はこの節を正とする。**
+
+| 指標 | 現行値 |
+|---|---:|
+| legacy raw hit | 348 |
+| legacy unique位置 | 310 |
+| DB raw hit | 310 |
+| DB resolved | **161** |
+| DB suppressed | **149** |
+| DB only | **0** |
+| resolved率 | **51.9%** |
+| context-required | **38** |
+
+現行suppressed内訳:
+- context-required-not-yet-resolved: **38**
+- indexed-larger-surface: **48**
+- known-larger-token: **39**
+- audited-exact-phrase-nonauxiliary: **1**
+- source-exact-bunsetu-lexical-unit: **2**
+- source-exact-phrase-larger-unit: **14**
+- source-exact-particle-larger-unit: **7**
+
+v0.11→v0.12:
+- 安倍晴明本文の助詞専用exact evidence層を追加。
+- 接続助詞 `て` 20位置、格助詞 `を` 20位置をresolved。
+- `とて` 内部 `て` 6位置、`さて` 内部 `て` 1位置をlarger-unit suppression。
+- context-required **85→38**。
+- raw 310 / DB only 0を維持。
+
+残件:
+`に20 / と10 / が3 / て1 / ぬ1 / を1 / な1 / せ1`
+
+注意:
+- 51.9%は正答率ではなく、保守的resolverで根拠付き通過した割合。
+- `とて` は分析揺れを潰していない。
+- learner-visible detectorはまだlegacy。
+
+
 ## 最新チェックポイント: shadow v0.9
 
 以下の既存節には v0.1〜v0.8 の履歴値を残す。**現行値はこの節を正とする。**
