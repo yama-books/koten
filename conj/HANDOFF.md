@@ -599,3 +599,18 @@ ROADMAPを現在地の正本として継続する。
 - runtime errors: 0
 
 次: Milestone D-14 更級日記5例。
+
+
+## 30. Milestone D-14 更級日記 partial（2026-09-19）
+
+『更級日記』5例を監査一巡し、Wikisource旧版本で同一箇所・同一文法形まで確認できた4例を公開接続。adjv-033「安らかなら」は固定版の当該箇所欠落により保留。
+
+現在地:
+- 監査status確定: 15 / 21作品
+- publicationReady: 10
+- partial: 4
+- blocked-with-reason: 1
+- 公開実例: 54 / 120
+- runtime errors: 0
+
+次: Milestone D-15 紫式部日記5例。
