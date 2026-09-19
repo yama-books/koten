@@ -176,14 +176,24 @@ Phase 1 の件数を「教材」へ直接変換せず、原資料上の個別出
 
 ---
 
-## Phase 2C — Stage B: context-checked 文脈対応
+## Phase 2C — Stage B: 文脈対応
 
 状態: ⏳ 次の主工程
 
 ### 目的
 
-Stage A の「位置が分かる実例」を、
-**語・位置・前後文字・連綿まで分かる実例**へ昇格する。
+Stage A の「位置が分かる実例」を二段階で深める。
+
+#### 2C-1 exact-text
+- 個別字形出現と公式翻刻中の文字位置を一意に対応
+- word / position_in_word / previous_char / next_char を確定
+- 連綿など画像を要する項目はまだ unknown でよい
+- review_status は source-checked のまま
+
+#### 2C-2 exact / context-checked
+- 原画像で字形周辺を確認
+- renmen 等の古書体上の文脈を確認
+- review_status を context-checked へ昇格
 
 ### 必須確認
 
@@ -206,7 +216,11 @@ Stage A の「位置が分かる実例」を、
 
 ### 最初の完了目標
 
-**context-checked 10件**
+1. **exact-text 1件** ← 現在ここ
+2. exact-text 5件
+3. **context-checked 1件**
+4. context-checked 5件
+5. context-checked 10件
 
 ただし、同一ページや同一語に偏らせず、
 - 2 witness 以上
@@ -217,9 +231,11 @@ Stage A の「位置が分かる実例」を、
 
 ### 2C の区切り
 
-- 最初の1件を context-checked にできた時点
-- 5件到達
-- 10件到達
+- exact-text 1件成立
+- exact-text 5件到達
+- context-checked 1件成立
+- context-checked 5件到達
+- context-checked 10件到達
 
 それぞれでチェックポイントを更新する。
 
@@ -440,16 +456,17 @@ human-confirmed:
 
 # 現在の次アクション
 
-**現在位置: Phase 2B → 2C 移行判定**
+**現在位置: Phase 2C-1 / exact-text の最初の1件を確定中**
 
 次の順で進める。
 
-1. 42件の Stage A を監査し、どの字体×witnessペアが揃っているか一覧化
-2. Phase 2B の完了条件Aを満たしているか判定
-3. 満たしていれば Stage A の大量追加を止め、2Cへ移行
-4. Stage B 候補を、原画像・翻刻が追いやすい順に選ぶ
-5. 最初の `context-checked` 1件を作る
-6. その時点でチェックポイントを更新する
+1. 42件の Stage A 監査 ✅
+2. Stage A の大量追加を主工程から外し、Phase 2Cへ移行 ✅
+3. 公式翻刻と個別出現を一意対応できる候補を選ぶ ✅
+4. 最初の exact-text 1件を確定する ← 現在
+5. exact-text を5件まで再現し、方法の安定性を確認
+6. 原画像確認経路を確立し、最初の context-checked 1件を作る
+7. 各節目でチェックポイントを更新する
 
 ---
 
