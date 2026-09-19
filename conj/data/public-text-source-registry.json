@@ -34,7 +34,8 @@
     "auditStatusKnownWorks": 21,
     "blockedWorks": 5,
     "partialWorks": 4,
-    "classroomCandidateWorks": 2
+    "classroomCandidateWorks": 9,
+    "classroomCandidateExamples": 56
   },
   "works": [
     {
@@ -106,7 +107,9 @@
         "edition": "有朋堂文庫・1927",
         "rightsNote": "Wikimedia Commons / NDL由来のpublic domain scan。"
       },
-      "auditStatus": "blocked-with-reason"
+      "auditStatus": "blocked-with-reason",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
     },
     {
       "work": "十訓抄",
@@ -142,7 +145,9 @@
         "targetVerificationCount": 4,
         "note": "引用漢詩4例に同訓読語形あり。ただしsame-work witnessではないため公開未接続。"
       },
-      "auditStatus": "partial"
+      "auditStatus": "partial",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
     },
     {
       "work": "平治物語",
@@ -172,7 +177,9 @@
         "edition": "有朋堂文庫・1927",
         "rightsNote": "Wikimedia Commonsでpublic domain scan / PD-Japan表示。"
       },
-      "auditStatus": "blocked-with-reason"
+      "auditStatus": "blocked-with-reason",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
     },
     {
       "work": "宇治拾遺物語",
@@ -226,7 +233,9 @@
       },
       "publicationReady": false,
       "note": "6例中2例を國文大觀版で4ゲート完了。残り4例は版差・文法形差・固定版での同一箇所照合不足のため未公開。",
-      "auditStatus": "partial"
+      "auditStatus": "partial",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
     },
     {
       "work": "源氏物語",
@@ -273,7 +282,9 @@
       },
       "publicationReady": false,
       "note": "5例中4例をWikisource旧版本で4ゲート完了。adjv-033 安らかならは選抜箇所を固定版で照合できず未公開。",
-      "auditStatus": "partial"
+      "auditStatus": "partial",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
     },
     {
       "work": "紫式部日記",
@@ -414,7 +425,9 @@
       },
       "publicationReady": false,
       "note": "5例中2例を同版公開本文で再確認。残り3例はtarget未照合のため未公開。",
-      "auditStatus": "partial"
+      "auditStatus": "partial",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
     },
     {
       "work": "伊勢物語",
@@ -578,7 +591,9 @@
           "note": "画像資料は再利用可能だが、4 targetを検索可能な本文で照合する経路が未確立。"
         }
       ],
-      "auditStatus": "blocked-with-reason"
+      "auditStatus": "blocked-with-reason",
+      "classroomCandidate": true,
+      "classroomStatus": "needs-classroom-source-audit"
     },
     {
       "work": "蜻蛉日記",
