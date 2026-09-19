@@ -26,7 +26,8 @@
     "knownTokenBoundaryIndex": "known_token_boundary_index.json",
     "hyakuninDisambiguationEvidence": "hyakunin_disambiguation_evidence.json",
     "hyakuninDisambiguationRegression": "hyakunin_disambiguation_regression_20260919.json",
-    "contextResolverRegression": "context_resolver_regression_20260919.json"
+    "contextResolverRegression": "context_resolver_regression_20260919.json",
+    "auditedInflectionEvidenceFull": "audited_inflection_evidence_500_full.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -63,6 +64,8 @@
     "known-token boundaryにより4サンプルで内部の短いhit20位置を追加抑制し、context-requiredは188位置まで減少。",
     "百人一首の監査済み要注意17句をexact phrase evidence化し、回帰17/17 PASS。一般規則へは自動一般化しない。",
     "USB-3212の後続cueを使う双方向context resolverを追加し、単体回帰4/4 PASS。",
-    "百人一首exact phrase「知らぬ」が既存識別サンプルにも一致し、shadow resolvedは71/310へ増加。"
+    "百人一首exact phrase「知らぬ」が既存識別サンプルにも一致し、shadow resolvedは71/310へ増加。",
+    "500例全件を447表面形・19曖昧表面形として audited_inflection_evidence_500_full.json に保持。曖昧分析を捨てず、将来のresolverへ渡す。",
+    "v1.3 BASIC_WORDSフィルタを known_token_boundary_index へ移行し、既存の部分一致抑制をDBレイヤでも再現する。"
   ]
 }
