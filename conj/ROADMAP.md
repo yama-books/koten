@@ -233,12 +233,12 @@ Status: **PENDING**
 **Phase D / D1「公開可能本文の作品単位監査」**
 
 現在:
-- 19 / 21作品 監査status確定
+- 20 / 21作品 監査status確定
 - publicationReady: 12
 - partial: 4（方丈記 / 十訓抄 / 枕草子 / 更級日記）
-- blocked-with-reason: 3（落窪物語 / 平治物語 / 保元物語）
+- blocked-with-reason: 4（落窪物語 / 平治物語 / 保元物語 / 堤中納言物語）
 - 64 / 120例 公開実例接続
-- 次: **堤中納言物語 5例**
+- 次: **平家物語 16例**
 
 ---
 
@@ -279,7 +279,7 @@ Status: **PENDING**
 
 ## 5. 次回チェックポイント
 
-**Milestone D-19: 堤中納言物語5例**
+**Milestone D-20: 平家物語16例**
 
 完了時に:
 - 公開実例総数
