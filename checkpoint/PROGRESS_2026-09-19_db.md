@@ -343,3 +343,33 @@ v0.12→v0.13:
 `に4 / て1 / ぬ1 / を1 / と1 / な1 / せ1`
 
 残件はすべて、保留理由が明示できる状態。
+
+
+## 一時停止: shadow v0.14-pre-gold
+
+v0.13の残10件を、単なる未解決から「解消可能」「意図的benchmark」「一次資料待ち」へ再分類した。
+
+- 枕草子「あかりて」の `て`: 接続助詞としてexact passage resolved。
+- 残9:
+  - intentional-ambiguity-benchmark **4**
+  - primary-source-required **5**
+  - unclassified context-required **0**
+- raw 310 / resolved **187** / suppressed **123** / DB only 0
+- resolved率 **60.3%**
+
+新設:
+- `passage_disambiguation_evidence.json`
+- `context_hold_policy.json`
+- `passage_hold_regression_20260919.json`
+- `shadow_promotion_policy.json`
+- `shadow_promotion_readiness_20260919.json`
+
+開発者向けshadow debug overlayも実装済み。通常はhiddenで、`?debug=shadow` または `#shadow-debug` 時のみ表示。
+
+昇格判断:
+- G1/G2/G3/G7 PASS
+- G4 independent gold / G5 cross-passage / G6 hold-aware UI はPENDING
+- learner-visible global切替はまだ行わない。
+
+次回:
+『徒然草』第52段「仁和寺にある法師」を候補に**先に独立goldを固定**し、resolverを触らず現行shadowの初見性能を測る。
