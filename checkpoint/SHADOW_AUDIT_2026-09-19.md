@@ -2,6 +2,32 @@
 更新: 2026-09-19
 
 
+## 最新チェックポイント: shadow v0.13
+
+以下の旧節は履歴として残す。**現行値はこの節を正とする。**
+
+| 指標 | 現行値 |
+|---|---:|
+| legacy unique位置 | 310 |
+| DB raw hit | 310 |
+| DB resolved | **186** |
+| DB suppressed | **124** |
+| DB only | **0** |
+| resolved率 | **60.0%** |
+| context-required | **10** |
+
+v0.12→v0.13:
+- `に` 15位置 resolved + `たちまちに` 1位置 suppression
+- `と` 7位置 resolved + `日ごと/こと` 2位置 suppression
+- `が` 3位置 resolved
+- context-required **38→10**
+
+残件:
+`に4 / て1 / ぬ1 / を1 / と1 / な1 / せ1`
+
+安倍晴明本文の残 `に4` は分析揺れのため意図的hold。
+
+
 ## 最新チェックポイント: shadow v0.12
 
 以下の旧節は履歴として残す。**現行値はこの節を正とする。**
