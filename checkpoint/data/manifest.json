@@ -29,7 +29,8 @@
     "contextResolverRegression": "context_resolver_regression_20260919.json",
     "auditedInflectionEvidenceFull": "audited_inflection_evidence_500_full.json",
     "contextRequiredBacklog": "context_required_backlog_20260919.json",
-    "auditedInflectionEvidence500Full": "audited_inflection_evidence_500_full.json"
+    "auditedInflectionEvidence500Full": "audited_inflection_evidence_500_full.json",
+    "abeSeimeiGrammarEvidence": "abe_seimei_grammar_evidence.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -73,6 +74,8 @@
     "context-required残151位置を表面形別・必要解析レイヤ別に backlog JSONへ整理。",
     "500監査例を447表面形のfull evidence DBとして保存し、19の多義・多活用表面形も失わず保持。",
     "full evidence DBのkanji-anchored targetを境界証拠へ追加し、最新shadowは77 resolved / 233 suppressed / DB only 0。",
-    "USB-3212の「けれ」已然形根拠と「ば」接続を組み合わせ、けれ＋ば6件をshadow resolvedへ昇格。"
+    "USB-3212の「けれ」已然形根拠と「ば」接続を組み合わせ、けれ＋ば6件をshadow resolvedへ昇格。",
+    "ユーザー提供『安倍晴明_本文・文法・語彙整理.docx』の明示分析を24件のexact phrase evidenceとして構造化。",
+    "安倍晴明exact evidenceは該当句完全一致時だけshadowへ使用し、他本文へ一般化しない。"
   ]
 }
