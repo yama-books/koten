@@ -115,3 +115,29 @@ legacy unique 310位置はすべて surface_index に存在することを確認
 - `けれ＋ば` をUSB-3212の已然形根拠でsource-left-surface resolverに追加し、長文で6件resolved。
 - 最新4サンプル: raw 310 / resolved **77** / suppressed **233** / DB only 0。
 - suppressed: context-required 151 / indexed-larger-surface 51 / known-larger-token 31。
+
+
+## 追加: 安倍晴明 exact source / shadow v0.7
+
+ユーザー提供 `安倍晴明_本文・文法・語彙整理.docx` を再利用。
+
+- `abe_seimei_grammar_evidence.json`: 文書に明示された助動詞分析等を24 exact phrase evidenceへ構造化。
+- `abe_seimei_grammar_regression_20260919.json`: 24/24 PASS。
+- `abe_seimei_vocabulary_evidence.json`: 中学生向け難語29語を構造化。
+- vocabulary evidenceをknown-token boundaryにも追加。
+- exact grammar evidenceの効果:
+  - 15位置をsource-exact resolved
+  - 9位置をsource-exact larger-unitとして抑制
+- 特に重要:
+  - `入らむ` 内部の `らむ` を一語の現在推量「らむ」と誤認しない
+  - `ならむ` 内部の `らむ` を一語と誤認しない
+  - `黄なる` 内部の `な・る` を独立候補にしない
+  - `かたり` 内部の `たり` を助動詞候補にしない
+  - `塞がる` 内部の `が・る` を独立候補にしない
+- 4サンプル最新版:
+  - raw 310
+  - resolved **85**
+  - suppressed **225**
+  - context-required **134**
+  - resolved率 **27.4%**
+  - DB only 0
