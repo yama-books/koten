@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "phase2-source-checked-ise-same-jibo-reversal-captured",
+  "status": "phase2-exact-text-pilot-started",
   "examples": [
     {
       "example_id": "att-brsk005-u3057-f07b-x0563-y2069",
@@ -467,17 +467,17 @@
       "occurrence_locator_source": "https://cid.ninjal.ac.jp/hentaiganaDB/DB/glyph/U%2B3048.html",
       "source_image_ref": "https://dglb01.ninjal.ac.jp/ninjaldl/show.php?issue=005&title=buturuisyoko",
       "source_image_locator": "16ウ",
-      "context_alignment_status": "page-level",
+      "context_alignment_status": "exact-text",
       "page_transcription_ref": "https://www2.ninjal.ac.jp/textdb_dataset/brsk/txt/brsk-005.txt#16ウ",
       "context_original": null,
-      "transcription": null,
-      "normalized_reading": null,
-      "word": null,
-      "position_in_word": "unknown",
+      "transcription": "なり上古よりの自語と見えたりたとへば『フハ〳〵』の語を浮和｛ふわ｝〳〵と書て正字の様に用ゆる事妄説なり",
+      "normalized_reading": "みえたり",
+      "word": "見えたり",
+      "position_in_word": "medial",
       "bunsetsu_position": null,
       "grammatical_role": null,
-      "previous_char": null,
-      "next_char": null,
+      "previous_char": "見",
+      "next_char": "た",
       "renmen": "unknown",
       "evidence": [
         {
@@ -494,12 +494,19 @@
           "type": "attested_context",
           "source_id": "ninjal-history-source",
           "locator": "巻五 16ウ; W52-5/Ko85/5, source ID 1001089836"
+        },
+        {
+          "type": "attested_context",
+          "source_id": "ninjal-textdb-brsk",
+          "locator": "巻五16ウ。公式翻字本文の16ウ内で平仮名「え」は「見えたり」の1箇所のみ。"
         }
       ],
       "review_status": "source-checked",
       "reviewed_by": "research-pass-2026-09-19",
       "reviewed_at": "2026-09-19",
-      "notes": "Stage A variant-form sample. Official glyph-frequency page's U+1B012 section exposes page/occurrence ID/X/Y via the occurrence image filename. Exact glyph-to-transcription character alignment and renmen remain pending; not for teaching."
+      "notes": "Phase 2C-1 exact-text pilot. 個別出現（U+1B012 / brsk005-034 / ID0151 / X1237 Y1854）と公式翻字本文中の「見えたり」の「え」を、同丁内の対象音価が一意であることにより対応。連綿・接続は原画像未確認のため unknown。review_status は source-checked のまま。教材には未使用。",
+      "text_alignment_method": "unique-normalized-kana-on-folio",
+      "text_alignment_evidence": "国語研公式翻字本文の巻五16ウで、対象音価の平仮名「え」は「見えたり」の1箇所のみ。字形DBでは同丁 brsk005-034 に U+1B012（𛀒）の個別出現が1件（ID0151, X=1237, Y=1854）あるため、翻字中の当該「え」と一意に対応する。"
     },
     {
       "example_id": "att-200014445-u1b012-200014445-00005-id0078-x2873-y1800",
@@ -2157,6 +2164,7 @@
   "stats": {
     "totalExamples": 42,
     "sourceChecked": 42,
+    "exactText": 1,
     "contextChecked": 0,
     "humanConfirmed": 0,
     "variantGlyphExamples": 38,
