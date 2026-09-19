@@ -217,5 +217,20 @@
       "mode": "singleCandidateResolve",
       "sourceCue": "USB-3212「て」: 完了「つ」未然・連用形は、後ろに「む・けり・き・まし」等が続く助動詞連鎖を確認。"
     }
+  ],
+  "leftSurfaceRules": [
+    {
+      "surface": "ば",
+      "previousSurface": "けれ",
+      "previousFormEvidence": "已然形",
+      "supportCandidateIds": [
+        "conjunctive_ba_fixed"
+      ],
+      "mode": "singleCandidateResolve",
+      "sourceCue": "USB-3212「けれ」の出典候補はいずれも、該当箇所を已然形または已然形を含む切り方として扱う。「ば」は已然形接続なら確定条件候補。",
+      "evidenceFiles": [
+        "discrimination_source_usb3212.json"
+      ]
+    }
   ]
 }
