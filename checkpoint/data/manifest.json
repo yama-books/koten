@@ -34,7 +34,8 @@
     "abeSeimeiVocabularyEvidence": "abe_seimei_vocabulary_evidence.json",
     "abeSeimeiGrammarRegression": "abe_seimei_grammar_regression_20260919.json",
     "abeSeimeiKakariEvidence": "abe_seimei_kakari_evidence.json",
-    "abeSeimeiKakariRegression": "abe_seimei_kakari_regression_20260919.json"
+    "abeSeimeiKakariRegression": "abe_seimei_kakari_regression_20260919.json",
+    "hyakuninBunsetuBoundaryEvidence": "hyakunin_bunsetu_boundary_evidence.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -87,6 +88,8 @@
     "exact kakari evidenceは完全一致句のscope-linkだけを付与し、候補の自動除外や一般化には使わない。",
     "Abe grammar exact evidenceを28ケースへ拡張し、回帰28/28 PASS。",
     "安倍晴明教材の係り結び5表現をexact scope-link化し、回帰5/5 PASS。",
-    "最新4サンプルshadowは86 resolved / 224 suppressed / DB only 0。context-requiredは132。"
+    "最新4サンプルshadowは86 resolved / 224 suppressed / DB only 0。context-requiredは132。",
+    "百人一首文節監査の明示語彙境界をexact passage限定で利用するレイヤを追加。",
+    "第9首では名詞「ながめ」の内部の一文字「な」「が」だけを抑制し、「せし」「まに」内部は文法候補を勝手に消さない。"
   ]
 }
