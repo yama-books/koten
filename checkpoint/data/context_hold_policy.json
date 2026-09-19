@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-19",
+  "title": "Checkpoint context-required hold policy",
+  "policy": [
+    "context resolverが一意判定できなかった後にのみ適用する。",
+    "intentional-ambiguity-benchmark は未解決欠陥ではなく、候補保持を検証するテスト位置。",
+    "primary-source-required は二次資料だけで正本化しない位置。",
+    "holdはresolved件数に含めず、suppressedの理由を明示する。"
+  ],
+  "entries": [
+    {
+      "id": "identify-sample-nu-3",
+      "passage": "花咲きぬ。知らぬ人の来なむを待つ。都にて会はばやと思ひけれど、いかならむ。",
+      "focusSurface": "ぬ",
+      "focusOffset": 3,
+      "holdType": "intentional-ambiguity-benchmark",
+      "reason": "UI上の「識別サンプル」。同形異義・接続・文脈判定を残すstress testとして、exact正解evidenceを与えず候補提示能力を監査する。",
+      "sourceRefs": [
+        "checkpoint/index.html#sample3",
+        "checkpoint/events.js#sample3"
+      ],
+      "learnerVisible": false
+    },
+    {
+      "id": "identify-sample-wo-13",
+      "passage": "花咲きぬ。知らぬ人の来なむを待つ。都にて会はばやと思ひけれど、いかならむ。",
+      "focusSurface": "を",
+      "focusOffset": 13,
+      "holdType": "intentional-ambiguity-benchmark",
+      "reason": "UI上の「識別サンプル」。同形異義・接続・文脈判定を残すstress testとして、exact正解evidenceを与えず候補提示能力を監査する。",
+      "sourceRefs": [
+        "checkpoint/index.html#sample3",
+        "checkpoint/events.js#sample3"
+      ],
+      "learnerVisible": false
+    },
+    {
+      "id": "identify-sample-to-24",
+      "passage": "花咲きぬ。知らぬ人の来なむを待つ。都にて会はばやと思ひけれど、いかならむ。",
+      "focusSurface": "と",
+      "focusOffset": 24,
+      "holdType": "intentional-ambiguity-benchmark",
+      "reason": "UI上の「識別サンプル」。同形異義・接続・文脈判定を残すstress testとして、exact正解evidenceを与えず候補提示能力を監査する。",
+      "sourceRefs": [
+        "checkpoint/index.html#sample3",
+        "checkpoint/events.js#sample3"
+      ],
+      "learnerVisible": false
+    },
+    {
+      "id": "identify-sample-na-33",
+      "passage": "花咲きぬ。知らぬ人の来なむを待つ。都にて会はばやと思ひけれど、いかならむ。",
+      "focusSurface": "な",
+      "focusOffset": 33,
+      "holdType": "intentional-ambiguity-benchmark",
+      "reason": "UI上の「識別サンプル」。同形異義・接続・文脈判定を残すstress testとして、exact正解evidenceを与えず候補提示能力を監査する。",
+      "sourceRefs": [
+        "checkpoint/index.html#sample3",
+        "checkpoint/events.js#sample3"
+      ],
+      "learnerVisible": false
+    },
+    {
+      "id": "abe-primary-hold-ni-37",
+      "passage": "らせ給ひけるに、白き犬を愛",
+      "focusSurface": "に",
+      "focusOffset": 6,
+      "holdType": "primary-source-required",
+      "issue": "連体形＋「に」の格助詞／接続助詞分類",
+      "reason": "canonical school grammar source『新しい古典文法 四訂新版』の原資料確認前に一意化しない。",
+      "sourceRefs": [
+        "checkpoint/HANDOFF.md",
+        "古典関係アプリ_設計計画書_2026-08-29.md"
+      ],
+      "learnerVisible": false
+    },
+    {
+      "id": "abe-primary-hold-ni-421",
+      "passage": "らせて見給ふに、土五尺ばか",
+      "focusSurface": "に",
+      "focusOffset": 6,
+      "holdType": "primary-source-required",
+      "issue": "連体形＋「に」の格助詞／接続助詞分類",
+      "reason": "canonical school grammar source『新しい古典文法 四訂新版』の原資料確認前に一意化しない。",
+      "sourceRefs": [
+        "checkpoint/HANDOFF.md",
+        "古典関係アプリ_設計計画書_2026-08-29.md"
+      ],
+      "learnerVisible": false
+    },
+    {
+      "id": "abe-primary-hold-ni-651",
+      "passage": "部を走らするに、六条坊門万",
+      "focusSurface": "に",
+      "focusOffset": 6,
+      "holdType": "primary-source-required",
+      "issue": "連体形＋「に」の格助詞／接続助詞分類",
+      "reason": "canonical school grammar source『新しい古典文法 四訂新版』の原資料確認前に一意化しない。",
+      "sourceRefs": [
+        "checkpoint/HANDOFF.md",
+        "古典関係アプリ_設計計画書_2026-08-29.md"
+      ],
+      "learnerVisible": false
+    },
+    {
+      "id": "abe-primary-hold-ni-721",
+      "passage": "故を問はるるに、「堀河左大",
+      "focusSurface": "に",
+      "focusOffset": 6,
+      "holdType": "primary-source-required",
+      "issue": "連体形＋「に」の格助詞／接続助詞分類",
+      "reason": "canonical school grammar source『新しい古典文法 四訂新版』の原資料確認前に一意化しない。",
+      "sourceRefs": [
+        "checkpoint/HANDOFF.md",
+        "古典関係アプリ_設計計画書_2026-08-29.md"
+      ],
+      "learnerVisible": false
+    },
+    {
+      "id": "abe-primary-hold-se-866",
+      "passage": "よいよ不便にせさせ給ひける",
+      "focusSurface": "せ",
+      "focusOffset": 6,
+      "holdType": "primary-source-required",
+      "issue": "「せさせ給ひ」の最初の「せ」と助動詞「さす」の接続",
+      "reason": "canonical school grammar source『新しい古典文法 四訂新版』の原資料確認前に一意化しない。",
+      "sourceRefs": [
+        "checkpoint/HANDOFF.md",
+        "古典関係アプリ_設計計画書_2026-08-29.md"
+      ],
+      "learnerVisible": false
+    }
+  ]
+}
