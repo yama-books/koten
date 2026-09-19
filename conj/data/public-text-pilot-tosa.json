@@ -1,0 +1,72 @@
+{
+  "updated": "2026-09-19",
+  "work": "土佐日記",
+  "status": "pilot / all-targets-verified",
+  "provider": "Wikisource",
+  "edition": {
+    "title": "土佐日記 (國文大觀)",
+    "url": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
+    "rightsVerified": true,
+    "rightsStatus": "public-domain-marked-on-Wikisource",
+    "publicationTextLicenseNote": "Wikisourceページ下部のCC BY-SA利用条件も遵守する。"
+  },
+  "records": [
+    {
+      "id": "adjv-005",
+      "chjTarget": "はるかなり",
+      "publicTarget": "はるかなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "連用形「なり」＋完了「つる」を確認。"
+    },
+    {
+      "id": "adjv-019",
+      "chjTarget": "いたづらなれ",
+      "publicTarget": "いたづらなれ",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "已然形「なれ」＋接続助詞「ば」を確認。"
+    },
+    {
+      "id": "adjv-047",
+      "chjTarget": "ゐややかなり",
+      "publicTarget": "ゐやゝかなり",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "踊り字表記差。終止形「なり」を確認。"
+    },
+    {
+      "id": "adjv-068",
+      "chjTarget": "あざらかなる",
+      "publicTarget": "あさらかなる",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "濁点表記差。連体形「なる」を確認。"
+    },
+    {
+      "id": "adjv-091",
+      "chjTarget": "ひそかに",
+      "publicTarget": "密に",
+      "targetVerified": true,
+      "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
+      "excerptReviewed": false,
+      "exampleEnabledPublic": false,
+      "note": "漢字／かな表記差。連用形「に」を確認。"
+    }
+  ],
+  "counts": {
+    "total": 5,
+    "rightsVerified": 5,
+    "targetVerified": 5,
+    "excerptReviewed": 0,
+    "publicationEnabled": 0
+  }
+}
