@@ -138,14 +138,10 @@ function render(){
   }
   const reading=document.getElementById("reading");
   const checklist=document.getElementById("checklist");
-  const summary=document.getElementById("summary");
-  const filterStatus=document.getElementById("filterStatus");
 
   if(!text){
     reading.innerHTML='<div class="empty">本文を入れてください。</div>';
     checklist.innerHTML='<div class="empty">まだありません。</div>';
-    summary.innerHTML='';
-    filterStatus.textContent='';
     renderKnownHistory("",[]);
     renderShadowDebugPanel("",[],null);
     return;
@@ -163,8 +159,6 @@ function render(){
   const notDismissed=detected.hits.filter(h=>!dismissedKeys.has(hitKey(h)));
   const hits=notDismissed.filter(h=>h.tier<=limit);
 
-  const levelSuppressed=notDismissed.length-hits.length;
-  const knownSuppressed=detected.hits.length-notDismissed.length;
   renderKnownHistory(text,detected.hits);
 
   const segments=mergeDisplaySegments(buildSegments(text,hits));
@@ -176,20 +170,10 @@ function render(){
     const title=multi
       ? points.map(h=>drawerPointLabel(h)).join(" / ")
       : drawerPointLabel(dom);
-    const badge=multi?`<span class="candidate-badge">${points.length}観点</span>`:"";
+    const badge=multi?`<span class="candidate-badge">${points.length}</span>`:"";
     return `<span class="mark ${dom.type}${multi?" multi":""}" data-seg="${idx}" title="${escapeHtml(title)}">${escapeHtml(seg.text)}${badge}</span>`;
   }).join("");
 
-  const counts={grammar:0,identify:0,vocab:0,orthography:0,structure:0,honorific:0};
-  hits.forEach(h=>counts[h.type]=(counts[h.type]||0)+1);
-  summary.innerHTML = Object.keys(counts).map(k=>`
-    <div class="metric"><strong>${counts[k]}</strong><small>${categoryLabels[k]}</small></div>
-  `).join("");
-
-  const levelName={"1":"厳選","2":"ふつう","3":"ふつう","4":"細かく","5":"細かく"}[level];
-  const overlapSegments=segments.filter(seg=>normalizeDrawerPoints(seg.active).length>1).length;
-  filterStatus.textContent =
-    `${levelName}：${hits.length}件 ／ 重なり ${overlapSegments}件 ／ 非表示 ${levelSuppressed+detected.basicSuppressed+knownSuppressed}件`;
 
   if(!hits.length){
     checklist.innerHTML='<div class="empty">ここにはありません。</div>';
