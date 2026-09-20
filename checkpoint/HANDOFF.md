@@ -1312,3 +1312,110 @@ production統合後にiPhone Safariで確認:
 
 再開短句:
 **「checkpoint-main HANDOFF最終節から再開。production統合後のiPhone smokeへ」**
+
+
+## 2026-09-20 継続2: 公開βDOM smoke自動化・production差分固定
+
+### 自動DOM smoke
+追加:
+- `tests/unit/checkpoint-public-beta.test.mjs`
+- `.github/workflows/checkpoint-public-beta.yml`
+
+jsdomで実際の `checkpoint/index.html` と12本のclassic scriptを読み込み、公開UI操作を自動確認する。
+
+検証:
+1. 通常URLで `shadowDebugPanel.hidden === true`
+2. 通常URLで `document.documentElement.dataset.shadowData === "skipped"`
+3. drawer openで `body.drawer-open`
+4. closeで `body.drawer-open`解除
+5. 「ここはわかる」→履歴1件
+6. 履歴に対象文脈 `【…】`
+7. 個別 `戻す` → 元件数へ復帰
+8. 複数「わかる」→ `すべて戻す`
+9. 本文変更 → 履歴自動クリア
+10. mobile CSS contract:
+   - 680px / 430px breakpoint
+   - 44px touch target
+   - safe-area
+   - 92dvh
+   - body scroll lock
+   - textarea 17px
+
+初回run `35481895053` は、テスト終了後にも非同期 `loadCheckpointData()` が残るテスト側の問題でfailure。
+各機能テスト自体は6件すべてPASSしていた。
+
+修正後run:
+- run: **35481928465**
+- head: `414514e911ab88b4187993a725d369e0b7080daf`
+- conclusion: **SUCCESS**
+
+アプリ本体の不具合ではなくtest teardown問題だったことをログで確認済み。
+
+### production差分の固定
+`data/production_integration_delta_20260920.json` を作成。
+
+mainの `checkpoint/` 自体は存在しており、checkpoint-mainとの差は限定的。
+スナップショット時:
+- top-level changed: 11
+- `checkpoint/data` changed: 7
+- runtime critical: 13
+- unchanged runtime:
+  - `core2.js`
+  - `core3.js`
+  - `detect1.js`
+  - `detect2.js`
+  - `detect3.js`
+  - `ui2.js`
+  - `ui3.js`
+
+delta JSONには各ファイルの:
+- production `mainSha`
+- `checkpointSha`
+- ADD / UPDATE
+- size
+を記録。
+
+production統合時は必ず `mainSha` を再照合する。
+main側が変化していれば、そのファイルは自動上書きせず再レビュー。
+
+### release preflight更新
+`public_release_preflight_20260920.json`
+- R8: `PARTIAL_PASS`
+  - static mobile PASS
+  - automated DOM smoke PASS
+  - iPhone Safari actual deviceのみPENDING
+- R11: understood history PASS
+- R12: automated public-beta DOM smoke PASS
+- production integration delta: FROZEN
+
+残る公開ブロッカー:
+1. production ownerによるファイル単位integration
+2. 統合直前のmainSha再照合
+3. Pages deploy
+4. iPhone Safari実機smoke
+
+### branch-only workflow
+Checkpoint Public Beta Smoke は `checkpoint-main` 専用。
+production deployは行わない。
+triggerはruntime関連:
+- `checkpoint/*.js`
+- `checkpoint/index.html`
+- `checkpoint/styles.css`
+- `checkpoint/data/**`
+- test / workflow / package lock
+に限定し、HANDOFF等だけの更新では不要なrunを発生させない。
+
+### 今回の主要コミット
+- `e30c741352fcd8c948115e129e93438606c908d5` DOM smoke tests
+- `fc41a2f5d7d82d85dd0667ff8b42ef0064b0a31c` branch-only smoke workflow
+- `414514e911ab88b4187993a725d369e0b7080daf` async teardown fix / successful smoke head
+- `870a99b5dc5d203e8e17d96abea6134d13d601b8` production integration delta
+- `05924ef40feb226d8ff1e0eedcaa925e62278cdc` preflight automated smoke evidence
+- `e04fd93963e90345bd50a9d8c48d6ce753eb0ec5` workflow trigger narrowing
+
+### 次回
+**実装側はproduction統合待ちの状態まで到達。**
+統合担当は `PRODUCTION_INTEGRATION.md` と `data/production_integration_delta_20260920.json` を先に読む。
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。delta再照合→production統合→iPhone smoke」**
