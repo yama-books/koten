@@ -2019,3 +2019,22 @@ npm run scan:publish
 
 `vintage-kana-main HANDOFF §52〜§55から再開。mainとはno common ancestorの前提を維持。最新実装abd9102fはCI success。今回の追加修正は未公開なので、ローカルで確認後、main起点の一時公開ブランチへvintage-kana公開ファイルだけ移植してPR→Pages反映する。`
 
+### 2026-09-21 ローカルPC変更
+
+今回のローカル引継ぎ先PCは従来PCと異なる。
+作業ディレクトリは **`D:\\dev\\koten`**。
+
+§51・§55等に残る `C:\\Users\\user\\AI開発\\koten` は旧PCのパスであり、今回の再開では使用しない。
+
+今回の正しい再開コマンド:
+
+```powershell
+cd D:\\dev\\koten
+git status
+git fetch origin
+git switch vintage-kana-main
+git pull --ff-only origin vintage-kana-main
+```
+
+以後、このPCでのローカル再開は `D:\\dev\\koten` を基準にする。
+
