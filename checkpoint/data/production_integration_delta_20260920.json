@@ -1,0 +1,311 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "branch": "checkpoint-main",
+  "baselineBranch": "main",
+  "purpose": "File-level production integration snapshot because main and checkpoint-main currently have no common ancestor.",
+  "warning": "Before applying, re-check the listed mainSha values. If any mainSha changed, stop and review that file instead of overwriting it blindly.",
+  "topLevelChanged": [
+    {
+      "path": "checkpoint/HANDOFF.md",
+      "status": "UPDATE",
+      "mainSha": "7f0d4af66bfac95fcfc2570259f4348a301cb0c2",
+      "checkpointSha": "d7b566f2644d05a00866971ce584a40cb6b8a632",
+      "mainSize": 52440,
+      "checkpointSize": 62122,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/PRODUCTION_INTEGRATION.md",
+      "status": "ADD",
+      "mainSha": null,
+      "checkpointSha": "80dbb0f9aae39997a9ad4cc3c0e986d5fbcae6e1",
+      "mainSize": null,
+      "checkpointSize": 3573,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/PROGRESS_2026-09-19_db.md",
+      "status": "UPDATE",
+      "mainSha": "e0753a7cefe0fe699cfd319f180effe8bb36e882",
+      "checkpointSha": "ba8a4b79c8a774462fcd4ab5091bb6e86661fbeb",
+      "mainSize": 25668,
+      "checkpointSize": 27948,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/README.md",
+      "status": "UPDATE",
+      "mainSha": "1f5fc29a0c1b3b90fb5cf9060b52fbd4d32df747",
+      "checkpointSha": "bbc7c01fde85128e62c191d02da727574d993ac6",
+      "mainSize": 1318,
+      "checkpointSize": 2103,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/core1.js",
+      "status": "UPDATE",
+      "mainSha": "f896722764b2a27aa20d92538486e42392e5e08e",
+      "checkpointSha": "38331c073ad30b1f5c09a3244ed0f20caa1cffff",
+      "mainSize": 17375,
+      "checkpointSize": 17407,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/core4.js",
+      "status": "UPDATE",
+      "mainSha": "adb5d6e85895440b04b3af35455e3b1ae810079d",
+      "checkpointSha": "1a809d9d47b483d6e5f86cbd5fd9e9c9e06f27f7",
+      "mainSize": 10617,
+      "checkpointSize": 11469,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/db-shadow.js",
+      "status": "UPDATE",
+      "mainSha": "ecd838531910afc8971ed1eeae4da041ea308eb3",
+      "checkpointSha": "a143f164f6dd50549bd4ace1ff1b6f3fe304bead",
+      "mainSize": 55113,
+      "checkpointSize": 62288,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/events.js",
+      "status": "UPDATE",
+      "mainSha": "720e96a2cd27f8b69016dd6b71914897c7a87476",
+      "checkpointSha": "a48829c765b996904619fae795acad9ebcd94919",
+      "mainSize": 7153,
+      "checkpointSize": 7635,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/index.html",
+      "status": "UPDATE",
+      "mainSha": "650fec20f2ec1615ddb6d07ff428473048203b0c",
+      "checkpointSha": "9df5c039c60f33a301e28e87f274ad78af7cc7ff",
+      "mainSize": 5604,
+      "checkpointSize": 6149,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/styles.css",
+      "status": "UPDATE",
+      "mainSha": "788f06dbcd570cd1b4973baea871e66aa7480a31",
+      "checkpointSha": "77d40ff6335b06ed029d22de55f66a156fb92117",
+      "mainSize": 10209,
+      "checkpointSize": 12065,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/ui1.js",
+      "status": "UPDATE",
+      "mainSha": "70c4b1d6382f320c888d7e2ba0999c15694d7414",
+      "checkpointSha": "05e2a4fa2ff8b5e6e3aa2b9ea7fa5737722260da",
+      "mainSize": 12572,
+      "checkpointSize": 14694,
+      "type": "file"
+    }
+  ],
+  "dataChanged": [
+    {
+      "path": "checkpoint/data/local_syntax_feature_policy.json",
+      "status": "UPDATE",
+      "mainSha": "955e620d46b3c4942be20e16b404b032223a2b9c",
+      "checkpointSha": "60c9fd5e3805abf4775e46278f8f604a9ebd9384",
+      "mainSize": 4068,
+      "checkpointSize": 5155,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/manifest.json",
+      "status": "UPDATE",
+      "mainSha": "5895c46b436d1e860a54e162806d64c46b7a7e52",
+      "checkpointSha": "a0ed368e914240f4ade35adfed189f85132ec63f",
+      "mainSize": 16243,
+      "checkpointSize": 18439,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/mobile_ui_audit_20260920.json",
+      "status": "ADD",
+      "mainSha": null,
+      "checkpointSha": "42bc3d19d1f9ab101be5a07ea0ad50938283090f",
+      "mainSize": null,
+      "checkpointSize": 4657,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/morphology_provider_audit_20260920.json",
+      "status": "ADD",
+      "mainSha": null,
+      "checkpointSha": "386b54a42c2678873c418b0f94ca6c7b6020d8a6",
+      "mainSize": null,
+      "checkpointSize": 7903,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/morphology_provider_policy.json",
+      "status": "ADD",
+      "mainSha": null,
+      "checkpointSha": "3d19498da68080a6fd4e0182ac44df7c6c23e92e",
+      "mainSize": null,
+      "checkpointSize": 3410,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/public_release_preflight_20260920.json",
+      "status": "ADD",
+      "mainSha": null,
+      "checkpointSha": "0b7e9d6430a82064a075f5242b9f9f7930a5e4aa",
+      "mainSize": null,
+      "checkpointSize": 5187,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/shadow_promotion_readiness_20260919.json",
+      "status": "UPDATE",
+      "mainSha": "9c0fc760a231f4760afcab4581e0ba07d4686c3b",
+      "checkpointSha": "dd1182807ad92537e4f3e61e385c997fae873917",
+      "mainSize": 10338,
+      "checkpointSize": 11676,
+      "type": "file"
+    }
+  ],
+  "runtimeCritical": [
+    {
+      "path": "checkpoint/core1.js",
+      "status": "UPDATE",
+      "mainSha": "f896722764b2a27aa20d92538486e42392e5e08e",
+      "checkpointSha": "38331c073ad30b1f5c09a3244ed0f20caa1cffff",
+      "mainSize": 17375,
+      "checkpointSize": 17407,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/core4.js",
+      "status": "UPDATE",
+      "mainSha": "adb5d6e85895440b04b3af35455e3b1ae810079d",
+      "checkpointSha": "1a809d9d47b483d6e5f86cbd5fd9e9c9e06f27f7",
+      "mainSize": 10617,
+      "checkpointSize": 11469,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/db-shadow.js",
+      "status": "UPDATE",
+      "mainSha": "ecd838531910afc8971ed1eeae4da041ea308eb3",
+      "checkpointSha": "a143f164f6dd50549bd4ace1ff1b6f3fe304bead",
+      "mainSize": 55113,
+      "checkpointSize": 62288,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/events.js",
+      "status": "UPDATE",
+      "mainSha": "720e96a2cd27f8b69016dd6b71914897c7a87476",
+      "checkpointSha": "a48829c765b996904619fae795acad9ebcd94919",
+      "mainSize": 7153,
+      "checkpointSize": 7635,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/index.html",
+      "status": "UPDATE",
+      "mainSha": "650fec20f2ec1615ddb6d07ff428473048203b0c",
+      "checkpointSha": "9df5c039c60f33a301e28e87f274ad78af7cc7ff",
+      "mainSize": 5604,
+      "checkpointSize": 6149,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/styles.css",
+      "status": "UPDATE",
+      "mainSha": "788f06dbcd570cd1b4973baea871e66aa7480a31",
+      "checkpointSha": "77d40ff6335b06ed029d22de55f66a156fb92117",
+      "mainSize": 10209,
+      "checkpointSize": 12065,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/ui1.js",
+      "status": "UPDATE",
+      "mainSha": "70c4b1d6382f320c888d7e2ba0999c15694d7414",
+      "checkpointSha": "05e2a4fa2ff8b5e6e3aa2b9ea7fa5737722260da",
+      "mainSize": 12572,
+      "checkpointSize": 14694,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/local_syntax_feature_policy.json",
+      "status": "UPDATE",
+      "mainSha": "955e620d46b3c4942be20e16b404b032223a2b9c",
+      "checkpointSha": "60c9fd5e3805abf4775e46278f8f604a9ebd9384",
+      "mainSize": 4068,
+      "checkpointSize": 5155,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/manifest.json",
+      "status": "UPDATE",
+      "mainSha": "5895c46b436d1e860a54e162806d64c46b7a7e52",
+      "checkpointSha": "a0ed368e914240f4ade35adfed189f85132ec63f",
+      "mainSize": 16243,
+      "checkpointSize": 18439,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/morphology_provider_audit_20260920.json",
+      "status": "ADD",
+      "mainSha": null,
+      "checkpointSha": "386b54a42c2678873c418b0f94ca6c7b6020d8a6",
+      "mainSize": null,
+      "checkpointSize": 7903,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/morphology_provider_policy.json",
+      "status": "ADD",
+      "mainSha": null,
+      "checkpointSha": "3d19498da68080a6fd4e0182ac44df7c6c23e92e",
+      "mainSize": null,
+      "checkpointSize": 3410,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/public_release_preflight_20260920.json",
+      "status": "ADD",
+      "mainSha": null,
+      "checkpointSha": "0b7e9d6430a82064a075f5242b9f9f7930a5e4aa",
+      "mainSize": null,
+      "checkpointSize": 5187,
+      "type": "file"
+    },
+    {
+      "path": "checkpoint/data/shadow_promotion_readiness_20260919.json",
+      "status": "UPDATE",
+      "mainSha": "9c0fc760a231f4760afcab4581e0ba07d4686c3b",
+      "checkpointSha": "dd1182807ad92537e4f3e61e385c997fae873917",
+      "mainSize": 10338,
+      "checkpointSize": 11676,
+      "type": "file"
+    }
+  ],
+  "documentation": [],
+  "unchangedRuntime": [
+    "checkpoint/core2.js",
+    "checkpoint/core3.js",
+    "checkpoint/detect1.js",
+    "checkpoint/detect2.js",
+    "checkpoint/detect3.js",
+    "checkpoint/ui2.js",
+    "checkpoint/ui3.js"
+  ],
+  "integrationRule": "Do not merge histories or force-push. Production owner should copy/review only checkpoint/ files after verifying baseline SHAs.",
+  "automatedSmoke": {
+    "workflow": ".github/workflows/checkpoint-public-beta.yml",
+    "test": "tests/unit/checkpoint-public-beta.test.mjs",
+    "latestSuccessfulRunId": 35481928465,
+    "latestSuccessfulHeadSha": "414514e911ab88b4187993a725d369e0b7080daf",
+    "result": "PASS"
+  }
+}
