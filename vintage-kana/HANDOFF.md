@@ -963,3 +963,25 @@ JavaScript構文PASS。
 
 現行 index.html: release candidate 1.0 RC20
 JavaScript構文PASS。
+
+
+## 39. RC21 / 画像保存と習得記録
+
+実装済み:
+- 書いてみるを主経路のまま維持
+- 画像で保存: 1080px正方形PNG
+- Web Share対応端末は共有シート優先
+- iOS fallbackは画像を開いて長押し保存
+- 習得する: localStorageで回答イベントを保存
+- 正答10ポイント / 誤答3ポイント
+- 累計ポイント・回答数・読み方数・字母数・正解数を表示
+- 百人一首と同じ cat-mascot.webp を累計ポイント横に表示
+- ポイント記録は途中切捨てしない
+
+重要:
+- 百人一首の弱点倍率・段係数は、変体仮名側に習熟度/段が存在しないため未実装
+- 将来習熟度を導入する場合に再検討する
+- 画像保存はコード経路まで実装済みだが、iPhone実機での最終共有確認は未実施
+
+現行 index.html: release candidate 1.0 RC21
+JavaScript構文PASS。
