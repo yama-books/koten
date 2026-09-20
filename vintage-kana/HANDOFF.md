@@ -1827,3 +1827,67 @@ GitHub Pages:
 
 この公開はNINJAL全字形監査結果の統合前。今回の実機確認対象は§49〜§50で実装したUI・習得記録・逆引き字母問題等。
 
+## 54. 2026-09-20 実機確認2回目: ネコチャン復旧・読み左上固定
+
+実機確認で以下を確認:
+- 記録画面のネコチャン画像がbroken imageになっていた。
+- 行を開いた各字カードで、上の読みと下の%がカード端に圧迫され、縦方向につぶれて見えた。
+
+### 修正
+
+1. ネコチャン画像
+- 旧参照: `../assets/mascot/cat-mascot.webp`
+- 新参照: `./cat-mascot.webp`
+- `vintage-kana/cat-mascot.webp` をアプリ配下へ同梱。
+- GitHub Pagesの `vintage-kana/` 単体公開だけで画像参照が完結するようにした。
+- 結果画面・記録画面の2箇所とも新パスへ変更。
+
+2. 各字カードの読み
+- `.glyphMasteryCard` を `position:relative` に変更。
+- `.glyphMasteryReading` を通常フローから外し、カード左上 `top:5px; left:6px` に絶対配置。
+- 読みが円の上の縦スペースを消費しない構造に変更。
+- 変体仮名・字母・習熟度%の既存構造、正方形カード、3列/狭幅2列は維持。
+- 小さな白背景の丸ラベルとして読みを左上に表示。
+
+### 開発ブランチ
+
+- UI修正 commit: `1b35b806168eaef5e5b79d7dbaee09238ac0e882`
+- ネコチャン同梱 commit: `bd53bad182d875eb5fa3991d1b5d4b2221725ef4`
+- CI run `35516796866`: success
+- `check:vintage-kana` を含む全CI成功。
+
+### 公開
+
+§52のno-common-ancestor対応手順に従い、最新main起点の公開専用ブランチ `publish-vintage-kana-20260920b` を作成。
+
+公開差分は2ファイルのみ:
+- `vintage-kana/index.html`
+- `vintage-kana/cat-mascot.webp`
+
+公開用 commit:
+- `3bcae11807e40841e567629a74ade97b146d35b6`
+
+PR:
+- #11 `publish: fix vintage-kana mascot and mastery card reading`
+- PR CI success
+- main merge commit: `28eac51c7a745be604d652930212d21071cf2770`
+
+GitHub Pages:
+- Deploy Pages run `35517305136`
+- conclusion: success
+- 公開URL: `https://yama-books.github.io/koten/vintage-kana/`
+
+main上でも以下を再確認:
+- `vintage-kana/index.html` blob = `56fdd663c0d883555144fb432eee893933a5c237`
+- `vintage-kana/cat-mascot.webp` blob = `100011359c26e6720b3b20193b54bd7c543eb13c`
+- cat参照2箇所とも `./cat-mascot.webp`
+- readingは左上絶対配置。
+
+### 次の実機確認
+
+今回再確認する主対象:
+- 記録画面のネコチャン画像が正常表示されるか。
+- 各字カード左上の読みが切れずに見えるか。
+- 変体仮名、字母、0%等の下端が切れないか。
+- 既存の行カード、最近/苦手ポップアップ、字母逆引き問題などに回帰がないか。
+
