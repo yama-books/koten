@@ -90,6 +90,12 @@ function kanaExceptionsForHit(h){
   return [...new Set(out)];
 }
 
+function kanaExceptionRulesForHit(h){
+  if(h.type!=="orthography") return [];
+  const ids=(h.kanaRuleIds&&h.kanaRuleIds.length) ? h.kanaRuleIds : (h.kanaRuleId?[h.kanaRuleId]:[]);
+  return KANA_RULE_DEFS.filter(rule=>ids.includes(rule.parent));
+}
+
 function honorificGuidance(h){
   return ["誰の動作か","誰への敬意か","本動詞か補助動詞か","普通の言い方に直すと何をしているか"];
 }

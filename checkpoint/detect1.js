@@ -67,11 +67,11 @@ function examplesForHit(h){
   if(h.type==="honorific" && h.lemma && HONORIFIC_EXAMPLE_OVERRIDES[h.lemma]) return HONORIFIC_EXAMPLE_OVERRIDES[h.lemma];
   if(h.type==="orthography"){
     const ids=(h.kanaRuleIds&&h.kanaRuleIds.length) ? h.kanaRuleIds : (h.kanaRuleId?[h.kanaRuleId]:[]);
-    const curated=ids.flatMap(id=>{
-      const rule=KANA_RULE_DEFS.find(x=>x.id===id);
-      return rule?.examples || [];
+    const rules=ids.map(id=>KANA_RULE_DEFS.find(x=>x.id===id)).filter(Boolean);
+    const curated=rules.flatMap(rule=>{
+      return rule.examples || [];
     });
-    if(curated.length) return [...new Set(curated)];
+    if(rules.length) return [...new Set(curated)];
   }
   return EXAMPLE_OVERRIDES[h.pattern] || h.examples || [];
 }

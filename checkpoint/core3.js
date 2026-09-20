@@ -86,20 +86,20 @@ const HONORIFIC_RULES = [
 ];
 
 const KANA_RULE_DEFS = [
-  {id:"H1", chip:"は→わ", tier:3, mode:"context", brief:"語中・語尾のハ行「は・ひ・ふ・へ・ほ」は、現代仮名遣いで「わ・い・う・え・お」になることがあります。", examples:["あはれ → あわれ","おもひ → おもい","いふ → いう","まへ → まえ","ほふし → ほうし"], cautions:["H1-a 語頭のハ行はそのまま","H1-b 複合語の後部要素の語頭もそのまま","H1-c 助詞「は」「へ」はそのまま"], reviewStatus:"approved"},
+  {id:"H1", chip:"は→わ", tier:3, mode:"context", brief:"語中・語尾のハ行「は・ひ・ふ・へ・ほ」は、現代仮名遣いで「わ・い・う・え・お」になることがあります。", examples:["あはれ → あわれ","おもひ → おもい","いふ → いう","まへ → まえ","にほひ → におい"], cautions:["H1-a 語頭のハ行はそのまま","H1-b 複合語の後部要素の語頭もそのまま","H1-c 助詞「は」「へ」はそのまま"], reviewStatus:"approved"},
   {id:"H1-a", chip:"語頭はそのまま", tier:3, mode:"exception", parent:"H1", brief:"語頭のハ行は H1 の変換対象にしません。", examples:["はかなし → はかなし","ひと → ひと","ふみ → ふみ","へだつ → へだつ","ほととぎす → ほととぎす"], reviewStatus:"approved"},
   {id:"H1-b", chip:"複合語はそのまま", tier:4, mode:"exception", parent:"H1", brief:"複合語の後ろの要素の語頭にあるハ行も変えません。語の境界の判断が必要です。", examples:["あさ｜ひ → あさ｜ひ","つき｜ひ → つき｜ひ","はつ｜はな → はつ｜はな","はつ｜はる → はつ｜はる","はつ｜ふゆ → はつ｜ふゆ"], reviewStatus:"approved"},
-  {id:"H1-c", chip:"助詞は・へ", tier:3, mode:"exception", parent:"H1", brief:"助詞の「は」「へ」は表記を変えません。", examples:["春はあけぼの → 春はあけぼの","花は盛りに → 花は盛りに","人はいさ心も知らず → 人はいさ心も知らず","都へ上る → 都へ上る","御前へ参る → 御前へ参る"], reviewStatus:"approved"},
+  {id:"H1-c", chip:"助詞は・へ", tier:3, mode:"exception", parent:"H1", brief:"助詞の「は」「へ」は表記を変えません。", examples:["はるはあけぼの → はるはあけぼの","はなはさかりに → はなはさかりに","ひとはいさこころもしらず → ひとはいさこころもしらず","みやこへのぼる → みやこへのぼる","うみへゆく → うみへゆく"], reviewStatus:"approved"},
   {id:"W1", chip:"ゐゑ→いえ", tier:2, mode:"safe", brief:"「ゐ」は「い」、「ゑ」は「え」に直します。", examples:["ゐる → いる","まゐる → まいる","こゑ → こえ","うゑる → うえる","すゑ → すえ"], reviewStatus:"approved"},
   {id:"W2", chip:"を→お", tier:4, mode:"context", brief:"助詞ではない「を」は、現代仮名遣いで「お」に直します。", examples:["をかし → おかし","をとこ → おとこ","をんな → おんな","をさなし → おさなし","をみな → おみな"], reviewStatus:"approved"},
-  {id:"W2-a", chip:"助詞を", tier:4, mode:"exception", parent:"W2", brief:"助詞の「を」は表記を変えません。", examples:["花を見る → 花を見る","人を待つ → 人を待つ","月を見る → 月を見る","文を読む → 文を読む","道を行く → 道を行く"], reviewStatus:"approved"},
+  {id:"W2-a", chip:"助詞を", tier:4, mode:"exception", parent:"W2", brief:"助詞の「を」は表記を変えません。", examples:["はなをみる → はなをみる","ひとをまつ → ひとをまつ","つきをみる → つきをみる","ふみをよむ → ふみをよむ","みちをゆく → みちをゆく"], reviewStatus:"approved"},
   {id:"D1", chip:"ぢづ→じず", tier:2, mode:"context", brief:"原則として「ぢ」は「じ」、「づ」は「ず」に直します。例外があるので語全体も確認します。", examples:["もみぢ → もみじ","はぢ → はじ","みづ → みず","めづらし → めずらし","よろづ → よろず"], reviewStatus:"approved"},
   {id:"D1-a", chip:"ぢづ のまま", tier:3, mode:"exception", parent:"D1", brief:"同じ音のくり返しや、二語が組み合わさって生じた「ぢ・づ」はそのままです。", examples:["つづく → つづく","ちぢむ → ちぢむ","みかづき → みかづき","つづみ → つづみ","つれづれ → つれづれ"], reviewStatus:"approved"},
   {id:"K1", chip:"くわ→か", tier:2, mode:"safe", brief:"合拗音の「くわ・ぐわ」は、現代仮名遣いで「か・が」に直します。", examples:["くわんぱく → かんぱく","くわんにん → かんにん","くわし → かし","ぐわんもん → がんもん","ぐわんりき → がんりき"], reviewStatus:"approved"},
-  {id:"N1", chip:"む→ん", tier:3, mode:"grammar", brief:"助動詞「む・らむ・けむ・むず」や助詞「なむ」など、指定された文法形では「む」を「ん」に直します。", examples:["行かむ → 行かん","見む → 見ん","いかならむ → いかならん","ありけむ → ありけん","花咲かなむ → 花咲かなん"], reviewStatus:"approved"},
-  {id:"L1", chip:"au→ō", tier:4, mode:"context", brief:"歴史的表記でア段＋うになる形は、現代仮名遣いでオ段＋うになる規則です。", examples:["まうす → もうす","まうづ → もうず","まうく → もうく","らうたし → ろうたし","さうざうし → そうぞうし"], reviewStatus:"approved"},
+  {id:"N1", chip:"む→ん", tier:3, mode:"grammar", brief:"助動詞「む・らむ・けむ・むず」や助詞「なむ」など、指定された文法形では「む」を「ん」に直します。", examples:["ゆかむ → ゆかん","みむ → みん","いかならむ → いかならん","ありけむ → ありけん","あらむ → あらん"], reviewStatus:"approved"},
+  {id:"L1", chip:"au→ō", tier:4, mode:"context", brief:"歴史的表記でア段＋うになる形は、現代仮名遣いでオ段＋うになる規則です。", examples:["まうす → もうす","やうなり → ようなり","まうく → もうく","らうたし → ろうたし","さうざうし → そうぞうし"], reviewStatus:"approved"},
   {id:"L2", chip:"iu→yū", tier:4, mode:"context", brief:"歴史的表記でイ段＋うになる形は、現代仮名遣いで「ゅ＋う」の形になる規則です。", examples:["うつくしう → うつくしゅう","いみじう → いみじゅう","あやしう → あやしゅう","なやましう → なやましゅう","よろしう → よろしゅう"], reviewStatus:"approved"},
-  {id:"L3", chip:"eu→yō", tier:4, mode:"context", brief:"歴史的表記でエ段＋うになる形は、現代仮名遣いで「ょ＋う」の形になる規則です。", examples:["けふ → きょう","せうと → しょうと","せうそこ → しょうそこ","せうとく → しょうとく","えうなき → ようなき"], reviewStatus:"approved"},
+  {id:"L3", chip:"eu→yō", tier:4, mode:"context", brief:"歴史的表記でエ段＋うになる形は、現代仮名遣いで「ょ＋う」の形になる規則です。", examples:["せうと → しょうと","せうそこ → しょうそこ","せうとく → しょうとく","えうなき → ようなき"], reviewStatus:"review-pending"},
   {id:"L4", chip:"オ段＋う", tier:5, mode:"record-only", brief:"オ段＋うは発音上の長音規則として記録しますが、現代仮名遣いの表記は変えません。", examples:[], reviewStatus:"record-only"},
-  {id:"S1", chip:"小さく書く", tier:4, mode:"context", brief:"拗音の「や・ゆ・よ」と促音の「つ」は、現代仮名遣いでは小さく書く規則です。", examples:["だいしやう → だいしょう","にようご → にょうご","でんじやう → でんじょう","ほつしん → ほっしん","いつさい → いっさい"], reviewStatus:"approved"}
+  {id:"S1", chip:"小さく書く", tier:4, mode:"context", brief:"拗音の「や・ゆ・よ」と促音の「つ」は、現代仮名遣いでは小さく書く規則です。", examples:["きやく → きゃく","にようご → にょうご","しゆじん → しゅじん","ほつしん → ほっしん","いつさい → いっさい"], reviewStatus:"approved"}
 ]

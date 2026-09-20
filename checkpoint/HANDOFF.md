@@ -1790,3 +1790,43 @@ commit:
 
 再開短句:
 **「checkpoint-main HANDOFF最終節から再開。仮名遣い類例を全ルール再監査→テスト→公開反映」**
+
+
+## 2026-09-20 継続: 仮名遣い類例16規則のローカル統合・公開前QA
+
+### 正本と監査案
+
+- `checkpoint-main` を `origin/checkpoint-main` から fast-forward pull し、停止記録の HEAD `5fbbb842d0c409f6b98132f4860aaf2a4b2ff49a` で開始した。元の `D:\dev\koten` は別作業の変更があるため触れず、`D:\dev\koten-checkpoint-main` の分離 worktree で作業。
+- Google Drive直下の4資料（prelocalaudit MD/JSON、test vectors JSON、local apply handoff MD）を確認。いずれもAI案で `proposedBy: ai` / `reviewStatus: pending`。最新の人の裁定・一次資料・本HANDOFF・ローカル実装を優先した。
+- 16規則の現行類例とAI案を機械的に照合。5例列の完全一致は0、ローカル根拠を覆す確定差し替えは0。分類は次のとおり。
+
+| 分類 | 規則 | 裁定 |
+|---|---|---|
+| 現行ローカル優先 | H1, H1-a, H1-c, W1, W2, W2-a, D1, D1-a, K1, N1, L1, L2, S1 | 既存の古典実例・除外理由を維持。漢字を主表示へ戻さない。 |
+| 複合例なので表示位置変更 | H1-b, L3 | `ゆふひ`・`うちはらふ`・`けふ` は単一規則主例でなく全語確認に置く。 |
+| 現行ローカル優先（記録のみ） | L4 | 最新HANDOFFどおり `record-only / examples: []`。AI案の5例は主例へ追加しない。 |
+
+- 現行主例は74件（14規則×5、L3×4、L4×0）。AI案の80件は候補ベクトルとして全件照合したが、複合例とL4の扱いがローカル確定方針に衝突するため、80件をそのまま公開主例とはしていない。L3の5件目は一次資料との個別照合まで保留。
+- 採用した全74例は `core3.js` の `KANA_RULE_DEFS.examples` と `data/kana_examples_audit_20260920.json` に同一内容で記録。今回の実変更は H1（`ほふし` を複合確認へ、`にほひ` を主例へ）、H1-c/W2-a（ひらがな主表示）、N1（助動詞形のみ）、L1（`まうづ` を複合確認へ、`やうなり` を主例へ）、L3（`けふ` を複合確認へ）、S1（`きやく`・`しゆじん` を採用し複合的な旧例を除外）。
+- 主例から除外した代表は `ズボン`、`がつこう`、単独 `かう`、`たまふ`、`あふ`、K1の `くわんおん`、複合例 `まうづ`・`けふ`・`ほふし`。AI案の `もつとも` はローカル監査の除外裁定を優先し、RC16表示確認だけで使う。
+- 複合6例（`まうづ→もうず`, `けふ→きょう`, `ほふし→ほうし`, `いつしよ→いっしょ`, `ゆふひ→ゆうひ`, `うちはらふ→うちはらう`）は既存whole-word経路で全語テスト。新しい `combined` データモデルは導入していない。
+- RC16の歴史的主表示 `きやく / しゆじん / ちよくし / もつとも` は大書き維持、現代化側のみ `きゃく / しゅじん / ちょくし / もっとも`。類例で漢字を一意に固定しない。
+
+### 表示経路・QA
+
+- `examplesForHit()` が16規則の `KANA_RULE_DEFS.examples` を返すことを全件テスト。L4空配列で法則文へ逆戻りしない。H1-a/H1-b/H1-c、W2-a、D1-aの例外類例は親規則のdrawerから到達可能にした。N1は単独文字列 `む` を自動確定せず文法判断待ち。
+- AI test vectors JSONは `tests/fixtures/kanazukai_example_test_vectors_2026-09-20.json` に `pending` のまま保存し、80候補件数、禁止例、複合6例、RC16の現行テストへ利用。候補80件を無条件に公開主例とするテストにはしていない。
+- `node --test tests/unit/checkpoint-public-beta.test.mjs`: 13/13 PASS。
+- `node tests/checkpoint-public-beta-browser.smoke.mjs`: WebKit portrait 390×844 / landscape 844×390 PASS、長い例外句・RC16とも横overflowなし、long sample marker 257件。
+- `npm test`: Node 760件（731 PASS、29 SKIP、0 FAIL）、Vitest 30 files（354 PASS、2 SKIP）。
+- `npm run typecheck`、`npm run lint`、`npm run build`、`npm run data:check` PASS。
+- `npm run scan:publish`: 759件・違反0。`npm run check:eol`: 1224件・違反0。`check:font`、`check:font-assets`、`check:overflow`、`check:font-weight`、`check:storage` もPASS。
+- `npm run test:rules` は Firebase emulator がポート8088を確保できず未実行。今回のCheckpoint類例変更とは別系統のテスト。ポートを占有する他プロセスは停止していない。
+
+### 公開状態・次の再開位置
+
+- この類例更新はこの記録時点で production `main` / 公開URLへ未反映。`checkpoint-main` の検証workflowはproduction Pages deployではない。
+- production `origin/main` を読み取りで最新取得し、HEAD `28eac51c7a745be604d652930212d21071cf2770` を確認。旧 `production_integration_delta_20260920.json` のmainShaは18対象すべてで更新済みのため、この旧スナップショットを適用条件に使わない。今回の7ファイルのmainSha・candidateShaを `data/production_kana_integration_delta_20260920.json` に新規記録した。適用直前に再照合する。
+- `PRODUCTION_INTEGRATION.md` の現行手順ではCheckpoint側から `main` へ直接pushしない。production ownerが最新mainのblob SHAを再照合し、必要な `checkpoint/` ファイルだけ統合する。履歴merge・reset・force-pushはしない。
+- 残件: L3の5件目の一次資料確認、production ownerによるfile-level integration、Pages deploy後の公開URL類例・RC16・キャッシュ確認、物理iPhone Safari smoke。
+- 再開短句: **「checkpoint-mainのこの最終節から再開。production delta再照合→owner統合→公開URL/実機確認」**

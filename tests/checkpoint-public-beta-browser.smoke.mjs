@@ -172,12 +172,34 @@ try{
   assert.equal(await kanaExamplesButton.count(),1);
   await kanaExamplesButton.tap();
   const kanaExamplesText=await page.locator('#focusExtra').innerText();
-  for(const expected of ['まうす → もうす','まうづ → もうず','まうく → もうく','らうたし → ろうたし','さうざうし → そうぞうし']){
+  for(const expected of ['まうす → もうす','やうなり → ようなり','まうく → もうく','らうたし → ろうたし','さうざうし → そうぞうし']){
     assert.ok(kanaExamplesText.includes(expected),`missing curated kana example: ${expected}`);
   }
-  for(const excluded of ['あふ → あう','たまふ → たもう','かう → こう','らうらうじ → ろうろうじ']){
+  for(const excluded of ['あふ → あう','たまふ → たもう','かう → こう','らうらうじ → ろうろうじ','まうづ → もうず']){
     assert.equal(kanaExamplesText.includes(excluded),false,`excluded kana example leaked: ${excluded}`);
   }
+  await page.locator('#closeDrawer').tap();
+
+  // 例外の長いひらがな類例でもdrawerが横へはみ出さない。
+  await page.locator('#input').fill('にほひ');
+  await page.locator('#analyze').tap();
+  await page.locator('.item[data-check]').filter({hasText:'にほひ'}).first().tap();
+  await page.locator('#focusMainAction').tap();
+  await page.locator('[data-focus-tool="exceptions"]').tap();
+  assert.ok((await page.locator('#focusExtra').innerText()).includes('ひとはいさこころもしらず → ひとはいさこころもしらず'));
+  await noHorizontalOverflow('portrait kana exceptions');
+  await page.locator('#closeDrawer').tap();
+
+  // RC16の大書きは本文側に保ち、小書きは現代化側にだけ出す。
+  await page.locator('#input').fill('しゆじん');
+  await page.locator('#analyze').tap();
+  await page.locator('.item[data-check]').filter({hasText:'しゆじん'}).first().tap();
+  await page.locator('#focusMainAction').tap();
+  await page.locator('[data-focus-tool="answer"]').tap();
+  await page.locator('#focusRevealAnswer').tap();
+  await page.locator('#focusAnswerResult').waitFor({state:'visible'});
+  assert.ok((await page.locator('#focusAnswerResult').innerText()).includes('しゆじん → しゅじん'));
+  await noHorizontalOverflow('portrait RC16 answer');
   await page.locator('#closeDrawer').tap();
 
   // 長文サンプルでも描画し、横はみ出しを確認。

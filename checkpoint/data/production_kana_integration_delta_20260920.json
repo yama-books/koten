@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "1.0",
+  "date": "2026-09-20",
+  "purpose": "Kana example file-level production integration candidate; re-check mainSha immediately before applying",
+  "productionMainHead": "28eac51c7a745be604d652930212d21071cf2770",
+  "checkpointBaseHead": "5fbbb842d0c409f6b98132f4860aaf2a4b2ff49a",
+  "published": false,
+  "files": [
+    {
+      "path": "checkpoint/core3.js",
+      "checkpointBaseSha": "69e811a1fa990543dfe8202e6c23b1dc42f6abae",
+      "action": "REVIEW_AND_UPDATE",
+      "mainSha": "fdb4aaa6e36fe84e10f7669cd4d8f47ae7f7274c",
+      "candidateSha": "19cca93787fb60f1516b23320fa74010a9e4a76d"
+    },
+    {
+      "path": "checkpoint/core4.js",
+      "checkpointBaseSha": "1a809d9d47b483d6e5f86cbd5fd9e9c9e06f27f7",
+      "action": "REVIEW_AND_UPDATE",
+      "mainSha": "1a809d9d47b483d6e5f86cbd5fd9e9c9e06f27f7",
+      "candidateSha": "3edc9624bd847d6faa538be2deaba786e14b7db5"
+    },
+    {
+      "path": "checkpoint/detect1.js",
+      "checkpointBaseSha": "1d2f1c721eedb21cc59766ccce95a874a983190f",
+      "action": "REVIEW_AND_UPDATE",
+      "mainSha": "6aeebfc2874781059ae3b2d7337785858e1d3f15",
+      "candidateSha": "adbd0ac5923e00abb96087de4980a7e8eeea91e2"
+    },
+    {
+      "path": "checkpoint/styles.css",
+      "checkpointBaseSha": "2e06b9216525de200eff9754af777852507685b9",
+      "action": "REVIEW_AND_UPDATE",
+      "mainSha": "2e06b9216525de200eff9754af777852507685b9",
+      "candidateSha": "e41adbf920ada59d562d82d3a58e8ef7a438536b"
+    },
+    {
+      "path": "checkpoint/ui2.js",
+      "checkpointBaseSha": "81da850fd0641113803fc6b0a8dba266b45bdbe9",
+      "action": "REVIEW_AND_UPDATE",
+      "mainSha": "81da850fd0641113803fc6b0a8dba266b45bdbe9",
+      "candidateSha": "270132b510ab8bd26fce6ffd7f0db988de3b1617"
+    },
+    {
+      "path": "checkpoint/ui3.js",
+      "checkpointBaseSha": "3bc45640a7dec3b8e9e5ca1f5414dea415ebdf29",
+      "action": "REVIEW_AND_UPDATE",
+      "mainSha": "3bc45640a7dec3b8e9e5ca1f5414dea415ebdf29",
+      "candidateSha": "53974677b021b50d2b71f5ddd2377f3c25e8f66f"
+    },
+    {
+      "path": "checkpoint/data/kana_examples_audit_20260920.json",
+      "checkpointBaseSha": "78c632e8bff08f131479abe6d9297aec90aadd34",
+      "action": "ADD",
+      "mainSha": null,
+      "candidateSha": "a10dd35d156d058eae1f62eb66d25d95bc24c7c5"
+    }
+  ]
+}

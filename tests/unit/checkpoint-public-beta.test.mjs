@@ -8,6 +8,9 @@ import { JSDOM } from 'jsdom';
 const here=dirname(fileURLToPath(import.meta.url));
 const root=resolve(here,'../..');
 const checkpoint=resolve(root,'checkpoint');
+const auditVectors=JSON.parse(readFileSync(
+  resolve(root,'tests/fixtures/kanazukai_example_test_vectors_2026-09-20.json'),'utf8'
+));
 
 const scriptPaths=[
   'core1.js',
@@ -45,7 +48,8 @@ function createCheckpointDom(url='https://example.test/checkpoint/'){
     })
   });
 
-  const bundle=scriptPaths.map(path=>readCheckpoint(path)).join('\n;\n');
+  const bundle=scriptPaths.map(path=>readCheckpoint(path)).join('\n;\n')+
+    '\n;window.__kanaTest={rules:KANA_RULE_DEFS,lexicon:KANA_WHOLE_WORD_LEXICON,examplesForHit,detectKanaCandidates};';
   dom.window.eval(bundle);
   return dom;
 }
@@ -177,28 +181,38 @@ test('仮名遣いの類例は文語の精査済み例を表示する',async()=>
   examples.click();
 
   const text=document.getElementById('focusExtra').textContent;
-  for(const expected of ['まうす → もうす','まうづ → もうず','まうく → もうく','らうたし → ろうたし','さうざうし → そうぞうし']){
+  for(const expected of ['まうす → もうす','やうなり → ようなり','まうく → もうく','らうたし → ろうたし','さうざうし → そうぞうし']){
     assert.equal(text.includes(expected),true,`類例を表示する: ${expected}`);
   }
-  for(const excluded of ['あふ → あう','たまふ → たもう','かう → こう']){
+  for(const excluded of ['あふ → あう','たまふ → たもう','かう → こう','まうづ → もうず']){
     assert.equal(text.includes(excluded),false,`混乱しやすい例を出さない: ${excluded}`);
   }
   dom.window.close();
 });
 
-test('公開対象の仮名遣い規則は文語類例を5件ずつ持つ',()=>{
+test('全16規則の類例はローカル監査表と一致し、歴史的主表示をひらがなに保つ',()=>{
   const source=readCheckpoint('core3.js');
   const match=source.match(/const KANA_RULE_DEFS = (\[[\s\S]*?\n\])\s*;?/);
   assert.ok(match,'KANA_RULE_DEFSを取得できる');
   const defs=Function(`return ${match[1]}`)();
 
+  assert.equal(defs.length,16);
+  assert.equal(auditVectors.proposedBy,'ai');
+  assert.equal(auditVectors.reviewStatus,'pending');
+  assert.equal(auditVectors.positiveRuleExamples.length,80);
+  assert.equal(new Set(auditVectors.positiveRuleExamples.map(row=>row.ruleId)).size,16);
   for(const rule of defs){
     if(rule.id==='L4'){
       assert.equal(rule.reviewStatus,'record-only');
       assert.equal(rule.examples.length,0);
       continue;
     }
-    assert.ok(rule.examples.length>=5,`${rule.id} の類例が5件以上ある`);
+    assert.ok(rule.examples.length>=(rule.id==='L3'?4:5),`${rule.id} の類例数`);
+    for(const example of rule.examples){
+      const [historical,modern]=example.split(' → ');
+      assert.ok(historical && modern,`${rule.id}: 歴史的 → 現代の順`);
+      assert.match(historical,/^[ぁ-ゖー｜]+$/,`${rule.id}: 歴史的主表示はひらがな`);
+    }
   }
 
   const audit=JSON.parse(readCheckpoint('data/kana_examples_audit_20260920.json'));
@@ -207,6 +221,11 @@ test('公開対象の仮名遣い規則は文語類例を5件ずつ持つ',()=>{
   }
 
   const all=defs.flatMap(rule=>rule.examples||[]);
+  const primaryInputs=new Set(all.map(pair=>pair.split(' → ')[0]));
+  for(const forbidden of auditVectors.forbiddenPrimaryExamples){
+    assert.equal(primaryInputs.has(forbidden.value),false,`監査案の禁止例を主例へ入れない: ${forbidden.value}`);
+  }
+  assert.doesNotMatch(all.join('\n'),/ズボン|ずぼん|づぼん|がつこう/);
   for(const excluded of [
     'あふ → あう',
     'たまふ → たもう',
@@ -214,10 +233,104 @@ test('公開対象の仮名遣い規則は文語類例を5件ずつ持つ',()=>{
     'らうらうじ → ろうろうじ',
     'くわんおん → かんのん',
     'ことづて → ことづて',
-    'もんじやう → もんじょう'
+    'もんじやう → もんじょう',
+    'ほふし → ほうし',
+    'まうづ → もうず',
+    'けふ → きょう',
+    'がつこう → がっこう',
+    'だいしやう → だいしょう',
+    'でんじやう → でんじょう'
   ]){
     assert.equal(all.includes(excluded),false,`監査で除外した例を復活させない: ${excluded}`);
   }
+});
+
+test('N1は助動詞を含む文法形を主例とし、単独の「む」は自動確定しない',async()=>{
+  const dom=createCheckpointDom();
+  await settle(dom);
+  const {rules,detectKanaCandidates}=dom.window.__kanaTest;
+  const n1=rules.find(rule=>rule.id==='N1');
+  assert.equal(n1.examples.length,5);
+  for(const pair of n1.examples){
+    const [historical,modern]=pair.split(' → ');
+    assert.match(historical,/(?:む|らむ|けむ)$/);
+    assert.match(modern,/ん$/);
+    assert.notEqual(historical,'む');
+  }
+  const candidate=detectKanaCandidates('む',4).find(hit=>hit.kanaRuleId==='N1');
+  assert.ok(candidate);
+  assert.equal(candidate.kanaPending,true);
+  assert.equal(candidate.modernKana,undefined);
+  dom.window.close();
+});
+
+test('全16規則の定義が実際の類例表示関数へ届き、空のL4に法則文を流さない',async()=>{
+  const dom=createCheckpointDom();
+  await settle(dom);
+  const {rules,examplesForHit}=dom.window.__kanaTest;
+  const rows=rules.map(rule => ({id:rule.id, expected:rule.examples, actual:examplesForHit({type:'orthography',kanaRuleId:rule.id,examples:['【法則】旧経路']})}));
+  assert.equal(rows.length,16);
+  for(const row of rows) assert.deepEqual([...row.actual],[...row.expected],`${row.id} の表示経路`);
+  dom.window.close();
+});
+
+test('H1・W2・D1の例外も公開drawerから類例へ辿れる',async()=>{
+  const dom=createCheckpointDom();
+  const {document}=dom.window;
+  await settle(dom);
+  for(const [word,examples] of [
+    ['にほひ',['はかなし → はかなし','あさ｜ひ → あさ｜ひ','はるはあけぼの → はるはあけぼの']],
+    ['をとこ',['はなをみる → はなをみる']],
+    ['もみぢ',['つづく → つづく']]
+  ]){
+    document.getElementById('input').value=word;
+    document.getElementById('analyze').click();
+    firstChecklistItem(document).click();
+    document.getElementById('focusMainAction').click();
+    const button=document.querySelector('[data-focus-tool="exceptions"]');
+    assert.ok(button,`${word}: 例外ボタン`);
+    button.click();
+    const text=document.getElementById('focusExtra').textContent;
+    for(const example of examples) assert.ok(text.includes(example),`${word}: ${example}`);
+    document.getElementById('closeDrawer').click();
+  }
+  dom.window.close();
+});
+
+test('複合6例とRC16は全語の歴史的表示と現代化を分けて保持する',async()=>{
+  const dom=createCheckpointDom();
+  await settle(dom);
+  const {document}=dom.window;
+  const entries=dom.window.__kanaTest.lexicon;
+  assert.equal(auditVectors.pipelineCrossRuleCases.length,6);
+  assert.equal(auditVectors.displayPolicyCases.length,4);
+  for(const {input:historical,expected:modern} of auditVectors.pipelineCrossRuleCases.concat(
+    auditVectors.displayPolicyCases.map(row=>({input:row.historical,expected:row.modern}))
+  )){
+    const entry=entries.find(x=>x.surface===historical);
+    assert.ok(entry,`${historical}: 全語の入口`);
+    assert.equal(entry.modernKana,modern,`${historical}: 現代化`);
+    assert.equal(/[ゃゅょっ]/.test(entry.surface),false,`${historical}: 歴史的主表示は大書き`);
+    document.getElementById('input').value=historical;
+    document.getElementById('checkLevel').value='4';
+    document.getElementById('analyze').click();
+    const item=[...document.querySelectorAll('.item[data-check]')].find(el=>el.querySelector('.word')?.textContent===historical);
+    assert.ok(item,`${historical}: 全語のチェック項目`);
+    item.click();
+    document.getElementById('focusMainAction').click();
+    const answer=document.querySelector('[data-focus-tool="answer"]');
+    assert.ok(answer,`${historical}: 答えの入口`);
+    answer.click();
+    document.getElementById('focusRevealAnswer').click();
+    assert.equal(document.getElementById('focusAnswerResult').classList.contains('open'),true);
+    assert.ok(document.getElementById('focusAnswerResult').textContent.includes(`${historical} → ${modern}`),`${historical}: UIの現代化`);
+    document.getElementById('closeDrawer').click();
+  }
+  assert.deepEqual([...entries.find(x=>x.surface==='まうづ').ruleIds],['L1','D1']);
+  assert.deepEqual([...entries.find(x=>x.surface==='けふ').ruleIds],['H1','L3']);
+  assert.deepEqual([...entries.find(x=>x.surface==='ゆふひ').ruleIds],['H1','H1-b']);
+  assert.deepEqual([...entries.find(x=>x.surface==='うちはらふ').ruleIds],['H1','H1-b']);
+  dom.window.close();
 });
 
 test('公開UIの文言と選択肢を簡潔に保つ',()=>{

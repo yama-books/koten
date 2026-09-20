@@ -15,9 +15,18 @@ const KANA_WHOLE_WORD_LEXICON = [
   {surface:"いうげん", modernKana:"ゆうげん", ruleIds:["L2"], sourceKind:"primary-example"},
   {surface:"きう", modernKana:"きゅう", ruleIds:["L2"], sourceKind:"primary-example"},
   {surface:"せうと", modernKana:"しょうと", ruleIds:["L3"], sourceKind:"primary-example"},
-  {surface:"けふ", modernKana:"きょう", ruleIds:["L3"], sourceKind:"primary-example"},
+  {surface:"けふ", modernKana:"きょう", ruleIds:["H1","L3"], sourceKind:"supplemental-lexicon"},
   {surface:"しやう", modernKana:"しょう", ruleIds:["S1"], sourceKind:"primary-example"},
   {surface:"きつと", modernKana:"きっと", ruleIds:["S1"], sourceKind:"primary-example"},
+  {surface:"まうづ", modernKana:"もうず", ruleIds:["L1","D1"], sourceKind:"supplemental-lexicon"},
+  {surface:"ほふし", modernKana:"ほうし", ruleIds:["H1"], sourceKind:"supplemental-lexicon"},
+  {surface:"いつしよ", modernKana:"いっしょ", ruleIds:["S1"], sourceKind:"supplemental-lexicon"},
+  {surface:"きやく", modernKana:"きゃく", ruleIds:["S1"], sourceKind:"supplemental-lexicon"},
+  {surface:"しゆじん", modernKana:"しゅじん", ruleIds:["S1"], sourceKind:"supplemental-lexicon"},
+  {surface:"ちよくし", modernKana:"ちょくし", ruleIds:["S1"], sourceKind:"supplemental-lexicon"},
+  {surface:"もつとも", modernKana:"もっとも", ruleIds:["S1"], sourceKind:"supplemental-lexicon"},
+  {surface:"ゆふひ", modernKana:"ゆうひ", ruleIds:["H1","H1-b"], sourceKind:"supplemental-lexicon"},
+  {surface:"うちはらふ", modernKana:"うちはらう", ruleIds:["H1","H1-b"], sourceKind:"supplemental-lexicon"},
   {surface:"なでふ", modernKana:null, focus:"でふ", ruleIds:["H1","L3"], sourceKind:"supplemental-lexicon"}
 ];
 

@@ -835,3 +835,16 @@ gold先固定→shadow無調整baseline保存まで完了。
 - H1-a/H1-b/H1-c/W1/W2/W2-a/D1/D1-a/K1/N1/S1を含む全例の出典監査は未完了。
 - 最新テストの最終PASS確認も未完了。
 - production main / 公開URLへは未反映。
+
+
+## 2026-09-20 仮名遣い類例16規則・ローカル反映完了
+
+- `checkpoint-main` をpullし、分離worktree `D:\dev\koten-checkpoint-main` で作業。元のdirty checkoutは変更していない。
+- Google DriveのAI監査4資料を取得。 `proposedBy: ai` / `reviewStatus: pending` の候補として16規則・80候補を現行ローカルと照合。完全一致0、確定差し替え0。H1/H1-a/H1-c/W1/W2/W2-a/D1/D1-a/K1/N1/L1/L2/S1はローカル優先、H1-b/L3の複合例は全語確認側、L4はrecord-onlyを維持。
+- 主例74件。実変更rule: H1、H1-c、W2-a、N1、L1、L3、S1。採用全件は `core3.js` と `data/kana_examples_audit_20260920.json`。除外は現代語 `ズボン`・`がつこう`、単独 `かう`・`たまふ`・`あふ`、K1の `くわんおん`、複合主例 `まうづ`・`けふ`・`ほふし`。 `もつとも` はRC16確認のみ。
+- 6複合例はwhole-word経路で確認。RC16大書き `きやく/しゆじん/ちよくし/もつとも` を歴史的主表示に保持し、現代化側だけ小書き。
+- 表示経路は全16規則の `examplesForHit()`、L4空例、親から到達する例外群をテスト。長いひらがな例はスマホWebKitで横overflowなし。漢字を主表示へ固定していない。
+- Checkpoint DOM 13/13 PASS。WebKit portrait 390×844 / landscape 844×390 PASS。 `npm test`: Node 731 PASS・29 SKIP、Vitest 354 PASS・2 SKIP。typecheck/lint/build/data:check PASS。scan:publish 759件違反0、check:eol 1224件違反0。font/font-assets/overflow/font-weight/storageもPASS。
+- `test:rules` はFirebase emulatorの8088ポート確保不可で未実行。別系統の残件。
+- production main / 公開URLは未反映。残件はL3の5件目、production ownerのblob SHA再照合とfile-level統合、Pages deploy、公開URL/RC16/キャッシュ/物理iPhone Safari確認。詳しくはHANDOFF最終節。
+- 最新 `origin/main` HEAD `28eac51c7a745be604d652930212d21071cf2770` をローカル取得して再照合。従来のproduction deltaはmainShaが18対象すべて旧値のため、今回7ファイル用の `data/production_kana_integration_delta_20260920.json` を作成。適用時は再度mainShaを照合。

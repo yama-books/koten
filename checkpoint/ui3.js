@@ -1,6 +1,6 @@
 function toolButtonsForHit(h){
   const buttons=[];
-  if((h.examples||[]).length || examplesForHit(h).length){
+  if(examplesForHit(h).length){
     buttons.push('<button class="secondary" type="button" data-focus-tool="examples">類例</button>');
   }
   const guides=candidateGuideFor(h);
@@ -64,8 +64,11 @@ function openFocusExtra(kind){
   }else if(kind==="candidates"){
     extra.innerHTML='<div class="focus-extra-title">候補</div>'+buildCandidateHtml(h);
   }else if(kind==="exceptions"){
-    const ex=kanaExceptionsForHit(h);
-    extra.innerHTML='<div class="focus-extra-title">例外</div>'+'<ul class="compact-bullets">'+ex.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>';
+    const rules=kanaExceptionRulesForHit(h);
+    extra.innerHTML='<div class="focus-extra-title">例外</div>'+rules.map(rule=>
+      '<div class="kana-exception-group"><div class="kana-exception-title">'+escapeHtml(KANA_RULE_SHORT[rule.id]||rule.brief)+'</div>'+
+      '<ul>'+rule.examples.map(x=>'<li>'+formatExample(x)+'</li>').join('')+'</ul></div>'
+    ).join('');
   }else if(kind==="honorific"){
     extra.innerHTML='<div class="focus-extra-title">敬語</div>'+'<ul class="compact-bullets">'+honorificGuidance(h).map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>';
   }else if(kind==="answer"){

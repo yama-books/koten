@@ -1,0 +1,596 @@
+{
+  "documentType": "kanazukai-framework-neutral-test-vectors",
+  "createdOn": "2026-09-20",
+  "proposedBy": "ai",
+  "reviewStatus": "pending",
+  "positiveRuleExamples": [
+    {
+      "ruleId": "L1",
+      "input": "まうす",
+      "expected": "もうす",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L1",
+      "input": "やうなり",
+      "expected": "ようなり",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L1",
+      "input": "やうやう",
+      "expected": "ようよう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L1",
+      "input": "らうたし",
+      "expected": "ろうたし",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L1",
+      "input": "さうざうし",
+      "expected": "そうぞうし",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L2",
+      "input": "うつくしう",
+      "expected": "うつくしゅう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L2",
+      "input": "あやしう",
+      "expected": "あやしゅう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L2",
+      "input": "いみじう",
+      "expected": "いみじゅう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L2",
+      "input": "かなしう",
+      "expected": "かなしゅう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L2",
+      "input": "ひさしう",
+      "expected": "ひさしゅう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L3",
+      "input": "せうそこ",
+      "expected": "しょうそこ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L3",
+      "input": "てうし",
+      "expected": "ちょうし",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L3",
+      "input": "めう",
+      "expected": "みょう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L3",
+      "input": "れう",
+      "expected": "りょう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L3",
+      "input": "けふ",
+      "expected": "きょう",
+      "classification": "combined:H1+L3"
+    },
+    {
+      "ruleId": "L4",
+      "input": "こう",
+      "expected": "こう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L4",
+      "input": "そう",
+      "expected": "そう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L4",
+      "input": "のう",
+      "expected": "のう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L4",
+      "input": "ぼう",
+      "expected": "ぼう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "L4",
+      "input": "よう",
+      "expected": "よう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "S1",
+      "input": "きやく",
+      "expected": "きゃく",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "S1",
+      "input": "しゆじん",
+      "expected": "しゅじん",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "S1",
+      "input": "しよくだい",
+      "expected": "しょくだい",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "S1",
+      "input": "ちよくし",
+      "expected": "ちょくし",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "S1",
+      "input": "もつとも",
+      "expected": "もっとも",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1",
+      "input": "かは",
+      "expected": "かわ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1",
+      "input": "こひ",
+      "expected": "こい",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1",
+      "input": "おもふ",
+      "expected": "おもう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1",
+      "input": "うへ",
+      "expected": "うえ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1",
+      "input": "おほし",
+      "expected": "おおし",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1-a",
+      "input": "はな",
+      "expected": "はな",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1-a",
+      "input": "ひと",
+      "expected": "ひと",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1-a",
+      "input": "ふみ",
+      "expected": "ふみ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1-a",
+      "input": "へだつ",
+      "expected": "へだつ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1-a",
+      "input": "ほととぎす",
+      "expected": "ほととぎす",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1-b",
+      "input": "あさひ",
+      "expected": "あさひ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1-b",
+      "input": "つきひ",
+      "expected": "つきひ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1-b",
+      "input": "はつはる",
+      "expected": "はつはる",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "H1-b",
+      "input": "ゆふひ",
+      "expected": "ゆうひ",
+      "classification": "combined:first-component-H1"
+    },
+    {
+      "ruleId": "H1-b",
+      "input": "うちはらふ",
+      "expected": "うちはらう",
+      "classification": "combined:protected-medial+final-H1"
+    },
+    {
+      "ruleId": "H1-c",
+      "input": "はるは",
+      "expected": "はるは",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "H1-c",
+      "input": "はなは",
+      "expected": "はなは",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "H1-c",
+      "input": "やまへ",
+      "expected": "やまへ",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "H1-c",
+      "input": "かみへ",
+      "expected": "かみへ",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "H1-c",
+      "input": "みやこへ",
+      "expected": "みやこへ",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "W1",
+      "input": "ゐる",
+      "expected": "いる",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W1",
+      "input": "ゐなか",
+      "expected": "いなか",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W1",
+      "input": "こゑ",
+      "expected": "こえ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W1",
+      "input": "ゆゑ",
+      "expected": "ゆえ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W1",
+      "input": "うゑる",
+      "expected": "うえる",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W2",
+      "input": "をかし",
+      "expected": "おかし",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W2",
+      "input": "をとこ",
+      "expected": "おとこ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W2",
+      "input": "をんな",
+      "expected": "おんな",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W2",
+      "input": "をさをさ",
+      "expected": "おさおさ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W2",
+      "input": "をり",
+      "expected": "おり",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "W2-a",
+      "input": "はなを",
+      "expected": "はなを",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "W2-a",
+      "input": "つきを",
+      "expected": "つきを",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "W2-a",
+      "input": "ひとを",
+      "expected": "ひとを",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "W2-a",
+      "input": "よを",
+      "expected": "よを",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "W2-a",
+      "input": "こころを",
+      "expected": "こころを",
+      "classification": "particle"
+    },
+    {
+      "ruleId": "D1",
+      "input": "もみぢ",
+      "expected": "もみじ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "D1",
+      "input": "いづれ",
+      "expected": "いずれ",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "D1",
+      "input": "めづらし",
+      "expected": "めずらし",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "D1",
+      "input": "みづ",
+      "expected": "みず",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "D1",
+      "input": "はぢる",
+      "expected": "はじる",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "D1-a",
+      "input": "ちぢむ",
+      "expected": "ちぢむ",
+      "classification": "exception"
+    },
+    {
+      "ruleId": "D1-a",
+      "input": "つづく",
+      "expected": "つづく",
+      "classification": "exception"
+    },
+    {
+      "ruleId": "D1-a",
+      "input": "つづみ",
+      "expected": "つづみ",
+      "classification": "exception"
+    },
+    {
+      "ruleId": "D1-a",
+      "input": "はなぢ",
+      "expected": "はなぢ",
+      "classification": "exception"
+    },
+    {
+      "ruleId": "D1-a",
+      "input": "みかづき",
+      "expected": "みかづき",
+      "classification": "exception"
+    },
+    {
+      "ruleId": "K1",
+      "input": "くわほう",
+      "expected": "かほう",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "K1",
+      "input": "くわんげん",
+      "expected": "かんげん",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "K1",
+      "input": "くわし",
+      "expected": "かし",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "K1",
+      "input": "ぐわん",
+      "expected": "がん",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "K1",
+      "input": "ぐわんりき",
+      "expected": "がんりき",
+      "classification": "isolated"
+    },
+    {
+      "ruleId": "N1",
+      "input": "いかむ",
+      "expected": "いかん",
+      "classification": "context-required"
+    },
+    {
+      "ruleId": "N1",
+      "input": "あらむ",
+      "expected": "あらん",
+      "classification": "context-required"
+    },
+    {
+      "ruleId": "N1",
+      "input": "しらむ",
+      "expected": "しらん",
+      "classification": "context-required"
+    },
+    {
+      "ruleId": "N1",
+      "input": "みむ",
+      "expected": "みん",
+      "classification": "context-required"
+    },
+    {
+      "ruleId": "N1",
+      "input": "せむ",
+      "expected": "せん",
+      "classification": "context-required"
+    }
+  ],
+  "pipelineCrossRuleCases": [
+    {
+      "input": "まうづ",
+      "expected": "もうず",
+      "rules": [
+        "L1",
+        "D1"
+      ],
+      "purpose": "cross-rule"
+    },
+    {
+      "input": "けふ",
+      "expected": "きょう",
+      "rules": [
+        "H1",
+        "L3"
+      ],
+      "purpose": "cross-rule"
+    },
+    {
+      "input": "ほふし",
+      "expected": "ほうし",
+      "rules": [
+        "H1",
+        "L4-result-shape"
+      ],
+      "purpose": "cross-rule"
+    },
+    {
+      "input": "いつしよ",
+      "expected": "いっしょ",
+      "rules": [
+        "S1"
+      ],
+      "purpose": "combined-small-kana"
+    },
+    {
+      "input": "ゆふひ",
+      "expected": "ゆうひ",
+      "rules": [
+        "H1",
+        "H1-b"
+      ],
+      "purpose": "compound-boundary"
+    },
+    {
+      "input": "うちはらふ",
+      "expected": "うちはらう",
+      "rules": [
+        "H1",
+        "H1-b"
+      ],
+      "purpose": "compound-boundary"
+    }
+  ],
+  "displayPolicyCases": [
+    {
+      "historical": "きやく",
+      "modern": "きゃく",
+      "assertion": "historical-main-keeps-large-ya"
+    },
+    {
+      "historical": "しゆじん",
+      "modern": "しゅじん",
+      "assertion": "historical-main-keeps-large-yu"
+    },
+    {
+      "historical": "ちよくし",
+      "modern": "ちょくし",
+      "assertion": "historical-main-keeps-large-yo"
+    },
+    {
+      "historical": "もつとも",
+      "modern": "もっとも",
+      "assertion": "historical-main-keeps-large-tsu"
+    }
+  ],
+  "forbiddenPrimaryExamples": [
+    {
+      "value": "ズボン",
+      "reason": "modern-only"
+    },
+    {
+      "value": "がつこう",
+      "reason": "modern/modern-era example, violates classical-only examples"
+    },
+    {
+      "value": "かう",
+      "reason": "standalone example rejected by user"
+    },
+    {
+      "value": "たまふ",
+      "reason": "simple-example use rejected by user"
+    },
+    {
+      "value": "あふ",
+      "reason": "simple-example use rejected by user"
+    },
+    {
+      "value": "くわんおん",
+      "reason": "renjo makes it impure K1 example"
+    }
+  ],
+  "notes": [
+    "Do not infer test framework or field names from this file.",
+    "Map these vectors onto the current local schema only after reading HANDOFF/PROGRESS and KANA_RULE_DEFS.",
+    "RC16: historical main display keeps full-size や/ゆ/よ/つ; small kana belongs to modernized output."
+  ]
+}
