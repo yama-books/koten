@@ -1,0 +1,257 @@
+# NINJAL監査 → UI本線への返し（2026-09-20）
+
+ClaudeCode担当（NINJAL公式全字形監査）から、UI本線担当への引き継ぎ。
+指令書 `NINJAL_GLYPH_AUDIT_TASK_2026-09-20.md` の分担は**完了・停止済み**。
+
+この文書は `vintage-kana/HANDOFF.md` §54 として取り込むことを想定している。
+監査ブランチの `HANDOFF.md` は §49 で止まっており（`vintage-kana-main` は §53）、
+そのまま追記すると本線と衝突するため、独立ファイルにしてある。
+**本線側で §54 として貼り付けたあと、このファイルは削除してよい。**
+
+## 1. 受け取り方
+
+```
+git fetch origin
+git switch vintage-kana-ninjal-audit
+git pull --ff-only origin vintage-kana-ninjal-audit
+```
+
+| 項目 | 値 |
+| --- | --- |
+| ブランチ | `vintage-kana-ninjal-audit` |
+| HEAD | `0f7b5051b8eef3ed3560e67ddcb49ae1a2be95f0` |
+| 基点 | `63dc7360fc923011b464f2efb6cabe3bf6a0f7b5` |
+| コミット | `acc622c`（カタログ＋ツール＋テスト）→ `0f7b505`（監査文書） |
+
+最初に読むのは `vintage-kana/NINJAL_GLYPH_AUDIT_2026-09-20.md`。§3 → §4 → §7 → §8 の順でよい。
+
+## 2. 追加されたファイル（4件）
+
+| ファイル | 内容 |
+| --- | --- |
+| `vintage-kana/data/ninjal-glyph-catalog.json` | 公式カタログ正本 293件。頻度を持たない |
+| `vintage-kana/NINJAL_GLYPH_AUDIT_2026-09-20.md` | 監査本文 |
+| `tools/ninjal-catalog/index.mjs` | 取得・突合の再現スクリプト |
+| `tests/unit/ninjal-glyph-catalog.test.ts` | 自動テスト11件 |
+
+**未変更**: `vintage-kana/index.html`、`data/ui-glyph-master.json`、`data/glyph-distribution*.json`。
+`vintage-kana-main` / `main` への push・マージ・force-push・ブランチ削除は一切していない。
+
+CI相当はローカル全通過。`test:node` 779件0失敗（新規11件込み）、`test:screen` 354件0失敗、
+`typecheck` / `lint` / `data:check` / `build` / `check:eol` / `scan:publish` / `check:vintage-kana` いずれも通過。
+
+## 3. 数字
+
+公式掲載 **293行**（Unicodeあり **265** / なし **28**、47音価・215字母）。
+
+`SOURCES.md` の「47音価・215字母・264字体」と矛盾しない。
+265のうちUCDで `HENTAIGANA LETTER *` と命名されるものが264、残り1件は
+`U+1B001 HIRAGANA LETTER ARCHAIC YE`（え／江）。
+**ただしこの3数字はUnicodeあり行しか数えておらず、未付与28行を取りこぼす。**
+今後は「293行 / うちUnicode付き265」を使うこと。
+
+現行138字との突合:
+
+| 分類 | 件数 |
+| --- | --- |
+| 完全一致 | 135 |
+| 仮名不一致 | 1 |
+| 字母不一致 | 2（うち1件は仮名不一致と同一行） |
+| Unicode文字の不一致 | 0 |
+| 現行キャッシュにしか無い | 1 |
+| 公式にあって未収録 | 156（Unicodeあり128 / なし28） |
+
+重複（`ninjal_id` / 符号位置 / 文字）はいずれも **0**。
+同一字母に複数字体は **50組115行**（最多は も／毛 の6字体）。
+備考「別の仮名としても使われる」は **10件**。
+
+## 4. まず直すもの（データのみ・UI構造に触らない）
+
+`data/ui-glyph-master.json` と `index.html` の `FALLBACK_GLYPHS` の**両方**を同じ内容に直すこと。
+片方だけ直すと、データ取得に失敗したときだけ挙動が変わる。
+
+### 4.1 `U+1B0D8` — 仮名と字母の両方が誤り（最優先）
+
+```jsonc
+// 現行（誤）
+{"kana":"る","glyph_id":"U+1B0D8","character":"𛃘","jibo":"留","totalObserved":2,"witnessCount":1}
+// 正
+{"kana":"も","glyph_id":"U+1B0D8","character":"𛃘","jibo":"毛","totalObserved":2,"witnessCount":1}
+```
+
+根拠: NINJAL公式 `350020010` = も／毛、UCD文字名 `HENTAIGANA LETTER MO-2`。両者一致。
+**学習者に誤った読みを教えている唯一の行**なので最優先。
+音価別件数で「る」が現行7 > 公式6 になっていた原因もこれ。直すと6に収まる。
+
+### 4.2 `U+1B0E6` — 字母が誤り
+
+```jsonc
+// 現行（誤）
+{"kana":"ゆ","glyph_id":"U+1B0E6","character":"𛃦","jibo":"由","totalObserved":34,"witnessCount":3}
+// 正
+{"kana":"ゆ","glyph_id":"U+1B0E6","character":"𛃦","jibo":"遊","totalObserved":34,"witnessCount":3}
+```
+
+根拠: NINJAL公式 `370030010` = ゆ／遊、UCD `HENTAIGANA LETTER YU-4`。
+公式の「ゆ」は U+1B0E4（由）・U+1B0E5（由）・U+1B0E6（遊）の3件で、3件目を取り違えている。
+字母逆引きクイズで誤答判定を生む。
+
+### 4.3 `U+1B10C` — 公式一覧に無い（削除しない）
+
+```jsonc
+{"kana":"わ","glyph_id":"U+1B10C","character":"𛄌","jibo":"王","totalObserved":353,"witnessCount":12}
+```
+
+UCDには `HENTAIGANA LETTER WA-5` として実在するが、NINJAL公式一覧には掲載が無い。
+公式の「わ」は U+1B108（倭）・U+1B109（和）・U+1B10A（和）・U+1B10B（王）の4件。
+これは現行データの誤りではなく、**学術情報交換用セットの選定範囲とUnicodeの符号化範囲のずれ**。
+観測353回・12資料あるので消すと観測事実を捨てることになる。
+`inOfficialCatalog: false` を付けて残すこと。
+
+同種の「Unicodeにあるが公式一覧に無い変体仮名」は全部で21件ある（監査文書 §3.4 に一覧）。
+現行138字に入っているのは `U+1B10C` だけ。
+
+### 4.4 修正したらテストの期待値も更新する
+
+`tests/unit/ninjal-glyph-catalog.test.ts` の最後のテスト
+「監査時点で判明している不一致が、直らないまま増えていない」が、上記3件を期待値として持っている。
+直したら同じコミットで期待値も更新すること。放置すると赤いまま固定される。
+
+## 5. 「せ」と「を」に同じ字が見える件 — バグではない
+
+**データ・フォント・レンダリングのいずれにも欠陥は無い。**
+5層すべてを機械検査した結果は監査文書 §4.2 にある。
+
+| 層 | 結果 |
+| --- | --- |
+| 公式データ | せ／を の符号位置集合は交わり0 |
+| 現行 `ui-glyph-master.json` | 混同なし |
+| `index.html` の `FALLBACK_GLYPHS` | `ui-glyph-master.json` と完全一致 |
+| Webフォントcmap | 294符号位置 → 294個の別グリフID。重複割当ゼロ |
+| 実レンダリング | 公式265文字 → 265通りの別ビットマップ。空白0・同一0 |
+
+原因は**字形そのものの類似**。`U+1B052`（せ／世）の崩し字が現代の「を」とほぼ同形で、
+`U+1B11C`（を／遠）は現代「を」の直接の祖先。`U+1B11B`（を／遠）も同系統で3つ巴になる。
+**実機報告は不具合ではなく、観察として正しい。**
+
+`U+1B11C` は `470050020 / を / 遠 / 𛄜 / MJ090297`、UCD名 `HENTAIGANA LETTER WO-7`。
+指令書の記載どおりであることを一次資料とUnicode正典の双方で確認済み。自動テストで固定してある。
+
+直すべきはデータではなく出題側。
+
+1. 4択の誤答候補で `U+1B052` と `U+1B11C`/`U+1B11B` を同時に出さない。
+   現行は `focusedReadingPool` / `focusedJiboPool` が同音価内から誤答を取るため衝突しないが、
+   公式全件を入れて音価横断で誤答を引くようにすると衝突する。
+2. `glyphInfoDialog` に「『を』と似た形だが字母は『世』、読みは『せ』」と出す。
+   学習者の疑問がそのまま学習材料になる。
+3. 自由入力の採点で混同ペアを「惜しい」扱いにする。
+   見分けがつかない字を `FREE_INPUT_INCORRECT_DECREMENT=5` で減点するのは理不尽。
+
+## 6. 統合の順序 — ここを逆にしない
+
+公式293件を現行 `GLYPHS` にそのまま流し込むと、次が同時に壊れる。
+
+- 「書いてみる」のおまかせ生成が観測0回の字体を拾い、**実在しない字面の文章を作る**
+- 出題プールが138→265に膨らみ、`CHOICE_MASTERY_CAP` 等が想定する母数から外れる
+- Unicode未付与28件が描けず空白または豆腐になる
+- `U+1B10C`（観測353回）が単純置換で**消える**
+
+推奨は3層分離。
+
+```
+layer 1: data/ninjal-glyph-catalog.json   公式293件（頻度を持たない）
+layer 2: data/glyph-distribution*.json    実資料の出現分布（頻度の正本）
+layer 3: data/ui-glyph-master.json        両者を結合した派生キャッシュ
+```
+
+layer 3 の各行に出自の印を付ける。
+
+```jsonc
+{
+  "kana": "を", "glyph_id": "U+1B11C", "character": "𛄜", "jibo": "遠",
+  "ninjal_id": "470050020",      // 公式外なら null
+  "inOfficialCatalog": true,
+  "renderability": "unicode-text",
+  "totalObserved": 3538, "witnessCount": 15,
+  "observed": true               // totalObserved > 0。プール選択はこれで切る
+}
+```
+
+機能ごとの母集団:
+
+| 機能 | 使う集合 |
+| --- | --- |
+| **「書いてみる」おまかせ生成** | `observed === true` **のみ**（現行138字相当） |
+| 「書いてみる」手動選択 | `renderability === "unicode-text"` の全件 |
+| 一覧 | 全293件 |
+| クイズ出題 | `observed === true` |
+| クイズの誤答候補 | `observed === true` かつ混同ペア除外 |
+| 字母逆引き | **複数正解を許す**（同一字母に複数字体が50組ある） |
+| 字の解説 | 全293件（`notes` / `mj_glyph_name` / `source_url` を表示） |
+
+**`observed` をおまかせ生成の唯一の入口にすれば、公式全件を入れても現行の生成挙動は変わらない。**
+これが今回いちばん重要な設計条件。
+
+## 7. 作業順（優先順）
+
+1. `U+1B0D8` を「も／毛」へ修正 ＋ テスト期待値更新
+2. `U+1B0E6` の字母を「遊」へ修正
+3. `U+1B10C` に `inOfficialCatalog: false` を付与（削除しない）
+4. layer 3 スキーマを §6 へ拡張し `observed` を導入。**件数は増やさず**、現行138字に印を付けるだけ。
+   ここで挙動が変わらないことを確認する
+5. おまかせ生成・クイズ出題の母集団を `observed === true` に固定
+6. **ここまで済ませてから**、公式265件を layer 3 へ投入する
+7. 混同ペア表を作り4択の誤答候補から除外
+8. 字母逆引きの単答契約を複数正解へ（`tests/unit/vintage-kana-rc25.test.ts` も一緒に更新）
+9. Unicode未付与28件の一覧表示（§8）
+
+1〜3はデータ修正のみでUI構造に触らない。4〜6が挙動の境界。
+
+## 8. Unicode未付与28件と、備考10件の扱い
+
+### 未付与28件
+
+公式は全293行を `https://cid.ninjal.ac.jp/kana/images/kana/{ninjal_id}.webp` の画像で提示しており、
+未付与28件はこの画像**だけ**が字形の提示手段。MJ文字図形名も公式に記載が無く28件すべて `null`
+（こちらで推定補完していないことをテストで固定してある）。
+
+国立国語研究所サイトポリシーは「特に断りの無い限り著作権はNINJAL」「印刷媒体等での利用は事前連絡」
+「リンクは自由」。Webアプリへの同梱可否は明示が無いため、**画像は取得も保存もしていない**。
+カタログには `official_image_url` として参照URLだけを持たせた。
+
+推奨は**一覧画面にだけ字形なしの行として出し、`source_url` へリンクする**方式。
+リンクはポリシー上自由なので許諾なしで実施できる。
+画像を同梱したい場合は**先に国立国語研究所へ照会**し、許諾が取れるまで
+`vintage-kana/public/` 以下に画像を置かない。`THIRD_PARTY_NOTICES.md` への追記も許諾後。
+
+**Unicode欄が空だからといってカタログから落とさないこと。** 落とすと293件の監査可能性が失われる。
+
+### 備考10件のうち2件は現行138字に入っている
+
+| Unicode | 字 | 現行の割当 | 公式備考 |
+| --- | --- | --- | --- |
+| `U+1B06D` | 𛁭 | つ／徒（観測305回・15資料） | 「と」の仮名としても使われる |
+| `U+1B08E` | 𛂎 | に／而（観測1回・1資料） | 「て」の仮名としても使われる |
+
+`U+1B06D` は出題頻度が高い。学習者が 𛁭 を見て「と」と答えると現行UIは不正解にするが、
+公式備考上は誤りと言い切れない。**採点契約に影響する**ので、許容解答として扱うか、
+少なくとも解説に出すこと。残り8件は現行138字に入っていない（監査文書 §2 に全件）。
+
+## 9. 再現コマンド
+
+```bash
+node tools/ninjal-catalog/index.mjs --fetch    # 公式から再取得（HTTPアクセス1回）
+node tools/ninjal-catalog/index.mjs --verify   # 公式とコミット済みカタログの差を検出（差があれば exit 1）
+node tools/ninjal-catalog/index.mjs            # 通信せず自己整合＋現行138字との差分
+node --experimental-strip-types --test "tests/unit/ninjal-glyph-catalog.test.ts"
+```
+
+`--fetch` / `--verify` は外部サイトに触るため **CIには入れていない**。
+公式サイトの都合でCIが落ちると検査そのものが信用されなくなるため、
+公式一覧の改訂追随は手動で `--verify` を回す運用とする。
+
+## 10. 未処理として残したもの
+
+- 国立国語研究所への、字形画像のWebアプリ同梱可否の照会（§8）
+- 混同ペア表の作成（§5-1）。根拠データは監査文書 §4.2 と同じ手順で機械的に作れる
+- `SOURCES.md` の「264字体」の記述更新（§3 のとおり、未付与28件を取りこぼす数字）
