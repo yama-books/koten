@@ -93,6 +93,7 @@ try{
   assert.equal(await page.evaluate(()=>document.documentElement.dataset.shadowData),'skipped');
   await noHorizontalOverflow('portrait initial');
   const initialButtonBoxes=await minVisibleHeight('.row button','top actions');
+  const levelSelectorBox=(await minVisibleHeight('#checkLevel','level selector'))[0];
 
   await page.locator('#sample3').tap();
   const checklist=page.locator('.item[data-check]');
@@ -178,6 +179,7 @@ try{
     longSampleMarkers:await page.locator('.mark[data-seg]').count(),
     measuredTouchTargets:{
       topActionsMinHeight:Math.min(...initialButtonBoxes.map(x=>x.height)),
+      levelSelectorHeight:levelSelectorBox.height,
       checklistMinHeight:Math.min(...checklistBoxes.map(x=>x.height)),
       drawerCloseHeight:closeBox.height,
       knownActionHeight:knownActionBox.height,
