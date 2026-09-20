@@ -57,3 +57,17 @@ production `main` への安全な取り込み手順は `PRODUCTION_INTEGRATION.m
 
 production統合前には `PRODUCTION_INTEGRATION.md` と
 `data/production_integration_delta_20260920.json` を確認してください。
+
+
+### スマホbrowser smoke
+Playwright WebKitのmobile emulationでも公開βの主要操作を確認済みです。
+
+- portrait 390×844 / landscape 844×390
+- 一文字本文マーカーのtouch
+- drawer scroll lock
+- 「ここはわかる」履歴の個別・全件復帰
+- 長文描画
+- 横overflowなし
+
+GitHub Actions run 35482145135 は PASS。
+ただし、物理iPhone Safariはproduction統合後の最終確認として別に行います。
