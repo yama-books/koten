@@ -748,3 +748,31 @@ JavaScript構文 PASS。
 - 要確認表示は維持
 
 JavaScript構文 PASS。
+
+
+## RC25 / 段階式出題・日次上限・2×2選択肢
+
+- 0〜29%: ランダム4択
+- 30〜64%: 同じ行中心の4択
+- 65%以上: 自由入力
+- 選択式 +5 / cap 65 / incorrect -3
+- 自由入力 +9 / cap 90 / incorrect -5
+- 同一字体の正の増加は1日+20まで
+- 90到達日は90で停止
+- 別日の自由入力正答のみ+2で100へ
+- 同一セット反復の正加点は半分
+- 5問内は原則同じ字体を重複出題しない
+- 4択UIはiPhoneでも2×2
+- 正答緑 / 誤答赤
+- ポイントは5問終了時のみ表示
+
+静的検査:
+- JavaScript構文 PASS
+- mobile 2x2 PASS
+- 30% focused choice PASS
+- 65% free input switch PASS
+- daily +20 cap PASS
+- choice cap 65 PASS
+- free-input cap 90 PASS
+- same-day over-90 block PASS
+- next-day +2 PASS
