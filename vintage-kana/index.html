@@ -3,167 +3,379 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>変体仮名を読む・知る・書いてみる</title>
+<title>変体仮名メーカー</title>
+<meta name="theme-color" content="#f2efe8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="変体仮名メーカー">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+<link rel="manifest" href="./site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css?family=Noto+Serif+Hentaigana:400,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#f2efe8;--paper:#fffdf8;--paper2:#faf6ed;--ink:#292b28;--muted:#74766e;
   --line:#ddd7ca;--accent:#66755f;--accent2:#e7ede3;--danger:#9b5d54;--ok:#4f7558;
+  --mastery-gray:oklch(54% .012 75);--mastery-red:oklch(56% .16 28);--mastery-yellow:oklch(78% .15 86);--mastery-blue:oklch(56% .14 250);--mastery-green:oklch(56% .14 145);
   --shadow:0 16px 42px rgba(43,39,31,.08);
+  --font-ui:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
+  --font-poem:"Klee One","Yu Mincho",serif;
 }
 *{box-sizing:border-box}
 html{background:var(--bg)}
-body{margin:0;color:var(--ink);background:radial-gradient(circle at 86% -8%,rgba(130,145,118,.15),transparent 31rem),var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Yu Gothic UI","Yu Gothic",sans-serif}
+body{margin:0;color:var(--ink);background:radial-gradient(circle at 86% -8%,rgba(130,145,118,.15),transparent 31rem),var(--bg);font-family:var(--font-ui)}
 button,input,textarea{font:inherit} button{cursor:pointer}
 .wrap{max-width:1080px;margin:auto;padding:28px 18px 64px}
-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:18px}
-h1{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;margin:0;font-size:clamp(27px,4.4vw,42px);font-weight:600;letter-spacing:.07em}
-.tagline{margin:7px 0 0;color:var(--muted);font-size:13px;line-height:1.7}
-.pill{border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:rgba(255,255,255,.66);font-size:12px;white-space:nowrap}
-.fontOk{border-color:#9fc0a6;background:#eef6ef;color:var(--ok)}.fontWarn{border-color:#d7b0a9;background:#fbefed;color:var(--danger)}
+header{margin-bottom:12px}
+h1{font-family:var(--font-ui);margin:0;font-size:clamp(27px,4.4vw,42px);font-weight:700;letter-spacing:.045em}
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);margin:14px 0}
-.notice{background:#f7f3e9;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.8}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:15px 0}
-.tab{border:1px solid var(--line);border-radius:13px;padding:12px;background:#fff;color:var(--ink);font-weight:700}
-.tab.active{background:var(--accent2);border-color:#9dac95}
+.panelTop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.notice{background:#f7f3e9;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.7}
+.learnHelpBtn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 12px 7px 8px;min-height:44px;font-size:12px;font-weight:700}
+.helpIcon{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent2);border:1px solid #b8c5b2;color:var(--accent);font-weight:800;font-size:13px;line-height:1}
+.helpDialog{border:0;border-radius:18px;padding:0;max-width:min(560px,calc(100vw - 28px));width:100%;max-height:min(82vh,720px);box-shadow:0 22px 70px rgba(43,39,31,.24);background:var(--paper);color:var(--ink)}
+.helpDialog::backdrop{background:rgba(43,39,31,.30)}
+.helpBody{padding:18px;overflow:auto;max-height:min(82vh,720px)}
+.helpBody__top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.helpBody__top h2{font-size:17px;margin:0}
+.helpBody h3{font-size:13px;margin:14px 0 4px}
+.helpBody p{font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 12px}
+.jiboExamples{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.jiboExample{border:1px solid var(--line);border-radius:11px;background:var(--paper2);padding:8px 4px;text-align:center}
+.jiboExample .modernKana{font-family:var(--font-poem);font-size:38px;line-height:1.15}
+.jiboExample .from{font-size:18px;color:var(--muted);margin:1px 0;line-height:1}
+.jiboExample .jiboChar{font-family:var(--font-poem);font-size:25px;line-height:1.2}
+details.moreInfo{margin-top:2px}
+details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
+.utilityTabs{display:flex;gap:5px;flex:0 0 auto;align-items:center}
+.tab{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff;color:var(--muted);font-weight:700;font-size:11px;white-space:nowrap;transition:.15s ease}
+.tab.navPrimary{padding-inline:14px;font-weight:800}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 7px rgba(55,70,50,.16)}
 .view{display:none}.view.active{display:block}
 .label{font-weight:700;font-size:13px;margin:0 0 8px}
-.kanaFilters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px;max-height:128px;overflow:auto;padding:2px}
-.kanaBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 10px;min-width:38px}
+.kanaFilters{display:grid;gap:5px;margin-bottom:14px;padding:2px}
+.kanaFilterAll{display:flex;justify-content:flex-start;margin-bottom:2px}
+.kanaFilterRow{display:grid;grid-template-columns:38px minmax(0,1fr);gap:5px;align-items:center}
+.kanaFilterRow__label{font-size:10px;color:var(--muted);text-align:center;font-weight:700}
+.kanaFilterRow__buttons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.kanaBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 4px;min-width:0}
 .kanaBtn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.summary{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
-.stat{font-size:11px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 9px;color:var(--muted)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
-.card{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:140px}
+.card{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:125px}
 .card.standardKana{background:#edf3f7;border-color:#b9cad5}
-.card.standardKana .glyph{font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
-.standardBadge{display:inline-block;margin-bottom:7px;padding:3px 7px;border-radius:999px;background:#dce8ef;color:#4d6572;font-size:10px;font-weight:700;letter-spacing:.03em}
-.glyph{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:50px;line-height:1.15;margin-bottom:9px}
-.meta{font-size:13px;line-height:1.7}.meta b{font-family:"Yu Mincho",serif;font-size:18px}
+.card.standardKana .glyph{font-family:var(--font-poem)}
+.glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:50px;line-height:1.15;margin-bottom:9px}
+.meta{font-size:13px;line-height:1.7}.meta b{font-family:var(--font-poem);font-size:18px}
 .note{font-size:11px;color:var(--muted);line-height:1.7}
 .quizBox{max-width:580px;margin:8px auto;background:var(--paper2);border:1px solid var(--line);border-radius:18px;padding:22px;text-align:center}
-.quizGlyph{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:90px;line-height:1.2;margin:8px 0 18px}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.choice{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;font-family:"Yu Mincho",serif;font-size:18px}
+.quizModes{display:flex;justify-content:center;gap:7px;margin-bottom:12px}
+.quizModeBtn{min-height:44px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 13px;font-size:12px;font-weight:700}
+.quizModeBtn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.quizGlyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:90px;line-height:1.2;margin:8px 0 18px}
+.jiboPrompt{display:grid;justify-items:center;gap:0;margin:5px 0 16px}
+.jiboPrompt[hidden]{display:none}
+.jiboPrompt__answerLine{display:flex;align-items:center;justify-content:center;gap:12px;min-height:88px}
+.jiboPrompt__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:84px;line-height:1.05}
+.jiboPrompt__reading{font-family:var(--font-poem);font-size:28px;line-height:1;color:var(--ink)}
+.jiboPrompt__reading[hidden]{display:none}
+.jiboPrompt__arrow{font-family:var(--font-poem);font-size:28px;line-height:1;color:var(--muted)}
+.jiboPrompt__unknown{font-family:var(--font-poem);font-size:44px;line-height:1.1}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:470px;margin:10px auto 0}
+.choices.glyphChoices .choice{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:42px}
+.quizFreeAnswer{display:flex;gap:8px;max-width:470px;margin:12px auto 0}
+.quizFreeAnswer[hidden]{display:none}
+.quizFreeAnswer input{min-width:0;flex:1;border:1px solid var(--line);border-radius:15px;background:#fff;padding:12px 14px;font-family:var(--font-poem);font-size:19px;outline:none}
+.quizFreeAnswer input:focus{border-color:#9dac95;box-shadow:0 0 0 3px rgba(102,117,95,.10)}
+.quizFreeAnswer input.correct{background:#e8f0e5;border-color:#93a78d}
+.quizFreeAnswer input.wrong{background:#f4e8e5;border-color:#caa49d}
+.choice{border:1px solid var(--line);border-radius:18px;padding:10px;background:#fffdf9;font-family:var(--font-poem);font-size:23px;min-height:78px;display:grid;place-items:center;box-shadow:0 3px 10px rgba(43,39,31,.035);transition:.12s ease}
+.choice:active{transform:scale(.985)}
+.choice.correct{background:#e8f0e5;border-color:#93a78d;color:#32432e}
+.choice.wrong{background:#f4e8e5;border-color:#caa49d;color:#6f4038}
 .choice.correct{border-color:var(--ok);background:#edf5ed}.choice.wrong{border-color:var(--danger);background:#f8ecea}
 .feedback{min-height:34px;margin-top:12px;font-size:13px;line-height:1.6}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
 .btn{border:1px solid var(--line);border-radius:11px;padding:10px 14px;background:#fff;color:var(--ink);font-weight:700}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:12px 14px;line-height:1.8;resize:vertical}
+.composeActions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.saveStatus{min-height:1.4em;margin-top:5px;text-align:center;font-size:11px;color:var(--muted)}
+.quizTopline{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.quizScreens{display:flex;gap:5px}
+.quizScreenBtn{min-height:44px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 10px;color:var(--muted);font-size:11px;font-weight:700}
+.quizScreenBtn.active{background:var(--accent2);border-color:#9dac95;color:var(--ink)}
+.setProgress{font-size:11px;color:var(--muted);margin-bottom:4px}
+.quizStage[hidden]{display:none}
+.setResult{padding:20px 8px 8px;text-align:center}
+.setResult h2{margin:0 0 8px;font-family:var(--font-poem);font-size:23px}
+.setResult__points{display:flex;justify-content:center;align-items:center;gap:8px;margin:12px 0 4px}
+.setResult__points strong{font-size:34px;font-variant-numeric:tabular-nums}
+.setResult__cat{width:54px;height:auto}
+.setResult__meta{font-size:12px;color:var(--muted)}
+.recordScreen{text-align:left}
+.recordSummary{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:3px 0 12px;margin-bottom:14px}
+.recordSummary__title{font-weight:800}
+.recordSummary__points{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px}
+.recordSummary__points strong{font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums}
+.recordSummary__cat{width:38px;height:auto}
+.recordStats{display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:15px;font-size:11px;color:var(--muted)}
+.recordStats strong{color:var(--ink);font-variant-numeric:tabular-nums}
+.recordSection{margin:16px 0}
+.recordSection h3{margin:0 0 8px;font-size:13px}
+.recordRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.recordRowGroup{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;min-width:0}
+.recordRowGroup[open]{grid-column:1/-1}
+.recordRowGroup summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;padding:8px 10px}
+.recordRowGroup summary::-webkit-details-marker{display:none}
+.recordRowGroup:not([open]) summary{min-height:104px;flex-direction:column;justify-content:center;text-align:center;padding:6px 6px}
+.recordRowGroup:not([open]) .recordRow__head{flex-direction:column;gap:2px}
+.recordRowGroup[open] summary{min-height:72px}
+.recordRow__label{font-weight:700;font-size:13px}
+.recordRow__head{display:flex;align-items:center;gap:8px;min-width:0}
+.recordReview{color:var(--danger);font-size:9px;font-weight:700;line-height:1.35}
+.rowGlyphMastery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-top:1px solid var(--line);padding:10px}
+.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.ringMeter::after{content:"";width:54px;height:54px;border-radius:50%;background:#fff}
+.ringMeter span{position:absolute;z-index:1;font-size:12px;font-variant-numeric:tabular-nums}
+.glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
+.recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center;cursor:pointer}
+.recordGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:34px;line-height:1.15}
+.glyphMasteryCard{aspect-ratio:1/1;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:4px}
+.glyphMasteryReading{font-family:var(--font-poem);font-size:12px;line-height:1;color:var(--ink)}
+.glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:60px;height:60px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.glyphMasteryRing::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff}
+.glyphMasteryRing__center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.glyphMasteryGlyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:30px;line-height:1}
+.glyphMasteryJibo{margin-top:3px;color:var(--muted);font-size:10px;line-height:1.15}
+.glyphMasteryPercent{font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.glyphInfoDialog{border:0;border-radius:18px;padding:0;max-width:min(320px,calc(100vw - 40px));width:100%;box-shadow:0 20px 60px rgba(43,39,31,.22);background:#fffdf8;color:var(--ink)}
+.glyphInfoDialog::backdrop{background:rgba(43,39,31,.28)}
+.glyphInfoDialog__body{padding:22px;text-align:center}
+.glyphInfoDialog__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:72px;line-height:1.1;margin-bottom:10px}
+.glyphInfoDialog__meta{display:grid;grid-template-columns:auto auto;justify-content:center;gap:6px 14px;font-size:14px;line-height:1.6}
+.glyphInfoDialog__meta dt{color:var(--muted)}
+.glyphInfoDialog__meta dd{margin:0;font-family:var(--font-poem);font-size:20px}
+.emptyRecord{color:var(--muted);font-size:11px;line-height:1.6}
+textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
+.composeModeLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 9px}
+.composeModeLabel{font-size:12px;font-weight:700;color:var(--ink)}
+.composeModes{display:flex;gap:7px;margin:0}
+.composeModeBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:8px 14px;font-size:12px;font-weight:700}
+.composeModeBtn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.smallKanaOption{display:none;margin:-1px 0 9px;font-size:12px;color:var(--muted)}
+.smallKanaOption.show{display:block}
+.smallKanaOption label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.smallKanaOption input{width:16px;height:16px;accent-color:var(--accent)}
 .composeRows{display:grid;gap:10px;margin-top:14px}
+.composeRows.autoHidden{display:none}
 .composeRow{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:start;background:var(--paper2);border:1px solid var(--line);border-radius:13px;padding:10px}
-.composeKana{font-family:"Yu Mincho",serif;font-size:24px;text-align:center;padding-top:5px}
+.composeKana{font-family:var(--font-poem);font-size:24px;text-align:center;padding-top:5px}
 .candidates{display:flex;gap:7px;flex-wrap:wrap}
 .glyphChoice{border:1px solid var(--line);border-radius:10px;background:#fff;padding:6px 9px;min-width:76px}
+.glyphChoice.standardChoice{background:#edf3f7;border-color:#b9cad5}
 .glyphChoice.active{background:var(--accent2);border-color:#9dac95}
-.glyphChoice .g{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:28px;display:block;line-height:1.2}
+.glyphChoice .g{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:28px;display:block;line-height:1.2}
 .glyphChoice .g.smallGlyph{font-size:20px;line-height:1.45}
 .preview .smallGlyph{display:inline-block;font-size:.68em;line-height:1;vertical-align:.18em}
 .glyphChoice small{color:var(--muted);font-size:10px}
-.preview{margin-top:14px;min-height:130px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:40px;line-height:1.8;word-break:break-all}
-.readGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
-.readCard{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:15px}
-.sourceImageFrame{margin:10px 0 12px;border:1px solid var(--line);border-radius:12px;background:#e9e4da;overflow:hidden}
-.sourceImageFrame img{display:block;width:100%;height:300px;object-fit:contain;background:#e9e4da}
-.sourceImageNote{padding:7px 9px;background:#fffaf0;border-top:1px solid var(--line);font-size:10px;color:var(--muted);line-height:1.6}
-.readHead{display:flex;align-items:center;gap:12px}
-.readGlyph{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:52px;line-height:1}
-.readText{font-family:"Yu Mincho",serif;font-size:18px;line-height:1.7;margin:10px 0}
-.answer{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
-.answer summary{cursor:pointer;font-weight:700;color:var(--accent);font-size:13px}
-.answerBody{padding-top:9px}
+.previewDock{margin:5px 0 8px}
+.previewDock.manualSticky{position:sticky;top:6px;z-index:10;background:rgba(255,253,248,.96);padding:7px 0 8px;border-radius:14px;backdrop-filter:blur(6px)}
+.previewDock.manualSticky.isStuck{box-shadow:0 8px 18px rgba(43,39,31,.10)}
+.previewDock.manualSticky .label{padding:0 8px}
+.floatingOriginal{display:none;margin:0 8px 6px;padding:5px 8px;border-radius:8px;background:var(--paper2);font-size:11px;line-height:1.45;color:var(--muted)}
+.floatingOriginal b{color:var(--ink);font-weight:700}
+.previewDock.isStuck .floatingOriginal{display:block}
+.previewDock.manualSticky .preview{min-height:66px;padding:9px 12px;font-size:32px;line-height:1.45}
+.preview{margin-top:5px;min-height:100px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:14px;font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:36px;line-height:1.6;word-break:break-all}
 .empty{padding:24px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:1.9;text-align:center;background:#fff}
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){header{display:block}.pill{display:inline-block;margin-top:10px}.tabs{grid-template-columns:1fr 1fr}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:15px}}
+@media(max-width:720px){button{min-height:44px}.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:380px){.learnHelpBtn{width:44px;padding:0;justify-content:center}.learnHelpBtn>span:last-child{display:none}.utilityTabs{flex:1;justify-content:flex-end}.tab{padding-inline:7px}.tab.navPrimary{padding-inline:9px}}
+@media(max-width:360px){.rowGlyphMastery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:340px){.recordRowGroup:not([open]) summary{min-height:94px;padding:5px 5px}.recordRow__label{font-size:12px}.ringMeter{width:66px;height:66px}.ringMeter::after{width:50px;height:50px}.ringMeter span{font-size:11px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div>
-    <h1>変体仮名を読む・知る・書いてみる</h1>
-    <p class="tagline">字母と実資料をたどりながら、読めなかった文字が少しずつ読めるようになるための学習アプリ。</p>
-  </div>
-  <div>
-    <div class="pill">一次公開準備版 1.0 RC3</div>
-    <div class="pill" id="fontStatus" style="margin-top:7px">字体フォント確認中…</div>
-    <div class="pill" id="dataStatus" style="margin-top:7px">教材データ確認中…</div>
-  </div>
+  <h1>変体仮名メーカー</h1>
 </header>
 
 <section class="panel">
-  <div class="notice">
-    字形の候補と資料内件数は、国立国語研究所の公開資料をもとにした初期15資料の観察結果です。
-    件数は「歴史的な正しさ」や使用確率を表すものではありません。
-    読解教材は、実資料との対応に加えて人間の公開確認を終え、公開承認された用例だけを表示します。
-    フォント字形は対応字体の代表表示であり、原資料の手書き字形と輪郭が完全一致するとは限りません。
+  <div class="panelTop">
+    <button id="openHelp" class="learnHelpBtn" type="button" aria-label="変体仮名とは？"><span class="helpIcon" aria-hidden="true">?</span><span>変体仮名とは？</span></button>
+    <nav class="utilityTabs" aria-label="メニュー">
+      <button class="tab navPrimary active" data-view="compose">書いてみる</button>
+      <button class="tab" data-view="browse">一覧</button>
+      <button class="tab" data-view="quiz">習得する</button>
+    </nav>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" data-view="browse">字形を見る</button>
-    <button class="tab" data-view="quiz">字母クイズ</button>
-    <button class="tab" data-view="compose">書いてみる</button>
-    <button class="tab" data-view="read">実資料を読む</button>
+  <dialog id="helpDialog" class="helpDialog">
+    <div class="helpBody">
+      <div class="helpBody__top">
+        <h2>変体仮名とは？</h2>
+        <button id="closeHelp" class="btn" type="button">閉じる</button>
+      </div>
+      <p>昔使われていた、今とは形のちがうひらがなです。</p>
+      <h3>いつ使われていた？</h3>
+      <p>平安時代から明治時代まで、同じ音にいくつものひらがなの形が使われていました。1900年（明治33年）、学校で教えるひらがなが一つずつに整理されました。</p>
+      <h3>字母とは？</h3>
+      <p>ひらがなのもとになった漢字です。今のひらがなにも字母があります。</p>
+      <h3>今のひらがなの字母</h3>
+      <div class="jiboExamples" aria-label="現代のひらがなの字母の例">
+        <div class="jiboExample"><div class="modernKana">あ</div><div class="from">↑</div><div class="jiboChar">安</div></div>
+        <div class="jiboExample"><div class="modernKana">い</div><div class="from">↑</div><div class="jiboChar">以</div></div>
+        <div class="jiboExample"><div class="modernKana">う</div><div class="from">↑</div><div class="jiboChar">宇</div></div>
+        <div class="jiboExample"><div class="modernKana">え</div><div class="from">↑</div><div class="jiboChar">衣</div></div>
+        <div class="jiboExample"><div class="modernKana">お</div><div class="from">↑</div><div class="jiboChar">於</div></div>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="compose" class="view active">
+    <textarea id="sourceText" placeholder="ひらがなを入力">きょうはいいてんきですね</textarea>
+    <div class="composeModeLine">
+      <span class="composeModeLabel">仮名設定</span>
+      <div class="composeModes">
+        <button class="composeModeBtn active" data-compose-mode="auto">おまかせ</button>
+        <button class="composeModeBtn" data-compose-mode="manual">自分で選ぶ</button>
+      </div>
+    </div>
+    <div id="smallKanaOption" class="smallKanaOption">
+      <label><input id="smallKanaToggle" type="checkbox"> ゃ・ゅ・ょを小さく表示</label>
+    </div>
+    <div id="previewDock" class="previewDock">
+      <div class="label">できあがり</div>
+      <div id="floatingOriginal" class="floatingOriginal"><b>もとの文</b>　きょうはいいてんきですね</div>
+      <div id="preview" class="preview"></div>
+    </div>
+    <div class="composeActions">
+      <button id="rerollCompose" class="btn">もう一度</button>
+      <button id="saveImage" class="btn primary">画像で保存</button>
+    </div>
+    <div id="saveStatus" class="saveStatus" aria-live="polite"></div>
+    <div id="composeRows" class="composeRows autoHidden"></div>
   </div>
 
-  <div id="browse" class="view active">
-    <div class="label">対応する仮名で絞り込む</div>
+  <div id="browse" class="view">
+    <div class="label">行・仮名から見る</div>
     <div id="filters" class="kanaFilters"></div>
-    <div id="browseSummary" class="summary"></div>
     <div id="cards" class="cards"><div class="loading">字体データを読み込んでいます…</div></div>
   </div>
 
   <div id="quiz" class="view">
     <div class="quizBox">
-      <div class="note">この変体仮名の字母は？</div>
-      <div id="quizGlyph" class="quizGlyph">…</div>
-      <div id="choices" class="choices"></div>
-      <div id="feedback" class="feedback"></div>
-      <div class="actions"><button id="nextQuiz" class="btn primary">次の問題</button></div>
+      <div class="quizTopline">
+        <div class="quizModes">
+          <button class="quizModeBtn active" data-quiz-mode="reading">読み方</button>
+          <button class="quizModeBtn" data-quiz-mode="jibo">字母</button>
+        </div>
+        <div class="quizScreens">
+          <button class="quizScreenBtn active" data-quiz-screen="practice">練習</button>
+          <button class="quizScreenBtn" data-quiz-screen="record">記録</button>
+        </div>
+      </div>
+
+      <div id="quizPractice" class="quizStage">
+        <div id="setProgress" class="setProgress">1 / 5</div>
+        <div id="quizMethodHint" class="setProgress"></div>
+        <div id="quizQuestion" class="note">この文字は何と読む？</div>
+        <div id="quizGlyph" class="quizGlyph">…</div>
+        <div id="jiboPrompt" class="jiboPrompt" hidden>
+          <div class="jiboPrompt__answerLine">
+            <div id="jiboPromptGlyph" class="jiboPrompt__glyph">…</div>
+            <div id="jiboAnswerReading" class="jiboPrompt__reading" hidden></div>
+          </div>
+          <div class="jiboPrompt__arrow">↑</div>
+          <div id="jiboPromptSource" class="jiboPrompt__unknown">？</div>
+        </div>
+        <div id="choices" class="choices"></div>
+        <form id="quizFreeAnswer" class="quizFreeAnswer" hidden>
+          <input id="quizFreeInput" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button class="btn primary" type="submit">答える</button>
+        </form>
+        <div id="feedback" class="feedback"></div>
+        <div class="actions"><button id="nextQuiz" class="btn primary" disabled>次の問題</button></div>
+      </div>
+
+      <div id="quizResult" class="quizStage setResult" hidden>
+        <h2>5問おわりました</h2>
+        <div class="setResult__points">
+          <strong id="setPoints">+0</strong><span>ポイント</span>
+          <img class="setResult__cat" src="../assets/mascot/cat-mascot.webp" alt="" aria-hidden="true">
+        </div>
+        <div id="setResultMeta" class="setResult__meta"></div>
+        <div class="actions">
+          <button id="restartQuizSet" class="btn primary">もう5問</button>
+          <button id="openRecord" class="btn">記録を見る</button>
+        </div>
+      </div>
+
+      <div id="quizRecord" class="quizStage recordScreen" hidden>
+        <div class="recordSummary">
+          <div class="recordSummary__title">これまでの記録</div>
+          <div class="recordSummary__points"><strong id="recordPoints">0</strong><span>ポイント</span><img class="recordSummary__cat" src="../assets/mascot/cat-mascot.webp" alt="" aria-hidden="true"></div>
+        </div>
+        <div class="recordStats">
+          <span>5問セット <strong id="recordSets">0</strong>回</span>
+          <span>取り組んだ問題 <strong id="recordAttempts">0</strong>問</span>
+          <span>正解 <strong id="recordCorrect">0</strong>問</span>
+        </div>
+
+        <section class="recordSection">
+          <h3>行ごとの習熟度</h3>
+          <div id="rowMastery" class="recordRows"></div>
+        </section>
+
+        <section class="recordSection">
+          <h3>最近取り組んだ字</h3>
+          <div id="recentGlyphs" class="glyphStrip"></div>
+        </section>
+
+        <section class="recordSection">
+          <h3>間違えやすい字</h3>
+          <div id="weakGlyphs" class="glyphStrip"></div>
+        </section>
+
+        <div class="actions"><button id="backToPractice" class="btn">練習に戻る</button></div>
+      </div>
     </div>
   </div>
 
-  <div id="compose" class="view">
-    <div class="label">現代の仮名文を入力</div>
-    <textarea id="sourceText">あいうえお かきくけこ</textarea>
-    <div class="note">
-      自動で「昔らしい」字体に変換する機能ではありません。原文のままを初期値とし、
-      初期資料群で実際に観察された対応字体から、利用者自身が選びます。<br>
-      濁音・半濁音は対応する清音字体に濁点・半濁点を付けて表示します。
-      「ゃ・ゅ・ょ・っ」などの小書きは、対応する基本仮名の字体を小さく表示する現代的な補助表現です。
+  <dialog id="glyphInfoDialog" class="glyphInfoDialog">
+    <div class="glyphInfoDialog__body">
+      <div id="glyphInfoGlyph" class="glyphInfoDialog__glyph"></div>
+      <dl class="glyphInfoDialog__meta">
+        <dt>読み</dt><dd id="glyphInfoKana"></dd>
+        <dt>字母</dt><dd id="glyphInfoJibo"></dd>
+      </dl>
+      <div class="actions"><button id="closeGlyphInfo" class="btn" type="button">閉じる</button></div>
     </div>
-    <div id="composeRows" class="composeRows"></div>
-    <div class="label" style="margin-top:15px">表示</div>
-    <div id="preview" class="preview"></div>
-  </div>
+  </dialog>
 
-  <div id="read" class="view">
-    <div class="label">実資料で確認された用例</div>
-    <div class="note" style="margin-bottom:12px">ここには <code>human-confirmed</code> かつ <code>publication_status: approved</code> の用例だけを表示します。フォント字形は対応字体の代表表示で、原資料の筆跡そのものではありません。</div>
-    <div id="readExamples"><div class="loading">実例データを読み込んでいます…</div></div>
-  </div>
 </section>
 
 <section class="panel sources">
-  <div class="label">典拠とデータの読み方</div>
-  <div class="note">
-    字体・対応する仮名・字母の基準:
-    <a href="https://cid.ninjal.ac.jp/kana/list/" target="_blank" rel="noopener">国立国語研究所「学術情報交換用変体仮名」</a>。
-    資料別の観察:
-    <a href="https://cid.ninjal.ac.jp/hentaiganaDB/" target="_blank" rel="noopener">国立国語研究所「変体仮名字形データベース」</a>。
-    実資料画像・翻字は各所蔵機関・国語研の公開資料へ遡れる形で記録しています。
-    このアプリの初期コーパスは限られた資料群の観察であり、時代全体の「標準」を示すものではありません。
-  </div>
+  <details class="moreInfo">
+    <summary>出典・くわしい情報</summary>
+    <div class="note" style="margin-top:8px">
+      <a href="https://cid.ninjal.ac.jp/kana/list/" target="_blank" rel="noopener">学術情報交換用変体仮名</a> ／
+      <a href="https://cid.ninjal.ac.jp/hentaiganaDB/" target="_blank" rel="noopener">変体仮名字形データベース</a> ／
+      <a href="https://kotoba.ninjal.ac.jp/qa/yokuaru/qa-72/" target="_blank" rel="noopener">平仮名の成立について</a><br>
+      このアプリでは、公開資料をもとに確認した字形を表示しています。
+    </div>
+  </details>
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC3 ・ 変体仮名を換字暗号ではなく、実際の書記文化として学ぶための試作です。
+  vintage-kana / release candidate 1.0 RC25
 </footer>
 </div>
 
@@ -190,6 +402,7 @@ const VOICED_BASE={
  "ゔ":["う","\u3099"]
 };
 const SMALL_BASE={"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お","ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ"};
+const YOON_SMALL=new Set(["ゃ","ゅ","ょ"]);
 function composeInfo(ch){
  if(VOICED_BASE[ch]) return {input:ch,base:VOICED_BASE[ch][0],mark:VOICED_BASE[ch][1],small:false};
  if(SMALL_BASE[ch]) return {input:ch,base:SMALL_BASE[ch],mark:"",small:true};
@@ -201,21 +414,50 @@ function hasGlyphChoices(ch){
 }
 function renderSelectedToken(ch){
  const sel=selected[ch];
- if(!sel || sel.keep) return escapeHtml(ch);
+ const yoon=YOON_SMALL.has(ch);
+ if(!sel || sel.keep){
+   if(yoon && !yoonSmallEnabled) return escapeHtml(SMALL_BASE[ch]);
+   return escapeHtml(ch);
+ }
  const text=escapeHtml(sel.text);
- return sel.small?'<span class="smallGlyph">'+text+'</span>':text;
+ const shouldSmall=sel.small && (!yoon || yoonSmallEnabled);
+ return shouldSmall?'<span class="smallGlyph">'+text+'</span>':text;
 }
 const FALLBACK_GLYPHS=[{"kana":"あ","glyph_id":"U+1B004","character":"𛀄","jibo":"阿","totalObserved":391,"witnessCount":14},{"kana":"い","glyph_id":"U+1B006","character":"𛀆","jibo":"以","totalObserved":143,"witnessCount":9},{"kana":"い","glyph_id":"U+1B007","character":"𛀇","jibo":"伊","totalObserved":15,"witnessCount":2},{"kana":"う","glyph_id":"U+1B00A","character":"𛀊","jibo":"宇","totalObserved":6,"witnessCount":1},{"kana":"え","glyph_id":"U+1B00F","character":"𛀏","jibo":"盈","totalObserved":4,"witnessCount":2},{"kana":"え","glyph_id":"U+1B011","character":"𛀑","jibo":"衣","totalObserved":11,"witnessCount":3},{"kana":"え","glyph_id":"U+1B012","character":"𛀒","jibo":"衣","totalObserved":74,"witnessCount":9},{"kana":"お","glyph_id":"U+1B014","character":"𛀔","jibo":"於","totalObserved":1,"witnessCount":1},{"kana":"お","glyph_id":"U+1B015","character":"𛀕","jibo":"於","totalObserved":2,"witnessCount":2},{"kana":"か","glyph_id":"U+1B018","character":"𛀘","jibo":"加","totalObserved":29,"witnessCount":6},{"kana":"か","glyph_id":"U+1B019","character":"𛀙","jibo":"可","totalObserved":54,"witnessCount":10},{"kana":"か","glyph_id":"U+1B01A","character":"𛀚","jibo":"可","totalObserved":2880,"witnessCount":15},{"kana":"か","glyph_id":"U+1B01F","character":"𛀟","jibo":"閑","totalObserved":26,"witnessCount":2},{"kana":"き","glyph_id":"U+1B025","character":"𛀥","jibo":"幾","totalObserved":36,"witnessCount":8},{"kana":"き","glyph_id":"U+1B026","character":"𛀦","jibo":"支","totalObserved":76,"witnessCount":7},{"kana":"き","glyph_id":"U+1B02A","character":"𛀪","jibo":"起","totalObserved":321,"witnessCount":15},{"kana":"く","glyph_id":"U+1B02C","character":"𛀬","jibo":"久","totalObserved":96,"witnessCount":3},{"kana":"く","glyph_id":"U+1B030","character":"𛀰","jibo":"具","totalObserved":22,"witnessCount":5},{"kana":"け","glyph_id":"U+1B033","character":"𛀳","jibo":"介","totalObserved":839,"witnessCount":14},{"kana":"け","glyph_id":"U+1B034","character":"𛀴","jibo":"希","totalObserved":63,"witnessCount":5},{"kana":"け","glyph_id":"U+1B035","character":"𛀵","jibo":"氣","totalObserved":328,"witnessCount":2},{"kana":"け","glyph_id":"U+1B036","character":"𛀶","jibo":"計","totalObserved":6,"witnessCount":2},{"kana":"け","glyph_id":"U+1B037","character":"𛀷","jibo":"遣","totalObserved":72,"witnessCount":5},{"kana":"こ","glyph_id":"U+1B038","character":"𛀸","jibo":"古","totalObserved":155,"witnessCount":14},{"kana":"さ","glyph_id":"U+1B03E","character":"𛀾","jibo":"佐","totalObserved":218,"witnessCount":7},{"kana":"さ","glyph_id":"U+1B03F","character":"𛀿","jibo":"左","totalObserved":199,"witnessCount":3},{"kana":"し","glyph_id":"U+1B045","character":"𛁅","jibo":"之","totalObserved":3606,"witnessCount":15},{"kana":"し","glyph_id":"U+1B048","character":"𛁈","jibo":"志","totalObserved":744,"witnessCount":15},{"kana":"す","glyph_id":"U+1B04B","character":"𛁋","jibo":"壽","totalObserved":3,"witnessCount":3},{"kana":"す","glyph_id":"U+1B04C","character":"𛁌","jibo":"數","totalObserved":1,"witnessCount":1},{"kana":"す","glyph_id":"U+1B04E","character":"𛁎","jibo":"春","totalObserved":57,"witnessCount":2},{"kana":"す","glyph_id":"U+1B04F","character":"𛁏","jibo":"春","totalObserved":763,"witnessCount":13},{"kana":"す","glyph_id":"U+1B050","character":"𛁐","jibo":"須","totalObserved":5,"witnessCount":4},{"kana":"す","glyph_id":"U+1B051","character":"𛁑","jibo":"須","totalObserved":295,"witnessCount":13},{"kana":"せ","glyph_id":"U+1B052","character":"𛁒","jibo":"世","totalObserved":56,"witnessCount":6},{"kana":"せ","glyph_id":"U+1B055","character":"𛁕","jibo":"勢","totalObserved":43,"witnessCount":4},{"kana":"そ","glyph_id":"U+1B05A","character":"𛁚","jibo":"曾","totalObserved":296,"witnessCount":9},{"kana":"そ","glyph_id":"U+1B05B","character":"𛁛","jibo":"楚","totalObserved":17,"witnessCount":6},{"kana":"た","glyph_id":"U+1B05E","character":"𛁞","jibo":"堂","totalObserved":139,"witnessCount":8},{"kana":"た","glyph_id":"U+1B05F","character":"𛁟","jibo":"多","totalObserved":53,"witnessCount":12},{"kana":"た","glyph_id":"U+1B060","character":"𛁠","jibo":"多","totalObserved":2108,"witnessCount":15},{"kana":"ち","glyph_id":"U+1B062","character":"𛁢","jibo":"千","totalObserved":1,"witnessCount":1},{"kana":"ち","glyph_id":"U+1B063","character":"𛁣","jibo":"地","totalObserved":4,"witnessCount":3},{"kana":"ち","glyph_id":"U+1B066","character":"𛁦","jibo":"知","totalObserved":1,"witnessCount":1},{"kana":"つ","glyph_id":"U+1B069","character":"𛁩","jibo":"川","totalObserved":208,"witnessCount":13},{"kana":"つ","glyph_id":"U+1B06A","character":"𛁪","jibo":"川","totalObserved":152,"witnessCount":6},{"kana":"つ","glyph_id":"U+1B06B","character":"𛁫","jibo":"津","totalObserved":44,"witnessCount":12},{"kana":"つ","glyph_id":"U+1B06D","character":"𛁭","jibo":"徒","totalObserved":305,"witnessCount":15},{"kana":"て","glyph_id":"U+1B06E","character":"𛁮","jibo":"亭","totalObserved":3,"witnessCount":3},{"kana":"て","glyph_id":"U+1B070","character":"𛁰","jibo":"傳","totalObserved":2,"witnessCount":1},{"kana":"て","glyph_id":"U+1B073","character":"𛁳","jibo":"天","totalObserved":914,"witnessCount":15},{"kana":"て","glyph_id":"U+1B074","character":"𛁴","jibo":"帝","totalObserved":7,"witnessCount":4},{"kana":"と","glyph_id":"U+1B07B","character":"𛁻","jibo":"登","totalObserved":179,"witnessCount":10},{"kana":"な","glyph_id":"U+1B07F","character":"𛁿","jibo":"名","totalObserved":1,"witnessCount":1},{"kana":"な","glyph_id":"U+1B080","character":"𛂀","jibo":"奈","totalObserved":5,"witnessCount":3},{"kana":"な","glyph_id":"U+1B081","character":"𛂁","jibo":"奈","totalObserved":440,"witnessCount":14},{"kana":"な","glyph_id":"U+1B082","character":"𛂂","jibo":"奈","totalObserved":2189,"witnessCount":15},{"kana":"な","glyph_id":"U+1B084","character":"𛂄","jibo":"那","totalObserved":113,"witnessCount":8},{"kana":"な","glyph_id":"U+1B085","character":"𛂅","jibo":"那","totalObserved":112,"witnessCount":11},{"kana":"に","glyph_id":"U+1B087","character":"𛂇","jibo":"丹","totalObserved":180,"witnessCount":6},{"kana":"に","glyph_id":"U+1B088","character":"𛂈","jibo":"二","totalObserved":5,"witnessCount":2},{"kana":"に","glyph_id":"U+1B08B","character":"𛂋","jibo":"爾","totalObserved":874,"witnessCount":15},{"kana":"に","glyph_id":"U+1B08C","character":"𛂌","jibo":"爾","totalObserved":3802,"witnessCount":15},{"kana":"に","glyph_id":"U+1B08D","character":"𛂍","jibo":"耳","totalObserved":301,"witnessCount":7},{"kana":"に","glyph_id":"U+1B08E","character":"𛂎","jibo":"而","totalObserved":1,"witnessCount":1},{"kana":"ぬ","glyph_id":"U+1B091","character":"𛂑","jibo":"怒","totalObserved":28,"witnessCount":4},{"kana":"ね","glyph_id":"U+1B092","character":"𛂒","jibo":"年","totalObserved":42,"witnessCount":9},{"kana":"ね","glyph_id":"U+1B094","character":"𛂔","jibo":"年","totalObserved":56,"witnessCount":10},{"kana":"ね","glyph_id":"U+1B097","character":"𛂗","jibo":"禰","totalObserved":219,"witnessCount":14},{"kana":"の","glyph_id":"U+1B099","character":"𛂙","jibo":"乃","totalObserved":391,"witnessCount":9},{"kana":"の","glyph_id":"U+1B09A","character":"𛂚","jibo":"濃","totalObserved":61,"witnessCount":2},{"kana":"の","glyph_id":"U+1B09B","character":"𛂛","jibo":"能","totalObserved":80,"witnessCount":6},{"kana":"の","glyph_id":"U+1B09C","character":"𛂜","jibo":"能","totalObserved":335,"witnessCount":12},{"kana":"の","glyph_id":"U+1B09D","character":"𛂝","jibo":"農","totalObserved":52,"witnessCount":6},{"kana":"は","glyph_id":"U+1B09E","character":"𛂞","jibo":"八","totalObserved":2882,"witnessCount":15},{"kana":"は","glyph_id":"U+1B09F","character":"𛂟","jibo":"半","totalObserved":1,"witnessCount":1},{"kana":"は","glyph_id":"U+1B0A2","character":"𛂢","jibo":"盤","totalObserved":18,"witnessCount":2},{"kana":"は","glyph_id":"U+1B0A3","character":"𛂣","jibo":"盤","totalObserved":123,"witnessCount":12},{"kana":"は","glyph_id":"U+1B0A6","character":"𛂦","jibo":"者","totalObserved":1360,"witnessCount":15},{"kana":"ひ","glyph_id":"U+1B0A9","character":"𛂩","jibo":"悲","totalObserved":4,"witnessCount":1},{"kana":"ひ","glyph_id":"U+1B0AA","character":"𛂪","jibo":"日","totalObserved":146,"witnessCount":3},{"kana":"ひ","glyph_id":"U+1B0AF","character":"𛂯","jibo":"飛","totalObserved":78,"witnessCount":7},{"kana":"ふ","glyph_id":"U+1B0B1","character":"𛂱","jibo":"婦","totalObserved":27,"witnessCount":5},{"kana":"ふ","glyph_id":"U+1B0B2","character":"𛂲","jibo":"布","totalObserved":82,"witnessCount":4},{"kana":"へ","glyph_id":"U+1B0B6","character":"𛂶","jibo":"遍","totalObserved":87,"witnessCount":11},{"kana":"へ","glyph_id":"U+1B0B9","character":"𛂹","jibo":"部","totalObserved":1,"witnessCount":1},{"kana":"ほ","glyph_id":"U+1B0BB","character":"𛂻","jibo":"保","totalObserved":89,"witnessCount":7},{"kana":"ほ","glyph_id":"U+1B0C0","character":"𛃀","jibo":"本","totalObserved":445,"witnessCount":15},{"kana":"ま","glyph_id":"U+1B0C2","character":"𛃂","jibo":"万","totalObserved":257,"witnessCount":5},{"kana":"ま","glyph_id":"U+1B0C3","character":"𛃃","jibo":"末","totalObserved":16,"witnessCount":1},{"kana":"ま","glyph_id":"U+1B0C4","character":"𛃄","jibo":"末","totalObserved":172,"witnessCount":10},{"kana":"ま","glyph_id":"U+1B0C5","character":"𛃅","jibo":"滿","totalObserved":128,"witnessCount":9},{"kana":"ま","glyph_id":"U+1B0C6","character":"𛃆","jibo":"滿","totalObserved":80,"witnessCount":10},{"kana":"ま","glyph_id":"U+1B0C7","character":"𛃇","jibo":"萬","totalObserved":1,"witnessCount":1},{"kana":"み","glyph_id":"U+1B0C9","character":"𛃉","jibo":"三","totalObserved":775,"witnessCount":15},{"kana":"み","glyph_id":"U+1B0CE","character":"𛃎","jibo":"見","totalObserved":179,"witnessCount":7},{"kana":"む","glyph_id":"U+1B0D1","character":"𛃑","jibo":"無","totalObserved":88,"witnessCount":4},{"kana":"む","glyph_id":"U+1B0D3","character":"𛃓","jibo":"舞","totalObserved":25,"witnessCount":3},{"kana":"め","glyph_id":"U+1B0D4","character":"𛃔","jibo":"免","totalObserved":34,"witnessCount":6},{"kana":"も","glyph_id":"U+1B0D7","character":"𛃗","jibo":"母","totalObserved":1,"witnessCount":1},{"kana":"も","glyph_id":"U+1B0D9","character":"𛃙","jibo":"毛","totalObserved":579,"witnessCount":10},{"kana":"も","glyph_id":"U+1B0DA","character":"𛃚","jibo":"毛","totalObserved":1153,"witnessCount":15},{"kana":"も","glyph_id":"U+1B0DC","character":"𛃜","jibo":"裳","totalObserved":2,"witnessCount":2},{"kana":"や","glyph_id":"U+1B0DD","character":"𛃝","jibo":"也","totalObserved":412,"witnessCount":8},{"kana":"や","glyph_id":"U+1B0DE","character":"𛃞","jibo":"也","totalObserved":502,"witnessCount":4},{"kana":"や","glyph_id":"U+1B0DF","character":"𛃟","jibo":"屋","totalObserved":114,"witnessCount":5},{"kana":"ゆ","glyph_id":"U+1B0E4","character":"𛃤","jibo":"由","totalObserved":24,"witnessCount":4},{"kana":"ゆ","glyph_id":"U+1B0E5","character":"𛃥","jibo":"由","totalObserved":316,"witnessCount":13},{"kana":"ゆ","glyph_id":"U+1B0E6","character":"𛃦","jibo":"由","totalObserved":34,"witnessCount":3},{"kana":"よ","glyph_id":"U+1B0EA","character":"𛃪","jibo":"與","totalObserved":6,"witnessCount":2},{"kana":"よ","glyph_id":"U+1B0EB","character":"𛃫","jibo":"與","totalObserved":50,"witnessCount":5},{"kana":"ら","glyph_id":"U+1B0ED","character":"𛃭","jibo":"羅","totalObserved":42,"witnessCount":3},{"kana":"ら","glyph_id":"U+1B0EE","character":"𛃮","jibo":"良","totalObserved":4,"witnessCount":2},{"kana":"ら","glyph_id":"U+1B0F0","character":"𛃰","jibo":"良","totalObserved":1730,"witnessCount":9},{"kana":"り","glyph_id":"U+1B0F1","character":"𛃱","jibo":"利","totalObserved":2,"witnessCount":1},{"kana":"り","glyph_id":"U+1B0F2","character":"𛃲","jibo":"利","totalObserved":938,"witnessCount":1},{"kana":"り","glyph_id":"U+1B0F4","character":"𛃴","jibo":"梨","totalObserved":2,"witnessCount":1},{"kana":"り","glyph_id":"U+1B0F6","character":"𛃶","jibo":"里","totalObserved":1550,"witnessCount":15},{"kana":"る","glyph_id":"U+1B0D8","character":"𛃘","jibo":"留","totalObserved":2,"witnessCount":1},{"kana":"る","glyph_id":"U+1B0F8","character":"𛃸","jibo":"流","totalObserved":370,"witnessCount":6},{"kana":"る","glyph_id":"U+1B0F9","character":"𛃹","jibo":"留","totalObserved":28,"witnessCount":4},{"kana":"る","glyph_id":"U+1B0FA","character":"𛃺","jibo":"留","totalObserved":16,"witnessCount":4},{"kana":"る","glyph_id":"U+1B0FB","character":"𛃻","jibo":"留","totalObserved":3848,"witnessCount":15},{"kana":"る","glyph_id":"U+1B0FC","character":"𛃼","jibo":"累","totalObserved":198,"witnessCount":10},{"kana":"る","glyph_id":"U+1B0FD","character":"𛃽","jibo":"類","totalObserved":322,"witnessCount":12},{"kana":"れ","glyph_id":"U+1B0FE","character":"𛃾","jibo":"禮","totalObserved":226,"witnessCount":7},{"kana":"れ","glyph_id":"U+1B0FF","character":"𛃿","jibo":"禮","totalObserved":136,"witnessCount":5},{"kana":"れ","glyph_id":"U+1B100","character":"𛄀","jibo":"連","totalObserved":2174,"witnessCount":15},{"kana":"ろ","glyph_id":"U+1B106","character":"𛄆","jibo":"路","totalObserved":164,"witnessCount":8},{"kana":"わ","glyph_id":"U+1B109","character":"𛄉","jibo":"和","totalObserved":20,"witnessCount":2},{"kana":"わ","glyph_id":"U+1B10A","character":"𛄊","jibo":"和","totalObserved":203,"witnessCount":9},{"kana":"わ","glyph_id":"U+1B10B","character":"𛄋","jibo":"王","totalObserved":80,"witnessCount":7},{"kana":"わ","glyph_id":"U+1B10C","character":"𛄌","jibo":"王","totalObserved":353,"witnessCount":12},{"kana":"ゐ","glyph_id":"U+1B10D","character":"𛄍","jibo":"井","totalObserved":2,"witnessCount":1},{"kana":"ゐ","glyph_id":"U+1B10E","character":"𛄎","jibo":"井","totalObserved":50,"witnessCount":4},{"kana":"ゑ","glyph_id":"U+1B113","character":"𛄓","jibo":"衞","totalObserved":2,"witnessCount":1},{"kana":"を","glyph_id":"U+1B11A","character":"𛄚","jibo":"越","totalObserved":556,"witnessCount":15},{"kana":"を","glyph_id":"U+1B11C","character":"𛄜","jibo":"遠","totalObserved":3538,"witnessCount":15}];
-const FALLBACK_ATTESTED=[{"example_id":"att-brsk005-u1b012-brsk005-009-id0346-x0474-y2151","review_status":"human-confirmed","publication_status":"approved","character":"𛀒","kana":"え","jibo":"衣","source_witness":"brsk005","source_location":{"folio":"4オ","viewer_page":"brsk005-009","occurrence_image_id":"ID0346","x":474,"y":2151},"source_image_locator":"4オ","source_image_ref":"https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/jpg/brsk005-009.jpg","word":"見えず","transcription":"正字とは見えず"},{"example_id":"att-brsk005-u1b012-brsk005-014-id0153-x1181-y1197","review_status":"human-confirmed","publication_status":"approved","character":"𛀒","kana":"え","jibo":"衣","source_witness":"brsk005","source_location":{"folio":"6ウ","viewer_page":"brsk005-014","occurrence_image_id":"ID0153","x":1181,"y":1197},"source_image_locator":"6ウ","source_image_ref":"https://dglb01.ninjal.ac.jp/ninjaldl/buturuisyoko/005/jpg/brsk005-014.jpg","word":"見えない","transcription":"のべて見えないと云"},{"example_id":"att-hnsd001-u1b094-hnsd001-015-id0119-x1611-y1645","review_status":"human-confirmed","publication_status":"approved","character":"𛂔","kana":"ね","jibo":"年","source_witness":"hnsd001","source_location":{"folio":"3オ","viewer_page":"hnsd001-015","occurrence_image_id":"ID0119","x":1611,"y":1645,"sampling_strategy":"context10-witness-diversification"},"source_image_locator":"3オ","source_image_ref":"https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/jpg/hnsd001-015.jpg","word":"むね","transcription":"お春はむねをくるしめて"},{"example_id":"att-hnsd001-u1b094-hnsd001-026-id0111-x0522-y1719","review_status":"human-confirmed","publication_status":"approved","character":"𛂔","kana":"ね","jibo":"年","source_witness":"hnsd001","source_location":{"folio":"8ウ","viewer_page":"hnsd001-026","occurrence_image_id":"ID0111","x":522,"y":1719,"sampling_strategy":"context10-witness-diversification"},"source_image_locator":"8ウ","source_image_ref":"https://dglb01.ninjal.ac.jp/ninjaldl/hananosimadai/001/jpg/hnsd001-026.jpg","word":"かねて","transcription":"汲｛くみ｝とりかねておもはずもなみだに"}];
-const FALLBACK_SOURCES=[{"witness_id":"hnsd001","witness_name":"比翼連理花廼志満台　初編上","source_url":"https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/hnsd001/html/hnsd001-001.html","bibliographic_source_url":"https://dglb01.ninjal.ac.jp/ninjaldl/bunken.php?title=hananosimadai"},{"witness_id":"brsk005","witness_name":"諸国方言物類称呼　巻之五","source_url":"https://cid.ninjal.ac.jp/hentaiganaDB/viewer/data/brsk005/html/brsk005-003.html","bibliographic_source_url":"https://dglb01.ninjal.ac.jp/ninjaldl/bunken.php?title=buturuisyoko"}];
 
 let GLYPHS=[];
-let SOURCES=[];
-let ATTESTED=[];
 let currentFilter="あ";
 let quizEntry=null;
+let quizMode="reading";
+let composeMode="auto";
+let yoonSmallEnabled=false;
 let answered=false;
+let quizQuestionMethod="choice";
 const selected={};
+
+const LEARNING_RECORD_KEY="vintage-kana:learning-events:v1";
+// RC25のポイント規則: 正答10、誤答も挑戦として1。ポイントと習熟度は分離する。
+// 習熟度は選択式 / 自由入力の段階と日次上限を別途適用する。
+const QUIZ_SET_SIZE=5;
+const QUIZ_CORRECT_POINTS=10;
+const QUIZ_ATTEMPT_POINTS=1;
+const CHOICE_MASTERY_INCREMENT=5;
+const CHOICE_MASTERY_CAP=65;
+const FREE_INPUT_MASTERY_INCREMENT=9;
+const FREE_INPUT_MASTERY_CAP=90;
+const OVER_NINETY_MASTERY_INCREMENT=2;
+const DAILY_MASTERY_GAIN_CAP=20;
+const CHOICE_INCORRECT_DECREMENT=3;
+const FREE_INPUT_INCORRECT_DECREMENT=5;
+const JIBO_REVERSE_MASTERY_THRESHOLD=65;
+const KANA_ROWS=[
+  ["あ行",[..."あいうえお"]],["か行",[..."かきくけこ"]],["さ行",[..."さしすせそ"]],
+  ["た行",[..."たちつてと"]],["な行",[..."なにぬねの"]],["は行",[..."はひふへほ"]],
+  ["ま行",[..."まみむめも"]],["や行",[..."やゆよ"]],["ら行",[..."らりるれろ"]],
+  ["わ行",[..."わゐゑをん"]]
+];
+let learningEvents=loadLearningEvents();
+let quizSet=newQuizSet();
 
 function rowsOf(data){return data.distributions||data.records||[]}
 function shuffle(a){
@@ -227,61 +469,342 @@ function escapeHtml(s){
  return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 }
 
+function loadLearningEvents(){
+ try{
+   const parsed=JSON.parse(localStorage.getItem(LEARNING_RECORD_KEY)||"[]");
+   return Array.isArray(parsed)?parsed.filter(e=>e && (e.mode==="reading"||e.mode==="jibo") && (e.outcome==="correct"||e.outcome==="incorrect")):[];
+ }catch(e){
+   console.warn("learning record load failed",e);
+   return [];
+ }
+}
+function newQuizSet(){
+ return {
+   id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
+   answered:0,correct:0,glyphs:[]
+ };
+}
+function completedSetIds(){
+ const counts=new Map();
+ learningEvents.forEach(e=>{if(e.setId)counts.set(e.setId,(counts.get(e.setId)||0)+1)});
+ return new Set([...counts.entries()].filter(([,n])=>n>=QUIZ_SET_SIZE).map(([id])=>id));
+}
+function learningSummary(){
+ const completed=completedSetIds();
+ return learningEvents.reduce((s,e)=>{
+   s.attempts+=1;
+   if(e.outcome==="correct")s.correct+=1;
+   if(e.mode==="reading")s.reading+=1;
+   if(e.mode==="jibo")s.jibo+=1;
+   if(e.setId && completed.has(e.setId)){
+     s.points+=e.outcome==="correct"?QUIZ_CORRECT_POINTS:QUIZ_ATTEMPT_POINTS;
+   }
+   return s;
+ },{attempts:0,points:0,correct:0,reading:0,jibo:0});
+}
+function completedSetCount(){
+ return completedSetIds().size;
+}
+function formatPoints(value){
+ return String(value).replace(/\B(?=(\d{3})+(?!\d))/g,",");
+}
+function masteryDisplayLocal(score){
+ const percent=Math.max(0,Math.min(100,Math.trunc(score)));
+ if(percent===0)return {percent,color:"gray",css:"var(--mastery-gray)"};
+ if(percent<30)return {percent,color:"red",css:"var(--mastery-red)"};
+ if(percent<60)return {percent,color:"yellow",css:"var(--mastery-yellow)"};
+ if(percent<85)return {percent,color:"blue",css:"var(--mastery-blue)"};
+ return {percent,color:"green",css:"var(--mastery-green)"};
+}
+function localDateOf(value){
+ const d=value?new Date(value):new Date();
+ if(Number.isNaN(d.getTime()))return "";
+ const y=d.getFullYear();
+ const m=String(d.getMonth()+1).padStart(2,"0");
+ const day=String(d.getDate()).padStart(2,"0");
+ return y+"-"+m+"-"+day;
+}
+function legacyMasteryDelta(event){
+ return event.outcome==="correct"?12:1;
+}
+function computeGlyphMastery(character){
+ const events=learningEvents
+   .filter(e=>e.glyph===character)
+   .slice()
+   .sort((a,b)=>String(a.at||"").localeCompare(String(b.at||"")) || String(a.id||"").localeCompare(String(b.id||"")));
+ let score=0;
+ let ninetyReachedOn="";
+ const dailyPositive=new Map();
+ const seenSets=new Set();
+ for(const e of events){
+   const isRepeat=Boolean(e.setId && seenSets.has(e.setId));
+   if(e.setId)seenSets.add(e.setId);
+   const day=e.localDate||localDateOf(e.at);
+   if(!e.masteryMethod){
+     score=Math.max(0,Math.min(100,score+legacyMasteryDelta(e)));
+     if(score>=90 && !ninetyReachedOn)ninetyReachedOn=day;
+     continue;
+   }
+   if(e.outcome==="incorrect"){
+     const advanced=e.masteryMethod==="free-input"||e.masteryMethod==="jibo-reverse";
+     const loss=advanced?FREE_INPUT_INCORRECT_DECREMENT:CHOICE_INCORRECT_DECREMENT;
+     score=Math.max(0,score-loss);
+     continue;
+   }
+   let base=0;
+   let cap=0;
+   if(e.masteryMethod==="choice"){
+     base=CHOICE_MASTERY_INCREMENT;
+     cap=CHOICE_MASTERY_CAP;
+   }else if(score>=90){
+     if(!ninetyReachedOn || day===ninetyReachedOn)continue;
+     base=OVER_NINETY_MASTERY_INCREMENT;
+     cap=100;
+   }else{
+     base=FREE_INPUT_MASTERY_INCREMENT;
+     cap=FREE_INPUT_MASTERY_CAP;
+   }
+   if(isRepeat)base=Math.floor(base/2);
+   const used=dailyPositive.get(day)||0;
+   const dailyRoom=Math.max(0,DAILY_MASTERY_GAIN_CAP-used);
+   const gain=Math.min(base,dailyRoom,Math.max(0,cap-score));
+   if(gain>0){
+     score=Math.min(100,score+gain);
+     dailyPositive.set(day,used+gain);
+     if(score>=90 && !ninetyReachedOn)ninetyReachedOn=day;
+   }
+ }
+ return Math.round(score*100)/100;
+}
+function glyphLearningStats(){
+ const map=new Map();
+ learningEvents.forEach(e=>{
+   if(!e.glyph || !e.kana)return;
+   const current=map.get(e.glyph)||{
+     character:e.glyph,kana:e.kana,jibo:e.jibo||"",attempts:0,correct:0,incorrect:0,
+     reading:0,jiboCount:0,lastAt:""
+   };
+   current.attempts+=1;
+   if(e.outcome==="correct")current.correct+=1;else current.incorrect+=1;
+   if(e.mode==="reading")current.reading+=1;else current.jiboCount+=1;
+   if(!current.lastAt || String(e.at)>current.lastAt)current.lastAt=String(e.at||"");
+   map.set(e.glyph,current);
+ });
+ return [...map.values()].map(s=>{
+   const mastery=computeGlyphMastery(s.character);
+   return {...s,mastery,display:masteryDisplayLocal(mastery)};
+ });
+}
+function kanaMastery(kana){
+ const glyphs=GLYPHS.filter(g=>g.kana===kana);
+ if(!glyphs.length)return 0;
+ const stats=new Map(glyphLearningStats().map(s=>[s.character,s.mastery]));
+ const total=glyphs.reduce((sum,g)=>sum+(stats.get(g.character)||0),0);
+ return Math.round(total/glyphs.length);
+}
+function rowMastery(label,kanas){
+ const relevant=kanas.filter(k=>GLYPHS.some(g=>g.kana===k));
+ if(!relevant.length)return {label,percent:0,display:masteryDisplayLocal(0)};
+ const total=relevant.reduce((sum,k)=>sum+kanaMastery(k),0);
+ const percent=Math.round(total/relevant.length);
+ return {label,percent,display:masteryDisplayLocal(percent)};
+}
+function rowReviewKanas(kanas,rowPercent){
+ if(rowPercent<60)return [];
+ return kanas.filter(k=>GLYPHS.some(g=>g.kana===k) && kanaMastery(k)<60);
+}
+function recentGlyphStats(){
+ const stats=new Map(glyphLearningStats().map(s=>[s.character,s]));
+ const seen=new Set();
+ const recent=[];
+ for(let i=learningEvents.length-1;i>=0;i--){
+   const e=learningEvents[i];
+   if(!e.glyph || seen.has(e.glyph) || !stats.has(e.glyph))continue;
+   seen.add(e.glyph);recent.push(stats.get(e.glyph));
+   if(recent.length>=8)break;
+ }
+ return recent;
+}
+function weakGlyphStats(){
+ return glyphLearningStats()
+   .filter(s=>s.incorrect>0)
+   .sort((a,b)=>b.incorrect-a.incorrect || (b.incorrect/b.attempts)-(a.incorrect/a.attempts) || b.lastAt.localeCompare(a.lastAt))
+   .slice(0,8);
+}
+function glyphCardHtml(s){
+ return '<button type="button" class="recordGlyph" data-glyph-info data-character="'+escapeHtml(s.character)+'" data-kana="'+escapeHtml(s.kana)+'" data-jibo="'+escapeHtml(s.jibo||"")+'" aria-label="'+escapeHtml(s.character)+' の読みと字母を見る"><div class="recordGlyph__char">'+escapeHtml(s.character)+'</div></button>';
+}
+function bindGlyphInfoCards(root){
+ root?.querySelectorAll("[data-glyph-info]").forEach(card=>{
+   card.addEventListener("click",()=>showGlyphInfo(card.dataset.character||"",card.dataset.kana||"",card.dataset.jibo||""));
+ });
+}
+function showGlyphInfo(character,kana,jibo){
+ const dialog=document.getElementById("glyphInfoDialog");
+ document.getElementById("glyphInfoGlyph").textContent=character;
+ document.getElementById("glyphInfoKana").textContent=kana;
+ document.getElementById("glyphInfoJibo").textContent=jibo||"—";
+ if(dialog?.showModal)dialog.showModal();else dialog?.setAttribute("open","");
+}
+function rowGlyphMasteryHtml(kanas){
+ const statsByGlyph=new Map(glyphLearningStats().map(s=>[s.character,s]));
+ const glyphs=GLYPHS.filter(g=>kanas.includes(g.kana));
+ return glyphs.map(g=>{
+   const s=statsByGlyph.get(g.character);
+   const mastery=s?.mastery||0;
+   const display=masteryDisplayLocal(mastery);
+   return '<div class="glyphMasteryCard"><div class="glyphMasteryReading">'+escapeHtml(g.kana)+'</div><div class="glyphMasteryRing" style="--p:'+mastery+';--meter-color:'+display.css+'" role="meter" aria-label="変体仮名 '+escapeHtml(g.character)+'、読み '+escapeHtml(g.kana)+'、字母 '+escapeHtml(g.jibo)+'、習熟度 '+mastery+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'">'+
+     '<span class="glyphMasteryRing__center"><span class="glyphMasteryGlyph">'+escapeHtml(g.character)+'</span><span class="glyphMasteryJibo">'+escapeHtml(g.jibo)+'</span></span></div>'+
+     '<div class="glyphMasteryPercent">'+mastery+'%</div></div>';
+ }).join("");
+}
+function renderRecordScreen(){
+ const summary=learningSummary();
+ const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=String(value)};
+ set("recordPoints",formatPoints(summary.points));
+ set("recordSets",completedSetCount());
+ set("recordAttempts",summary.attempts);
+ set("recordCorrect",summary.correct);
+
+ const rows=document.getElementById("rowMastery");
+ if(rows){
+   rows.innerHTML="";
+   KANA_ROWS.forEach(([label,kanas])=>{
+     const row=rowMastery(label,kanas);
+     const review=rowReviewKanas(kanas,row.percent);
+     const d=document.createElement("details");
+     d.className="recordRowGroup";
+     d.innerHTML='<summary><span class="recordRow__head"><span class="recordRow__label">'+escapeHtml(row.label)+'</span>'+
+       (review.length?'<span class="recordReview">要確認　'+escapeHtml(review.join("・"))+'</span>':"")+
+       '</span><span class="ringMeter" style="--p:'+row.percent+';--meter-color:'+row.display.css+'" role="meter" aria-label="'+escapeHtml(row.label)+' 習熟度 '+row.percent+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+row.percent+'"><span>'+row.percent+'%</span></span></summary>'+
+       '<div class="rowGlyphMastery">'+rowGlyphMasteryHtml(kanas)+'</div>';
+     rows.appendChild(d);
+   });
+ }
+
+ const recent=document.getElementById("recentGlyphs");
+ if(recent){
+   const items=recentGlyphStats();
+   recent.innerHTML=items.length?items.map(glyphCardHtml).join(""):'<div class="emptyRecord">まだ記録がありません。</div>';
+    bindGlyphInfoCards(recent);
+ }
+ const weak=document.getElementById("weakGlyphs");
+ if(weak){
+   const items=weakGlyphStats();
+   weak.innerHTML=items.length?items.map(glyphCardHtml).join(""):'<div class="emptyRecord">まだ間違えた字はありません。</div>';
+    bindGlyphInfoCards(weak);
+ }
+}
+function showQuizScreen(screen){
+ const practice=document.getElementById("quizPractice");
+ const result=document.getElementById("quizResult");
+ const record=document.getElementById("quizRecord");
+ const buttons=document.querySelectorAll(".quizScreenBtn");
+ buttons.forEach(b=>b.classList.toggle("active",b.dataset.quizScreen===screen));
+ if(screen==="record"){
+   practice.hidden=true;result.hidden=true;record.hidden=false;
+   renderRecordScreen();
+ }else{
+   record.hidden=true;
+   if(quizSet.answered>=QUIZ_SET_SIZE){practice.hidden=true;result.hidden=false;renderQuizResult();}
+   else{result.hidden=true;practice.hidden=false;}
+ }
+}
+function renderSetProgress(){
+ const el=document.getElementById("setProgress");
+ if(el)el.textContent=Math.min(quizSet.answered+1,QUIZ_SET_SIZE)+" / "+QUIZ_SET_SIZE;
+}
+function renderQuizResult(){
+ const pts=document.getElementById("setPoints");
+ const meta=document.getElementById("setResultMeta");
+ const incorrect=Math.max(0,quizSet.answered-quizSet.correct);
+ const points=quizSet.correct*QUIZ_CORRECT_POINTS+incorrect*QUIZ_ATTEMPT_POINTS;
+ if(pts)pts.textContent="+"+formatPoints(points);
+ if(meta)meta.textContent=QUIZ_SET_SIZE+"問中 "+quizSet.correct+"問正解";
+}
+function showQuizResult(){
+ document.getElementById("quizPractice").hidden=true;
+ document.getElementById("quizRecord").hidden=true;
+ document.getElementById("quizResult").hidden=false;
+ renderQuizResult();
+}
+function restartQuizSet(){
+ quizSet=newQuizSet();
+ document.getElementById("quizResult").hidden=true;
+ document.getElementById("quizRecord").hidden=true;
+ document.getElementById("quizPractice").hidden=false;
+ document.querySelectorAll(".quizScreenBtn").forEach(b=>b.classList.toggle("active",b.dataset.quizScreen==="practice"));
+ newQuiz();
+}
+function recordLearningAttempt(mode,correct,masteryMethod){
+ const now=new Date();
+ learningEvents.push({
+   id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
+   at:now.toISOString(),
+   localDate:localDateOf(now),
+   setId:quizSet.id,
+   mode,
+   masteryMethod,
+   outcome:correct?"correct":"incorrect",
+   glyph:quizEntry?.character||"",
+   glyphId:quizEntry?.glyph_id||"",
+   kana:quizEntry?.kana||"",
+   jibo:quizEntry?.jibo||""
+ });
+ quizSet.answered+=1;
+ if(correct)quizSet.correct+=1;
+ try{localStorage.setItem(LEARNING_RECORD_KEY,JSON.stringify(learningEvents))}catch(e){console.warn("learning record save failed",e)}
+ renderSetProgress();
+}
+
 async function loadData(){
  let usedFallback=false;
  try{
-   let glyphData=null, attData=null, srcData=null;
-
+   let glyphData=null;
    try{
      const r=await fetch("./data/ui-glyph-master.json",{cache:"no-store"});
      if(r.ok) glyphData=await r.json();
    }catch(e){console.warn("glyph JSON fetch failed",e)}
    if(!glyphData){glyphData={glyphs:FALLBACK_GLYPHS};usedFallback=true;}
 
-   try{
-     const r=await fetch("./data/attested-examples.json",{cache:"no-store"});
-     if(r.ok) attData=await r.json();
-   }catch(e){console.warn("attested JSON fetch failed",e)}
-   if(!attData){attData={examples:FALLBACK_ATTESTED};usedFallback=true;}
-
-   try{
-     const r=await fetch("./data/sources.json",{cache:"no-store"});
-     if(r.ok) srcData=await r.json();
-   }catch(e){console.warn("sources JSON fetch failed",e)}
-   if(!srcData){srcData={sources:FALLBACK_SOURCES};usedFallback=true;}
-
    GLYPHS=(glyphData.glyphs||[])
      .sort((a,b)=>KANA_ORDER.indexOf(a.kana)-KANA_ORDER.indexOf(b.kana)||a.glyph_id.localeCompare(b.glyph_id));
-   ATTESTED=attData.examples||[];
-   SOURCES=srcData.sources||srcData||[];
 
-   const available=new Set(GLYPHS.map(x=>x.kana));
-   if(!available.has(currentFilter)) currentFilter=KANA_ORDER.find(k=>available.has(k))||"すべて";
-   renderFilters(); renderCards(); newQuiz(); renderCompose(); renderRead();
+   renderFilters(); renderCards(); newQuiz(); renderCompose();
 
-   const status=document.getElementById("dataStatus");
-   if(status){
-     status.textContent=usedFallback?"教材データ: 内蔵データで表示中":"教材データ: 読込済み";
-     status.classList.add(usedFallback?"fontWarn":"fontOk");
-   }
  }catch(err){
    console.error(err);
    document.getElementById("cards").innerHTML='<div class="empty error">教材データの初期化に失敗しました。ページを再読み込みしてください。</div>';
-   document.getElementById("readExamples").innerHTML='<div class="empty error">実例データを初期化できませんでした。</div>';
  }
 }
 
 function renderFilters(){
  const root=document.getElementById("filters");root.innerHTML="";
- ["すべて",...KANA_ORDER].forEach(k=>{
+ const makeButton=(k)=>{
    const b=document.createElement("button");
    b.className="kanaBtn"+(k===currentFilter?" active":"");
    b.textContent=k;
    b.onclick=()=>{currentFilter=k;renderFilters();renderCards()};
-   root.appendChild(b);
+   return b;
+ };
+ const all=document.createElement("div");
+ all.className="kanaFilterAll";
+ all.appendChild(makeButton("すべて"));
+ root.appendChild(all);
+ KANA_ROWS.forEach(([label,kanas])=>{
+   const row=document.createElement("div");
+   row.className="kanaFilterRow";
+   const rowLabel=document.createElement("div");
+   rowLabel.className="kanaFilterRow__label";
+   rowLabel.textContent=label;
+   row.appendChild(rowLabel);
+   const buttons=document.createElement("div");
+   buttons.className="kanaFilterRow__buttons";
+   kanas.forEach(k=>buttons.appendChild(makeButton(k)));
+   row.appendChild(buttons);
+   root.appendChild(row);
  });
 }
-
 function renderCards(){
  const root=document.getElementById("cards");
  const kanas=currentFilter==="すべて"?KANA_ORDER:[currentFilter];
@@ -291,150 +814,526 @@ function renderCards(){
    GLYPHS.filter(x=>x.kana===k).forEach(x=>rows.push({...x,isStandard:false}));
  });
 
- const variantCount=rows.filter(x=>!x.isStandard).length;
- const standardCount=rows.filter(x=>x.isStandard).length;
- document.getElementById("browseSummary").innerHTML=
-   '<span class="stat">通常の平仮名 '+standardCount+' 字体</span>'+
-   '<span class="stat">変体仮名 '+variantCount+' 字体</span>'+
-   '<span class="stat">観察済み音価 '+new Set(GLYPHS.map(x=>x.kana)).size+'</span>';
-
  root.innerHTML="";
  rows.forEach(e=>{
    const d=document.createElement("div");
    d.className="card"+(e.isStandard?" standardKana":"");
-   if(e.isStandard){
-     d.innerHTML='<div class="standardBadge">通常の平仮名</div>'+
-       '<div class="glyph">'+escapeHtml(e.character)+'</div>'+
-       '<div class="meta">対応する仮名　<b>'+escapeHtml(e.kana)+'</b><br>字母　<b>'+escapeHtml(e.jibo)+'</b></div>'+
-       '<div class="note" style="margin-top:6px">変体仮名ではありません。比較のため同じ字母体系の中に表示しています。</div>';
-   }else{
-     d.innerHTML='<div class="glyph">'+escapeHtml(e.character)+'</div>'+
-       '<div class="meta">対応する仮名　<b>'+escapeHtml(e.kana)+'</b><br>字母　<b>'+escapeHtml(e.jibo)+'</b></div>'+
-       '<div class="note" style="margin-top:6px">初期15資料で '+e.totalObserved.toLocaleString()+'件 / '+e.witnessCount+'資料に観察</div>';
-   }
+   d.innerHTML='<div class="glyph">'+escapeHtml(e.character)+'</div>'+
+     '<div class="meta">字母　<b>'+escapeHtml(e.jibo)+'</b></div>';
    root.appendChild(d);
  });
 }
 
+function allKanaForms(){
+ const standard=KANA_ORDER.map(kana=>({character:kana,kana,jibo:STANDARD_HIRAGANA_JIBO[kana]||"",isStandard:true}));
+ return [...standard,...GLYPHS.map(g=>({...g,isStandard:false}))];
+}
+function quizMethodForGlyph(character,mode=quizMode){
+ const mastery=computeGlyphMastery(character);
+ if(mode==="jibo" && mastery>=JIBO_REVERSE_MASTERY_THRESHOLD)return "jibo-reverse";
+ return mastery>=CHOICE_MASTERY_CAP?"free-input":"choice";
+}
+function kanaRowFor(kana){
+ return KANA_ROWS.find(([,kanas])=>kanas.includes(kana))?.[1]||[];
+}
+function focusedReadingPool(entry){
+ const row=kanaRowFor(entry.kana);
+ const focused=[...new Set(GLYPHS.filter(g=>row.includes(g.kana)).map(g=>g.kana))].filter(k=>k!==entry.kana);
+ const global=[...new Set(GLYPHS.map(g=>g.kana))].filter(k=>k!==entry.kana && !focused.includes(k));
+ return [...shuffle(focused),...shuffle(global)];
+}
+function focusedJiboPool(entry){
+ const row=kanaRowFor(entry.kana);
+ const focused=[...new Set(GLYPHS.filter(g=>row.includes(g.kana)).map(g=>g.jibo))].filter(j=>j!==entry.jibo);
+ const global=[...new Set(GLYPHS.map(g=>g.jibo))].filter(j=>j!==entry.jibo && !focused.includes(j));
+ return [...shuffle(focused),...shuffle(global)];
+}
+function reverseJiboChoices(entry){
+ const row=kanaRowFor(entry.kana);
+ const valid=allKanaForms().filter(f=>f.character!==entry.character && f.jibo!==entry.jibo);
+ const same=shuffle(valid.filter(f=>row.includes(f.kana)));
+ const other=shuffle(valid.filter(f=>!row.includes(f.kana)));
+ const standard=shuffle(valid.filter(f=>f.isStandard));
+ const picked=[];
+ const add=(f)=>{if(f && !picked.some(x=>x.character===f.character))picked.push(f)};
+ add(same[0]);
+ add(other[0]);
+ add(standard.find(f=>!picked.some(x=>x.character===f.character)));
+ shuffle(valid).forEach(add);
+ return shuffle([entry,...picked.slice(0,3)]);
+}
+function normalizeReadingAnswer(value){
+ return String(value||"").normalize("NFC").trim().replace(/[ァ-ヶ]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60));
+}
+function normalizeJiboAnswer(value){
+ return String(value||"").normalize("NFC").replace(/\s+/g,"").trim();
+}
 function newQuiz(){
  if(!GLYPHS.length)return;
- answered=false;document.getElementById("feedback").textContent="";
- quizEntry=GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
- document.getElementById("quizGlyph").textContent=quizEntry.character;
- const pool=[...new Set(GLYPHS.map(x=>x.jibo))].filter(x=>x!==quizEntry.jibo);
- const opts=shuffle([quizEntry.jibo,...shuffle(pool).slice(0,3)]);
- const root=document.getElementById("choices");root.innerHTML="";
- opts.forEach(j=>{
-   const b=document.createElement("button");b.className="choice";b.textContent=j;
-   b.onclick=()=>{
-     if(answered)return; answered=true;
-     [...root.children].forEach(x=>{if(x.textContent===quizEntry.jibo)x.classList.add("correct")});
-     if(j!==quizEntry.jibo)b.classList.add("wrong");
-     document.getElementById("feedback").textContent=
-       (j===quizEntry.jibo?"正解です。":"字母は「"+quizEntry.jibo+"」です。")+
-       " 対応する仮名は「"+quizEntry.kana+"」。初期資料群では"+quizEntry.totalObserved.toLocaleString()+"件観察されています。";
-   };
-   root.appendChild(b);
+ if(quizSet.answered>=QUIZ_SET_SIZE){showQuizResult();return}
+ answered=false;
+ renderSetProgress();
+
+ const next=document.getElementById("nextQuiz");
+ if(next){next.disabled=true;next.textContent="次の問題";}
+ document.getElementById("feedback").textContent="";
+
+ const available=GLYPHS.filter(g=>!quizSet.glyphs.includes(g.character));
+ const basePool=available.length?available:GLYPHS;
+ const advancedJibo=quizMode==="jibo"?basePool.filter(g=>computeGlyphMastery(g.character)>=JIBO_REVERSE_MASTERY_THRESHOLD):[];
+ const poolForQuestion=advancedJibo.length?advancedJibo:basePool;
+ quizEntry=poolForQuestion[Math.floor(Math.random()*poolForQuestion.length)];
+ quizSet.glyphs.push(quizEntry.character);
+ quizQuestionMethod=quizMethodForGlyph(quizEntry.character,quizMode);
+
+ const mastery=computeGlyphMastery(quizEntry.character);
+ const hint=document.getElementById("quizMethodHint");
+ if(hint)hint.textContent=quizQuestionMethod==="free-input"?"入力":"4択";
+
+ const quizGlyph=document.getElementById("quizGlyph");
+ const jiboPrompt=document.getElementById("jiboPrompt");
+ const jiboPromptGlyph=document.getElementById("jiboPromptGlyph");
+ const jiboAnswerReading=document.getElementById("jiboAnswerReading");
+ const jiboPromptSource=document.getElementById("jiboPromptSource");
+ const root=document.getElementById("choices");
+ const form=document.getElementById("quizFreeAnswer");
+ const input=document.getElementById("quizFreeInput");
+ const question=document.getElementById("quizQuestion");
+ root.innerHTML="";
+ root.classList.remove("glyphChoices");
+ form.hidden=true;
+ input.value="";
+ input.readOnly=false;
+ input.classList.remove("correct","wrong");
+ if(jiboAnswerReading){jiboAnswerReading.hidden=true;jiboAnswerReading.textContent="";}
+ if(jiboPromptSource)jiboPromptSource.textContent="？";
+
+ quizGlyph.textContent=quizEntry.character;
+ if(jiboPromptGlyph)jiboPromptGlyph.textContent=quizEntry.character;
+
+ function revealJiboAnswer(){
+   if(quizMode!=="jibo")return;
+   if(jiboPromptGlyph)jiboPromptGlyph.textContent=quizEntry.character;
+   if(jiboAnswerReading){jiboAnswerReading.textContent=quizEntry.kana;jiboAnswerReading.hidden=false;}
+   if(jiboPromptSource)jiboPromptSource.textContent=quizEntry.jibo;
+ }
+ function finishAnswer(correct,feedback){
+   revealJiboAnswer();
+   recordLearningAttempt(quizMode,correct,quizQuestionMethod);
+   document.getElementById("feedback").textContent=feedback;
+   if(next){
+     next.disabled=false;
+     next.textContent=quizSet.answered>=QUIZ_SET_SIZE?"結果を見る":"次の問題";
+   }
+ }
+
+ function configureFreeInput(){
+   root.hidden=true;
+   form.hidden=false;
+   input.placeholder=quizMode==="reading"?"読みを入力":"字母を入力";
+   input.setAttribute("aria-label",input.placeholder);
+   requestAnimationFrame(()=>input.focus());
+ } 
+ function configureChoice(opts,answer,{glyphChoices=false}={}){
+   root.hidden=false;
+   form.hidden=true;
+   root.classList.toggle("glyphChoices",glyphChoices);
+   opts.forEach(value=>{
+     const b=document.createElement("button");
+     b.className="choice";
+     b.type="button";
+     b.textContent=value;
+     b.onclick=()=>{
+       if(answered)return;
+       answered=true;
+       [...root.children].forEach(x=>{
+         x.disabled=true;
+         if(x.textContent===answer)x.classList.add("correct");
+       });
+       if(value!==answer)b.classList.add("wrong");
+       const correct=value===answer;
+       const feedback=quizMode==="reading"
+         ? (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")
+         : quizQuestionMethod==="jibo-reverse"
+           ? (correct?"正解です。":"正解は「"+quizEntry.character+"」です。")
+           : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
+       finishAnswer(correct,feedback);
+     };
+     root.appendChild(b);
+   });
+ }
+
+ if(quizMode==="reading"){
+   quizGlyph.hidden=false;
+   if(jiboPrompt)jiboPrompt.hidden=true;
+   question.hidden=false;
+   question.textContent="この文字は何と読む？";
+   if(quizQuestionMethod==="free-input"){
+     configureFreeInput();
+   }else{
+     const pool=mastery>=30?focusedReadingPool(quizEntry):shuffle([...new Set(GLYPHS.map(x=>x.kana))].filter(x=>x!==quizEntry.kana));
+     configureChoice(shuffle([quizEntry.kana,...pool.slice(0,3)]),quizEntry.kana);
+   }
+}else{
+   quizGlyph.hidden=true;
+   if(jiboPrompt)jiboPrompt.hidden=false;
+   if(quizQuestionMethod==="jibo-reverse"){
+     question.hidden=false;
+     question.textContent="この字母からできた平仮名はどれ？";
+     if(jiboPromptGlyph)jiboPromptGlyph.textContent="？";
+     if(jiboPromptSource)jiboPromptSource.textContent=quizEntry.jibo;
+     const forms=reverseJiboChoices(quizEntry);
+     configureChoice(forms.map(f=>f.character),quizEntry.character,{glyphChoices:true});
+   }else{
+     question.hidden=true;
+     question.textContent="";
+     if(quizQuestionMethod==="free-input"){
+       configureFreeInput();
+     }else{
+       const pool=mastery>=30?focusedJiboPool(quizEntry):shuffle([...new Set(GLYPHS.map(x=>x.jibo))].filter(x=>x!==quizEntry.jibo));
+       configureChoice(shuffle([quizEntry.jibo,...pool.slice(0,3)]),quizEntry.jibo);
+     }
+   }
+ }
+
+ form.onsubmit=e=>{
+   e.preventDefault();
+   if(answered || quizQuestionMethod!=="free-input")return;
+   const raw=input.value;
+   const normalized=quizMode==="reading"?normalizeReadingAnswer(raw):normalizeJiboAnswer(raw);
+   if(!normalized)return;
+   answered=true;
+   input.readOnly=true;
+   const expected=quizMode==="reading"?normalizeReadingAnswer(quizEntry.kana):normalizeJiboAnswer(quizEntry.jibo);
+   const correct=normalized===expected;
+   input.classList.toggle("correct",correct);
+   input.classList.toggle("wrong",!correct);
+   const feedback=quizMode==="reading"
+     ? (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")
+     : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
+   finishAnswer(correct,feedback);
+ };
+}
+
+function pickAutomatic(ch){
+ const info=composeInfo(ch);
+ const choices=GLYPHS.filter(x=>x.kana===info.base);
+ if(!choices.length) return {keep:true,text:ch,small:false};
+ const e=choices[Math.floor(Math.random()*choices.length)];
+ return {keep:false,text:e.character+info.mark,small:info.small};
+}
+
+function randomizeCompose(){
+ const text=document.getElementById("sourceText").value;
+ [...new Set([...text].filter(ch=>hasGlyphChoices(ch)))].forEach(ch=>{
+   selected[ch]=pickAutomatic(ch);
  });
+ renderCompose();
 }
 
 function renderCompose(){
  const text=document.getElementById("sourceText").value;
  const needed=[...new Set([...text].filter(ch=>hasGlyphChoices(ch)))];
- const rows=document.getElementById("composeRows");rows.innerHTML="";
+ const rows=document.getElementById("composeRows");
+ rows.innerHTML="";
+ rows.classList.toggle("autoHidden",composeMode==="auto");
 
- needed.forEach(k=>{
-   const info=composeInfo(k);
-   if(!(k in selected)) selected[k]={keep:true,text:k,small:false};
-
-   const row=document.createElement("div");row.className="composeRow";
-   const left=document.createElement("div");left.className="composeKana";left.textContent=k;
-   const cand=document.createElement("div");cand.className="candidates";
-
-   const keep=document.createElement("button");
-   keep.className="glyphChoice"+(selected[k]?.keep?" active":"");
-   keep.innerHTML='<span class="g">'+escapeHtml(k)+'</span><small>そのまま</small>';
-   keep.onclick=()=>{selected[k]={keep:true,text:k,small:false};renderCompose()};cand.appendChild(keep);
-
-   GLYPHS.filter(x=>x.kana===info.base).forEach(e=>{
-     const out=e.character+info.mark;
-     const active=!selected[k]?.keep && selected[k]?.text===out && !!selected[k]?.small===info.small;
-     const b=document.createElement("button");
-     b.className="glyphChoice"+(active?" active":"");
-     b.innerHTML='<span class="g'+(info.small?' smallGlyph':'')+'">'+escapeHtml(out)+'</span><small>'+
-       (info.small?'小書き表示 / ':'')+
-       '字母 '+escapeHtml(e.jibo)+' / '+e.totalObserved.toLocaleString()+'件'+
-       (info.mark==="\u3099"?' / 濁点':info.mark==="\u309A"?' / 半濁点':'')+
-       '</small>';
-     b.onclick=()=>{selected[k]={keep:false,text:out,small:info.small};renderCompose()};cand.appendChild(b);
+ if(composeMode==="auto"){
+   needed.forEach(k=>{
+     if(!(k in selected) || selected[k]?.keep) selected[k]=pickAutomatic(k);
    });
-   row.append(left,cand);rows.appendChild(row);
- });
+ }else{
+   needed.forEach(k=>{
+     const info=composeInfo(k);
+     if(!(k in selected) || selected[k]?.keep) selected[k]=pickAutomatic(k);
 
- if(!needed.length) rows.innerHTML='<div class="note">対応候補のある仮名を入力すると、ここに字体候補が表示されます。</div>';
+     const row=document.createElement("div");row.className="composeRow";
+     const left=document.createElement("div");left.className="composeKana";left.textContent=k;
+     const cand=document.createElement("div");cand.className="candidates";
+
+     const standard=document.createElement("button");
+     const standardText=YOON_SMALL.has(k) && !yoonSmallEnabled ? info.base : k;
+     standard.className="glyphChoice standardChoice"+(selected[k]?.keep?" active":"");
+     standard.innerHTML='<span class="g">'+escapeHtml(standardText)+'</span><small>普通のひらがな</small>';
+     standard.onclick=()=>{selected[k]={keep:true,text:k,small:false};renderCompose()};
+     cand.appendChild(standard);
+
+     GLYPHS.filter(x=>x.kana===info.base).forEach(e=>{
+       const out=e.character+info.mark;
+       const active=!selected[k]?.keep && selected[k]?.text===out && !!selected[k]?.small===info.small;
+       const b=document.createElement("button");
+       b.className="glyphChoice"+(active?" active":"");
+       const showSmall=info.small && (!YOON_SMALL.has(k) || yoonSmallEnabled);
+       b.innerHTML='<span class="g'+(showSmall?' smallGlyph':'')+'">'+escapeHtml(out)+'</span><small>'+
+         '字母 '+escapeHtml(e.jibo)+
+         (info.mark==="\u3099"?' / 濁点':info.mark==="\u309A"?' / 半濁点':'')+
+         '</small>';
+       b.onclick=()=>{selected[k]={keep:false,text:out,small:info.small};renderCompose()};cand.appendChild(b);
+     });
+     row.append(left,cand);rows.appendChild(row);
+   });
+ }
+
+ const floatingOriginal=document.getElementById("floatingOriginal");
+ if(floatingOriginal) floatingOriginal.innerHTML='<b>もとの文</b>　'+escapeHtml(text);
+ const smallOption=document.getElementById("smallKanaOption");
+ if(smallOption) smallOption.classList.toggle("show",composeMode==="manual");
+ const previewDock=document.getElementById("previewDock");
+ if(previewDock) previewDock.classList.toggle("manualSticky",composeMode==="manual");
  document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
+ requestAnimationFrame(updateStickyState);
+ const reroll=document.getElementById("rerollCompose");
+ if(reroll) reroll.style.display=composeMode==="auto"?"inline-flex":"none";
 }
+
+function isHentaiganaText(text){
+ const first=[...String(text||"")][0];
+ if(!first)return false;
+ const cp=first.codePointAt(0);
+ return cp>=0x1B000 && cp<=0x1B11E;
+}
+function outputTokenFor(ch){
+ const sel=selected[ch];
+ const yoon=YOON_SMALL.has(ch);
+ if(!sel || sel.keep){
+   if(yoon && !yoonSmallEnabled) return {text:SMALL_BASE[ch],small:false,hentaigana:false};
+   return {text:ch,small:false,hentaigana:false};
+ }
+ return {
+   text:sel.text,
+   small:sel.small && (!yoon || yoonSmallEnabled),
+   hentaigana:isHentaiganaText(sel.text)
+ };
+}
+function canvasFont(token,size){
+ return token.hentaigana
+   ? `${size}px "Noto Serif Hentaigana","Klee One","Yu Mincho",serif`
+   : `600 ${size}px "Klee One","Yu Mincho",serif`;
+}
+function roundedRect(ctx,x,y,w,h,r){
+ const rr=Math.min(r,w/2,h/2);
+ ctx.beginPath();
+ ctx.moveTo(x+rr,y);
+ ctx.arcTo(x+w,y,x+w,y+h,rr);
+ ctx.arcTo(x+w,y+h,x,y+h,rr);
+ ctx.arcTo(x,y+h,x,y,rr);
+ ctx.arcTo(x,y,x+w,y,rr);
+ ctx.closePath();
+}
+function layoutCanvasTokens(ctx,tokens,fontSize,maxWidth){
+ const lines=[[]];
+ let width=0;
+ for(const token of tokens){
+   if(token.text==="\n"){lines.push([]);width=0;continue}
+   const size=token.small?fontSize*.68:fontSize;
+   ctx.font=canvasFont(token,size);
+   const w=ctx.measureText(token.text).width+fontSize*.05;
+   if(width+w>maxWidth && lines.at(-1).length){lines.push([]);width=0}
+   lines.at(-1).push({...token,width:w,size});
+   width+=w;
+ }
+ return lines;
+}
+function drawTrackedText(ctx,text,centerX,y,font,spacing){
+ ctx.font=font;
+ const chars=[...text];
+ const widths=chars.map(ch=>ctx.measureText(ch).width);
+ const total=widths.reduce((a,b)=>a+b,0)+spacing*Math.max(0,chars.length-1);
+ let x=centerX-total/2;
+ chars.forEach((ch,i)=>{
+   ctx.fillText(ch,x,y);
+   x+=widths[i]+spacing;
+ });
+}
+function makePreviewDataUrl(){
+ const text=document.getElementById("sourceText").value;
+ if(!text.trim())return null;
+ const canvas=document.createElement("canvas");
+ canvas.width=1080;canvas.height=1080;
+ const ctx=canvas.getContext("2d");
+ if(!ctx)return null;
+
+ ctx.fillStyle="#f2efe8";
+ ctx.fillRect(0,0,1080,1080);
+ roundedRect(ctx,70,70,940,940,54);
+ ctx.fillStyle="#fffdf8";
+ ctx.fill();
+
+ const tokens=[...text].map(outputTokenFor);
+ const maxWidth=820;
+ let fontSize=150;
+ let lines=[];
+ while(fontSize>=70){
+   lines=layoutCanvasTokens(ctx,tokens,fontSize,maxWidth);
+   const lineHeight=fontSize*1.5;
+   if(lines.length*lineHeight<=700)break;
+   fontSize-=10;
+ }
+ const lineHeight=fontSize*1.5;
+ const blockHeight=lines.length*lineHeight;
+ let y=520-blockHeight/2+fontSize*.9;
+ ctx.fillStyle="#292b28";
+ ctx.textBaseline="alphabetic";
+
+ for(const line of lines){
+   const lineWidth=line.reduce((sum,t)=>sum+t.width,0);
+   let x=540-lineWidth/2;
+   for(const token of line){
+     ctx.font=canvasFont(token,token.size);
+     const yOffset=token.small?-fontSize*.12:0;
+     ctx.fillText(token.text,x,y+yOffset);
+     x+=token.width;
+   }
+   y+=lineHeight;
+ }
+
+ // 控えめな署名。本文から離し、細い罫と明朝で印刷物の奥付のように見せる。
+ ctx.strokeStyle="#c8c1b5";
+ ctx.lineWidth=2;
+ ctx.beginPath();
+ ctx.moveTo(462,918);
+ ctx.lineTo(618,918);
+ ctx.stroke();
+ ctx.fillStyle="#66755f";
+ ctx.textBaseline="alphabetic";
+ drawTrackedText(
+   ctx,
+   "変体仮名メーカー",
+   540,
+   958,
+   '600 24px "Klee One","Yu Mincho",serif',
+   3
+ );
+ return canvas.toDataURL("image/png");
+}
+
+function dataUrlToFile(dataUrl,filename){
+ const parts=dataUrl.split(",");
+ const mime=(parts[0].match(/data:([^;]+)/)||[])[1]||"image/png";
+ const bin=atob(parts[1]);
+ const bytes=new Uint8Array(bin.length);
+ for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+ return new File([bytes],filename,{type:mime});
+}
+
+function fallbackSaveImage(dataUrl,filename){
+ const ios=/iPad|iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
+ if(ios){
+   const w=window.open(dataUrl,"_blank");
+   const status=document.getElementById("saveStatus");
+   if(status)status.textContent=w?"画像を長押しして保存できます。":"画像を開けませんでした。もう一度お試しください。";
+   return;
+ }
+ const a=document.createElement("a");
+ a.href=dataUrl;a.download=filename;
+ document.body.appendChild(a);a.click();a.remove();
+ const status=document.getElementById("saveStatus");
+ if(status)status.textContent="画像を保存しました。";
+}
+
+function savePreviewImage(){
+ const status=document.getElementById("saveStatus");
+ if(document.fonts){
+   const pending=[];
+   if(!document.fonts.check('32px "Noto Serif Hentaigana"',"𛀒")){
+     pending.push(document.fonts.load('32px "Noto Serif Hentaigana"',"𛀒"));
+   }
+   if(!document.fonts.check('600 32px "Klee One"',"あいうえお")){
+     pending.push(document.fonts.load('600 32px "Klee One"',"あいうえお"));
+   }
+   if(pending.length){
+     if(status)status.textContent="字体を読み込んでいます。少し待って、もう一度押してください。";
+     Promise.allSettled(pending).then(()=>{
+       if(status)status.textContent="準備できました。もう一度押してください。";
+     });
+     return;
+   }
+ } const dataUrl=makePreviewDataUrl();
+ if(!dataUrl){if(status)status.textContent="ひらがなを入力してください。";return}
+ const stamp=new Date().toISOString().slice(0,10).replaceAll("-","");
+ const filename=`hentaigana-${stamp}.png`;
+ const file=dataUrlToFile(dataUrl,filename);
+
+ if(navigator.share && navigator.canShare?.({files:[file]})){
+   navigator.share({files:[file],title:"変体仮名メーカー"}).then(()=>{
+     if(status)status.textContent="画像を共有しました。";
+   }).catch(err=>{
+     if(err?.name==="AbortError"){if(status)status.textContent="";return}
+     fallbackSaveImage(dataUrl,filename);
+   });
+   return;
+ }
+ fallbackSaveImage(dataUrl,filename);
+}
+
+function updateStickyState(){
+ const dock=document.getElementById("previewDock");
+ if(!dock)return;
+ const compose=document.getElementById("compose");
+ const active=composeMode==="manual" && compose?.classList.contains("active");
+ const stuck=active && dock.getBoundingClientRect().top<=8 && window.scrollY>0;
+ dock.classList.toggle("isStuck",stuck);
+}
+
+window.addEventListener("scroll",updateStickyState,{passive:true});
+window.addEventListener("resize",updateStickyState);
 
 async function checkHentaiganaFont(){
- const el=document.getElementById("fontStatus");
- if(!el)return;
- if(!document.fonts){
-   el.textContent="字体フォント: ブラウザ確認不可";
-   el.classList.add("fontWarn");
-   return;
- }
- try{
-   await Promise.race([
-     document.fonts.load('32px "Noto Serif Hentaigana"',"𛀒"),
-     new Promise((_,reject)=>setTimeout(()=>reject(new Error("font timeout")),6000))
-   ]);
-   const ok=document.fonts.check('32px "Noto Serif Hentaigana"',"𛀒");
-   el.textContent=ok?"字体フォント: 読込済み":"字体フォント: 未読込";
-   el.classList.add(ok?"fontOk":"fontWarn");
- }catch(err){
-   el.textContent="字体フォント: 読込失敗";
-   el.classList.add("fontWarn");
- }
+ if(!document.fonts)return;
+ try{await document.fonts.load('32px "Noto Serif Hentaigana"',"𛀒");}catch(err){console.warn("hentaigana font load failed",err)}
 }
 
-function sourceFor(witness){return SOURCES.find(s=>s.witness_id===witness)||null}
-function renderRead(){
- const root=document.getElementById("readExamples");
- const rows=ATTESTED.filter(x=>x.review_status==="human-confirmed" && x.publication_status==="approved");
- if(!rows.length){
-   const checked=ATTESTED.filter(x=>x.review_status==="context-checked").length;
-   root.innerHTML='<div class="empty">公開用の人間確認を終えた実例はまだありません。<br>'+
-     '資料・翻字・原画像まで対応した候補は現在 <b>'+checked+'件</b> あり、公開確認を通したものからここに追加します。</div>';
-   return;
- }
- const grid=document.createElement("div");grid.className="readGrid";
- rows.forEach(e=>{
-   const src=sourceFor(e.source_witness);
-   const d=document.createElement("article");d.className="readCard";
-   const location=e.source_location?.folio||e.source_image_locator||e.source_location?.viewer_page||"";
-   const href=e.source_image_ref||src?.bibliographic_source_url||src?.source_url||"";
-   d.innerHTML='<div class="note">実際の資料を見て読んでみよう</div>'+
-     (href?'<div class="sourceImageFrame"><a href="'+escapeHtml(href)+'" target="_blank" rel="noopener"><img src="'+escapeHtml(href)+'" loading="lazy" alt="'+escapeHtml((src?.witness_name||e.source_witness)+' '+location+' 原資料画像')+'"></a><div class="sourceImageNote">'+escapeHtml(src?.witness_name||e.source_witness)+' '+escapeHtml(location)+' ／ 画像をクリックすると原画像を開きます。</div></div>':"")+
-     '<div class="readHead"><div class="readGlyph">'+escapeHtml(e.character)+'</div><div class="note">対応字体の代表表示<br>'+escapeHtml(src?.witness_name||e.source_witness)+' '+escapeHtml(location)+'</div></div>'+
-     '<details class="answer"><summary>答えを見る</summary><div class="answerBody">'+
-       '<div class="meta">対応する仮名 <b>'+escapeHtml(e.kana)+'</b>　字母 <b>'+escapeHtml(e.jibo)+'</b></div>'+
-       '<div class="note">※上のフォント字形は国語研DB上の対応字体の代表表示です。原資料の手書き字形と輪郭が完全一致するとは限りません。</div>'+
-       '<div class="readText">実資料中：'+escapeHtml(e.word||e.transcription||"")+'</div>'+
-       (e.transcription&&e.transcription!==e.word?'<div class="note">周辺翻字：'+escapeHtml(e.transcription)+'</div>':"")+
-       (href?'<div class="note" style="margin-top:8px"><a href="'+escapeHtml(href)+'" target="_blank" rel="noopener">原画像で確かめる</a></div>':"")+
-     '</div></details>';
-   grid.appendChild(d);
- });
- root.innerHTML="";root.appendChild(grid);
-}
 
-document.querySelectorAll(".tab[data-view]").forEach(b=>b.addEventListener("click",()=>{
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll("[data-view]").forEach(x=>x.classList.remove("active"));
  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
  b.classList.add("active");document.getElementById(b.dataset.view).classList.add("active");
+ if(b.dataset.view==="quiz")showQuizScreen("practice");
+ requestAnimationFrame(updateStickyState);
 }));
-document.getElementById("nextQuiz").onclick=newQuiz;
-document.getElementById("sourceText").addEventListener("input",renderCompose);
+document.querySelectorAll(".quizModeBtn").forEach(b=>b.addEventListener("click",()=>{
+ quizMode=b.dataset.quizMode;
+ document.querySelectorAll(".quizModeBtn").forEach(x=>x.classList.toggle("active",x===b));
+ showQuizScreen("practice");
+ if(quizSet.answered<QUIZ_SET_SIZE)newQuiz();
+}));
+document.querySelectorAll(".quizScreenBtn").forEach(b=>b.addEventListener("click",()=>{
+ showQuizScreen(b.dataset.quizScreen);
+}));
+document.getElementById("nextQuiz").onclick=()=>{
+ if(quizSet.answered>=QUIZ_SET_SIZE)showQuizResult();
+ else newQuiz();
+};
+document.getElementById("restartQuizSet").onclick=restartQuizSet;
+document.getElementById("openRecord").onclick=()=>showQuizScreen("record");
+document.getElementById("openHelp").onclick=()=>document.getElementById("helpDialog")?.showModal();
+document.getElementById("closeHelp").onclick=()=>document.getElementById("helpDialog")?.close();
+document.getElementById("backToPractice").onclick=()=>showQuizScreen("practice");
+document.getElementById("closeGlyphInfo").onclick=()=>{
+ const dialog=document.getElementById("glyphInfoDialog");
+ if(dialog?.close)dialog.close();else dialog?.removeAttribute("open");
+};
+document.querySelectorAll(".composeModeBtn").forEach(b=>b.addEventListener("click",()=>{
+ composeMode=b.dataset.composeMode;
+ document.querySelectorAll(".composeModeBtn").forEach(x=>x.classList.toggle("active",x===b));
+ if(composeMode==="auto"){
+   yoonSmallEnabled=false;
+   const toggle=document.getElementById("smallKanaToggle");
+   if(toggle) toggle.checked=false;
+   randomizeCompose();
+ }else{
+   renderCompose();
+ }
+}));
+document.getElementById("smallKanaToggle").addEventListener("change",e=>{
+ yoonSmallEnabled=e.target.checked;
+ renderCompose();
+});
+document.getElementById("rerollCompose").onclick=randomizeCompose;
+document.getElementById("saveImage").onclick=savePreviewImage;
+document.getElementById("sourceText").addEventListener("input",()=>{
+ if(composeMode==="auto") randomizeCompose(); else renderCompose();
+});
 checkHentaiganaFont();
 loadData();
 </script>
