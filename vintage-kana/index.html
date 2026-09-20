@@ -141,12 +141,12 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       <span class="composeModeLabel">仮名：</span>
       <div class="composeModes">
         <button class="composeModeBtn active" data-compose-mode="auto">おまかせ</button>
-        <button class="composeModeBtn" data-compose-mode="manual">自分で決める</button>
+        <button class="composeModeBtn" data-compose-mode="manual">自分で選ぶ</button>
       </div>
     </div>
+    <div id="originalText" class="originalText" style="display:none"><b>もとの文</b>　きょうはいいてんきですね</div>
     <div id="composeRows" class="composeRows autoHidden"></div>
     <div class="label">できあがり</div>
-    <div id="originalText" class="originalText"><b>もとの文</b>　きょうはいいてんきですね</div>
     <div id="preview" class="preview"></div>
     <div id="rerollWrap" class="actions"><button id="rerollCompose" class="btn">もう一度</button></div>
   </div>
@@ -186,7 +186,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC10
+  vintage-kana / release candidate 1.0 RC11
 </footer>
 </div>
 
@@ -409,7 +409,10 @@ function renderCompose(){
  }
 
  const original=document.getElementById("originalText");
- if(original) original.innerHTML='<b>もとの文</b>　'+escapeHtml(text);
+ if(original){
+   original.innerHTML='<b>もとの文</b>　'+escapeHtml(text);
+   original.style.display=composeMode==="manual"?"block":"none";
+ }
  document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
  const reroll=document.getElementById("rerollWrap");
  if(reroll) reroll.style.display=composeMode==="auto"?"flex":"none";
