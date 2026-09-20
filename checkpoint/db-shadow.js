@@ -639,6 +639,195 @@ function nextFormEvidence(text,hitEnd){
   return auditedNextFormEvidence(text,hitEnd) || sourceReviewedNextFormEvidence(text,hitEnd);
 }
 
+
+function morphologyProviderPolicy(){
+  return window.CHECKPOINT_DATA?.morphologyProviderPolicy||{};
+}
+
+function morphologyProviderConfig(){
+  const policy=morphologyProviderPolicy();
+  return {
+    minimumExactSurfaceLength:Number(policy?.exactSignalPolicy?.minimumSurfaceLength||2),
+    derivedSuffixLengths:Array.isArray(policy?.derivedSuffixPolicy?.suffixLengths)
+      ? policy.derivedSuffixPolicy.suffixLengths.filter(n=>Number.isInteger(n)&&n>=2)
+      : [3,2],
+    derivedSuffixMinimumSupport:Number(policy?.derivedSuffixPolicy?.minimumSupport||3),
+    requireUnanimousDerivedSignature:policy?.derivedSuffixPolicy?.requireUnanimousSignature!==false
+  };
+}
+
+function morphologyEvidenceMetadata(evidence){
+  const source=evidence?.evidence||"";
+  if(source==="audited_inflected_form_index_500.json"){
+    return {
+      evidenceTier:"audited-exact-resolver-eligible",
+      source,
+      matchMode:"exact",
+      resolverEligible:true
+    };
+  }
+  if(source==="source_reviewed_token_morphology.json"){
+    return {
+      evidenceTier:"secondary-reviewed-exact-resolver-support",
+      source,
+      matchMode:"exact",
+      resolverEligible:true
+    };
+  }
+  return {
+    evidenceTier:"unknown",
+    source:source||null,
+    matchMode:"exact",
+    resolverEligible:false
+  };
+}
+
+function fullAuditedMorphologyMatches(text,boundary,direction){
+  const surfaces=window.CHECKPOINT_DATA?.auditedInflectionEvidenceFull?.surfaces;
+  if(!Array.isArray(surfaces)) return [];
+  const cfg=morphologyProviderConfig();
+  const anchor=direction==="next" ? nextContentStart(text,boundary) : {start:boundary,skipped:""};
+  const matches=[];
+  for(const e of surfaces){
+    if(!e?.surface || !e.formConsensus || !e.posConsensus) continue;
+    if(Number(e.analysisSignatureCount||0)!==1) continue;
+    const chars=[...e.surface];
+    if(chars.length<cfg.minimumExactSurfaceLength) continue;
+    let start=null,end=null;
+    if(direction==="previous"){
+      start=boundary-e.surface.length;
+      end=boundary;
+      if(start<0 || text.slice(start,end)!==e.surface) continue;
+    }else{
+      start=anchor.start;
+      end=start+e.surface.length;
+      if(!text.startsWith(e.surface,start)) continue;
+    }
+    matches.push({
+      surface:e.surface,start,end,
+      form:e.formConsensus,
+      pos:e.posConsensus,
+      conjugationClass:e.classConsensus||null,
+      lemma:e.lemmaConsensus||null,
+      boundaryConfidence:e.boundaryConfidence||null,
+      analysisSignatureCount:e.analysisSignatureCount,
+      evidenceTier:"audited-corpus-exact-signal",
+      source:"audited_inflection_evidence_500_full.json",
+      evidence:"audited_inflection_evidence_500_full.json",
+      matchMode:"exact",
+      resolverEligible:false,
+      skippedBetween:direction==="next" ? anchor.skipped : ""
+    });
+  }
+  matches.sort((a,b)=>(b.surface.length-a.surface.length)||a.start-b.start);
+  return matches;
+}
+
+function stableDerivedSuffixMorphologyIndex(){
+  const full=window.CHECKPOINT_DATA?.auditedInflectionEvidenceFull;
+  const surfaces=full?.surfaces;
+  if(!Array.isArray(surfaces)) return new Map();
+  const cfg=morphologyProviderConfig();
+  const cacheKey=JSON.stringify({
+    sourceUpdated:full?.updated||null,
+    lengths:cfg.derivedSuffixLengths,
+    minimumSupport:cfg.derivedSuffixMinimumSupport,
+    unanimous:cfg.requireUnanimousDerivedSignature
+  });
+  if(window.CHECKPOINT_MORPH_SUFFIX_CACHE?.key===cacheKey){
+    return window.CHECKPOINT_MORPH_SUFFIX_CACHE.index;
+  }
+
+  const buckets=new Map();
+  for(const e of surfaces){
+    if(!e?.surface || !e.formConsensus || !e.posConsensus || !e.classConsensus) continue;
+    if(Number(e.analysisSignatureCount||0)!==1) continue;
+    const chars=[...e.surface];
+    for(const length of cfg.derivedSuffixLengths){
+      if(chars.length<length) continue;
+      const suffix=chars.slice(-length).join("");
+      const key=`${length}:${suffix}`;
+      if(!buckets.has(key)){
+        buckets.set(key,{
+          suffix,length,count:0,
+          signatures:new Set(),
+          examples:[]
+        });
+      }
+      const bucket=buckets.get(key);
+      bucket.count++;
+      bucket.signatures.add([e.posConsensus,e.formConsensus,e.classConsensus].join("|"));
+      if(bucket.examples.length<5) bucket.examples.push(e.surface);
+    }
+  }
+
+  const index=new Map();
+  for(const bucket of buckets.values()){
+    if(bucket.count<cfg.derivedSuffixMinimumSupport) continue;
+    if(cfg.requireUnanimousDerivedSignature && bucket.signatures.size!==1) continue;
+    if(bucket.signatures.size!==1) continue;
+    const [pos,form,conjugationClass]=[...bucket.signatures][0].split("|");
+    index.set(bucket.suffix,{
+      suffix:bucket.suffix,
+      length:bucket.length,
+      supportCount:bucket.count,
+      pos,form,conjugationClass,
+      examples:bucket.examples
+    });
+  }
+  window.CHECKPOINT_MORPH_SUFFIX_CACHE={key:cacheKey,index};
+  return index;
+}
+
+function derivedPreviousSuffixMorphologySignal(text,hitStart){
+  const cfg=morphologyProviderConfig();
+  const index=stableDerivedSuffixMorphologyIndex();
+  const matches=[];
+  for(const length of cfg.derivedSuffixLengths){
+    if(hitStart<length) continue;
+    const suffix=[...text.slice(0,hitStart)].slice(-length).join("");
+    const sig=index.get(suffix);
+    if(!sig) continue;
+    matches.push({
+      surface:suffix,
+      start:hitStart-suffix.length,
+      end:hitStart,
+      form:sig.form,
+      pos:sig.pos,
+      conjugationClass:sig.conjugationClass,
+      lemma:null,
+      supportCount:sig.supportCount,
+      examples:sig.examples,
+      evidenceTier:"corpus-derived-suffix-signal",
+      source:"audited_inflection_evidence_500_full.json",
+      evidence:"audited_inflection_evidence_500_full.json",
+      matchMode:"derived-suffix",
+      resolverEligible:false,
+      derivation:"unanimous POS/form/class suffix signature across audited 500-example corpus"
+    });
+  }
+  matches.sort((a,b)=>(b.surface.length-a.surface.length)||(b.supportCount-a.supportCount));
+  return matches[0]||null;
+}
+
+function passageIndependentMorphologySignal(text,boundary,direction){
+  if(direction==="previous"){
+    const trusted=previousFormEvidence(text,boundary);
+    if(trusted){
+      return {...trusted,...morphologyEvidenceMetadata(trusted)};
+    }
+    const fullExact=fullAuditedMorphologyMatches(text,boundary,"previous")[0]||null;
+    if(fullExact) return fullExact;
+    return derivedPreviousSuffixMorphologySignal(text,boundary);
+  }
+
+  const trusted=nextFormEvidence(text,boundary);
+  if(trusted){
+    return {...trusted,...morphologyEvidenceMetadata(trusted)};
+  }
+  return fullAuditedMorphologyMatches(text,boundary,"next")[0]||null;
+}
+
 function nextIndexedGrammarSignal(text,hitEnd){
   const entries=window.CHECKPOINT_DATA?.surfaceIndex?.surfaces;
   if(!Array.isArray(entries)) return null;
@@ -688,8 +877,8 @@ function localSyntaxFeaturesForHit(text,hit,boundaryHits){
     .sort((a,b)=>(b.end-b.start)-(a.end-a.start))[0]||null;
   const right=boundaries.filter(x=>x.start===hit.end)
     .sort((a,b)=>(b.end-b.start)-(a.end-a.start))[0]||null;
-  const prevMorph=previousFormEvidence(text,hit.start);
-  const nextMorph=nextFormEvidence(text,hit.end);
+  const prevMorph=passageIndependentMorphologySignal(text,hit.start,"previous");
+  const nextMorph=passageIndependentMorphologySignal(text,hit.end,"next");
   const rightRules=rightContextResolverRules(hit.surface);
   const matchedRightContextCue=[];
   for(const r of rightRules){
@@ -712,13 +901,19 @@ function localSyntaxFeaturesForHit(text,hit,boundaryHits){
     rightTrustedToken:rightToken,
     previousMorphology:prevMorph?{
       surface:prevMorph.surface,form:prevMorph.form,pos:prevMorph.pos||null,
-      conjugationClass:prevMorph.conjugationClass||null,evidence:prevMorph.evidence||null
+      conjugationClass:prevMorph.conjugationClass||null,evidence:prevMorph.evidence||null,
+      evidenceTier:prevMorph.evidenceTier||null,source:prevMorph.source||prevMorph.evidence||null,
+      matchMode:prevMorph.matchMode||"exact",resolverEligible:prevMorph.resolverEligible===true,
+      supportCount:prevMorph.supportCount||null
     }:null,
     nextMorphology:nextMorph?{
       surface:nextMorph.surface,start:nextMorph.start,end:nextMorph.end,
       form:nextMorph.form,pos:nextMorph.pos||null,
       conjugationClass:nextMorph.conjugationClass||null,
-      evidence:nextMorph.evidence||null,skippedBetween:nextMorph.skippedBetween||""
+      evidence:nextMorph.evidence||null,skippedBetween:nextMorph.skippedBetween||"",
+      evidenceTier:nextMorph.evidenceTier||null,source:nextMorph.source||nextMorph.evidence||null,
+      matchMode:nextMorph.matchMode||"exact",resolverEligible:nextMorph.resolverEligible===true,
+      supportCount:nextMorph.supportCount||null
     }:null,
     rightTokenRoleSignal:rightTokenRoleSignal(text,hit,rightToken,nextMorph),
     previousChars:before,
