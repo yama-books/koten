@@ -6,7 +6,6 @@ function openDrawer(hitOrHits, surfaceText){
   const displaySurface=(surfaceText && surfaceText.length>=(h.end-h.start)) ? surfaceText : h.pattern;
   currentSurfaceText=displaySurface;
   currentDrawerHits=orderDrawerPoints(normalized,displaySurface);
-  currentCompletedPointKeys=new Set();
   drawerNeedsRender=false;
   currentPointIndex=0;
   currentDrawerHit=currentPoint();
