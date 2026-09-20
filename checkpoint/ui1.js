@@ -335,7 +335,7 @@ function buildCandidateHtml(h){
       <div class="candidate-card">
         <div class="candidate-row">
           <div class="candidate-name">${i+1}. ${escapeHtml(g.name)}</div>
-          <button class="mini-toggle" type="button" data-target="focus-mini-${i}">＋ 補足</button>
+          <button class="mini-toggle" type="button" data-target="focus-mini-${i}">補足</button>
         </div>
         <div class="mini-detail" id="focus-mini-${i}">
           ${g.freq?`<div class="freq-badge">${escapeHtml(g.freq)}</div>`:""}
