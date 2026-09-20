@@ -115,7 +115,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .recordStats strong{color:var(--ink);font-variant-numeric:tabular-nums}
 .recordSection{margin:16px 0}
 .recordSection h3{margin:0 0 8px;font-size:13px}
-.recordRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.recordRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .recordRowGroup{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;min-width:0}
 .recordRowGroup[open]{grid-column:1/-1}
 .recordRowGroup summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;padding:10px 11px}
@@ -133,9 +133,9 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
 .recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center}
 .recordGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:34px;line-height:1.15}
-.glyphMasteryCard{aspect-ratio:1/1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:5px}
-.glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:70px;height:70px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
-.glyphMasteryRing::after{content:"";position:absolute;inset:6px;border-radius:50%;background:#fff}
+.glyphMasteryCard{aspect-ratio:1/1;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:4px}
+.glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:60px;height:60px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.glyphMasteryRing::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff}
 .glyphMasteryRing__center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
 .glyphMasteryGlyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:30px;line-height:1}
 .glyphMasteryJibo{margin-top:3px;color:var(--muted);font-size:9px;line-height:1.15}
