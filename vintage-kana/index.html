@@ -65,7 +65,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .kanaBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 4px;min-width:0}
 .kanaBtn.active{background:var(--accent2);color:var(--accent);border-color:var(--accent)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
-.card{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:125px}
+.card{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:125px;width:100%;color:var(--ink);text-align:left;font:inherit}
 .card.standardKana{background:#edf3f7;border-color:#b9cad5}
 .card.standardKana .glyph{font-family:var(--font-poem)}
 .glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:50px;line-height:1.15;margin-bottom:9px}
@@ -142,7 +142,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
 .recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center;cursor:pointer}
 .recordGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:34px;line-height:1.15}
-.glyphMasteryCard{position:relative;aspect-ratio:1/1.12;min-width:0;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:12px;background:#fff;padding:20px 4px 5px}
+.glyphMasteryCard{position:relative;aspect-ratio:1/1.12;min-width:0;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:12px;background:#fff;padding:20px 4px 5px;font:inherit;color:var(--ink);cursor:pointer}
 .glyphMasteryReading{position:absolute;top:5px;left:4px;z-index:2;font-family:var(--font-poem);font-size:10px;font-weight:700;line-height:1;color:var(--ink);background:rgba(255,255,255,.94);border-radius:999px;padding:0 1px}
 .glyphMasteryCore{display:flex;flex-direction:column;align-items:center;gap:3px;transform:translate(4px,8px)}
 .glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:56px;height:56px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
@@ -158,7 +158,8 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .glyphInfoDialog__meta{display:grid;grid-template-columns:auto auto;justify-content:center;gap:6px 14px;font-size:14px;line-height:1.6}
 .glyphInfoDialog__meta dt{color:var(--muted)}
 .glyphInfoDialog__meta dd{margin:0;font-family:var(--font-poem);font-size:20px}
-.glyphInfoDialog__note{margin:12px 0 0;padding:9px 10px;border-radius:10px;background:var(--accent2);color:var(--accent);font-size:11px;line-height:1.6;text-align:left}
+.glyphInfoDialog__note{margin:12px 0 0;padding:9px 10px;border-radius:10px;background:var(--accent2);color:var(--accent);font-size:11px;line-height:1.6;text-align:left;white-space:pre-line}
+.card[data-glyph-info]:focus-visible,.glyphMasteryCard:focus-visible{outline:3px solid rgba(53,107,158,.24);outline-offset:2px}
 .emptyRecord{color:var(--muted);font-size:11px;line-height:1.6}
 textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
 .composeModeLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 9px}
@@ -436,6 +437,8 @@ let composeMode="auto";
 let yoonSmallEnabled=false;
 let answered=false;
 let quizQuestionMethod="choice";
+let activeQuizScreen="practice";
+let recordReturnScreen="practice";
 const selected={};
 
 const LEARNING_RECORD_KEY="vintage-kana:learning-events:v1";
@@ -459,6 +462,11 @@ const KANA_ROWS=[
   ["ま行",[..."まみむめも"]],["や行",[..."やゆよ"]],["ら行",[..."らりるれろ"]],
   ["わ行",[..."わゐゑをん"]]
 ];
+const GLYPH_INFO_NOTES=new Map([
+  ["U+1B052","※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。現代の「を」は字母「遠」の系統です。"],
+  ["U+1B11A","※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。"],
+  ["U+1B11C","※この字は読みが「を」、字母が「遠」です。現代の「を」につながる字母の系統です。"]
+]);
 let learningEvents=loadLearningEvents();
 let quizSet=newQuizSet();
 
@@ -650,11 +658,14 @@ function showGlyphInfo(character,kana,jibo){
  document.getElementById("glyphInfoKana").textContent=kana;
  document.getElementById("glyphInfoJibo").textContent=jibo||"—";
  if(note){
-   const outsideOfficialCatalog=entry?.inOfficialCatalog===false;
-   note.hidden=!outsideOfficialCatalog;
-   note.textContent=outsideOfficialCatalog
-     ?"※この字形は、国立国語研究所「学術情報交換用変体仮名」の公式収録一覧には含まれないため、補足字形として表示しています。"
-     :"";
+   const notes=[];
+   if(entry?.inOfficialCatalog===false){
+     notes.push("※この字形は、国立国語研究所「学術情報交換用変体仮名」の公式収録一覧には含まれないため、補足字形として表示しています。");
+   }
+   const visualNote=entry?.glyph_id?GLYPH_INFO_NOTES.get(entry.glyph_id):"";
+   if(visualNote)notes.push(visualNote);
+   note.hidden=notes.length===0;
+   note.textContent=notes.join("\n");
  }
  if(dialog?.showModal)dialog.showModal();else dialog?.setAttribute("open","");
 }
@@ -665,9 +676,9 @@ function rowGlyphMasteryHtml(kanas){
    const s=statsByGlyph.get(g.character);
    const mastery=s?.mastery||0;
    const display=masteryDisplayLocal(mastery);
-   return '<div class="glyphMasteryCard"><div class="glyphMasteryReading">'+escapeHtml(g.kana)+'</div><div class="glyphMasteryCore"><div class="glyphMasteryRing" style="--p:'+mastery+';--meter-color:'+display.css+'" role="meter" aria-label="変体仮名 '+escapeHtml(g.character)+'、読み '+escapeHtml(g.kana)+'、字母 '+escapeHtml(g.jibo)+'、習熟度 '+mastery+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'">'+
+   return '<button type="button" class="glyphMasteryCard" data-glyph-info data-character="'+escapeHtml(g.character)+'" data-kana="'+escapeHtml(g.kana)+'" data-jibo="'+escapeHtml(g.jibo||"")+'" data-glyph-id="'+escapeHtml(g.glyph_id||"")+'" aria-label="'+escapeHtml(g.character)+' の読み・字母・注記を見る"><div class="glyphMasteryReading">'+escapeHtml(g.kana)+'</div><div class="glyphMasteryCore"><div class="glyphMasteryRing" style="--p:'+mastery+';--meter-color:'+display.css+'" role="meter" aria-label="変体仮名 '+escapeHtml(g.character)+'、読み '+escapeHtml(g.kana)+'、字母 '+escapeHtml(g.jibo)+'、習熟度 '+mastery+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'">'+
      '<span class="glyphMasteryRing__center"><span class="glyphMasteryGlyph">'+escapeHtml(g.character)+'</span><span class="glyphMasteryJibo">'+escapeHtml(g.jibo)+'</span></span></div>'+
-     '<div class="glyphMasteryPercent">'+mastery+'%</div></div></div>';
+     '<div class="glyphMasteryPercent">'+mastery+'%</div></div></button>';
  }).join("");
 }
 function renderRecordScreen(){
@@ -692,6 +703,7 @@ function renderRecordScreen(){
        '<div class="rowGlyphMastery">'+rowGlyphMasteryHtml(kanas)+'</div>';
      rows.appendChild(d);
    });
+   bindGlyphInfoCards(rows);
  }
 
  const recent=document.getElementById("recentGlyphs");
@@ -712,15 +724,26 @@ function showQuizScreen(screen){
  const result=document.getElementById("quizResult");
  const record=document.getElementById("quizRecord");
  const buttons=document.querySelectorAll(".quizScreenBtn");
- buttons.forEach(b=>b.classList.toggle("active",b.dataset.quizScreen===screen));
- if(screen==="record"){
+ activeQuizScreen=screen==="record"?"record":"practice";
+ buttons.forEach(b=>b.classList.toggle("active",b.dataset.quizScreen===activeQuizScreen));
+ if(activeQuizScreen==="record"){
    practice.hidden=true;result.hidden=true;record.hidden=false;
+   const back=document.getElementById("backToPractice");
+   if(back)back.textContent=recordReturnScreen==="result"?"結果に戻る":"練習に戻る";
    renderRecordScreen();
  }else{
    record.hidden=true;
    if(quizSet.answered>=QUIZ_SET_SIZE){practice.hidden=true;result.hidden=false;renderQuizResult();}
    else{result.hidden=true;practice.hidden=false;}
  }
+}
+function openQuizRecord(){
+ recordReturnScreen=document.getElementById("quizResult")?.hidden===false?"result":"practice";
+ showQuizScreen("record");
+}
+function returnFromRecord(){
+ if(recordReturnScreen==="result")showQuizResult();
+ else showQuizScreen("practice");
 }
 function renderSetProgress(){
  const el=document.getElementById("setProgress");
@@ -735,6 +758,8 @@ function renderQuizResult(){
  if(meta)meta.textContent=QUIZ_SET_SIZE+"問中 "+quizSet.correct+"問正解";
 }
 function showQuizResult(){
+ activeQuizScreen="practice";
+ document.querySelectorAll(".quizScreenBtn").forEach(b=>b.classList.toggle("active",b.dataset.quizScreen==="practice"));
  document.getElementById("quizPractice").hidden=true;
  document.getElementById("quizRecord").hidden=true;
  document.getElementById("quizResult").hidden=false;
@@ -742,6 +767,8 @@ function showQuizResult(){
 }
 function restartQuizSet(){
  quizSet=newQuizSet();
+ activeQuizScreen="practice";
+ recordReturnScreen="practice";
  document.getElementById("quizResult").hidden=true;
  document.getElementById("quizRecord").hidden=true;
  document.getElementById("quizPractice").hidden=false;
@@ -828,12 +855,22 @@ function renderCards(){
 
  root.innerHTML="";
  rows.forEach(e=>{
-   const d=document.createElement("div");
+   const d=document.createElement(e.isStandard?"div":"button");
    d.className="card"+(e.isStandard?" standardKana":"");
+   if(!e.isStandard){
+     d.type="button";
+     d.dataset.glyphInfo="";
+     d.dataset.character=e.character;
+     d.dataset.kana=e.kana;
+     d.dataset.jibo=e.jibo||"";
+     d.dataset.glyphId=e.glyph_id||"";
+     d.setAttribute("aria-label",e.character+" の読み・字母・注記を見る");
+   }
    d.innerHTML='<div class="glyph">'+escapeHtml(e.character)+'</div>'+
      '<div class="meta">字母　<b>'+escapeHtml(e.jibo)+'</b></div>';
    root.appendChild(d);
  });
+ bindGlyphInfoCards(root);
 }
 
 function allKanaForms(){
@@ -1300,7 +1337,7 @@ document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",(
  document.querySelectorAll("[data-view]").forEach(x=>x.classList.remove("active"));
  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
  b.classList.add("active");document.getElementById(b.dataset.view).classList.add("active");
- if(b.dataset.view==="quiz")showQuizScreen("practice");
+ if(b.dataset.view==="quiz")showQuizScreen(activeQuizScreen);
  requestAnimationFrame(updateStickyState);
 }));
 document.querySelectorAll(".quizModeBtn").forEach(b=>b.addEventListener("click",()=>{
@@ -1310,17 +1347,18 @@ document.querySelectorAll(".quizModeBtn").forEach(b=>b.addEventListener("click",
  if(quizSet.answered<QUIZ_SET_SIZE)newQuiz();
 }));
 document.querySelectorAll(".quizScreenBtn").forEach(b=>b.addEventListener("click",()=>{
- showQuizScreen(b.dataset.quizScreen);
+ if(b.dataset.quizScreen==="record")openQuizRecord();
+ else showQuizScreen("practice");
 }));
 document.getElementById("nextQuiz").onclick=()=>{
  if(quizSet.answered>=QUIZ_SET_SIZE)showQuizResult();
  else newQuiz();
 };
 document.getElementById("restartQuizSet").onclick=restartQuizSet;
-document.getElementById("openRecord").onclick=()=>showQuizScreen("record");
+document.getElementById("openRecord").onclick=openQuizRecord;
 document.getElementById("openHelp").onclick=()=>document.getElementById("helpDialog")?.showModal();
 document.getElementById("closeHelp").onclick=()=>document.getElementById("helpDialog")?.close();
-document.getElementById("backToPractice").onclick=()=>showQuizScreen("practice");
+document.getElementById("backToPractice").onclick=returnFromRecord;
 document.getElementById("closeGlyphInfo").onclick=()=>{
  const dialog=document.getElementById("glyphInfoDialog");
  if(dialog?.close)dialog.close();else dialog?.removeAttribute("open");

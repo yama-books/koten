@@ -444,6 +444,82 @@ try {
     await page.close();
   }
 
+  // Navigation contract: preserve the record sub-screen across top-level tabs,
+  // return to the screen that opened record, and expose audited glyph notes from browse.
+  {
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 390, height: 850 });
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+    await page.locator('[data-view="quiz"]').click();
+    await page.waitForSelector(".choice", { state: "visible" });
+
+    await page.evaluate(() => showQuizScreen("record"));
+    await page.locator('[data-view="browse"]').click();
+    await page.locator('[data-view="quiz"]').click();
+    const restoredRecord = await page.evaluate(() => ({
+      recordVisible: document.querySelector("#quizRecord")?.hidden === false,
+      practiceHidden: document.querySelector("#quizPractice")?.hidden === true,
+      recordTabActive: document.querySelector('[data-quiz-screen="record"]')?.classList.contains("active") === true,
+      backText: document.querySelector("#backToPractice")?.textContent?.trim() ?? "",
+    }));
+    if (!restoredRecord.recordVisible || !restoredRecord.practiceHidden || !restoredRecord.recordTabActive) {
+      add(390, "recordSubscreenRestoredAfterTopNav", restoredRecord);
+    }
+    if (restoredRecord.backText !== "練習に戻る") add(390, "recordReturnLabelPractice", restoredRecord);
+
+    await page.locator("#backToPractice").click();
+    const returnedPractice = await page.evaluate(() => ({
+      practiceVisible: document.querySelector("#quizPractice")?.hidden === false,
+      recordHidden: document.querySelector("#quizRecord")?.hidden === true,
+    }));
+    if (!returnedPractice.practiceVisible || !returnedPractice.recordHidden) add(390, "recordReturnsToPractice", returnedPractice);
+
+    await page.locator('[data-view="browse"]').click();
+    const detailCard = page.locator("#cards [data-glyph-info]").first();
+    if (await detailCard.count()) {
+      await detailCard.click();
+      await page.waitForFunction(() => document.querySelector("#glyphInfoDialog")?.open === true);
+      const browseDialog = await page.evaluate(() => ({
+        glyph: document.querySelector("#glyphInfoGlyph")?.textContent?.trim() ?? "",
+        kana: document.querySelector("#glyphInfoKana")?.textContent?.trim() ?? "",
+        jibo: document.querySelector("#glyphInfoJibo")?.textContent?.trim() ?? "",
+      }));
+      if (!browseDialog.glyph || !browseDialog.kana || !browseDialog.jibo) add(390, "browseGlyphDialogRoute", browseDialog);
+      await page.locator("#closeGlyphInfo").click();
+    } else {
+      add(390, "browseGlyphDialogCardPresent", false);
+    }
+
+    await page.evaluate(() => showGlyphInfo("𛁒", "せ", "世"));
+    await page.waitForFunction(() => document.querySelector("#glyphInfoDialog")?.open === true);
+    const lookalikeNote = await page.locator("#glyphInfoNote").textContent();
+    if (!lookalikeNote?.includes("現代の「を」とよく似た形") || !lookalikeNote.includes("読みは「せ」")) {
+      add(390, "lookalikeGlyphNote", lookalikeNote);
+    }
+    await page.locator("#closeGlyphInfo").click();
+
+    await page.locator('[data-view="quiz"]').click();
+    await page.evaluate(() => {
+      quizSet.answered = QUIZ_SET_SIZE;
+      quizSet.correct = 3;
+      showQuizResult();
+    });
+    await page.locator("#openRecord").click();
+    const resultOrigin = await page.evaluate(() => ({
+      recordVisible: document.querySelector("#quizRecord")?.hidden === false,
+      backText: document.querySelector("#backToPractice")?.textContent?.trim() ?? "",
+    }));
+    if (!resultOrigin.recordVisible || resultOrigin.backText !== "結果に戻る") add(390, "recordReturnLabelResult", resultOrigin);
+    await page.locator("#backToPractice").click();
+    const returnedResult = await page.evaluate(() => ({
+      resultVisible: document.querySelector("#quizResult")?.hidden === false,
+      recordHidden: document.querySelector("#quizRecord")?.hidden === true,
+    }));
+    if (!returnedResult.resultVisible || !returnedResult.recordHidden) add(390, "recordReturnsToResult", returnedResult);
+
+    await page.close();
+  }
+
   await context.close();
 } finally {
   await browser.close();

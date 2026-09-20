@@ -133,3 +133,26 @@ test("vintage-kana keeps U+1B11C mapped to を / 遠 in the current glyph master
   assert.equal(item.character, "𛄜");
   assert.equal(glyphMaster.glyphs.some((g: { glyph_id: string; kana: string }) => g.glyph_id === "U+1B11C" && g.kana === "せ"), false);
 });
+
+
+test("vintage-kana keeps quiz sub-navigation stable across top-level view changes", () => {
+  assert.match(html, /let activeQuizScreen="practice";/);
+  assert.match(html, /let recordReturnScreen="practice";/);
+  assert.match(html, /if\(b\.dataset\.view==="quiz"\)showQuizScreen\(activeQuizScreen\)/);
+  assert.match(html, /function openQuizRecord\(\)/);
+  assert.match(html, /recordReturnScreen=document\.getElementById\("quizResult"\)\?\.hidden===false\?"result":"practice"/);
+  assert.match(html, /function returnFromRecord\(\)/);
+  assert.match(html, /recordReturnScreen==="result"\)showQuizResult\(\)/);
+  assert.match(html, /back\.textContent=recordReturnScreen==="result"\?"結果に戻る":"練習に戻る"/);
+});
+
+test("vintage-kana glyph explanations are reachable from browse and mastery cards", () => {
+  assert.match(html, /document\.createElement\(e\.isStandard\?"div":"button"\)/);
+  assert.match(html, /d\.dataset\.glyphInfo=""/);
+  assert.match(html, /bindGlyphInfoCards\(root\)/);
+  assert.match(html, /<button type="button" class="glyphMasteryCard" data-glyph-info/);
+  assert.match(html, /bindGlyphInfoCards\(rows\)/);
+  assert.match(html, /\["U\+1B052","※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。/);
+  assert.match(html, /\["U\+1B11A","※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。/);
+  assert.match(html, /notes\.join\("\\\\n"\)/);
+});
