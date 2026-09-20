@@ -1,0 +1,32 @@
+name: Checkpoint Public Beta Smoke
+
+on:
+  push:
+    branches: [checkpoint-main]
+    paths:
+      - "checkpoint/**"
+      - "tests/unit/checkpoint-public-beta.test.mjs"
+      - ".github/workflows/checkpoint-public-beta.yml"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checkpoint-public-beta
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      - name: Checkpoint DOM and mobile contract smoke
+        run: node --test tests/unit/checkpoint-public-beta.test.mjs
