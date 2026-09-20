@@ -155,6 +155,37 @@ test('本文を変更すると「わかる」履歴を自動クリアする',asy
   dom.window.close();
 });
 
+test('仮名遣いの類例は文語の精査済み例を表示する',async()=>{
+  const dom=createCheckpointDom();
+  const {document}=dom.window;
+  await settle(dom);
+
+  const input=document.getElementById('input');
+  input.value='やうなり';
+  document.getElementById('checkLevel').value='4';
+  document.getElementById('analyze').click();
+
+  const item=[...document.querySelectorAll('.item[data-check]')].find(el=>
+    el.querySelector('.word')?.textContent.includes('やう')
+  );
+  assert.ok(item,'L1の仮名遣いポイントが表示される');
+  item.click();
+
+  document.getElementById('focusMainAction').click();
+  const examples=document.querySelector('[data-focus-tool="examples"]');
+  assert.ok(examples,'類例ボタンが表示される');
+  examples.click();
+
+  const text=document.getElementById('focusExtra').textContent;
+  for(const expected of ['まうす → もうす','まうづ → もうず','らうたし → ろうたし','らうらうじ → ろうろうじ','さうざうし → そうぞうし']){
+    assert.match(text,new RegExp(expected.replace(/[.*+?^$\{\}()|[\]\\]/g,'\\test('公開UIの文言と選択肢を簡潔に保つ',()=>{')));
+  }
+  for(const excluded of ['あふ → あう','たまふ → たもう','かう → こう']){
+    assert.equal(text.includes(excluded),false,`混乱しやすい例を出さない: ${excluded}`);
+  }
+  dom.window.close();
+});
+
 test('公開UIの文言と選択肢を簡潔に保つ',()=>{
   const html=readCheckpoint('index.html');
   const ui2=readCheckpoint('ui2.js');
