@@ -118,28 +118,36 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .recordRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .recordRowGroup{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;min-width:0}
 .recordRowGroup[open]{grid-column:1/-1}
-.recordRowGroup summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;padding:10px 11px}
+.recordRowGroup summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;padding:8px 10px}
 .recordRowGroup summary::-webkit-details-marker{display:none}
-.recordRowGroup:not([open]) summary{aspect-ratio:1/1;flex-direction:column;justify-content:center;text-align:center;padding:11px 7px}
-.recordRowGroup:not([open]) .recordRow__head{flex-direction:column;gap:3px}
+.recordRowGroup:not([open]) summary{min-height:116px;flex-direction:column;justify-content:center;text-align:center;padding:7px 6px}
+.recordRowGroup:not([open]) .recordRow__head{flex-direction:column;gap:2px}
 .recordRowGroup[open] summary{min-height:72px}
 .recordRow__label{font-weight:700;font-size:13px}
 .recordRow__head{display:flex;align-items:center;gap:8px;min-width:0}
 .recordReview{color:var(--danger);font-size:9px;font-weight:700;line-height:1.35}
 .rowGlyphMastery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-top:1px solid var(--line);padding:10px}
-.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
-.ringMeter::after{content:"";width:42px;height:42px;border-radius:50%;background:#fff}
-.ringMeter span{position:absolute;z-index:1;font-size:11px;font-variant-numeric:tabular-nums}
+.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.ringMeter::after{content:"";width:54px;height:54px;border-radius:50%;background:#fff}
+.ringMeter span{position:absolute;z-index:1;font-size:12px;font-variant-numeric:tabular-nums}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
-.recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center}
+.recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center;cursor:pointer}
 .recordGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:34px;line-height:1.15}
 .glyphMasteryCard{aspect-ratio:1/1;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:4px}
+.glyphMasteryReading{font-family:var(--font-poem);font-size:12px;line-height:1;color:var(--ink)}
 .glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:60px;height:60px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
 .glyphMasteryRing::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff}
 .glyphMasteryRing__center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
 .glyphMasteryGlyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:30px;line-height:1}
-.glyphMasteryJibo{margin-top:3px;color:var(--muted);font-size:9px;line-height:1.15}
+.glyphMasteryJibo{margin-top:3px;color:var(--muted);font-size:10px;line-height:1.15}
 .glyphMasteryPercent{font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.glyphInfoDialog{border:0;border-radius:18px;padding:0;max-width:min(320px,calc(100vw - 40px));width:100%;box-shadow:0 20px 60px rgba(43,39,31,.22);background:#fffdf8;color:var(--ink)}
+.glyphInfoDialog::backdrop{background:rgba(43,39,31,.28)}
+.glyphInfoDialog__body{padding:22px;text-align:center}
+.glyphInfoDialog__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:72px;line-height:1.1;margin-bottom:10px}
+.glyphInfoDialog__meta{display:grid;grid-template-columns:auto auto;justify-content:center;gap:6px 14px;font-size:14px;line-height:1.6}
+.glyphInfoDialog__meta dt{color:var(--muted)}
+.glyphInfoDialog__meta dd{margin:0;font-family:var(--font-poem);font-size:20px}
 .emptyRecord{color:var(--muted);font-size:11px;line-height:1.6}
 textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
 .composeModeLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 9px}
@@ -180,7 +188,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 @media(max-width:720px){button{min-height:44px}.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:380px){.learnHelp summary{width:44px;padding:0;justify-content:center}.learnHelp summary>span:last-child{display:none}.utilityTabs{flex:1;justify-content:flex-end}.tab{padding-inline:7px}.tab.navPrimary{padding-inline:9px}}
 @media(max-width:360px){.rowGlyphMastery{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:340px){.recordRowGroup:not([open]) summary{padding:10px 6px}.recordRow__label{font-size:12px}.ringMeter{width:48px;height:48px}.ringMeter::after{width:35px;height:35px}.ringMeter span{font-size:10px}}
+@media(max-width:340px){.recordRowGroup:not([open]) summary{min-height:104px;padding:6px 5px}.recordRow__label{font-size:12px}.ringMeter{width:66px;height:66px}.ringMeter::after{width:50px;height:50px}.ringMeter span{font-size:11px}}
 </style>
 </head>
 <body>
@@ -326,6 +334,17 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       </div>
     </div>
   </div>
+
+  <dialog id="glyphInfoDialog" class="glyphInfoDialog">
+    <div class="glyphInfoDialog__body">
+      <div id="glyphInfoGlyph" class="glyphInfoDialog__glyph"></div>
+      <dl class="glyphInfoDialog__meta">
+        <dt>読み</dt><dd id="glyphInfoKana"></dd>
+        <dt>字母</dt><dd id="glyphInfoJibo"></dd>
+      </dl>
+      <div class="actions"><button id="closeGlyphInfo" class="btn" type="button">閉じる</button></div>
+    </div>
+  </dialog>
 
 </section>
 
@@ -597,7 +616,19 @@ function weakGlyphStats(){
    .slice(0,8);
 }
 function glyphCardHtml(s){
- return '<div class="recordGlyph"><div class="recordGlyph__char">'+escapeHtml(s.character)+'</div></div>';
+ return '<button type="button" class="recordGlyph" data-glyph-info data-character="'+escapeHtml(s.character)+'" data-kana="'+escapeHtml(s.kana)+'" data-jibo="'+escapeHtml(s.jibo||"")+'" aria-label="'+escapeHtml(s.character)+' の読みと字母を見る"><div class="recordGlyph__char">'+escapeHtml(s.character)+'</div></button>';
+}
+function bindGlyphInfoCards(root){
+ root?.querySelectorAll("[data-glyph-info]").forEach(card=>{
+   card.addEventListener("click",()=>showGlyphInfo(card.dataset.character||"",card.dataset.kana||"",card.dataset.jibo||""));
+ });
+}
+function showGlyphInfo(character,kana,jibo){
+ const dialog=document.getElementById("glyphInfoDialog");
+ document.getElementById("glyphInfoGlyph").textContent=character;
+ document.getElementById("glyphInfoKana").textContent=kana;
+ document.getElementById("glyphInfoJibo").textContent=jibo||"—";
+ if(dialog?.showModal)dialog.showModal();else dialog?.setAttribute("open","");
 }
 function rowGlyphMasteryHtml(kanas){
  const statsByGlyph=new Map(glyphLearningStats().map(s=>[s.character,s]));
@@ -606,8 +637,8 @@ function rowGlyphMasteryHtml(kanas){
    const s=statsByGlyph.get(g.character);
    const mastery=s?.mastery||0;
    const display=masteryDisplayLocal(mastery);
-   return '<div class="glyphMasteryCard"><div class="glyphMasteryRing" style="--p:'+mastery+';--meter-color:'+display.css+'" role="meter" aria-label="変体仮名 '+escapeHtml(g.character)+'、字母 '+escapeHtml(g.jibo)+'、習熟度 '+mastery+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'">'+
-     '<span class="glyphMasteryRing__center"><span class="glyphMasteryGlyph">'+escapeHtml(g.character)+'</span><span class="glyphMasteryJibo">字母 '+escapeHtml(g.jibo)+'</span></span></div>'+
+   return '<div class="glyphMasteryCard"><div class="glyphMasteryReading">'+escapeHtml(g.kana)+'</div><div class="glyphMasteryRing" style="--p:'+mastery+';--meter-color:'+display.css+'" role="meter" aria-label="変体仮名 '+escapeHtml(g.character)+'、読み '+escapeHtml(g.kana)+'、字母 '+escapeHtml(g.jibo)+'、習熟度 '+mastery+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'">'+
+     '<span class="glyphMasteryRing__center"><span class="glyphMasteryGlyph">'+escapeHtml(g.character)+'</span><span class="glyphMasteryJibo">'+escapeHtml(g.jibo)+'</span></span></div>'+
      '<div class="glyphMasteryPercent">'+mastery+'%</div></div>';
  }).join("");
 }
@@ -639,11 +670,13 @@ function renderRecordScreen(){
  if(recent){
    const items=recentGlyphStats();
    recent.innerHTML=items.length?items.map(glyphCardHtml).join(""):'<div class="emptyRecord">まだ記録がありません。</div>';
+    bindGlyphInfoCards(recent);
  }
  const weak=document.getElementById("weakGlyphs");
  if(weak){
    const items=weakGlyphStats();
    weak.innerHTML=items.length?items.map(glyphCardHtml).join(""):'<div class="emptyRecord">まだ間違えた字はありません。</div>';
+    bindGlyphInfoCards(weak);
  }
 }
 function showQuizScreen(screen){
@@ -1196,6 +1229,10 @@ document.getElementById("nextQuiz").onclick=()=>{
 document.getElementById("restartQuizSet").onclick=restartQuizSet;
 document.getElementById("openRecord").onclick=()=>showQuizScreen("record");
 document.getElementById("backToPractice").onclick=()=>showQuizScreen("practice");
+document.getElementById("closeGlyphInfo").onclick=()=>{
+ const dialog=document.getElementById("glyphInfoDialog");
+ if(dialog?.close)dialog.close();else dialog?.removeAttribute("open");
+};
 document.querySelectorAll(".composeModeBtn").forEach(b=>b.addEventListener("click",()=>{
  composeMode=b.dataset.composeMode;
  document.querySelectorAll(".composeModeBtn").forEach(x=>x.classList.toggle("active",x===b));
