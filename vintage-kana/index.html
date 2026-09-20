@@ -106,13 +106,17 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .recordStats strong{color:var(--ink);font-variant-numeric:tabular-nums}
 .recordSection{margin:16px 0}
 .recordSection h3{margin:0 0 8px;font-size:13px}
-.recordRows{display:grid;grid-template-columns:1fr;gap:8px}
-.recordRowGroup{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
-.recordRowGroup summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;padding:8px 10px}
+.recordRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.recordRowGroup{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;min-width:0}
+.recordRowGroup[open]{grid-column:1/-1}
+.recordRowGroup summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;padding:9px 10px}
 .recordRowGroup summary::-webkit-details-marker{display:none}
+.recordRowGroup:not([open]) summary{aspect-ratio:1/1;flex-direction:column;justify-content:center;text-align:center;padding:10px 6px}
+.recordRowGroup:not([open]) .recordRow__head{flex-direction:column;gap:3px}
+.recordRowGroup[open] summary{min-height:68px}
 .recordRow__label{font-weight:700;font-size:12px}
-.recordRow__head{display:flex;align-items:center;gap:8px}
-.recordReview{color:var(--danger);font-size:9px;font-weight:700}
+.recordRow__head{display:flex;align-items:center;gap:8px;min-width:0}
+.recordReview{color:var(--danger);font-size:9px;font-weight:700;line-height:1.35}
 .rowGlyphMastery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;border-top:1px solid var(--line);padding:9px}
 .ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
 .ringMeter::after{content:"";width:35px;height:35px;border-radius:50%;background:#fff}
@@ -120,7 +124,6 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
 .recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center}
 .recordGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:34px;line-height:1.15}
-.recordGlyph__meta{margin-top:4px;color:var(--muted);font-size:9px;line-height:1.4}
 .masteryList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
 .masteryItem{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:7px}
 .masteryItem__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:31px;text-align:center}
@@ -164,7 +167,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:1fr}.rowGlyphMastery{grid-template-columns:1fr}.masteryList{grid-template-columns:1fr}}
+@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}.rowGlyphMastery{grid-template-columns:1fr}.masteryList{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -321,7 +324,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC23
+  vintage-kana / release candidate 1.0 RC24
 </footer>
 </div>
 
@@ -510,8 +513,7 @@ function weakGlyphStats(){
    .slice(0,8);
 }
 function glyphCardHtml(s){
- return '<div class="recordGlyph"><div class="recordGlyph__char">'+escapeHtml(s.character)+'</div>'+
-   '<div class="recordGlyph__meta">'+escapeHtml(s.jibo?"字母 "+s.jibo:"")+'</div></div>';
+ return '<div class="recordGlyph"><div class="recordGlyph__char">'+escapeHtml(s.character)+'</div></div>';
 }
 function rowGlyphMasteryHtml(kanas){
  const statsByGlyph=new Map(glyphLearningStats().map(s=>[s.character,s]));
@@ -521,7 +523,7 @@ function rowGlyphMasteryHtml(kanas){
    const mastery=s?.mastery||0;
    const display=masteryDisplayLocal(mastery);
    return '<div class="masteryItem"><div class="masteryItem__char">'+escapeHtml(g.character)+'</div>'+
-     '<div><div class="masteryItem__label"><span>'+escapeHtml(g.kana)+'・字母 '+escapeHtml(g.jibo||"—")+'</span><strong>'+mastery+'%</strong></div>'+
+     '<div><div class="masteryItem__label"><span>'+escapeHtml(g.kana)+'</span><strong>'+mastery+'%</strong></div>'+
      '<div class="masteryBar" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'"><span style="width:'+mastery+'%;--meter-color:'+display.css+'"></span></div></div></div>';
  }).join("");
 }
