@@ -200,6 +200,14 @@ try {
         percentText: percent?.textContent?.trim() ?? "",
         readingText: reading?.textContent?.trim() ?? "",
         readingRingGap: reading && ring ? ring.getBoundingClientRect().top - reading.getBoundingClientRect().bottom : -Infinity,
+        worstPercentOverflow: Math.max(
+          -Infinity,
+          ...cards.map((card) => {
+            const pct = card.querySelector(".glyphMasteryPercent");
+            if (!pct) return Infinity;
+            return pct.getBoundingClientRect().bottom - card.getBoundingClientRect().bottom;
+          }),
+        ),
         jiboText,
       };
     });
@@ -217,6 +225,7 @@ try {
     if (!record.percentOutsideRing) add(width, "recordPercentBelowRing", record);
     if (!record.readingText) add(width, "recordGlyphReadingPresent", record);
     if (!(record.readingRingGap >= 4)) add(width, "recordGlyphReadingRingGap", record);
+    if (!(record.worstPercentOverflow <= -2)) add(width, "recordGlyphPercentInsideCard", record);
     if (!record.jiboText || record.jiboText.startsWith("字母")) add(width, "recordGlyphJiboWithoutPrefix", record);
     if (record.meterValue !== "0" || record.percentText !== "0%") add(width, "recordGlyphMeterMatchesPercent", record);
 

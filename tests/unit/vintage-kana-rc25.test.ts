@@ -67,8 +67,8 @@ test("vintage-kana points stay hidden until the five-question result screen", ()
 test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 responsive columns", () => {
   assert.match(html, /\.rowGlyphMastery\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
   assert.match(html, /\.glyphMasteryCard\{[^}]*aspect-ratio:1\/1\.12;/);
-  assert.match(html, /\.glyphMasteryCard\{[^}]*padding:20px 4px 5px/);
-  assert.match(html, /\.glyphMasteryCore\{[^}]*transform:translate\(4px,8px\)/);
+  assert.match(html, /\.glyphMasteryCard\{[^}]*padding:22px 4px 6px/);
+  assert.match(html, /\.glyphMasteryCore\{[^}]*transform:translateX\(4px\)/);
   assert.match(html, /\.glyphMasteryGlyph\{[^}]*font-family:"Noto Serif Hentaigana"/);
   assert.match(html, /@media\(max-width:360px\)\{\.rowGlyphMastery\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}\}/);
   assert.match(html, /@media\(orientation:landscape\) and \(min-width:721px\)\{\.recordRows\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)\}\.rowGlyphMastery\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}\}/);
@@ -155,4 +155,39 @@ test("vintage-kana glyph explanations are reachable from browse and mastery card
   assert.match(html, /\["U\+1B052","※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。/);
   assert.match(html, /\["U\+1B11A","※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。/);
   assert.match(html, /notes\.join\("\\n"\)/);
+});
+
+test("vintage-kana small-kana toggle covers every small kana, not just yoon", () => {
+  // SMALL_BASE に載る小文字すべてがトグルの対象。拗音3字だけではない。
+  assert.match(html, /const SMALL_BASE=\{"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お","ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ"\};/);
+  assert.match(html, /const SMALL_TOGGLE_KANA=new Set\(Object\.keys\(SMALL_BASE\)\);/);
+
+  // 旧実装の痕跡が残っていないこと。
+  assert.doesNotMatch(html, /YOON_SMALL/);
+  assert.doesNotMatch(html, /yoonSmallEnabled/);
+
+  // チェックなし = すべて大文字（base）で描く。
+  assert.match(html, /if\(togglesSmall && !smallKanaEnabled\) return escapeHtml\(SMALL_BASE\[ch\]\);/);
+  assert.match(html, /if\(togglesSmall && !smallKanaEnabled\) return \{text:SMALL_BASE\[ch\],small:false,hentaigana:false\};/);
+
+  // チェックあり = 小さく描く。
+  assert.match(html, /const shouldSmall=sel\.small && \(!togglesSmall \|\| smallKanaEnabled\);/);
+  assert.match(html, /small:sel\.small && \(!togglesSmall \|\| smallKanaEnabled\),/);
+
+  // 「普通のひらがな」候補の見出しも同じ規則で切り替わる。
+  assert.match(html, /const standardText=SMALL_TOGGLE_KANA\.has\(k\) && !smallKanaEnabled \? info\.base : k;/);
+  assert.match(html, /const showSmall=info\.small && \(!SMALL_TOGGLE_KANA\.has\(k\) \|\| smallKanaEnabled\);/);
+
+  // 文言が拗音限定のままになっていないこと。
+  assert.doesNotMatch(html, /ゃ・ゅ・ょを小さく表示/);
+  assert.match(html, /ぁ・ぃ・ゅ などを小さく表示/);
+});
+
+test("vintage-kana mastery cards keep the percent inside the card", () => {
+  // 中央寄せ＋下方向オフセットだと、カード高が内容に足りず % が
+  // overflow:hidden で切れる。上端から積み、内容が収まる最小高を持たせる。
+  assert.match(html, /\.glyphMasteryCard\{position:relative;aspect-ratio:1\/1\.12;min-width:0;min-height:108px;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;/);
+  assert.match(html, /\.glyphMasteryCard\{[^}]*padding:22px 4px 6px;/);
+  assert.match(html, /\.glyphMasteryCore\{display:flex;flex-direction:column;align-items:center;gap:3px;transform:translateX\(4px\)\}/);
+  assert.doesNotMatch(html, /transform:translate\(4px,8px\)/);
 });
