@@ -2261,3 +2261,171 @@ GitHub Pages:
 
 再開指示:
 `vintage-kana-main HANDOFF §56〜§57から再開。G配色・字形監査3件・導線修正・せ/を注記は実装/CI/Pages公開済み。PR #15 merge 7fe2134、Pages success。まず実機確認し、次の追加修正かNINJAL残件へ進む。`
+
+## 58. 2026-09-21 ローカル再開・小書き仮名と習熟度%の修正（公開はpush待ち）
+
+ChatGPT側の §56〜§57 を受けてローカル `D:\dev\koten` で再開した。
+実装・検証は完了しているが、**push権限がないため公開は未完了**。詳細は末尾「公開が止まっている理由」。
+
+### 作業ディレクトリと分岐の整理
+
+`D:\dev\koten` は別作業（`worktree-qr-sync-engine`）が未コミット変更を抱えているため、
+vintage-kana は worktree で扱っている。
+
+```
+D:\dev\koten-vintage-kana     ← 作業用（npm ci 済み）
+D:\dev\koten-publish-tmp      ← 公開ブランチ組み立て用（一時）
+```
+
+§55時点のローカル作業（NINJAL監査ブランチのマージ）は GitHub 側に存在せず、
+ChatGPT が §56 で同じデータ修正3件を再適用したため、履歴が二重化していた。
+ローカル側の系統は破棄せず `backup-local-ninjal-merge-20260921`（`91ae986`）として保存し、
+公開済みの `origin/vintage-kana-main`（`8a02b81`）を正本として作業ブランチを切り直した。
+
+- 作業ブランチ: `vintage-kana-resume-20260921`（`origin/vintage-kana-main` から分岐）
+- 実装コミット: `2affb7b`
+
+**注意**: ローカルの `vintage-kana-main` ref は `91ae986` のまま取り残してある。
+正本は `origin/vintage-kana-main` と `vintage-kana-resume-20260921` のほう。
+
+`backup-local-ninjal-merge-20260921` にしか無いもの（GitHub側に未統合）:
+- `vintage-kana/data/ninjal-glyph-catalog.json`（公式293件）
+- `tools/ninjal-catalog/index.mjs`
+- `tests/unit/ninjal-glyph-catalog.test.ts`
+- NINJAL監査文書3点
+
+これらは `vintage-kana-ninjal-audit` ブランチにも残っているので、
+NINJAL残件へ進むときはそちらからマージし直せばよい。
+**データ修正3件（U+1B0D8 / U+1B0E6 / U+1B10C）は §56 で適用済みなので、重複適用しないこと。**
+マージ後は `tests/unit/ninjal-glyph-catalog.test.ts` の期待値を
+「不一致0件」へ更新する必要がある（監査時点の期待値のままだと赤くなる）。
+
+### 修正1: 小書き仮名のチェックを全小文字へ
+
+ユーザー指示。従来は拗音「ゃ・ゅ・ょ」の3字だけがチェックの対象で、
+「ぁぃぅぇぉっゎ」はチェックの有無にかかわらず常に小書きで描かれていた。
+
+- 対象集合を `SMALL_BASE` の全キー（`ぁぃぅぇぉゃゅょっゎ` の10字）へ広げた。
+  - 指示には `ぁぃぅぇぉっゃゅょ` の9字が挙がっていたが、`ゎ` も同じ小書き仮名であり
+    除外する理由がないため含めた。
+- **チェックなし = すべて大文字（`SMALL_BASE` の base）で表示**
+- **チェックあり = すべて小書きで表示**
+- 拗音限定ではなくなったため識別子を改名した。
+  - `YOON_SMALL` → `SMALL_TOGGLE_KANA`（`new Set(Object.keys(SMALL_BASE))`）
+  - `yoonSmallEnabled` → `smallKanaEnabled`
+  - ローカル変数 `yoon` → `togglesSmall`
+- 文言を「ゃ・ゅ・ょを小さく表示」→「ぁ・ぃ・ゅ などを小さく表示」へ変更。
+
+画面・保存Canvas・「普通のひらがな」候補の見出し、いずれも同じ規則で切り替わる。
+ブラウザ実測で確認済み。
+
+| 状態 | プレビュー内 `.smallGlyph` | 「普通のひらがな」候補の見出し |
+| --- | --- | --- |
+| チェックなし | 0個 | あいうえおつやゆよわ |
+| チェックあり | 10個 | ぁぃぅぇぉっゃゅょゎ |
+
+### 修正2: 各字カードで習熟度%が切れる
+
+実機報告（記録画面のスクリーンショット）で、各字カードの下端で `0%` が
+半分に切れていた。原因は配色でも文字数でもなく、カードの縦寸法。
+
+`.glyphMasteryCard` は `align-items:center` で内容を縦中央寄せしたうえで、
+`.glyphMasteryCore` を `translate(4px,8px)` でさらに下へずらしていた。
+内容高（予約20px + 円56px + gap3px + %15px + 下padding5px ≒ 99px）に対して
+カード高が `aspect-ratio:1/1.12` 由来で足りず、`overflow:hidden` で切れていた。
+
+390px幅・3列での実測: **8.1px はみ出し**。320pxと430pxでも食み出していた。
+
+修正:
+- `align-items:center` → `flex-start`（中央寄せをやめ、上端から積む）
+- `.glyphMasteryCore` の `transform:translate(4px,8px)` → `translateX(4px)`
+- `padding:20px 4px 5px` → `22px 4px 6px`
+- `min-height:0` → `min-height:108px`（内容が必ず収まる最小高）
+
+結果（390px・138枚すべて）:
+- %のはみ出し: **-11px**（カード内に11pxの余裕）
+- 読みラベル下端→円上端のギャップ: **7px**（既存の4px契約を維持）
+- `height >= width * 1.08` の既存契約も維持
+
+### QAの穴を塞いだ
+
+`tools/vintage-kana-check/index.mjs` は1枚目の**円**がカード内に収まるか
+（`ringContained`）しか見ておらず、**%が切れても検出できなかった**。
+全カードについて `%`の下端とカード下端の差を測り、2px以上内側にあることを
+検査する `recordGlyphPercentInsideCard` を追加した。
+
+この検査が空振りでないことは確認済み。修正前のCSSへ戻すと
+**320 / 390 / 430px の3幅で落ちる**（はみ出し 3.7px / 8.6px / 1.1px）。
+
+`tests/unit/vintage-kana-rc25.test.ts` にも2件追加。
+既存テストが旧padding・旧transformを固定していたため、同じコミットで更新した。
+
+### 検証結果（`D:\dev\koten-vintage-kana`、すべて成功）
+
+`check:eol` / `typecheck` / `lint` / `test`（15件のvintage-kanaテスト含む全件）/
+`data:check` / `build` / `scan:publish` / `check:overflow` /
+`check:font` / `check:font-assets` / `check:font-weight` /
+`check:vintage-kana`（320/360/390/430px、findings 0）
+
+### 公開が止まっている理由
+
+**`git push` が 403 で拒否される。**
+
+```
+remote: Permission to yama-books/koten.git denied to yama-books.
+fatal: ... The requested URL returned error: 403
+```
+
+`yama-books` として認証は通っているので、資格情報は存在する。
+拒否されているのは**書き込み権限**で、保存されているトークンに
+`repo`（または fine-grained の contents: write）が付いていない。
+`gh` CLI もこの環境には入っていないため、PR作成もできない。
+
+fetch は成功するので、読み取りだけ通る状態。
+
+### 公開するために残っている操作
+
+必要なものはすべてローカルに用意済み。push と PR だけが残っている。
+
+1. 開発ブランチを `vintage-kana-main` へ反映（fast-forward）
+
+```
+cd D:\dev\koten-vintage-kana
+git push origin vintage-kana-resume-20260921:vintage-kana-main
+```
+
+2. 公開ブランチを push
+
+```
+cd D:\dev\koten-publish-tmp
+git push -u origin publish-vintage-kana-20260921b
+```
+
+3. `publish-vintage-kana-20260921b` → `main` の PR を作成してマージ
+4. Deploy Pages の成功を確認
+
+公開ブランチは §52 の no-common-ancestor 手順どおり、最新 `main`（`f2ba8b7`）を起点に作ってある。
+
+- 公開ブランチ: `publish-vintage-kana-20260921b`
+- commit: `1488c5a`
+- 公開差分: **`vintage-kana/index.html` の1ファイルのみ**（15行増15行減）
+- 公開後の想定 blob: `de8c89157ad35e343dae1a321f193bcf0dcee6f2`
+- 他アプリへの変更なし
+
+push後、`main` 上の `vintage-kana/index.html` blob が `de8c891...` になれば反映完了。
+
+### 残件
+
+- 公開（上記の push と PR）
+- NINJAL §7 の 4以降: `observed` 導入 → プール固定 → 公式265件投入 →
+  混同ペア表 → 字母逆引きの複数正解 → Unicode未付与28件の一覧
+- `SOURCES.md` の「264字体」を「293行／うちUnicode付き265」へ更新
+- 国立国語研究所への字形画像の利用許諾照会
+- 配色比較ページ（参考）: `https://claude.ai/artifact/28rQC3rmZYNunjrcRXPA6c`
+
+### 後片付け
+
+- `D:\dev\koten` の `.claude/launch.json` に足していたプレビュー用サーバ設定は元に戻した。
+- `D:\dev\koten-publish-tmp` は公開ブランチを組み立てるための一時worktree。
+  push後は `git worktree remove D:\dev\koten-publish-tmp` で片付けてよい
+  （ブランチ自体はworktreeを消しても残る）。
