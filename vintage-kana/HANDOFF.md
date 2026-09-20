@@ -943,3 +943,23 @@ JavaScript構文PASS。
 
 現行 index.html: release candidate 1.0 RC19
 JavaScript構文PASS。
+
+
+## 38. RC20 / 3メニューを小型ナビへ統一
+
+「書いてみる / 字形 / 習得する」を右上の小型ナビへ統合。
+大型の「書いてみる」ボタンは撤廃。
+
+選択中:
+- 濃い緑背景
+- 白文字
+
+非選択:
+- 白背景
+- muted文字
+
+これにより習得モードでも「書いてみる」が過度に目立たず、
+現在選択中の機能が一目で分かる。
+
+現行 index.html: release candidate 1.0 RC20
+JavaScript構文PASS。
