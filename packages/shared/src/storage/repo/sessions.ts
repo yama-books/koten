@@ -1,8 +1,11 @@
 import type { Session } from '../../domain/event.ts';
-import { runTransaction, type StorageResult } from '../db.ts';
+import { runTransaction, runWriteTransaction, type StorageResult } from '../db.ts';
 
-export function saveSession(database: IDBDatabase, session: Session): Promise<StorageResult<IDBValidKey>> {
-  return runTransaction(database, 'sessions', 'readwrite', (store) => store.put(session));
+export function saveSession(database: IDBDatabase, session: Session): Promise<StorageResult<undefined>> {
+  return runWriteTransaction(database, ['sessions', 'syncOutbox'], (stores) => {
+    stores.sessions.put(session);
+    stores.syncOutbox.put({ syncOutboxId: session.sessionId, kind: 'sessions', recordId: session.sessionId });
+  });
 }
 
 export function listSessions(database: IDBDatabase): Promise<StorageResult<Session[]>> {

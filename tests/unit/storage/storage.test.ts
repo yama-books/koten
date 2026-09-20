@@ -183,6 +183,10 @@ function createEventRepositoryDatabase(records: Map<string, Event>): IDBDatabase
         if (records.has(value.eventId)) {
           request.error = new DOMException('duplicate key', 'ConstraintError');
           request.onerror?.(new globalThis.Event('error'));
+          // 実物のIndexedDBは、リクエストの失敗をpreventDefaultしなければトランザクションごと中止する。
+          // appendEventがrunWriteTransaction(複数ストア)へ変わったため、リクエスト単体のonerrorだけでは
+          // (runWriteTransactionはtransaction.onerror/oncompleteしか見ない)Promiseが解決されずハングしていた。
+          transaction.onerror?.(new globalThis.Event('error'));
         } else {
           records.set(value.eventId, value);
           request.onsuccess?.(new globalThis.Event('success'));
