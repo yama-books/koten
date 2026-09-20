@@ -921,3 +921,16 @@ index.html:
 
 背景色: #f2efe8
 現行 index.html: release candidate 1.0 RC17
+
+
+## 36. RC18 / 補助機能を右上小ボタン化
+
+補助機能の見せ方を整理。
+
+- 「おまけ」表記を削除
+- 右上に「字形」「クイズ」の小型ボタン
+- 左上に「変体仮名とは？」ヘルプ
+- 主機能「書いてみる」は大ボタンのまま
+
+現行 index.html: release candidate 1.0 RC18
+JavaScript構文PASS。
