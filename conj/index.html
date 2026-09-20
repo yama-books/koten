@@ -1525,6 +1525,61 @@ td.wrong{background:var(--bad)!important}
   }
 }
 
+
+/* ===== v40: alignment + compact record refinements ===== */
+/* 縦書きの活用形名は、行ボックスを列幅いっぱいにして常に中央へ置く。 */
+.katsuyo th.label{
+  text-align:center !important;
+  line-height:36px !important;
+}
+
+/* 採点前の白枠・固定表示も採点後と同じ中心軸に固定する。 */
+.katsuyo.one-track td.single > .cell-answer-wrap,
+.katsuyo.one-track td.single > .display,
+.combo-slot > .cell-answer-wrap,
+.combo-slot > .display{
+  margin-inline:auto;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.katsuyo.one-track td.single .blank-frame,
+.combo-slot .blank-frame{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* 記録画面のポイントは反転表示にせず、通常の墨色で表示する。 */
+.record-points-value{
+  color:var(--ink) !important;
+  -webkit-text-fill-color:var(--ink);
+  font-weight:700;
+}
+
+/* 品詞の白枠とレベルの白枠を同じ高さにする。 */
+.pos-control select,
+.level-meter{
+  min-height:40px;
+}
+
+@media(max-width:700px){
+  .katsuyo th.label{
+    line-height:31px !important;
+  }
+  .pos-control select,
+  .level-meter{
+    height:34px !important;
+    min-height:34px !important;
+  }
+  .pos-control select{
+    padding-top:0 !important;
+    padding-bottom:0 !important;
+  }
+  .level-meter{
+    padding-top:3px !important;
+    padding-bottom:2px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1667,7 +1722,6 @@ td.wrong{background:var(--bad)!important}
     <section class="record-section">
       <h3>取り組んだ問題の内訳</h3>
       <ul class="record-breakdown" id="recordBreakdown"></ul>
-      <p class="record-note" id="recordLegacyNote" hidden></p>
     </section>
 
     <section class="record-section">
@@ -1676,7 +1730,6 @@ td.wrong{background:var(--bad)!important}
       <ul class="record-review" id="recordReview" hidden></ul>
     </section>
 
-    <p class="record-note" id="recordPointsNote" hidden>ポイントはこの記録機能を追加した後の回答から加算しています。</p>
   </div>
 </section>
 
@@ -2230,6 +2283,7 @@ function kansuji(n){
 }
 
 const names=["未然形","連用形","終止形","連体形","已然形","命令形"];
+const formKeys=["mizen","renyo","shushi","rentai","izen","meirei"];
 let allLevel=4, verbLevel=4, adjLevel=4, adjvLevel=4, auxLevel=4, current=null, blankSlots=new Set(), answered=false, answers={}, selected=null;
 function slotTotals(slots){
   return Object.values(slots||{}).reduce((sum,value)=>{
@@ -2240,11 +2294,35 @@ function slotTotals(slots){
     return sum;
   },{correct:0,total:0});
 }
+function slotFormTotals(slots){
+  const result=Object.fromEntries(formKeys.map(form=>[form,{correct:0,total:0}]));
+  Object.entries(slots||{}).forEach(([slotKey,value])=>{
+    const parts=slotKey.split(":");
+    const index=Number(parts[parts.length-1]);
+    const form=formKeys[index];
+    if(!form) return;
+    const c=Number(value?.c)||0;
+    const w=Number(value?.w)||0;
+    result[form].correct+=c;
+    result[form].total+=c+w;
+  });
+  return result;
+}
 function normalizeStats(raw){
   const safe=raw&&typeof raw==="object" ? raw : {};
   const slots=safe.slots&&typeof safe.slots==="object" ? safe.slots : {};
   const totals=slotTotals(slots);
   const byPos=safe.byPos&&typeof safe.byPos==="object" ? safe.byPos : {};
+  const storedByForm=safe.byForm&&typeof safe.byForm==="object" ? safe.byForm : {};
+  const legacyByForm=slotFormTotals(slots);
+  const byForm=Object.fromEntries(formKeys.map(form=>{
+    const stored=storedByForm[form]&&typeof storedByForm[form]==="object" ? storedByForm[form] : null;
+    const fallback=legacyByForm[form];
+    return [form,{
+      correct:stored && Number.isFinite(Number(stored.correct)) ? Number(stored.correct) : fallback.correct,
+      total:stored && Number.isFinite(Number(stored.total)) ? Number(stored.total) : fallback.total
+    }];
+  }));
   return {
     correct:Number(safe.correct)||0,
     total:Number(safe.total)||0,
@@ -2252,7 +2330,7 @@ function normalizeStats(raw){
     correctCells:Number.isFinite(Number(safe.correctCells)) ? Number(safe.correctCells) : totals.correct,
     gradedCells:Number.isFinite(Number(safe.gradedCells)) ? Number(safe.gradedCells) : totals.total,
     points:Number(safe.points)||0,
-    pointsStartedAfter:Number.isFinite(Number(safe.pointsStartedAfter)) ? Number(safe.pointsStartedAfter) : Number(safe.total)||0,
+    byForm,
     byPos:{
       verb:Number(byPos.verb)||0,
       adj:Number(byPos.adj)||0,
@@ -2962,6 +3040,15 @@ function grade(revealOnly=false){
       stats.points+=pointsForCell(ok,levelForPos(current.pos),slotBefore);
       stats.gradedCells++;
       if(ok) stats.correctCells++;
+
+      const form=formKeys[i];
+      if(form){
+        const formStat=stats.byForm[form]||{correct:0,total:0};
+        formStat.total++;
+        if(ok) formStat.correct++;
+        stats.byForm[form]=formStat;
+      }
+
       ok ? slotBefore.c++ : slotBefore.w++;
     }
   });
@@ -2981,10 +3068,8 @@ function grade(revealOnly=false){
   const perfect=document.getElementById("perfectResult");
   perfect.classList.toggle("show", perfectAll);
 
-  document.getElementById("feedback").innerHTML=
-    revealOnly ? "答えを表示しました。"
-      : perfectAll ? "<strong>全問正解。</strong>"
-      : "";
+  document.getElementById("feedback").textContent=
+    revealOnly ? "答えを表示しました。" : "";
 
   document.getElementById("check").style.display="none";
   document.getElementById("reveal").style.display="none";
@@ -3054,12 +3139,6 @@ function renderRecord(){
     breakdown.appendChild(li);
   }
 
-  const tracked=Object.values(stats.byPos).reduce((sum,n)=>sum+(Number(n)||0),0);
-  const legacy=Math.max(0,stats.total-tracked);
-  const legacyNote=document.getElementById("recordLegacyNote");
-  legacyNote.hidden=legacy===0;
-  legacyNote.textContent=legacy ? `内訳を記録する前の問題が ${legacy}問あります。` : "";
-
   const review=reviewKinds();
   const reviewList=document.getElementById("recordReview");
   const reviewEmpty=document.getElementById("recordReviewEmpty");
@@ -3074,8 +3153,6 @@ function renderRecord(){
     reviewList.appendChild(li);
   });
 
-  const pointsNote=document.getElementById("recordPointsNote");
-  pointsNote.hidden=stats.pointsStartedAfter===0;
 }
 
 function openRecord(){
