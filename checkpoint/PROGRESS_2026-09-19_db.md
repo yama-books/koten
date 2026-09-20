@@ -758,3 +758,25 @@ gold先固定→shadow無調整baseline保存まで完了。
 
 これは物理iPhone Safariそのものではないため、actual device gateはPENDINGのまま。
 公開βの残作業は production差分再照合 → production統合 → Pages deploy → 物理iPhone Safari最終smoke。
+
+
+## 2026-09-20 スマホ実寸tap target・data-path分離
+
+- WebKit mobile smoke最新run **35482932843** / head `2fc149f4086e42eb7a3d4e00872ae7b252d8414c` / SUCCESS。
+- portrait 390×844で実測:
+  - 上部button最小44px
+  - 確認範囲select 46px
+  - checklist最小約81.09px
+  - drawer close 44px
+  - 「ここはわかる」44px
+  - 個別「戻す」44px
+- `#checkLevel{min-height:44px}` をmobile CSSに追加。
+- normal URL:
+  - externalData loaded
+  - shadowData skipped
+  - heavy morphology corpus/policy null
+- `?debug=shadow`:
+  - shadowData requested
+  - research morphology data loaded
+- publicとresearch data pathの分離をWebKit browser levelで確認。
+- 物理iPhone Safariのみproduction deploy後の最終gateとして残る。
