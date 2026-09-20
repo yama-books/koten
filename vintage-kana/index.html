@@ -72,10 +72,14 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .quizGlyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:90px;line-height:1.2;margin:8px 0 18px}
 .jiboPrompt{display:grid;justify-items:center;gap:0;margin:5px 0 16px}
 .jiboPrompt[hidden]{display:none}
+.jiboPrompt__answerLine{display:flex;align-items:center;justify-content:center;gap:12px;min-height:88px}
 .jiboPrompt__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:84px;line-height:1.05}
+.jiboPrompt__reading{font-family:var(--font-poem);font-size:28px;line-height:1;color:var(--ink)}
+.jiboPrompt__reading[hidden]{display:none}
 .jiboPrompt__arrow{font-family:var(--font-poem);font-size:28px;line-height:1;color:var(--muted)}
 .jiboPrompt__unknown{font-family:var(--font-poem);font-size:44px;line-height:1.1}
 .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:470px;margin:10px auto 0}
+.choices.glyphChoices .choice{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:42px}
 .quizFreeAnswer{display:flex;gap:8px;max-width:470px;margin:12px auto 0}
 .quizFreeAnswer[hidden]{display:none}
 .quizFreeAnswer input{min-width:0;flex:1;border:1px solid var(--line);border-radius:15px;background:#fff;padding:12px 14px;font-family:var(--font-poem);font-size:19px;outline:none}
@@ -278,9 +282,12 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
         <div id="quizQuestion" class="note">この文字は何と読む？</div>
         <div id="quizGlyph" class="quizGlyph">…</div>
         <div id="jiboPrompt" class="jiboPrompt" hidden>
-          <div id="jiboPromptGlyph" class="jiboPrompt__glyph">…</div>
+          <div class="jiboPrompt__answerLine">
+            <div id="jiboPromptGlyph" class="jiboPrompt__glyph">…</div>
+            <div id="jiboAnswerReading" class="jiboPrompt__reading" hidden></div>
+          </div>
           <div class="jiboPrompt__arrow">↑</div>
-          <div class="jiboPrompt__unknown">？</div>
+          <div id="jiboPromptSource" class="jiboPrompt__unknown">？</div>
         </div>
         <div id="choices" class="choices"></div>
         <form id="quizFreeAnswer" class="quizFreeAnswer" hidden>
@@ -435,6 +442,7 @@ const OVER_NINETY_MASTERY_INCREMENT=2;
 const DAILY_MASTERY_GAIN_CAP=20;
 const CHOICE_INCORRECT_DECREMENT=3;
 const FREE_INPUT_INCORRECT_DECREMENT=5;
+const JIBO_REVERSE_MASTERY_THRESHOLD=65;
 const KANA_ROWS=[
   ["あ行",[..."あいうえお"]],["か行",[..."かきくけこ"]],["さ行",[..."さしすせそ"]],
   ["た行",[..."たちつてと"]],["な行",[..."なにぬねの"]],["は行",[..."はひふへほ"]],
@@ -531,7 +539,8 @@ function computeGlyphMastery(character){
      continue;
    }
    if(e.outcome==="incorrect"){
-     const loss=e.masteryMethod==="free-input"?FREE_INPUT_INCORRECT_DECREMENT:CHOICE_INCORRECT_DECREMENT;
+     const advanced=e.masteryMethod==="free-input"||e.masteryMethod==="jibo-reverse";
+     const loss=advanced?FREE_INPUT_INCORRECT_DECREMENT:CHOICE_INCORRECT_DECREMENT;
      score=Math.max(0,score-loss);
      continue;
    }
@@ -764,6 +773,7 @@ async function loadData(){
 
 function renderFilters(){
  const root=document.getElementById("filters");root.innerHTML="";
+ root.classList.remove("glyphChoices");
  ["すべて",...KANA_ORDER].forEach(k=>{
    const b=document.createElement("button");
    b.className="kanaBtn"+(k===currentFilter?" active":"");
@@ -792,8 +802,20 @@ function renderCards(){
  });
 }
 
-function quizMethodForGlyph(character){
- return computeGlyphMastery(character)>=CHOICE_MASTERY_CAP?"free-input":"choice";
+function allKanaForms(){
+ const standard=KANA_ORDER.map(kana=>({character:kana,kana,jibo:STANDARD_HIRAGANA_JIBO[kana]||"",isStandard:true}));
+ return [...standard,...GLYPHS.map(g=>({...g,isStandard:false}))];
+}
+function reverseJiboIsUnambiguous(entry){
+ if(!entry?.jibo)return false;
+ const forms=[...new Set(allKanaForms().filter(f=>f.jibo===entry.jibo).map(f=>f.character))];
+ return forms.length===1 && forms[0]===entry.character;
+}
+function quizMethodForGlyph(character,mode=quizMode){
+ const mastery=computeGlyphMastery(character);
+ const entry=GLYPHS.find(g=>g.character===character);
+ if(mode==="jibo" && mastery>=JIBO_REVERSE_MASTERY_THRESHOLD && reverseJiboIsUnambiguous(entry))return "jibo-reverse";
+ return mastery>=CHOICE_MASTERY_CAP?"free-input":"choice";
 }
 function kanaRowFor(kana){
  return KANA_ROWS.find(([,kanas])=>kanas.includes(kana))?.[1]||[];
@@ -809,6 +831,20 @@ function focusedJiboPool(entry){
  const focused=[...new Set(GLYPHS.filter(g=>row.includes(g.kana)).map(g=>g.jibo))].filter(j=>j!==entry.jibo);
  const global=[...new Set(GLYPHS.map(g=>g.jibo))].filter(j=>j!==entry.jibo && !focused.includes(j));
  return [...shuffle(focused),...shuffle(global)];
+}
+function reverseJiboChoices(entry){
+ const row=kanaRowFor(entry.kana);
+ const valid=allKanaForms().filter(f=>f.character!==entry.character && f.jibo!==entry.jibo);
+ const same=shuffle(valid.filter(f=>row.includes(f.kana)));
+ const other=shuffle(valid.filter(f=>!row.includes(f.kana)));
+ const standard=shuffle(valid.filter(f=>f.isStandard));
+ const picked=[];
+ const add=(f)=>{if(f && !picked.some(x=>x.character===f.character))picked.push(f)};
+ add(same[0]);
+ add(other[0]);
+ add(standard.find(f=>!picked.some(x=>x.character===f.character)));
+ shuffle(valid).forEach(add);
+ return shuffle([entry,...picked.slice(0,3)]);
 }
 function normalizeReadingAnswer(value){
  return String(value||"").normalize("NFC").trim().replace(/[ァ-ヶ]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60));
@@ -827,10 +863,12 @@ function newQuiz(){
  document.getElementById("feedback").textContent="";
 
  const available=GLYPHS.filter(g=>!quizSet.glyphs.includes(g.character));
- const poolForQuestion=available.length?available:GLYPHS;
+ const basePool=available.length?available:GLYPHS;
+ const advancedJibo=quizMode==="jibo"?basePool.filter(g=>computeGlyphMastery(g.character)>=JIBO_REVERSE_MASTERY_THRESHOLD && reverseJiboIsUnambiguous(g)):[];
+ const poolForQuestion=advancedJibo.length?advancedJibo:basePool;
  quizEntry=poolForQuestion[Math.floor(Math.random()*poolForQuestion.length)];
  quizSet.glyphs.push(quizEntry.character);
- quizQuestionMethod=quizMethodForGlyph(quizEntry.character);
+ quizQuestionMethod=quizMethodForGlyph(quizEntry.character,quizMode);
 
  const mastery=computeGlyphMastery(quizEntry.character);
  const hint=document.getElementById("quizMethodHint");
@@ -839,6 +877,8 @@ function newQuiz(){
  const quizGlyph=document.getElementById("quizGlyph");
  const jiboPrompt=document.getElementById("jiboPrompt");
  const jiboPromptGlyph=document.getElementById("jiboPromptGlyph");
+ const jiboAnswerReading=document.getElementById("jiboAnswerReading");
+ const jiboPromptSource=document.getElementById("jiboPromptSource");
  const root=document.getElementById("choices");
  const form=document.getElementById("quizFreeAnswer");
  const input=document.getElementById("quizFreeInput");
@@ -848,11 +888,20 @@ function newQuiz(){
  input.value="";
  input.readOnly=false;
  input.classList.remove("correct","wrong");
+ if(jiboAnswerReading){jiboAnswerReading.hidden=true;jiboAnswerReading.textContent="";}
+ if(jiboPromptSource)jiboPromptSource.textContent="？";
 
  quizGlyph.textContent=quizEntry.character;
  if(jiboPromptGlyph)jiboPromptGlyph.textContent=quizEntry.character;
 
+ function revealJiboAnswer(){
+   if(quizMode!=="jibo")return;
+   if(jiboPromptGlyph)jiboPromptGlyph.textContent=quizEntry.character;
+   if(jiboAnswerReading){jiboAnswerReading.textContent=quizEntry.kana;jiboAnswerReading.hidden=false;}
+   if(jiboPromptSource)jiboPromptSource.textContent=quizEntry.jibo;
+ }
  function finishAnswer(correct,feedback){
+   revealJiboAnswer();
    recordLearningAttempt(quizMode,correct,quizQuestionMethod);
    document.getElementById("feedback").textContent=feedback;
    if(next){
@@ -868,9 +917,10 @@ function newQuiz(){
    input.setAttribute("aria-label",input.placeholder);
    requestAnimationFrame(()=>input.focus());
  } 
- function configureChoice(opts,answer){
+ function configureChoice(opts,answer,{glyphChoices=false}={}){
    root.hidden=false;
    form.hidden=true;
+   root.classList.toggle("glyphChoices",glyphChoices);
    opts.forEach(value=>{
      const b=document.createElement("button");
      b.className="choice";
@@ -905,16 +955,25 @@ function newQuiz(){
      const pool=mastery>=30?focusedReadingPool(quizEntry):shuffle([...new Set(GLYPHS.map(x=>x.kana))].filter(x=>x!==quizEntry.kana));
      configureChoice(shuffle([quizEntry.kana,...pool.slice(0,3)]),quizEntry.kana);
    }
- }else{
+}else{
    quizGlyph.hidden=true;
    if(jiboPrompt)jiboPrompt.hidden=false;
-   question.hidden=true;
-   question.textContent="";
-   if(quizQuestionMethod==="free-input"){
-     configureFreeInput();
+   if(quizQuestionMethod==="jibo-reverse"){
+     question.hidden=false;
+     question.textContent="この字母からできた平仮名はどれ？";
+     if(jiboPromptGlyph)jiboPromptGlyph.textContent="？";
+     if(jiboPromptSource)jiboPromptSource.textContent=quizEntry.jibo;
+     const forms=reverseJiboChoices(quizEntry);
+     configureChoice(forms.map(f=>f.character),quizEntry.character,{glyphChoices:true});
    }else{
-     const pool=mastery>=30?focusedJiboPool(quizEntry):shuffle([...new Set(GLYPHS.map(x=>x.jibo))].filter(x=>x!==quizEntry.jibo));
-     configureChoice(shuffle([quizEntry.jibo,...pool.slice(0,3)]),quizEntry.jibo);
+     question.hidden=true;
+     question.textContent="";
+     if(quizQuestionMethod==="free-input"){
+       configureFreeInput();
+     }else{
+       const pool=mastery>=30?focusedJiboPool(quizEntry):shuffle([...new Set(GLYPHS.map(x=>x.jibo))].filter(x=>x!==quizEntry.jibo));
+       configureChoice(shuffle([quizEntry.jibo,...pool.slice(0,3)]),quizEntry.jibo);
+     }
    }
  }
 
