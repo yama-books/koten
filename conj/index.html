@@ -34,6 +34,7 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 .meta{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap}
 .tag{background:#f0ebe4;border-radius:999px;padding:4px 8px;color:#675f55;font-size:11px}
 .word{margin:12px 0 2px;text-align:center;font:600 36px/1.18 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.04em}
+.lemma-aid{margin:0 0 2px;text-align:center;color:var(--muted);font-size:11px;line-height:1.25}
 .kind{color:var(--muted);font-size:13px;text-align:center}
 
 .study-layout{
@@ -1187,6 +1188,115 @@ td.wrong{background:var(--bad)!important}
   }
 }
 
+
+/* ===== v38: iPhone viewport fit + stable table centering =====
+   Keep the original vertical table design. On narrow screens the six
+   conjugation rows shrink only as much as needed to fit the visible viewport.
+   The table is centered even when row-note text is wider than the table. */
+.table-panel{
+  align-items:center;
+}
+.row-note{
+  text-align:center;
+  align-self:center;
+}
+
+@media(max-width:700px){
+  :root{
+    --mobile-form-row-h:clamp(54px,calc((100dvh - 330px)/6),68px);
+  }
+
+  .wrap{
+    min-height:100dvh;
+    padding-bottom:max(8px,env(safe-area-inset-bottom));
+  }
+  .card{
+    padding-top:7px;
+    padding-bottom:7px;
+  }
+  .word{
+    margin:5px 0 1px;
+    font-size:23px;
+  }
+  .kind{
+    line-height:1.15;
+  }
+  .study-layout{
+    margin-top:6px;
+  }
+
+  .katsuyo.one-track td,
+  .katsuyo.one-track th.label,
+  .katsuyo.adjective-pair td,
+  .katsuyo.adjective-pair th.label,
+  .katsuyo.paired-conjugation td,
+  .katsuyo.paired-conjugation th.label{
+    height:var(--mobile-form-row-h)!important;
+    min-height:var(--mobile-form-row-h)!important;
+    max-height:var(--mobile-form-row-h)!important;
+  }
+
+  /* 形容動詞の連用形「に／なり」「と／たり」は、
+     行の高さを変えず、その1マスの内部だけを左右二分する。 */
+  .katsuyo tr.adjv-renyo-row td,
+  .katsuyo tr.adjv-renyo-row th,
+  .adjv-combo,
+  .combo-slot,
+  .combo-slot .cell-answer-wrap{
+    height:var(--mobile-form-row-h)!important;
+    min-height:0!important;
+    max-height:var(--mobile-form-row-h)!important;
+  }
+  .adjv-combo{
+    grid-template-columns:1fr 1fr!important;
+    grid-template-rows:100%!important;
+  }
+
+  /* row-note が親幅を広げても表そのものを左へ引っ張らない。 */
+  .table-panel .row-note{
+    max-width:139px;
+    white-space:normal;
+    font-size:8px;
+    line-height:1.25;
+    margin-top:3px;
+  }
+
+  .table-panel .track-heads span{
+    min-height:30px!important;
+  }
+  .feedback{
+    margin-top:4px;
+  }
+  .actions{
+    margin-top:2px;
+  }
+}
+
+@media(max-width:700px) and (max-height:760px){
+  :root{
+    --mobile-form-row-h:clamp(48px,calc((100dvh - 285px)/6),58px);
+  }
+  .toolbar{
+    margin-bottom:4px;
+  }
+  .meta{
+    gap:4px;
+  }
+  .word{
+    font-size:21px;
+    margin-top:3px;
+  }
+  .study-layout{
+    margin-top:4px;
+  }
+  .blank-frame{
+    height:36px;
+  }
+  .combo-slot .blank-frame{
+    height:36px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1250,6 +1360,7 @@ td.wrong{background:var(--bad)!important}
       <span class="tag">試作データ</span>
     </div>
     <div class="word" id="lemma"></div>
+    <div class="lemma-aid" id="lemmaAid" hidden></div>
     <div class="kind" id="kind"></div>
 
     <div class="study-layout">
@@ -2412,6 +2523,11 @@ function revealKindWithAnswers(){
 
 function render(){
   document.getElementById("lemma").textContent=current.lemma;
+  const lemmaAid=document.getElementById("lemmaAid");
+  const aid=current.kanjiAid||"";
+  const aidReading=current.targetReading||"";
+  lemmaAid.textContent=aid ? `漢字補助：${aid}${aidReading?"（"+aidReading+"）":""}` : "";
+  lemmaAid.hidden=!aid;
   renderKindInitial();
   document.getElementById("posTag").textContent=current.label;
   const compactExample=(current.example||"").replace(/[　 ]+/g,"");
@@ -2533,11 +2649,26 @@ function grade(revealOnly=false){
 function updateScore(){
   document.getElementById("score").textContent=`この端末での正答 ${stats.correct} / ${stats.total}`;
 }
+function pickWeightedQuestion(list){
+  const weighted=list.map(item=>({
+    item,
+    weight:Number.isFinite(Number(item.questionWeight)) && Number(item.questionWeight)>0
+      ? Number(item.questionWeight)
+      : 1
+  }));
+  const total=weighted.reduce((sum,x)=>sum+x.weight,0);
+  let cursor=Math.random()*total;
+  for(const entry of weighted){
+    cursor-=entry.weight;
+    if(cursor<=0) return entry.item;
+  }
+  return weighted[weighted.length-1].item;
+}
 function nextQuestion(){
   closeEditor(false);
   const p=pool(); if(!p.length)return;
   let q=p.filter(x=>!current||x.id!==current.id); if(!q.length)q=p;
-  current=q[Math.floor(Math.random()*q.length)];
+  current=pickWeightedQuestion(q);
   chooseBlankSlots();
   answered=false; answers={}; selected=null;
   render();
