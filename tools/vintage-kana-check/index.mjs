@@ -148,10 +148,12 @@ try {
       const second = groups[1];
       const a = first?.getBoundingClientRect();
       const b = second?.getBoundingClientRect();
+      const rowRingBefore = first?.querySelector(".ringMeter")?.getBoundingClientRect();
       const closed = {
         count: groups.length,
         sameRow: Boolean(a && b && Math.abs(a.top - b.top) < 2),
-        square: Boolean(a && Math.abs(a.width - a.height) < 3),
+        compact: Boolean(a && a.height <= a.width * 0.82),
+        rowRingShare: Boolean(a && rowRingBefore) ? rowRingBefore.width / a.width : 0,
       };
       if (first) first.open = true;
       const open = first?.getBoundingClientRect();
@@ -163,6 +165,8 @@ try {
       const glyph = first?.querySelector(".glyphMasteryGlyph");
       const jibo = first?.querySelector(".glyphMasteryJibo");
       const percent = first?.querySelector(".glyphMasteryPercent");
+      const reading = first?.querySelector(".glyphMasteryReading");
+      const jiboText = first?.querySelector(".glyphMasteryJibo")?.textContent?.trim() ?? "";
       const ringRect = ring?.getBoundingClientRect();
       const cardRect = cards[0]?.getBoundingClientRect();
       return {
@@ -177,11 +181,14 @@ try {
         percentOutsideRing: Boolean(percent && ring && !ring.contains(percent)),
         meterValue: ring?.getAttribute("aria-valuenow") ?? "",
         percentText: percent?.textContent?.trim() ?? "",
+        readingText: reading?.textContent?.trim() ?? "",
+        jiboText,
       };
     });
     if (record.count !== 10) add(width, "recordRowCount", record.count);
     if (!record.sameRow) add(width, "recordTwoColumns", record);
-    if (!record.square) add(width, "recordClosedSquare", record);
+    if (!record.compact) add(width, "recordClosedCompact", record);
+    if (record.rowRingShare < 0.4) add(width, "recordRowRingWhitespace", record);
     if (!record.openFullWidth) add(width, "recordOpenFullWidth", record);
     if (record.cardCount < 1) add(width, "recordGlyphCardsPresent", record);
     const expectedColumns = width <= 360 ? 2 : 3;
@@ -190,6 +197,8 @@ try {
     if (!record.ringContained) add(width, "recordGlyphRingContained", record);
     if (!(record.glyphFontSize > record.jiboFontSize)) add(width, "recordGlyphDominatesJibo", record);
     if (!record.percentOutsideRing) add(width, "recordPercentBelowRing", record);
+    if (!record.readingText) add(width, "recordGlyphReadingAboveRing", record);
+    if (!record.jiboText || record.jiboText.startsWith("字母")) add(width, "recordGlyphJiboWithoutPrefix", record);
     if (record.meterValue !== "0" || record.percentText !== "0%") add(width, "recordGlyphMeterMatchesPercent", record);
 
     await page.close();
@@ -225,10 +234,26 @@ try {
     const expectedFocused = Math.min(3, availableFocused.length);
     if (state.hint !== "4択") add(390, "mastery30StillChoice", state);
     if (focusedCount !== expectedFocused) add(390, "mastery30FocusedRow", { state, expectedFocused, focusedCount, row });
+    await page.evaluate(() => showQuizScreen("record"));
+    const recentCard = page.locator("#recentGlyphs [data-glyph-info]").first();
+    if (await recentCard.count()) {
+      await recentCard.click();
+      await page.waitForFunction(() => document.querySelector("#glyphInfoDialog")?.open === true);
+      const popup = await page.evaluate(() => ({
+        glyph: document.querySelector("#glyphInfoGlyph")?.textContent?.trim() ?? "",
+        kana: document.querySelector("#glyphInfoKana")?.textContent?.trim() ?? "",
+        jibo: document.querySelector("#glyphInfoJibo")?.textContent?.trim() ?? "",
+      }));
+      if (!popup.glyph || !popup.kana || !popup.jibo) add(390, "recordGlyphPopupMetadata", popup);
+      await page.locator("#closeGlyphInfo").click();
+    } else {
+      add(390, "recordGlyphPopupCardPresent", false);
+    }
+
     await context30.close();
   }
 
-  // 65%: both reading and jibo switch to free input.
+  // 65%: reading stays free input; jibo advances to unambiguous jibo→glyph choice.
   {
     const context65 = await browser.newContext();
     await context65.addInitScript((events) => {
@@ -251,12 +276,52 @@ try {
     await page.evaluate(() => {
       document.querySelector('[data-quiz-mode="jibo"]')?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     });
-    await page.waitForFunction(() => document.querySelector("#quizFreeInput")?.getAttribute("placeholder") === "字母を入力");
-    const jibo = await page.evaluate(() => ({
-      hint: document.querySelector("#quizMethodHint")?.textContent?.trim(),
-      placeholder: document.querySelector("#quizFreeInput")?.getAttribute("placeholder"),
+    await page.waitForFunction(() => document.querySelector("#quizQuestion")?.textContent?.trim() === "この字母からできた平仮名はどれ？");
+    await page.waitForFunction(() => document.querySelectorAll("#choices .choice").length === 4);
+    const jibo = await page.evaluate(() => {
+      const choices = [...document.querySelectorAll("#choices .choice")].map((el) => el.textContent?.trim() ?? "");
+      const row = kanaRowFor(quizEntry.kana);
+      const forms = allKanaForms();
+      const distractorForms = choices
+        .filter((ch) => ch !== quizEntry.character)
+        .map((ch) => forms.find((f) => f.character === ch))
+        .filter(Boolean);
+      return {
+        hint: document.querySelector("#quizMethodHint")?.textContent?.trim(),
+        question: document.querySelector("#quizQuestion")?.textContent?.trim(),
+        promptTop: document.querySelector("#jiboPromptGlyph")?.textContent?.trim(),
+        promptSource: document.querySelector("#jiboPromptSource")?.textContent?.trim(),
+        choices,
+        answer: quizEntry.character,
+        kana: quizEntry.kana,
+        jibo: quizEntry.jibo,
+        hasSameRowDistractor: distractorForms.some((f) => row.includes(f.kana)),
+        hasOtherRowDistractor: distractorForms.some((f) => !row.includes(f.kana)),
+        hasStandardDistractor: distractorForms.some((f) => f.isStandard),
+        ambiguousAlternative: distractorForms.some((f) => f.jibo === quizEntry.jibo),
+        freeInputHidden: document.querySelector("#quizFreeAnswer")?.hidden === true,
+      };
+    });
+    if (jibo.hint !== "4択" || jibo.question !== "この字母からできた平仮名はどれ？") add(390, "mastery65JiboReverseQuestion", jibo);
+    if (jibo.promptTop !== "？" || jibo.promptSource !== jibo.jibo) add(390, "mastery65JiboReversePrompt", jibo);
+    if (jibo.choices.length !== 4 || !jibo.choices.includes(jibo.answer)) add(390, "mastery65JiboReverseChoices", jibo);
+    if (!jibo.hasSameRowDistractor || !jibo.hasOtherRowDistractor || !jibo.hasStandardDistractor) add(390, "mastery65JiboReverseDistractorMix", jibo);
+    if (jibo.ambiguousAlternative) add(390, "mastery65JiboReverseAmbiguity", jibo);
+    if (!jibo.freeInputHidden) add(390, "mastery65JiboReverseNoFreeInput", jibo);
+    await page.evaluate(() => {
+      const answer = quizEntry.character;
+      [...document.querySelectorAll("#choices .choice")].find((el) => el.textContent?.trim() === answer)?.click();
+    });
+    await page.waitForFunction(() => document.querySelector("#jiboAnswerReading")?.hidden === false);
+    const revealed = await page.evaluate(() => ({
+      glyph: document.querySelector("#jiboPromptGlyph")?.textContent?.trim(),
+      reading: document.querySelector("#jiboAnswerReading")?.textContent?.trim(),
+      source: document.querySelector("#jiboPromptSource")?.textContent?.trim(),
+      expectedGlyph: quizEntry.character,
+      expectedReading: quizEntry.kana,
+      expectedSource: quizEntry.jibo,
     }));
-    if (jibo.hint !== "入力" || jibo.placeholder !== "字母を入力") add(390, "mastery65JiboFreeInput", jibo);
+    if (revealed.glyph !== revealed.expectedGlyph || revealed.reading !== revealed.expectedReading || revealed.source !== revealed.expectedSource) add(390, "jiboAnswerRevealsReading", revealed);
     await context65.close();
   }
 
@@ -297,11 +362,20 @@ try {
       const at90SameDay = computeGlyphMastery(g.character);
       learningEvents.push(...make("2026-09-21", "free-input", 1, "h"));
       const nextDay = computeGlyphMastery(g.character);
-      return { at65, at90SameDay, nextDay };
+      learningEvents = [
+        ...make("2026-09-15", "choice", 4, "r1"),
+        ...make("2026-09-16", "choice", 4, "r2"),
+        ...make("2026-09-17", "choice", 4, "r3"),
+        ...make("2026-09-18", "choice", 1, "r4"),
+        ...make("2026-09-19", "jibo-reverse", 1, "r5"),
+      ];
+      const reverseAfter65 = computeGlyphMastery(g.character);
+      return { at65, at90SameDay, nextDay, reverseAfter65 };
     }, glyph);
     if (progression.at65 !== 65) add(390, "choiceCap65", progression);
     if (progression.at90SameDay !== 90) add(390, "sameDayStopsAt90", progression);
     if (progression.nextDay !== 92) add(390, "nextDayPlus2", progression);
+    if (progression.reverseAfter65 !== 74) add(390, "jiboReverseUsesAdvancedGain", progression);
     await page.close();
   }
 
