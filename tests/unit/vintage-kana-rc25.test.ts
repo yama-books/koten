@@ -69,7 +69,7 @@ test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 respon
   assert.doesNotMatch(html, /class="masteryBar"/);
 });
 
-test("vintage-kana advanced jibo questions reverse from jibo to an unambiguous glyph", () => {
+test("vintage-kana advanced jibo questions show exactly one correct glyph choice per jibo prompt", () => {
   assert.match(html, /if\(mode==="jibo" && mastery>=JIBO_REVERSE_MASTERY_THRESHOLD\)return "jibo-reverse"/);
   assert.match(html, /return "jibo-reverse"/);
   assert.match(html, /function reverseJiboChoices\(entry\)/);
