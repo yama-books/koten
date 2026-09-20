@@ -155,7 +155,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       </div>
     </div>
     <div id="smallKanaOption" class="smallKanaOption">
-      <label><input id="smallKanaToggle" type="checkbox" checked> 拗音（ゃ・ゅ・ょ）を小さくする</label>
+      <label><input id="smallKanaToggle" type="checkbox"> ゃ・ゅ・ょを小さく表示</label>
     </div>
     <div id="previewDock" class="previewDock">
       <div class="label">できあがり</div>
@@ -201,7 +201,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC15
+  vintage-kana / release candidate 1.0 RC16
 </footer>
 </div>
 
@@ -256,7 +256,7 @@ let currentFilter="あ";
 let quizEntry=null;
 let quizMode="reading";
 let composeMode="auto";
-let yoonSmallEnabled=true;
+let yoonSmallEnabled=false;
 let answered=false;
 const selected={};
 
@@ -478,9 +478,9 @@ document.querySelectorAll(".composeModeBtn").forEach(b=>b.addEventListener("clic
  composeMode=b.dataset.composeMode;
  document.querySelectorAll(".composeModeBtn").forEach(x=>x.classList.toggle("active",x===b));
  if(composeMode==="auto"){
-   yoonSmallEnabled=true;
+   yoonSmallEnabled=false;
    const toggle=document.getElementById("smallKanaToggle");
-   if(toggle) toggle.checked=true;
+   if(toggle) toggle.checked=false;
    randomizeCompose();
  }else{
    renderCompose();
