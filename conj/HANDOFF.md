@@ -375,3 +375,23 @@ lexical sidecarは**実例ID単位**で、`learnerGloss` は用例文脈依存�
 内部910例パッケージを公開物へ置き換えない。
 
 main はこの時点では未変更。公開直前に main の現行 conj へ安全な差分だけ反映する。
+
+
+## 13. 2026-09-20 夜 main 公開反映
+
+ユーザー指示「本日中に公開を目指す。進めてください」に基づき、安全な公開対象だけ main へ反映。
+
+main 反映:
+- lexical metadata追加: commit 90e5aea2552af0f7787ff0bd732037b10018ec5b
+- safe lemma adapter: commit 45439f3f3ea2a00369193b35d735c9aef39b9acc
+- v38 mobile fit + lexical aid + weighted picker: commit 7a1d0b51d763dff1f288b24c3c2176e1c13a98ac
+- 「試作データ」badge削除: commit 8ddcd482452f5b5c9d71cef9d8fd638398ad4731
+
+main readback:
+- index blob: 4ade71a463b1e10b26f978df1d21f1a95074e2ab
+- adapter blob: a93835a7aa4d7af44f026021c22e46f06b7c9f40
+- lexical annotation: 71件
+
+公開物には形容動詞120例の CHJ raw本文を追加していない。
+内部 v0.4.18 / 910例の quotation gate / final compliance BLOCK は別系統として維持。
+次の最優先は公開URLでの実機目視QA。特に iPhone幅、100dvh、形容動詞の横位置、漢字補助表示、117語幹ロードを確認する。
