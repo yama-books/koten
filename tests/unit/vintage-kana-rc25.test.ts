@@ -60,7 +60,7 @@ test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 respon
   assert.match(html, /\.glyphMasteryCore\{[^}]*transform:translate\(5px,8px\)/);
   assert.match(html, /\.glyphMasteryGlyph\{[^}]*font-family:"Noto Serif Hentaigana"/);
   assert.match(html, /@media\(max-width:360px\)\{\.rowGlyphMastery\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}\}/);
-  assert.match(html, /@media\(orientation:landscape\) and \(min-width:721px\)\{\.rowGlyphMastery\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}\}/);
+  assert.match(html, /@media\(orientation:landscape\) and \(min-width:721px\)\{\.recordRows\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)\}\.rowGlyphMastery\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}\}/);
   assert.match(html, /class="glyphMasteryRing"[^>]*role="meter"/);
   assert.match(html, /class="glyphMasteryReading">/);
   assert.match(html, /class="glyphMasteryJibo">'\+escapeHtml\(g\.jibo\)/);
