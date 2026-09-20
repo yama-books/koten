@@ -57,7 +57,7 @@
       "id": "R8",
       "name": "runtime-browser-smoke",
       "status": "PARTIAL_PASS",
-      "evidence": "mobile static audit PASS: viewport / responsive breakpoints / 44px touch targets / safe-area / 92dvh drawer / body scroll lock / understood-history mobile layout。実機Pages smokeはcheckpoint-main未配信のためproduction統合後。"
+      "evidence": "静的mobile監査PASSに加え、jsdom DOM smokeがGitHub Actions run 35481928465でPASS。通常URLshadow停止、drawer背景lock、わかる履歴の個別/全件復帰、本文変更時クリア、mobile CSS契約を自動確認。iPhone Safari実機のみ未完了。"
     },
     {
       "id": "R9",
@@ -76,6 +76,12 @@
       "name": "understood-point-history",
       "status": "PASS",
       "evidence": "わかる履歴を文脈付き一覧として実装。個別「戻す」・「すべて戻す」・current-text scopeを確認。"
+    },
+    {
+      "id": "R12",
+      "name": "automated-public-beta-dom-smoke",
+      "status": "PASS",
+      "evidence": "checkpoint-main専用 .github/workflows/checkpoint-public-beta.yml / tests/unit/checkpoint-public-beta.test.mjs。run 35481928465, head 414514e911ab88b4187993a725d369e0b7080daf, conclusion success。"
     }
   ],
   "shadowPromotionNotRequiredForThisTrack": {
@@ -94,7 +100,7 @@
   },
   "releaseBlockers": [
     "production統合後のiPhone Safari実機runtime smoke",
-    "checkpoint-mainをproductionへ取り込む際のbranch ancestry確認"
+    "production統合時にproduction_integration_delta_20260920.jsonのmainShaを再照合し、安全にcheckpoint/差分を取り込む"
   ],
   "nonBlockersForLegacyPublicBeta": [
     "shadow grammar recallがまだ低いこと",
@@ -111,5 +117,10 @@
     "status": "PASS",
     "audit": "mobile_ui_audit_20260920.json",
     "behavior": "「ここはわかる」で隠したポイントを文脈付き一覧化。個別復帰・全件復帰・本文変更時自動リセット。"
+  },
+  "integrationDelta": {
+    "file": "production_integration_delta_20260920.json",
+    "status": "FROZEN",
+    "note": "mainとcheckpoint-mainのcheckpoint/差分をblob SHA単位で記録。適用前にmainShaを再照合する。"
   }
 }
