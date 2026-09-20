@@ -1700,3 +1700,65 @@ UI統合は監査結果を受けて `vintage-kana-main` 側で行う。
 
 再開指示:
 `vintage-kana-main HANDOFF §50から再開。ClaudeCodeのNINJAL全字形監査結果を取り込み→official catalog / observed subset二層化→全字形UI統合→せ/を実機表示監査`
+
+## 51. 2026-09-20 ローカルpull再開用固定
+
+この節は、GitHub Web-only作業をローカル `C:\Users\user\AI開発\koten` へ戻すための再開地点。
+
+### ローカルでUI本線を再開
+
+未コミット変更がないことを確認してから:
+
+```powershell
+cd C:\Users\user\AI開発\koten
+git status
+git fetch origin
+git switch vintage-kana-main
+git pull --ff-only origin vintage-kana-main
+```
+
+pull後に最初に読む:
+1. `vintage-kana/HANDOFF.md` §50〜§51
+2. `vintage-kana/DESIGN_HISTORY.md`
+3. 必要に応じて `vintage-kana/PUBLICATION_QA.md`
+4. 必要に応じて `vintage-kana/DESIGN_AUDIT_BRIEF_2026-09-20.md`
+
+UI本線の実装確定HEAD:
+- `80365000b7d3a8cdb34b52fd7a14618312a3b17e`
+- CI run `35513391691` success
+
+HANDOFF等の記録を含むローカル取得対象HEADは、この§51を含む最新 `vintage-kana-main`。
+
+### ClaudeCodeのNINJAL監査を再開
+
+別作業ツリーまたは作業切替時:
+
+```powershell
+cd C:\Users\user\AI開発\koten
+git fetch origin
+git switch vintage-kana-ninjal-audit
+git pull --ff-only origin vintage-kana-ninjal-audit
+```
+
+最初に読む:
+- `vintage-kana/NINJAL_GLYPH_AUDIT_TASK_2026-09-20.md`
+
+監査ブランチの開始コミット:
+- `63dc7360fc923011b464f2efb6cabe3bf6a0f7b5`
+
+### 競合回避
+- UI作業: `vintage-kana-main`
+- NINJAL全字形監査: `vintage-kana-ninjal-audit`
+- ClaudeCode監査側では `vintage-kana/index.html` を編集しない。
+- 監査結果をUI本線へ統合するまでは、両ブランチを直接混ぜない。
+- `main` へ直接pushしない。
+- force-pushしない。
+
+### ローカル再開指示
+
+UI本線:
+`HANDOFF §50〜§51から再開。最新vintage-kana-mainをpull済みとして、ClaudeCode監査結果待ちの間はUI側の回帰確認・実機確認のみ進める。`
+
+NINJAL監査:
+`vintage-kana-ninjal-auditをpullし、NINJAL_GLYPH_AUDIT_TASK_2026-09-20.mdを最初から読んで監査開始。index.htmlは触らない。`
+
