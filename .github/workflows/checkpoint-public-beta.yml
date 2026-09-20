@@ -4,7 +4,7 @@ on:
   push:
     branches: [checkpoint-main]
     paths:
-      - "checkpoint/**"
+      - "checkpoint/*.js"\n      - "checkpoint/index.html"\n      - "checkpoint/styles.css"\n      - "checkpoint/data/**"
       - "tests/unit/checkpoint-public-beta.test.mjs"
       - ".github/workflows/checkpoint-public-beta.yml"
       - "package.json"
