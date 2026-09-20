@@ -16,9 +16,11 @@ test("vintage-kana RC25 staged quiz thresholds stay fixed", () => {
   assert.match(html, /const DAILY_MASTERY_GAIN_CAP=20;/);
   assert.match(html, /const CHOICE_INCORRECT_DECREMENT=3;/);
   assert.match(html, /const FREE_INPUT_INCORRECT_DECREMENT=5;/);
-  assert.match(html, /computeGlyphMastery\(character\)>=CHOICE_MASTERY_CAP\?"free-input":"choice"/);
+  assert.match(html, /const JIBO_REVERSE_MASTERY_THRESHOLD=65;/);
+  assert.match(html, /return mastery>=CHOICE_MASTERY_CAP\?"free-input":"choice"/);
   assert.match(html, /mastery>=30\?focusedReadingPool\(quizEntry\)/);
   assert.match(html, /mastery>=30\?focusedJiboPool\(quizEntry\)/);
+  assert.match(html, /masteryMethod==="free-input"\|\|e\.masteryMethod==="jibo-reverse"/);
 });
 
 test("vintage-kana keeps the mobile answer grid as a 2x2 bento", () => {
@@ -57,7 +59,23 @@ test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 respon
   assert.match(html, /\.glyphMasteryGlyph\{[^}]*font-family:"Noto Serif Hentaigana"/);
   assert.match(html, /@media\(max-width:360px\)\{\.rowGlyphMastery\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}\}/);
   assert.match(html, /class="glyphMasteryRing"[^>]*role="meter"/);
-  assert.match(html, /class="glyphMasteryJibo">字母 /);
+  assert.match(html, /class="glyphMasteryReading">/);
+  assert.match(html, /class="glyphMasteryJibo">'\+escapeHtml\(g\.jibo\)/);
+  assert.doesNotMatch(html, /class="glyphMasteryJibo">字母 /);
   assert.match(html, /class="glyphMasteryPercent">/);
+  assert.match(html, /id="glyphInfoDialog"/);
+  assert.match(html, /data-glyph-info/);
   assert.doesNotMatch(html, /class="masteryBar"/);
+});
+
+test("vintage-kana advanced jibo questions reverse from jibo to an unambiguous glyph", () => {
+  assert.match(html, /function reverseJiboIsUnambiguous\(entry\)/);
+  assert.match(html, /return "jibo-reverse"/);
+  assert.match(html, /function reverseJiboChoices\(entry\)/);
+  assert.match(html, /const same=shuffle\(valid\.filter\(f=>row\.includes\(f\.kana\)\)\)/);
+  assert.match(html, /const other=shuffle\(valid\.filter\(f=>!row\.includes\(f\.kana\)\)\)/);
+  assert.match(html, /const standard=shuffle\(valid\.filter\(f=>f\.isStandard\)\)/);
+  assert.match(html, /この字母からできた平仮名はどれ？/);
+  assert.match(html, /id="jiboAnswerReading"/);
+  assert.match(html, /jiboAnswerReading\.textContent=quizEntry\.kana/);
 });
