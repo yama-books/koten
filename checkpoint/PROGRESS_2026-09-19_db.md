@@ -780,3 +780,18 @@ gold先固定→shadow無調整baseline保存まで完了。
   - research morphology data loaded
 - publicとresearch data pathの分離をWebKit browser levelで確認。
 - 物理iPhone Safariのみproduction deploy後の最終gateとして残る。
+
+
+## 2026-09-20 公開UI・文言整理
+
+- β表記、長い説明、公開件数表示、5段階数字UIを撤廃。
+- 見る範囲を **厳選 / ふつう / 細かく** の3択へ。
+- 主操作を **見る / 消す** に整理。
+- 例文4種は `例文` detailsへ収納。
+- 結果面は **ポイント / チェック / わかる** を中心に整理。
+- 「次に見る」「次へ」導線を撤廃し、自動順送りも削除。
+- drawer主操作は **ヒント** に統一。
+- `ミニ解説→補足`、`見るポイント→手がかり`。
+- 公開件数ダッシュボード / 非表示件数はDOM・計算ごと削除。
+- WebKit smoke run **35486907188** SUCCESS。
+- production runtime 8ファイルをfile-level反映し、mainで8/8 blob一致。
