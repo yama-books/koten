@@ -88,7 +88,7 @@ test('drawerは開閉時に背景スクロール用classを正しく切り替え
   dom.window.close();
 });
 
-test('「ここはわかる」は履歴へ入り、個別に戻せる',async()=>{
+test('「わかる」は履歴へ入り、個別に戻せる',async()=>{
   const dom=createCheckpointDom();
   const {document}=dom.window;
   await settle(dom);
@@ -104,7 +104,7 @@ test('「ここはわかる」は履歴へ入り、個別に戻せる',async()=>
   assert.equal(document.querySelectorAll('.known-item').length,1);
   assert.match(document.getElementById('knownHistoryStatus')?.textContent||'',/1件/);
   assert.match(document.getElementById('knownList')?.textContent||'',/【.+】/);
-  assert.match(document.getElementById('filterStatus')?.textContent||'',/「ここはわかる」で省略 1件/);
+  assert.match(document.getElementById('filterStatus')?.textContent||'',/「わかる」で省略 1件/);
   assert.equal(document.querySelectorAll('.item[data-check]').length,before-1);
 
   const restore=document.querySelector('[data-known-index="0"]');
@@ -113,7 +113,7 @@ test('「ここはわかる」は履歴へ入り、個別に戻せる',async()=>
 
   assert.equal(document.getElementById('knownHistory')?.hidden,true);
   assert.equal(document.querySelectorAll('.item[data-check]').length,before);
-  assert.match(document.getElementById('filterStatus')?.textContent||'',/「ここはわかる」で省略 0件/);
+  assert.match(document.getElementById('filterStatus')?.textContent||'',/「わかる」で省略 0件/);
   dom.window.close();
 });
 
@@ -154,8 +154,23 @@ test('本文を変更すると「わかる」履歴を自動クリアする',asy
   document.getElementById('analyze')?.click();
 
   assert.equal(document.getElementById('knownHistory')?.hidden,true);
-  assert.match(document.getElementById('filterStatus')?.textContent||'',/「ここはわかる」で省略 0件/);
+  assert.match(document.getElementById('filterStatus')?.textContent||'',/「わかる」で省略 0件/);
   dom.window.close();
+});
+
+test('公開UIの文言と選択肢を簡潔に保つ',()=>{
+  const html=readCheckpoint('index.html');
+  const ui2=readCheckpoint('ui2.js');
+  const ui3=readCheckpoint('ui3.js');
+
+  for(const banned of ['次に見る','次にみる','次へ','Checkpoint β0.1','レベル判定','候補名までは一覧']){
+    assert.equal(html.includes(banned)||ui2.includes(banned)||ui3.includes(banned),false,`公開UIに残さない: ${banned}`);
+  }
+  assert.match(html,/<option value="1">厳選<\/option>/);
+  assert.match(html,/<option value="2" selected>ふつう<\/option>/);
+  assert.match(html,/<option value="4">細かく<\/option>/);
+  assert.equal((html.match(/<option /g)||[]).length,3);
+  assert.equal(html.includes('id="nextPoint"'),false);
 });
 
 test('スマホ公開βのCSS契約を維持する',()=>{
