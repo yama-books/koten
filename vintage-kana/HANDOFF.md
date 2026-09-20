@@ -1355,3 +1355,98 @@ iPhone実機で「記録」画面を確認。スクリーンショット上で�
 
 再開指示:
 `vintage-kana-main HANDOFF §47 から再開。§46承認済みの記録UI改修を最小差分実装→320/360/390/430 QA。RC25/26の学習ロジックは変更しない`
+
+## 48. 2026-09-20 Web-only 記録UI改修完了 / 実機再確認待ち
+
+§46・§47の承認内容に沿い、GitHub `vintage-kana-main` 上だけで記録UI改修と狭幅QAを完了した。
+この工程ではローカルを使用していない。
+
+### 現在の正本
+- repository: `yama-books/koten`
+- branch: `vintage-kana-main`
+- HEAD: `1aa262d1fa31f39a9e0031306aa4fda61cde4804`
+- §46記録コミット `15e8d84bfa6d92b760ac9e10dab558a9a32d3bb6` から4コミット進行
+- `main` へ直接pushしていない
+- force-pushしていない
+- 他ブランチを削除していない
+
+### 実装済み
+`vintage-kana/index.html`:
+- 行ごとの2列正方形タイルは維持。
+- 行名を 12px → 13px、行リングを 48px → 56px へ拡大。
+- 行タイルの内側余白・展開時高さを少し拡大。
+- 展開内の旧 `.masteryItem` / `.masteryBar` を廃止。
+- 各字体を `.glyphMasteryCard` の正方形カードへ変更。
+- 361px以上は3列、360px以下は2列。
+- 各カード中央に円形習熟度リング。
+- リング中央に Noto Serif Hentaigana の変体仮名を大きく表示。
+- その下に小さい字母を表示。
+- 習熟度%はリング外のカード下部に表示。
+- 習熟度リング色は既存 `masteryDisplayLocal()` を再利用し、0 / 30 / 60 / 85 境界を変更していない。
+- 320px級では行タイル内リングのみ48pxへ戻し、閉じた2列タイルの収まりを確保。
+
+### 壊していないもの
+- RC25の出題切替: 30%で同じ行中心4択、65%以上で自由入力。
+- 選択式 cap65 / 自由入力 cap90。
+- 同一字体の正の増加は1日+20まで。
+- 90到達日の停止と翌日以降+2。
+- 正答10pt / 誤答1pt。
+- 5問セット、完了セットのみポイント集計。
+- localStorage学習記録。
+- 最近取り組んだ字 / 間違えやすい字 / 要確認。
+- 2×2 Bento型4択、44pxタップ領域。
+- 画像保存 / PWA / フォント。
+
+### QA更新
+`tools/vintage-kana-check/index.mjs`:
+- 幅を 320 / 360 / 390 / 430px に固定。
+- 行10件、閉時2列正方形、open時全幅を継続検査。
+- 各字カードの列数（320/360=2、390/430=3）を検査。
+- カード正方形性、リングがカード内に収まることを検査。
+- 変体仮名の文字サイズが字母より大きいことを検査。
+- %がリング外にあることを検査。
+- 0%時の aria-valuenow と表示%一致を検査。
+
+`tests/unit/vintage-kana-rc25.test.ts`:
+- 3列→2列レスポンシブ契約を追加。
+- 正方形カード、Noto Serif Hentaigana、meter、字母、%、旧 masteryBar 不在を固定。
+- 既存RC25の閾値・ポイント・Bento・44px・5問終了時ポイント表示テストは維持。
+
+### CI
+最終HEAD `1aa262d1fa31f39a9e0031306aa4fda61cde4804` の GitHub Actions:
+- run: `35510240216`
+- workflow: CI
+- result: **success**
+
+PASSした主要工程:
+- check:eol
+- typecheck
+- lint
+- npm test
+- data:check
+- build
+- check:vintage-kana
+- check:font
+- check:font-assets
+- check:font-weight
+- check:overflow
+- scan:publish
+
+途中の `0cc14e0...` と `3b5459f...` は狭幅QAで失敗し、カード/行リング寸法を修正した後の `1aa262d...` でPASSした。
+
+### 残る確認
+Web-onlyでの実装・自動QAは完了。
+次は iPhone Safari 実機で記録画面を再確認する。
+
+重点:
+1. 行タイルが「少し大きく」の意図に合っているか。
+2. 390px級の3列カードが窮屈でないか。
+3. 320/360pxの2列カードでリング・変体仮名・字母・%が読みやすいか。
+4. 字母が変体仮名より目立っていないか。
+5. 0 / 30 / 60 / 85 / 100%の色の見え方が既存UIから浮かないか。
+6. 行を開いた時だけ全幅になるアコーディオンが自然か。
+
+footer表記は release candidate 1.0 RC25 のまま。今回の変更はRC25学習ロジックを変えず、記録UIとQAを更新したもの。
+
+再開指示:
+`vintage-kana-main HANDOFF §48 から再開。記録UIのiPhone実機再確認→必要なら見た目だけ最小修正→デザイン監査確定`
