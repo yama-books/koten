@@ -954,7 +954,9 @@ function newQuiz(){
        const correct=value===answer;
        const feedback=quizMode==="reading"
          ? (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")
-         : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
+         : quizQuestionMethod==="jibo-reverse"
+           ? (correct?"正解です。":"正解は「"+quizEntry.character+"」です。")
+           : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
        finishAnswer(correct,feedback);
      };
      root.appendChild(b);
