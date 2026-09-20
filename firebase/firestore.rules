@@ -76,5 +76,26 @@ service cloud.firestore {
       allow create: if isValidStats(request.resource.data, docId, true);
       allow get, list, update, delete: if false;
     }
+
+    function isCiphertextPayload(payload) {
+      return payload.keys().hasOnly(['enc'])
+        && payload.enc is string
+        && payload.enc.matches('^enc:.+$');
+    }
+
+    match /households/{houseId} {
+      match /{recordKind}/{recordId} {
+        allow create: if recordKind in ['sessions', 'events', 'reports']
+          && isCiphertextPayload(request.resource.data);
+        allow get: if recordKind in ['sessions', 'events', 'reports'];
+        allow list, update, delete: if false;
+      }
+
+      match /settings/{settingsId} {
+        allow create, update: if settingsId == 'current' && isCiphertextPayload(request.resource.data);
+        allow get: if settingsId == 'current';
+        allow list, delete: if false;
+      }
+    }
   }
 }
