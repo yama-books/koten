@@ -96,9 +96,11 @@ try{
   assert.equal(await page.evaluate(()=>window.CHECKPOINT_DATA?.auditedInflectionEvidenceFull ?? null),null);
   assert.equal(await page.evaluate(()=>window.CHECKPOINT_DATA?.morphologyProviderPolicy ?? null),null);
   await noHorizontalOverflow('portrait initial');
-  const initialButtonBoxes=await minVisibleHeight('.row button','top actions');
+  const initialButtonBoxes=await minVisibleHeight('.main-actions button','top actions');
   const levelSelectorBox=(await minVisibleHeight('#checkLevel','level selector'))[0];
+  const examplePickerBox=(await minVisibleHeight('.sample-picker summary','example picker'))[0];
 
+  await page.locator('.sample-picker summary').tap();
   await page.locator('#sample3').tap();
   const checklist=page.locator('.item[data-check]');
   const initialCount=await checklist.count();
@@ -194,6 +196,7 @@ try{
     measuredTouchTargets:{
       topActionsMinHeight:Math.min(...initialButtonBoxes.map(x=>x.height)),
       levelSelectorHeight:levelSelectorBox.height,
+      examplePickerHeight:examplePickerBox.height,
       checklistMinHeight:Math.min(...checklistBoxes.map(x=>x.height)),
       drawerCloseHeight:closeBox.height,
       knownActionHeight:knownActionBox.height,
