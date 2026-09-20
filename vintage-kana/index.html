@@ -29,8 +29,9 @@ button,input,textarea{font:inherit} button{cursor:pointer}
 header{margin-bottom:12px}
 h1{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;margin:0;font-size:clamp(27px,4.4vw,42px);font-weight:600;letter-spacing:.07em}
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);margin:14px 0}
+.panelTop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
 .notice{background:#f7f3e9;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.7}
-details.learnHelp{margin:0 0 12px}
+details.learnHelp{margin:0}
 details.learnHelp summary{display:inline-flex;align-items:center;gap:7px;cursor:pointer;list-style:none;border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 12px 7px 8px;font-size:12px;font-weight:700}
 .helpIcon{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent2);border:1px solid #b8c5b2;color:var(--accent);font-weight:800;font-size:13px;line-height:1}
 details.learnHelp summary::-webkit-details-marker{display:none}
@@ -44,12 +45,11 @@ details.learnHelp summary::-webkit-details-marker{display:none}
 .jiboExample .jiboChar{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:25px;line-height:1.2}
 details.moreInfo{margin-top:2px}
 details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
-.tabs{margin:13px 0}
+.tabs{margin:10px 0}
 .mainTab{width:100%;border:1px solid #9dac95;border-radius:15px;padding:13px;background:var(--accent2);color:var(--ink);font-weight:800;font-size:16px}
 .mainTab.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.extraLabel{font-size:10px;color:var(--muted);margin:11px 0 5px}
-.extraTabs{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.tab{border:1px solid var(--line);border-radius:12px;padding:9px;background:#fff;color:var(--muted);font-weight:700;font-size:12px}
+.utilityTabs{display:flex;gap:6px;flex:0 0 auto}
+.tab{border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:#fff;color:var(--muted);font-weight:700;font-size:11px;white-space:nowrap}
 .tab.active{background:var(--accent2);border-color:#9dac95;color:var(--ink)}
 .view{display:none}.view.active{display:block}
 .label{font-weight:700;font-size:13px;margin:0 0 8px}
@@ -111,7 +111,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.tabs{margin:10px 0}.mainTab{padding:10px}.extraLabel{margin-top:8px}.tab{padding:7px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}}
+@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center}.tabs{margin:9px 0}.mainTab{padding:10px}.tab{padding:6px 9px;font-size:10px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}}
 </style>
 </head>
 <body>
@@ -121,36 +121,37 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </header>
 
 <section class="panel">
-  <details class="learnHelp">
-    <summary><span class="helpIcon">?</span><span>変体仮名とは？</span></summary>
-    <div class="helpBody">
-      <h3>変体仮名とは？</h3>
-      <p>昔使われていた、今とは形のちがうひらがなです。</p>
+  <div class="panelTop">
+    <details class="learnHelp">
+      <summary><span class="helpIcon">?</span><span>変体仮名とは？</span></summary>
+      <div class="helpBody">
+        <h3>変体仮名とは？</h3>
+        <p>昔使われていた、今とは形のちがうひらがなです。</p>
 
-      <h3>いつ使われていた？</h3>
-      <p>平安時代から明治時代まで、同じ音にいくつものひらがなの形が使われていました。1900年（明治33年）、学校で教えるひらがなが一つずつに整理されました。</p>
+        <h3>いつ使われていた？</h3>
+        <p>平安時代から明治時代まで、同じ音にいくつものひらがなの形が使われていました。1900年（明治33年）、学校で教えるひらがなが一つずつに整理されました。</p>
 
-      <h3>字母とは？</h3>
-      <p>ひらがなのもとになった漢字です。今のひらがなにも字母があります。</p>
+        <h3>字母とは？</h3>
+        <p>ひらがなのもとになった漢字です。今のひらがなにも字母があります。</p>
 
-      <h3>今のひらがなの字母</h3>
-      <div class="jiboExamples" aria-label="現代のひらがなの字母の例">
-        <div class="jiboExample"><div class="modernKana">あ</div><div class="from">↑</div><div class="jiboChar">安</div></div>
-        <div class="jiboExample"><div class="modernKana">い</div><div class="from">↑</div><div class="jiboChar">以</div></div>
-        <div class="jiboExample"><div class="modernKana">う</div><div class="from">↑</div><div class="jiboChar">宇</div></div>
-        <div class="jiboExample"><div class="modernKana">え</div><div class="from">↑</div><div class="jiboChar">衣</div></div>
-        <div class="jiboExample"><div class="modernKana">お</div><div class="from">↑</div><div class="jiboChar">於</div></div>
+        <h3>今のひらがなの字母</h3>
+        <div class="jiboExamples" aria-label="現代のひらがなの字母の例">
+          <div class="jiboExample"><div class="modernKana">あ</div><div class="from">↑</div><div class="jiboChar">安</div></div>
+          <div class="jiboExample"><div class="modernKana">い</div><div class="from">↑</div><div class="jiboChar">以</div></div>
+          <div class="jiboExample"><div class="modernKana">う</div><div class="from">↑</div><div class="jiboChar">宇</div></div>
+          <div class="jiboExample"><div class="modernKana">え</div><div class="from">↑</div><div class="jiboChar">衣</div></div>
+          <div class="jiboExample"><div class="modernKana">お</div><div class="from">↑</div><div class="jiboChar">於</div></div>
+        </div>
       </div>
+    </details>
+    <div class="utilityTabs" aria-label="補助機能">
+      <button class="tab" data-view="browse">字形</button>
+      <button class="tab" data-view="quiz">クイズ</button>
     </div>
-  </details>
+  </div>
 
   <div class="tabs">
     <button class="mainTab active" data-view="compose">書いてみる</button>
-    <div class="extraLabel">おまけ</div>
-    <div class="extraTabs">
-      <button class="tab" data-view="browse">字形を見る</button>
-      <button class="tab" data-view="quiz">クイズ</button>
-    </div>
   </div>
 
   <div id="compose" class="view active">
@@ -209,7 +210,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC17
+  vintage-kana / release candidate 1.0 RC18
 </footer>
 </div>
 
