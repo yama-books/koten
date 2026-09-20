@@ -101,6 +101,8 @@ try {
     const page = await context.newPage();
     await page.setViewportSize({ width, height: 850 });
     await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+    await page.locator('[data-view="quiz"]').click();
+    await page.waitForSelector(".choice", { state: "visible" });
     await page.waitForFunction(() => document.querySelectorAll(".choice").length === 4);
 
     const measured = await page.evaluate(() => {
@@ -176,6 +178,8 @@ try {
     const page = await context30.newPage();
     await page.setViewportSize({ width: 390, height: 850 });
     await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+    await page.locator('[data-view="quiz"]').click();
+    await page.waitForSelector(".choice", { state: "visible" });
     await page.waitForFunction(() => document.querySelectorAll(".choice").length === 4);
     const state = await page.evaluate(() => ({
       hint: document.querySelector("#quizMethodHint")?.textContent?.trim(),
@@ -207,6 +211,8 @@ try {
     const page = await context65.newPage();
     await page.setViewportSize({ width: 390, height: 850 });
     await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+    await page.locator('[data-view="quiz"]').click();
+    await page.waitForSelector("#quizFreeAnswer", { state: "visible" });
     await page.waitForFunction(() => document.querySelector("#quizFreeAnswer")?.hidden === false);
     const reading = await page.evaluate(() => ({
       hint: document.querySelector("#quizMethodHint")?.textContent?.trim(),
@@ -232,6 +238,8 @@ try {
   {
     const page = await context.newPage();
     await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+    await page.locator('[data-view="quiz"]').click();
+    await page.waitForSelector(".choice", { state: "visible" });
     await page.waitForFunction(() => document.querySelectorAll(".choice").length === 4);
     const glyph = glyphs[0];
     const progression = await page.evaluate((g) => {
