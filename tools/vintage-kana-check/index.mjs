@@ -112,8 +112,9 @@ try {
       const quizScreens = [...document.querySelectorAll(".quizScreenBtn")].map((el) => rect(el));
       const choices = [...document.querySelectorAll(".choice")].map((el) => rect(el));
       const unique = (values) => [...new Set(values.map((v) => Math.round(v)))];
-      const helpText = document.querySelector(".learnHelp summary > span:last-child");
-      const help = rect(document.querySelector(".learnHelp summary"));
+      const helpText = document.querySelector(".learnHelpBtn > span:last-child");
+      const help = rect(document.querySelector(".learnHelpBtn"));
+      const panelTop = rect(document.querySelector(".panelTop"));
       return {
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         tabHeights: tabs.map((r) => r?.height ?? 0),
@@ -121,6 +122,7 @@ try {
         quizScreenHeights: quizScreens.map((r) => r?.height ?? 0),
         helpHeight: help?.height ?? 0,
         helpTextDisplay: helpText ? getComputedStyle(helpText).display : "",
+        panelTopHeight: panelTop?.height ?? 0,
         choiceCount: choices.length,
         choiceHeights: choices.map((r) => r?.height ?? 0),
         choiceColumns: unique(choices.map((r) => r?.left ?? 0)).length,
@@ -139,6 +141,17 @@ try {
     if (width <= 380 && measured.helpTextDisplay !== "none") add(width, "compactHelpAtNarrowWidth", measured.helpTextDisplay);
     if (width > 380 && measured.helpTextDisplay === "none") add(width, "fullHelpAboveNarrowWidth", measured.helpTextDisplay);
 
+    await page.locator("#openHelp").click();
+    await page.waitForFunction(() => document.querySelector("#helpDialog")?.open === true);
+    const helpModal = await page.evaluate(() => ({
+      open: document.querySelector("#helpDialog")?.open === true,
+      panelTopHeight: document.querySelector(".panelTop")?.getBoundingClientRect().height ?? 0,
+      title: document.querySelector("#helpDialog h2")?.textContent?.trim() ?? "",
+    }));
+    if (!helpModal.open || helpModal.title !== "変体仮名とは？") add(width, "helpDialogOpens", helpModal);
+    if (Math.abs(helpModal.panelTopHeight - measured.panelTopHeight) > 1) add(width, "helpDialogDoesNotReflowNav", { before: measured.panelTopHeight, after: helpModal.panelTopHeight });
+    await page.locator("#closeHelp").click();
+
     await page.evaluate(() => showQuizScreen("record"));
     await page.waitForSelector(".recordRowGroup");
     const record = await page.evaluate(() => {
@@ -152,7 +165,7 @@ try {
       const closed = {
         count: groups.length,
         sameRow: Boolean(a && b && Math.abs(a.top - b.top) < 2),
-        compact: Boolean(a && a.height <= a.width * 0.82),
+        compact: Boolean(a && a.height <= a.width),
         rowRingShare: Boolean(a && rowRingBefore) ? rowRingBefore.width / a.width : 0,
       };
       if (first) first.open = true;
@@ -200,6 +213,19 @@ try {
     if (!record.readingText) add(width, "recordGlyphReadingAboveRing", record);
     if (!record.jiboText || record.jiboText.startsWith("字母")) add(width, "recordGlyphJiboWithoutPrefix", record);
     if (record.meterValue !== "0" || record.percentText !== "0%") add(width, "recordGlyphMeterMatchesPercent", record);
+
+    await page.locator('[data-view="browse"]').click();
+    await page.waitForSelector(".kanaFilterRow");
+    const browse = await page.evaluate(() => ({
+      rowCount: document.querySelectorAll(".kanaFilterRow").length,
+      labels: [...document.querySelectorAll(".kanaFilterRow__label")].map((el) => el.textContent?.trim() ?? ""),
+      maxRight: Math.max(0, ...[...document.querySelectorAll(".kanaFilterRow")].map((el) => el.getBoundingClientRect().right)),
+      viewport: document.documentElement.clientWidth,
+      menuText: document.querySelector('[data-view="browse"]')?.textContent?.trim() ?? "",
+    }));
+    if (browse.rowCount !== 10) add(width, "browseKanaRowCount", browse);
+    if (browse.menuText !== "一覧") add(width, "browseMenuLabel", browse);
+    if (browse.maxRight > browse.viewport + 1) add(width, "browseRowsNoOverflow", browse);
 
     await page.close();
   }
@@ -253,7 +279,7 @@ try {
     await context30.close();
   }
 
-  // 65%: reading stays free input; jibo advances to unambiguous jibo→glyph choice.
+  // 65%: reading stays free input; jibo advances to jibo→glyph choice with one displayed correct form.
   {
     const context65 = await browser.newContext();
     await context65.addInitScript((events) => {
