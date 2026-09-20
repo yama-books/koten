@@ -176,7 +176,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}.rowGlyphMastery{grid-template-columns:1fr}.masteryList{grid-template-columns:1fr}}
+@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}.rowGlyphMastery{grid-template-columns:1fr}.masteryList{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -443,7 +443,7 @@ function loadLearningEvents(){
 function newQuizSet(){
  return {
    id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
-   answered:0,correct:0
+   answered:0,correct:0,glyphs:[]
  };
 }
 function completedSetIds(){
@@ -497,7 +497,10 @@ function computeGlyphMastery(character){
  let score=0;
  let ninetyReachedOn="";
  const dailyPositive=new Map();
+ const seenSets=new Set();
  for(const e of events){
+   const isRepeat=Boolean(e.setId && seenSets.has(e.setId));
+   if(e.setId)seenSets.add(e.setId);
    const day=e.localDate||localDateOf(e.at);
    if(!e.masteryMethod){
      score=Math.max(0,Math.min(100,score+legacyMasteryDelta(e)));
@@ -522,6 +525,7 @@ function computeGlyphMastery(character){
      base=FREE_INPUT_MASTERY_INCREMENT;
      cap=FREE_INPUT_MASTERY_CAP;
    }
+   if(isRepeat)base=Math.floor(base/2);
    const used=dailyPositive.get(day)||0;
    const dailyRoom=Math.max(0,DAILY_MASTERY_GAIN_CAP-used);
    const gain=Math.min(base,dailyRoom,Math.max(0,cap-score));
@@ -785,7 +789,10 @@ function newQuiz(){
  if(next){next.disabled=true;next.textContent="次の問題";}
  document.getElementById("feedback").textContent="";
 
- quizEntry=GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
+ const available=GLYPHS.filter(g=>!quizSet.glyphs.includes(g.character));
+ const poolForQuestion=available.length?available:GLYPHS;
+ quizEntry=poolForQuestion[Math.floor(Math.random()*poolForQuestion.length)];
+ quizSet.glyphs.push(quizEntry.character);
  quizQuestionMethod=quizMethodForGlyph(quizEntry.character);
 
  const mastery=computeGlyphMastery(quizEntry.character);
