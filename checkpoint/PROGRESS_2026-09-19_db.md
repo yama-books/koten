@@ -731,3 +731,30 @@ gold先固定→shadow無調整baseline保存まで完了。
 - iPhone Safari actual device: PENDING
 - production integration: PENDING
 - legacy-visible public beta: CONDITIONAL_PASS継続
+
+
+## 2026-09-20 WebKitスマホbrowser smoke
+
+- Playwright WebKitによるmobile browser smokeを追加。
+- workflow: `.github/workflows/checkpoint-public-beta.yml`
+- script: `tests/checkpoint-public-beta-browser.smoke.mjs`
+- run **35482145135** / head `62f70c3532f4419252437768554d8b8b9d3bbe6f` / **SUCCESS**
+- WebKit 26.5
+- portrait **390×844**
+- landscape **844×390**
+- sample3 checklist **16件**
+- 安倍晴明long sample marker **162件**
+
+確認PASS:
+- normal URLでshadow非表示・shadowData skipped
+- portrait / landscapeとも横overflowなし
+- 一文字本文markerのtouchでdrawer open
+- drawer中のbody scroll lock
+- 「ここはわかる」履歴
+- 個別復帰 / 全件復帰
+- 本文変更時の履歴clear
+- long sample描画
+- landscape drawerがviewport内
+
+これは物理iPhone Safariそのものではないため、actual device gateはPENDINGのまま。
+公開βの残作業は production差分再照合 → production統合 → Pages deploy → 物理iPhone Safari最終smoke。
