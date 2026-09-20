@@ -69,6 +69,11 @@ reports-raw/
 # tests/unit/stats-report まで追跡から外れる（2026-09-13 に実際に外れた）。
 /stats-report/
 
+# ---- 作業用ワークツリー ----
+# Claude Code の worktree はここへ作られる。リポジトリの複製そのものなので追跡しない。
+# **`.claude/` ごと除外しないこと。** `.claude/launch.json`（開発サーバの設定）は追跡している。
+.claude/worktrees/
+
 # ---- テスト成果物 ----
 test-results/
 playwright-report/

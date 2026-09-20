@@ -45,24 +45,33 @@ test('flushOutbox drops an outbox entry whose record no longer exists locally', 
   assert.deepEqual(remaining.ok ? remaining.value : ['not-empty'], []);
 });
 
-test('applyRemoteRecords decrypts and merges new events without duplicating existing ones', async () => {
+/**
+ * **受信分に含まれない手元の記録が残ることを、ここで釘付けにする。**
+ * 両端末が同じ記録を持つ fixture にすると、「merge する」実装と
+ * 「受信分で上書きする」実装が同じ結果になり、区別できない（2026-09-20 の破壊試験で実際に素通しした）。
+ * ペアリング前やオフライン中に作った記録は受信分に無いので、これが消えるのが実運用で一番痛い。
+ */
+test('applyRemoteRecords keeps local-only records that the remote does not have', async () => {
   const db = createFakeDatabase();
   const code = 'apply-remote-code1';
-  const existing = { ...sampleEvent, eventId: 'evt-local-1' };
-  await appendEvent(db, existing);
+  const localOnly = { ...sampleEvent, eventId: 'evt-local-only' };
+  const shared = { ...sampleEvent, eventId: 'evt-shared' };
+  await appendEvent(db, localOnly);
+  await appendEvent(db, shared);
 
-  const remoteNew = { ...sampleEvent, eventId: 'evt-remote-1' };
+  const remoteNew = { ...sampleEvent, eventId: 'evt-remote-new' };
   const encodedNew = await encodeRecord('events', code, remoteNew);
-  const encodedExisting = await encodeRecord('events', code, existing);
+  const encodedShared = await encodeRecord('events', code, shared);
 
   const result = await applyRemoteRecords(db, code, 'events', [
     { id: encodedNew.id, payload: encodedNew.payload },
-    { id: encodedExisting.id, payload: encodedExisting.payload },
+    { id: encodedShared.id, payload: encodedShared.payload },
   ]);
   assert.deepEqual(result, { added: 1, duplicates: 1 });
 
   const all = await listEvents(db);
-  assert.equal(all.ok && all.value.length, 2);
+  const ids = all.ok ? all.value.map((event) => event.eventId).sort() : [];
+  assert.deepEqual(ids, ['evt-local-only', 'evt-remote-new', 'evt-shared']);
 });
 
 test('applyRemoteRecords ignores documents that fail to decrypt', async () => {
