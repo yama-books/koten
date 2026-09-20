@@ -419,34 +419,40 @@ function loadLearningEvents(){
 function newQuizSet(){
  return {
    id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
-   answered:0,correct:0,points:0
+   answered:0,correct:0
  };
 }
+function completedSetIds(){
+ const counts=new Map();
+ learningEvents.forEach(e=>{if(e.setId)counts.set(e.setId,(counts.get(e.setId)||0)+1)});
+ return new Set([...counts.entries()].filter(([,n])=>n>=QUIZ_SET_SIZE).map(([id])=>id));
+}
 function learningSummary(){
+ const completed=completedSetIds();
  return learningEvents.reduce((s,e)=>{
    s.attempts+=1;
-   s.points+=e.outcome==="correct"?QUIZ_CORRECT_POINTS:QUIZ_ATTEMPT_POINTS;
    if(e.outcome==="correct")s.correct+=1;
    if(e.mode==="reading")s.reading+=1;
    if(e.mode==="jibo")s.jibo+=1;
+   if(e.setId && completed.has(e.setId)){
+     s.points+=e.outcome==="correct"?QUIZ_CORRECT_POINTS:QUIZ_ATTEMPT_POINTS;
+   }
    return s;
  },{attempts:0,points:0,correct:0,reading:0,jibo:0});
 }
 function completedSetCount(){
- const counts=new Map();
- learningEvents.forEach(e=>{if(e.setId)counts.set(e.setId,(counts.get(e.setId)||0)+1)});
- return [...counts.values()].filter(n=>n>=QUIZ_SET_SIZE).length;
+ return completedSetIds().size;
 }
 function formatPoints(value){
  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g,",");
 }
 function masteryDisplayLocal(score){
  const percent=Math.max(0,Math.min(100,Math.trunc(score)));
- if(percent===0)return {percent,color:"gray",label:"未着手",css:"var(--mastery-gray)"};
- if(percent<30)return {percent,color:"red",label:"はじめたところ",css:"var(--mastery-red)"};
- if(percent<60)return {percent,color:"yellow",label:"練習中",css:"var(--mastery-yellow)"};
- if(percent<85)return {percent,color:"blue",label:"もう少し",css:"var(--mastery-blue)"};
- return {percent,color:"green",label:"定着",css:"var(--mastery-green)"};
+ if(percent===0)return {percent,color:"gray",css:"var(--mastery-gray)"};
+ if(percent<30)return {percent,color:"red",css:"var(--mastery-red)"};
+ if(percent<60)return {percent,color:"yellow",css:"var(--mastery-yellow)"};
+ if(percent<85)return {percent,color:"blue",css:"var(--mastery-blue)"};
+ return {percent,color:"green",css:"var(--mastery-green)"};
 }
 function glyphLearningStats(){
  const map=new Map();
@@ -476,10 +482,14 @@ function kanaMastery(kana){
 }
 function rowMastery(label,kanas){
  const relevant=kanas.filter(k=>GLYPHS.some(g=>g.kana===k));
- if(!relevant.length)return {label,percent:0};
+ if(!relevant.length)return {label,percent:0,display:masteryDisplayLocal(0)};
  const total=relevant.reduce((sum,k)=>sum+kanaMastery(k),0);
  const percent=Math.round(total/relevant.length);
  return {label,percent,display:masteryDisplayLocal(percent)};
+}
+function rowReviewKanas(kanas,rowPercent){
+ if(rowPercent<60)return [];
+ return kanas.filter(k=>GLYPHS.some(g=>g.kana===k) && kanaMastery(k)<60);
 }
 function recentGlyphStats(){
  const stats=new Map(glyphLearningStats().map(s=>[s.character,s]));
@@ -499,13 +509,21 @@ function weakGlyphStats(){
    .sort((a,b)=>b.incorrect-a.incorrect || (b.incorrect/b.attempts)-(a.incorrect/a.attempts) || b.lastAt.localeCompare(a.lastAt))
    .slice(0,8);
 }
-function glyphCardHtml(s,kind){
- const detail=kind==="weak"
-   ? `まちがい ${s.incorrect}回 / ${s.attempts}回`
-   : `${s.kana} ・ ${s.display.label} ${s.mastery}%`;
+function glyphCardHtml(s){
  return '<div class="recordGlyph"><div class="recordGlyph__char">'+escapeHtml(s.character)+'</div>'+
-   '<div class="recordGlyph__meta">'+escapeHtml(detail)+'</div>'+
-   '<div class="recordGlyph__meta recordGlyph__mastery">'+escapeHtml(s.jibo?"字母 "+s.jibo:"")+'</div></div>';
+   '<div class="recordGlyph__meta">'+escapeHtml(s.jibo?"字母 "+s.jibo:"")+'</div></div>';
+}
+function rowGlyphMasteryHtml(kanas){
+ const statsByGlyph=new Map(glyphLearningStats().map(s=>[s.character,s]));
+ const glyphs=GLYPHS.filter(g=>kanas.includes(g.kana));
+ return glyphs.map(g=>{
+   const s=statsByGlyph.get(g.character);
+   const mastery=s?.mastery||0;
+   const display=masteryDisplayLocal(mastery);
+   return '<div class="masteryItem"><div class="masteryItem__char">'+escapeHtml(g.character)+'</div>'+
+     '<div><div class="masteryItem__label"><span>'+escapeHtml(g.kana)+'・字母 '+escapeHtml(g.jibo||"—")+'</span><strong>'+mastery+'%</strong></div>'+
+     '<div class="masteryBar" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'"><span style="width:'+mastery+'%;--meter-color:'+display.css+'"></span></div></div></div>';
+ }).join("");
 }
 function renderRecordScreen(){
  const summary=learningSummary();
@@ -518,10 +536,15 @@ function renderRecordScreen(){
  const rows=document.getElementById("rowMastery");
  if(rows){
    rows.innerHTML="";
-   KANA_ROWS.map(([label,kanas])=>rowMastery(label,kanas)).forEach(row=>{
-     const d=document.createElement("div");d.className="recordRow";
-     d.innerHTML='<span class="recordRow__label">'+escapeHtml(row.label)+'<small style="display:block;color:var(--muted);font-weight:400;margin-top:2px">'+escapeHtml(row.display.label)+'</small></span>'+
-       '<span class="ringMeter" style="--p:'+row.percent+';--meter-color:'+row.display.css+'" role="meter" aria-label="'+escapeHtml(row.label)+' 習熟度 '+row.percent+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+row.percent+'"><span>'+row.percent+'%</span></span>';
+   KANA_ROWS.forEach(([label,kanas])=>{
+     const row=rowMastery(label,kanas);
+     const review=rowReviewKanas(kanas,row.percent);
+     const d=document.createElement("details");
+     d.className="recordRowGroup";
+     d.innerHTML='<summary><span class="recordRow__head"><span class="recordRow__label">'+escapeHtml(row.label)+'</span>'+
+       (review.length?'<span class="recordReview">要確認　'+escapeHtml(review.join("・"))+'</span>':"")+
+       '</span><span class="ringMeter" style="--p:'+row.percent+';--meter-color:'+row.display.css+'" role="meter" aria-label="'+escapeHtml(row.label)+' 習熟度 '+row.percent+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+row.percent+'"><span>'+row.percent+'%</span></span></summary>'+
+       '<div class="rowGlyphMastery">'+rowGlyphMasteryHtml(kanas)+'</div>';
      rows.appendChild(d);
    });
  }
@@ -529,24 +552,12 @@ function renderRecordScreen(){
  const recent=document.getElementById("recentGlyphs");
  if(recent){
    const items=recentGlyphStats();
-   recent.innerHTML=items.length?items.map(s=>glyphCardHtml(s,"recent")).join(""):'<div class="emptyRecord">まだ記録がありません。</div>';
+   recent.innerHTML=items.length?items.map(glyphCardHtml).join(""):'<div class="emptyRecord">まだ記録がありません。</div>';
  }
  const weak=document.getElementById("weakGlyphs");
  if(weak){
    const items=weakGlyphStats();
-   weak.innerHTML=items.length?items.map(s=>glyphCardHtml(s,"weak")).join(""):'<div class="emptyRecord">まだ間違えた字はありません。</div>';
- }
-
- const all=document.getElementById("glyphMasteryList");
- if(all){
-   const items=glyphLearningStats().sort((a,b)=>
-     KANA_ORDER.indexOf(a.kana)-KANA_ORDER.indexOf(b.kana) || a.character.localeCompare(b.character)
-   );
-   all.innerHTML=items.length?items.map(s=>
-     '<div class="masteryItem"><div class="masteryItem__char">'+escapeHtml(s.character)+'</div>'+
-     '<div><div class="masteryItem__label"><span>'+escapeHtml(s.kana)+'・字母 '+escapeHtml(s.jibo||"—")+'</span><strong>'+escapeHtml(s.display.label)+' '+s.mastery+'%</strong></div>'+
-     '<div class="masteryBar" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+s.mastery+'"><span style="width:'+s.mastery+'%;--meter-color:'+s.display.css+'"></span></div></div></div>'
-   ).join(""):'<div class="emptyRecord">まだ記録がありません。</div>';
+   weak.innerHTML=items.length?items.map(glyphCardHtml).join(""):'<div class="emptyRecord">まだ間違えた字はありません。</div>';
  }
 }
 function showQuizScreen(screen){
@@ -571,7 +582,9 @@ function renderSetProgress(){
 function renderQuizResult(){
  const pts=document.getElementById("setPoints");
  const meta=document.getElementById("setResultMeta");
- if(pts)pts.textContent="+"+formatPoints(quizSet.points);
+ const incorrect=Math.max(0,quizSet.answered-quizSet.correct);
+ const points=quizSet.correct*QUIZ_CORRECT_POINTS+incorrect*QUIZ_ATTEMPT_POINTS;
+ if(pts)pts.textContent="+"+formatPoints(points);
  if(meta)meta.textContent=QUIZ_SET_SIZE+"問中 "+quizSet.correct+"問正解";
 }
 function showQuizResult(){
@@ -589,7 +602,6 @@ function restartQuizSet(){
  newQuiz();
 }
 function recordLearningAttempt(mode,correct){
- const gained=correct?QUIZ_CORRECT_POINTS:QUIZ_ATTEMPT_POINTS;
  learningEvents.push({
    id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
    at:new Date().toISOString(),
@@ -603,10 +615,8 @@ function recordLearningAttempt(mode,correct){
  });
  quizSet.answered+=1;
  if(correct)quizSet.correct+=1;
- quizSet.points+=gained;
  try{localStorage.setItem(LEARNING_RECORD_KEY,JSON.stringify(learningEvents))}catch(e){console.warn("learning record save failed",e)}
  renderSetProgress();
- return gained;
 }
 
 async function loadData(){
@@ -669,7 +679,11 @@ function newQuiz(){
  if(next){next.disabled=true;next.textContent="次の問題";}
  document.getElementById("feedback").textContent="";
  quizEntry=GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
- document.getElementById("quizGlyph").textContent=quizEntry.character;
+ const quizGlyph=document.getElementById("quizGlyph");
+ const jiboPrompt=document.getElementById("jiboPrompt");
+ const jiboPromptGlyph=document.getElementById("jiboPromptGlyph");
+ quizGlyph.textContent=quizEntry.character;
+ if(jiboPromptGlyph)jiboPromptGlyph.textContent=quizEntry.character;
 
  const question=document.getElementById("quizQuestion");
  const root=document.getElementById("choices");
@@ -685,6 +699,8 @@ function newQuiz(){
  }
 
  if(quizMode==="reading"){
+   quizGlyph.hidden=false;
+   if(jiboPrompt)jiboPrompt.hidden=true;
    question.textContent="この文字は何と読む？";
    const pool=[...new Set(GLYPHS.map(x=>x.kana))].filter(x=>x!==quizEntry.kana);
    const opts=shuffle([quizEntry.kana,...shuffle(pool).slice(0,3)]);
@@ -703,7 +719,9 @@ function newQuiz(){
      root.appendChild(b);
    });
  }else{
-   question.textContent="この文字のもとになった漢字は？";
+   quizGlyph.hidden=true;
+   if(jiboPrompt)jiboPrompt.hidden=false;
+   question.textContent="字母は？";
    const pool=[...new Set(GLYPHS.map(x=>x.jibo))].filter(x=>x!==quizEntry.jibo);
    const opts=shuffle([quizEntry.jibo,...shuffle(pool).slice(0,3)]);
    opts.forEach(j=>{
@@ -815,8 +833,8 @@ function outputTokenFor(ch){
 }
 function canvasFont(token,size){
  return token.hentaigana
-   ? `${size}px "Noto Serif Hentaigana","Hiragino Mincho ProN","Yu Mincho","YuMincho",serif`
-   : `${size}px "Hiragino Mincho ProN","Yu Mincho","YuMincho","Hiragino Mincho Pro",serif`;
+   ? `${size}px "Noto Serif Hentaigana","Klee One","Yu Mincho",serif`
+   : `600 ${size}px "Klee One","Yu Mincho",serif`;
 }
 function roundedRect(ctx,x,y,w,h,r){
  const rr=Math.min(r,w/2,h/2);
@@ -909,7 +927,7 @@ function makePreviewDataUrl(){
    "変体仮名メーカー",
    540,
    958,
-   '24px "Hiragino Mincho ProN","Yu Mincho","YuMincho",serif',
+   '600 24px "Klee One","Yu Mincho",serif',
    3
  );
  return canvas.toDataURL("image/png");
@@ -941,15 +959,22 @@ function fallbackSaveImage(dataUrl,filename){
 
 function savePreviewImage(){
  const status=document.getElementById("saveStatus");
- const sample="𛀒";
- if(document.fonts && !document.fonts.check('32px "Noto Serif Hentaigana"',sample)){
-   if(status)status.textContent="字体を読み込んでいます。少し待って、もう一度押してください。";
-   document.fonts.load('32px "Noto Serif Hentaigana"',sample).then(()=>{
-     if(status)status.textContent="準備できました。もう一度押してください。";
-   }).catch(()=>{});
-   return;
- }
- const dataUrl=makePreviewDataUrl();
+ if(document.fonts){
+   const pending=[];
+   if(!document.fonts.check('32px "Noto Serif Hentaigana"',"𛀒")){
+     pending.push(document.fonts.load('32px "Noto Serif Hentaigana"',"𛀒"));
+   }
+   if(!document.fonts.check('600 32px "Klee One"',"あいうえお")){
+     pending.push(document.fonts.load('600 32px "Klee One"',"あいうえお"));
+   }
+   if(pending.length){
+     if(status)status.textContent="字体を読み込んでいます。少し待って、もう一度押してください。";
+     Promise.allSettled(pending).then(()=>{
+       if(status)status.textContent="準備できました。もう一度押してください。";
+     });
+     return;
+   }
+ } const dataUrl=makePreviewDataUrl();
  if(!dataUrl){if(status)status.textContent="ひらがなを入力してください。";return}
  const stamp=new Date().toISOString().slice(0,10).replaceAll("-","");
  const filename=`hentaigana-${stamp}.png`;
