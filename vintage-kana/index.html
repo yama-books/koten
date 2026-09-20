@@ -79,6 +79,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .composeKana{font-family:"Yu Mincho",serif;font-size:24px;text-align:center;padding-top:5px}
 .candidates{display:flex;gap:7px;flex-wrap:wrap}
 .glyphChoice{border:1px solid var(--line);border-radius:10px;background:#fff;padding:6px 9px;min-width:76px}
+.glyphChoice.standardChoice{background:#edf3f7;border-color:#b9cad5}
 .glyphChoice.active{background:var(--accent2);border-color:#9dac95}
 .glyphChoice .g{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:28px;display:block;line-height:1.2}
 .glyphChoice .g.smallGlyph{font-size:20px;line-height:1.45}
@@ -193,7 +194,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC13
+  vintage-kana / release candidate 1.0 RC14
 </footer>
 </div>
 
@@ -393,6 +394,12 @@ function renderCompose(){
      const row=document.createElement("div");row.className="composeRow";
      const left=document.createElement("div");left.className="composeKana";left.textContent=k;
      const cand=document.createElement("div");cand.className="candidates";
+
+     const standard=document.createElement("button");
+     standard.className="glyphChoice standardChoice"+(selected[k]?.keep?" active":"");
+     standard.innerHTML='<span class="g">'+escapeHtml(k)+'</span><small>普通のひらがな</small>';
+     standard.onclick=()=>{selected[k]={keep:true,text:k,small:false};renderCompose()};
+     cand.appendChild(standard);
 
      GLYPHS.filter(x=>x.kana===info.base).forEach(e=>{
        const out=e.character+info.mark;
