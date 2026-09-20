@@ -31,3 +31,9 @@ h1,
 h1 {
   font-weight: 600;
 }
+
+/* 活用形名と表の見出しは、百人一首と同じ丸ゴシックで統一する。 */
+.katsuyo th.label,
+.track-heads span {
+  font-family: var(--conj-font-ui) !important;
+}
