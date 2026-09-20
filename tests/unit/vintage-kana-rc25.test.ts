@@ -68,7 +68,7 @@ test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 respon
   assert.match(html, /\.rowGlyphMastery\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
   assert.match(html, /\.glyphMasteryCard\{[^}]*aspect-ratio:1\/1\.12;/);
   assert.match(html, /\.glyphMasteryCard\{[^}]*padding:20px 4px 5px/);
-  assert.match(html, /\.glyphMasteryCore\{[^}]*transform:translateX\(4px\)/);
+  assert.match(html, /\.glyphMasteryCore\{[^}]*transform:translate\(4px,8px\)/);
   assert.match(html, /\.glyphMasteryGlyph\{[^}]*font-family:"Noto Serif Hentaigana"/);
   assert.match(html, /@media\(max-width:360px\)\{\.rowGlyphMastery\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}\}/);
   assert.match(html, /@media\(orientation:landscape\) and \(min-width:721px\)\{\.recordRows\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)\}\.rowGlyphMastery\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}\}/);
