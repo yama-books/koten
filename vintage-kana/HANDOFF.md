@@ -1272,3 +1272,86 @@ iPhone実機で「記録」画面を確認。スクリーンショット上で�
 
 再開指示:
 `vintage-kana-main HANDOFF §46 から再開。記録UIを行タイル拡大＋各字3列円形習熟度カードへ実装→狭幅QA→実機再確認`
+
+
+## 47. 2026-09-20 Web-only再開直後・実装前停止チェックポイント
+
+ユーザー指示により、§46から再開した直後の調査段階で停止する。
+**このセッションではローカルを使用していない。実装コードの変更もまだ行っていない。**
+
+### 正本確認
+- repository: `yama-books/koten`
+- branch: `vintage-kana-main`
+- 再開時HEAD: `15e8d84bfa6d92b760ac9e10dab558a9a32d3bb6`
+- このHEADは§46を記録したコミットそのもの。
+- `main` へ直接pushしていない。
+- force-pushしていない。
+- 他ブランチを削除していない。
+
+### 今回確認したもの
+1. `vintage-kana/HANDOFF.md` §46
+2. `vintage-kana/DESIGN_HISTORY.md`
+3. `vintage-kana/index.html`
+4. `tests/unit/vintage-kana-rc25.test.ts`
+5. `tools/vintage-kana-check/index.mjs`
+6. `vintage-kana/DESIGN_AUDIT_BRIEF_2026-09-20.md`
+7. `vintage-kana/PUBLICATION_QA.md`
+
+設計史との矛盾は見つかっていない。
+換字暗号・無作為字体選択を歴史再現として復活させる変更は行わない。
+
+### 現行実装で特定した変更箇所
+
+`vintage-kana/index.html`:
+- `.recordRows` は2列。
+- 閉じた `.recordRowGroup summary` は正方形。
+- 行リング `.ringMeter` は48px、内円35px。
+- `.rowGlyphMastery` は基礎CSSでは2列だが、`@media(max-width:720px)` で1列へ落ちる。
+- 展開内各字体は `.masteryItem` + `.masteryBar` の横長バー型。
+- `rowGlyphMasteryHtml()` が、字形・対応仮名・%・バーを生成している。
+- `GLYPHS` には `jibo` があるため、新カードの字母表示は既存データから直接取得できる。
+- 習熟度色は `masteryDisplayLocal()` の既存境界 0 / 30 / 60 / 85 をそのまま再利用できる。
+
+### RC26 QAで特定した更新箇所
+
+`tools/vintage-kana-check/index.mjs`:
+- 現在の狭幅QA幅は `[320, 375, 390, 430]`。
+- §46承認仕様に合わせ、次回は **320 / 360 / 390 / 430px** へ更新する。
+- 現在は記録画面について
+  - 10行
+  - 閉時2列
+  - 閉時正方形
+  - open時全幅
+  を検査している。
+- 各字カードの3列 / 2列、正方形性、リング中央字形、字母、%表示はまだ検査していない。
+- 旧バーUI前提の検査が残らないよう、実装と同時に更新する。
+
+`tests/unit/vintage-kana-rc25.test.ts`:
+- RC25の習熟度・ポイント・出題閾値、2×2 Bento、狭幅ナビ、44px、5問終了時ポイント表示を固定している。
+- **これらは今回の記録UI改修で変更しない。**
+- 新しい記録カードDOM/CSS契約の静的テストはまだ追加していない。
+
+### 未実装
+§46で承認された次の変更は、**すべて未実装のまま**。
+- 行タイルを少し大きく見せる。
+- 行名と行リングを一段拡大。
+- 展開内の横長習熟度バーを廃止。
+- 各字体を正方形カード化。
+- 標準iPhone幅で3列。
+- 360px以下で2列。
+- 各カード中央に円形習熟度リング。
+- リング中央に大きい変体仮名＋小さい字母。
+- リング外下部に習熟度%。
+- 320 / 360 / 390 / 430px QA。
+
+### 次回の安全な再開順
+1. 本§47と§46を読む。
+2. `vintage-kana/index.html` の記録UI CSSと `rowGlyphMasteryHtml()` だけを最小差分で変更。
+3. RC25ロジック・ポイント・localStorage・出題閾値には触れない。
+4. `tools/vintage-kana-check/index.mjs` を320 / 360 / 390 / 430pxへ更新し、各字カードの列数・正方形性・リング表示を追加検査。
+5. `tests/unit/vintage-kana-rc25.test.ts` の既存契約を保持し、必要なら記録UIの静的契約だけ追加。
+6. CI確認。
+7. その後iPhone実機再確認。
+
+再開指示:
+`vintage-kana-main HANDOFF §47 から再開。§46承認済みの記録UI改修を最小差分実装→320/360/390/430 QA。RC25/26の学習ロジックは変更しない`
