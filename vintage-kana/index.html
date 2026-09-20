@@ -68,7 +68,9 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .btn{border:1px solid var(--line);border-radius:11px;padding:10px 14px;background:#fff;color:var(--ink);font-weight:700}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:12px 14px;line-height:1.8;resize:vertical}
-.composeModes{display:flex;gap:7px;margin:10px 0 12px}
+.composeModeLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+.composeModeLabel{font-size:12px;font-weight:700;color:var(--ink)}
+.composeModes{display:flex;gap:7px;margin:0}
 .composeModeBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:8px 14px;font-size:12px;font-weight:700}
 .composeModeBtn.active{background:var(--accent);border-color:var(--accent);color:#fff}
 .composeRows{display:grid;gap:10px;margin-top:14px}
@@ -82,6 +84,8 @@ textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:1
 .glyphChoice .g.smallGlyph{font-size:20px;line-height:1.45}
 .preview .smallGlyph{display:inline-block;font-size:.68em;line-height:1;vertical-align:.18em}
 .glyphChoice small{color:var(--muted);font-size:10px}
+.originalText{margin:2px 0 8px;padding:8px 10px;border-radius:10px;background:var(--paper2);font-size:13px;line-height:1.6;color:var(--muted)}
+.originalText b{color:var(--ink);font-weight:700}
 .preview{margin-top:10px;min-height:130px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:40px;line-height:1.8;word-break:break-all}
 .empty{padding:24px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:1.9;text-align:center;background:#fff}
 .sources a,.readCard a{color:var(--accent)}
@@ -99,7 +103,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 
 <section class="panel">
   <details class="learnHelp">
-    <summary><span class="helpIcon">?</span><span>字形と字母</span></summary>
+    <summary><span class="helpIcon">?</span><span>変体仮名とは？</span></summary>
     <div class="helpBody">
       <h3>変体仮名とは？</h3>
       <p>昔使われていた、今とは形のちがうひらがなです。</p>
@@ -133,12 +137,16 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   <div id="compose" class="view active">
     <div class="label">ひらがなを入力</div>
     <textarea id="sourceText" placeholder="ここにひらがなを入力">きょうはいいてんきですね</textarea>
-    <div class="composeModes">
-      <button class="composeModeBtn active" data-compose-mode="auto">おまかせ</button>
-      <button class="composeModeBtn" data-compose-mode="manual">自分で決める</button>
+    <div class="composeModeLine">
+      <span class="composeModeLabel">仮名：</span>
+      <div class="composeModes">
+        <button class="composeModeBtn active" data-compose-mode="auto">おまかせ</button>
+        <button class="composeModeBtn" data-compose-mode="manual">自分で決める</button>
+      </div>
     </div>
     <div id="composeRows" class="composeRows autoHidden"></div>
     <div class="label">できあがり</div>
+    <div id="originalText" class="originalText"><b>もとの文</b>　きょうはいいてんきですね</div>
     <div id="preview" class="preview"></div>
     <div id="rerollWrap" class="actions"><button id="rerollCompose" class="btn">もう一度</button></div>
   </div>
@@ -178,7 +186,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC9
+  vintage-kana / release candidate 1.0 RC10
 </footer>
 </div>
 
@@ -400,6 +408,8 @@ function renderCompose(){
    });
  }
 
+ const original=document.getElementById("originalText");
+ if(original) original.innerHTML='<b>もとの文</b>　'+escapeHtml(text);
  document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
  const reroll=document.getElementById("rerollWrap");
  if(reroll) reroll.style.display=composeMode==="auto"?"flex":"none";
