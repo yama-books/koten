@@ -125,8 +125,10 @@ try {
         panelTopHeight: panelTop?.height ?? 0,
         choiceCount: choices.length,
         choiceHeights: choices.map((r) => r?.height ?? 0),
+        choiceFontSizes: [...document.querySelectorAll(".choice")].map((el) => Number.parseFloat(getComputedStyle(el).fontSize)),
         choiceColumns: unique(choices.map((r) => r?.left ?? 0)).length,
         choiceRows: unique(choices.map((r) => r?.top ?? 0)).length,
+        methodHint: document.querySelector("#quizMethodHint")?.textContent?.trim() ?? "",
       };
     });
 
@@ -137,7 +139,9 @@ try {
     if (measured.helpHeight < 44) add(width, "help44", measured.helpHeight);
     if (measured.choiceCount !== 4) add(width, "choiceCount", measured.choiceCount);
     if (measured.choiceColumns !== 2 || measured.choiceRows !== 2) add(width, "choiceGrid2x2", { columns: measured.choiceColumns, rows: measured.choiceRows });
-    if (measured.choiceHeights.some((h) => h < 78)) add(width, "choiceHeight78", measured.choiceHeights);
+    if (measured.choiceHeights.some((h) => h < 84)) add(width, "choiceHeight84", measured.choiceHeights);
+    if (measured.choiceFontSizes.some((size) => size < 30)) add(width, "choiceFontSize30", measured.choiceFontSizes);
+    if (measured.methodHint === "4択") add(width, "choiceHintHidden", measured.methodHint);
     if (width <= 380 && measured.helpTextDisplay !== "none") add(width, "compactHelpAtNarrowWidth", measured.helpTextDisplay);
     if (width > 380 && measured.helpTextDisplay === "none") add(width, "fullHelpAboveNarrowWidth", measured.helpTextDisplay);
 
@@ -187,7 +191,7 @@ try {
         openFullWidth: Boolean(open && container && Math.abs(open.width - container.width) < 3),
         cardCount: cards.length,
         cardColumns: unique(cardRects.map((r) => r.left)).length,
-        cardsSquare: cardRects.every((r) => Math.abs(r.width - r.height) < 3),
+        cardsKeepVerticalRoom: cardRects.every((r) => r.height >= r.width * 1.08),
         ringContained: Boolean(ringRect && cardRect && ringRect.left >= cardRect.left - 1 && ringRect.right <= cardRect.right + 1 && ringRect.top >= cardRect.top - 1 && ringRect.bottom <= cardRect.bottom + 1),
         glyphFontSize: glyph ? Number.parseFloat(getComputedStyle(glyph).fontSize) : 0,
         jiboFontSize: jibo ? Number.parseFloat(getComputedStyle(jibo).fontSize) : 0,
@@ -195,6 +199,7 @@ try {
         meterValue: ring?.getAttribute("aria-valuenow") ?? "",
         percentText: percent?.textContent?.trim() ?? "",
         readingText: reading?.textContent?.trim() ?? "",
+        readingRingSeparated: Boolean(reading && ring && (() => { const rr=reading.getBoundingClientRect(); const rg=ring.getBoundingClientRect(); return rr.bottom + 1 <= rg.top || rr.right + 1 <= rg.left || rg.right + 1 <= rr.left || rg.bottom + 1 <= rr.top; })()),
         jiboText,
       };
     });
@@ -206,11 +211,12 @@ try {
     if (record.cardCount < 1) add(width, "recordGlyphCardsPresent", record);
     const expectedColumns = width <= 360 ? 2 : 3;
     if (record.cardColumns !== expectedColumns) add(width, "recordGlyphCardColumns", { expectedColumns, ...record });
-    if (!record.cardsSquare) add(width, "recordGlyphCardsSquare", record);
+    if (!record.cardsKeepVerticalRoom) add(width, "recordGlyphCardsVerticalRoom", record);
     if (!record.ringContained) add(width, "recordGlyphRingContained", record);
     if (!(record.glyphFontSize > record.jiboFontSize)) add(width, "recordGlyphDominatesJibo", record);
     if (!record.percentOutsideRing) add(width, "recordPercentBelowRing", record);
-    if (!record.readingText) add(width, "recordGlyphReadingAboveRing", record);
+    if (!record.readingText) add(width, "recordGlyphReadingPresent", record);
+    if (!record.readingRingSeparated) add(width, "recordGlyphReadingRingSeparated", record);
     if (!record.jiboText || record.jiboText.startsWith("字母")) add(width, "recordGlyphJiboWithoutPrefix", record);
     if (record.meterValue !== "0" || record.percentText !== "0%") add(width, "recordGlyphMeterMatchesPercent", record);
 
@@ -227,6 +233,34 @@ try {
     if (browse.menuText !== "一覧") add(width, "browseMenuLabel", browse);
     if (browse.maxRight > browse.viewport + 1) add(width, "browseRowsNoOverflow", browse);
 
+    await page.close();
+  }
+
+  // Landscape: keep per-glyph cards close to portrait density instead of stretching three huge columns.
+  {
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+    await page.locator('[data-view="quiz"]').click();
+    await page.evaluate(() => showQuizScreen("record"));
+    await page.waitForSelector(".recordRowGroup");
+    const landscape = await page.evaluate(() => {
+      const first = document.querySelector(".recordRowGroup");
+      if (first) first.open = true;
+      const cards = [...(first?.querySelectorAll(".glyphMasteryCard") ?? [])];
+      const rects = cards.map((el) => el.getBoundingClientRect());
+      const unique = (values) => [...new Set(values.map((v) => Math.round(v)))];
+      return {
+        columns: unique(rects.map((r) => r.left)).length,
+        widths: rects.map((r) => r.width),
+        heights: rects.map((r) => r.height),
+        overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      };
+    });
+    if (landscape.columns !== 5) add(844, "landscapeGlyphColumns5", landscape);
+    if (landscape.overflow > 1) add(844, "landscapeNoOverflow", landscape);
+    if (landscape.widths.some((w) => w > 125)) add(844, "landscapeGlyphDensity", landscape);
+    if (landscape.heights.some((h, i) => h < landscape.widths[i] * 1.08)) add(844, "landscapeGlyphVerticalRoom", landscape);
     await page.close();
   }
 
@@ -258,7 +292,7 @@ try {
     const distractors = state.choices.filter((x) => x !== entry?.kana);
     const focusedCount = distractors.filter((x) => row.includes(x)).length;
     const expectedFocused = Math.min(3, availableFocused.length);
-    if (state.hint !== "4択") add(390, "mastery30StillChoice", state);
+    if (state.hint !== "") add(390, "mastery30ChoiceHintHidden", state);
     if (focusedCount !== expectedFocused) add(390, "mastery30FocusedRow", { state, expectedFocused, focusedCount, row });
     await page.evaluate(() => showQuizScreen("record"));
     const recentCard = page.locator("#recentGlyphs [data-glyph-info]").first();
@@ -328,7 +362,7 @@ try {
         freeInputHidden: document.querySelector("#quizFreeAnswer")?.hidden === true,
       };
     });
-    if (jibo.hint !== "4択" || jibo.question !== "この字母からできた平仮名はどれ？") add(390, "mastery65JiboReverseQuestion", jibo);
+    if (jibo.hint !== "" || jibo.question !== "この字母からできた平仮名はどれ？") add(390, "mastery65JiboReverseQuestion", jibo);
     if (jibo.promptTop !== "？" || jibo.promptSource !== jibo.jibo) add(390, "mastery65JiboReversePrompt", jibo);
     if (jibo.choices.length !== 4 || !jibo.choices.includes(jibo.answer)) add(390, "mastery65JiboReverseChoices", jibo);
     if (!jibo.hasSameRowDistractor || !jibo.hasOtherRowDistractor || !jibo.hasStandardDistractor) add(390, "mastery65JiboReverseDistractorMix", jibo);
