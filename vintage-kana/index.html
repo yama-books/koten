@@ -47,6 +47,7 @@ details.moreInfo{margin-top:2px}
 details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .utilityTabs{display:flex;gap:5px;flex:0 0 auto;align-items:center}
 .tab{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff;color:var(--muted);font-weight:700;font-size:11px;white-space:nowrap;transition:.15s ease}
+.tab.navPrimary{padding-inline:14px;font-weight:800}
 .tab.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 7px rgba(55,70,50,.16)}
 .view{display:none}.view.active{display:block}
 .label{font-weight:700;font-size:13px;margin:0 0 8px}
@@ -72,6 +73,16 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
 .btn{border:1px solid var(--line);border-radius:11px;padding:10px 14px;background:#fff;color:var(--ink);font-weight:700}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.composeActions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.saveStatus{min-height:1.4em;margin-top:5px;text-align:center;font-size:11px;color:var(--muted)}
+.learningRecord{margin:2px 0 14px;border:1px solid var(--line);border-radius:13px;background:#fff}
+.learningRecord summary{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;list-style:none;padding:9px 11px;font-size:12px;font-weight:700}
+.learningRecord summary::-webkit-details-marker{display:none}
+.learningRecord__points{display:inline-flex;align-items:center;gap:5px;font-weight:400;color:var(--muted)}
+.learningRecord__points strong{font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums}
+.learningRecord__cat{width:32px;height:auto;flex:none}
+.learningRecord__detail{display:flex;flex-wrap:wrap;gap:6px 14px;border-top:1px solid var(--line);padding:8px 11px;color:var(--muted);font-size:11px}
+.learningRecord__detail strong{color:var(--ink);font-variant-numeric:tabular-nums}
 textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
 .composeModeLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 9px}
 .composeModeLabel{font-size:12px;font-weight:700;color:var(--ink)}
@@ -108,7 +119,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}}
+@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}}
 </style>
 </head>
 <body>
@@ -142,7 +153,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       </div>
     </details>
     <nav class="utilityTabs" aria-label="メニュー">
-      <button class="tab active" data-view="compose">書いてみる</button>
+      <button class="tab navPrimary active" data-view="compose">書いてみる</button>
       <button class="tab" data-view="browse">字形</button>
       <button class="tab" data-view="quiz">習得する</button>
     </nav>
@@ -165,7 +176,11 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       <div id="floatingOriginal" class="floatingOriginal"><b>もとの文</b>　きょうはいいてんきですね</div>
       <div id="preview" class="preview"></div>
     </div>
-    <div id="rerollWrap" class="actions"><button id="rerollCompose" class="btn">もう一度</button></div>
+    <div class="composeActions">
+      <button id="rerollCompose" class="btn">もう一度</button>
+      <button id="saveImage" class="btn primary">画像で保存</button>
+    </div>
+    <div id="saveStatus" class="saveStatus" aria-live="polite"></div>
     <div id="composeRows" class="composeRows autoHidden"></div>
   </div>
 
@@ -181,6 +196,18 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
         <button class="quizModeBtn active" data-quiz-mode="reading">読み方</button>
         <button class="quizModeBtn" data-quiz-mode="jibo">字母</button>
       </div>
+      <details class="learningRecord">
+        <summary>
+          <span>記録</span>
+          <span class="learningRecord__points"><strong id="learningPoints">0</strong><span>ポイント</span><img class="learningRecord__cat" src="../assets/mascot/cat-mascot.webp" alt="" aria-hidden="true"></span>
+        </summary>
+        <div class="learningRecord__detail">
+          <span>取り組んだ問題 <strong id="learningAttempts">0</strong>問</span>
+          <span>読み方 <strong id="learningReading">0</strong>問</span>
+          <span>字母 <strong id="learningJibo">0</strong>問</span>
+          <span>正解 <strong id="learningCorrect">0</strong>問</span>
+        </div>
+      </details>
       <div id="quizQuestion" class="note">この文字は何と読む？</div>
       <div id="quizGlyph" class="quizGlyph">…</div>
       <div id="choices" class="choices"></div>
@@ -204,7 +231,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC20
+  vintage-kana / release candidate 1.0 RC21
 </footer>
 </div>
 
@@ -263,6 +290,13 @@ let yoonSmallEnabled=false;
 let answered=false;
 const selected={};
 
+const LEARNING_RECORD_KEY="vintage-kana:learning-events:v1";
+// 百人一首のポイント規則の「選択式正答 10」「誤答も挑戦として 3」を基準にする。
+// 変体仮名メーカーには習熟度・段階がまだないため、弱点倍率や段係数は導入しない。
+const QUIZ_CORRECT_POINTS=10;
+const QUIZ_ATTEMPT_POINTS=3;
+let learningEvents=loadLearningEvents();
+
 function rowsOf(data){return data.distributions||data.records||[]}
 function shuffle(a){
  const b=[...a];
@@ -271,6 +305,52 @@ function shuffle(a){
 }
 function escapeHtml(s){
  return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+
+function loadLearningEvents(){
+ try{
+   const parsed=JSON.parse(localStorage.getItem(LEARNING_RECORD_KEY)||"[]");
+   return Array.isArray(parsed)?parsed.filter(e=>e && (e.mode==="reading"||e.mode==="jibo") && (e.outcome==="correct"||e.outcome==="incorrect")):[];
+ }catch(e){
+   console.warn("learning record load failed",e);
+   return [];
+ }
+}
+function learningSummary(){
+ return learningEvents.reduce((s,e)=>{
+   s.attempts+=1;
+   s.points+=e.outcome==="correct"?QUIZ_CORRECT_POINTS:QUIZ_ATTEMPT_POINTS;
+   if(e.outcome==="correct")s.correct+=1;
+   if(e.mode==="reading")s.reading+=1;
+   if(e.mode==="jibo")s.jibo+=1;
+   return s;
+ },{attempts:0,points:0,correct:0,reading:0,jibo:0});
+}
+function formatPoints(value){
+ return String(value).replace(/\B(?=(\d{3})+(?!\d))/g,",");
+}
+function renderLearningRecord(){
+ const s=learningSummary();
+ const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=String(value)};
+ set("learningPoints",formatPoints(s.points));
+ set("learningAttempts",s.attempts);
+ set("learningReading",s.reading);
+ set("learningJibo",s.jibo);
+ set("learningCorrect",s.correct);
+}
+function recordLearningAttempt(mode,correct){
+ const gained=correct?QUIZ_CORRECT_POINTS:QUIZ_ATTEMPT_POINTS;
+ learningEvents.push({
+   id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
+   at:new Date().toISOString(),
+   mode,
+   outcome:correct?"correct":"incorrect"
+ });
+ // 無制限のポイント値は保持しつつ、端末保存のイベント列だけは過剰肥大を避ける。
+ if(learningEvents.length>5000) learningEvents=learningEvents.slice(-5000);
+ try{localStorage.setItem(LEARNING_RECORD_KEY,JSON.stringify(learningEvents))}catch(e){console.warn("learning record save failed",e)}
+ renderLearningRecord();
+ return gained;
 }
 
 async function loadData(){
@@ -348,9 +428,11 @@ function newQuiz(){
        answered=true;
        [...root.children].forEach(x=>{if(x.textContent===quizEntry.kana)x.classList.add("correct")});
        if(k!==quizEntry.kana)b.classList.add("wrong");
+       const correct=k===quizEntry.kana;
+       const gained=recordLearningAttempt("reading",correct);
        document.getElementById("feedback").textContent=
-         (k===quizEntry.kana?"正解です。":"「"+quizEntry.kana+"」と読みます。")+
-         " 字母は「"+quizEntry.jibo+"」です。";
+         (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")+
+         " 字母は「"+quizEntry.jibo+"」です。  +"+gained+"ポイント";
      };
      root.appendChild(b);
    });
@@ -367,9 +449,11 @@ function newQuiz(){
        answered=true;
        [...root.children].forEach(x=>{if(x.textContent===quizEntry.jibo)x.classList.add("correct")});
        if(j!==quizEntry.jibo)b.classList.add("wrong");
+       const correct=j===quizEntry.jibo;
+       const gained=recordLearningAttempt("jibo",correct);
        document.getElementById("feedback").textContent=
-         (j===quizEntry.jibo?"正解です。":"字母は「"+quizEntry.jibo+"」です。")+
-         " 読みは「"+quizEntry.kana+"」です。";
+         (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。")+
+         " 読みは「"+quizEntry.kana+"」です。  +"+gained+"ポイント";
      };
      root.appendChild(b);
    });
@@ -443,8 +527,139 @@ function renderCompose(){
  if(previewDock) previewDock.classList.toggle("manualSticky",composeMode==="manual");
  document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
  requestAnimationFrame(updateStickyState);
- const reroll=document.getElementById("rerollWrap");
- if(reroll) reroll.style.display=composeMode==="auto"?"flex":"none";
+ const reroll=document.getElementById("rerollCompose");
+ if(reroll) reroll.style.display=composeMode==="auto"?"inline-flex":"none";
+}
+
+function outputTokenFor(ch){
+ const sel=selected[ch];
+ const yoon=YOON_SMALL.has(ch);
+ if(!sel || sel.keep){
+   if(yoon && !yoonSmallEnabled) return {text:SMALL_BASE[ch],small:false};
+   return {text:ch,small:false};
+ }
+ return {text:sel.text,small:sel.small && (!yoon || yoonSmallEnabled)};
+}
+
+function roundedRect(ctx,x,y,w,h,r){
+ const rr=Math.min(r,w/2,h/2);
+ ctx.beginPath();
+ ctx.moveTo(x+rr,y);
+ ctx.arcTo(x+w,y,x+w,y+h,rr);
+ ctx.arcTo(x+w,y+h,x,y+h,rr);
+ ctx.arcTo(x,y+h,x,y,rr);
+ ctx.arcTo(x,y,x+w,y,rr);
+ ctx.closePath();
+}
+
+function layoutCanvasTokens(ctx,tokens,fontSize,maxWidth){
+ const normalFont=size=>`${size}px "Noto Serif Hentaigana","Yu Mincho",serif`;
+ const lines=[[]];
+ let width=0;
+ for(const token of tokens){
+   if(token.text==="\n"){lines.push([]);width=0;continue}
+   const size=token.small?fontSize*.68:fontSize;
+   ctx.font=normalFont(size);
+   const w=ctx.measureText(token.text).width+fontSize*.05;
+   if(width+w>maxWidth && lines.at(-1).length){lines.push([]);width=0}
+   lines.at(-1).push({...token,width:w,size});
+   width+=w;
+ }
+ return lines;
+}
+
+function makePreviewDataUrl(){
+ const text=document.getElementById("sourceText").value;
+ if(!text.trim())return null;
+ const canvas=document.createElement("canvas");
+ canvas.width=1080;canvas.height=1080;
+ const ctx=canvas.getContext("2d");
+ if(!ctx)return null;
+
+ ctx.fillStyle="#f2efe8";
+ ctx.fillRect(0,0,1080,1080);
+ roundedRect(ctx,70,70,940,940,54);
+ ctx.fillStyle="#fffdf8";
+ ctx.fill();
+
+ const tokens=[...text].map(outputTokenFor);
+ const maxWidth=820;
+ let fontSize=150;
+ let lines=[];
+ while(fontSize>=70){
+   lines=layoutCanvasTokens(ctx,tokens,fontSize,maxWidth);
+   const lineHeight=fontSize*1.5;
+   if(lines.length*lineHeight<=720)break;
+   fontSize-=10;
+ }
+ const lineHeight=fontSize*1.5;
+ const blockHeight=lines.length*lineHeight;
+ let y=540-blockHeight/2+fontSize*.9;
+ ctx.fillStyle="#292b28";
+ ctx.textBaseline="alphabetic";
+
+ for(const line of lines){
+   const lineWidth=line.reduce((sum,t)=>sum+t.width,0);
+   let x=540-lineWidth/2;
+   for(const token of line){
+     ctx.font=`${token.size}px "Noto Serif Hentaigana","Yu Mincho",serif`;
+     const yOffset=token.small?-fontSize*.12:0;
+     ctx.fillText(token.text,x,y+yOffset);
+     x+=token.width;
+   }
+   y+=lineHeight;
+ }
+
+ ctx.font='28px -apple-system,BlinkMacSystemFont,"Segoe UI","Yu Gothic",sans-serif';
+ ctx.fillStyle="#74766e";
+ ctx.textAlign="center";
+ ctx.fillText("変体仮名メーカー",540,950);
+ ctx.textAlign="start";
+ return canvas.toDataURL("image/png");
+}
+
+function dataUrlToFile(dataUrl,filename){
+ const parts=dataUrl.split(",");
+ const mime=(parts[0].match(/data:([^;]+)/)||[])[1]||"image/png";
+ const bin=atob(parts[1]);
+ const bytes=new Uint8Array(bin.length);
+ for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+ return new File([bytes],filename,{type:mime});
+}
+
+function fallbackSaveImage(dataUrl,filename){
+ const ios=/iPad|iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
+ if(ios){
+   const w=window.open(dataUrl,"_blank");
+   const status=document.getElementById("saveStatus");
+   if(status)status.textContent=w?"画像を長押しして保存できます。":"画像を開けませんでした。もう一度お試しください。";
+   return;
+ }
+ const a=document.createElement("a");
+ a.href=dataUrl;a.download=filename;
+ document.body.appendChild(a);a.click();a.remove();
+ const status=document.getElementById("saveStatus");
+ if(status)status.textContent="画像を保存しました。";
+}
+
+function savePreviewImage(){
+ const status=document.getElementById("saveStatus");
+ const dataUrl=makePreviewDataUrl();
+ if(!dataUrl){if(status)status.textContent="ひらがなを入力してください。";return}
+ const stamp=new Date().toISOString().slice(0,10).replaceAll("-","");
+ const filename=`hentaigana-${stamp}.png`;
+ const file=dataUrlToFile(dataUrl,filename);
+
+ if(navigator.share && navigator.canShare?.({files:[file]})){
+   navigator.share({files:[file],title:"変体仮名メーカー"}).then(()=>{
+     if(status)status.textContent="画像を共有しました。";
+   }).catch(err=>{
+     if(err?.name==="AbortError"){if(status)status.textContent="";return}
+     fallbackSaveImage(dataUrl,filename);
+   });
+   return;
+ }
+ fallbackSaveImage(dataUrl,filename);
 }
 
 function updateStickyState(){
@@ -494,9 +709,11 @@ document.getElementById("smallKanaToggle").addEventListener("change",e=>{
  renderCompose();
 });
 document.getElementById("rerollCompose").onclick=randomizeCompose;
+document.getElementById("saveImage").onclick=savePreviewImage;
 document.getElementById("sourceText").addEventListener("input",()=>{
  if(composeMode==="auto") randomizeCompose(); else renderCompose();
 });
+renderLearningRecord();
 checkHentaiganaFont();
 loadData();
 </script>
