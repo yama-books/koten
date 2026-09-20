@@ -934,3 +934,12 @@ index.html:
 
 現行 index.html: release candidate 1.0 RC18
 JavaScript構文PASS。
+
+
+## 37. RC19 / 「習得する」へ名称変更
+
+右上の補助機能「クイズ」を「習得する」に変更。
+内部の quiz ID / ロジックはそのまま維持。
+
+現行 index.html: release candidate 1.0 RC19
+JavaScript構文PASS。
