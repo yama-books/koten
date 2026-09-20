@@ -34,6 +34,7 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 .meta{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap}
 .tag{background:#f0ebe4;border-radius:999px;padding:4px 8px;color:#675f55;font-size:11px}
 .word{margin:12px 0 2px;text-align:center;font:600 36px/1.18 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.04em}
+.lemma-aid{margin:0 0 2px;text-align:center;color:var(--muted);font-size:11px;line-height:1.25}
 .kind{color:var(--muted);font-size:13px;text-align:center}
 
 .study-layout{
@@ -1359,6 +1360,7 @@ td.wrong{background:var(--bad)!important}
       <span class="tag">試作データ</span>
     </div>
     <div class="word" id="lemma"></div>
+    <div class="lemma-aid" id="lemmaAid" hidden></div>
     <div class="kind" id="kind"></div>
 
     <div class="study-layout">
@@ -2521,6 +2523,11 @@ function revealKindWithAnswers(){
 
 function render(){
   document.getElementById("lemma").textContent=current.lemma;
+  const lemmaAid=document.getElementById("lemmaAid");
+  const aid=current.kanjiAid||"";
+  const aidReading=current.targetReading||"";
+  lemmaAid.textContent=aid ? `漢字補助：${aid}${aidReading?"（"+aidReading+"）":""}` : "";
+  lemmaAid.hidden=!aid;
   renderKindInitial();
   document.getElementById("posTag").textContent=current.label;
   const compactExample=(current.example||"").replace(/[　 ]+/g,"");
@@ -2642,11 +2649,26 @@ function grade(revealOnly=false){
 function updateScore(){
   document.getElementById("score").textContent=`この端末での正答 ${stats.correct} / ${stats.total}`;
 }
+function pickWeightedQuestion(list){
+  const weighted=list.map(item=>({
+    item,
+    weight:Number.isFinite(Number(item.questionWeight)) && Number(item.questionWeight)>0
+      ? Number(item.questionWeight)
+      : 1
+  }));
+  const total=weighted.reduce((sum,x)=>sum+x.weight,0);
+  let cursor=Math.random()*total;
+  for(const entry of weighted){
+    cursor-=entry.weight;
+    if(cursor<=0) return entry.item;
+  }
+  return weighted[weighted.length-1].item;
+}
 function nextQuestion(){
   closeEditor(false);
   const p=pool(); if(!p.length)return;
   let q=p.filter(x=>!current||x.id!==current.id); if(!q.length)q=p;
-  current=q[Math.floor(Math.random()*q.length)];
+  current=pickWeightedQuestion(q);
   chooseBlankSlots();
   answered=false; answers={}; selected=null;
   render();
