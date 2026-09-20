@@ -14,6 +14,22 @@
 - 2026-09-20 時点で GitHub compare `main...checkpoint-main` は `No common ancestor`。
 - したがって通常mergeを前提にせず、Checkpoint成果物のファイル単位統合を第一候補とする。
 
+## 差分スナップショット
+
+`checkpoint/data/production_integration_delta_20260920.json` に、2026-09-20時点の production `main` と `checkpoint-main` の `checkpoint/` 差分を blob SHA 単位で固定した。
+
+適用前に必ず:
+1. JSON内の各 `mainSha` と現在の production `main` を照合
+2. 一致していればファイル単位統合
+3. 一致しなければ、そのファイルだけ再レビュー
+4. 履歴merge・reset・force-pushで解決しない
+
+同スナップショット作成時:
+- top-level changed: 11
+- `checkpoint/data` changed: 7
+- runtime critical: 13
+- unchanged runtime: `core2.js / core3.js / detect1.js / detect2.js / detect3.js / ui2.js / ui3.js`
+
 ## Checkpoint側の正本
 
 - branch: `checkpoint-main`
@@ -114,3 +130,25 @@ Checkpoint側からproduction workflowを勝手に変更しない。
 - primary-source holdをshadowからlearner-visibleへ昇格していない
 
 shadow G6/G8 は別レーンであり、legacy-visible public betaの公開条件と混同しない。
+
+
+## 自動公開βスモーク
+
+`checkpoint-main` には productionとは独立した検証workflowを追加:
+- `.github/workflows/checkpoint-public-beta.yml`
+- `tests/unit/checkpoint-public-beta.test.mjs`
+
+確認内容:
+- 通常URLでshadow debug非表示・heavy shadow data skipped
+- drawer open/close時のbody scroll lock
+- 「ここはわかる」→履歴一覧
+- 個別「戻す」
+- 複数ポイント→「すべて戻す」
+- 本文変更→履歴自動クリア
+- 680px / 430px breakpoint、44px touch target、safe-area、92dvh等のmobile CSS契約
+
+GitHub Actions run **35481928465**:
+- head: `414514e911ab88b4187993a725d369e0b7080daf`
+- conclusion: **success**
+
+これは実機iPhone確認の代替ではない。production統合後のSafari smokeは引き続き必須。
