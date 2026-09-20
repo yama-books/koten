@@ -776,3 +776,26 @@ JavaScript構文 PASS。
 - free-input cap 90 PASS
 - same-day over-90 block PASS
 - next-day +2 PASS
+
+
+## RC26 / Web-only狭幅監査・回帰テスト固定
+
+RC25の実機確認前に、GitHub上の現行HTMLを対象として狭幅の静的監査を実施。
+
+修正:
+- 380px以下では「変体仮名とは？」を「？」アイコンだけに圧縮し、3メニューを横一列で維持
+- 上部3メニューは min-height 44px
+- 読み方 / 字母、練習 / 記録は min-height 40px
+- ポイント仕様コメントをRC25（正答10 / 誤答1）へ同期
+- DESIGN_AUDIT_BRIEF の旧「誤答3」を1へ訂正
+
+追加した回帰テスト:
+- `tests/unit/vintage-kana-rc25.test.ts`
+- RC25の閾値・増減値
+- mobile 2×2 Bento
+- 狭幅ナビ
+- タップ高
+- 5問結果画面までポイントを出さないDOM契約
+
+この節の確認はWeb-onlyであり、iPhone Safari実機PASSとは扱わない。
+実機で残るのは、IME・共有シート・保存PNG字体・狭幅の視覚密度。
