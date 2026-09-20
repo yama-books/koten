@@ -1047,3 +1047,18 @@ JavaScript構文PASS。
 
 現行 index.html: release candidate 1.0 RC23
 JavaScript構文PASS。
+
+
+## 42. RC24 / 行習熟度を2列正方形タイルへ
+
+記録画面を再調整。
+
+- あ行 / か行等は2列の正方形タイル
+- 行タイルを押すと、その行だけ全幅へ展開
+- 各字体の習熟度バーを展開内に表示
+- 記録欄の字母表示はすべて削除
+- 最近の字 / 間違えやすい字も字形だけ
+- 要確認表示は維持
+
+現行 index.html: release candidate 1.0 RC24
+JavaScript構文PASS。
