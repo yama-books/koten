@@ -1,6 +1,6 @@
 # HANDOFF: 古典活用表ドリル `conj`
 
-更新: 2026-09-19
+更新: 2026-09-20
 
 ## 1. 目的
 
@@ -287,3 +287,41 @@ raw: 46件
 
 現在は各項目に `target` と `example` が直結している。このため120例をそのまま `items` に追加せず、活用表データと実例データを分離した互換層を先に実装する。
 
+
+
+## 11. 2026-09-20 漢字補助74件監査・v0.4.18・lexical反映準備
+
+Drive正本HANDOFF §39の要約。詳細な辞書照合・監査表はDrive側を正本とする。
+
+- 語注監査v0.3の最終260例シートから漢字補助74行を抽出し、採用原文＋辞書／高校学習資料の複数系統で一巡監査。
+- 判定: **A=52 / B=20 / C=2 / D=0**。
+- C判定:
+  - `adj-078 をかし`: 「可笑し」は現代語「おかしい」へ意味を狭めやすいため、かな主表示で漢字補助を出さない。
+  - `adj-082 あやし`: 当該『土佐日記』用例は解釈が分岐し、「怪し」を出すと一解釈へ誘導するため漢字補助を出さない。
+- 主な補助表記更新:
+  - `はかなし`: 儚し → 果無し
+  - `うつくし`: 美し・愛し → 愛し・美し
+  - `ありがほ`: あり顔 → 有り顔
+  - `こころこと`: 心こと → 心異
+  - `ひたぐろ`: ひた黒・直黒 → 直黒
+  - `てはなち`: 手はなち → 手放ち
+- raw原文・originalTargetは変更しない。
+- v0.4監査workbook: Drive ID `1S8iCD6prD2syGinVfirLbMwtexzkSEH4`。
+- v0.4.18内部QA ZIP: Drive ID `11KeHzW9REX6NHI5NxgbIpOc49Dw6R320`。
+- sidecarは schemaVersion 1.0 / annotations 110 を維持し、kanjiAidのみ8件更新または削除。
+- 全 `qa/test_*.py`、`validate_data` 910/910、conjugation_master validator、`node --check app.js` はPASS。
+- public buildはRC=2で意図どおりBLOCK。publicEnabled / quotation gate / final compliance は910件すべて未解除。
+
+### 元縦書きUIへの接続方針
+
+`conj/index.html` は `adjv-runtime-adapter.js` を介して、形容動詞117語幹（ナリ94／タリ23）を活用表項目として追加する。追加項目は `exampleAvailable=false` で、公開側の実例indexは no-raw-text を維持している。
+
+lexical sidecarは**実例ID単位**で、`learnerGloss` は用例文脈依存。一方、表ドリルは**語幹単位**であるため、glossを単純に語幹へマージしない。
+
+次の実装規則:
+
+1. 表ドリルでは `sourceExampleIds` に属する注釈間で一致する安定情報だけをlemma-levelへ昇格する。
+2. `displayLemma / kanjiAid / targetReading` は一致確認後に表示可能。
+3. `learnerGloss` は特定実例が画面に出ている場合だけ表示する。
+4. CHJ raw本文は公開条件確定までGitHubへ追加しない。
+5. mainは触らず `conj-main` で進める。次はadapter実装準備→320/360/390/430pxで100dvh・形容動詞横ずれQA。
