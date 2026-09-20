@@ -88,9 +88,13 @@ try{
 
   await page.goto(base,{waitUntil:'networkidle'});
   await page.waitForFunction(()=>document.documentElement.dataset.shadowData==='skipped');
+  await page.waitForFunction(()=>document.documentElement.dataset.externalData==='loaded');
 
   assert.equal(await page.locator('#shadowDebugPanel').evaluate(el=>el.hidden),true);
   assert.equal(await page.evaluate(()=>document.documentElement.dataset.shadowData),'skipped');
+  assert.equal(await page.evaluate(()=>document.documentElement.dataset.externalData),'loaded');
+  assert.equal(await page.evaluate(()=>window.CHECKPOINT_DATA?.auditedInflectionEvidenceFull ?? null),null);
+  assert.equal(await page.evaluate(()=>window.CHECKPOINT_DATA?.morphologyProviderPolicy ?? null),null);
   await noHorizontalOverflow('portrait initial');
   const initialButtonBoxes=await minVisibleHeight('.row button','top actions');
   const levelSelectorBox=(await minVisibleHeight('#checkLevel','level selector'))[0];
@@ -170,6 +174,15 @@ try{
   assert.equal(await page.evaluate(()=>getComputedStyle(document.body).overflow),'hidden');
   await page.locator('#closeDrawer').tap();
 
+  const debugPage=await context.newPage();
+  await debugPage.goto(base+'?debug=shadow',{waitUntil:'networkidle'});
+  await debugPage.waitForFunction(()=>document.documentElement.dataset.shadowData==='requested');
+  await debugPage.waitForFunction(()=>document.documentElement.dataset.externalData==='loaded');
+  assert.equal(await debugPage.evaluate(()=>document.documentElement.dataset.shadowData),'requested');
+  assert.ok(await debugPage.evaluate(()=>window.CHECKPOINT_DATA?.auditedInflectionEvidenceFull!==null),'debug should load audited morphology corpus');
+  assert.ok(await debugPage.evaluate(()=>window.CHECKPOINT_DATA?.morphologyProviderPolicy!==null),'debug should load morphology provider policy');
+  await debugPage.close();
+
   console.log(JSON.stringify({
     result:'PASS',
     engine:'webkit',
@@ -177,6 +190,9 @@ try{
     landscape:{width:844,height:390},
     sample3Checklist:initialCount,
     longSampleMarkers:await page.locator('.mark[data-seg]').count(),
+    externalDataLoaded:true,
+    normalShadowDataSkipped:true,
+    debugShadowDataLoaded:true,
     measuredTouchTargets:{
       topActionsMinHeight:Math.min(...initialButtonBoxes.map(x=>x.height)),
       levelSelectorHeight:levelSelectorBox.height,
