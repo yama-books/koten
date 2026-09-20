@@ -164,7 +164,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}.masteryList{grid-template-columns:1fr}}
+@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:1fr}.rowGlyphMastery{grid-template-columns:1fr}.masteryList{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -474,11 +474,11 @@ function glyphLearningStats(){
  });
 }
 function kanaMastery(kana){
- const events=learningEvents.filter(e=>e.kana===kana && e.glyph);
- if(!events.length)return 0;
- const correct=events.filter(e=>e.outcome==="correct").length;
- const incorrect=events.length-correct;
- return Math.min(100,correct*GLYPH_CORRECT_MASTERY+incorrect*GLYPH_VIEW_MASTERY);
+ const glyphs=GLYPHS.filter(g=>g.kana===kana);
+ if(!glyphs.length)return 0;
+ const stats=new Map(glyphLearningStats().map(s=>[s.character,s.mastery]));
+ const total=glyphs.reduce((sum,g)=>sum+(stats.get(g.character)||0),0);
+ return Math.round(total/glyphs.length);
 }
 function rowMastery(label,kanas){
  const relevant=kanas.filter(k=>GLYPHS.some(g=>g.kana===k));
@@ -701,6 +701,7 @@ function newQuiz(){
  if(quizMode==="reading"){
    quizGlyph.hidden=false;
    if(jiboPrompt)jiboPrompt.hidden=true;
+   question.hidden=false;
    question.textContent="この文字は何と読む？";
    const pool=[...new Set(GLYPHS.map(x=>x.kana))].filter(x=>x!==quizEntry.kana);
    const opts=shuffle([quizEntry.kana,...shuffle(pool).slice(0,3)]);
@@ -721,7 +722,8 @@ function newQuiz(){
  }else{
    quizGlyph.hidden=true;
    if(jiboPrompt)jiboPrompt.hidden=false;
-   question.textContent="字母は？";
+   question.hidden=true;
+   question.textContent="";
    const pool=[...new Set(GLYPHS.map(x=>x.jibo))].filter(x=>x!==quizEntry.jibo);
    const opts=shuffle([quizEntry.jibo,...shuffle(pool).slice(0,3)]);
    opts.forEach(j=>{
