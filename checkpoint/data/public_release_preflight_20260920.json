@@ -57,7 +57,7 @@
       "id": "R8",
       "name": "runtime-browser-smoke",
       "status": "PARTIAL_PASS",
-      "evidence": "static mobile audit PASS + jsdom DOM smoke PASS + Playwright WebKit mobile browser smoke PASS (run 35482145135, portrait 390x844 / landscape 844x390, one-character touch, drawer lock, understood history, long sample, no horizontal overflow). Physical iPhone Safari after production integration remains PENDING."
+      "evidence": "Static mobile PASS + jsdom DOM smoke PASS + Playwright WebKit mobile browser smoke PASS. Latest run 35482932843 / head 2fc149f4086e42eb7a3d4e00872ae7b252d8414c. 390x844 portrait / 844x390 landscape, one-character marker touch, long sample 162 markers, no horizontal overflow, public/shadow data-path separation, computed touch targets >=44px. Physical iPhone Safari after production deploy remains PENDING."
     },
     {
       "id": "R9",
@@ -87,7 +87,13 @@
       "id": "R13",
       "name": "webkit-mobile-browser-smoke",
       "status": "PASS",
-      "evidence": "Playwright WebKit 26.5 on run 35482145135, head 62f70c3532f4419252437768554d8b8b9d3bbe6f. sample3 checklist 16; long sample markers 162; portrait/landscape overflow checks PASS."
+      "evidence": "Latest Playwright WebKit 26.5 run 35482932843. Measured critical heights: top actions 44px, level selector 46px, checklist ~81.09px, drawer close 44px, known action 44px, restore one 44px. Normal URL production data loaded and shadow-only data skipped; ?debug=shadow loads research data."
+    },
+    {
+      "id": "R14",
+      "name": "computed-mobile-touch-targets",
+      "status": "PASS",
+      "evidence": "WebKit computed-layout measurements verify visible critical controls >=44px; level selector explicitly raised to 44px CSS and computed at 46px."
     }
   ],
   "shadowPromotionNotRequiredForThisTrack": {
@@ -131,8 +137,12 @@
   },
   "browserRuntime": {
     "status": "PASS_EMULATED",
-    "runId": 35482145135,
+    "runId": 35482932843,
+    "headSha": "2fc149f4086e42eb7a3d4e00872ae7b252d8414c",
     "engine": "Playwright WebKit 26.5",
+    "publicDataPath": "PASS",
+    "shadowIsolation": "PASS",
+    "touchTargets": "PASS",
     "actualDevice": "PENDING_AFTER_PRODUCTION_INTEGRATION"
   }
 }
