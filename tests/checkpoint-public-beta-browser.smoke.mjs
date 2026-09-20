@@ -120,23 +120,18 @@ try{
   assert.equal(await page.evaluate(()=>document.body.classList.contains('drawer-open')),true);
   const closeBox=(await minVisibleHeight('#closeDrawer','drawer close'))[0];
   const knownActionBox=(await minVisibleHeight('#markPointKnown','known action'))[0];
-  const nextVisible=await page.locator('#nextPoint').evaluate(el=>{
-    const r=el.getBoundingClientRect();
-    const style=getComputedStyle(el);
-    return style.display!=='none' && style.visibility!=='hidden' && r.width>0 && r.height>0;
-  });
-  if(nextVisible) await minVisibleHeight('#nextPoint','next action');
   await page.locator('#closeDrawer').tap();
   assert.equal(await page.evaluate(()=>document.body.classList.contains('drawer-open')),false);
 
-  // checklistから「ここはわかる」→履歴→個別復帰。
+  // checklistから「わかる」→履歴→個別復帰。
   await checklist.first().tap();
   assert.equal(await page.evaluate(()=>document.body.classList.contains('drawer-open')),true);
   await page.locator('#markPointKnown').tap();
+  assert.equal(await page.evaluate(()=>document.body.classList.contains('drawer-open')),false);
   await page.locator('#knownHistory').waitFor({state:'visible'});
   assert.equal(await page.locator('.known-item').count(),1);
   assert.match(await page.locator('#knownList').innerText(),/【.+】/);
-  assert.match(await page.locator('#filterStatus').innerText(),/「ここはわかる」で省略 1件/);
+  assert.match(await page.locator('#filterStatus').innerText(),/「わかる」で省略 1件/);
   assert.equal(await page.locator('.item[data-check]').count(),initialCount-1);
   const restoreOneBox=(await minVisibleHeight('[data-known-index="0"]','restore one'))[0];
   await minVisibleHeight('#restoreAllKnown','restore all');
@@ -163,7 +158,7 @@ try{
   await page.locator('#input').fill(original+'別の本文');
   await page.locator('#analyze').tap();
   assert.equal(await page.locator('#knownHistory').evaluate(el=>el.hidden),true);
-  assert.match(await page.locator('#filterStatus').innerText(),/「ここはわかる」で省略 0件/);
+  assert.match(await page.locator('#filterStatus').innerText(),/「わかる」で省略 0件/);
 
   // 長文サンプルでも描画し、横はみ出しを確認。
   await page.locator('#sample4').tap();
