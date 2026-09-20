@@ -57,7 +57,7 @@
       "id": "R8",
       "name": "runtime-browser-smoke",
       "status": "PARTIAL_PASS",
-      "evidence": "静的mobile監査PASSに加え、jsdom DOM smokeがGitHub Actions run 35481928465でPASS。通常URLshadow停止、drawer背景lock、わかる履歴の個別/全件復帰、本文変更時クリア、mobile CSS契約を自動確認。iPhone Safari実機のみ未完了。"
+      "evidence": "static mobile audit PASS + jsdom DOM smoke PASS + Playwright WebKit mobile browser smoke PASS (run 35482145135, portrait 390x844 / landscape 844x390, one-character touch, drawer lock, understood history, long sample, no horizontal overflow). Physical iPhone Safari after production integration remains PENDING."
     },
     {
       "id": "R9",
@@ -82,6 +82,12 @@
       "name": "automated-public-beta-dom-smoke",
       "status": "PASS",
       "evidence": "checkpoint-main専用 .github/workflows/checkpoint-public-beta.yml / tests/unit/checkpoint-public-beta.test.mjs。run 35481928465, head 414514e911ab88b4187993a725d369e0b7080daf, conclusion success。"
+    },
+    {
+      "id": "R13",
+      "name": "webkit-mobile-browser-smoke",
+      "status": "PASS",
+      "evidence": "Playwright WebKit 26.5 on run 35482145135, head 62f70c3532f4419252437768554d8b8b9d3bbe6f. sample3 checklist 16; long sample markers 162; portrait/landscape overflow checks PASS."
     }
   ],
   "shadowPromotionNotRequiredForThisTrack": {
@@ -99,8 +105,8 @@
     "heikePostBlind": "24位置中3位置でprevious morphology signal。gold由来exact morphology追加なし。"
   },
   "releaseBlockers": [
-    "production統合後のiPhone Safari実機runtime smoke",
-    "production統合時にproduction_integration_delta_20260920.jsonのmainShaを再照合し、安全にcheckpoint/差分を取り込む"
+    "production統合時にproduction_integration_delta_20260920.jsonのmainShaを再照合し、安全にcheckpoint/差分を取り込む",
+    "production Pages deploy後の物理iPhone Safari最終smoke"
   ],
   "nonBlockersForLegacyPublicBeta": [
     "shadow grammar recallがまだ低いこと",
@@ -122,5 +128,11 @@
     "file": "production_integration_delta_20260920.json",
     "status": "FROZEN",
     "note": "mainとcheckpoint-mainのcheckpoint/差分をblob SHA単位で記録。適用前にmainShaを再照合する。"
+  },
+  "browserRuntime": {
+    "status": "PASS_EMULATED",
+    "runId": 35482145135,
+    "engine": "Playwright WebKit 26.5",
+    "actualDevice": "PENDING_AFTER_PRODUCTION_INTEGRATION"
   }
 }
