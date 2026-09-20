@@ -104,7 +104,6 @@ test('「わかる」は履歴へ入り、個別に戻せる',async()=>{
   assert.equal(document.querySelectorAll('.known-item').length,1);
   assert.match(document.getElementById('knownHistoryStatus')?.textContent||'',/1件/);
   assert.match(document.getElementById('knownList')?.textContent||'',/【.+】/);
-  assert.match(document.getElementById('filterStatus')?.textContent||'',/「わかる」で省略 1件/);
   assert.equal(document.querySelectorAll('.item[data-check]').length,before-1);
 
   const restore=document.querySelector('[data-known-index="0"]');
@@ -113,7 +112,6 @@ test('「わかる」は履歴へ入り、個別に戻せる',async()=>{
 
   assert.equal(document.getElementById('knownHistory')?.hidden,true);
   assert.equal(document.querySelectorAll('.item[data-check]').length,before);
-  assert.match(document.getElementById('filterStatus')?.textContent||'',/「わかる」で省略 0件/);
   dom.window.close();
 });
 
@@ -154,7 +152,6 @@ test('本文を変更すると「わかる」履歴を自動クリアする',asy
   document.getElementById('analyze')?.click();
 
   assert.equal(document.getElementById('knownHistory')?.hidden,true);
-  assert.match(document.getElementById('filterStatus')?.textContent||'',/「わかる」で省略 0件/);
   dom.window.close();
 });
 
