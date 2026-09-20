@@ -101,5 +101,5 @@ const KANA_RULE_DEFS = [
   {id:"L2", chip:"iu→yū", tier:4, mode:"context", brief:"歴史的表記でイ段＋うになる形は、現代仮名遣いで「ゅ＋う」の形になる規則です。", examples:["うつくしう → うつくしゅう","いみじう → いみじゅう","あやしう → あやしゅう","くるしう → くるしゅう","よろしう → よろしゅう"], reviewStatus:"approved"},
   {id:"L3", chip:"eu→yō", tier:4, mode:"context", brief:"歴史的表記でエ段＋うになる形は、現代仮名遣いで「ょ＋う」の形になる規則です。", examples:["けふ → きょう","せうと → しょうと","せうそこ → しょうそこ","てうづ → ちょうず","えうなき → ようなき"], reviewStatus:"approved"},
   {id:"L4", chip:"オ段＋う", tier:5, mode:"record-only", brief:"オ段＋うは発音上の長音規則として記録しますが、現代仮名遣いの表記は変えません。", examples:[], reviewStatus:"record-only"},
-  {id:"S1", chip:"小さく書く", tier:4, mode:"context", brief:"拗音の「や・ゆ・よ」と促音の「つ」は、現代仮名遣いでは小さく書く規則です。", examples:["だいしやう → だいしょう","にようご → にょうご","もんじやう → もんじょう","いつさい → いっさい","もつとも → もっとも"], reviewStatus:"approved"}
+  {id:"S1", chip:"小さく書く", tier:4, mode:"context", brief:"拗音の「や・ゆ・よ」と促音の「つ」は、現代仮名遣いでは小さく書く規則です。", examples:["だいしやう → だいしょう","にようご → にょうご","もんじやう → もんじょう","でんじやう → でんじょう","いつさい → いっさい"], reviewStatus:"approved"}
 ]
