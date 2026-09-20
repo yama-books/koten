@@ -1,14 +1,13 @@
 (function(global){
   "use strict";
 
-  const BRAND_TITLE="古典文法活用の森";
+  const BRAND_TITLE="古典文法活用ノート";
   const DEFAULT_BASE="./data/";
 
   function applyBranding(){
     document.title=BRAND_TITLE;
 
-    const title=[...document.querySelectorAll("h1")]
-      .find(node=>(node.textContent||"").trim()==="古典 活用ドリル");
+    const title=document.querySelector(".wrap > header h1");
     if(title) title.textContent=BRAND_TITLE;
 
     if(!document.querySelector('link[data-conj-branding="true"]')){
