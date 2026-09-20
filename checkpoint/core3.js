@@ -88,8 +88,8 @@ const HONORIFIC_RULES = [
 const KANA_RULE_DEFS = [
   {id:"H1", chip:"は→わ", tier:3, mode:"context", brief:"語中・語尾のハ行「は・ひ・ふ・へ・ほ」は、現代仮名遣いで「わ・い・う・え・お」になることがあります。", examples:["あはれ → あわれ","おもひ → おもい","いふ → いう","まへ → まえ","ほふし → ほうし"], cautions:["H1-a 語頭のハ行はそのまま","H1-b 複合語の後部要素の語頭もそのまま","H1-c 助詞「は」「へ」はそのまま"], reviewStatus:"approved"},
   {id:"H1-a", chip:"語頭はそのまま", tier:3, mode:"exception", parent:"H1", brief:"語頭のハ行は H1 の変換対象にしません。", examples:["はかなし → はかなし","ひと → ひと","ふみ → ふみ","へだつ → へだつ","ほととぎす → ほととぎす"], reviewStatus:"approved"},
-  {id:"H1-b", chip:"複合語はそのまま", tier:4, mode:"exception", parent:"H1", brief:"複合語の後ろの要素の語頭にあるハ行も変えません。語の境界の判断が必要です。", examples:["あさ｜ひ → あさ｜ひ","つき｜ひ → つき｜ひ","はつ｜はな → はつ｜はな","はつ｜はる → はつ｜はる","ゆふ｜ひ → ゆう｜ひ"], reviewStatus:"approved"},
-  {id:"H1-c", chip:"助詞は・へ", tier:3, mode:"exception", parent:"H1", brief:"助詞の「は」「へ」は表記を変えません。", examples:["春はあけぼの → 春はあけぼの","花は盛りに → 花は盛りに","人は知らず → 人は知らず","二条院へ → 二条院へ","公家へ申す → 公家へ申す"], reviewStatus:"approved"},
+  {id:"H1-b", chip:"複合語はそのまま", tier:4, mode:"exception", parent:"H1", brief:"複合語の後ろの要素の語頭にあるハ行も変えません。語の境界の判断が必要です。", examples:["あさ｜ひ → あさ｜ひ","つき｜ひ → つき｜ひ","はつ｜はな → はつ｜はな","はつ｜はる → はつ｜はる","はつ｜ふゆ → はつ｜ふゆ"], reviewStatus:"approved"},
+  {id:"H1-c", chip:"助詞は・へ", tier:3, mode:"exception", parent:"H1", brief:"助詞の「は」「へ」は表記を変えません。", examples:["春はあけぼの → 春はあけぼの","花は盛りに → 花は盛りに","人はいさ心も知らず → 人はいさ心も知らず","都へ上る → 都へ上る","御前へ参る → 御前へ参る"], reviewStatus:"approved"},
   {id:"W1", chip:"ゐゑ→いえ", tier:2, mode:"safe", brief:"「ゐ」は「い」、「ゑ」は「え」に直します。", examples:["ゐる → いる","まゐる → まいる","こゑ → こえ","うゑる → うえる","すゑ → すえ"], reviewStatus:"approved"},
   {id:"W2", chip:"を→お", tier:4, mode:"context", brief:"助詞ではない「を」は、現代仮名遣いで「お」に直します。", examples:["をかし → おかし","をとこ → おとこ","をんな → おんな","をさなし → おさなし","をみな → おみな"], reviewStatus:"approved"},
   {id:"W2-a", chip:"助詞を", tier:4, mode:"exception", parent:"W2", brief:"助詞の「を」は表記を変えません。", examples:["花を見る → 花を見る","人を待つ → 人を待つ","月を見る → 月を見る","文を読む → 文を読む","道を行く → 道を行く"], reviewStatus:"approved"},
