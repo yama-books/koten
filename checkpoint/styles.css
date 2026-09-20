@@ -78,7 +78,7 @@
     .row button{min-height:44px;flex:1 1 calc(50% - 8px)}
     #checkLevel{min-height:44px}
     .row .primary{flex-basis:100%}
-    .close,.focus-main-action,.known-btn,#nextPoint,.known-restore-one,.known-restore-all,.focus-overview-item,.focus-tools button,.mini-toggle{min-height:44px}
+    .close,.focus-main-action,.known-btn,.known-restore-one,.known-restore-all,.focus-overview-item,.focus-tools button,.mini-toggle{min-height:44px}
     .close{width:44px;height:44px}
     .drawer-inner{padding:12px 12px max(18px,env(safe-area-inset-bottom))}
     .known-history-head{align-items:flex-start}
@@ -87,8 +87,7 @@
   }
 
   @media(max-width:430px){
-    .focus-footer{grid-template-columns:1fr}
-    .focus-footer .known-btn,.focus-footer #nextPoint{width:100%}
+    .focus-footer .known-btn{width:100%}
     .known-history-head{display:grid;grid-template-columns:1fr}
     .known-restore-all{width:100%}
   }
