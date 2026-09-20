@@ -76,6 +76,7 @@
     .shell{padding:18px 10px max(56px,env(safe-area-inset-bottom))}
     .card{padding:14px;border-radius:14px}
     .row button{min-height:44px;flex:1 1 calc(50% - 8px)}
+    #checkLevel{min-height:44px}
     .row .primary{flex-basis:100%}
     .close,.focus-main-action,.known-btn,#nextPoint,.known-restore-one,.known-restore-all,.focus-overview-item,.focus-tools button,.mini-toggle{min-height:44px}
     .close{width:44px;height:44px}
