@@ -37,6 +37,7 @@
     "vitest": "^4.1.11"
   },
   "dependencies": {
+    "firebase": "^12.18.0",
     "preact": "^10.29.8"
   }
 }
