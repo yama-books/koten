@@ -1,19 +1,19 @@
 function toolButtonsForHit(h){
   const buttons=[];
   if((h.examples||[]).length || examplesForHit(h).length){
-    buttons.push('<button class="secondary" type="button" data-focus-tool="examples">＋ 類例</button>');
+    buttons.push('<button class="secondary" type="button" data-focus-tool="examples">類例</button>');
   }
   const guides=candidateGuideFor(h);
   if((guides && guides.length) || (h.candidates||[]).length){
-    if(h.type!=="vocab") buttons.push('<button class="secondary" type="button" data-focus-tool="candidates">＋ 候補</button>');
+    if(h.type!=="vocab") buttons.push('<button class="secondary" type="button" data-focus-tool="candidates">候補</button>');
   }
   if(h.type==="orthography"){
     const exceptions=kanaExceptionsForHit(h);
-    if(exceptions.length) buttons.push('<button class="secondary" type="button" data-focus-tool="exceptions">＋ 例外</button>');
-    if(h.modernKana) buttons.push('<button class="ghost" type="button" data-focus-tool="answer">＋ 答え</button>');
+    if(exceptions.length) buttons.push('<button class="secondary" type="button" data-focus-tool="exceptions">例外</button>');
+    if(h.modernKana) buttons.push('<button class="ghost" type="button" data-focus-tool="answer">答え</button>');
   }
   if(h.type==="honorific" && h.lemma && h.pattern!==h.lemma){
-    buttons.push('<button class="secondary" type="button" data-focus-tool="honorific">＋ 敬語</button>');
+    buttons.push('<button class="secondary" type="button" data-focus-tool="honorific">敬語</button>');
   }
   return buttons.join("");
 }
@@ -48,7 +48,7 @@ function setFocusToolButtonStates(openKind=""){
   document.querySelectorAll("#focusTools [data-focus-tool]").forEach(btn=>{
     const kind=btn.dataset.focusTool;
     const labels={examples:"類例",candidates:"候補",exceptions:"例外",honorific:"敬語",answer:"答え"};
-    btn.textContent=(kind===openKind?"− ":"＋ ")+(labels[kind]||kind);
+    btn.textContent=kind===openKind ? "閉じる" : (labels[kind]||kind);
   });
 }
 
