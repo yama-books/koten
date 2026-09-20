@@ -523,3 +523,19 @@ UI:
 - JavaScript構文 PASS
 - default OFF PASS
 - auto mode full-size PASS
+
+
+## RC17 / ホーム画面アイコン・PWA設定
+
+公開用アイコンを設定。
+
+- 変体仮名「こ」（字母: 古）の承認済みデザインを使用
+- 背景色はアプリ背景 `#f2efe8`
+- apple-touch-icon 180x180
+- PWA icon 192x192 / 512x512
+- favicon 32x32
+- site.webmanifest 追加
+- theme-color / apple-mobile-web-app-title 設定
+- iPhone「ホーム画面に追加」時のアイコン表示に対応
+
+現行 index.html: release candidate 1.0 RC17

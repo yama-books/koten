@@ -897,3 +897,27 @@ JavaScript構文PASS。
 
 現行 index.html: release candidate 1.0 RC16
 JavaScript構文PASS。
+
+
+## 35. RC17 / ホーム画面アイコン設定
+
+承認済みの「こ」（字母: 古）アイコンを公開設定へ追加。
+
+追加ファイル:
+- apple-touch-icon.png (180x180)
+- icon-192.png
+- icon-512.png
+- favicon-32x32.png
+- site.webmanifest
+
+index.html:
+- apple-touch-icon
+- favicon
+- manifest
+- theme-color
+- apple-mobile-web-app-capable
+- apple-mobile-web-app-title
+を設定。
+
+背景色: #f2efe8
+現行 index.html: release candidate 1.0 RC17
