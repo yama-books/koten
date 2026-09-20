@@ -245,18 +245,23 @@ try {
     await page.evaluate(() => showQuizScreen("record"));
     await page.waitForSelector(".recordRowGroup");
     const landscape = await page.evaluate(() => {
-      const first = document.querySelector(".recordRowGroup");
+      const groups = [...document.querySelectorAll(".recordRowGroup")];
+      const groupRects = groups.map((el) => el.getBoundingClientRect());
+      const unique = (values) => [...new Set(values.map((v) => Math.round(v)))];
+      const closedColumns = unique(groupRects.map((r) => r.left)).length;
+      const first = groups[0];
       if (first) first.open = true;
       const cards = [...(first?.querySelectorAll(".glyphMasteryCard") ?? [])];
       const rects = cards.map((el) => el.getBoundingClientRect());
-      const unique = (values) => [...new Set(values.map((v) => Math.round(v)))];
       return {
+        closedColumns,
         columns: unique(rects.map((r) => r.left)).length,
         widths: rects.map((r) => r.width),
         heights: rects.map((r) => r.height),
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       };
     });
+    if (landscape.closedColumns !== 4) add(844, "landscapeRowColumns4", landscape);
     if (landscape.columns !== 5) add(844, "landscapeGlyphColumns5", landscape);
     if (landscape.overflow > 1) add(844, "landscapeNoOverflow", landscape);
     if (landscape.widths.some((w) => w > 125)) add(844, "landscapeGlyphDensity", landscape);
