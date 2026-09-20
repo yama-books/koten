@@ -84,9 +84,13 @@ textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:1
 .glyphChoice .g.smallGlyph{font-size:20px;line-height:1.45}
 .preview .smallGlyph{display:inline-block;font-size:.68em;line-height:1;vertical-align:.18em}
 .glyphChoice small{color:var(--muted);font-size:10px}
-.originalText{margin:2px 0 8px;padding:8px 10px;border-radius:10px;background:var(--paper2);font-size:13px;line-height:1.6;color:var(--muted)}
+.originalText{margin:8px 0;padding:8px 10px;border-radius:10px;background:var(--paper2);font-size:13px;line-height:1.6;color:var(--muted)}
 .originalText b{color:var(--ink);font-weight:700}
-.preview{margin-top:10px;min-height:130px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:40px;line-height:1.8;word-break:break-all}
+.previewDock{margin:6px 0 10px}
+.previewDock.manualSticky{position:sticky;top:6px;z-index:10;background:rgba(255,253,248,.96);padding:8px 0 10px;border-radius:14px;box-shadow:0 8px 18px rgba(43,39,31,.10);backdrop-filter:blur(6px)}
+.previewDock.manualSticky .label{padding:0 8px}
+.previewDock.manualSticky .preview{min-height:74px;padding:10px 14px;font-size:34px;line-height:1.5}
+.preview{margin-top:6px;min-height:130px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:40px;line-height:1.8;word-break:break-all}
 .empty{padding:24px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:1.9;text-align:center;background:#fff}
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
@@ -144,11 +148,13 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
         <button class="composeModeBtn" data-compose-mode="manual">自分で選ぶ</button>
       </div>
     </div>
+    <div id="previewDock" class="previewDock">
+      <div class="label">できあがり</div>
+      <div id="preview" class="preview"></div>
+    </div>
+    <div id="rerollWrap" class="actions"><button id="rerollCompose" class="btn">もう一度</button></div>
     <div id="originalText" class="originalText" style="display:none"><b>もとの文</b>　きょうはいいてんきですね</div>
     <div id="composeRows" class="composeRows autoHidden"></div>
-    <div class="label">できあがり</div>
-    <div id="preview" class="preview"></div>
-    <div id="rerollWrap" class="actions"><button id="rerollCompose" class="btn">もう一度</button></div>
   </div>
 
   <div id="browse" class="view">
@@ -186,7 +192,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC11
+  vintage-kana / release candidate 1.0 RC12
 </footer>
 </div>
 
@@ -381,16 +387,11 @@ function renderCompose(){
  }else{
    needed.forEach(k=>{
      const info=composeInfo(k);
-     if(!(k in selected)) selected[k]={keep:true,text:k,small:false};
+     if(!(k in selected) || selected[k]?.keep) selected[k]=pickAutomatic(k);
 
      const row=document.createElement("div");row.className="composeRow";
      const left=document.createElement("div");left.className="composeKana";left.textContent=k;
      const cand=document.createElement("div");cand.className="candidates";
-
-     const keep=document.createElement("button");
-     keep.className="glyphChoice"+(selected[k]?.keep?" active":"");
-     keep.innerHTML='<span class="g">'+escapeHtml(k)+'</span><small>そのまま</small>';
-     keep.onclick=()=>{selected[k]={keep:true,text:k,small:false};renderCompose()};cand.appendChild(keep);
 
      GLYPHS.filter(x=>x.kana===info.base).forEach(e=>{
        const out=e.character+info.mark;
@@ -413,6 +414,8 @@ function renderCompose(){
    original.innerHTML='<b>もとの文</b>　'+escapeHtml(text);
    original.style.display=composeMode==="manual"?"block":"none";
  }
+ const previewDock=document.getElementById("previewDock");
+ if(previewDock) previewDock.classList.toggle("manualSticky",composeMode==="manual");
  document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
  const reroll=document.getElementById("rerollWrap");
  if(reroll) reroll.style.display=composeMode==="auto"?"flex":"none";
