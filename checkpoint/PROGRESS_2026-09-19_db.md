@@ -795,3 +795,19 @@ gold先固定→shadow無調整baseline保存まで完了。
 - 公開件数ダッシュボード / 非表示件数はDOM・計算ごと削除。
 - WebKit smoke run **35486907188** SUCCESS。
 - production runtime 8ファイルをfile-level反映し、mainで8/8 blob一致。
+
+
+## 2026-09-20 仮名遣い類例 全件精査開始
+
+- ユーザー方針: 類例は必ず文語・古典本文で実在する表現を優先。
+- 除外固定:
+  - あふ → あう
+  - たまふ → たもう
+  - かう → こう
+  - 現代語のみの例
+- H1候補に `ほふし → ほうし`。
+- `KANA_RULE_DEFS.examples` を各規則5件前後へ拡張。
+- `examplesForHit()` を変更し、仮名遣いではrule定義の精査済みexamplesをdrawer「類例」へ直接表示。
+- L1の5例を実際にdrawerに出すunit test追加。
+- ただし全規則の出典監査は未完了。怪しい例は5件を埋めるために残さない。
+- L4はrecord-only / examples空のまま。
