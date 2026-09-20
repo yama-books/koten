@@ -325,3 +325,53 @@ lexical sidecarは**実例ID単位**で、`learnerGloss` は用例文脈依存�
 3. `learnerGloss` は特定実例が画面に出ている場合だけ表示する。
 4. CHJ raw本文は公開条件確定までGitHubへ追加しない。
 5. mainは触らず `conj-main` で進める。次はadapter実装準備→320/360/390/430pxで100dvh・形容動詞横ずれQA。
+
+
+## 12. 2026-09-20 夜 公開前統合: lemma lexical adapter / mobile static QA
+
+本日中公開を目標に、§11（Drive正本 §39）から元の縦書きUIへの統合を再開。
+
+### 実装済み
+
+- conj/data/adjectival-noun-lexical-annotations.json を追加。
+  - v0.4 lexical sidecar から形容動詞の lemma-level で安全に昇格できる情報だけを抽出。
+  - 71 annotation。
+  - learnerGloss は文脈依存なので明示的に除外。
+  - 保持するのは displayLemma / kanjiAid / targetReading / questionFrequency。
+- adjv-runtime-adapter.js を更新。
+  - sourceExampleIds の全例に同じ値がある場合だけ lemma-level へ昇格。
+  - 1例でも未注釈・不一致ならそのフィールドは昇格しない。
+  - 歴史的仮名遣いの displayLemma を主表示にし、ナリ／タリを付けて活用表見出しを構成。
+  - learnerGloss が lemma-level ファイルに混入した場合は validation error。
+  - TARI の questionFrequency=lower は questionWeight=0.6 に変換。
+- 元の conj/index.html を更新。
+  - 漢字補助を主見出しの下に小さく表示。
+  - targetReading がある場合は漢字補助の読みも併記。
+  - weighted picker を追加し、TARI lower を通常項目より低頻度にした。
+  - v38 の iPhone viewport fit / table centering は維持。
+
+### 回帰確認
+
+- adapter JavaScript: V8 compile PASS。
+- runtime validation: PASS。
+- 形容動詞 table items: 117。
+- lexical annotations: 71。
+- TARI lower weight 0.6: 23 / 23。
+- 代表確認:
+  - adjv-045 → ありがほなり / 漢字補助 有り顔 / 読み ありがお
+  - adjv-048 → こころことなり / 心異
+  - adjv-059 → ひたぐろなり / 直黒
+  - adjv-087 → はなやかなり / 声花
+  - adjv-097 → さつさつたり / 颯々 / さっさつ / weight 0.6
+- index.html inline JS compile PASS。
+- CSS brace balance 0。
+- 100dvh narrow-screen rule、max-height 760px rule、形容動詞連用形の左右2分割を静的確認。
+
+### 公開方針
+
+今回公開対象にするのは元の縦書きUI＋軽量な表ドリルデータ＋lemma lexical metadata。
+形容動詞120例の CHJ raw本文は公開側へ追加しない。
+したがって、v0.4.18 内部QAパッケージの 910例 quotation/final-compliance BLOCK は解除せず維持する。
+内部910例パッケージを公開物へ置き換えない。
+
+main はこの時点では未変更。公開直前に main の現行 conj へ安全な差分だけ反映する。
