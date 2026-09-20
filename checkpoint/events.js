@@ -16,12 +16,14 @@ function openDrawer(hitOrHits, surfaceText){
   const d=document.getElementById("drawer");
   d.classList.add("open");
   d.setAttribute("aria-hidden","false");
+  document.body.classList.add("drawer-open");
 }
 
 function closeDrawer(){
   const d=document.getElementById("drawer");
   d.classList.remove("open");
   d.setAttribute("aria-hidden","true");
+  document.body.classList.remove("drawer-open");
   if(drawerNeedsRender){ drawerNeedsRender=false; render(); }
 }
 
@@ -76,6 +78,18 @@ document.getElementById("focusOverview").addEventListener("click",(e)=>{
 });
 document.getElementById("nextPoint").addEventListener("click",goNextPoint);
 document.getElementById("markPointKnown").addEventListener("click",markCurrentPointKnown);
+document.getElementById("restoreAllKnown").addEventListener("click",()=>{
+  dismissedKeys.clear();
+  render();
+});
+document.getElementById("knownList").addEventListener("click",(e)=>{
+  const btn=e.target.closest("[data-known-index]");
+  if(!btn) return;
+  const h=window.__knownHits?.[Number(btn.dataset.knownIndex)];
+  if(!h) return;
+  dismissedKeys.delete(hitKey(h));
+  render();
+});
 document.getElementById("focusTools").addEventListener("click",(e)=>{
   const btn=e.target.closest("[data-focus-tool]"); if(!btn) return; openFocusExtra(btn.dataset.focusTool);
 });
