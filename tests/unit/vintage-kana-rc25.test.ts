@@ -154,5 +154,5 @@ test("vintage-kana glyph explanations are reachable from browse and mastery card
   assert.match(html, /bindGlyphInfoCards\(rows\)/);
   assert.match(html, /\["U\+1B052","※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。/);
   assert.match(html, /\["U\+1B11A","※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。/);
-  assert.match(html, /notes\.join\("\\\\n"\)/);
+  assert.match(html, /notes\.join\("\\n"\)/);
 });
