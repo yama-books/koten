@@ -46,13 +46,10 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .kanaFilters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px;max-height:128px;overflow:auto;padding:2px}
 .kanaBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 10px;min-width:38px}
 .kanaBtn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.summary{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
-.stat{font-size:11px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 9px;color:var(--muted)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
-.card{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:140px}
+.card{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:125px}
 .card.standardKana{background:#edf3f7;border-color:#b9cad5}
 .card.standardKana .glyph{font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
-.standardBadge{display:inline-block;margin-bottom:7px;padding:3px 7px;border-radius:999px;background:#dce8ef;color:#4d6572;font-size:10px;font-weight:700;letter-spacing:.03em}
 .glyph{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:50px;line-height:1.15;margin-bottom:9px}
 .meta{font-size:13px;line-height:1.7}.meta b{font-family:"Yu Mincho",serif;font-size:18px}
 .note{font-size:11px;color:var(--muted);line-height:1.7}
@@ -93,7 +90,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <p class="tagline">昔のひらがなの形を、見て・覚えて・使ってみる学習アプリ。</p>
   </div>
   <div>
-    <div class="pill">一次公開準備版 1.0 RC6</div>
+    <div class="pill">一次公開準備版 1.0 RC7</div>
     <div class="pill" id="fontStatus" style="margin-top:7px">字体フォント確認中…</div>
     <div class="pill" id="dataStatus" style="margin-top:7px">教材データ確認中…</div>
   </div>
@@ -133,7 +130,6 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   <div id="browse" class="view active">
     <div class="label">読みたい仮名を選ぶ</div>
     <div id="filters" class="kanaFilters"></div>
-    <div id="browseSummary" class="summary"></div>
     <div id="cards" class="cards"><div class="loading">字体データを読み込んでいます…</div></div>
   </div>
 
@@ -170,13 +166,13 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       <a href="https://cid.ninjal.ac.jp/kana/list/" target="_blank" rel="noopener">学術情報交換用変体仮名</a> ／
       <a href="https://cid.ninjal.ac.jp/hentaiganaDB/" target="_blank" rel="noopener">変体仮名字形データベース</a> ／
       <a href="https://kotoba.ninjal.ac.jp/qa/yokuaru/qa-72/" target="_blank" rel="noopener">平仮名の成立について</a><br>
-      表示件数は、このアプリで調べた初期15資料の中で見つかった数です。
+      このアプリでは、公開資料をもとに確認した字形を表示しています。
     </div>
   </details>
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC6
+  vintage-kana / release candidate 1.0 RC7
 </footer>
 </div>
 
@@ -282,27 +278,12 @@ function renderCards(){
    GLYPHS.filter(x=>x.kana===k).forEach(x=>rows.push({...x,isStandard:false}));
  });
 
- const variantCount=rows.filter(x=>!x.isStandard).length;
- const standardCount=rows.filter(x=>x.isStandard).length;
- document.getElementById("browseSummary").innerHTML=
-   '<span class="stat">通常の平仮名 '+standardCount+' 字体</span>'+
-   '<span class="stat">変体仮名 '+variantCount+' 字体</span>'+
-   '<span class="stat">データのある読み '+new Set(GLYPHS.map(x=>x.kana)).size+'</span>';
-
  root.innerHTML="";
  rows.forEach(e=>{
    const d=document.createElement("div");
    d.className="card"+(e.isStandard?" standardKana":"");
-   if(e.isStandard){
-     d.innerHTML='<div class="standardBadge">通常の平仮名</div>'+
-       '<div class="glyph">'+escapeHtml(e.character)+'</div>'+
-       '<div class="meta">対応する仮名　<b>'+escapeHtml(e.kana)+'</b><br>字母　<b>'+escapeHtml(e.jibo)+'</b></div>'+
-       '<div class="note" style="margin-top:6px">今ふつうに使うひらがなです。</div>';
-   }else{
-     d.innerHTML='<div class="glyph">'+escapeHtml(e.character)+'</div>'+
-       '<div class="meta">対応する仮名　<b>'+escapeHtml(e.kana)+'</b><br>字母　<b>'+escapeHtml(e.jibo)+'</b></div>'+
-       '<div class="note" style="margin-top:6px">資料で '+e.totalObserved.toLocaleString()+'件 見つかっています。</div>';
-   }
+   d.innerHTML='<div class="glyph">'+escapeHtml(e.character)+'</div>'+
+     '<div class="meta">字母　<b>'+escapeHtml(e.jibo)+'</b></div>';
    root.appendChild(d);
  });
 }
@@ -354,7 +335,7 @@ function renderCompose(){
      b.className="glyphChoice"+(active?" active":"");
      b.innerHTML='<span class="g'+(info.small?' smallGlyph':'')+'">'+escapeHtml(out)+'</span><small>'+
        (info.small?'小書き表示 / ':'')+
-       '字母 '+escapeHtml(e.jibo)+' / '+e.totalObserved.toLocaleString()+'件'+
+       '字母 '+escapeHtml(e.jibo)+
        (info.mark==="\u3099"?' / 濁点':info.mark==="\u309A"?' / 半濁点':'')+
        '</small>';
      b.onclick=()=>{selected[k]={keep:false,text:out,small:info.small};renderCompose()};cand.appendChild(b);
