@@ -4,7 +4,7 @@
   "title": "Checkpoint mobile usability and understood-point history audit",
   "branch": "checkpoint-main",
   "scope": "static mobile readiness + browser-free interaction wiring + legacy detector performance indication",
-  "status": "STATIC_PASS_RUNTIME_DEVICE_PENDING",
+  "status": "BROWSER_EMULATION_PASS_RUNTIME_DEVICE_PENDING",
   "mobileChecks": [
     {
       "id": "M1",
@@ -64,7 +64,13 @@
       "id": "M10",
       "name": "live-device-runtime",
       "status": "PENDING",
-      "evidence": "deployment workflow publishes only pushes to main. checkpoint-main cannot be honestly device-tested at the public Pages URL until integration or an explicit preview deployment."
+      "evidence": "Playwright WebKit mobile emulation PASS. Physical iPhone Safari after production integration remains PENDING because checkpoint-main is not the production Pages source."
+    },
+    {
+      "id": "M11",
+      "name": "webkit-mobile-browser-smoke",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 35482145135, Playwright WebKit 26.5. portrait 390x844 / landscape 844x390. one-character marker touch, drawer body lock, understood history individual/all restore, text-change clear, long sample render and no horizontal overflow passed."
     }
   ],
   "understoodHistory": {
@@ -107,5 +113,34 @@
     "Change the input text and confirm understood history clears.",
     "Rotate portrait/landscape and confirm no horizontal overflow.",
     "Confirm normal URL does not show shadow debug; ?debug=shadow is developer-only."
-  ]
+  ],
+  "browserSmoke": {
+    "status": "PASS",
+    "runId": 35482145135,
+    "headSha": "62f70c3532f4419252437768554d8b8b9d3bbe6f",
+    "engine": "Playwright WebKit 26.5",
+    "viewportPortrait": {
+      "width": 390,
+      "height": 844
+    },
+    "viewportLandscape": {
+      "width": 844,
+      "height": 390
+    },
+    "sample3Checklist": 16,
+    "longSampleMarkers": 162,
+    "verified": [
+      "normal URL shadow hidden and shadowData skipped",
+      "no horizontal overflow portrait",
+      "one-character inline marker touch opens drawer",
+      "drawer applies body scroll lock",
+      "understood history individual restore",
+      "understood history restore all",
+      "text change clears understood history",
+      "long sample renders",
+      "no horizontal overflow landscape",
+      "landscape drawer fits viewport"
+    ],
+    "limitation": "WebKit mobile emulation is stronger than static/jsdom validation but is not physical iPhone Safari hardware testing."
+  }
 }
