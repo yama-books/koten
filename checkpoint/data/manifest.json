@@ -167,6 +167,8 @@
     "Checkpoint Public Beta Smoke run 35481928465 は head 414514e911ab88b4187993a725d369e0b7080daf でPASS。",
     "production_integration_delta_20260920.json に main と checkpoint-main のファイル単位blob SHA差分を固定。main側SHA変化時は上書きせず再レビューする。",
     "Playwright WebKit 26.5 mobile browser smokeを追加し、run 35482145135でPASS。390x844 portrait / 844x390 landscape、1文字marker touch、drawer lock、わかる履歴復帰、長文、横overflowなしを確認。",
-    "物理iPhone Safariはproduction統合後の最終smokeとして残す。"
+    "物理iPhone Safariはproduction統合後の最終smokeとして残す。",
+    "WebKit最新smoke run 35482932843 / head 2fc149f4086e42eb7a3d4e00872ae7b252d8414c PASS。通常URLではproduction data loaded + shadow-only skipped、?debug=shadowではresearch data loadedを確認。",
+    "WebKit computed touch target: top actions 44px, level selector 46px, checklist約81.09px, drawer close 44px, known action 44px, restore one 44px。"
   ]
 }
