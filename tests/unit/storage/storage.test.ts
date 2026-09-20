@@ -28,7 +28,7 @@ test('storage: events repository has append and read APIs only', () => {
   assert.deepEqual(Object.keys(eventsRepository).sort(), ['appendEvent', 'listEvents']);
 });
 
-test('storage: schemaVersion remains one', () => assert.equal(dbVersion, 1));
+test('storage: schemaVersion is two (syncOutbox store added)', () => assert.equal(dbVersion, 2));
 
 test('storage: fallback returns an export prompt when storage capacity is exhausted', () => {
   const quotaStorage = { setItem() { throw new DOMException('full', 'QuotaExceededError'); } } as unknown as Storage;
