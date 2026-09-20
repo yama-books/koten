@@ -39,6 +39,7 @@ tools/font-weight-check/**
 tools/overflow-check/**
 tools/review-approve/**
 tools/scan-publish/**
+tools/vintage-kana-check/**
 tests/**
 firebase/firestore.rules
 firebase/firestore.indexes.json
