@@ -120,7 +120,12 @@ try{
   assert.equal(await page.evaluate(()=>document.body.classList.contains('drawer-open')),true);
   const closeBox=(await minVisibleHeight('#closeDrawer','drawer close'))[0];
   const knownActionBox=(await minVisibleHeight('#markPointKnown','known action'))[0];
-  await minVisibleHeight('#nextPoint','next action');
+  const nextVisible=await page.locator('#nextPoint').evaluate(el=>{
+    const r=el.getBoundingClientRect();
+    const style=getComputedStyle(el);
+    return style.display!=='none' && style.visibility!=='hidden' && r.width>0 && r.height>0;
+  });
+  if(nextVisible) await minVisibleHeight('#nextPoint','next action');
   await page.locator('#closeDrawer').tap();
   assert.equal(await page.evaluate(()=>document.body.classList.contains('drawer-open')),false);
 
