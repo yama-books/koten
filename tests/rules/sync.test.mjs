@@ -36,16 +36,19 @@ test('S-5 overwriting an existing record document is rejected (create only)', as
   await assertFails(setDoc(doc(db(), 'households', houseId, 'events', 'evt-4'), { enc: cipher(2) }));
 });
 
-test('S-6 update and delete on a record document are rejected', async () => {
+test('S-6 event update and delete are rejected; session completion update succeeds', async () => {
   await env.withSecurityRulesDisabled(async (ctx) => setDoc(doc(ctx.firestore(), 'households', houseId, 'events', 'evt-5'), { enc: cipher() }));
   await assertFails(updateDoc(doc(db(), 'households', houseId, 'events', 'evt-5'), { enc: cipher(2) }));
   await assertFails(deleteDoc(doc(db(), 'households', houseId, 'events', 'evt-5')));
+  await assertSucceeds(setDoc(doc(db(), 'households', houseId, 'sessions', 's-complete'), { enc: cipher() }));
+  await assertSucceeds(setDoc(doc(db(), 'households', houseId, 'sessions', 's-complete'), { enc: cipher(2) }));
 });
 
-test('S-7 get on a record document succeeds, list is rejected', async () => {
+test('S-7 get and list on a record collection succeed', async () => {
   await assertSucceeds(setDoc(doc(db(), 'households', houseId, 'events', 'evt-6'), { enc: cipher() }));
   await assertSucceeds(getDoc(doc(db(), 'households', houseId, 'events', 'evt-6')));
-  await assertFails(getDocs(collection(db(), 'households', houseId, 'events')));
+  const snapshot = await assertSucceeds(getDocs(collection(db(), 'households', houseId, 'events')));
+  assert.equal(snapshot.size, 1);
 });
 
 test('S-8 settings/current can be created and overwritten (last write wins)', async () => {

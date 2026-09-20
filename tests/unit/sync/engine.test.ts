@@ -4,6 +4,7 @@ import { flushOutbox, applyRemoteRecords } from '../../../packages/shared/src/sy
 import { encodeRecord } from '../../../packages/shared/src/sync/codec.ts';
 import { enqueueSyncOutbox, listSyncOutbox } from '../../../packages/shared/src/storage/repo/sync-outbox.ts';
 import { appendEvent, listEvents } from '../../../packages/shared/src/storage/repo/events.ts';
+import { saveSession, listSessions } from '../../../packages/shared/src/storage/repo/sessions.ts';
 import { createFakeDatabase } from './fake-database.ts';
 
 const sampleEvent = {
@@ -80,4 +81,16 @@ test('applyRemoteRecords ignores documents that fail to decrypt', async () => {
     { id: 'garbage-1', payload: { enc: 'enc:not-really-encrypted' } },
   ]);
   assert.deepEqual(result, { added: 0, duplicates: 0 });
+});
+
+test('受信した完了済みセッションは同じ ID の未完了状態を更新する', async () => {
+  const db = createFakeDatabase();
+  const code = 'apply-session-code';
+  const local = { sessionId: 'session-1', product: 'hyakunin', from: 1, to: 10, entry: 'quick', order: 'number', startedOn: '2026-09-20', completed: false, questionCount: 10 } as const;
+  await saveSession(db, local);
+  const remote = { ...local, completed: true } as const;
+  const encoded = await encodeRecord('sessions', code, remote);
+  await applyRemoteRecords(db, code, 'sessions', [encoded]);
+  const stored = await listSessions(db);
+  assert.equal(stored.ok && stored.value[0].completed, true);
 });

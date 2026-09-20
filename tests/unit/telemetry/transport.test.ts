@@ -29,4 +29,4 @@ test('T-16 免除ファイルに永続化、時刻、DOM、個別履歴、consol
 test('T-17 transport.ts は送信 API を呼ばない', () => { const text = readFileSync(join(process.cwd(), 'packages/shared/src/telemetry/transport.ts'), 'utf8'); for (const word of ['fetch(', 'XMLHttpRequest', 'sendBeacon']) assert.equal(text.includes(word), false); });
 // firebaseは同期機能(sync/client.ts)がFirestoreのonSnapshotへ接続するために要る。
 // transport.ts(このファイルが検査する統計送信)自体は今も生fetchのみで、firebaseに依存しない。
-test('T-18 dependencies は preact と firebase だけである', () => assert.deepEqual(sort(Object.keys((JSON.parse(readFileSync('package.json', 'utf8')) as { dependencies: object }).dependencies)), sort(['preact', 'firebase'])));
+test('T-18 dependencies は preact, firebase とローカル QR ライブラリだけである', () => assert.deepEqual(sort(Object.keys((JSON.parse(readFileSync('package.json', 'utf8')) as { dependencies: object }).dependencies)), sort(['preact', 'firebase', 'qrcode', 'jsqr'])));

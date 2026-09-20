@@ -12,6 +12,7 @@ import { appendEvent, listEvents } from '@koten/shared/storage/repo/events';
 import { saveReport } from '@koten/shared/storage/repo/reports';
 import { listSessions, saveSession } from '@koten/shared/storage/repo/sessions';
 import { getSettings, saveSettings } from '@koten/shared/storage/repo/settings';
+import { clearSyncOutbox } from '@koten/shared/storage/repo/sync-outbox';
 import type { SaveFailure, SaveReceipt, SessionPort } from '../../domain/ports.ts';
 
 /**
@@ -58,7 +59,14 @@ export type TransferPort = Readonly<{
  * ただし「無ければ画面に出さない」作りなので、**本番のポートから落ちると黙って機能ごと消える。**
  * 本番が必ず持つことは `tests/screen/history-transfer.test.tsx` で名指しで確かめる。
  */
-export type ApplicationPort = SessionPort & Partial<TransferPort> & { saveLocalReport(poemId?: string, questionId?: string): Promise<boolean> };
+export type ApplicationPort = SessionPort & Partial<TransferPort> & {
+  saveLocalReport(poemId?: string, questionId?: string): Promise<boolean>;
+  /**
+   * 同期を使っていない間の送信待ちを捨てる。持たない口（画面試験のダブル）もあるので任意にしてある。
+   * 参加したときは `seedSyncOutbox` が端末内の全記録を積み直すため、捨てた分も送られる。
+   */
+  clearSyncQueue?(): Promise<void>;
+};
 const fail = (error?: unknown): SaveFailure => ({ reason: 'write-failed', error });
 const receipt = (eventId: string): SaveReceipt => ({ eventId } as SaveReceipt);
 /** カウンタは端末内だけ。IndexedDB の schema を触らずに済ませる。 */
@@ -71,7 +79,11 @@ export function createIndexedDbPort(): ApplicationPort {
     const opened = await database;
     if (opened.ok) {
       const result = await action(opened.value);
-      if (result.ok) return receipt(id);
+      if (result.ok) {
+        if (fallbackKey.startsWith('hyakunin:event:') || fallbackKey === 'hyakunin:last-session') window.dispatchEvent(new Event('koten:record-saved'));
+        if (fallbackKey === 'hyakunin:settings') window.dispatchEvent(new Event('koten:settings-saved'));
+        return receipt(id);
+      }
       return fail(result.error);
     }
     const result = writeFallback(storage(), fallbackKey, value);
@@ -114,6 +126,7 @@ export function createIndexedDbPort(): ApplicationPort {
       const opened = await database;
       if (!opened.ok) return null;
       const result = await applyImport(opened.value, plan);
+      if (result.ok) window.dispatchEvent(new Event('koten:record-saved'));
       return result.ok ? result.value : null;
     },
     async previewDelete() {
@@ -168,7 +181,13 @@ export function createIndexedDbPort(): ApplicationPort {
       const report: Report = { reportId: crypto.randomUUID(), product: 'hyakunin', poemId, questionId, kind: 'other', createdOn: new Date().toISOString().slice(0, 10), status: 'local' };
       const opened = await database;
       if (!opened.ok) return writeFallback(storage(), `hyakunin:report:${report.reportId}`, report).ok;
-      return (await saveReport(opened.value, report)).ok;
+      const saved = (await saveReport(opened.value, report)).ok;
+      if (saved) window.dispatchEvent(new Event('koten:record-saved'));
+      return saved;
+    },
+    async clearSyncQueue() {
+      const opened = await database;
+      if (opened.ok) await clearSyncOutbox(opened.value);
     },
   };
 }

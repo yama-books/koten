@@ -7,6 +7,8 @@ import { RangePicker } from './ui/screens/RangePicker.tsx';
 import { Session } from './ui/screens/Session.tsx';
 import { Result } from './ui/screens/Result.tsx';
 import { History } from './ui/screens/History.tsx';
+import { SyncSettings } from './ui/screens/SyncSettings.tsx';
+import { startSync, type SyncStatus } from './sync/runtime.ts';
 import { createIndexedDbPort } from './ui/adapters/indexeddb-port.ts';
 import type { ApplicationPort } from './ui/adapters/indexeddb-port.ts';
 import { completeSession, createSession } from './domain/session.ts';
@@ -52,14 +54,17 @@ type Selection = {
 };
 
 export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
-  const [screen, setScreen] = useState<'home' | 'picker' | 'session' | 'review-error' | 'result-loading' | 'result' | 'history-loading' | 'history'>('home');
+  const [screen, setScreen] = useState<'home' | 'sync' | 'picker' | 'session' | 'review-error' | 'result-loading' | 'result' | 'history-loading' | 'history'>(new URL(window.location.href).searchParams.has('join') ? 'sync' : 'home');
   const [selected, setSelected] = useState<Selection | null>(null);
   // **設定の出所は保存領域ひとつである。** ここで既定値を持つと、`Home` が読み込んだ設定を
   // 知らないまま `Session` へ配り、出題中の設定変更が古い値ごと保存領域へ書き戻される
   // （発注074 工程1：学年と「確認済み」の印が消える）。読み込みは `Home` から受け取る。
   const [settings, setSettings] = useState<UserSettings | null>(null);
+  const [syncStatus, setSyncStatus] = useState<SyncStatus | 'off'>('off');
   const [result, setResult] = useState<SessionResult | null>(null);
   const [history, setHistory] = useState<HistorySummary | null>(null);
+  const [historyInitialTab, setHistoryInitialTab] = useState<'一覧' | 'データ管理'>('一覧');
+  const [syncReturn, setSyncReturn] = useState<'home' | 'history'>('home');
   const [saveFailure, setSaveFailure] = useState(false);
 
   // 統計は「終わった日」だけを送る。起動時に1度だけ試み、失敗は送信待ちへ回す。
@@ -70,11 +75,37 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     void flushStats(port).then(() => port.countUi?.('pageViews', new Date().toISOString().slice(0, 10)));
   }, [port]);
 
+  useEffect(() => {
+    if (!appConfig.features.sync || !settings?.syncEnabled || !settings.syncCode) {
+      setSyncStatus('off');
+      // 同期していない端末では送信待ちを溜めない。保存の口は同期の有無を知らないまま 1 件積むためである。
+      // `settings` が null の間は「同期しているか」がまだ分からないので捨てない。
+      if (settings) void port.clearSyncQueue?.();
+      return;
+    }
+    return startSync(settings, port, setSettings, setSyncStatus);
+    // `settings === null` も依存に要る。`syncEnabled` を持たない設定では
+    // 読み込み前後でどちらも undefined になり、読み終えたことを依存の変化として拾えない。
+  }, [port, settings === null, settings?.syncEnabled, settings?.syncCode]);
+
+  async function saveSyncSettings(next: UserSettings): Promise<boolean> {
+    const saved = await port.saveSettings(next);
+    if ('reason' in saved) return false;
+    setSettings(next);
+    return true;
+  }
+
   // 記録は取り込みと削除で変わる。集計を 1 か所に置き、開くときと読み直すときで同じ形を使う。
   const historyPoemIds = Array.from({ length: 100 }, (_, index) => `p${String(index + 1).padStart(3, '0')}`);
   // **目録も渡す。** 完全制覇は段8 の制覇で決まり、段はイベントではなく問題が持つ。
   // 記録を開いたときに受け取った目録を覚えておく——読み直しでも同じものを使う。
   const [catalogue, setCatalogue] = useState<PublishedQuestion[]>([]);
+  useEffect(() => {
+    if (screen !== 'history') return;
+    const update = () => { void port.listEvents().then((events) => setHistory(summarizeHistory({ events, poemIds: historyPoemIds, questions: catalogue }))); };
+    window.addEventListener('koten:remote-records', update);
+    return () => window.removeEventListener('koten:remote-records', update);
+  }, [screen, port, catalogue]);
   const summarize = (events: Awaited<ReturnType<typeof port.listEvents>>, questions: PublishedQuestion[] = catalogue) => summarizeHistory({ events, poemIds: historyPoemIds, questions });
   /** 記録が変わったあとの読み直し。画面は切り替えない。 */
   function reloadHistory() {
@@ -146,10 +177,18 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     void port.listEvents().then((events) => setPickerAutoRung(rangeAutoRung(range, progressFrom(events, questions), computeMastery(events).scores)));
   }
 
-  const homeScreen = () => <Home port={port} onSettings={setSettings} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => openPicker(entry, range, questions, poems ?? [])} onResume={(session, cardNumbers, questions, poems, masteryScores, progress) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores, progress })} onOpenHistory={(questions) => { port.countUi?.('history', new Date().toISOString().slice(0, 10)); setCatalogue(questions); setScreen('history-loading'); void port.listEvents().then((events) => { setHistory(summarize(events, questions)); setScreen('history'); }); }} />;
+  function openHistory(questions: PublishedQuestion[], initialTab: '一覧' | 'データ管理') {
+    port.countUi?.('history', new Date().toISOString().slice(0, 10));
+    setHistoryInitialTab(initialTab);
+    setCatalogue(questions);
+    setScreen('history-loading');
+    void port.listEvents().then((events) => { setHistory(summarize(events, questions)); setScreen('history'); });
+  }
+  const homeScreen = () => <Home port={port} onSettings={setSettings} syncedSettings={settings} onOpenSync={() => { setSyncReturn('home'); setScreen('sync'); }} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => openPicker(entry, range, questions, poems ?? [])} onResume={(session, cardNumbers, questions, poems, masteryScores, progress) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores, progress })} onOpenHistory={(questions) => openHistory(questions, '一覧')} />;
   // 設定を読むのはホームである。**読み込みが済むまで他の画面へ渡さない**——
   // 既定値のまま渡すと、そこからの保存が保存済みの学年を消す（発注074 工程1）。
   if (!settings) return homeScreen();
+  if (screen === 'sync') return <SyncSettings settings={settings} status={syncStatus} onChange={saveSyncSettings} backLabel={syncReturn === 'history' ? 'データ管理へ戻る' : 'ホームへ戻る'} onBack={() => setScreen(syncReturn === 'history' && history ? 'history' : 'home')} />;
   if (screen === 'picker' && selected) return <RangePicker entry={selected.entry} range={selected.range} order={settings.order} autoRung={pickerAutoRung} onBack={() => setScreen('home')} onStart={(range, order, answerMode, includeAuthors, rungAdjust) => {
     void startNew(selected.entry, range, order, selected.questions, selected.poems, answerMode, includeAuthors, rungAdjust);
     setSettings({ ...settings, order });
@@ -169,7 +208,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   if (screen === 'result-loading') return <main class="loading" aria-live="polite">結果を読み込んでいます。</main>;
   if (screen === 'review-error') return <main class="session"><p role="alert">この問題は表示できません。ホームに戻ってやり直してください。</p><button type="button" onClick={() => setScreen('home')}>ホームへ戻る</button></main>;
   if (screen === 'history-loading') return <main class="loading" aria-live="polite">記録を読み込んでいます。</main>;
-  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} onChanged={reloadHistory} />;
+  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} onChanged={reloadHistory} initialTab={historyInitialTab} onOpenSync={appConfig.features.sync ? () => { setHistoryInitialTab('データ管理'); setSyncReturn('history'); setScreen('sync'); } : undefined} syncEnabled={settings.syncEnabled} />;
   if (screen === 'result' && result && selected) {
     // 結果に残った問題でも、壊れた穴埋めは再確認画面を作れない。押すと必ず失敗する
     // 導線を出さず、作者問題は既存の選択式 UI で再確認へ通す（発注074 工程16）。

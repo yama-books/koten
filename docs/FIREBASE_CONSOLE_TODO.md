@@ -220,3 +220,49 @@ Identity Toolkit の `accounts:signUp` がこれを返すのは、**匿名認証
 
 **この文書の §1 の表を、実測値で書き直して返してほしい。** 記録と画面が食い違ったまま次へ進むと、
 施行を入れる判断を誤った前提で行うことになる。
+
+---
+
+# 第3回（2026-09-21・App Check のクライアント実装後）
+
+## 実測（コードを読んで確認した）
+
+| 項目 | 状態 |
+|---|---|
+| Firestore ルール本番反映 | **済み**（`firebase deploy --only firestore:rules --project koten-fde43`） |
+| App Check プロバイダ | reCAPTCHA Enterprise（`koten-web` に登録済み） |
+| Firestore の App Check 施行 | **未適用（Unenforced）。触っていない** |
+| 指標 | Verified 1% / Unverified 99% |
+| `appCheckEnabled` | **false のまま** |
+| 規則の `request.app` | **無し**（施行前なので正しい） |
+
+## なぜ 99% が未検証なのか——原因が分かった
+
+**トークンを送っている経路が1つも無かった。**
+
+- 統計送信は App Check の実装を持つが、`appCheckEnabled` が偽なので取りに行かない。
+- **同期（Firebase SDK 経由）は `initializeAppCheck` を呼んでいなかった。** これが本体である。
+
+同期側に App Check を実装した（`packages/shared/src/sync/app-check.ts` と `sync/client.ts`）。
+ただし `appCheckEnabled` が偽の間は起きないので、**この時点では指標は動かない。**
+
+## §0 と G の「順序」に誤りがあった
+
+`app-config.ts` のコメントは「規則へ `request.app` → 施行 → `appCheckEnabled` を真」と書いていた。
+**これは逆順で、施行を入れた瞬間に正規の利用者が全員弾かれる。**
+この文書の §6 の「ドメイン修正 → クライアント実装 → 指標の確認 → 施行」が正しい。コメントを直した。
+
+## 次にコンソールで見てほしいこと（**施行はまだ入れない**）
+
+`appCheckEnabled` を真にした版を出してから：
+
+1. Firebase コンソール → 構築 → App Check → API タブ → Cloud Firestore の指標。
+2. **Verified の割合が上がっていくこと**を数日見る。
+3. Unverified が残る場合、その出所を確かめる（旧版を開いたままの端末、登録外ドメイン、bot）。
+4. **Verified が十分になってから**、規則へ `request.app != null` を足すのと施行をオンにするのを
+   **同時に**行う。片方だけ先に入れない。
+
+## 第3回でもやらないこと
+
+- **施行（enforce）。** 指標が動いていない段階で入れると同期が全部止まる。
+- **規則へ `request.app != null` を足すこと。** 施行と同時。

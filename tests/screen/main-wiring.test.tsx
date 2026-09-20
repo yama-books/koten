@@ -209,3 +209,28 @@ test('main: 結果の読み込み中は完了前に文言を表示する', async
   await act(async () => { resolveEvents!([]); await Promise.resolve(); });
   expect(root!.textContent).toContain('今回の結果');
 });
+
+test('main: 同期していない端末では送信待ちを溜めない', async () => {
+  // 保存の口（appendEvent / saveSession / saveReport）は同期の有無を知らないまま
+  // syncOutbox へ 1 件積む。同期を使わない利用者の端末で溜まり続けないよう、
+  // 設定を読み終えて「同期はしていない」と分かった時点で捨てる。
+  let cleared = 0;
+  const port = { ...createMemoryPort(), saveLocalReport: async () => true, clearSyncQueue: async () => { cleared += 1; } };
+  await mount('?from=10&to=10', port);
+  expect(cleared).toBeGreaterThan(0);
+});
+
+test('main: 設定を読み終える前は送信待ちを捨てない', async () => {
+  // 設定が null の間は「同期しているか」がまだ分からない。
+  // ここで捨てると、同期中の端末の未送信分を消してしまう。
+  let cleared = 0;
+  const base = createMemoryPort();
+  const port = {
+    ...base,
+    loadSettings: () => new Promise<null>(() => {}),
+    saveLocalReport: async () => true,
+    clearSyncQueue: async () => { cleared += 1; },
+  };
+  await mount('?from=10&to=10', port);
+  expect(cleared).toBe(0);
+});

@@ -88,7 +88,11 @@ service cloud.firestore {
         allow create: if recordKind in ['sessions', 'events', 'reports']
           && isCiphertextPayload(request.resource.data);
         allow get: if recordKind in ['sessions', 'events', 'reports'];
-        allow list, update, delete: if false;
+        // houseId は無作為な合言葉の SHA-256。購読には list が必要。
+        allow list: if recordKind in ['sessions', 'events', 'reports'];
+        // セッションは開始時と完了時に同じ ID で保存する。
+        allow update: if recordKind == 'sessions' && isCiphertextPayload(request.resource.data);
+        allow delete: if false;
       }
 
       match /settings/{settingsId} {

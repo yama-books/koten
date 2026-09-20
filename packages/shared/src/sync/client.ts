@@ -1,13 +1,34 @@
+/// <reference types="vite/client" />
 // このファイルはFirestoreエミュレータ/実サーバへの接続が前提のため単体テストを持たない。
 // Task 4(ルール試験)とTask 9(engine.tsの結合試験、依存注入でこのモジュールを差し替える)が
 // この層を経由して検証する。
 import { appConfig } from '../app-config.ts';
+import { appCheckPlan } from './app-check.ts';
 import type { SyncKind } from './codec.ts';
 
 export type RemoteRecord = { id: string; payload: unknown };
 
 let appPromise: Promise<unknown> | null = null;
 let firestorePromise: Promise<unknown> | null = null;
+const devicePreview = typeof import.meta.env !== 'undefined' && import.meta.env.VITE_QR_SYNC_EMULATOR === '1';
+
+/**
+ * Firestore を触る前に App Check を起こす。**Firestore より先でなければトークンが乗らない。**
+ *
+ * 失敗しても投げない。施行（enforce）が入るまで規則はトークンを見ないので、
+ * ここで転んでも同期は動く。**学習を止めない方を採る**——統計側 `getAppCheckToken` と同じ立場である。
+ * 施行を入れたあとは、ここが転べば同期も止まる。**施行は指標が Verified 側へ移ってから。**
+ */
+async function startAppCheck(app: unknown): Promise<void> {
+  if (appCheckPlan({ devicePreview }) !== 'start') return;
+  try {
+    const { initializeAppCheck, ReCaptchaEnterpriseProvider } = await import('firebase/app-check');
+    initializeAppCheck(app as never, {
+      provider: new ReCaptchaEnterpriseProvider(appConfig.appCheckSiteKey),
+      isTokenAutoRefreshEnabled: true,
+    });
+  } catch { /* 取れなくても同期は続ける。施行が入るまで規則はトークンを見ない。 */ }
+}
 
 async function getFirestore(): Promise<import('firebase/firestore').Firestore> {
   const [{ initializeApp, getApps }, firestoreModule] = await Promise.all([
@@ -15,10 +36,16 @@ async function getFirestore(): Promise<import('firebase/firestore').Firestore> {
     import('firebase/firestore'),
   ]);
   if (!appPromise) {
-    appPromise = Promise.resolve(getApps()[0] ?? initializeApp(appConfig.firebase));
+    appPromise = (async () => {
+      const app = getApps()[0] ?? initializeApp(devicePreview ? { ...appConfig.firebase, projectId: 'demo-koten-device' } : appConfig.firebase);
+      await startAppCheck(app);
+      return app;
+    })();
   }
   const app = await appPromise;
-  if (!firestorePromise) firestorePromise = Promise.resolve(firestoreModule.getFirestore(app as never));
+  if (!firestorePromise) firestorePromise = Promise.resolve(devicePreview
+    ? firestoreModule.initializeFirestore(app as never, { host: window.location.host, ssl: window.location.protocol === 'https:', experimentalForceLongPolling: true })
+    : firestoreModule.getFirestore(app as never));
   return firestorePromise as Promise<import('firebase/firestore').Firestore>;
 }
 
@@ -28,14 +55,19 @@ export async function createRecord(
   id: string,
   payload: { enc: string },
 ): Promise<'created' | 'already-exists' | 'error'> {
-  const { doc, setDoc } = await import('firebase/firestore');
+  const { doc, getDoc, setDoc } = await import('firebase/firestore');
   const db = await getFirestore();
+  const reference = doc(db, 'households', houseId, kind, id);
   try {
-    await setDoc(doc(db, 'households', houseId, kind, id), payload);
+    await setDoc(reference, payload);
     return 'created';
   } catch (error) {
     const code = (error as { code?: string }).code;
-    return code === 'permission-denied' ? 'already-exists' : 'error';
+    if (code === 'permission-denied') {
+      try { if ((await getDoc(reference)).exists()) return 'already-exists'; }
+      catch { /* App Check or network failure: keep the item queued. */ }
+    }
+    return 'error';
   }
 }
 
@@ -50,32 +82,41 @@ export async function putSettings(houseId: string, payload: { enc: string }): Pr
   }
 }
 
-export function watchCollection(houseId: string, kind: SyncKind, onRecords: (records: RemoteRecord[]) => void): () => void {
+export async function readSettings(houseId: string): Promise<unknown | null> {
+  const { doc, getDoc } = await import('firebase/firestore');
+  const db = await getFirestore();
+  const snapshot = await getDoc(doc(db, 'households', houseId, 'settings', 'current'));
+  return snapshot.exists() ? snapshot.data() : null;
+}
+
+export function watchCollection(houseId: string, kind: SyncKind, onRecords: (records: RemoteRecord[]) => void, onError: (error: unknown) => void = () => {}): () => void {
   let unsubscribed = false;
   let unsubscribe: (() => void) | null = null;
-  getFirestore().then(async (db) => {
+  void getFirestore().then(async (db) => {
     if (unsubscribed) return;
     const { collection, onSnapshot } = await import('firebase/firestore');
+    if (unsubscribed) return;
     unsubscribe = onSnapshot(collection(db, 'households', houseId, kind), (snapshot) => {
-      onRecords(snapshot.docs.map((docSnap) => ({ id: docSnap.id, payload: docSnap.data() })));
-    });
-  });
+      onRecords(snapshot.docChanges().filter((change) => change.type !== 'removed').map(({ doc: docSnap }) => ({ id: docSnap.id, payload: docSnap.data() })));
+    }, onError);
+  }).catch(onError);
   return () => {
     unsubscribed = true;
     unsubscribe?.();
   };
 }
 
-export function watchSettings(houseId: string, onSettings: (payload: unknown | null) => void): () => void {
+export function watchSettings(houseId: string, onSettings: (payload: unknown | null) => void, onError: (error: unknown) => void = () => {}): () => void {
   let unsubscribed = false;
   let unsubscribe: (() => void) | null = null;
-  getFirestore().then(async (db) => {
+  void getFirestore().then(async (db) => {
     if (unsubscribed) return;
     const { doc, onSnapshot } = await import('firebase/firestore');
+    if (unsubscribed) return;
     unsubscribe = onSnapshot(doc(db, 'households', houseId, 'settings', 'current'), (snapshot) => {
       onSettings(snapshot.exists() ? snapshot.data() : null);
-    });
-  });
+    }, onError);
+  }).catch(onError);
   return () => {
     unsubscribed = true;
     unsubscribe?.();

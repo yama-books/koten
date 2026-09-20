@@ -71,9 +71,14 @@ export async function applyRemoteRecords(
       ? mergeSessions(existing.value as Session[], decoded as Session[])
       : mergeReports(existing.value as Report[], decoded as Report[]);
 
+  const existingIds = new Set(existing.value.map((record) => String((record as Record<string, unknown>)[idFieldFor[kind]])));
+  const newRecords = decoded.filter((record) => !existingIds.has(String((record as unknown as Record<string, unknown>)[idFieldFor[kind]])));
+  // 開始時のセッションを受け取った後でも、完了した版を反映する。
+  const completedSessions = kind === 'sessions'
+    ? (decoded as Session[]).filter((record) => record.completed && (existing.value as Session[]).some((local) => local.sessionId === record.sessionId && !local.completed))
+    : [];
   const written = await runTransaction(database, kind, 'readwrite', (store) => {
-    store.clear();
-    for (const record of merged.records) store.put(record);
+    for (const record of [...newRecords, ...completedSessions]) store.put(record);
     return store.count() as unknown as IDBRequest<unknown>;
   });
   if (!written.ok) return { added: 0, duplicates: 0 };

@@ -62,7 +62,10 @@ export function Result({ result, poems = [], onRetryWeak, onRetrySame, onHome }:
       </section>
       <section class="result-section" aria-labelledby="poems-heading">
         <h2 id="poems-heading">歌ごとの状態</h2>
-        <ul class="result-poems">{result.poems.map((poem) => <li key={poem.poemId} class={`result-poem result-poem--${poem.color}`}><strong>{poem.cardNo}番</strong>{poem.untouched ? <span>未着手</span> : <MasteryMeter label={`${poem.cardNo}番`} percent={poem.percent} color={poem.color} />}{poem.authorUnconfirmed && <span>作者 未確認</span>}</li>)}</ul>
+        <ul class="result-poems">{result.poems.map((poem) => {
+          const authorCapReached = poem.authorUnconfirmed && poem.percent === 80;
+          return <li key={poem.poemId} class={`result-poem result-poem--${poem.color}${authorCapReached ? ' result-poem--author-cap' : ''}`}><strong>{poem.cardNo}番</strong>{poem.untouched ? <span>未着手</span> : <MasteryMeter label={`${poem.cardNo}番`} percent={poem.percent} color={poem.color} />}{authorCapReached ? <span class="mastery-next-step">作者も確認</span> : poem.authorUnconfirmed && <span>作者 未確認</span>}</li>;
+        })}</ul>
       </section>
     </details>
   </main>;
