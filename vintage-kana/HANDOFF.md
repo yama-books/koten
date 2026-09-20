@@ -1686,9 +1686,9 @@ UI統合は監査結果を受けて `vintage-kana-main` 側で行う。
 を検査。
 
 `cb20187e757229428e657efeb6b636c879b9dacb` のCI run `35513270176` は **success**。
-その後の `803650...` はテスト名称のみの変更で、`check:vintage-kana` までPASSを確認。
-全体CI run `35513391691` は記録時点で長時間の `check:overflow` 実行中。
-この `check:overflow` は百人一首100首×複数幅等を走査する全体検査で、vintage-kana固有検査ではない。
+その後の `80365000b7d3a8cdb34b52fd7a14618312a3b17e` も全体CI run `35513391691` が **success**。
+`check:vintage-kana`、`check:overflow` を含む全工程が完走した。
+`check:overflow` は百人一首100首×複数幅等を走査する全体検査で、vintage-kana固有検査ではないが、リポジトリ全体の回帰としてPASSしている。
 
 ### 次回
 1. ClaudeCodeのNINJAL監査結果を受領。
