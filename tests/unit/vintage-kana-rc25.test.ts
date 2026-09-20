@@ -29,7 +29,7 @@ test("vintage-kana keeps the mobile answer grid as a 2x2 bento", () => {
     html,
     /@media\(max-width:720px\)\{[\s\S]*?\.choices\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);gap:8px\}/,
   );
-  assert.match(html, /\.choice\{[^}]*min-height:78px;/);
+  assert.match(html, /\.choice\{[^}]*font-size:30px;[^}]*min-height:84px;/);
 });
 
 test("vintage-kana narrow navigation remains tappable without wrapping the three primary tabs", () => {
@@ -56,9 +56,11 @@ test("vintage-kana points stay hidden until the five-question result screen", ()
 
 test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 responsive columns", () => {
   assert.match(html, /\.rowGlyphMastery\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
-  assert.match(html, /\.glyphMasteryCard\{[^}]*aspect-ratio:1\/1;/);
+  assert.match(html, /\.glyphMasteryCard\{[^}]*aspect-ratio:1\/1\.08;/);
+  assert.match(html, /\.glyphMasteryCore\{[^}]*transform:translateY\(5px\)/);
   assert.match(html, /\.glyphMasteryGlyph\{[^}]*font-family:"Noto Serif Hentaigana"/);
   assert.match(html, /@media\(max-width:360px\)\{\.rowGlyphMastery\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}\}/);
+  assert.match(html, /@media\(orientation:landscape\) and \(min-width:721px\)\{\.rowGlyphMastery\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}\}/);
   assert.match(html, /class="glyphMasteryRing"[^>]*role="meter"/);
   assert.match(html, /class="glyphMasteryReading">/);
   assert.match(html, /class="glyphMasteryJibo">'\+escapeHtml\(g\.jibo\)/);
@@ -67,6 +69,12 @@ test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 respon
   assert.match(html, /id="glyphInfoDialog"/);
   assert.match(html, /data-glyph-info/);
   assert.doesNotMatch(html, /class="masteryBar"/);
+});
+
+test("vintage-kana choice questions use larger labels without the redundant 4-choice hint", () => {
+  assert.match(html, /\.choice\{[^}]*font-size:30px;/);
+  assert.match(html, /\.choices\.glyphChoices \.choice\{[^}]*font-size:48px/);
+  assert.doesNotMatch(html, /"4択"/);
 });
 
 test("vintage-kana advanced jibo questions show exactly one correct glyph choice per jibo prompt", () => {
