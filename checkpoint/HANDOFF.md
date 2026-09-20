@@ -1419,3 +1419,53 @@ triggerはruntime関連:
 
 再開短句:
 **「checkpoint-main HANDOFF最終節から再開。delta再照合→production統合→iPhone smoke」**
+
+
+## 2026-09-20 継続3: WebKitスマホbrowser smoke
+
+公開βのスマホ確認を static/jsdom から一段進め、Playwright WebKitで実ブラウザsmokeを追加。
+
+追加:
+- `tests/checkpoint-public-beta-browser.smoke.mjs`
+- branch-only workflowに `npx playwright install --with-deps webkit` とbrowser smoke step
+
+GitHub Actions:
+- run: **35482145135**
+- head: `62f70c3532f4419252437768554d8b8b9d3bbe6f`
+- result: **SUCCESS**
+- engine: **WebKit 26.5**
+
+実測条件:
+- portrait: **390 × 844**
+- landscape: **844 × 390**
+- sample3 checklist: **16**
+- 安倍晴明long sample rendered markers: **162**
+
+PASSした操作:
+1. normal URLでshadow panel hidden
+2. `shadowData=skipped`
+3. portraitで横overflowなし
+4. **一文字の本文markerをtouchしてdrawer open**
+5. drawer open中のbody scroll lock
+6. 「ここはわかる」→履歴
+7. 個別「戻す」
+8. 複数履歴→「すべて戻す」
+9. 本文変更→履歴自動clear
+10. long sample描画
+11. landscapeで横overflowなし
+12. landscape drawerがviewport内に収まる
+
+`mobile_ui_audit_20260920.json`:
+- status → `BROWSER_EMULATION_PASS_RUNTIME_DEVICE_PENDING`
+- M11 WebKit mobile browser smoke PASS
+
+`public_release_preflight_20260920.json`:
+- R13 WebKit mobile browser smoke PASS
+- browser runtime = `PASS_EMULATED`
+- R8は物理iPhone未確認のため `PARTIAL_PASS` のまま
+
+残るスマホ確認は **production統合後の物理iPhone Safari最終smokeのみ**。
+WebKit emulationは強い確認だが実機そのものではないため、実機PASSとは記録しない。
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。production delta照合→統合→物理iPhone smoke」**
