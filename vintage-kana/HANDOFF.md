@@ -831,3 +831,19 @@ JavaScript構文PASS。
 
 現行 index.html: release candidate 1.0 RC12
 JavaScript構文PASS。
+
+
+## 31. RC13 / iPhone向け作成画面を圧縮
+
+作成画面をスマホ向けに整理。
+
+- 入力見出し削除
+- placeholder「ひらがなを入力」
+- 「仮名設定」表記、コロンなし
+- 入力欄・完成形プレビューを縮小
+- 「もとの文」は通常表示しない
+- 自分で選ぶ時、完成形プレビューが上部に sticky した時だけ
+  フローティング枠内に「もとの文」を表示
+
+現行 index.html: release candidate 1.0 RC13
+JavaScript構文PASS。
