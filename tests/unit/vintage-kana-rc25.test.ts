@@ -31,8 +31,8 @@ test("vintage-kana keeps the mobile answer grid as a 2x2 bento", () => {
 
 test("vintage-kana narrow navigation remains tappable without wrapping the three primary tabs", () => {
   assert.match(html, /\.tab\{[^}]*min-height:44px;/);
-  assert.match(html, /\.quizModeBtn\{min-height:40px;/);
-  assert.match(html, /\.quizScreenBtn\{min-height:40px;/);
+  assert.match(html, /\.quizModeBtn\{min-height:44px;/);
+  assert.match(html, /\.quizScreenBtn\{min-height:44px;/);
   assert.match(
     html,
     /@media\(max-width:380px\)\{\.learnHelp summary\{width:44px;[^}]*\}\.learnHelp summary>span:last-child\{display:none\}\.utilityTabs\{flex:1;justify-content:flex-end\}/,
