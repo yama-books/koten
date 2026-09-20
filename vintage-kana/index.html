@@ -75,11 +75,17 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .jiboPrompt__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:84px;line-height:1.05}
 .jiboPrompt__arrow{font-family:var(--font-poem);font-size:28px;line-height:1;color:var(--muted)}
 .jiboPrompt__unknown{font-family:var(--font-poem);font-size:44px;line-height:1.1}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.quizFreeAnswer{display:flex;gap:8px;margin-top:8px}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:470px;margin:10px auto 0}
+.quizFreeAnswer{display:flex;gap:8px;max-width:470px;margin:12px auto 0}
 .quizFreeAnswer[hidden]{display:none}
-.quizFreeAnswer input{min-width:0;flex:1;border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px 12px;font-family:var(--font-poem);font-size:18px}
-.choice{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;font-family:var(--font-poem);font-size:18px}
+.quizFreeAnswer input{min-width:0;flex:1;border:1px solid var(--line);border-radius:15px;background:#fff;padding:12px 14px;font-family:var(--font-poem);font-size:19px;outline:none}
+.quizFreeAnswer input:focus{border-color:#9dac95;box-shadow:0 0 0 3px rgba(102,117,95,.10)}
+.quizFreeAnswer input.correct{background:#e8f0e5;border-color:#93a78d}
+.quizFreeAnswer input.wrong{background:#f4e8e5;border-color:#caa49d}
+.choice{border:1px solid var(--line);border-radius:18px;padding:10px;background:#fffdf9;font-family:var(--font-poem);font-size:23px;min-height:78px;display:grid;place-items:center;box-shadow:0 3px 10px rgba(43,39,31,.035);transition:.12s ease}
+.choice:active{transform:scale(.985)}
+.choice.correct{background:#e8f0e5;border-color:#93a78d;color:#32432e}
+.choice.wrong{background:#f4e8e5;border-color:#caa49d;color:#6f4038}
 .choice.correct{border-color:var(--ok);background:#edf5ed}.choice.wrong{border-color:var(--danger);background:#f8ecea}
 .feedback{min-height:34px;margin-top:12px;font-size:13px;line-height:1.6}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
@@ -256,6 +262,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 
       <div id="quizPractice" class="quizStage">
         <div id="setProgress" class="setProgress">1 / 5</div>
+        <div id="quizMethodHint" class="setProgress"></div>
         <div id="quizQuestion" class="note">この文字は何と読む？</div>
         <div id="quizGlyph" class="quizGlyph">…</div>
         <div id="jiboPrompt" class="jiboPrompt" hidden>
@@ -471,6 +478,61 @@ function masteryDisplayLocal(score){
  if(percent<85)return {percent,color:"blue",css:"var(--mastery-blue)"};
  return {percent,color:"green",css:"var(--mastery-green)"};
 }
+function localDateOf(value){
+ const d=value?new Date(value):new Date();
+ if(Number.isNaN(d.getTime()))return "";
+ const y=d.getFullYear();
+ const m=String(d.getMonth()+1).padStart(2,"0");
+ const day=String(d.getDate()).padStart(2,"0");
+ return y+"-"+m+"-"+day;
+}
+function legacyMasteryDelta(event){
+ return event.outcome==="correct"?12:1;
+}
+function computeGlyphMastery(character){
+ const events=learningEvents
+   .filter(e=>e.glyph===character)
+   .slice()
+   .sort((a,b)=>String(a.at||"").localeCompare(String(b.at||"")) || String(a.id||"").localeCompare(String(b.id||"")));
+ let score=0;
+ let ninetyReachedOn="";
+ const dailyPositive=new Map();
+ for(const e of events){
+   const day=e.localDate||localDateOf(e.at);
+   if(!e.masteryMethod){
+     score=Math.max(0,Math.min(100,score+legacyMasteryDelta(e)));
+     if(score>=90 && !ninetyReachedOn)ninetyReachedOn=day;
+     continue;
+   }
+   if(e.outcome==="incorrect"){
+     const loss=e.masteryMethod==="free-input"?FREE_INPUT_INCORRECT_DECREMENT:CHOICE_INCORRECT_DECREMENT;
+     score=Math.max(0,score-loss);
+     continue;
+   }
+   let base=0;
+   let cap=0;
+   if(e.masteryMethod==="choice"){
+     base=CHOICE_MASTERY_INCREMENT;
+     cap=CHOICE_MASTERY_CAP;
+   }else if(score>=90){
+     if(!ninetyReachedOn || day===ninetyReachedOn)continue;
+     base=OVER_NINETY_MASTERY_INCREMENT;
+     cap=100;
+   }else{
+     base=FREE_INPUT_MASTERY_INCREMENT;
+     cap=FREE_INPUT_MASTERY_CAP;
+   }
+   const used=dailyPositive.get(day)||0;
+   const dailyRoom=Math.max(0,DAILY_MASTERY_GAIN_CAP-used);
+   const gain=Math.min(base,dailyRoom,Math.max(0,cap-score));
+   if(gain>0){
+     score=Math.min(100,score+gain);
+     dailyPositive.set(day,used+gain);
+     if(score>=90 && !ninetyReachedOn)ninetyReachedOn=day;
+   }
+ }
+ return Math.round(score*100)/100;
+}
 function glyphLearningStats(){
  const map=new Map();
  learningEvents.forEach(e=>{
@@ -486,7 +548,7 @@ function glyphLearningStats(){
    map.set(e.glyph,current);
  });
  return [...map.values()].map(s=>{
-   const mastery=Math.min(100,s.correct*GLYPH_CORRECT_MASTERY+s.incorrect*GLYPH_VIEW_MASTERY);
+   const mastery=computeGlyphMastery(s.character);
    return {...s,mastery,display:masteryDisplayLocal(mastery)};
  });
 }
@@ -617,12 +679,15 @@ function restartQuizSet(){
  document.querySelectorAll(".quizScreenBtn").forEach(b=>b.classList.toggle("active",b.dataset.quizScreen==="practice"));
  newQuiz();
 }
-function recordLearningAttempt(mode,correct){
+function recordLearningAttempt(mode,correct,masteryMethod){
+ const now=new Date();
  learningEvents.push({
    id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
-   at:new Date().toISOString(),
+   at:now.toISOString(),
+   localDate:localDateOf(now),
    setId:quizSet.id,
    mode,
+   masteryMethod,
    outcome:correct?"correct":"incorrect",
    glyph:quizEntry?.character||"",
    glyphId:quizEntry?.glyph_id||"",
@@ -686,27 +751,65 @@ function renderCards(){
  });
 }
 
+function quizMethodForGlyph(character){
+ return computeGlyphMastery(character)>=CHOICE_MASTERY_CAP?"free-input":"choice";
+}
+function kanaRowFor(kana){
+ return KANA_ROWS.find(([,kanas])=>kanas.includes(kana))?.[1]||[];
+}
+function focusedReadingPool(entry){
+ const row=kanaRowFor(entry.kana);
+ const focused=[...new Set(GLYPHS.filter(g=>row.includes(g.kana)).map(g=>g.kana))].filter(k=>k!==entry.kana);
+ const global=[...new Set(GLYPHS.map(g=>g.kana))].filter(k=>k!==entry.kana && !focused.includes(k));
+ return [...shuffle(focused),...shuffle(global)];
+}
+function focusedJiboPool(entry){
+ const row=kanaRowFor(entry.kana);
+ const focused=[...new Set(GLYPHS.filter(g=>row.includes(g.kana)).map(g=>g.jibo))].filter(j=>j!==entry.jibo);
+ const global=[...new Set(GLYPHS.map(g=>g.jibo))].filter(j=>j!==entry.jibo && !focused.includes(j));
+ return [...shuffle(focused),...shuffle(global)];
+}
+function normalizeReadingAnswer(value){
+ return String(value||"").normalize("NFC").trim().replace(/[ァ-ヶ]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60));
+}
+function normalizeJiboAnswer(value){
+ return String(value||"").normalize("NFC").replace(/\s+/g,"").trim();
+}
 function newQuiz(){
  if(!GLYPHS.length)return;
  if(quizSet.answered>=QUIZ_SET_SIZE){showQuizResult();return}
  answered=false;
  renderSetProgress();
+
  const next=document.getElementById("nextQuiz");
  if(next){next.disabled=true;next.textContent="次の問題";}
  document.getElementById("feedback").textContent="";
+
  quizEntry=GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
+ quizQuestionMethod=quizMethodForGlyph(quizEntry.character);
+
+ const mastery=computeGlyphMastery(quizEntry.character);
+ const hint=document.getElementById("quizMethodHint");
+ if(hint)hint.textContent=quizQuestionMethod==="free-input"?"入力":"4択";
+
  const quizGlyph=document.getElementById("quizGlyph");
  const jiboPrompt=document.getElementById("jiboPrompt");
  const jiboPromptGlyph=document.getElementById("jiboPromptGlyph");
+ const root=document.getElementById("choices");
+ const form=document.getElementById("quizFreeAnswer");
+ const input=document.getElementById("quizFreeInput");
+ const question=document.getElementById("quizQuestion");
+ root.innerHTML="";
+ form.hidden=true;
+ input.value="";
+ input.readOnly=false;
+ input.classList.remove("correct","wrong");
+
  quizGlyph.textContent=quizEntry.character;
  if(jiboPromptGlyph)jiboPromptGlyph.textContent=quizEntry.character;
 
- const question=document.getElementById("quizQuestion");
- const root=document.getElementById("choices");
- root.innerHTML="";
-
  function finishAnswer(correct,feedback){
-   recordLearningAttempt(quizMode,correct);
+   recordLearningAttempt(quizMode,correct,quizQuestionMethod);
    document.getElementById("feedback").textContent=feedback;
    if(next){
      next.disabled=false;
@@ -714,49 +817,80 @@ function newQuiz(){
    }
  }
 
+ function configureFreeInput(){
+   root.hidden=true;
+   form.hidden=false;
+   input.placeholder=quizMode==="reading"?"読みを入力":"字母を入力";
+   input.setAttribute("aria-label",input.placeholder);
+   requestAnimationFrame(()=>input.focus());
+ } 
+ function configureChoice(opts,answer){
+   root.hidden=false;
+   form.hidden=true;
+   opts.forEach(value=>{
+     const b=document.createElement("button");
+     b.className="choice";
+     b.type="button";
+     b.textContent=value;
+     b.onclick=()=>{
+       if(answered)return;
+       answered=true;
+       [...root.children].forEach(x=>{
+         x.disabled=true;
+         if(x.textContent===answer)x.classList.add("correct");
+       });
+       if(value!==answer)b.classList.add("wrong");
+       const correct=value===answer;
+       const feedback=quizMode==="reading"
+         ? (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")
+         : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
+       finishAnswer(correct,feedback);
+     };
+     root.appendChild(b);
+   });
+ }
+
  if(quizMode==="reading"){
    quizGlyph.hidden=false;
    if(jiboPrompt)jiboPrompt.hidden=true;
    question.hidden=false;
    question.textContent="この文字は何と読む？";
-   const pool=[...new Set(GLYPHS.map(x=>x.kana))].filter(x=>x!==quizEntry.kana);
-   const opts=shuffle([quizEntry.kana,...shuffle(pool).slice(0,3)]);
-   opts.forEach(k=>{
-     const b=document.createElement("button");
-     b.className="choice";
-     b.textContent=k;
-     b.onclick=()=>{
-       if(answered)return;
-       answered=true;
-       [...root.children].forEach(x=>{if(x.textContent===quizEntry.kana)x.classList.add("correct")});
-       if(k!==quizEntry.kana)b.classList.add("wrong");
-       const correct=k===quizEntry.kana;
-       finishAnswer(correct,(correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")+" 字母は「"+quizEntry.jibo+"」です。");
-     };
-     root.appendChild(b);
-   });
+   if(quizQuestionMethod==="free-input"){
+     configureFreeInput();
+   }else{
+     const pool=mastery>=30?focusedReadingPool(quizEntry):shuffle([...new Set(GLYPHS.map(x=>x.kana))].filter(x=>x!==quizEntry.kana));
+     configureChoice(shuffle([quizEntry.kana,...pool.slice(0,3)]),quizEntry.kana);
+   }
  }else{
    quizGlyph.hidden=true;
    if(jiboPrompt)jiboPrompt.hidden=false;
    question.hidden=true;
    question.textContent="";
-   const pool=[...new Set(GLYPHS.map(x=>x.jibo))].filter(x=>x!==quizEntry.jibo);
-   const opts=shuffle([quizEntry.jibo,...shuffle(pool).slice(0,3)]);
-   opts.forEach(j=>{
-     const b=document.createElement("button");
-     b.className="choice";
-     b.textContent=j;
-     b.onclick=()=>{
-       if(answered)return;
-       answered=true;
-       [...root.children].forEach(x=>{if(x.textContent===quizEntry.jibo)x.classList.add("correct")});
-       if(j!==quizEntry.jibo)b.classList.add("wrong");
-       const correct=j===quizEntry.jibo;
-       finishAnswer(correct,(correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。")+" 読みは「"+quizEntry.kana+"」です。");
-     };
-     root.appendChild(b);
-   });
+   if(quizQuestionMethod==="free-input"){
+     configureFreeInput();
+   }else{
+     const pool=mastery>=30?focusedJiboPool(quizEntry):shuffle([...new Set(GLYPHS.map(x=>x.jibo))].filter(x=>x!==quizEntry.jibo));
+     configureChoice(shuffle([quizEntry.jibo,...pool.slice(0,3)]),quizEntry.jibo);
+   }
  }
+
+ form.onsubmit=e=>{
+   e.preventDefault();
+   if(answered || quizQuestionMethod!=="free-input")return;
+   const raw=input.value;
+   const normalized=quizMode==="reading"?normalizeReadingAnswer(raw):normalizeJiboAnswer(raw);
+   if(!normalized)return;
+   answered=true;
+   input.readOnly=true;
+   const expected=quizMode==="reading"?normalizeReadingAnswer(quizEntry.kana):normalizeJiboAnswer(quizEntry.jibo);
+   const correct=normalized===expected;
+   input.classList.toggle("correct",correct);
+   input.classList.toggle("wrong",!correct);
+   const feedback=quizMode==="reading"
+     ? (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")
+     : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
+   finishAnswer(correct,feedback);
+ };
 }
 
 function pickAutomatic(ch){
