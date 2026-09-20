@@ -403,6 +403,12 @@ function loadLearningEvents(){
    return [];
  }
 }
+function newQuizSet(){
+ return {
+   id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
+   answered:0,correct:0,points:0
+ };
+}
 function learningSummary(){
  return learningEvents.reduce((s,e)=>{
    s.attempts+=1;
@@ -413,28 +419,171 @@ function learningSummary(){
    return s;
  },{attempts:0,points:0,correct:0,reading:0,jibo:0});
 }
+function completedSetCount(){
+ const counts=new Map();
+ learningEvents.forEach(e=>{if(e.setId)counts.set(e.setId,(counts.get(e.setId)||0)+1)});
+ return [...counts.values()].filter(n=>n>=QUIZ_SET_SIZE).length;
+}
 function formatPoints(value){
  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g,",");
 }
-function renderLearningRecord(){
- const s=learningSummary();
+function glyphLearningStats(){
+ const map=new Map();
+ learningEvents.forEach(e=>{
+   if(!e.glyph || !e.kana)return;
+   const current=map.get(e.glyph)||{
+     character:e.glyph,kana:e.kana,jibo:e.jibo||"",attempts:0,correct:0,incorrect:0,
+     reading:0,jiboCount:0,lastAt:""
+   };
+   current.attempts+=1;
+   if(e.outcome==="correct")current.correct+=1;else current.incorrect+=1;
+   if(e.mode==="reading")current.reading+=1;else current.jiboCount+=1;
+   if(!current.lastAt || String(e.at)>current.lastAt)current.lastAt=String(e.at||"");
+   map.set(e.glyph,current);
+ });
+ return [...map.values()].map(s=>({
+   ...s,
+   mastery:Math.min(100,s.correct*GLYPH_CORRECT_MASTERY+s.incorrect*GLYPH_VIEW_MASTERY)
+ }));
+}
+function kanaMastery(kana){
+ const events=learningEvents.filter(e=>e.kana===kana && e.glyph);
+ if(!events.length)return 0;
+ const correct=events.filter(e=>e.outcome==="correct").length;
+ const incorrect=events.length-correct;
+ return Math.min(100,correct*GLYPH_CORRECT_MASTERY+incorrect*GLYPH_VIEW_MASTERY);
+}
+function rowMastery(label,kanas){
+ const relevant=kanas.filter(k=>GLYPHS.some(g=>g.kana===k));
+ if(!relevant.length)return {label,percent:0};
+ const total=relevant.reduce((sum,k)=>sum+kanaMastery(k),0);
+ return {label,percent:Math.round(total/relevant.length)};
+}
+function recentGlyphStats(){
+ const stats=new Map(glyphLearningStats().map(s=>[s.character,s]));
+ const seen=new Set();
+ const recent=[];
+ for(let i=learningEvents.length-1;i>=0;i--){
+   const e=learningEvents[i];
+   if(!e.glyph || seen.has(e.glyph) || !stats.has(e.glyph))continue;
+   seen.add(e.glyph);recent.push(stats.get(e.glyph));
+   if(recent.length>=8)break;
+ }
+ return recent;
+}
+function weakGlyphStats(){
+ return glyphLearningStats()
+   .filter(s=>s.incorrect>0)
+   .sort((a,b)=>b.incorrect-a.incorrect || (b.incorrect/b.attempts)-(a.incorrect/a.attempts) || b.lastAt.localeCompare(a.lastAt))
+   .slice(0,8);
+}
+function glyphCardHtml(s,kind){
+ const detail=kind==="weak"
+   ? `まちがい ${s.incorrect}回 / ${s.attempts}回`
+   : `${s.kana} ・ 習熟度 ${s.mastery}%`;
+ return '<div class="recordGlyph"><div class="recordGlyph__char">'+escapeHtml(s.character)+'</div>'+
+   '<div class="recordGlyph__meta">'+escapeHtml(detail)+'</div>'+
+   '<div class="recordGlyph__meta recordGlyph__mastery">'+escapeHtml(s.jibo?"字母 "+s.jibo:"")+'</div></div>';
+}
+function renderRecordScreen(){
+ const summary=learningSummary();
  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=String(value)};
- set("learningPoints",formatPoints(s.points));
- set("learningAttempts",s.attempts);
- set("learningReading",s.reading);
- set("learningJibo",s.jibo);
- set("learningCorrect",s.correct);
+ set("recordPoints",formatPoints(summary.points));
+ set("recordSets",completedSetCount());
+ set("recordAttempts",summary.attempts);
+ set("recordCorrect",summary.correct);
+
+ const rows=document.getElementById("rowMastery");
+ if(rows){
+   rows.innerHTML="";
+   KANA_ROWS.map(([label,kanas])=>rowMastery(label,kanas)).forEach(row=>{
+     const d=document.createElement("div");d.className="recordRow";
+     d.innerHTML='<span class="recordRow__label">'+escapeHtml(row.label)+'</span>'+
+       '<span class="ringMeter" style="--p:'+row.percent+'" role="meter" aria-label="'+escapeHtml(row.label)+' 習熟度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+row.percent+'"><span>'+row.percent+'%</span></span>';
+     rows.appendChild(d);
+   });
+ }
+
+ const recent=document.getElementById("recentGlyphs");
+ if(recent){
+   const items=recentGlyphStats();
+   recent.innerHTML=items.length?items.map(s=>glyphCardHtml(s,"recent")).join(""):'<div class="emptyRecord">まだ記録がありません。</div>';
+ }
+ const weak=document.getElementById("weakGlyphs");
+ if(weak){
+   const items=weakGlyphStats();
+   weak.innerHTML=items.length?items.map(s=>glyphCardHtml(s,"weak")).join(""):'<div class="emptyRecord">まだ間違えた字はありません。</div>';
+ }
+
+ const all=document.getElementById("glyphMasteryList");
+ if(all){
+   const items=glyphLearningStats().sort((a,b)=>
+     KANA_ORDER.indexOf(a.kana)-KANA_ORDER.indexOf(b.kana) || a.character.localeCompare(b.character)
+   );
+   all.innerHTML=items.length?items.map(s=>
+     '<div class="masteryItem"><div class="masteryItem__char">'+escapeHtml(s.character)+'</div>'+
+     '<div><div class="masteryItem__label"><span>'+escapeHtml(s.kana)+'・字母 '+escapeHtml(s.jibo||"—")+'</span><strong>'+s.mastery+'%</strong></div>'+
+     '<div class="masteryBar" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+s.mastery+'"><span style="width:'+s.mastery+'%"></span></div></div></div>'
+   ).join(""):'<div class="emptyRecord">まだ記録がありません。</div>';
+ }
+}
+function showQuizScreen(screen){
+ const practice=document.getElementById("quizPractice");
+ const result=document.getElementById("quizResult");
+ const record=document.getElementById("quizRecord");
+ const buttons=document.querySelectorAll(".quizScreenBtn");
+ buttons.forEach(b=>b.classList.toggle("active",b.dataset.quizScreen===screen));
+ if(screen==="record"){
+   practice.hidden=true;result.hidden=true;record.hidden=false;
+   renderRecordScreen();
+ }else{
+   record.hidden=true;
+   if(quizSet.answered>=QUIZ_SET_SIZE){practice.hidden=true;result.hidden=false;renderQuizResult();}
+   else{result.hidden=true;practice.hidden=false;}
+ }
+}
+function renderSetProgress(){
+ const el=document.getElementById("setProgress");
+ if(el)el.textContent=Math.min(quizSet.answered+1,QUIZ_SET_SIZE)+" / "+QUIZ_SET_SIZE;
+}
+function renderQuizResult(){
+ const pts=document.getElementById("setPoints");
+ const meta=document.getElementById("setResultMeta");
+ if(pts)pts.textContent="+"+formatPoints(quizSet.points);
+ if(meta)meta.textContent=QUIZ_SET_SIZE+"問中 "+quizSet.correct+"問正解";
+}
+function showQuizResult(){
+ document.getElementById("quizPractice").hidden=true;
+ document.getElementById("quizRecord").hidden=true;
+ document.getElementById("quizResult").hidden=false;
+ renderQuizResult();
+}
+function restartQuizSet(){
+ quizSet=newQuizSet();
+ document.getElementById("quizResult").hidden=true;
+ document.getElementById("quizRecord").hidden=true;
+ document.getElementById("quizPractice").hidden=false;
+ document.querySelectorAll(".quizScreenBtn").forEach(b=>b.classList.toggle("active",b.dataset.quizScreen==="practice"));
+ newQuiz();
 }
 function recordLearningAttempt(mode,correct){
  const gained=correct?QUIZ_CORRECT_POINTS:QUIZ_ATTEMPT_POINTS;
  learningEvents.push({
    id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
    at:new Date().toISOString(),
+   setId:quizSet.id,
    mode,
-   outcome:correct?"correct":"incorrect"
+   outcome:correct?"correct":"incorrect",
+   glyph:quizEntry?.character||"",
+   glyphId:quizEntry?.glyph_id||"",
+   kana:quizEntry?.kana||"",
+   jibo:quizEntry?.jibo||""
  });
+ quizSet.answered+=1;
+ if(correct)quizSet.correct+=1;
+ quizSet.points+=gained;
  try{localStorage.setItem(LEARNING_RECORD_KEY,JSON.stringify(learningEvents))}catch(e){console.warn("learning record save failed",e)}
- renderLearningRecord();
+ renderSetProgress();
  return gained;
 }
 
@@ -491,7 +640,11 @@ function renderCards(){
 
 function newQuiz(){
  if(!GLYPHS.length)return;
+ if(quizSet.answered>=QUIZ_SET_SIZE){showQuizResult();return}
  answered=false;
+ renderSetProgress();
+ const next=document.getElementById("nextQuiz");
+ if(next){next.disabled=true;next.textContent="次の問題";}
  document.getElementById("feedback").textContent="";
  quizEntry=GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
  document.getElementById("quizGlyph").textContent=quizEntry.character;
@@ -499,6 +652,15 @@ function newQuiz(){
  const question=document.getElementById("quizQuestion");
  const root=document.getElementById("choices");
  root.innerHTML="";
+
+ function finishAnswer(correct,feedback){
+   const gained=recordLearningAttempt(quizMode,correct);
+   document.getElementById("feedback").textContent=feedback+"  +"+gained+"ポイント";
+   if(next){
+     next.disabled=false;
+     next.textContent=quizSet.answered>=QUIZ_SET_SIZE?"結果を見る":"次の問題";
+   }
+ }
 
  if(quizMode==="reading"){
    question.textContent="この文字は何と読む？";
@@ -514,10 +676,7 @@ function newQuiz(){
        [...root.children].forEach(x=>{if(x.textContent===quizEntry.kana)x.classList.add("correct")});
        if(k!==quizEntry.kana)b.classList.add("wrong");
        const correct=k===quizEntry.kana;
-       const gained=recordLearningAttempt("reading",correct);
-       document.getElementById("feedback").textContent=
-         (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")+
-         " 字母は「"+quizEntry.jibo+"」です。  +"+gained+"ポイント";
+       finishAnswer(correct,(correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")+" 字母は「"+quizEntry.jibo+"」です。");
      };
      root.appendChild(b);
    });
@@ -535,10 +694,7 @@ function newQuiz(){
        [...root.children].forEach(x=>{if(x.textContent===quizEntry.jibo)x.classList.add("correct")});
        if(j!==quizEntry.jibo)b.classList.add("wrong");
        const correct=j===quizEntry.jibo;
-       const gained=recordLearningAttempt("jibo",correct);
-       document.getElementById("feedback").textContent=
-         (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。")+
-         " 読みは「"+quizEntry.kana+"」です。  +"+gained+"ポイント";
+       finishAnswer(correct,(correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。")+" 読みは「"+quizEntry.kana+"」です。");
      };
      root.appendChild(b);
    });
