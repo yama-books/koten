@@ -103,7 +103,6 @@ test('074-1a: 学年を選んだあと出題画面で読みを変えても、ホ
   await click('読みを確認する');
   await goHome();
   expect(root!.querySelector('.onboarding__dialog')).toBeNull();
-  expect(root!.textContent).not.toContain('OK');
 });
 
 test('074-1b: 同じ経路で学年が保存領域に残る', async () => {

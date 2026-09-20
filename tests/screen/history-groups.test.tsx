@@ -42,10 +42,10 @@ const transferPort = (): ApplicationPort => ({
 } as ApplicationPort);
 
 let root: HTMLDivElement | undefined;
-function mount(port?: ApplicationPort) {
+function mount(port?: ApplicationPort, shown = summary) {
   root = document.createElement('div');
   document.body.append(root);
-  render(<History summary={summary} onHome={() => {}} port={port} />, root);
+  render(<History summary={shown} onHome={() => {}} port={port} />, root);
   return root;
 }
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });
@@ -90,6 +90,18 @@ test('記録: まとまりを開くと、その 10 首だけが出る', async ()
   expect(cards).toHaveLength(10);
   expect(cards[0]).toContain('1番');
   expect(view.textContent).not.toContain('45番');
+});
+
+test('記録: 作者未確認で80%に達した歌だけ次の確認先を強調する', async () => {
+  const first = summary.groups[0]!;
+  const entries = first.entries.map((entry, index) => index === 0
+    ? { ...entry, percent: 80, color: 'blue' as const, authorUnconfirmed: true }
+    : entry);
+  const view = mount(undefined, { ...summary, groups: [{ ...first, entries }, ...summary.groups.slice(1)] });
+  await act(() => { group('1〜10番').click(); });
+  const row = view.querySelector('.history-entry')!;
+  expect(row.textContent).toContain('作者も確認');
+  expect(row.classList.contains('history-entry--author-cap')).toBe(true);
 });
 
 test('記録: 要確認のタブに切り替えると、要確認だけが出る', async () => {

@@ -1,5 +1,5 @@
 export const databaseName = 'koten';
-export const dbVersion = 1;
+export const dbVersion = 2;
 
 export const stores = {
   events: { keyPath: 'eventId', indexes: ['poemId', 'sessionId', 'localDate', 'itemKey', 'product'] },
@@ -7,6 +7,7 @@ export const stores = {
   settings: { keyPath: 'key', indexes: [] },
   reports: { keyPath: 'reportId', indexes: ['status'] },
   outbox: { keyPath: 'outboxId', indexes: ['kind'] },
+  syncOutbox: { keyPath: 'syncOutboxId', indexes: ['kind'] },
 } as const;
 
 export type StoreName = keyof typeof stores;

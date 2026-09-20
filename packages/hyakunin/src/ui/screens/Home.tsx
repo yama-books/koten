@@ -58,6 +58,8 @@ type Props = {
   onOpenHistory?: (questions: PublishedQuestion[]) => void;
   /** 読み込んだ設定と、書き換えた設定を上へ渡す。**設定の出所は保存領域ひとつである。** */
   onSettings?: (settings: UserSettings) => void;
+  syncedSettings?: UserSettings | null;
+  onOpenSync?: () => void;
   poems?: Poem[];
   questions?: PublishedQuestion[];
 };
@@ -68,6 +70,13 @@ type InstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 const installNoticeKey = "hyakunin:install-notice-dismissed";
+const syncIntroSessionKey = "hyakunin:sync-intro-session-dismissed";
+const syncIntroForeverKey = "hyakunin:sync-intro-forever-dismissed";
+
+function syncIntroWasDismissed() {
+  try { return window.localStorage.getItem(syncIntroForeverKey) === "true" || window.sessionStorage.getItem(syncIntroSessionKey) === "true"; }
+  catch { return false; }
+}
 const gradeRanges: Readonly<Record<string, { from: number; to: number }>> = {
   中一: { from: 1, to: 20 },
   中二: { from: 21, to: 60 },
@@ -121,6 +130,8 @@ export function Home({
   onResume,
   onOpenHistory,
   onSettings,
+  syncedSettings,
+  onOpenSync,
   poems: suppliedPoems,
   questions: suppliedQuestions,
 }: Props) {
@@ -151,9 +162,18 @@ export function Home({
   const [standalone] = useState(isStandaloneLaunch);
   const [installDismissed, setInstallDismissed] = useState(installNoticeWasDismissed);
   const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
+  const [syncIntroDismissed, setSyncIntroDismissed] = useState(syncIntroWasDismissed);
+  function dismissSyncIntro(forever: boolean) {
+    setSyncIntroDismissed(true);
+    try {
+      (forever ? window.localStorage : window.sessionStorage).setItem(forever ? syncIntroForeverKey : syncIntroSessionKey, "true");
+    } catch { /* 保存できない環境でも、この表示中は閉じる。 */ }
+  }
   // 読み込みは起動時の 1 度だけ走る。受け手を deps に入れて読み直させない。
   const onSettingsRef = useRef(onSettings);
   onSettingsRef.current = onSettings;
+
+  useEffect(() => { if (syncedSettings) setSettings(syncedSettings); }, [syncedSettings]);
 
   useEffect(() => {
     const receiveInstallPrompt = (event: Event) => {
@@ -438,6 +458,12 @@ export function Home({
           範囲を読み込めなかったため、全範囲を表示しています。
         </p>
       )}
+      {appConfig.features.sync && settingsLoaded && !showStatsOnboarding && !settings.syncEnabled && !syncIntroDismissed && <section class="sync-intro" aria-labelledby="sync-intro-title">
+        <span class="sync-intro__sparkle" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 2.5 14.5 9.5 21.5 12 14.5 14.5 12 21.5 9.5 14.5 2.5 12 9.5 9.5Z" fill="currentColor" /></svg></span>
+        <h2 id="sync-intro-title">端末同士をつなごう</h2>
+        <p>端末間で記録を自動同期する機能を追加しました。<br />QRコードで設定すると、<span class="sync-intro__devices"><span class="sync-intro__device">スマホ</span>や<span class="sync-intro__device">タブレット</span></span>など複数の端末で学習状況を共有できます。</p>
+        <div class="sync-intro__actions"><button class="sync-intro__try" type="button" onClick={onOpenSync}>試してみる</button><button type="button" onClick={() => dismissSyncIntro(false)}>OK</button><button type="button" onClick={() => dismissSyncIntro(true)}>今後は表示しない</button></div>
+      </section>}
       {shouldOfferRestore && (
         <section class="review-note restore-offer">
           <h2 class="restore-title">

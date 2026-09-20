@@ -100,6 +100,11 @@ export type UserSettings = {
    */
   statsOptOut?: boolean;
   deviceId?: string;
+  /** 端末内だけに保存する同期の合言葉。書き出しと遠隔設定には含めない。 */
+  syncCode?: string;
+  syncEnabled?: boolean;
+  /** 初回参加時に既存記録を送信待ちへ積んだ同期先。 */
+  syncSeededFor?: string;
 };
 
 export type OutboxItem = {

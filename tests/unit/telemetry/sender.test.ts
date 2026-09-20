@@ -149,18 +149,28 @@ test('送信: 偽の document は reCAPTCHA の読み込みを実際に捕まえ
 });
 
 /**
- * 2026-09-13 の裁定（案2）の釘。**`getToken` を渡さず、既定の配線そのものを通す。**
- * 部品が呼ばれないことではなく、**Google への読み込みが1件も出ないこと**で見る。
- * `appConfig.appCheckEnabled` を真へ戻したら、この1件だけが赤くなる。
+ * 2026-09-21 の裁定の釘。**2026-09-13 の裁定（案2）「施行が入るまで取得そのものを止める」を差し替えた。**
+ *
+ * 案2 の理由は「施行が無いと規則はトークンを見ないので、取っても偽造は防げない」だった。
+ * これは**施行を入れる順序を誤らせる**。施行より先に端末がトークンを送っていなければ、
+ * 施行を入れた瞬間に正規の利用者が全員弾かれる。指標が Verified 側へ移るのを見るためにも、
+ * **施行の前に取得を始めていなければならない。**
+ *
+ * したがってここで見るのは「読み込まないこと」ではなく、**既定の配線が実際に取りに行くこと**である。
+ * `getToken` は渡さない——配線そのものを通す。
+ * `appConfig.appCheckEnabled` を偽へ戻したら、この1件だけが赤くなる。
  */
-test('送信: App Check が無効な間、既定の経路は reCAPTCHA を読み込まない', { timeout: 5000 }, async () => {
+test('送信: App Check が有効なら、既定の経路は reCAPTCHA を読みに行く', { timeout: 5000 }, async () => {
   const browser = fakeBrowser();
   try {
     const { send, sent } = recorder(ok());
     assert.equal(await sendStats({ payload: payload(), allowed: true, send }), 'sent');
     assert.equal(sent.length, 1, '統計そのものは止めない');
-    assert.equal('X-Firebase-AppCheck' in sent[0]!.headers, false, 'トークンを取っていないのにヘッダが付いている');
-    assert.deepEqual(browser.scripts, [], 'reCAPTCHA を読み込んでいる');
+    assert.equal(browser.scripts.length, 1, '既定の経路が reCAPTCHA を読みに行っていない');
+    assert.match(browser.scripts[0]!, /^https:\/\/www\.google\.com\/recaptcha\/enterprise\.js\?render=/);
+    // 偽の document は onerror で決着させるのでトークンは取れない。
+    // **取れなくても統計は送る**——学習も統計も App Check の失敗で止めない。
+    assert.equal('X-Firebase-AppCheck' in sent[0]!.headers, false, 'トークンが取れていないのにヘッダが付いている');
   } finally {
     browser.restore();
   }

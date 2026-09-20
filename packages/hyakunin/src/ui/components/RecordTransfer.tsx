@@ -110,7 +110,7 @@ export function RecordTransfer({ port, onChanged }: Props) {
 
   return (
     <section class="record-transfer" aria-labelledby="transfer-heading">
-      <h2 id="transfer-heading">データ管理</h2>
+      <h2 id="transfer-heading">ファイルで保存・移動</h2>
       <p class="transfer-help">
         機種変更やバックアップのために、記録をファイルへ書き出せます。読み込むと、同じ記録は重ねずにひとつにまとめます。
       </p>

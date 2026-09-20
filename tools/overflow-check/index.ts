@@ -261,9 +261,11 @@ try {
             // 復元カードだけを測るため、画面と同じ IndexedDB の sessions ストアへ未完了回を入れる。
             // 出題を始める操作経路は他の走査群で既に測っており、ここで繰り返すと保存完了との
             // 競合で「カードが存在しない」だけを測ることになる。
+            // **版を書かずに開く。** `schema.ts` の `dbVersion` を上げるたびにここが古くなり、
+            // 画面が先に新しい版で開いたあとでは VersionError で検査ごと止まる（2026-09-21 に踏んだ）。
             await restorePage.evaluate(async (end) => {
               await new Promise<void>((resolve, reject) => {
-                const request = indexedDB.open('koten', 1);
+                const request = indexedDB.open('koten');
                 request.onerror = () => reject(request.error);
                 request.onsuccess = () => {
                   const transaction = request.result.transaction('sessions', 'readwrite');
@@ -753,7 +755,7 @@ try {
         await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
         await page.evaluate(async () => {
           const database = await new Promise<IDBDatabase>((resolve, reject) => {
-            const request = indexedDB.open('koten', 1);
+            const request = indexedDB.open('koten');
             request.onsuccess = () => resolve(request.result);
             request.onerror = () => reject(request.error);
           });
@@ -808,7 +810,7 @@ try {
         }, `${16 * zoom}px`);
         await page.evaluate(async () => {
           const database = await new Promise<IDBDatabase>((resolve, reject) => {
-            const request = indexedDB.open('koten', 1);
+            const request = indexedDB.open('koten');
             request.onsuccess = () => resolve(request.result);
             request.onerror = () => reject(request.error);
           });

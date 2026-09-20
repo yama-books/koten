@@ -76,5 +76,30 @@ service cloud.firestore {
       allow create: if isValidStats(request.resource.data, docId, true);
       allow get, list, update, delete: if false;
     }
+
+    function isCiphertextPayload(payload) {
+      return payload.keys().hasOnly(['enc'])
+        && payload.enc is string
+        && payload.enc.matches('^enc:.+$');
+    }
+
+    match /households/{houseId} {
+      match /{recordKind}/{recordId} {
+        allow create: if recordKind in ['sessions', 'events', 'reports']
+          && isCiphertextPayload(request.resource.data);
+        allow get: if recordKind in ['sessions', 'events', 'reports'];
+        // houseId は無作為な合言葉の SHA-256。購読には list が必要。
+        allow list: if recordKind in ['sessions', 'events', 'reports'];
+        // セッションは開始時と完了時に同じ ID で保存する。
+        allow update: if recordKind == 'sessions' && isCiphertextPayload(request.resource.data);
+        allow delete: if false;
+      }
+
+      match /settings/{settingsId} {
+        allow create, update: if settingsId == 'current' && isCiphertextPayload(request.resource.data);
+        allow get: if settingsId == 'current';
+        allow list, delete: if false;
+      }
+    }
   }
 }

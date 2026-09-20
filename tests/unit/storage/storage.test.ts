@@ -28,7 +28,7 @@ test('storage: events repository has append and read APIs only', () => {
   assert.deepEqual(Object.keys(eventsRepository).sort(), ['appendEvent', 'listEvents']);
 });
 
-test('storage: schemaVersion remains one', () => assert.equal(dbVersion, 1));
+test('storage: schemaVersion is two (syncOutbox store added)', () => assert.equal(dbVersion, 2));
 
 test('storage: fallback returns an export prompt when storage capacity is exhausted', () => {
   const quotaStorage = { setItem() { throw new DOMException('full', 'QuotaExceededError'); } } as unknown as Storage;
@@ -183,6 +183,10 @@ function createEventRepositoryDatabase(records: Map<string, Event>): IDBDatabase
         if (records.has(value.eventId)) {
           request.error = new DOMException('duplicate key', 'ConstraintError');
           request.onerror?.(new globalThis.Event('error'));
+          // 実物のIndexedDBは、リクエストの失敗をpreventDefaultしなければトランザクションごと中止する。
+          // appendEventがrunWriteTransaction(複数ストア)へ変わったため、リクエスト単体のonerrorだけでは
+          // (runWriteTransactionはtransaction.onerror/oncompleteしか見ない)Promiseが解決されずハングしていた。
+          transaction.onerror?.(new globalThis.Event('error'));
         } else {
           records.set(value.eventId, value);
           request.onsuccess?.(new globalThis.Event('success'));
