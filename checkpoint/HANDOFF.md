@@ -1469,3 +1469,59 @@ WebKit emulationは強い確認だが実機そのものではないため、実�
 
 再開短句:
 **「checkpoint-main HANDOFF最終節から再開。production delta照合→統合→物理iPhone smoke」**
+
+
+## 2026-09-20 継続4: スマホ実寸tap target・public/shadow経路分離
+
+Playwright WebKit mobile smokeをさらに強化。
+
+最新確定smoke:
+- run: **35482932843**
+- head: `2fc149f4086e42eb7a3d4e00872ae7b252d8414c`
+- WebKit 26.5
+- result: **SUCCESS**
+
+### WebKit計算後の実寸tap target
+portrait 390×844でbounding boxを実測:
+- 上部action buttons 最小: **44px**
+- 確認範囲 `#checkLevel`: **46px**
+- checklist item 最小: **約81.09px**
+- drawer close: **44px**
+- `ここはわかる`: **44px**
+- 個別 `戻す`: **44px**
+
+確認範囲selectは当初mobile 44px指定の対象外だったため、
+`styles.css` に `#checkLevel{min-height:44px}` を追加。
+WebKit計算値46pxでPASS。
+
+### public / shadow data-path分離
+同じWebKit smokeで:
+- normal `/checkpoint/`
+  - `externalData=loaded`
+  - `shadowData=skipped`
+  - `auditedInflectionEvidenceFull === null`
+  - `morphologyProviderPolicy === null`
+- `/checkpoint/?debug=shadow`
+  - `shadowData=requested`
+  - audited morphology corpus loaded
+  - morphology provider policy loaded
+
+したがって、公開UIに必要なdata loadを保ったまま、
+研究用heavy dataだけをnormal URLから外す分離をbrowser levelでも確認済み。
+
+### テスト上の一時failure
+実寸tap test初版は `#nextPoint` が常にvisibleと仮定しfailure。
+単一point drawerではnextが非表示になる正常仕様だったため、
+**visibleな場合だけ44pxを要求**するようtestを修正。
+アプリ本体のfailureではない。
+
+### 現在の公開残作業
+実装・自動検証側はほぼ完了。
+残るgate:
+1. production deltaの最終再生成・main SHA再照合
+2. production ownerによるfile-level integration
+3. Pages deploy
+4. **物理iPhone Safari** smoke
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。final delta照合→production統合→物理iPhone smoke」**
