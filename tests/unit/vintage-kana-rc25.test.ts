@@ -24,6 +24,16 @@ test("vintage-kana RC25 staged quiz thresholds stay fixed", () => {
   assert.match(html, /masteryMethod==="free-input"\|\|e\.masteryMethod==="jibo-reverse"/);
 });
 
+test("vintage-kana G palette keeps selected controls sky-blue and primary actions sakura", () => {
+  assert.match(html, /--accent:#356b9e;--accent2:#e0ecf8;--accent-border:#9bbbd8;--primary:#c2506e;--danger:#a85732;/);
+  assert.match(html, /\.tab\.active\{background:var\(--accent2\);border-color:var\(--accent\);color:var\(--accent\)/);
+  assert.match(html, /\.kanaBtn\.active\{background:var\(--accent2\);color:var\(--accent\);border-color:var\(--accent\)\}/);
+  assert.match(html, /\.quizModeBtn\.active\{background:var\(--accent2\);border-color:var\(--accent\);color:var\(--accent\)\}/);
+  assert.match(html, /\.composeModeBtn\.active\{background:var\(--accent2\);border-color:var\(--accent\);color:var\(--accent\)\}/);
+  assert.match(html, /\.btn\.primary\{background:var\(--primary\);border-color:var\(--primary\);color:#fff\}/);
+  assert.match(html, /\.choice\.wrong\{border-color:var\(--danger\);background:#fff0e8;color:#6f3a26\}/);
+});
+
 test("vintage-kana keeps the mobile answer grid as a 2x2 bento", () => {
   assert.match(
     html,
