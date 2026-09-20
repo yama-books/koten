@@ -650,3 +650,133 @@ gold先固定→shadow無調整baseline保存まで完了。
 - primary-source hold 5件維持
 
 次工程は **passage-independent morphology provider のsignal-only設計**。平家gold由来exact morphologyは追加しない。
+
+
+## 2026-09-20 公開β準備
+
+- passage-independent morphology providerをsignal-onlyで実装。
+- 500例full exact（2文字以上・一意分析）と、500例から自動生成するunanimous suffix signatureを観測tierとして追加。
+- 第四blind平家へgold由来exact morphologyを追加せず、previous morphology signalは3/24位置まで拡張。
+- resolver decision pathは変更なし。learner-visible detectorはlegacy維持。
+- 通常UIで毎回実行されていたshadow auditを停止し、`?debug=shadow` / `#shadow-debug` 時のみ実行するよう修正。
+- 約38万文字の `audited_inflection_evidence_500_full.json` 等、provider関連4データをshadow debug時のみlazy-load。
+- 公開前静的preflight:
+  - HTML参照ローカルアセット 13/13存在
+  - JS 12/12構文PASS
+  - loader JSON 31/31存在・parse PASS
+- `public_release_preflight_20260920.json` を追加。legacy-visible public betaは `CONDITIONAL_PASS`。
+- 残ブロッカーは runtime browser/mobile smoke と production統合確認。
+- GitHub APIの `main...checkpoint-main` compareは `No common ancestor`。Checkpoint側では履歴改変せず、統合担当側の確認事項とする。
+- shadow promotion readiness v0.4。G6/G8はshadow昇格レーンで継続し、公開βとは分離。
+
+
+## 2026-09-20 スマホ対応・「わかる」履歴
+
+- 「ここはわかる」で隠したポイントを、チェックリスト下部に文脈付き一覧表示。
+- 個別「戻す」・「すべて戻す」を実装。
+- 本文変更時に `dismissedKeys` を自動クリアし、履歴をcurrent textへ限定。
+- mobile:
+  - 44px touch target
+  - safe-area
+  - 92dvh drawer
+  - drawer open時body scroll lock
+  - 430px以下footer縦積み
+  - history 1列化
+- mobile static audit: `mobile_ui_audit_20260920.json`
+  - STATIC_PASS_RUNTIME_DEVICE_PENDING
+- JS最終構文 12/12 PASS。
+- 安倍晴明877文字long sampleをlegacy detectorだけでbrowser-free V8 500回計測し、平均約2.022ms/detect。
+- deploy-pages workflowはmain pushのみ。checkpoint-main最新UIのiPhone実機smokeはproduction統合後に実施する。
+- public preflight:
+  - R8 PARTIAL_PASS
+  - R11 understood history PASS
+  - release status CONDITIONAL_PASS継続。
+
+
+## 2026-09-20 公開β自動DOM smoke・integration delta
+
+### 自動smoke
+- `tests/unit/checkpoint-public-beta.test.mjs` を追加。
+- `.github/workflows/checkpoint-public-beta.yml` を追加。
+- jsdomで実UIを読み込み、以下を検証:
+  - normal URL shadow panel hidden
+  - shadow heavy data skipped
+  - drawer body scroll lock
+  - 「ここはわかる」→履歴
+  - 個別復帰
+  - 全件復帰
+  - 本文変更時クリア
+  - mobile CSS contract
+- 初回runはtest teardownの非同期待ち不足でfailure。
+- 修正後 run **35481928465** / head `414514e911ab88b4187993a725d369e0b7080daf` は **SUCCESS**。
+
+### production integration
+- production `main` にも既存 `checkpoint/` が存在することを確認。
+- main vs checkpoint-main の差分をファイル単位で監査。
+- `data/production_integration_delta_20260920.json` を作成。
+- productionではmerge historyを直さず、blob SHAを照合して `checkpoint/` の必要ファイルだけ統合する方針。
+- unchanged runtime:
+  - core2.js
+  - core3.js
+  - detect1.js
+  - detect2.js
+  - detect3.js
+  - ui2.js
+  - ui3.js
+
+### release gate
+- static mobile: PASS
+- automated DOM runtime: PASS
+- understood history: PASS
+- iPhone Safari actual device: PENDING
+- production integration: PENDING
+- legacy-visible public beta: CONDITIONAL_PASS継続
+
+
+## 2026-09-20 WebKitスマホbrowser smoke
+
+- Playwright WebKitによるmobile browser smokeを追加。
+- workflow: `.github/workflows/checkpoint-public-beta.yml`
+- script: `tests/checkpoint-public-beta-browser.smoke.mjs`
+- run **35482145135** / head `62f70c3532f4419252437768554d8b8b9d3bbe6f` / **SUCCESS**
+- WebKit 26.5
+- portrait **390×844**
+- landscape **844×390**
+- sample3 checklist **16件**
+- 安倍晴明long sample marker **162件**
+
+確認PASS:
+- normal URLでshadow非表示・shadowData skipped
+- portrait / landscapeとも横overflowなし
+- 一文字本文markerのtouchでdrawer open
+- drawer中のbody scroll lock
+- 「ここはわかる」履歴
+- 個別復帰 / 全件復帰
+- 本文変更時の履歴clear
+- long sample描画
+- landscape drawerがviewport内
+
+これは物理iPhone Safariそのものではないため、actual device gateはPENDINGのまま。
+公開βの残作業は production差分再照合 → production統合 → Pages deploy → 物理iPhone Safari最終smoke。
+
+
+## 2026-09-20 スマホ実寸tap target・data-path分離
+
+- WebKit mobile smoke最新run **35482932843** / head `2fc149f4086e42eb7a3d4e00872ae7b252d8414c` / SUCCESS。
+- portrait 390×844で実測:
+  - 上部button最小44px
+  - 確認範囲select 46px
+  - checklist最小約81.09px
+  - drawer close 44px
+  - 「ここはわかる」44px
+  - 個別「戻す」44px
+- `#checkLevel{min-height:44px}` をmobile CSSに追加。
+- normal URL:
+  - externalData loaded
+  - shadowData skipped
+  - heavy morphology corpus/policy null
+- `?debug=shadow`:
+  - shadowData requested
+  - research morphology data loaded
+- publicとresearch data pathの分離をWebKit browser levelで確認。
+- 物理iPhone Safariのみproduction deploy後の最終gateとして残る。

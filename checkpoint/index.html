@@ -3,50 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Checkpoint β0.1 | 古文予習</title>
+<title>古文予習</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="shell">
   <header>
-    <h1>古文予習 <span style="font-size:.45em;color:var(--muted);font-family:inherit">Checkpoint β0.1</span></h1>
-    <div class="subtitle">答えを決めるのは学習者。アプリは「立ち止まる場所」を示します。数字を上げるほど、意味を教えるのではなく、確認する場所を細かく増やします。</div>
+    <h1>古文予習</h1>
   </header>
 
   <section class="card">
     <div class="label">本文</div>
     <textarea id="input">春はあけぼの。やうやう白くなりゆく山ぎは、すこしあかりて、紫だちたる雲のほそくたなびきたる。</textarea>
     <div class="level-control">
-      <label for="checkLevel">確認範囲</label>
+      <label for="checkLevel">見る範囲</label>
       <select id="checkLevel">
-        <option value="1">1 重要ポイントだけ</option>
-        <option value="2" selected>2 標準の予習</option>
-        <option value="3">3 文法を詳しく</option>
-        <option value="4">4 語彙まで細かく</option>
-        <option value="5">5 すべての候補</option>
+        <option value="1">厳選</option>
+        <option value="2" selected>ふつう</option>
+        <option value="4">細かく</option>
       </select>
-      <span class="filter-note">
-        1：見落としたくない識別・敬語だけ ／
-        2：授業前の標準的な予習 ／
-        3：助詞・活用形まで確認 ／
-        4：基本古語・語彙も広く確認 ／
-        5：弱い候補や部分一致まで全部見る<br>
-        ※ 数字は難易度ではなく、<strong>確認する範囲の広さ</strong>を表します。
-      </span>
     </div>
-    <div class="row">
-      <button class="primary" id="analyze">予習をはじめる</button>
-      <button class="secondary" id="sample1">枕草子サンプル</button>
-      <button class="secondary" id="sample2">和歌サンプル</button>
-      <button class="secondary" id="sample3">識別サンプル</button>
-      <button class="secondary" id="sample4">安倍晴明・長文サンプル</button>
-      <button class="ghost" id="clear">消去</button>
+    <div class="row main-actions">
+      <button class="primary" id="analyze">見る</button>
+      <button class="ghost" id="clear">消す</button>
     </div>
-    <div class="status">※ アプリの見立ては外れてもOKです。正解判定より、「見落としやすい場所を拾って自分で確かめる」ことを優先します。「ここはわかる」は、この本文を見ている間だけ候補を隠します。</div>
+    <details class="sample-picker">
+      <summary>例文</summary>
+      <div class="row sample-row">
+        <button class="secondary" id="sample1">枕草子</button>
+        <button class="secondary" id="sample2">和歌</button>
+        <button class="secondary" id="sample3">識別</button>
+        <button class="secondary" id="sample4">長文</button>
+      </div>
+    </details>
   </section>
 
   <section class="card" id="resultCard">
-    <div class="label">本文上の予習ポイント</div>
+    <div class="label">ポイント</div>
     <div class="legend">
       <span><i class="demo-line"></i> 文法</span>
       <span><i class="demo-dotted"></i> 識別</span>
@@ -54,27 +47,28 @@
       <span><i class="demo-honorific"></i> 敬語</span>
     </div>
     <div class="reading" id="reading"></div>
-    <div class="summary-grid" id="summary"></div>
-    <div class="suppressed" id="filterStatus"></div>
     <details id="shadowDebugPanel" hidden style="margin-top:12px">
       <summary>開発者用 shadow 監査</summary>
       <div class="status" id="shadowDebugSummary" style="margin-top:8px"></div>
       <pre id="shadowDebugDetails" style="white-space:pre-wrap;overflow:auto;max-height:360px;font-size:12px;line-height:1.5"></pre>
     </details>
-    <div class="status" style="margin-top:8px">
-      候補名までは一覧で確認できます。各候補の説明・例・見るポイントは、小さな「ミニ解説」ボタンを押したときだけ開きます。
-    </div>
   </section>
 
   <section class="card">
-    <div class="label">予習チェックリスト</div>
-    <div class="status">本文を見ながら、「何を確認すればよいか」だけを一覧にします。項目を選ぶとヒントを開けます。</div>
+    <div class="label">チェック</div>
     <div class="list" id="checklist"></div>
+    <div class="known-history" id="knownHistory" hidden>
+      <div class="known-history-head">
+        <div>
+          <div class="label known-history-label">わかる</div>
+          <div class="status known-history-status" id="knownHistoryStatus"></div>
+        </div>
+        <button class="ghost known-restore-all" id="restoreAllKnown" type="button">全部戻す</button>
+      </div>
+      <div class="known-list" id="knownList" aria-live="polite"></div>
+    </div>
   </section>
 
-  <footer>
-    この試作は学習支援UIの検証用です。活用・品詞・語義を完全自動判定しません。アプリの見立てが外れることも含め、最終判断を学習者に残します。
-  </footer>
 </div>
 
 <div class="drawer" id="drawer" aria-hidden="true">
@@ -101,8 +95,7 @@
     </section>
 
     <div class="focus-footer">
-      <button class="known-btn" id="markPointKnown" type="button">✓ ここはわかる</button>
-      <button class="ghost" id="nextPoint" type="button"></button>
+      <button class="known-btn" id="markPointKnown" type="button">✓ わかる</button>
     </div>
   </div>
 </div>

@@ -1,0 +1,39 @@
+/*
+ * conj branding typography
+ * Mirrors the font roles used by the Hyakunin Isshu app:
+ * UI = Zen Maru Gothic 500/700, classical text = Klee One 600.
+ * The actual @font-face rules are imported at runtime from the sibling /100/
+ * build so this static app does not duplicate the font binaries.
+ */
+:root {
+  --conj-font-ui: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+  --conj-font-classical: "Klee One", "Yu Mincho", serif;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--conj-font-ui);
+}
+
+h1,
+#exampleText,
+[id*="lemma" i],
+[class*="lemma" i],
+[class*="example-text" i],
+[class*="exampleText" i] {
+  font-family: var(--conj-font-classical);
+}
+
+h1 {
+  font-weight: 600;
+}
+
+/* 活用形名と表の見出しは、百人一首と同じ丸ゴシックで統一する。 */
+.katsuyo th.label,
+.track-heads span {
+  font-family: var(--conj-font-ui) !important;
+}

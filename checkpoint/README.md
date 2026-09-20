@@ -23,4 +23,51 @@ CHJ / UniDic は候補発見・実例・判定根拠に使い、学校文法の�
 ## 公開β
 https://yama-books.github.io/koten/checkpoint/
 
+## モバイル・学習履歴
+- スマホ向けに44px操作領域、safe-area、drawerのモバイルスクロールを調整
+- 「ここはわかる」で隠したポイントはチェックリスト下部に一覧化
+- 個別に「戻す」／「すべて戻す」が可能
+- 履歴は現在の本文だけに保持し、本文を変更すると自動クリア
+
+## リポジトリ運用
+- Checkpoint の開発正本ブランチ: `checkpoint-main`
+- Checkpoint 作業を `main` へ直接 push しない
+- production `main` への統合は koten 側の統合工程で行う
+- shadow detector は研究・監査専用。通常公開UIは legacy detector を使用する
+
 詳しい引継ぎは HANDOFF.md を参照。
+
+## 公開統合
+production `main` への安全な取り込み手順は `PRODUCTION_INTEGRATION.md` を参照。
+
+
+## 公開βの自動検証
+`checkpoint-main` では、公開UIの回帰をGitHub Actionsで自動確認しています。
+
+- 通常URLではshadow debugを出さない
+- drawer操作
+- 「ここはわかる」履歴
+- 個別・全件復帰
+- 本文変更時クリア
+- スマホ向けCSS契約
+
+検証:
+- `tests/unit/checkpoint-public-beta.test.mjs`
+- `.github/workflows/checkpoint-public-beta.yml`
+
+production統合前には `PRODUCTION_INTEGRATION.md` と
+`data/production_integration_delta_20260920.json` を確認してください。
+
+
+### スマホbrowser smoke
+Playwright WebKitのmobile emulationでも公開βの主要操作を確認済みです。
+
+- portrait 390×844 / landscape 844×390
+- 一文字本文マーカーのtouch
+- drawer scroll lock
+- 「ここはわかる」履歴の個別・全件復帰
+- 長文描画
+- 横overflowなし
+
+GitHub Actions run 35482145135 は PASS。
+ただし、物理iPhone Safariはproduction統合後の最終確認として別に行います。

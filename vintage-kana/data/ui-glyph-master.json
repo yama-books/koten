@@ -878,7 +878,7 @@
       "kana": "ゆ",
       "glyph_id": "U+1B0E6",
       "character": "𛃦",
-      "jibo": "由",
+      "jibo": "遊",
       "totalObserved": 34,
       "witnessCount": 3
     },
@@ -955,10 +955,10 @@
       "witnessCount": 15
     },
     {
-      "kana": "る",
+      "kana": "も",
       "glyph_id": "U+1B0D8",
       "character": "𛃘",
-      "jibo": "留",
+      "jibo": "毛",
       "totalObserved": 2,
       "witnessCount": 1
     },
@@ -1072,7 +1072,8 @@
       "character": "𛄌",
       "jibo": "王",
       "totalObserved": 353,
-      "witnessCount": 12
+      "witnessCount": 12,
+      "inOfficialCatalog": false
     },
     {
       "kana": "ゐ",

@@ -62,7 +62,12 @@
     "heikeAtsumoriIndependentGold": "heike_atsumori_independent_gold_20260920.json",
     "heikeAtsumoriShadowBaseline": "heike_atsumori_shadow_baseline_v015.json",
     "heikeAtsumoriFeatureGapAudit": "heike_atsumori_feature_gap_audit_20260920.json",
-    "stage2GeneralizationCheckpoint4Works": "stage2_generalization_checkpoint_20260920.json"
+    "stage2GeneralizationCheckpoint4Works": "stage2_generalization_checkpoint_20260920.json",
+    "morphologyProviderPolicy": "morphology_provider_policy.json",
+    "morphologyProviderAudit": "morphology_provider_audit_20260920.json",
+    "publicReleasePreflight": "public_release_preflight_20260920.json",
+    "mobileUiAudit": "mobile_ui_audit_20260920.json",
+    "productionIntegrationDelta": "production_integration_delta_20260920.json"
   },
   "notes": [
     "β0.1では外部JSONローダーを接続したが、既存のHTML内ルールをfallbackとして残す。",
@@ -146,6 +151,24 @@
     "3 development goldの未解決39位置でnextMorphology 15/39。未解決「て」の読点なし3件は3/3で右側独立活用語だが、第四blind前はhard rule化しない。",
     "第四blindとして平家物語「敦盛の最期」24位置をgold先固定し、baselineを凍結。",
     "4 blind works合算: 136位置 / strict PASS 75 / grammar strict 18/75 / boundary 57/61 / wrongResolved 0。",
-    "第四blindはboundary 10/10・false-positive resolved 0。right-context morphologyのunseen-work coverage不足を別auditへ分離。"
+    "第四blindはboundary 10/10・false-positive resolved 0。right-context morphologyのunseen-work coverage不足を別auditへ分離。",
+    "passage-independent morphology providerをsignal-onlyで追加。既存resolver用exact evidenceを最優先し、500例full exactとcorpus-derived suffixを観測専用tierとして返す。",
+    "corpus-derived suffixは監査500例で3件以上かつPOS/form/class全一致の2-3文字suffixのみ。候補削除・resolved昇格には使わない。",
+    "第四blind平家『敦盛の最期』ではgold由来exact morphologyを追加せず、previous morphology signalが3/24位置（grammar target 3/14）まで増加。『て』5件の一般分離には未到達。",
+    "公開βとshadow learner-visible昇格を別ゲート化。legacy-visible public betaは静的preflightを通し、shadow G6/G8 pendingは別レーンとして保持。",
+    "通常公開UIではshadowAuditLegacyVsDbを実行しないようui1.jsを変更。debug=shadow/#shadow-debug時のみshadow解析。",
+    "約38万文字の500例full morphology DBを含むprovider関連データはshadow debug時だけlazy-loadし、通常公開経路の負荷から分離。",
+    "2026-09-20時点でmain...checkpoint-main比較がNo common ancestor。Checkpoint側は履歴改変せず、production統合担当側の確認事項としてrelease preflightに記録。",
+    "スマホ向けに44pxタップ領域、safe-area、92dvh drawer、背景スクロール停止、430px以下のfooter縦積みを追加。",
+    "「ここはわかる」で隠したポイントを文脈付き一覧として表示し、個別復帰・全件復帰を追加。本文変更時は履歴を自動リセット。",
+    "877文字の安倍晴明long sampleをlegacy detectorのみでbrowser-free V8計測し、平均約2.022ms/detect（500回計測）。端末実測ではないが計算量の異常増大は見られない。",
+    "checkpoint-mainはdeploy-pages workflowのmain push対象外。実機Pages smokeはproduction統合後に実施する。",
+    "checkpoint-main専用の公開βDOM smokeを追加し、通常URLshadow切離し・drawer背景固定・「ここはわかる」履歴の個別/全件復帰・本文変更時クリア・mobile CSS契約を自動検証。",
+    "Checkpoint Public Beta Smoke run 35481928465 は head 414514e911ab88b4187993a725d369e0b7080daf でPASS。",
+    "production_integration_delta_20260920.json に main と checkpoint-main のファイル単位blob SHA差分を固定。main側SHA変化時は上書きせず再レビューする。",
+    "Playwright WebKit 26.5 mobile browser smokeを追加し、run 35482145135でPASS。390x844 portrait / 844x390 landscape、1文字marker touch、drawer lock、わかる履歴復帰、長文、横overflowなしを確認。",
+    "物理iPhone Safariはproduction統合後の最終smokeとして残す。",
+    "WebKit最新smoke run 35482932843 / head 2fc149f4086e42eb7a3d4e00872ae7b252d8414c PASS。通常URLではproduction data loaded + shadow-only skipped、?debug=shadowではresearch data loadedを確認。",
+    "WebKit computed touch target: top actions 44px, level selector 46px, checklist約81.09px, drawer close 44px, known action 44px, restore one 44px。"
   ]
 }

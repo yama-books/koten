@@ -8,7 +8,7 @@
 - 英名 / GitHubフォルダ: Checkpoint / `checkpoint`
 - 日本語表示: 現在「古文予習」
 - 公開β: https://yama-books.github.io/koten/checkpoint/
-- GitHub: `yama-books/koten` の `main`
+- GitHub: `yama-books/koten`。Checkpoint開発正本は `checkpoint-main`（production `main` への直接push禁止）
 - Google Drive: 「古文予習ノート_作業」を正本候補・監査・研究データ置場とする
 
 ## 学習設計
@@ -1091,3 +1091,437 @@ Checkpointチームの作業対象は今後 **`checkpoint-main` ブランチ** �
 8. learner-visible global promotionはまだ行わない。
 
 再開用短句: **「checkpoint-main の HANDOFF 最終節から再開。次は passage-independent morphology provider signal-only」**
+
+
+## 2026-09-20 公開β準備: passage-independent morphology provider / public preflight
+
+### 方針
+- 公開βとshadow→learner-visible昇格を別レーンに分離した。
+- **公開βは learner-visible detector = legacy のまま進める。**
+- shadow detector / morphology provider は研究・監査専用。通常公開画面の判定へ接続しない。
+- Checkpoint開発は `checkpoint-main` のみ。production `main` へ直接push・force-pushしない。
+
+### passage-independent morphology provider
+- `data/morphology_provider_policy.json` を追加。
+- `db-shadow.js` に作品非依存の形態signal providerを追加。
+- 返却メタデータ:
+  - `evidenceTier`
+  - `source`
+  - `matchMode`（exact / derived-suffix）
+  - `resolverEligible`
+  - `supportCount`
+- 新しい観測tier:
+  1. `audited-corpus-exact-signal`
+     - `audited_inflection_evidence_500_full.json` の一意分析・2文字以上exact surface
+     - kana-onlyも観測可だが signal-only
+  2. `corpus-derived-suffix-signal`
+     - 監査500例だけから生成
+     - suffix長 3 / 2
+     - support 3件以上
+     - POS / form / conjugationClass 全一致のみ
+     - **候補削除・suppression解除・resolved昇格には使用しない**
+- 既存 `previousFormEvidence()` はresolver専用として変更していないため、新providerはresolver decision pathへ入っていない。
+- 平家物語「敦盛の最期」のgold由来exact morphologyは追加していない。
+
+### provider post-blind audit
+`data/morphology_provider_audit_20260920.json`
+
+第四blind 平家24位置:
+- previous morphology signal: **3/24**
+- grammar targetでsignalあり: **3/14**
+- 内訳:
+  - `いとほしく + て` → `しく` = 形容詞シク活用・連用形（500例suffix support 7）
+  - `おぼえ + けれ` → `おぼえ` = 動詞・連用形（full500 exact signal）
+  - `ある + べき` → `ある` = 動詞・連体形（full500 exact signal）
+- 「て」5位置のsignalは1位置のみ。接続助詞て / 語内部 / 完了つ連用形を一般分離できる段階ではない。
+- coverage向上をresolver精度向上として数えない。
+
+### 公開UIのshadow隔離
+公開前に性能上の問題を修正:
+- 従来 `ui1.js` はshadow debug panelが非表示でも `shadowAuditLegacyVsDb()` を毎render実行していた。
+- 修正後は `?debug=shadow` または `#shadow-debug` のときだけshadow auditを実行。
+- 通常公開UIではshadow解析を実行しない。
+
+さらに `core4.js` でprovider関連の重い研究データをlazy-load:
+- `sourceReviewedTokenMorphology`
+- `auditedInflectionEvidenceFull`
+- `morphologyProviderPolicy`
+- `localSyntaxFeaturePolicy`
+
+特に `audited_inflection_evidence_500_full.json` は約38万文字。通常公開経路では取得せず、shadow debug時のみ読む。
+
+### 公開前静的preflight
+`data/public_release_preflight_20260920.json`
+
+結果:
+- index.html参照ローカルアセット: **13/13存在**
+- JS: **12/12 構文PASS**
+- `CHECKPOINT_DATA_PATHS` のJSON: **31/31存在・JSON.parse PASS**
+- primary-source hold 5位置: 保護継続
+- learner-visible detector: legacy維持
+- shadow G6/G8 pendingは、shadow昇格条件でありlegacy-visible公開βとは分離
+
+公開βの残ブロッカー:
+1. 実ブラウザ / スマホ runtime smoke
+2. production統合経路の確認
+
+### branch統合上の注意
+2026-09-20時点でGitHub APIの `main...checkpoint-main` 比較は **No common ancestor** を返した。
+- 原因をCheckpoint側で推測して履歴を書き換えない。
+- `main` へのforce-push / reset / direct mergeはしない。
+- production統合担当側で、安全な統合方法（通常merge可否、必要ならcherry-pick / ファイル単位統合）を確認する。
+
+### readiness
+`data/shadow_promotion_readiness_20260919.json` を v0.4 へ更新。
+- shadow: stage-2維持
+- provider: implemented signal-only
+- 新hard resolverを作る場合: **第五未使用作品goldを先にfreeze → blind**
+- public beta: `CONDITIONAL_PASS`
+  - static checks PASS
+  - runtime smoke PENDING
+  - production integration PENDING
+
+### 今回の主要コミット（checkpoint-main）
+- `deb1aa0be42653a4bc0ecf2e86d3f6b00e35112a` provider用data load
+- `849b78bfd7a4d65546f108669df33721fb67a942` passage-independent morphology signals
+- `898fb435b8cc277f18b98ad32a00c806bcc4c2fa` provider safety policy
+- `0ebe20075d4c1004062fb0d52f806b848ff04837` provider audit
+- `a7a6f001681e91a1865c65bbb1229333223f1044` normal UIでshadow auditを停止
+- `71d1dd68e9dc0870b45939e5062e2a2680e89eea` heavy shadow data lazy-load
+- `7e610ef6cbd3a0430acc10260e3cf03a1023c3f9` public release preflight
+- `43c906c34180e6a336142431d023393c2b837516` readiness v0.4
+
+### 次回再開
+最優先:
+1. `checkpoint-main` を確認
+2. `public_release_preflight_20260920.json` のR8 runtime browser/mobile smoke
+3. normal URLでshadow panel非表示・shadow data skippedを確認
+4. 入力 → マーカー → drawer → レベル切替 → リセットのsmoke
+5. production統合担当へ No common ancestor 状態を伝える
+6. shadow研究は公開作業とは分け、hard rule追加前に第五blindをfreeze
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。公開βruntime smokeを実施」**
+
+
+## 2026-09-20 継続: スマホ対応・「わかる」履歴
+
+### 「ここはわかる」履歴
+学習者が `✓ ここはわかる` を押したポイントを、予習チェックリスト下部に一覧表示する機能を追加。
+
+仕様:
+- 表面形
+- カテゴリ
+- 前後8文字程度の文脈（対象を【】で表示）
+- 各行の `戻す`
+- `すべて戻す`
+- 0件時は履歴パネル非表示
+- `aria-live="polite"` で更新通知
+- 確認レベル変更では履歴を維持
+- 本文自体を変更した場合は `dismissedKeys` を自動クリア
+- 「戻す」後、現在の確認レベル対象なら本文・チェックリストへ再表示
+
+実装:
+- `index.html`: `knownHistory / knownHistoryStatus / knownList / restoreAllKnown`
+- `core1.js`: `dismissedTextSnapshot`
+- `ui1.js`: `knownPointContext / uniqueKnownHits / renderKnownHistory`
+- `events.js`: 個別復帰・全件復帰
+- `styles.css`: desktop/mobile history layout
+
+### スマホ向けUI改善
+`styles.css` / `events.js` を調整:
+- viewport metaは既存でOK
+- 680px / 430px breakpoint
+- mobile主要操作を44px以上
+- iPhone下部safe-area対応
+- drawerを `92dvh` 対応
+- drawer open時にbody scroll lock
+- drawer自体はtouch scroll維持
+- 430px以下ではdrawer footerを縦積み
+- 「わかる」履歴も1列化
+- textarea 17pxを維持し、iOSの16px未満focus zoomを回避
+
+一文字の本文マーカー自体は横幅が小さいが、同じポイントを大きいチェックリスト項目から開けるため、スマホではチェックリストを代替タップ面として使える。
+
+### mobile static audit
+`data/mobile_ui_audit_20260920.json`
+
+結果: **STATIC_PASS_RUNTIME_DEVICE_PENDING**
+
+主なPASS:
+- viewport
+- responsive breakpoints
+- 44px touch targets
+- safe-area
+- 92dvh drawer
+- drawer scroll / background lock
+- fixed-width overflow riskなし
+- understood-history responsive layout
+- JS最終構文 **12/12 PASS**
+
+legacy detectorの計算量参考:
+- 安倍晴明長文サンプル 877文字
+- browser-free V8で500回実行
+- 1011ms合計
+- 平均 **約2.022ms / detect**
+
+これはiPhone実測値ではないが、通常公開経路で明らかな計算量爆発は見られない。
+
+### 実機確認がまだPENDINGの理由
+`.github/workflows/deploy-pages.yml` は:
+- push trigger = `main`
+- `checkpoint-main` は通常Pagesへ配信されない
+
+したがって、現在の公開URLで `checkpoint-main` の最新UIを確認したと偽装しない。
+また他チームがproduction mainを使用しているため、Checkpoint側からpreview目的でproduction Pagesを上書きしない。
+
+production統合後にiPhone Safariで確認:
+1. portrait / landscape
+2. 横スクロールなし
+3. sample3 / sample4
+4. 一文字マーカーとチェックリスト双方からdrawerを開く
+5. drawer scroll中に背景が動かない
+6. 「ここはわかる」2-3件 → 履歴一覧
+7. 個別 `戻す`
+8. `すべて戻す`
+9. 本文変更 → 履歴自動クリア
+10. normal URLでshadow debug非表示
+
+### release preflight更新
+`public_release_preflight_20260920.json`
+- R8: `PARTIAL_PASS`（mobile static PASS / device runtime pending）
+- R11: `PASS`（understood-point history）
+- legacy-visible public betaは引き続き `CONDITIONAL_PASS`
+
+### 今回の主要コミット
+- `b90bf6cf68d27a9b79cdb5e2d5abd92f1f307cd6` understood history HTML
+- `4b3c213999a64999031d3582f6539b6123092847` current-text scope
+- `1545f4fa0232df0698c911e571b4e25c7e3f4f90` history rendering
+- `f8a223d95caf81f91b395f594785c3981ff45ab5` restore actions / mobile drawer lock
+- `8a016e5f3692e9a632edca0b1bc583ec659a5d47` responsive / safe-area styling
+- `14803fdc62c0389e89e2ed94f5af4f73d0540215` mobile UI audit
+- `d3fad0d89a6b5f9f65420146d3b96bd589159ac1` release preflight update
+- `ec3e9ac2929fb70bf55b068bbe46e3c2b5774dbd` restore-level explanation
+
+### 次回の公開作業
+1. `checkpoint-main` を維持
+2. production統合方法をkoten側で確認
+3. 統合後のPagesをiPhone Safariで上記10項目smoke
+4. 問題なければ public beta runtime gateをPASSへ
+5. shadow研究は第五blindを別レーンで継続
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。production統合後のiPhone smokeへ」**
+
+
+## 2026-09-20 継続2: 公開βDOM smoke自動化・production差分固定
+
+### 自動DOM smoke
+追加:
+- `tests/unit/checkpoint-public-beta.test.mjs`
+- `.github/workflows/checkpoint-public-beta.yml`
+
+jsdomで実際の `checkpoint/index.html` と12本のclassic scriptを読み込み、公開UI操作を自動確認する。
+
+検証:
+1. 通常URLで `shadowDebugPanel.hidden === true`
+2. 通常URLで `document.documentElement.dataset.shadowData === "skipped"`
+3. drawer openで `body.drawer-open`
+4. closeで `body.drawer-open`解除
+5. 「ここはわかる」→履歴1件
+6. 履歴に対象文脈 `【…】`
+7. 個別 `戻す` → 元件数へ復帰
+8. 複数「わかる」→ `すべて戻す`
+9. 本文変更 → 履歴自動クリア
+10. mobile CSS contract:
+   - 680px / 430px breakpoint
+   - 44px touch target
+   - safe-area
+   - 92dvh
+   - body scroll lock
+   - textarea 17px
+
+初回run `35481895053` は、テスト終了後にも非同期 `loadCheckpointData()` が残るテスト側の問題でfailure。
+各機能テスト自体は6件すべてPASSしていた。
+
+修正後run:
+- run: **35481928465**
+- head: `414514e911ab88b4187993a725d369e0b7080daf`
+- conclusion: **SUCCESS**
+
+アプリ本体の不具合ではなくtest teardown問題だったことをログで確認済み。
+
+### production差分の固定
+`data/production_integration_delta_20260920.json` を作成。
+
+mainの `checkpoint/` 自体は存在しており、checkpoint-mainとの差は限定的。
+スナップショット時:
+- top-level changed: 11
+- `checkpoint/data` changed: 7
+- runtime critical: 13
+- unchanged runtime:
+  - `core2.js`
+  - `core3.js`
+  - `detect1.js`
+  - `detect2.js`
+  - `detect3.js`
+  - `ui2.js`
+  - `ui3.js`
+
+delta JSONには各ファイルの:
+- production `mainSha`
+- `checkpointSha`
+- ADD / UPDATE
+- size
+を記録。
+
+production統合時は必ず `mainSha` を再照合する。
+main側が変化していれば、そのファイルは自動上書きせず再レビュー。
+
+### release preflight更新
+`public_release_preflight_20260920.json`
+- R8: `PARTIAL_PASS`
+  - static mobile PASS
+  - automated DOM smoke PASS
+  - iPhone Safari actual deviceのみPENDING
+- R11: understood history PASS
+- R12: automated public-beta DOM smoke PASS
+- production integration delta: FROZEN
+
+残る公開ブロッカー:
+1. production ownerによるファイル単位integration
+2. 統合直前のmainSha再照合
+3. Pages deploy
+4. iPhone Safari実機smoke
+
+### branch-only workflow
+Checkpoint Public Beta Smoke は `checkpoint-main` 専用。
+production deployは行わない。
+triggerはruntime関連:
+- `checkpoint/*.js`
+- `checkpoint/index.html`
+- `checkpoint/styles.css`
+- `checkpoint/data/**`
+- test / workflow / package lock
+に限定し、HANDOFF等だけの更新では不要なrunを発生させない。
+
+### 今回の主要コミット
+- `e30c741352fcd8c948115e129e93438606c908d5` DOM smoke tests
+- `fc41a2f5d7d82d85dd0667ff8b42ef0064b0a31c` branch-only smoke workflow
+- `414514e911ab88b4187993a725d369e0b7080daf` async teardown fix / successful smoke head
+- `870a99b5dc5d203e8e17d96abea6134d13d601b8` production integration delta
+- `05924ef40feb226d8ff1e0eedcaa925e62278cdc` preflight automated smoke evidence
+- `e04fd93963e90345bd50a9d8c48d6ce753eb0ec5` workflow trigger narrowing
+
+### 次回
+**実装側はproduction統合待ちの状態まで到達。**
+統合担当は `PRODUCTION_INTEGRATION.md` と `data/production_integration_delta_20260920.json` を先に読む。
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。delta再照合→production統合→iPhone smoke」**
+
+
+## 2026-09-20 継続3: WebKitスマホbrowser smoke
+
+公開βのスマホ確認を static/jsdom から一段進め、Playwright WebKitで実ブラウザsmokeを追加。
+
+追加:
+- `tests/checkpoint-public-beta-browser.smoke.mjs`
+- branch-only workflowに `npx playwright install --with-deps webkit` とbrowser smoke step
+
+GitHub Actions:
+- run: **35482145135**
+- head: `62f70c3532f4419252437768554d8b8b9d3bbe6f`
+- result: **SUCCESS**
+- engine: **WebKit 26.5**
+
+実測条件:
+- portrait: **390 × 844**
+- landscape: **844 × 390**
+- sample3 checklist: **16**
+- 安倍晴明long sample rendered markers: **162**
+
+PASSした操作:
+1. normal URLでshadow panel hidden
+2. `shadowData=skipped`
+3. portraitで横overflowなし
+4. **一文字の本文markerをtouchしてdrawer open**
+5. drawer open中のbody scroll lock
+6. 「ここはわかる」→履歴
+7. 個別「戻す」
+8. 複数履歴→「すべて戻す」
+9. 本文変更→履歴自動clear
+10. long sample描画
+11. landscapeで横overflowなし
+12. landscape drawerがviewport内に収まる
+
+`mobile_ui_audit_20260920.json`:
+- status → `BROWSER_EMULATION_PASS_RUNTIME_DEVICE_PENDING`
+- M11 WebKit mobile browser smoke PASS
+
+`public_release_preflight_20260920.json`:
+- R13 WebKit mobile browser smoke PASS
+- browser runtime = `PASS_EMULATED`
+- R8は物理iPhone未確認のため `PARTIAL_PASS` のまま
+
+残るスマホ確認は **production統合後の物理iPhone Safari最終smokeのみ**。
+WebKit emulationは強い確認だが実機そのものではないため、実機PASSとは記録しない。
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。production delta照合→統合→物理iPhone smoke」**
+
+
+## 2026-09-20 継続4: スマホ実寸tap target・public/shadow経路分離
+
+Playwright WebKit mobile smokeをさらに強化。
+
+最新確定smoke:
+- run: **35482932843**
+- head: `2fc149f4086e42eb7a3d4e00872ae7b252d8414c`
+- WebKit 26.5
+- result: **SUCCESS**
+
+### WebKit計算後の実寸tap target
+portrait 390×844でbounding boxを実測:
+- 上部action buttons 最小: **44px**
+- 確認範囲 `#checkLevel`: **46px**
+- checklist item 最小: **約81.09px**
+- drawer close: **44px**
+- `ここはわかる`: **44px**
+- 個別 `戻す`: **44px**
+
+確認範囲selectは当初mobile 44px指定の対象外だったため、
+`styles.css` に `#checkLevel{min-height:44px}` を追加。
+WebKit計算値46pxでPASS。
+
+### public / shadow data-path分離
+同じWebKit smokeで:
+- normal `/checkpoint/`
+  - `externalData=loaded`
+  - `shadowData=skipped`
+  - `auditedInflectionEvidenceFull === null`
+  - `morphologyProviderPolicy === null`
+- `/checkpoint/?debug=shadow`
+  - `shadowData=requested`
+  - audited morphology corpus loaded
+  - morphology provider policy loaded
+
+したがって、公開UIに必要なdata loadを保ったまま、
+研究用heavy dataだけをnormal URLから外す分離をbrowser levelでも確認済み。
+
+### テスト上の一時failure
+実寸tap test初版は `#nextPoint` が常にvisibleと仮定しfailure。
+単一point drawerではnextが非表示になる正常仕様だったため、
+**visibleな場合だけ44pxを要求**するようtestを修正。
+アプリ本体のfailureではない。
+
+### 現在の公開残作業
+実装・自動検証側はほぼ完了。
+残るgate:
+1. production deltaの最終再生成・main SHA再照合
+2. production ownerによるfile-level integration
+3. Pages deploy
+4. **物理iPhone Safari** smoke
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。final delta照合→production統合→物理iPhone smoke」**

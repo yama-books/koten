@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>古典 活用ドリル｜縦書き試作 v37</title>
+<title>古典文法活用ノート</title>
 <style>
 :root{
   --bg:#f6f3ee; --card:#fffdfa; --ink:#2d2a26; --muted:#7b746a;
@@ -34,6 +34,7 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 .meta{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap}
 .tag{background:#f0ebe4;border-radius:999px;padding:4px 8px;color:#675f55;font-size:11px}
 .word{margin:12px 0 2px;text-align:center;font:600 36px/1.18 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.04em}
+.lemma-aid{margin:0 0 2px;text-align:center;color:var(--muted);font-size:11px;line-height:1.25}
 .kind{color:var(--muted);font-size:13px;text-align:center}
 
 .study-layout{
@@ -1187,20 +1188,415 @@ td.wrong{background:var(--bad)!important}
   }
 }
 
+
+/* ===== v38: iPhone viewport fit + stable table centering =====
+   Keep the original vertical table design. On narrow screens the six
+   conjugation rows shrink only as much as needed to fit the visible viewport.
+   The table is centered even when row-note text is wider than the table. */
+.table-panel{
+  align-items:center;
+}
+.row-note{
+  text-align:center;
+  align-self:center;
+}
+
+@media(max-width:700px){
+  :root{
+    --mobile-form-row-h:clamp(54px,calc((100dvh - 330px)/6),68px);
+  }
+
+  .wrap{
+    min-height:100dvh;
+    padding-bottom:max(8px,env(safe-area-inset-bottom));
+  }
+  .card{
+    padding-top:7px;
+    padding-bottom:7px;
+  }
+  .word{
+    margin:5px 0 1px;
+    font-size:23px;
+  }
+  .kind{
+    line-height:1.15;
+  }
+  .study-layout{
+    margin-top:6px;
+  }
+
+  .katsuyo.one-track td,
+  .katsuyo.one-track th.label,
+  .katsuyo.adjective-pair td,
+  .katsuyo.adjective-pair th.label,
+  .katsuyo.paired-conjugation td,
+  .katsuyo.paired-conjugation th.label{
+    height:var(--mobile-form-row-h)!important;
+    min-height:var(--mobile-form-row-h)!important;
+    max-height:var(--mobile-form-row-h)!important;
+  }
+
+  /* 形容動詞の連用形「に／なり」「と／たり」は、
+     行の高さを変えず、その1マスの内部だけを左右二分する。 */
+  .katsuyo tr.adjv-renyo-row td,
+  .katsuyo tr.adjv-renyo-row th,
+  .adjv-combo,
+  .combo-slot,
+  .combo-slot .cell-answer-wrap{
+    height:var(--mobile-form-row-h)!important;
+    min-height:0!important;
+    max-height:var(--mobile-form-row-h)!important;
+  }
+  .adjv-combo{
+    grid-template-columns:1fr 1fr!important;
+    grid-template-rows:100%!important;
+  }
+
+  /* row-note が親幅を広げても表そのものを左へ引っ張らない。 */
+  .table-panel .row-note{
+    max-width:139px;
+    white-space:normal;
+    font-size:8px;
+    line-height:1.25;
+    margin-top:3px;
+  }
+
+  .table-panel .track-heads span{
+    min-height:30px!important;
+  }
+  .feedback{
+    margin-top:4px;
+  }
+  .actions{
+    margin-top:2px;
+  }
+}
+
+@media(max-width:700px) and (max-height:760px){
+  :root{
+    --mobile-form-row-h:clamp(48px,calc((100dvh - 285px)/6),58px);
+  }
+  .toolbar{
+    margin-bottom:4px;
+  }
+  .meta{
+    gap:4px;
+  }
+  .word{
+    font-size:21px;
+    margin-top:3px;
+  }
+  .study-layout{
+    margin-top:4px;
+  }
+  .blank-frame{
+    height:36px;
+  }
+  .combo-slot .blank-frame{
+    height:36px;
+  }
+}
+
+
+/* ===== v39: compact controls + record screen ===== */
+.katsuyo th.label,
+.track-heads span{
+  font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif !important;
+}
+
+.header-record{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.record-open{
+  white-space:nowrap;
+}
+.record-screen[hidden]{
+  display:none !important;
+}
+.record-screen{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  overflow-y:auto;
+  background:var(--bg);
+  color:var(--ink);
+}
+.record-shell{
+  width:min(100%,760px);
+  margin:0 auto;
+  padding:18px 16px 42px;
+}
+.record-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:10px;
+}
+.record-header h2{
+  margin:0;
+  font-size:22px;
+}
+.record-header button{
+  min-width:44px;
+}
+.record-points{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:18px 0 12px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px 14px;
+  background:var(--card);
+}
+.record-points-copy{
+  display:grid;
+  gap:2px;
+}
+.record-points-label{
+  color:var(--muted);
+  font-size:11px;
+}
+.record-points-value{
+  font-size:28px;
+  font-variant-numeric:tabular-nums;
+}
+.record-cat{
+  width:48px;
+  height:48px;
+  object-fit:contain;
+  margin-left:auto;
+}
+.record-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+.record-stat{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px 12px;
+  background:var(--card);
+}
+.record-stat dt{
+  color:var(--muted);
+  font-size:10px;
+}
+.record-stat dd{
+  margin:3px 0 0;
+  font-size:21px;
+  font-variant-numeric:tabular-nums;
+}
+.record-section{
+  margin-top:16px;
+  border-top:1px solid var(--line);
+  padding-top:14px;
+}
+.record-section h3{
+  margin:0 0 8px;
+  font-size:15px;
+}
+.record-breakdown,
+.record-review{
+  display:grid;
+  gap:0;
+  margin:0;
+  padding:0;
+  list-style:none;
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow:hidden;
+  background:var(--card);
+}
+.record-breakdown li,
+.record-review li{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  padding:9px 11px;
+  border-bottom:1px solid var(--line);
+}
+.record-breakdown li:last-child,
+.record-review li:last-child{
+  border-bottom:0;
+}
+.record-review small,
+.record-note{
+  color:var(--muted);
+  font-size:9px;
+}
+.record-empty{
+  margin:0;
+  color:var(--muted);
+  font-size:11px;
+}
+
+@media(max-width:700px){
+  header{
+    align-items:center;
+  }
+  .header-record .score{
+    display:none;
+  }
+  .toolbar{
+    display:grid !important;
+    grid-template-columns:max-content minmax(0,1fr) max-content;
+    align-items:center;
+    gap:5px;
+    flex-wrap:nowrap !important;
+    padding:5px 6px !important;
+  }
+  .toolbar .spacer{
+    display:none;
+  }
+  .pos-control{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    white-space:nowrap;
+  }
+  .pos-control select{
+    width:76px;
+    min-width:0;
+    margin-left:2px;
+    padding:4px 3px;
+  }
+  .level-meters{
+    width:auto !important;
+    min-width:0;
+    gap:0 !important;
+  }
+  .level-meter{
+    width:100% !important;
+    min-width:0;
+    grid-template-columns:32px minmax(0,1fr) !important;
+    padding:4px 5px 3px !important;
+    border-radius:9px;
+    column-gap:5px;
+  }
+  .level-number{
+    width:30px !important;
+    min-width:30px !important;
+    height:25px;
+    font-size:9px !important;
+  }
+  .level-range{
+    min-width:0;
+  }
+  .level-ticks{
+    font-size:7px;
+  }
+  .example-toggle{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    white-space:nowrap;
+    font-size:10px !important;
+  }
+  .example-toggle input{
+    width:18px;
+    height:18px;
+    margin:0;
+  }
+  .record-shell{
+    padding:10px 9px 28px;
+  }
+  .record-header h2{
+    font-size:19px;
+  }
+  .record-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .record-points{
+    margin-top:12px;
+    padding:10px 11px;
+  }
+  .record-points-value{
+    font-size:24px;
+  }
+  .record-cat{
+    width:44px;
+    height:44px;
+  }
+}
+
+
+/* ===== v40: alignment + compact record refinements ===== */
+/* 縦書きの活用形名は、行ボックスを列幅いっぱいにして常に中央へ置く。 */
+.katsuyo th.label{
+  text-align:center !important;
+  line-height:36px !important;
+}
+
+/* 採点前の白枠・固定表示も採点後と同じ中心軸に固定する。 */
+.katsuyo.one-track td.single > .cell-answer-wrap,
+.katsuyo.one-track td.single > .display,
+.combo-slot > .cell-answer-wrap,
+.combo-slot > .display{
+  margin-inline:auto;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.katsuyo.one-track td.single .blank-frame,
+.combo-slot .blank-frame{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* 記録画面のポイントは反転表示にせず、通常の墨色で表示する。 */
+.record-points-value{
+  color:var(--ink) !important;
+  -webkit-text-fill-color:var(--ink);
+  font-weight:700;
+}
+
+/* 品詞の白枠とレベルの白枠を同じ高さにする。 */
+.pos-control select,
+.level-meter{
+  min-height:40px;
+}
+
+@media(max-width:700px){
+  .katsuyo th.label{
+    line-height:31px !important;
+  }
+  .pos-control select,
+  .level-meter{
+    height:34px !important;
+    min-height:34px !important;
+  }
+  .pos-control select{
+    padding-top:0 !important;
+    padding-bottom:0 !important;
+  }
+  .level-meter{
+    padding-top:3px !important;
+    padding-bottom:2px !important;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div>
-      <h1>古典 活用ドリル</h1>
+      <h1>古典文法活用ノート</h1>
       <div class="app-subtitle">活用表を、静かに、何度でも。</div>
     </div>
-    <div class="score" id="score">この端末での正答 0 / 0</div>
+    <div class="header-record">
+      <div class="score" id="score">正解 0 / 0</div>
+      <button class="ghost record-open" id="openRecord" type="button">記録</button>
+    </div>
   </header>
 
   <div class="toolbar">
-    <label>品詞
+    <label class="pos-control">品詞
       <select id="pos">
         <option value="all">すべて</option>
         <option value="verb">動詞</option>
@@ -1240,16 +1636,16 @@ td.wrong{background:var(--bad)!important}
         <div class="level-ticks" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
       </div>
     </div>
-    <label><input type="checkbox" id="showExample" checked> 用例</label>
+    <label class="example-toggle"><input type="checkbox" id="showExample" checked> 用例</label>
     <span class="spacer"></span>
   </div>
 
   <main class="card">
     <div class="meta">
       <span class="tag" id="posTag"></span>
-      <span class="tag">試作データ</span>
     </div>
     <div class="word" id="lemma"></div>
+    <div class="lemma-aid" id="lemmaAid" hidden></div>
     <div class="kind" id="kind"></div>
 
     <div class="study-layout">
@@ -1288,6 +1684,54 @@ td.wrong{background:var(--bad)!important}
     </div>
   </main>
 </div>
+
+<section class="record-screen" id="recordScreen" hidden aria-label="記録">
+  <div class="record-shell">
+    <header class="record-header">
+      <h2>記録</h2>
+      <button class="ghost" id="closeRecord" type="button">戻る</button>
+    </header>
+
+    <div class="record-points">
+      <div class="record-points-copy">
+        <span class="record-points-label">これまでに ためたポイント</span>
+        <strong class="record-points-value" id="recordPoints">0</strong>
+      </div>
+      <img class="record-cat" alt="" aria-hidden="true" src="data:image/webp;base64,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">
+    </div>
+
+    <dl class="record-grid">
+      <div class="record-stat">
+        <dt>取り組んだ問題数</dt>
+        <dd id="recordQuestions">0問</dd>
+      </div>
+      <div class="record-stat">
+        <dt>正解数</dt>
+        <dd id="recordCorrectCells">0欄</dd>
+      </div>
+      <div class="record-stat">
+        <dt>正答率</dt>
+        <dd id="recordAccuracy">0%</dd>
+      </div>
+      <div class="record-stat">
+        <dt>全問正解</dt>
+        <dd id="recordPerfect">0問</dd>
+      </div>
+    </dl>
+
+    <section class="record-section">
+      <h3>取り組んだ問題の内訳</h3>
+      <ul class="record-breakdown" id="recordBreakdown"></ul>
+    </section>
+
+    <section class="record-section">
+      <h3>要確認</h3>
+      <p class="record-empty" id="recordReviewEmpty">まだ要確認の活用はありません。</p>
+      <ul class="record-review" id="recordReview" hidden></ul>
+    </section>
+
+  </div>
+</section>
 
 <script src="./adjv-runtime-adapter.js"></script>
 <script>
@@ -1618,15 +2062,15 @@ const items=[
 {id:"ru_aux",pos:"aux",label:"助動詞",lemma:"る",kind:"下二段型",
  forms:[F(["れ"]),F(["れ"]),F(["る"]),F(["るる"]),F(["るれ"]),F(["れよ"])],
  meaning:"受身・尊敬・自発・可能",connection:"四段・ナ変・ラ変の未然形",connectionShort:"未然形",
- poem:84,target:"しのばれむ",example:"ながらへばまたこのごろやしのばれむ憂しと見し世ぞ今は恋しき"},
+ poem:84,target:"れ",example:"ながらへばまたこのごろやしのばれむ憂しと見し世ぞ今は恋しき"},
 {id:"raru_aux",pos:"aux",label:"助動詞",lemma:"らる",kind:"下二段型",
  forms:[F(["られ"]),F(["られ"]),F(["らる"]),F(["らるる"]),F(["らるれ"]),F(["られよ"])],
  meaning:"受身・尊敬・自発・可能",connection:"未然形",connectionShort:"未然形",
- poem:null,source:"方丈記",target:"あてられぬ",example:"変りゆくかたちありさま、目もあてられぬこと多かり"},
+ poem:null,source:"方丈記",target:"られ",example:"変りゆくかたちありさま、目もあてられぬこと多かり"},
 {id:"su_aux",pos:"aux",label:"助動詞",lemma:"す",kind:"下二段型",
  forms:[F(["せ"]),F(["せ"]),F(["す"]),F(["する"]),F(["すれ"]),F(["せよ"])],
  meaning:"使役・尊敬",connection:"四段・ナ変・ラ変の未然形",connectionShort:"未然形",
- poem:null,source:"堤中納言物語・貝合",target:"歌はせ",example:"例の声出ださせて、随身に歌はせ給ふ"},
+ poem:null,source:"堤中納言物語・貝合",target:"せ",occurrence:1,example:"例の声出ださせて、随身に歌はせ給ふ"},
 {id:"sasu_aux",pos:"aux",label:"助動詞",lemma:"さす",kind:"下二段型",
  forms:[F(["させ"]),F(["させ"]),F(["さす"]),F(["さする"]),F(["さすれ"]),F(["させよ"])],
  meaning:"使役・尊敬",connection:"未然形",connectionShort:"未然形",
@@ -1640,12 +2084,12 @@ const items=[
  forms:[F(["ず"]),F(["ず"]),F(["ず"]),F(["ぬ"]),F(["ね"]),F([])],
  forms2:[F(["ざら"]),F(["ざり"]),F([]),F(["ざる"]),F(["ざれ"]),F(["ざれ"])],
  meaning:"打消",connection:"未然形",connectionShort:"未然形",
- poem:92,target:"みえぬ",example:"わが袖は潮干にみえぬ沖の石の人こそしらねかわくまもなし"},
+ poem:92,target:"ぬ",example:"わが袖は潮干にみえぬ沖の石の人こそしらねかわくまもなし"},
 
 {id:"mu_aux",pos:"aux",label:"助動詞",lemma:"む",kind:"四段型",
  forms:[F([]),F([]),F(["む"]),F(["む"]),F(["め"]),F([])],
  meaning:"推量・意志・勧誘・適当・仮定・婉曲",connection:"未然形",connectionShort:"未然形",
- poem:3,target:"寝む",example:"あしびきの山鳥の尾のしだり尾のながながし夜をひとりかも寝む"},
+ poem:3,target:"む",example:"あしびきの山鳥の尾のしだり尾のながながし夜をひとりかも寝む"},
 {id:"muzu_aux",pos:"aux",label:"助動詞",lemma:"むず",kind:"サ変型",
  forms:[F([]),F([]),F(["むず"]),F(["むずる"]),F(["むずれ"]),F([])],
  meaning:"推量・意志",connection:"未然形",connectionShort:"未然形",
@@ -1653,11 +2097,11 @@ const items=[
 {id:"ji_aux",pos:"aux",label:"助動詞",lemma:"じ",kind:"無変化型",
  forms:[F([]),F([]),F(["じ"]),F(["じ"]),F(["じ"]),F([])],
  meaning:"打消推量・打消意志",connection:"未然形",connectionShort:"未然形",
- poem:null,source:"徒然草・一一〇",target:"負けじ",example:"勝たんと打つべからず。負けじと打つべきなり"},
+ poem:null,source:"徒然草・一一〇",target:"じ",example:"勝たんと打つべからず。負けじと打つべきなり"},
 {id:"mashi_aux",pos:"aux",label:"助動詞",lemma:"まし",kind:"特殊型",
  forms:[F(["ましか","ませ"]),F([]),F(["まし"]),F(["まし"]),F(["ましか"]),F([])],
  meaning:"反実仮想・ためらいの意志",connection:"未然形",connectionShort:"未然形",
- poem:44,target:"ざらまし",example:"逢ふことの絶えてしなくはなかなかに人をも身をも恨みざらまし"},
+ poem:44,target:"まし",example:"逢ふことの絶えてしなくはなかなかに人をも身をも恨みざらまし"},
 {id:"mahoshi_aux",pos:"aux",label:"助動詞",lemma:"まほし",kind:"形容詞（シク活用）型",twoTrack:true,
  forms:[F(["まほしく"]),F(["まほしく"]),F(["まほし"]),F(["まほしき"]),F(["まほしけれ"]),F([])],
  forms2:[F(["まほしから"]),F(["まほしかり"]),F([]),F(["まほしかる"]),F([]),F(["まほしかれ"])],
@@ -1667,7 +2111,7 @@ const items=[
 {id:"ki_aux",pos:"aux",label:"助動詞",lemma:"き",kind:"特殊型",
  forms:[F(["せ"]),F([]),F(["き"]),F(["し"]),F(["しか"]),F([])],
  meaning:"過去",connection:"連用形",connectionShort:"連用形",
- poem:7,target:"いでし",example:"天の原ふりさけ見れば春日なる三笠の山にいでし月かも"},
+ poem:7,target:"し",example:"天の原ふりさけ見れば春日なる三笠の山にいでし月かも"},
 {id:"keri",pos:"aux",label:"助動詞",lemma:"けり",kind:"ラ変型",
  forms:[F(["けら"]),F([]),F(["けり"]),F(["ける"]),F(["けれ"]),F([])],
  meaning:"過去・詠嘆",connection:"連用形",connectionShort:"連用形",
@@ -1675,7 +2119,7 @@ const items=[
 {id:"tsu_aux",pos:"aux",label:"助動詞",lemma:"つ",kind:"下二段型",
  forms:[F(["て"]),F(["て"]),F(["つ"]),F(["つる"]),F(["つれ"]),F(["てよ"])],
  meaning:"完了・強意",connection:"連用形",connectionShort:"連用形",
- poem:null,source:"竹取物語",target:"つけつ",example:"なよ竹のかぐや姫とつけつ"},
+ poem:null,source:"竹取物語",target:"つ",occurrence:1,example:"なよ竹のかぐや姫とつけつ"},
 {id:"nu_aux",pos:"aux",label:"助動詞",lemma:"ぬ",kind:"ナ変型",
  forms:[F(["な"]),F(["に"]),F(["ぬ"]),F(["ぬる"]),F(["ぬれ"]),F(["ね"])],
  meaning:"完了・強意",connection:"連用形",connectionShort:"連用形",
@@ -1683,20 +2127,20 @@ const items=[
 {id:"tari_comp_aux",pos:"aux",label:"助動詞",lemma:"たり",kind:"ラ変型",
  forms:[F(["たら"]),F(["たり"]),F(["たり"]),F(["たる"]),F(["たれ"]),F(["たれ"])],
  meaning:"完了・存続",connection:"連用形",connectionShort:"連用形",
- poem:32,target:"かけたる",example:"山川に風のかけたるしがらみは流れもあへぬ紅葉なりけり"},
+ poem:32,target:"たる",example:"山川に風のかけたるしがらみは流れもあへぬ紅葉なりけり"},
 {id:"ri_aux",pos:"aux",label:"助動詞",lemma:"り",kind:"ラ変型",
  forms:[F(["ら"]),F(["り"]),F(["り"]),F(["る"]),F(["れ"]),F(["れ"])],
  meaning:"完了・存続",connection:"四段已然形・サ変未然形",connectionShort:"四已・サ未",
- poem:null,source:"土佐日記",target:"らず",example:"舟子、かぢとりは、舟唄うたひて何とも思へらず"},
+ poem:null,source:"土佐日記",target:"ら",example:"舟子、かぢとりは、舟唄うたひて何とも思へらず"},
 
 {id:"kemu_aux",pos:"aux",label:"助動詞",lemma:"けむ",kind:"四段型",
  forms:[F([]),F([]),F(["けむ"]),F(["けむ"]),F(["けめ"]),F([])],
  meaning:"過去推量・過去の原因推量・伝聞・婉曲",connection:"連用形",connectionShort:"連用形",
- poem:null,source:"更級日記",target:"ありけめ",example:"この国に跡を垂るべき宿世こそありけめ"},
+ poem:null,source:"更級日記",target:"けめ",example:"この国に跡を垂るべき宿世こそありけめ"},
 {id:"ramu_aux",pos:"aux",label:"助動詞",lemma:"らむ",kind:"四段型",
  forms:[F([]),F([]),F(["らむ"]),F(["らむ"]),F(["らめ"]),F([])],
  meaning:"現在推量・現在の原因推量・伝聞・婉曲",connection:"終止形",connectionShort:"終止形",
- poem:22,target:"いふらむ",example:"吹くからに秋の草木のしをるればむべ山風を嵐といふらむ"},
+ poem:22,target:"らむ",example:"吹くからに秋の草木のしをるればむべ山風を嵐といふらむ"},
 
 {id:"beshi_aux",pos:"aux",label:"助動詞",lemma:"べし",kind:"形容詞（ク活用）型",twoTrack:true,
  forms:[F(["べく"]),F(["べく"]),F(["べし"]),F(["べき"]),F(["べけれ"]),F([])],
@@ -1711,21 +2155,21 @@ const items=[
 {id:"rashi_aux",pos:"aux",label:"助動詞",lemma:"らし",kind:"無変化型",
  forms:[F([]),F([]),F(["らし"]),F(["らし"]),F(["らし"]),F([])],
  meaning:"推定",connection:"終止形",connectionShort:"終止形",
- poem:2,target:"けらし",example:"春すぎて夏来にけらし白妙の衣ほすてふ天の香具山"},
+ poem:2,target:"らし",example:"春すぎて夏来にけらし白妙の衣ほすてふ天の香具山"},
 {id:"meri_aux",pos:"aux",label:"助動詞",lemma:"めり",kind:"ラ変型",
  forms:[F([]),F(["めり"]),F(["めり"]),F(["める"]),F(["めれ"]),F([])],
  meaning:"推定・婉曲",connection:"終止形",connectionShort:"終止形",
- poem:75,target:"いぬめり",example:"契りおきしさせもが露を命にてあはれ今年の秋もいぬめり"},
+ poem:75,target:"めり",example:"契りおきしさせもが露を命にてあはれ今年の秋もいぬめり"},
 {id:"nari_hearsay_aux",pos:"aux",label:"助動詞",lemma:"なり",kind:"ラ変型（伝聞・推定）",
  forms:[F([]),F(["なり"]),F(["なり"]),F(["なる"]),F(["なれ"]),F([])],
  meaning:"伝聞・推定",connection:"終止形",connectionShort:"終止形",
- poem:8,target:"いふなり",example:"わが庵は都のたつみしかぞすむ世をうぢ山と人はいふなり"},
+ poem:8,target:"なり",example:"わが庵は都のたつみしかぞすむ世をうぢ山と人はいふなり"},
 
 {id:"nari_assert_aux",pos:"aux",label:"助動詞",lemma:"なり",kind:"形容動詞（ナリ活用）型",adjv:true,twoTrack:true,
  forms:[F(["なら"]),F(["なり"]),F(["なり"]),F(["なる"]),F(["なれ"]),F(["なれ"])],
  forms2:[null,F(["に"]),null,null,null,null],
  meaning:"断定・存在",connection:"体言・連体形",connectionShort:"体言・連体形",
- poem:96,target:"身なり",example:"花さそふ嵐の庭の雪ならでふりゆくものはわが身なりけり"},
+ poem:96,target:"なり",example:"花さそふ嵐の庭の雪ならでふりゆくものはわが身なりけり"},
 {id:"tari_assert_aux",pos:"aux",label:"助動詞",lemma:"たり",kind:"形容動詞（タリ活用）型",adjv:true,twoTrack:true,
  forms:[F(["たら"]),F(["たり"]),F(["たり"]),F(["たる"]),F(["たれ"]),F(["たれ"])],
  forms2:[null,F(["と"]),null,null,null,null],
@@ -1839,8 +2283,86 @@ function kansuji(n){
 }
 
 const names=["未然形","連用形","終止形","連体形","已然形","命令形"];
+const formKeys=["mizen","renyo","shushi","rentai","izen","meirei"];
 let allLevel=4, verbLevel=4, adjLevel=4, adjvLevel=4, auxLevel=4, current=null, blankSlots=new Set(), answered=false, answers={}, selected=null;
-let stats=JSON.parse(localStorage.getItem("katsuyoProtoV37")||'{"correct":0,"total":0,"slots":{}}');
+function slotTotals(slots){
+  return Object.values(slots||{}).reduce((sum,value)=>{
+    const c=Number(value?.c)||0;
+    const w=Number(value?.w)||0;
+    sum.correct+=c;
+    sum.total+=c+w;
+    return sum;
+  },{correct:0,total:0});
+}
+function slotFormTotals(slots){
+  const result=Object.fromEntries(formKeys.map(form=>[form,{correct:0,total:0}]));
+  Object.entries(slots||{}).forEach(([slotKey,value])=>{
+    const parts=slotKey.split(":");
+    const index=Number(parts[parts.length-1]);
+    const form=formKeys[index];
+    if(!form) return;
+    const c=Number(value?.c)||0;
+    const w=Number(value?.w)||0;
+    result[form].correct+=c;
+    result[form].total+=c+w;
+  });
+  return result;
+}
+function normalizeStats(raw){
+  const safe=raw&&typeof raw==="object" ? raw : {};
+  const slots=safe.slots&&typeof safe.slots==="object" ? safe.slots : {};
+  const totals=slotTotals(slots);
+  const byPos=safe.byPos&&typeof safe.byPos==="object" ? safe.byPos : {};
+  const storedByForm=safe.byForm&&typeof safe.byForm==="object" ? safe.byForm : {};
+  const legacyByForm=slotFormTotals(slots);
+  const byForm=Object.fromEntries(formKeys.map(form=>{
+    const stored=storedByForm[form]&&typeof storedByForm[form]==="object" ? storedByForm[form] : null;
+    const fallback=legacyByForm[form];
+    return [form,{
+      correct:stored && Number.isFinite(Number(stored.correct)) ? Number(stored.correct) : fallback.correct,
+      total:stored && Number.isFinite(Number(stored.total)) ? Number(stored.total) : fallback.total
+    }];
+  }));
+  return {
+    correct:Number(safe.correct)||0,
+    total:Number(safe.total)||0,
+    slots,
+    correctCells:Number.isFinite(Number(safe.correctCells)) ? Number(safe.correctCells) : totals.correct,
+    gradedCells:Number.isFinite(Number(safe.gradedCells)) ? Number(safe.gradedCells) : totals.total,
+    points:Number(safe.points)||0,
+    byForm,
+    byPos:{
+      verb:Number(byPos.verb)||0,
+      adj:Number(byPos.adj)||0,
+      adjv:Number(byPos.adjv)||0,
+      aux:Number(byPos.aux)||0
+    }
+  };
+}
+function loadStats(){
+  try{
+    return normalizeStats(JSON.parse(localStorage.getItem("katsuyoProtoV37")||"{}"));
+  }catch(_error){
+    return normalizeStats({});
+  }
+}
+let stats=loadStats();
+
+const FREE_INPUT_POINTS=14;
+const ATTEMPT_POINTS=3;
+const LEVEL_POINT_FACTOR={1:.7,2:.85,3:1,4:1.4,5:1.7,6:2,7:2.2};
+
+function pointsForCell(ok,level,slotBefore){
+  const c=Number(slotBefore?.c)||0;
+  const w=Number(slotBefore?.w)||0;
+  const attempts=c+w;
+  const scoreBefore=attempts ? 100*c/attempts : 0;
+  const weakness=1+((100-Math.max(0,Math.min(100,scoreBefore)))/100);
+  const base=ok
+    ? FREE_INPUT_POINTS*(LEVEL_POINT_FACTOR[level]||1)
+    : ATTEMPT_POINTS;
+  return Math.round(base*weakness);
+}
 
 const display=a=>(a&&a.length)?a.join("・"):"〇";
 const key=(row,i)=>`${row}:${i}`;
@@ -2285,7 +2807,7 @@ function renderTable(){
       body.appendChild(tr);
     });
 
-    document.getElementById("rowNote").textContent="連用形のみ、同じ1マス内に二形";
+    document.getElementById("rowNote").textContent="連用形は2種類";
     return;
   }
 
@@ -2358,9 +2880,14 @@ function renderTable(){
   document.getElementById("rowNote").textContent="";
 }
 
-function highlight(text,target){
+function highlight(text,target,occurrence){
   if(!target)return text;
-  const i=text.indexOf(target); if(i<0)return text;
+  const occurrenceIndex=Number.isInteger(occurrence) ? occurrence : 0;
+  const positions=[];
+  let from=0;
+  while(true){ const p=text.indexOf(target,from); if(p<0)break; positions.push(p); from=p+target.length; }
+  const i=positions[occurrenceIndex] ?? -1;
+  if(i<0)return text;
   return text.slice(0,i)+"<mark>"+text.slice(i,i+target.length)+"</mark>"+text.slice(i+target.length);
 }
 
@@ -2412,11 +2939,19 @@ function revealKindWithAnswers(){
 
 function render(){
   document.getElementById("lemma").textContent=current.lemma;
+  const lemmaAid=document.getElementById("lemmaAid");
+  const aid=current.kanjiAid||"";
+  const aidSuffix=current.adjv
+    ? (String(current.kind||"").includes("タリ") ? "たり" : "なり")
+    : "";
+  const aidFull=aid && aidSuffix && !String(aid).endsWith(aidSuffix) ? String(aid)+aidSuffix : aid;
+  lemmaAid.textContent=aid ? `漢字：${aidFull}` : "";
+  lemmaAid.hidden=!aid;
   renderKindInitial();
   document.getElementById("posTag").textContent=current.label;
   const compactExample=(current.example||"").replace(/[　 ]+/g,"");
   const compactTarget=(current.target||"").replace(/[　 ]+/g,"");
-  document.getElementById("exampleText").innerHTML=highlight(compactExample,compactTarget);
+  document.getElementById("exampleText").innerHTML=highlight(compactExample,compactTarget,current.occurrence);
   const exampleToggle=document.getElementById("showExample");
   const hasExample=current.exampleAvailable!==false && compactExample.length>0;
   exampleToggle.disabled=!hasExample;
@@ -2499,9 +3034,22 @@ function grade(revealOnly=false){
     td.appendChild(wrap);
 
     const sk=`${current.id}:${row}:${i}`;
-    stats.slots[sk]=stats.slots[sk]||{c:0,w:0};
+    const slotBefore=stats.slots[sk]||{c:0,w:0};
+    stats.slots[sk]=slotBefore;
     if(!revealOnly){
-      ok ? stats.slots[sk].c++ : stats.slots[sk].w++;
+      stats.points+=pointsForCell(ok,levelForPos(current.pos),slotBefore);
+      stats.gradedCells++;
+      if(ok) stats.correctCells++;
+
+      const form=formKeys[i];
+      if(form){
+        const formStat=stats.byForm[form]||{correct:0,total:0};
+        formStat.total++;
+        if(ok) formStat.correct++;
+        stats.byForm[form]=formStat;
+      }
+
+      ok ? slotBefore.c++ : slotBefore.w++;
     }
   });
 
@@ -2511,6 +3059,7 @@ function grade(revealOnly=false){
 
   if(!revealOnly){
     stats.total++;
+    stats.byPos[current.pos]=(stats.byPos[current.pos]||0)+1;
     if(perfectAll) stats.correct++;
     localStorage.setItem("katsuyoProtoV37", JSON.stringify(stats));
   }
@@ -2519,10 +3068,8 @@ function grade(revealOnly=false){
   const perfect=document.getElementById("perfectResult");
   perfect.classList.toggle("show", perfectAll);
 
-  document.getElementById("feedback").innerHTML=
-    revealOnly ? "答えを表示しました。"
-      : perfectAll ? "<strong>全問正解。</strong>"
-      : "";
+  document.getElementById("feedback").textContent=
+    revealOnly ? "答えを表示しました。" : "";
 
   document.getElementById("check").style.display="none";
   document.getElementById("reveal").style.display="none";
@@ -2531,13 +3078,110 @@ function grade(revealOnly=false){
 }
 
 function updateScore(){
-  document.getElementById("score").textContent=`この端末での正答 ${stats.correct} / ${stats.total}`;
+  document.getElementById("score").textContent=`正解 ${stats.correctCells} / ${stats.gradedCells}`;
+}
+
+function broadKind(kind){
+  const value=String(kind||"").trim();
+  const regular=value.match(/^(.+?)行(四段|上二段|下二段|上一段|下一段)活用$/);
+  if(regular) return regular[2]+"活用";
+  const irregular=value.match(/^(.+?)行変格活用$/);
+  if(irregular){
+    const short={"カ":"カ変活用","サ":"サ変活用","ナ":"ナ変活用","ラ":"ラ変活用"};
+    return short[irregular[1]]||value;
+  }
+  return value||"その他";
+}
+
+function reviewKinds(){
+  const itemMap=new Map(items.map(item=>[item.id,item]));
+  const groups=new Map();
+
+  Object.entries(stats.slots||{}).forEach(([slotKey,result])=>{
+    const itemId=slotKey.split(":")[0];
+    const item=itemMap.get(itemId);
+    if(!item) return;
+    const label=broadKind(item.kind);
+    const prev=groups.get(label)||{label,correct:0,wrong:0};
+    prev.correct+=Number(result?.c)||0;
+    prev.wrong+=Number(result?.w)||0;
+    groups.set(label,prev);
+  });
+
+  return [...groups.values()]
+    .map(entry=>{
+      const total=entry.correct+entry.wrong;
+      return {...entry,total,rate:total ? entry.wrong/total : 0};
+    })
+    .filter(entry=>entry.total>=3 && entry.wrong>0)
+    .sort((a,b)=>b.rate-a.rate || b.wrong-a.wrong || b.total-a.total)
+    .slice(0,5);
+}
+
+function formatPoints(value){
+  return String(Math.max(0,Math.round(Number(value)||0))).replace(/\B(?=(\d{3})+(?!\d))/g,",");
+}
+
+function renderRecord(){
+  document.getElementById("recordPoints").textContent=formatPoints(stats.points);
+  document.getElementById("recordQuestions").textContent=stats.total+"問";
+  document.getElementById("recordCorrectCells").textContent=stats.correctCells+"欄";
+  document.getElementById("recordAccuracy").textContent=
+    stats.gradedCells ? Math.round((stats.correctCells/stats.gradedCells)*100)+"%" : "0%";
+  document.getElementById("recordPerfect").textContent=stats.correct+"問";
+
+  const labels={verb:"動詞",adj:"形容詞",adjv:"形容動詞",aux:"助動詞"};
+  const breakdown=document.getElementById("recordBreakdown");
+  breakdown.innerHTML="";
+  for(const key of ["verb","adj","adjv","aux"]){
+    const li=document.createElement("li");
+    li.innerHTML=`<span>${labels[key]}</span><strong>${stats.byPos[key]||0}問</strong>`;
+    breakdown.appendChild(li);
+  }
+
+  const review=reviewKinds();
+  const reviewList=document.getElementById("recordReview");
+  const reviewEmpty=document.getElementById("recordReviewEmpty");
+  reviewList.innerHTML="";
+  reviewList.hidden=review.length===0;
+  reviewEmpty.hidden=review.length!==0;
+
+  review.forEach(entry=>{
+    const li=document.createElement("li");
+    const percent=Math.round(entry.rate*100);
+    li.innerHTML=`<span><strong>${entry.label}</strong><br><small>誤答 ${entry.wrong}欄 / ${entry.total}欄</small></span><strong>${percent}%</strong>`;
+    reviewList.appendChild(li);
+  });
+
+}
+
+function openRecord(){
+  renderRecord();
+  document.getElementById("recordScreen").hidden=false;
+}
+function closeRecord(){
+  document.getElementById("recordScreen").hidden=true;
+}
+function pickWeightedQuestion(list){
+  const weighted=list.map(item=>({
+    item,
+    weight:Number.isFinite(Number(item.questionWeight)) && Number(item.questionWeight)>0
+      ? Number(item.questionWeight)
+      : 1
+  }));
+  const total=weighted.reduce((sum,x)=>sum+x.weight,0);
+  let cursor=Math.random()*total;
+  for(const entry of weighted){
+    cursor-=entry.weight;
+    if(cursor<=0) return entry.item;
+  }
+  return weighted[weighted.length-1].item;
 }
 function nextQuestion(){
   closeEditor(false);
   const p=pool(); if(!p.length)return;
   let q=p.filter(x=>!current||x.id!==current.id); if(!q.length)q=p;
-  current=q[Math.floor(Math.random()*q.length)];
+  current=pickWeightedQuestion(q);
   chooseBlankSlots();
   answered=false; answers={}; selected=null;
   render();
@@ -2551,6 +3195,8 @@ document.getElementById("pos").onchange=()=>{
   nextQuestion();
 };
 document.getElementById("showExample").onchange=()=>current&&render();
+document.getElementById("openRecord").onclick=openRecord;
+document.getElementById("closeRecord").onclick=closeRecord;
 
 function updateLevelUI(){
   const p=document.getElementById("pos").value;

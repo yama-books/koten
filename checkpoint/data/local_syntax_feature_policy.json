@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "updated": "2026-09-20",
   "title": "Checkpoint local syntax feature policy",
   "mode": "signal-only",
@@ -85,11 +85,35 @@
     "signalから候補を削除しない。",
     "hard rule化はdevelopment gold回帰後、未使用作品blindで再検証する。",
     "nextMorphology / rightTokenRoleSignal は観測専用で、単独でも組合せでもcandidate削除・resolved昇格を行わない。",
-    "句読点をskipして取得したnextMorphologyは、句読点を越えた統語的連結を意味しない。rightTokenRoleSignalは即時句読点をboundaryとして優先する。"
+    "句読点をskipして取得したnextMorphologyは、句読点を越えた統語的連結を意味しない。rightTokenRoleSignalは即時句読点をboundaryとして優先する。",
+    "passage-independent morphology providerの新規tier（audited-corpus-exact-signal / corpus-derived-suffix-signal）はlocalSyntaxFeatures観測専用。",
+    "corpus-derived-suffix-signalは監査500例の3件以上・POS/form/class全一致suffixだけを返すが、語境界や候補一意化の根拠にはしない。",
+    "平家物語『敦盛の最期』gold由来のexact morphologyはproviderへ追加しない。"
   ],
   "researchNotes": [
     "3 development goldの未解決39位置でnextMorphology 15/39を取得。",
     "未解決「て」11件では、読点なし3件が3件とも immediate next morphology = 独立活用語。研究候補だがdevelopment相関なのでhard rule化しない。",
     "「に」は右側独立活用語が見えても、方丈記「水にあらず」（断定なり連用形）と伊勢「暗きに来けり」（格助詞）の反例対があるため一意化しない。"
-  ]
+  ],
+  "morphologyProvider": {
+    "policy": "morphology_provider_policy.json",
+    "mode": "signal-only",
+    "previousPriority": [
+      "existing audited resolver-eligible exact morphology",
+      "existing source-reviewed exact morphology",
+      "audited 500-example full exact surface, signal-only",
+      "audited-corpus unanimous suffix signature, signal-only"
+    ],
+    "nextPriority": [
+      "existing audited/source-reviewed exact morphology",
+      "audited 500-example full exact surface, signal-only"
+    ],
+    "newFields": [
+      "evidenceTier",
+      "source",
+      "matchMode",
+      "resolverEligible",
+      "supportCount"
+    ]
+  }
 }

@@ -1,10 +1,10 @@
 {
-  "schemaVersion": "0.3",
+  "schemaVersion": "0.4",
   "updated": "2026-09-20",
   "title": "Checkpoint shadow promotion readiness audit",
   "shadowVersion": "0.15-stage2-generalization",
-  "recommendation": "stay-stage-2-build-passage-independent-morphology-before-next-hard-rule",
-  "summary": "4作品blindをgold先固定で完了。blind 136位置でwrongResolved 0、boundaryは57/61、grammar strict resolve 18/75=24.0%。第四平家blindはboundary 10/10・false-positive 0だが、right-context morphologyのunseen-work coverage不足が露呈。learner-visible promotionは行わない。",
+  "recommendation": "keep-stage-2; public-beta legacy track can proceed separately; next shadow step is fifth-blind-before-hard-rule",
+  "summary": "4作品blindの安全性を維持したままpassage-independent morphology providerをsignal-onlyで実装。第四平家ではgold由来exact morphologyを追加せずprevious morphology signalが3/24位置へ拡張したが、て5位置の一般分離には未到達。learner-visible shadow promotionは行わない。一方、legacy-visible public betaは別release trackとして静的preflightを通過し、runtime smokeとproduction統合確認が残る。",
   "observed": {
     "legacyUnique": 310,
     "dbRaw": 310,
@@ -71,11 +71,11 @@
     }
   ],
   "nextRecommendedWork": [
-    "goldから平家exact morphologyを追加せず、passage-independent morphology providerをsignal-onlyで設計する。",
-    "providerはevidence tier / source / exact-vs-derivedを返し、derived signal単独でcandidate削除・resolved昇格しない。",
-    "ては left form + right auxiliary-chain/independent-start の複合featureとして研究する。第四blindでは接続助詞て2件と完了つ連用形て1件が同段落に共存した。",
-    "新hard resolverを作る場合は第五の未使用作品をgold先固定してblind評価する。",
-    "G6 hold-aware learner UIは別レーン。learner-visible detectorはlegacy維持。"
+    "shadow昇格とは別に、legacy-visible public betaのruntime browser/mobile smokeを完了する。",
+    "main...checkpoint-mainがNo common ancestorとなっているため、production統合担当側で安全な統合方法を確認する。Checkpoint側からmainへ直接push・force-pushしない。",
+    "shadow側で新hard resolverを作る場合は第五の未使用作品をgold先固定してblind評価する。",
+    "ては passage-independent left morphology + right auxiliary-chain/independent-start の複合featureとして研究する。",
+    "G6 hold-aware learner UIはshadow selective promotionの別レーン。legacy-visible public betaではlearner detectorを変更しない。"
   ],
   "currentStage": "stage-2-evidence-backed-debug-overlay",
   "independentGold": {
@@ -253,5 +253,34 @@
     "file": "heike_atsumori_feature_gap_audit_20260920.json",
     "finding": "right-context morphologyのunseen-work coverage不足。exact Heike morphologyはgold汚染になるため追加しない。",
     "teCases": "接続助詞2 / 語内部2 / 完了つ連用形1"
+  },
+  "morphologyProvider": {
+    "status": "IMPLEMENTED_SIGNAL_ONLY",
+    "policy": "morphology_provider_policy.json",
+    "audit": "morphology_provider_audit_20260920.json",
+    "sourceTiers": [
+      "audited-exact-resolver-eligible",
+      "secondary-reviewed-exact-resolver-support",
+      "audited-corpus-exact-signal",
+      "corpus-derived-suffix-signal"
+    ],
+    "heikePostBlind": {
+      "totalPositions": 24,
+      "grammarTargets": 14,
+      "previousMorphologySignals": 3,
+      "grammarTargetsWithPreviousMorphologySignal": 3,
+      "teSignals": "1/5"
+    },
+    "safety": "new full-corpus exact and derived-suffix tiers are signal-only and not referenced by resolver decision paths"
+  },
+  "publicReleaseTrack": {
+    "file": "public_release_preflight_20260920.json",
+    "scope": "legacy-visible public beta",
+    "status": "CONDITIONAL_PASS",
+    "staticChecks": "13/13 local assets exist; 12/12 JS parse; 31/31 loader JSON exist and parse",
+    "remaining": [
+      "runtime browser/mobile smoke",
+      "production integration / branch ancestry confirmation"
+    ]
   }
 }

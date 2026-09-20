@@ -58,11 +58,11 @@ function insideBasicWord(text, hit, level){
 }
 
 let dismissedKeys = new Set();
+let dismissedTextSnapshot = "";
 let currentDrawerHit = null;
 let currentDrawerHits = [];
 let currentPointIndex = 0;
 let currentSurfaceText = "";
-let currentCompletedPointKeys = new Set();
 let drawerNeedsRender = false;
 
 function hitKey(h){ return `${h.start}:${h.end}:${h.pattern}:${h.type}`; }

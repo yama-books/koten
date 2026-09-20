@@ -37,7 +37,7 @@ function guidanceItemsForHit(h){
     return items;
   }
   if(h.type==="honorific"){
-    if(h.lemma && h.pattern!==h.lemma) return ["活用した形から見出し語を考える", "見出し語が決まったら次に敬語の働きを見る"];
+    if(h.lemma && h.pattern!==h.lemma) return ["活用した形から見出し語を考える", "敬語としての働き"];
     if(h.lemma==="給ふ") return ["単独で意味があるか", "前の動詞とセットか", "活用形"];
     return ["誰の動作か", "誰への敬意か", "本動詞か補助動詞か"];
   }
@@ -45,11 +45,8 @@ function guidanceItemsForHit(h){
   return parts.slice(0,3);
 }
 
-function actionNounForHit(h){
-  if(h.type==="orthography") return "法則";
-  if(h.type==="vocab") return "辞書";
-  if(h.type==="identify" || h.type==="grammar" || h.type==="honorific") return "見分け方";
-  return "確認";
+function actionNounForHit(_h){
+  return "ヒント";
 }
 
 function renderOverview(){
@@ -57,9 +54,8 @@ function renderOverview(){
   if(currentDrawerHits.length<=1){ box.style.display="none"; box.innerHTML=""; return; }
   box.style.display="";
   box.innerHTML='<div class="focus-overview-row">'+currentDrawerHits.map((h,i)=>{
-    const key=hitKey(h); const done=currentCompletedPointKeys.has(key);
-    const cls=["focus-overview-item",i===currentPointIndex?"current":"",done?"done":""].filter(Boolean).join(" ");
-    return `<button type="button" class="${cls}" data-point-index="${i}" ${done?"disabled":""}>${done?"✓ ":""}${i+1} ${escapeHtml(drawerPointLabel(h))}</button>`;
+    const cls=["focus-overview-item",i===currentPointIndex?"current":""].filter(Boolean).join(" ");
+    return `<button type="button" class="${cls}" data-point-index="${i}">${escapeHtml(drawerPointLabel(h))}</button>`;
   }).join('')+'</div>';
 }
 
@@ -76,9 +72,6 @@ function renderCurrentFocus(){
   document.getElementById("focusExtra").classList.remove("open");
   document.getElementById("focusExtra").innerHTML="";
   document.getElementById("focusExtra").dataset.kind="";
-  const next=document.getElementById("nextPoint");
-  if(currentPointIndex < currentDrawerHits.length-1){ next.style.display=""; next.textContent=`${currentPointIndex+2} ${drawerPointLabel(currentDrawerHits[currentPointIndex+1])} →`; }
-  else{ next.style.display="none"; next.textContent=""; }
   document.querySelector(".drawer").scrollTop=0;
 }
 
@@ -97,6 +90,6 @@ function kanaExceptionsForHit(h){
   return [...new Set(out)];
 }
 
-function honorificNextGuidance(h){
+function honorificGuidance(h){
   return ["誰の動作か","誰への敬意か","本動詞か補助動詞か","普通の言い方に直すと何をしているか"];
 }
