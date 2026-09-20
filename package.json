@@ -18,6 +18,7 @@
     "scan:publish": "node --experimental-strip-types tools/scan-publish/index.ts",
     "check:eol": "node --experimental-strip-types tools/eol-check/index.ts",
     "check:overflow": "node --experimental-strip-types tools/overflow-check/index.ts",
+    "check:vintage-kana": "node tools/vintage-kana-check/index.mjs",
     "check:font": "node --experimental-strip-types tools/font-check/index.ts",
     "check:font-weight": "node --experimental-strip-types tools/font-weight-check/index.ts",
     "check:font-assets": "node --experimental-strip-types tools/font-assets-check/index.ts",
