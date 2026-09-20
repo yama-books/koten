@@ -40,7 +40,7 @@ function openPrimaryGuidance(){
   tools.innerHTML=toolHtml;
   if(toolHtml) tools.classList.add("open");
   setFocusToolButtonStates("");
-  action.textContent="− "+actionNounForHit(h);
+  action.textContent="閉じる";
   action.dataset.open="true";
 }
 
@@ -67,7 +67,7 @@ function openFocusExtra(kind){
     const ex=kanaExceptionsForHit(h);
     extra.innerHTML='<div class="focus-extra-title">例外</div>'+'<ul class="compact-bullets">'+ex.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>';
   }else if(kind==="honorific"){
-    extra.innerHTML='<div class="focus-extra-title">敬語</div>'+'<ul class="compact-bullets">'+honorificNextGuidance(h).map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>';
+    extra.innerHTML='<div class="focus-extra-title">敬語</div>'+'<ul class="compact-bullets">'+honorificGuidance(h).map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>';
   }else if(kind==="answer"){
     extra.innerHTML=`<div class="focus-extra-title">現代仮名遣い</div>
        <button class="ghost" id="focusRevealAnswer" type="button">表示</button>
