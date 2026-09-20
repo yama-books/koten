@@ -29,16 +29,9 @@ function closeDrawer(){
 
 function markCurrentPointKnown(){
   const h=currentPoint(); if(!h) return;
-  const key=hitKey(h);
-  dismissedKeys.add(key);
-  currentCompletedPointKeys.add(key);
+  dismissedKeys.add(hitKey(h));
   drawerNeedsRender=true;
-  const nextIndex=currentDrawerHits.findIndex((x,i)=>i>currentPointIndex && !currentCompletedPointKeys.has(hitKey(x)));
-  const anyIndex=nextIndex>=0 ? nextIndex : currentDrawerHits.findIndex(x=>!currentCompletedPointKeys.has(hitKey(x)));
-  if(anyIndex<0){ closeDrawer(); return; }
-  currentPointIndex=anyIndex;
-  currentDrawerHit=currentPoint();
-  renderCurrentFocus();
+  closeDrawer();
 }
 
 document.getElementById("analyze").addEventListener("click",render);
