@@ -19,6 +19,7 @@
 :root{
   --bg:#f2efe8;--paper:#fffdf8;--paper2:#faf6ed;--ink:#292b28;--muted:#74766e;
   --line:#ddd7ca;--accent:#66755f;--accent2:#e7ede3;--danger:#9b5d54;--ok:#4f7558;
+  --mastery-gray:oklch(54% .012 75);--mastery-red:oklch(56% .16 28);--mastery-yellow:oklch(78% .15 86);--mastery-blue:oklch(56% .14 250);--mastery-green:oklch(56% .14 145);
   --shadow:0 16px 42px rgba(43,39,31,.08);
 }
 *{box-sizing:border-box}
@@ -100,7 +101,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .recordRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .recordRow{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:8px 10px}
 .recordRow__label{font-weight:700;font-size:12px}
-.ringMeter{--p:0;position:relative;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),#e5e1d8 0)}
+.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
 .ringMeter::after{content:"";width:35px;height:35px;border-radius:50%;background:#fff}
 .ringMeter span{position:absolute;z-index:1;font-size:10px;font-variant-numeric:tabular-nums}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
@@ -112,7 +113,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .masteryItem{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:7px}
 .masteryItem__char{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:31px;text-align:center}
 .masteryBar{height:7px;border-radius:999px;background:#e5e1d8;overflow:hidden}
-.masteryBar span{display:block;height:100%;background:var(--accent)}
+.masteryBar span{display:block;height:100%;background:var(--meter-color,var(--accent))}
 .masteryItem__label{display:flex;justify-content:space-between;gap:5px;font-size:9px;color:var(--muted);margin-bottom:4px}
 .emptyRecord{color:var(--muted);font-size:11px;line-height:1.6}
 textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
@@ -427,6 +428,14 @@ function completedSetCount(){
 function formatPoints(value){
  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g,",");
 }
+function masteryDisplayLocal(score){
+ const percent=Math.max(0,Math.min(100,Math.trunc(score)));
+ if(percent===0)return {percent,color:"gray",label:"未着手",css:"var(--mastery-gray)"};
+ if(percent<30)return {percent,color:"red",label:"はじめたところ",css:"var(--mastery-red)"};
+ if(percent<60)return {percent,color:"yellow",label:"練習中",css:"var(--mastery-yellow)"};
+ if(percent<85)return {percent,color:"blue",label:"もう少し",css:"var(--mastery-blue)"};
+ return {percent,color:"green",label:"定着",css:"var(--mastery-green)"};
+}
 function glyphLearningStats(){
  const map=new Map();
  learningEvents.forEach(e=>{
@@ -441,10 +450,10 @@ function glyphLearningStats(){
    if(!current.lastAt || String(e.at)>current.lastAt)current.lastAt=String(e.at||"");
    map.set(e.glyph,current);
  });
- return [...map.values()].map(s=>({
-   ...s,
-   mastery:Math.min(100,s.correct*GLYPH_CORRECT_MASTERY+s.incorrect*GLYPH_VIEW_MASTERY)
- }));
+ return [...map.values()].map(s=>{
+   const mastery=Math.min(100,s.correct*GLYPH_CORRECT_MASTERY+s.incorrect*GLYPH_VIEW_MASTERY);
+   return {...s,mastery,display:masteryDisplayLocal(mastery)};
+ });
 }
 function kanaMastery(kana){
  const events=learningEvents.filter(e=>e.kana===kana && e.glyph);
@@ -457,7 +466,8 @@ function rowMastery(label,kanas){
  const relevant=kanas.filter(k=>GLYPHS.some(g=>g.kana===k));
  if(!relevant.length)return {label,percent:0};
  const total=relevant.reduce((sum,k)=>sum+kanaMastery(k),0);
- return {label,percent:Math.round(total/relevant.length)};
+ const percent=Math.round(total/relevant.length);
+ return {label,percent,display:masteryDisplayLocal(percent)};
 }
 function recentGlyphStats(){
  const stats=new Map(glyphLearningStats().map(s=>[s.character,s]));
@@ -480,7 +490,7 @@ function weakGlyphStats(){
 function glyphCardHtml(s,kind){
  const detail=kind==="weak"
    ? `まちがい ${s.incorrect}回 / ${s.attempts}回`
-   : `${s.kana} ・ 習熟度 ${s.mastery}%`;
+   : `${s.kana} ・ ${s.display.label} ${s.mastery}%`;
  return '<div class="recordGlyph"><div class="recordGlyph__char">'+escapeHtml(s.character)+'</div>'+
    '<div class="recordGlyph__meta">'+escapeHtml(detail)+'</div>'+
    '<div class="recordGlyph__meta recordGlyph__mastery">'+escapeHtml(s.jibo?"字母 "+s.jibo:"")+'</div></div>';
@@ -498,8 +508,8 @@ function renderRecordScreen(){
    rows.innerHTML="";
    KANA_ROWS.map(([label,kanas])=>rowMastery(label,kanas)).forEach(row=>{
      const d=document.createElement("div");d.className="recordRow";
-     d.innerHTML='<span class="recordRow__label">'+escapeHtml(row.label)+'</span>'+
-       '<span class="ringMeter" style="--p:'+row.percent+'" role="meter" aria-label="'+escapeHtml(row.label)+' 習熟度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+row.percent+'"><span>'+row.percent+'%</span></span>';
+     d.innerHTML='<span class="recordRow__label">'+escapeHtml(row.label)+'<small style="display:block;color:var(--muted);font-weight:400;margin-top:2px">'+escapeHtml(row.display.label)+'</small></span>'+
+       '<span class="ringMeter" style="--p:'+row.percent+';--meter-color:'+row.display.css+'" role="meter" aria-label="'+escapeHtml(row.label)+' 習熟度 '+row.percent+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+row.percent+'"><span>'+row.percent+'%</span></span>';
      rows.appendChild(d);
    });
  }
@@ -522,8 +532,8 @@ function renderRecordScreen(){
    );
    all.innerHTML=items.length?items.map(s=>
      '<div class="masteryItem"><div class="masteryItem__char">'+escapeHtml(s.character)+'</div>'+
-     '<div><div class="masteryItem__label"><span>'+escapeHtml(s.kana)+'・字母 '+escapeHtml(s.jibo||"—")+'</span><strong>'+s.mastery+'%</strong></div>'+
-     '<div class="masteryBar" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+s.mastery+'"><span style="width:'+s.mastery+'%"></span></div></div></div>'
+     '<div><div class="masteryItem__label"><span>'+escapeHtml(s.kana)+'・字母 '+escapeHtml(s.jibo||"—")+'</span><strong>'+escapeHtml(s.display.label)+' '+s.mastery+'%</strong></div>'+
+     '<div class="masteryBar" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+s.mastery+'"><span style="width:'+s.mastery+'%;--meter-color:'+s.display.css+'"></span></div></div></div>'
    ).join(""):'<div class="emptyRecord">まだ記録がありません。</div>';
  }
 }
