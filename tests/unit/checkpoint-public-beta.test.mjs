@@ -177,13 +177,42 @@ test('仮名遣いの類例は文語の精査済み例を表示する',async()=>
   examples.click();
 
   const text=document.getElementById('focusExtra').textContent;
-  for(const expected of ['まうす → もうす','まうづ → もうず','らうたし → ろうたし','らうらうじ → ろうろうじ','さうざうし → そうぞうし']){
+  for(const expected of ['まうす → もうす','まうづ → もうず','まうく → もうく','らうたし → ろうたし','さうざうし → そうぞうし']){
     assert.equal(text.includes(expected),true,`類例を表示する: ${expected}`);
   }
   for(const excluded of ['あふ → あう','たまふ → たもう','かう → こう']){
     assert.equal(text.includes(excluded),false,`混乱しやすい例を出さない: ${excluded}`);
   }
   dom.window.close();
+});
+
+test('公開対象の仮名遣い規則は文語類例を5件ずつ持つ',()=>{
+  const source=readCheckpoint('core3.js');
+  const match=source.match(/const KANA_RULE_DEFS = (\[[\s\S]*?\n\]);/);
+  assert.ok(match,'KANA_RULE_DEFSを取得できる');
+  const defs=Function(`return ${match[1]}`)();
+
+  for(const rule of defs){
+    if(rule.id==='L4'){
+      assert.equal(rule.reviewStatus,'record-only');
+      assert.equal(rule.examples.length,0);
+      continue;
+    }
+    assert.ok(rule.examples.length>=5,`${rule.id} の類例が5件以上ある`);
+  }
+
+  const all=defs.flatMap(rule=>rule.examples||[]);
+  for(const excluded of [
+    'あふ → あう',
+    'たまふ → たもう',
+    'かう → こう',
+    'らうらうじ → ろうろうじ',
+    'くわんおん → かんのん',
+    'ことづて → ことづて',
+    'もんじやう → もんじょう'
+  ]){
+    assert.equal(all.includes(excluded),false,`監査で除外した例を復活させない: ${excluded}`);
+  }
 });
 
 test('公開UIの文言と選択肢を簡潔に保つ',()=>{
