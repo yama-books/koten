@@ -811,3 +811,27 @@ gold先固定→shadow無調整baseline保存まで完了。
 - L1の5例を実際にdrawerに出すunit test追加。
 - ただし全規則の出典監査は未完了。怪しい例は5件を埋めるために残さない。
 - L4はrecord-only / examples空のまま。
+
+
+## 2026-09-20 一時停止: 仮名遣い類例精査
+
+ユーザー方針:
+- 仮名遣い類例は文語・古典本文で出会う形に限定。
+- `あふ→あう` は混乱回避のため除外。
+- `たまふ→たもう` は扱いの揺れを避けるため除外。
+- `かう→こう` は現代語に直結するため除外。
+- 現代語例（ズボン等）は使用しない。
+- H1末尾候補に `ほふし→ほうし`。
+
+実装:
+- `core3.js` KANA_RULE_DEFS examples拡張
+  - commit `b897319473b9e441c1b715483bfa37ad5176fcdc`
+- `detect1.js` orthographyの類例を KANA_RULE_DEFS.examples から表示
+  - commit `cff153eefe0f1538909dc4e7cc18f0ac14bb8072`
+- L1類例の表示回帰テスト追加
+  - commit `2d18ae8cb6bf9fee1b4a8cd1b6f908b6e8726e71`
+
+注意:
+- H1-a/H1-b/H1-c/W1/W2/W2-a/D1/D1-a/K1/N1/S1を含む全例の出典監査は未完了。
+- 最新テストの最終PASS確認も未完了。
+- production main / 公開URLへは未反映。
