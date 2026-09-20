@@ -67,8 +67,8 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
 .btn{border:1px solid var(--line);border-radius:11px;padding:10px 14px;background:#fff;color:var(--ink);font-weight:700}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:12px 14px;line-height:1.8;resize:vertical}
-.composeModeLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
+.composeModeLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 9px}
 .composeModeLabel{font-size:12px;font-weight:700;color:var(--ink)}
 .composeModes{display:flex;gap:7px;margin:0}
 .composeModeBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:8px 14px;font-size:12px;font-weight:700}
@@ -84,19 +84,21 @@ textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:1
 .glyphChoice .g.smallGlyph{font-size:20px;line-height:1.45}
 .preview .smallGlyph{display:inline-block;font-size:.68em;line-height:1;vertical-align:.18em}
 .glyphChoice small{color:var(--muted);font-size:10px}
-.originalText{margin:8px 0;padding:8px 10px;border-radius:10px;background:var(--paper2);font-size:13px;line-height:1.6;color:var(--muted)}
-.originalText b{color:var(--ink);font-weight:700}
-.previewDock{margin:6px 0 10px}
-.previewDock.manualSticky{position:sticky;top:6px;z-index:10;background:rgba(255,253,248,.96);padding:8px 0 10px;border-radius:14px;box-shadow:0 8px 18px rgba(43,39,31,.10);backdrop-filter:blur(6px)}
+.previewDock{margin:5px 0 8px}
+.previewDock.manualSticky{position:sticky;top:6px;z-index:10;background:rgba(255,253,248,.96);padding:7px 0 8px;border-radius:14px;backdrop-filter:blur(6px)}
+.previewDock.manualSticky.isStuck{box-shadow:0 8px 18px rgba(43,39,31,.10)}
 .previewDock.manualSticky .label{padding:0 8px}
-.previewDock.manualSticky .preview{min-height:74px;padding:10px 14px;font-size:34px;line-height:1.5}
-.preview{margin-top:6px;min-height:130px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:40px;line-height:1.8;word-break:break-all}
+.floatingOriginal{display:none;margin:0 8px 6px;padding:5px 8px;border-radius:8px;background:var(--paper2);font-size:11px;line-height:1.45;color:var(--muted)}
+.floatingOriginal b{color:var(--ink);font-weight:700}
+.previewDock.isStuck .floatingOriginal{display:block}
+.previewDock.manualSticky .preview{min-height:66px;padding:9px 12px;font-size:32px;line-height:1.45}
+.preview{margin-top:5px;min-height:100px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:14px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:36px;line-height:1.6;word-break:break-all}
 .empty{padding:24px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:1.9;text-align:center;background:#fff}
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}.panel{padding:15px}}
+@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.tabs{margin:10px 0}.mainTab{padding:10px}.extraLabel{margin-top:8px}.tab{padding:7px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}}
 </style>
 </head>
 <body>
@@ -139,10 +141,9 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   </div>
 
   <div id="compose" class="view active">
-    <div class="label">ひらがなを入力</div>
-    <textarea id="sourceText" placeholder="ここにひらがなを入力">きょうはいいてんきですね</textarea>
+    <textarea id="sourceText" placeholder="ひらがなを入力">きょうはいいてんきですね</textarea>
     <div class="composeModeLine">
-      <span class="composeModeLabel">仮名：</span>
+      <span class="composeModeLabel">仮名設定</span>
       <div class="composeModes">
         <button class="composeModeBtn active" data-compose-mode="auto">おまかせ</button>
         <button class="composeModeBtn" data-compose-mode="manual">自分で選ぶ</button>
@@ -150,10 +151,10 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     </div>
     <div id="previewDock" class="previewDock">
       <div class="label">できあがり</div>
+      <div id="floatingOriginal" class="floatingOriginal"><b>もとの文</b>　きょうはいいてんきですね</div>
       <div id="preview" class="preview"></div>
     </div>
     <div id="rerollWrap" class="actions"><button id="rerollCompose" class="btn">もう一度</button></div>
-    <div id="originalText" class="originalText" style="display:none"><b>もとの文</b>　きょうはいいてんきですね</div>
     <div id="composeRows" class="composeRows autoHidden"></div>
   </div>
 
@@ -192,7 +193,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC12
+  vintage-kana / release candidate 1.0 RC13
 </footer>
 </div>
 
@@ -409,17 +410,27 @@ function renderCompose(){
    });
  }
 
- const original=document.getElementById("originalText");
- if(original){
-   original.innerHTML='<b>もとの文</b>　'+escapeHtml(text);
-   original.style.display=composeMode==="manual"?"block":"none";
- }
+ const floatingOriginal=document.getElementById("floatingOriginal");
+ if(floatingOriginal) floatingOriginal.innerHTML='<b>もとの文</b>　'+escapeHtml(text);
  const previewDock=document.getElementById("previewDock");
  if(previewDock) previewDock.classList.toggle("manualSticky",composeMode==="manual");
  document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
+ requestAnimationFrame(updateStickyState);
  const reroll=document.getElementById("rerollWrap");
  if(reroll) reroll.style.display=composeMode==="auto"?"flex":"none";
 }
+
+function updateStickyState(){
+ const dock=document.getElementById("previewDock");
+ if(!dock)return;
+ const compose=document.getElementById("compose");
+ const active=composeMode==="manual" && compose?.classList.contains("active");
+ const stuck=active && dock.getBoundingClientRect().top<=8 && window.scrollY>0;
+ dock.classList.toggle("isStuck",stuck);
+}
+
+window.addEventListener("scroll",updateStickyState,{passive:true});
+window.addEventListener("resize",updateStickyState);
 
 async function checkHentaiganaFont(){
  if(!document.fonts)return;
@@ -431,6 +442,7 @@ document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",(
  document.querySelectorAll("[data-view]").forEach(x=>x.classList.remove("active"));
  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
  b.classList.add("active");document.getElementById(b.dataset.view).classList.add("active");
+ requestAnimationFrame(updateStickyState);
 }));
 document.querySelectorAll(".quizModeBtn").forEach(b=>b.addEventListener("click",()=>{
  quizMode=b.dataset.quizMode;
