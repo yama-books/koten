@@ -1555,3 +1555,148 @@ UI側とデータ監査側を混ぜず、UI改修はGitHub Web-only、NINJAL全�
 
 再開指示:
 `vintage-kana-main HANDOFF §49から再開。UI改修（タイトル/一覧/help dialog/行別一覧/逆向き字母単一正解）と、NINJAL全字形監査を分離して進行`
+
+## 50. 2026-09-20 追加実機フィードバック反映・NINJAL監査分担
+
+§49以後、GitHub `vintage-kana-main` 上だけで追加UI・出題修正を実装した。
+ローカルは使用していない。
+
+### UI / 出題 実装確定HEAD
+- `80365000b7d3a8cdb34b52fd7a14618312a3b17e`
+
+主要コミット:
+- `eba3c8b7f5f5fef02069315bfb028a4d6e9102af` help / navigation / 一覧レイアウト
+- `6699617d024d78e7e24977d66e2ab832533b23aa` 逆向き字母問題の誤答feedback
+- `bf1bec752b161ff38565f90edb0a8e68132a8d9e` 静的契約更新
+- `c17a5d779a14b50b281854e2ebf5f4f3deca94f6` 狭幅QA更新
+- `cb20187e757229428e657efeb6b636c879b9dacb` 320px行タイルQA調整
+- `80365000b7d3a8cdb34b52fd7a14618312a3b17e` 逆向き字母問題テスト名を単一正解契約へ同期
+
+### 今回追加実装したUI
+1. タイトル
+   - 「変体仮名メーカー」のh1を `var(--font-ui)` = Zen Maru Gothic系へ変更。
+2. 「変体仮名とは？」
+   - インラインdetails展開を廃止。
+   - 上部は「?」ボタン＋3メニューの行を固定。
+   - 説明は `<dialog id="helpDialog">` のモーダルで別レイヤー表示。
+   - 380px以下では従来どおり「?」だけへ圧縮。
+3. 上部メニュー
+   - 「字形」→「一覧」へ改称。
+4. 一覧
+   - 見出しを「行・仮名から見る」へ変更。
+   - すべてボタン＋あ行〜わ行の10行に整列。
+   - 各行は行名＋最大5仮名の横並び。
+5. 行習熟度タイル
+   - 実機指摘に合わせさらに高さを圧縮。
+   - 320pxではリング占有率を優先してQAする。
+6. 各字習熟度 / 最近 / 弱点
+   - §49実装を維持:
+     - 円上に読み
+     - 円内は変体仮名＋字母のみ（「字母：」なし）
+     - 最近 / 弱点は押下で読み・字母dialog表示
+
+### 逆向き字母問題
+- 習熟度65%以上の字母モードで
+  `この字母からできた平仮名はどれ？`
+  を出題。
+- 表示は `？ ↑ 安` 型。
+- 選択肢は現代仮名＋変体仮名。
+- 同行・他行・現代仮名を混ぜる。
+- 複数字形が同じ字母から成立する場合も出題可。
+- ただしその問題でtargetに選ばれた1字だけを正解とし、**同じ字母由来の他字形はdistractorから除外**するため、画面上の正解は必ず1個。
+- 回答後は正誤にかかわらず、変体仮名の横に中サイズの読みを表示。
+- 逆向き問題の習熟度増減は上位段階として扱う。
+
+### せ / を / U+1B11C
+現行 `vintage-kana/data/ui-glyph-master.json` を機械確認:
+- glyphCount: 138
+- `U+1B11C` は
+  - character: `𛄜`
+  - kana: `を`
+  - jibo: `遠`
+- 現行JSON内で同一characterの重複割当は0件。
+- 「せ」側には `U+1B052 / 世`, `U+1B055 / 勢` が入っており、`U+1B11C` を「せ」に割り当ててはいない。
+- 静的テストにも `U+1B11C === 𛄜 / を / 遠`、かつ「せ」ではない契約を追加。
+
+したがって「せ」と「を」が同じ字に見える件は、
+データ割当以外にフォントglyph / fallback / renderingの監査も必要。
+
+### NINJAL全収録について判明した構造上の重要点
+現行 `ui-glyph-master.json` は公式全字形カタログではない。
+ファイル自身に:
+- `status: derived-ui-cache-from-phase1`
+- 初期15資料で観測された
+- 無濁点
+- U+1B***のみ
+- 重複除去・集計した派生キャッシュ
+と明記されている。
+
+したがって138字しかないのは、現在の設計では「実資料観測subset」だからであり、
+NINJAL公式全件を収録するには別の **公式カタログ層** を追加する必要がある。
+
+`SOURCES.md` には学術情報交換用セットを47音価・215字母・264字体と記録。
+公式一覧にはUnicode欄が空の掲載字形もあるため、
+「全件収録」は単純なUnicode文字追加だけでは完了しない。
+
+### ClaudeCodeへの切り出し
+専用ブランチを作成済み:
+- branch: `vintage-kana-ninjal-audit`
+- 基点: `80365000b7d3a8cdb34b52fd7a14618312a3b17e`
+
+指令書:
+- `vintage-kana/NINJAL_GLYPH_AUDIT_TASK_2026-09-20.md`
+- 作成コミット: `63dc7360fc923011b464f2efb6cabe3bf6a0f7b5`
+
+ClaudeCode側では:
+- NINJAL公式一覧全件を取得・正規化
+- official catalog JSON作成
+- 現行138字との全件差分
+- Unicodeなし字形の扱い・ライセンス確認
+- せ / を / U+1B11C重点監査
+- 再現可能な監査スクリプト / テスト
+を行う。
+
+**`vintage-kana/index.html` はClaudeCode側で触らない。**
+UI統合は監査結果を受けて `vintage-kana-main` 側で行う。
+
+### 重要な統合方針
+公式全字形を現在の `GLYPHS` へ単純置換しない。
+現行 `GLYPHS` は書いてみる「おまかせ」等にも使われるため、
+公式264字体級へ置換すると、観測頻度に基づく現行挙動が変わる。
+
+推奨:
+- full official catalog: 一覧 / 手動選択 / 学習候補
+- observed corpus subset: おまかせ自動生成 / 実資料頻度
+の二層化。
+
+### QA
+`check:vintage-kana`:
+- 320 / 360 / 390 / 430px
+- help dialog open / nav reflowなし
+- 一覧10行 / overflowなし
+- 行リング余白
+- 各字カード3→2列
+- 読み・字母prefixなし
+- recent / weak popup
+- 読み65%以上自由入力
+- 字母65%以上逆向き4択
+- 同字母由来の別正解をdistractorに含めない
+- 同行 / 他行 / 現代仮名の混在
+- 回答後の読み表示
+を検査。
+
+`cb20187e757229428e657efeb6b636c879b9dacb` のCI run `35513270176` は **success**。
+その後の `803650...` はテスト名称のみの変更で、`check:vintage-kana` までPASSを確認。
+全体CI run `35513391691` は記録時点で長時間の `check:overflow` 実行中。
+この `check:overflow` は百人一首100首×複数幅等を走査する全体検査で、vintage-kana固有検査ではない。
+
+### 次回
+1. ClaudeCodeのNINJAL監査結果を受領。
+2. official catalog / observed subsetの二層統合を設計。
+3. Unicodeなし字形の表示方式を、ライセンスと表示技術を確認して決定。
+4. せ / をの実機表示が同一に見える原因をfont/rendering側まで確認。
+5. 全公式字形を一覧・手動選択・学習へ統合し、回帰QA。
+6. iPhone実機再確認。
+
+再開指示:
+`vintage-kana-main HANDOFF §50から再開。ClaudeCodeのNINJAL全字形監査結果を取り込み→official catalog / observed subset二層化→全字形UI統合→せ/を実機表示監査`
