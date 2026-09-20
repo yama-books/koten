@@ -1,20 +1,19 @@
 {
-  "schemaVersion": "0.3",
+  "schemaVersion": "0.4",
   "updated": "2026-09-20",
   "branch": "checkpoint-main",
   "baselineBranch": "main",
-  "generatedAfterFinalWebKitDocumentation": true,
   "selfExcluded": "checkpoint/data/production_integration_delta_20260920.json",
-  "purpose": "Final file-level production integration snapshot for the legacy-visible public beta, because main and checkpoint-main currently have no common ancestor.",
+  "purpose": "Final file-level production integration snapshot for the legacy-visible public beta, with mobile WebKit computed touch measurements.",
   "warning": "Immediately before applying, re-check every listed mainSha against current production main. If any mainSha changed, stop and review that file instead of overwriting it blindly.",
   "topLevelChanged": [
     {
       "path": "checkpoint/HANDOFF.md",
       "status": "UPDATE",
       "mainSha": "7f0d4af66bfac95fcfc2570259f4348a301cb0c2",
-      "checkpointSha": "1e1dffa08a50d05e7e0efcdebe67e90d8296302b",
+      "checkpointSha": "eae636eeea19cf6bdba6bb6a0d9e3ab8c9a917d4",
       "mainSize": 52440,
-      "checkpointSize": 67433,
+      "checkpointSize": 69338,
       "type": "file"
     },
     {
@@ -30,9 +29,9 @@
       "path": "checkpoint/PROGRESS_2026-09-19_db.md",
       "status": "UPDATE",
       "mainSha": "e0753a7cefe0fe699cfd319f180effe8bb36e882",
-      "checkpointSha": "788e334a9396f831a5d82379ded8943d8719b6b3",
+      "checkpointSha": "130b44e055964d21cd06d52b1fa10ce3f70fc9aa",
       "mainSize": 25668,
-      "checkpointSize": 30307,
+      "checkpointSize": 31068,
       "type": "file"
     },
     {
@@ -93,9 +92,9 @@
       "path": "checkpoint/styles.css",
       "status": "UPDATE",
       "mainSha": "788f06dbcd570cd1b4973baea871e66aa7480a31",
-      "checkpointSha": "77d40ff6335b06ed029d22de55f66a156fb92117",
+      "checkpointSha": "1ebffa4ce41ac071e64d9939acaa5c673ab3e6c2",
       "mainSize": 10209,
-      "checkpointSize": 12065,
+      "checkpointSize": 12098,
       "type": "file"
     },
     {
@@ -122,18 +121,18 @@
       "path": "checkpoint/data/manifest.json",
       "status": "UPDATE",
       "mainSha": "5895c46b436d1e860a54e162806d64c46b7a7e52",
-      "checkpointSha": "8d4d567d9efd331597bbd4dab51044a9c58eb33d",
+      "checkpointSha": "c81f6998188a2e555cb28a64b2922bbc74a3a82b",
       "mainSize": 16243,
-      "checkpointSize": 19357,
+      "checkpointSize": 19722,
       "type": "file"
     },
     {
       "path": "checkpoint/data/mobile_ui_audit_20260920.json",
       "status": "ADD",
       "mainSha": null,
-      "checkpointSha": "f3b1f391745a4db8471ad42a0742e69bb972da00",
+      "checkpointSha": "e466b84cd5a2de9b5eea0c25136397347892ee99",
       "mainSize": null,
-      "checkpointSize": 6015,
+      "checkpointSize": 6826,
       "type": "file"
     },
     {
@@ -158,9 +157,9 @@
       "path": "checkpoint/data/public_release_preflight_20260920.json",
       "status": "ADD",
       "mainSha": null,
-      "checkpointSha": "dc6f2727ecd0325e1e610720cb707e1f09d97965",
+      "checkpointSha": "fc7cb7160d2ca0ae8d9fd99ef5f87d5d19de27dc",
       "mainSize": null,
-      "checkpointSize": 6370,
+      "checkpointSize": 6991,
       "type": "file"
     },
     {
@@ -223,9 +222,9 @@
       "path": "checkpoint/styles.css",
       "status": "UPDATE",
       "mainSha": "788f06dbcd570cd1b4973baea871e66aa7480a31",
-      "checkpointSha": "77d40ff6335b06ed029d22de55f66a156fb92117",
+      "checkpointSha": "1ebffa4ce41ac071e64d9939acaa5c673ab3e6c2",
       "mainSize": 10209,
-      "checkpointSize": 12065,
+      "checkpointSize": 12098,
       "type": "file"
     },
     {
@@ -250,18 +249,18 @@
       "path": "checkpoint/data/manifest.json",
       "status": "UPDATE",
       "mainSha": "5895c46b436d1e860a54e162806d64c46b7a7e52",
-      "checkpointSha": "8d4d567d9efd331597bbd4dab51044a9c58eb33d",
+      "checkpointSha": "c81f6998188a2e555cb28a64b2922bbc74a3a82b",
       "mainSize": 16243,
-      "checkpointSize": 19357,
+      "checkpointSize": 19722,
       "type": "file"
     },
     {
       "path": "checkpoint/data/mobile_ui_audit_20260920.json",
       "status": "ADD",
       "mainSha": null,
-      "checkpointSha": "f3b1f391745a4db8471ad42a0742e69bb972da00",
+      "checkpointSha": "e466b84cd5a2de9b5eea0c25136397347892ee99",
       "mainSize": null,
-      "checkpointSize": 6015,
+      "checkpointSize": 6826,
       "type": "file"
     },
     {
@@ -286,9 +285,9 @@
       "path": "checkpoint/data/public_release_preflight_20260920.json",
       "status": "ADD",
       "mainSha": null,
-      "checkpointSha": "dc6f2727ecd0325e1e610720cb707e1f09d97965",
+      "checkpointSha": "fc7cb7160d2ca0ae8d9fd99ef5f87d5d19de27dc",
       "mainSize": null,
-      "checkpointSize": 6370,
+      "checkpointSize": 6991,
       "type": "file"
     },
     {
@@ -313,19 +312,31 @@
   ],
   "integrationRule": "Do not merge histories, reset, or force-push. Production owner should copy/review only checkpoint/ files after verifying baseline SHAs.",
   "validation": {
-    "jsdomSmoke": {
-      "runId": 35482061451,
-      "result": "PASS"
-    },
-    "webkitMobileSmoke": {
-      "runId": 35482145135,
-      "headSha": "62f70c3532f4419252437768554d8b8b9d3bbe6f",
+    "latestMobileBrowserSmoke": {
+      "runId": 35482932843,
+      "headSha": "2fc149f4086e42eb7a3d4e00872ae7b252d8414c",
       "result": "PASS",
       "engine": "WebKit 26.5",
       "portrait": "390x844",
       "landscape": "844x390",
       "sample3Checklist": 16,
-      "longSampleMarkers": 162
+      "longSampleMarkers": 162,
+      "externalDataLoaded": true,
+      "normalShadowDataSkipped": true,
+      "debugShadowDataLoaded": true,
+      "measuredTouchTargets": {
+        "topActionsMinHeight": 44,
+        "levelSelectorHeight": 46,
+        "checklistMinHeight": 81.09375,
+        "drawerCloseHeight": 44,
+        "knownActionHeight": 44,
+        "restoreOneHeight": 44
+      }
+    },
+    "fullRepositoryCI": {
+      "runId": 35482337071,
+      "headSha": "c08025c74ffdc62654bb0c884ac498a2db9e2dd1",
+      "result": "PASS"
     },
     "physicalIPhoneSafari": "PENDING_AFTER_PRODUCTION_DEPLOY"
   }
