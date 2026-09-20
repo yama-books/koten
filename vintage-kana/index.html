@@ -308,7 +308,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC21
+  vintage-kana / release candidate 1.0 RC22
 </footer>
 </div>
 
@@ -654,8 +654,8 @@ function newQuiz(){
  root.innerHTML="";
 
  function finishAnswer(correct,feedback){
-   const gained=recordLearningAttempt(quizMode,correct);
-   document.getElementById("feedback").textContent=feedback+"  +"+gained+"ポイント";
+   recordLearningAttempt(quizMode,correct);
+   document.getElementById("feedback").textContent=feedback;
    if(next){
      next.disabled=false;
      next.textContent=quizSet.answered>=QUIZ_SET_SIZE?"結果を見る":"次の問題";
@@ -772,16 +772,30 @@ function renderCompose(){
  if(reroll) reroll.style.display=composeMode==="auto"?"inline-flex":"none";
 }
 
+function isHentaiganaText(text){
+ const first=[...String(text||"")][0];
+ if(!first)return false;
+ const cp=first.codePointAt(0);
+ return cp>=0x1B000 && cp<=0x1B11E;
+}
 function outputTokenFor(ch){
  const sel=selected[ch];
  const yoon=YOON_SMALL.has(ch);
  if(!sel || sel.keep){
-   if(yoon && !yoonSmallEnabled) return {text:SMALL_BASE[ch],small:false};
-   return {text:ch,small:false};
+   if(yoon && !yoonSmallEnabled) return {text:SMALL_BASE[ch],small:false,hentaigana:false};
+   return {text:ch,small:false,hentaigana:false};
  }
- return {text:sel.text,small:sel.small && (!yoon || yoonSmallEnabled)};
+ return {
+   text:sel.text,
+   small:sel.small && (!yoon || yoonSmallEnabled),
+   hentaigana:isHentaiganaText(sel.text)
+ };
 }
-
+function canvasFont(token,size){
+ return token.hentaigana
+   ? `${size}px "Noto Serif Hentaigana","Hiragino Mincho ProN","Yu Mincho","YuMincho",serif`
+   : `${size}px "Hiragino Mincho ProN","Yu Mincho","YuMincho","Hiragino Mincho Pro",serif`;
+}
 function roundedRect(ctx,x,y,w,h,r){
  const rr=Math.min(r,w/2,h/2);
  ctx.beginPath();
@@ -792,15 +806,13 @@ function roundedRect(ctx,x,y,w,h,r){
  ctx.arcTo(x,y,x+w,y,rr);
  ctx.closePath();
 }
-
 function layoutCanvasTokens(ctx,tokens,fontSize,maxWidth){
- const normalFont=size=>`${size}px "Noto Serif Hentaigana","Yu Mincho",serif`;
  const lines=[[]];
  let width=0;
  for(const token of tokens){
    if(token.text==="\n"){lines.push([]);width=0;continue}
    const size=token.small?fontSize*.68:fontSize;
-   ctx.font=normalFont(size);
+   ctx.font=canvasFont(token,size);
    const w=ctx.measureText(token.text).width+fontSize*.05;
    if(width+w>maxWidth && lines.at(-1).length){lines.push([]);width=0}
    lines.at(-1).push({...token,width:w,size});
@@ -808,7 +820,17 @@ function layoutCanvasTokens(ctx,tokens,fontSize,maxWidth){
  }
  return lines;
 }
-
+function drawTrackedText(ctx,text,centerX,y,font,spacing){
+ ctx.font=font;
+ const chars=[...text];
+ const widths=chars.map(ch=>ctx.measureText(ch).width);
+ const total=widths.reduce((a,b)=>a+b,0)+spacing*Math.max(0,chars.length-1);
+ let x=centerX-total/2;
+ chars.forEach((ch,i)=>{
+   ctx.fillText(ch,x,y);
+   x+=widths[i]+spacing;
+ });
+}
 function makePreviewDataUrl(){
  const text=document.getElementById("sourceText").value;
  if(!text.trim())return null;
@@ -830,12 +852,12 @@ function makePreviewDataUrl(){
  while(fontSize>=70){
    lines=layoutCanvasTokens(ctx,tokens,fontSize,maxWidth);
    const lineHeight=fontSize*1.5;
-   if(lines.length*lineHeight<=720)break;
+   if(lines.length*lineHeight<=700)break;
    fontSize-=10;
  }
  const lineHeight=fontSize*1.5;
  const blockHeight=lines.length*lineHeight;
- let y=540-blockHeight/2+fontSize*.9;
+ let y=520-blockHeight/2+fontSize*.9;
  ctx.fillStyle="#292b28";
  ctx.textBaseline="alphabetic";
 
@@ -843,7 +865,7 @@ function makePreviewDataUrl(){
    const lineWidth=line.reduce((sum,t)=>sum+t.width,0);
    let x=540-lineWidth/2;
    for(const token of line){
-     ctx.font=`${token.size}px "Noto Serif Hentaigana","Yu Mincho",serif`;
+     ctx.font=canvasFont(token,token.size);
      const yOffset=token.small?-fontSize*.12:0;
      ctx.fillText(token.text,x,y+yOffset);
      x+=token.width;
@@ -851,11 +873,23 @@ function makePreviewDataUrl(){
    y+=lineHeight;
  }
 
- ctx.font='28px -apple-system,BlinkMacSystemFont,"Segoe UI","Yu Gothic",sans-serif';
- ctx.fillStyle="#74766e";
- ctx.textAlign="center";
- ctx.fillText("変体仮名メーカー",540,950);
- ctx.textAlign="start";
+ // 控えめな署名。本文から離し、細い罫と明朝で印刷物の奥付のように見せる。
+ ctx.strokeStyle="#c8c1b5";
+ ctx.lineWidth=2;
+ ctx.beginPath();
+ ctx.moveTo(462,918);
+ ctx.lineTo(618,918);
+ ctx.stroke();
+ ctx.fillStyle="#66755f";
+ ctx.textBaseline="alphabetic";
+ drawTrackedText(
+   ctx,
+   "変体仮名メーカー",
+   540,
+   958,
+   '24px "Hiragino Mincho ProN","Yu Mincho","YuMincho",serif',
+   3
+ );
  return canvas.toDataURL("image/png");
 }
 
@@ -885,7 +919,7 @@ function fallbackSaveImage(dataUrl,filename){
 
 function savePreviewImage(){
  const status=document.getElementById("saveStatus");
- const sample=document.getElementById("preview")?.textContent||"𛀒";
+ const sample="𛀒";
  if(document.fonts && !document.fonts.check('32px "Noto Serif Hentaigana"',sample)){
    if(status)status.textContent="字体を読み込んでいます。少し待って、もう一度押してください。";
    document.fonts.load('32px "Noto Serif Hentaigana"',sample).then(()=>{
@@ -933,14 +967,25 @@ document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",(
  document.querySelectorAll("[data-view]").forEach(x=>x.classList.remove("active"));
  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
  b.classList.add("active");document.getElementById(b.dataset.view).classList.add("active");
+ if(b.dataset.view==="quiz")showQuizScreen("practice");
  requestAnimationFrame(updateStickyState);
 }));
 document.querySelectorAll(".quizModeBtn").forEach(b=>b.addEventListener("click",()=>{
  quizMode=b.dataset.quizMode;
  document.querySelectorAll(".quizModeBtn").forEach(x=>x.classList.toggle("active",x===b));
- newQuiz();
+ showQuizScreen("practice");
+ if(quizSet.answered<QUIZ_SET_SIZE)newQuiz();
 }));
-document.getElementById("nextQuiz").onclick=newQuiz;
+document.querySelectorAll(".quizScreenBtn").forEach(b=>b.addEventListener("click",()=>{
+ showQuizScreen(b.dataset.quizScreen);
+}));
+document.getElementById("nextQuiz").onclick=()=>{
+ if(quizSet.answered>=QUIZ_SET_SIZE)showQuizResult();
+ else newQuiz();
+};
+document.getElementById("restartQuizSet").onclick=restartQuizSet;
+document.getElementById("openRecord").onclick=()=>showQuizScreen("record");
+document.getElementById("backToPractice").onclick=()=>showQuizScreen("practice");
 document.querySelectorAll(".composeModeBtn").forEach(b=>b.addEventListener("click",()=>{
  composeMode=b.dataset.composeMode;
  document.querySelectorAll(".composeModeBtn").forEach(x=>x.classList.toggle("active",x===b));
@@ -962,7 +1007,6 @@ document.getElementById("saveImage").onclick=savePreviewImage;
 document.getElementById("sourceText").addEventListener("input",()=>{
  if(composeMode==="auto") randomizeCompose(); else renderCompose();
 });
-renderLearningRecord();
 checkHentaiganaFont();
 loadData();
 </script>
