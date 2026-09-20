@@ -1,45 +1,47 @@
 {
-  "schemaVersion": "0.1",
+  "schemaVersion": "0.2",
   "updated": "2026-09-20",
   "branch": "checkpoint-main",
   "baselineBranch": "main",
-  "purpose": "File-level production integration snapshot because main and checkpoint-main currently have no common ancestor.",
-  "warning": "Before applying, re-check the listed mainSha values. If any mainSha changed, stop and review that file instead of overwriting it blindly.",
+  "generatedAfterDocumentationUpdates": true,
+  "selfExcluded": "checkpoint/data/production_integration_delta_20260920.json",
+  "purpose": "Final file-level production integration snapshot because main and checkpoint-main currently have no common ancestor.",
+  "warning": "Before applying, re-check every listed mainSha against current production main. If any mainSha changed, stop and review that file instead of overwriting it blindly.",
   "topLevelChanged": [
     {
       "path": "checkpoint/HANDOFF.md",
       "status": "UPDATE",
       "mainSha": "7f0d4af66bfac95fcfc2570259f4348a301cb0c2",
-      "checkpointSha": "d7b566f2644d05a00866971ce584a40cb6b8a632",
+      "checkpointSha": "fcfb0e272a8f2033ed6d2207710d837f41c407e8",
       "mainSize": 52440,
-      "checkpointSize": 62122,
+      "checkpointSize": 65734,
       "type": "file"
     },
     {
       "path": "checkpoint/PRODUCTION_INTEGRATION.md",
       "status": "ADD",
       "mainSha": null,
-      "checkpointSha": "80dbb0f9aae39997a9ad4cc3c0e986d5fbcae6e1",
+      "checkpointSha": "1619ab5012038713da19e7ff851f078d528211ec",
       "mainSize": null,
-      "checkpointSize": 3573,
+      "checkpointSize": 5063,
       "type": "file"
     },
     {
       "path": "checkpoint/PROGRESS_2026-09-19_db.md",
       "status": "UPDATE",
       "mainSha": "e0753a7cefe0fe699cfd319f180effe8bb36e882",
-      "checkpointSha": "ba8a4b79c8a774462fcd4ab5091bb6e86661fbeb",
+      "checkpointSha": "82a2f5620fb162ea56ef77813d8c5c00e5e0ca36",
       "mainSize": 25668,
-      "checkpointSize": 27948,
+      "checkpointSize": 29294,
       "type": "file"
     },
     {
       "path": "checkpoint/README.md",
       "status": "UPDATE",
       "mainSha": "1f5fc29a0c1b3b90fb5cf9060b52fbd4d32df747",
-      "checkpointSha": "bbc7c01fde85128e62c191d02da727574d993ac6",
+      "checkpointSha": "6bf23dac5ecb4ed6a97d07e98e90bc4937777578",
       "mainSize": 1318,
-      "checkpointSize": 2103,
+      "checkpointSize": 2644,
       "type": "file"
     },
     {
@@ -120,9 +122,9 @@
       "path": "checkpoint/data/manifest.json",
       "status": "UPDATE",
       "mainSha": "5895c46b436d1e860a54e162806d64c46b7a7e52",
-      "checkpointSha": "a0ed368e914240f4ade35adfed189f85132ec63f",
+      "checkpointSha": "095f6bbfd17bf96fb46dfc4cdd0e0c15f07e5206",
       "mainSize": 16243,
-      "checkpointSize": 18439,
+      "checkpointSize": 19048,
       "type": "file"
     },
     {
@@ -156,9 +158,9 @@
       "path": "checkpoint/data/public_release_preflight_20260920.json",
       "status": "ADD",
       "mainSha": null,
-      "checkpointSha": "0b7e9d6430a82064a075f5242b9f9f7930a5e4aa",
+      "checkpointSha": "c27fce1d38db61bd909e0843665f2eadf486df7b",
       "mainSize": null,
-      "checkpointSize": 5187,
+      "checkpointSize": 5846,
       "type": "file"
     },
     {
@@ -248,9 +250,9 @@
       "path": "checkpoint/data/manifest.json",
       "status": "UPDATE",
       "mainSha": "5895c46b436d1e860a54e162806d64c46b7a7e52",
-      "checkpointSha": "a0ed368e914240f4ade35adfed189f85132ec63f",
+      "checkpointSha": "095f6bbfd17bf96fb46dfc4cdd0e0c15f07e5206",
       "mainSize": 16243,
-      "checkpointSize": 18439,
+      "checkpointSize": 19048,
       "type": "file"
     },
     {
@@ -275,9 +277,9 @@
       "path": "checkpoint/data/public_release_preflight_20260920.json",
       "status": "ADD",
       "mainSha": null,
-      "checkpointSha": "0b7e9d6430a82064a075f5242b9f9f7930a5e4aa",
+      "checkpointSha": "c27fce1d38db61bd909e0843665f2eadf486df7b",
       "mainSize": null,
-      "checkpointSize": 5187,
+      "checkpointSize": 5846,
       "type": "file"
     },
     {
@@ -300,12 +302,13 @@
     "checkpoint/ui2.js",
     "checkpoint/ui3.js"
   ],
-  "integrationRule": "Do not merge histories or force-push. Production owner should copy/review only checkpoint/ files after verifying baseline SHAs.",
+  "integrationRule": "Do not merge histories, reset, or force-push. Production owner should copy/review only checkpoint/ files after verifying baseline SHAs.",
   "automatedSmoke": {
     "workflow": ".github/workflows/checkpoint-public-beta.yml",
     "test": "tests/unit/checkpoint-public-beta.test.mjs",
-    "latestSuccessfulRunId": 35481928465,
-    "latestSuccessfulHeadSha": "414514e911ab88b4187993a725d369e0b7080daf",
-    "result": "PASS"
+    "provenSuccessfulRunId": 35481928465,
+    "provenSuccessfulHeadSha": "414514e911ab88b4187993a725d369e0b7080daf",
+    "result": "PASS",
+    "note": "Later documentation-only commits do not change runtime. Runtime/data changes continue to trigger the branch-only smoke workflow."
   }
 }
