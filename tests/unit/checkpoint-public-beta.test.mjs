@@ -178,7 +178,7 @@ test('仮名遣いの類例は文語の精査済み例を表示する',async()=>
 
   const text=document.getElementById('focusExtra').textContent;
   for(const expected of ['まうす → もうす','まうづ → もうず','らうたし → ろうたし','らうらうじ → ろうろうじ','さうざうし → そうぞうし']){
-    assert.match(text,new RegExp(expected.replace(/[.*+?^$\{\}()|[\]\\]/g,'\\test('公開UIの文言と選択肢を簡潔に保つ',()=>{')));
+    assert.equal(text.includes(expected),true,`類例を表示する: ${expected}`);
   }
   for(const excluded of ['あふ → あう','たまふ → たもう','かう → こう']){
     assert.equal(text.includes(excluded),false,`混乱しやすい例を出さない: ${excluded}`);
