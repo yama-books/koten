@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>変体仮名を読む・知る・書いてみる</title>
+<title>変体仮名メーカー</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css?family=Noto+Serif+Hentaigana:400,600&display=swap" rel="stylesheet">
@@ -18,15 +18,13 @@ html{background:var(--bg)}
 body{margin:0;color:var(--ink);background:radial-gradient(circle at 86% -8%,rgba(130,145,118,.15),transparent 31rem),var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Yu Gothic UI","Yu Gothic",sans-serif}
 button,input,textarea{font:inherit} button{cursor:pointer}
 .wrap{max-width:1080px;margin:auto;padding:28px 18px 64px}
-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:18px}
+header{margin-bottom:12px}
 h1{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;margin:0;font-size:clamp(27px,4.4vw,42px);font-weight:600;letter-spacing:.07em}
-.tagline{margin:7px 0 0;color:var(--muted);font-size:13px;line-height:1.7}
-.pill{border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:rgba(255,255,255,.66);font-size:12px;white-space:nowrap}
-.fontOk{border-color:#9fc0a6;background:#eef6ef;color:var(--ok)}.fontWarn{border-color:#d7b0a9;background:#fbefed;color:var(--danger)}
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);margin:14px 0}
 .notice{background:#f7f3e9;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.7}
 details.learnHelp{margin:0 0 12px}
-details.learnHelp summary{display:inline-flex;align-items:center;gap:5px;cursor:pointer;list-style:none;border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 11px;font-size:12px;font-weight:700}
+details.learnHelp summary{display:inline-flex;align-items:center;gap:7px;cursor:pointer;list-style:none;border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 12px 7px 8px;font-size:12px;font-weight:700}
+.helpIcon{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent2);border:1px solid #b8c5b2;color:var(--accent);font-weight:800;font-size:13px;line-height:1}
 details.learnHelp summary::-webkit-details-marker{display:none}
 .helpBody{margin-top:9px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:14px}
 .helpBody h3{font-size:13px;margin:0 0 4px}
@@ -38,9 +36,13 @@ details.learnHelp summary::-webkit-details-marker{display:none}
 .jiboExample .jiboChar{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:25px;line-height:1.2}
 details.moreInfo{margin-top:2px}
 details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}
-.tab{border:1px solid var(--line);border-radius:13px;padding:12px;background:#fff;color:var(--ink);font-weight:700}
-.tab.active{background:var(--accent2);border-color:#9dac95}
+.tabs{margin:13px 0}
+.mainTab{width:100%;border:1px solid #9dac95;border-radius:15px;padding:13px;background:var(--accent2);color:var(--ink);font-weight:800;font-size:16px}
+.mainTab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.extraLabel{font-size:10px;color:var(--muted);margin:11px 0 5px}
+.extraTabs{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tab{border:1px solid var(--line);border-radius:12px;padding:9px;background:#fff;color:var(--muted);font-weight:700;font-size:12px}
+.tab.active{background:var(--accent2);border-color:#9dac95;color:var(--ink)}
 .view{display:none}.view.active{display:block}
 .label{font-weight:700;font-size:13px;margin:0 0 8px}
 .kanaFilters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px;max-height:128px;overflow:auto;padding:2px}
@@ -66,7 +68,11 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .btn{border:1px solid var(--line);border-radius:11px;padding:10px 14px;background:#fff;color:var(--ink);font-weight:700}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:12px 14px;line-height:1.8;resize:vertical}
+.composeModes{display:flex;gap:7px;margin:10px 0 12px}
+.composeModeBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:8px 14px;font-size:12px;font-weight:700}
+.composeModeBtn.active{background:var(--accent);border-color:var(--accent);color:#fff}
 .composeRows{display:grid;gap:10px;margin-top:14px}
+.composeRows.autoHidden{display:none}
 .composeRow{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:start;background:var(--paper2);border:1px solid var(--line);border-radius:13px;padding:10px}
 .composeKana{font-family:"Yu Mincho",serif;font-size:24px;text-align:center;padding-top:5px}
 .candidates{display:flex;gap:7px;flex-wrap:wrap}
@@ -76,32 +82,24 @@ textarea{width:100%;min-height:95px;border:1px solid var(--line);border-radius:1
 .glyphChoice .g.smallGlyph{font-size:20px;line-height:1.45}
 .preview .smallGlyph{display:inline-block;font-size:.68em;line-height:1;vertical-align:.18em}
 .glyphChoice small{color:var(--muted);font-size:10px}
-.preview{margin-top:14px;min-height:130px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:40px;line-height:1.8;word-break:break-all}
+.preview{margin-top:10px;min-height:130px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px;font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:40px;line-height:1.8;word-break:break-all}
 .empty{padding:24px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:1.9;text-align:center;background:#fff}
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){header{display:block}.pill{display:inline-block;margin-top:10px}.tabs{grid-template-columns:1fr 1fr}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}.panel{padding:15px}}
+@media(max-width:720px){.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}.panel{padding:15px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div>
-    <h1>変体仮名を読む・知る・書いてみる</h1>
-    <p class="tagline">昔のひらがなの形を、見て・覚えて・使ってみる学習アプリ。</p>
-  </div>
-  <div>
-    <div class="pill">一次公開準備版 1.0 RC8</div>
-    <div class="pill" id="fontStatus" style="margin-top:7px">字体フォント確認中…</div>
-    <div class="pill" id="dataStatus" style="margin-top:7px">教材データ確認中…</div>
-  </div>
+  <h1>変体仮名メーカー</h1>
 </header>
 
 <section class="panel">
   <details class="learnHelp">
-    <summary>？ 変体仮名と字母</summary>
+    <summary><span class="helpIcon">?</span><span>字形と字母</span></summary>
     <div class="helpBody">
       <h3>変体仮名とは？</h3>
       <p>昔使われていた、今とは形のちがうひらがなです。</p>
@@ -122,19 +120,30 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       </div>
     </div>
   </details>
-  <div class="notice">字形と件数は、国立国語研究所の公開資料をもとにしています。</div>
 
   <div class="tabs">
-    <button class="tab active" data-view="browse">字形を見る</button>
-    <button class="tab" data-view="quiz">クイズ</button>
-    <button class="tab" data-view="compose">書いてみる</button>
+    <button class="mainTab active" data-view="compose">書いてみる</button>
+    <div class="extraLabel">おまけ</div>
+    <div class="extraTabs">
+      <button class="tab" data-view="browse">字形を見る</button>
+      <button class="tab" data-view="quiz">クイズ</button>
+    </div>
   </div>
 
-  <div id="browse" class="view active">
+  <div id="compose" class="view active">
+    <div class="label">現代の仮名文を入力</div>
+    <textarea id="sourceText">あいうえお かきくけこ</textarea>
+    <div class="note">
+      文を入力し、変えたい文字の形を選んでください。<br>
+      「で」などの濁音や、「ゃ・ゅ・ょ・っ」などの小さい仮名にも対応しています。
+    </div>
+
+  <div id="browse" class="view">
     <div class="label">読みたい仮名を選ぶ</div>
     <div id="filters" class="kanaFilters"></div>
     <div id="cards" class="cards"><div class="loading">字体データを読み込んでいます…</div></div>
   </div>
+
 
   <div id="quiz" class="view">
     <div class="quizBox">
@@ -150,25 +159,12 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     </div>
   </div>
 
-  <div id="compose" class="view">
-    <div class="label">現代の仮名文を入力</div>
-    <textarea id="sourceText">あいうえお かきくけこ</textarea>
-    <div class="note">
-      文を入力し、変えたい文字の形を選んでください。<br>
-      「で」などの濁音や、「ゃ・ゅ・ょ・っ」などの小さい仮名にも対応しています。
-    </div>
-    <div id="composeRows" class="composeRows"></div>
-    <div class="label" style="margin-top:15px">表示</div>
-    <div id="preview" class="preview"></div>
-  </div>
 
 </section>
 
 <section class="panel sources">
-  <div class="label">出典</div>
-  <div class="note">字形や字母は、国立国語研究所の公開データをもとにしています。</div>
   <details class="moreInfo">
-    <summary>くわしい情報</summary>
+    <summary>出典・くわしい情報</summary>
     <div class="note" style="margin-top:8px">
       <a href="https://cid.ninjal.ac.jp/kana/list/" target="_blank" rel="noopener">学術情報交換用変体仮名</a> ／
       <a href="https://cid.ninjal.ac.jp/hentaiganaDB/" target="_blank" rel="noopener">変体仮名字形データベース</a> ／
@@ -179,7 +175,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC8
+  vintage-kana / release candidate 1.0 RC9
 </footer>
 </div>
 
@@ -227,6 +223,7 @@ let GLYPHS=[];
 let currentFilter="あ";
 let quizEntry=null;
 let quizMode="reading";
+let composeMode="auto";
 let answered=false;
 const selected={};
 
@@ -255,11 +252,6 @@ async function loadData(){
 
    renderFilters(); renderCards(); newQuiz(); renderCompose();
 
-   const status=document.getElementById("dataStatus");
-   if(status){
-     status.textContent=usedFallback?"教材データ: 内蔵データで表示中":"教材データ: 読込済み";
-     status.classList.add(usedFallback?"fontWarn":"fontOk");
-   }
  }catch(err){
    console.error(err);
    document.getElementById("cards").innerHTML='<div class="empty error">教材データの初期化に失敗しました。ページを再読み込みしてください。</div>';
@@ -348,68 +340,76 @@ function newQuiz(){
  }
 }
 
+function pickAutomatic(ch){
+ const info=composeInfo(ch);
+ const choices=GLYPHS.filter(x=>x.kana===info.base);
+ if(!choices.length) return {keep:true,text:ch,small:false};
+ const e=choices[Math.floor(Math.random()*choices.length)];
+ return {keep:false,text:e.character+info.mark,small:info.small};
+}
+
+function randomizeCompose(){
+ const text=document.getElementById("sourceText").value;
+ [...new Set([...text].filter(ch=>hasGlyphChoices(ch)))].forEach(ch=>{
+   selected[ch]=pickAutomatic(ch);
+ });
+ renderCompose();
+}
+
 function renderCompose(){
  const text=document.getElementById("sourceText").value;
  const needed=[...new Set([...text].filter(ch=>hasGlyphChoices(ch)))];
- const rows=document.getElementById("composeRows");rows.innerHTML="";
+ const rows=document.getElementById("composeRows");
+ rows.innerHTML="";
+ rows.classList.toggle("autoHidden",composeMode==="auto");
 
- needed.forEach(k=>{
-   const info=composeInfo(k);
-   if(!(k in selected)) selected[k]={keep:true,text:k,small:false};
-
-   const row=document.createElement("div");row.className="composeRow";
-   const left=document.createElement("div");left.className="composeKana";left.textContent=k;
-   const cand=document.createElement("div");cand.className="candidates";
-
-   const keep=document.createElement("button");
-   keep.className="glyphChoice"+(selected[k]?.keep?" active":"");
-   keep.innerHTML='<span class="g">'+escapeHtml(k)+'</span><small>そのまま</small>';
-   keep.onclick=()=>{selected[k]={keep:true,text:k,small:false};renderCompose()};cand.appendChild(keep);
-
-   GLYPHS.filter(x=>x.kana===info.base).forEach(e=>{
-     const out=e.character+info.mark;
-     const active=!selected[k]?.keep && selected[k]?.text===out && !!selected[k]?.small===info.small;
-     const b=document.createElement("button");
-     b.className="glyphChoice"+(active?" active":"");
-     b.innerHTML='<span class="g'+(info.small?' smallGlyph':'')+'">'+escapeHtml(out)+'</span><small>'+
-       (info.small?'小書き表示 / ':'')+
-       '字母 '+escapeHtml(e.jibo)+
-       (info.mark==="\u3099"?' / 濁点':info.mark==="\u309A"?' / 半濁点':'')+
-       '</small>';
-     b.onclick=()=>{selected[k]={keep:false,text:out,small:info.small};renderCompose()};cand.appendChild(b);
+ if(composeMode==="auto"){
+   needed.forEach(k=>{
+     if(!(k in selected) || selected[k]?.keep) selected[k]=pickAutomatic(k);
    });
-   row.append(left,cand);rows.appendChild(row);
- });
+ }else{
+   needed.forEach(k=>{
+     const info=composeInfo(k);
+     if(!(k in selected)) selected[k]={keep:true,text:k,small:false};
 
- if(!needed.length) rows.innerHTML='<div class="note">ひらがなを入力すると、選べる字形がここに出ます。</div>';
+     const row=document.createElement("div");row.className="composeRow";
+     const left=document.createElement("div");left.className="composeKana";left.textContent=k;
+     const cand=document.createElement("div");cand.className="candidates";
+
+     const keep=document.createElement("button");
+     keep.className="glyphChoice"+(selected[k]?.keep?" active":"");
+     keep.innerHTML='<span class="g">'+escapeHtml(k)+'</span><small>そのまま</small>';
+     keep.onclick=()=>{selected[k]={keep:true,text:k,small:false};renderCompose()};cand.appendChild(keep);
+
+     GLYPHS.filter(x=>x.kana===info.base).forEach(e=>{
+       const out=e.character+info.mark;
+       const active=!selected[k]?.keep && selected[k]?.text===out && !!selected[k]?.small===info.small;
+       const b=document.createElement("button");
+       b.className="glyphChoice"+(active?" active":"");
+       b.innerHTML='<span class="g'+(info.small?' smallGlyph':'')+'">'+escapeHtml(out)+'</span><small>'+
+         (info.small?'小書き / ':'')+
+         '字母 '+escapeHtml(e.jibo)+
+         (info.mark==="\u3099"?' / 濁点':info.mark==="\u309A"?' / 半濁点':'')+
+         '</small>';
+       b.onclick=()=>{selected[k]={keep:false,text:out,small:info.small};renderCompose()};cand.appendChild(b);
+     });
+     row.append(left,cand);rows.appendChild(row);
+   });
+ }
+
  document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
+ const reroll=document.getElementById("rerollWrap");
+ if(reroll) reroll.style.display=composeMode==="auto"?"flex":"none";
 }
 
 async function checkHentaiganaFont(){
- const el=document.getElementById("fontStatus");
- if(!el)return;
- if(!document.fonts){
-   el.textContent="字体フォント: ブラウザ確認不可";
-   el.classList.add("fontWarn");
-   return;
- }
- try{
-   await Promise.race([
-     document.fonts.load('32px "Noto Serif Hentaigana"',"𛀒"),
-     new Promise((_,reject)=>setTimeout(()=>reject(new Error("font timeout")),6000))
-   ]);
-   const ok=document.fonts.check('32px "Noto Serif Hentaigana"',"𛀒");
-   el.textContent=ok?"字体フォント: 読込済み":"字体フォント: 未読込";
-   el.classList.add(ok?"fontOk":"fontWarn");
- }catch(err){
-   el.textContent="字体フォント: 読込失敗";
-   el.classList.add("fontWarn");
- }
+ if(!document.fonts)return;
+ try{await document.fonts.load('32px "Noto Serif Hentaigana"',"𛀒");}catch(err){console.warn("hentaigana font load failed",err)}
 }
 
 
-document.querySelectorAll(".tab[data-view]").forEach(b=>b.addEventListener("click",()=>{
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll("[data-view]").forEach(x=>x.classList.remove("active"));
  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
  b.classList.add("active");document.getElementById(b.dataset.view).classList.add("active");
 }));
@@ -419,7 +419,15 @@ document.querySelectorAll(".quizModeBtn").forEach(b=>b.addEventListener("click",
  newQuiz();
 }));
 document.getElementById("nextQuiz").onclick=newQuiz;
-document.getElementById("sourceText").addEventListener("input",renderCompose);
+document.querySelectorAll(".composeModeBtn").forEach(b=>b.addEventListener("click",()=>{
+ composeMode=b.dataset.composeMode;
+ document.querySelectorAll(".composeModeBtn").forEach(x=>x.classList.toggle("active",x===b));
+ if(composeMode==="auto") randomizeCompose(); else renderCompose();
+}));
+document.getElementById("rerollCompose").onclick=randomizeCompose;
+document.getElementById("sourceText").addEventListener("input",()=>{
+ if(composeMode==="auto") randomizeCompose(); else renderCompose();
+});
 checkHentaiganaFont();
 loadData();
 </script>
