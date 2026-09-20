@@ -45,12 +45,9 @@ details.learnHelp summary::-webkit-details-marker{display:none}
 .jiboExample .jiboChar{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:25px;line-height:1.2}
 details.moreInfo{margin-top:2px}
 details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
-.tabs{margin:10px 0}
-.mainTab{width:100%;border:1px solid #9dac95;border-radius:15px;padding:13px;background:var(--accent2);color:var(--ink);font-weight:800;font-size:16px}
-.mainTab.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.utilityTabs{display:flex;gap:6px;flex:0 0 auto}
-.tab{border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:#fff;color:var(--muted);font-weight:700;font-size:11px;white-space:nowrap}
-.tab.active{background:var(--accent2);border-color:#9dac95;color:var(--ink)}
+.utilityTabs{display:flex;gap:5px;flex:0 0 auto;align-items:center}
+.tab{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff;color:var(--muted);font-weight:700;font-size:11px;white-space:nowrap;transition:.15s ease}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 7px rgba(55,70,50,.16)}
 .view{display:none}.view.active{display:block}
 .label{font-weight:700;font-size:13px;margin:0 0 8px}
 .kanaFilters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px;max-height:128px;overflow:auto;padding:2px}
@@ -111,7 +108,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center}.tabs{margin:9px 0}.mainTab{padding:10px}.tab{padding:6px 9px;font-size:10px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}}
+@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}}
 </style>
 </head>
 <body>
@@ -144,14 +141,11 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
         </div>
       </div>
     </details>
-    <div class="utilityTabs" aria-label="補助機能">
+    <nav class="utilityTabs" aria-label="メニュー">
+      <button class="tab active" data-view="compose">書いてみる</button>
       <button class="tab" data-view="browse">字形</button>
       <button class="tab" data-view="quiz">習得する</button>
-    </div>
-  </div>
-
-  <div class="tabs">
-    <button class="mainTab active" data-view="compose">書いてみる</button>
+    </nav>
   </div>
 
   <div id="compose" class="view active">
@@ -210,7 +204,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC19
+  vintage-kana / release candidate 1.0 RC20
 </footer>
 </div>
 
