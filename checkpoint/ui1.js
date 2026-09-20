@@ -115,7 +115,7 @@ function renderKnownHistory(text,detectedHits){
     return;
   }
 
-  status.textContent=`${known.length}件。本文中から隠したポイントです。戻すと、現在の確認レベルで表示対象なら本文・チェックリストに戻ります。`;
+  status.textContent=`${known.length}件`;
   list.innerHTML=known.map((h,idx)=>`
     <div class="known-item">
       <div class="known-item-main">
@@ -142,8 +142,8 @@ function render(){
   const filterStatus=document.getElementById("filterStatus");
 
   if(!text){
-    reading.innerHTML='<div class="empty">本文を貼り付けてください。</div>';
-    checklist.innerHTML='<div class="empty">まだ予習ポイントはありません。</div>';
+    reading.innerHTML='<div class="empty">本文を入れてください。</div>';
+    checklist.innerHTML='<div class="empty">まだありません。</div>';
     summary.innerHTML='';
     filterStatus.textContent='';
     renderKnownHistory("",[]);
@@ -174,8 +174,8 @@ function render(){
     const dom=dominantHit(points.length?points:seg.active);
     const multi=points.length>1;
     const title=multi
-      ? `確認ポイント：${points.map(h=>drawerPointLabel(h)+":"+h.pattern).join(" / ")}`
-      : `${drawerPointLabel(dom)}・レベル${dom.tier}`;
+      ? points.map(h=>drawerPointLabel(h)).join(" / ")
+      : drawerPointLabel(dom);
     const badge=multi?`<span class="candidate-badge">${points.length}観点</span>`:"";
     return `<span class="mark ${dom.type}${multi?" multi":""}" data-seg="${idx}" title="${escapeHtml(title)}">${escapeHtml(seg.text)}${badge}</span>`;
   }).join("");
@@ -186,13 +186,13 @@ function render(){
     <div class="metric"><strong>${counts[k]}</strong><small>${categoryLabels[k]}</small></div>
   `).join("");
 
-  const levelName={"1":"重要ポイントだけ","2":"標準の予習","3":"文法を詳しく","4":"語彙まで細かく","5":"すべての候補"}[level];
+  const levelName={"1":"厳選","2":"ふつう","3":"ふつう","4":"細かく","5":"細かく"}[level];
   const overlapSegments=segments.filter(seg=>normalizeDrawerPoints(seg.active).length>1).length;
   filterStatus.textContent =
-    `確認範囲 ${level}「${levelName}」：表示候補 ${hits.length}件 ／ 複数候補区間 ${overlapSegments}件 ／ レベル判定で省略 ${levelSuppressed}件 ／ 基礎語彙フィルタで省略 ${detected.basicSuppressed}件 ／ 「ここはわかる」で省略 ${knownSuppressed}件`;
+    `${levelName}：${hits.length}件 ／ 重なり ${overlapSegments}件 ／ 非表示 ${levelSuppressed+detected.basicSuppressed+knownSuppressed}件`;
 
   if(!hits.length){
-    checklist.innerHTML='<div class="empty">この確認レベルでは表示する予習ポイントがありません。数字を上げると確認箇所が増えます。</div>';
+    checklist.innerHTML='<div class="empty">ここにはありません。</div>';
   }else{
     checklist.innerHTML=hits.map((h,idx)=>`
       <div class="item clickable" data-check="${idx}" tabindex="0" role="button" aria-label="${escapeHtml(h.pattern)}のヒントを開く">
@@ -335,18 +335,18 @@ function buildCandidateHtml(h){
       <div class="candidate-card">
         <div class="candidate-row">
           <div class="candidate-name">${i+1}. ${escapeHtml(g.name)}</div>
-          <button class="mini-toggle" type="button" data-target="focus-mini-${i}">＋ ミニ解説</button>
+          <button class="mini-toggle" type="button" data-target="focus-mini-${i}">＋ 補足</button>
         </div>
         <div class="mini-detail" id="focus-mini-${i}">
           ${g.freq?`<div class="freq-badge">${escapeHtml(g.freq)}</div>`:""}
           <div class="mini-line">${escapeHtml(g.desc)}</div>
           ${g.ex?`<div class="mini-line"><span class="mini-label">例：</span>${escapeHtml(g.ex)}</div>`:""}
-          ${g.check?`<div class="mini-line"><span class="mini-label">見るポイント：</span>${escapeHtml(g.check)}</div>`:""}
+          ${g.check?`<div class="mini-line"><span class="mini-label">手がかり：</span>${escapeHtml(g.check)}</div>`:""}
           ${g.kakari?`<div class="kakari-note">${escapeHtml(g.kakari)}</div>`:""}
         </div>
       </div>
     `).join('')+'</div>';
   }
   const cs=(h.candidates||[]).map((x,i)=>`<div class="candidate-card"><div class="candidate-name">${i+1}. ${escapeHtml(x)}</div></div>`).join('');
-  return cs?'<div class="candidate-list">'+cs+'</div>':'候補は準備中です。';
+  return cs?'<div class="candidate-list">'+cs+'</div>':'';
 }
