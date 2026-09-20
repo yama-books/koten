@@ -9,6 +9,7 @@ on:
       - "checkpoint/styles.css"
       - "checkpoint/data/**"
       - "tests/unit/checkpoint-public-beta.test.mjs"
+      - "tests/checkpoint-public-beta-browser.smoke.mjs"
       - ".github/workflows/checkpoint-public-beta.yml"
       - "package.json"
       - "package-lock.json"
@@ -33,3 +34,7 @@ jobs:
       - run: npm ci
       - name: Checkpoint DOM and mobile contract smoke
         run: node --test tests/unit/checkpoint-public-beta.test.mjs
+      - name: Install WebKit for mobile browser smoke
+        run: npx playwright install --with-deps webkit
+      - name: Checkpoint WebKit mobile browser smoke
+        run: node tests/checkpoint-public-beta-browser.smoke.mjs
