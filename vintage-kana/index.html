@@ -115,30 +115,31 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .recordStats strong{color:var(--ink);font-variant-numeric:tabular-nums}
 .recordSection{margin:16px 0}
 .recordSection h3{margin:0 0 8px;font-size:13px}
-.recordRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.recordRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
 .recordRowGroup{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;min-width:0}
 .recordRowGroup[open]{grid-column:1/-1}
-.recordRowGroup summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;padding:9px 10px}
+.recordRowGroup summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;padding:10px 11px}
 .recordRowGroup summary::-webkit-details-marker{display:none}
-.recordRowGroup:not([open]) summary{aspect-ratio:1/1;flex-direction:column;justify-content:center;text-align:center;padding:10px 6px}
+.recordRowGroup:not([open]) summary{aspect-ratio:1/1;flex-direction:column;justify-content:center;text-align:center;padding:11px 7px}
 .recordRowGroup:not([open]) .recordRow__head{flex-direction:column;gap:3px}
-.recordRowGroup[open] summary{min-height:68px}
-.recordRow__label{font-weight:700;font-size:12px}
+.recordRowGroup[open] summary{min-height:72px}
+.recordRow__label{font-weight:700;font-size:13px}
 .recordRow__head{display:flex;align-items:center;gap:8px;min-width:0}
 .recordReview{color:var(--danger);font-size:9px;font-weight:700;line-height:1.35}
-.rowGlyphMastery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;border-top:1px solid var(--line);padding:9px}
-.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
-.ringMeter::after{content:"";width:35px;height:35px;border-radius:50%;background:#fff}
-.ringMeter span{position:absolute;z-index:1;font-size:10px;font-variant-numeric:tabular-nums}
+.rowGlyphMastery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-top:1px solid var(--line);padding:10px}
+.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.ringMeter::after{content:"";width:42px;height:42px;border-radius:50%;background:#fff}
+.ringMeter span{position:absolute;z-index:1;font-size:11px;font-variant-numeric:tabular-nums}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
 .recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center}
 .recordGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:34px;line-height:1.15}
-.masteryList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
-.masteryItem{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:7px}
-.masteryItem__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:31px;text-align:center}
-.masteryBar{height:7px;border-radius:999px;background:#e5e1d8;overflow:hidden}
-.masteryBar span{display:block;height:100%;background:var(--meter-color,var(--accent))}
-.masteryItem__label{display:flex;justify-content:space-between;gap:5px;font-size:9px;color:var(--muted);margin-bottom:4px}
+.glyphMasteryCard{aspect-ratio:1/1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:5px}
+.glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:70px;height:70px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.glyphMasteryRing::after{content:"";position:absolute;inset:6px;border-radius:50%;background:#fff}
+.glyphMasteryRing__center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.glyphMasteryGlyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:30px;line-height:1}
+.glyphMasteryJibo{margin-top:3px;color:var(--muted);font-size:9px;line-height:1.15}
+.glyphMasteryPercent{font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
 .emptyRecord{color:var(--muted);font-size:11px;line-height:1.6}
 textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
 .composeModeLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 9px}
@@ -176,8 +177,9 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){button{min-height:44px}.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}.rowGlyphMastery{grid-template-columns:1fr}.masteryList{grid-template-columns:1fr}}
+@media(max-width:720px){button{min-height:44px}.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:380px){.learnHelp summary{width:44px;padding:0;justify-content:center}.learnHelp summary>span:last-child{display:none}.utilityTabs{flex:1;justify-content:flex-end}.tab{padding-inline:7px}.tab.navPrimary{padding-inline:9px}}
+@media(max-width:360px){.rowGlyphMastery{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -603,9 +605,9 @@ function rowGlyphMasteryHtml(kanas){
    const s=statsByGlyph.get(g.character);
    const mastery=s?.mastery||0;
    const display=masteryDisplayLocal(mastery);
-   return '<div class="masteryItem"><div class="masteryItem__char">'+escapeHtml(g.character)+'</div>'+
-     '<div><div class="masteryItem__label"><span>'+escapeHtml(g.kana)+'</span><strong>'+mastery+'%</strong></div>'+
-     '<div class="masteryBar" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'"><span style="width:'+mastery+'%;--meter-color:'+display.css+'"></span></div></div></div>';
+   return '<div class="glyphMasteryCard"><div class="glyphMasteryRing" style="--p:'+mastery+';--meter-color:'+display.css+'" role="meter" aria-label="変体仮名 '+escapeHtml(g.character)+'、字母 '+escapeHtml(g.jibo)+'、習熟度 '+mastery+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'">'+
+     '<span class="glyphMasteryRing__center"><span class="glyphMasteryGlyph">'+escapeHtml(g.character)+'</span><span class="glyphMasteryJibo">字母 '+escapeHtml(g.jibo)+'</span></span></div>'+
+     '<div class="glyphMasteryPercent">'+mastery+'%</div></div>';
  }).join("");
 }
 function renderRecordScreen(){

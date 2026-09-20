@@ -49,3 +49,15 @@ test("vintage-kana points stay hidden until the five-question result screen", ()
     /id="setPoints"/,
   );
 });
+
+
+test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 responsive columns", () => {
+  assert.match(html, /\.rowGlyphMastery\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+  assert.match(html, /\.glyphMasteryCard\{[^}]*aspect-ratio:1\/1;/);
+  assert.match(html, /\.glyphMasteryGlyph\{[^}]*font-family:"Noto Serif Hentaigana"/);
+  assert.match(html, /@media\(max-width:360px\)\{\.rowGlyphMastery\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}\}/);
+  assert.match(html, /class="glyphMasteryRing"[^>]*role="meter"/);
+  assert.match(html, /class="glyphMasteryJibo">字母 /);
+  assert.match(html, /class="glyphMasteryPercent">/);
+  assert.doesNotMatch(html, /class="masteryBar"/);
+});

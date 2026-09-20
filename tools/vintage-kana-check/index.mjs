@@ -7,7 +7,7 @@ import { chromium } from "playwright";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const port = Number(process.env.VINTAGE_KANA_CHECK_PORT ?? 4177);
 const baseUrl = `http://127.0.0.1:${port}/vintage-kana/index.html`;
-const widths = [320, 375, 390, 430];
+const widths = [320, 360, 390, 430];
 const findings = [];
 
 const glyphMaster = JSON.parse(
@@ -156,15 +156,41 @@ try {
       if (first) first.open = true;
       const open = first?.getBoundingClientRect();
       const container = rows?.getBoundingClientRect();
+      const cards = [...(first?.querySelectorAll(".glyphMasteryCard") ?? [])];
+      const cardRects = cards.map((el) => el.getBoundingClientRect());
+      const unique = (values) => [...new Set(values.map((v) => Math.round(v)))];
+      const ring = first?.querySelector(".glyphMasteryRing");
+      const glyph = first?.querySelector(".glyphMasteryGlyph");
+      const jibo = first?.querySelector(".glyphMasteryJibo");
+      const percent = first?.querySelector(".glyphMasteryPercent");
+      const ringRect = ring?.getBoundingClientRect();
+      const cardRect = cards[0]?.getBoundingClientRect();
       return {
         ...closed,
         openFullWidth: Boolean(open && container && Math.abs(open.width - container.width) < 3),
+        cardCount: cards.length,
+        cardColumns: unique(cardRects.map((r) => r.left)).length,
+        cardsSquare: cardRects.every((r) => Math.abs(r.width - r.height) < 3),
+        ringContained: Boolean(ringRect && cardRect && ringRect.left >= cardRect.left - 1 && ringRect.right <= cardRect.right + 1 && ringRect.top >= cardRect.top - 1 && ringRect.bottom <= cardRect.bottom + 1),
+        glyphFontSize: glyph ? Number.parseFloat(getComputedStyle(glyph).fontSize) : 0,
+        jiboFontSize: jibo ? Number.parseFloat(getComputedStyle(jibo).fontSize) : 0,
+        percentOutsideRing: Boolean(percent && ring && !ring.contains(percent)),
+        meterValue: ring?.getAttribute("aria-valuenow") ?? "",
+        percentText: percent?.textContent?.trim() ?? "",
       };
     });
     if (record.count !== 10) add(width, "recordRowCount", record.count);
     if (!record.sameRow) add(width, "recordTwoColumns", record);
     if (!record.square) add(width, "recordClosedSquare", record);
     if (!record.openFullWidth) add(width, "recordOpenFullWidth", record);
+    if (record.cardCount < 1) add(width, "recordGlyphCardsPresent", record);
+    const expectedColumns = width <= 360 ? 2 : 3;
+    if (record.cardColumns !== expectedColumns) add(width, "recordGlyphCardColumns", { expectedColumns, ...record });
+    if (!record.cardsSquare) add(width, "recordGlyphCardsSquare", record);
+    if (!record.ringContained) add(width, "recordGlyphRingContained", record);
+    if (!(record.glyphFontSize > record.jiboFontSize)) add(width, "recordGlyphDominatesJibo", record);
+    if (!record.percentOutsideRing) add(width, "recordPercentBelowRing", record);
+    if (record.meterValue !== "0" || record.percentText !== "0%") add(width, "recordGlyphMeterMatchesPercent", record);
 
     await page.close();
   }
