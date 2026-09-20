@@ -67,10 +67,10 @@ function openFocusExtra(kind){
     const ex=kanaExceptionsForHit(h);
     extra.innerHTML='<div class="focus-extra-title">例外</div>'+'<ul class="compact-bullets">'+ex.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>';
   }else if(kind==="honorific"){
-    extra.innerHTML='<div class="focus-extra-title">次に見る：敬語</div>'+'<ul class="compact-bullets">'+honorificNextGuidance(h).map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>';
+    extra.innerHTML='<div class="focus-extra-title">敬語</div>'+'<ul class="compact-bullets">'+honorificNextGuidance(h).map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>';
   }else if(kind==="answer"){
     extra.innerHTML=`<div class="focus-extra-title">現代仮名遣い</div>
-       <button class="ghost" id="focusRevealAnswer" type="button">＋ 表示</button>
+       <button class="ghost" id="focusRevealAnswer" type="button">表示</button>
        <div class="focus-answer-result" id="focusAnswerResult">${escapeHtml(h.pattern)} → ${escapeHtml(h.modernKana||"")}</div>`;
   }
   extra.dataset.kind=kind;
