@@ -1364,8 +1364,9 @@ iPhone実機で「記録」画面を確認。スクリーンショット上で�
 ### 現在の正本
 - repository: `yama-books/koten`
 - branch: `vintage-kana-main`
-- HEAD: `1aa262d1fa31f39a9e0031306aa4fda61cde4804`
-- §46記録コミット `15e8d84bfa6d92b760ac9e10dab558a9a32d3bb6` から4コミット進行
+- 実装確定HEAD: `1aa262d1fa31f39a9e0031306aa4fda61cde4804`
+- §46記録コミット `15e8d84bfa6d92b760ac9e10dab558a9a32d3bb6` から実装4コミット進行
+- §48・監査文書の記録コミットによりブランチHEADはこの実装HEADより先へ進むが、コード実体は `1aa262d...` で確定
 - `main` へ直接pushしていない
 - force-pushしていない
 - 他ブランチを削除していない
