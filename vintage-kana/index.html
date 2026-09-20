@@ -76,6 +76,9 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .jiboPrompt__arrow{font-family:var(--font-poem);font-size:28px;line-height:1;color:var(--muted)}
 .jiboPrompt__unknown{font-family:var(--font-poem);font-size:44px;line-height:1.1}
 .choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.quizFreeAnswer{display:flex;gap:8px;margin-top:8px}
+.quizFreeAnswer[hidden]{display:none}
+.quizFreeAnswer input{min-width:0;flex:1;border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px 12px;font-family:var(--font-poem);font-size:18px}
 .choice{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;font-family:var(--font-poem);font-size:18px}
 .choice.correct{border-color:var(--ok);background:#edf5ed}.choice.wrong{border-color:var(--danger);background:#f8ecea}
 .feedback{min-height:34px;margin-top:12px;font-size:13px;line-height:1.6}
@@ -261,6 +264,10 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
           <div class="jiboPrompt__unknown">？</div>
         </div>
         <div id="choices" class="choices"></div>
+        <form id="quizFreeAnswer" class="quizFreeAnswer" hidden>
+          <input id="quizFreeInput" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button class="btn primary" type="submit">答える</button>
+        </form>
         <div id="feedback" class="feedback"></div>
         <div class="actions"><button id="nextQuiz" class="btn primary" disabled>次の問題</button></div>
       </div>
@@ -324,7 +331,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </section>
 
 <footer>
-  vintage-kana / release candidate 1.0 RC24
+  vintage-kana / release candidate 1.0 RC25
 </footer>
 </div>
 
@@ -381,6 +388,7 @@ let quizMode="reading";
 let composeMode="auto";
 let yoonSmallEnabled=false;
 let answered=false;
+let quizQuestionMethod="choice";
 const selected={};
 
 const LEARNING_RECORD_KEY="vintage-kana:learning-events:v1";
@@ -389,8 +397,14 @@ const LEARNING_RECORD_KEY="vintage-kana:learning-events:v1";
 const QUIZ_SET_SIZE=5;
 const QUIZ_CORRECT_POINTS=10;
 const QUIZ_ATTEMPT_POINTS=1;
-const GLYPH_CORRECT_MASTERY=12;
-const GLYPH_VIEW_MASTERY=1;
+const CHOICE_MASTERY_INCREMENT=5;
+const CHOICE_MASTERY_CAP=65;
+const FREE_INPUT_MASTERY_INCREMENT=9;
+const FREE_INPUT_MASTERY_CAP=90;
+const OVER_NINETY_MASTERY_INCREMENT=2;
+const DAILY_MASTERY_GAIN_CAP=20;
+const CHOICE_INCORRECT_DECREMENT=3;
+const FREE_INPUT_INCORRECT_DECREMENT=5;
 const KANA_ROWS=[
   ["あ行",[..."あいうえお"]],["か行",[..."かきくけこ"]],["さ行",[..."さしすせそ"]],
   ["た行",[..."たちつてと"]],["な行",[..."なにぬねの"]],["は行",[..."はひふへほ"]],
