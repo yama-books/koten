@@ -131,19 +131,23 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   </div>
 
   <div id="compose" class="view active">
-    <div class="label">現代の仮名文を入力</div>
-    <textarea id="sourceText">あいうえお かきくけこ</textarea>
-    <div class="note">
-      文を入力し、変えたい文字の形を選んでください。<br>
-      「で」などの濁音や、「ゃ・ゅ・ょ・っ」などの小さい仮名にも対応しています。
+    <div class="label">ひらがなを入力</div>
+    <textarea id="sourceText" placeholder="ここにひらがなを入力">きょうはいいてんきですね</textarea>
+    <div class="composeModes">
+      <button class="composeModeBtn active" data-compose-mode="auto">おまかせ</button>
+      <button class="composeModeBtn" data-compose-mode="manual">自分で決める</button>
     </div>
+    <div id="composeRows" class="composeRows autoHidden"></div>
+    <div class="label">できあがり</div>
+    <div id="preview" class="preview"></div>
+    <div id="rerollWrap" class="actions"><button id="rerollCompose" class="btn">もう一度</button></div>
+  </div>
 
   <div id="browse" class="view">
     <div class="label">読みたい仮名を選ぶ</div>
     <div id="filters" class="kanaFilters"></div>
     <div id="cards" class="cards"><div class="loading">字体データを読み込んでいます…</div></div>
   </div>
-
 
   <div id="quiz" class="view">
     <div class="quizBox">
@@ -158,7 +162,6 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       <div class="actions"><button id="nextQuiz" class="btn primary">次の問題</button></div>
     </div>
   </div>
-
 
 </section>
 
