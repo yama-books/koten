@@ -642,6 +642,14 @@ function fallbackSaveImage(dataUrl,filename){
 
 function savePreviewImage(){
  const status=document.getElementById("saveStatus");
+ const sample=document.getElementById("preview")?.textContent||"𛀒";
+ if(document.fonts && !document.fonts.check('32px "Noto Serif Hentaigana"',sample)){
+   if(status)status.textContent="字体を読み込んでいます。少し待って、もう一度押してください。";
+   document.fonts.load('32px "Noto Serif Hentaigana"',sample).then(()=>{
+     if(status)status.textContent="準備できました。もう一度押してください。";
+   }).catch(()=>{});
+   return;
+ }
  const dataUrl=makePreviewDataUrl();
  if(!dataUrl){if(status)status.textContent="ひらがなを入力してください。";return}
  const stamp=new Date().toISOString().slice(0,10).replaceAll("-","");
