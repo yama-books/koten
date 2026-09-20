@@ -691,3 +691,43 @@ gold先固定→shadow無調整baseline保存まで完了。
   - R8 PARTIAL_PASS
   - R11 understood history PASS
   - release status CONDITIONAL_PASS継続。
+
+
+## 2026-09-20 公開β自動DOM smoke・integration delta
+
+### 自動smoke
+- `tests/unit/checkpoint-public-beta.test.mjs` を追加。
+- `.github/workflows/checkpoint-public-beta.yml` を追加。
+- jsdomで実UIを読み込み、以下を検証:
+  - normal URL shadow panel hidden
+  - shadow heavy data skipped
+  - drawer body scroll lock
+  - 「ここはわかる」→履歴
+  - 個別復帰
+  - 全件復帰
+  - 本文変更時クリア
+  - mobile CSS contract
+- 初回runはtest teardownの非同期待ち不足でfailure。
+- 修正後 run **35481928465** / head `414514e911ab88b4187993a725d369e0b7080daf` は **SUCCESS**。
+
+### production integration
+- production `main` にも既存 `checkpoint/` が存在することを確認。
+- main vs checkpoint-main の差分をファイル単位で監査。
+- `data/production_integration_delta_20260920.json` を作成。
+- productionではmerge historyを直さず、blob SHAを照合して `checkpoint/` の必要ファイルだけ統合する方針。
+- unchanged runtime:
+  - core2.js
+  - core3.js
+  - detect1.js
+  - detect2.js
+  - detect3.js
+  - ui2.js
+  - ui3.js
+
+### release gate
+- static mobile: PASS
+- automated DOM runtime: PASS
+- understood history: PASS
+- iPhone Safari actual device: PENDING
+- production integration: PENDING
+- legacy-visible public beta: CONDITIONAL_PASS継続
