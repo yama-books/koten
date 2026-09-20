@@ -2122,3 +2122,142 @@ git pull --ff-only origin vintage-kana-main
 - ローカルは参照・変更とも行っていない。
 - GitHub Pages本番にはまだ反映していない。
 - 公開する場合は§52の通り、最新 `main` 起点の一時公開ブランチへ必要な公開ファイルだけ移植し、PR経由で反映する。
+
+
+## 57. 2026-09-21 Web-only導線修正・公開完了・一時停止チェックポイント
+
+ユーザー指示により、ここで一時停止する。
+この工程は **ローカルを使用せず、GitHub上だけ**で実施した。
+
+### 正本と停止時点
+
+- repository: `yama-books/koten`
+- 開発正本 branch: `vintage-kana-main`
+- 停止時点の開発HEAD: `65f8128788c966a5d687ab8d180b7842b2ff5ef0`
+- 実装本体 commit: `5abecba8fce0dc1859b75da4cc9f11bfe894bbd8`
+- テスト修正 commit: `65f8128788c966a5d687ab8d180b7842b2ff5ef0`
+- 開発CI run: `35528048798`
+- conclusion: **success**
+- `check:vintage-kana` / `check:overflow` / `scan:publish` を含む全CI成功。
+
+### 今回復元・修正した導線
+
+前§56では「導線バグ1・2・4」の番号と症状を一意に復元できず保留した。
+番号対応そのものは今回も断定していない。
+代わりに、現行UIを実際の操作順で監査し、再現できた導線不具合だけを修正した。
+
+1. **記録サブ画面の保持**
+   - 「習得する > 記録」を開いた状態で「一覧」等へ移動し、再び「習得する」へ戻った場合、
+     毎回「練習」へ戻すのではなく、直前の「記録」画面を保持する。
+   - `activeQuizScreen` でサブ画面状態を管理。
+
+2. **記録画面からの戻り先を正しくする**
+   - 練習中に記録を開いた場合は「練習に戻る」。
+   - 5問終了の結果画面から「記録を見る」で開いた場合は「結果に戻る」。
+   - `recordReturnScreen` / `openQuizRecord()` / `returnFromRecord()` を追加。
+   - ボタン文言も戻り先に同期。
+
+3. **字形解説への導線を追加**
+   - 「一覧」の変体仮名カードをbutton化し、タップで `glyphInfoDialog` を開けるようにした。
+   - 記録画面で行を展開した各字体の習熟度カードもタップ可能にし、同じ解説dialogを開く。
+   - 最近取り組んだ字 / 間違えやすい字の既存導線と同じ解説先へ統一。
+
+### 「せ / を」に見える字形の説明
+
+NINJAL監査の未反映推奨事項を実装した。
+
+- `U+1B052`（せ / 世）
+  - 現代の「を」とよく似た形だが、読みは「せ」、字母は「世」。
+- `U+1B11A`（を / 越）
+  - 現代の「せ」に似て見えることがあるが、読みは「を」、字母は「越」。
+- `U+1B11C`（を / 遠）
+  - 読みは「を」、字母は「遠」。現代の「を」につながる字母系統。
+
+`glyphInfoDialog` では、既存の「公式収録一覧外」注記と上記の字形注記を併記できるようにした。
+注記は `white-space:pre-line` で複数行表示。
+
+### 自動QA追加
+
+`tests/unit/vintage-kana-rc25.test.ts`:
+- 記録サブ画面保持
+- 結果/練習への戻り先
+- 一覧・習熟度カードから字形解説へ到達できるDOM契約
+- せ/を関連の字形注記
+
+`tools/vintage-kana-check/index.mjs`:
+- 390px幅実ブラウザで
+  - 記録 → 一覧 → 習得する で記録画面が復元されること
+  - 記録 → 練習に戻れること
+  - 一覧カードから `glyphInfoDialog` が開くこと
+  - U+1B052 の「せ/世」注記が表示されること
+  - 結果 → 記録 → 結果に戻れること
+を追加検査。
+
+初回 commit `5abecba8...` は追加した静的テストの改行エスケープだけが1箇所誤っており、
+CI `35527980055` が `npm test` で failure。
+実装不具合ではなくテスト正規表現の問題だったため、`65f812878...` で修正。
+その後のCI `35528048798` は全成功。
+
+### 公開
+
+§52の no-common-ancestor 手順どおり、`main` へ直接pushせず公開した。
+
+公開専用 branch:
+- `publish-vintage-kana-20260921`
+- commit: `3b97cde20ce2a46a1b911deb4095ceb406d88155`
+
+公開差分は **2ファイルのみ**:
+- `vintage-kana/index.html`
+- `vintage-kana/data/ui-glyph-master.json`
+
+PR:
+- #15 `publish: update vintage-kana G palette and navigation`
+- PR CI run `35528308896`: **success**
+- branch push CI run `35528301029`: **success**
+- merged: 2026-09-21 JST
+- merge commit: `7fe2134847a62affa1279ea0070f01e7fb8e12c6`
+
+GitHub Pages:
+- Deploy Pages run `35528661524`
+- conclusion: **success**
+
+その後、別作業のPR #16（conj）が `main` にマージされ、
+停止確認時の `main` HEAD は `f2ba8b77f4db2eabd86aba926eda9060059cced2`。
+その後の Deploy Pages run `35528844651` も **success**。
+
+重要:
+- 現在の `main` 上 `vintage-kana/index.html` blob:
+  `1d89b92e0637b8a0c074937b8596e7d3be41cc2d`
+- `vintage-kana-main` の同ファイル blobも同一。
+- 現在の `main` 上 `vintage-kana/data/ui-glyph-master.json` blob:
+  `66ef797f0fddba6fbd642c36d91ffd4d1035fe99`
+- `vintage-kana-main` の同ファイル blobも同一。
+
+したがって、PR #16後も今回の `vintage-kana` 公開内容は保持されている。
+
+公開URL:
+`https://yama-books.github.io/koten/vintage-kana/`
+
+### 停止時の残件
+
+- 「導線バグ1・2・4」という旧番号と具体症状の対応は、依然として資料から一意に復元できていない。
+  今回は番号を推測せず、再現できた現行導線だけを修正した。
+- NINJAL監査で挙がっている以下は別残件:
+  - 公式265件/293件を3層構造で統合する作業
+  - `observed` によるおまかせ生成・出題母集団固定
+  - 混同ペア表の作成と4択誤答候補除外
+  - 字母逆引きの複数正解対応
+  - Unicode未付与28件の一覧表示
+  - 国立国語研究所への画像利用許諾照会
+- 今回の停止時点では、これ以上の修正・PR・ブランチ削除は行わない。
+
+### 次回再開
+
+1. HANDOFF §56〜§57 を読む。
+2. `vintage-kana-main` を開発正本とする。
+3. GitHub Pagesには§57の版まで公開済みなので、まず公開版を実機確認する。
+4. 導線に追加フィードバックがあれば、旧番号に無理に対応付けず再現症状から修正する。
+5. NINJAL全件統合へ進む場合は、監査文書の3層構造と `observed` 境界を守る。
+
+再開指示:
+`vintage-kana-main HANDOFF §56〜§57から再開。G配色・字形監査3件・導線修正・せ/を注記は実装/CI/Pages公開済み。PR #15 merge 7fe2134、Pages success。まず実機確認し、次の追加修正かNINJAL残件へ進む。`
