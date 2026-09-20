@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const html = readFileSync(new URL("../../vintage-kana/index.html", import.meta.url), "utf8");
+const glyphMaster = JSON.parse(readFileSync(new URL("../../vintage-kana/data/ui-glyph-master.json", import.meta.url), "utf8"));
 
 test("vintage-kana RC25 staged quiz thresholds stay fixed", () => {
   assert.match(html, /const QUIZ_SET_SIZE=5;/);
@@ -34,12 +35,12 @@ test("vintage-kana keeps the mobile answer grid as a 2x2 bento", () => {
 test("vintage-kana narrow navigation remains tappable without wrapping the three primary tabs", () => {
   assert.match(html, /\.tab\{[^}]*min-height:44px;/);
   assert.match(html, /@media\(max-width:720px\)\{button\{min-height:44px\}/);
-  assert.match(html, /<summary aria-label="変体仮名とは？"><span class="helpIcon" aria-hidden="true">\?<\/span>/);
+  assert.match(html, /<button id="openHelp" class="learnHelpBtn" type="button" aria-label="変体仮名とは？">/);
   assert.match(html, /\.quizModeBtn\{min-height:44px;/);
   assert.match(html, /\.quizScreenBtn\{min-height:44px;/);
   assert.match(
     html,
-    /@media\(max-width:380px\)\{\.learnHelp summary\{width:44px;[^}]*\}\.learnHelp summary>span:last-child\{display:none\}\.utilityTabs\{flex:1;justify-content:flex-end\}/,
+    /@media\(max-width:380px\)\{\.learnHelpBtn\{width:44px;[^}]*\}\.learnHelpBtn>span:last-child\{display:none\}\.utilityTabs\{flex:1;justify-content:flex-end\}/,
   );
 });
 
@@ -69,13 +70,32 @@ test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 respon
 });
 
 test("vintage-kana advanced jibo questions reverse from jibo to an unambiguous glyph", () => {
-  assert.match(html, /function reverseJiboIsUnambiguous\(entry\)/);
+  assert.match(html, /if\(mode==="jibo" && mastery>=JIBO_REVERSE_MASTERY_THRESHOLD\)return "jibo-reverse"/);
   assert.match(html, /return "jibo-reverse"/);
   assert.match(html, /function reverseJiboChoices\(entry\)/);
   assert.match(html, /const same=shuffle\(valid\.filter\(f=>row\.includes\(f\.kana\)\)\)/);
   assert.match(html, /const other=shuffle\(valid\.filter\(f=>!row\.includes\(f\.kana\)\)\)/);
   assert.match(html, /const standard=shuffle\(valid\.filter\(f=>f\.isStandard\)\)/);
+  assert.match(html, /const valid=allKanaForms\(\)\.filter\(f=>f\.character!==entry\.character && f\.jibo!==entry\.jibo\)/);
   assert.match(html, /この字母からできた平仮名はどれ？/);
   assert.match(html, /id="jiboAnswerReading"/);
   assert.match(html, /jiboAnswerReading\.textContent=quizEntry\.kana/);
+});
+
+
+test("vintage-kana help is modal and browse navigation uses the compact row menu", () => {
+  assert.match(html, /h1\{font-family:var\(--font-ui\)/);
+  assert.match(html, /data-view="browse">一覧<\/button>/);
+  assert.match(html, /id="helpDialog" class="helpDialog"/);
+  assert.match(html, /className="kanaFilterRow"/);
+  assert.match(html, /className="kanaFilterRow__buttons"/);
+});
+
+test("vintage-kana keeps U+1B11C mapped to を / 遠 in the current glyph master", () => {
+  const item = glyphMaster.glyphs.find((g: { glyph_id: string }) => g.glyph_id === "U+1B11C");
+  assert.ok(item);
+  assert.equal(item.kana, "を");
+  assert.equal(item.jibo, "遠");
+  assert.equal(item.character, "𛄜");
+  assert.equal(glyphMaster.glyphs.some((g: { glyph_id: string; kana: string }) => g.glyph_id === "U+1B11C" && g.kana === "せ"), false);
 });
