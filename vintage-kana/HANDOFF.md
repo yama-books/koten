@@ -1796,3 +1796,34 @@ GitHub Pagesは `main` pushで公開されるため、公開時は次の方式�
 再開時の注意文:
 `mainとvintage-kana-mainは開発経緯上no common ancestor。公開はmain起点の一時ブランチへvintage-kana公開ファイルだけ移植し、PR経由でmainへ反映する。`
 
+## 53. 2026-09-20 実機確認版をGitHub Pagesへ反映
+
+§52の「mainとvintage-kana-mainはno common ancestor」の公開手順に従い、`main` 起点の公開専用ブランチ `publish-vintage-kana-20260920` を作成し、今回の実機確認に必要な公開ファイルだけを移植した。
+
+公開差分:
+- `vintage-kana/index.html`
+- `vintage-kana/apple-touch-icon.png`
+- `vintage-kana/favicon-32x32.png`
+- `vintage-kana/icon-192.png`
+- `vintage-kana/icon-512.png`
+- `vintage-kana/site.webmanifest`
+
+他アプリには変更なし。
+
+公開用コミット:
+- `4ec0e9e541cb4217aa267951c5828b64449d6352`
+
+PR:
+- #10 `publish: update vintage-kana device review build`
+- CI全項目 success
+
+mainマージコミット:
+- `057f1def01f8b395d1b10a922aa52710bc2e8d21`
+
+GitHub Pages:
+- Deploy Pages run `35514897855`
+- conclusion: success
+- 公開URL: `https://yama-books.github.io/koten/vintage-kana/`
+
+この公開はNINJAL全字形監査結果の統合前。今回の実機確認対象は§49〜§50で実装したUI・習得記録・逆引き字母問題等。
+
