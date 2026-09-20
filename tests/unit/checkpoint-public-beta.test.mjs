@@ -164,6 +164,7 @@ test('スマホ公開βのCSS契約を維持する',()=>{
   assert.match(css,/@media\(max-width:680px\)/);
   assert.match(css,/@media\(max-width:430px\)/);
   assert.match(css,/min-height:44px/);
+  assert.match(css,/#checkLevel\{min-height:44px\}/);
   assert.match(css,/safe-area-inset-bottom/);
   assert.match(css,/max-height:92dvh/);
   assert.match(css,/body\.drawer-open\{overflow:hidden\}/);
