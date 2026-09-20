@@ -1014,3 +1014,36 @@ JavaScript構文PASS。
 
 現行 index.html: release candidate 1.0 RC22
 JavaScript構文PASS。
+
+
+## 41. RC23 / 記録を行別アコーディオン化
+
+記録画面:
+- あ行 / か行 ... を押して展開
+- 各行の円形習熟度
+- 展開内に各変体仮名の習熟度バー
+- 未着手字体も0%として行習熟度へ含める
+- 説明ラベル（未着手、練習中等）は削除
+- 行60%以上の時だけ低習熟の仮名を「要確認」で表示
+- 最近取り組んだ字 / 間違えやすい字は、字形＋字母だけ
+
+ポイント:
+- 回答中は表示しない
+- 5問終了時だけ今回ポイントを表示
+- 正答10 / 誤答1
+- 完了セットのみ累計へ算入
+
+字母出題:
+- 変体仮名字形
+  ↑
+  ？
+の縦型へ変更
+
+フォント:
+- UI Zen Maru Gothic
+- 見出し等 Klee One
+- 変体仮名 Noto Serif Hentaigana
+- 保存PNG通常文字もKlee One
+
+現行 index.html: release candidate 1.0 RC23
+JavaScript構文PASS。
