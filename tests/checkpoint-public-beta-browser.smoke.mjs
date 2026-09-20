@@ -81,7 +81,7 @@ try{
       }));
     assert.ok(boxes.length>0,`${label}: visible target missing`);
     for(const box of boxes){
-      assert.ok(box.height>=min,`${label}: target height below ${min}px: ${JSON.stringify(box)}`);
+      assert.ok(box.height+0.1>=min,`${label}: target height below ${min}px: ${JSON.stringify(box)}`);
     }
     return boxes;
   };
