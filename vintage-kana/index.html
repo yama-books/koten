@@ -75,14 +75,46 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 .composeActions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}
 .saveStatus{min-height:1.4em;margin-top:5px;text-align:center;font-size:11px;color:var(--muted)}
-.learningRecord{margin:2px 0 14px;border:1px solid var(--line);border-radius:13px;background:#fff}
-.learningRecord summary{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;list-style:none;padding:9px 11px;font-size:12px;font-weight:700}
-.learningRecord summary::-webkit-details-marker{display:none}
-.learningRecord__points{display:inline-flex;align-items:center;gap:5px;font-weight:400;color:var(--muted)}
-.learningRecord__points strong{font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums}
-.learningRecord__cat{width:32px;height:auto;flex:none}
-.learningRecord__detail{display:flex;flex-wrap:wrap;gap:6px 14px;border-top:1px solid var(--line);padding:8px 11px;color:var(--muted);font-size:11px}
-.learningRecord__detail strong{color:var(--ink);font-variant-numeric:tabular-nums}
+.quizTopline{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.quizScreens{display:flex;gap:5px}
+.quizScreenBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 10px;color:var(--muted);font-size:11px;font-weight:700}
+.quizScreenBtn.active{background:var(--accent2);border-color:#9dac95;color:var(--ink)}
+.setProgress{font-size:11px;color:var(--muted);margin-bottom:4px}
+.quizStage[hidden]{display:none}
+.setResult{padding:20px 8px 8px;text-align:center}
+.setResult h2{margin:0 0 8px;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:23px}
+.setResult__points{display:flex;justify-content:center;align-items:center;gap:8px;margin:12px 0 4px}
+.setResult__points strong{font-size:34px;font-variant-numeric:tabular-nums}
+.setResult__cat{width:54px;height:auto}
+.setResult__meta{font-size:12px;color:var(--muted)}
+.recordScreen{text-align:left}
+.recordSummary{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:3px 0 12px;margin-bottom:14px}
+.recordSummary__title{font-weight:800}
+.recordSummary__points{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px}
+.recordSummary__points strong{font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums}
+.recordSummary__cat{width:38px;height:auto}
+.recordStats{display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:15px;font-size:11px;color:var(--muted)}
+.recordStats strong{color:var(--ink);font-variant-numeric:tabular-nums}
+.recordSection{margin:16px 0}
+.recordSection h3{margin:0 0 8px;font-size:13px}
+.recordRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.recordRow{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:8px 10px}
+.recordRow__label{font-weight:700;font-size:12px}
+.ringMeter{--p:0;position:relative;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),#e5e1d8 0)}
+.ringMeter::after{content:"";width:35px;height:35px;border-radius:50%;background:#fff}
+.ringMeter span{position:absolute;z-index:1;font-size:10px;font-variant-numeric:tabular-nums}
+.glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
+.recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center}
+.recordGlyph__char{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:34px;line-height:1.15}
+.recordGlyph__meta{margin-top:4px;color:var(--muted);font-size:9px;line-height:1.4}
+.recordGlyph__mastery{font-weight:700;color:var(--ink)}
+.masteryList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.masteryItem{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:7px}
+.masteryItem__char{font-family:"Noto Serif Hentaigana","IPAmjMincho","Yu Mincho",serif;font-size:31px;text-align:center}
+.masteryBar{height:7px;border-radius:999px;background:#e5e1d8;overflow:hidden}
+.masteryBar span{display:block;height:100%;background:var(--accent)}
+.masteryItem__label{display:flex;justify-content:space-between;gap:5px;font-size:9px;color:var(--muted);margin-bottom:4px}
+.emptyRecord{color:var(--muted);font-size:11px;line-height:1.6}
 textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
 .composeModeLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 9px}
 .composeModeLabel{font-size:12px;font-weight:700;color:var(--ink)}
@@ -119,7 +151,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
-@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}}
+@media(max-width:720px){.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:1fr}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}.masteryList{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -192,27 +224,72 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 
   <div id="quiz" class="view">
     <div class="quizBox">
-      <div class="quizModes">
-        <button class="quizModeBtn active" data-quiz-mode="reading">読み方</button>
-        <button class="quizModeBtn" data-quiz-mode="jibo">字母</button>
-      </div>
-      <details class="learningRecord">
-        <summary>
-          <span>記録</span>
-          <span class="learningRecord__points"><strong id="learningPoints">0</strong><span>ポイント</span><img class="learningRecord__cat" src="../assets/mascot/cat-mascot.webp" alt="" aria-hidden="true"></span>
-        </summary>
-        <div class="learningRecord__detail">
-          <span>取り組んだ問題 <strong id="learningAttempts">0</strong>問</span>
-          <span>読み方 <strong id="learningReading">0</strong>問</span>
-          <span>字母 <strong id="learningJibo">0</strong>問</span>
-          <span>正解 <strong id="learningCorrect">0</strong>問</span>
+      <div class="quizTopline">
+        <div class="quizModes">
+          <button class="quizModeBtn active" data-quiz-mode="reading">読み方</button>
+          <button class="quizModeBtn" data-quiz-mode="jibo">字母</button>
         </div>
-      </details>
-      <div id="quizQuestion" class="note">この文字は何と読む？</div>
-      <div id="quizGlyph" class="quizGlyph">…</div>
-      <div id="choices" class="choices"></div>
-      <div id="feedback" class="feedback"></div>
-      <div class="actions"><button id="nextQuiz" class="btn primary">次の問題</button></div>
+        <div class="quizScreens">
+          <button class="quizScreenBtn active" data-quiz-screen="practice">練習</button>
+          <button class="quizScreenBtn" data-quiz-screen="record">記録</button>
+        </div>
+      </div>
+
+      <div id="quizPractice" class="quizStage">
+        <div id="setProgress" class="setProgress">1 / 5</div>
+        <div id="quizQuestion" class="note">この文字は何と読む？</div>
+        <div id="quizGlyph" class="quizGlyph">…</div>
+        <div id="choices" class="choices"></div>
+        <div id="feedback" class="feedback"></div>
+        <div class="actions"><button id="nextQuiz" class="btn primary" disabled>次の問題</button></div>
+      </div>
+
+      <div id="quizResult" class="quizStage setResult" hidden>
+        <h2>5問おわりました</h2>
+        <div class="setResult__points">
+          <strong id="setPoints">+0</strong><span>ポイント</span>
+          <img class="setResult__cat" src="../assets/mascot/cat-mascot.webp" alt="" aria-hidden="true">
+        </div>
+        <div id="setResultMeta" class="setResult__meta"></div>
+        <div class="actions">
+          <button id="restartQuizSet" class="btn primary">もう5問</button>
+          <button id="openRecord" class="btn">記録を見る</button>
+        </div>
+      </div>
+
+      <div id="quizRecord" class="quizStage recordScreen" hidden>
+        <div class="recordSummary">
+          <div class="recordSummary__title">これまでの記録</div>
+          <div class="recordSummary__points"><strong id="recordPoints">0</strong><span>ポイント</span><img class="recordSummary__cat" src="../assets/mascot/cat-mascot.webp" alt="" aria-hidden="true"></div>
+        </div>
+        <div class="recordStats">
+          <span>5問セット <strong id="recordSets">0</strong>回</span>
+          <span>取り組んだ問題 <strong id="recordAttempts">0</strong>問</span>
+          <span>正解 <strong id="recordCorrect">0</strong>問</span>
+        </div>
+
+        <section class="recordSection">
+          <h3>行ごとの習熟度</h3>
+          <div id="rowMastery" class="recordRows"></div>
+        </section>
+
+        <section class="recordSection">
+          <h3>最近取り組んだ字</h3>
+          <div id="recentGlyphs" class="glyphStrip"></div>
+        </section>
+
+        <section class="recordSection">
+          <h3>間違えやすい字</h3>
+          <div id="weakGlyphs" class="glyphStrip"></div>
+        </section>
+
+        <details class="recordSection">
+          <summary>字ごとの習熟度</summary>
+          <div id="glyphMasteryList" class="masteryList" style="margin-top:9px"></div>
+        </details>
+
+        <div class="actions"><button id="backToPractice" class="btn">練習に戻る</button></div>
+      </div>
     </div>
   </div>
 
@@ -293,9 +370,19 @@ const selected={};
 const LEARNING_RECORD_KEY="vintage-kana:learning-events:v1";
 // 百人一首のポイント規則の「選択式正答 10」「誤答も挑戦として 3」を基準にする。
 // 変体仮名メーカーには習熟度・段階がまだないため、弱点倍率や段係数は導入しない。
+const QUIZ_SET_SIZE=5;
 const QUIZ_CORRECT_POINTS=10;
-const QUIZ_ATTEMPT_POINTS=3;
+const QUIZ_ATTEMPT_POINTS=1;
+const GLYPH_CORRECT_MASTERY=12;
+const GLYPH_VIEW_MASTERY=1;
+const KANA_ROWS=[
+  ["あ行",[..."あいうえお"]],["か行",[..."かきくけこ"]],["さ行",[..."さしすせそ"]],
+  ["た行",[..."たちつてと"]],["な行",[..."なにぬねの"]],["は行",[..."はひふへほ"]],
+  ["ま行",[..."まみむめも"]],["や行",[..."やゆよ"]],["ら行",[..."らりるれろ"]],
+  ["わ行",[..."わゐゑをん"]]
+];
 let learningEvents=loadLearningEvents();
+let quizSet=newQuizSet();
 
 function rowsOf(data){return data.distributions||data.records||[]}
 function shuffle(a){
