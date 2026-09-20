@@ -68,17 +68,37 @@ try{
     assert.ok(size.bodyScroll<=size.rootClient+1,`${label}: body horizontal overflow ${JSON.stringify(size)}`);
   };
 
+  const minVisibleHeight=async(selector,label,min=44)=>{
+    const boxes=await page.locator(selector).evaluateAll(els=>els
+      .filter(el=>{
+        const style=getComputedStyle(el);
+        const r=el.getBoundingClientRect();
+        return style.display!=='none' && style.visibility!=='hidden' && r.width>0 && r.height>0;
+      })
+      .map(el=>{
+        const r=el.getBoundingClientRect();
+        return {width:r.width,height:r.height,text:(el.textContent||'').trim().slice(0,40)};
+      }));
+    assert.ok(boxes.length>0,`${label}: visible target missing`);
+    for(const box of boxes){
+      assert.ok(box.height>=min,`${label}: target height below ${min}px: ${JSON.stringify(box)}`);
+    }
+    return boxes;
+  };
+
   await page.goto(base,{waitUntil:'networkidle'});
   await page.waitForFunction(()=>document.documentElement.dataset.shadowData==='skipped');
 
   assert.equal(await page.locator('#shadowDebugPanel').evaluate(el=>el.hidden),true);
   assert.equal(await page.evaluate(()=>document.documentElement.dataset.shadowData),'skipped');
   await noHorizontalOverflow('portrait initial');
+  const initialButtonBoxes=await minVisibleHeight('.row button','top actions');
 
   await page.locator('#sample3').tap();
   const checklist=page.locator('.item[data-check]');
   const initialCount=await checklist.count();
   assert.ok(initialCount>0,'sample3 checklist should have points');
+  const checklistBoxes=await minVisibleHeight('.item[data-check]','checklist items');
 
   // 一文字の本文マーカーもtouch経路でdrawerを開けることを確認。
   const oneCharSeg=await page.locator('.mark[data-seg]').evaluateAll(els=>{
@@ -93,6 +113,9 @@ try{
   await page.locator(`.mark[data-seg="${oneCharSeg}"]`).tap();
   assert.equal(await page.locator('#drawer').evaluate(el=>el.classList.contains('open')),true);
   assert.equal(await page.evaluate(()=>document.body.classList.contains('drawer-open')),true);
+  const closeBox=(await minVisibleHeight('#closeDrawer','drawer close'))[0];
+  const knownActionBox=(await minVisibleHeight('#markPointKnown','known action'))[0];
+  await minVisibleHeight('#nextPoint','next action');
   await page.locator('#closeDrawer').tap();
   assert.equal(await page.evaluate(()=>document.body.classList.contains('drawer-open')),false);
 
@@ -105,6 +128,8 @@ try{
   assert.match(await page.locator('#knownList').innerText(),/【.+】/);
   assert.match(await page.locator('#filterStatus').innerText(),/「ここはわかる」で省略 1件/);
   assert.equal(await page.locator('.item[data-check]').count(),initialCount-1);
+  const restoreOneBox=(await minVisibleHeight('[data-known-index="0"]','restore one'))[0];
+  await minVisibleHeight('#restoreAllKnown','restore all');
 
   await page.locator('[data-known-index="0"]').tap();
   assert.equal(await page.locator('#knownHistory').evaluate(el=>el.hidden),true);
@@ -150,7 +175,14 @@ try{
     portrait:{width:390,height:844},
     landscape:{width:844,height:390},
     sample3Checklist:initialCount,
-    longSampleMarkers:await page.locator('.mark[data-seg]').count()
+    longSampleMarkers:await page.locator('.mark[data-seg]').count(),
+    measuredTouchTargets:{
+      topActionsMinHeight:Math.min(...initialButtonBoxes.map(x=>x.height)),
+      checklistMinHeight:Math.min(...checklistBoxes.map(x=>x.height)),
+      drawerCloseHeight:closeBox.height,
+      knownActionHeight:knownActionBox.height,
+      restoreOneHeight:restoreOneBox.height
+    }
   }));
 
   await context.close();
