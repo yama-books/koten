@@ -188,7 +188,7 @@ test('仮名遣いの類例は文語の精査済み例を表示する',async()=>
 
 test('公開対象の仮名遣い規則は文語類例を5件ずつ持つ',()=>{
   const source=readCheckpoint('core3.js');
-  const match=source.match(/const KANA_RULE_DEFS = (\[[\s\S]*?\n\]);/);
+  const match=source.match(/const KANA_RULE_DEFS = (\[[\s\S]*?\n\])\s*;?/);
   assert.ok(match,'KANA_RULE_DEFSを取得できる');
   const defs=Function(`return ${match[1]}`)();
 
