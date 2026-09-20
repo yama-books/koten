@@ -847,3 +847,17 @@ JavaScript構文PASS。
 
 現行 index.html: release candidate 1.0 RC13
 JavaScript構文PASS。
+
+
+## 32. RC14 / 通常ひらがなを手動候補へ復帰
+
+「自分で選ぶ」モードでは、
+- 普通のひらがな
+- 変体仮名
+を同じ候補群から選択可能。
+
+普通のひらがなは淡い青背景・「普通のひらがな」表記で区別。
+完成形への即時反映、追従プレビューは維持。
+
+現行 index.html: release candidate 1.0 RC14
+JavaScript構文PASS。
