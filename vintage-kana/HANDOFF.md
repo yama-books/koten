@@ -1762,3 +1762,37 @@ UI本線:
 NINJAL監査:
 `vintage-kana-ninjal-auditをpullし、NINJAL_GLYPH_AUDIT_TASK_2026-09-20.mdを最初から読んで監査開始。index.htmlは触らない。`
 
+## 52. 2026-09-20 mainとの履歴系統・公開手順
+
+### 重要: `main` と `vintage-kana-main` に共通祖先がない理由
+
+`vintage-kana` は、Thinking上でローカル作業環境を使わずGitHub/Web-onlyで開発を継続してきた履歴を、後から現在の `koten` リポジトリ構成へ統合した経緯がある。
+
+そのため、GitHub上では `main` と `vintage-kana-main` が**履歴上の共通祖先を持たない別系統**として扱われる。これは異常や破損ではなく、開発経緯による既知の状態。
+
+結果:
+- `main...vintage-kana-main` の通常compareは `No common ancestor` になる。
+- `vintage-kana-main` から `main` への通常PRを、そのまま公開手段として使わない。
+- force pushや履歴の付け替えで解決しない。
+
+### 公開時の安全な手順
+
+GitHub Pagesは `main` pushで公開されるため、公開時は次の方式を使う。
+
+1. 最新 `main` から公開専用ブランチを作る。
+2. `vintage-kana-main` から、公開に必要な `vintage-kana/` 配下のファイルだけをそのブランチへ移植する。
+3. `main` 基準の差分としてCI/内容を確認する。
+4. 公開専用ブランチから `main` へPRを作成してマージする。
+5. Pagesのデプロイ成功を確認する。
+
+この方式なら、他アプリの `main` 履歴を壊さず、`vintage-kana` の公開内容だけ更新できる。
+
+### ローカルへ戻す際の注意
+
+`vintage-kana-main` 自体の開発履歴はそのまま維持する。
+`main` と無理に履歴統合しない。
+ローカルでは `vintage-kana-main` を独立した開発ブランチとしてpullして扱う。
+
+再開時の注意文:
+`mainとvintage-kana-mainは開発経緯上no common ancestor。公開はmain起点の一時ブランチへvintage-kana公開ファイルだけ移植し、PR経由でmainへ反映する。`
+
