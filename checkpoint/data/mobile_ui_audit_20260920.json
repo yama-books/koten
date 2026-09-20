@@ -70,7 +70,13 @@
       "id": "M11",
       "name": "webkit-mobile-browser-smoke",
       "status": "PASS",
-      "evidence": "GitHub Actions run 35482145135, Playwright WebKit 26.5. portrait 390x844 / landscape 844x390. one-character marker touch, drawer body lock, understood history individual/all restore, text-change clear, long sample render and no horizontal overflow passed."
+      "evidence": "Run 35482932843 / head 2fc149f4086e42eb7a3d4e00872ae7b252d8414c. WebKit 26.5. portrait 390x844 / landscape 844x390. Critical computed touch heights: top actions 44px, level selector 46px, checklist ~81.09px, drawer close 44px, known action 44px, restore one 44px. Normal public data loaded while shadow-only data skipped; debug URL loaded shadow data."
+    },
+    {
+      "id": "M12",
+      "name": "computed-touch-targets",
+      "status": "PASS",
+      "evidence": "WebKit computed layout: all tested visible critical controls are >=44px high; level selector 46px."
     }
   ],
   "understoodHistory": {
@@ -116,8 +122,8 @@
   ],
   "browserSmoke": {
     "status": "PASS",
-    "runId": 35482145135,
-    "headSha": "62f70c3532f4419252437768554d8b8b9d3bbe6f",
+    "runId": 35482932843,
+    "headSha": "2fc149f4086e42eb7a3d4e00872ae7b252d8414c",
     "engine": "Playwright WebKit 26.5",
     "viewportPortrait": {
       "width": 390,
@@ -129,11 +135,25 @@
     },
     "sample3Checklist": 16,
     "longSampleMarkers": 162,
+    "externalDataLoaded": true,
+    "normalShadowDataSkipped": true,
+    "debugShadowDataLoaded": true,
+    "measuredTouchTargets": {
+      "topActionsMinHeight": 44,
+      "levelSelectorHeight": 46,
+      "checklistMinHeight": 81.09375,
+      "drawerCloseHeight": 44,
+      "knownActionHeight": 44,
+      "restoreOneHeight": 44
+    },
     "verified": [
       "normal URL shadow hidden and shadowData skipped",
+      "normal URL production data loaded",
+      "debug URL loads shadow morphology data",
       "no horizontal overflow portrait",
       "one-character inline marker touch opens drawer",
       "drawer applies body scroll lock",
+      "all measured visible critical touch targets meet or exceed 44px",
       "understood history individual restore",
       "understood history restore all",
       "text change clears understood history",
