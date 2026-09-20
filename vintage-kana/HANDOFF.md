@@ -1891,3 +1891,131 @@ main上でも以下を再確認:
 - 変体仮名、字母、0%等の下端が切れないか。
 - 既存の行カード、最近/苦手ポップアップ、字母逆引き問題などに回帰がないか。
 
+## 55. 2026-09-20 一時停止・ローカル引継ぎ
+
+ユーザー指示により、ここでThinking/GitHub側の実装作業を停止し、ローカルへ引き継ぐ。
+
+### 重要な履歴前提
+
+§52の通り、`vintage-kana-main` はThinking上でローカル無しに開発してきた履歴を後から統合したため、`main` と共通祖先がない。
+これは既知の正常状態。
+ローカルでも `main` と無理にmerge/rebaseしない。
+公開時は、最新 `main` 起点の一時公開ブランチへ必要な `vintage-kana/` ファイルだけ移植し、PR経由で `main` へ反映する。
+
+### 停止時点の開発ブランチ
+
+- branch: `vintage-kana-main`
+- 実装/QA最新HEAD: `abd9102f0349da8399d298b5d70e3826542505d7`
+- CI run `35518066642`: **success**
+- このHEADでは `check:vintage-kana` を含む全CIが成功。
+
+途中のfailure run:
+- `35518047401`
+- `35517904954`
+- `35517793523`
+- `35517776559`
+- `35517768478`
+
+これらは、UI本体→unit test→browser QAを順次同期していた途中コミットの赤。最新HEAD `abd9102f...` では解消済みなので、ローカル再開時に途中failureを現行不具合として扱わない。
+
+### 今回の実機フィードバックと反映内容
+
+ユーザー実機確認:
+1. 各字カードで読みと円がまだ接触していた。
+2. 横画面でカードが横に巨大化し、縦画面と密度が違った。
+3. 練習の選択肢文字をもっと大きくしたい。
+4. `4択` 表示は不要。
+
+最新HEADでの対応:
+- 各字カードを少し縦長化: `aspect-ratio:1/1.12`
+- 読みラベルを左上へ固定し、中央内容と物理的に分離。
+- `.glyphMasteryCore` を `translate(5px,8px)` して円側を右下へ逃がす。
+- 習熟リングを 60px → 56px。
+- 変体仮名本体を 30px → 28px。
+- browser QAで「読みと円が非接触」を実測検査。
+- 横画面（`orientation:landscape` + 721px以上）:
+  - 閉じた行カード `.recordRows`: 4列
+  - 開いた各字 `.rowGlyphMastery`: 5列
+- 844×390のlandscape QAを追加し、行4列・各字5列・横overflowなし・カード幅過大化なしを検査。
+- 通常の4択文字を 23px → 30px。
+- 選択肢の最小高さを 78px → 84px。
+- 字形選択肢は 42px → 48px。
+- choice問題では `4択` 表示を出さない。
+- free-input問題では従来どおり `入力` 表示を残す。
+
+### 関連コミット
+
+- `46f70fc9170c514d451e62dd3eb5895222627c51` UI密度・選択肢拡大・4択非表示の初回実装
+- `9cddb87be1abe01f146b459b787ded8965b0f972` unit test更新
+- `c8c3c6e2b60f6bf46897c5a04ab696a9f09d48d2` 読みと円の分離強化
+- `5c18790ed1311626fa7848ad00f60d8569a5f0de` unit test同期
+- `4b746ef6533875ef59be13878fd2a0f779fc7fec` browser QA追加
+- `19cffd657888b71a1f028bc314ef97dc6e52dab4` 読みと円のクリアランス追加
+- `455dd79a3de1101d0371ae181e709076dd845aeb` test同期。CI success
+- `77cee27c466779532f3f23fc9703db6c5b568129` 横画面の行カード4列化
+- `b1902a5b22056382b592db5b6e3a7c59f4c5bd87` unit test同期。CI success
+- `abd9102f0349da8399d298b5d70e3826542505d7` landscape browser QA更新。**最終実装HEAD / CI success**
+
+### 公開状態
+
+§54の実機確認2回目までの版はGitHub Pagesに公開済み。
+今回の§55で扱った追加修正（読みの追加クリアランス、landscape密度、選択肢拡大、4択非表示）は、停止時点では **まだmain / GitHub Pagesへ公開していない**。
+
+ローカル再開後、内容確認が済んだら §52の公開手順で公開する。
+
+### ローカルでの再開
+
+未コミット変更がないことを確認してから:
+
+```powershell
+cd C:\Users\user\AI開発\koten
+git status
+git fetch origin
+git switch vintage-kana-main
+git pull --ff-only origin vintage-kana-main
+```
+
+pull後に確認:
+
+```powershell
+git rev-parse HEAD
+```
+
+§55追記前の実装HEADは:
+`abd9102f0349da8399d298b5d70e3826542505d7`
+
+HANDOFF追記コミットを含むため、実際のbranch HEADはこの後さらに1コミット進む。
+
+最初に読む:
+1. `vintage-kana/HANDOFF.md` §52〜§55
+2. `vintage-kana/DESIGN_HISTORY.md`
+3. `vintage-kana/PUBLICATION_QA.md`
+4. 必要なら `tools/vintage-kana-check/index.mjs`
+
+### ローカル再開時の最初の確認
+
+```powershell
+npm test
+npm run check:vintage-kana
+```
+
+必要なら全CI相当:
+```powershell
+npm run check:eol
+npm run typecheck
+npm run lint
+npm test
+npm run data:check
+npm run build
+npm run check:vintage-kana
+npm run check:font
+npm run check:font-assets
+npm run check:font-weight
+npm run check:overflow
+npm run scan:publish
+```
+
+### 再開指示
+
+`vintage-kana-main HANDOFF §52〜§55から再開。mainとはno common ancestorの前提を維持。最新実装abd9102fはCI success。今回の追加修正は未公開なので、ローカルで確認後、main起点の一時公開ブランチへvintage-kana公開ファイルだけ移植してPR→Pages反映する。`
+
