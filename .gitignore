@@ -82,6 +82,13 @@ npm-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# ---- conj 監査: CHJ raw本文を含む一時データ・成果物 ----
+# conj/CLAUDE_CODE_AUDIT_PROMPT_2026-09-21.md の絶対禁止事項
+# 「CHJ raw本文のGitHub公開」に従い、Drive内部QA ZIPの展開先と、
+# そこから生成したCHJ生引用文入りCSVは追跡しない。
+conj/_qa_source/
+conj/audit/marker-kana-audit-v1.csv
+
 # ---- OS・エディタ ----
 .DS_Store
 Thumbs.db
