@@ -861,3 +861,20 @@ JavaScript構文PASS。
 
 現行 index.html: release candidate 1.0 RC14
 JavaScript構文PASS。
+
+
+## 33. RC15 / 拗音小書き設定
+
+「自分で選ぶ」モードへ
+「拗音（ゃ・ゅ・ょ）を小さくする」チェックを追加。
+
+初期値 ON。
+OFFでは該当する通常ひらがな／変体仮名を通常サイズ表示。
+「っ」等には影響させない。
+おまかせモードは小書き固定で、切替時に ON へ戻す。
+
+歴史的に江戸期の拗音が一律小書きだったとは扱わず、
+UI上の表示設定として位置づける。
+
+現行 index.html: release candidate 1.0 RC15
+JavaScript構文PASS。
