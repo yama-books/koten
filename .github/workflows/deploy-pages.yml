@@ -1,7 +1,7 @@
 name: Deploy Pages
 on:
   push:
-    branches: [main]
+    branches: [checkpoint-main]
   workflow_dispatch:
 
 # The repository name decides the Pages sub-path, so it is read from the event
