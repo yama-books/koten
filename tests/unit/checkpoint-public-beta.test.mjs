@@ -71,9 +71,10 @@ test('通常URLではshadowを公開UIから切り離す',async()=>{
   dom.window.close();
 });
 
-test('drawerは開閉時に背景スクロール用classを正しく切り替える',()=>{
+test('drawerは開閉時に背景スクロール用classを正しく切り替える',async()=>{
   const dom=createCheckpointDom();
   const {document}=dom.window;
+  await settle(dom);
 
   document.getElementById('sample3')?.click();
   firstChecklistItem(document).click();
@@ -87,9 +88,10 @@ test('drawerは開閉時に背景スクロール用classを正しく切り替え
   dom.window.close();
 });
 
-test('「ここはわかる」は履歴へ入り、個別に戻せる',()=>{
+test('「ここはわかる」は履歴へ入り、個別に戻せる',async()=>{
   const dom=createCheckpointDom();
   const {document}=dom.window;
+  await settle(dom);
 
   document.getElementById('sample3')?.click();
   const before=document.querySelectorAll('.item[data-check]').length;
@@ -115,9 +117,10 @@ test('「ここはわかる」は履歴へ入り、個別に戻せる',()=>{
   dom.window.close();
 });
 
-test('「すべて戻す」で複数のわかる履歴を一括復帰できる',()=>{
+test('「すべて戻す」で複数のわかる履歴を一括復帰できる',async()=>{
   const dom=createCheckpointDom();
   const {document}=dom.window;
+  await settle(dom);
 
   document.getElementById('sample3')?.click();
   const before=document.querySelectorAll('.item[data-check]').length;
@@ -135,9 +138,10 @@ test('「すべて戻す」で複数のわかる履歴を一括復帰できる',
   dom.window.close();
 });
 
-test('本文を変更すると「わかる」履歴を自動クリアする',()=>{
+test('本文を変更すると「わかる」履歴を自動クリアする',async()=>{
   const dom=createCheckpointDom();
   const {document}=dom.window;
+  await settle(dom);
 
   document.getElementById('sample3')?.click();
   firstChecklistItem(document).click();
