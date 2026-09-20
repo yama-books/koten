@@ -160,7 +160,28 @@ try{
   await page.locator('#analyze').tap();
   assert.equal(await page.locator('#knownHistory').evaluate(el=>el.hidden),true);
 
+  // 仮名遣いL1の精査済み類例が実ブラウザでも表示される。
+  await page.locator('#input').fill('やうなり');
+  await page.locator('#checkLevel').selectOption('4');
+  await page.locator('#analyze').tap();
+  const kanaItem=page.locator('.item[data-check]').filter({hasText:'やう'}).first();
+  assert.ok(await kanaItem.count(),'L1 kana item should exist');
+  await kanaItem.tap();
+  await page.locator('#focusMainAction').tap();
+  const kanaExamplesButton=page.locator('[data-focus-tool="examples"]');
+  assert.equal(await kanaExamplesButton.count(),1);
+  await kanaExamplesButton.tap();
+  const kanaExamplesText=await page.locator('#focusExtra').innerText();
+  for(const expected of ['まうす → もうす','まうづ → もうず','まうく → もうく','らうたし → ろうたし','さうざうし → そうぞうし']){
+    assert.ok(kanaExamplesText.includes(expected),`missing curated kana example: ${expected}`);
+  }
+  for(const excluded of ['あふ → あう','たまふ → たもう','かう → こう','らうらうじ → ろうろうじ']){
+    assert.equal(kanaExamplesText.includes(excluded),false,`excluded kana example leaked: ${excluded}`);
+  }
+  await page.locator('#closeDrawer').tap();
+
   // 長文サンプルでも描画し、横はみ出しを確認。
+  await page.locator('.sample-picker summary').evaluate(el=>{ if(!el.parentElement.open) el.click(); });
   await page.locator('#sample4').tap();
   assert.ok(await page.locator('.mark[data-seg]').count()>50,'long sample should render many markers');
   await noHorizontalOverflow('portrait long sample');
