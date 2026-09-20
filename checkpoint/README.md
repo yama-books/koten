@@ -39,3 +39,21 @@ https://yama-books.github.io/koten/checkpoint/
 
 ## 公開統合
 production `main` への安全な取り込み手順は `PRODUCTION_INTEGRATION.md` を参照。
+
+
+## 公開βの自動検証
+`checkpoint-main` では、公開UIの回帰をGitHub Actionsで自動確認しています。
+
+- 通常URLではshadow debugを出さない
+- drawer操作
+- 「ここはわかる」履歴
+- 個別・全件復帰
+- 本文変更時クリア
+- スマホ向けCSS契約
+
+検証:
+- `tests/unit/checkpoint-public-beta.test.mjs`
+- `.github/workflows/checkpoint-public-beta.yml`
+
+production統合前には `PRODUCTION_INTEGRATION.md` と
+`data/production_integration_delta_20260920.json` を確認してください。
