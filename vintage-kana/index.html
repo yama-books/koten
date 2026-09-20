@@ -346,8 +346,6 @@ function recordLearningAttempt(mode,correct){
    mode,
    outcome:correct?"correct":"incorrect"
  });
- // 無制限のポイント値は保持しつつ、端末保存のイベント列だけは過剰肥大を避ける。
- if(learningEvents.length>5000) learningEvents=learningEvents.slice(-5000);
  try{localStorage.setItem(LEARNING_RECORD_KEY,JSON.stringify(learningEvents))}catch(e){console.warn("learning record save failed",e)}
  renderLearningRecord();
  return gained;
