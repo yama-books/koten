@@ -165,7 +165,7 @@ try {
       const closed = {
         count: groups.length,
         sameRow: Boolean(a && b && Math.abs(a.top - b.top) < 2),
-        compact: Boolean(a && a.height <= a.width),
+        compact: Boolean(a && (a.width <= 105 ? rowRingBefore && rowRingBefore.width / a.width >= 0.6 : a.height <= a.width)),
         rowRingShare: Boolean(a && rowRingBefore) ? rowRingBefore.width / a.width : 0,
       };
       if (first) first.open = true;
