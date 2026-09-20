@@ -6,7 +6,6 @@ function openDrawer(hitOrHits, surfaceText){
   const displaySurface=(surfaceText && surfaceText.length>=(h.end-h.start)) ? surfaceText : h.pattern;
   currentSurfaceText=displaySurface;
   currentDrawerHits=orderDrawerPoints(normalized,displaySurface);
-  currentCompletedPointKeys=new Set();
   drawerNeedsRender=false;
   currentPointIndex=0;
   currentDrawerHit=currentPoint();
@@ -27,26 +26,11 @@ function closeDrawer(){
   if(drawerNeedsRender){ drawerNeedsRender=false; render(); }
 }
 
-function goNextPoint(){
-  if(currentPointIndex < currentDrawerHits.length-1){
-    currentPointIndex++;
-    currentDrawerHit=currentPoint();
-    renderCurrentFocus();
-  }
-}
-
 function markCurrentPointKnown(){
   const h=currentPoint(); if(!h) return;
-  const key=hitKey(h);
-  dismissedKeys.add(key);
-  currentCompletedPointKeys.add(key);
+  dismissedKeys.add(hitKey(h));
   drawerNeedsRender=true;
-  const nextIndex=currentDrawerHits.findIndex((x,i)=>i>currentPointIndex && !currentCompletedPointKeys.has(hitKey(x)));
-  const anyIndex=nextIndex>=0 ? nextIndex : currentDrawerHits.findIndex(x=>!currentCompletedPointKeys.has(hitKey(x)));
-  if(anyIndex<0){ closeDrawer(); return; }
-  currentPointIndex=anyIndex;
-  currentDrawerHit=currentPoint();
-  renderCurrentFocus();
+  closeDrawer();
 }
 
 document.getElementById("analyze").addEventListener("click",render);
@@ -76,7 +60,6 @@ document.getElementById("focusOverview").addEventListener("click",(e)=>{
   currentDrawerHit=currentPoint();
   renderCurrentFocus();
 });
-document.getElementById("nextPoint").addEventListener("click",goNextPoint);
 document.getElementById("markPointKnown").addEventListener("click",markCurrentPointKnown);
 document.getElementById("restoreAllKnown").addEventListener("click",()=>{
   dismissedKeys.clear();
@@ -97,13 +80,13 @@ document.getElementById("focusExtra").addEventListener("click",(e)=>{
   const mini=e.target.closest(".mini-toggle");
   if(mini){
     const detail=document.getElementById(mini.dataset.target);
-    if(detail){ const open=detail.classList.toggle("open"); mini.textContent=open ? "− 閉じる" : "＋ ミニ解説"; }
+    if(detail){ const open=detail.classList.toggle("open"); mini.textContent=open ? "閉じる" : "補足"; }
     return;
   }
   const answer=e.target.closest("#focusRevealAnswer");
   if(answer){
     const result=document.getElementById("focusAnswerResult");
-    if(result){ const open=result.classList.toggle("open"); answer.textContent=open ? "− 隠す" : "＋ 表示する"; }
+    if(result){ const open=result.classList.toggle("open"); answer.textContent=open ? "隠す" : "表示"; }
   }
 });
 document.getElementById("drawer").addEventListener("click",(e)=>{ if(e.target.id==="drawer") closeDrawer(); });
