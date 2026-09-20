@@ -201,6 +201,11 @@ test('公開対象の仮名遣い規則は文語類例を5件ずつ持つ',()=>{
     assert.ok(rule.examples.length>=5,`${rule.id} の類例が5件以上ある`);
   }
 
+  const audit=JSON.parse(readCheckpoint('data/kana_examples_audit_20260920.json'));
+  for(const rule of defs){
+    assert.deepEqual(rule.examples||[],audit.rules[rule.id]?.examples||[],`${rule.id} の実装と監査表を一致させる`);
+  }
+
   const all=defs.flatMap(rule=>rule.examples||[]);
   for(const excluded of [
     'あふ → あう',
