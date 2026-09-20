@@ -54,9 +54,8 @@ function renderOverview(){
   if(currentDrawerHits.length<=1){ box.style.display="none"; box.innerHTML=""; return; }
   box.style.display="";
   box.innerHTML='<div class="focus-overview-row">'+currentDrawerHits.map((h,i)=>{
-    const key=hitKey(h); const done=currentCompletedPointKeys.has(key);
-    const cls=["focus-overview-item",i===currentPointIndex?"current":"",done?"done":""].filter(Boolean).join(" ");
-    return `<button type="button" class="${cls}" data-point-index="${i}" ${done?"disabled":""}>${done?"✓ ":""}${escapeHtml(drawerPointLabel(h))}</button>`;
+    const cls=["focus-overview-item",i===currentPointIndex?"current":""].filter(Boolean).join(" ");
+    return `<button type="button" class="${cls}" data-point-index="${i}">${escapeHtml(drawerPointLabel(h))}</button>`;
   }).join('')+'</div>';
 }
 
@@ -91,6 +90,6 @@ function kanaExceptionsForHit(h){
   return [...new Set(out)];
 }
 
-function honorificNextGuidance(h){
+function honorificGuidance(h){
   return ["誰の動作か","誰への敬意か","本動詞か補助動詞か","普通の言い方に直すと何をしているか"];
 }
