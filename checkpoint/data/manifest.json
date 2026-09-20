@@ -165,6 +165,8 @@
     "checkpoint-mainはdeploy-pages workflowのmain push対象外。実機Pages smokeはproduction統合後に実施する。",
     "checkpoint-main専用の公開βDOM smokeを追加し、通常URLshadow切離し・drawer背景固定・「ここはわかる」履歴の個別/全件復帰・本文変更時クリア・mobile CSS契約を自動検証。",
     "Checkpoint Public Beta Smoke run 35481928465 は head 414514e911ab88b4187993a725d369e0b7080daf でPASS。",
-    "production_integration_delta_20260920.json に main と checkpoint-main のファイル単位blob SHA差分を固定。main側SHA変化時は上書きせず再レビューする。"
+    "production_integration_delta_20260920.json に main と checkpoint-main のファイル単位blob SHA差分を固定。main側SHA変化時は上書きせず再レビューする。",
+    "Playwright WebKit 26.5 mobile browser smokeを追加し、run 35482145135でPASS。390x844 portrait / 844x390 landscape、1文字marker touch、drawer lock、わかる履歴復帰、長文、横overflowなしを確認。",
+    "物理iPhone Safariはproduction統合後の最終smokeとして残す。"
   ]
 }
