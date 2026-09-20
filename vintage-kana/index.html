@@ -143,8 +143,8 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
 .recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center;cursor:pointer}
 .recordGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:34px;line-height:1.15}
-.glyphMasteryCard{aspect-ratio:1/1;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:4px}
-.glyphMasteryReading{font-family:var(--font-poem);font-size:12px;line-height:1;color:var(--ink)}
+.glyphMasteryCard{position:relative;aspect-ratio:1/1;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:4px}
+.glyphMasteryReading{position:absolute;top:5px;left:6px;z-index:2;font-family:var(--font-poem);font-size:11px;font-weight:700;line-height:1;color:var(--ink);background:rgba(255,255,255,.92);border-radius:999px;padding:2px 4px}
 .glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:60px;height:60px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
 .glyphMasteryRing::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff}
 .glyphMasteryRing__center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
@@ -309,7 +309,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
         <h2>5問おわりました</h2>
         <div class="setResult__points">
           <strong id="setPoints">+0</strong><span>ポイント</span>
-          <img class="setResult__cat" src="../assets/mascot/cat-mascot.webp" alt="" aria-hidden="true">
+          <img class="setResult__cat" src="./cat-mascot.webp" alt="" aria-hidden="true">
         </div>
         <div id="setResultMeta" class="setResult__meta"></div>
         <div class="actions">
@@ -321,7 +321,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       <div id="quizRecord" class="quizStage recordScreen" hidden>
         <div class="recordSummary">
           <div class="recordSummary__title">これまでの記録</div>
-          <div class="recordSummary__points"><strong id="recordPoints">0</strong><span>ポイント</span><img class="recordSummary__cat" src="../assets/mascot/cat-mascot.webp" alt="" aria-hidden="true"></div>
+          <div class="recordSummary__points"><strong id="recordPoints">0</strong><span>ポイント</span><img class="recordSummary__cat" src="./cat-mascot.webp" alt="" aria-hidden="true"></div>
         </div>
         <div class="recordStats">
           <span>5問セット <strong id="recordSets">0</strong>回</span>
