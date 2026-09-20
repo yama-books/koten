@@ -1525,3 +1525,90 @@ WebKit計算値46pxでPASS。
 
 再開短句:
 **「checkpoint-main HANDOFF最終節から再開。final delta照合→production統合→物理iPhone smoke」**
+
+
+## 2026-09-20 継続5: 公開UI・文言整理
+
+公開版を「説明するUI」から「触れば分かるUI」へ寄せて整理。
+
+### 撤廃
+- `Checkpoint β0.1` 表示
+- 長いsubtitle / 注意書き / footer説明
+- 数字つき5段階の確認範囲
+- 公開用の件数ダッシュボード / 非表示件数
+- 常時表示の例文4ボタン
+- 「次に見る」「次へ」系の表示と導線
+- drawerの順送り状態
+- 「ミニ解説」等の機能説明的ラベル
+
+公開実行ファイル全体で `次に見る / 次にみる / 次へ / nextPoint` を再走査し、UI経路から0件。
+
+### 現在の公開UI
+入力:
+- 本文
+- 見る範囲: **厳選 / ふつう / 細かく**
+- **見る**
+- **消す**
+- **例文** はdetails内に収納
+  - 枕草子
+  - 和歌
+  - 識別
+  - 長文
+
+結果:
+- **ポイント**
+- 本文マーカー
+- **チェック**
+- **わかる** 履歴
+- **全部戻す**
+
+drawer:
+- 複数観点は順番ではなくラベルから自由選択
+- 主操作は **ヒント**
+- 補助: 類例 / 候補 / 例外 / 敬語 / 答え
+- `✓ わかる` でdrawerを閉じ、一覧へ戻る
+- 自動で別観点へ進まない
+- 候補詳細の `ミニ解説` は **補足**、`見るポイント` は **手がかり**
+
+### 表示範囲の内部対応
+公開3択は既存detector tierをそのまま利用:
+- 厳選 = value 1
+- ふつう = value 2
+- 細かく = value 4
+
+内部tier 3 / 5の処理自体は削除せず、公開selectからのみ外した。
+
+### 検証
+Checkpoint Public Beta Smoke:
+- run **35486907188**
+- head `575929e5ad16b263868f2c7d80b3602658d889ad`
+- **SUCCESS**
+- DOM smoke PASS
+- WebKit mobile smoke PASS
+- portrait 390×844 / landscape 844×390
+- example picker computed height 44px
+- level selector 46px
+- checklist min 約81.09px
+- drawer close / わかる / 戻す = 44px
+- long sample 162 markers
+- public/shadow data path separation PASS
+
+### production反映
+公開runtime 8ファイルをSHA確認後、file-levelでproduction `main` へ反映:
+- index.html
+- styles.css
+- core1.js
+- detect2.js
+- ui1.js
+- ui2.js
+- ui3.js
+- events.js
+
+production上で **8/8 target blob一致** を確認。
+main history merge / reset / force-pushは行っていない。
+
+### 次回
+物理iPhoneで新しい公開UIを確認し、表現・余白・操作順について実機ベースで微調整する。
+
+再開短句:
+**「checkpoint-main HANDOFF最終節から再開。整理済み公開UIの実機確認から」**
