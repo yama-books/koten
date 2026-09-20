@@ -1,0 +1,34 @@
+total items: 129
+target not found in example: 0
+
+aux items already exact-match to own conjugation forms: 11
+  - sasu_aux さす target='させ'
+  - shimu_aux しむ target='しめ'
+  - muzu_aux むず target='むずる'
+  - mahoshi_aux まほし target='まほしけれ'
+  - keri けり target='けり'
+  - nu_aux ぬ target='ぬる'
+  - beshi_aux べし target='べき'
+  - maji_aux まじ target='まじ'
+  - tari_assert_aux たり target='たり'
+  - tashi_aux たし target='たかり'
+  - gotoshi_aux ごとし target='ごとし'
+
+aux items NOT exact-match (same class as ri_aux/ru_aux/raru_aux): 17
+  - ru_aux る target='しのばれむ' suggestedTarget=None
+  - raru_aux らる target='あてられぬ' suggestedTarget=None
+  - su_aux す target='歌はせ' suggestedTarget='せ'
+  - zu ず target='みえぬ' suggestedTarget='ぬ'
+  - mu_aux む target='寝む' suggestedTarget='む'
+  - ji_aux じ target='負けじ' suggestedTarget='じ'
+  - mashi_aux まし target='ざらまし' suggestedTarget='まし'
+  - ki_aux き target='いでし' suggestedTarget='し'
+  - tsu_aux つ target='つけつ' suggestedTarget='つ'
+  - tari_comp_aux たり target='かけたる' suggestedTarget='たる'
+  - ri_aux り target='らず' suggestedTarget=None
+  - kemu_aux けむ target='ありけめ' suggestedTarget='けめ'
+  - ramu_aux らむ target='いふらむ' suggestedTarget='らむ'
+  - rashi_aux らし target='けらし' suggestedTarget='らし'
+  - meri_aux めり target='いぬめり' suggestedTarget='めり'
+  - nari_hearsay_aux なり target='いふなり' suggestedTarget='なり'
+  - nari_assert_aux なり target='身なり' suggestedTarget='なり'
