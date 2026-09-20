@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "0.1",
+  "updated": "2026-09-20",
+  "title": "Checkpoint public release preflight",
+  "releaseTrack": "public-beta-legacy-visible",
+  "branch": "checkpoint-main",
+  "status": "CONDITIONAL_PASS",
+  "principle": [
+    "公開βではlearner-visible detectorをlegacyのまま維持する。",
+    "shadow detector / morphology providerは研究・監査専用で、通常利用では実行しない。",
+    "shadow promotion readinessとpublic beta release readinessを別ゲートとして扱う。"
+  ],
+  "checks": [
+    {
+      "id": "R1",
+      "name": "branch-policy",
+      "status": "PASS",
+      "evidence": "Checkpoint作業はcheckpoint-mainのみ。mainへ直接pushしない。"
+    },
+    {
+      "id": "R2",
+      "name": "html-local-assets",
+      "status": "PASS",
+      "evidence": "index.html参照ローカルアセット13件すべて存在。styles.css + JS 12本。"
+    },
+    {
+      "id": "R3",
+      "name": "javascript-syntax",
+      "status": "PASS",
+      "evidence": "core1-4, db-shadow, detect1-3, ui1-3, events の12本をFunction parserで構文確認し全件PASS。"
+    },
+    {
+      "id": "R4",
+      "name": "external-json-load-targets",
+      "status": "PASS",
+      "evidence": "core4.jsのCHECKPOINT_DATA_PATHSが参照するJSON 31件を全件取得し、JSON.parse全件PASS。"
+    },
+    {
+      "id": "R5",
+      "name": "shadow-normal-ui-isolation",
+      "status": "PASS",
+      "evidence": "ui1.jsでshadowAuditLegacyVsDb()をshadowDebugEnabled()時だけ実行するよう変更。通常公開UIはshadow解析を実行しない。"
+    },
+    {
+      "id": "R6",
+      "name": "heavy-shadow-data-lazy-load",
+      "status": "PASS",
+      "evidence": "約38万文字のaudited_inflection_evidence_500_full.jsonを含むprovider関連4データをdebug=shadow/#shadow-debug時だけloadするよう変更。"
+    },
+    {
+      "id": "R7",
+      "name": "primary-source-hold-protection",
+      "status": "PASS",
+      "evidence": "一次資料待ち5位置はhold維持。新morphology providerの新規tierはsignal-onlyでresolverEligible=false。"
+    },
+    {
+      "id": "R8",
+      "name": "runtime-browser-smoke",
+      "status": "PARTIAL_PASS",
+      "evidence": "Static mobile PASS + jsdom DOM smoke PASS + Playwright WebKit mobile browser smoke PASS. Latest run 35482932843 / head 2fc149f4086e42eb7a3d4e00872ae7b252d8414c. 390x844 portrait / 844x390 landscape, one-character marker touch, long sample 162 markers, no horizontal overflow, public/shadow data-path separation, computed touch targets >=44px. Physical iPhone Safari after production deploy remains PENDING."
+    },
+    {
+      "id": "R9",
+      "name": "production-integration",
+      "status": "PENDING",
+      "evidence": "checkpoint-mainからproduction mainへの統合はkoten側チーム担当。Checkpoint側からmainへ直接pushしない。"
+    },
+    {
+      "id": "R10",
+      "name": "branch-ancestry-integration-health",
+      "status": "ATTENTION",
+      "evidence": "2026-09-20のmain...checkpoint-main比較はGitHub APIで『No common ancestor』。main側の履歴変更可能性があり、統合担当側で確認が必要。Checkpoint側では履歴改変・force-pushを行わない。"
+    },
+    {
+      "id": "R11",
+      "name": "understood-point-history",
+      "status": "PASS",
+      "evidence": "わかる履歴を文脈付き一覧として実装。個別「戻す」・「すべて戻す」・current-text scopeを確認。"
+    },
+    {
+      "id": "R12",
+      "name": "automated-public-beta-dom-smoke",
+      "status": "PASS",
+      "evidence": "checkpoint-main専用 .github/workflows/checkpoint-public-beta.yml / tests/unit/checkpoint-public-beta.test.mjs。run 35481928465, head 414514e911ab88b4187993a725d369e0b7080daf, conclusion success。"
+    },
+    {
+      "id": "R13",
+      "name": "webkit-mobile-browser-smoke",
+      "status": "PASS",
+      "evidence": "Latest Playwright WebKit 26.5 run 35482932843. Measured critical heights: top actions 44px, level selector 46px, checklist ~81.09px, drawer close 44px, known action 44px, restore one 44px. Normal URL production data loaded and shadow-only data skipped; ?debug=shadow loads research data."
+    },
+    {
+      "id": "R14",
+      "name": "computed-mobile-touch-targets",
+      "status": "PASS",
+      "evidence": "WebKit computed-layout measurements verify visible critical controls >=44px; level selector explicitly raised to 44px CSS and computed at 46px."
+    }
+  ],
+  "shadowPromotionNotRequiredForThisTrack": {
+    "currentStage": "stage-2-evidence-backed-debug-overlay",
+    "pending": [
+      "G6 hold-aware learner UI",
+      "G8 strict-disambiguation readiness"
+    ],
+    "note": "これらはshadowをlearner-visibleへ昇格する条件。legacy-visible public betaの公開そのものを止める条件とは分離する。"
+  },
+  "morphologyProvider": {
+    "policy": "morphology_provider_policy.json",
+    "audit": "morphology_provider_audit_20260920.json",
+    "mode": "signal-only",
+    "heikePostBlind": "24位置中3位置でprevious morphology signal。gold由来exact morphology追加なし。"
+  },
+  "releaseBlockers": [
+    "production統合時にproduction_integration_delta_20260920.jsonのmainShaを再照合し、安全にcheckpoint/差分を取り込む",
+    "production Pages deploy後の物理iPhone Safari最終smoke"
+  ],
+  "nonBlockersForLegacyPublicBeta": [
+    "shadow grammar recallがまだ低いこと",
+    "G6/G8がpendingであること",
+    "一次資料待ち5位置がholdのままであること"
+  ],
+  "next": [
+    "production統合後、iPhone Safariで /checkpoint/ を開き、portrait/landscape・drawer scroll・44px操作・横スクロール有無を確認する。",
+    "サンプル3/4で『ここはわかる』を2-3件付け、一覧表示・個別復帰・全件復帰・本文変更時の自動クリアを確認する。",
+    "通常URLでshadow debug非表示、?debug=shadowのみdeveloper表示を確認する。",
+    "統合担当はmainとcheckpoint-mainの共通祖先なし状態を確認し、安全な統合方針を決める。"
+  ],
+  "understoodPointHistory": {
+    "status": "PASS",
+    "audit": "mobile_ui_audit_20260920.json",
+    "behavior": "「ここはわかる」で隠したポイントを文脈付き一覧化。個別復帰・全件復帰・本文変更時自動リセット。"
+  },
+  "integrationDelta": {
+    "file": "production_integration_delta_20260920.json",
+    "status": "FROZEN",
+    "note": "mainとcheckpoint-mainのcheckpoint/差分をblob SHA単位で記録。適用前にmainShaを再照合する。"
+  },
+  "browserRuntime": {
+    "status": "PASS_EMULATED",
+    "runId": 35482932843,
+    "headSha": "2fc149f4086e42eb7a3d4e00872ae7b252d8414c",
+    "engine": "Playwright WebKit 26.5",
+    "publicDataPath": "PASS",
+    "shadowIsolation": "PASS",
+    "touchTargets": "PASS",
+    "actualDevice": "PENDING_AFTER_PRODUCTION_INTEGRATION"
+  }
+}
