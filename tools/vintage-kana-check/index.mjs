@@ -199,7 +199,7 @@ try {
         meterValue: ring?.getAttribute("aria-valuenow") ?? "",
         percentText: percent?.textContent?.trim() ?? "",
         readingText: reading?.textContent?.trim() ?? "",
-        readingRingSeparated: Boolean(reading && ring && (() => { const rr=reading.getBoundingClientRect(); const rg=ring.getBoundingClientRect(); return rr.bottom + 1 <= rg.top || rr.right + 1 <= rg.left || rg.right + 1 <= rr.left || rg.bottom + 1 <= rr.top; })()),
+        readingRingGap: reading && ring ? ring.getBoundingClientRect().top - reading.getBoundingClientRect().bottom : -Infinity,
         jiboText,
       };
     });
@@ -216,7 +216,7 @@ try {
     if (!(record.glyphFontSize > record.jiboFontSize)) add(width, "recordGlyphDominatesJibo", record);
     if (!record.percentOutsideRing) add(width, "recordPercentBelowRing", record);
     if (!record.readingText) add(width, "recordGlyphReadingPresent", record);
-    if (!record.readingRingSeparated) add(width, "recordGlyphReadingRingSeparated", record);
+    if (!(record.readingRingGap >= 4)) add(width, "recordGlyphReadingRingGap", record);
     if (!record.jiboText || record.jiboText.startsWith("字母")) add(width, "recordGlyphJiboWithoutPrefix", record);
     if (record.meterValue !== "0" || record.percentText !== "0%") add(width, "recordGlyphMeterMatchesPercent", record);
 

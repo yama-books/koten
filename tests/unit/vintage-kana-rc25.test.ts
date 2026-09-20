@@ -67,7 +67,8 @@ test("vintage-kana points stay hidden until the five-question result screen", ()
 test("vintage-kana record mastery uses glyph-first ring cards with 3-to-2 responsive columns", () => {
   assert.match(html, /\.rowGlyphMastery\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
   assert.match(html, /\.glyphMasteryCard\{[^}]*aspect-ratio:1\/1\.12;/);
-  assert.match(html, /\.glyphMasteryCore\{[^}]*transform:translate\(5px,8px\)/);
+  assert.match(html, /\.glyphMasteryCard\{[^}]*padding:20px 4px 5px/);
+  assert.match(html, /\.glyphMasteryCore\{[^}]*transform:translateX\(4px\)/);
   assert.match(html, /\.glyphMasteryGlyph\{[^}]*font-family:"Noto Serif Hentaigana"/);
   assert.match(html, /@media\(max-width:360px\)\{\.rowGlyphMastery\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}\}/);
   assert.match(html, /@media\(orientation:landscape\) and \(min-width:721px\)\{\.recordRows\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)\}\.rowGlyphMastery\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}\}/);
@@ -107,6 +108,21 @@ test("vintage-kana help is modal and browse navigation uses the compact row menu
   assert.match(html, /id="helpDialog" class="helpDialog"/);
   assert.match(html, /className="kanaFilterRow"/);
   assert.match(html, /className="kanaFilterRow__buttons"/);
+});
+
+test("vintage-kana keeps the audited glyph corrections and official-catalog annotation", () => {
+  const d8 = glyphMaster.glyphs.find((g: { glyph_id: string }) => g.glyph_id === "U+1B0D8");
+  const e6 = glyphMaster.glyphs.find((g: { glyph_id: string }) => g.glyph_id === "U+1B0E6");
+  const c10 = glyphMaster.glyphs.find((g: { glyph_id: string }) => g.glyph_id === "U+1B10C");
+  assert.deepEqual({ kana: d8?.kana, jibo: d8?.jibo }, { kana: "も", jibo: "毛" });
+  assert.equal(e6?.jibo, "遊");
+  assert.equal(c10?.inOfficialCatalog, false);
+  assert.match(html, /id="glyphInfoNote" class="glyphInfoDialog__note" hidden/);
+  assert.match(html, /entry\?\.inOfficialCatalog===false/);
+  assert.match(html, /公式収録一覧には含まれないため、補足字形として表示しています/);
+  assert.match(html, /"glyph_id":"U\+1B0D8","character":"𛃘","jibo":"毛"/);
+  assert.match(html, /"glyph_id":"U\+1B0E6","character":"𛃦","jibo":"遊"/);
+  assert.match(html, /"glyph_id":"U\+1B10C","character":"𛄌","jibo":"王","totalObserved":353,"witnessCount":12,"inOfficialCatalog":false/);
 });
 
 test("vintage-kana keeps U+1B11C mapped to を / 遠 in the current glyph master", () => {
