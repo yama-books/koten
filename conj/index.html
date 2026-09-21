@@ -1660,7 +1660,7 @@ td.wrong{background:var(--bad)!important}
   position:absolute;
   inset:20px;
   display:flex;
-  align-items:baseline;
+  align-items:center;
   justify-content:center;
   gap:2px;
   border-radius:50%;
@@ -1675,6 +1675,7 @@ td.wrong{background:var(--bad)!important}
 .record-donut-center span{
   color:var(--muted);
   font-size:9px;
+  line-height:1;
 }
 
 .record-breakdown{
@@ -1833,11 +1834,16 @@ td.wrong{background:var(--bad)!important}
   }
 }
 
-/* ===== v42: fresh pastel record palette ===== */
+/* ===== v42: muted ink-citrus record palette ===== */
 .record-screen{
+  --record-verb:#3d566b;
+  --record-adj:#b77d55;
+  --record-adjv:#935568;
+  --record-aux:#39756f;
+  --record-empty:#e8eef1;
   background:
-    radial-gradient(circle at 92% 2%,rgba(218,240,248,.58),transparent 245px),
-    radial-gradient(circle at 5% 32%,rgba(222,245,237,.52),transparent 290px),
+    radial-gradient(circle at 92% 2%,rgba(220,231,238,.5),transparent 245px),
+    radial-gradient(circle at 5% 32%,rgba(222,237,234,.44),transparent 290px),
     var(--bg);
 }
 .record-header{
@@ -1849,23 +1855,23 @@ td.wrong{background:var(--bad)!important}
   box-shadow:0 3px 10px rgba(62,107,96,.07);
 }
 .record-dashboard .record-points{
-  border-color:#cfe5de;
-  background:linear-gradient(135deg,#fff 38%,#eaf7f2 100%);
-  box-shadow:0 7px 20px rgba(62,107,96,.075);
+  border-color:#d2dfe5;
+  background:linear-gradient(135deg,#fff 38%,#eef3f6 100%);
+  box-shadow:0 7px 20px rgba(61,86,107,.07);
 }
 .record-dashboard .record-stat{
   border-color:var(--line);
   background:#fff;
-  box-shadow:0 5px 15px rgba(62,107,96,.055);
+  box-shadow:0 5px 15px rgba(61,86,107,.05);
 }
 .record-detail-grid .record-section{
   border-color:var(--line);
   border-radius:16px;
-  box-shadow:0 7px 20px rgba(62,107,96,.065);
+  box-shadow:0 7px 20px rgba(61,86,107,.06);
 }
 .record-donut{
-  background:#e7f1ee;
-  box-shadow:inset 0 0 0 1px rgba(62,107,96,.06);
+  background:var(--record-empty);
+  box-shadow:inset 0 0 0 1px rgba(61,86,107,.07);
 }
 .record-donut-center{
   box-shadow:0 0 0 1px var(--line);
@@ -1874,18 +1880,18 @@ td.wrong{background:var(--bad)!important}
   box-shadow:0 0 0 2px rgba(255,255,255,.9);
 }
 .record-review li{
-  border-color:#e1e9e5;
-  background:#fbfdfc;
+  border-color:#e0e5e7;
+  background:#fcfcfb;
 }
 .review-rate{
-  border-color:#f3d8df;
-  background:#fff0f4;
+  border-color:#ead9df;
+  background:#f8eff2;
 }
 .review-rate span{
-  color:#906674;
+  color:#825d69;
 }
 .record-empty{
-  background:#eef7f4;
+  background:#f2f5f6;
 }
 
 @media(max-width:700px){
@@ -3523,7 +3529,13 @@ function renderRecord(){
     stats.gradedCells ? Math.round((stats.correctCells/stats.gradedCells)*100)+"%" : "0%";
 
   const labels={verb:"動詞",adj:"形容詞",adjv:"形容動詞",aux:"助動詞"};
-  const colors={verb:"#78b99f",adj:"#f0aa95",adjv:"#aaa8d8",aux:"#e1c36f"};
+  const recordStyle=getComputedStyle(document.getElementById("recordScreen"));
+  const colors={
+    verb:recordStyle.getPropertyValue("--record-verb").trim() || "#3d566b",
+    adj:recordStyle.getPropertyValue("--record-adj").trim() || "#b77d55",
+    adjv:recordStyle.getPropertyValue("--record-adjv").trim() || "#935568",
+    aux:recordStyle.getPropertyValue("--record-aux").trim() || "#39756f"
+  };
   const keys=["verb","adj","adjv","aux"];
   const counts=Object.fromEntries(keys.map(key=>[key,Number(stats.byPos[key])||0]));
   const total=keys.reduce((sum,key)=>sum+counts[key],0);
@@ -3548,7 +3560,7 @@ function renderRecord(){
     });
     chart.style.background=`conic-gradient(${segments.join(",")})`;
   }else{
-    chart.style.background="#e7f1ee";
+    chart.style.background=recordStyle.getPropertyValue("--record-empty").trim() || "#e8eef1";
   }
   chart.setAttribute("aria-label",
     total
