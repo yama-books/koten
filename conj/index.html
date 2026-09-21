@@ -2883,6 +2883,39 @@ function slotFormTotals(slots){
   });
   return result;
 }
+function reconcilePosCounts(storedByPos,total,slots){
+  const keys=["verb","adj","adjv","aux"];
+  const counts=Object.fromEntries(keys.map(key=>[key,Number(storedByPos[key])||0]));
+  const classified=keys.reduce((sum,key)=>sum+counts[key],0);
+  const missing=Math.max(0,total-classified);
+  if(!missing) return counts;
+
+  // Early versions kept only the overall attempt count. Preserve those attempts
+  // by distributing the legacy remainder according to the learner's recorded
+  // POS activity; later attempts continue to be counted exactly in byPos.
+  let weights=classified ? {...counts} : Object.fromEntries(keys.map(key=>[key,0]));
+  if(!classified){
+    const posByItem=new Map(items.map(item=>[String(item.id),item.pos]));
+    Object.entries(slots||{}).forEach(([slotKey,value])=>{
+      const pos=posByItem.get(slotKey.split(":",1)[0]);
+      if(!keys.includes(pos)) return;
+      weights[pos]+=(Number(value?.c)||0)+(Number(value?.w)||0);
+    });
+  }
+  const weightTotal=keys.reduce((sum,key)=>sum+weights[key],0);
+  if(!weightTotal) return counts;
+
+  const shares=keys.map((key,index)=>{
+    const exact=missing*weights[key]/weightTotal;
+    const whole=Math.floor(exact);
+    counts[key]+=whole;
+    return {key,index,fraction:exact-whole};
+  });
+  let remainder=missing-keys.reduce((sum,key)=>sum+counts[key],0)+classified;
+  shares.sort((a,b)=>b.fraction-a.fraction || a.index-b.index);
+  for(let i=0;i<remainder;i++) counts[shares[i%shares.length].key]++;
+  return counts;
+}
 function normalizeStats(raw){
   const safe=raw&&typeof raw==="object" ? raw : {};
   const slots=safe.slots&&typeof safe.slots==="object" ? safe.slots : {};
@@ -2898,20 +2931,22 @@ function normalizeStats(raw){
       total:stored && Number.isFinite(Number(stored.total)) ? Number(stored.total) : fallback.total
     }];
   }));
+  const storedPosCounts={
+    verb:Number(byPos.verb)||0,
+    adj:Number(byPos.adj)||0,
+    adjv:Number(byPos.adjv)||0,
+    aux:Number(byPos.aux)||0
+  };
+  const attemptedTotal=Math.max(Number(safe.total)||0,Object.values(storedPosCounts).reduce((sum,value)=>sum+value,0));
   return {
     correct:Number(safe.correct)||0,
-    total:Number(safe.total)||0,
+    total:attemptedTotal,
     slots,
     correctCells:Number.isFinite(Number(safe.correctCells)) ? Number(safe.correctCells) : totals.correct,
     gradedCells:Number.isFinite(Number(safe.gradedCells)) ? Number(safe.gradedCells) : totals.total,
     points:Number(safe.points)||0,
     byForm,
-    byPos:{
-      verb:Number(byPos.verb)||0,
-      adj:Number(byPos.adj)||0,
-      adjv:Number(byPos.adjv)||0,
-      aux:Number(byPos.aux)||0
-    }
+    byPos:reconcilePosCounts(storedPosCounts,attemptedTotal,slots)
   };
 }
 function loadStats(){

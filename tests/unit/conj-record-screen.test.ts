@@ -19,6 +19,8 @@ test('conj: header and record screen use cumulative correct wording', () => {
 test('conj: attempted count and donut share the same per-POS total', () => {
   assert.match(html, /const total=keys\.reduce\(\(sum,key\)=>sum\+counts\[key\],0\)/);
   assert.match(html, /recordQuestions"\)\.textContent=total\+"問"/);
+  assert.match(html, /function reconcilePosCounts\(storedByPos,total,slots\)/);
+  assert.match(html, /byPos:reconcilePosCounts\(storedPosCounts,attemptedTotal,slots\)/);
 });
 
 test('conj: review defaults to verbs and supports examples plus POS filters', () => {
