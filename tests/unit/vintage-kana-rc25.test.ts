@@ -284,11 +284,13 @@ test("vintage-kana glyph dialog shows the look-alike glyph next to the note", ()
   assert.match(html, /renderGlyphInfoCompare\(visual\?\.compare\);/);
 
   // せ／世 には現代の「を」と、同じく「を」に見える を／遠 を並べる。
-  assert.match(html, /compare:\[\{character:"を",label:"現代の「を」",modern:true\},\{character:"𛄜",label:"を／遠"\}\]/);
+  assert.match(html, /\{character:"を",kind:"現代のかな",detail:"「を」",modern:true\}/);
+  assert.match(html, /\{character:"𛄜",kind:"変体仮名",detail:"「を」（遠）"\}/);
   // を／越 には現代の「せ」。
-  assert.match(html, /compare:\[\{character:"せ",label:"現代の「せ」",modern:true\}\]/);
+  assert.match(html, /\{character:"せ",kind:"現代のかな",detail:"「せ」",modern:true\}/);
   // を／遠 には現代の「を」と、紛らわしい せ／世。
-  assert.match(html, /compare:\[\{character:"を",label:"現代の「を」",modern:true\},\{character:"𛁒",label:"せ／世"\}\]/);
+  assert.match(html, /\{character:"𛁒",kind:"変体仮名",detail:"「せ」（世）"\}/);
+  assert.match(html, /\.compareItem__kind\{display:block;font-weight:700\}/);
 
   // 現代の仮名は明朝、変体仮名は専用フォントで出し分ける。
   assert.match(html, /\.compareItem\.isModern \.compareItem__glyph\{font-family:var\(--font-poem\)\}/);

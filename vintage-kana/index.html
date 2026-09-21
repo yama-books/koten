@@ -169,6 +169,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .compareItem__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:40px;line-height:1.15}
 .compareItem.isModern .compareItem__glyph{font-family:var(--font-poem)}
 .compareItem__label{font-size:10px;color:var(--muted);line-height:1.4;margin-top:2px}
+.compareItem__kind{display:block;font-weight:700}
 .card[data-glyph-info]:focus-visible,.glyphMasteryCard:focus-visible{outline:3px solid rgba(53,107,158,.24);outline-offset:2px}
 .emptyRecord{color:var(--muted);font-size:11px;line-height:1.6}
 textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
@@ -512,15 +513,23 @@ const KANA_FILTER_ROWS=[
 const GLYPH_INFO_NOTES=new Map([
   ["U+1B052",{
     note:"※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。現代の「を」は字母「遠」の系統です。",
-    compare:[{character:"を",label:"現代の「を」",modern:true},{character:"𛄜",label:"を／遠"}]
+    compare:[
+      {character:"を",kind:"現代のかな",detail:"「を」",modern:true},
+      {character:"𛄜",kind:"変体仮名",detail:"「を」（遠）"}
+    ]
   }],
   ["U+1B11A",{
     note:"※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。",
-    compare:[{character:"せ",label:"現代の「せ」",modern:true}]
+    compare:[
+      {character:"せ",kind:"現代のかな",detail:"「せ」",modern:true}
+    ]
   }],
   ["U+1B11C",{
     note:"※この字は読みが「を」、字母が「遠」です。現代の「を」につながる字母の系統です。",
-    compare:[{character:"を",label:"現代の「を」",modern:true},{character:"𛁒",label:"せ／世"}]
+    compare:[
+      {character:"を",kind:"現代のかな",detail:"「を」",modern:true},
+      {character:"𛁒",kind:"変体仮名",detail:"「せ」（世）"}
+    ]
   }]
 ]);
 let learningEvents=loadLearningEvents();
@@ -714,7 +723,7 @@ function renderGlyphInfoCompare(items){
  list.innerHTML=items.map(item=>
    '<div class="compareItem'+(item.modern?" isModern":"")+'">'+
    '<div class="compareItem__glyph">'+escapeHtml(item.character)+'</div>'+
-   '<div class="compareItem__label">'+escapeHtml(item.label)+'</div>'+
+   '<div class="compareItem__label"><span class="compareItem__kind">'+escapeHtml(item.kind)+'</span>'+escapeHtml(item.detail)+'</div>'+
    '</div>').join("");
  box.hidden=false;
 }
