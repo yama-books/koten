@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>変体仮名メーカー</title>
-<meta name="theme-color" content="#f2efe8">
+<meta name="theme-color" content="#fbf7f5">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -18,8 +18,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f2efe8;--paper:#fffdf8;--paper2:#faf6ed;--ink:#292b28;--muted:#74766e;
-  --line:#ddd7ca;--accent:#356b9e;--accent2:#e0ecf8;--accent-border:#9bbbd8;--primary:#c2506e;--danger:#a85732;--ok:#4f7558;
+  --bg:#fbf7f5;--paper:#fffdfb;--paper2:#fdf6f4;--ink:#2f3138;--muted:#77737a;
+  --line:#ecdfdb;--ring-track:#ebe3df;--accent:#356b9e;--accent2:#e0ecf8;--accent-border:#9bbbd8;--primary:#c2506e;--danger:#a85732;--ok:#4f7558;
   --mastery-gray:oklch(54% .012 75);--mastery-red:oklch(56% .16 28);--mastery-yellow:oklch(78% .15 86);--mastery-blue:oklch(56% .14 250);--mastery-green:oklch(56% .14 145);
   --shadow:0 16px 42px rgba(43,39,31,.08);
   --font-ui:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
@@ -27,14 +27,14 @@
 }
 *{box-sizing:border-box}
 html{background:var(--bg)}
-body{margin:0;color:var(--ink);background:radial-gradient(circle at 86% -8%,rgba(194,80,110,.10),transparent 31rem),radial-gradient(circle at 12% 0%,rgba(53,107,158,.07),transparent 26rem),var(--bg);font-family:var(--font-ui)}
+body{margin:0;color:var(--ink);background:radial-gradient(circle at 86% -8%,rgba(122,166,209,.20),transparent 31rem),var(--bg);font-family:var(--font-ui)}
 button,input,textarea{font:inherit} button{cursor:pointer}
 .wrap{max-width:1080px;margin:auto;padding:28px 18px 64px}
 header{margin-bottom:12px}
 h1{font-family:var(--font-ui);margin:0;font-size:clamp(27px,4.4vw,42px);font-weight:700;letter-spacing:.045em}
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);margin:14px 0}
 .panelTop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
-.notice{background:#f7f3e9;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.7}
+.notice{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.7}
 .learnHelpBtn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 12px 7px 8px;min-height:44px;font-size:12px;font-weight:700}
 .helpIcon{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent2);border:1px solid var(--accent-border);color:var(--accent);font-weight:800;font-size:13px;line-height:1}
 .helpDialog{border:0;border-radius:18px;padding:0;max-width:min(560px,calc(100vw - 28px));width:100%;max-height:min(82vh,720px);box-shadow:0 22px 70px rgba(43,39,31,.24);background:var(--paper);color:var(--ink)}
@@ -42,7 +42,9 @@ h1{font-family:var(--font-ui);margin:0;font-size:clamp(27px,4.4vw,42px);font-wei
 .helpBody{padding:18px;overflow:auto;max-height:min(82vh,720px)}
 .helpBody__top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
 .helpBody__top h2{font-size:17px;margin:0}
-.helpBody h3{font-size:13px;margin:14px 0 4px}
+.helpBody h3{font-size:13px;margin:6px 0 4px;line-height:1.85}
+.helpBody h3 ruby{position:relative}
+.helpBody h3 rt{position:absolute;left:0;right:0;bottom:calc(100% - 2px);font-size:7px;font-weight:700;line-height:1;letter-spacing:.02em;text-align:center;color:var(--muted);pointer-events:none}
 .helpBody p{font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 12px}
 .jiboExamples{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
 .jiboExample{border:1px solid var(--line);border-radius:11px;background:var(--paper2);padding:8px 4px;text-align:center}
@@ -62,11 +64,12 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .kanaFilterRow{display:grid;grid-template-columns:38px minmax(0,1fr);gap:5px;align-items:center}
 .kanaFilterRow__label{font-size:10px;color:var(--muted);text-align:center;font-weight:700}
 .kanaFilterRow__buttons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.kanaFilterSlot{display:block;min-width:0}
 .kanaBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 4px;min-width:0}
 .kanaBtn.active{background:var(--accent2);color:var(--accent);border-color:var(--accent)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
 .card{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:125px;width:100%;color:var(--ink);text-align:left;font:inherit}
-.card.standardKana{background:#edf3f7;border-color:#b9cad5}
+.card.standardKana{background:#eef4fb;border-color:#c9ddf0}
 .card.standardKana .glyph{font-family:var(--font-poem)}
 .glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:50px;line-height:1.15;margin-bottom:9px}
 .meta{font-size:13px;line-height:1.7}.meta b{font-family:var(--font-poem);font-size:18px}
@@ -92,7 +95,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .quizFreeAnswer input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(53,107,158,.12)}
 .quizFreeAnswer input.correct{background:#e8f0e5;border-color:#93a78d}
 .quizFreeAnswer input.wrong{background:#fff0e8;border-color:#d2a083}
-.choice{border:1px solid var(--line);border-radius:18px;padding:10px;background:#fffdf9;font-family:var(--font-poem);font-size:30px;min-height:84px;display:grid;place-items:center;box-shadow:0 3px 10px rgba(43,39,31,.035);transition:.12s ease}
+.choice{border:1px solid var(--line);border-radius:18px;padding:10px;background:var(--paper);font-family:var(--font-poem);font-size:30px;min-height:84px;display:grid;place-items:center;box-shadow:0 3px 10px rgba(43,39,31,.035);transition:.12s ease}
 .choice:active{transform:scale(.985)}
 .choice.correct{border-color:var(--ok);background:#edf5ed;color:#32432e}
 .choice.wrong{border-color:var(--danger);background:#fff0e8;color:#6f3a26}
@@ -136,29 +139,37 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .recordRow__head{display:flex;align-items:center;gap:8px;min-width:0}
 .recordReview{color:var(--danger);font-size:9px;font-weight:700;line-height:1.35}
 .rowGlyphMastery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-top:1px solid var(--line);padding:10px}
-.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),var(--ring-track) 0)}
 .ringMeter::after{content:"";width:54px;height:54px;border-radius:50%;background:#fff}
 .ringMeter span{position:absolute;z-index:1;font-size:12px;font-variant-numeric:tabular-nums}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
 .recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center;cursor:pointer}
 .recordGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:34px;line-height:1.15}
-.glyphMasteryCard{position:relative;aspect-ratio:1/1.12;min-width:0;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:12px;background:#fff;padding:20px 4px 5px;font:inherit;color:var(--ink);cursor:pointer}
+.glyphMasteryCard{position:relative;aspect-ratio:1/1.12;min-width:0;min-height:108px;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;border:1px solid var(--line);border-radius:12px;background:#fff;padding:22px 4px 6px;font:inherit;color:var(--ink);cursor:pointer}
 .glyphMasteryReading{position:absolute;top:5px;left:4px;z-index:2;font-family:var(--font-poem);font-size:10px;font-weight:700;line-height:1;color:var(--ink);background:rgba(255,255,255,.94);border-radius:999px;padding:0 1px}
-.glyphMasteryCore{display:flex;flex-direction:column;align-items:center;gap:3px;transform:translate(4px,8px)}
-.glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:56px;height:56px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.glyphMasteryCore{display:flex;flex-direction:column;align-items:center;gap:3px;transform:translateX(4px)}
+.glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:56px;height:56px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),var(--ring-track) 0)}
 .glyphMasteryRing::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff}
 .glyphMasteryRing__center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
 .glyphMasteryGlyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:28px;line-height:1}
 .glyphMasteryJibo{margin-top:3px;color:var(--muted);font-size:10px;line-height:1.15}
 .glyphMasteryPercent{font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
-.glyphInfoDialog{border:0;border-radius:18px;padding:0;max-width:min(320px,calc(100vw - 40px));width:100%;box-shadow:0 20px 60px rgba(43,39,31,.22);background:#fffdf8;color:var(--ink)}
+.glyphInfoDialog{border:0;border-radius:18px;padding:0;max-width:min(320px,calc(100vw - 40px));width:100%;box-shadow:0 20px 60px rgba(43,39,31,.22);background:var(--paper);color:var(--ink)}
 .glyphInfoDialog::backdrop{background:rgba(43,39,31,.28)}
 .glyphInfoDialog__body{padding:22px;text-align:center}
 .glyphInfoDialog__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:72px;line-height:1.1;margin-bottom:10px}
-.glyphInfoDialog__meta{display:grid;grid-template-columns:auto auto;justify-content:center;gap:6px 14px;font-size:14px;line-height:1.6}
-.glyphInfoDialog__meta dt{color:var(--muted)}
-.glyphInfoDialog__meta dd{margin:0;font-family:var(--font-poem);font-size:20px}
+.glyphInfoDialog__meta{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:baseline;gap:6px 14px;font-size:14px;line-height:1.6}
+.glyphInfoDialog__meta dt{color:var(--muted);text-align:right}
+.glyphInfoDialog__meta dd{margin:0;font-family:var(--font-poem);font-size:20px;text-align:left}
 .glyphInfoDialog__note{margin:12px 0 0;padding:9px 10px;border-radius:10px;background:var(--accent2);color:var(--accent);font-size:11px;line-height:1.6;text-align:left;white-space:pre-line}
+.glyphInfoDialog__compare{margin-top:10px}
+.glyphInfoDialog__compareLabel{font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px}
+.glyphInfoDialog__compareItems{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.compareItem{min-width:76px;border:1px solid var(--line);border-radius:11px;background:var(--paper2);padding:7px 6px}
+.compareItem__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:40px;line-height:1.15}
+.compareItem.isModern .compareItem__glyph{font-family:var(--font-poem)}
+.compareItem__label{font-size:10px;color:var(--muted);line-height:1.4;margin-top:2px}
+.compareItem__kind{display:block;font-weight:700}
 .card[data-glyph-info]:focus-visible,.glyphMasteryCard:focus-visible{outline:3px solid rgba(53,107,158,.24);outline-offset:2px}
 .emptyRecord{color:var(--muted);font-size:11px;line-height:1.6}
 textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
@@ -177,7 +188,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .composeKana{font-family:var(--font-poem);font-size:24px;text-align:center;padding-top:5px}
 .candidates{display:flex;gap:7px;flex-wrap:wrap}
 .glyphChoice{border:1px solid var(--line);border-radius:10px;background:#fff;padding:6px 9px;min-width:76px}
-.glyphChoice.standardChoice{background:#edf3f7;border-color:#b9cad5}
+.glyphChoice.standardChoice{background:#eef4fb;border-color:#c9ddf0}
 .glyphChoice.active{background:var(--accent2);border-color:var(--accent)}
 .glyphChoice .g{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:28px;display:block;line-height:1.2}
 .glyphChoice .g.smallGlyph{font-size:20px;line-height:1.45}
@@ -192,6 +203,15 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .previewDock.isStuck .floatingOriginal{display:block}
 .previewDock.manualSticky .preview{min-height:66px;padding:9px 12px;font-size:32px;line-height:1.45}
 .preview{margin-top:5px;min-height:100px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:14px;font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:36px;line-height:1.6;word-break:break-all}
+.previewHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.previewHead .label{margin:0}
+.previewDirs{display:flex;gap:5px;flex:0 0 auto}
+.previewDirBtn{min-height:32px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:5px 11px;color:var(--muted);font-size:11px;font-weight:700;white-space:nowrap}
+.previewDirBtn.active{background:var(--accent2);border-color:var(--accent);color:var(--accent)}
+.previewDock .preview.vertical{writing-mode:vertical-rl;text-orientation:upright;width:100%;max-width:100%;height:300px;min-height:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain}
+.previewDock .preview.vertical .pvCell{display:inline-block;inline-size:1.12em;block-size:1em;line-height:1;text-align:center}
+.previewDock .preview.vertical .smallGlyph{vertical-align:baseline;margin-block-start:0}
+.previewDock.manualSticky .preview.vertical{height:180px}
 .empty{padding:24px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:1.9;text-align:center;background:#fff}
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
@@ -229,7 +249,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       <p>昔使われていた、今とは形のちがうひらがなです。</p>
       <h3>いつ使われていた？</h3>
       <p>平安時代から明治時代まで、同じ音にいくつものひらがなの形が使われていました。1900年（明治33年）、学校で教えるひらがなが一つずつに整理されました。</p>
-      <h3>字母とは？</h3>
+      <h3><ruby>字<rt>じ</rt></ruby><ruby>母<rt>ぼ</rt></ruby>とは？</h3>
       <p>ひらがなのもとになった漢字です。今のひらがなにも字母があります。</p>
       <h3>今のひらがなの字母</h3>
       <div class="jiboExamples" aria-label="現代のひらがなの字母の例">
@@ -252,10 +272,16 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       </div>
     </div>
     <div id="smallKanaOption" class="smallKanaOption">
-      <label><input id="smallKanaToggle" type="checkbox"> ゃ・ゅ・ょを小さく表示</label>
+      <label><input id="smallKanaToggle" type="checkbox"> ぁ・ぃ・ゅ などを小さく表示</label>
     </div>
     <div id="previewDock" class="previewDock">
-      <div class="label">できあがり</div>
+      <div class="previewHead">
+        <div class="label">できあがり</div>
+        <div class="previewDirs" role="group" aria-label="書字方向">
+          <button class="previewDirBtn active" type="button" data-writing="horizontal">横書き</button>
+          <button class="previewDirBtn" type="button" data-writing="vertical">縦書き</button>
+        </div>
+      </div>
       <div id="floatingOriginal" class="floatingOriginal"><b>もとの文</b>　きょうはいいてんきですね</div>
       <div id="preview" class="preview"></div>
     </div>
@@ -360,6 +386,10 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
         <dt>字母</dt><dd id="glyphInfoJibo"></dd>
       </dl>
       <p id="glyphInfoNote" class="glyphInfoDialog__note" hidden></p>
+      <div id="glyphInfoCompare" class="glyphInfoDialog__compare" hidden>
+        <div class="glyphInfoDialog__compareLabel">似ている字</div>
+        <div id="glyphInfoCompareItems" class="glyphInfoDialog__compareItems"></div>
+      </div>
       <div class="actions"><button id="closeGlyphInfo" class="btn" type="button">閉じる</button></div>
     </div>
   </dialog>
@@ -406,7 +436,7 @@ const VOICED_BASE={
  "ゔ":["う","\u3099"]
 };
 const SMALL_BASE={"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お","ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ"};
-const YOON_SMALL=new Set(["ゃ","ゅ","ょ"]);
+const SMALL_TOGGLE_KANA=new Set(Object.keys(SMALL_BASE));
 function composeInfo(ch){
  if(VOICED_BASE[ch]) return {input:ch,base:VOICED_BASE[ch][0],mark:VOICED_BASE[ch][1],small:false};
  if(SMALL_BASE[ch]) return {input:ch,base:SMALL_BASE[ch],mark:"",small:true};
@@ -416,16 +446,17 @@ function hasGlyphChoices(ch){
  const info=composeInfo(ch);
  return GLYPHS.some(x=>x.kana===info.base);
 }
+function previewCell(inner){return '<span class="pvCell">'+inner+'</span>'}
 function renderSelectedToken(ch){
  const sel=selected[ch];
- const yoon=YOON_SMALL.has(ch);
+ const togglesSmall=SMALL_TOGGLE_KANA.has(ch);
  if(!sel || sel.keep){
-   if(yoon && !yoonSmallEnabled) return escapeHtml(SMALL_BASE[ch]);
-   return escapeHtml(ch);
+   if(togglesSmall && !smallKanaEnabled) return previewCell(escapeHtml(SMALL_BASE[ch]));
+   return previewCell(escapeHtml(ch));
  }
  const text=escapeHtml(sel.text);
- const shouldSmall=sel.small && (!yoon || yoonSmallEnabled);
- return shouldSmall?'<span class="smallGlyph">'+text+'</span>':text;
+ const shouldSmall=sel.small && (!togglesSmall || smallKanaEnabled);
+ return previewCell(shouldSmall?'<span class="smallGlyph">'+text+'</span>':text);
 }
 const FALLBACK_GLYPHS=[{"kana":"あ","glyph_id":"U+1B004","character":"𛀄","jibo":"阿","totalObserved":391,"witnessCount":14},{"kana":"い","glyph_id":"U+1B006","character":"𛀆","jibo":"以","totalObserved":143,"witnessCount":9},{"kana":"い","glyph_id":"U+1B007","character":"𛀇","jibo":"伊","totalObserved":15,"witnessCount":2},{"kana":"う","glyph_id":"U+1B00A","character":"𛀊","jibo":"宇","totalObserved":6,"witnessCount":1},{"kana":"え","glyph_id":"U+1B00F","character":"𛀏","jibo":"盈","totalObserved":4,"witnessCount":2},{"kana":"え","glyph_id":"U+1B011","character":"𛀑","jibo":"衣","totalObserved":11,"witnessCount":3},{"kana":"え","glyph_id":"U+1B012","character":"𛀒","jibo":"衣","totalObserved":74,"witnessCount":9},{"kana":"お","glyph_id":"U+1B014","character":"𛀔","jibo":"於","totalObserved":1,"witnessCount":1},{"kana":"お","glyph_id":"U+1B015","character":"𛀕","jibo":"於","totalObserved":2,"witnessCount":2},{"kana":"か","glyph_id":"U+1B018","character":"𛀘","jibo":"加","totalObserved":29,"witnessCount":6},{"kana":"か","glyph_id":"U+1B019","character":"𛀙","jibo":"可","totalObserved":54,"witnessCount":10},{"kana":"か","glyph_id":"U+1B01A","character":"𛀚","jibo":"可","totalObserved":2880,"witnessCount":15},{"kana":"か","glyph_id":"U+1B01F","character":"𛀟","jibo":"閑","totalObserved":26,"witnessCount":2},{"kana":"き","glyph_id":"U+1B025","character":"𛀥","jibo":"幾","totalObserved":36,"witnessCount":8},{"kana":"き","glyph_id":"U+1B026","character":"𛀦","jibo":"支","totalObserved":76,"witnessCount":7},{"kana":"き","glyph_id":"U+1B02A","character":"𛀪","jibo":"起","totalObserved":321,"witnessCount":15},{"kana":"く","glyph_id":"U+1B02C","character":"𛀬","jibo":"久","totalObserved":96,"witnessCount":3},{"kana":"く","glyph_id":"U+1B030","character":"𛀰","jibo":"具","totalObserved":22,"witnessCount":5},{"kana":"け","glyph_id":"U+1B033","character":"𛀳","jibo":"介","totalObserved":839,"witnessCount":14},{"kana":"け","glyph_id":"U+1B034","character":"𛀴","jibo":"希","totalObserved":63,"witnessCount":5},{"kana":"け","glyph_id":"U+1B035","character":"𛀵","jibo":"氣","totalObserved":328,"witnessCount":2},{"kana":"け","glyph_id":"U+1B036","character":"𛀶","jibo":"計","totalObserved":6,"witnessCount":2},{"kana":"け","glyph_id":"U+1B037","character":"𛀷","jibo":"遣","totalObserved":72,"witnessCount":5},{"kana":"こ","glyph_id":"U+1B038","character":"𛀸","jibo":"古","totalObserved":155,"witnessCount":14},{"kana":"さ","glyph_id":"U+1B03E","character":"𛀾","jibo":"佐","totalObserved":218,"witnessCount":7},{"kana":"さ","glyph_id":"U+1B03F","character":"𛀿","jibo":"左","totalObserved":199,"witnessCount":3},{"kana":"し","glyph_id":"U+1B045","character":"𛁅","jibo":"之","totalObserved":3606,"witnessCount":15},{"kana":"し","glyph_id":"U+1B048","character":"𛁈","jibo":"志","totalObserved":744,"witnessCount":15},{"kana":"す","glyph_id":"U+1B04B","character":"𛁋","jibo":"壽","totalObserved":3,"witnessCount":3},{"kana":"す","glyph_id":"U+1B04C","character":"𛁌","jibo":"數","totalObserved":1,"witnessCount":1},{"kana":"す","glyph_id":"U+1B04E","character":"𛁎","jibo":"春","totalObserved":57,"witnessCount":2},{"kana":"す","glyph_id":"U+1B04F","character":"𛁏","jibo":"春","totalObserved":763,"witnessCount":13},{"kana":"す","glyph_id":"U+1B050","character":"𛁐","jibo":"須","totalObserved":5,"witnessCount":4},{"kana":"す","glyph_id":"U+1B051","character":"𛁑","jibo":"須","totalObserved":295,"witnessCount":13},{"kana":"せ","glyph_id":"U+1B052","character":"𛁒","jibo":"世","totalObserved":56,"witnessCount":6},{"kana":"せ","glyph_id":"U+1B055","character":"𛁕","jibo":"勢","totalObserved":43,"witnessCount":4},{"kana":"そ","glyph_id":"U+1B05A","character":"𛁚","jibo":"曾","totalObserved":296,"witnessCount":9},{"kana":"そ","glyph_id":"U+1B05B","character":"𛁛","jibo":"楚","totalObserved":17,"witnessCount":6},{"kana":"た","glyph_id":"U+1B05E","character":"𛁞","jibo":"堂","totalObserved":139,"witnessCount":8},{"kana":"た","glyph_id":"U+1B05F","character":"𛁟","jibo":"多","totalObserved":53,"witnessCount":12},{"kana":"た","glyph_id":"U+1B060","character":"𛁠","jibo":"多","totalObserved":2108,"witnessCount":15},{"kana":"ち","glyph_id":"U+1B062","character":"𛁢","jibo":"千","totalObserved":1,"witnessCount":1},{"kana":"ち","glyph_id":"U+1B063","character":"𛁣","jibo":"地","totalObserved":4,"witnessCount":3},{"kana":"ち","glyph_id":"U+1B066","character":"𛁦","jibo":"知","totalObserved":1,"witnessCount":1},{"kana":"つ","glyph_id":"U+1B069","character":"𛁩","jibo":"川","totalObserved":208,"witnessCount":13},{"kana":"つ","glyph_id":"U+1B06A","character":"𛁪","jibo":"川","totalObserved":152,"witnessCount":6},{"kana":"つ","glyph_id":"U+1B06B","character":"𛁫","jibo":"津","totalObserved":44,"witnessCount":12},{"kana":"つ","glyph_id":"U+1B06D","character":"𛁭","jibo":"徒","totalObserved":305,"witnessCount":15},{"kana":"て","glyph_id":"U+1B06E","character":"𛁮","jibo":"亭","totalObserved":3,"witnessCount":3},{"kana":"て","glyph_id":"U+1B070","character":"𛁰","jibo":"傳","totalObserved":2,"witnessCount":1},{"kana":"て","glyph_id":"U+1B073","character":"𛁳","jibo":"天","totalObserved":914,"witnessCount":15},{"kana":"て","glyph_id":"U+1B074","character":"𛁴","jibo":"帝","totalObserved":7,"witnessCount":4},{"kana":"と","glyph_id":"U+1B07B","character":"𛁻","jibo":"登","totalObserved":179,"witnessCount":10},{"kana":"な","glyph_id":"U+1B07F","character":"𛁿","jibo":"名","totalObserved":1,"witnessCount":1},{"kana":"な","glyph_id":"U+1B080","character":"𛂀","jibo":"奈","totalObserved":5,"witnessCount":3},{"kana":"な","glyph_id":"U+1B081","character":"𛂁","jibo":"奈","totalObserved":440,"witnessCount":14},{"kana":"な","glyph_id":"U+1B082","character":"𛂂","jibo":"奈","totalObserved":2189,"witnessCount":15},{"kana":"な","glyph_id":"U+1B084","character":"𛂄","jibo":"那","totalObserved":113,"witnessCount":8},{"kana":"な","glyph_id":"U+1B085","character":"𛂅","jibo":"那","totalObserved":112,"witnessCount":11},{"kana":"に","glyph_id":"U+1B087","character":"𛂇","jibo":"丹","totalObserved":180,"witnessCount":6},{"kana":"に","glyph_id":"U+1B088","character":"𛂈","jibo":"二","totalObserved":5,"witnessCount":2},{"kana":"に","glyph_id":"U+1B08B","character":"𛂋","jibo":"爾","totalObserved":874,"witnessCount":15},{"kana":"に","glyph_id":"U+1B08C","character":"𛂌","jibo":"爾","totalObserved":3802,"witnessCount":15},{"kana":"に","glyph_id":"U+1B08D","character":"𛂍","jibo":"耳","totalObserved":301,"witnessCount":7},{"kana":"に","glyph_id":"U+1B08E","character":"𛂎","jibo":"而","totalObserved":1,"witnessCount":1},{"kana":"ぬ","glyph_id":"U+1B091","character":"𛂑","jibo":"怒","totalObserved":28,"witnessCount":4},{"kana":"ね","glyph_id":"U+1B092","character":"𛂒","jibo":"年","totalObserved":42,"witnessCount":9},{"kana":"ね","glyph_id":"U+1B094","character":"𛂔","jibo":"年","totalObserved":56,"witnessCount":10},{"kana":"ね","glyph_id":"U+1B097","character":"𛂗","jibo":"禰","totalObserved":219,"witnessCount":14},{"kana":"の","glyph_id":"U+1B099","character":"𛂙","jibo":"乃","totalObserved":391,"witnessCount":9},{"kana":"の","glyph_id":"U+1B09A","character":"𛂚","jibo":"濃","totalObserved":61,"witnessCount":2},{"kana":"の","glyph_id":"U+1B09B","character":"𛂛","jibo":"能","totalObserved":80,"witnessCount":6},{"kana":"の","glyph_id":"U+1B09C","character":"𛂜","jibo":"能","totalObserved":335,"witnessCount":12},{"kana":"の","glyph_id":"U+1B09D","character":"𛂝","jibo":"農","totalObserved":52,"witnessCount":6},{"kana":"は","glyph_id":"U+1B09E","character":"𛂞","jibo":"八","totalObserved":2882,"witnessCount":15},{"kana":"は","glyph_id":"U+1B09F","character":"𛂟","jibo":"半","totalObserved":1,"witnessCount":1},{"kana":"は","glyph_id":"U+1B0A2","character":"𛂢","jibo":"盤","totalObserved":18,"witnessCount":2},{"kana":"は","glyph_id":"U+1B0A3","character":"𛂣","jibo":"盤","totalObserved":123,"witnessCount":12},{"kana":"は","glyph_id":"U+1B0A6","character":"𛂦","jibo":"者","totalObserved":1360,"witnessCount":15},{"kana":"ひ","glyph_id":"U+1B0A9","character":"𛂩","jibo":"悲","totalObserved":4,"witnessCount":1},{"kana":"ひ","glyph_id":"U+1B0AA","character":"𛂪","jibo":"日","totalObserved":146,"witnessCount":3},{"kana":"ひ","glyph_id":"U+1B0AF","character":"𛂯","jibo":"飛","totalObserved":78,"witnessCount":7},{"kana":"ふ","glyph_id":"U+1B0B1","character":"𛂱","jibo":"婦","totalObserved":27,"witnessCount":5},{"kana":"ふ","glyph_id":"U+1B0B2","character":"𛂲","jibo":"布","totalObserved":82,"witnessCount":4},{"kana":"へ","glyph_id":"U+1B0B6","character":"𛂶","jibo":"遍","totalObserved":87,"witnessCount":11},{"kana":"へ","glyph_id":"U+1B0B9","character":"𛂹","jibo":"部","totalObserved":1,"witnessCount":1},{"kana":"ほ","glyph_id":"U+1B0BB","character":"𛂻","jibo":"保","totalObserved":89,"witnessCount":7},{"kana":"ほ","glyph_id":"U+1B0C0","character":"𛃀","jibo":"本","totalObserved":445,"witnessCount":15},{"kana":"ま","glyph_id":"U+1B0C2","character":"𛃂","jibo":"万","totalObserved":257,"witnessCount":5},{"kana":"ま","glyph_id":"U+1B0C3","character":"𛃃","jibo":"末","totalObserved":16,"witnessCount":1},{"kana":"ま","glyph_id":"U+1B0C4","character":"𛃄","jibo":"末","totalObserved":172,"witnessCount":10},{"kana":"ま","glyph_id":"U+1B0C5","character":"𛃅","jibo":"滿","totalObserved":128,"witnessCount":9},{"kana":"ま","glyph_id":"U+1B0C6","character":"𛃆","jibo":"滿","totalObserved":80,"witnessCount":10},{"kana":"ま","glyph_id":"U+1B0C7","character":"𛃇","jibo":"萬","totalObserved":1,"witnessCount":1},{"kana":"み","glyph_id":"U+1B0C9","character":"𛃉","jibo":"三","totalObserved":775,"witnessCount":15},{"kana":"み","glyph_id":"U+1B0CE","character":"𛃎","jibo":"見","totalObserved":179,"witnessCount":7},{"kana":"む","glyph_id":"U+1B0D1","character":"𛃑","jibo":"無","totalObserved":88,"witnessCount":4},{"kana":"む","glyph_id":"U+1B0D3","character":"𛃓","jibo":"舞","totalObserved":25,"witnessCount":3},{"kana":"め","glyph_id":"U+1B0D4","character":"𛃔","jibo":"免","totalObserved":34,"witnessCount":6},{"kana":"も","glyph_id":"U+1B0D7","character":"𛃗","jibo":"母","totalObserved":1,"witnessCount":1},{"kana":"も","glyph_id":"U+1B0D9","character":"𛃙","jibo":"毛","totalObserved":579,"witnessCount":10},{"kana":"も","glyph_id":"U+1B0DA","character":"𛃚","jibo":"毛","totalObserved":1153,"witnessCount":15},{"kana":"も","glyph_id":"U+1B0DC","character":"𛃜","jibo":"裳","totalObserved":2,"witnessCount":2},{"kana":"や","glyph_id":"U+1B0DD","character":"𛃝","jibo":"也","totalObserved":412,"witnessCount":8},{"kana":"や","glyph_id":"U+1B0DE","character":"𛃞","jibo":"也","totalObserved":502,"witnessCount":4},{"kana":"や","glyph_id":"U+1B0DF","character":"𛃟","jibo":"屋","totalObserved":114,"witnessCount":5},{"kana":"ゆ","glyph_id":"U+1B0E4","character":"𛃤","jibo":"由","totalObserved":24,"witnessCount":4},{"kana":"ゆ","glyph_id":"U+1B0E5","character":"𛃥","jibo":"由","totalObserved":316,"witnessCount":13},{"kana":"ゆ","glyph_id":"U+1B0E6","character":"𛃦","jibo":"遊","totalObserved":34,"witnessCount":3},{"kana":"よ","glyph_id":"U+1B0EA","character":"𛃪","jibo":"與","totalObserved":6,"witnessCount":2},{"kana":"よ","glyph_id":"U+1B0EB","character":"𛃫","jibo":"與","totalObserved":50,"witnessCount":5},{"kana":"ら","glyph_id":"U+1B0ED","character":"𛃭","jibo":"羅","totalObserved":42,"witnessCount":3},{"kana":"ら","glyph_id":"U+1B0EE","character":"𛃮","jibo":"良","totalObserved":4,"witnessCount":2},{"kana":"ら","glyph_id":"U+1B0F0","character":"𛃰","jibo":"良","totalObserved":1730,"witnessCount":9},{"kana":"り","glyph_id":"U+1B0F1","character":"𛃱","jibo":"利","totalObserved":2,"witnessCount":1},{"kana":"り","glyph_id":"U+1B0F2","character":"𛃲","jibo":"利","totalObserved":938,"witnessCount":1},{"kana":"り","glyph_id":"U+1B0F4","character":"𛃴","jibo":"梨","totalObserved":2,"witnessCount":1},{"kana":"り","glyph_id":"U+1B0F6","character":"𛃶","jibo":"里","totalObserved":1550,"witnessCount":15},{"kana":"も","glyph_id":"U+1B0D8","character":"𛃘","jibo":"毛","totalObserved":2,"witnessCount":1},{"kana":"る","glyph_id":"U+1B0F8","character":"𛃸","jibo":"流","totalObserved":370,"witnessCount":6},{"kana":"る","glyph_id":"U+1B0F9","character":"𛃹","jibo":"留","totalObserved":28,"witnessCount":4},{"kana":"る","glyph_id":"U+1B0FA","character":"𛃺","jibo":"留","totalObserved":16,"witnessCount":4},{"kana":"る","glyph_id":"U+1B0FB","character":"𛃻","jibo":"留","totalObserved":3848,"witnessCount":15},{"kana":"る","glyph_id":"U+1B0FC","character":"𛃼","jibo":"累","totalObserved":198,"witnessCount":10},{"kana":"る","glyph_id":"U+1B0FD","character":"𛃽","jibo":"類","totalObserved":322,"witnessCount":12},{"kana":"れ","glyph_id":"U+1B0FE","character":"𛃾","jibo":"禮","totalObserved":226,"witnessCount":7},{"kana":"れ","glyph_id":"U+1B0FF","character":"𛃿","jibo":"禮","totalObserved":136,"witnessCount":5},{"kana":"れ","glyph_id":"U+1B100","character":"𛄀","jibo":"連","totalObserved":2174,"witnessCount":15},{"kana":"ろ","glyph_id":"U+1B106","character":"𛄆","jibo":"路","totalObserved":164,"witnessCount":8},{"kana":"わ","glyph_id":"U+1B109","character":"𛄉","jibo":"和","totalObserved":20,"witnessCount":2},{"kana":"わ","glyph_id":"U+1B10A","character":"𛄊","jibo":"和","totalObserved":203,"witnessCount":9},{"kana":"わ","glyph_id":"U+1B10B","character":"𛄋","jibo":"王","totalObserved":80,"witnessCount":7},{"kana":"わ","glyph_id":"U+1B10C","character":"𛄌","jibo":"王","totalObserved":353,"witnessCount":12,"inOfficialCatalog":false},{"kana":"ゐ","glyph_id":"U+1B10D","character":"𛄍","jibo":"井","totalObserved":2,"witnessCount":1},{"kana":"ゐ","glyph_id":"U+1B10E","character":"𛄎","jibo":"井","totalObserved":50,"witnessCount":4},{"kana":"ゑ","glyph_id":"U+1B113","character":"𛄓","jibo":"衞","totalObserved":2,"witnessCount":1},{"kana":"を","glyph_id":"U+1B11A","character":"𛄚","jibo":"越","totalObserved":556,"witnessCount":15},{"kana":"を","glyph_id":"U+1B11C","character":"𛄜","jibo":"遠","totalObserved":3538,"witnessCount":15}];
 
@@ -434,7 +465,8 @@ let currentFilter="あ";
 let quizEntry=null;
 let quizMode="reading";
 let composeMode="auto";
-let yoonSmallEnabled=false;
+let smallKanaEnabled=false;
+let verticalWriting=false;
 let answered=false;
 let quizQuestionMethod="choice";
 let activeQuizScreen="practice";
@@ -462,10 +494,43 @@ const KANA_ROWS=[
   ["ま行",[..."まみむめも"]],["や行",[..."やゆよ"]],["ら行",[..."らりるれろ"]],
   ["わ行",[..."わゐゑをん"]]
 ];
+// 一覧の50音表の並び。母音の欄を縦に揃えるため、無い段は null で空ける。
+// 「ん」はワ行ではないので独立した行へ送る。
+// KANA_ROWS とは役割が違う（あちらは記録の行集計と出題プールの正本）。
+const KANA_FILTER_ROWS=[
+  ["あ行",["あ","い","う","え","お"]],
+  ["か行",["か","き","く","け","こ"]],
+  ["さ行",["さ","し","す","せ","そ"]],
+  ["た行",["た","ち","つ","て","と"]],
+  ["な行",["な","に","ぬ","ね","の"]],
+  ["は行",["は","ひ","ふ","へ","ほ"]],
+  ["ま行",["ま","み","む","め","も"]],
+  ["や行",["や",null,"ゆ",null,"よ"]],
+  ["ら行",["ら","り","る","れ","ろ"]],
+  ["わ行",["わ","ゐ",null,"ゑ","を"]],
+  ["ん",["ん",null,null,null,null]]
+];
 const GLYPH_INFO_NOTES=new Map([
-  ["U+1B052","※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。現代の「を」は字母「遠」の系統です。"],
-  ["U+1B11A","※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。"],
-  ["U+1B11C","※この字は読みが「を」、字母が「遠」です。現代の「を」につながる字母の系統です。"]
+  ["U+1B052",{
+    note:"※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。現代の「を」は字母「遠」の系統です。",
+    compare:[
+      {character:"を",kind:"現代のかな",detail:"「を」",modern:true},
+      {character:"𛄜",kind:"変体仮名",detail:"「を」（遠）"}
+    ]
+  }],
+  ["U+1B11A",{
+    note:"※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。",
+    compare:[
+      {character:"せ",kind:"現代のかな",detail:"「せ」",modern:true}
+    ]
+  }],
+  ["U+1B11C",{
+    note:"※この字は読みが「を」、字母が「遠」です。現代の「を」につながる字母の系統です。",
+    compare:[
+      {character:"を",kind:"現代のかな",detail:"「を」",modern:true},
+      {character:"𛁒",kind:"変体仮名",detail:"「せ」（世）"}
+    ]
+  }]
 ]);
 let learningEvents=loadLearningEvents();
 let quizSet=newQuizSet();
@@ -650,6 +715,18 @@ function bindGlyphInfoCards(root){
    card.addEventListener("click",()=>showGlyphInfo(card.dataset.character||"",card.dataset.kana||"",card.dataset.jibo||""));
  });
 }
+function renderGlyphInfoCompare(items){
+ const box=document.getElementById("glyphInfoCompare");
+ const list=document.getElementById("glyphInfoCompareItems");
+ if(!box||!list)return;
+ if(!items||!items.length){box.hidden=true;list.innerHTML="";return}
+ list.innerHTML=items.map(item=>
+   '<div class="compareItem'+(item.modern?" isModern":"")+'">'+
+   '<div class="compareItem__glyph">'+escapeHtml(item.character)+'</div>'+
+   '<div class="compareItem__label"><span class="compareItem__kind">'+escapeHtml(item.kind)+'</span>'+escapeHtml(item.detail)+'</div>'+
+   '</div>').join("");
+ box.hidden=false;
+}
 function showGlyphInfo(character,kana,jibo){
  const dialog=document.getElementById("glyphInfoDialog");
  const entry=GLYPHS.find(g=>g.character===character);
@@ -662,8 +739,9 @@ function showGlyphInfo(character,kana,jibo){
    if(entry?.inOfficialCatalog===false){
      notes.push("※この字形は、国立国語研究所「学術情報交換用変体仮名」の公式収録一覧には含まれないため、補足字形として表示しています。");
    }
-   const visualNote=entry?.glyph_id?GLYPH_INFO_NOTES.get(entry.glyph_id):"";
-   if(visualNote)notes.push(visualNote);
+   const visual=entry?.glyph_id?GLYPH_INFO_NOTES.get(entry.glyph_id):null;
+   if(visual?.note)notes.push(visual.note);
+   renderGlyphInfoCompare(visual?.compare);
    note.hidden=notes.length===0;
    note.textContent=notes.join("\n");
  }
@@ -830,7 +908,7 @@ function renderFilters(){
  all.className="kanaFilterAll";
  all.appendChild(makeButton("すべて"));
  root.appendChild(all);
- KANA_ROWS.forEach(([label,kanas])=>{
+ KANA_FILTER_ROWS.forEach(([label,slots])=>{
    const row=document.createElement("div");
    row.className="kanaFilterRow";
    const rowLabel=document.createElement("div");
@@ -839,7 +917,13 @@ function renderFilters(){
    row.appendChild(rowLabel);
    const buttons=document.createElement("div");
    buttons.className="kanaFilterRow__buttons";
-   kanas.forEach(k=>buttons.appendChild(makeButton(k)));
+   slots.forEach(k=>{
+     if(k){buttons.appendChild(makeButton(k));return}
+     const spacer=document.createElement("span");
+     spacer.className="kanaFilterSlot";
+     spacer.setAttribute("aria-hidden","true");
+     buttons.appendChild(spacer);
+   });
    row.appendChild(buttons);
    root.appendChild(row);
  });
@@ -910,6 +994,10 @@ function reverseJiboChoices(entry){
  add(standard.find(f=>!picked.some(x=>x.character===f.character)));
  shuffle(valid).forEach(add);
  return shuffle([entry,...picked.slice(0,3)]);
+}
+function readingFeedbackText(correct){
+ const jibo=quizEntry&&quizEntry.jibo?"字母は「"+quizEntry.jibo+"」です。":"";
+ return (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")+jibo;
 }
 function normalizeReadingAnswer(value){
  return String(value||"").normalize("NFC").trim().replace(/[ァ-ヶ]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60));
@@ -1002,7 +1090,7 @@ function newQuiz(){
        if(value!==answer)b.classList.add("wrong");
        const correct=value===answer;
        const feedback=quizMode==="reading"
-         ? (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")
+         ? readingFeedbackText(correct)
          : quizQuestionMethod==="jibo-reverse"
            ? (correct?"正解です。":"正解は「"+quizEntry.character+"」です。")
            : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
@@ -1058,7 +1146,7 @@ function newQuiz(){
    input.classList.toggle("correct",correct);
    input.classList.toggle("wrong",!correct);
    const feedback=quizMode==="reading"
-     ? (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")
+     ? readingFeedbackText(correct)
      : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
    finishAnswer(correct,feedback);
  };
@@ -1101,7 +1189,7 @@ function renderCompose(){
      const cand=document.createElement("div");cand.className="candidates";
 
      const standard=document.createElement("button");
-     const standardText=YOON_SMALL.has(k) && !yoonSmallEnabled ? info.base : k;
+     const standardText=SMALL_TOGGLE_KANA.has(k) && !smallKanaEnabled ? info.base : k;
      standard.className="glyphChoice standardChoice"+(selected[k]?.keep?" active":"");
      standard.innerHTML='<span class="g">'+escapeHtml(standardText)+'</span><small>普通のひらがな</small>';
      standard.onclick=()=>{selected[k]={keep:true,text:k,small:false};renderCompose()};
@@ -1112,7 +1200,7 @@ function renderCompose(){
        const active=!selected[k]?.keep && selected[k]?.text===out && !!selected[k]?.small===info.small;
        const b=document.createElement("button");
        b.className="glyphChoice"+(active?" active":"");
-       const showSmall=info.small && (!YOON_SMALL.has(k) || yoonSmallEnabled);
+       const showSmall=info.small && (!SMALL_TOGGLE_KANA.has(k) || smallKanaEnabled);
        b.innerHTML='<span class="g'+(showSmall?' smallGlyph':'')+'">'+escapeHtml(out)+'</span><small>'+
          '字母 '+escapeHtml(e.jibo)+
          (info.mark==="\u3099"?' / 濁点':info.mark==="\u309A"?' / 半濁点':'')+
@@ -1129,7 +1217,9 @@ function renderCompose(){
  if(smallOption) smallOption.classList.toggle("show",composeMode==="manual");
  const previewDock=document.getElementById("previewDock");
  if(previewDock) previewDock.classList.toggle("manualSticky",composeMode==="manual");
- document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
+ const previewEl=document.getElementById("preview");
+ previewEl.classList.toggle("vertical",verticalWriting);
+ previewEl.innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
  requestAnimationFrame(updateStickyState);
  const reroll=document.getElementById("rerollCompose");
  if(reroll) reroll.style.display=composeMode==="auto"?"inline-flex":"none";
@@ -1143,14 +1233,14 @@ function isHentaiganaText(text){
 }
 function outputTokenFor(ch){
  const sel=selected[ch];
- const yoon=YOON_SMALL.has(ch);
+ const togglesSmall=SMALL_TOGGLE_KANA.has(ch);
  if(!sel || sel.keep){
-   if(yoon && !yoonSmallEnabled) return {text:SMALL_BASE[ch],small:false,hentaigana:false};
+   if(togglesSmall && !smallKanaEnabled) return {text:SMALL_BASE[ch],small:false,hentaigana:false};
    return {text:ch,small:false,hentaigana:false};
  }
  return {
    text:sel.text,
-   small:sel.small && (!yoon || yoonSmallEnabled),
+   small:sel.small && (!togglesSmall || smallKanaEnabled),
    hentaigana:isHentaiganaText(sel.text)
  };
 }
@@ -1183,6 +1273,19 @@ function layoutCanvasTokens(ctx,tokens,fontSize,maxWidth){
  }
  return lines;
 }
+function layoutCanvasColumns(ctx,tokens,fontSize,maxHeight){
+ const columns=[[]];
+ let height=0;
+ for(const token of tokens){
+   if(token.text==="\n"){columns.push([]);height=0;continue}
+   const size=token.small?fontSize*.68:fontSize;
+   const advance=fontSize*1.12;
+   if(height+advance>maxHeight && columns.at(-1).length){columns.push([]);height=0}
+   columns.at(-1).push({...token,size});
+   height+=advance;
+ }
+ return columns;
+}
 function drawTrackedText(ctx,text,centerX,y,font,spacing){
  ctx.font=font;
  const chars=[...text];
@@ -1202,38 +1305,68 @@ function makePreviewDataUrl(){
  const ctx=canvas.getContext("2d");
  if(!ctx)return null;
 
- ctx.fillStyle="#f2efe8";
+ ctx.fillStyle="#fbf7f5";
  ctx.fillRect(0,0,1080,1080);
  roundedRect(ctx,70,70,940,940,54);
- ctx.fillStyle="#fffdf8";
+ ctx.fillStyle="#fffdfb";
  ctx.fill();
 
  const tokens=[...text].map(outputTokenFor);
  const maxWidth=820;
- let fontSize=150;
- let lines=[];
- while(fontSize>=70){
-   lines=layoutCanvasTokens(ctx,tokens,fontSize,maxWidth);
-   const lineHeight=fontSize*1.5;
-   if(lines.length*lineHeight<=700)break;
-   fontSize-=10;
- }
- const lineHeight=fontSize*1.5;
- const blockHeight=lines.length*lineHeight;
- let y=520-blockHeight/2+fontSize*.9;
- ctx.fillStyle="#292b28";
+ const maxHeight=700;
+ ctx.fillStyle="#2f3138";
  ctx.textBaseline="alphabetic";
 
- for(const line of lines){
-   const lineWidth=line.reduce((sum,t)=>sum+t.width,0);
-   let x=540-lineWidth/2;
-   for(const token of line){
-     ctx.font=canvasFont(token,token.size);
-     const yOffset=token.small?-fontSize*.12:0;
-     ctx.fillText(token.text,x,y+yOffset);
-     x+=token.width;
+ if(verticalWriting){
+   let fontSize=150;
+   let columns=[];
+   while(fontSize>=70){
+     columns=layoutCanvasColumns(ctx,tokens,fontSize,maxHeight);
+     if(columns.length*fontSize*1.35<=maxWidth)break;
+     fontSize-=10;
    }
-   y+=lineHeight;
+   const columnWidth=fontSize*1.35;
+   const blockWidth=columns.length*columnWidth;
+   const advance=fontSize*1.12;
+   // 列の頭を揃える。字数の少ない列だけ宙に浮かないよう、いちばん長い列で天地を決める。
+   const longest=Math.max(1,...columns.map(c=>c.length));
+   const columnTop=520-(longest*advance)/2+fontSize*.85;
+   let x=540+blockWidth/2-columnWidth/2;
+   for(const column of columns){
+     let y=columnTop;
+     for(const token of column){
+       ctx.font=canvasFont(token,token.size);
+       const glyphWidth=ctx.measureText(token.text).width;
+       const dx=token.small?fontSize*.15:0;
+       const dy=token.small?-fontSize*.10:0;
+       ctx.fillText(token.text,x-glyphWidth/2+dx,y+dy);
+       y+=advance;
+     }
+     x-=columnWidth;
+   }
+ }else{
+   let fontSize=150;
+   let lines=[];
+   while(fontSize>=70){
+     lines=layoutCanvasTokens(ctx,tokens,fontSize,maxWidth);
+     const lineHeight=fontSize*1.5;
+     if(lines.length*lineHeight<=maxHeight)break;
+     fontSize-=10;
+   }
+   const lineHeight=fontSize*1.5;
+   const blockHeight=lines.length*lineHeight;
+   let y=520-blockHeight/2+fontSize*.9;
+   for(const line of lines){
+     const lineWidth=line.reduce((sum,t)=>sum+t.width,0);
+     let x=540-lineWidth/2;
+     for(const token of line){
+       ctx.font=canvasFont(token,token.size);
+       const yOffset=token.small?-fontSize*.12:0;
+       ctx.fillText(token.text,x,y+yOffset);
+       x+=token.width;
+     }
+     y+=lineHeight;
+   }
  }
 
  // 控えめな署名。本文から離し、細い罫と明朝で印刷物の奥付のように見せる。
@@ -1367,7 +1500,7 @@ document.querySelectorAll(".composeModeBtn").forEach(b=>b.addEventListener("clic
  composeMode=b.dataset.composeMode;
  document.querySelectorAll(".composeModeBtn").forEach(x=>x.classList.toggle("active",x===b));
  if(composeMode==="auto"){
-   yoonSmallEnabled=false;
+   smallKanaEnabled=false;
    const toggle=document.getElementById("smallKanaToggle");
    if(toggle) toggle.checked=false;
    randomizeCompose();
@@ -1375,8 +1508,13 @@ document.querySelectorAll(".composeModeBtn").forEach(b=>b.addEventListener("clic
    renderCompose();
  }
 }));
+document.querySelectorAll(".previewDirBtn").forEach(b=>b.addEventListener("click",()=>{
+ verticalWriting=b.dataset.writing==="vertical";
+ document.querySelectorAll(".previewDirBtn").forEach(x=>x.classList.toggle("active",x===b));
+ renderCompose();
+}));
 document.getElementById("smallKanaToggle").addEventListener("change",e=>{
- yoonSmallEnabled=e.target.checked;
+ smallKanaEnabled=e.target.checked;
  renderCompose();
 });
 document.getElementById("rerollCompose").onclick=randomizeCompose;
