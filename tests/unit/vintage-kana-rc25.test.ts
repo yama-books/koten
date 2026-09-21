@@ -167,7 +167,7 @@ test("vintage-kana small-kana toggle covers every small kana, not just yoon", ()
   assert.doesNotMatch(html, /yoonSmallEnabled/);
 
   // チェックなし = すべて大文字（base）で描く。
-  assert.match(html, /if\(togglesSmall && !smallKanaEnabled\) return escapeHtml\(SMALL_BASE\[ch\]\);/);
+  assert.match(html, /if\(togglesSmall && !smallKanaEnabled\) return previewCell\(escapeHtml\(SMALL_BASE\[ch\]\)\);/);
   assert.match(html, /if\(togglesSmall && !smallKanaEnabled\) return \{text:SMALL_BASE\[ch\],small:false,hentaigana:false\};/);
 
   // チェックあり = 小さく描く。
@@ -235,7 +235,7 @@ test("vintage-kana preview can be switched to vertical writing", () => {
   // 縦幅は固定枠、あふれは横スクロール。幅を明示しないと縦組みは内容なりに広がる。
   assert.match(
     html,
-    /\.previewDock \.preview\.vertical\{writing-mode:vertical-rl;width:100%;max-width:100%;height:300px;min-height:0;overflow-x:auto;overflow-y:hidden;/,
+    /\.previewDock \.preview\.vertical\{writing-mode:vertical-rl;text-orientation:upright;width:100%;max-width:100%;height:300px;min-height:0;overflow-x:auto;overflow-y:hidden;/,
   );
 
   // 保存PNGも縦書きに追従する。
@@ -254,4 +254,24 @@ test("vintage-kana browse grid lines the kana up by vowel column", () => {
 
   // 記録と出題が使う正本は空きを持たない。
   assert.match(html, /\["わ行",\[\.\.\."わゐゑをん"\]\]/);
+});
+
+test("vintage-kana vertical writing keeps every kana upright and evenly spaced", () => {
+  // text-orientation の既定 mixed では濁点の合成文字が90度回転する。
+  assert.match(html, /\.preview\.vertical\{writing-mode:vertical-rl;text-orientation:upright;/);
+
+  // 1字を1.12emの枠に収め、字ごとの送りの差で列の字数がばらつかないようにする。
+  assert.match(
+    html,
+    /\.previewDock \.preview\.vertical \.pvCell\{display:inline-block;inline-size:1\.12em;block-size:1em;line-height:1;text-align:center\}/,
+  );
+  assert.match(html, /function previewCell\(inner\)\{return '<span class="pvCell">'\+inner\+'<\/span>'\}/);
+  // 画面の各字は必ず枠で包まれる。
+  assert.strictEqual((html.match(/previewCell\(/g) ?? []).length, 4);
+
+  // 保存PNGの送りも画面と同じ 1.12em。
+  assert.match(html, /const advance=fontSize\*1\.12;/);
+  assert.match(html, /if\(height\+advance>maxHeight && columns\.at\(-1\)\.length\)/);
+  assert.match(html, /let y=520-\(column\.length\*advance\)\/2\+fontSize\*\.85;/);
+  assert.match(html, /       y\+=advance;/);
 });
