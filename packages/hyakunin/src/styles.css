@@ -515,7 +515,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .history-tabs button { border: var(--rule-thin) solid var(--color-rule); border-block-end: 0; border-radius: var(--radius-md) var(--radius-md) 0 0; padding: var(--space-2xs) var(--space-md); background: var(--color-paper); color: var(--color-ink-muted); }
 /* 選ばれている面は紙と地続きに見せる。下辺を消して、枠が「つながって」いるようにする。 */
 .history-tabs button[aria-selected="true"] { background: var(--color-surface); color: var(--color-ink); font-weight: 700; transform: translateY(var(--rule-thin)); }
-.history-panel { border: var(--rule-thin) solid var(--color-rule); border-block-start: 0; border-radius: 0 0 var(--radius-md) var(--radius-md); background: var(--color-surface); padding: var(--space-md); }
+.history-panel { border: var(--rule-thin) solid var(--color-rule); border-block-start: 0; border-radius: 0 0 var(--radius-md) var(--radius-md); background: var(--color-surface); padding: var(--space-md); container-type: inline-size; container-name: history; }
 .history-empty { display: grid; justify-items: start; gap: var(--space-sm); }
 .history-empty p { margin: 0; }
 .data-management { display: grid; gap: var(--space-md); }
@@ -561,33 +561,65 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .ring-meter--yellow { color: var(--mastery-yellow); }
 .ring-meter--blue { color: var(--mastery-blue); }
 .ring-meter--green { color: var(--mastery-green); }
-.history-entry { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-sm); }
-/* 1 行に収める（依頼者・2026-09-21）。
-   **`flex-wrap: wrap` は外さない。** 文字を 200% にしたときに折り返せないと内容が隠れる
-   （WCAG 1.4.4 / APP_SPEC §15 項目 11）。等倍で 1 行に収まるよう中身を詰め、
-   入りきらないときだけ折り返す、という順序にしてある。 */
-.history-entry { gap: var(--space-xs) 0.375rem; }
-/* 初句は歌を思い出すための手がかり。**余った幅はここが受け持つ。**
-   **`min-width` を初句の実寸より広く取らない。** 6em にしていたときは、
-   4文字の初句でも 96px を要求して行が折り返った。
-   4em なら縮みしろだけを残し、幅を水増ししない。 */
-.history-entry__ku { flex: 1 1 auto; min-width: 4em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-ink-muted); }
-/* **バーの長さは全首で同じにする**（依頼者・2026-09-21）。
-   伸び縮みさせると初句の字数でバーの長さが変わり、首どうしを見比べられない。
-   溝を固定幅にし、余った幅は初句が受け持つ。数字も幅を予約して、溝の始まりを揃える。 */
-.history-entry .mastery-meter { flex: 0 0 auto; min-width: 0; gap: var(--space-xs); }
-/* 幅の予算は初句の最長（6文字・3首）から逆算してある。
-   数字と溝をこれより広げると、375px でその3首だけが折り返す。 */
-.history-entry .mastery-meter > span:first-child { flex: 0 0 auto; min-width: 2.2em; text-align: right; font-variant-numeric: tabular-nums; }
-.history-entry .mastery-meter [role="meter"] { flex: 0 0 3.5rem; width: 3.5rem; }
+/* **列は親で決める**（依頼者・2026-09-21「バーの長さ、位置を必ず揃える」）。
+   行ごとの flex だと、作者の印が無い首（94番・97番など）で帯の位置と長さがずれた。
+   `subgrid` で全行が同じ升目を共有するので、帯は必ず同じ長さ・同じ位置に並ぶ。
+   升は 番号／初句／数字／帯／作者の印 の5つ。印が無い首にも空の升を置く。 */
+.history-list {
+  display: grid;
+  /* **升の幅を内容で決めない。** `auto` だと「1番」と「100番」、`0%` と `100%` で
+     升の幅が変わり、**まとまりごとに帯の位置がずれる**（10 個の表が別々に組まれるため）。
+     可変にしてよいのは初句の升だけ。`1fr` はどの表でも同じ幅に解決される。
+     帯は `vw` で決める——これも表によらず同じ値になる。 */
+  /* 帯の長さは「初句を切り詰めない」ことが決めている。390px ではこの 24vw が上限で、
+     これ以上広げると 6 文字の初句（3首）が切れる。広い画面では 7rem まで伸びる。 */
+  /* 初句の升も固定する。**内容で決めるとまとまりごとに幅が変わり、帯の位置がずれる。**
+     5.5rem は最長（6文字・3首）が 0.9rem で入る幅。帯は余りを全部もらうので、
+     画面が広いほど長くなり、どのまとまりでも同じ長さに解決される。 */
+  grid-template-columns: 2.9rem 5.5rem 2.2rem minmax(4.5rem, 1fr) 1.4rem;
+  align-items: center;
+  column-gap: 0.25rem;
+}
+.history-entry {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  align-items: center;
+  border-bottom: var(--rule-thin) solid var(--color-rule);
+  padding-block: var(--space-sm);
+}
+/* 初句は歌を思い出すための手がかり。升からあふれる分だけ省略する。 */
+/* 数字と同じ 0.9rem まで落とす。**この 1 段で 6 文字の初句が 10px 縮み、その分を帯に回せる。**
+   手がかりとして読めればよく、歌そのものは「歌を確認する」で読む。 */
+.history-entry__ku { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.9rem; color: var(--color-ink-muted); }
+/* 帯と数字を別々の升に入れる。`display: contents` で包みを消す。 */
+.history-entry .mastery-meter { display: contents; }
+.history-entry .mastery-meter > span:first-child { text-align: right; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.history-entry .mastery-meter [role="meter"] { width: auto; }
 /* 未着手は 0% と別物である。溝を破線にし、数字の代わりに「—」を出す。 */
 .history-entry--untouched .mastery-meter [role="meter"] { border-style: dashed; }
 .history-entry--untouched .mastery-meter > span:first-child { color: var(--color-ink-muted); }
-/* 作者の未確認。小さな（未）の印で幅を詰める。 */
-.history-entry__author { display: inline-flex; align-items: center; gap: 0.15em; flex: 0 0 auto; color: var(--color-ink-muted); font-size: 0.8rem; white-space: nowrap; }
-.history-entry__badge { display: inline-grid; place-items: center; min-width: 1.35em; height: 1.35em; border-radius: 999px; padding-inline: 0.2em; background: var(--color-surface-soft); font-size: 0.85em; line-height: 1; }
-.history-entry__author--next { color: var(--sync-accent); font-weight: 700; }
-.history-entry__author--next .history-entry__badge { background: var(--sync-soft); }
+/* 作者の印。空の升にも同じ大きさを取らせて、帯の右端を揃える。 */
+.history-entry__author { display: inline-grid; place-items: center; min-width: 1.4rem; height: 1.4rem; border-radius: 999px; background: var(--color-surface-soft); color: var(--color-ink-muted); font-size: 0.75rem; line-height: 1; }
+.history-entry__author:empty { background: none; }
+.history-entry__author--next { background: var(--sync-soft); color: var(--sync-accent); font-weight: 700; }
+/* **狭い画面と文字拡大では升組みをやめる。**
+   升は 1 行に収めるための仕掛けで、幅が足りないと初句を切り落として辻褄を合わせてしまう
+   （320px では 100 首すべてが、文字 200% では全首が切れた）。
+   **歌の文字を削るくらいなら行を折り返す。** 揃うのは十分な幅があるときだけでよい。
+
+   **メディアクエリでは駄目である。** そこでの `rem`/`em` は初期値の 16px で解決されるため、
+   利用者が文字を大きくしても条件が変わらない。コンテナクエリの `em` は
+   **その容れ物の文字寸法**で解決されるので、幅が狭いときと文字が大きいときの両方で効く。 */
+@container history (max-width: 18em) {
+  .history-list { display: flex; flex-direction: column; }
+  .history-entry { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs) 0.375rem; }
+  .history-entry .mastery-meter { display: inline-flex; align-items: center; gap: var(--space-xs); }
+  .history-entry .mastery-meter [role="meter"] { width: 4.5rem; }
+  .history-entry__ku { overflow: visible; text-overflow: clip; }
+  .history-entry__author:empty { display: none; }
+}
+.history-legend { display: flex; align-items: center; gap: 0.35em; margin: 0 0 var(--space-sm); color: var(--color-ink-muted); font-size: var(--text-sm); }
 
 /* 版だけを静かに名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */
 .app-version { font-variant-numeric: tabular-nums; }

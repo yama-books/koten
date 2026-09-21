@@ -53,10 +53,18 @@ function Entry({ entry }: { entry: HistorySummary['entries'][number] }) {
       作者の未確認は「作者」＋小さな（未）の印にする（依頼者・2026-09-21）。
       見える文字を 5 から 3 へ落として 1 行の幅を作る。意味は読み上げ名で言い切る。
     */}
-    {entry.authorUnconfirmed && <span
-      class={`history-entry__author${authorCapReached ? ' history-entry__author--next' : ''}`}
-      aria-label={authorCapReached ? '作者も確認しましょう' : '作者は未確認'}
-    >作者<span class="history-entry__badge" aria-hidden="true">未</span></span>}
+    {/*
+      **行ごとに「作者」と書かない**（依頼者・2026-09-21）。帯を伸ばす幅がここから出る。
+      印だけでは意味が分からないので、一覧の頭に凡例を 1 行置いてある。
+      印が無い首にも空の升を置く——**列を揃えるため**で、行によって帯の位置がずれない。
+    */}
+    {entry.authorUnconfirmed
+      ? <span
+          class={`history-entry__author${authorCapReached ? ' history-entry__author--next' : ''}`}
+          role="img"
+          aria-label={authorCapReached ? '作者も確認しましょう' : '作者は未確認'}
+        >未</span>
+      : <span class="history-entry__author" aria-hidden="true" />}
     {entry.conquered && <span class="history-conquered">完全制覇</span>}
   </li>;
 }
@@ -101,7 +109,12 @@ export function History({ summary, onHome, port, onChanged, initialTab = '一覧
         100 行の一覧の下に「記録を消す」が並んでいた。
       */}
       <section class="history-panel" role="tabpanel" aria-label={tab}>
-        {tab === '一覧' && (summary.isEmpty ? <div class="history-empty"><p>まだ記録がありません</p><button type="button" onClick={onHome}>始める</button></div> : <ul class="history-groups">{summary.groups.map((group) => <Group key={group.from} group={group} />)}</ul>)}
+        {tab === '一覧' && (summary.isEmpty
+          ? <div class="history-empty"><p>まだ記録がありません</p><button type="button" onClick={onHome}>始める</button></div>
+          : <>
+              <p class="history-legend"><span class="history-entry__author" aria-hidden="true">未</span>は作者をまだ確認していない歌です。</p>
+              <ul class="history-groups">{summary.groups.map((group) => <Group key={group.from} group={group} />)}</ul>
+            </>)}
         {tab === '要確認' && <>
           <h1 class="history-review-heading">要確認の歌</h1>
           <p>{REVIEW_CRITERION}</p>

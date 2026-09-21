@@ -59,8 +59,10 @@ test('history: 作者未確認を作者イベントがない首にだけ併記�
   const unconfirmed = rows.find((node) => node.textContent?.includes('45番'))!;
   const answered = rows.find((node) => node.textContent?.includes('12番'))!;
   expect(unconfirmed.querySelector('.history-entry__author')?.getAttribute('aria-label')).toBe('作者は未確認');
-  expect(unconfirmed.querySelector('.history-entry__badge')?.textContent).toBe('未');
-  expect(answered.querySelector('.history-entry__author')).toBeNull();
+  expect(unconfirmed.querySelector('.history-entry__author')?.textContent).toBe('未');
+  // 印が無い首にも空の升を置く（列を揃えるため）。**中身が空であることで見る。**
+  expect(answered.querySelector('.history-entry__author')?.textContent).toBe('');
+  expect(answered.querySelector('.history-entry__author')?.getAttribute('aria-label')).toBeNull();
 });
 test('history: 要確認を番号順で表示する', () => { const text = switchTo(mount(), '要確認').querySelector('.history-list')!.textContent!; expect(text.indexOf('12番')).toBeLessThan(text.indexOf('45番')); });
 test('history: 要確認なしの文言を表示する', () => expect(switchTo(mount({ ...summary, needsReview: [] }), '要確認').textContent).toContain('要確認の歌はありません'));
@@ -136,4 +138,20 @@ test('history: メーターの読み上げ名にも初句が入る', () => {
 test('history: 要確認の面にも初句が出る', () => {
   const view = switchTo(mount(summaryWithKu('秋の田の')), '要確認');
   expect(view.querySelector('.history-entry__ku')?.textContent).toBe('秋の田の');
+});
+
+test('history: どの行も同じ数の升を出す', () => {
+  // **帯の長さと位置を全首で揃えるための土台**（依頼者・2026-09-21）。
+  // 列は親の `.history-list` が決め、各行は `subgrid` でそれを共有する。
+  // 行によって升の数が変わると列がずれるので、**印が無い首にも空の升を置く。**
+  // 以前は作者の印が無い行（94番・97番など）で帯の位置がずれていた。
+  const view = openGroup(mount());
+  const rows = Array.from(view.querySelectorAll('li.history-entry'));
+  expect(rows.length).toBeGreaterThan(1);
+  const cells = rows.map((row) => Array.from(row.children).length);
+  expect(new Set(cells).size, `行ごとに升の数が違う: ${cells.join(',')}`).toBe(1);
+  for (const row of rows) {
+    expect(row.querySelector('[role="meter"]'), '帯が無い行がある').not.toBeNull();
+    expect(row.querySelector('.history-entry__author'), '作者の升が無い行がある').not.toBeNull();
+  }
 });
