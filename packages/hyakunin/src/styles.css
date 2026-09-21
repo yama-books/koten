@@ -562,6 +562,32 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .ring-meter--blue { color: var(--mastery-blue); }
 .ring-meter--green { color: var(--mastery-green); }
 .history-entry { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-sm); }
+/* 1 行に収める（依頼者・2026-09-21）。
+   **`flex-wrap: wrap` は外さない。** 文字を 200% にしたときに折り返せないと内容が隠れる
+   （WCAG 1.4.4 / APP_SPEC §15 項目 11）。等倍で 1 行に収まるよう中身を詰め、
+   入りきらないときだけ折り返す、という順序にしてある。 */
+.history-entry { gap: var(--space-xs) 0.375rem; }
+/* 初句は歌を思い出すための手がかり。**余った幅はここが受け持つ。**
+   **`min-width` を初句の実寸より広く取らない。** 6em にしていたときは、
+   4文字の初句でも 96px を要求して行が折り返った。
+   4em なら縮みしろだけを残し、幅を水増ししない。 */
+.history-entry__ku { flex: 1 1 auto; min-width: 4em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-ink-muted); }
+/* **バーの長さは全首で同じにする**（依頼者・2026-09-21）。
+   伸び縮みさせると初句の字数でバーの長さが変わり、首どうしを見比べられない。
+   溝を固定幅にし、余った幅は初句が受け持つ。数字も幅を予約して、溝の始まりを揃える。 */
+.history-entry .mastery-meter { flex: 0 0 auto; min-width: 0; gap: var(--space-xs); }
+/* 幅の予算は初句の最長（6文字・3首）から逆算してある。
+   数字と溝をこれより広げると、375px でその3首だけが折り返す。 */
+.history-entry .mastery-meter > span:first-child { flex: 0 0 auto; min-width: 2.2em; text-align: right; font-variant-numeric: tabular-nums; }
+.history-entry .mastery-meter [role="meter"] { flex: 0 0 3.5rem; width: 3.5rem; }
+/* 未着手は 0% と別物である。溝を破線にし、数字の代わりに「—」を出す。 */
+.history-entry--untouched .mastery-meter [role="meter"] { border-style: dashed; }
+.history-entry--untouched .mastery-meter > span:first-child { color: var(--color-ink-muted); }
+/* 作者の未確認。小さな（未）の印で幅を詰める。 */
+.history-entry__author { display: inline-flex; align-items: center; gap: 0.15em; flex: 0 0 auto; color: var(--color-ink-muted); font-size: 0.8rem; white-space: nowrap; }
+.history-entry__badge { display: inline-grid; place-items: center; min-width: 1.35em; height: 1.35em; border-radius: 999px; padding-inline: 0.2em; background: var(--color-surface-soft); font-size: 0.85em; line-height: 1; }
+.history-entry__author--next { color: var(--sync-accent); font-weight: 700; }
+.history-entry__author--next .history-entry__badge { background: var(--sync-soft); }
 
 /* 版だけを静かに名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */
 .app-version { font-variant-numeric: tabular-nums; }

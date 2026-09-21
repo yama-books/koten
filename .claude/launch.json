@@ -4,8 +4,22 @@
     {
       "name": "hyakunin",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--workspace=@koten/hyakunin"],
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--workspace=@koten/hyakunin"
+      ],
       "port": 5173
+    },
+    {
+      "name": "vintage-kana",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/moyas/AppData/Local/Temp/claude/D--dev-koten/23b7d766-64e0-4268-acdd-e33c038bcbf7/scratchpad/static.mjs",
+        "D:/dev/koten-vintage-kana/vintage-kana",
+        "8787"
+      ],
+      "port": 8787
     }
   ]
 }

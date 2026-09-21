@@ -55,7 +55,8 @@ type Props = {
     progress: RungProgress,
   ) => void;
   /** 記録を開く。**目録も渡す**——完全制覇は段8 の制覇で決まり、段は問題が持つ（発注084）。 */
-  onOpenHistory?: (questions: PublishedQuestion[]) => void;
+  /** 歌も渡す。**一覧に初句を出すため**——番号だけでは歌を思い出せない。 */
+  onOpenHistory?: (questions: PublishedQuestion[], poems: Poem[]) => void;
   /** 読み込んだ設定と、書き換えた設定を上へ渡す。**設定の出所は保存領域ひとつである。** */
   onSettings?: (settings: UserSettings) => void;
   syncedSettings?: UserSettings | null;
@@ -610,7 +611,7 @@ export function Home({
           </p>
         )}
       </section>
-      <button type="button" onClick={() => onOpenHistory?.(questions)}>
+      <button type="button" onClick={() => onOpenHistory?.(questions, poems ?? [])}>
         これまでの記録
       </button>
       <footer class="foot-line">

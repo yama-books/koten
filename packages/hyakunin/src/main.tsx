@@ -100,13 +100,16 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   // **目録も渡す。** 完全制覇は段8 の制覇で決まり、段はイベントではなく問題が持つ。
   // 記録を開いたときに受け取った目録を覚えておく——読み直しでも同じものを使う。
   const [catalogue, setCatalogue] = useState<PublishedQuestion[]>([]);
+  // **歌も覚えておく。** 一覧に初句を出すのに要る。目録と同じ理由で、
+  // 開いたときに受け取ったものを読み直しでも使う。
+  const [historyPoems, setHistoryPoems] = useState<Poem[]>([]);
   useEffect(() => {
     if (screen !== 'history') return;
-    const update = () => { void port.listEvents().then((events) => setHistory(summarizeHistory({ events, poemIds: historyPoemIds, questions: catalogue }))); };
+    const update = () => { void port.listEvents().then((events) => setHistory(summarizeHistory({ events, poemIds: historyPoemIds, questions: catalogue, poems: historyPoems }))); };
     window.addEventListener('koten:remote-records', update);
     return () => window.removeEventListener('koten:remote-records', update);
-  }, [screen, port, catalogue]);
-  const summarize = (events: Awaited<ReturnType<typeof port.listEvents>>, questions: PublishedQuestion[] = catalogue) => summarizeHistory({ events, poemIds: historyPoemIds, questions });
+  }, [screen, port, catalogue, historyPoems]);
+  const summarize = (events: Awaited<ReturnType<typeof port.listEvents>>, questions: PublishedQuestion[] = catalogue, poems: Poem[] = historyPoems) => summarizeHistory({ events, poemIds: historyPoemIds, questions, poems });
   /** 記録が変わったあとの読み直し。画面は切り替えない。 */
   function reloadHistory() {
     void port.listEvents().then((events) => setHistory(summarize(events)));
@@ -177,14 +180,15 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     void port.listEvents().then((events) => setPickerAutoRung(rangeAutoRung(range, progressFrom(events, questions), computeMastery(events).scores)));
   }
 
-  function openHistory(questions: PublishedQuestion[], initialTab: '一覧' | 'データ管理') {
+  function openHistory(questions: PublishedQuestion[], poems: Poem[], initialTab: '一覧' | 'データ管理') {
     port.countUi?.('history', new Date().toISOString().slice(0, 10));
     setHistoryInitialTab(initialTab);
     setCatalogue(questions);
+    setHistoryPoems(poems);
     setScreen('history-loading');
-    void port.listEvents().then((events) => { setHistory(summarize(events, questions)); setScreen('history'); });
+    void port.listEvents().then((events) => { setHistory(summarize(events, questions, poems)); setScreen('history'); });
   }
-  const homeScreen = () => <Home port={port} onSettings={setSettings} syncedSettings={settings} onOpenSync={() => { setSyncReturn('home'); setScreen('sync'); }} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => openPicker(entry, range, questions, poems ?? [])} onResume={(session, cardNumbers, questions, poems, masteryScores, progress) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores, progress })} onOpenHistory={(questions) => openHistory(questions, '一覧')} />;
+  const homeScreen = () => <Home port={port} onSettings={setSettings} syncedSettings={settings} onOpenSync={() => { setSyncReturn('home'); setScreen('sync'); }} onQuickStart={(range, questions, poems) => { setSettings((current) => current ? { ...current, reading: 'no-ruby' } : current); void startNew('quick', range, 'number', questions, poems, 'screen'); }} onPickEntry={(entry, range, questions, poems) => openPicker(entry, range, questions, poems ?? [])} onResume={(session, cardNumbers, questions, poems, masteryScores, progress) => startPlanned({ session, cardNumbers, questions, poems, answerMode: 'screen', masteryScores, progress })} onOpenHistory={(questions, poems) => openHistory(questions, poems, '一覧')} />;
   // 設定を読むのはホームである。**読み込みが済むまで他の画面へ渡さない**——
   // 既定値のまま渡すと、そこからの保存が保存済みの学年を消す（発注074 工程1）。
   if (!settings) return homeScreen();

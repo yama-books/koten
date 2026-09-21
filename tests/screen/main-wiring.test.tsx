@@ -234,3 +234,26 @@ test('main: 設定を読み終える前は送信待ちを捨てない', async ()
   await mount('?from=10&to=10', port);
   expect(cleared).toBe(0);
 });
+
+test('main: 記録一覧に歌の初句が届く', async () => {
+  // **配線の釘。** 集計と画面はそれぞれ試験を持つが、歌が Home → main → History と
+  // 実際に渡っていなければ、一覧は番号だけのまま黙って戻る。
+  // `?from=1&to=100` で開き、本物の poems.json から初句が出ることで見る。
+  const base = createMemoryPort();
+  await base.appendEvent({
+    eventId: 'ku-wiring-1', product: 'hyakunin', poemId: 'p001', sessionId: 's', itemKey: 'p001:text',
+    kind: 'answer', method: 'choice', outcome: 'correct', hintUsed: false, effectiveMethod: 'choice',
+    delta: 3, localDate: '2026-09-01', sameSessionRepeat: false, appVersion: 'test', dataVersion: 1, masteryRulesVersion: 1,
+  });
+  const port = { ...base, saveLocalReport: async () => true };
+  await mount('?from=1&to=100', port);
+
+  await act(async () => { Array.from(root!.querySelectorAll('button')).find((b) => b.textContent === 'これまでの記録')!.click(); await Promise.resolve(); });
+  await act(async () => { await new Promise((resolve) => setTimeout(resolve, 0)); });
+  const group = root!.querySelector<HTMLButtonElement>('.history-group');
+  expect(group, '一覧のまとまりが出ていない').not.toBeNull();
+  await act(async () => { group!.click(); });
+
+  expect(root!.querySelector('.history-list')?.textContent).toContain('1番');
+  expect(root!.querySelector('.history-entry__ku')?.textContent).toBe('秋の田の');
+});

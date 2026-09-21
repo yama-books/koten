@@ -100,7 +100,10 @@ test('記録: 作者未確認で80%に達した歌だけ次の確認先を強調
   const view = mount(undefined, { ...summary, groups: [{ ...first, entries }, ...summary.groups.slice(1)] });
   await act(() => { group('1〜10番').click(); });
   const row = view.querySelector('.history-entry')!;
-  expect(row.textContent).toContain('作者も確認');
+  // 「作者も確認」の文言は小さな（未）の印に替えた（依頼者・2026-09-21）。
+  // **強調は残す**——ここが「次にやること」を指している。
+  expect(row.querySelector('.history-entry__author')?.getAttribute('aria-label')).toBe('作者も確認しましょう');
+  expect(row.querySelector('.history-entry__author--next')).not.toBeNull();
   expect(row.classList.contains('history-entry--author-cap')).toBe(true);
 });
 

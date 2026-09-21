@@ -91,3 +91,41 @@ test('history: 累計ポイントは全セッションを合算する', () => {
 
 test('history: 記録が無ければ0ポイント', () => assert.equal(summarizeHistory({ events: [], poemIds: ['p012'] }).points, 0));
 
+
+// ---- 初句（2026-09-21・依頼者「1番「秋の田の…」習熟度3%」） ----
+
+test('history: 歌を渡すと各首の初句が入る', () => {
+  const summary = summarizeHistory({
+    events: [], poemIds: ['p001', 'p002'],
+    poems: [
+      { poemId: 'p001', ku: ['秋の田の', 'かりほの庵の', '苫をあらみ', 'わが衣手は', '露にぬれつつ'] },
+      { poemId: 'p002', ku: ['春すぎて', '夏来にけらし', '白妙の', '衣ほすてふ', '天の香具山'] },
+    ],
+  });
+  assert.deepEqual(summary.entries.map((entry) => entry.firstKu), ['秋の田の', '春すぎて']);
+});
+
+test('history: 歌を渡さなければ初句は null で、一覧そのものは成立する', () => {
+  // 画面は null のとき番号だけを出す。**歌データ無しでも一覧が壊れない**ことを釘付けする。
+  const summary = summarizeHistory({ events: [], poemIds: ['p001'] });
+  assert.equal(summary.entries[0].firstKu, null);
+  assert.equal(summary.entries[0].cardNo, 1);
+});
+
+test('history: 渡された歌に無い首の初句は null になる', () => {
+  const summary = summarizeHistory({
+    events: [], poemIds: ['p001', 'p002'],
+    poems: [{ poemId: 'p001', ku: ['秋の田の', '', '', '', ''] }],
+  });
+  assert.deepEqual(summary.entries.map((entry) => entry.firstKu), ['秋の田の', null]);
+});
+
+test('history: 初句はまとまりの中の首にも入る', () => {
+  // 一覧は 10 首ごとのまとまりを開いて読む。**`groups` 側にも届いていなければ画面に出ない。**
+  const poemIds = Array.from({ length: 10 }, (_, index) => `p${String(index + 1).padStart(3, '0')}`);
+  const summary = summarizeHistory({
+    events: [], poemIds,
+    poems: [{ poemId: 'p003', ku: ['あしびきの', '', '', '', ''] }],
+  });
+  assert.equal(summary.groups[0].entries[2].firstKu, 'あしびきの');
+});

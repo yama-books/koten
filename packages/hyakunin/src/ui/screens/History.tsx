@@ -25,7 +25,40 @@ const REVIEW_CRITERION = '最後に解いたとき、まちがえたか「わか
 function Entry({ entry }: { entry: HistorySummary['entries'][number] }) {
   // 作者の記録が無く 80% なら、本文は満点で作者分だけが残っている。
   const authorCapReached = entry.authorUnconfirmed && entry.percent === 80;
-  return <li class={`history-entry${authorCapReached ? ' history-entry--author-cap' : ''}`}><strong>{entry.cardNo}番</strong>{entry.untouched ? <span>未着手</span> : <MasteryMeter label={`${entry.cardNo}番`} percent={entry.percent} color={entry.color} />}{authorCapReached ? <span class="mastery-next-step">作者も確認</span> : entry.authorUnconfirmed && <span>作者 未確認</span>}{entry.conquered && <span class="history-conquered">完全制覇</span>}</li>;
+  // 初句は番号のすぐ後ろに置く。**メーターの読み上げ名にも入れる**——
+  // 画面を見ない利用者にも「何番の何の歌か」が同じ手がかりで届く。
+  const name = entry.firstKu === null ? `${entry.cardNo}番` : `${entry.cardNo}番「${entry.firstKu}」`;
+  return <li class={`history-entry${authorCapReached ? ' history-entry--author-cap' : ''}${entry.untouched ? ' history-entry--untouched' : ''}`}>
+    <strong>{entry.cardNo}番</strong>
+    {/*
+      画面では鉤括弧を出さない（依頼者・2026-09-21）。**2文字分の幅が 1 行に収まるかを分ける**——
+      5文字の初句（「あしびきの」など）は鉤括弧ごとだと 390px で折り返す。
+      色を落としてあるので、括弧が無くても UI の文言と混ざらない。
+      **読み上げ名には残す**——音だけでは歌の切れ目が分からない。
+    */}
+    {entry.firstKu !== null && <span class="history-entry__ku">{entry.firstKu}</span>}
+    {/*
+      **未着手もバーで示す**（依頼者・2026-09-21）。「未着手」の文字は横幅を食い、
+      1 行に収まらなくなる。0% と見分けがつかなくならないよう、**数字の代わりに「—」**を出し、
+      溝を破線にする。読み上げ名では「未着手」と言い切る。
+    */}
+    <MasteryMeter
+      label={name}
+      percent={entry.untouched ? 0 : entry.percent}
+      color={entry.untouched ? 'gray' : entry.color}
+      text={entry.untouched ? '—' : `${entry.percent}%`}
+      meterLabel={entry.untouched ? `${name}は未着手` : `${name}の習熟度`}
+    />
+    {/*
+      作者の未確認は「作者」＋小さな（未）の印にする（依頼者・2026-09-21）。
+      見える文字を 5 から 3 へ落として 1 行の幅を作る。意味は読み上げ名で言い切る。
+    */}
+    {entry.authorUnconfirmed && <span
+      class={`history-entry__author${authorCapReached ? ' history-entry__author--next' : ''}`}
+      aria-label={authorCapReached ? '作者も確認しましょう' : '作者は未確認'}
+    >作者<span class="history-entry__badge" aria-hidden="true">未</span></span>}
+    {entry.conquered && <span class="history-conquered">完全制覇</span>}
+  </li>;
 }
 
 /**

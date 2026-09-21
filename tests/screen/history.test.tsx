@@ -32,11 +32,36 @@ test('history: メーターと数値を表示する', () => {
   const view = mount();
   expect(view.querySelectorAll('[role="meter"]'), 'まとまりの輪だけが出る').toHaveLength(1);
   openGroup(view);
-  expect(view.querySelectorAll('[role="meter"]'), '輪1つと、着手した2首の帯').toHaveLength(3);
-  expect(view.textContent).toContain('習熟度 90%');
+  // 未着手にも帯を出すようになった（依頼者・2026-09-21）。輪1つと全3首の帯。
+  expect(view.querySelectorAll('[role="meter"]'), '輪1つと、3首すべての帯').toHaveLength(4);
+  // 「習熟度」の語は行から外し、数字だけを出す。意味は読み上げ名が持つ。
+  expect(view.textContent).toContain('90%');
+  expect(view.querySelector('.history-list')?.textContent).not.toContain('習熟度');
 });
-test('history: 未着手にはメーターを出さない', () => { const item = Array.from(openGroup(mount()).querySelectorAll('li.history-entry')).find((node) => node.textContent?.includes('99番'))!; expect(item.textContent).toContain('未着手'); expect(item.querySelector('[role="meter"]')).toBeNull(); });
-test('history: 作者未確認を作者イベントがない首にだけ併記する', () => { const view = openGroup(mount()); const unconfirmed = Array.from(view.querySelectorAll('li.history-entry')).find((node) => node.textContent?.includes('45番'))!; const answered = Array.from(view.querySelectorAll('li.history-entry')).find((node) => node.textContent?.includes('12番'))!; expect(unconfirmed.textContent).toContain('作者 未確認'); expect(answered.textContent).not.toContain('作者 未確認'); });
+test('history: 未着手も帯で示し、0% と見分けられる', () => {
+  // 「未着手」の文字は横幅を食うので帯に替えた（依頼者・2026-09-21）。
+  // **0% と同じ見た目にはしない**——数字を「—」にして区別する。意味は読み上げ名が言い切る。
+  const rows = Array.from(openGroup(mount()).querySelectorAll('li.history-entry'));
+  const untouched = rows.find((node) => node.textContent?.includes('99番'))!;
+  const zero = rows.find((node) => node.textContent?.includes('45番'))!;
+  expect(untouched.querySelector('[role="meter"]'), '未着手にも帯を出す').not.toBeNull();
+  expect(untouched.textContent).toContain('—');
+  expect(untouched.textContent).not.toContain('0%');
+  expect(untouched.querySelector('[role="meter"]')?.getAttribute('aria-label')).toContain('未着手');
+  expect(zero.textContent, '測って 0% の首は数字を出す').toContain('0%');
+  expect(zero.querySelector('[role="meter"]')?.getAttribute('aria-label')).not.toContain('未着手');
+});
+test('history: 作者未確認を作者イベントがない首にだけ併記する', () => {
+  // 「作者 未確認」から「作者」＋小さな（未）の印へ替えた（依頼者・2026-09-21）。
+  // 見える字数は減らしても、**読み上げ名では言い切る。**
+  const view = openGroup(mount());
+  const rows = Array.from(view.querySelectorAll('li.history-entry'));
+  const unconfirmed = rows.find((node) => node.textContent?.includes('45番'))!;
+  const answered = rows.find((node) => node.textContent?.includes('12番'))!;
+  expect(unconfirmed.querySelector('.history-entry__author')?.getAttribute('aria-label')).toBe('作者は未確認');
+  expect(unconfirmed.querySelector('.history-entry__badge')?.textContent).toBe('未');
+  expect(answered.querySelector('.history-entry__author')).toBeNull();
+});
 test('history: 要確認を番号順で表示する', () => { const text = switchTo(mount(), '要確認').querySelector('.history-list')!.textContent!; expect(text.indexOf('12番')).toBeLessThan(text.indexOf('45番')); });
 test('history: 要確認なしの文言を表示する', () => expect(switchTo(mount({ ...summary, needsReview: [] }), '要確認').textContent).toContain('要確認の歌はありません'));
 test('history: 要確認の基準は一覧が空でも一度だけ示す', () => { const view = switchTo(mount({ ...summary, needsReview: [] }), '要確認'); expect(view.textContent?.split('最後に解いたとき、まちがえたか「わからない」を選んだ歌です。')).toHaveLength(2); });
@@ -68,4 +93,47 @@ test('history: ネコは装飾で、読み上げ木に出ない', () => {
   expect(cat).not.toBeNull();
   expect(cat?.getAttribute('alt')).toBe('');
   expect(cat?.getAttribute('aria-hidden')).toBe('true');
+});
+
+// ---- 初句（2026-09-21・依頼者「1番「秋の田の…」習熟度3%」） ----
+
+/** 初句つきの一覧。番号だけの版と同じ形にして、初句の有無だけを変える。 */
+function summaryWithKu(firstKu: string | null) {
+  const entries = [{ poemId: 'p001', cardNo: 1, percent: 3, color: 'red' as const, untouched: false, authorUnconfirmed: false, needsReview: true, conquered: false, firstKu }];
+  return { isEmpty: false, touchedCount: 1, points: 0, entries, needsReview: entries, groups: [{ from: 1, to: 10, percent: 3, color: 'red' as const, entries }] } as unknown as HistorySummary;
+}
+
+test('history: 一覧に番号と初句と習熟度が並ぶ', () => {
+  const view = openGroup(mount(summaryWithKu('秋の田の')));
+  const row = view.querySelector('.history-entry')!;
+  expect(row.textContent).toContain('1番');
+  expect(row.querySelector('.history-entry__ku')?.textContent).toBe('秋の田の');
+  expect(row.textContent).toContain('3%');
+  // バーは残る。初句は手がかりであって、メーターの代わりではない。
+  expect(row.querySelector('[role="meter"]')?.getAttribute('aria-valuenow')).toBe('3');
+});
+
+test('history: 画面の初句に鉤括弧と省略記号を出さない', () => {
+  // 1 行に収めるため、見える文字を削ってある（依頼者・2026-09-21）。
+  const row = openGroup(mount(summaryWithKu('あしびきの'))).querySelector('.history-entry')!;
+  expect(row.textContent).not.toContain('「');
+  expect(row.textContent).not.toContain('…');
+});
+
+test('history: 初句が無ければ番号だけを出す', () => {
+  const row = openGroup(mount(summaryWithKu(null))).querySelector('.history-entry')!;
+  expect(row.textContent).toContain('1番');
+  expect(row.querySelector('.history-entry__ku')).toBeNull();
+});
+
+test('history: メーターの読み上げ名にも初句が入る', () => {
+  // 画面を見ない利用者にも「何番の何の歌か」が同じ手がかりで届く。
+  const row = openGroup(mount(summaryWithKu('秋の田の'))).querySelector('.history-entry')!;
+  // 読み上げ名には鉤括弧を残す——音だけでは歌の切れ目が分からない。
+  expect(row.querySelector('[role="meter"]')?.getAttribute('aria-label')).toBe('1番「秋の田の」の習熟度');
+});
+
+test('history: 要確認の面にも初句が出る', () => {
+  const view = switchTo(mount(summaryWithKu('秋の田の')), '要確認');
+  expect(view.querySelector('.history-entry__ku')?.textContent).toBe('秋の田の');
 });

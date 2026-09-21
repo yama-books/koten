@@ -6,13 +6,24 @@ import { computePoints } from '@koten/shared/domain/points/compute';
 import { isViewOnly } from '@koten/shared/domain/mastery/rules.v1';
 import { rungProgress, type RungCatalogueEntry } from '@koten/shared/domain/mastery/rungs';
 
-export type HistoryEntry = Readonly<{ poemId: string; cardNo: number; percent: number; color: MasteryColor; untouched: boolean; authorUnconfirmed: boolean; needsReview: boolean; conquered: boolean }>;
+/**
+ * `firstKu` は初句（「秋の田の」）。**番号だけでは歌を思い出せない**ため、一覧に手がかりを置く。
+ * 歌データが渡されなかったときは `null` になり、画面は番号だけを出す——
+ * **一覧そのものは歌データ無しでも成立する**（試験の多くは歌を渡していない）。
+ */
+export type HistoryEntry = Readonly<{ poemId: string; cardNo: number; percent: number; color: MasteryColor; untouched: boolean; authorUnconfirmed: boolean; needsReview: boolean; conquered: boolean; firstKu: string | null }>;
 /**
  * 10 首ごとのまとまり（依頼者・2026-09-16）。**平均をひとつの輪で見せる。**
  * 100 行の平坦な一覧では、どこを練習したのかが読み取れない。
  */
 export type HistoryGroup = Readonly<{ from: number; to: number; percent: number; color: MasteryColor; entries: readonly HistoryEntry[] }>;
 export type HistorySummary = Readonly<{ entries: readonly HistoryEntry[]; groups: readonly HistoryGroup[]; needsReview: readonly HistoryEntry[]; touchedCount: number; isEmpty: boolean; points: number }>;
+
+/**
+ * 初句を引くのに要る分だけ。**`Poem` 全体を求めない**——
+ * 歌データの形が変わっても、一覧の集計が巻き込まれないようにする。
+ */
+export type HistoryPoem = Readonly<{ poemId: string; ku: readonly string[] }>;
 
 /** まとまりの首数。**画面と集計で別々に書かない。** */
 export const HISTORY_GROUP_SIZE = 10;
@@ -39,8 +50,9 @@ function groupEntries(entries: readonly HistoryEntry[]): HistoryGroup[] {
  * `clamp` を 100 で止めたまま、段8（番号だけ見て全部書く）を制覇した歌に印を立てる。
  * 点の計算・5色の表示・メーターに一切触らない。
  */
-export function summarizeHistory(input: Readonly<{ events: readonly Event[]; poemIds: readonly string[]; questions?: readonly RungCatalogueEntry[] }>): HistorySummary {
+export function summarizeHistory(input: Readonly<{ events: readonly Event[]; poemIds: readonly string[]; questions?: readonly RungCatalogueEntry[]; poems?: readonly HistoryPoem[] }>): HistorySummary {
   const scores = computeMastery(input.events).scores;
+  const firstKuOf = new Map((input.poems ?? []).map((poem) => [poem.poemId, poem.ku[0] ?? null]));
   const progress = rungProgress(
     input.events.filter((event) => event.questionId !== undefined).map((event) => ({ questionId: event.questionId!, outcome: event.outcome })),
     input.questions ?? [],
@@ -53,6 +65,7 @@ export function summarizeHistory(input: Readonly<{ events: readonly Event[]; poe
       untouched: mastery.untouched, authorUnconfirmed: mastery.authorUnconfirmed,
       needsReview: needsReview(poemId, input.events),
       conquered: progress.get(poemId)?.conquered ?? false,
+      firstKu: firstKuOf.get(poemId) ?? null,
     };
   });
   return { entries, groups: groupEntries(entries), needsReview: entries.filter((entry) => entry.needsReview), touchedCount: entries.filter((entry) => !entry.untouched).length, isEmpty: input.events.length === 0, points: computePoints(input.events).total };
