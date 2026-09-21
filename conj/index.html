@@ -1953,8 +1953,8 @@ td.wrong{background:var(--bad)!important}
         <dd id="recordQuestions">0問</dd>
       </div>
       <div class="record-stat">
-        <dt>正解数</dt>
-        <dd id="recordCorrectCells">0欄</dd>
+        <dt>正解数（欄ごと）</dt>
+        <dd id="recordCorrectCells">0</dd>
       </div>
       <div class="record-stat">
         <dt>正答率</dt>
@@ -3376,7 +3376,7 @@ function formatPoints(value){
 function renderRecord(){
   document.getElementById("recordPoints").textContent=formatPoints(stats.points);
   document.getElementById("recordQuestions").textContent=stats.total+"問";
-  document.getElementById("recordCorrectCells").textContent=stats.correctCells+"欄";
+  document.getElementById("recordCorrectCells").textContent=String(stats.correctCells);
   document.getElementById("recordAccuracy").textContent=
     stats.gradedCells ? Math.round((stats.correctCells/stats.gradedCells)*100)+"%" : "0%";
 
