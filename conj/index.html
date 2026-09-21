@@ -1826,6 +1826,87 @@ td.wrong{background:var(--bad)!important}
   }
 }
 
+/* ===== v42: fresh pastel record palette ===== */
+.record-screen{
+  --bg:#f6f4ef;
+  --card:#fffefa;
+  --ink:#303431;
+  --muted:#707771;
+  --line:#dce1db;
+  --line-strong:#cbd4cc;
+  --soft:#f1f5f0;
+  --soft2:#f8f8f4;
+  --bad:#fbeeee;
+  background:var(--bg);
+}
+.record-header{
+  border-bottom-color:#cfdfdc;
+}
+.record-header button{
+  border-color:#cddeda;
+  background:#fffefd;
+  box-shadow:0 2px 8px rgba(83,118,111,.06);
+}
+.record-dashboard .record-points{
+  border-color:#d6dfd7;
+  background:linear-gradient(135deg,#fffefa 42%,#f1f7f2 100%);
+  box-shadow:0 5px 16px rgba(72,91,80,.05);
+}
+.record-dashboard .record-stat{
+  border-color:#dce1db;
+  background:#fffefa;
+  box-shadow:0 4px 13px rgba(72,91,80,.04);
+}
+.record-detail-grid .record-section{
+  border-color:#dce1db;
+  border-radius:16px;
+  box-shadow:0 5px 16px rgba(72,91,80,.045);
+}
+.record-donut{
+  background:#e8ebe5;
+  box-shadow:inset 0 0 0 1px rgba(72,91,80,.06);
+}
+.record-donut-center{
+  box-shadow:0 0 0 1px #dce1db;
+}
+.breakdown-dot{
+  box-shadow:0 0 0 2px rgba(255,255,255,.9);
+}
+.record-review li{
+  border-color:#dfe3dd;
+  background:#faf9f5;
+}
+.review-rate{
+  border-color:#f0d8d8;
+  background:#fff0f0;
+}
+.review-rate span{
+  color:#8a6969;
+}
+.record-empty{
+  background:#f3f6f1;
+}
+
+@media(max-width:700px){
+  .record-shell{
+    padding:12px 14px 32px;
+  }
+  .record-dashboard{
+    gap:8px;
+    margin-top:12px;
+  }
+  .record-dashboard .record-points{
+    padding:11px 12px;
+  }
+  .record-detail-grid{
+    gap:10px;
+    margin-top:10px;
+  }
+  .record-detail-grid .record-section{
+    padding:12px 14px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3381,7 +3462,7 @@ function renderRecord(){
     stats.gradedCells ? Math.round((stats.correctCells/stats.gradedCells)*100)+"%" : "0%";
 
   const labels={verb:"動詞",adj:"形容詞",adjv:"形容動詞",aux:"助動詞"};
-  const colors={verb:"#7f9274",adj:"#b78872",adjv:"#8d83a6",aux:"#b6a06d"};
+  const colors={verb:"#91b6a2",adj:"#dfad9c",adjv:"#b1aecb",aux:"#d2bb82"};
   const keys=["verb","adj","adjv","aux"];
   const counts=Object.fromEntries(keys.map(key=>[key,Number(stats.byPos[key])||0]));
   const total=keys.reduce((sum,key)=>sum+counts[key],0);
@@ -3406,7 +3487,7 @@ function renderRecord(){
     });
     chart.style.background=`conic-gradient(${segments.join(",")})`;
   }else{
-    chart.style.background="#e8e2d9";
+    chart.style.background="#e8ebe5";
   }
   chart.setAttribute("aria-label",
     total
