@@ -158,10 +158,17 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .glyphInfoDialog::backdrop{background:rgba(43,39,31,.28)}
 .glyphInfoDialog__body{padding:22px;text-align:center}
 .glyphInfoDialog__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:72px;line-height:1.1;margin-bottom:10px}
-.glyphInfoDialog__meta{display:grid;grid-template-columns:auto auto;justify-content:center;gap:6px 14px;font-size:14px;line-height:1.6}
-.glyphInfoDialog__meta dt{color:var(--muted)}
-.glyphInfoDialog__meta dd{margin:0;font-family:var(--font-poem);font-size:20px}
+.glyphInfoDialog__meta{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:baseline;gap:6px 14px;font-size:14px;line-height:1.6}
+.glyphInfoDialog__meta dt{color:var(--muted);text-align:right}
+.glyphInfoDialog__meta dd{margin:0;font-family:var(--font-poem);font-size:20px;text-align:left}
 .glyphInfoDialog__note{margin:12px 0 0;padding:9px 10px;border-radius:10px;background:var(--accent2);color:var(--accent);font-size:11px;line-height:1.6;text-align:left;white-space:pre-line}
+.glyphInfoDialog__compare{margin-top:10px}
+.glyphInfoDialog__compareLabel{font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px}
+.glyphInfoDialog__compareItems{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.compareItem{min-width:76px;border:1px solid var(--line);border-radius:11px;background:var(--paper2);padding:7px 6px}
+.compareItem__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:40px;line-height:1.15}
+.compareItem.isModern .compareItem__glyph{font-family:var(--font-poem)}
+.compareItem__label{font-size:10px;color:var(--muted);line-height:1.4;margin-top:2px}
 .card[data-glyph-info]:focus-visible,.glyphMasteryCard:focus-visible{outline:3px solid rgba(53,107,158,.24);outline-offset:2px}
 .emptyRecord{color:var(--muted);font-size:11px;line-height:1.6}
 textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 12px;line-height:1.6;resize:vertical}
@@ -378,6 +385,10 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
         <dt>字母</dt><dd id="glyphInfoJibo"></dd>
       </dl>
       <p id="glyphInfoNote" class="glyphInfoDialog__note" hidden></p>
+      <div id="glyphInfoCompare" class="glyphInfoDialog__compare" hidden>
+        <div class="glyphInfoDialog__compareLabel">似ている字</div>
+        <div id="glyphInfoCompareItems" class="glyphInfoDialog__compareItems"></div>
+      </div>
       <div class="actions"><button id="closeGlyphInfo" class="btn" type="button">閉じる</button></div>
     </div>
   </dialog>
@@ -499,9 +510,18 @@ const KANA_FILTER_ROWS=[
   ["ん",["ん",null,null,null,null]]
 ];
 const GLYPH_INFO_NOTES=new Map([
-  ["U+1B052","※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。現代の「を」は字母「遠」の系統です。"],
-  ["U+1B11A","※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。"],
-  ["U+1B11C","※この字は読みが「を」、字母が「遠」です。現代の「を」につながる字母の系統です。"]
+  ["U+1B052",{
+    note:"※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。現代の「を」は字母「遠」の系統です。",
+    compare:[{character:"を",label:"現代の「を」",modern:true},{character:"𛄜",label:"を／遠"}]
+  }],
+  ["U+1B11A",{
+    note:"※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。",
+    compare:[{character:"せ",label:"現代の「せ」",modern:true}]
+  }],
+  ["U+1B11C",{
+    note:"※この字は読みが「を」、字母が「遠」です。現代の「を」につながる字母の系統です。",
+    compare:[{character:"を",label:"現代の「を」",modern:true},{character:"𛁒",label:"せ／世"}]
+  }]
 ]);
 let learningEvents=loadLearningEvents();
 let quizSet=newQuizSet();
@@ -686,6 +706,18 @@ function bindGlyphInfoCards(root){
    card.addEventListener("click",()=>showGlyphInfo(card.dataset.character||"",card.dataset.kana||"",card.dataset.jibo||""));
  });
 }
+function renderGlyphInfoCompare(items){
+ const box=document.getElementById("glyphInfoCompare");
+ const list=document.getElementById("glyphInfoCompareItems");
+ if(!box||!list)return;
+ if(!items||!items.length){box.hidden=true;list.innerHTML="";return}
+ list.innerHTML=items.map(item=>
+   '<div class="compareItem'+(item.modern?" isModern":"")+'">'+
+   '<div class="compareItem__glyph">'+escapeHtml(item.character)+'</div>'+
+   '<div class="compareItem__label">'+escapeHtml(item.label)+'</div>'+
+   '</div>').join("");
+ box.hidden=false;
+}
 function showGlyphInfo(character,kana,jibo){
  const dialog=document.getElementById("glyphInfoDialog");
  const entry=GLYPHS.find(g=>g.character===character);
@@ -698,8 +730,9 @@ function showGlyphInfo(character,kana,jibo){
    if(entry?.inOfficialCatalog===false){
      notes.push("※この字形は、国立国語研究所「学術情報交換用変体仮名」の公式収録一覧には含まれないため、補足字形として表示しています。");
    }
-   const visualNote=entry?.glyph_id?GLYPH_INFO_NOTES.get(entry.glyph_id):"";
-   if(visualNote)notes.push(visualNote);
+   const visual=entry?.glyph_id?GLYPH_INFO_NOTES.get(entry.glyph_id):null;
+   if(visual?.note)notes.push(visual.note);
+   renderGlyphInfoCompare(visual?.compare);
    note.hidden=notes.length===0;
    note.textContent=notes.join("\n");
  }
@@ -1285,10 +1318,13 @@ function makePreviewDataUrl(){
    }
    const columnWidth=fontSize*1.35;
    const blockWidth=columns.length*columnWidth;
+   const advance=fontSize*1.12;
+   // 列の頭を揃える。字数の少ない列だけ宙に浮かないよう、いちばん長い列で天地を決める。
+   const longest=Math.max(1,...columns.map(c=>c.length));
+   const columnTop=520-(longest*advance)/2+fontSize*.85;
    let x=540+blockWidth/2-columnWidth/2;
    for(const column of columns){
-     const advance=fontSize*1.12;
-   let y=520-(column.length*advance)/2+fontSize*.85;
+     let y=columnTop;
      for(const token of column){
        ctx.font=canvasFont(token,token.size);
        const glyphWidth=ctx.measureText(token.text).width;
