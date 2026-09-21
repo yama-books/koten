@@ -191,3 +191,67 @@ test("vintage-kana mastery cards keep the percent inside the card", () => {
   assert.match(html, /\.glyphMasteryCore\{display:flex;flex-direction:column;align-items:center;gap:3px;transform:translateX\(4px\)\}/);
   assert.doesNotMatch(html, /transform:translate\(4px,8px\)/);
 });
+
+test("vintage-kana G palette applies to the ground, not just the accents", () => {
+  // §56 では accent 系だけGへ寄せ、地・紙・罫線・インクは旧配色のままだった。
+  assert.match(html, /--bg:#fbf7f5;--paper:#fffdfb;--paper2:#fdf6f4;--ink:#2f3138;--muted:#77737a;/);
+  assert.match(html, /--line:#ecdfdb;--ring-track:#ebe3df;/);
+  assert.match(html, /<meta name="theme-color" content="#fbf7f5">/);
+  assert.match(html, /background:radial-gradient\(circle at 86% -8%,rgba\(122,166,209,\.20\),transparent 31rem\),var\(--bg\)/);
+
+  // 旧配色のハードコードが残っていないこと。
+  assert.doesNotMatch(html, /#f2efe8/);
+  assert.doesNotMatch(html, /#fffdf8/);
+  assert.doesNotMatch(html, /#e5e1d8/);
+
+  // 保存PNGもアプリの地・紙・インクに同期している。
+  assert.match(html, /ctx\.fillStyle="#fbf7f5";/);
+  assert.match(html, /ctx\.fillStyle="#fffdfb";/);
+  assert.match(html, /ctx\.fillStyle="#2f3138";/);
+});
+
+test("vintage-kana reading quiz tells the jibo when it reveals the answer", () => {
+  assert.match(html, /function readingFeedbackText\(correct\)\{/);
+  assert.match(html, /const jibo=quizEntry&&quizEntry\.jibo\?"字母は「"\+quizEntry\.jibo\+"」です。":"";/);
+  assert.match(html, /return \(correct\?"正解です。":"「"\+quizEntry\.kana\+"」と読みます。"\)\+jibo;/);
+  // 4択と自由入力の両方が同じ文面を使う。
+  assert.strictEqual((html.match(/\? readingFeedbackText\(correct\)/g) ?? []).length, 2);
+});
+
+test("vintage-kana help dialog puts furigana on 字母 without changing the line rhythm", () => {
+  assert.match(html, /<h3><ruby>字<rt>じ<\/rt><\/ruby><ruby>母<rt>ぼ<\/rt><\/ruby>とは？<\/h3>/);
+  // ルビを絶対配置で行boxの外へ出す。行送りが見出しごとに変わらない。
+  assert.match(html, /\.helpBody h3\{font-size:13px;margin:6px 0 4px;line-height:1\.85\}/);
+  assert.match(html, /\.helpBody h3 ruby\{position:relative\}/);
+  assert.match(html, /\.helpBody h3 rt\{position:absolute;left:0;right:0;bottom:calc\(100% - 2px\);/);
+});
+
+test("vintage-kana preview can be switched to vertical writing", () => {
+  assert.match(html, /<button class="previewDirBtn active" type="button" data-writing="horizontal">横書き<\/button>/);
+  assert.match(html, /<button class="previewDirBtn" type="button" data-writing="vertical">縦書き<\/button>/);
+  assert.match(html, /let verticalWriting=false;/);
+  assert.match(html, /previewEl\.classList\.toggle\("vertical",verticalWriting\);/);
+
+  // 縦幅は固定枠、あふれは横スクロール。幅を明示しないと縦組みは内容なりに広がる。
+  assert.match(
+    html,
+    /\.previewDock \.preview\.vertical\{writing-mode:vertical-rl;width:100%;max-width:100%;height:300px;min-height:0;overflow-x:auto;overflow-y:hidden;/,
+  );
+
+  // 保存PNGも縦書きに追従する。
+  assert.match(html, /function layoutCanvasColumns\(ctx,tokens,fontSize,maxHeight\)\{/);
+  assert.match(html, /if\(verticalWriting\)\{/);
+});
+
+test("vintage-kana browse grid lines the kana up by vowel column", () => {
+  // 一覧の並びは記録の行集計・出題プール（KANA_ROWS）とは別に持つ。
+  assert.match(html, /const KANA_FILTER_ROWS=\[/);
+  assert.match(html, /\["や行",\["や",null,"ゆ",null,"よ"\]\],/);
+  assert.match(html, /\["わ行",\["わ","ゐ",null,"ゑ","を"\]\],/);
+  assert.match(html, /\["ん",\["ん",null,null,null,null\]\]/);
+  assert.match(html, /KANA_FILTER_ROWS\.forEach\(\(\[label,slots\]\)=>\{/);
+  assert.match(html, /spacer\.className="kanaFilterSlot";/);
+
+  // 記録と出題が使う正本は空きを持たない。
+  assert.match(html, /\["わ行",\[\.\.\."わゐゑをん"\]\]/);
+});

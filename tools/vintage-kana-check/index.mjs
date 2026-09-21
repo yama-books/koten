@@ -238,7 +238,8 @@ try {
       viewport: document.documentElement.clientWidth,
       menuText: document.querySelector('[data-view="browse"]')?.textContent?.trim() ?? "",
     }));
-    if (browse.rowCount !== 10) add(width, "browseKanaRowCount", browse);
+    if (browse.rowCount !== 11) add(width, "browseKanaRowCount", browse);
+    if (browse.labels.at(-1) !== "ん") add(width, "browseKanaNRowIsSeparate", browse);
     if (browse.menuText !== "一覧") add(width, "browseMenuLabel", browse);
     if (browse.maxRight > browse.viewport + 1) add(width, "browseRowsNoOverflow", browse);
 
