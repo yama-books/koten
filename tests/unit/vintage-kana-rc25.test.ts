@@ -152,8 +152,8 @@ test("vintage-kana glyph explanations are reachable from browse and mastery card
   assert.match(html, /bindGlyphInfoCards\(root\)/);
   assert.match(html, /<button type="button" class="glyphMasteryCard" data-glyph-info/);
   assert.match(html, /bindGlyphInfoCards\(rows\)/);
-  assert.match(html, /\["U\+1B052","※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。/);
-  assert.match(html, /\["U\+1B11A","※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。/);
+  assert.match(html, /\["U\+1B052",\{\n    note:"※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。/);
+  assert.match(html, /\["U\+1B11A",\{\n    note:"※この字は現代の「せ」に似て見えることがありますが、読みは「を」、字母は「越」です。/);
   assert.match(html, /notes\.join\("\\n"\)/);
 });
 
@@ -272,6 +272,39 @@ test("vintage-kana vertical writing keeps every kana upright and evenly spaced",
   // 保存PNGの送りも画面と同じ 1.12em。
   assert.match(html, /const advance=fontSize\*1\.12;/);
   assert.match(html, /if\(height\+advance>maxHeight && columns\.at\(-1\)\.length\)/);
-  assert.match(html, /let y=520-\(column\.length\*advance\)\/2\+fontSize\*\.85;/);
+  // 天地の決め方は「保存PNGの上揃え」のテストで固定している。
   assert.match(html, /       y\+=advance;/);
+});
+
+test("vintage-kana glyph dialog shows the look-alike glyph next to the note", () => {
+  // 「現代の『を』に似ている」と書いても、その「を」が並んでいないと読者は確かめようがない。
+  assert.match(html, /<div id="glyphInfoCompare" class="glyphInfoDialog__compare" hidden>/);
+  assert.match(html, /<div class="glyphInfoDialog__compareLabel">似ている字<\/div>/);
+  assert.match(html, /function renderGlyphInfoCompare\(items\)\{/);
+  assert.match(html, /renderGlyphInfoCompare\(visual\?\.compare\);/);
+
+  // せ／世 には現代の「を」と、同じく「を」に見える を／遠 を並べる。
+  assert.match(html, /compare:\[\{character:"を",label:"現代の「を」",modern:true\},\{character:"𛄜",label:"を／遠"\}\]/);
+  // を／越 には現代の「せ」。
+  assert.match(html, /compare:\[\{character:"せ",label:"現代の「せ」",modern:true\}\]/);
+  // を／遠 には現代の「を」と、紛らわしい せ／世。
+  assert.match(html, /compare:\[\{character:"を",label:"現代の「を」",modern:true\},\{character:"𛁒",label:"せ／世"\}\]/);
+
+  // 現代の仮名は明朝、変体仮名は専用フォントで出し分ける。
+  assert.match(html, /\.compareItem\.isModern \.compareItem__glyph\{font-family:var\(--font-poem\)\}/);
+});
+
+test("vintage-kana glyph dialog aligns the labels with their values", () => {
+  // ラベル14px・値20pxで、grid の既定の上端揃えでは字の座りがずれる。
+  assert.match(html, /\.glyphInfoDialog__meta\{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:baseline;/);
+  assert.match(html, /\.glyphInfoDialog__meta dt\{color:var\(--muted\);text-align:right\}/);
+  assert.match(html, /\.glyphInfoDialog__meta dd\{margin:0;font-family:var\(--font-poem\);font-size:20px;text-align:left\}/);
+});
+
+test("vintage-kana vertical export starts every column at the same top", () => {
+  // 列ごとに天地中央で置くと、字数の少ない最後の列だけ宙に浮く。
+  assert.match(html, /const longest=Math\.max\(1,\.\.\.columns\.map\(c=>c\.length\)\);/);
+  assert.match(html, /const columnTop=520-\(longest\*advance\)\/2\+fontSize\*\.85;/);
+  assert.match(html, /     let y=columnTop;/);
+  assert.doesNotMatch(html, /let y=520-\(column\.length\*advance\)/);
 });
