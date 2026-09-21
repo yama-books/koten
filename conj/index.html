@@ -1580,6 +1580,252 @@ td.wrong{background:var(--bad)!important}
   }
 }
 
+
+/* ===== v41: dense record dashboard ===== */
+.record-dashboard{
+  display:grid;
+  grid-template-columns:minmax(210px,.92fr) minmax(0,1.58fr);
+  gap:8px;
+  margin:14px 0 0;
+}
+.record-dashboard .record-points{
+  min-width:0;
+  min-height:100%;
+  margin:0;
+  padding:11px 12px;
+}
+.record-dashboard .record-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:0;
+}
+.record-dashboard .record-stat{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:9px 10px;
+}
+.record-dashboard .record-stat dt{
+  line-height:1.35;
+}
+.record-dashboard .record-stat dd{
+  font-size:20px;
+  white-space:nowrap;
+}
+
+.record-detail-grid{
+  display:grid;
+  grid-template-columns:minmax(270px,.9fr) minmax(0,1.1fr);
+  gap:10px;
+  margin-top:10px;
+  align-items:start;
+}
+.record-detail-grid .record-section{
+  min-width:0;
+  margin:0;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--card);
+}
+.record-detail-grid .record-section h3{
+  margin:0 0 9px;
+  font-size:14px;
+}
+
+.record-breakdown-panel{
+  display:grid;
+  grid-template-columns:112px minmax(0,1fr);
+  gap:12px;
+  align-items:center;
+}
+.record-donut{
+  width:106px;
+  height:106px;
+  border-radius:50%;
+  position:relative;
+  background:#e8e2d9;
+  box-shadow:inset 0 0 0 1px rgba(88,76,64,.06);
+}
+.record-donut-center{
+  position:absolute;
+  inset:20px;
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:2px;
+  border-radius:50%;
+  background:var(--card);
+  box-shadow:0 0 0 1px var(--line);
+}
+.record-donut-center strong{
+  font-size:22px;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.record-donut-center span{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.record-breakdown{
+  display:grid;
+  gap:3px;
+  border:0;
+  border-radius:0;
+  overflow:visible;
+  background:transparent;
+}
+.record-breakdown li{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  padding:4px 0;
+  border:0;
+}
+.breakdown-label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+  font-size:11px;
+}
+.breakdown-dot{
+  width:8px;
+  height:8px;
+  flex:0 0 8px;
+  border-radius:50%;
+  background:var(--breakdown-color);
+}
+.record-breakdown strong{
+  font-size:11px;
+  font-variant-numeric:tabular-nums;
+}
+
+.record-review{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:6px;
+  border:0;
+  border-radius:0;
+  overflow:visible;
+  background:transparent;
+}
+.record-review li{
+  display:grid;
+  grid-template-columns:68px minmax(0,1fr);
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  padding:6px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--soft2);
+}
+.review-rate{
+  display:grid;
+  place-items:center;
+  gap:1px;
+  padding:5px 4px;
+  border:1px solid #ead1cb;
+  border-radius:8px;
+  background:var(--bad);
+  text-align:center;
+}
+.review-rate span{
+  color:#80655e;
+  font-size:8px;
+  line-height:1.15;
+}
+.review-rate strong{
+  font-size:17px;
+  line-height:1.05;
+  font-variant-numeric:tabular-nums;
+}
+.review-copy{
+  display:grid;
+  gap:2px;
+  min-width:0;
+}
+.review-copy strong{
+  font-size:12px;
+  line-height:1.25;
+}
+.review-copy small{
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.25;
+  font-variant-numeric:tabular-nums;
+}
+.record-empty{
+  padding:8px 9px;
+  border-radius:9px;
+  background:var(--soft2);
+}
+
+@media(max-width:700px){
+  .record-dashboard{
+    grid-template-columns:1fr;
+    gap:6px;
+    margin-top:8px;
+  }
+  .record-dashboard .record-points{
+    padding:8px 10px;
+  }
+  .record-dashboard .record-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+  }
+  .record-dashboard .record-stat{
+    padding:7px 8px;
+  }
+  .record-dashboard .record-stat dt{
+    font-size:9px;
+  }
+  .record-dashboard .record-stat dd{
+    font-size:18px;
+  }
+  .record-detail-grid{
+    grid-template-columns:1fr;
+    gap:7px;
+    margin-top:7px;
+  }
+  .record-detail-grid .record-section{
+    padding:9px 10px;
+  }
+  .record-breakdown-panel{
+    grid-template-columns:92px minmax(0,1fr);
+    gap:10px;
+  }
+  .record-donut{
+    width:86px;
+    height:86px;
+  }
+  .record-donut-center{
+    inset:17px;
+  }
+  .record-donut-center strong{
+    font-size:19px;
+  }
+  .record-breakdown li{
+    padding:3px 0;
+  }
+  .record-review{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:460px){
+  .record-review{
+    grid-template-columns:1fr;
+  }
+  .record-review li{
+    grid-template-columns:64px minmax(0,1fr);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1692,6 +1938,7 @@ td.wrong{background:var(--bad)!important}
       <button class="ghost" id="closeRecord" type="button">戻る</button>
     </header>
 
+    <div class="record-dashboard">
     <div class="record-points">
       <div class="record-points-copy">
         <span class="record-points-label">これまでに ためたポイント</span>
@@ -1713,15 +1960,18 @@ td.wrong{background:var(--bad)!important}
         <dt>正答率</dt>
         <dd id="recordAccuracy">0%</dd>
       </div>
-      <div class="record-stat">
-        <dt>全問正解</dt>
-        <dd id="recordPerfect">0問</dd>
-      </div>
     </dl>
+    </div>
 
+    <div class="record-detail-grid">
     <section class="record-section">
       <h3>取り組んだ問題の内訳</h3>
-      <ul class="record-breakdown" id="recordBreakdown"></ul>
+      <div class="record-breakdown-panel">
+        <div class="record-donut" id="recordBreakdownChart" role="img" aria-label="取り組んだ問題の内訳">
+          <div class="record-donut-center"><strong id="recordBreakdownTotal">0</strong><span>問</span></div>
+        </div>
+        <ul class="record-breakdown" id="recordBreakdown"></ul>
+      </div>
     </section>
 
     <section class="record-section">
@@ -1729,6 +1979,7 @@ td.wrong{background:var(--bad)!important}
       <p class="record-empty" id="recordReviewEmpty">まだ要確認の活用はありません。</p>
       <ul class="record-review" id="recordReview" hidden></ul>
     </section>
+    </div>
 
   </div>
 </section>
@@ -3128,16 +3379,40 @@ function renderRecord(){
   document.getElementById("recordCorrectCells").textContent=stats.correctCells+"欄";
   document.getElementById("recordAccuracy").textContent=
     stats.gradedCells ? Math.round((stats.correctCells/stats.gradedCells)*100)+"%" : "0%";
-  document.getElementById("recordPerfect").textContent=stats.correct+"問";
 
   const labels={verb:"動詞",adj:"形容詞",adjv:"形容動詞",aux:"助動詞"};
+  const colors={verb:"#7f9274",adj:"#b78872",adjv:"#8d83a6",aux:"#b6a06d"};
+  const keys=["verb","adj","adjv","aux"];
+  const counts=Object.fromEntries(keys.map(key=>[key,Number(stats.byPos[key])||0]));
+  const total=keys.reduce((sum,key)=>sum+counts[key],0);
+
   const breakdown=document.getElementById("recordBreakdown");
   breakdown.innerHTML="";
-  for(const key of ["verb","adj","adjv","aux"]){
+  keys.forEach(key=>{
     const li=document.createElement("li");
-    li.innerHTML=`<span>${labels[key]}</span><strong>${stats.byPos[key]||0}問</strong>`;
+    li.style.setProperty("--breakdown-color",colors[key]);
+    li.innerHTML=`<span class="breakdown-label"><span class="breakdown-dot" aria-hidden="true"></span><span>${labels[key]}</span></span><strong>${counts[key]}問</strong>`;
     breakdown.appendChild(li);
+  });
+
+  const chart=document.getElementById("recordBreakdownChart");
+  document.getElementById("recordBreakdownTotal").textContent=total;
+  if(total){
+    let cursor=0;
+    const segments=keys.map(key=>{
+      const start=cursor;
+      cursor+=counts[key]/total*100;
+      return `${colors[key]} ${start}% ${cursor}%`;
+    });
+    chart.style.background=`conic-gradient(${segments.join(",")})`;
+  }else{
+    chart.style.background="#e8e2d9";
   }
+  chart.setAttribute("aria-label",
+    total
+      ? `取り組んだ問題の内訳。動詞 ${counts.verb}問、形容詞 ${counts.adj}問、形容動詞 ${counts.adjv}問、助動詞 ${counts.aux}問。`
+      : "取り組んだ問題はまだありません。"
+  );
 
   const review=reviewKinds();
   const reviewList=document.getElementById("recordReview");
@@ -3149,10 +3424,9 @@ function renderRecord(){
   review.forEach(entry=>{
     const li=document.createElement("li");
     const percent=Math.round(entry.rate*100);
-    li.innerHTML=`<span><strong>${entry.label}</strong><br><small>誤答 ${entry.wrong}欄 / ${entry.total}欄</small></span><strong>${percent}%</strong>`;
+    li.innerHTML=`<span class="review-rate"><span>誤答率</span><strong>${percent}%</strong></span><span class="review-copy"><strong>${entry.label}</strong><small>誤答 ${entry.wrong}/${entry.total}</small></span>`;
     reviewList.appendChild(li);
   });
-
 }
 
 function openRecord(){
