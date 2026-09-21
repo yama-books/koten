@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>変体仮名メーカー</title>
-<meta name="theme-color" content="#f2efe8">
+<meta name="theme-color" content="#fbf7f5">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -18,8 +18,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f2efe8;--paper:#fffdf8;--paper2:#faf6ed;--ink:#292b28;--muted:#74766e;
-  --line:#ddd7ca;--accent:#356b9e;--accent2:#e0ecf8;--accent-border:#9bbbd8;--primary:#c2506e;--danger:#a85732;--ok:#4f7558;
+  --bg:#fbf7f5;--paper:#fffdfb;--paper2:#fdf6f4;--ink:#2f3138;--muted:#77737a;
+  --line:#ecdfdb;--ring-track:#ebe3df;--accent:#356b9e;--accent2:#e0ecf8;--accent-border:#9bbbd8;--primary:#c2506e;--danger:#a85732;--ok:#4f7558;
   --mastery-gray:oklch(54% .012 75);--mastery-red:oklch(56% .16 28);--mastery-yellow:oklch(78% .15 86);--mastery-blue:oklch(56% .14 250);--mastery-green:oklch(56% .14 145);
   --shadow:0 16px 42px rgba(43,39,31,.08);
   --font-ui:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
@@ -27,14 +27,14 @@
 }
 *{box-sizing:border-box}
 html{background:var(--bg)}
-body{margin:0;color:var(--ink);background:radial-gradient(circle at 86% -8%,rgba(194,80,110,.10),transparent 31rem),radial-gradient(circle at 12% 0%,rgba(53,107,158,.07),transparent 26rem),var(--bg);font-family:var(--font-ui)}
+body{margin:0;color:var(--ink);background:radial-gradient(circle at 86% -8%,rgba(122,166,209,.20),transparent 31rem),var(--bg);font-family:var(--font-ui)}
 button,input,textarea{font:inherit} button{cursor:pointer}
 .wrap{max-width:1080px;margin:auto;padding:28px 18px 64px}
 header{margin-bottom:12px}
 h1{font-family:var(--font-ui);margin:0;font-size:clamp(27px,4.4vw,42px);font-weight:700;letter-spacing:.045em}
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);margin:14px 0}
 .panelTop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
-.notice{background:#f7f3e9;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.7}
+.notice{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.7}
 .learnHelpBtn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 12px 7px 8px;min-height:44px;font-size:12px;font-weight:700}
 .helpIcon{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent2);border:1px solid var(--accent-border);color:var(--accent);font-weight:800;font-size:13px;line-height:1}
 .helpDialog{border:0;border-radius:18px;padding:0;max-width:min(560px,calc(100vw - 28px));width:100%;max-height:min(82vh,720px);box-shadow:0 22px 70px rgba(43,39,31,.24);background:var(--paper);color:var(--ink)}
@@ -42,7 +42,9 @@ h1{font-family:var(--font-ui);margin:0;font-size:clamp(27px,4.4vw,42px);font-wei
 .helpBody{padding:18px;overflow:auto;max-height:min(82vh,720px)}
 .helpBody__top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
 .helpBody__top h2{font-size:17px;margin:0}
-.helpBody h3{font-size:13px;margin:14px 0 4px}
+.helpBody h3{font-size:13px;margin:6px 0 4px;line-height:1.85}
+.helpBody h3 ruby{position:relative}
+.helpBody h3 rt{position:absolute;left:0;right:0;bottom:calc(100% - 2px);font-size:7px;font-weight:700;line-height:1;letter-spacing:.02em;text-align:center;color:var(--muted);pointer-events:none}
 .helpBody p{font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 12px}
 .jiboExamples{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
 .jiboExample{border:1px solid var(--line);border-radius:11px;background:var(--paper2);padding:8px 4px;text-align:center}
@@ -62,11 +64,12 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .kanaFilterRow{display:grid;grid-template-columns:38px minmax(0,1fr);gap:5px;align-items:center}
 .kanaFilterRow__label{font-size:10px;color:var(--muted);text-align:center;font-weight:700}
 .kanaFilterRow__buttons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.kanaFilterSlot{display:block;min-width:0}
 .kanaBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 4px;min-width:0}
 .kanaBtn.active{background:var(--accent2);color:var(--accent);border-color:var(--accent)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
 .card{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:125px;width:100%;color:var(--ink);text-align:left;font:inherit}
-.card.standardKana{background:#edf3f7;border-color:#b9cad5}
+.card.standardKana{background:#eef4fb;border-color:#c9ddf0}
 .card.standardKana .glyph{font-family:var(--font-poem)}
 .glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:50px;line-height:1.15;margin-bottom:9px}
 .meta{font-size:13px;line-height:1.7}.meta b{font-family:var(--font-poem);font-size:18px}
@@ -92,7 +95,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .quizFreeAnswer input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(53,107,158,.12)}
 .quizFreeAnswer input.correct{background:#e8f0e5;border-color:#93a78d}
 .quizFreeAnswer input.wrong{background:#fff0e8;border-color:#d2a083}
-.choice{border:1px solid var(--line);border-radius:18px;padding:10px;background:#fffdf9;font-family:var(--font-poem);font-size:30px;min-height:84px;display:grid;place-items:center;box-shadow:0 3px 10px rgba(43,39,31,.035);transition:.12s ease}
+.choice{border:1px solid var(--line);border-radius:18px;padding:10px;background:var(--paper);font-family:var(--font-poem);font-size:30px;min-height:84px;display:grid;place-items:center;box-shadow:0 3px 10px rgba(43,39,31,.035);transition:.12s ease}
 .choice:active{transform:scale(.985)}
 .choice.correct{border-color:var(--ok);background:#edf5ed;color:#32432e}
 .choice.wrong{border-color:var(--danger);background:#fff0e8;color:#6f3a26}
@@ -136,7 +139,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .recordRow__head{display:flex;align-items:center;gap:8px;min-width:0}
 .recordReview{color:var(--danger);font-size:9px;font-weight:700;line-height:1.35}
 .rowGlyphMastery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-top:1px solid var(--line);padding:10px}
-.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),var(--ring-track) 0)}
 .ringMeter::after{content:"";width:54px;height:54px;border-radius:50%;background:#fff}
 .ringMeter span{position:absolute;z-index:1;font-size:12px;font-variant-numeric:tabular-nums}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
@@ -145,13 +148,13 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .glyphMasteryCard{position:relative;aspect-ratio:1/1.12;min-width:0;min-height:108px;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;border:1px solid var(--line);border-radius:12px;background:#fff;padding:22px 4px 6px;font:inherit;color:var(--ink);cursor:pointer}
 .glyphMasteryReading{position:absolute;top:5px;left:4px;z-index:2;font-family:var(--font-poem);font-size:10px;font-weight:700;line-height:1;color:var(--ink);background:rgba(255,255,255,.94);border-radius:999px;padding:0 1px}
 .glyphMasteryCore{display:flex;flex-direction:column;align-items:center;gap:3px;transform:translateX(4px)}
-.glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:56px;height:56px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),#e5e1d8 0)}
+.glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:56px;height:56px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),var(--ring-track) 0)}
 .glyphMasteryRing::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff}
 .glyphMasteryRing__center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
 .glyphMasteryGlyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:28px;line-height:1}
 .glyphMasteryJibo{margin-top:3px;color:var(--muted);font-size:10px;line-height:1.15}
 .glyphMasteryPercent{font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
-.glyphInfoDialog{border:0;border-radius:18px;padding:0;max-width:min(320px,calc(100vw - 40px));width:100%;box-shadow:0 20px 60px rgba(43,39,31,.22);background:#fffdf8;color:var(--ink)}
+.glyphInfoDialog{border:0;border-radius:18px;padding:0;max-width:min(320px,calc(100vw - 40px));width:100%;box-shadow:0 20px 60px rgba(43,39,31,.22);background:var(--paper);color:var(--ink)}
 .glyphInfoDialog::backdrop{background:rgba(43,39,31,.28)}
 .glyphInfoDialog__body{padding:22px;text-align:center}
 .glyphInfoDialog__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:72px;line-height:1.1;margin-bottom:10px}
@@ -177,7 +180,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .composeKana{font-family:var(--font-poem);font-size:24px;text-align:center;padding-top:5px}
 .candidates{display:flex;gap:7px;flex-wrap:wrap}
 .glyphChoice{border:1px solid var(--line);border-radius:10px;background:#fff;padding:6px 9px;min-width:76px}
-.glyphChoice.standardChoice{background:#edf3f7;border-color:#b9cad5}
+.glyphChoice.standardChoice{background:#eef4fb;border-color:#c9ddf0}
 .glyphChoice.active{background:var(--accent2);border-color:var(--accent)}
 .glyphChoice .g{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:28px;display:block;line-height:1.2}
 .glyphChoice .g.smallGlyph{font-size:20px;line-height:1.45}
@@ -192,6 +195,14 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .previewDock.isStuck .floatingOriginal{display:block}
 .previewDock.manualSticky .preview{min-height:66px;padding:9px 12px;font-size:32px;line-height:1.45}
 .preview{margin-top:5px;min-height:100px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:14px;font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:36px;line-height:1.6;word-break:break-all}
+.previewHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.previewHead .label{margin:0}
+.previewDirs{display:flex;gap:5px;flex:0 0 auto}
+.previewDirBtn{min-height:32px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:5px 11px;color:var(--muted);font-size:11px;font-weight:700;white-space:nowrap}
+.previewDirBtn.active{background:var(--accent2);border-color:var(--accent);color:var(--accent)}
+.previewDock .preview.vertical{writing-mode:vertical-rl;width:100%;max-width:100%;height:300px;min-height:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain}
+.previewDock .preview.vertical .smallGlyph{vertical-align:baseline;margin-block-start:-.06em}
+.previewDock.manualSticky .preview.vertical{height:180px}
 .empty{padding:24px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:1.9;text-align:center;background:#fff}
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
@@ -229,7 +240,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       <p>昔使われていた、今とは形のちがうひらがなです。</p>
       <h3>いつ使われていた？</h3>
       <p>平安時代から明治時代まで、同じ音にいくつものひらがなの形が使われていました。1900年（明治33年）、学校で教えるひらがなが一つずつに整理されました。</p>
-      <h3>字母とは？</h3>
+      <h3><ruby>字<rt>じ</rt></ruby><ruby>母<rt>ぼ</rt></ruby>とは？</h3>
       <p>ひらがなのもとになった漢字です。今のひらがなにも字母があります。</p>
       <h3>今のひらがなの字母</h3>
       <div class="jiboExamples" aria-label="現代のひらがなの字母の例">
@@ -255,7 +266,13 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       <label><input id="smallKanaToggle" type="checkbox"> ぁ・ぃ・ゅ などを小さく表示</label>
     </div>
     <div id="previewDock" class="previewDock">
-      <div class="label">できあがり</div>
+      <div class="previewHead">
+        <div class="label">できあがり</div>
+        <div class="previewDirs" role="group" aria-label="書字方向">
+          <button class="previewDirBtn active" type="button" data-writing="horizontal">横書き</button>
+          <button class="previewDirBtn" type="button" data-writing="vertical">縦書き</button>
+        </div>
+      </div>
       <div id="floatingOriginal" class="floatingOriginal"><b>もとの文</b>　きょうはいいてんきですね</div>
       <div id="preview" class="preview"></div>
     </div>
@@ -435,6 +452,7 @@ let quizEntry=null;
 let quizMode="reading";
 let composeMode="auto";
 let smallKanaEnabled=false;
+let verticalWriting=false;
 let answered=false;
 let quizQuestionMethod="choice";
 let activeQuizScreen="practice";
@@ -461,6 +479,22 @@ const KANA_ROWS=[
   ["た行",[..."たちつてと"]],["な行",[..."なにぬねの"]],["は行",[..."はひふへほ"]],
   ["ま行",[..."まみむめも"]],["や行",[..."やゆよ"]],["ら行",[..."らりるれろ"]],
   ["わ行",[..."わゐゑをん"]]
+];
+// 一覧の50音表の並び。母音の欄を縦に揃えるため、無い段は null で空ける。
+// 「ん」はワ行ではないので独立した行へ送る。
+// KANA_ROWS とは役割が違う（あちらは記録の行集計と出題プールの正本）。
+const KANA_FILTER_ROWS=[
+  ["あ行",["あ","い","う","え","お"]],
+  ["か行",["か","き","く","け","こ"]],
+  ["さ行",["さ","し","す","せ","そ"]],
+  ["た行",["た","ち","つ","て","と"]],
+  ["な行",["な","に","ぬ","ね","の"]],
+  ["は行",["は","ひ","ふ","へ","ほ"]],
+  ["ま行",["ま","み","む","め","も"]],
+  ["や行",["や",null,"ゆ",null,"よ"]],
+  ["ら行",["ら","り","る","れ","ろ"]],
+  ["わ行",["わ","ゐ",null,"ゑ","を"]],
+  ["ん",["ん",null,null,null,null]]
 ];
 const GLYPH_INFO_NOTES=new Map([
   ["U+1B052","※この字は現代の「を」とよく似た形ですが、読みは「せ」、字母は「世」です。現代の「を」は字母「遠」の系統です。"],
@@ -830,7 +864,7 @@ function renderFilters(){
  all.className="kanaFilterAll";
  all.appendChild(makeButton("すべて"));
  root.appendChild(all);
- KANA_ROWS.forEach(([label,kanas])=>{
+ KANA_FILTER_ROWS.forEach(([label,slots])=>{
    const row=document.createElement("div");
    row.className="kanaFilterRow";
    const rowLabel=document.createElement("div");
@@ -839,7 +873,13 @@ function renderFilters(){
    row.appendChild(rowLabel);
    const buttons=document.createElement("div");
    buttons.className="kanaFilterRow__buttons";
-   kanas.forEach(k=>buttons.appendChild(makeButton(k)));
+   slots.forEach(k=>{
+     if(k){buttons.appendChild(makeButton(k));return}
+     const spacer=document.createElement("span");
+     spacer.className="kanaFilterSlot";
+     spacer.setAttribute("aria-hidden","true");
+     buttons.appendChild(spacer);
+   });
    row.appendChild(buttons);
    root.appendChild(row);
  });
@@ -910,6 +950,10 @@ function reverseJiboChoices(entry){
  add(standard.find(f=>!picked.some(x=>x.character===f.character)));
  shuffle(valid).forEach(add);
  return shuffle([entry,...picked.slice(0,3)]);
+}
+function readingFeedbackText(correct){
+ const jibo=quizEntry&&quizEntry.jibo?"字母は「"+quizEntry.jibo+"」です。":"";
+ return (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")+jibo;
 }
 function normalizeReadingAnswer(value){
  return String(value||"").normalize("NFC").trim().replace(/[ァ-ヶ]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60));
@@ -1002,7 +1046,7 @@ function newQuiz(){
        if(value!==answer)b.classList.add("wrong");
        const correct=value===answer;
        const feedback=quizMode==="reading"
-         ? (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")
+         ? readingFeedbackText(correct)
          : quizQuestionMethod==="jibo-reverse"
            ? (correct?"正解です。":"正解は「"+quizEntry.character+"」です。")
            : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
@@ -1058,7 +1102,7 @@ function newQuiz(){
    input.classList.toggle("correct",correct);
    input.classList.toggle("wrong",!correct);
    const feedback=quizMode==="reading"
-     ? (correct?"正解です。":"「"+quizEntry.kana+"」と読みます。")
+     ? readingFeedbackText(correct)
      : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
    finishAnswer(correct,feedback);
  };
@@ -1129,7 +1173,9 @@ function renderCompose(){
  if(smallOption) smallOption.classList.toggle("show",composeMode==="manual");
  const previewDock=document.getElementById("previewDock");
  if(previewDock) previewDock.classList.toggle("manualSticky",composeMode==="manual");
- document.getElementById("preview").innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
+ const previewEl=document.getElementById("preview");
+ previewEl.classList.toggle("vertical",verticalWriting);
+ previewEl.innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
  requestAnimationFrame(updateStickyState);
  const reroll=document.getElementById("rerollCompose");
  if(reroll) reroll.style.display=composeMode==="auto"?"inline-flex":"none";
@@ -1183,6 +1229,18 @@ function layoutCanvasTokens(ctx,tokens,fontSize,maxWidth){
  }
  return lines;
 }
+function layoutCanvasColumns(ctx,tokens,fontSize,maxHeight){
+ const columns=[[]];
+ let height=0;
+ for(const token of tokens){
+   if(token.text==="\n"){columns.push([]);height=0;continue}
+   const size=token.small?fontSize*.68:fontSize;
+   if(height+fontSize>maxHeight && columns.at(-1).length){columns.push([]);height=0}
+   columns.at(-1).push({...token,size});
+   height+=fontSize;
+ }
+ return columns;
+}
 function drawTrackedText(ctx,text,centerX,y,font,spacing){
  ctx.font=font;
  const chars=[...text];
@@ -1202,38 +1260,64 @@ function makePreviewDataUrl(){
  const ctx=canvas.getContext("2d");
  if(!ctx)return null;
 
- ctx.fillStyle="#f2efe8";
+ ctx.fillStyle="#fbf7f5";
  ctx.fillRect(0,0,1080,1080);
  roundedRect(ctx,70,70,940,940,54);
- ctx.fillStyle="#fffdf8";
+ ctx.fillStyle="#fffdfb";
  ctx.fill();
 
  const tokens=[...text].map(outputTokenFor);
  const maxWidth=820;
- let fontSize=150;
- let lines=[];
- while(fontSize>=70){
-   lines=layoutCanvasTokens(ctx,tokens,fontSize,maxWidth);
-   const lineHeight=fontSize*1.5;
-   if(lines.length*lineHeight<=700)break;
-   fontSize-=10;
- }
- const lineHeight=fontSize*1.5;
- const blockHeight=lines.length*lineHeight;
- let y=520-blockHeight/2+fontSize*.9;
- ctx.fillStyle="#292b28";
+ const maxHeight=700;
+ ctx.fillStyle="#2f3138";
  ctx.textBaseline="alphabetic";
 
- for(const line of lines){
-   const lineWidth=line.reduce((sum,t)=>sum+t.width,0);
-   let x=540-lineWidth/2;
-   for(const token of line){
-     ctx.font=canvasFont(token,token.size);
-     const yOffset=token.small?-fontSize*.12:0;
-     ctx.fillText(token.text,x,y+yOffset);
-     x+=token.width;
+ if(verticalWriting){
+   let fontSize=150;
+   let columns=[];
+   while(fontSize>=70){
+     columns=layoutCanvasColumns(ctx,tokens,fontSize,maxHeight);
+     if(columns.length*fontSize*1.35<=maxWidth)break;
+     fontSize-=10;
    }
-   y+=lineHeight;
+   const columnWidth=fontSize*1.35;
+   const blockWidth=columns.length*columnWidth;
+   let x=540+blockWidth/2-columnWidth/2;
+   for(const column of columns){
+     let y=520-(column.length*fontSize)/2+fontSize*.85;
+     for(const token of column){
+       ctx.font=canvasFont(token,token.size);
+       const glyphWidth=ctx.measureText(token.text).width;
+       const dx=token.small?fontSize*.15:0;
+       const dy=token.small?-fontSize*.10:0;
+       ctx.fillText(token.text,x-glyphWidth/2+dx,y+dy);
+       y+=fontSize;
+     }
+     x-=columnWidth;
+   }
+ }else{
+   let fontSize=150;
+   let lines=[];
+   while(fontSize>=70){
+     lines=layoutCanvasTokens(ctx,tokens,fontSize,maxWidth);
+     const lineHeight=fontSize*1.5;
+     if(lines.length*lineHeight<=maxHeight)break;
+     fontSize-=10;
+   }
+   const lineHeight=fontSize*1.5;
+   const blockHeight=lines.length*lineHeight;
+   let y=520-blockHeight/2+fontSize*.9;
+   for(const line of lines){
+     const lineWidth=line.reduce((sum,t)=>sum+t.width,0);
+     let x=540-lineWidth/2;
+     for(const token of line){
+       ctx.font=canvasFont(token,token.size);
+       const yOffset=token.small?-fontSize*.12:0;
+       ctx.fillText(token.text,x,y+yOffset);
+       x+=token.width;
+     }
+     y+=lineHeight;
+   }
  }
 
  // 控えめな署名。本文から離し、細い罫と明朝で印刷物の奥付のように見せる。
@@ -1374,6 +1458,11 @@ document.querySelectorAll(".composeModeBtn").forEach(b=>b.addEventListener("clic
  }else{
    renderCompose();
  }
+}));
+document.querySelectorAll(".previewDirBtn").forEach(b=>b.addEventListener("click",()=>{
+ verticalWriting=b.dataset.writing==="vertical";
+ document.querySelectorAll(".previewDirBtn").forEach(x=>x.classList.toggle("active",x===b));
+ renderCompose();
 }));
 document.getElementById("smallKanaToggle").addEventListener("change",e=>{
  smallKanaEnabled=e.target.checked;
