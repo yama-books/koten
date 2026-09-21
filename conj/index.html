@@ -6,12 +6,19 @@
 <title>古典文法活用ノート</title>
 <style>
 :root{
-  --bg:#f6f3ee; --card:#fffdfa; --ink:#2d2a26; --muted:#7b746a;
-  --line:#ded8cf; --line-strong:#c8c0b6; --soft:#f3efe8; --soft2:#fbf8f3;
-  --good:#edf4ec; --bad:#f7e9e6; --shadow:0 10px 28px rgba(56,48,40,.05);
+  --bg:#f7fbfa; --card:#ffffff; --ink:#2c3b38; --muted:#6d7f7a;
+  --line:#dceae6; --line-strong:#bfd5cf; --soft:#eef7f4; --soft2:#f9fcfb;
+  --good:#e8f7ee; --bad:#fff0f3; --accent:#6fa696; --accent-strong:#477d70;
+  --accent-soft:#e4f3ee; --peach-soft:#fff0ea; --lavender-soft:#f1f0fb;
+  --shadow:0 12px 30px rgba(62,107,96,.075);
 }
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink)}
+html,body{margin:0;min-height:100%;color:var(--ink)}
+html{background:var(--bg)}
+body{background:
+  radial-gradient(circle at 8% 0%,rgba(210,241,233,.62),transparent 300px),
+  radial-gradient(circle at 100% 22%,rgba(226,236,250,.48),transparent 330px),
+  var(--bg)}
 body{font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",system-ui,sans-serif}
 button,input,select{font:inherit} button{cursor:pointer}
 
@@ -21,18 +28,18 @@ h1{margin:0;font:600 29px/1.2 "Yu Mincho","Hiragino Mincho ProN",serif;letter-sp
 .app-subtitle{margin-top:4px;color:var(--muted);font-size:12px}
 .score{font-size:12px;color:var(--muted);white-space:nowrap}
 
-.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:12px;background:rgba(255,253,249,.86);border:1px solid var(--line);border-radius:14px}
+.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:12px;background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:14px;box-shadow:0 5px 18px rgba(62,107,96,.045);backdrop-filter:blur(8px)}
 .toolbar label{font-size:12px;color:var(--muted)}
-select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--line);border-radius:9px}
+select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--line-strong);border-radius:9px;color:var(--ink)}
 .chips{display:flex;gap:5px;flex-wrap:wrap}
-.chip,.ghost,.primary{border:1px solid var(--line);border-radius:10px;padding:7px 10px;background:#fff;color:var(--ink)}
+.chip,.ghost,.primary{border:1px solid var(--line-strong);border-radius:10px;padding:7px 10px;background:#fff;color:var(--ink);box-shadow:0 2px 7px rgba(62,107,96,.04)}
 .chip{font-size:12px}
-.chip.active,.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip.active,.primary{background:var(--accent-strong);color:#fff;border-color:var(--accent-strong);box-shadow:0 5px 14px rgba(71,125,112,.18)}
 .spacer{flex:1}
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px}
 .meta{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap}
-.tag{background:#f0ebe4;border-radius:999px;padding:4px 8px;color:#675f55;font-size:11px}
+.tag{background:var(--accent-soft);border-radius:999px;padding:4px 8px;color:#50776d;font-size:11px}
 .word{margin:12px 0 2px;text-align:center;font:600 36px/1.18 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.04em}
 .lemma-aid{margin:0 0 2px;text-align:center;color:var(--muted);font-size:11px;line-height:1.25}
 .kind{color:var(--muted);font-size:13px;text-align:center}
@@ -48,7 +55,7 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 .example-head{display:none}
 .example-body{padding-right:10px;display:flex;align-items:flex-end;justify-content:flex-end;gap:10px;height:390px}
 .example-text{height:100%;min-height:390px;writing-mode:vertical-rl;text-orientation:upright;overflow:auto hidden;font:400 17px/1.72 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.035em;flex:0 1 auto}
-.example-text mark{color:inherit;padding:0;background:linear-gradient(to left,transparent 15%,rgba(185,160,121,.26) 15%,rgba(185,160,121,.26) 85%,transparent 85%)}
+.example-text mark{color:inherit;padding:0;background:linear-gradient(to left,transparent 15%,rgba(142,211,191,.36) 15%,rgba(142,211,191,.36) 85%,transparent 85%)}
 .example-foot{color:var(--muted);font-size:9px;writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap;align-self:flex-end}
 
 .table-panel{grid-area:table;width:max-content;display:flex;flex-direction:column}
@@ -61,7 +68,7 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 .track-heads span{min-height:48px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;color:var(--muted);font:600 9px/1.1 "Yu Mincho","Hiragino Mincho ProN",serif}
 .track-heads .spacer{visibility:hidden}
 
-.katsuyo{border-collapse:collapse;table-layout:fixed;background:#fff;border:1px solid var(--line-strong);width:auto}
+.katsuyo{border-collapse:collapse;table-layout:fixed;background:#fff;border:1px solid var(--line-strong);width:auto;box-shadow:0 5px 16px rgba(62,107,96,.055)}
 .katsuyo td,.katsuyo th{border:1px solid var(--line-strong);padding:0;text-align:center;vertical-align:middle}
 .katsuyo td{position:relative;background:var(--soft2);overflow:visible}
 .katsuyo td.single{width:80px}
@@ -77,7 +84,7 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 .katsuyo.adjective-stacked{width:116px}
 .katsuyo.adjective-stacked td.main,.katsuyo.adjective-stacked td.sub{width:80px}
 .katsuyo.adjective-stacked td{height:68px}
-.katsuyo.adjective-stacked tr.subrow td{background:#fcf9f4}
+.katsuyo.adjective-stacked tr.subrow td{background:#f4faf8}
 .katsuyo.adjective-stacked th.label{width:36px}
 .katsuyo.adjective-stacked th.label[rowspan="2"]{height:136px}
 
@@ -85,10 +92,10 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 
 .display{width:100%;height:100%;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;font:500 20px/1.1 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.03em}
 .display.small{font-size:18px}
-.display.zero{color:#8f877e}
+.display.zero{color:#84938f}
 
-.blank-frame{width:38px;height:42px;margin:auto;border:2px solid #c8c0b6;border-radius:7px;background:#fff;display:flex;align-items:center;justify-content:center}
-.blank-frame.filled{border-color:#d5cec4}
+.blank-frame{width:38px;height:42px;margin:auto;border:2px solid #abc9c0;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 3px rgba(62,107,96,.035)}
+.blank-frame.filled{border-color:#c8ddd7}
 .blank-frame .vertical-answer{writing-mode:vertical-rl;text-orientation:upright;font:500 17px/1.1 "Yu Mincho","Hiragino Mincho ProN",serif}
 .cell-answer-wrap{
   position:relative;
@@ -109,18 +116,18 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 .cell-result-icon{width:30px;height:30px;flex-basis:30px}
 
 td.editable{cursor:pointer}
-td.editable:hover{background:#fffaf4}
-td.selected{background:#fffaf4}
+td.editable:hover{background:#eef9f5}
+td.selected{background:#e8f7f2}
 td.correct{background:var(--good)!important}
 td.wrong{background:var(--bad)!important}
 
 .editor{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.editor input{width:52px;height:34px;border:2px solid #a99d8d;border-radius:8px;background:#fff;padding:3px 5px;text-align:center;font:500 15px/1 "Yu Mincho","Hiragino Mincho ProN",serif;writing-mode:horizontal-tb!important;text-orientation:mixed!important;outline:none}
-.editor input:focus{border-color:#8f7d68;box-shadow:0 0 0 3px rgba(143,125,104,.12)}
+.editor input{width:52px;height:34px;border:2px solid #8fb8ad;border-radius:9px;background:#fff;padding:3px 5px;text-align:center;font:500 15px/1 "Yu Mincho","Hiragino Mincho ProN",serif;writing-mode:horizontal-tb!important;text-orientation:mixed!important;outline:none}
+.editor input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(111,166,150,.16)}
 
 .row-note{min-height:18px;margin-top:5px;color:var(--muted);font-size:9px;line-height:1.45}
 
-.auxinfo{display:none;margin:10px auto 0;padding:9px 11px;border:1px dashed #cbbfac;border-radius:10px;background:#fbf8f3;color:#5d564d;font-size:12px;text-align:center;max-width:560px}
+.auxinfo{display:none;margin:10px auto 0;padding:9px 11px;border:1px dashed #b8d5cd;border-radius:11px;background:#f3faf8;color:#506c65;font-size:12px;text-align:center;max-width:560px}
 .feedback{min-height:28px;margin-top:10px;font-size:13px;text-align:center}
 .actions{display:flex;justify-content:center;gap:8px;margin-top:4px}
 .note{margin-top:10px;color:var(--muted);font-size:10px;line-height:1.6}
@@ -375,7 +382,7 @@ td.wrong{background:var(--bad)!important}
   height:56px;
 }
 .katsuyo.stacked-two-track tr.subrow td{
-  background:#fcf9f4;
+  background:#f4faf8;
 }
 .katsuyo.stacked-two-track th.label{
   width:36px;
@@ -551,7 +558,7 @@ td.wrong{background:var(--bad)!important}
 }
 .katsuyo.adjective-stacked tr.subrow td,
 .katsuyo.stacked-two-track tr.subrow td{
-  background:#fcf9f4;
+  background:#f4faf8;
 }
 .katsuyo.adjective-stacked th.label,
 .katsuyo.stacked-two-track th.label{
@@ -955,12 +962,12 @@ td.wrong{background:var(--bad)!important}
   margin:5px auto 0;
   padding:5px 11px 4px;
   border-radius:999px;
-  background:var(--ink);
+  background:var(--accent-strong);
   color:#fff;
-  border:1px solid var(--ink);
+  border:1px solid var(--accent-strong);
   font-weight:700;
   letter-spacing:.035em;
-  box-shadow:0 3px 9px rgba(45,42,38,.10);
+  box-shadow:0 4px 12px rgba(71,125,112,.18);
 }
 
 /* keep the badge compact on mobile */
@@ -985,7 +992,7 @@ td.wrong{background:var(--bad)!important}
   padding:8px 10px 7px;
   border:1px solid var(--line);
   border-radius:12px;
-  background:rgba(255,255,255,.72);
+  background:rgba(255,255,255,.82);
 }
 .level-meter-head{
   display:flex;
@@ -1003,7 +1010,7 @@ td.wrong{background:var(--bad)!important}
   width:24px;
   height:24px;
   border-radius:50%;
-  background:var(--ink);
+  background:var(--accent-strong);
   color:#fff;
   font-size:12px;
   line-height:1;
@@ -1012,13 +1019,13 @@ td.wrong{background:var(--bad)!important}
   display:block;
   width:100%;
   margin:2px 0 0;
-  accent-color:#514a42;
+  accent-color:var(--accent);
   cursor:pointer;
 }
 .level-ticks{
   display:grid;
   grid-template-columns:repeat(7,1fr);
-  color:#9a9186;
+  color:#82938e;
   font-size:8px;
   text-align:center;
   line-height:1;
@@ -1027,13 +1034,13 @@ td.wrong{background:var(--bad)!important}
 .level-desc{
   min-height:2.3em;
   margin-top:5px;
-  color:#71695f;
+  color:#657872;
   font-size:9px;
   line-height:1.3;
 }
 .aux-meter{
-  border-color:#c8bbab;
-  background:#fffdf9;
+  border-color:#c9dcd6;
+  background:#fbfefd;
 }
 @media(max-width:700px){
   .level-meters{width:100%; gap:8px}
@@ -1050,8 +1057,8 @@ td.wrong{background:var(--bad)!important}
   padding:7px 10px;
   border:1px solid var(--line);
   border-radius:10px;
-  color:#7a7168;
-  background:rgba(255,255,255,.55);
+  color:#667873;
+  background:rgba(255,255,255,.72);
   font-size:9px;
   line-height:1.45;
 }
@@ -1082,7 +1089,7 @@ td.wrong{background:var(--bad)!important}
   width:25px;
   height:25px;
   border-radius:50%;
-  background:var(--ink);
+  background:var(--accent-strong);
   color:#fff;
   font-size:12px;
   line-height:1;
@@ -1646,8 +1653,8 @@ td.wrong{background:var(--bad)!important}
   height:106px;
   border-radius:50%;
   position:relative;
-  background:#e8e2d9;
-  box-shadow:inset 0 0 0 1px rgba(88,76,64,.06);
+  background:#e7f1ee;
+  box-shadow:inset 0 0 0 1px rgba(62,107,96,.06);
 }
 .record-donut-center{
   position:absolute;
@@ -1730,13 +1737,13 @@ td.wrong{background:var(--bad)!important}
   place-items:center;
   gap:1px;
   padding:5px 4px;
-  border:1px solid #ead1cb;
+  border:1px solid #f3d8df;
   border-radius:8px;
   background:var(--bad);
   text-align:center;
 }
 .review-rate span{
-  color:#80655e;
+  color:#906674;
   font-size:8px;
   line-height:1.15;
 }
@@ -1828,63 +1835,57 @@ td.wrong{background:var(--bad)!important}
 
 /* ===== v42: fresh pastel record palette ===== */
 .record-screen{
-  --bg:#f6f4ef;
-  --card:#fffefa;
-  --ink:#303431;
-  --muted:#707771;
-  --line:#dce1db;
-  --line-strong:#cbd4cc;
-  --soft:#f1f5f0;
-  --soft2:#f8f8f4;
-  --bad:#fbeeee;
-  background:var(--bg);
+  background:
+    radial-gradient(circle at 92% 2%,rgba(218,240,248,.58),transparent 245px),
+    radial-gradient(circle at 5% 32%,rgba(222,245,237,.52),transparent 290px),
+    var(--bg);
 }
 .record-header{
-  border-bottom-color:#cfdfdc;
+  border-bottom-color:var(--line);
 }
 .record-header button{
-  border-color:#cddeda;
-  background:#fffefd;
-  box-shadow:0 2px 8px rgba(83,118,111,.06);
+  border-color:var(--line-strong);
+  background:#fff;
+  box-shadow:0 3px 10px rgba(62,107,96,.07);
 }
 .record-dashboard .record-points{
-  border-color:#d6dfd7;
-  background:linear-gradient(135deg,#fffefa 42%,#f1f7f2 100%);
-  box-shadow:0 5px 16px rgba(72,91,80,.05);
+  border-color:#cfe5de;
+  background:linear-gradient(135deg,#fff 38%,#eaf7f2 100%);
+  box-shadow:0 7px 20px rgba(62,107,96,.075);
 }
 .record-dashboard .record-stat{
-  border-color:#dce1db;
-  background:#fffefa;
-  box-shadow:0 4px 13px rgba(72,91,80,.04);
+  border-color:var(--line);
+  background:#fff;
+  box-shadow:0 5px 15px rgba(62,107,96,.055);
 }
 .record-detail-grid .record-section{
-  border-color:#dce1db;
+  border-color:var(--line);
   border-radius:16px;
-  box-shadow:0 5px 16px rgba(72,91,80,.045);
+  box-shadow:0 7px 20px rgba(62,107,96,.065);
 }
 .record-donut{
-  background:#e8ebe5;
-  box-shadow:inset 0 0 0 1px rgba(72,91,80,.06);
+  background:#e7f1ee;
+  box-shadow:inset 0 0 0 1px rgba(62,107,96,.06);
 }
 .record-donut-center{
-  box-shadow:0 0 0 1px #dce1db;
+  box-shadow:0 0 0 1px var(--line);
 }
 .breakdown-dot{
   box-shadow:0 0 0 2px rgba(255,255,255,.9);
 }
 .record-review li{
-  border-color:#dfe3dd;
-  background:#faf9f5;
+  border-color:#e1e9e5;
+  background:#fbfdfc;
 }
 .review-rate{
-  border-color:#f0d8d8;
-  background:#fff0f0;
+  border-color:#f3d8df;
+  background:#fff0f4;
 }
 .review-rate span{
-  color:#8a6969;
+  color:#906674;
 }
 .record-empty{
-  background:#f3f6f1;
+  background:#eef7f4;
 }
 
 @media(max-width:700px){
@@ -1904,6 +1905,66 @@ td.wrong{background:var(--bad)!important}
   }
   .record-detail-grid .record-section{
     padding:12px 14px;
+  }
+}
+
+/* ===== v43: airy, playful visual system across the app ===== */
+h1,
+.word,
+.record-header h2,
+.record-section h3{
+  color:#304b45;
+}
+.card{
+  border-color:var(--line);
+  background:linear-gradient(155deg,#fff 0%,#fdfefd 100%);
+}
+.katsuyo th.label{
+  background:#f1f8f5;
+  color:#334d47;
+}
+.katsuyo td{
+  background:#fbfefd;
+}
+.ghost:hover,
+.chip:hover{
+  border-color:#9fc4b9;
+  background:#f2faf7;
+}
+button:focus-visible,
+select:focus-visible,
+input:focus-visible{
+  outline:3px solid rgba(111,166,150,.24);
+  outline-offset:2px;
+}
+input[type="checkbox"]{
+  accent-color:var(--accent);
+}
+.actions .ghost,
+.actions .primary{
+  min-height:40px;
+  padding:8px 14px;
+  border-radius:12px;
+}
+
+@media(max-width:700px){
+  .wrap{
+    padding:10px 12px max(18px,env(safe-area-inset-bottom));
+  }
+  header{
+    margin-bottom:8px;
+  }
+  .toolbar{
+    margin-bottom:9px;
+    border-radius:13px;
+  }
+  .card{
+    padding:9px 10px;
+    border-radius:16px;
+  }
+  .actions{
+    gap:10px;
+    margin-top:5px;
   }
 }
 
@@ -3462,7 +3523,7 @@ function renderRecord(){
     stats.gradedCells ? Math.round((stats.correctCells/stats.gradedCells)*100)+"%" : "0%";
 
   const labels={verb:"動詞",adj:"形容詞",adjv:"形容動詞",aux:"助動詞"};
-  const colors={verb:"#91b6a2",adj:"#dfad9c",adjv:"#b1aecb",aux:"#d2bb82"};
+  const colors={verb:"#78b99f",adj:"#f0aa95",adjv:"#aaa8d8",aux:"#e1c36f"};
   const keys=["verb","adj","adjv","aux"];
   const counts=Object.fromEntries(keys.map(key=>[key,Number(stats.byPos[key])||0]));
   const total=keys.reduce((sum,key)=>sum+counts[key],0);
@@ -3487,7 +3548,7 @@ function renderRecord(){
     });
     chart.style.background=`conic-gradient(${segments.join(",")})`;
   }else{
-    chart.style.background="#e8ebe5";
+    chart.style.background="#e7f1ee";
   }
   chart.setAttribute("aria-label",
     total
