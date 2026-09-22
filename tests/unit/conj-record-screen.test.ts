@@ -30,10 +30,15 @@ test('conj: review defaults to verbs and supports full-table modal plus POS filt
   assert.match(html, /role="dialog" aria-modal="true"/);
   assert.match(html, /function openReviewModal\(item\)/);
   assert.match(html, /button\.setAttribute\("aria-haspopup","dialog"\)/);
-  assert.match(html, /names\.forEach\(\(name,index\)=>/);
-  assert.match(html, /hasSecondTrack\?item\.forms2:null/);
+  assert.match(html, /id="reviewKatsuyo" aria-label="正解の活用表"/);
+  assert.match(html, /function renderReviewTable\(item\)/);
+  assert.match(html, /table\.className="katsuyo"/);
+  assert.match(html, /table\.classList\.add\("adjective-pair"\)/);
+  assert.match(html, /table\.classList\.add\("paired-conjugation"\)/);
+  assert.match(html, /table\.classList\.add\("one-track"\)/);
   assert.match(html, /event\.target===event\.currentTarget/);
   assert.match(html, /e\.key==="Escape"/);
+  assert.doesNotMatch(html, /class="review-full-table"/);
   assert.doesNotMatch(html, /className="review-example"/);
 });
 
