@@ -28,7 +28,10 @@ const AUTHOR_WORDS = { none: 'まだ確認していません', low: 'もう少�
 
 function AuthorStageMark({ stage, next }: { stage: AuthorStage; next?: boolean }) {
   // `next` は「本文は満点で、残るのは作者だけ」の首。**次にやることとして強調する。**
-  return <span class={`author-stage author-stage--${stage}${next ? ' author-stage--next' : ''}`} role="img" aria-label={next ? '作者も確認しましょう' : `作者: ${AUTHOR_WORDS[stage]}`}>{AUTHOR_MARKS[stage]}</span>;
+  const words = next ? '作者も確認しましょう' : `作者: ${AUTHOR_WORDS[stage]}`;
+  // 凡例の行は畳んだ（依頼者・2026-09-22）。**意味は印そのものが持つ**——
+  // 読み上げ名と `title`（長押し・ホバー）から読める。
+  return <span class={`author-stage author-stage--${stage}${next ? ' author-stage--next' : ''}`} role="img" aria-label={words} title={words}>{AUTHOR_MARKS[stage]}</span>;
 }
 
 function Entry({ entry, onOpen }: { entry: HistorySummary['entries'][number]; onOpen?: (entry: HistorySummary['entries'][number]) => void }) {
@@ -152,7 +155,6 @@ export function History({ summary, onHome, port, onChanged, initialTab = '一覧
         {tab === '一覧' && (summary.isEmpty
           ? <div class="history-empty"><p>まだ記録がありません</p><button type="button" onClick={onHome}>始める</button></div>
           : <>
-              <p class="history-legend" aria-hidden="true">作者: <span class="author-stage author-stage--none">未</span>まだ <span class="author-stage author-stage--low">△</span>もう少し <span class="author-stage author-stage--mid">○</span>よくできた <span class="author-stage author-stage--full">◎</span>覚えた</p>
               <ul class="history-groups">{summary.groups.map((group) => <Group key={group.from} group={group} onOpen={setOpenPoem} />)}</ul>
             </>)}
         {tab === '要確認' && <>

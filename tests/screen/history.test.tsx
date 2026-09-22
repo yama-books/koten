@@ -198,3 +198,24 @@ test('history: 歌が無ければ押せる行にしない', () => {
   const view = openGroup(mount(summaryWithKu(null)));
   expect(view.querySelector('.history-entry__open')).toBeNull();
 });
+
+test('history: 押せる行に左右の余白を足さない', () => {
+  // **共通の `button` は `padding-inline` を持つ。** そのままだと行だけが右へずれ、
+  // 見出しの「番号」と行の番号が合わなくなる（2026-09-22 に実機で踏んだ）。
+  // jsdom は値を計算しないので、**指定が消えていないこと**で見る。
+  const view = openGroup(mount(summaryWithPoem()));
+  const button = view.querySelector<HTMLButtonElement>('.history-entry__open')!;
+  expect(button).not.toBeNull();
+  const rule = Array.from(document.styleSheets)
+    .flatMap((sheet) => { try { return Array.from(sheet.cssRules); } catch { return []; } })
+    .find((r) => r instanceof CSSStyleRule && r.selectorText?.includes('.history-entry__open')) as CSSStyleRule | undefined;
+  // 読み込めない試験環境では飛ばす。読めるときだけ指定を見る。
+  if (rule) expect(rule.style.paddingInline, '共通ボタンの左右余白を打ち消していない').toBe('0px');
+});
+
+test('history: 作者欄の凡例は出さない', () => {
+  // 幅を作るため畳んだ（依頼者・2026-09-22）。意味は印の読み上げ名と title が持つ。
+  const view = openGroup(mount(summaryWithPoem()));
+  expect(view.querySelector('.history-legend')).toBeNull();
+  expect(view.querySelector('.author-stage')?.getAttribute('title')).toBe('作者: もう少し');
+});

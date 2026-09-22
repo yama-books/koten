@@ -626,10 +626,14 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 /* 見出しは目印なので、升からわずかにはみ出しても読めればよい。 */
 .history-head > span { white-space: nowrap; }
 .history-head__meter { grid-column: span 2; }
-.history-entry__no { text-align: right; font-variant-numeric: tabular-nums; }
+/* 見出し「番号」と頭を揃える（依頼者・2026-09-22）。右寄せだと 1 と 100 で
+   見出しからの離れ方が変わり、見出しとずれて見える。 */
+.history-entry__no { text-align: left; font-variant-numeric: tabular-nums; }
 /* 押せる行。升の並びを崩さないよう、ボタン自身が升を継ぐ。 */
 .history-entry--openable { padding: 0; }
-.history-entry__open { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; align-items: center; width: 100%; min-width: 0; min-height: 0; border: 0; border-radius: var(--radius-sm); padding-block: var(--space-sm); background: none; text-align: inherit; font: inherit; }
+/* **左右の余白を 0 にする。** 共通の `button` が `padding-inline: var(--space-md)` を持ち、
+   そのぶん行だけが 16px 右へずれて、見出しと番号が合わなかった（2026-09-22 に踏んだ）。 */
+.history-entry__open { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; align-items: center; width: 100%; min-width: 0; min-height: 0; border: 0; border-radius: var(--radius-sm); padding-block: var(--space-sm); padding-inline: 0; background: none; text-align: inherit; font: inherit; }
 @media (hover: hover) and (pointer: fine) { .history-entry__open:hover { background: var(--color-surface-soft); } }
 /* 作者の段階。未 → △ → ○ → ◎。色は帯の 5 色と同じ尺度に合わせてある。 */
 .author-stage { display: inline-grid; place-items: center; min-width: 1.5em; height: 1.5em; border-radius: 999px; font-size: 0.8rem; line-height: 1; }
@@ -644,7 +648,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .poem-overlay__sheet { position: relative; display: grid; justify-items: center; gap: var(--space-md); box-sizing: border-box; width: min(100%, 30rem); max-height: 90dvh; overflow: auto; border-radius: 1.25rem; padding: var(--space-lg); background: var(--color-surface); box-shadow: 0 12px 40px oklch(22% 0.018 55 / 0.35); }
 .poem-overlay__no { margin: 0; font-size: var(--text-md); color: var(--color-ink-muted); }
 .poem-overlay__close { justify-self: center; }
-.history-legend { display: flex; align-items: center; gap: 0.35em; margin: 0 0 var(--space-sm); color: var(--color-ink-muted); font-size: var(--text-sm); }
 
 /* 版だけを静かに名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */
 .app-version { font-variant-numeric: tabular-nums; }
