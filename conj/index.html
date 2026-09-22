@@ -2051,6 +2051,12 @@ input[type="checkbox"]{
   background:var(--filter-color);
   color:#fff;
 }
+.review-rule{
+  margin:5px 0 8px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.45;
+}
 .record-review{
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:6px;
@@ -2300,6 +2306,7 @@ input[type="checkbox"]{
         <button type="button" data-review-pos="adjv" aria-pressed="false">形容動詞</button>
         <button type="button" data-review-pos="aux" aria-pressed="false">助動詞</button>
       </div>
+      <p class="review-rule">3問以上取り組んだ項目を、誤答率の高い順に表示します。未着手も表示します。</p>
       <p class="record-empty" id="recordReviewEmpty">まだ要確認の活用はありません。</p>
       <ul class="record-review" id="recordReview" hidden></ul>
     </section>
@@ -3707,6 +3714,13 @@ function broadKind(kind){
   return value||"その他";
 }
 
+function reviewLabel(item){
+  if(item.pos!=="aux") return broadKind(item.kind);
+  if(item.kind.includes("伝聞・推定")) return item.lemma+"（伝聞・推定）";
+  if(item.lemma==="なり" && item.kind.includes("形容動詞")) return item.lemma+"（断定）";
+  return item.lemma;
+}
+
 function correctExample(item){
   for(const track of [item.forms,item.forms2]){
     if(!Array.isArray(track)) continue;
@@ -3720,6 +3734,8 @@ function correctExample(item){
   return `${item.lemma}の活用表を確認`;
 }
 
+const MIN_REVIEW_ATTEMPTS=3;
+
 function reviewKinds(){
   const itemTotals=new Map();
   Object.entries(stats.slots||{}).forEach(([slotKey,result])=>{
@@ -3732,8 +3748,8 @@ function reviewKinds(){
 
   const groups=new Map();
   items.filter(item=>reviewPosFilters.has(item.pos)).forEach(item=>{
-    const label=broadKind(item.kind);
-    const groupKey=item.pos+":"+label;
+    const label=reviewLabel(item);
+    const groupKey=item.pos==="aux" ? item.pos+":"+item.id : item.pos+":"+label;
     const prev=groups.get(groupKey)||{
       label,
       pos:item.pos,
@@ -3757,21 +3773,17 @@ function reviewKinds(){
   const all=[...groups.values()]
     .map(entry=>{
       const total=entry.correct+entry.wrong;
-      const accuracy=total ? entry.correct/total : null;
-      // Wrong answers raise priority; log(total) rewards sufficiently tried kinds
-      // without letting sheer volume overwhelm accuracy.
-      const priority=total ? (1-accuracy)*Math.log2(total+1) : -1;
+      const wrongRate=total ? entry.wrong/total : null;
       return {
         ...entry,
         total,
-        accuracy,
-        priority,
+        wrongRate,
         example:correctExample(entry.exampleItem)
       };
     })
-    .sort((a,b)=>b.priority-a.priority || b.total-a.total || a.label.localeCompare(b.label,"ja"));
+    .sort((a,b)=>(b.wrongRate??-1)-(a.wrongRate??-1) || b.total-a.total || a.label.localeCompare(b.label,"ja"));
 
-  const attempted=all.filter(entry=>entry.total>0);
+  const attempted=all.filter(entry=>entry.total>=MIN_REVIEW_ATTEMPTS && entry.wrong>0);
   const untouched=all.filter(entry=>entry.total===0);
   const chosen=attempted.slice(0,untouched.length ? 5 : 6);
   if(untouched.length) chosen.push(untouched[0]);
@@ -3844,12 +3856,12 @@ function renderRecord(){
 
   review.forEach(entry=>{
     const li=document.createElement("li");
-    const percent=entry.accuracy===null ? null : Math.round(entry.accuracy*100);
+    const percent=entry.wrongRate===null ? null : Math.round(entry.wrongRate*100);
     const button=document.createElement("button");
     button.type="button";
     button.className="review-toggle";
     button.setAttribute("aria-expanded","false");
-    button.innerHTML=`<span class="review-rate"><span>${percent===null?"未着手":"正答率"}</span><strong>${percent===null?"—":percent+"%"}</strong></span><span class="review-copy"><span class="review-kind-line"><span class="review-pos-badge" style="--review-pos-color:${colors[entry.pos]}">${labels[entry.pos]}</span><strong>${entry.label}</strong></span><small>${entry.total ? `正答 ${entry.correct}/${entry.total}` : "まだ取り組んでいません"}</small></span>`;
+    button.innerHTML=`<span class="review-rate"><span>${percent===null?"未着手":"誤答率"}</span><strong>${percent===null?"—":percent+"%"}</strong></span><span class="review-copy"><span class="review-kind-line"><span class="review-pos-badge" style="--review-pos-color:${colors[entry.pos]}">${labels[entry.pos]}</span><strong>${entry.label}</strong></span><small>${entry.total ? `誤答 ${entry.wrong}/${entry.total}` : "まだ取り組んでいません"}</small></span>`;
     const example=document.createElement("p");
     example.className="review-example";
     example.hidden=true;

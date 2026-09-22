@@ -30,3 +30,12 @@ test('conj: review defaults to verbs and supports examples plus POS filters', ()
   assert.match(html, /function correctExample\(item\)/);
   assert.match(html, /example\.className="review-example"/);
 });
+
+test('conj: review uses error rate after three answers and groups auxiliaries by word', () => {
+  assert.match(html, /const MIN_REVIEW_ATTEMPTS=3/);
+  assert.match(html, /entry\.total>=MIN_REVIEW_ATTEMPTS && entry\.wrong>0/);
+  assert.match(html, /誤答率/);
+  assert.match(html, /`誤答 \$\{entry\.wrong\}\/\$\{entry\.total\}`/);
+  assert.match(html, /item\.pos==="aux" \? item\.pos\+":"\+item\.id/);
+  assert.match(html, /if\(item\.pos!=="aux"\) return broadKind\(item\.kind\)/);
+});
