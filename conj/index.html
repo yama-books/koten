@@ -2148,13 +2148,8 @@ input[type="checkbox"]{
 }
 .review-modal-card .meta{min-height:34px;padding:4px 70px 0}
 .review-modal-card .word{min-height:43px;margin-left:70px;margin-right:70px;white-space:nowrap}
-.review-modal-table-wrap{
-  display:flex;
-  justify-content:center;
-  width:100%;
-  margin:14px auto 0;
-}
-.review-modal-table-wrap .table-panel{grid-area:auto}
+.review-modal-study-layout{margin-top:14px}
+.review-modal-study-layout .example-panel[hidden]{display:none}
 body.review-modal-open{overflow:hidden}
 
 @media(max-width:700px){
@@ -2364,7 +2359,13 @@ body.review-modal-open{overflow:hidden}
     <div class="word" id="reviewModalWord"></div>
     <div class="lemma-aid" id="reviewModalLemmaAid" hidden></div>
     <div class="kind" id="reviewModalKind"></div>
-    <div class="review-modal-table-wrap">
+    <div class="study-layout review-modal-study-layout" id="reviewStudyLayout">
+      <section class="example-panel" id="reviewExamplePanel">
+        <div class="example-body">
+          <div class="example-foot" id="reviewExampleFoot"></div>
+          <div class="example-text" id="reviewExampleText"></div>
+        </div>
+      </section>
       <section class="table-panel" id="reviewTablePanel">
         <div class="table-title">活用表</div>
         <div class="track-heads" id="reviewTrackHeads" aria-hidden="true">
@@ -3812,18 +3813,13 @@ function reviewKinds(){
       pos:item.pos,
       correct:0,
       wrong:0,
-      exampleItem:item,
-      exampleRank:-1
+      exampleItems:[]
     };
     const itemResult=itemTotals.get(item.id)||{correct:0,wrong:0};
     const itemTotal=itemResult.correct+itemResult.wrong;
-    const itemRank=itemResult.wrong*1000+itemTotal;
     prev.correct+=itemResult.correct;
     prev.wrong+=itemResult.wrong;
-    if(itemRank>prev.exampleRank){
-      prev.exampleItem=item;
-      prev.exampleRank=itemRank;
-    }
+    prev.exampleItems.push(item);
     groups.set(groupKey,prev);
   });
 
@@ -3918,13 +3914,43 @@ function renderRecord(){
     button.className="review-toggle";
     button.setAttribute("aria-haspopup","dialog");
     button.innerHTML=`<span class="review-rate"><span>${percent===null?"未着手":"誤答率"}</span><strong>${percent===null?"—":percent+"%"}</strong></span><span class="review-copy"><span class="review-kind-line"><span class="review-pos-badge" style="--review-pos-color:${colors[entry.pos]}">${labels[entry.pos]}</span><strong>${entry.label}</strong></span><small>${entry.total ? `誤答 ${entry.wrong}/${entry.total}` : "まだ取り組んでいません"}</small></span>`;
-    button.addEventListener("click",()=>openReviewModal(entry.exampleItem));
+    button.addEventListener("click",()=>openReviewModal(randomReviewItem(entry.exampleItems)));
     li.appendChild(button);
     reviewList.appendChild(li);
   });
 }
 
 let reviewModalReturnFocus=null;
+function randomReviewItem(candidates){
+  if(!Array.isArray(candidates)||!candidates.length) return null;
+  return candidates[Math.floor(Math.random()*candidates.length)];
+}
+function renderReviewExample(item){
+  const panel=document.getElementById("reviewExamplePanel");
+  const text=document.getElementById("reviewExampleText");
+  const foot=document.getElementById("reviewExampleFoot");
+  const layout=document.getElementById("reviewStudyLayout");
+  const compactExample=(item.example||"").replace(/[　 ]+/g,"");
+  const compactTarget=(item.target||"").replace(/[　 ]+/g,"");
+  const hasExample=item.exampleAvailable!==false && compactExample.length>0;
+  panel.hidden=!hasExample;
+  if(!hasExample){
+    text.textContent="";
+    foot.textContent="";
+    layout.style.gridTemplateColumns="auto";
+    layout.style.gridTemplateAreas='"table"';
+    return;
+  }
+  text.innerHTML=highlight(compactExample,compactTarget,item.occurrence);
+  if(item.poem){
+    const author=poemAuthors[item.poem]||"";
+    foot.textContent=`小倉百人一首 ${kansuji(item.poem)}番（${author}）`;
+  }else{
+    foot.textContent=item.source||"練習用例";
+  }
+  layout.style.gridTemplateColumns="";
+  layout.style.gridTemplateAreas="";
+}
 function reviewLabelCell(name){
   const th=document.createElement("th");
   th.className="label";
@@ -4021,6 +4047,7 @@ function renderReviewTable(item){
 function openReviewModal(item){
   if(!item) return;
   const modal=document.getElementById("reviewModal");
+  renderReviewExample(item);
   renderReviewTable(item);
   document.getElementById("reviewModalPosTag").textContent=item.label;
   document.getElementById("reviewModalWord").textContent=item.lemma;

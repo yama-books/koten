@@ -35,6 +35,9 @@ test('conj: review defaults to verbs and supports full-table modal plus POS filt
   assert.match(html, /class="kind" id="reviewModalKind"/);
   assert.match(html, /id="reviewKatsuyo" aria-label="活用表"/);
   assert.match(html, /function renderReviewTable\(item\)/);
+  assert.match(html, /id="reviewExamplePanel"/);
+  assert.match(html, /id="reviewExampleText"/);
+  assert.match(html, /function renderReviewExample\(item\)/);
   assert.match(html, /table\.className="katsuyo"/);
   assert.match(html, /table\.classList\.add\("adjective-pair"\)/);
   assert.match(html, /table\.classList\.add\("paired-conjugation"\)/);
@@ -47,6 +50,15 @@ test('conj: review defaults to verbs and supports full-table modal plus POS filt
   assert.doesNotMatch(html, /`\$\{item\.lemma\}の活用表`/);
   assert.doesNotMatch(html, /class="review-full-table"/);
   assert.doesNotMatch(html, /className="review-example"/);
+});
+
+test('conj: review randomly chooses a word in the selected group and shows its example', () => {
+  assert.match(html, /exampleItems:\[\]/);
+  assert.match(html, /prev\.exampleItems\.push\(item\)/);
+  assert.match(html, /function randomReviewItem\(candidates\)/);
+  assert.match(html, /Math\.floor\(Math\.random\(\)\*candidates\.length\)/);
+  assert.match(html, /openReviewModal\(randomReviewItem\(entry\.exampleItems\)\)/);
+  assert.match(html, /text\.innerHTML=highlight\(compactExample,compactTarget,item\.occurrence\)/);
 });
 
 test('conj: review uses error rate after three answers and groups auxiliaries by word', () => {
