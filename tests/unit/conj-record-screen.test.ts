@@ -33,7 +33,18 @@ test('conj: cumulative correct label and value stay on two lines on mobile', () 
 test('conj: review status stays readable and summary stats use compact rows', () => {
   assert.match(html, /\.review-copy small\{[\s\S]*?font-size:8px;[\s\S]*?white-space:nowrap;/);
   assert.match(html, /\.record-overview \.record-stat\{[\s\S]*?grid-template-columns:minmax\(0,1fr\) max-content;[\s\S]*?padding:4px 7px;/);
-  assert.match(html, /@media\(max-width:350px\)[\s\S]*?\.record-overview \.record-stat\{[\s\S]*?flex-direction:column;/);
+  assert.match(html, /<dt>取り組んだ問題<\/dt>/);
+  assert.match(html, /\.record-overview \.record-grid\{[\s\S]*?grid-template-columns:repeat\(2,minmax\(0,1fr\)\);[\s\S]*?align-self:center;/);
+  assert.match(html, /\.record-overview \.record-stat:first-child\{\s*grid-column:1 \/ -1;/);
+  assert.match(html, /\.record-overview \.record-stat:nth-child\(n\+2\)\{[\s\S]*?flex-direction:column;/);
+});
+
+test('conj: hanamaru is an overlaid stamp and donut unit sits slightly lower', () => {
+  assert.match(html, /\.card\{\s*position:relative;/);
+  assert.match(html, /\.perfect-result\{[\s\S]*?position:absolute;[\s\S]*?pointer-events:none;/);
+  assert.match(html, /\.perfect-result\.show\{\s*display:block;/);
+  assert.match(html, /setAttribute\("alt","はなまる"\)/);
+  assert.match(html, /\.record-donut-center span\{[\s\S]*?position:relative;[\s\S]*?top:2px;/);
 });
 
 test('conj: record colors keep the palette but map red yellow green navy in POS order', () => {

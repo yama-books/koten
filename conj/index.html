@@ -289,20 +289,23 @@ td.wrong{background:var(--bad)!important}
   flex:0 0 auto;
 }
 
-/* Hanamaru: whole-question feedback, centered below the study unit. */
+/* Hanamaru: a stamp over the card. Absolute positioning keeps the table fixed. */
 .perfect-result{
   display:none;
-  justify-content:center;
-  align-items:center;
-  min-height:0;
-  margin:4px auto 2px;
+  position:absolute;
+  top:48px;
+  right:20px;
+  z-index:5;
+  width:104px;
+  height:104px;
+  pointer-events:none;
 }
 .perfect-result.show{
-  display:flex;
+  display:block;
 }
 .perfect-result img{
-  width:112px;
-  height:112px;
+  width:100%;
+  height:100%;
   object-fit:contain;
 }
 
@@ -335,8 +338,8 @@ td.wrong{background:var(--bad)!important}
     height:26px;
   }
   .perfect-result img{
-    width:92px;
-    height:92px;
+    width:100%;
+    height:100%;
   }
 }
 
@@ -1710,6 +1713,8 @@ td.wrong{background:var(--bad)!important}
   color:var(--muted);
   font-size:9px;
   line-height:1;
+  position:relative;
+  top:2px;
 }
 
 .record-breakdown{
@@ -1958,6 +1963,7 @@ h1,
   color:#304b45;
 }
 .card{
+  position:relative;
   border-color:var(--line);
   background:linear-gradient(155deg,#fff 0%,#fdfefd 100%);
 }
@@ -2043,7 +2049,8 @@ input[type="checkbox"]{
 }
 .record-overview .record-grid{
   display:grid;
-  grid-template-columns:1fr;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-self:center;
   gap:4px;
   margin:0;
 }
@@ -2066,6 +2073,18 @@ input[type="checkbox"]{
   margin:0;
   font-size:16px;
   line-height:1;
+}
+.record-overview .record-stat:first-child{
+  grid-column:1 / -1;
+}
+.record-overview .record-stat:nth-child(n+2){
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  padding:4px 3px;
+  text-align:center;
 }
 .review-filters{
   display:flex;
@@ -2215,6 +2234,12 @@ input[type="checkbox"]{
 body.review-modal-open{overflow:hidden}
 
 @media(max-width:700px){
+  .perfect-result{
+    top:42px;
+    right:12px;
+    width:86px;
+    height:86px;
+  }
   .header-record .score{
     display:flex;
     flex-direction:column;
@@ -2241,6 +2266,7 @@ body.review-modal-open{overflow:hidden}
     gap:4px;
   }
   .record-overview .record-stat{padding:4px 6px}
+  .record-overview .record-stat:nth-child(n+2){padding:4px 2px}
   .record-overview .record-stat dd{font-size:15px}
   .record-review{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
@@ -2253,11 +2279,8 @@ body.review-modal-open{overflow:hidden}
   }
   .review-modal-study-layout .example-body{gap:2px}
   .record-overview{grid-template-columns:1fr}
-  .record-overview .record-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .record-overview .record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .record-overview .record-stat{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
     padding:4px 5px;
   }
 }
@@ -2400,7 +2423,7 @@ body.review-modal-open{overflow:hidden}
         </div>
         <dl class="record-grid">
           <div class="record-stat">
-            <dt>取り組んだ問題数</dt>
+            <dt>取り組んだ問題</dt>
             <dd id="recordQuestions">0問</dd>
           </div>
           <div class="record-stat">
@@ -2464,6 +2487,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js"></script>
 <script>
+document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
 const items=[
 {id:"naku",pos:"verb",label:"動詞",lemma:"鳴く",kind:"カ行四段活用",
