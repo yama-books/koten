@@ -23,6 +23,8 @@ test('069 M-10: 歌順はラジオでなく押下状態を持つボタンで選�
 test('069 M-11: 範囲入力は変更操作でだけ開く', () => expect(picker()).toContain('{rangeOpen && <div class="range-fields">'));
 test('069 M-12: 完全な空記録でも要確認の基準を出す', () => {
   // 文言は 1 か所（`REVIEW_CRITERION`）に置いた（2026-09-16）。**書き写すと片方だけ直る。**
-  expect(history()).toMatch(/summary\.isEmpty[\s\S]{0,500}\{REVIEW_CRITERION\}/);
+  // 幅は 900 へ広げた。一覧の面に見出し行と凡例が入り、2 つの距離が伸びたためである。
+  // **見ているのは近さではなく「同じ面に、1 つの定数から出ている」こと。**
+  expect(history()).toMatch(/summary\.isEmpty[\s\S]{0,900}\{REVIEW_CRITERION\}/);
   expect(history()).toContain("const REVIEW_CRITERION = '最後に解いたとき、まちがえたか「わからない」を選んだ歌です。'");
 });

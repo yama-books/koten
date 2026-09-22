@@ -7,11 +7,31 @@ import { isViewOnly } from '@koten/shared/domain/mastery/rules.v1';
 import { rungProgress, type RungCatalogueEntry } from '@koten/shared/domain/mastery/rungs';
 
 /**
- * `firstKu` は初句（「秋の田の」）。**番号だけでは歌を思い出せない**ため、一覧に手がかりを置く。
- * 歌データが渡されなかったときは `null` になり、画面は番号だけを出す——
- * **一覧そのものは歌データ無しでも成立する**（試験の多くは歌を渡していない）。
+ * `poem` は歌そのもの。初句を一覧に出し、行を押したときに歌と作者を見せるのに使う。
+ * **番号だけでは歌を思い出せない。** 歌データが渡されなかったときは `null` になり、
+ * 画面は番号だけを出す——**一覧そのものは歌データ無しでも成立する**
+ * （試験の多くは歌を渡していない）。
+ *
+ * `authorPercent` は作者の項目だけの点。作者のイベントが 1 件も無ければ `null`。
+ * 一覧の「作者」欄はここから 未／△／○／◎ の段階を出す。
  */
-export type HistoryEntry = Readonly<{ poemId: string; cardNo: number; percent: number; color: MasteryColor; untouched: boolean; authorUnconfirmed: boolean; needsReview: boolean; conquered: boolean; firstKu: string | null }>;
+export type HistoryEntry = Readonly<{ poemId: string; cardNo: number; percent: number; color: MasteryColor; untouched: boolean; authorUnconfirmed: boolean; needsReview: boolean; conquered: boolean; poem: HistoryPoem | null; authorPercent: number | null }>;
+
+/** 作者の進み具合の段階。画面が 未／△／○／◎ と色に読み替える。 */
+export type AuthorStage = 'none' | 'low' | 'mid' | 'full';
+
+/**
+ * 作者の点を段階にする。**境目は `masteryDisplay` の色の境目に合わせてある**——
+ * 一覧の帯と作者欄で「良い」の基準が食い違うと、利用者が二つの尺度を覚えることになる。
+ */
+export function authorStage(percent: number | null | undefined): AuthorStage {
+  // **`undefined` も「まだ」に倒す。** `null` だけを見ていたとき、項目を持たない
+  // 古い形の集計が `◎`（覚えた）として出た。分からないものを「できている」側へ倒さない。
+  if (percent === null || percent === undefined) return 'none';
+  if (percent < 60) return 'low';
+  if (percent < 85) return 'mid';
+  return 'full';
+}
 /**
  * 10 首ごとのまとまり（依頼者・2026-09-16）。**平均をひとつの輪で見せる。**
  * 100 行の平坦な一覧では、どこを練習したのかが読み取れない。
@@ -20,10 +40,10 @@ export type HistoryGroup = Readonly<{ from: number; to: number; percent: number;
 export type HistorySummary = Readonly<{ entries: readonly HistoryEntry[]; groups: readonly HistoryGroup[]; needsReview: readonly HistoryEntry[]; touchedCount: number; isEmpty: boolean; points: number }>;
 
 /**
- * 初句を引くのに要る分だけ。**`Poem` 全体を求めない**——
+ * 一覧が要る分だけ。**`Poem` 全体を求めない**——
  * 歌データの形が変わっても、一覧の集計が巻き込まれないようにする。
  */
-export type HistoryPoem = Readonly<{ poemId: string; ku: readonly string[] }>;
+export type HistoryPoem = Readonly<{ poemId: string; ku: readonly string[]; author?: Readonly<{ canonical: string }> }>;
 
 /** まとまりの首数。**画面と集計で別々に書かない。** */
 export const HISTORY_GROUP_SIZE = 10;
@@ -52,7 +72,7 @@ function groupEntries(entries: readonly HistoryEntry[]): HistoryGroup[] {
  */
 export function summarizeHistory(input: Readonly<{ events: readonly Event[]; poemIds: readonly string[]; questions?: readonly RungCatalogueEntry[]; poems?: readonly HistoryPoem[] }>): HistorySummary {
   const scores = computeMastery(input.events).scores;
-  const firstKuOf = new Map((input.poems ?? []).map((poem) => [poem.poemId, poem.ku[0] ?? null]));
+  const poemOf = new Map((input.poems ?? []).map((poem) => [poem.poemId, poem]));
   const progress = rungProgress(
     input.events.filter((event) => event.questionId !== undefined).map((event) => ({ questionId: event.questionId!, outcome: event.outcome })),
     input.questions ?? [],
@@ -65,7 +85,8 @@ export function summarizeHistory(input: Readonly<{ events: readonly Event[]; poe
       untouched: mastery.untouched, authorUnconfirmed: mastery.authorUnconfirmed,
       needsReview: needsReview(poemId, input.events),
       conquered: progress.get(poemId)?.conquered ?? false,
-      firstKu: firstKuOf.get(poemId) ?? null,
+      poem: poemOf.get(poemId) ?? null,
+      authorPercent: mastery.authorUnconfirmed ? null : masteryDisplay(scores[`${poemId}:author`] ?? 0).percent,
     };
   });
   return { entries, groups: groupEntries(entries), needsReview: entries.filter((entry) => entry.needsReview), touchedCount: entries.filter((entry) => !entry.untouched).length, isEmpty: input.events.length === 0, points: computePoints(input.events).total };

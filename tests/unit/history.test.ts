@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import type { Event } from '../../packages/shared/src/domain/event.ts';
-import { summarizeHistory } from '../../packages/hyakunin/src/domain/history.ts';
+import { authorStage, summarizeHistory } from '../../packages/hyakunin/src/domain/history.ts';
 
 function event(overrides: Partial<Event> = {}): Event {
   return { eventId: 'e', product: 'hyakunin', poemId: 'p012', sessionId: 's', itemKey: 'p012:text', kind: 'answer', method: 'free-input', outcome: 'correct', hintUsed: false, effectiveMethod: 'free-input', delta: 9, localDate: '2026-09-01', sameSessionRepeat: false, appVersion: 'test', dataVersion: 1, masteryRulesVersion: 1, ...overrides };
@@ -102,13 +102,13 @@ test('history: 歌を渡すと各首の初句が入る', () => {
       { poemId: 'p002', ku: ['春すぎて', '夏来にけらし', '白妙の', '衣ほすてふ', '天の香具山'] },
     ],
   });
-  assert.deepEqual(summary.entries.map((entry) => entry.firstKu), ['秋の田の', '春すぎて']);
+  assert.deepEqual(summary.entries.map((entry) => entry.poem?.ku[0] ?? null), ['秋の田の', '春すぎて']);
 });
 
-test('history: 歌を渡さなければ初句は null で、一覧そのものは成立する', () => {
+test('history: 歌を渡さなければ poem は null で、一覧そのものは成立する', () => {
   // 画面は null のとき番号だけを出す。**歌データ無しでも一覧が壊れない**ことを釘付けする。
   const summary = summarizeHistory({ events: [], poemIds: ['p001'] });
-  assert.equal(summary.entries[0].firstKu, null);
+  assert.equal(summary.entries[0].poem, null);
   assert.equal(summary.entries[0].cardNo, 1);
 });
 
@@ -117,7 +117,7 @@ test('history: 渡された歌に無い首の初句は null になる', () => {
     events: [], poemIds: ['p001', 'p002'],
     poems: [{ poemId: 'p001', ku: ['秋の田の', '', '', '', ''] }],
   });
-  assert.deepEqual(summary.entries.map((entry) => entry.firstKu), ['秋の田の', null]);
+  assert.deepEqual(summary.entries.map((entry) => entry.poem?.ku[0] ?? null), ['秋の田の', null]);
 });
 
 test('history: 初句はまとまりの中の首にも入る', () => {
@@ -127,5 +127,29 @@ test('history: 初句はまとまりの中の首にも入る', () => {
     events: [], poemIds,
     poems: [{ poemId: 'p003', ku: ['あしびきの', '', '', '', ''] }],
   });
-  assert.equal(summary.groups[0].entries[2].firstKu, 'あしびきの');
+  assert.equal(summary.groups[0].entries[2].poem?.ku[0], 'あしびきの');
+});
+
+// ---- 作者の段階（2026-09-22・依頼者「未 △ ○ ◎ で段階を示す」） ----
+
+test('history: 作者の点から段階を決める', () => {
+  assert.equal(authorStage(null), 'none');
+  assert.equal(authorStage(0), 'low');
+  assert.equal(authorStage(59), 'low');
+  assert.equal(authorStage(60), 'mid');
+  assert.equal(authorStage(84), 'mid');
+  assert.equal(authorStage(85), 'full');
+  assert.equal(authorStage(100), 'full');
+});
+
+test('history: 分かっていない作者の点は「まだ」に倒す', () => {
+  // **`undefined` を「できている」側へ倒さない。** `null` だけを見ていたとき、
+  // 項目を持たない古い形の集計が `◎`（覚えた）として表示された。
+  assert.equal(authorStage(undefined), 'none');
+});
+
+test('history: 作者のイベントが無い首の作者点は null になる', () => {
+  const summary = summarizeHistory({ events: [event({ poemId: 'p012', itemKey: 'p012:text' })], poemIds: ['p012'] });
+  assert.equal(summary.entries[0].authorPercent, null);
+  assert.equal(authorStage(summary.entries[0].authorPercent), 'none');
 });

@@ -11,9 +11,9 @@ import type { HistorySummary } from '../../packages/hyakunin/src/domain/history.
 
 let root: HTMLDivElement | undefined;
 const summary: { -readonly [K in keyof HistorySummary]: HistorySummary[K] } = { isEmpty: false, touchedCount: 2, points: 1248, entries: [
-  { poemId: 'p012', cardNo: 12, percent: 90, color: 'green', untouched: false, authorUnconfirmed: false, needsReview: true },
-  { poemId: 'p045', cardNo: 45, percent: 0, color: 'gray', untouched: false, authorUnconfirmed: true, needsReview: true },
-  { poemId: 'p099', cardNo: 99, percent: 0, color: 'gray', untouched: true, authorUnconfirmed: true, needsReview: false },
+  { poemId: 'p012', cardNo: 12, percent: 90, color: 'green', untouched: false, authorUnconfirmed: false, needsReview: true, conquered: false, poem: null, authorPercent: 90 },
+  { poemId: 'p045', cardNo: 45, percent: 0, color: 'gray', untouched: false, authorUnconfirmed: true, needsReview: true, conquered: false, poem: null, authorPercent: null },
+  { poemId: 'p099', cardNo: 99, percent: 0, color: 'gray', untouched: true, authorUnconfirmed: true, needsReview: false, conquered: false, poem: null, authorPercent: null },
 ], needsReview: [], groups: [] };
 summary.needsReview = summary.entries.slice(0, 2);
 /**
@@ -27,7 +27,8 @@ function openGroup(view: HTMLElement) { act(() => { view.querySelector<HTMLButto
 /** タブを切り替える。 */
 function switchTo(view: HTMLElement, label: string) { act(() => { Array.from(view.querySelectorAll<HTMLButtonElement>('[role="tab"]')).find((item) => item.textContent === label)!.click(); }); return view; }
 afterEach(() => { root?.remove(); root = undefined; });
-test('history: まとまりを開くと全首の記録を表示する', () => { const view = openGroup(mount()); for (const card of ['12番', '45番', '99番']) expect(view.querySelector('.history-list')?.textContent).toContain(card); });
+test('history: まとまりを開くと全首の記録を表示する', () => { const view = openGroup(mount()); // 「番」は見出しが持つ。行には番号だけが出る。
+  for (const card of ['12', '45', '99']) expect(view.querySelector('.history-list')?.textContent).toContain(card); });
 test('history: メーターと数値を表示する', () => {
   const view = mount();
   expect(view.querySelectorAll('[role="meter"]'), 'まとまりの輪だけが出る').toHaveLength(1);
@@ -36,14 +37,17 @@ test('history: メーターと数値を表示する', () => {
   expect(view.querySelectorAll('[role="meter"]'), '輪1つと、3首すべての帯').toHaveLength(4);
   // 「習熟度」の語は行から外し、数字だけを出す。意味は読み上げ名が持つ。
   expect(view.textContent).toContain('90%');
-  expect(view.querySelector('.history-list')?.textContent).not.toContain('習熟度');
+  // 「習熟度」は見出しにだけ置く。行には数字と帯だけ。
+  expect(view.querySelector('.history-entry:not(.history-head)')?.textContent).not.toContain('習熟度');
+  expect(view.querySelector('.history-head')?.textContent).toContain('習熟度');
 });
 test('history: 未着手も帯で示し、0% と見分けられる', () => {
   // 「未着手」の文字は横幅を食うので帯に替えた（依頼者・2026-09-21）。
   // **0% と同じ見た目にはしない**——数字を「—」にして区別する。意味は読み上げ名が言い切る。
-  const rows = Array.from(openGroup(mount()).querySelectorAll('li.history-entry'));
-  const untouched = rows.find((node) => node.textContent?.includes('99番'))!;
-  const zero = rows.find((node) => node.textContent?.includes('45番'))!;
+  const rows = Array.from(openGroup(mount()).querySelectorAll('li.history-entry:not(.history-head)'));
+  const byNo = (no: string) => rows.find((node) => node.querySelector('.history-entry__no')?.textContent === no)!;
+  const untouched = byNo('99');
+  const zero = byNo('45');
   expect(untouched.querySelector('[role="meter"]'), '未着手にも帯を出す').not.toBeNull();
   expect(untouched.textContent).toContain('—');
   expect(untouched.textContent).not.toContain('0%');
@@ -55,16 +59,18 @@ test('history: 作者未確認を作者イベントがない首にだけ併記�
   // 「作者 未確認」から「作者」＋小さな（未）の印へ替えた（依頼者・2026-09-21）。
   // 見える字数は減らしても、**読み上げ名では言い切る。**
   const view = openGroup(mount());
-  const rows = Array.from(view.querySelectorAll('li.history-entry'));
-  const unconfirmed = rows.find((node) => node.textContent?.includes('45番'))!;
-  const answered = rows.find((node) => node.textContent?.includes('12番'))!;
-  expect(unconfirmed.querySelector('.history-entry__author')?.getAttribute('aria-label')).toBe('作者は未確認');
-  expect(unconfirmed.querySelector('.history-entry__author')?.textContent).toBe('未');
-  // 印が無い首にも空の升を置く（列を揃えるため）。**中身が空であることで見る。**
-  expect(answered.querySelector('.history-entry__author')?.textContent).toBe('');
-  expect(answered.querySelector('.history-entry__author')?.getAttribute('aria-label')).toBeNull();
+  const rows = Array.from(view.querySelectorAll('li.history-entry:not(.history-head)'));
+  const byNo = (no: string) => rows.find((node) => node.querySelector('.history-entry__no')?.textContent === no)!;
+  const unconfirmed = byNo('45');
+  const answered = byNo('12');
+  expect(unconfirmed.querySelector('.author-stage')?.getAttribute('aria-label')).toBe('作者: まだ確認していません');
+  expect(unconfirmed.querySelector('.author-stage')?.textContent).toBe('未');
+  // 作者を答えた首は段階が進む。**升は全行にあり、中身が変わる。**
+  expect(answered.querySelector('.author-stage')?.textContent).toBe('◎');
+  expect(answered.querySelector('.author-stage')?.getAttribute('aria-label')).toBe('作者: 覚えました');
 });
-test('history: 要確認を番号順で表示する', () => { const text = switchTo(mount(), '要確認').querySelector('.history-list')!.textContent!; expect(text.indexOf('12番')).toBeLessThan(text.indexOf('45番')); });
+test('history: 要確認を番号順で表示する', () => { const rows = Array.from(switchTo(mount(), '要確認').querySelectorAll('.history-entry:not(.history-head) .history-entry__no')).map((n) => n.textContent);
+  expect(rows).toEqual(['12', '45']); });
 test('history: 要確認なしの文言を表示する', () => expect(switchTo(mount({ ...summary, needsReview: [] }), '要確認').textContent).toContain('要確認の歌はありません'));
 test('history: 要確認の基準は一覧が空でも一度だけ示す', () => { const view = switchTo(mount({ ...summary, needsReview: [] }), '要確認'); expect(view.textContent?.split('最後に解いたとき、まちがえたか「わからない」を選んだ歌です。')).toHaveLength(2); });
 test('history: 空状態に始める導線がある', () => { const view = mount({ ...summary, isEmpty: true, entries: [], groups: [], needsReview: [], touchedCount: 0 }); expect(view.textContent).toContain('まだ記録がありません'); expect(view.textContent).toContain('始める'); });
@@ -101,14 +107,15 @@ test('history: ネコは装飾で、読み上げ木に出ない', () => {
 
 /** 初句つきの一覧。番号だけの版と同じ形にして、初句の有無だけを変える。 */
 function summaryWithKu(firstKu: string | null) {
-  const entries = [{ poemId: 'p001', cardNo: 1, percent: 3, color: 'red' as const, untouched: false, authorUnconfirmed: false, needsReview: true, conquered: false, firstKu }];
+  const poem = firstKu === null ? null : { poemId: 'p001', ku: [firstKu, '', '', '', ''], author: { canonical: '天智天皇' } };
+  const entries = [{ poemId: 'p001', cardNo: 1, percent: 3, color: 'red' as const, untouched: false, authorUnconfirmed: false, needsReview: true, conquered: false, poem, authorPercent: 10 }];
   return { isEmpty: false, touchedCount: 1, points: 0, entries, needsReview: entries, groups: [{ from: 1, to: 10, percent: 3, color: 'red' as const, entries }] } as unknown as HistorySummary;
 }
 
 test('history: 一覧に番号と初句と習熟度が並ぶ', () => {
   const view = openGroup(mount(summaryWithKu('秋の田の')));
-  const row = view.querySelector('.history-entry')!;
-  expect(row.textContent).toContain('1番');
+  const row = view.querySelector('.history-entry:not(.history-head)')!;
+  expect(row.querySelector('.history-entry__no')?.textContent).toBe('1');
   expect(row.querySelector('.history-entry__ku')?.textContent).toBe('秋の田の');
   expect(row.textContent).toContain('3%');
   // バーは残る。初句は手がかりであって、メーターの代わりではない。
@@ -123,21 +130,21 @@ test('history: 画面の初句に鉤括弧と省略記号を出さない', () =>
 });
 
 test('history: 初句が無ければ番号だけを出す', () => {
-  const row = openGroup(mount(summaryWithKu(null))).querySelector('.history-entry')!;
-  expect(row.textContent).toContain('1番');
-  expect(row.querySelector('.history-entry__ku')).toBeNull();
+  const row = openGroup(mount(summaryWithKu(null))).querySelector('.history-entry:not(.history-head)')!;
+  expect(row.querySelector('.history-entry__no')?.textContent).toBe('1');
+  expect(row.querySelector('.history-entry__ku')?.textContent).toBe('');
 });
 
 test('history: メーターの読み上げ名にも初句が入る', () => {
   // 画面を見ない利用者にも「何番の何の歌か」が同じ手がかりで届く。
-  const row = openGroup(mount(summaryWithKu('秋の田の'))).querySelector('.history-entry')!;
+  const row = openGroup(mount(summaryWithKu('秋の田の'))).querySelector('.history-entry:not(.history-head)')!;
   // 読み上げ名には鉤括弧を残す——音だけでは歌の切れ目が分からない。
   expect(row.querySelector('[role="meter"]')?.getAttribute('aria-label')).toBe('1番「秋の田の」の習熟度');
 });
 
 test('history: 要確認の面にも初句が出る', () => {
   const view = switchTo(mount(summaryWithKu('秋の田の')), '要確認');
-  expect(view.querySelector('.history-entry__ku')?.textContent).toBe('秋の田の');
+  expect(view.querySelector('.history-entry:not(.history-head) .history-entry__ku')?.textContent).toBe('秋の田の');
 });
 
 test('history: どの行も同じ数の升を出す', () => {
@@ -146,12 +153,48 @@ test('history: どの行も同じ数の升を出す', () => {
   // 行によって升の数が変わると列がずれるので、**印が無い首にも空の升を置く。**
   // 以前は作者の印が無い行（94番・97番など）で帯の位置がずれていた。
   const view = openGroup(mount());
-  const rows = Array.from(view.querySelectorAll('li.history-entry'));
+  const rows = Array.from(view.querySelectorAll('li.history-entry:not(.history-head)'));
   expect(rows.length).toBeGreaterThan(1);
-  const cells = rows.map((row) => Array.from(row.children).length);
+  // 押せる行はボタンが升を継ぐ。**升を持つ要素**で数える。
+  const cells = rows.map((row) => Array.from((row.querySelector('.history-entry__open') ?? row).children).length);
   expect(new Set(cells).size, `行ごとに升の数が違う: ${cells.join(',')}`).toBe(1);
   for (const row of rows) {
     expect(row.querySelector('[role="meter"]'), '帯が無い行がある').not.toBeNull();
-    expect(row.querySelector('.history-entry__author'), '作者の升が無い行がある').not.toBeNull();
+    expect(row.querySelector('.author-stage'), '作者の升が無い行がある').not.toBeNull();
   }
+});
+
+// ---- 歌を開く（2026-09-22・依頼者「クリックすると背景暗転し、歌と作者が出る」） ----
+
+/** 歌データつきの一覧。開いたときに何を見せるかを確かめる。 */
+function summaryWithPoem() {
+  const poem = { poemId: 'p001', ku: ['秋の田の', 'かりほの庵の', '苫をあらみ', 'わが衣手は', '露にぬれつつ'], author: { canonical: '天智天皇' } };
+  const entries = [{ poemId: 'p001', cardNo: 1, percent: 3, color: 'red' as const, untouched: false, authorUnconfirmed: false, needsReview: true, conquered: false, poem, authorPercent: 10 }];
+  return { isEmpty: false, touchedCount: 1, points: 0, entries, needsReview: entries, groups: [{ from: 1, to: 10, percent: 3, color: 'red' as const, entries }] } as unknown as HistorySummary;
+}
+
+test('history: 行を押すと歌と作者が出る', () => {
+  const view = openGroup(mount(summaryWithPoem()));
+  expect(view.querySelector('.poem-overlay'), '押す前から出ている').toBeNull();
+  act(() => { view.querySelector<HTMLButtonElement>('.history-entry__open')!.click(); });
+  const overlay = view.querySelector('.poem-overlay')!;
+  expect(overlay).not.toBeNull();
+  expect(overlay.getAttribute('aria-modal')).toBe('true');
+  expect(Array.from(overlay.querySelectorAll('.poem span')).map((s) => s.textContent))
+    .toEqual(['秋の田の', 'かりほの庵の', '苫をあらみ', 'わが衣手は', '露にぬれつつ']);
+  expect(overlay.querySelector('.author')?.textContent).toBe('天智天皇');
+});
+
+test('history: 開いた歌は閉じられる', () => {
+  // **戻れない面を作らない。** 閉じる手が無いと、記録を見るたびに再読み込みが要る。
+  const view = openGroup(mount(summaryWithPoem()));
+  act(() => { view.querySelector<HTMLButtonElement>('.history-entry__open')!.click(); });
+  act(() => { Array.from(view.querySelectorAll<HTMLButtonElement>('.poem-overlay button')).find((b) => b.textContent === '閉じる')!.click(); });
+  expect(view.querySelector('.poem-overlay')).toBeNull();
+});
+
+test('history: 歌が無ければ押せる行にしない', () => {
+  // 押しても見せるものが無い。**押せる見た目にもしない。**
+  const view = openGroup(mount(summaryWithKu(null)));
+  expect(view.querySelector('.history-entry__open')).toBeNull();
 });

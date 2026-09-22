@@ -254,6 +254,7 @@ test('main: 記録一覧に歌の初句が届く', async () => {
   expect(group, '一覧のまとまりが出ていない').not.toBeNull();
   await act(async () => { group!.click(); });
 
-  expect(root!.querySelector('.history-list')?.textContent).toContain('1番');
-  expect(root!.querySelector('.history-entry__ku')?.textContent).toBe('秋の田の');
+  // 「番」は見出しが持つ。行には番号だけが出る。
+  expect(root!.querySelector('.history-entry:not(.history-head) .history-entry__no')?.textContent).toBe('1');
+  expect(root!.querySelector('.history-entry:not(.history-head) .history-entry__ku')?.textContent).toBe('秋の田の');
 });

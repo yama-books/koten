@@ -78,7 +78,7 @@ test('記録: まとまりの輪は、その 10 首の平均を出す', () => {
 
 test('記録: まとまりを開くまで、100 首の行は出さない', () => {
   const view = mount();
-  expect(view.querySelectorAll('.history-entry')).toHaveLength(0);
+  expect(view.querySelectorAll('.history-entry:not(.history-head)')).toHaveLength(0);
   expect(group('1〜10番').getAttribute('aria-expanded')).toBe('false');
 });
 
@@ -86,10 +86,11 @@ test('記録: まとまりを開くと、その 10 首だけが出る', async ()
   const view = mount();
   await act(() => { group('1〜10番').click(); });
   expect(group('1〜10番').getAttribute('aria-expanded')).toBe('true');
-  const cards = Array.from(view.querySelectorAll('.history-entry')).map((item) => item.textContent);
-  expect(cards).toHaveLength(10);
-  expect(cards[0]).toContain('1番');
-  expect(view.textContent).not.toContain('45番');
+  // **番号の升で見る。** 「番」を見出しへ移したので、本文の照合では割合の数字と紛れる。
+  const numbers = Array.from(view.querySelectorAll('.history-entry:not(.history-head) .history-entry__no')).map((item) => item.textContent);
+  expect(numbers).toHaveLength(10);
+  expect(numbers[0]).toBe('1');
+  expect(numbers).not.toContain('45');
 });
 
 test('記録: 作者未確認で80%に達した歌だけ次の確認先を強調する', async () => {
@@ -99,11 +100,11 @@ test('記録: 作者未確認で80%に達した歌だけ次の確認先を強調
     : entry);
   const view = mount(undefined, { ...summary, groups: [{ ...first, entries }, ...summary.groups.slice(1)] });
   await act(() => { group('1〜10番').click(); });
-  const row = view.querySelector('.history-entry')!;
+  const row = view.querySelector('.history-entry:not(.history-head)')!;
   // 「作者も確認」の文言は小さな（未）の印に替えた（依頼者・2026-09-21）。
   // **強調は残す**——ここが「次にやること」を指している。
-  expect(row.querySelector('.history-entry__author')?.getAttribute('aria-label')).toBe('作者も確認しましょう');
-  expect(row.querySelector('.history-entry__author--next')).not.toBeNull();
+  expect(row.querySelector('.author-stage')?.getAttribute('aria-label')).toBe('作者も確認しましょう');
+  expect(row.querySelector('.author-stage--next')).not.toBeNull();
   expect(row.classList.contains('history-entry--author-cap')).toBe(true);
 });
 
@@ -112,8 +113,8 @@ test('記録: 要確認のタブに切り替えると、要確認だけが出る
   await act(() => { tab('要確認').click(); });
   expect(view.textContent).toContain('最後に解いたとき、まちがえたか「わからない」を選んだ歌です。');
   expect(view.querySelectorAll('.history-group')).toHaveLength(0);
-  expect(Array.from(view.querySelectorAll('.history-entry')).map((item) => item.textContent)).toHaveLength(1);
-  expect(view.textContent).toContain('45番');
+  const numbers = Array.from(view.querySelectorAll('.history-entry:not(.history-head) .history-entry__no')).map((item) => item.textContent);
+  expect(numbers).toEqual(['45']);
 });
 
 test('記録: 取り返しのつかない操作は、一覧と同じ面に出さない', async () => {

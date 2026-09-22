@@ -576,7 +576,9 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   /* 初句の升も固定する。**内容で決めるとまとまりごとに幅が変わり、帯の位置がずれる。**
      5.5rem は最長（6文字・3首）が 0.9rem で入る幅。帯は余りを全部もらうので、
      画面が広いほど長くなり、どのまとまりでも同じ長さに解決される。 */
-  grid-template-columns: 2.9rem 5.5rem 2.2rem minmax(4.5rem, 1fr) 1.4rem;
+  /* 「番」は見出しが持つので番号の升は 2rem で足りる。**その差が帯の長さに回る。**
+     作者の升は見出し「作者」が入る幅。初句の升は最長（6文字・3首）が 0.9rem で入る幅。 */
+  grid-template-columns: 2rem 5.5rem 2rem minmax(4.5rem, 1fr) 1.7rem;
   align-items: center;
   column-gap: 0.25rem;
 }
@@ -619,6 +621,29 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   .history-entry__ku { overflow: visible; text-overflow: clip; }
   .history-entry__author:empty { display: none; }
 }
+/* 升の見出し。各行の読み上げ名が意味を持つので、ここは目で見るためだけのもの。 */
+.history-head { border-bottom-style: dashed; color: var(--color-ink-muted); font-size: 0.65rem; letter-spacing: -0.02em; }
+/* 見出しは目印なので、升からわずかにはみ出しても読めればよい。 */
+.history-head > span { white-space: nowrap; }
+.history-head__meter { grid-column: span 2; }
+.history-entry__no { text-align: right; font-variant-numeric: tabular-nums; }
+/* 押せる行。升の並びを崩さないよう、ボタン自身が升を継ぐ。 */
+.history-entry--openable { padding: 0; }
+.history-entry__open { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; align-items: center; width: 100%; min-width: 0; min-height: 0; border: 0; border-radius: var(--radius-sm); padding-block: var(--space-sm); background: none; text-align: inherit; font: inherit; }
+@media (hover: hover) and (pointer: fine) { .history-entry__open:hover { background: var(--color-surface-soft); } }
+/* 作者の段階。未 → △ → ○ → ◎。色は帯の 5 色と同じ尺度に合わせてある。 */
+.author-stage { display: inline-grid; place-items: center; min-width: 1.5em; height: 1.5em; border-radius: 999px; font-size: 0.8rem; line-height: 1; }
+.author-stage--none { background: var(--color-surface-soft); color: var(--color-ink-muted); }
+.author-stage--low { background: color-mix(in oklab, var(--mastery-yellow) 22%, white); color: var(--mastery-yellow); }
+.author-stage--mid { background: color-mix(in oklab, var(--mastery-blue) 20%, white); color: var(--mastery-blue); }
+.author-stage--full { background: color-mix(in oklab, var(--mastery-green) 22%, white); color: var(--mastery-green); font-weight: 700; }
+/* 本文は満点で、残るのが作者だけの首。**次にやること**として目を引かせる。 */
+.author-stage--next { outline: 2px solid var(--sync-accent); outline-offset: 1px; }
+/* 押した歌を暗転の上に見せる。 */
+.poem-overlay { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: var(--space-md); background: oklch(22% 0.018 55 / 0.55); backdrop-filter: blur(2px); }
+.poem-overlay__sheet { position: relative; display: grid; justify-items: center; gap: var(--space-md); box-sizing: border-box; width: min(100%, 30rem); max-height: 90dvh; overflow: auto; border-radius: 1.25rem; padding: var(--space-lg); background: var(--color-surface); box-shadow: 0 12px 40px oklch(22% 0.018 55 / 0.35); }
+.poem-overlay__no { margin: 0; font-size: var(--text-md); color: var(--color-ink-muted); }
+.poem-overlay__close { justify-self: center; }
 .history-legend { display: flex; align-items: center; gap: 0.35em; margin: 0 0 var(--space-sm); color: var(--color-ink-muted); font-size: var(--text-sm); }
 
 /* 版だけを静かに名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */
