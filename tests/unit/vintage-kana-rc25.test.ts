@@ -218,12 +218,12 @@ test("vintage-kana reading quiz tells the jibo when it reveals the answer", () =
   assert.strictEqual((html.match(/\? readingFeedbackText\(correct\)/g) ?? []).length, 2);
 });
 
-test("vintage-kana help dialog puts furigana on 字母 without changing the line rhythm", () => {
-  assert.match(html, /<h3><ruby>字<rt>じ<\/rt><\/ruby><ruby>母<rt>ぼ<\/rt><\/ruby>とは？<\/h3>/);
-  // ルビを絶対配置で行boxの外へ出す。行送りが見出しごとに変わらない。
-  assert.match(html, /\.helpBody h3\{font-size:13px;margin:6px 0 4px;line-height:1\.85\}/);
-  assert.match(html, /\.helpBody h3 ruby\{position:relative\}/);
-  assert.match(html, /\.helpBody h3 rt\{position:absolute;left:0;right:0;bottom:calc\(100% - 2px\);/);
+test("vintage-kana help dialog spells the reading of 字母 in parentheses", () => {
+  // ルビは行boxを押し広げて見出しだけ背が高くなるため、括弧書きにしてある。
+  assert.match(html, /<h3>字母（じぼ）とは？<\/h3>/);
+  assert.doesNotMatch(html, /<ruby>/);
+  assert.doesNotMatch(html, /<rt>/);
+  assert.match(html, /\.helpBody h3\{font-size:13px;margin:14px 0 4px\}/);
 });
 
 test("vintage-kana preview can be switched to vertical writing", () => {
@@ -309,4 +309,35 @@ test("vintage-kana vertical export starts every column at the same top", () => {
   assert.match(html, /const columnTop=520-\(longest\*advance\)\/2\+fontSize\*\.85;/);
   assert.match(html, /     let y=columnTop;/);
   assert.doesNotMatch(html, /let y=520-\(column\.length\*advance\)/);
+});
+
+test("vintage-kana result screen lists the glyphs from the set and marks the misses", () => {
+  assert.match(html, /<h2>今回確認した字<\/h2>/);
+  assert.doesNotMatch(html, /<h2>5問おわりました<\/h2>/);
+  assert.match(html, /<div id="setResultGlyphs" class="setResultGlyphs"><\/div>/);
+
+  // 1問ごとの正誤を持つ。glyphs は出題の重複除けなので別にしてある。
+  assert.match(html, /answered:0,correct:0,glyphs:\[\],results:\[\]/);
+  assert.match(html, /quizSet\.results\.push\(\{/);
+  assert.match(html, /function renderQuizResultGlyphs\(\)\{/);
+  assert.match(html, /renderQuizResultGlyphs\(\);/);
+
+  // 読みと字母は一覧に出さず、変体仮名だけを並べる。
+  assert.match(html, /<span class="setResultGlyph__char">'\+escapeHtml\(r\.character\)\+'<\/span>/);
+  assert.doesNotMatch(html, /setResultGlyph__kana/);
+
+  // 押すと既存の字形解説ダイアログが開く。
+  assert.match(html, /data-glyph-info data-character="'\+escapeHtml\(r\.character\)\+'"/);
+  assert.match(html, /bindGlyphInfoCards\(root\);/);
+
+  // 間違えた字は色と記号の両方で示し、正解は静かな印だけにする。
+  assert.match(html, /\.setResultGlyph\.isWrong\{background:#fff0e8;border-color:var\(--danger\)\}/);
+  // 日本の採点では ✓ が誤答を指すことがあるため、正解は ◎、誤答は ✓ に分ける。
+  assert.match(html, /\(r\.correct\?"◎":"✓"\)/);
+  assert.doesNotMatch(html, /setResultLegend/);
+  assert.match(html, /\.setResult h2\{margin:0 0 8px;font-family:var\(--font-ui\)/);
+  assert.match(html, /class="setResultGlyph'\+\(r\.correct\?"":" isWrong"\)/);
+
+  // 読み上げにも正誤を乗せる。
+  assert.match(html, /const state=r\.correct\?"正解":"間違えた字";/);
 });

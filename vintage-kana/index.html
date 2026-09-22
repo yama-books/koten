@@ -42,9 +42,7 @@ h1{font-family:var(--font-ui);margin:0;font-size:clamp(27px,4.4vw,42px);font-wei
 .helpBody{padding:18px;overflow:auto;max-height:min(82vh,720px)}
 .helpBody__top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
 .helpBody__top h2{font-size:17px;margin:0}
-.helpBody h3{font-size:13px;margin:6px 0 4px;line-height:1.85}
-.helpBody h3 ruby{position:relative}
-.helpBody h3 rt{position:absolute;left:0;right:0;bottom:calc(100% - 2px);font-size:7px;font-weight:700;line-height:1;letter-spacing:.02em;text-align:center;color:var(--muted);pointer-events:none}
+.helpBody h3{font-size:13px;margin:14px 0 4px}
 .helpBody p{font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 12px}
 .jiboExamples{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
 .jiboExample{border:1px solid var(--line);border-radius:11px;background:var(--paper2);padding:8px 4px;text-align:center}
@@ -112,11 +110,18 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .setProgress{font-size:11px;color:var(--muted);margin-bottom:4px}
 .quizStage[hidden]{display:none}
 .setResult{padding:20px 8px 8px;text-align:center}
-.setResult h2{margin:0 0 8px;font-family:var(--font-poem);font-size:23px}
+.setResult h2{margin:0 0 8px;font-family:var(--font-ui);font-size:20px;font-weight:700;letter-spacing:.02em}
 .setResult__points{display:flex;justify-content:center;align-items:center;gap:8px;margin:12px 0 4px}
 .setResult__points strong{font-size:34px;font-variant-numeric:tabular-nums}
 .setResult__cat{width:54px;height:auto}
 .setResult__meta{font-size:12px;color:var(--muted)}
+.setResultGlyphs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:10px 0 8px}
+.setResultGlyph{position:relative;aspect-ratio:1/1.12;min-width:0;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:2px;font:inherit;color:var(--ink);cursor:pointer}
+.setResultGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:30px;line-height:1}
+.setResultGlyph__mark{position:absolute;top:3px;right:4px;font-size:11px;line-height:1;color:var(--ok)}
+.setResultGlyph.isWrong{background:#fff0e8;border-color:var(--danger)}
+.setResultGlyph.isWrong .setResultGlyph__mark{color:var(--danger);font-weight:700}
+@media(max-width:340px){.setResultGlyph__char{font-size:25px}}
 .recordScreen{text-align:left}
 .recordSummary{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:3px 0 12px;margin-bottom:14px}
 .recordSummary__title{font-weight:800}
@@ -249,7 +254,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       <p>昔使われていた、今とは形のちがうひらがなです。</p>
       <h3>いつ使われていた？</h3>
       <p>平安時代から明治時代まで、同じ音にいくつものひらがなの形が使われていました。1900年（明治33年）、学校で教えるひらがなが一つずつに整理されました。</p>
-      <h3><ruby>字<rt>じ</rt></ruby><ruby>母<rt>ぼ</rt></ruby>とは？</h3>
+      <h3>字母（じぼ）とは？</h3>
       <p>ひらがなのもとになった漢字です。今のひらがなにも字母があります。</p>
       <h3>今のひらがなの字母</h3>
       <div class="jiboExamples" aria-label="現代のひらがなの字母の例">
@@ -335,7 +340,8 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
       </div>
 
       <div id="quizResult" class="quizStage setResult" hidden>
-        <h2>5問おわりました</h2>
+        <h2>今回確認した字</h2>
+        <div id="setResultGlyphs" class="setResultGlyphs"></div>
         <div class="setResult__points">
           <strong id="setPoints">+0</strong><span>ポイント</span>
           <img class="setResult__cat" src="./cat-mascot.webp" alt="" aria-hidden="true">
@@ -557,7 +563,7 @@ function loadLearningEvents(){
 function newQuizSet(){
  return {
    id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
-   answered:0,correct:0,glyphs:[]
+   answered:0,correct:0,glyphs:[],results:[]
  };
 }
 function completedSetIds(){
@@ -828,12 +834,29 @@ function renderSetProgress(){
  if(el)el.textContent=Math.min(quizSet.answered+1,QUIZ_SET_SIZE)+" / "+QUIZ_SET_SIZE;
 }
 function renderQuizResult(){
+ renderQuizResultGlyphs();
  const pts=document.getElementById("setPoints");
  const meta=document.getElementById("setResultMeta");
  const incorrect=Math.max(0,quizSet.answered-quizSet.correct);
  const points=quizSet.correct*QUIZ_CORRECT_POINTS+incorrect*QUIZ_ATTEMPT_POINTS;
  if(pts)pts.textContent="+"+formatPoints(points);
  if(meta)meta.textContent=QUIZ_SET_SIZE+"問中 "+quizSet.correct+"問正解";
+}
+function renderQuizResultGlyphs(){
+ const root=document.getElementById("setResultGlyphs");
+ if(!root)return;
+ const results=quizSet.results||[];
+ root.innerHTML=results.map(r=>{
+   const state=r.correct?"正解":"間違えた字";
+   return '<button type="button" class="setResultGlyph'+(r.correct?"":" isWrong")+'"'+
+     ' data-glyph-info data-character="'+escapeHtml(r.character)+'"'+
+     ' data-kana="'+escapeHtml(r.kana)+'" data-jibo="'+escapeHtml(r.jibo||"")+'"'+
+     ' aria-label="'+escapeHtml(r.character+" "+state+"。読みと字母を見る")+'">'+
+     '<span class="setResultGlyph__char">'+escapeHtml(r.character)+'</span>'+
+     '<span class="setResultGlyph__mark" aria-hidden="true">'+(r.correct?"◎":"✓")+'</span>'+
+     '</button>';
+ }).join("");
+ bindGlyphInfoCards(root);
 }
 function showQuizResult(){
  activeQuizScreen="practice";
@@ -867,6 +890,12 @@ function recordLearningAttempt(mode,correct,masteryMethod){
    glyphId:quizEntry?.glyph_id||"",
    kana:quizEntry?.kana||"",
    jibo:quizEntry?.jibo||""
+ });
+ quizSet.results.push({
+   character:quizEntry?.character||"",
+   kana:quizEntry?.kana||"",
+   jibo:quizEntry?.jibo||"",
+   correct
  });
  quizSet.answered+=1;
  if(correct)quizSet.correct+=1;
