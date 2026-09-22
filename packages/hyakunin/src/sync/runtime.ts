@@ -3,12 +3,12 @@ import { openDatabase } from '@koten/shared/storage/db';
 import { houseIdFor, decryptField, encryptField, isCiphertext } from '@koten/shared/sync/crypto';
 import { seedSyncOutbox } from '@koten/shared/sync/seed';
 import { flushOutbox, applyRemoteRecords } from '@koten/shared/sync/engine';
-import { createRecord, putSettings, watchCollection, watchSettings } from '@koten/shared/sync/client';
+import { createRecord, createRecords, putSettings, watchCollection, watchSettings } from '@koten/shared/sync/client';
 import type { SyncKind } from '@koten/shared/sync/codec';
 import type { ApplicationPort } from '../ui/adapters/indexeddb-port.ts';
 
 export type SyncStatus = 'connecting' | 'connected' | 'offline' | 'error';
-type SharedPreferences = Pick<UserSettings, 'reading' | 'writing' | 'order' | 'soundEnabled' | 'grade'>;
+type SharedPreferences = Pick<UserSettings, 'reading' | 'writing' | 'order' | 'soundEnabled' | 'grade' | 'syncDeviceName'>;
 const kinds: SyncKind[] = ['events', 'sessions', 'reports'];
 
 function sharedPreferences(settings: UserSettings): SharedPreferences {
@@ -16,6 +16,9 @@ function sharedPreferences(settings: UserSettings): SharedPreferences {
     reading: settings.reading, writing: settings.writing, order: settings.order,
     soundEnabled: settings.soundEnabled,
     ...(settings.grade === undefined ? {} : { grade: settings.grade }),
+    // **同期グループの属性として扱う。** 作った端末の呼び名で、参加する側の確認に使う。
+    // どちらの端末が送っても同じ値になるよう、受け取った側も自分の設定へ写す。
+    ...(settings.syncDeviceName === undefined ? {} : { syncDeviceName: settings.syncDeviceName }),
   };
 }
 
@@ -26,7 +29,8 @@ export function validPreferences(value: unknown): value is SharedPreferences {
     && ['vertical', 'horizontal'].includes(item.writing ?? '')
     && ['number', 'random'].includes(item.order ?? '')
     && typeof item.soundEnabled === 'boolean'
-    && (item.grade === undefined || typeof item.grade === 'string');
+    && (item.grade === undefined || typeof item.grade === 'string')
+    && (item.syncDeviceName === undefined || typeof item.syncDeviceName === 'string');
 }
 
 /** 画面の存続とは独立に、端末の同期設定が有効な間だけ稼働する。 */
@@ -51,7 +55,7 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
     if (stopped || !db || flushing || !navigator.onLine) return;
     flushing = true;
     try {
-      const result = await flushOutbox(db, code!, houseId, { createRecord });
+      const result = await flushOutbox(db, code!, houseId, { createRecord, createRecords });
       if (result.failed) fail();
     } catch { fail(); }
     finally { flushing = false; }

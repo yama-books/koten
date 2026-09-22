@@ -157,3 +157,70 @@ test('transfer: 取り込みも一覧の読み直しを促す', async () => {
   await act(async () => { button('この内容で読み込む')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
   expect(changed).toBe(1);
 });
+
+// ---- 消す先の選択（依頼者・2026-09-22） ----
+
+/** 同期中の「データ管理」を開き、削除の確認まで進める。 */
+async function openDeleteConfirm(extra: Partial<Parameters<typeof History>[0]> = {}) {
+  root = document.createElement('div');
+  document.body.append(root);
+  render(<History summary={summary} onHome={() => {}} port={stub()} initialTab="データ管理" syncEnabled onOpenSync={() => {}} {...extra} />, root!);
+  await act(async () => { button('記録を消す')!.click(); });
+  return root!;
+}
+
+test('同期中は「どこから消すか」を選ばせる', async () => {
+  // **同期したまま端末から消しても戻ってくる。** 黙って消した風に見せない。
+  const view = await openDeleteConfirm();
+  expect(view.textContent).toContain('この端末だけ消しても、同期先から戻ってきます');
+  expect(button('同期先とこの端末から消す')).toBeTruthy();
+  expect(button('この端末だけ消す（同期を止めます）')).toBeTruthy();
+  expect(button('やめる')).toBeTruthy();
+  // 消す操作どうしを横に並べない。押し間違えを避けるため縦に積む。
+  expect(view.querySelector('.transfer-choices')).not.toBeNull();
+});
+
+test('同期していなければ選択肢を出さない', async () => {
+  root = document.createElement('div');
+  document.body.append(root);
+  render(<History summary={summary} onHome={() => {}} port={stub()} initialTab="データ管理" />, root!);
+  await act(async () => { button('記録を消す')!.click(); });
+  expect(button('消す')).toBeTruthy();
+  expect(root!.querySelector('.transfer-choices')).toBeNull();
+});
+
+test('「同期先とこの端末から消す」は同期先を先に空にする', async () => {
+  const order: string[] = [];
+  const view = await openDeleteConfirm({
+    port: stub({ async commitDelete(counts) { order.push('local'); return counts; } }),
+    onDeleteRemote: async () => { order.push('remote'); return true; },
+    onStopSync: async () => { order.push('stop'); return true; },
+  });
+  await act(async () => { button('同期先とこの端末から消す')!.click(); });
+  await act(async () => { await new Promise((resolve) => queueMicrotask(resolve)); });
+  expect(order, '同期先より先に端末を消している').toEqual(['remote', 'local']);
+  expect(view.textContent).toContain('消しました');
+});
+
+test('「この端末だけ消す」は先に同期を止める', async () => {
+  const order: string[] = [];
+  await openDeleteConfirm({
+    port: stub({ async commitDelete(counts) { order.push('local'); return counts; } }),
+    onDeleteRemote: async () => { order.push('remote'); return true; },
+    onStopSync: async () => { order.push('stop'); return true; },
+  });
+  await act(async () => { button('この端末だけ消す（同期を止めます）')!.click(); });
+  expect(order, '止める前に消している').toEqual(['stop', 'local']);
+});
+
+test('同期先を消せなかったら、端末の記録も消さない', async () => {
+  // **片方だけ消えた状態にしない。** 戻ってくる記録を消したと見せるのが一番悪い。
+  const order: string[] = [];
+  const view = await openDeleteConfirm({
+    port: stub({ async commitDelete(counts) { order.push('local'); return counts; } }),
+    onDeleteRemote: async () => false,
+  });
+  await act(async () => { button('同期先とこの端末から消す')!.click(); });
+  expect(order).toEqual([]);
+  expect(view.textContent).toContain('同期先の記録を消せませんでした');
+});

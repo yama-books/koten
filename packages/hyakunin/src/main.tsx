@@ -1,6 +1,6 @@
 import { render } from 'preact';
 import { ErrorBoundary } from '@koten/shared/error-boundary';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import '../../shared/src/styles/tokens.css';
 import { Home } from './ui/screens/Home.tsx';
 import { RangePicker } from './ui/screens/RangePicker.tsx';
@@ -61,6 +61,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   // （発注074 工程1：学年と「確認済み」の印が消える）。読み込みは `Home` から受け取る。
   const [settings, setSettings] = useState<UserSettings | null>(null);
   const [syncStatus, setSyncStatus] = useState<SyncStatus | 'off'>('off');
+  const syncStopRef = useRef<(() => void) | null>(null);
   const [result, setResult] = useState<SessionResult | null>(null);
   const [history, setHistory] = useState<HistorySummary | null>(null);
   const [historyInitialTab, setHistoryInitialTab] = useState<'一覧' | 'データ管理'>('一覧');
@@ -83,10 +84,36 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
       if (settings) void port.clearSyncQueue?.();
       return;
     }
-    return startSync(settings, port, setSettings, setSyncStatus);
+    const stop = startSync(settings, port, setSettings, setSyncStatus);
+    // **止める手を外から呼べるように持っておく。** 記録を消す前に購読を解く必要があり、
+    // 画面の描き直しを待つと、その隙の snapshot で消した記録が戻ってくる。
+    syncStopRef.current = stop;
+    return () => { syncStopRef.current = null; stop(); };
     // `settings === null` も依存に要る。`syncEnabled` を持たない設定では
     // 読み込み前後でどちらも undefined になり、読み終えたことを依存の変化として拾えない。
   }, [port, settings === null, settings?.syncEnabled, settings?.syncCode]);
+
+  /** 同期先の記録を消す。合言葉が無ければ何もしない。 */
+  async function deleteRemoteRecords(): Promise<boolean> {
+    if (!settings?.syncCode) return false;
+    const [{ deleteAllRecords }, { houseIdFor }] = await Promise.all([
+      import('@koten/shared/sync/client'),
+      import('@koten/shared/sync/crypto'),
+    ]);
+    return await deleteAllRecords(await houseIdFor(settings.syncCode)) === 'ok';
+  }
+
+  /**
+   * 同期を止める。**消す前に止めるのに使う**——止めないと消した記録が戻ってくる。
+   * 設定を書くだけでは足りない。購読が解けるのは画面の描き直しのあとで、
+   * その隙に届いた snapshot が消した記録を書き戻す。**先に購読を解いてから設定を書く。**
+   */
+  async function stopSync(): Promise<boolean> {
+    if (!settings) return false;
+    syncStopRef.current?.();
+    syncStopRef.current = null;
+    return saveSyncSettings({ ...settings, syncEnabled: false, syncCode: undefined, syncSeededFor: undefined });
+  }
 
   async function saveSyncSettings(next: UserSettings): Promise<boolean> {
     const saved = await port.saveSettings(next);
@@ -212,7 +239,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   if (screen === 'result-loading') return <main class="loading" aria-live="polite">結果を読み込んでいます。</main>;
   if (screen === 'review-error') return <main class="session"><p role="alert">この問題は表示できません。ホームに戻ってやり直してください。</p><button type="button" onClick={() => setScreen('home')}>ホームへ戻る</button></main>;
   if (screen === 'history-loading') return <main class="loading" aria-live="polite">記録を読み込んでいます。</main>;
-  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} onChanged={reloadHistory} initialTab={historyInitialTab} onOpenSync={appConfig.features.sync ? () => { setHistoryInitialTab('データ管理'); setSyncReturn('history'); setScreen('sync'); } : undefined} syncEnabled={settings.syncEnabled} />;
+  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} onChanged={reloadHistory} initialTab={historyInitialTab} onOpenSync={appConfig.features.sync ? () => { setHistoryInitialTab('データ管理'); setSyncReturn('history'); setScreen('sync'); } : undefined} syncEnabled={settings.syncEnabled} onDeleteRemote={deleteRemoteRecords} onStopSync={stopSync} />;
   if (screen === 'result' && result && selected) {
     // 結果に残った問題でも、壊れた穴埋めは再確認画面を作れない。押すと必ず失敗する
     // 導線を出さず、作者問題は既存の選択式 UI で再確認へ通す（発注074 工程16）。

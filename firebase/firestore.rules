@@ -92,7 +92,9 @@ service cloud.firestore {
         allow list: if recordKind in ['sessions', 'events', 'reports'];
         // セッションは開始時と完了時に同じ ID で保存する。
         allow update: if recordKind == 'sessions' && isCiphertextPayload(request.resource.data);
-        allow delete: if false;
+        // 記録を消せるようにする（依頼者・2026-09-22）。**消せないと、端末から消しても戻ってくる。**
+        // 合言葉を知っている者だけが houseId を作れるので、読み書きと同じ信頼の境目である。
+        allow delete: if recordKind in ['sessions', 'events', 'reports'];
       }
 
       match /settings/{settingsId} {

@@ -36,12 +36,27 @@ test('S-5 overwriting an existing record document is rejected (create only)', as
   await assertFails(setDoc(doc(db(), 'households', houseId, 'events', 'evt-4'), { enc: cipher(2) }));
 });
 
-test('S-6 event update and delete are rejected; session completion update succeeds', async () => {
+test('S-6 event update is rejected; session completion update succeeds', async () => {
   await env.withSecurityRulesDisabled(async (ctx) => setDoc(doc(ctx.firestore(), 'households', houseId, 'events', 'evt-5'), { enc: cipher() }));
   await assertFails(updateDoc(doc(db(), 'households', houseId, 'events', 'evt-5'), { enc: cipher(2) }));
-  await assertFails(deleteDoc(doc(db(), 'households', houseId, 'events', 'evt-5')));
   await assertSucceeds(setDoc(doc(db(), 'households', houseId, 'sessions', 's-complete'), { enc: cipher() }));
   await assertSucceeds(setDoc(doc(db(), 'households', houseId, 'sessions', 's-complete'), { enc: cipher(2) }));
+});
+
+// 2026-09-22: 削除を許した。**拒んでいた間は、端末から消しても購読が取り戻していた**
+// （利用者が「消しました」と出るのに消えないのを踏んだ）。
+// 合言葉を知っている者だけが houseId を作れるので、読み書きと同じ信頼の境目である。
+test('S-6b records can be deleted so that erasing on a device sticks', async () => {
+  for (const kind of ['events', 'sessions', 'reports']) {
+    await env.withSecurityRulesDisabled(async (ctx) => setDoc(doc(ctx.firestore(), 'households', houseId, kind, 'del-1'), { enc: cipher() }));
+    await assertSucceeds(deleteDoc(doc(db(), 'households', houseId, kind, 'del-1')));
+  }
+});
+
+test('S-6c the settings document still cannot be deleted', async () => {
+  // 設定の文書は同期グループそのものである。記録を消しても group は残す。
+  await env.withSecurityRulesDisabled(async (ctx) => setDoc(doc(ctx.firestore(), 'households', houseId, 'settings', 'current'), { enc: cipher() }));
+  await assertFails(deleteDoc(doc(db(), 'households', houseId, 'settings', 'current')));
 });
 
 test('S-7 get and list on a record collection succeed', async () => {

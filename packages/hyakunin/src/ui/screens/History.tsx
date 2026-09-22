@@ -9,7 +9,7 @@ import { useState } from 'preact/hooks';
 /** タブの並び（依頼者・2026-09-16）。**一覧が既定である。** */
 const TABS = ['一覧', '要確認', 'データ管理'] as const;
 type Tab = typeof TABS[number];
-type Props = { summary: HistorySummary; onHome: () => void; port?: ApplicationPort; onChanged?: () => void; initialTab?: Tab; onOpenSync?: () => void; syncEnabled?: boolean };
+type Props = { summary: HistorySummary; onHome: () => void; port?: ApplicationPort; onChanged?: () => void; initialTab?: Tab; onOpenSync?: () => void; syncEnabled?: boolean; onDeleteRemote?: () => Promise<boolean>; onStopSync?: () => Promise<boolean> };
 
 /**
  * 出すタブ。**持ち出しの口が無いポートでは、そのタブごと出さない**
@@ -42,7 +42,7 @@ function Group({ group, onOpen }: { group: HistoryGroup; onOpen?: (row: PoemRowD
   );
 }
 
-export function History({ summary, onHome, port, onChanged, initialTab = '一覧', onOpenSync, syncEnabled = false }: Props) {
+export function History({ summary, onHome, port, onChanged, initialTab = '一覧', onOpenSync, syncEnabled = false, onDeleteRemote, onStopSync }: Props) {
   const [tab, setTab] = useState<Tab>(initialTab);
   // 押した歌を暗転の上に出す（依頼者・2026-09-22）。null なら閉じている。
   const [openPoem, setOpenPoem] = useState<PoemRowData | null>(null);
@@ -80,7 +80,7 @@ export function History({ summary, onHome, port, onChanged, initialTab = '一覧
             <div><h1 id="sync-management-heading">端末間同期</h1><p>{syncEnabled ? '端末間同期が有効です' : '自分のスマホとタブレットをつなぐ'}</p></div>
             <button type="button" onClick={onOpenSync}>{syncEnabled ? '同期の設定を見る' : '同期を設定する'}</button>
           </section>}
-          {port && canTransferRecords(port) && <RecordTransfer port={port} onChanged={onChanged} />}
+          {port && canTransferRecords(port) && <RecordTransfer port={port} onChanged={onChanged} syncEnabled={syncEnabled} onDeleteRemote={onDeleteRemote} onStopSync={onStopSync} />}
         </div>}
       </section>
       {openPoem && <PoemOverlay row={openPoem} onClose={() => setOpenPoem(null)} />}

@@ -77,6 +77,9 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .sync-step { background: linear-gradient(135deg, var(--sync-soft), var(--color-surface) 70%); }
 .sync-choice:nth-child(2) { background: var(--color-surface-soft); }
 .sync-panel label { display: grid; gap: var(--space-xs); width: min(100%, 34rem); }
+/* 端末名の入力。見出しは説明が長いので小さく、枠は panel の他の入力と同じにする。 */
+.sync-device-name { font-size: var(--text-sm); color: var(--color-ink-muted); }
+.sync-device-name input { color: var(--color-ink); font-size: var(--text-base); }
 .sync-panel input:not([type=file]) { box-sizing: border-box; width: 100%; min-height: 44px; padding: var(--space-xs); border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-md); }
 .sync-qr { display: grid; place-items: center; box-sizing: border-box; width: min(100%, 20rem); border-radius: 1rem; padding: var(--space-md); background: white; box-shadow: 0 2px 12px oklch(22% 0.018 55 / 0.08); }
 .sync-panel canvas[role=img] { display: block; box-sizing: border-box; max-width: 100%; background: white; }
@@ -766,6 +769,10 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .transfer-danger-heading { margin-block-start: var(--space-md); margin-block-end: 0; font-size: var(--text-md); }
 /* 取り返しのつかない操作。枠で囲って、直前の節と地続きに見えないようにする。 */
 .transfer-danger { border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); padding: var(--space-sm); }
+/* 消す先の選択肢。**縦に積む。** 消す操作どうしを横に並べると押し間違えが起きるので、
+   広い画面でも 2 列にしない。文言が長いので折り返しも許す。 */
+.transfer-choices { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); margin-block: var(--space-sm); }
+.transfer-choices > button { width: 100%; min-width: 0; box-sizing: border-box; white-space: normal; text-align: center; }
 @media (min-width: 40rem) { .transfer-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* 完全制覇（発注084）。**点ではなく印で表す**——`clamp` を 100 で止めたまま強さを示す。 */

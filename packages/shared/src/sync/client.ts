@@ -46,6 +46,51 @@ export async function createRecord(
   }
 }
 
+/**
+ * まとめて書く。**1 件ずつの往復をやめるための口**（実測で 1 件約 200ms かかっていた）。
+ * Firestore の書き込み束は**全件まとめて成否が決まる**ので、既にある記録が混じると束ごと失敗する。
+ * 呼び出し側（`flushOutbox`）が 1 件ずつへ落とす。
+ */
+export async function createRecords(houseId: string, items: readonly Readonly<{ kind: SyncKind; id: string; payload: { enc: string } }>[]): Promise<'ok' | 'error'> {
+  if (items.length === 0) return 'ok';
+  const { doc, writeBatch } = await import('firebase/firestore');
+  const db = await getFirestore();
+  try {
+    const batch = writeBatch(db);
+    for (const item of items) batch.set(doc(db, 'households', houseId, item.kind, item.id), item.payload);
+    await batch.commit();
+    return 'ok';
+  } catch {
+    return 'error';
+  }
+}
+
+/**
+ * 同期先の記録を全部消す（依頼者・2026-09-22）。
+ * **規則が delete を拒んでいた間は、端末から消しても購読が取り戻していた。**
+ * 設定の文書は残す——それが同期グループそのものだからである。
+ */
+export async function deleteAllRecords(houseId: string): Promise<'ok' | 'error'> {
+  const { collection, deleteDoc, doc, getDocs, writeBatch } = await import('firebase/firestore');
+  const db = await getFirestore();
+  try {
+    for (const kind of ['events', 'sessions', 'reports'] as const) {
+      const snapshot = await getDocs(collection(db, 'households', houseId, kind));
+      const ids = snapshot.docs.map((entry) => entry.id);
+      for (let start = 0; start < ids.length; start += 200) {
+        const chunk = ids.slice(start, start + 200);
+        if (chunk.length === 1) { await deleteDoc(doc(db, 'households', houseId, kind, chunk[0]!)); continue; }
+        const batch = writeBatch(db);
+        for (const id of chunk) batch.delete(doc(db, 'households', houseId, kind, id));
+        await batch.commit();
+      }
+    }
+    return 'ok';
+  } catch {
+    return 'error';
+  }
+}
+
 export async function putSettings(houseId: string, payload: { enc: string }): Promise<'ok' | 'error'> {
   const { doc, setDoc } = await import('firebase/firestore');
   const db = await getFirestore();

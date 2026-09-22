@@ -105,6 +105,11 @@ export type UserSettings = {
   syncEnabled?: boolean;
   /** 初回参加時に既存記録を送信待ちへ積んだ同期先。 */
   syncSeededFor?: string;
+  /**
+   * 同期グループを作った端末の名前（任意）。**参加する側が「どの端末と繋がるか」を確かめるためだけに使う。**
+   * 既定は UA からの大雑把な推測で、利用者が直せる。統計には含めない。
+   */
+  syncDeviceName?: string;
 };
 
 export type OutboxItem = {

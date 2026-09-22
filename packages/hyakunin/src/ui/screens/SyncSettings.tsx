@@ -3,6 +3,7 @@ import type { UserSettings } from '@koten/shared/domain/event';
 import { decryptField, houseIdFor, isCiphertext, makePairingCode, normalizeCode } from '@koten/shared/sync/crypto';
 import { readSettings } from '@koten/shared/sync/client';
 import { isPairingCode, pairingPayload, parsePairingPayload } from '@koten/shared/sync/pairing';
+import { guessDeviceName, normalizeDeviceName } from '@koten/shared/sync/device-name';
 import { validPreferences, type SyncStatus } from '../../sync/runtime.ts';
 
 type Props = {
@@ -21,6 +22,10 @@ const statusText: Record<SyncStatus | 'off', string> = {
 export function SyncSettings({ settings, status, onChange, onBack, backLabel = 'ホームへ戻る' }: Props) {
   const [input, setInput] = useState('');
   const [candidate, setCandidate] = useState<string | null>(null);
+  // 参加先を作った端末の呼び名。確認の文で「どの端末と繋がるか」を示す。
+  const [candidateName, setCandidateName] = useState<string | undefined>(undefined);
+  // **既定は UA からの当て推量。** 機種名は取れないので、利用者が直せる初期値として出す。
+  const [deviceName, setDeviceName] = useState(() => settings.syncDeviceName ?? guessDeviceName(navigator.userAgent));
   const [checking, setChecking] = useState(false);
   const [verified, setVerified] = useState(false);
   const [message, setMessage] = useState('');
@@ -78,6 +83,8 @@ export function SyncSettings({ settings, status, onChange, onBack, backLabel = '
       const decoded = await decryptField('settings', nextCode, enc);
       if (!validPreferences(decoded)) { setMessage('共有コードを確認できませんでした。'); return; }
       if (requestId !== verifyRef.current) return;
+      // 作った端末の呼び名。**無ければ共有コードの末尾で示す**——以前からの手がかりを失わない。
+      setCandidateName((decoded as { syncDeviceName?: unknown }).syncDeviceName as string | undefined);
       setVerified(true);
       setMessage('同期先を確認できました。参加する場合は下のボタンで確定してください。');
     } catch {
@@ -87,7 +94,7 @@ export function SyncSettings({ settings, status, onChange, onBack, backLabel = '
 
   async function beginNew() {
     const nextCode = makePairingCode();
-    if (!await onChange({ ...settings, syncCode: nextCode, syncEnabled: true, syncSeededFor: undefined })) {
+    if (!await onChange({ ...settings, syncCode: nextCode, syncEnabled: true, syncSeededFor: undefined, syncDeviceName: normalizeDeviceName(deviceName) })) {
       setMessage('同期設定を保存できませんでした。');
     }
   }
@@ -179,9 +186,9 @@ export function SyncSettings({ settings, status, onChange, onBack, backLabel = '
       <section class="sync-panel sync-step"><div class="sync-step__heading"><span class="sync-step__number" aria-hidden="true">2</span><h2>共有する端末でQRを読み取る</h2></div><p>読み取り後に「確認して参加する」を押せば完了です。</p></section>
       <section class="sync-stop">{stopConfirm ? <div class="sync-actions"><p>同期を停止します。この端末の記録は残ります。</p><button type="button" onClick={() => { void onChange({ ...settings, syncEnabled: false, syncCode: undefined, syncSeededFor: undefined }).then((ok) => { if (ok) { setStopConfirm(false); setMessage('同期を停止しました。'); } }); }}>停止する</button><button type="button" onClick={() => setStopConfirm(false)}>戻る</button></div> : <button type="button" onClick={() => setStopConfirm(true)}>同期を停止</button>}</section>
     </div> : <div class="sync-flow">
-      <section class="sync-panel sync-choice"><div class="sync-step__heading"><span class="sync-step__number" aria-hidden="true">1</span><h2>この端末で QR を作る</h2></div><p>共有する端末で読み取って設定します。</p><button class="primary" type="button" onClick={() => { void beginNew(); }}>新しい同期グループを作る</button></section>
-      <section class="sync-panel sync-choice"><div class="sync-step__heading"><span class="sync-step__number" aria-hidden="true">2</span><h2>別の端末のQRを読み取る</h2></div><div class="sync-actions"><button type="button" onClick={() => { if (scanning) stopCamera(); else void startCamera(); }}>{scanning ? 'カメラを閉じる' : 'カメラを開く'}</button><label class="sync-file">画像を選ぶ<input type="file" accept="image/*" onChange={(event) => { void readFile(event.currentTarget.files?.[0]); event.currentTarget.value = ''; }} /></label></div><video ref={videoRef} hidden={!scanning} muted playsInline aria-label="同期用 QR の読み取り" /><canvas ref={canvasRef} hidden /><label>招待リンク・共有コード<input value={input} onInput={(event) => setInput(event.currentTarget.value)} autoComplete="off" /></label><button type="button" disabled={checking || !input.trim()} onClick={() => { const parsed = parsePairingPayload(input, window.location.href) ?? (isPairingCode(input) ? normalizeCode(input) : null); if (parsed) void verify(parsed); else setMessage('招待リンクまたは共有コードの形式を確認してください。'); }}>同期先を確認</button>
-        {candidate && <div class="sync-confirm"><h3>参加の確認</h3><p>この端末の記録を<span class="sync-nowrap">同期グループ</span>と共有します。<br /><span class="sync-nowrap">共有コードの末尾: {candidate.slice(-4)}</span></p><button type="button" disabled={!verified || checking} onClick={() => { void join(); }}>確認して参加する</button><button type="button" onClick={() => { setCandidate(null); setVerified(false); setMessage('参加を取り消しました。'); }}>取り消す</button></div>}
+      <section class="sync-panel sync-choice"><div class="sync-step__heading"><span class="sync-step__number" aria-hidden="true">1</span><h2>この端末で QR を作る</h2></div><p>共有する端末で読み取って設定します。</p><label class="sync-device-name">端末名（任意・共有先端末からの確認用）<input value={deviceName} maxLength={24} autoComplete="off" onInput={(event) => setDeviceName(event.currentTarget.value)} /></label><button class="primary" type="button" onClick={() => { void beginNew(); }}>新しい同期グループを作る</button></section>
+      <section class="sync-panel sync-choice"><div class="sync-step__heading"><span class="sync-step__number" aria-hidden="true">2</span><h2>別の端末のQRを読み取る</h2></div><div class="sync-actions"><button type="button" onClick={() => { if (scanning) stopCamera(); else void startCamera(); }}>{scanning ? 'カメラを閉じる' : 'カメラを開く'}</button><label class="sync-file">画像を選ぶ<input type="file" accept="image/*" onChange={(event) => { void readFile(event.currentTarget.files?.[0]); event.currentTarget.value = ''; }} /></label></div><video ref={videoRef} hidden={!scanning} muted playsInline aria-label="同期用 QR の読み取り" /><canvas ref={canvasRef} hidden /><label>招待リンク・共有コード<input class="sync-join-input" value={input} onInput={(event) => setInput(event.currentTarget.value)} autoComplete="off" /></label><button type="button" disabled={checking || !input.trim()} onClick={() => { const parsed = parsePairingPayload(input, window.location.href) ?? (isPairingCode(input) ? normalizeCode(input) : null); if (parsed) void verify(parsed); else setMessage('招待リンクまたは共有コードの形式を確認してください。'); }}>同期先を確認</button>
+        {candidate && <div class="sync-confirm"><h3>参加の確認</h3><p>この端末の記録を<span class="sync-nowrap">同期グループ</span>と共有します。<br />{candidateName ? <>同期グループを作成した端末: <span class="sync-nowrap">{candidateName}</span></> : <span class="sync-nowrap">共有コードの末尾: {candidate.slice(-4)}</span>}</p><button type="button" disabled={!verified || checking} onClick={() => { void join(); }}>確認して参加する</button><button type="button" onClick={() => { setCandidate(null); setVerified(false); setMessage('参加を取り消しました。'); }}>取り消す</button></div>}
       </section>
     </div>}
     <p class="sync-license">QR ライブラリ: <a href={`${import.meta.env.BASE_URL}licenses/qrcode-LICENSE.txt`}>qrcode (MIT)</a>・<a href={`${import.meta.env.BASE_URL}licenses/jsqr-LICENSE.txt`}>jsQR (Apache 2.0)</a></p>

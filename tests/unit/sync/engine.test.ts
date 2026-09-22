@@ -94,3 +94,69 @@ test('受信した完了済みセッションは同じ ID の未完了状態を�
   const stored = await listSessions(db);
   assert.equal(stored.ok && stored.value[0].completed, true);
 });
+
+// ---- まとめ書き（依頼者・2026-09-22「一括送信でお願いします」） ----
+
+/** n 件の記録と待ち行列を置く。 */
+async function queueEvents(db: IDBDatabase, n: number) {
+  for (let index = 0; index < n; index += 1) {
+    const eventId = `batch-${index}`;
+    await appendEvent(db, { ...sampleEvent, eventId, itemKey: `k${index}` });
+    await enqueueSyncOutbox(db, { syncOutboxId: eventId, kind: 'events', recordId: eventId });
+  }
+}
+
+test('flushOutbox は束で 1 回だけ書き、待ち行列を空にする', async () => {
+  const db = createFakeDatabase();
+  await queueEvents(db, 5);
+  let calls = 0;
+  let batched = 0;
+  const result = await flushOutbox(db, 'flush-code-aaaaa', 'house-1', {
+    createRecord: async () => { calls += 1; return 'created'; },
+    createRecords: async (_houseId, items) => { batched += 1; calls += items.length; return 'ok'; },
+  });
+  assert.equal(batched, 1, '束で書いていない');
+  assert.deepEqual(result, { sent: 5, failed: 0 });
+  const remaining = await listSyncOutbox(db);
+  assert.deepEqual(remaining.ok ? remaining.value : ['not-empty'], []);
+});
+
+test('flushOutbox は束が失敗したら 1 件ずつへ落とす', async () => {
+  // **束は全件まとめて成否が決まる。** 既にある記録が 1 件混じると束ごと落ちるので、
+  // そこで諦めると 1 件も送れない。落として通る分だけ通す。
+  const db = createFakeDatabase();
+  await queueEvents(db, 4);
+  const single: string[] = [];
+  const result = await flushOutbox(db, 'flush-code-aaaaa', 'house-1', {
+    createRecord: async (_houseId, _kind, id) => { single.push(id); return id === 'batch-2' ? 'error' : 'created'; },
+    createRecords: async () => 'error',
+  });
+  assert.equal(single.length, 4, '1 件ずつへ落ちていない');
+  assert.deepEqual(result, { sent: 3, failed: 1 });
+  const remaining = await listSyncOutbox(db);
+  assert.deepEqual((remaining.ok ? remaining.value : []).map((item) => item.recordId), ['batch-2'], '失敗した1件だけが残る');
+});
+
+test('flushOutbox はまとめ書きの口が無くても動く', async () => {
+  // 試験のダブルや古い呼び出し側が `createRecords` を渡さなくても、従来どおり 1 件ずつ送る。
+  const db = createFakeDatabase();
+  await queueEvents(db, 3);
+  let calls = 0;
+  const result = await flushOutbox(db, 'flush-code-aaaaa', 'house-1', {
+    createRecord: async () => { calls += 1; return 'created'; },
+  });
+  assert.equal(calls, 3);
+  assert.deepEqual(result, { sent: 3, failed: 0 });
+});
+
+test('flushOutbox は 1 件だけなら束にしない', async () => {
+  // 1 件を束にしても往復は減らない。**余計な経路を通さない。**
+  const db = createFakeDatabase();
+  await queueEvents(db, 1);
+  let batched = 0;
+  await flushOutbox(db, 'flush-code-aaaaa', 'house-1', {
+    createRecord: async () => 'created',
+    createRecords: async () => { batched += 1; return 'ok'; },
+  });
+  assert.equal(batched, 0);
+});

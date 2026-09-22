@@ -4,7 +4,16 @@ import type { ResetCounts } from "@koten/shared/storage/reset";
 import type { ApplicationPort } from "../adapters/indexeddb-port.ts";
 
 /** `onChanged` は記録が変わったことを親へ知らせる。取り込みも削除も一覧を古くするため。 */
-type Props = { port: ApplicationPort; onChanged?: () => void };
+type Props = {
+  port: ApplicationPort;
+  onChanged?: () => void;
+  /** 同期中かどうか。**真のときだけ「どこから消すか」を聞く。** */
+  syncEnabled?: boolean;
+  /** 同期先の記録を消す。成功したら真。 */
+  onDeleteRemote?: () => Promise<boolean>;
+  /** 同期を止める。成功したら真。 */
+  onStopSync?: () => Promise<boolean>;
+};
 
 /**
  * 持ち出しの 5 つの口がそろっているか。**判定はここだけに置く。**
@@ -30,7 +39,7 @@ const fileName = (today: string) => `百人一首練習帳_記録_${today}.json`
  * 記録の持ち出しと取り込み。APP_SPEC §9 に従い、**取り込みは 2 段階**にする——
  * まず件数を見せ、押されて初めて書く。下見の段階では 1 件も書かない。
  */
-export function RecordTransfer({ port, onChanged }: Props) {
+export function RecordTransfer({ port, onChanged, syncEnabled = false, onDeleteRemote, onStopSync }: Props) {
   const [stage, setStage] = useState<Stage>({ kind: "idle" });
   const [busy, setBusy] = useState(false);
   // 口が無いポート（簡易ポート・試験のダブル）では機能ごと出さない。
@@ -96,8 +105,30 @@ export function RecordTransfer({ port, onChanged }: Props) {
     setStage({ kind: "confirming-delete", counts });
   }
 
-  async function runDelete(counts: ResetCounts) {
+  /**
+   * 消す。`scope` は「どこから」。
+   *
+   * **同期したまま端末から消しても戻ってくる。** 同期先に控えが残っていて、購読が取り戻すためである
+   * （2026-09-22 に利用者が踏んだ）。`everywhere` は同期先を先に空にし、
+   * `device` は同期を止めてから消す。
+   */
+  async function runDelete(counts: ResetCounts, scope: 'device' | 'everywhere' = 'device') {
     setBusy(true);
+    if (syncEnabled) {
+      if (scope === 'everywhere') {
+        if (!(await onDeleteRemote?.())) {
+          setBusy(false);
+          setStage({ kind: "failed", message: "同期先の記録を消せませんでした。記録はそのままです。" });
+          return;
+        }
+      } else if (!(await onStopSync?.())) {
+        // `onStopSync` は購読を解いてから戻る。**時計を待たない**——
+        // 待ち時間で辻褄を合わせると、遅い端末で 1 件だけ戻ってくる。
+        setBusy(false);
+        setStage({ kind: "failed", message: "同期を止められませんでした。記録はそのままです。" });
+        return;
+      }
+    }
     const removed = await port.commitDelete!(counts);
     setBusy(false);
     if (!removed) {
@@ -171,14 +202,36 @@ export function RecordTransfer({ port, onChanged }: Props) {
             消える記録：回 {stage.counts.sessions} 件・解答 {stage.counts.events} 件・報告 {stage.counts.reports} 件
           </p>
           <p class="transfer-help">元には戻せません。残しておきたいときは、先に「記録を書き出す」を押してください。</p>
-          <div class="transfer-actions">
-            <button type="button" disabled={busy} onClick={() => void runDelete(stage.counts)}>
-              消す
-            </button>
-            <button class="primary" type="button" disabled={busy} onClick={() => setStage({ kind: "idle" })}>
-              やめる
-            </button>
-          </div>
+          {syncEnabled ? (
+            <>
+              <p class="transfer-help">
+                いまは端末間同期が有効です。<strong>この端末だけ消しても、同期先から戻ってきます。</strong>
+                どちらにするか選んでください。
+              </p>
+              {/* **選択肢は縦に積む。** 消す操作どうしを横に並べると、押し間違えが起きる。 */}
+              <div class="transfer-choices">
+                <button type="button" disabled={busy} onClick={() => void runDelete(stage.counts, 'everywhere')}>
+                  同期先とこの端末から消す
+                </button>
+                <button type="button" disabled={busy} onClick={() => void runDelete(stage.counts, 'device')}>
+                  この端末だけ消す<span class="sync-nowrap">（同期を止めます）</span>
+                </button>
+                <button class="primary" type="button" disabled={busy} onClick={() => setStage({ kind: "idle" })}>
+                  やめる
+                </button>
+              </div>
+              <p class="transfer-help">ほかの端末に残っている記録は、その端末で消してください。</p>
+            </>
+          ) : (
+            <div class="transfer-actions">
+              <button type="button" disabled={busy} onClick={() => void runDelete(stage.counts)}>
+                消す
+              </button>
+              <button class="primary" type="button" disabled={busy} onClick={() => setStage({ kind: "idle" })}>
+                やめる
+              </button>
+            </div>
+          )}
         </div>
       )}
 
