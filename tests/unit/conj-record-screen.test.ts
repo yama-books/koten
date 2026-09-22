@@ -30,6 +30,12 @@ test('conj: cumulative correct label and value stay on two lines on mobile', () 
   assert.match(html, /\.header-record \.score\{\s*display:flex;\s*flex-direction:column;\s*align-items:center;/);
 });
 
+test('conj: review status stays readable and summary stats use compact rows', () => {
+  assert.match(html, /\.review-copy small\{[\s\S]*?font-size:8px;[\s\S]*?white-space:nowrap;/);
+  assert.match(html, /\.record-overview \.record-stat\{[\s\S]*?grid-template-columns:minmax\(0,1fr\) max-content;[\s\S]*?padding:4px 7px;/);
+  assert.match(html, /@media\(max-width:350px\)[\s\S]*?\.record-overview \.record-stat\{[\s\S]*?flex-direction:column;/);
+});
+
 test('conj: record colors keep the palette but map red yellow green navy in POS order', () => {
   assert.match(html, /--record-verb:#935568/);
   assert.match(html, /--record-adj:#b77d55/);
