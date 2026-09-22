@@ -36,15 +36,27 @@ test('conj: review status stays readable and summary stats use compact rows', ()
   assert.match(html, /<dt>取り組んだ問題<\/dt>/);
   assert.match(html, /\.record-overview \.record-grid\{[\s\S]*?grid-template-columns:repeat\(2,minmax\(0,1fr\)\);[\s\S]*?align-self:center;/);
   assert.match(html, /\.record-overview \.record-stat:first-child\{\s*grid-column:1 \/ -1;/);
+  assert.match(html, /\.record-overview \.record-stat:first-child dt\{[\s\S]*?width:5em;/);
   assert.match(html, /\.record-overview \.record-stat:nth-child\(n\+2\)\{[\s\S]*?flex-direction:column;/);
 });
 
-test('conj: hanamaru is an overlaid stamp and donut unit sits slightly lower', () => {
+test('conj: hanamaru is an overlaid stamp and donut total is centered as one baseline-aligned unit', () => {
   assert.match(html, /\.card\{\s*position:relative;/);
   assert.match(html, /\.perfect-result\{[\s\S]*?position:absolute;[\s\S]*?pointer-events:none;/);
   assert.match(html, /\.perfect-result\.show\{\s*display:block;/);
   assert.match(html, /setAttribute\("alt","はなまる"\)/);
-  assert.match(html, /\.record-donut-center span\{[\s\S]*?position:relative;[\s\S]*?top:2px;/);
+  assert.match(html, /class="record-donut-value"><strong id="recordBreakdownTotal">0<\/strong><span>問<\/span><\/span>/);
+  assert.match(html, /\.record-donut-value\{[\s\S]*?align-items:baseline;/);
+});
+
+test('conj: headings use historical kana with kanji as a secondary aid', () => {
+  assert.match(html, /const HISTORICAL_KANA_HEADINGS=/);
+  assert.match(html, /"思ふ":"おもふ"/);
+  assert.match(html, /"帰る":"かへる"/);
+  assert.match(html, /"匂ふ":"にほふ"/);
+  assert.match(html, /document\.getElementById\("lemma"\)\.textContent=lemmaHeadingText\(current\)/);
+  assert.match(html, /document\.getElementById\("reviewModalWord"\)\.textContent=lemmaHeadingText\(item\)/);
+  assert.match(html, /lemmaAid\.style\.visibility=aidText\?"visible":"hidden"/);
 });
 
 test('conj: record colors keep the palette but map red yellow green navy in POS order', () => {
