@@ -1181,11 +1181,31 @@ function newQuiz(){
  };
 }
 
+// おまかせの抽選重み。
+// 出現回数をそのまま重みにすると、同じ仮名の中で最多の字体が他を潰してしまう。
+// 「る」は 3848 回と 28 回で137倍あり、生の比率では事実上1種類しか出なくなる。
+// 平方根で均すと約12倍に収まり、主要な字体が優勢なまま変化も残る。
+// 観測0回は「使われていない」ではなく「この15資料には出てこなかった」にすぎないので、
+// 下限の重みを与えて低い頻度で出るようにし、除外はしない。
+const AUTO_WEIGHT_FLOOR=2;
+function autoWeight(entry){
+ return Math.sqrt(Math.max(0,entry?.totalObserved||0))+AUTO_WEIGHT_FLOOR;
+}
+function pickWeighted(list){
+ let total=0;
+ for(const e of list) total+=autoWeight(e);
+ let r=Math.random()*total;
+ for(const e of list){
+   r-=autoWeight(e);
+   if(r<=0) return e;
+ }
+ return list[list.length-1];
+}
 function pickAutomatic(ch){
  const info=composeInfo(ch);
  const choices=GLYPHS.filter(x=>x.kana===info.base);
  if(!choices.length) return {keep:true,text:ch,small:false};
- const e=choices[Math.floor(Math.random()*choices.length)];
+ const e=pickWeighted(choices);
  return {keep:false,text:e.character+info.mark,small:info.small};
 }
 

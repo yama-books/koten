@@ -372,3 +372,30 @@ test("vintage-kana export credit sits outside the paper in the title face", () =
   // 描く前に字体を読み込む。読み込み前だとフォールバックで描かれる。
   assert.match(html, /document\.fonts\.check\('500 20px "Zen Maru Gothic"',"変体仮名メーカー"\)/);
 });
+
+test("vintage-kana weights the automatic pick by frequency without excluding anything", () => {
+  // 生の出現回数を重みにすると、同じ仮名の中で最多の字体が他を潰す。
+  // 平方根で均し、観測0回にも下限の重みを残して除外しない。
+  assert.match(html, /const AUTO_WEIGHT_FLOOR=2;/);
+  assert.match(html, /return Math\.sqrt\(Math\.max\(0,entry\?\.totalObserved\|\|0\)\)\+AUTO_WEIGHT_FLOOR;/);
+  assert.match(html, /function pickWeighted\(list\)\{/);
+  assert.match(html, /const e=pickWeighted\(choices\);/);
+  // 一様抽選は残っていない。
+  assert.doesNotMatch(html, /choices\[Math\.floor\(Math\.random\(\)\*choices\.length\)\]/);
+});
+
+test("vintage-kana frequency weighting keeps rare glyphs reachable", () => {
+  // 実データで、最多の字体が独占せず、最少の字体も出ることを確かめる。
+  const FLOOR = 2;
+  const weight = (n: number) => Math.sqrt(Math.max(0, n)) + FLOOR;
+  const ru = glyphMaster.glyphs.filter((g: { kana: string }) => g.kana === "る");
+  assert.ok(ru.length >= 2);
+  const total = ru.reduce((sum: number, g: { totalObserved: number }) => sum + weight(g.totalObserved), 0);
+  const share = (g: { totalObserved: number }) => weight(g.totalObserved) / total;
+  const top = Math.max(...ru.map(share));
+  const bottom = Math.min(...ru.map(share));
+  assert.ok(top < 0.7, "最多の字体が独占していない: " + top);
+  assert.ok(bottom > 0.02, "最少の字体も出る: " + bottom);
+  // 観測0回でも到達できる。
+  assert.ok(weight(0) > 0);
+});
