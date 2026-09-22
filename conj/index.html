@@ -26,7 +26,72 @@ button,input,select{font:inherit} button{cursor:pointer}
 header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:12px}
 h1{margin:0;font:600 29px/1.2 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.05em}
 .app-subtitle{margin-top:4px;color:var(--muted);font-size:12px}
-.score{font-size:12px;color:var(--muted);white-space:nowrap}
+.score{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  white-space:nowrap;
+  line-height:1.05;
+}
+.score-label{font-size:12px}
+.score-value{
+  position:relative;
+  z-index:0;
+  margin-top:2px;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+.score.is-updating .score-value{animation:score-pop .62s cubic-bezier(.18,.88,.28,1.28)}
+.score.is-updating .score-value::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  left:50%;
+  top:50%;
+  width:8px;
+  height:8px;
+  border:2px solid rgba(75,160,151,.58);
+  border-radius:50%;
+  transform:translate(-50%,-50%) scale(.2);
+  animation:score-ripple .62s ease-out;
+}
+.score.is-updating .score-value::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:45%;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:#70bdb4;
+  box-shadow:-13px -5px #8ccfc7,12px -8px #62aaa3,-9px 10px #a8dcd6,13px 8px #7bc5bd;
+  animation:score-splash .62s ease-out;
+}
+@keyframes score-pop{
+  0%{transform:scale(1)}
+  36%{transform:scale(1.38)}
+  68%{transform:scale(.94)}
+  100%{transform:scale(1)}
+}
+@keyframes score-ripple{
+  0%{opacity:.8;transform:translate(-50%,-50%) scale(.2)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(4.8)}
+}
+@keyframes score-splash{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}
+  32%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.45)}
+}
+@media(prefers-reduced-motion:reduce){
+  .score.is-updating .score-value,
+  .score.is-updating .score-value::before,
+  .score.is-updating .score-value::after{animation:none}
+}
 
 .toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:12px;background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:14px;box-shadow:0 5px 18px rgba(62,107,96,.045);backdrop-filter:blur(8px)}
 .toolbar label{font-size:12px;color:var(--muted)}
@@ -138,7 +203,8 @@ td.wrong{background:var(--bad)!important}
   header{margin-bottom:6px;align-items:center}
   h1{font-size:20px}
   .app-subtitle{display:none}
-  .score{font-size:10px}
+  .score-label{font-size:10px}
+  .score-value{font-size:12px}
   .toolbar{padding:6px;gap:5px;margin-bottom:6px;border-radius:10px}
   .toolbar label{font-size:10px}
   select{padding:5px 6px;font-size:11px}
@@ -1836,10 +1902,10 @@ td.wrong{background:var(--bad)!important}
 
 /* ===== v42: muted ink-citrus record palette ===== */
 .record-screen{
-  --record-verb:#3d566b;
+  --record-verb:#935568;
   --record-adj:#b77d55;
-  --record-adjv:#935568;
-  --record-aux:#39756f;
+  --record-adjv:#39756f;
+  --record-aux:#3d566b;
   --record-empty:#e8eef1;
   background:
     radial-gradient(circle at 92% 2%,rgba(220,231,238,.5),transparent 245px),
@@ -2148,7 +2214,29 @@ input[type="checkbox"]{
 }
 .review-modal-card .meta{min-height:34px;padding:4px 70px 0}
 .review-modal-card .word{min-height:43px;margin-left:70px;margin-right:70px;white-space:nowrap}
-.review-modal-study-layout{margin-top:14px}
+.review-modal-card .lemma-aid{min-height:14px}
+.review-modal-card .kind{min-height:16px}
+.review-modal-study-layout{
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  width:100%;
+  margin-top:14px;
+}
+.review-modal-study-layout .table-panel{grid-area:auto}
+.review-modal-study-layout .example-panel{
+  position:absolute;
+  right:calc(50% + 101px);
+  width:40px;
+  max-width:40px;
+  padding:0;
+}
+.review-modal-study-layout .example-body{
+  width:100%;
+  padding:0;
+  gap:4px;
+}
 .review-modal-study-layout .example-panel[hidden]{display:none}
 body.review-modal-open{overflow:hidden}
 
@@ -2157,9 +2245,10 @@ body.review-modal-open{overflow:hidden}
     display:block;
     max-width:94px;
     padding:2px 5px;
-    font-size:9px;
-    white-space:nowrap;
+    text-align:center;
   }
+  .header-record .score-label{font-size:9px}
+  .header-record .score-value{font-size:11px}
   /* 16px prevents Safari from zooming and displacing the vertical table. */
   .editor input{font-size:16px}
   .record-detail-grid{grid-template-columns:1fr}
@@ -2181,6 +2270,12 @@ body.review-modal-open{overflow:hidden}
 }
 
 @media(max-width:350px){
+  .review-modal-study-layout .example-panel{
+    right:calc(50% + 96px);
+    width:26px;
+    max-width:26px;
+  }
+  .review-modal-study-layout .example-body{gap:2px}
   .record-overview{grid-template-columns:1fr}
   .record-overview .record-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
@@ -2195,7 +2290,10 @@ body.review-modal-open{overflow:hidden}
       <div class="app-subtitle">活用表を、静かに、何度でも。</div>
     </div>
     <div class="header-record">
-      <div class="score" id="score">累計正答 0</div>
+      <div class="score" id="score" aria-live="polite">
+        <span class="score-label">累計正答</span>
+        <strong class="score-value" id="scoreValue">0</strong>
+      </div>
       <button class="ghost record-open" id="openRecord" type="button">記録</button>
     </div>
   </header>
@@ -2357,7 +2455,7 @@ body.review-modal-open{overflow:hidden}
     <button class="review-modal-close" id="reviewModalClose" type="button">閉じる</button>
     <div class="meta"><span class="tag" id="reviewModalPosTag"></span></div>
     <div class="word" id="reviewModalWord"></div>
-    <div class="lemma-aid" id="reviewModalLemmaAid" hidden></div>
+    <div class="lemma-aid" id="reviewModalLemmaAid" style="visibility:hidden"></div>
     <div class="kind" id="reviewModalKind"></div>
     <div class="study-layout review-modal-study-layout" id="reviewStudyLayout">
       <section class="example-panel" id="reviewExamplePanel">
@@ -3031,6 +3129,7 @@ function loadStats(){
   }
 }
 let stats=loadStats();
+let scoreAnimationReady=false;
 const reviewPosFilters=new Set(["verb"]);
 
 const FREE_INPUT_POINTS=14;
@@ -3770,7 +3869,16 @@ function grade(revealOnly=false){
 }
 
 function updateScore(){
-  document.getElementById("score").textContent=`累計正答 ${stats.correctCells}`;
+  const score=document.getElementById("score");
+  const value=document.getElementById("scoreValue");
+  const previous=Number(value.textContent)||0;
+  value.textContent=String(stats.correctCells);
+  if(scoreAnimationReady && stats.correctCells>previous){
+    score.classList.remove("is-updating");
+    void score.offsetWidth;
+    score.classList.add("is-updating");
+  }
+  scoreAnimationReady=true;
 }
 
 function broadKind(kind){
@@ -3856,10 +3964,10 @@ function renderRecord(){
   const labels={verb:"動詞",adj:"形容詞",adjv:"形容動詞",aux:"助動詞"};
   const recordStyle=getComputedStyle(document.getElementById("recordScreen"));
   const colors={
-    verb:recordStyle.getPropertyValue("--record-verb").trim() || "#3d566b",
+    verb:recordStyle.getPropertyValue("--record-verb").trim() || "#935568",
     adj:recordStyle.getPropertyValue("--record-adj").trim() || "#b77d55",
-    adjv:recordStyle.getPropertyValue("--record-adjv").trim() || "#935568",
-    aux:recordStyle.getPropertyValue("--record-aux").trim() || "#39756f"
+    adjv:recordStyle.getPropertyValue("--record-adjv").trim() || "#39756f",
+    aux:recordStyle.getPropertyValue("--record-aux").trim() || "#3d566b"
   };
   const keys=["verb","adj","adjv","aux"];
   const counts=Object.fromEntries(keys.map(key=>[key,Number(stats.byPos[key])||0]));
@@ -4054,7 +4162,7 @@ function openReviewModal(item){
   const lemmaAid=document.getElementById("reviewModalLemmaAid");
   const aidText=lemmaAidText(item);
   lemmaAid.textContent=aidText;
-  lemmaAid.hidden=!aidText;
+  lemmaAid.style.visibility=aidText?"visible":"hidden";
   document.getElementById("reviewModalKind").textContent=item.kind;
   reviewModalReturnFocus=document.activeElement;
   modal.hidden=false;

@@ -11,9 +11,27 @@ test('conj: mobile answer editor avoids iOS zoom and focuses synchronously', () 
 });
 
 test('conj: header and record screen use cumulative correct wording', () => {
-  assert.match(html, /id="score">累計正答 0</);
-  assert.match(html, /累計正答 \$\{stats\.correctCells\}/);
+  assert.match(html, /class="score-label">累計正答<\/span>/);
+  assert.match(html, /class="score-value" id="scoreValue">0<\/strong>/);
+  assert.match(html, /value\.textContent=String\(stats\.correctCells\)/);
   assert.match(html, /<dt>正答数<\/dt>/);
+});
+
+test('conj: cumulative correct count animates like a water splash after an increase', () => {
+  assert.match(html, /let scoreAnimationReady=false/);
+  assert.match(html, /stats\.correctCells>previous/);
+  assert.match(html, /score\.classList\.add\("is-updating"\)/);
+  assert.match(html, /@keyframes score-pop/);
+  assert.match(html, /@keyframes score-ripple/);
+  assert.match(html, /@keyframes score-splash/);
+  assert.match(html, /@media\(prefers-reduced-motion:reduce\)/);
+});
+
+test('conj: record colors keep the palette but map red yellow green navy in POS order', () => {
+  assert.match(html, /--record-verb:#935568/);
+  assert.match(html, /--record-adj:#b77d55/);
+  assert.match(html, /--record-adjv:#39756f/);
+  assert.match(html, /--record-aux:#3d566b/);
 });
 
 test('conj: attempted count and donut share the same per-POS total', () => {
@@ -38,6 +56,9 @@ test('conj: review defaults to verbs and supports full-table modal plus POS filt
   assert.match(html, /id="reviewExamplePanel"/);
   assert.match(html, /id="reviewExampleText"/);
   assert.match(html, /function renderReviewExample\(item\)/);
+  assert.match(html, /\.review-modal-card \.lemma-aid\{min-height:14px\}/);
+  assert.match(html, /lemmaAid\.style\.visibility=aidText\?"visible":"hidden"/);
+  assert.match(html, /\.review-modal-study-layout\{[\s\S]*?display:flex[\s\S]*?justify-content:center/);
   assert.match(html, /table\.className="katsuyo"/);
   assert.match(html, /table\.classList\.add\("adjective-pair"\)/);
   assert.match(html, /table\.classList\.add\("paired-conjugation"\)/);
