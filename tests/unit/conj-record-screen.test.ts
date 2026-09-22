@@ -17,14 +17,17 @@ test('conj: header and record screen use cumulative correct wording', () => {
   assert.match(html, /<dt>正答数<\/dt>/);
 });
 
-test('conj: cumulative correct count animates like a water splash after an increase', () => {
+test('conj: cumulative correct count uses a text-only beat after an increase', () => {
   assert.match(html, /let scoreAnimationReady=false/);
   assert.match(html, /stats\.correctCells>previous/);
   assert.match(html, /score\.classList\.add\("is-updating"\)/);
-  assert.match(html, /@keyframes score-pop/);
-  assert.match(html, /@keyframes score-ripple/);
-  assert.match(html, /@keyframes score-splash/);
+  assert.match(html, /@keyframes score-beat/);
+  assert.doesNotMatch(html, /score-ripple|score-splash/);
   assert.match(html, /@media\(prefers-reduced-motion:reduce\)/);
+});
+
+test('conj: cumulative correct label and value stay on two lines on mobile', () => {
+  assert.match(html, /\.header-record \.score\{\s*display:flex;\s*flex-direction:column;\s*align-items:center;/);
 });
 
 test('conj: record colors keep the palette but map red yellow green navy in POS order', () => {

@@ -46,51 +46,19 @@ h1{margin:0;font:600 29px/1.2 "Yu Mincho","Hiragino Mincho ProN",serif;letter-sp
   font-weight:700;
   font-variant-numeric:tabular-nums;
 }
-.score.is-updating .score-value{animation:score-pop .62s cubic-bezier(.18,.88,.28,1.28)}
-.score.is-updating .score-value::before{
-  content:"";
-  position:absolute;
-  z-index:-1;
-  left:50%;
-  top:50%;
-  width:8px;
-  height:8px;
-  border:2px solid rgba(75,160,151,.58);
-  border-radius:50%;
-  transform:translate(-50%,-50%) scale(.2);
-  animation:score-ripple .62s ease-out;
+.score.is-updating .score-value{
+  transform-origin:center;
+  animation:score-beat .72s cubic-bezier(.22,.75,.25,1);
 }
-.score.is-updating .score-value::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:45%;
-  width:3px;
-  height:3px;
-  border-radius:50%;
-  background:#70bdb4;
-  box-shadow:-13px -5px #8ccfc7,12px -8px #62aaa3,-9px 10px #a8dcd6,13px 8px #7bc5bd;
-  animation:score-splash .62s ease-out;
-}
-@keyframes score-pop{
+@keyframes score-beat{
   0%{transform:scale(1)}
-  36%{transform:scale(1.38)}
-  68%{transform:scale(.94)}
+  28%{transform:scale(1.42)}
+  48%{transform:scale(1.08)}
+  66%{transform:scale(1.22)}
   100%{transform:scale(1)}
 }
-@keyframes score-ripple{
-  0%{opacity:.8;transform:translate(-50%,-50%) scale(.2)}
-  100%{opacity:0;transform:translate(-50%,-50%) scale(4.8)}
-}
-@keyframes score-splash{
-  0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}
-  32%{opacity:1}
-  100%{opacity:0;transform:translate(-50%,-50%) scale(1.45)}
-}
 @media(prefers-reduced-motion:reduce){
-  .score.is-updating .score-value,
-  .score.is-updating .score-value::before,
-  .score.is-updating .score-value::after{animation:none}
+  .score.is-updating .score-value{animation:none}
 }
 
 .toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:12px;background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:14px;box-shadow:0 5px 18px rgba(62,107,96,.045);backdrop-filter:blur(8px)}
@@ -2242,7 +2210,9 @@ body.review-modal-open{overflow:hidden}
 
 @media(max-width:700px){
   .header-record .score{
-    display:block;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
     max-width:94px;
     padding:2px 5px;
     text-align:center;
