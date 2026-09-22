@@ -1,61 +1,23 @@
-import { appConfig } from '@koten/shared/app-config';
-
-type RecaptchaEnterprise = {
-  ready(callback: () => void): void;
-  execute(siteKey: string, options: { action: string }): Promise<string>;
-};
-
-type AppCheckResponse = { token?: unknown };
-type Exchange = (url: string, init: RequestInit) => Promise<{ ok: boolean; json(): Promise<unknown> }>;
-
-declare global {
-  interface Window { grecaptcha?: { enterprise?: RecaptchaEnterprise }; }
-}
-
-function loadRecaptchaEnterprise(siteKey: string): Promise<RecaptchaEnterprise | null> {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return Promise.resolve(null);
-  if (window.grecaptcha?.enterprise) return Promise.resolve(window.grecaptcha.enterprise);
-
-  return new Promise((resolve) => {
-    const script = document.createElement('script');
-    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${encodeURIComponent(siteKey)}`;
-    script.async = true;
-    script.onerror = () => resolve(null);
-    script.onload = () => resolve(window.grecaptcha?.enterprise ?? null);
-    document.head.append(script);
-  });
-}
-
-async function recaptchaToken(enterprise: RecaptchaEnterprise, siteKey: string): Promise<string> {
-  await new Promise<void>((resolve) => enterprise.ready(resolve));
-  return enterprise.execute(siteKey, { action: 'stats' });
-}
+import { appCheckToken } from '@koten/shared/app-check';
 
 /**
- * reCAPTCHA Enterprise の応答を App Check トークンへ交換する。
- * 取得不能時は null を返す。統計送信や学習画面を止めない。
+ * 統計送信が `X-Firebase-AppCheck` に載せるトークン。取得不能時は `null` を返し、
+ * 統計送信も学習画面も止めない。
+ *
+ * **2026-09-21 に自前の reCAPTCHA 実装をやめ、同期と同じ App Check へ寄せた。**
+ * 以前はここで reCAPTCHA Enterprise を `render=<サイトキー>` で読み込み、
+ * App Check の交換 API を自分で叩いていた。同期側（Firebase SDK）は
+ * 同じサイトキーを `render=explicit` で読むため、**先に読んだ方が後の方を壊していた**——
+ *   - SDK が先: ここの `enterprise.execute(siteKey, …)` が失敗して常に `null`。
+ *     施行（enforce）を入れると、同期している端末からの統計が全部拒否される。
+ *   - ここが先: 右下に reCAPTCHA のバッジが出る。
+ * 寄せた結果、読み込みは `render=explicit` の 1 回だけになり、どちらも起きない。
+ *
+ * 差し替え可能にしてあるのは試験のためで、本番はこの既定のまま使う。
  */
-export async function getAppCheckToken(deps: {
-  load?: (siteKey: string) => Promise<RecaptchaEnterprise | null>;
-  exchange?: Exchange;
-} = {}): Promise<string | null> {
-  try {
-    const enterprise = await (deps.load ?? loadRecaptchaEnterprise)(appConfig.appCheckSiteKey);
-    if (enterprise === null) return null;
-    const recaptchaEnterpriseToken = await recaptchaToken(enterprise, appConfig.appCheckSiteKey);
-    const app = `projects/${appConfig.firebase.messagingSenderId}/apps/${appConfig.firebase.appId}`;
-    const response = await (deps.exchange ?? fetch)(
-      `https://firebaseappcheck.googleapis.com/v1/${app}:exchangeRecaptchaEnterpriseToken?key=${appConfig.firebase.apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ recaptchaEnterpriseToken, limitedUse: false }),
-      },
-    );
-    if (!response.ok) return null;
-    const value = await response.json() as AppCheckResponse;
-    return typeof value.token === 'string' && value.token !== '' ? value.token : null;
-  } catch {
-    return null;
-  }
+export async function getAppCheckToken(deps: { token?: () => Promise<string | null> } = {}): Promise<string | null> {
+  // **ここでも受け止める。** 既定の `appCheckToken` は自分で受け止めるが、
+  // 呼び出し側から見た約束は「取れなければ null」である。約束を実装1つに預けない。
+  try { return await (deps.token ?? appCheckToken)(); }
+  catch { return null; }
 }

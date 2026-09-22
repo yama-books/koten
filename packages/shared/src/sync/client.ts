@@ -3,46 +3,21 @@
 // Task 4(ルール試験)とTask 9(engine.tsの結合試験、依存注入でこのモジュールを差し替える)が
 // この層を経由して検証する。
 import { appConfig } from '../app-config.ts';
-import { appCheckPlan } from './app-check.ts';
+import { firebaseApp, startAppCheck } from '../app-check.ts';
 import type { SyncKind } from './codec.ts';
 
 export type RemoteRecord = { id: string; payload: unknown };
 
-let appPromise: Promise<unknown> | null = null;
 let firestorePromise: Promise<unknown> | null = null;
 const devicePreview = typeof import.meta.env !== 'undefined' && import.meta.env.VITE_QR_SYNC_EMULATOR === '1';
 
-/**
- * Firestore を触る前に App Check を起こす。**Firestore より先でなければトークンが乗らない。**
- *
- * 失敗しても投げない。施行（enforce）が入るまで規則はトークンを見ないので、
- * ここで転んでも同期は動く。**学習を止めない方を採る**——統計側 `getAppCheckToken` と同じ立場である。
- * 施行を入れたあとは、ここが転べば同期も止まる。**施行は指標が Verified 側へ移ってから。**
- */
-async function startAppCheck(app: unknown): Promise<void> {
-  if (appCheckPlan({ devicePreview }) !== 'start') return;
-  try {
-    const { initializeAppCheck, ReCaptchaEnterpriseProvider } = await import('firebase/app-check');
-    initializeAppCheck(app as never, {
-      provider: new ReCaptchaEnterpriseProvider(appConfig.appCheckSiteKey),
-      isTokenAutoRefreshEnabled: true,
-    });
-  } catch { /* 取れなくても同期は続ける。施行が入るまで規則はトークンを見ない。 */ }
-}
-
 async function getFirestore(): Promise<import('firebase/firestore').Firestore> {
-  const [{ initializeApp, getApps }, firestoreModule] = await Promise.all([
-    import('firebase/app'),
+  // **App Check は Firestore より先に起こす。** あとからでは既に張った接続にトークンが乗らない。
+  const [firestoreModule, app] = await Promise.all([
     import('firebase/firestore'),
+    firebaseApp(),
   ]);
-  if (!appPromise) {
-    appPromise = (async () => {
-      const app = getApps()[0] ?? initializeApp(devicePreview ? { ...appConfig.firebase, projectId: 'demo-koten-device' } : appConfig.firebase);
-      await startAppCheck(app);
-      return app;
-    })();
-  }
-  const app = await appPromise;
+  await startAppCheck();
   if (!firestorePromise) firestorePromise = Promise.resolve(devicePreview
     ? firestoreModule.initializeFirestore(app as never, { host: window.location.host, ssl: window.location.protocol === 'https:', experimentalForceLongPolling: true })
     : firestoreModule.getFirestore(app as never));

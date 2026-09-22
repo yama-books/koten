@@ -103,75 +103,30 @@ test('送信: telemetry 側の釘を外していない', () => {
 });
 
 /**
- * `document` の無い node では `loadRecaptchaEnterprise()` が即 `null` を返す。
- * **そのまま「読み込まない」を確かめても、門を消しても緑のままになる。**
- * 偽の `window`/`document` を置いて、**読み込みが起きれば必ず観測できる状態**にしてから見る。
+ * 2026-09-21 の統合の釘。**自前の reCAPTCHA 実装を捨て、同期と同じ App Check へ寄せた。**
+ *
+ * 以前ここには「偽の `document` を置いて reCAPTCHA の読み込みを数える」試験があった。
+ * 統計が自分でスクリプトを読み込まなくなったので、数える対象そのものが無い。
+ * **読み込みが戻ってきていないことは `tests/unit/app-check.test.ts` の A-7 が見る**
+ * （packages 全体を走査するので、どのファイルに生えても捕まる）。
+ *
+ * ここで見るのは配線である。`getToken` を渡さず、**既定の経路がトークンを取りに行くこと**と、
+ * **取れなくても統計は送ること**の両方を確かめる。
+ * 施行（enforce）より先に端末がトークンを送っていなければ、施行を入れた瞬間に
+ * 正規の利用者が全員弾かれる。だから「取りに行く」側を釘付けする。
  */
-function fakeBrowser(): { scripts: string[]; restore: () => void } {
-  const scripts: string[] = [];
-  const globals = globalThis as unknown as Record<string, unknown>;
-  const had = { window: 'window' in globals, document: 'document' in globals };
-  const before = { window: globals.window, document: globals.document };
-  globals.window = {};
-  globals.document = {
-    createElement: () => ({ src: '', async: false, onload: null, onerror: null }),
-    head: {
-      append(script: { src: string; onerror?: (() => void) | null }) {
-        scripts.push(script.src);
-        // **必ず決着させる。** 呼ばないと読み込みの Promise が解決せず、
-        // 門を外したときの破壊試験が「赤」ではなく「終わらない」になる。
-        script.onerror?.();
-      },
-    },
-  };
-  return {
-    scripts,
-    restore: () => {
-      if (had.window) globals.window = before.window; else delete globals.window;
-      if (had.document) globals.document = before.document; else delete globals.document;
-    },
-  };
-}
-
-/**
- * 走査対象の実在（陽性対照）。**この試験が緑でない限り、下の「0件」は何の証拠でもない。**
- * `fakeBrowser()` が reCAPTCHA の読み込みを本当に捕まえることを、先に確かめる。
- */
-test('送信: 偽の document は reCAPTCHA の読み込みを実際に捕まえる', { timeout: 5000 }, async () => {
-  const browser = fakeBrowser();
-  try {
-    assert.equal(await getAppCheckToken(), null, '読み込みに失敗したら null（送信は止めない）');
-    assert.equal(browser.scripts.length, 1, '偽の document がスクリプトを捕まえていない');
-    assert.match(browser.scripts[0]!, /^https:\/\/www\.google\.com\/recaptcha\/enterprise\.js\?render=/);
-  } finally {
-    browser.restore();
-  }
+test('送信: 既定の経路は App Check のトークンを取りに行く', { timeout: 5000 }, async () => {
+  let asked = 0;
+  const { send, sent } = recorder(ok());
+  assert.equal(await sendStats({ payload: payload(), allowed: true, send, getToken: async () => { asked += 1; return 'app-check-token'; } }), 'sent');
+  assert.equal(asked, 1, 'トークンを取りに行っていない');
+  assert.equal(sent[0]!.headers['X-Firebase-AppCheck'], 'app-check-token');
 });
 
-/**
- * 2026-09-21 の裁定の釘。**2026-09-13 の裁定（案2）「施行が入るまで取得そのものを止める」を差し替えた。**
- *
- * 案2 の理由は「施行が無いと規則はトークンを見ないので、取っても偽造は防げない」だった。
- * これは**施行を入れる順序を誤らせる**。施行より先に端末がトークンを送っていなければ、
- * 施行を入れた瞬間に正規の利用者が全員弾かれる。指標が Verified 側へ移るのを見るためにも、
- * **施行の前に取得を始めていなければならない。**
- *
- * したがってここで見るのは「読み込まないこと」ではなく、**既定の配線が実際に取りに行くこと**である。
- * `getToken` は渡さない——配線そのものを通す。
- * `appConfig.appCheckEnabled` を偽へ戻したら、この1件だけが赤くなる。
- */
-test('送信: App Check が有効なら、既定の経路は reCAPTCHA を読みに行く', { timeout: 5000 }, async () => {
-  const browser = fakeBrowser();
-  try {
-    const { send, sent } = recorder(ok());
-    assert.equal(await sendStats({ payload: payload(), allowed: true, send }), 'sent');
-    assert.equal(sent.length, 1, '統計そのものは止めない');
-    assert.equal(browser.scripts.length, 1, '既定の経路が reCAPTCHA を読みに行っていない');
-    assert.match(browser.scripts[0]!, /^https:\/\/www\.google\.com\/recaptcha\/enterprise\.js\?render=/);
-    // 偽の document は onerror で決着させるのでトークンは取れない。
-    // **取れなくても統計は送る**——学習も統計も App Check の失敗で止めない。
-    assert.equal('X-Firebase-AppCheck' in sent[0]!.headers, false, 'トークンが取れていないのにヘッダが付いている');
-  } finally {
-    browser.restore();
-  }
+test('送信: トークンが取れなくても統計は送る', { timeout: 5000 }, async () => {
+  // App Check の失敗で学習も統計も止めない。施行が入るまで規則はトークンを見ない。
+  const { send, sent } = recorder(ok());
+  assert.equal(await sendStats({ payload: payload(), allowed: true, send, getToken: noAppCheck }), 'sent');
+  assert.equal(sent.length, 1, '統計そのものは止めない');
+  assert.equal('X-Firebase-AppCheck' in sent[0]!.headers, false, 'トークンが取れていないのにヘッダが付いている');
 });
