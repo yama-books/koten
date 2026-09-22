@@ -1439,7 +1439,7 @@ function fallbackSaveImage(dataUrl,filename){
  a.href=dataUrl;a.download=filename;
  document.body.appendChild(a);a.click();a.remove();
  const status=document.getElementById("saveStatus");
- if(status)status.textContent="画像を保存しました。";
+ if(status)status.textContent="画像を書き出しました。";
 }
 
 function savePreviewImage(){
@@ -1467,7 +1467,7 @@ function savePreviewImage(){
 
  if(navigator.share && navigator.canShare?.({files:[file]})){
    navigator.share({files:[file],title:"変体仮名メーカー"}).then(()=>{
-     if(status)status.textContent="画像を共有しました。";
+     if(status)status.textContent="画像を書き出しました。";
    }).catch(err=>{
      if(err?.name==="AbortError"){if(status)status.textContent="";return}
      fallbackSaveImage(dataUrl,filename);
@@ -1549,7 +1549,10 @@ document.getElementById("smallKanaToggle").addEventListener("change",e=>{
 document.getElementById("rerollCompose").onclick=randomizeCompose;
 document.getElementById("saveImage").onclick=savePreviewImage;
 document.getElementById("sourceText").addEventListener("input",()=>{
- if(composeMode==="auto") randomizeCompose(); else renderCompose();
+ // おまかせでも、一度決まった字はそのままにする。
+ // renderCompose は未割当の字にだけ字体を割り当てる。
+ // 全部引き直すのは「もう一度」を押したときだけ。
+ renderCompose();
 });
 checkHentaiganaFont();
 loadData();

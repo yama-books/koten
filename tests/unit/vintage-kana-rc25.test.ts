@@ -341,3 +341,20 @@ test("vintage-kana result screen lists the glyphs from the set and marks the mis
   // 読み上げにも正誤を乗せる。
   assert.match(html, /const state=r\.correct\?"正解":"間違えた字";/);
 });
+
+test("vintage-kana keeps already-shown glyphs stable while typing", () => {
+  // 入力のたびに全字を引き直すと、打つたび・改行するたびに既出の字が変わる。
+  // renderCompose は未割当の字にだけ割り当てるので、入力時はこちらを使う。
+  assert.doesNotMatch(html, /if\(composeMode==="auto"\) randomizeCompose\(\); else renderCompose\(\);/);
+  assert.match(html, /全部引き直すのは「もう一度」を押したときだけ。\n renderCompose\(\);/);
+  // 引き直しは「もう一度」だけの操作。
+  assert.match(html, /document\.getElementById\("rerollCompose"\)\.onclick=randomizeCompose;/);
+  // 同じ仮名には同じ字体を割り当てる（selected は文字をキーにしている）。
+  assert.match(html, /if\(!\(k in selected\) \|\| selected\[k\]\?\.keep\) selected\[k\]=pickAutomatic\(k\);/);
+});
+
+test("vintage-kana reports the saved image as an export", () => {
+  assert.match(html, /status\.textContent="画像を書き出しました。"/);
+  assert.doesNotMatch(html, /画像を保存しました。/);
+  assert.doesNotMatch(html, /画像を共有しました。/);
+});
