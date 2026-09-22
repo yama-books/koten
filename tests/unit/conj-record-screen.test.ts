@@ -23,12 +23,18 @@ test('conj: attempted count and donut share the same per-POS total', () => {
   assert.match(html, /byPos:reconcilePosCounts\(storedPosCounts,attemptedTotal,slots\)/);
 });
 
-test('conj: review defaults to verbs and supports examples plus POS filters', () => {
+test('conj: review defaults to verbs and supports full-table modal plus POS filters', () => {
   assert.match(html, /const reviewPosFilters=new Set\(\["verb"\]\)/);
   assert.match(html, /data-review-pos="verb" aria-pressed="true"/);
   assert.match(html, /data-review-pos="adj" aria-pressed="false"/);
-  assert.match(html, /function correctExample\(item\)/);
-  assert.match(html, /example\.className="review-example"/);
+  assert.match(html, /role="dialog" aria-modal="true"/);
+  assert.match(html, /function openReviewModal\(item\)/);
+  assert.match(html, /button\.setAttribute\("aria-haspopup","dialog"\)/);
+  assert.match(html, /names\.forEach\(\(name,index\)=>/);
+  assert.match(html, /hasSecondTrack\?item\.forms2:null/);
+  assert.match(html, /event\.target===event\.currentTarget/);
+  assert.match(html, /e\.key==="Escape"/);
+  assert.doesNotMatch(html, /className="review-example"/);
 });
 
 test('conj: review uses error rate after three answers and groups auxiliaries by word', () => {

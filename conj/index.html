@@ -2080,7 +2080,8 @@ input[type="checkbox"]{
   color:var(--ink);
   text-align:left;
 }
-.review-toggle[aria-expanded="true"]{background:#f5f7f7}
+.review-toggle:hover,
+.review-toggle:focus-visible{background:#f5f7f7}
 .review-rate{
   min-width:0;
   padding:5px 3px;
@@ -2105,15 +2106,98 @@ input[type="checkbox"]{
   font-size:7px;
   font-weight:700;
 }
-.review-example{
-  margin:0;
-  padding:6px 7px 7px;
-  border-top:1px solid var(--line);
-  background:#fff;
-  color:var(--muted);
-  font-size:9px;
-  line-height:1.45;
+.review-modal{
+  position:fixed;
+  inset:0;
+  z-index:1100;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:rgba(29,45,42,.5);
+  -webkit-backdrop-filter:blur(2px);
+  backdrop-filter:blur(2px);
 }
+.review-modal[hidden]{display:none}
+.review-modal-card{
+  position:relative;
+  width:min(100%,520px);
+  max-height:min(84vh,680px);
+  overflow:auto;
+  padding:22px 18px 18px;
+  border:1px solid rgba(92,119,112,.22);
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 20px 54px rgba(25,43,39,.24);
+}
+.review-modal-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  min-width:56px;
+  min-height:34px;
+  padding:5px 10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  color:var(--ink);
+  font:inherit;
+  font-size:11px;
+  font-weight:700;
+}
+.review-modal-kicker{
+  margin:0 70px 4px 0;
+  color:var(--accent);
+  font-size:10px;
+  font-weight:700;
+}
+.review-modal-card h3{
+  margin:0 70px 2px 0;
+  font-size:22px;
+  line-height:1.3;
+}
+.review-modal-kind{
+  margin:0 70px 14px 0;
+  color:var(--muted);
+  font-size:11px;
+}
+.review-full-table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:12px;
+  font-size:12px;
+}
+.review-full-table th,
+.review-full-table td{
+  padding:8px 7px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  text-align:center;
+  vertical-align:middle;
+}
+.review-full-table tr>*:last-child{border-right:0}
+.review-full-table tbody tr:last-child>*{border-bottom:0}
+.review-full-table thead th{
+  background:#f0f6f4;
+  color:var(--ink);
+  font-size:10px;
+  font-weight:700;
+}
+.review-full-table tbody th{
+  width:27%;
+  background:#f8faf9;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:700;
+}
+.review-full-table td{
+  color:var(--ink);
+  font-size:14px;
+  font-weight:650;
+}
+body.review-modal-open{overflow:hidden}
 
 @media(max-width:700px){
   .header-record .score{
@@ -2314,6 +2398,19 @@ input[type="checkbox"]{
 
   </div>
 </section>
+
+<div class="review-modal" id="reviewModal" hidden>
+  <section class="review-modal-card" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle" aria-describedby="reviewModalKind">
+    <button class="review-modal-close" id="reviewModalClose" type="button">閉じる</button>
+    <p class="review-modal-kicker" id="reviewModalKicker">正解例</p>
+    <h3 id="reviewModalTitle">活用表</h3>
+    <p class="review-modal-kind" id="reviewModalKind"></p>
+    <table class="review-full-table">
+      <thead id="reviewModalHead"></thead>
+      <tbody id="reviewModalBody"></tbody>
+    </table>
+  </section>
+</div>
 
 <script src="./adjv-runtime-adapter.js"></script>
 <script>
@@ -3721,19 +3818,6 @@ function reviewLabel(item){
   return item.lemma;
 }
 
-function correctExample(item){
-  for(const track of [item.forms,item.forms2]){
-    if(!Array.isArray(track)) continue;
-    for(let i=0;i<formKeys.length;i++){
-      const value=track[i];
-      if(value===null || value===undefined) continue;
-      const shown=display(Array.isArray(value)?value:[value]);
-      if(shown && shown!=="〇") return `${item.lemma}：${names[i]}「${shown}」`;
-    }
-  }
-  return `${item.lemma}の活用表を確認`;
-}
-
 const MIN_REVIEW_ATTEMPTS=3;
 
 function reviewKinds(){
@@ -3777,8 +3861,7 @@ function reviewKinds(){
       return {
         ...entry,
         total,
-        wrongRate,
-        example:correctExample(entry.exampleItem)
+        wrongRate
       };
     })
     .sort((a,b)=>(b.wrongRate??-1)-(a.wrongRate??-1) || b.total-a.total || a.label.localeCompare(b.label,"ja"));
@@ -3860,27 +3943,85 @@ function renderRecord(){
     const button=document.createElement("button");
     button.type="button";
     button.className="review-toggle";
-    button.setAttribute("aria-expanded","false");
+    button.setAttribute("aria-haspopup","dialog");
     button.innerHTML=`<span class="review-rate"><span>${percent===null?"未着手":"誤答率"}</span><strong>${percent===null?"—":percent+"%"}</strong></span><span class="review-copy"><span class="review-kind-line"><span class="review-pos-badge" style="--review-pos-color:${colors[entry.pos]}">${labels[entry.pos]}</span><strong>${entry.label}</strong></span><small>${entry.total ? `誤答 ${entry.wrong}/${entry.total}` : "まだ取り組んでいません"}</small></span>`;
-    const example=document.createElement("p");
-    example.className="review-example";
-    example.hidden=true;
-    example.textContent="正解例："+entry.example;
-    button.addEventListener("click",()=>{
-      const open=button.getAttribute("aria-expanded")!=="true";
-      button.setAttribute("aria-expanded",String(open));
-      example.hidden=!open;
-    });
-    li.append(button,example);
+    button.addEventListener("click",()=>openReviewModal(entry.exampleItem));
+    li.appendChild(button);
     reviewList.appendChild(li);
   });
 }
+
+let reviewModalReturnFocus=null;
+function reviewFormText(value){
+  if(value===null || value===undefined) return "〇";
+  return display(Array.isArray(value)?value:[value]);
+}
+function appendReviewHeader(row,label){
+  const th=document.createElement("th");
+  th.scope="col";
+  th.textContent=label;
+  row.appendChild(th);
+}
+function openReviewModal(item){
+  if(!item) return;
+  const modal=document.getElementById("reviewModal");
+  const head=document.getElementById("reviewModalHead");
+  const body=document.getElementById("reviewModalBody");
+  const hasSecondTrack=Array.isArray(item.forms2);
+  const headRow=document.createElement("tr");
+  head.innerHTML="";
+  body.innerHTML="";
+  appendReviewHeader(headRow,"活用形");
+  if(hasSecondTrack){
+    appendReviewHeader(headRow,item.adjv?"基本形":"本活用");
+    appendReviewHeader(headRow,item.adjv?"第二形":"補助活用");
+  }else{
+    appendReviewHeader(headRow,"活用");
+  }
+  head.appendChild(headRow);
+
+  names.forEach((name,index)=>{
+    const row=document.createElement("tr");
+    const rowHead=document.createElement("th");
+    rowHead.scope="row";
+    rowHead.textContent=name;
+    row.appendChild(rowHead);
+    [item.forms,hasSecondTrack?item.forms2:null].filter(Boolean).forEach(track=>{
+      const cell=document.createElement("td");
+      cell.textContent=reviewFormText(track[index]);
+      row.appendChild(cell);
+    });
+    body.appendChild(row);
+  });
+
+  document.getElementById("reviewModalKicker").textContent=`正解例・${item.label}`;
+  document.getElementById("reviewModalTitle").textContent=`${item.lemma}の活用表`;
+  document.getElementById("reviewModalKind").textContent=item.kind;
+  reviewModalReturnFocus=document.activeElement;
+  modal.hidden=false;
+  document.body.classList.add("review-modal-open");
+  document.getElementById("reviewModalClose").focus();
+}
+function closeReviewModal(){
+  const modal=document.getElementById("reviewModal");
+  if(modal.hidden) return;
+  modal.hidden=true;
+  document.body.classList.remove("review-modal-open");
+  if(reviewModalReturnFocus && typeof reviewModalReturnFocus.focus==="function") reviewModalReturnFocus.focus();
+  reviewModalReturnFocus=null;
+}
+
+document.getElementById("reviewModalClose").addEventListener("click",closeReviewModal);
+document.getElementById("reviewModal").addEventListener("click",event=>{
+  if(event.target===event.currentTarget) closeReviewModal();
+});
 
 function openRecord(){
   renderRecord();
   document.getElementById("recordScreen").hidden=false;
 }
 function closeRecord(){
+  closeReviewModal();
   document.getElementById("recordScreen").hidden=true;
 }
 function pickWeightedQuestion(list){
@@ -3972,6 +4113,11 @@ updateLevelUI();
 window.addEventListener("resize",()=>requestAnimationFrame(syncStudyHeights));
 
 document.addEventListener("keydown",e=>{
+  if(e.key==="Escape" && !document.getElementById("reviewModal").hidden){
+    closeReviewModal();
+    return;
+  }
+  if(!document.getElementById("reviewModal").hidden) return;
   if(e.key==="Enter" && !document.querySelector(".editor input")){
     answered?nextQuestion():grade(false);
   }
