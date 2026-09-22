@@ -1398,22 +1398,17 @@ function makePreviewDataUrl(){
    }
  }
 
- // 控えめな署名。本文から離し、細い罫と明朝で印刷物の奥付のように見せる。
- ctx.strokeStyle="#c8c1b5";
- ctx.lineWidth=2;
- ctx.beginPath();
- ctx.moveTo(462,918);
- ctx.lineTo(618,918);
- ctx.stroke();
- ctx.fillStyle="#356b9e";
+ // クレジットは紙の外、下の余白へ薄く一行だけ置く。
+ // 本文の邪魔をしないよう罫も色も持たせない。
+ ctx.fillStyle="#a49ca0";
  ctx.textBaseline="alphabetic";
  drawTrackedText(
    ctx,
-   "変体仮名メーカー",
+   "変体仮名メーカー © 2026",
    540,
-   958,
-   '600 24px "Klee One","Yu Mincho",serif',
-   3
+   1050,
+   '500 20px "Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif',
+   2
  );
  return canvas.toDataURL("image/png");
 }
@@ -1451,6 +1446,9 @@ function savePreviewImage(){
    }
    if(!document.fonts.check('600 32px "Klee One"',"あいうえお")){
      pending.push(document.fonts.load('600 32px "Klee One"',"あいうえお"));
+   }
+   if(!document.fonts.check('500 20px "Zen Maru Gothic"',"変体仮名メーカー")){
+     pending.push(document.fonts.load('500 20px "Zen Maru Gothic"',"変体仮名メーカー"));
    }
    if(pending.length){
      if(status)status.textContent="字体を読み込んでいます。少し待って、もう一度押してください。";

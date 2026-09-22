@@ -358,3 +358,17 @@ test("vintage-kana reports the saved image as an export", () => {
   assert.doesNotMatch(html, /画像を保存しました。/);
   assert.doesNotMatch(html, /画像を共有しました。/);
 });
+
+test("vintage-kana export credit sits outside the paper in the title face", () => {
+  // 紙は roundedRect(70,70,940,940) なので下端は 1010。クレジットはその外側。
+  assert.match(html, /"変体仮名メーカー © 2026",\n   540,\n   1050,/);
+  assert.match(html, /'500 20px "Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif'/);
+  assert.match(html, /ctx\.fillStyle="#a49ca0";/);
+
+  // 細罫と明朝の奥付はやめた。
+  assert.doesNotMatch(html, /ctx\.strokeStyle="#c8c1b5";/);
+  assert.doesNotMatch(html, /'600 24px "Klee One","Yu Mincho",serif'/);
+
+  // 描く前に字体を読み込む。読み込み前だとフォールバックで描かれる。
+  assert.match(html, /document\.fonts\.check\('500 20px "Zen Maru Gothic"',"変体仮名メーカー"\)/);
+});
