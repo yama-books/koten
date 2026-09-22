@@ -2298,6 +2298,33 @@ body.review-modal-open{overflow:hidden}
   }
 }
 
+/* ===== v45: compact grammar aid + centered paired-table headings ===== */
+.table-panel.paired-mode .track-heads span{
+  box-sizing:border-box;
+  padding:2px 0;
+  writing-mode:horizontal-tb;
+  text-orientation:mixed;
+  white-space:pre-line;
+  text-align:center;
+  line-height:1.25;
+}
+.auxinfo{
+  width:fit-content;
+  max-width:min(100%,380px);
+  margin-top:7px;
+  padding:5px 12px;
+  line-height:1.35;
+}
+.feedback:empty{display:none}
+@media(max-width:700px){
+  .auxinfo{
+    max-width:calc(100% - 36px);
+    margin-top:5px;
+    padding:4px 10px;
+    font-size:9px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3182,13 +3209,13 @@ function pool(){
   return items.filter(x=>p==="all"||x.pos===p);
 }
 const auxLevelPresets={
-  1:{density:"partial", includeZero:false, hideKind:false, label:"一部空欄・〇以外・活用型あり"},
-  2:{density:"half",    includeZero:false, hideKind:false, label:"半分空欄・〇以外・活用型あり"},
-  3:{density:"all",     includeZero:false, hideKind:false, label:"全部空欄・〇以外・活用型あり"},
-  4:{density:"half",    includeZero:false, hideKind:true,  label:"半分空欄・〇以外・活用型なし"},
-  5:{density:"half",    includeZero:true,  hideKind:false, label:"半分空欄・〇も出題・活用型あり"},
-  6:{density:"half",    includeZero:true,  hideKind:true,  label:"半分空欄・〇も出題・活用型なし"},
-  7:{density:"all",     includeZero:true,  hideKind:true,  label:"全部空欄・〇も出題・活用型なし"}
+  1:{ratio:.28, includeZero:false, hideKind:false, label:"3割ほど空欄・〇以外・活用型あり"},
+  2:{ratio:.42, includeZero:false, hideKind:false, label:"4割ほど空欄・〇以外・活用型あり"},
+  3:{ratio:.55, includeZero:false, hideKind:false, label:"半分ほど空欄・〇以外・活用型あり"},
+  4:{ratio:.65, includeZero:true,  hideKind:false, label:"6割ほど空欄・〇も出題・活用型あり"},
+  5:{ratio:.75, includeZero:true,  hideKind:true,  label:"7割ほど空欄・〇も出題・活用型なし"},
+  6:{ratio:.90, includeZero:true,  hideKind:true,  label:"ほとんど空欄・〇も出題・活用型なし"},
+  7:{ratio:1.00,includeZero:true,  hideKind:true,  label:"全部空欄・〇も出題・活用型なし"}
 };
 
 function usingCommonLevel(){
@@ -3282,18 +3309,13 @@ function shuffle(arr){
   }
   return a;
 }
-function densityCount(n,density){
-  if(density==="all") return n;
-  if(density==="half") return Math.max(1,Math.ceil(n*.5));
-  return Math.max(1,Math.ceil(n*.28));
-}
 function chooseBlankSlots(){
   const all=allAnswerSlots();
   let eligible, count;
   if(current.pos==="aux"){
     const p=auxLevelPresets[levelForPos("aux")];
     eligible=p.includeZero ? all : all.filter(s=>!slotIsZero(s.row,s.i));
-    count=densityCount(eligible.length,p.density);
+    count=Math.max(1,Math.ceil(eligible.length*p.ratio));
   }else{
     const p=generalLevelPresets[levelForPos(current.pos)];
     eligible=all;
@@ -3544,6 +3566,11 @@ function renderTrackHeads(mode){
   }
 }
 
+function supplementaryTrackLabel(item){
+  if(item?.id==="zu") return "補助活用\n（ザリ活用）";
+  return "補助活用\n（カリ活用）";
+}
+
 function renderTable(){
   const body=document.getElementById("formBody"); body.innerHTML="";
   const table=document.querySelector(".katsuyo");
@@ -3557,7 +3584,7 @@ function renderTable(){
 
     const panel=document.getElementById("tablePanel");
     panel.classList.add("adjective-mode","paired-mode");
-    document.getElementById("trackLeft").textContent="補助活用";
+    document.getElementById("trackLeft").textContent=supplementaryTrackLabel(current);
     document.getElementById("trackRight").textContent="本活用";
 
     names.forEach((name,i)=>{
@@ -3583,7 +3610,7 @@ function renderTable(){
       body.appendChild(tr);
     });
 
-    document.getElementById("rowNote").textContent="左：補助活用　／　右：本活用";
+    document.getElementById("rowNote").textContent="";
     return;
   }
 
@@ -3624,7 +3651,7 @@ function renderTable(){
 
     const panel=document.getElementById("tablePanel");
     panel.classList.add("paired-mode");
-    document.getElementById("trackLeft").textContent="補助活用";
+    document.getElementById("trackLeft").textContent=supplementaryTrackLabel(current);
     document.getElementById("trackRight").textContent="本活用";
 
     names.forEach((name,i)=>{
@@ -3656,7 +3683,7 @@ function renderTable(){
       body.appendChild(tr);
     });
 
-    document.getElementById("rowNote").textContent="左：補助活用　／　右：本活用";
+    document.getElementById("rowNote").textContent="";
     return;
   }
 
@@ -3778,7 +3805,7 @@ function lemmaAidText(item){
     ? (String(item.kind||"").includes("タリ") ? "たり" : "なり")
     : "";
   const aidFull=aid && aidSuffix && !String(aid).endsWith(aidSuffix) ? String(aid)+aidSuffix : aid;
-  return aid ? `漢字：${aidFull}` : "";
+  return aid ? String(aidFull) : "";
 }
 function render(){
   document.getElementById("lemma").textContent=lemmaHeadingText(current);
@@ -3908,8 +3935,7 @@ function grade(revealOnly=false){
   const perfect=document.getElementById("perfectResult");
   perfect.classList.toggle("show", perfectAll);
 
-  document.getElementById("feedback").textContent=
-    revealOnly ? "答えを表示しました。" : "";
+  document.getElementById("feedback").textContent="";
 
   document.getElementById("check").style.display="none";
   document.getElementById("reveal").style.display="none";
@@ -4139,7 +4165,7 @@ function renderReviewTable(item){
   if(item.pos==="adj"){
     table.classList.add("adjective-pair");
     panel.classList.add("adjective-mode","paired-mode");
-    left.textContent="補助活用";
+    left.textContent=supplementaryTrackLabel(item);
     right.textContent="本活用";
     names.forEach((name,index)=>{
       const row=document.createElement("tr");
@@ -4148,7 +4174,7 @@ function renderReviewTable(item){
       row.appendChild(reviewLabelCell(name));
       body.appendChild(row);
     });
-    note.textContent="左：補助活用　／　右：本活用";
+    note.textContent="";
     return;
   }
 
@@ -4170,7 +4196,7 @@ function renderReviewTable(item){
   if(item.twoTrack){
     table.classList.add("paired-conjugation");
     panel.classList.add("paired-mode");
-    left.textContent="補助活用";
+    left.textContent=supplementaryTrackLabel(item);
     right.textContent="本活用";
     names.forEach((name,index)=>{
       const row=document.createElement("tr");
@@ -4186,7 +4212,7 @@ function renderReviewTable(item){
       row.appendChild(reviewLabelCell(name));
       body.appendChild(row);
     });
-    note.textContent="左：補助活用　／　右：本活用";
+    note.textContent="";
     return;
   }
 

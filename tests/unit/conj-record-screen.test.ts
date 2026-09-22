@@ -57,6 +57,34 @@ test('conj: headings use historical kana with kanji as a secondary aid', () => {
   assert.match(html, /document\.getElementById\("lemma"\)\.textContent=lemmaHeadingText\(current\)/);
   assert.match(html, /document\.getElementById\("reviewModalWord"\)\.textContent=lemmaHeadingText\(item\)/);
   assert.match(html, /lemmaAid\.style\.visibility=aidText\?"visible":"hidden"/);
+  assert.match(html, /return aid \? String\(aidFull\) : ""/);
+  assert.doesNotMatch(html, /`漢字：\$\{aidFull\}`/);
+});
+
+test('conj: paired tables center a two-line supplementary heading and omit redundant left-right notes', () => {
+  assert.match(html, /function supplementaryTrackLabel\(item\)/);
+  assert.match(html, /return "補助活用\\n（カリ活用）"/);
+  assert.match(html, /item\?\.id==="zu"[^\n]+"補助活用\\n（ザリ活用）"/);
+  assert.match(html, /\.table-panel\.paired-mode \.track-heads span\{[\s\S]*?writing-mode:horizontal-tb;[\s\S]*?white-space:pre-line;[\s\S]*?text-align:center;/);
+  assert.doesNotMatch(html, /textContent="左：補助活用　／　右：本活用"/);
+});
+
+test('conj: answer reveal is unscored and leaves no redundant feedback sentence', () => {
+  assert.match(html, /if\(!revealOnly\)\{[\s\S]*?stats\.gradedCells\+\+/);
+  assert.match(html, /if\(!revealOnly\)\{[\s\S]*?stats\.total\+\+/);
+  assert.match(html, /document\.getElementById\("feedback"\)\.textContent=""/);
+  assert.doesNotMatch(html, /答えを表示しました。/);
+});
+
+test('conj: auxiliary difficulty rises monotonically from levels 1 through 7', () => {
+  const ratios = [...html.matchAll(/\d:\{ratio:(\d+(?:\.\d+)?|\.\d+),\s*includeZero:(?:true|false),\s*hideKind:(?:true|false),\s*label:/g)]
+    .slice(0, 7)
+    .map(match => Number(match[1]));
+  assert.deepEqual(ratios, [.28, .42, .55, .65, .75, .90, 1]);
+  assert.ok(ratios.every((ratio, index) => index === 0 || ratio >= ratios[index - 1]));
+  assert.match(html, /4:\{ratio:\.65, includeZero:true,\s+hideKind:false/);
+  assert.match(html, /5:\{ratio:\.75, includeZero:true,\s+hideKind:true/);
+  assert.match(html, /count=Math\.max\(1,Math\.ceil\(eligible\.length\*p\.ratio\)\)/);
 });
 
 test('conj: record colors keep the palette but map red yellow green navy in POS order', () => {
