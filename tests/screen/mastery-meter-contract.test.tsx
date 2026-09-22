@@ -9,10 +9,17 @@ const stylesPath = join(root, 'packages/hyakunin/src/styles.css');
 test('習熟度バーは結果・履歴・出題中の3画面で同じ共有部品を使う', () => {
   const component = readFileSync(componentPath, 'utf8');
   expect(component).toContain('mastery-meter mastery-meter--${color}');
-  for (const screen of ['Result.tsx', 'History.tsx', 'Session.tsx']) {
+  // 結果と記録は一覧の部品（`PoemRows`）を通して使う（2026-09-22 に共通化した）。
+  // **見ているのは「同じ部品に行き着くこと」**で、直に import しているかではない。
+  const reaches = (screen: string): boolean => {
     const source = readFileSync(join(root, 'packages/hyakunin/src/ui/screens', screen), 'utf8');
-    expect(source).toContain('@koten/shared/mastery-meter');
-    expect(source).toContain('<MasteryMeter');
+    if (source.includes('@koten/shared/mastery-meter') && source.includes('<MasteryMeter')) return true;
+    if (!source.includes('PoemRows')) return false;
+    const rows = readFileSync(join(root, 'packages/hyakunin/src/ui/components/PoemRows.tsx'), 'utf8');
+    return rows.includes('@koten/shared/mastery-meter') && rows.includes('<MasteryMeter');
+  };
+  for (const screen of ['Result.tsx', 'History.tsx', 'Session.tsx']) {
+    expect(reaches(screen), `${screen} が共有の習熟度バーへ行き着かない`).toBe(true);
   }
 });
 

@@ -1,6 +1,6 @@
 import type { SessionResult } from '../../domain/result.ts';
 import type { Poem } from '../../data/schema.ts';
-import { MasteryMeter } from '@koten/shared/mastery-meter';
+import { PoemRows } from '../components/PoemRows.tsx';
 import { PerfectMark } from '../components/FeedbackMark.tsx';
 import { CatMascot } from '../components/CatMascot.tsx';
 
@@ -25,6 +25,8 @@ type Props = {
  */
 export function Result({ result, poems = [], onRetryWeak, onRetrySame, onHome }: Props) {
   const recommendedFirstKu = poems.find((poem) => poem.poemId === result.recommendation?.poemId)?.ku[0];
+  // 歌を番号から引けるようにしておく。一覧の初句と、押したときの本文に使う。
+  const poemOf = new Map(poems.map((poem) => [poem.poemId, poem]));
   return <main class="result-screen">
     <header class="nav-edge"><span class="wordmark">結果</span><button type="button" onClick={onHome}>ホームへ戻る</button></header>
     <section class="result-summary" aria-labelledby="result-heading">
@@ -62,10 +64,9 @@ export function Result({ result, poems = [], onRetryWeak, onRetrySame, onHome }:
       </section>
       <section class="result-section" aria-labelledby="poems-heading">
         <h2 id="poems-heading">歌ごとの状態</h2>
-        <ul class="result-poems">{result.poems.map((poem) => {
-          const authorCapReached = poem.authorUnconfirmed && poem.percent === 80;
-          return <li key={poem.poemId} class={`result-poem result-poem--${poem.color}${authorCapReached ? ' result-poem--author-cap' : ''}`}><strong>{poem.cardNo}番</strong>{poem.untouched ? <span>未着手</span> : <MasteryMeter label={`${poem.cardNo}番`} percent={poem.percent} color={poem.color} />}{authorCapReached ? <span class="mastery-next-step">作者も確認</span> : poem.authorUnconfirmed && <span>作者 未確認</span>}</li>;
-        })}</ul>
+        {/* 記録一覧と同じ並べ方・同じ段階・同じ開き方を使う（依頼者・2026-09-22）。
+            二度書くと片方だけ直る。 */}
+        <PoemRows rows={result.poems.map((outcome) => ({ ...outcome, poem: poemOf.get(outcome.poemId) ?? null }))} />
       </section>
     </details>
   </main>;

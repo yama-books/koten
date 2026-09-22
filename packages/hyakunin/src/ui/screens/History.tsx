@@ -1,10 +1,10 @@
-import { authorStage, type AuthorStage, type HistoryGroup, type HistorySummary } from '../../domain/history.ts';
-import { MasteryMeter } from '@koten/shared/mastery-meter';
+import type { HistoryGroup, HistorySummary } from '../../domain/history.ts';
+import { PoemRowHead, PoemRow, PoemOverlay, type PoemRowData } from '../components/PoemRows.tsx';
 import { RingMeter } from '../components/RingMeter.tsx';
 import { RecordTransfer, canTransferRecords } from '../components/RecordTransfer.tsx';
 import { CatMascot } from '../components/CatMascot.tsx';
 import type { ApplicationPort } from '../adapters/indexeddb-port.ts';
-import { useEffect, useState } from 'preact/hooks';
+import { useState } from 'preact/hooks';
 
 /** タブの並び（依頼者・2026-09-16）。**一覧が既定である。** */
 const TABS = ['一覧', '要確認', 'データ管理'] as const;
@@ -22,101 +22,13 @@ function tabsFor(port?: ApplicationPort, onOpenSync?: () => void): readonly Tab[
 /** 要確認の基準。**空のときも出す**ので、文言を 1 か所に置く（069 M-12）。 */
 const REVIEW_CRITERION = '最後に解いたとき、まちがえたか「わからない」を選んだ歌です。';
 
-/** 作者の段階の見た目。**記号と色は 1 か所に置く**——行と凡例で食い違わせない。 */
-const AUTHOR_MARKS = { none: '未', low: '△', mid: '○', full: '◎' } as const;
-const AUTHOR_WORDS = { none: 'まだ確認していません', low: 'もう少し', mid: 'よくできています', full: '覚えました' } as const;
-
-function AuthorStageMark({ stage, next }: { stage: AuthorStage; next?: boolean }) {
-  // `next` は「本文は満点で、残るのは作者だけ」の首。**次にやることとして強調する。**
-  const words = next ? '作者も確認しましょう' : `作者: ${AUTHOR_WORDS[stage]}`;
-  // 凡例の行は畳んだ（依頼者・2026-09-22）。**意味は印そのものが持つ**——
-  // 読み上げ名と `title`（長押し・ホバー）から読める。
-  return <span class={`author-stage author-stage--${stage}${next ? ' author-stage--next' : ''}`} role="img" aria-label={words} title={words}>{AUTHOR_MARKS[stage]}</span>;
-}
-
-function Entry({ entry, onOpen }: { entry: HistorySummary['entries'][number]; onOpen?: (entry: HistorySummary['entries'][number]) => void }) {
-  // 作者の記録が無く 80% なら、本文は満点で作者分だけが残っている。
-  const authorCapReached = entry.authorUnconfirmed && entry.percent === 80;
-  const firstKu = entry.poem?.ku[0] ?? null;
-  // 初句は番号のすぐ後ろに置く。**メーターの読み上げ名にも入れる**——
-  // 画面を見ない利用者にも「何番の何の歌か」が同じ手がかりで届く。
-  const name = firstKu === null ? `${entry.cardNo}番` : `${entry.cardNo}番「${firstKu}」`;
-  // 歌が無ければ開いても見せるものが無い。**押せる見た目にもしない。**
-  const openable = onOpen !== undefined && entry.poem !== null;
-  const cells = <>
-    {/* 「番」は見出しが持つ。**その2文字分が帯の長さに回る。** */}
-    <strong class="history-entry__no">{entry.cardNo}</strong>
-    {/*
-      画面では鉤括弧を出さない（依頼者・2026-09-21）。**2文字分の幅が 1 行に収まるかを分ける**——
-      5文字の初句（「あしびきの」など）は鉤括弧ごとだと 390px で折り返す。
-      色を落としてあるので、括弧が無くても UI の文言と混ざらない。
-      **読み上げ名には残す**——音だけでは歌の切れ目が分からない。
-    */}
-    <span class="history-entry__ku">{firstKu}</span>
-    {/*
-      **未着手も帯で示す**（依頼者・2026-09-21）。「未着手」の文字は横幅を食い、
-      1 行に収まらなくなる。0% と見分けがつかなくならないよう、**数字の代わりに「—」**を出し、
-      溝を破線にする。読み上げ名では「未着手」と言い切る。
-    */}
-    <MasteryMeter
-      label={name}
-      percent={entry.untouched ? 0 : entry.percent}
-      color={entry.untouched ? 'gray' : entry.color}
-      text={entry.untouched ? '—' : `${entry.percent}%`}
-      meterLabel={entry.untouched ? `${name}は未着手` : `${name}の習熟度`}
-    />
-    <AuthorStageMark stage={authorStage(entry.authorPercent)} next={authorCapReached} />
-  </>;
-  const className = `history-entry${authorCapReached ? ' history-entry--author-cap' : ''}${entry.untouched ? ' history-entry--untouched' : ''}`;
-  // **押せる行はボタンにする。** `li` に onClick を付けるとキーボードから届かない。
-  return openable
-    ? <li class={`${className} history-entry--openable`}><button type="button" class="history-entry__open" aria-label={`${name} を開く`} onClick={() => onOpen!(entry)}>{cells}</button></li>
-    : <li class={className}>{cells}</li>;
-}
-
-/** 升の見出し。**意味は各行の読み上げ名が持つ**ので、ここは目で見るためだけに置く。 */
-function EntryHead() {
-  return <li class="history-entry history-head" aria-hidden="true">
-    <span>番号</span><span>うた</span><span class="history-head__meter">習熟度</span><span>作者</span>
-  </li>;
-}
-
-/**
- * 押した歌を暗転の上に見せる（依頼者・2026-09-22）。
- * 見た目は「歌を確認する」と同じ `poem-sheet` を借りる——**同じものを二度作らない。**
- * 閉じ方を 3 つ用意する（×・背景・Esc）。暗転だけ出して戻れない面を作らない。
- */
-function PoemOverlay({ entry, onClose }: { entry: HistorySummary['entries'][number]; onClose: () => void }) {
-  const poem = entry.poem!;
-  const ku = poem.ku;
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
-  return (
-    <div class="poem-overlay" role="dialog" aria-modal="true" aria-labelledby="poem-overlay-title" onClick={onClose}>
-      {/* 中身を押しても閉じない。閉じたいのは「外を押したとき」である。 */}
-      <article class="poem-overlay__sheet poem-sheet poem-sheet--vertical" onClick={(event) => event.stopPropagation()}>
-        <h2 id="poem-overlay-title" class="poem-overlay__no">{entry.cardNo}番</h2>
-        <div class="poem" lang="ja">
-          <div class="poem__half" aria-label={`上の句 ${ku.slice(0, 3).join(' ')}`}>{ku.slice(0, 3).map((line) => <span key={line}>{line}</span>)}</div>
-          <div class="poem__half" aria-label={`下の句 ${ku.slice(3).join(' ')}`}>{ku.slice(3).map((line) => <span key={line}>{line}</span>)}</div>
-        </div>
-        {poem.author && <div class="author"><strong>{poem.author.canonical}</strong></div>}
-        <button class="poem-overlay__close" type="button" onClick={onClose}>閉じる</button>
-      </article>
-    </div>
-  );
-}
-
 /**
  * 10 首ごとのまとまり。**閉じた状態で 10 個並ぶ。**
  *
  * 100 行をいちどに出すと、どこを練習したのかが読み取れない。
  * **開くのはひとつずつでなくてよい**——複数を開いたまま見比べる使い方を妨げない。
  */
-function Group({ group, onOpen }: { group: HistoryGroup; onOpen?: (entry: HistorySummary['entries'][number]) => void }) {
+function Group({ group, onOpen }: { group: HistoryGroup; onOpen?: (row: PoemRowData) => void }) {
   const [open, setOpen] = useState(false);
   const label = `${group.from}〜${group.to}番`;
   return (
@@ -125,7 +37,7 @@ function Group({ group, onOpen }: { group: HistoryGroup; onOpen?: (entry: Histor
         <span class="history-group__label">{label}</span>
         <RingMeter percent={group.percent} color={group.color} label={label} />
       </button>
-      {open && <ul class="history-list"><EntryHead />{group.entries.map((entry) => <Entry key={entry.poemId} entry={entry} onOpen={onOpen} />)}</ul>}
+      {open && <ul class="history-list"><PoemRowHead />{group.entries.map((entry) => <PoemRow key={entry.poemId} row={entry} onOpen={onOpen} />)}</ul>}
     </li>
   );
 }
@@ -133,7 +45,7 @@ function Group({ group, onOpen }: { group: HistoryGroup; onOpen?: (entry: Histor
 export function History({ summary, onHome, port, onChanged, initialTab = '一覧', onOpenSync, syncEnabled = false }: Props) {
   const [tab, setTab] = useState<Tab>(initialTab);
   // 押した歌を暗転の上に出す（依頼者・2026-09-22）。null なら閉じている。
-  const [openPoem, setOpenPoem] = useState<HistorySummary['entries'][number] | null>(null);
+  const [openPoem, setOpenPoem] = useState<PoemRowData | null>(null);
   return (
     <main class="history-screen">
       <header class="nav-edge">
@@ -160,7 +72,7 @@ export function History({ summary, onHome, port, onChanged, initialTab = '一覧
         {tab === '要確認' && <>
           <h1 class="history-review-heading">要確認の歌</h1>
           <p>{REVIEW_CRITERION}</p>
-          {summary.needsReview.length === 0 ? <p>要確認の歌はありません</p> : <ul class="history-list"><EntryHead />{summary.needsReview.map((entry) => <Entry key={entry.poemId} entry={entry} onOpen={setOpenPoem} />)}</ul>}
+          {summary.needsReview.length === 0 ? <p>要確認の歌はありません</p> : <ul class="history-list"><PoemRowHead />{summary.needsReview.map((entry) => <PoemRow key={entry.poemId} row={entry} onOpen={setOpenPoem} />)}</ul>}
         </>}
         {tab === 'データ管理' && <div class="data-management">
           {onOpenSync && <section class="sync-management-card" aria-labelledby="sync-management-heading">
@@ -171,7 +83,7 @@ export function History({ summary, onHome, port, onChanged, initialTab = '一覧
           {port && canTransferRecords(port) && <RecordTransfer port={port} onChanged={onChanged} />}
         </div>}
       </section>
-      {openPoem && <PoemOverlay entry={openPoem} onClose={() => setOpenPoem(null)} />}
+      {openPoem && <PoemOverlay row={openPoem} onClose={() => setOpenPoem(null)} />}
     </main>
   );
 }

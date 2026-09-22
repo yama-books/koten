@@ -164,3 +164,74 @@ function dateDaysAgo(days: number): string {
   const day = 31 - days;
   return `2026-08-${String(day).padStart(2, '0')}`;
 }
+
+// ---- 段0「解いているのに、まちがいが多い」（依頼者・2026-09-22） ----
+
+/** 同じ歌へ n 回の思い出す解答を積む。`wrong` 件だけ外す。 */
+function attempts(poemId: string, total: number, wrong: number, day = '2026-08-20') {
+  return Array.from({ length: total }, (_, index) => event({
+    eventId: `${poemId}-a${index}`, poemId, itemKey: `${poemId}:text`, localDate: day,
+    ...(index < wrong
+      ? { outcome: 'incorrect' as const, effectiveMethod: 'free-input' as const }
+      : { outcome: 'correct' as const, effectiveMethod: 'free-input' as const }),
+  }));
+}
+
+test('段0: 4回以上解いて4割以上外している歌を先に出す', () => {
+  const chosen = recommendNext(input({ poemIds: ['p001'], events: attempts('p001', 5, 3), scores: { 'p001:text': 40 } }));
+  assert.equal(chosen?.tier, 0);
+  assert.equal(chosen?.poemId, 'p001');
+  assert.equal(chosen?.reason, '何度か解いていますが、まちがいが多い歌です');
+});
+
+test('段0: 取り組みが浅い歌は入れない', () => {
+  // 3回で2回外しても、まだ「まちがいが多い」とは呼ばない。始めたばかりの歌を先頭に並べないため。
+  assert.notEqual(recommendNext(input({ poemIds: ['p001'], events: attempts('p001', 3, 2), scores: { 'p001:text': 40 } }))?.tier, 0);
+});
+
+test('段0: まちがいが少なければ入れない', () => {
+  // 5回中1回（20%）は下限の4割に満たない。
+  assert.notEqual(recommendNext(input({ poemIds: ['p001'], events: attempts('p001', 5, 1), scores: { 'p001:text': 40 } }))?.tier, 0);
+});
+
+test('段0: 境目は4回・4割ちょうどを含む', () => {
+  assert.equal(recommendNext(input({ poemIds: ['p001'], events: attempts('p001', 5, 2), scores: { 'p001:text': 40 } }))?.tier, 0);
+  assert.notEqual(recommendNext(input({ poemIds: ['p001'], events: attempts('p001', 4, 1), scores: { 'p001:text': 40 } }))?.tier, 0);
+});
+
+test('段0: 同じ段ならまちがいの多い順に選ぶ', () => {
+  const chosen = recommendNext(input({
+    poemIds: ['p001', 'p002'],
+    events: [...attempts('p001', 5, 2), ...attempts('p002', 5, 4)],
+    scores: { 'p001:text': 40, 'p002:text': 40 },
+  }));
+  assert.equal(chosen?.poemId, 'p002', '率の高い方を選んでいない');
+});
+
+test('段0: 見ただけの記録は解いた回数に数えない', () => {
+  // **見ただけを数えると、眺めただけの歌が「まちがいが多い」側へ入る。**
+  const viewed = Array.from({ length: 6 }, (_, index) => event({
+    eventId: `v${index}`, poemId: 'p001', itemKey: 'p001:text', method: 'view', effectiveMethod: 'view', outcome: 'correct',
+  }));
+  assert.notEqual(recommendNext(input({ poemIds: ['p001'], events: [...attempts('p001', 3, 2), ...viewed], scores: { 'p001:text': 40 } }))?.tier, 0);
+});
+
+test('段0: △ は分母に入れるが、まちがいには数えない', () => {
+  // **判別できる形で見る。** 2回外し + △2回。
+  // △ が分母に入るなら 4回中2回＝5割で段0、入らないなら 2回で取り組み不足。
+  const partial = Array.from({ length: 2 }, (_, index) => event({
+    eventId: `t${index}`, poemId: 'p001', itemKey: 'p001:text', outcome: 'partial', method: 'self-tri', effectiveMethod: 'self-tri',
+  }));
+  const chosen = recommendNext(input({ poemIds: ['p001'], events: [...attempts('p001', 2, 2), ...partial], scores: { 'p001:text': 40 } }));
+  assert.equal(chosen?.tier, 0, '△ が分母に入っていない');
+});
+
+test('段0: 「わからない(×)」も解いた回数と、まちがいに数える', () => {
+  // **ここを落とすと、外した歌ほど率が下がるという逆の結果になる。**
+  // 4回すべて「わからない」なら率は 10 割である。
+  const unknown = Array.from({ length: 4 }, (_, index) => event({
+    eventId: `x${index}`, poemId: 'p001', itemKey: 'p001:text', outcome: 'incorrect', method: 'self-x', effectiveMethod: 'self-x',
+  }));
+  const chosen = recommendNext(input({ poemIds: ['p001'], events: unknown, scores: { 'p001:text': 10 } }));
+  assert.equal(chosen?.tier, 0);
+});

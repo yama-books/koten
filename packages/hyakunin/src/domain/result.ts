@@ -26,6 +26,8 @@ export type PoemOutcome = Readonly<{
   color: MasteryColor;
   untouched: boolean;
   authorUnconfirmed: boolean;
+  /** 作者の項目だけの点。作者のイベントが 1 件も無ければ null。記録一覧と同じ出し方。 */
+  authorPercent: number | null;
 }>;
 
 export type SummarizeInput = Readonly<{
@@ -128,6 +130,7 @@ function poemOutcome(poemId: string, attempts: readonly Readonly<{ poemId: strin
     color: display.color,
     untouched: mastery.untouched,
     authorUnconfirmed: mastery.authorUnconfirmed,
+    authorPercent: mastery.authorUnconfirmed ? null : masteryDisplay(scores[`${poemId}:author`] ?? 0).percent,
   };
 }
 

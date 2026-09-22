@@ -11,9 +11,9 @@ const base: SessionResult = {
   allCorrect: false,
   changes: [{ poemId: 'p003', before: 12, after: 21 }],
   poems: [
-    { poemId: 'p003', cardNo: 3, kind: 'correct', percent: 21, color: 'red', untouched: false, authorUnconfirmed: true },
-    { poemId: 'p004', cardNo: 4, kind: null, percent: 0, color: 'gray', untouched: true, authorUnconfirmed: true },
-    { poemId: 'p005', cardNo: 5, kind: 'incorrect', percent: 0, color: 'red', untouched: false, authorUnconfirmed: false },
+    { poemId: 'p003', cardNo: 3, kind: 'correct', percent: 21, color: 'red', untouched: false, authorUnconfirmed: true, authorPercent: null },
+    { poemId: 'p004', cardNo: 4, kind: null, percent: 0, color: 'gray', untouched: true, authorUnconfirmed: true, authorPercent: null },
+    { poemId: 'p005', cardNo: 5, kind: 'incorrect', percent: 0, color: 'red', untouched: false, authorUnconfirmed: false, authorPercent: 90 },
   ],
   retryCardNumbers: [3, 5],
   retryQuestionIds: ['p003-ku1', 'p005-ku2'],
@@ -24,7 +24,7 @@ const base: SessionResult = {
 /** 初句を出すのに歌の本文が要る（2026-09-16）。**番号から本文を推測させない。** */
 const poems = [
   { poemId: 'p001', cardNo: 1, ku: ['秋の田の', 'かりほの庵の', '苫をあらみ', 'わが衣手は', '露にぬれつつ'] },
-  { poemId: 'p004', cardNo: 4, ku: ['田子の浦に', 'うち出でて見れば', '白妙の', '富士の高嶺に', '雪は降りつつ'] },
+  { poemId: 'p004', cardNo: 4, ku: ['田子の浦に', 'うち出でて見れば', '白妙の', '富士の高嶺に', '雪は降りつつ'], author: { canonical: '山部赤人' } },
 ] as never[];
 
 function mount(result: SessionResult = base, handlers = { onRetryWeak: (_questionIds: readonly string[]) => {}, onRetrySame: () => {}, onHome: () => {} }) {
@@ -49,9 +49,26 @@ test('result: 変化がないとき表の代わりに文言を表示する', () 
 test('result: 該当なしのとき提案を出さない', () => { const view = mount({ ...base, recommendation: undefined }); expect(view.textContent).not.toContain('次に確認する'); });
 // 発注075 §3-3: おすすめは歌番号と理由だけにし、習熟度%を併記しない。数値は詳細の中で読む。
 test('result: 次のおすすめ一件を理由とともに表示する', () => { const view = mount(); expect(view.textContent).toContain('4番'); expect(view.textContent).toContain('まだ確認していない歌です'); });
-test('result: 未着手は0%と書かない', () => { const view = mount(); const item = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('4番'))!; expect(item.textContent).toContain('未着手'); expect(item.textContent).not.toContain('0%'); });
-test('result: 学習済みで0%の首は0%と書く', () => { const view = mount(); const item = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('5番'))!; expect(item.textContent).toContain('習熟度 0%'); });
-test('result: 作者未確認を作者イベントがない首にだけ併記する', () => { const view = mount(); expect(view.textContent).toContain('作者 未確認'); const answered = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('5番'))!; expect(answered.textContent).not.toContain('作者 未確認'); });
+/** 番号の升で行を引く。「番」は見出しへ移ったので、本文の照合では割合の数字と紛れる。 */
+function rowOf(view: HTMLElement, no: string) {
+  return Array.from(view.querySelectorAll('li.history-entry:not(.history-head)'))
+    .find((node) => node.querySelector('.history-entry__no')?.textContent === no)!;
+}
+
+test('result: 未着手は0%と書かない', () => {
+  // 記録一覧と同じ出し方に揃えた（2026-09-22）。文字ではなく破線の帯と「—」で示す。
+  const item = rowOf(mount(), '4');
+  expect(item.textContent).toContain('—');
+  expect(item.textContent).not.toContain('0%');
+  expect(item.querySelector('[role="meter"]')?.getAttribute('aria-label')).toContain('未着手');
+});
+test('result: 学習済みで0%の首は0%と書く', () => { expect(rowOf(mount(), '5').textContent).toContain('0%'); });
+test('result: 作者未確認を作者イベントがない首にだけ併記する', () => {
+  // 「作者 未確認」の文字は段階の印に替えた（2026-09-22）。意味は読み上げ名が持つ。
+  const view = mount();
+  expect(rowOf(view, '4').querySelector('.author-stage')?.getAttribute('aria-label')).toBe('作者: まだ確認していません');
+  expect(rowOf(view, '5').querySelector('.author-stage')?.getAttribute('aria-label')).not.toBe('作者: まだ確認していません');
+});
 test('result: 作者未確認で80%に達した首だけ次の確認先を強調する', () => {
   const cases = [
     { ...base.poems[0]!, percent: 80, color: 'blue' as const, authorUnconfirmed: true },
@@ -59,14 +76,20 @@ test('result: 作者未確認で80%に達した首だけ次の確認先を強調
     { ...base.poems[2]!, percent: 80, color: 'blue' as const, authorUnconfirmed: false },
   ];
   const view = mount({ ...base, poems: cases });
-  const rows = Array.from(view.querySelectorAll('.result-poems li'));
-  expect(rows[0]?.textContent).toContain('作者も確認');
-  expect(rows[0]?.classList.contains('result-poem--author-cap')).toBe(true);
-  expect(rows[1]?.textContent).toContain('作者 未確認');
-  expect(rows[1]?.classList.contains('result-poem--author-cap')).toBe(false);
-  expect(rows[2]?.textContent).not.toContain('作者も確認');
+  const rows = Array.from(view.querySelectorAll('li.history-entry:not(.history-head)'));
+  // 「作者も確認」の文字は印の強調に替えた（2026-09-22）。意味は読み上げ名が持つ。
+  expect(rows[0]?.querySelector('.author-stage')?.getAttribute('aria-label')).toBe('作者も確認しましょう');
+  expect(rows[0]?.classList.contains('history-entry--author-cap')).toBe(true);
+  expect(rows[1]?.querySelector('.author-stage')?.getAttribute('aria-label')).toBe('作者: まだ確認していません');
+  expect(rows[1]?.classList.contains('history-entry--author-cap')).toBe(false);
+  expect(rows[2]?.querySelector('.author-stage')?.getAttribute('aria-label')).not.toBe('作者も確認しましょう');
 });
-test('result: 学習済みの首は色付きメーターと数値を表示する', () => { const view = mount(); const item = Array.from(view.querySelectorAll('li')).find((node) => node.textContent?.includes('3番'))!; expect(item.className).toContain('result-poem--red'); expect(item.querySelector('[role="meter"]')?.getAttribute('aria-valuenow')).toBe('21'); expect(item.textContent).toContain('習熟度 21%'); });
+test('result: 学習済みの首は色付きメーターと数値を表示する', () => {
+  const item = rowOf(mount(), '3');
+  expect(item.querySelector('.mastery-meter')?.className).toContain('mastery-meter--red');
+  expect(item.querySelector('[role="meter"]')?.getAttribute('aria-valuenow')).toBe('21');
+  expect(item.textContent).toContain('21%');
+});
 test('result: まちがえた歌だけをもう一度に対象の問題IDを渡す', async () => { let received: readonly string[] = []; const view = mount(base, { onRetryWeak: (questionIds) => { received = questionIds; }, onRetrySame: () => {}, onHome: () => {} }); await act(() => { Array.from(view.querySelectorAll('button')).find((button) => button.textContent === 'まちがえた歌だけをもう一度')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(received).toEqual(['p003-ku1', 'p005-ku2']); });
 test('result: 要確認がないとき再確認ボタンを出さない', () => { const view = mount({ ...base, retryCardNumbers: [], retryQuestionIds: [] }); expect(view.textContent).not.toContain('まちがえた歌だけをもう一度'); });
 test('result: 首は残っていても再出題する問題がなければボタンを出さない', () => { const view = mount({ ...base, retryCardNumbers: [3, 5], retryQuestionIds: [] }); expect(view.textContent).not.toContain('まちがえた歌だけをもう一度'); });
@@ -160,7 +183,8 @@ test('075: 詳細の中は注記・習熟度の変化・歌ごとの状態の順
   expect(details.querySelector('#changes-heading')).not.toBeNull();
   expect(details.querySelector('#poems-heading')).not.toBeNull();
   expect(details.querySelector('table tbody td')?.textContent).toBe('12%');
-  expect(details.querySelectorAll('.result-poems li')).toHaveLength(3);
+  // 見出しの行は数えない。記録一覧と同じ器（`history-list`）を使うようになった。
+  expect(details.querySelectorAll('li.history-entry:not(.history-head)')).toHaveLength(3);
 });
 
 test('075: 詳細は一段だけで、入れ子の開閉を持たない', () => {
@@ -242,4 +266,31 @@ test('result: 次に確認する歌は、番号のあとに初句を出す', () 
   const view = mount({ ...base, recommendation: { poemId: 'p001', tier: 1, reason: '前回から間隔が空いたため', percent: 40 } });
   expect(view.querySelector('.result-recommend')?.textContent).toContain('1番');
   expect(view.querySelector('.result-recommend')?.textContent).toContain('秋の田の…');
+});
+
+// ---- 記録一覧と同じ並べ方（依頼者・2026-09-22） ----
+
+test('result: 歌ごとの状態は記録一覧と同じ升と段階で出す', () => {
+  // **同じ部品を使う。** 二度書くと片方だけ直る。
+  const view = mount();
+  expect(view.querySelector('.history-head')?.textContent).toBe('番号うた習熟度作者');
+  const rows = Array.from(view.querySelectorAll('li.history-entry:not(.history-head)'));
+  expect(rows).toHaveLength(3);
+  for (const row of rows) {
+    expect(row.querySelector('[role="meter"]'), '帯が無い行がある').not.toBeNull();
+    expect(row.querySelector('.author-stage'), '作者の升が無い行がある').not.toBeNull();
+  }
+});
+
+test('result: 歌を渡せば行を押して歌と作者を出せる', () => {
+  const view = mount();
+  // 歌データがあるのは 4番 だけ。**歌の無い行は押せる行にしない**ので、押せるのは 1 つ。
+  const openable = Array.from(view.querySelectorAll<HTMLButtonElement>('.history-entry__open'));
+  expect(openable).toHaveLength(1);
+  act(() => { openable[0]!.click(); });
+  const overlay = view.querySelector('.poem-overlay')!;
+  expect(overlay).not.toBeNull();
+  expect(overlay.querySelector('.author')?.textContent).toBe('山部赤人');
+  expect(Array.from(overlay.querySelectorAll('.poem span')).map((x) => x.textContent))
+    .toEqual(['田子の浦に', 'うち出でて見れば', '白妙の', '富士の高嶺に', '雪は降りつつ']);
 });
