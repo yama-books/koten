@@ -2121,7 +2121,9 @@ input[type="checkbox"]{
 .review-modal-card{
   position:relative;
   width:min(100%,520px);
-  max-height:min(84vh,680px);
+  height:min(84vh,700px);
+  max-height:700px;
+  box-sizing:border-box;
   overflow:auto;
   padding:22px 18px 18px;
   border:1px solid rgba(92,119,112,.22);
@@ -2144,26 +2146,13 @@ input[type="checkbox"]{
   font-size:11px;
   font-weight:700;
 }
-.review-modal-kicker{
-  margin:0 70px 4px 0;
-  color:var(--accent);
-  font-size:10px;
-  font-weight:700;
-}
-.review-modal-card h3{
-  margin:0 70px 2px 0;
-  font-size:22px;
-  line-height:1.3;
-}
-.review-modal-kind{
-  margin:0 70px 14px 0;
-  color:var(--muted);
-  font-size:11px;
-}
+.review-modal-card .meta{min-height:34px;padding:4px 70px 0}
+.review-modal-card .word{min-height:43px;margin-left:70px;margin-right:70px;white-space:nowrap}
 .review-modal-table-wrap{
   display:flex;
   justify-content:center;
-  padding:2px 0 0;
+  width:100%;
+  margin:14px auto 0;
 }
 .review-modal-table-wrap .table-panel{grid-area:auto}
 body.review-modal-open{overflow:hidden}
@@ -2369,11 +2358,12 @@ body.review-modal-open{overflow:hidden}
 </section>
 
 <div class="review-modal" id="reviewModal" hidden>
-  <section class="review-modal-card" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle" aria-describedby="reviewModalKind">
+  <section class="review-modal-card" role="dialog" aria-modal="true" aria-labelledby="reviewModalWord" aria-describedby="reviewModalKind">
     <button class="review-modal-close" id="reviewModalClose" type="button">閉じる</button>
-    <p class="review-modal-kicker" id="reviewModalKicker">正解例</p>
-    <h3 id="reviewModalTitle">活用表</h3>
-    <p class="review-modal-kind" id="reviewModalKind"></p>
+    <div class="meta"><span class="tag" id="reviewModalPosTag"></span></div>
+    <div class="word" id="reviewModalWord"></div>
+    <div class="lemma-aid" id="reviewModalLemmaAid" hidden></div>
+    <div class="kind" id="reviewModalKind"></div>
     <div class="review-modal-table-wrap">
       <section class="table-panel" id="reviewTablePanel">
         <div class="table-title">活用表</div>
@@ -2382,7 +2372,7 @@ body.review-modal-open{overflow:hidden}
           <span id="reviewTrackRight">基本形</span>
           <span class="spacer">活用形</span>
         </div>
-        <table class="katsuyo one-track" id="reviewKatsuyo" aria-label="正解の活用表">
+        <table class="katsuyo one-track" id="reviewKatsuyo" aria-label="活用表">
           <tbody id="reviewFormBody"></tbody>
         </table>
         <div class="row-note" id="reviewRowNote"></div>
@@ -3634,16 +3624,20 @@ function revealKindWithAnswers(){
   el.classList.add("kind-answer-badge");
 }
 
+function lemmaAidText(item){
+  const aid=item.kanjiAid||"";
+  const aidSuffix=item.adjv
+    ? (String(item.kind||"").includes("タリ") ? "たり" : "なり")
+    : "";
+  const aidFull=aid && aidSuffix && !String(aid).endsWith(aidSuffix) ? String(aid)+aidSuffix : aid;
+  return aid ? `漢字：${aidFull}` : "";
+}
 function render(){
   document.getElementById("lemma").textContent=current.lemma;
   const lemmaAid=document.getElementById("lemmaAid");
-  const aid=current.kanjiAid||"";
-  const aidSuffix=current.adjv
-    ? (String(current.kind||"").includes("タリ") ? "たり" : "なり")
-    : "";
-  const aidFull=aid && aidSuffix && !String(aid).endsWith(aidSuffix) ? String(aid)+aidSuffix : aid;
-  lemmaAid.textContent=aid ? `漢字：${aidFull}` : "";
-  lemmaAid.hidden=!aid;
+  const aidText=lemmaAidText(current);
+  lemmaAid.textContent=aidText;
+  lemmaAid.hidden=!aidText;
   renderKindInitial();
   document.getElementById("posTag").textContent=current.label;
   const compactExample=(current.example||"").replace(/[　 ]+/g,"");
@@ -4028,8 +4022,12 @@ function openReviewModal(item){
   if(!item) return;
   const modal=document.getElementById("reviewModal");
   renderReviewTable(item);
-  document.getElementById("reviewModalKicker").textContent=`正解例・${item.label}`;
-  document.getElementById("reviewModalTitle").textContent=`${item.lemma}の活用表`;
+  document.getElementById("reviewModalPosTag").textContent=item.label;
+  document.getElementById("reviewModalWord").textContent=item.lemma;
+  const lemmaAid=document.getElementById("reviewModalLemmaAid");
+  const aidText=lemmaAidText(item);
+  lemmaAid.textContent=aidText;
+  lemmaAid.hidden=!aidText;
   document.getElementById("reviewModalKind").textContent=item.kind;
   reviewModalReturnFocus=document.activeElement;
   modal.hidden=false;

@@ -30,7 +30,10 @@ test('conj: review defaults to verbs and supports full-table modal plus POS filt
   assert.match(html, /role="dialog" aria-modal="true"/);
   assert.match(html, /function openReviewModal\(item\)/);
   assert.match(html, /button\.setAttribute\("aria-haspopup","dialog"\)/);
-  assert.match(html, /id="reviewKatsuyo" aria-label="正解の活用表"/);
+  assert.match(html, /id="reviewModalPosTag"/);
+  assert.match(html, /class="word" id="reviewModalWord"/);
+  assert.match(html, /class="kind" id="reviewModalKind"/);
+  assert.match(html, /id="reviewKatsuyo" aria-label="活用表"/);
   assert.match(html, /function renderReviewTable\(item\)/);
   assert.match(html, /table\.className="katsuyo"/);
   assert.match(html, /table\.classList\.add\("adjective-pair"\)/);
@@ -38,6 +41,10 @@ test('conj: review defaults to verbs and supports full-table modal plus POS filt
   assert.match(html, /table\.classList\.add\("one-track"\)/);
   assert.match(html, /event\.target===event\.currentTarget/);
   assert.match(html, /e\.key==="Escape"/);
+  assert.doesNotMatch(html, /reviewModalKicker/);
+  assert.doesNotMatch(html, /reviewModalTitle/);
+  assert.doesNotMatch(html, /`正解例・\$\{item\.label\}`/);
+  assert.doesNotMatch(html, /`\$\{item\.lemma\}の活用表`/);
   assert.doesNotMatch(html, /class="review-full-table"/);
   assert.doesNotMatch(html, /className="review-example"/);
 });
