@@ -1699,10 +1699,15 @@ td.wrong{background:var(--bad)!important}
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:2px;
   border-radius:50%;
   background:var(--card);
   box-shadow:0 0 0 1px var(--line);
+}
+.record-donut-value{
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:2px;
 }
 .record-donut-center strong{
   font-size:22px;
@@ -1713,8 +1718,6 @@ td.wrong{background:var(--bad)!important}
   color:var(--muted);
   font-size:9px;
   line-height:1;
-  position:relative;
-  top:2px;
 }
 
 .record-breakdown{
@@ -2076,6 +2079,16 @@ input[type="checkbox"]{
 }
 .record-overview .record-stat:first-child{
   grid-column:1 / -1;
+  min-height:37px;
+  padding-block:6px;
+}
+.record-overview .record-stat:first-child dt{
+  width:5em;
+  font-size:9px;
+  line-height:1.25;
+}
+.record-overview .record-stat:first-child dd{
+  font-size:18px;
 }
 .record-overview .record-stat:nth-child(n+2){
   display:flex;
@@ -2235,8 +2248,8 @@ body.review-modal-open{overflow:hidden}
 
 @media(max-width:700px){
   .perfect-result{
-    top:42px;
-    right:12px;
+    top:14px;
+    right:58px;
     width:86px;
     height:86px;
   }
@@ -2417,7 +2430,7 @@ body.review-modal-open{overflow:hidden}
       <div class="record-overview">
         <div class="record-breakdown-panel">
           <div class="record-donut" id="recordBreakdownChart" role="img" aria-label="取り組んだ問題の内訳">
-            <div class="record-donut-center"><strong id="recordBreakdownTotal">0</strong><span>問</span></div>
+            <div class="record-donut-center"><span class="record-donut-value"><strong id="recordBreakdownTotal">0</strong><span>問</span></span></div>
           </div>
           <ul class="record-breakdown" id="recordBreakdown"></ul>
         </div>
@@ -3730,8 +3743,37 @@ function revealKindWithAnswers(){
   el.classList.add("kind-answer-badge");
 }
 
+const HISTORICAL_KANA_HEADINGS={
+  "鳴く":"なく","思ふ":"おもふ","見る":"みる","寝（ぬ）":"ぬ","恋ふ":"こふ",
+  "知る":"しる","暮る":"くる","忘る":"わする","絶ゆ":"たゆ","聞こゆ":"きこゆ",
+  "出づ":"いづ","行く":"ゆく","来（く）":"く","逢ふ":"あふ","祈る":"いのる",
+  "濡る":"ぬる","過ぐ":"すぐ","聞く":"きく","置く":"おく","吹く":"ふく",
+  "閉づ":"とづ","留む":"とどむ","落つ":"おつ","積もる":"つもる","成る":"なる",
+  "乱る":"みだる","摘む":"つむ","生ふ":"おふ","待つ":"まつ","帰る":"かへる",
+  "寄る":"よる","侘ぶ":"わぶ","萎る":"しをる","取る":"とる","流る":"ながる",
+  "折る":"をる","散る":"ちる","匂ふ":"にほふ","宿る":"やどる","誓ふ":"ちかふ",
+  "忍ぶ":"しのぶ","問ふ":"とふ","立つ":"たつ","絞る":"しぼる","比ぶ":"くらぶ",
+  "思ほゆ":"おもほゆ","渡る":"わたる","砕く":"くだく","燃ゆ":"もゆ","住む":"すむ",
+  "告ぐ":"つぐ","くくる":"くくる","枯る":"かる","降る":"ふる","貫く":"つらぬく",
+  "越す":"こす","恨む":"うらむ","分く":"わく","更く":"ふく","許す":"ゆるす",
+  "現る":"あらはる","干す":"ほす","朽つ":"くつ","長らふ":"ながらふ","眺む":"ながむ",
+  "咲く":"さく","往ぬ":"いぬ","漕ぐ":"こぐ","堰く":"せく","割る":"わる",
+  "たなびく":"たなびく","残る":"のこる","堪ふ":"たふ","入る":"いる","明く":"あく",
+  "嘆く":"なげく","弱る":"よわる","変る":"かはる","見ゆ":"みゆ","乾く":"かわく",
+  "打つ":"うつ","覆ふ":"おほふ","誘ふ":"さそふ","焼く":"やく","焦がる":"こがる",
+  "そよぐ":"そよぐ","余る":"あまる","悲し":"かなし","憂し":"うし","寂し":"さびし",
+  "久し":"ひさし","恨めし":"うらめし","難し":"かたし","遠し":"とほし","長し":"ながし",
+  "恋し":"こひし","つれなし":"つれなし","惜し":"をし"
+};
+function lemmaHeadingText(item){
+  return item.headingKana||HISTORICAL_KANA_HEADINGS[item.lemma]||item.lemma;
+}
 function lemmaAidText(item){
-  const aid=item.kanjiAid||"";
+  const heading=lemmaHeadingText(item);
+  const fallbackAid=heading!==item.lemma && /[一-龯々]/.test(item.lemma)
+    ? item.lemma.replace(/[（(][^）)]*[）)]/g,"")
+    : "";
+  const aid=item.kanjiAid||fallbackAid;
   const aidSuffix=item.adjv
     ? (String(item.kind||"").includes("タリ") ? "たり" : "なり")
     : "";
@@ -3739,11 +3781,12 @@ function lemmaAidText(item){
   return aid ? `漢字：${aidFull}` : "";
 }
 function render(){
-  document.getElementById("lemma").textContent=current.lemma;
+  document.getElementById("lemma").textContent=lemmaHeadingText(current);
   const lemmaAid=document.getElementById("lemmaAid");
   const aidText=lemmaAidText(current);
   lemmaAid.textContent=aidText;
-  lemmaAid.hidden=!aidText;
+  lemmaAid.hidden=false;
+  lemmaAid.style.visibility=aidText?"visible":"hidden";
   renderKindInitial();
   document.getElementById("posTag").textContent=current.label;
   const compactExample=(current.example||"").replace(/[　 ]+/g,"");
@@ -4164,7 +4207,7 @@ function openReviewModal(item){
   renderReviewExample(item);
   renderReviewTable(item);
   document.getElementById("reviewModalPosTag").textContent=item.label;
-  document.getElementById("reviewModalWord").textContent=item.lemma;
+  document.getElementById("reviewModalWord").textContent=lemmaHeadingText(item);
   const lemmaAid=document.getElementById("reviewModalLemmaAid");
   const aidText=lemmaAidText(item);
   lemmaAid.textContent=aidText;
