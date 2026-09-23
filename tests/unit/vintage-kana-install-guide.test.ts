@@ -18,12 +18,12 @@ test("vintage-kana install guide shows iOS wording with an inline share icon", (
 });
 
 test("vintage-kana install guide falls back to the browser-menu wording", () => {
-  assert.match(plain, /ブラウザのメニューから「ホーム画面に追加」を選ぶと、アプリとして扱えます/);
+  assert.match(plain, /メニューの「ホーム画面に追加」でアプリとして扱えます/);
 });
 
 test("vintage-kana install guide has no close button and uses balanced padding, breaking lines only at phrases", () => {
   // ×ボタンは撤廃し、左右対称のpaddingに戻した。文は文節の切れ目（<wbr>）だけで折り返す。
-  assert.match(html, /\.installGuide\{position:relative;[^}]*padding:10px 14px/);
+  assert.match(html, /\.installGuide\{position:relative;[^}]*padding:10px 12px/);
   assert.doesNotMatch(html, /installGuide__close/);
   assert.doesNotMatch(html, />×<\/button>/);
   assert.match(html, /\.installGuide__text\{margin:0;word-break:keep-all;overflow-wrap:anywhere\}/);
@@ -76,3 +76,10 @@ test("vintage-kana install guide clears itself on appinstalled and does not move
   assert.match(html, /id="installGuide" class="installGuide" hidden>[\s\S]*?<footer>/);
   assert.match(html, /id="cards" class="cards">[\s\S]*<\/div>[\s\S]*id="installGuide"/);
 });
+
+test("vintage-kana install guide fits one line on phones and row buttons share one width", () => {
+  // 390px 幅で iOS の文面が1行に収まる大きさ。行ボタンは「ん」も2文字分の幅にそろえる。
+  assert.match(html, /\.installGuide\{[^}]*padding:10px 12px;[^}]*font-size:10px;/);
+  assert.match(html, /\.kanaFilterAll \.kanaBtn\{min-width:calc\(2em \+ 10px\)\}/);
+});
+
