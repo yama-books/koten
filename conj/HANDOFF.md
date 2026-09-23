@@ -601,3 +601,18 @@ PR作成後にGitHubのチェック状態も確認したが、PR head commitに�
 5. 本節を完了記録へ更新し、PR・main反映後に停止する。
 
 **作業3以降には進まない。**
+
+
+### 作業2 中間チェックポイント（CSS変数化実装済み・テスト前）
+
+- `conj/index.html` のCSS配色土台を実装済み。
+- 実装commit: `203437800ec8a0c54bd1bac541c0fc1f9d3552e0` — `refactor(conj): route palette colors through CSS variables`
+- `:root` の色変数は既存分を含め **70個**。単なる連番トークンではなく、surface/text、accent/learning state、translucent layer、level/help、record/review、elevation の用途別に整理した。
+- `.record-screen` に局所定義されていた `--record-verb / --record-adj / --record-adjv / --record-aux / --record-empty` は、後続テーマ切替から上書きできるよう `:root` へ移した。値は変更していない。
+- CSS本文の固体色（hex）は `:root` 外で0件まで置換した。
+- 背景・境界・outlineに使うテーマ依存の直書き `rgba(...)` も変数化した。
+- `box-shadow` の半透明色、`transparent` は装飾・透明指定として現時点では直書きを残した。これらまで機械的にトークン化することは作業2の目的に不要と判断した。
+- 作業1の `v46: record layout readability guard` は変更前後で文字列一致を確認し、変更していない。
+- 既定色の値はすべて元の値をCSS変数へ移しただけで、意図的な配色変更は行っていない。
+
+**現在は「実装済み・テスト更新前」。作業2は明確に進行中。**
