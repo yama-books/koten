@@ -998,3 +998,26 @@ PR #38:
 このチェックポイント記録後、**第1段階のCSS実体監査のみ**を行う。
 第2段階 v46ガード、第3段階 テスト最終監査には進まない。
 コード変更・CSS置換・PR作成は行わない。
+
+
+### 第1段階完了: CSS実体監査（2026-09-24）
+
+対象: 現行 `main` の `conj/index.html` blob `7ccf2172ccdfe49fee9cfa75caad8a736f6c3326`。
+GitHub blob経路で全文を取得して監査した。
+
+結果:
+- `:root` の意味CSS変数は64個。
+- 記録欄固定色 `--record-verb / --record-adj / --record-adjv / --record-aux / --record-empty` は `:root` に存在しない。
+- 上記5色は `.record-screen` に局所固定変数として、最終仕様どおり
+  `#935568 / #b77d55 / #39756f / #3d566b / #e8eef1` で存在する。
+- ドーナツ基底色は `.record-donut` の `background:#e7f1ee` として固定指定されている。
+- `:root` 外のsolid hexは6件だけで、上記固定5色＋ドーナツ基底色の6色と完全一致。固定対象外のsolid hex直書きは0件。
+- `:root` 外の直書き `rgb/rgba` は14件。すべて `box-shadow` / `text-shadow` 用で、背景・境界・outline等の非shadow用途は0件。
+- ページ背景、カード、本文・補助文字、境界、アクセント、hover/active系、正解・不正解系、記録画面一般UI、review UI、編集セルhover/selectedは意味変数参照を確認。
+- ボタン系も個別確認し、`.chip/.ghost/.primary`、active primary、record header button、focus-visible、review filters、review toggle が意味変数を参照している。直書きrgbaはshadow用途のみ。
+- 作業2直前のmain（PR #37 mergeの第1親 `3eeed9b67298e85a8fe5db6ce201ab85d0e23713`、旧index blob `a487ac57c37b8f61f747e3b44f307fe2c574b7d9`）とも色集合を照合。旧CSSに存在した色は `#fff` を除き現行の変数値または固定色として保持され、`#fff` は現行 `#ffffff` と同値。現行 `:root` に旧CSSになかった新規色値は0件。
+- 作業2直前版と現行版で `<style>` 外のHTML/JSはバイト単位で一致。したがって、作業2の色整理に伴うHTML構造・JSロジックの混入変更は検出されなかった。
+
+**第1段階「CSS実体監査」はPASS。作業2のCSS変数化・既定配色維持・固定色境界に欠落や巻き戻りは検出されなかった。**
+
+この時点で停止。第2段階「作業1 v46ガード最終確認」と第3段階「テスト最終監査」は未実施のまま残す。
