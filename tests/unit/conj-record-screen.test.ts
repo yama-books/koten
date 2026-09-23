@@ -81,15 +81,25 @@ test('conj: supplementary track note (カリ活用/ザリ活用) reads horizonta
   assert.match(rules[0], /white-space:nowrap;/);
 });
 
-test('conj: 降る example marks only the verb ふれ, not the auxiliary る', () => {
+test('conj: examples mark only the conjugated word, not a following auxiliary or particle', () => {
   const src = html.match(/function highlight\(text,target,occurrence\)\{[\s\S]*?\n\}/);
   assert.ok(src);
   const highlight = new Function(`${src[0]}; return highlight;`)() as
     (text: string, target: string, occurrence?: number) => string;
-  const item = html.match(/\{id:"furu_snow"[\s\S]*?target:"([^"]*)",example:"([^"]*)"\}/);
-  assert.ok(item);
-  assert.equal(item[1], 'ふれ');
-  assert.match(highlight(item[2], item[1]), /里に<mark>ふれ<\/mark>る白雪/);
+  const expected: [string, RegExp][] = [
+    ['furu_snow', /里に<mark>ふれ<\/mark>る白雪/],
+    ['wasuru', /^<mark>忘れ<\/mark>じの/],
+    ['tayu', /音は<mark>絶え<\/mark>て久しく/],
+    ['karu_wither', /草も<mark>かれ<\/mark>ぬと/],
+    ['waku', /それとも<mark>わか<\/mark>ぬ間に/],
+    ['fuku_late', /小夜<mark>更け<\/mark>て/],
+    ['nokoru', /月ぞ<mark>残れ<\/mark>る$/],
+  ];
+  for (const [id, mark] of expected) {
+    const item = html.match(new RegExp(`\\{id:"${id}"[\\s\\S]*?target:"([^"]*)",example:"([^"]*)"\\}`));
+    assert.ok(item, id);
+    assert.match(highlight(item[2], item[1]), mark, id);
+  }
 });
 test('conj: answer reveal is unscored and leaves no redundant feedback sentence', () => {
   assert.match(html, /if\(!revealOnly\)\{[\s\S]*?stats\.gradedCells\+\+/);
