@@ -19,7 +19,6 @@ textarea {
   font-family: var(--conj-font-ui);
 }
 
-h1,
 #exampleText,
 [id*="lemma" i],
 [class*="lemma" i],
@@ -28,8 +27,10 @@ h1,
   font-family: var(--conj-font-classical);
 }
 
+/* タイトルも本文と同じ丸ゴシックにする。 */
 h1 {
-  font-weight: 600;
+  font-family: var(--conj-font-ui);
+  font-weight: 700;
 }
 
 /* 活用形名と表の見出しは、百人一首と同じ丸ゴシックで統一する。 */

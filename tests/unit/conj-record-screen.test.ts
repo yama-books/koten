@@ -281,3 +281,9 @@ test('conj: source list covers every part of speech, not only 形容動詞', () 
   assert.match(html, /const key=provider\+"\|"\+r\.sourceLicense;/);
   assert.match(html, /const workKey=work\+"\|"\+edition;/);
 });
+
+test('conj: no caption under the title, and the title uses the UI round gothic', () => {
+  assert.doesNotMatch(html, /app-subtitle|活用表を、静かに、何度でも。/);
+  const css = readFileSync(new URL('../../conj/branding.css', import.meta.url), 'utf8');
+  assert.match(css, /h1 \{\s*font-family: var\(--conj-font-ui\);/);
+});
