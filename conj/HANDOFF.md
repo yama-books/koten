@@ -827,3 +827,79 @@ CIの `check:overflow` を含む機械検証は全項目成功している。
 **作業2完了。次は作業3: 配色切替・既定コーヒー化。**
 
 ただし配色系統数5/6は人確認事項であり、AIだけで決めない。作業3はこのセッションでは開始しない。
+
+
+---
+
+## 17. 作業2 補足修正チェックポイント（2026-09-24）
+
+### 追加指示と優先関係
+
+作業2のPR #37がmainへ反映された後、ユーザーから次の追加指示を受けた。
+
+> ドーナツグラフと記録欄の品詞別の色は固定。今回は変更しないこと。
+
+この指示を作業2の最終境界として優先する。§16のうち、`--record-verb / --record-adj / --record-adjv / --record-aux / --record-empty` を `:root` へ移して後続テーマから上書き可能にした、という部分だけは本節で補正する。その他の作業2成果・意味変数化・CI成功記録は維持する。
+
+### main進行の検出と stale branch の扱い
+
+本セッション開始時に作成した `codex/conj-work2-color-tokens-20260924` は、作業中にmainが7コミット進み、同時進行のPR #37が作業2を完了・mergeしていたため **mergeしない**。巻き戻し事故を避けるため、このstale branchの変更は正本へ採用しない。
+
+補正は現行mainから新規に作成した以下のbranchだけで行う。
+
+- `codex/conj-work2-fixed-record-colors-20260924`
+
+### 実装した補正
+
+変更ファイル:
+- `conj/index.html`
+- `tests/unit/conj-record-screen.test.ts`
+- `conj/HANDOFF.md`
+
+`conj/index.html`:
+- `:root` から以下を除外した。
+  - `--record-verb:#935568`
+  - `--record-adj:#b77d55`
+  - `--record-adjv:#39756f`
+  - `--record-aux:#3d566b`
+  - `--record-empty:#e8eef1`
+  - `--record-donut-base:#e7f1ee`
+- 品詞4色と空状態色は、作業2以前と同じく `v42 .record-screen` の局所固定変数へ戻した。値は一切変更していない。
+- ドーナツ基底色は `background:#e7f1ee` の固定指定へ戻した。
+- JS側の品詞色・空状態色fallbackも従来値のまま変更していない。
+- 記録画面以外の作業2意味変数化は維持した。
+
+### テスト更新
+
+既存の作業2テストを削除せず、境界だけを追加指示へ合わせて更新した。
+
+- 通常テーマ用の色は引き続き `:root` の意味変数であることを検査。
+- record品詞色・ドーナツ色が `:root` に存在しないことを検査。
+- `v42 .record-screen` に品詞色4種＋空状態色が従来値のまま固定されることを検査。
+- ドーナツ基底色 `#e7f1ee` が固定指定であることを検査。
+- 上記固定色を除いたCSS本文に固体色hexが残らないことを検査。
+- rgba直書きは従来どおりbox-shadow用途だけであることを検査。
+
+### connector上の静的検証
+
+現行mainの作業2完了blobと補正後blobを直接比較し、以下を確認した。
+
+- record色6項目が `:root` から除外: PASS
+- 品詞4色＋空状態色が `.record-screen` に従来値で存在: PASS
+- ドーナツ基底色 `#e7f1ee` 固定: PASS
+- 固定record色を除く `:root` 外の固体色hex: 0件
+- 非shadow用途の直書きrgba: 0件
+- 作業1 `v46: record layout readability guard`: **補正前mainとバイト単位で完全一致**
+- 460px以下の要確認1列化: PASS
+- 活用種類名 `white-space:nowrap`: PASS
+
+### 現時点のcommit
+
+- 補正実装: `2eae70a272235acbb7cc5683cb40f63c56721806` — `fix(conj): keep record palette fixed`
+- テスト更新: `c09715d7615e2a8a6a8150f40a484885a50be845` — `test(conj): keep record colors outside theme tokens`
+
+PR / GitHub Actions / main / Pages 状態は次のチェックポイントで追記する。
+
+### 停止境界
+
+作業3へは進んでいない。補正PRを検証・main反映し、作業2の最終状態を固定した時点で停止する。

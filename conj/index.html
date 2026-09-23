@@ -66,12 +66,6 @@
   --level-aux-border:#c9dcd6;
 
   /* Record screen and review states */
-  --record-verb:#935568;
-  --record-adj:#b77d55;
-  --record-adjv:#39756f;
-  --record-aux:#3d566b;
-  --record-empty:#e8eef1;
-  --record-donut-base:#e7f1ee;
   --record-points-border:#d2dfe5;
   --record-points-bg-end:#eef3f6;
   --record-review-border:#e0e5e7;
@@ -1811,7 +1805,7 @@ td.wrong{background:var(--bad)!important}
   height:106px;
   border-radius:50%;
   position:relative;
-  background:var(--record-donut-base);
+  background:#e7f1ee;
   box-shadow:inset 0 0 0 1px rgba(62,107,96,.06);
 }
 .record-donut-center{
@@ -2001,6 +1995,11 @@ td.wrong{background:var(--bad)!important}
 
 /* ===== v42: muted ink-citrus record palette ===== */
 .record-screen{
+  --record-verb:#935568;
+  --record-adj:#b77d55;
+  --record-adjv:#39756f;
+  --record-aux:#3d566b;
+  --record-empty:#e8eef1;
   background:
     radial-gradient(circle at 92% 2%,var(--record-glow-primary),transparent 245px),
     radial-gradient(circle at 5% 32%,var(--record-glow-secondary),transparent 290px),
