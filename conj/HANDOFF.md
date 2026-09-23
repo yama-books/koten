@@ -1,6 +1,6 @@
 # HANDOFF: 古典活用表ドリル `conj`
 
-更新: 2026-09-19
+更新: 2026-09-24
 
 ## 1. 目的
 
@@ -287,3 +287,39 @@ raw: 46件
 
 現在は各項目に `target` と `example` が直結している。このため120例をそのまま `items` に追加せず、活用表データと実例データを分離した互換層を先に実装する。
 
+
+---
+
+## 11. ホーム画面アイコン・表示名（2026-09-24）
+
+ホーム画面アイコン対応は **main 反映・GitHub Pages 公開反映まで完了**。公開URLでの反映は依頼者が確認済み。
+
+### 現行構成
+
+- `conj/icon.svg`
+  - 1024×1024 のSVGコンテナ
+  - 採用済みの「ネコチャン＋縦長吹き出し＋縦書き1列『活用練習』」画像を埋め込み
+  - 画像実体はSVG内のWebPデータとして保持し、別PNGは置かない構成
+- `conj/manifest.webmanifest`
+  - `name`: 「古典文法活用ノート」
+  - `short_name`: 「活用ノート」
+  - `display`: `standalone`
+  - icon は `./icon.svg`（`sizes: "any"`）
+- `conj/index.html`
+  - favicon: `./icon.svg`
+  - apple-touch-icon: `./icon.svg`
+  - manifest: `./manifest.webmanifest`
+  - `theme-color` 設定済み
+  - `apple-mobile-web-app-title`: 「活用ノート」
+
+**アイコン画像内の文字は「活用練習」だが、ホーム画面に保存したときのアプリ名は「活用ノート」**。これは現行の確定状態として扱う。
+
+### 関連コミット
+
+- `5152510242bf810c765beecb760a53a4e561cda4` — `feat(conj): add home screen icon`
+- `5f686405d048913faf218fc67832614f49dba9ba` — `fix(conj): use approved home screen icon artwork`
+- `be777a04ebec2f956a2d650c68c0d15ba1c5a472` — `fix(conj): repair approved icon asset`
+- `3fdc62ff0907ef76a0112d22f000b9d0ddaf2438` — タイトル下キャプション削除・タイトルを丸ゴシックへ
+- `b371c4debe5f07c7d5a491cdb0f3f8cc2670e729` — ホーム画面保存時の表示名を「活用ノート」へ
+
+このアイコン対応については **追加作業なし**。端末固有の表示不具合が報告された場合のみ再調査する。
