@@ -221,6 +221,13 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
+.installGuide{max-width:640px;margin:12px auto 0;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--paper2);color:var(--muted);font-size:11px;line-height:1.6;text-align:center}
+.installGuide[hidden]{display:none}
+.installGuide__row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.installGuide__text{margin:0}
+.installGuide__icon{height:1em;width:1em;vertical-align:-0.15em;margin:0 1px}
+.installGuide__btn{min-height:32px;border:1px solid var(--accent-border);border-radius:999px;background:var(--accent2);color:var(--accent);padding:4px 12px;font-size:11px;font-weight:700}
+.installGuide__close{border:none;background:transparent;color:var(--muted);font-size:14px;line-height:1;padding:2px 4px;min-width:28px;min-height:28px}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 @media(max-width:720px){button{min-height:44px}.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:380px){.learnHelpBtn{width:44px;padding:0;justify-content:center}.learnHelpBtn>span:last-child{display:none}.utilityTabs{flex:1;justify-content:flex-end}.tab{padding-inline:7px}.tab.navPrimary{padding-inline:9px}}
@@ -413,6 +420,14 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     </div>
   </details>
 </section>
+
+<div id="installGuide" class="installGuide" hidden>
+  <div class="installGuide__row">
+    <p id="installGuideText" class="installGuide__text"></p>
+    <button id="installGuideAction" class="installGuide__btn" type="button" hidden>ホーム画面に追加する</button>
+    <button id="installGuideClose" class="installGuide__close" type="button" aria-label="閉じる">×</button>
+  </div>
+</div>
 
 <footer>
   vintage-kana / release candidate 1.0 RC25
@@ -1681,6 +1696,65 @@ document.getElementById("sourceText").addEventListener("input",()=>{
 checkHentaiganaFont();
 loadData();
 loadConfusionPairs();
+
+// ホーム画面への追加案内。conjアプリと同じ仕組みを、素のJSとDOMで実装する。
+const INSTALL_NOTICE_KEY="vintageKanaInstallNoticeDismissed";
+function isStandaloneLaunch(){
+ return window.matchMedia?.("(display-mode: standalone)").matches===true ||
+   navigator.standalone===true;
+}
+function installNoticeWasDismissed(){
+ try{return window.localStorage.getItem(INSTALL_NOTICE_KEY)==="true"}catch(e){return false}
+}
+function rememberInstallNoticeDismissal(){
+ try{window.localStorage.setItem(INSTALL_NOTICE_KEY,"true")}catch(e){
+   // プライベートブラウズなどで保存できなくても、案内そのものは使える。
+ }
+}
+// iPadOS 13 以降の Safari は Macintosh を名乗る。UA だけ見ると iPad へ Android 向けの文面が出る。
+const installForIos=/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+ (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints>1);
+const SHARE_ICON_SVG='<svg class="installGuide__icon" viewBox="0 0 24 24" role="img" aria-label="共有" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg>';
+let installPromptEvent=null;
+function renderInstallGuide(){
+ const el=document.getElementById("installGuide");
+ if(!el)return;
+ if(isStandaloneLaunch()||installNoticeWasDismissed()){
+   el.hidden=true;
+   return;
+ }
+ const text=document.getElementById("installGuideText");
+ const actionBtn=document.getElementById("installGuideAction");
+ if(installForIos){
+   text.innerHTML="共有ボタン"+SHARE_ICON_SVG+"からホーム画面に追加すると、アプリとして扱えます";
+   if(actionBtn)actionBtn.hidden=true;
+ }else if(installPromptEvent){
+   text.textContent="ホーム画面に追加すると、アプリとして扱えます";
+   if(actionBtn)actionBtn.hidden=false;
+ }else{
+   text.textContent="ブラウザのメニューから「ホーム画面に追加」を選ぶと、アプリとして扱えます";
+   if(actionBtn)actionBtn.hidden=true;
+ }
+ el.hidden=false;
+}
+function dismissInstallGuide(){
+ rememberInstallNoticeDismissal();
+ const el=document.getElementById("installGuide");
+ if(el)el.hidden=true;
+}
+window.addEventListener("beforeinstallprompt",(e)=>{
+ e.preventDefault();
+ installPromptEvent=e;
+ renderInstallGuide();
+});
+window.addEventListener("appinstalled",dismissInstallGuide);
+document.getElementById("installGuideClose")?.addEventListener("click",dismissInstallGuide);
+document.getElementById("installGuideAction")?.addEventListener("click",async()=>{
+ if(!installPromptEvent)return;
+ await installPromptEvent.prompt();
+ dismissInstallGuide();
+});
+renderInstallGuide();
 </script>
 </body>
 </html>
