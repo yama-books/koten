@@ -30,14 +30,18 @@ test('conj: cumulative correct label and value stay on two lines on mobile', () 
   assert.match(html, /\.header-record \.score\{\s*display:flex;\s*flex-direction:column;\s*align-items:center;/);
 });
 
-test('conj: review status stays readable and summary stats use compact rows', () => {
-  assert.match(html, /\.review-copy small\{[\s\S]*?font-size:8px;[\s\S]*?white-space:nowrap;/);
-  assert.match(html, /\.record-overview \.record-stat\{[\s\S]*?grid-template-columns:minmax\(0,1fr\) max-content;[\s\S]*?padding:4px 7px;/);
+test('conj: record screen keeps desktop spacing legible and mobile review cards single-column', () => {
+  const block = html.match(/\/\* ===== v46: record screen layout legibility fix ===== \*\/[\s\S]*?<\/style>/);
+  assert.ok(block);
+  const css = block[0];
+  assert.match(css, /\.record-shell\{\s*width:min\(100%,920px\);/);
+  assert.match(css, /\.record-detail-grid\{\s*grid-template-columns:minmax\(430px,1fr\) minmax\(360px,\.9fr\);/);
+  assert.match(css, /\.record-overview\{\s*grid-template-columns:minmax\(0,1fr\) 152px;/);
+  assert.match(css, /\.record-overview \.record-stat dt\{\s*font-size:12px;/);
+  assert.match(css, /\.review-copy small\{[\s\S]*?font-size:10px;[\s\S]*?white-space:nowrap;/);
+  assert.match(css, /\.review-kind-line strong\{[\s\S]*?white-space:nowrap;/);
+  assert.match(css, /@media\(max-width:460px\)\{[\s\S]*?\.record-review\{\s*grid-template-columns:1fr;/);
   assert.match(html, /<dt>取り組んだ問題<\/dt>/);
-  assert.match(html, /\.record-overview \.record-grid\{[\s\S]*?grid-template-columns:repeat\(2,minmax\(0,1fr\)\);[\s\S]*?align-self:center;/);
-  assert.match(html, /\.record-overview \.record-stat:first-child\{\s*grid-column:1 \/ -1;/);
-  assert.match(html, /\.record-overview \.record-stat:first-child dt\{[\s\S]*?width:5em;/);
-  assert.match(html, /\.record-overview \.record-stat:nth-child\(n\+2\)\{[\s\S]*?flex-direction:column;/);
 });
 
 test('conj: hanamaru is an overlaid stamp and donut total is centered as one baseline-aligned unit', () => {
