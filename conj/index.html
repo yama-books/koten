@@ -862,11 +862,11 @@ td.wrong{background:var(--bad)!important}
 .table-panel.paired-mode .track-heads > span:first-child::after{
   content:attr(data-track-note);
   position:absolute;
-  left:6px;
-  top:50%;
-  transform:translateY(-50%);
-  writing-mode:vertical-rl;
-  text-orientation:upright;
+  left:50%;
+  top:calc(50% + 7px);
+  transform:translateX(-50%);
+  writing-mode:horizontal-tb;
+  text-orientation:mixed;
   white-space:nowrap;
   font-size:7px;
   font-weight:500;
@@ -918,7 +918,7 @@ td.wrong{background:var(--bad)!important}
     font-size:8px;
   }
   .table-panel.paired-mode .track-heads > span:first-child::after{
-    left:5px;
+    top:calc(50% + 6px);
     font-size:6.5px;
   }
   .katsuyo.paired-conjugation{
@@ -2727,7 +2727,7 @@ const items=[
  poem:28,target:"かれぬ",example:"山里は冬ぞ寂しさまさりける人目も草もかれぬと思へば"},
 {id:"furu_snow",pos:"verb",label:"動詞",lemma:"降る",kind:"ラ行四段活用",
  forms:[F(["ら"]),F(["り"]),F(["る"]),F(["る"]),F(["れ"]),F(["れ"])],
- poem:31,target:"ふれる",example:"朝ぼらけ有明の月と見るまでに吉野の里にふれる白雪"},
+ poem:31,target:"ふれ",example:"朝ぼらけ有明の月と見るまでに吉野の里にふれる白雪"},
 {id:"tsuranuku",pos:"verb",label:"動詞",lemma:"貫く",kind:"カ行四段活用",
  forms:[F(["か"]),F(["き"]),F(["く"]),F(["く"]),F(["け"]),F(["け"])],
  poem:37,target:"つらぬき",example:"白露に風の吹きしく秋の野はつらぬきとめぬ玉ぞ散りける"},

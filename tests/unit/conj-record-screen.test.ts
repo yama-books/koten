@@ -71,6 +71,26 @@ test('conj: paired tables center primary track names independently of supplement
   assert.match(html, /heads\.style\.gridTemplateColumns=/);
   assert.doesNotMatch(html, /textContent="左：補助活用　／　右：本活用"/);
 });
+
+test('conj: supplementary track note (カリ活用/ザリ活用) reads horizontally', () => {
+  const rules = [...html.matchAll(/\.table-panel\.paired-mode \.track-heads > span:first-child::after\{([^}]*)\}/g)]
+    .map((m) => m[1]);
+  assert.ok(rules.length > 0);
+  for (const body of rules) assert.doesNotMatch(body, /vertical-rl|text-orientation:upright/);
+  assert.match(rules[0], /writing-mode:horizontal-tb;/);
+  assert.match(rules[0], /white-space:nowrap;/);
+});
+
+test('conj: 降る example marks only the verb ふれ, not the auxiliary る', () => {
+  const src = html.match(/function highlight\(text,target,occurrence\)\{[\s\S]*?\n\}/);
+  assert.ok(src);
+  const highlight = new Function(`${src[0]}; return highlight;`)() as
+    (text: string, target: string, occurrence?: number) => string;
+  const item = html.match(/\{id:"furu_snow"[\s\S]*?target:"([^"]*)",example:"([^"]*)"\}/);
+  assert.ok(item);
+  assert.equal(item[1], 'ふれ');
+  assert.match(highlight(item[2], item[1]), /里に<mark>ふれ<\/mark>る白雪/);
+});
 test('conj: answer reveal is unscored and leaves no redundant feedback sentence', () => {
   assert.match(html, /if\(!revealOnly\)\{[\s\S]*?stats\.gradedCells\+\+/);
   assert.match(html, /if\(!revealOnly\)\{[\s\S]*?stats\.total\+\+/);
