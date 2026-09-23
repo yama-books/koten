@@ -3182,3 +3182,20 @@ conj・百人一首（`packages/hyakunin/src/ui/screens/Home.tsx`）と同じ仕
   UI 書体の後ろに置くので、変体仮名（U+1B000〜）だけが Noto Serif Hentaigana で描かれ、ほかの字は変わらない。
   （Noto Serif Hentaigana を先頭に置くと、latin サブセットのせいで英数字まで明朝体になるため後ろに置いている。）
 - §67 の F で撮れなかった否定形の出題のスクリーンショットも撮れた（`computeGlyphMastery` と `Math.random` を同じ `page.evaluate` の中で差し替える）。
+
+### 公開（PR #33）
+
+| 項目 | 値 |
+| --- | --- |
+| PR | #33 `publish-vintage-kana-20260924c` → `main`（マージコミット `5fa3ad9`） |
+| 元にした開発版 | `vintage-kana-main` `d096cef` |
+| Deploy Pages / CI（`main`） | 両方成功 |
+
+公開URLの `index.html` / `ui-glyph-master.json` / `glyph-confusion-pairs.json` は `main` と SHA-1 一致。
+公開ページで 266字・一覧の行ボタン・案内の3ボタン・`.feedback` の書体・コンソールエラーなしを確認。
+
+### 残件（保留中）
+
+1. `GLYPH_INFO_NOTES` への「似ている字」表示、`U+1B052` の比較相手（`U+1B11B` か `U+1B11C` か）の目視判断
+2. 混同ペア表の画像比較による拡充（現状は監査確定の3組のみ）
+3. iPhone 実機での最終確認（WebKit のスクリーンショットでは確認済み）
