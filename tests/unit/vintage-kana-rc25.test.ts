@@ -7,7 +7,7 @@ const glyphMaster = JSON.parse(readFileSync(new URL("../../vintage-kana/data/ui-
 
 
 test("vintage-kana fallback glyph data stays identical to the UI master", () => {
-  const match = html.match(/const FALLBACK_GLYPHS=(\\[[^\\n]+\\]);/);
+  const match = html.match(/const FALLBACK_GLYPHS=(\[[^\n]+\]);/);
   assert.ok(match, "FALLBACK_GLYPHS が見つからない");
   const fallback = JSON.parse(match[1]);
   assert.deepEqual(fallback, glyphMaster.glyphs);
@@ -129,7 +129,7 @@ test("vintage-kana keeps the audited glyph corrections and official-catalog anno
   assert.match(html, /公式収録一覧には含まれないため、補足字形として表示しています/);
   assert.match(html, /"glyph_id":"U\+1B0D8","character":"𛃘","jibo":"毛"/);
   assert.match(html, /"glyph_id":"U\+1B0E6","character":"𛃦","jibo":"遊"/);
-  assert.match(html, /"glyph_id":"U\+1B10C","character":"𛄌","jibo":"王","totalObserved":353,"witnessCount":12,"inOfficialCatalog":false/);
+  assert.match(html, /"glyph_id":"U\+1B10C","character":"𛄌","jibo":"王","totalObserved":353,"witnessCount":12,"ninjal_id":null,"inOfficialCatalog":false,"renderability":"unicode-text"/);
 });
 
 test("vintage-kana keeps U+1B11C mapped to を / 遠 in the current glyph master", () => {
