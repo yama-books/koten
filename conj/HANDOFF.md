@@ -933,3 +933,44 @@ PR / GitHub Actions / main / Pages 状態は次のチェックポイントで追
 **作業2完了。次は作業3: 配色切替・既定コーヒー化。**
 
 ただし、ドーナツグラフと記録欄の品詞別カラーは固定色として扱い、後続テーマ切替の対象にしない。配色系統数5/6は引き続き人確認事項であり、AIだけで決めない。**作業3には未着手のまま停止する。**
+
+
+
+---
+
+## 18. 作業2 完了状態監査・中間記録（2026-09-24）
+
+今回は新規実装ではなく、現行 `main` 上で作業2がすでに完了しているかを確認する監査セッション。
+
+### ここまでにGitHub実体で確認できたこと
+
+- 正本: `yama-books/koten`
+- 基準ブランチ: `main`
+- 対象: `conj/`
+- ローカルファイルは使用していない。
+- コード変更・CSS追加置換・作業3への着手は行っていない。
+- `main` と `codex/conj-work2-css-vars-20260924` の比較では、作業ブランチ側の差分は `conj/HANDOFF.md` の記録だけで、未反映の `conj/index.html` 実装は存在しない。
+- 現行 `main` の `conj/index.html` blob SHA は `7ccf2172ccdfe49fee9cfa75caad8a736f6c3326`。
+- PR #38 merge commit `d32a9af8955ab0ce2760bf657ba8b7d54623aa82` 以降、現行 `main` で進んだ変更は `conj/HANDOFF.md` だけで、`conj/index.html` と `tests/unit/conj-record-screen.test.ts` のblobはPR #38 merge時点から変化していない。
+
+### PR / CI 監査
+
+PR #37:
+- `refactor(conj): establish semantic color variable foundation`
+- 状態: **merged**
+- merge commit: `729c24b21d23e47e63b45ca2f43fc4b4757e975b`
+- GitHub Actions CI: **success**
+
+PR #38:
+- `fix(conj): keep record palette fixed`
+- 状態: **merged**
+- merge commit: `d32a9af8955ab0ce2760bf657ba8b7d54623aa82`
+- GitHub Actions CI: **success**
+
+したがって、少なくとも **作業2本体のPR #37と固定色補正PR #38はいずれもGitHub上でmerge済みで、両PRのCIも成功している** ことをHANDOFF記録ではなくGitHub実体で再確認した。
+
+### 監査の停止位置
+
+この記録は監査の中間チェックポイントであり、作業2を再実装する根拠ではない。
+次は現行 `main` の実体について、CSS変数化・固定色境界・作業1 v46ガード・テスト内容を引き続き監査する。
+作業3には進まない。
