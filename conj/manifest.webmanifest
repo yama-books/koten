@@ -1,0 +1,18 @@
+{
+  "name": "古典文法活用ノート",
+  "short_name": "活用練習",
+  "description": "古典文法の活用を、静かに何度でも練習する学習アプリ",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7fbfa",
+  "theme_color": "#f7fbfa",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
