@@ -65,6 +65,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .kanaFilterSlot{display:block;min-width:0}
 .kanaBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 4px;min-width:0}
 .kanaBtn.active{background:var(--accent2);color:var(--accent);border-color:var(--accent)}
+.kanaFilterAll .kanaBtn{min-width:calc(2em + 10px)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
 .card{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:125px;width:100%;color:var(--ink);text-align:left;font:inherit}
 .card.standardKana{background:#eef4fb;border-color:#c9ddf0}
@@ -222,7 +223,7 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
-.installGuide{position:relative;max-width:640px;margin:12px auto 0;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--paper2);color:var(--muted);font-size:11px;line-height:1.6;text-align:left}
+.installGuide{position:relative;max-width:640px;margin:12px auto 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--paper2);color:var(--muted);font-size:10px;line-height:1.6;text-align:left}
 .installGuide[hidden]{display:none}
 .installGuide__row{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
 .installGuide__text{margin:0;word-break:keep-all;overflow-wrap:anywhere}
@@ -1837,7 +1838,7 @@ function renderInstallGuide(){
    text.innerHTML="ホーム画面に<wbr>追加すると、<wbr>アプリとして<wbr>扱えます";
    if(actionBtn)actionBtn.hidden=false;
  }else{
-   text.innerHTML="ブラウザのメニューから<wbr>「ホーム画面に追加」を<wbr>選ぶと、<wbr>アプリとして<wbr>扱えます";
+   text.innerHTML="メニューの<wbr>「ホーム画面に追加」で<wbr>アプリとして<wbr>扱えます";
    if(actionBtn)actionBtn.hidden=true;
  }
  el.hidden=false;
