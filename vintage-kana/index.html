@@ -454,6 +454,9 @@ function hasGlyphChoices(ch){
 }
 function previewCell(inner){return '<span class="pvCell">'+inner+'</span>'}
 function renderSelectedToken(ch){
+ // 改行は字ではないので枠に入れず、そのまま改行として出す。
+ // 包んでしまうと空白に潰れ、画像だけ改行されて画面と食い違う。
+ if(ch==="\n") return "<br>";
  const sel=selected[ch];
  const togglesSmall=SMALL_TOGGLE_KANA.has(ch);
  if(!sel || sel.keep){
