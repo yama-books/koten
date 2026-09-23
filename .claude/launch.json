@@ -20,6 +20,12 @@
         "8787"
       ],
       "port": 8787
+    },
+    {
+      "name": "conj",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8790", "--directory", "D:/dev/koten"],
+      "port": 8790
     }
   ]
 }
