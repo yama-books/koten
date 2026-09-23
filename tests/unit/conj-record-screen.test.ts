@@ -206,7 +206,7 @@ test('conj: every runtime 形容動詞 heading resolves to kana, leaving kanji f
   assert.deepEqual(missing, []);
 });
 
-test('conj: 形容動詞 show reviewed public examples with source and license', () => {
+test('conj: 形容動詞 show reviewed public examples, credited once rather than per example', () => {
   const read = (name: string) =>
     JSON.parse(readFileSync(new URL(`../../conj/data/${name}`, import.meta.url), 'utf8'));
   const pool = new Set((read('adjectival-noun-lemma-pool.json').lemmas as { id: string }[]).map((l) => l.id));
@@ -224,7 +224,10 @@ test('conj: 形容動詞 show reviewed public examples with source and license',
   assert.match(adapter, /r\.exampleEnabledPublic!==true \|\| r\.rightsVerified!==true\s*\|\| r\.targetVerified!==true \|\| r\.excerptReviewed!==true/);
   assert.match(html, /publicExamples=await window\.ConjAdjvRuntime\.loadPublicExamples/);
   assert.match(html, /target:ex\.publicTarget/);
-  assert.match(html, /function setExampleSourceFoot\(foot,item\)/);
-  assert.match(html, /license\.textContent=item\.sourceLicense/);
+  // Examples show only the work name; attribution lives in one credits section.
+  assert.match(html, /source:ex\.work,/);
+  assert.doesNotMatch(html, /source:ex\.sourceLabel/);
+  assert.match(html, /<details class="source-credits" id="sourceCredits" hidden>/);
+  assert.match(html, /renderSourceCredits\(\[\.\.\.publicExamples\.values\(\)\]\)/);
   assert.match(html, /\.example-text\.is-prose\{white-space:normal !important\}/);
 });
