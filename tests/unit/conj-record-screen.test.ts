@@ -156,11 +156,42 @@ test('conj: auxiliary difficulty rises monotonically from levels 1 through 7', (
   assert.match(html, /count=Math\.max\(1,Math\.ceil\(eligible\.length\*p\.ratio\)\)/);
 });
 
-test('conj: record colors keep the palette but map red yellow green navy in POS order', () => {
-  assert.match(html, /--record-verb:#935568/);
-  assert.match(html, /--record-adj:#b77d55/);
-  assert.match(html, /--record-adjv:#39756f/);
-  assert.match(html, /--record-aux:#3d566b/);
+test('conj: palette foundation centralizes themeable colors while preserving the current mint scheme', () => {
+  const styleMatch = html.match(/<style>([\\s\\S]*?)<\\/style>/);
+  assert.ok(styleMatch);
+  const css = styleMatch[1];
+  const rootMatch = css.match(/:root\\{([\\s\\S]*?)\\}/);
+  assert.ok(rootMatch);
+  const root = rootMatch[1];
+
+  for (const token of [
+    '--bg:#f7fbfa',
+    '--card:#ffffff',
+    '--ink:#2c3b38',
+    '--muted:#6d7f7a',
+    '--accent:#6fa696',
+    '--accent-strong:#477d70',
+    '--on-accent:#fff',
+    '--cell-hover:#eef9f5',
+    '--cell-selected:#e8f7f2',
+    '--record-verb:#935568',
+    '--record-adj:#b77d55',
+    '--record-adjv:#39756f',
+    '--record-aux:#3d566b',
+    '--record-empty:#e8eef1',
+    '--record-rate-bg:#f8eff2',
+    '--review-backdrop:rgba(29,45,42,.5)',
+  ]) assert.ok(root.includes(token), token);
+
+  const cssOutsideRoot = css.replace(rootMatch[0], '');
+  assert.doesNotMatch(cssOutsideRoot, /#[0-9a-fA-F]{3,8}\\b/);
+  assert.doesNotMatch(cssOutsideRoot, /rgba?\\([^)]*\\)/);
+  assert.match(cssOutsideRoot, /background:var\\(--toolbar-surface\\)/);
+  assert.match(cssOutsideRoot, /background:var\\(--cell-hover\\)/);
+  assert.match(cssOutsideRoot, /background:var\\(--cell-selected\\)/);
+  assert.match(cssOutsideRoot, /background:var\\(--record-rate-bg\\)/);
+  assert.match(cssOutsideRoot, /background:var\\(--review-backdrop\\)/);
+  assert.match(html, /<meta name="theme-color" content="#f7fbfa">/);
 });
 
 test('conj: attempted count and donut share the same per-POS total', () => {
