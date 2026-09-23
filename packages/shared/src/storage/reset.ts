@@ -22,14 +22,25 @@ export async function previewReset(database: IDBDatabase, scope: ResetScope): Pr
   return { ok: true, value: { sessions: sessions.value.filter((x) => matches(x, scope)).length, events: events.value.filter((x) => matches(x, scope)).length, reports: reports.value.filter((x) => matches(x, scope)).length, outbox: scope === 'all' ? outbox.value.length : 0 } };
 }
 
-async function removeRecords(database: IDBDatabase, store: 'sessions' | 'events' | 'reports' | 'outbox', records: (Session | Event | Report | OutboxItem)[], scope: ResetScope): Promise<StorageResult<undefined>> {
+/**
+ * 削除の鍵は**置き場（store）が決める**。記録の欄を順に見て当てない。
+ *
+ * 2026-09-23 に踏んだ: イベントは `sessionId` の欄を持つ。欄を順に見る書き方では
+ * `eventId` より先に `sessionId` が当たり、**存在しない鍵で消していた**。
+ * 「消しました」と出るのに解答が 1 件も消えない、という状態が公開版で起きた。
+ */
+const keyFieldFor = { sessions: 'sessionId', events: 'eventId', reports: 'reportId', outbox: 'outboxId' } as const;
+
+async function removeRecords(database: IDBDatabase, store: 'sessions' | 'events' | 'reports' | 'outbox', records: (Session | Event | Report | OutboxItem)[], scope: ResetScope): Promise<StorageResult<number>> {
   const selected = store === 'outbox' ? (scope === 'all' ? records : []) : records.filter((record) => 'product' in record && matches(record, scope));
+  let removed = 0;
   for (const record of selected) {
-    const key: IDBValidKey = ('sessionId' in record ? record.sessionId : 'eventId' in record ? record.eventId : 'reportId' in record ? record.reportId : (record as OutboxItem).outboxId) as IDBValidKey;
+    const key = (record as unknown as Record<string, unknown>)[keyFieldFor[store]] as IDBValidKey;
     const result = await runTransaction(database, store, 'readwrite', (objectStore) => objectStore.delete(key) as IDBRequest<undefined>);
     if (!result.ok) return result;
+    removed += 1;
   }
-  return { ok: true, value: undefined };
+  return { ok: true, value: removed };
 }
 
 export async function resetRecords(database: IDBDatabase, confirmation: ResetConfirmation | UnconfirmedReset): Promise<StorageResult<ResetCounts>> {
@@ -43,5 +54,7 @@ export async function resetRecords(database: IDBDatabase, confirmation: ResetCon
   const eventsResult = await removeRecords(database, 'events', events.value, confirmation.scope); if (!eventsResult.ok) return eventsResult;
   const reportsResult = await removeRecords(database, 'reports', reports.value, confirmation.scope); if (!reportsResult.ok) return reportsResult;
   const outboxResult = await removeRecords(database, 'outbox', outbox.value, confirmation.scope); if (!outboxResult.ok) return outboxResult;
-  return { ok: true, value: confirmation.counts };
+  // **数えた件数ではなく、消した件数を返す。** 下見の数をそのまま返していたため、
+  // 1 件も消えていないのに「消しました」と出ていた（2026-09-23）。
+  return { ok: true, value: { sessions: sessionsResult.value, events: eventsResult.value, reports: reportsResult.value, outbox: outboxResult.value } };
 }
