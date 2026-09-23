@@ -27,7 +27,7 @@ test("vintage-kana raw distribution parts stay disjoint and match the index", ()
 
 test("vintage-kana UI frequency values equal the 15-witness raw observations", () => {
   const rows = [...part1.distributions, ...part2.distributions]
-    .filter((row: any) => row.diacritic === "none" && /^U\\+1B/.test(row.glyph_id));
+    .filter((row: any) => row.diacritic === "none" && /^U\+1B/.test(row.glyph_id));
   const byGlyph = new Map<string, { total: number; witnesses: Set<string> }>();
   rows.forEach((row: any) => {
     const current = byGlyph.get(row.glyph_id) || { total: 0, witnesses: new Set<string>() };
