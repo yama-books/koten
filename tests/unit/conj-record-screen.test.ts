@@ -157,10 +157,10 @@ test('conj: auxiliary difficulty rises monotonically from levels 1 through 7', (
 });
 
 test('conj: palette foundation centralizes themeable colors while preserving the current mint scheme', () => {
-  const styleMatch = html.match(/<style>([\\s\\S]*?)<\\/style>/);
+  const styleMatch = html.match(/<style>([\s\S]*?)<\/style>/);
   assert.ok(styleMatch);
   const css = styleMatch[1];
-  const rootMatch = css.match(/:root\\{([\\s\\S]*?)\\}/);
+  const rootMatch = css.match(/:root\{([\s\S]*?)\}/);
   assert.ok(rootMatch);
   const root = rootMatch[1];
 
@@ -184,16 +184,15 @@ test('conj: palette foundation centralizes themeable colors while preserving the
   ]) assert.ok(root.includes(token), token);
 
   const cssOutsideRoot = css.replace(rootMatch[0], '');
-  assert.doesNotMatch(cssOutsideRoot, /#[0-9a-fA-F]{3,8}\\b/);
-  assert.doesNotMatch(cssOutsideRoot, /rgba?\\([^)]*\\)/);
-  assert.match(cssOutsideRoot, /background:var\\(--toolbar-surface\\)/);
-  assert.match(cssOutsideRoot, /background:var\\(--cell-hover\\)/);
-  assert.match(cssOutsideRoot, /background:var\\(--cell-selected\\)/);
-  assert.match(cssOutsideRoot, /background:var\\(--record-rate-bg\\)/);
-  assert.match(cssOutsideRoot, /background:var\\(--review-backdrop\\)/);
+  assert.doesNotMatch(cssOutsideRoot, /#[0-9a-fA-F]{3,8}\b/);
+  assert.doesNotMatch(cssOutsideRoot, /rgba?\([^)]*\)/);
+  assert.match(cssOutsideRoot, /background:var\(--toolbar-surface\)/);
+  assert.match(cssOutsideRoot, /background:var\(--cell-hover\)/);
+  assert.match(cssOutsideRoot, /background:var\(--cell-selected\)/);
+  assert.match(cssOutsideRoot, /background:var\(--record-rate-bg\)/);
+  assert.match(cssOutsideRoot, /background:var\(--review-backdrop\)/);
   assert.match(html, /<meta name="theme-color" content="#f7fbfa">/);
 });
-
 test('conj: attempted count and donut share the same per-POS total', () => {
   assert.match(html, /const total=keys\.reduce\(\(sum,key\)=>sum\+counts\[key\],0\)/);
   assert.match(html, /recordQuestions"\)\.textContent=total\+"問"/);
