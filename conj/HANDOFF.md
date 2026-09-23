@@ -903,3 +903,33 @@ PR / GitHub Actions / main / Pages 状態は次のチェックポイントで追
 ### 停止境界
 
 作業3へは進んでいない。補正PRを検証・main反映し、作業2の最終状態を固定した時点で停止する。
+
+### PR / CI / main / Pages 確定記録
+
+- HANDOFF補足記録commit: `d2166b168fa279ccecb7a6134dbd957929f20583` — `docs(conj): record fixed record-color boundary`
+- PR: **#38** `fix(conj): keep record palette fixed`
+- GitHub Actions: **CI run #1318 / verify = success**
+- CIで成功した主な工程:
+  - `npm run check:eol`
+  - `npm ci`
+  - `npm run typecheck`
+  - `npm run lint`
+  - `npm test`
+  - `npm run data:check`
+  - `npm run build`
+  - Playwright Chromium install
+  - `npm run check:font`
+  - `npm run check:font-assets`
+  - `npm run check:font-weight`
+  - `npm run check:overflow`
+  - `npm run scan:publish`
+- PR状態: **merged**
+- main merge commit: `d32a9af8955ab0ce2760bf657ba8b7d54623aa82`
+- main反映: **完了**
+- Pages公開状態: **未確認**。公開URL `https://yama-books.github.io/koten/conj/` を外部Web経路から確認したが、この環境ではURLへアクセスできなかった。GitHub connectorにもPages build状態を直接取得するアクションはない。
+
+### 作業2 最終停止位置
+
+**作業2完了。次は作業3: 配色切替・既定コーヒー化。**
+
+ただし、ドーナツグラフと記録欄の品詞別カラーは固定色として扱い、後続テーマ切替の対象にしない。配色系統数5/6は引き続き人確認事項であり、AIだけで決めない。**作業3には未着手のまま停止する。**
