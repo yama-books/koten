@@ -62,6 +62,8 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   const [settings, setSettings] = useState<UserSettings | null>(null);
   const [syncStatus, setSyncStatus] = useState<SyncStatus | 'off'>('off');
   const syncStopRef = useRef<(() => void) | null>(null);
+  // 購読を張り直す合図。**記録を消すあいだだけ止める**のに使う。
+  const [syncEpoch, setSyncEpoch] = useState(0);
   const [result, setResult] = useState<SessionResult | null>(null);
   const [history, setHistory] = useState<HistorySummary | null>(null);
   const [historyInitialTab, setHistoryInitialTab] = useState<'一覧' | 'データ管理'>('一覧');
@@ -91,7 +93,22 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     return () => { syncStopRef.current = null; stop(); };
     // `settings === null` も依存に要る。`syncEnabled` を持たない設定では
     // 読み込み前後でどちらも undefined になり、読み終えたことを依存の変化として拾えない。
-  }, [port, settings === null, settings?.syncEnabled, settings?.syncCode]);
+  }, [port, settings === null, settings?.syncEnabled, settings?.syncCode, syncEpoch]);
+
+  /**
+   * 購読だけ止める。設定は変えない。**記録を消すあいだの書き戻しを防ぐ。**
+   * 消したあとに届いた古い snapshot が、消した記録をそのまま書き戻す
+   * （2026-09-23 に公開版で実測：クラウドは空になったのに端末へ 12 件戻った）。
+   */
+  function pauseSync(): void {
+    syncStopRef.current?.();
+    syncStopRef.current = null;
+  }
+
+  /** 止めた購読を張り直す。設定はそのままなので、同じ同期グループへ戻る。 */
+  function resumeSync(): void {
+    setSyncEpoch((value) => value + 1);
+  }
 
   /** 同期先の記録を消す。合言葉が無ければ何もしない。 */
   async function deleteRemoteRecords(): Promise<boolean> {
@@ -239,7 +256,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   if (screen === 'result-loading') return <main class="loading" aria-live="polite">結果を読み込んでいます。</main>;
   if (screen === 'review-error') return <main class="session"><p role="alert">この問題は表示できません。ホームに戻ってやり直してください。</p><button type="button" onClick={() => setScreen('home')}>ホームへ戻る</button></main>;
   if (screen === 'history-loading') return <main class="loading" aria-live="polite">記録を読み込んでいます。</main>;
-  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} onChanged={reloadHistory} initialTab={historyInitialTab} onOpenSync={appConfig.features.sync ? () => { setHistoryInitialTab('データ管理'); setSyncReturn('history'); setScreen('sync'); } : undefined} syncEnabled={settings.syncEnabled} onDeleteRemote={deleteRemoteRecords} onStopSync={stopSync} />;
+  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} onChanged={reloadHistory} initialTab={historyInitialTab} onOpenSync={appConfig.features.sync ? () => { setHistoryInitialTab('データ管理'); setSyncReturn('history'); setScreen('sync'); } : undefined} syncEnabled={settings.syncEnabled} onDeleteRemote={deleteRemoteRecords} onStopSync={stopSync} onPauseSync={pauseSync} onResumeSync={resumeSync} />;
   if (screen === 'result' && result && selected) {
     // 結果に残った問題でも、壊れた穴埋めは再確認画面を作れない。押すと必ず失敗する
     // 導線を出さず、作者問題は既存の選択式 UI で再確認へ通す（発注074 工程16）。

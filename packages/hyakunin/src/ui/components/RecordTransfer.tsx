@@ -13,6 +13,10 @@ type Props = {
   onDeleteRemote?: () => Promise<boolean>;
   /** 同期を止める。成功したら真。 */
   onStopSync?: () => Promise<boolean>;
+  /** 購読だけ止める（設定は変えない）。消すあいだの書き戻しを防ぐ。 */
+  onPauseSync?: () => void;
+  /** 止めた購読を張り直す。 */
+  onResumeSync?: () => void;
 };
 
 /**
@@ -39,7 +43,7 @@ const fileName = (today: string) => `百人一首練習帳_記録_${today}.json`
  * 記録の持ち出しと取り込み。APP_SPEC §9 に従い、**取り込みは 2 段階**にする——
  * まず件数を見せ、押されて初めて書く。下見の段階では 1 件も書かない。
  */
-export function RecordTransfer({ port, onChanged, syncEnabled = false, onDeleteRemote, onStopSync }: Props) {
+export function RecordTransfer({ port, onChanged, syncEnabled = false, onDeleteRemote, onStopSync, onPauseSync, onResumeSync }: Props) {
   const [stage, setStage] = useState<Stage>({ kind: "idle" });
   const [busy, setBusy] = useState(false);
   // 口が無いポート（簡易ポート・試験のダブル）では機能ごと出さない。
@@ -114,10 +118,16 @@ export function RecordTransfer({ port, onChanged, syncEnabled = false, onDeleteR
    */
   async function runDelete(counts: ResetCounts, scope: 'device' | 'everywhere' = 'device') {
     setBusy(true);
+    let resume = false;
     if (syncEnabled) {
       if (scope === 'everywhere') {
+        // **先に購読を止める。** 止めないと、消したあとに届いた古い snapshot が書き戻す
+        // （2026-09-23 に公開版で実測：クラウドは空になったのに端末へ 12 件戻った）。
+        onPauseSync?.();
+        resume = true;
         if (!(await onDeleteRemote?.())) {
           setBusy(false);
+          onResumeSync?.();
           setStage({ kind: "failed", message: "同期先の記録を消せませんでした。記録はそのままです。" });
           return;
         }
@@ -130,6 +140,8 @@ export function RecordTransfer({ port, onChanged, syncEnabled = false, onDeleteR
       }
     }
     const removed = await port.commitDelete!(counts);
+    // 消し終えてから張り直す。同期先も端末も空なので、戻ってくる記録は無い。
+    if (resume) onResumeSync?.();
     setBusy(false);
     if (!removed) {
       setStage({ kind: "failed", message: "削除できませんでした。記録はそのままです。" });

@@ -224,3 +224,36 @@ test('同期先を消せなかったら、端末の記録も消さない', async
   expect(order).toEqual([]);
   expect(view.textContent).toContain('同期先の記録を消せませんでした');
 });
+
+test('「同期先とこの端末から消す」は消すあいだ購読を止めて張り直す', () => {
+  // **止めないと、消したあとに届いた古い snapshot が書き戻す。**
+  // 2026-09-23 に公開版で実測：クラウドは空になったのに端末へ 12 件戻った。
+  const order: string[] = [];
+  return (async () => {
+    await openDeleteConfirm({
+      port: stub({ async commitDelete(counts) { order.push('local'); return counts; } }),
+      onDeleteRemote: async () => { order.push('remote'); return true; },
+      onPauseSync: () => { order.push('pause'); },
+      onResumeSync: () => { order.push('resume'); },
+    });
+    await act(async () => { button('同期先とこの端末から消す')!.click(); });
+    await act(async () => { await new Promise((resolve) => queueMicrotask(resolve)); });
+    expect(order).toEqual(['pause', 'remote', 'local', 'resume']);
+  })();
+});
+
+test('同期先を消せなかったら購読を張り直して元へ戻す', () => {
+  // 止めっぱなしにすると、消えていないのに同期も効かない面が残る。
+  const order: string[] = [];
+  return (async () => {
+    await openDeleteConfirm({
+      port: stub({ async commitDelete(counts) { order.push('local'); return counts; } }),
+      onDeleteRemote: async () => false,
+      onPauseSync: () => { order.push('pause'); },
+      onResumeSync: () => { order.push('resume'); },
+    });
+    await act(async () => { button('同期先とこの端末から消す')!.click(); });
+    await act(async () => { await new Promise((resolve) => queueMicrotask(resolve)); });
+    expect(order).toEqual(['pause', 'resume']);
+  })();
+});
