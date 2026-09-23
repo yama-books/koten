@@ -172,3 +172,26 @@ test('conj: review uses error rate after three answers and groups auxiliaries by
   assert.match(html, /item\.pos==="aux" \? item\.pos\+":"\+item\.id/);
   assert.match(html, /if\(item\.pos!=="aux"\) return broadKind\(item\.kind\)/);
 });
+
+test('conj: every runtime 形容動詞 heading resolves to kana, leaving kanji for the aid line', () => {
+  const read = (name: string) =>
+    JSON.parse(readFileSync(new URL(`../../conj/data/${name}`, import.meta.url), 'utf8'));
+  const pool = read('adjectival-noun-lemma-pool.json').lemmas as { lemma: string; paradigmId: string; exampleIds: string[] }[];
+  const annotations = new Map(
+    (read('adjectival-noun-lexical-annotations.json').annotations as { id: string; displayLemma?: string }[])
+      .map((a) => [a.id, a]),
+  );
+  const mapSrc = html.match(/const HISTORICAL_KANA_HEADINGS=\{([\s\S]*?)\};/);
+  assert.ok(mapSrc);
+  const headings = new Set([...mapSrc[1].matchAll(/"([^"]+)":"[^"]+"/g)].map((m) => m[1]));
+  const kanji = /[一-龯々]/;
+  const missing = pool
+    .map((lemma) => {
+      const stems = lemma.exampleIds.map((id) => annotations.get(id)?.displayLemma);
+      const stable = stems.length && stems.every((s) => s && s === stems[0]) ? stems[0] : null;
+      const suffix = lemma.paradigmId === 'adjv-tari' ? 'たり' : 'なり';
+      return stable ? stable + suffix : lemma.lemma;
+    })
+    .filter((display) => kanji.test(display) && !headings.has(display));
+  assert.deepEqual(missing, []);
+});
