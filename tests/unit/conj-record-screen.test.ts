@@ -293,3 +293,29 @@ test('conj: home-screen name is 活用ノート on iOS and Android', () => {
   const manifest = JSON.parse(readFileSync(new URL('../../conj/manifest.webmanifest', import.meta.url), 'utf8'));
   assert.equal(manifest.short_name, '活用ノート');
 });
+
+test('conj: install guide detects home-screen launch and offers to add it otherwise', () => {
+  assert.match(html, /function isStandaloneLaunch\(\)\{/);
+  assert.match(html, /window\.matchMedia\?\.\("\(display-mode: standalone\)"\)\.matches===true/);
+  assert.match(html, /navigator\.standalone===true/);
+  assert.match(html, /if\(isStandaloneLaunch\(\) \|\| installNoticeWasDismissed\(\)\) return;/);
+});
+
+test('conj: install guide shows the iOS share icon wording and an SVG labeled 共有', () => {
+  assert.match(html, /共有ボタン\$\{shareIconSvg\}からホーム画面に追加すると、アプリとして扱えます/);
+  assert.match(html, /class="install-guide__icon" viewBox="0 0 24 24" role="img" aria-label="共有"/);
+});
+
+test('conj: install guide remembers dismissal under conjInstallNoticeDismissed', () => {
+  assert.match(html, /const INSTALL_NOTICE_KEY="conjInstallNoticeDismissed";/);
+  assert.match(html, /localStorage\.getItem\(INSTALL_NOTICE_KEY\)==="true"/);
+  assert.match(html, /localStorage\.setItem\(INSTALL_NOTICE_KEY,"true"\)/);
+});
+
+test('conj: install guide sits outside the study card, near the source-credits link', () => {
+  assert.match(
+    html,
+    /<button class="source-credits-link" id="openSourceCredits" type="button" hidden>用例の出典<\/button>\s*<section class="install-guide" id="installGuide" hidden aria-label="ホーム画面への追加">/,
+  );
+  assert.doesNotMatch(html, /<main class="card">[\s\S]*id="installGuide"[\s\S]*<\/main>/);
+});
