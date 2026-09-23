@@ -2899,3 +2899,26 @@ OFL-1.1 は派生フォントの作成を許している。
 
 再開指示:
 `vintage-kana-main HANDOFF §60〜§61から再開。NINJAL公式266件と改行修正はPR #27で公開済み。混同ペア表はChatGPTへ切り出し中（CONFUSION_PAIRS_TASK_2026-09-23.md）。戻っていれば検証してから、混同ペアの習熟度別出し分け→字母逆引きの複数正解へ。observedで母集団を絞る案は却下済み、頻度は重みとしてのみ使う。`
+
+
+## 62. 2026-09-23 字形一覧の頻度順・頻度キャッシュ補正
+
+依頼者方針: 各音では現代の通常平仮名を先頭に置き、その後のUnicode変体仮名を、国語研字形DBの現行収録資料で出現頻度の高いものから並べる。Unicode未付与28件は従来どおり扱わない。
+
+実装ブランチ: `vintage-kana-frequency-order-20260923`
+
+実装:
+- `renderCards()` の通常平仮名先頭固定は維持。
+- `GLYPHS` の並びを、音価順 → `totalObserved` 降順 → `witnessCount` 降順 → `glyph_id` 昇順へ変更。
+- 頻度値の根拠は `data/glyph-distribution.json` の `diacritic=none`、初期15資料。
+- 現行 `glyph-distribution.json` は47音を全て含む。旧 `glyph-distribution-part2.json` の11音分も同じレコードを含むため、両者を合算すると二重計上になることを検出。
+- その影響で `ui-glyph-master.json` の「も・や・ゆ・よ・ら・り・る・れ・ろ・ゐ・ゑ・を」のうち31字体が2倍になっていた。正本1ファイルから再集計して補正した。
+- `FALLBACK_GLYPHS` も同じ値へ同期。
+- テストで全266字体の `totalObserved / witnessCount` が正本分布から1回だけ集計された値と一致すること、および一覧ソート契約を固定。
+
+表示順の意味:
+- 「この字体が歴史的に正しい／標準」という順位ではない。
+- 初期15資料での観察件数に基づく、一覧を見やすくするための順序。
+- 詳細は `AGGREGATION_RULES.md` §9。
+
+公開 `main` への反映はこの節の時点では行っていない。
