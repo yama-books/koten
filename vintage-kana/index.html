@@ -221,13 +221,15 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
-.installGuide{max-width:640px;margin:12px auto 0;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--paper2);color:var(--muted);font-size:11px;line-height:1.6;text-align:center}
+.installGuide{position:relative;max-width:640px;margin:12px auto 0;padding:10px 40px 10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--paper2);color:var(--muted);font-size:11px;line-height:1.6;text-align:left}
 .installGuide[hidden]{display:none}
-.installGuide__row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
-.installGuide__text{margin:0}
+.installGuide__row{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.installGuide__text{margin:0;word-break:keep-all;overflow-wrap:anywhere}
 .installGuide__icon{height:1em;width:1em;vertical-align:-0.15em;margin:0 1px}
 .installGuide__btn{min-height:32px;border:1px solid var(--accent-border);border-radius:999px;background:var(--accent2);color:var(--accent);padding:4px 12px;font-size:11px;font-weight:700}
-.installGuide__close{border:none;background:transparent;color:var(--muted);font-size:14px;line-height:1;padding:2px 4px;min-width:28px;min-height:28px}
+.installGuide__btn[hidden]{display:none}
+.installGuide__close{position:absolute;top:4px;right:4px;display:grid;place-items:center;border:none;border-radius:999px;background:transparent;color:var(--muted);font-size:15px;line-height:1;padding:0;width:32px;height:32px;min-width:32px;min-height:32px}
+.installGuide__close:hover{background:rgba(0,0,0,.04)}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 @media(max-width:720px){button{min-height:44px}.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:380px){.learnHelpBtn{width:44px;padding:0;justify-content:center}.learnHelpBtn>span:last-child{display:none}.utilityTabs{flex:1;justify-content:flex-end}.tab{padding-inline:7px}.tab.navPrimary{padding-inline:9px}}
@@ -1784,16 +1786,17 @@ function renderInstallGuide(){
    el.hidden=true;
    return;
  }
+ // 文面は固定の文字列。<wbr> で文節の切れ目だけを折り返し位置にする（keep-all と組み合わせる）。
  const text=document.getElementById("installGuideText");
  const actionBtn=document.getElementById("installGuideAction");
  if(installForIos){
-   text.innerHTML="共有ボタン"+SHARE_ICON_SVG+"からホーム画面に追加すると、アプリとして扱えます";
+   text.innerHTML="共有ボタン"+SHARE_ICON_SVG+"から<wbr>ホーム画面に<wbr>追加すると、<wbr>アプリとして<wbr>扱えます";
    if(actionBtn)actionBtn.hidden=true;
  }else if(installPromptEvent){
-   text.textContent="ホーム画面に追加すると、アプリとして扱えます";
+   text.innerHTML="ホーム画面に<wbr>追加すると、<wbr>アプリとして<wbr>扱えます";
    if(actionBtn)actionBtn.hidden=false;
  }else{
-   text.textContent="ブラウザのメニューから「ホーム画面に追加」を選ぶと、アプリとして扱えます";
+   text.innerHTML="ブラウザのメニューから<wbr>「ホーム画面に追加」を<wbr>選ぶと、<wbr>アプリとして<wbr>扱えます";
    if(actionBtn)actionBtn.hidden=true;
  }
  el.hidden=false;

@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const html = readFileSync(new URL("../../vintage-kana/index.html", import.meta.url), "utf8");
+// 文面の折り返し位置は <wbr> で指定している。文言の照合では取り除いて読む。
+const plain = html.replace(/<wbr>/g, "");
 
 test("vintage-kana install guide detects a standalone launch", () => {
   assert.match(html, /display-mode: standalone/);
@@ -10,13 +12,21 @@ test("vintage-kana install guide detects a standalone launch", () => {
 });
 
 test("vintage-kana install guide shows iOS wording with an inline share icon", () => {
-  assert.match(html, /共有ボタン.*からホーム画面に追加すると、アプリとして扱えます/);
+  assert.match(plain, /共有ボタン.*からホーム画面に追加すると、アプリとして扱えます/);
   assert.match(html, /role="img" aria-label="共有"/);
   assert.match(html, /installGuide__icon\{height:1em;width:1em/);
 });
 
 test("vintage-kana install guide falls back to the browser-menu wording", () => {
-  assert.match(html, /ブラウザのメニューから「ホーム画面に追加」を選ぶと、アプリとして扱えます/);
+  assert.match(plain, /ブラウザのメニューから「ホーム画面に追加」を選ぶと、アプリとして扱えます/);
+});
+
+test("vintage-kana install guide keeps the close button pinned and breaks lines only at phrases", () => {
+  // ×が文の下に落ちないよう右上に固定し、文は文節の切れ目（<wbr>）だけで折り返す。
+  assert.match(html, /\.installGuide\{position:relative;[^}]*padding:10px 40px 10px 14px/);
+  assert.match(html, /\.installGuide__close\{position:absolute;top:4px;right:4px/);
+  assert.match(html, /\.installGuide__text\{margin:0;word-break:keep-all;overflow-wrap:anywhere\}/);
+  assert.match(html, /アプリとして<wbr>扱えます/);
 });
 
 test("vintage-kana install guide wires beforeinstallprompt to a button", () => {
