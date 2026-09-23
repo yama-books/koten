@@ -136,6 +136,11 @@ test("vintage-kana jibo notation keeps each jibo pointing at a single answer set
   for (const g of glyphs) assert.equal(g.jibo, g.jibo.normalize("NFC").replace(/\s+/g, ""));
 });
 
+test("vintage-kana feedback can render hentaigana glyphs", () => {
+  // 回答後の文に変体仮名を差し込む（否定形・字母逆引き）。UI書体には変体仮名が無く、iPhone では空白になる。
+  assert.match(html, /\.feedback\{[^}]*font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Noto Serif Hentaigana",sans-serif\}/);
+});
+
 test("vintage-kana help is modal and browse navigation uses the compact row menu", () => {
   assert.match(html, /h1\{font-family:var\(--font-ui\)/);
   assert.match(html, /data-view="browse">一覧<\/button>/);

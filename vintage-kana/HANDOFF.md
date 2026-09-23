@@ -3170,3 +3170,15 @@ conj・百人一首（`packages/hyakunin/src/ui/screens/Home.tsx`）と同じ仕
 
 - §66残件2〜5はそのまま未対応（iPhone実機でのA/否定形出題の見え方、否定形出題の問題文サイズ、`GLYPH_INFO_NOTES` の比較相手の目視判断、混同ペア表の拡充）。
 - item Fのスクリーンショット（A/B/D は狙いどおり撮影できた）のうち、読み方の否定形問題（「次のうち「K」ではないものはどれ？」）は、`computeGlyphMastery` 周りを本番コードに手を入れずスクリプト側だけで強制発火させる試み（`Math.random` の固定オーバーライド等）では再現できず、通常の4択問題のスクリーンショットになっている。次回は `NEGATIVE_QUESTION_RATE` の抽選箇所をより直接的にフックする方法を検討すること。
+
+## 68. 2026-09-24 回答後の文で変体仮名が空白になる不具合・公開準備
+
+§67 の続き。公開前に WebKit（iPhone 13 相当）で画面を撮って確認した。
+
+- **不具合**: 否定形の出題の回答後の文「正解です。「𛀟」は「か」と読みます。」で、変体仮名が **空白** になっていた。
+  `.feedback` の書体が UI 書体（Zen Maru Gothic / Hiragino）だけで、変体仮名の字形を持たないため。
+  字母逆引きの「正解は「X」です。」も同じ作りで、以前から iPhone では空白だったはず。
+- **修正**: `.feedback` の font-family を `"Zen Maru Gothic","Hiragino Maru Gothic ProN","Noto Serif Hentaigana",sans-serif` にした。
+  UI 書体の後ろに置くので、変体仮名（U+1B000〜）だけが Noto Serif Hentaigana で描かれ、ほかの字は変わらない。
+  （Noto Serif Hentaigana を先頭に置くと、latin サブセットのせいで英数字まで明朝体になるため後ろに置いている。）
+- §67 の F で撮れなかった否定形の出題のスクリーンショットも撮れた（`computeGlyphMastery` と `Math.random` を同じ `page.evaluate` の中で差し替える）。
