@@ -1035,3 +1035,24 @@ GitHub blob経路で全文を取得して監査した。
 - コード変更、CSS置換、PR作成、作業3への着手は行っていない。
 
 次回は第1段階を、項目をさらに小分けにして再開する。
+
+
+### 第1段階-① 完了: `:root` と固定色境界（2026-09-24）
+
+GitHub上の現行 `main` の `conj/index.html` をblob経路で監査した。
+
+- 現行blob SHA: `7ccf2172ccdfe49fee9cfa75caad8a736f6c3326`（前回監査値と一致）
+- `:root` のCSSカスタムプロパティ: 64個
+- 作業2で必要な通常UI用の意味変数群: 欠落なし
+- 次の固定色は `:root` に存在しない: `--record-verb / --record-adj / --record-adjv / --record-aux / --record-empty / --record-donut-base`
+- `.record-screen` の局所固定色:
+  - `--record-verb:#935568`: PASS
+  - `--record-adj:#b77d55`: PASS
+  - `--record-adjv:#39756f`: PASS
+  - `--record-aux:#3d566b`: PASS
+  - `--record-empty:#e8eef1`: PASS
+- ドーナツ基底色 `#e7f1ee` の固定指定: PASS
+
+結論: **第1段階-①「:root と固定色境界」はPASS。** PR #38で確定した固定色境界の巻き戻りは認められない。
+
+ここで停止する。第1段階-②「直書きhex/rgba監査」には未着手。
