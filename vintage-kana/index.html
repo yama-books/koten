@@ -516,6 +516,10 @@ const CHOICE_INCORRECT_DECREMENT=3;
 const FREE_INPUT_INCORRECT_DECREMENT=5;
 const JIBO_REVERSE_MASTERY_THRESHOLD=65;
 const CONFUSION_TRAINING_MASTERY=85;
+// 読みの4択に混ぜる否定形（「Kではないものはどれ？」）の出現率と、候補となる読みKに
+// 求める平均習熟度のしきい値。習熟度の計算規則そのものは変えない。
+const NEGATIVE_QUESTION_RATE=0.2;
+const NEGATIVE_QUESTION_MASTERY=60;
 const KANA_ROWS=[
   ["あ行",[..."あいうえお"]],["か行",[..."かきくけこ"]],["さ行",[..."さしすせそ"]],
   ["た行",[..."たちつてと"]],["な行",[..."なにぬねの"]],["は行",[..."はひふへほ"]],
@@ -898,7 +902,7 @@ function restartQuizSet(){
  document.querySelectorAll(".quizScreenBtn").forEach(b=>b.classList.toggle("active",b.dataset.quizScreen==="practice"));
  newQuiz();
 }
-function recordLearningAttempt(mode,correct,masteryMethod){
+function recordLearningAttempt(mode,correct,masteryMethod,questionType){
  const now=new Date();
  learningEvents.push({
    id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
@@ -911,7 +915,8 @@ function recordLearningAttempt(mode,correct,masteryMethod){
    glyph:quizEntry?.character||"",
    glyphId:quizEntry?.glyph_id||"",
    kana:quizEntry?.kana||"",
-   jibo:quizEntry?.jibo||""
+   jibo:quizEntry?.jibo||"",
+   ...(questionType?{questionType}:{})
  });
  quizSet.results.push({
    character:quizEntry?.character||"",
@@ -1047,6 +1052,40 @@ function quizMethodForGlyph(character,mode=quizMode){
 }
 function kanaRowFor(kana){
  return KANA_ROWS.find(([,kanas])=>kanas.includes(kana))?.[1]||[];
+}
+// 読みの否定形出題（「Kではないものはどれ？」）の候補となる読みKを選ぶ。
+// 候補Kの条件: quizEntryの読みと違う／その読みの変体仮名が3字以上ある／
+// その変体仮名の平均習熟度がNEGATIVE_QUESTION_MASTERY以上。
+// quizEntryの混同相手（見た目が同じ字）は選択肢から除き、除いた結果3字に満たなければ候補から外す。
+function averageMasteryOf(glyphs){
+ if(!glyphs.length)return 0;
+ return glyphs.reduce((sum,g)=>sum+computeGlyphMastery(g.character),0)/glyphs.length;
+}
+function buildNegativeReadingCandidates(entry){
+ const byKana=new Map();
+ GLYPHS.forEach(g=>{
+   if(!byKana.has(g.kana))byKana.set(g.kana,[]);
+   byKana.get(g.kana).push(g);
+ });
+ const confusables=CONFUSION_MAP.get(entry.character)||new Set();
+ const candidates=[];
+ byKana.forEach((glyphs,kana)=>{
+   if(kana===entry.kana)return;
+   if(glyphs.length<3)return;
+   if(averageMasteryOf(glyphs)<NEGATIVE_QUESTION_MASTERY)return;
+   const usable=glyphs.filter(g=>!confusables.has(g.character));
+   if(usable.length<3)return;
+   candidates.push({kana,usable});
+ });
+ return candidates;
+}
+function pickNegativeReadingCandidate(entry){
+ const candidates=buildNegativeReadingCandidates(entry);
+ if(!candidates.length)return null;
+ const row=kanaRowFor(entry.kana);
+ const rowCandidates=candidates.filter(c=>row.includes(c.kana));
+ const pool=rowCandidates.length?rowCandidates:candidates;
+ return pool[Math.floor(Math.random()*pool.length)];
 }
 function focusedReadingPool(entry){
  const row=kanaRowFor(entry.kana);
@@ -1189,6 +1228,14 @@ function newQuiz(){
  quizGlyph.textContent=quizEntry.character;
  if(jiboPromptGlyph)jiboPromptGlyph.textContent=quizEntry.character;
 
+ let currentQuestionType=null;
+ let negativeKana=null;
+ function negativeFeedbackText(correct){
+   return correct
+     ? "正解です。「"+quizEntry.character+"」は「"+quizEntry.kana+"」と読みます。"
+     : "「"+quizEntry.character+"」は「"+quizEntry.kana+"」と読みます。ほかの3字は「"+negativeKana+"」です。";
+ }
+
  function revealJiboAnswer(){
    if(quizMode!=="jibo")return;
    if(jiboPromptGlyph)jiboPromptGlyph.textContent=quizEntry.character;
@@ -1197,7 +1244,7 @@ function newQuiz(){
  }
  function finishAnswer(correct,feedback){
    revealJiboAnswer();
-   recordLearningAttempt(quizMode,correct,quizQuestionMethod);
+   recordLearningAttempt(quizMode,correct,quizQuestionMethod,currentQuestionType);
    document.getElementById("feedback").textContent=feedback;
    if(next){
      next.disabled=false;
@@ -1230,11 +1277,13 @@ function newQuiz(){
        });
        if(value!==answer)b.classList.add("wrong");
        const correct=value===answer;
-       const feedback=quizMode==="reading"
-         ? readingFeedbackText(correct)
-         : quizQuestionMethod==="jibo-reverse"
-           ? (correct?"正解です。":"正解は「"+quizEntry.character+"」です。")
-           : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
+       const feedback=currentQuestionType==="reading-negative"
+         ? negativeFeedbackText(correct)
+         : quizMode==="reading"
+           ? readingFeedbackText(correct)
+           : quizQuestionMethod==="jibo-reverse"
+             ? (correct?"正解です。":"正解は「"+quizEntry.character+"」です。")
+             : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
        finishAnswer(correct,feedback);
      };
      root.appendChild(b);
@@ -1242,15 +1291,27 @@ function newQuiz(){
  }
 
  if(quizMode==="reading"){
-   quizGlyph.hidden=false;
    if(jiboPrompt)jiboPrompt.hidden=true;
    question.hidden=false;
-   question.textContent="この文字は何と読む？";
    if(quizQuestionMethod==="free-input"){
+     quizGlyph.hidden=false;
+     question.textContent="この文字は何と読む？";
      configureFreeInput();
    }else{
-     const pool=mastery>=30?focusedReadingPool(quizEntry):shuffle([...new Set(GLYPHS.map(x=>x.kana))].filter(x=>x!==quizEntry.kana));
-     configureChoice(shuffle([quizEntry.kana,...pool.slice(0,3)]),quizEntry.kana);
+     const negative=Math.random()<NEGATIVE_QUESTION_RATE?pickNegativeReadingCandidate(quizEntry):null;
+     if(negative){
+       currentQuestionType="reading-negative";
+       negativeKana=negative.kana;
+       quizGlyph.hidden=true;
+       question.textContent="次のうち「"+negative.kana+"」ではないものはどれ？";
+       const three=shuffle(negative.usable).slice(0,3).map(g=>g.character);
+       configureChoice(shuffle([quizEntry.character,...three]),quizEntry.character,{glyphChoices:true});
+     }else{
+       quizGlyph.hidden=false;
+       question.textContent="この文字は何と読む？";
+       const pool=mastery>=30?focusedReadingPool(quizEntry):shuffle([...new Set(GLYPHS.map(x=>x.kana))].filter(x=>x!==quizEntry.kana));
+       configureChoice(shuffle([quizEntry.kana,...pool.slice(0,3)]),quizEntry.kana);
+     }
    }
 }else{
    quizGlyph.hidden=true;

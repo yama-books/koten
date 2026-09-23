@@ -478,3 +478,35 @@ test("vintage-kana honours newlines in the preview", () => {
   assert.match(html, /if\(token\.text==="\\n"\)\{columns\.push\(\[\]\)/);
 });
 
+test("vintage-kana negative reading question thresholds stay fixed", () => {
+  assert.match(html, /const NEGATIVE_QUESTION_RATE=0\.2;/);
+  assert.match(html, /const NEGATIVE_QUESTION_MASTERY=60;/);
+});
+
+test("vintage-kana negative reading question asks which glyph is not the given reading", () => {
+  assert.match(html, /次のうち「"\+negative\.kana\+"」ではないものはどれ？/);
+});
+
+test("vintage-kana negative reading question tags its learning event without touching other fields", () => {
+  assert.match(html, /currentQuestionType="reading-negative"/);
+  assert.match(html, /function recordLearningAttempt\(mode,correct,masteryMethod,questionType\)\{/);
+  assert.match(html, /\.\.\.\(questionType\?\{questionType\}:\{\}\)/);
+  assert.match(html, /recordLearningAttempt\(quizMode,correct,quizQuestionMethod,currentQuestionType\);/);
+});
+
+test("vintage-kana negative reading question only mixes into the reading choice quiz", () => {
+  assert.match(
+    html,
+    /if\(quizQuestionMethod==="free-input"\)\{\s*quizGlyph\.hidden=false;\s*question\.textContent="この文字は何と読む？";\s*configureFreeInput\(\);\s*\}else\{\s*const negative=Math\.random\(\)<NEGATIVE_QUESTION_RATE\?pickNegativeReadingCandidate\(quizEntry\):null;/,
+  );
+});
+
+test("vintage-kana has at least 45 readings with 3 or more variant glyphs for the negative question pool", () => {
+  const byKana = new Map<string, number>();
+  for (const g of glyphMaster.glyphs as Array<{ kana: string }>) {
+    byKana.set(g.kana, (byKana.get(g.kana) ?? 0) + 1);
+  }
+  const eligible = [...byKana.values()].filter((n) => n >= 3);
+  assert.ok(eligible.length >= 45, "読みが3字以上ある仮名が45未満: " + eligible.length);
+});
+
