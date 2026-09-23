@@ -784,7 +784,10 @@ function showGlyphInfo(character,kana,jibo){
 }
 function rowGlyphMasteryHtml(kanas){
  const statsByGlyph=new Map(glyphLearningStats().map(s=>[s.character,s]));
- const glyphs=GLYPHS.filter(g=>kanas.includes(g.kana));
+ const glyphs=[];
+ kanas.forEach(k=>{
+   GLYPHS.filter(g=>g.kana===k).sort(compareGlyphBrowseOrder).forEach(g=>glyphs.push(g));
+ });
  return glyphs.map(g=>{
    const s=statsByGlyph.get(g.character);
    const mastery=s?.mastery||0;
