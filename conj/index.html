@@ -2325,6 +2325,8 @@ body.review-modal-open{overflow:hidden}
   }
 }
 
+
+
 </style>
 </head>
 <body>
@@ -3571,6 +3573,43 @@ function supplementaryTrackLabel(item){
   return "補助活用\n（カリ活用）";
 }
 
+function syncPairedTrackHeads(panel,table){
+  if(!panel || !table || !panel.classList.contains("paired-mode")) return;
+  const heads=panel.querySelector(".track-heads");
+  const firstRow=table.tBodies[0]?.rows[0];
+  if(!heads || !firstRow || firstRow.cells.length<3) return;
+
+  const tableRect=table.getBoundingClientRect();
+  if(tableRect.width<=0) return;
+
+  const subRect=firstRow.cells[0].getBoundingClientRect();
+  const mainRect=firstRow.cells[1].getBoundingClientRect();
+  const leftWidth=Math.max(0,subRect.right-tableRect.left);
+  const rightWidth=Math.max(0,mainRect.right-subRect.right);
+  const labelWidth=Math.max(0,tableRect.right-mainRect.right);
+
+  heads.style.width=`${tableRect.width}px`;
+  heads.style.gridTemplateColumns=`${leftWidth}px ${rightWidth}px ${labelWidth}px`;
+}
+function schedulePairedTrackHeadSync(panel,table){
+  requestAnimationFrame(()=>syncPairedTrackHeads(panel,table));
+}
+function syncVisiblePairedTrackHeads(){
+  syncPairedTrackHeads(
+    document.getElementById("tablePanel"),
+    document.querySelector("#tablePanel .katsuyo")
+  );
+  syncPairedTrackHeads(
+    document.getElementById("reviewTablePanel"),
+    document.getElementById("reviewKatsuyo")
+  );
+}
+let pairedTrackHeadResizeFrame=0;
+window.addEventListener("resize",()=>{
+  cancelAnimationFrame(pairedTrackHeadResizeFrame);
+  pairedTrackHeadResizeFrame=requestAnimationFrame(syncVisiblePairedTrackHeads);
+},{passive:true});
+
 function renderTable(){
   const body=document.getElementById("formBody"); body.innerHTML="";
   const table=document.querySelector(".katsuyo");
@@ -3610,6 +3649,7 @@ function renderTable(){
       body.appendChild(tr);
     });
 
+    schedulePairedTrackHeadSync(panel,table);
     document.getElementById("rowNote").textContent="";
     return;
   }
@@ -3683,6 +3723,7 @@ function renderTable(){
       body.appendChild(tr);
     });
 
+    schedulePairedTrackHeadSync(panel,table);
     document.getElementById("rowNote").textContent="";
     return;
   }
@@ -4174,6 +4215,7 @@ function renderReviewTable(item){
       row.appendChild(reviewLabelCell(name));
       body.appendChild(row);
     });
+    schedulePairedTrackHeadSync(panel,table);
     note.textContent="";
     return;
   }
@@ -4212,6 +4254,7 @@ function renderReviewTable(item){
       row.appendChild(reviewLabelCell(name));
       body.appendChild(row);
     });
+    schedulePairedTrackHeadSync(panel,table);
     note.textContent="";
     return;
   }
