@@ -61,14 +61,16 @@ test('conj: headings use historical kana with kanji as a secondary aid', () => {
   assert.doesNotMatch(html, /`漢字：\$\{aidFull\}`/);
 });
 
-test('conj: paired tables center a two-line supplementary heading and omit redundant left-right notes', () => {
-  assert.match(html, /function supplementaryTrackLabel\(item\)/);
-  assert.match(html, /return "補助活用\\n（カリ活用）"/);
-  assert.match(html, /item\?\.id==="zu"[^\n]+"補助活用\\n（ザリ活用）"/);
-  assert.match(html, /\.table-panel\.paired-mode \.track-heads span\{[\s\S]*?writing-mode:horizontal-tb;[\s\S]*?white-space:pre-line;[\s\S]*?text-align:center;/);
+test('conj: paired tables center primary track names independently of supplementary notes', () => {
+  assert.match(html, /function setPairedTrackLabels\(left,right,item\)/);
+  assert.match(html, /left\.textContent="補助活用"/);
+  assert.match(html, /left\.dataset\.trackNote=item\?\.id==="zu" \? "（ザリ活用）" : "（カリ活用）"/);
+  assert.match(html, /right\.textContent="本活用"/);
+  assert.match(html, /\.table-panel\.paired-mode \.track-heads > span:first-child::after\{[\s\S]*?content:attr\(data-track-note\);[\s\S]*?position:absolute;/);
+  assert.match(html, /function syncPairedTrackHeads\(panel,table\)/);
+  assert.match(html, /heads\.style\.gridTemplateColumns=/);
   assert.doesNotMatch(html, /textContent="左：補助活用　／　右：本活用"/);
 });
-
 test('conj: answer reveal is unscored and leaves no redundant feedback sentence', () => {
   assert.match(html, /if\(!revealOnly\)\{[\s\S]*?stats\.gradedCells\+\+/);
   assert.match(html, /if\(!revealOnly\)\{[\s\S]*?stats\.total\+\+/);
