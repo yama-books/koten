@@ -94,6 +94,8 @@ test('conj: examples mark only the conjugated word, not a following auxiliary or
     ['waku', /それとも<mark>わか<\/mark>ぬ間に/],
     ['fuku_late', /小夜<mark>更け<\/mark>て/],
     ['nokoru', /月ぞ<mark>残れ<\/mark>る$/],
+    ['sugu', /^春<mark>すぎ<\/mark>て夏/],
+    ['sugusu', /世を<mark>すぐし<\/mark>てよとや/],
   ];
   for (const [id, mark] of expected) {
     const item = html.match(new RegExp(`\\{id:"${id}"[\\s\\S]*?target:"([^"]*)",example:"([^"]*)"\\}`));
@@ -258,4 +260,10 @@ test('conj: review card keeps the example within the table height so it does not
   assert.match(html, /\.review-modal-study-layout \.example-panel\{\s*top:0;\s*bottom:0;\s*\}/);
   assert.match(html, /\.review-modal-study-layout \.example-text\{\s*min-height:0 !important;/);
   assert.match(html, /\.review-modal-card\{[\s\S]*?height:min\(88vh,700px\);/);
+});
+
+test('conj: 過ぐ (上二段) and 過ぐす (サ行四段) are separate items with matching examples', () => {
+  assert.match(html, /\{id:"sugu",pos:"verb",label:"動詞",lemma:"過ぐ",kind:"ガ行上二段活用",[\s\S]*?poem:2,target:"すぎ",/);
+  assert.match(html, /\{id:"sugusu",pos:"verb",label:"動詞",lemma:"過ぐす",kind:"サ行四段活用",\s*forms:\[F\(\["さ"\]\),F\(\["し"\]\),F\(\["す"\]\),F\(\["す"\]\),F\(\["せ"\]\),F\(\["せ"\]\)\],\s*poem:19,target:"すぐし",/);
+  assert.match(html, /"過ぐす":"すぐす"/);
 });
