@@ -4,7 +4,45 @@ import { readFileSync } from "node:fs";
 
 const html = readFileSync(new URL("../../vintage-kana/index.html", import.meta.url), "utf8");
 const glyphMaster = JSON.parse(readFileSync(new URL("../../vintage-kana/data/ui-glyph-master.json", import.meta.url), "utf8"));
+const glyphDistribution = JSON.parse(readFileSync(new URL("../../vintage-kana/data/glyph-distribution.json", import.meta.url), "utf8"));
 
+
+test("vintage-kana browse frequency totals come once from the canonical 47-kana distribution", () => {
+  const totals = new Map<string, number>();
+  const witnessSets = new Map<string, Set<string>>();
+  for (const row of glyphDistribution.distributions) {
+    if (row.diacritic !== "none" || !String(row.glyph_id ?? "").startsWith("U+1B")) continue;
+    totals.set(row.glyph_id, (totals.get(row.glyph_id) ?? 0) + row.count);
+    const set = witnessSets.get(row.glyph_id) ?? new Set<string>();
+    set.add(row.source_witness);
+    witnessSets.set(row.glyph_id, set);
+  }
+  for (const glyph of glyphMaster.glyphs) {
+    assert.equal(glyph.totalObserved, totals.get(glyph.glyph_id) ?? 0, glyph.glyph_id + " totalObserved");
+    assert.equal(glyph.witnessCount, witnessSets.get(glyph.glyph_id)?.size ?? 0, glyph.glyph_id + " witnessCount");
+  }
+  assert.deepEqual(glyphMaster.sourceFiles, ["glyph-distribution.json", "ninjal-glyph-catalog.json"]);
+});
+
+test("vintage-kana browse keeps modern hiragana first and orders variants by observed frequency", () => {
+  assert.match(html, /rows\.push\(\{isStandard:true,kana:k,character:k,jibo:STANDARD_HIRAGANA_JIBO\[k\]\|\|"—"\}\);/);
+  assert.match(
+    html,
+    /\(b\.totalObserved\|\|0\)-\(a\.totalObserved\|\|0\)\|\|\(b\.witnessCount\|\|0\)-\(a\.witnessCount\|\|0\)\|\|a\.glyph_id\.localeCompare\(b\.glyph_id\)/,
+  );
+
+  const order = (kana: string) => glyphMaster.glyphs
+    .filter((g: { kana: string }) => g.kana === kana)
+    .sort((a: any, b: any) =>
+      (b.totalObserved ?? 0) - (a.totalObserved ?? 0) ||
+      (b.witnessCount ?? 0) - (a.witnessCount ?? 0) ||
+      a.glyph_id.localeCompare(b.glyph_id)
+    )
+    .map((g: { character: string }) => g.character);
+
+  assert.deepEqual(order("ら").slice(0, 3), ["𛃰", "𛃭", "𛃮"]);
+  assert.deepEqual(order("を").slice(0, 2), ["𛄜", "𛄚"]);
+});
 
 test("vintage-kana fallback glyph data stays identical to the UI master", () => {
   const match = html.match(/const FALLBACK_GLYPHS=(\[[^\n]+\]);/);
