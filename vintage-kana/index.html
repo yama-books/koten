@@ -1077,6 +1077,32 @@ function normalizeReadingAnswer(value){
 function normalizeJiboAnswer(value){
  return String(value||"").normalize("NFC").replace(/\s+/g,"").trim();
 }
+// 出題の重み = 出現回数^指数 + 下限。指数は習熟の進み具合に応じて 0.5（平方根）から 0（一様）へ下げる。
+// 進み具合は、よく出る字ほど重く数えた平均習熟度（0〜1）。よく出る字を覚えるほど珍しい字が出やすくなる。
+const QUIZ_WEIGHT_EXPONENT_MAX=0.5;
+function quizFrequencyProgress(){
+ let total=0,sum=0;
+ for(const g of GLYPHS){
+   const w=autoWeight(g);
+   total+=w;
+   sum+=w*computeGlyphMastery(g.character)/100;
+ }
+ return total?Math.max(0,Math.min(1,sum/total)):0;
+}
+function quizWeight(entry,exponent){
+ return Math.pow(Math.max(0,entry?.totalObserved||0),exponent)+AUTO_WEIGHT_FLOOR;
+}
+function pickQuizWeighted(list){
+ const exponent=QUIZ_WEIGHT_EXPONENT_MAX*(1-quizFrequencyProgress());
+ let total=0;
+ for(const e of list) total+=quizWeight(e,exponent);
+ let r=Math.random()*total;
+ for(const e of list){
+   r-=quizWeight(e,exponent);
+   if(r<=0) return e;
+ }
+ return list[list.length-1];
+}
 function newQuiz(){
  if(!GLYPHS.length)return;
  if(quizSet.answered>=QUIZ_SET_SIZE){showQuizResult();return}
@@ -1091,7 +1117,8 @@ function newQuiz(){
  const basePool=available.length?available:GLYPHS;
  const advancedJibo=quizMode==="jibo"?basePool.filter(g=>computeGlyphMastery(g.character)>=JIBO_REVERSE_MASTERY_THRESHOLD):[];
  const poolForQuestion=advancedJibo.length?advancedJibo:basePool;
- quizEntry=poolForQuestion[Math.floor(Math.random()*poolForQuestion.length)];
+ // 出現頻度で重み付けし、習熟が進むほど珍しい字の割合を増やす。観測0回も除外しない。
+ quizEntry=pickQuizWeighted(poolForQuestion);
  quizSet.glyphs.push(quizEntry.character);
  quizQuestionMethod=quizMethodForGlyph(quizEntry.character,quizMode);
 

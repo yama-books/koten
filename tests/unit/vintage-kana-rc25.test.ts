@@ -400,6 +400,33 @@ test("vintage-kana weights the automatic pick by frequency without excluding any
   assert.doesNotMatch(html, /choices\[Math\.floor\(Math\.random\(\)\*choices\.length\)\]/);
 });
 
+test("vintage-kana weights quiz questions by frequency without excluding anything", () => {
+  // 出題も頻度で重み付けする。一様だと観測0回の字が出題の約半分を占めていた。
+  assert.match(html, /quizEntry=pickQuizWeighted\(poolForQuestion\);/);
+  assert.doesNotMatch(html, /poolForQuestion\[Math\.floor\(Math\.random\(\)\*poolForQuestion\.length\)\]/);
+  assert.match(html, /const QUIZ_WEIGHT_EXPONENT_MAX=0\.5;/);
+  assert.match(html, /return Math\.pow\(Math\.max\(0,entry\?\.totalObserved\|\|0\),exponent\)\+AUTO_WEIGHT_FLOOR;/);
+  assert.match(html, /const exponent=QUIZ_WEIGHT_EXPONENT_MAX\*\(1-quizFrequencyProgress\(\)\);/);
+});
+
+test("vintage-kana quiz shifts toward rare glyphs as mastery grows", () => {
+  // 習熟の進み具合 0→1 で、観測0回の字の出題割合が単調に増え、どの段階でも0にならない。
+  const FLOOR = 2;
+  const glyphs = glyphMaster.glyphs as { totalObserved: number }[];
+  const zeroShare = (progress: number) => {
+    const exponent = 0.5 * (1 - progress);
+    const w = (g: { totalObserved: number }) => Math.pow(Math.max(0, g.totalObserved || 0), exponent) + FLOOR;
+    const total = glyphs.reduce((sum, g) => sum + w(g), 0);
+    return glyphs.filter((g) => !g.totalObserved).reduce((sum, g) => sum + w(g), 0) / total;
+  };
+  const shares = [0, 0.25, 0.5, 0.75, 1].map(zeroShare);
+  for (let i = 1; i < shares.length; i++) assert.ok(shares[i] > shares[i - 1], "逓増していない: " + shares.join(", "));
+  assert.ok(shares[0] > 0.05 && shares[0] < 0.2, "初学者でも珍しい字は少しは出る: " + shares[0]);
+  // 全部習熟すると一様になる。
+  const zeroCount = glyphs.filter((g) => !g.totalObserved).length;
+  assert.ok(Math.abs(shares[4] - zeroCount / glyphs.length) < 1e-9);
+});
+
 test("vintage-kana frequency weighting keeps rare glyphs reachable", () => {
   // 実データで、最多の字体が独占せず、最少の字体も出ることを確かめる。
   const FLOOR = 2;
