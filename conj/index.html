@@ -100,10 +100,15 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 }
 .track-heads span{min-height:48px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;color:var(--muted);font:600 9px/1.1 "Yu Mincho","Hiragino Mincho ProN",serif}
 .track-heads .spacer{visibility:hidden}
-.source-credits{margin:18px 4px 0;color:var(--muted);font-size:11px;line-height:1.6}
-.source-credits summary{cursor:pointer}
-.source-credits ul{margin:6px 0 0;padding-left:1.4em}
+.source-credits-link{display:block;margin:10px auto 0;padding:4px 8px;border:0;background:none;color:var(--muted);font-size:11px;text-decoration:underline;cursor:pointer}
+.source-credits-link[hidden]{display:none}
+.source-credits{width:min(560px,calc(100vw - 32px));max-height:min(80vh,640px);padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
+.source-credits::backdrop{background:rgba(0,0,0,.35)}
+.source-credits h2{margin:0 0 6px;font-size:15px}
+.source-credits p{margin:0 0 8px;color:var(--muted)}
+.source-credits ul{margin:0 0 12px;padding-left:1.4em;overflow-wrap:anywhere}
 .source-credits a{color:inherit}
+.source-credits #closeSourceCredits{display:block;margin:0 auto}
 /* Prose examples can exceed one column; poems keep their single line. */
 .example-text.is-prose{white-space:normal !important}
 
@@ -2464,11 +2469,13 @@ body.review-modal-open{overflow:hidden}
       <button class="primary" id="next" style="display:none">次の問題</button>
     </div>
   </main>
-  <details class="source-credits" id="sourceCredits" hidden>
-    <summary>用例本文について</summary>
-    <p>形容動詞の用例の一部は、Wikisource の次の翻刻から短く抜粋し、空白を詰めて掲載しています。</p>
+  <button class="source-credits-link" id="openSourceCredits" type="button" hidden>用例の出典</button>
+  <dialog class="source-credits" id="sourceCredits" aria-labelledby="sourceCreditsTitle">
+    <h2 id="sourceCreditsTitle">用例の出典</h2>
+    <p>形容動詞の用例は、次の資料から短く引用しています（空白を詰めて掲載）。</p>
     <ul id="sourceCreditsList"></ul>
-  </details>
+    <button class="ghost" id="closeSourceCredits" type="button">閉じる</button>
+  </dialog>
 </div>
 
 <section class="record-screen" id="recordScreen" hidden aria-label="記録">
@@ -2563,7 +2570,7 @@ body.review-modal-open{overflow:hidden}
   </section>
 </div>
 
-<script src="./adjv-runtime-adapter.js?v=20260923-public-examples"></script>
+<script src="./adjv-runtime-adapter.js?v=20260923-chj-quotations"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4204,37 +4211,46 @@ const LICENSE_URLS={
   "CC BY-SA 4.0":"https://creativecommons.org/licenses/by-sa/4.0/deed.ja",
   "CC BY-SA 3.0":"https://creativecommons.org/licenses/by-sa/3.0/deed.ja"
 };
-// Examples show only the work name; the openly licensed texts are credited
-// once, at the bottom of the page.
-function renderSourceCredits(records){
-  const box=document.getElementById("sourceCredits");
-  const list=document.getElementById("sourceCreditsList");
-  const seen=new Map();
-  for(const r of records){
-    if(r.sourceLabel && !seen.has(r.sourceLabel)) seen.set(r.sourceLabel,r);
+// Examples show only the work name; their sources are listed once, in a popup.
+function creditLink(text,href){
+  const el=document.createElement(href?"a":"span");
+  el.textContent=text;
+  if(href){
+    el.href=href;
+    el.target="_blank";
+    el.rel="noopener";
   }
+  return el;
+}
+function renderSourceCredits(publicRecords,chj){
+  const list=document.getElementById("sourceCreditsList");
   list.textContent="";
-  for(const r of seen.values()){
+  const chjWorks=[...new Set([...chj.map.values()].map(r=>r.work))];
+  if(chj.source && chjWorks.length){
     const li=document.createElement("li");
-    const source=document.createElement("a");
-    source.href=r.sourceUrl;
-    source.target="_blank";
-    source.rel="noopener";
-    source.textContent=r.sourceLabel;
-    li.append(source,"（");
-    const licenseUrl=LICENSE_URLS[r.sourceLicense];
-    const license=document.createElement(licenseUrl?"a":"span");
-    license.textContent=r.sourceLicense;
-    if(licenseUrl){
-      license.href=licenseUrl;
-      license.target="_blank";
-      license.rel="noopener";
-    }
-    li.append(license,"）");
+    li.append(creditLink(chj.source.name,chj.source.url),`（${chjWorks.join("・")}）`);
     list.appendChild(li);
   }
-  box.hidden=seen.size===0;
+  const seen=new Map();
+  for(const r of publicRecords){
+    if(r.sourceLabel && !seen.has(r.sourceLabel)) seen.set(r.sourceLabel,r);
+  }
+  for(const r of seen.values()){
+    const li=document.createElement("li");
+    li.append(creditLink(r.sourceLabel,r.sourceUrl),"（",creditLink(r.sourceLicense,LICENSE_URLS[r.sourceLicense]),"）");
+    list.appendChild(li);
+  }
+  document.getElementById("openSourceCredits").hidden=list.children.length===0;
 }
+document.getElementById("openSourceCredits").addEventListener("click",()=>{
+  document.getElementById("sourceCredits").showModal();
+});
+document.getElementById("closeSourceCredits").addEventListener("click",()=>{
+  document.getElementById("sourceCredits").close();
+});
+document.getElementById("sourceCredits").addEventListener("click",event=>{
+  if(event.target===event.currentTarget) event.currentTarget.close();
+});
 function renderReviewExample(item){
   const panel=document.getElementById("reviewExamplePanel");
   const text=document.getElementById("reviewExampleText");
@@ -4488,6 +4504,7 @@ document.addEventListener("keydown",e=>{
     return;
   }
   if(!document.getElementById("reviewModal").hidden) return;
+  if(document.getElementById("sourceCredits").open) return;
   if(e.key==="Enter" && !document.querySelector(".editor input")){
     answered?nextQuestion():grade(false);
   }
@@ -4503,16 +4520,30 @@ async function loadAdjvRuntimeItems(){
     }catch(error){
       console.warn("形容動詞の公開用例を読み込めませんでした。活用表のみで続行します。",error);
     }
+    let chj={source:null,map:new Map()};
+    try{
+      chj=await window.ConjAdjvRuntime.loadChjQuotations({base:"./data/"});
+    }catch(error){
+      console.warn("形容動詞のコーパス用例を読み込めませんでした。",error);
+    }
     const existing=new Set(items.filter(x=>x.pos==="adjv").map(x=>x.lemma));
     const additions=runtime.tableItems
       .filter(x=>!existing.has(x.lemma))
       .map(x=>{
         const ex=publicExamples.get(x.id);
+        const quote=ex ? null : chj.map.get(x.id);
         return ex ? {
           ...x,
           example:ex.example,
           target:ex.publicTarget,
           source:ex.work,
+          exampleAvailable:true
+        } : quote ? {
+          ...x,
+          example:quote.excerpt,
+          target:quote.target,
+          occurrence:quote.occurrence,
+          source:quote.work,
           exampleAvailable:true
         } : {
           ...x,
@@ -4523,7 +4554,7 @@ async function loadAdjvRuntimeItems(){
         };
       });
     status.withExample=additions.filter(x=>x.exampleAvailable).length;
-    renderSourceCredits([...publicExamples.values()]);
+    renderSourceCredits([...publicExamples.values()],chj);
     items.push(...additions);
     status.loaded=true;
     status.added=additions.length;

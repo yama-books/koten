@@ -224,10 +224,32 @@ test('conj: 形容動詞 show reviewed public examples, credited once rather tha
   assert.match(adapter, /r\.exampleEnabledPublic!==true \|\| r\.rightsVerified!==true\s*\|\| r\.targetVerified!==true \|\| r\.excerptReviewed!==true/);
   assert.match(html, /publicExamples=await window\.ConjAdjvRuntime\.loadPublicExamples/);
   assert.match(html, /target:ex\.publicTarget/);
-  // Examples show only the work name; attribution lives in one credits section.
+  // Examples show only the work name; sources are listed once, in a popup.
   assert.match(html, /source:ex\.work,/);
+  assert.match(html, /source:quote\.work,/);
   assert.doesNotMatch(html, /source:ex\.sourceLabel/);
-  assert.match(html, /<details class="source-credits" id="sourceCredits" hidden>/);
-  assert.match(html, /renderSourceCredits\(\[\.\.\.publicExamples\.values\(\)\]\)/);
+  assert.match(html, /<button class="source-credits-link" id="openSourceCredits" type="button" hidden>用例の出典<\/button>/);
+  assert.match(html, /<dialog class="source-credits" id="sourceCredits"/);
+  assert.match(html, /renderSourceCredits\(\[\.\.\.publicExamples\.values\(\)\],chj\)/);
   assert.match(html, /\.example-text\.is-prose\{white-space:normal !important\}/);
+});
+
+test('conj: every runtime 形容動詞 without open text gets a quoted CHJ example', () => {
+  const read = (name: string) =>
+    JSON.parse(readFileSync(new URL(`../../conj/data/${name}`, import.meta.url), 'utf8'));
+  const pool = read('adjectival-noun-lemma-pool.json').lemmas as { id: string }[];
+  const open = new Set((read('adjectival-noun-public-examples.json').records as { lemmaId: string }[]).map((r) => r.lemmaId));
+  const chj = read('adjectival-noun-chj-quotations.json');
+  assert.ok(chj.source.name && chj.source.url);
+  const quoted = new Map((chj.records as { lemmaId: string; target: string; excerpt: string; occurrence: number; work: string }[])
+    .map((r) => [r.lemmaId, r]));
+  for (const lemma of pool) {
+    if (open.has(lemma.id)) continue;
+    const r = quoted.get(lemma.id);
+    assert.ok(r, lemma.id);
+    assert.ok(r.work, lemma.id);
+    assert.ok(r.excerpt.split(r.target).length - 1 > r.occurrence, lemma.id);
+  }
+  assert.match(html, /chj=await window\.ConjAdjvRuntime\.loadChjQuotations/);
+  assert.match(html, /occurrence:quote\.occurrence/);
 });

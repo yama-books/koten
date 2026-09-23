@@ -230,9 +230,22 @@
     return publicExampleMap(await fetchJson(base+"adjectival-noun-public-examples.json"));
   }
 
+  // CHJ excerpts quoted for lemmas that have no openly licensed text.
+  async function loadChjQuotations(options={}){
+    const base=options.base||DEFAULT_BASE;
+    const data=await fetchJson(base+"adjectival-noun-chj-quotations.json");
+    const map=new Map();
+    for(const r of data?.records||[]){
+      if(!r.excerpt || !r.target || !r.excerpt.includes(r.target)) continue;
+      if(!map.has(r.lemmaId)) map.set(r.lemmaId,r);
+    }
+    return {source:data.source,map};
+  }
+
   global.ConjAdjvRuntime={
     load,
     loadPublicExamples,
+    loadChjQuotations,
     publicExampleMap,
     validateRuntime,
     buildTableItems,
