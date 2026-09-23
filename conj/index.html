@@ -2325,6 +2325,40 @@ body.review-modal-open{overflow:hidden}
   }
 }
 
+
+
+/* ===== v46: table-centered study layout =====
+   Center the conjugation table itself in the card. The example occupies only
+   the left-side column, so changes in example width never move the table. */
+.study-layout{
+  width:100%;
+  max-width:100%;
+  grid-template-columns:minmax(0,1fr) max-content minmax(0,1fr);
+  grid-template-areas:"example table .";
+  column-gap:10px;
+  justify-content:stretch;
+}
+.study-layout .example-panel{
+  justify-self:end;
+  max-width:100%;
+}
+.study-layout .table-panel{
+  justify-self:center;
+}
+
+@media(max-width:700px){
+  .study-layout{
+    width:100%;
+    max-width:100%;
+    grid-template-columns:minmax(0,1fr) max-content minmax(0,1fr);
+    grid-template-areas:"example table .";
+    column-gap:5px;
+  }
+  .study-layout .example-panel{
+    max-width:100%;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3837,13 +3871,10 @@ function render(){
   const showing=hasExample && exampleToggle.checked;
   document.getElementById("examplePanel").style.display=showing?"block":"none";
   const layout=document.querySelector(".study-layout");
-  if(showing){
-    layout.style.gridTemplateColumns="";
-    layout.style.gridTemplateAreas="";
-  }else{
-    layout.style.gridTemplateColumns="auto";
-    layout.style.gridTemplateAreas='"table"';
-  }
+  // The conjugation table owns the card centerline. Hiding/showing the example
+  // must not change that centerline, so layout geometry stays in CSS.
+  layout.style.gridTemplateColumns="";
+  layout.style.gridTemplateAreas="";
 
   const ai=document.getElementById("auxInfo");
   if(current.pos==="aux"){
