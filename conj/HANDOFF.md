@@ -464,7 +464,11 @@ Draft PR #31 の最初のCI（run #1267）では、確認時点で以下が成�
 - `check:font-assets`
 - `check:font-weight`
 
-`check:overflow` は確認時点で実行中。なお現行の `tools/overflow-check/index.ts` は百人一首 `/100/` の大規模走査であり、`conj` 記録画面の1024/1280/375/390pxを直接測る検査ではない。
+その後、最初のコード＋テスト head（`fd40ed571e030e50c1aeb2302aec45a750b689f7`）に対する CI run #1267 は **全工程 success** で完了した。追加で成功した工程:
+- `check:overflow`
+- `scan:publish`
+
+なお現行の `tools/overflow-check/index.ts` は百人一首 `/100/` の大規模走査であり、`conj` 記録画面の1024/1280/375/390pxを直接測る検査ではない。したがって CI 全緑は回帰確認として有効だが、`conj` の実ブラウザ目視そのものの代替ではない。
 
 ### 残る確認
 
