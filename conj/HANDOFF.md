@@ -639,3 +639,191 @@ PR作成後にGitHubのチェック状態も確認したが、PR head commitに�
 この非ローカルconnector環境では任意のNodeコマンドを直接起動する実行器がないため、現時点では `node --test` / npm test のプロセス実行はしていない。代わりに、追加テストと同じ正規表現・不変条件をGitHub上の実blobに対して直接評価し、すべてPASSした。PR作成後にGitHub Actionsの有無も確認する。
 
 **現在は「実装・テスト更新・静的検証済み、PR作成前」。作業3には未着手。**
+
+
+---
+
+## 16. 作業2 完了記録（2026-09-24）
+
+### 実施範囲
+
+今回実施したのは **作業2「配色の土台（直書き色をCSS変数へ）」だけ**。作業3「配色切替・既定コーヒー化」以降には着手していない。
+
+実際に変更したファイル:
+- `conj/index.html`
+- `tests/unit/conj-record-screen.test.ts`
+- `conj/HANDOFF.md`
+
+### CSS変数の整理方針
+
+既存の `:root` 変数を残しつつ、直書き色を「値」ではなく用途で参照できるように整理した。最終的な `:root` のカスタムプロパティは70個。巨大なテーマ定義を別層に増設したのではなく、現行単一配色を安全に切り替えられる最小の意味層として、次の6群に整理している。
+
+- Core surfaces and text
+- Accent and learning states
+- Translucent theme layers
+- Level/help text
+- Record screen and review states
+- Decorative elevation
+
+既存変数 `--bg / --card / --ink / --muted / --line / --line-strong / --soft / --soft2 / --good / --bad / --accent / --accent-strong / --accent-soft / --peach-soft / --lavender-soft / --shadow` は値を変えていない。
+
+### 新設・移設した主なCSS変数と移行元
+
+Core / surface:
+- `#304b45 -> --heading-ink`
+- `#ffffff（accent上の文字） -> --on-accent`
+- `#fbfefd -> --surface-faint`
+- `#fdfefd -> --card-gradient-end`
+- 背景としての `#fff` は既存 `--card:#ffffff` へ統一
+
+Accent / learning state:
+- `#50776d -> --tag-ink`
+- `#84938f -> --zero-ink`
+- `#f4faf8 -> --subrow-bg`
+- `#abc9c0 -> --blank-border`
+- `#c8ddd7 -> --blank-filled-border`
+- `#eef9f5 -> --editable-hover`
+- `#e8f7f2 -> --editable-selected`
+- `#8fb8ad -> --editor-border`
+- `#b8d5cd -> --aux-border`
+- `#f3faf8 -> --aux-bg`
+- `#506c65 -> --aux-ink`
+- `#f1f8f5 -> --table-label-bg`
+- `#334d47 -> --table-label-ink`
+- `#9fc4b9 -> --control-hover-border`
+- `#f2faf7 -> --control-hover-bg`
+
+Translucent theme layer:
+- `rgba(210,241,233,.62) -> --page-glow-primary`
+- `rgba(226,236,250,.48) -> --page-glow-secondary`
+- `rgba(255,255,255,.88) -> --toolbar-bg`
+- `rgba(142,211,191,.36) -> --example-mark-bg`
+- `rgba(0,0,0,.35) -> --source-backdrop`
+- `rgba(111,166,150,.16) -> --focus-ring-soft`
+- `rgba(111,166,150,.24) -> --focus-ring`
+- `rgba(255,255,255,.82) -> --level-meter-bg`
+- `rgba(255,255,255,.72) -> --surface-glass`
+
+Level/help:
+- `#82938e -> --level-tick-ink`
+- `#657872 -> --level-desc-ink`
+- `#667873 -> --level-note-ink`
+- `#c9dcd6 -> --level-aux-border`
+
+Record/review:
+- 既存の `--record-verb:#935568 / --record-adj:#b77d55 / --record-adjv:#39756f / --record-aux:#3d566b / --record-empty:#e8eef1` は、`.record-screen` の局所定義から `:root` へ移設。値は不変。
+- `#e7f1ee -> --record-donut-base`
+- `#d2dfe5 -> --record-points-border`
+- `#eef3f6 -> --record-points-bg-end`
+- `#e0e5e7 -> --record-review-border`
+- `#fcfcfb -> --record-review-bg`
+- `#fbfcfc -> --record-stat-bg`
+- `#f2f5f6 -> --record-empty-bg`
+- `#f3d8df -> --review-error-border-base`
+- `#906674 -> --review-error-ink-base`
+- `#ead9df -> --review-error-border`
+- `#f8eff2 -> --review-error-bg`
+- `#825d69 -> --review-error-ink`
+- `#f5f7f7 -> --review-hover-bg`
+- `rgba(220,231,238,.5) -> --record-glow-primary`
+- `rgba(222,237,234,.44) -> --record-glow-secondary`
+- `rgba(29,45,42,.5) -> --review-backdrop`
+- `rgba(92,119,112,.22) -> --review-modal-border`
+
+### あえて変数化しなかった色・理由
+
+「直書き色ゼロ」は機械目標にしていない。次は意図的に残した。
+
+- `box-shadow` 内の半透明 `rgba(...)`: 現在は色相そのものより elevation / 奥行き表現の固定装飾として働いており、今回これを個別トークン化すると変数層だけが肥大化するため残した。
+- `transparent`: 色相を持たない透明指定なので変数化しない。
+- `<meta name="theme-color" content="#f7fbfa">`: CSSではなくHTMLメタデータ。作業3で実テーマ切替を入れる場合に、必要ならテーマと同期する。
+- JS内のrecord色フォールバック（`#935568 / #b77d55 / #39756f / #3d566b / #e8eef1`）: 通常経路では `getComputedStyle(...).getPropertyValue("--record-*")` が必ず先に使われる防御用fallbackで、CSS配色の正本ではない。今回はJSロジックを変更しない範囲を優先した。
+- SVG / 埋め込み画像の固定色: 今回は画像資産のテーマ化を対象外とした。
+
+### 現行配色の維持
+
+**維持できている。**
+
+- すべての新規変数には置換前の値をそのまま設定した。
+- 変更前main blobと変更後branch blobを比較し、`<style>` 外のHTML/JSが完全一致することを確認した。
+- CSSは色参照経路だけを変更しており、HTML構造・JSロジック・寸法・レイアウト値は変更していない。
+- 実ブラウザのスクリーンショットによるピクセル比較は未実施。
+
+### 作業1 v46記録画面ガード
+
+**維持済み。**
+
+変更前後の `/* ===== v46: record layout readability guard ===== */` 以降を文字列比較し、完全一致を確認した。
+
+したがって以下も維持:
+- PC側の記録画面領域分離
+- 460px以下で「要確認」カード1列
+- 活用種類名 `white-space:nowrap`
+- 主要文字12px以上
+- 補足文字10px以上
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts` に
+`conj: palette defaults are semantic CSS variables and preserve the current colors`
+を追加した。既存テストは削除していない。
+
+追加ガード:
+- 主要CSS変数の既定値が従来色と一致
+- `:root` 外のCSS本文に固体色hexが残らない
+- `:root` 外で残る直書き `rgba(...)` は `box-shadow` 用だけ
+- ページ背景・hover/selected・review error・review hover・record背景が意味変数を参照
+- 既存v46テストはそのまま残し、回帰検査を継続
+
+### 実行した検証と結果
+
+PR #37 の GitHub Actions CI run #1306 で、以下を含む **verify job 全体がsuccess**。
+
+- `npm run check:eol`: success
+- `npm ci`: success
+- `npm run typecheck`: success
+- `npm run lint`: success
+- `npm test`: success
+- `npm run data:check`: success
+- `npm run build`: success
+- Playwright Chromium install: success
+- `npm run check:font`: success
+- `npm run check:font-assets`: success
+- `npm run check:font-weight`: success
+- `npm run check:overflow`: success
+- `npm run scan:publish`: success
+
+加えてGitHub connector上の実blob監査:
+- `:root` 外の固体色hex: 0件
+- 背景・境界・outline等の非shadow直書きrgba: 0件
+- `<style>` 外のHTML/JS: 変更前mainと完全一致
+- v46 block: 変更前mainと完全一致
+
+### commit / PR / main
+
+- 着手記録commit: `f66e1f262aeaca3f0266f43b2b567432941108f4`
+- 実装commit: `203437800ec8a0c54bd1bac541c0fc1f9d3552e0`
+- 中間記録commit: `926f7b0c5ea7e4471c012103a7d9c1380cf8519b`
+- テストcommit: `297ddc027b3b0a4b9c0d974af60b4597c3292894`
+- 検証記録commit: `4e9d604336009aeb7b13f16d23cf77223b46232c`
+- PR: **#37** `refactor(conj): establish semantic color variable foundation`
+- PR状態: **merged**
+- main merge commit: `729c24b21d23e47e63b45ca2f43fc4b4757e975b`
+- main反映: **完了**
+
+### Pages公開状態
+
+mainへの反映は完了。GitHub connectorにはPages build状態を直接読むアクションがなく、公開URL `https://yama-books.github.io/koten/conj/` もこのセッションの外部Web取得経路ではアクセスできなかったため、**Pages公開実体の反映確認は未確認**。
+
+### 未確認事項
+
+- 公開URL上でのPages反映
+- 変更前後の実ブラウザ・スクリーンショットによるピクセル比較
+
+CIの `check:overflow` を含む機械検証は全項目成功している。
+
+### 最終停止位置
+
+**作業2完了。次は作業3: 配色切替・既定コーヒー化。**
+
+ただし配色系統数5/6は人確認事項であり、AIだけで決めない。作業3はこのセッションでは開始しない。
