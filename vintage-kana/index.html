@@ -58,7 +58,7 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .view{display:none}.view.active{display:block}
 .label{font-weight:700;font-size:13px;margin:0 0 8px}
 .kanaFilters{display:grid;gap:5px;margin-bottom:14px;padding:2px}
-.kanaFilterAll{display:flex;justify-content:flex-start;margin-bottom:2px}
+.kanaFilterAll{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-start;margin-bottom:2px}
 .kanaFilterRow{display:grid;grid-template-columns:38px minmax(0,1fr);gap:5px;align-items:center}
 .kanaFilterRow__label{font-size:10px;color:var(--muted);text-align:center;font-weight:700}
 .kanaFilterRow__buttons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
@@ -492,6 +492,7 @@ const FALLBACK_CONFUSION_PAIRS=[{"a":"U+1B052","b":"U+1B11B"},{"a":"U+1B052","b"
 let GLYPHS=[];
 let CONFUSION_MAP=new Map();
 let currentFilter="あ";
+let currentFilterRow="あ行";
 let quizEntry=null;
 let quizMode="reading";
 let composeMode="auto";
@@ -978,30 +979,54 @@ async function loadData(){
  }
 }
 
+function rowKanasOf(label){
+ const row=KANA_FILTER_ROWS.find(r=>r[0]===label);
+ return row?row[1].filter(Boolean):[];
+}
 function renderFilters(){
  const root=document.getElementById("filters");root.innerHTML="";
- const makeButton=(k)=>{
+ const top=document.createElement("div");
+ top.className="kanaFilterAll";
+ const allBtn=document.createElement("button");
+ allBtn.className="kanaBtn"+(currentFilter==="すべて"?" active":"");
+ allBtn.textContent="すべて";
+ allBtn.onclick=()=>{currentFilter="すべて";renderFilters();renderCards()};
+ top.appendChild(allBtn);
+ KANA_FILTER_ROWS.forEach(([label])=>{
    const b=document.createElement("button");
-   b.className="kanaBtn"+(k===currentFilter?" active":"");
-   b.textContent=k;
-   b.onclick=()=>{currentFilter=k;renderFilters();renderCards()};
-   return b;
- };
- const all=document.createElement("div");
- all.className="kanaFilterAll";
- all.appendChild(makeButton("すべて"));
- root.appendChild(all);
- KANA_FILTER_ROWS.forEach(([label,slots])=>{
+   b.className="kanaBtn"+(currentFilter!=="すべて"&&currentFilterRow===label?" active":"");
+   b.textContent=label;
+   b.onclick=()=>{
+     currentFilterRow=label;
+     currentFilter=null;
+     renderFilters();renderCards();
+   };
+   top.appendChild(b);
+ });
+ root.appendChild(top);
+
+ if(currentFilter!=="すべて"&&currentFilterRow){
    const row=document.createElement("div");
    row.className="kanaFilterRow";
    const rowLabel=document.createElement("div");
    rowLabel.className="kanaFilterRow__label";
-   rowLabel.textContent=label;
+   rowLabel.textContent=currentFilterRow;
    row.appendChild(rowLabel);
    const buttons=document.createElement("div");
    buttons.className="kanaFilterRow__buttons";
+   const slots=(KANA_FILTER_ROWS.find(r=>r[0]===currentFilterRow)||[null,[]])[1];
    slots.forEach(k=>{
-     if(k){buttons.appendChild(makeButton(k));return}
+     if(k){
+       const b=document.createElement("button");
+       b.className="kanaBtn"+(k===currentFilter?" active":"");
+       b.textContent=k;
+       b.onclick=()=>{
+         currentFilter=(currentFilter===k)?null:k;
+         renderFilters();renderCards();
+       };
+       buttons.appendChild(b);
+       return;
+     }
      const spacer=document.createElement("span");
      spacer.className="kanaFilterSlot";
      spacer.setAttribute("aria-hidden","true");
@@ -1009,7 +1034,7 @@ function renderFilters(){
    });
    row.appendChild(buttons);
    root.appendChild(row);
- });
+ }
 }
 function compareGlyphBrowseOrder(a,b){
  const totalDiff=(b.totalObserved||0)-(a.totalObserved||0);
@@ -1020,7 +1045,7 @@ function compareGlyphBrowseOrder(a,b){
 }
 function renderCards(){
  const root=document.getElementById("cards");
- const kanas=currentFilter==="すべて"?KANA_ORDER:[currentFilter];
+ const kanas=currentFilter==="すべて"?KANA_ORDER:(currentFilter?[currentFilter]:rowKanasOf(currentFilterRow));
  const rows=[];
  kanas.forEach(k=>{
    rows.push({isStandard:true,kana:k,character:k,jibo:STANDARD_HIRAGANA_JIBO[k]||"—"});
