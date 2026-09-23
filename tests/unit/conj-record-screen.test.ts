@@ -30,14 +30,49 @@ test('conj: cumulative correct label and value stay on two lines on mobile', () 
   assert.match(html, /\.header-record \.score\{\s*display:flex;\s*flex-direction:column;\s*align-items:center;/);
 });
 
-test('conj: review status stays readable and summary stats use compact rows', () => {
-  assert.match(html, /\.review-copy small\{[\s\S]*?font-size:8px;[\s\S]*?white-space:nowrap;/);
-  assert.match(html, /\.record-overview \.record-stat\{[\s\S]*?grid-template-columns:minmax\(0,1fr\) max-content;[\s\S]*?padding:4px 7px;/);
+test('conj: record screen keeps summary, legend, and review cards readable across widths', () => {
+  const css = html.match(/\/\* ===== v46: record layout readability guard ===== \*\/([\s\S]*?)<\/style>/);
+  assert.ok(css);
+  const v46 = css[1];
+  const rule = (selector: string) => {
+    const escaped = selector.replace(/[.*+?^$()|[\]\\]/g, '\\$&');
+    const match = v46.match(new RegExp(escaped + '\\{([^}]*)\\}'));
+    assert.ok(match, selector);
+    return match[1];
+  };
+  const fontSize = (selector: string) => {
+    const match = rule(selector).match(/font-size:(\d+)px/);
+    assert.ok(match, selector);
+    return Number(match[1]);
+  };
+
+  assert.match(v46, /@media\(min-width:860px\)\{[\s\S]*?\.record-shell\{width:min\(100%,900px\)\}/);
+  assert.match(v46, /@media\(min-width:860px\)\{[\s\S]*?\.record-detail-grid\{[\s\S]*?grid-template-columns:minmax\(420px,1fr\) minmax\(0,1fr\);/);
+  assert.match(rule('.record-overview'), /grid-template-columns:minmax\(220px,1fr\) 150px;/);
+  assert.match(rule('.record-overview .record-breakdown-panel'), /grid-template-columns:96px minmax\(0,1fr\);/);
+  assert.doesNotMatch(rule('.record-overview .record-breakdown-panel'), /max-content/);
+  assert.match(v46, /@media\(max-width:700px\)\{[\s\S]*?\.record-overview \.record-breakdown-panel\{[\s\S]*?minmax\(0,1fr\)/);
+  assert.match(v46, /@media\(max-width:460px\)\{[\s\S]*?\.record-review\{grid-template-columns:1fr\}/);
+  assert.match(rule('.review-kind-line strong'), /white-space:nowrap;/);
+
+  for (const selector of [
+    '.record-overview .record-stat dt',
+    '.record-overview .record-stat:first-child dt',
+    '.record-points-label',
+    '.breakdown-label',
+    '.record-breakdown strong',
+    '.review-filters button',
+    '.record-empty',
+  ]) assert.ok(fontSize(selector) >= 12, selector);
+
+  for (const selector of [
+    '.record-donut-center span',
+    '.review-rate span',
+    '.review-copy small',
+    '.review-pos-badge',
+  ]) assert.ok(fontSize(selector) >= 10, selector);
+
   assert.match(html, /<dt>取り組んだ問題<\/dt>/);
-  assert.match(html, /\.record-overview \.record-grid\{[\s\S]*?grid-template-columns:repeat\(2,minmax\(0,1fr\)\);[\s\S]*?align-self:center;/);
-  assert.match(html, /\.record-overview \.record-stat:first-child\{\s*grid-column:1 \/ -1;/);
-  assert.match(html, /\.record-overview \.record-stat:first-child dt\{[\s\S]*?width:5em;/);
-  assert.match(html, /\.record-overview \.record-stat:nth-child\(n\+2\)\{[\s\S]*?flex-direction:column;/);
 });
 
 test('conj: hanamaru is an overlaid stamp and donut total is centered as one baseline-aligned unit', () => {
