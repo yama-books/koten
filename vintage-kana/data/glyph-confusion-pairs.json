@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-23",
+  "method": "監査文書 §4.3〜§4.4 と指示書 §3.1 で確定済みの3組のみを収録。実行環境では Google Fonts の Noto Serif Hentaigana / Klee One のフォントバイナリを取得できなかったため、§3.2 の画像比較は実施していない。",
+  "universe": {
+    "hentaigana": 266,
+    "standardHiragana": 48
+  },
+  "pairs": [
+    {
+      "a": "U+1B052",
+      "b": "U+1B11B",
+      "kind": "hentaigana-hentaigana",
+      "evidence": "audit",
+      "score": null,
+      "note": "崩した「世」が現代の「を」とほぼ同形で、U+1B11B は現代の「を」に最も近い（監査 §4.3）"
+    },
+    {
+      "a": "U+1B052",
+      "b": "std:を",
+      "kind": "hentaigana-standard",
+      "evidence": "audit",
+      "score": null,
+      "note": "崩した「世」が現代の「を」とほぼ同形（監査 §4.3）"
+    },
+    {
+      "a": "U+1B11A",
+      "b": "std:せ",
+      "kind": "hentaigana-standard",
+      "evidence": "audit",
+      "score": null,
+      "note": "「越」の字体が「戈」状で現代の「せ」に見える（監査 §4.3）"
+    }
+  ]
+}
