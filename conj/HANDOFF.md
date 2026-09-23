@@ -575,3 +575,67 @@ PR作成後にGitHubのチェック状態も確認したが、PR head commitに�
 ### 停止位置
 
 **作業2は未着手。次回は現行mainの巨大 `conj/index.html` をGitHub blob/API経路で取得するところから再開する。**
+
+
+---
+
+## 15. 作業2 進行記録（2026-09-24・着手）
+
+### 状態
+
+**作業2「配色の土台（直書き色をCSS変数へ）」へ着手済み。未着手ではない。**
+
+- 正本: GitHub `yama-books/koten` の `main`
+- 作業ブランチ: `work/conj-css-color-foundation-20260924`
+- ローカルファイルは使用していない。
+- §12〜§14を再読し、作業1のv46記録画面ガードを維持する前提を確認した。
+- 現行mainの `conj/index.html` blob `a487ac57c37b8f61f747e3b44f307fe2c574b7d9` を `fetch_blob` 経路で取得できた。
+- 色指定の棚卸しを開始した。現行 `:root` には既存の色変数がある一方、CSS本文には `#fff`、状態色、半透明背景・影などの直書き指定が多数残っている。
+
+### 次の作業
+
+1. CSS内の色指定を用途別に全件棚卸しする。
+2. 巨大なデザイントークン化は避け、現行用途に必要な最小限の意味変数を追加する。
+3. 既定色を変えずに直書き色を対応変数へ置換する。
+4. 作業2用テストを追加／更新し、作業1 v46ガードも回帰確認する。
+5. 本節を完了記録へ更新し、PR・main反映後に停止する。
+
+**作業3以降には進まない。**
+
+
+### 作業2 中間チェックポイント（CSS変数化実装済み・テスト前）
+
+- `conj/index.html` のCSS配色土台を実装済み。
+- 実装commit: `203437800ec8a0c54bd1bac541c0fc1f9d3552e0` — `refactor(conj): route palette colors through CSS variables`
+- `:root` の色変数は既存分を含め **70個**。単なる連番トークンではなく、surface/text、accent/learning state、translucent layer、level/help、record/review、elevation の用途別に整理した。
+- `.record-screen` に局所定義されていた `--record-verb / --record-adj / --record-adjv / --record-aux / --record-empty` は、後続テーマ切替から上書きできるよう `:root` へ移した。値は変更していない。
+- CSS本文の固体色（hex）は `:root` 外で0件まで置換した。
+- 背景・境界・outlineに使うテーマ依存の直書き `rgba(...)` も変数化した。
+- `box-shadow` の半透明色、`transparent` は装飾・透明指定として現時点では直書きを残した。これらまで機械的にトークン化することは作業2の目的に不要と判断した。
+- 作業1の `v46: record layout readability guard` は変更前後で文字列一致を確認し、変更していない。
+- 既定色の値はすべて元の値をCSS変数へ移しただけで、意図的な配色変更は行っていない。
+
+**現在は「実装済み・テスト更新前」。作業2は明確に進行中。**
+
+
+### 作業2 中間チェックポイント（テスト更新・静的検証完了）
+
+- テストcommit: `297ddc027b3b0a4b9c0d974af60b4597c3292894` — `test(conj): guard semantic palette variables`
+- `tests/unit/conj-record-screen.test.ts` に作業2用ガードを追加。既存テストは削除していない。
+- 新規ガードは、主要CSS変数の既定値が従来色と一致すること、`:root` 外のCSS本文に固体色hexが残っていないこと、非shadow用途の直書き `rgba(...)` が残っていないこと、主要UIが用途別変数を参照することを検査する。
+- GitHub connector上で変更前main blobと変更後branch blobを直接比較して、以下を確認した。
+  - `<style>` 外のHTML/JS: **完全一致**
+  - 作業1 v46ブロック: **完全一致**
+  - `:root` 外の固体色hex: **0件**
+  - 背景・境界・outline等の非shadow直書きrgba: **0件**
+  - `:root` 色変数: **70個**
+  - record分類色5種: 従来値のまま `:root` に存在
+  - 460px以下の要確認1列化: 維持
+  - 活用種類名nowrap: 維持
+  - 主要文字12px以上／補足文字10px以上のv46ガード: 維持
+
+### テスト実行上の注意
+
+この非ローカルconnector環境では任意のNodeコマンドを直接起動する実行器がないため、現時点では `node --test` / npm test のプロセス実行はしていない。代わりに、追加テストと同じ正規表現・不変条件をGitHub上の実blobに対して直接評価し、すべてPASSした。PR作成後にGitHub Actionsの有無も確認する。
+
+**現在は「実装・テスト更新・静的検証済み、PR作成前」。作業3には未着手。**

@@ -354,3 +354,48 @@ test('conj: install guide sits outside the study card, near the source-credits l
   );
   assert.doesNotMatch(html, /<main class="card">[\s\S]*id="installGuide"[\s\S]*<\/main>/);
 });
+
+
+test('conj: palette defaults are semantic CSS variables and preserve the current colors', () => {
+  const styleMatch = html.match(/<style>([\s\S]*?)<\/style>/);
+  assert.ok(styleMatch);
+  const css = styleMatch[1];
+  const rootMatch = css.match(/:root\{([\s\S]*?)\}\n/);
+  assert.ok(rootMatch);
+  const root = rootMatch[1];
+
+  const defaults = [
+    '--bg:#f7fbfa;',
+    '--card:#ffffff;',
+    '--ink:#2c3b38;',
+    '--muted:#6d7f7a;',
+    '--accent:#6fa696;',
+    '--accent-strong:#477d70;',
+    '--good:#e8f7ee;',
+    '--bad:#fff0f3;',
+    '--editable-hover:#eef9f5;',
+    '--editable-selected:#e8f7f2;',
+    '--record-verb:#935568;',
+    '--record-adj:#b77d55;',
+    '--record-adjv:#39756f;',
+    '--record-aux:#3d566b;',
+    '--record-empty:#e8eef1;',
+    '--review-error-bg:#f8eff2;',
+    '--review-error-ink:#825d69;',
+  ];
+  for (const value of defaults) assert.ok(root.includes(value), value);
+
+  const cssBody = css.slice(rootMatch.index! + rootMatch[0].length);
+  assert.doesNotMatch(cssBody, /#[0-9a-fA-F]{3,8}\b/);
+
+  for (const line of cssBody.split('\n').filter((line) => line.includes('rgba('))) {
+    assert.match(line, /box-shadow:/, line.trim());
+  }
+
+  assert.match(cssBody, /body\{background:[\s\S]*?var\(--page-glow-primary\)[\s\S]*?var\(--page-glow-secondary\)[\s\S]*?var\(--bg\)/);
+  assert.match(cssBody, /td\.editable:hover\{background:var\(--editable-hover\)\}/);
+  assert.match(cssBody, /td\.selected\{background:var\(--editable-selected\)\}/);
+  assert.match(cssBody, /\.review-rate\{[\s\S]*?border-color:var\(--review-error-border\);[\s\S]*?background:var\(--review-error-bg\);/);
+  assert.match(cssBody, /\.review-toggle:hover,[\s\S]*?\.review-toggle:focus-visible\{background:var\(--review-hover-bg\)\}/);
+  assert.match(cssBody, /\.record-screen\{[\s\S]*?var\(--record-glow-primary\)[\s\S]*?var\(--record-glow-secondary\)[\s\S]*?var\(--bg\)/);
+});
