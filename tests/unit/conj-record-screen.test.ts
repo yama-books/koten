@@ -34,8 +34,8 @@ test('conj: record screen keeps desktop spacing legible and mobile review cards 
   const block = html.match(/\/\* ===== v46: record screen layout legibility fix ===== \*\/[\s\S]*?<\/style>/);
   assert.ok(block);
   const css = block[0];
-  assert.match(css, /\.record-shell\{\s*width:min\(100%,920px\);/);
-  assert.match(css, /\.record-detail-grid\{\s*grid-template-columns:minmax\(430px,1fr\) minmax\(360px,\.9fr\);/);
+  assert.match(css, /\.record-shell\{\s*width:min\(100%,940px\);/);
+  assert.match(css, /\.record-detail-grid\{\s*grid-template-columns:minmax\(430px,\.95fr\) minmax\(440px,1\.05fr\);/);
   assert.match(css, /\.record-overview\{\s*grid-template-columns:minmax\(0,1fr\) 152px;/);
   assert.match(css, /\.record-overview \.record-stat dt\{\s*font-size:12px;/);
   assert.match(css, /\.review-copy small\{[\s\S]*?font-size:10px;[\s\S]*?white-space:nowrap;/);
