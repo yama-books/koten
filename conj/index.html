@@ -2388,6 +2388,88 @@ body.review-modal-open{overflow:hidden}
 
 
 
+/* ===== v46: record layout readability guard ===== */
+@media(min-width:860px){
+  .record-shell{width:min(100%,900px)}
+  .record-detail-grid{
+    grid-template-columns:minmax(420px,1fr) minmax(0,1fr);
+  }
+}
+@media(max-width:859px){
+  .record-detail-grid{grid-template-columns:1fr}
+}
+.record-overview{
+  grid-template-columns:minmax(220px,1fr) 150px;
+  gap:12px;
+}
+.record-overview .record-breakdown-panel{
+  grid-template-columns:96px minmax(0,1fr);
+  gap:10px;
+  min-width:0;
+}
+.record-overview .record-donut{
+  width:96px;
+  height:96px;
+}
+.record-breakdown li{
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+}
+.record-overview .record-stat dt{
+  font-size:12px;
+}
+.record-overview .record-stat:first-child dt{
+  width:auto;
+  font-size:12px;
+}
+.record-points-label{font-size:12px}
+.breakdown-label{font-size:12px}
+.record-breakdown strong{font-size:12px}
+.review-filters button{font-size:12px}
+.record-empty{font-size:12px}
+.record-donut-center span{font-size:10px}
+.review-rate span{font-size:10px}
+.review-copy small{
+  font-size:10px;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+.review-pos-badge{font-size:10px}
+.review-kind-line strong{
+  white-space:nowrap;
+  overflow-wrap:normal;
+}
+.review-toggle{min-height:62px}
+
+@media(max-width:700px){
+  .record-overview{
+    grid-template-columns:minmax(0,1fr) 116px;
+    gap:8px;
+  }
+  .record-overview .record-breakdown-panel{
+    grid-template-columns:86px minmax(0,1fr);
+    gap:7px;
+  }
+  .record-overview .record-donut{
+    width:86px;
+    height:86px;
+  }
+  .record-breakdown li{
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:4px;
+  }
+  .record-overview .record-stat{padding:5px 6px}
+  .record-overview .record-stat:nth-child(n+2){padding:5px 3px}
+}
+@media(max-width:460px){
+  .record-review{grid-template-columns:1fr}
+  .review-toggle{grid-template-columns:56px minmax(0,1fr)}
+}
+@media(max-width:350px){
+  .record-overview{grid-template-columns:1fr}
+  .record-overview .record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style>
 </head>
 <body>
