@@ -3206,3 +3206,5 @@ conj・百人一首（`packages/hyakunin/src/ui/screens/Home.tsx`）と同じ仕
   メニュー案内の文面は長く 10px でも収まらないため「メニューの「ホーム画面に追加」でアプリとして扱えます」に短くした。
   実測: 390px・375px で3種の文面とも1行。360px 以下では iOS 向けの文面が文節の切れ目（`<wbr>`）で2行になる。
 - 一覧の行ボタン: 「ん」だけ 1文字で幅 26px の縦長になっていたので、`.kanaFilterAll .kanaBtn{min-width:calc(2em + 10px)}` で「あ行」と同じ 42px にそろえた。
+
+公開: PR #35（マージコミット `6dbd44f`、元 `5100862`）。Deploy Pages / CI 成功、公開URLの `index.html` は `main` と SHA-1 一致。
