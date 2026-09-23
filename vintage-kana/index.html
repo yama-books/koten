@@ -1251,6 +1251,15 @@ function pickAutomatic(ch){
  const e=pickWeighted(choices);
  return {keep:false,text:e.character+info.mark,small:info.small};
 }
+// おまかせの初期表示は「もっとも頻度が高い字」を既定にする。
+// ばらつきは「もう一度」(randomizeCompose)の重み付きランダムに任せる。
+function pickDefault(ch){
+ const info=composeInfo(ch);
+ const choices=GLYPHS.filter(x=>x.kana===info.base);
+ if(!choices.length) return {keep:true,text:ch,small:false};
+ const e=choices.slice().sort(compareGlyphBrowseOrder)[0];
+ return {keep:false,text:e.character+info.mark,small:info.small};
+}
 
 function randomizeCompose(){
  const text=document.getElementById("sourceText").value;
@@ -1269,12 +1278,12 @@ function renderCompose(){
 
  if(composeMode==="auto"){
    needed.forEach(k=>{
-     if(!(k in selected) || selected[k]?.keep) selected[k]=pickAutomatic(k);
+     if(!(k in selected) || selected[k]?.keep) selected[k]=pickDefault(k);
    });
  }else{
    needed.forEach(k=>{
      const info=composeInfo(k);
-     if(!(k in selected) || selected[k]?.keep) selected[k]=pickAutomatic(k);
+     if(!(k in selected) || selected[k]?.keep) selected[k]=pickDefault(k);
 
      const row=document.createElement("div");row.className="composeRow";
      const left=document.createElement("div");left.className="composeKana";left.textContent=k;

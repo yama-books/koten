@@ -357,7 +357,7 @@ test("vintage-kana keeps already-shown glyphs stable while typing", () => {
   // 引き直しは「もう一度」だけの操作。
   assert.match(html, /document\.getElementById\("rerollCompose"\)\.onclick=randomizeCompose;/);
   // 同じ仮名には同じ字体を割り当てる（selected は文字をキーにしている）。
-  assert.match(html, /if\(!\(k in selected\) \|\| selected\[k\]\?\.keep\) selected\[k\]=pickAutomatic\(k\);/);
+  assert.match(html, /if\(!\(k in selected\) \|\| selected\[k\]\?\.keep\) selected\[k\]=pickDefault\(k\);/);
 });
 
 test("vintage-kana reports the saved image as an export", () => {
@@ -378,6 +378,15 @@ test("vintage-kana export credit sits outside the paper in the title face", () =
 
   // 描く前に字体を読み込む。読み込み前だとフォールバックで描かれる。
   assert.match(html, /document\.fonts\.check\('500 20px "Zen Maru Gothic"',"変体仮名メーカー"\)/);
+});
+
+test("vintage-kana defaults compose picks to the most frequent glyph, keeping weighted randomness for reroll only", () => {
+  // 初回・未選択時は最頻の字体を既定にする。ばらつきは「もう一度」の重み付き抽選に任せる。
+  assert.match(html, /function pickDefault\(ch\)\{/);
+  assert.match(html, /const e=choices\.slice\(\)\.sort\(compareGlyphBrowseOrder\)\[0\];/);
+  assert.match(html, /if\(!\(k in selected\) \|\| selected\[k\]\?\.keep\) selected\[k\]=pickDefault\(k\);/g);
+  // reroll (「もう一度」/randomizeCompose) は引き続き重み付きランダムを使う。
+  assert.match(html, /function randomizeCompose\(\)\{[\s\S]*?selected\[ch\]=pickAutomatic\(ch\);/);
 });
 
 test("vintage-kana weights the automatic pick by frequency without excluding anything", () => {
