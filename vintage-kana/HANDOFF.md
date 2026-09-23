@@ -3115,3 +3115,58 @@ conj・百人一首（`packages/hyakunin/src/ui/screens/Home.tsx`）と同じ仕
 3. 否定形出題の問題文が小さめ（字母逆引きと同じ大きさ）。
 4. `GLYPH_INFO_NOTES` への「似ている字」表示、`U+1B052` の比較相手（`U+1B11B` か `U+1B11C` か）の目視判断。
 5. 混同ペア表の画像比較による拡充（現状は監査確定の3組のみ）。
+
+
+## 67. 2026-09-24 §66残件A/UI細部B・C/一覧行グループ化D/記録頻度順E
+
+`vintage-kana-resume-20260921` ブランチ（`vintage-kana-main` 追従）で、§66の残件1（ホーム画面案内のキャンセル不具合）を含む6件を対応した。
+
+### A. ホーム画面案内のボタンをやり直し
+
+§66残件1「追加ボタンの確認をキャンセルしても案内が閉じたままになる」を修正。
+
+- ×閉じるボタンを撤廃し、「今は追加しない」（`sessionStorage`、このセッションのみ非表示）「今後は表示しない」（`localStorage`、恒久非表示、既存の `INSTALL_NOTICE_KEY` を維持）の2ボタンを常設。
+- `beforeinstallprompt` 発火時は、上記2ボタンの上に目立つ「ホーム画面に追加する」ボタン（`.installGuide__btn--primary`）を表示。
+- 不具合の原因: `installPromptEvent.prompt()` を呼んだ直後に `userChoice` を待たず即 dismiss していたため、キャンセルしても二度と案内が出なかった。`userChoice.outcome` が `accepted` なら永久非表示、`dismissed` ならセッションのみ非表示に分岐。`prompt()` は同一イベントに一度しか呼べないため、使用後は `installPromptEvent=null` にして追加ボタンも隠す。
+- ×撤廃に伴い `padding-right:40px` の非対称paddingを `10px 14px` の左右対称へ戻した。
+- すべての `localStorage`/`sessionStorage` アクセスは private browsing での例外を想定し try/catch で包んでいる（既存分含め維持）。
+- `tests/unit/vintage-kana-install-guide.test.ts` を新UI・新フローに合わせて全面更新。
+
+### B. 回答前の「次の問題」ボタンをグレー表示
+
+`.btn.primary:disabled` に既存トークン（`--paper2` / `--line` / `--muted`）だけでグレー寄りの配色を追加。新規の色は導入していない。回答後（`disabled` 解除）は従来どおり桜色。
+
+### C. iOS Safariでボタン文字が水色になる不具合
+
+`button,input,textarea{font:inherit}` のルールに `color:var(--ink)` を追加。`.learnHelpBtn` 等、クラス側で色指定のないボタンに効く。`.tab.active` や `.btn.primary` 等クラスで色指定しているボタンはセレクタ詳細度で従来どおり勝つため変更なし。Playwright WebKit（iPhone 13相当）で `.learnHelpBtn` の `getComputedStyle().color` が `--ink`（`#2f3138`）になることを確認。
+
+### D. 一覧画面を行ごとにグループ化
+
+「一覧」画面の先頭を「すべて」＋行（あ行〜わ行・ん、`KANA_FILTER_ROWS` の11行）ボタンへ再構成。行ボタンを押すとその行の仮名ボタンが下に現れ、カード一覧も行全体を表示する。仮名ボタンを押すとその仮名だけに絞り込み、もう一度押すか行ボタンを押すと行全体表示に戻る。「すべて」ボタンは従来どおり全件表示。カードの並び順（標準仮名→`compareGlyphBrowseOrder`）は変更していない。既存の `check:vintage-kana` の一覧DOM検査（`.kanaFilterRow` が常に11個存在する前提）は新しいDOM構造に合わせて更新し、320/360/390/430pxいずれもオーバーフローなし（findings 0）を確認した。
+
+### E. 記録の行ごとカードを頻度順に並べる
+
+`rowGlyphMasteryHtml(kanas)` の並びを、外側は `KANA_ROWS`（仮名順）のまま、同じ仮名内は `GLYPHS` 配列順（字体ID順）から一覧画面と同じ `compareGlyphBrowseOrder`（頻度順）へ変更。「最近」「苦手」等、他の記録リストの並びは触っていない。
+
+### 検証
+
+- `npm run test:node`: 837 tests / pass 808 / skipped 29 / fail 0。
+- `npm run check:vintage-kana`: findings 0（320/360/390/430px）。
+- 手動確認: A/B/D/E をブラウザで操作し、想定どおりの挙動を確認。テスト・検証中に使った `sessionStorage`/`localStorage` の案内関連キーは残さないよう終了時にクリアした。
+
+### コミット
+
+1. `fix(vintage-kana): iOS Safariでボタン文字が水色になる不具合を直す`
+2. `fix(vintage-kana): 回答前の「次の問題」ボタンをグレー表示にする`
+3. `fix(vintage-kana): 記録の行ごとカードを頻度順に並べる`
+4. `feat(vintage-kana): 一覧画面を行ごとにグループ化する`
+5. `fix(vintage-kana): ホーム画面案内のボタンをやり直し、キャンセル時に永久に消える不具合を直す`
+6. `test(vintage-kana): 一覧行グループ化に合わせてrc25テストの正規表現を更新`
+7. `test(vintage-kana): 行グループ化に合わせてcheck:vintage-kanaのDOM検査を更新`
+
+6・7はDの実装が既存テスト／checkスクリプトの前提としていたDOM構造（常時11行表示）を変えたことに伴う追従修正であり、Dと不可分だが差分の見通しのため別コミットにした。
+
+### 未対応・引き続きの残件
+
+- §66残件2〜5はそのまま未対応（iPhone実機でのA/否定形出題の見え方、否定形出題の問題文サイズ、`GLYPH_INFO_NOTES` の比較相手の目視判断、混同ペア表の拡充）。
+- item Fのスクリーンショット（A/B/D は狙いどおり撮影できた）のうち、読み方の否定形問題（「次のうち「K」ではないものはどれ？」）は、`computeGlyphMastery` 周りを本番コードに手を入れずスクリプト側だけで強制発火させる試み（`Math.random` の固定オーバーライド等）では再現できず、通常の4択問題のスクリーンショットになっている。次回は `NEGATIVE_QUESTION_RATE` の抽選箇所をより直接的にフックする方法を検討すること。
