@@ -396,3 +396,135 @@ raw: 46件
 7. 作業5: 全体確認・公開
 
 作業4.5「ホーム画面への追加案内」の基本実装は完了済みなので、再実装しない。
+
+
+---
+
+## 13. 作業1 完了記録（2026-09-24）
+
+### 実施範囲
+
+今回実施したのは **作業1「記録画面のPC表示崩れ修正」だけ**。作業2「配色の土台（直書き色をCSS変数へ）」以降には着手していない。
+
+実際に変更したファイル:
+- `conj/index.html`
+- `tests/unit/conj-record-screen.test.ts`
+- `conj/HANDOFF.md`（本記録のみ）
+
+### 実装内容
+
+`conj/index.html` の既存v44レイアウトを巻き戻さず、末尾に **v46: record layout readability guard** を追加した。
+
+- PC側は `860px` 以上で `.record-shell` を最大 `900px` まで広げる。
+- PC側の `.record-detail-grid` は、内訳側に `minmax(420px,1fr)` を確保する。
+- `.record-overview` は「内訳」と「3統計」の領域を明示的に分離し、内訳側は `minmax(220px,1fr)`、統計側は `150px` とした。
+- `.record-overview .record-breakdown-panel` の凡例側を `max-content` ではなく `minmax(0,1fr)` に変更し、凡例が統計欄へ侵入しない構造にした。
+- `859px` 以下では `.record-detail-grid` を1列にし、中間幅でも窮屈な2列配置を作らない。
+- `700px` 以下では内訳と統計の幅を再配分し、凡例側も `minmax(0,1fr)` のまま収める。
+- `460px` 以下では「要確認」カードを1列に落とす。375〜390pxはこの分岐に入る。
+- `.review-kind-line strong` に `white-space:nowrap` を追加し、「上二段活用」「下二段活用」等を途中改行しない。
+
+### PC表示の受入条件
+
+対象: 1024〜1280px。
+
+**CSS構造上は受入条件を満たすことを確認済み。** `box-sizing:border-box` の現行前提で、1024px以上では900pxのrecord shell内に、内訳側420px以上＋要確認側を確保する。内訳カード内も、ドーナツ・凡例・150pxの統計列を別グリッド領域へ分離したため、旧状態の「凡例が統計箱へ重なる」原因だった `max-content` のはみ出しを除去した。
+
+ただし、今回の非ローカルGitHub connector環境には実ブラウザを任意viewportで起動する経路がなく、**1024 / 1280pxの実ピクセル描画スクリーンショット確認は未実施**。構造・CSS契約の検証までを完了としている。
+
+### スマホ表示の受入条件
+
+対象: 375〜390px。
+
+**CSS構造上は受入条件を満たすことを確認済み。** `max-width:460px` で要確認カードを1列化し、`max-width:700px` では内訳の凡例列を縮小可能な `minmax(0,1fr)` とした。旧v44の後段指定で2列に戻っていた要確認カードを、v46の後段指定で確実に1列へ戻している。
+
+ただしPCと同様、**375 / 390pxの実ブラウザ描画確認は未実施**。
+
+### 最低文字サイズ対応
+
+v46で記録画面の主要表示を次の下限へ上書きした。
+
+- 主要表示: 12px以上
+  - 統計ラベル
+  - ポイントラベル
+  - 内訳ラベル／件数
+  - 要確認フィルタ
+  - 空状態表示
+- 補足表示: 10px以上
+  - ドーナツ中央の「問」
+  - 誤答率ラベル
+  - `review-copy small`
+  - 品詞バッジ
+
+旧CSS中の8〜9px指定そのものは過去の版として残るが、**v46が後段で上書きする**。新しいテストは旧値の存在ではなく最終ガードの下限を検査する。
+
+### 活用種類名のnowrap対応
+
+`.review-kind-line strong` に:
+
+- `white-space:nowrap`
+- `overflow-wrap:normal`
+
+を設定。スマホではカード自体を1列化して横幅を確保するため、nowrapだけで無理に押し込む構造にはしていない。
+
+### テスト更新内容
+
+`tests/unit/conj-record-screen.test.ts` の旧テスト
+`conj: review status stays readable and summary stats use compact rows`
+を、
+`conj: record screen keeps summary, legend, and review cards readable across widths`
+へ置き換えた。
+
+削除ではなく、以下の表示意図を検査するテストへ更新した。
+
+- PC用record shell／detail gridの幅確保
+- `record-overview` の内訳・統計の領域分離
+- 凡例側が `max-content` で外へ張り出さないこと
+- 700px以下でも凡例側が縮小可能であること
+- 460px以下で要確認カードが1列になること
+- 活用種類名がnowrapであること
+- 主要表示が12px以上であること
+- 補足表示が10px以上であること
+- 「取り組んだ問題」表示自体が残っていること
+
+### 実行した検証と結果
+
+GitHub上の更新後blobに対し、新テストと同じ条件を直接評価した。
+
+結果:
+- desktop shell幅ガード: PASS
+- desktop detail grid幅ガード: PASS
+- overview領域分離: PASS
+- breakdown凡例の `minmax(0,1fr)`: PASS
+- breakdownの `max-content` 除去: PASS
+- 700px以下の凡例縮小ガード: PASS
+- 460px以下の要確認1列化: PASS
+- 活用種類名nowrap: PASS
+- 主要表示の最小font-size: **12px**
+- 補足表示の最小font-size: **10px**
+- 旧 `font-size:8px` を期待するテスト: **残存なし**
+
+PR作成後にGitHubのチェック状態も確認したが、PR head commitに対する **Actions workflow run 0件 / commit status 0件** だった。このため、GitHub側の自動CIとしての `npm test` は実行されていない。非ローカル作業の制約を守るため、ローカルへ切り替えてのnpm実行は行っていない。
+
+### 未確認事項
+
+- 1024px / 1280px の実ブラウザ描画スクリーンショット
+- 375px / 390px の実ブラウザ描画スクリーンショット
+- `npm run test:node -- ...` 相当のNode実行（GitHub側にPR CIが起動しなかったため）
+- GitHub Pagesの公開URL実体。公開URLを外部Web経路から取得しようとしたが、このセッションではアクセスできず、GitHub connectorにもPages build状態を読むアクションがないため、**Pages反映は未確認**。
+
+次の担当者が実機／ブラウザで見る場合は、上記4幅を優先する。表示不具合がなければ作業1を再実装しない。
+
+### コミット／PR／main／Pages状態
+
+- 実装commit: `2a02739d79a8600a5c4e6b12885057f268bc26d1` — `fix(conj): stabilize record screen layout`
+- テストcommit: `fcea4890fc1b2792c9c30d5e33064cad93e7c524` — `test(conj): assert record screen readability`
+- PR: **#32** `fix(conj): stabilize record screen layout`
+- PR状態: **merged**
+- main merge commit: `738dff508846d57e2382865d3b577b7b38188d35`
+- main反映: **完了**
+- Pages公開反映: **未確認**（公開URL／Pages build状態をこの環境から確認できなかったため）
+
+### 停止位置
+
+**作業1はここで停止。作業2「配色の土台（直書き色をCSS変数へ）」へは進まない。**
