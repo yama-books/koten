@@ -205,3 +205,26 @@ test('conj: every runtime 形容動詞 heading resolves to kana, leaving kanji f
     .filter((display) => kanji.test(display) && !headings.has(display));
   assert.deepEqual(missing, []);
 });
+
+test('conj: 形容動詞 show reviewed public examples with source and license', () => {
+  const read = (name: string) =>
+    JSON.parse(readFileSync(new URL(`../../conj/data/${name}`, import.meta.url), 'utf8'));
+  const pool = new Set((read('adjectival-noun-lemma-pool.json').lemmas as { id: string }[]).map((l) => l.id));
+  const records = read('adjectival-noun-public-examples.json').records as Record<string, unknown>[];
+  const shown = records.filter((r) =>
+    r.exampleEnabledPublic === true && r.rightsVerified === true && r.targetVerified === true && r.excerptReviewed === true);
+  assert.ok(shown.length > 0);
+  for (const r of shown) {
+    assert.ok(pool.has(r.lemmaId as string), String(r.id));
+    assert.ok((r.example as string).includes(r.publicTarget as string), String(r.id));
+    assert.ok(r.sourceLabel && r.sourceUrl && r.sourceLicense, String(r.id));
+  }
+
+  const adapter = readFileSync(new URL('../../conj/adjv-runtime-adapter.js', import.meta.url), 'utf8');
+  assert.match(adapter, /r\.exampleEnabledPublic!==true \|\| r\.rightsVerified!==true\s*\|\| r\.targetVerified!==true \|\| r\.excerptReviewed!==true/);
+  assert.match(html, /publicExamples=await window\.ConjAdjvRuntime\.loadPublicExamples/);
+  assert.match(html, /target:ex\.publicTarget/);
+  assert.match(html, /function setExampleSourceFoot\(foot,item\)/);
+  assert.match(html, /license\.textContent=item\.sourceLicense/);
+  assert.match(html, /\.example-text\.is-prose\{white-space:normal !important\}/);
+});

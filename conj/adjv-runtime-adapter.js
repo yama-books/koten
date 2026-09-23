@@ -213,8 +213,27 @@
     };
   }
 
+  // Only records that passed all four public-text gates may be shown.
+  function publicExampleMap(publicExamples){
+    const map=new Map();
+    for(const r of publicExamples?.records||[]){
+      if(r.exampleEnabledPublic!==true || r.rightsVerified!==true
+        || r.targetVerified!==true || r.excerptReviewed!==true) continue;
+      if(!r.example || !r.publicTarget || !r.example.includes(r.publicTarget)) continue;
+      if(!map.has(r.lemmaId)) map.set(r.lemmaId,r);
+    }
+    return map;
+  }
+
+  async function loadPublicExamples(options={}){
+    const base=options.base||DEFAULT_BASE;
+    return publicExampleMap(await fetchJson(base+"adjectival-noun-public-examples.json"));
+  }
+
   global.ConjAdjvRuntime={
     load,
+    loadPublicExamples,
+    publicExampleMap,
     validateRuntime,
     buildTableItems,
     buildExampleRefs,

@@ -100,6 +100,10 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 }
 .track-heads span{min-height:48px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;color:var(--muted);font:600 9px/1.1 "Yu Mincho","Hiragino Mincho ProN",serif}
 .track-heads .spacer{visibility:hidden}
+.example-foot a{color:inherit;text-decoration:none}
+.example-foot a,.example-license{text-orientation:mixed}
+/* Prose examples can exceed one column; poems keep their single line. */
+.example-text.is-prose{white-space:normal !important}
 
 .katsuyo{border-collapse:collapse;table-layout:fixed;background:#fff;border:1px solid var(--line-strong);width:auto;box-shadow:0 5px 16px rgba(62,107,96,.055)}
 .katsuyo td,.katsuyo th{border:1px solid var(--line-strong);padding:0;text-align:center;vertical-align:middle}
@@ -2552,7 +2556,7 @@ body.review-modal-open{overflow:hidden}
   </section>
 </div>
 
-<script src="./adjv-runtime-adapter.js"></script>
+<script src="./adjv-runtime-adapter.js?v=20260923-public-examples"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -3899,6 +3903,7 @@ function render(){
   const compactExample=(current.example||"").replace(/[　 ]+/g,"");
   const compactTarget=(current.target||"").replace(/[　 ]+/g,"");
   document.getElementById("exampleText").innerHTML=highlight(compactExample,compactTarget,current.occurrence);
+  document.getElementById("exampleText").classList.toggle("is-prose",!current.poem);
   const exampleToggle=document.getElementById("showExample");
   const hasExample=current.exampleAvailable!==false && compactExample.length>0;
   exampleToggle.disabled=!hasExample;
@@ -3911,7 +3916,7 @@ function render(){
     const author=poemAuthors[current.poem]||"";
     document.getElementById("exampleFoot").textContent=`小倉百人一首 ${kansuji(current.poem)}番（${author}）`;
   }else{
-    document.getElementById("exampleFoot").textContent=current.source||"練習用例";
+    setExampleSourceFoot(document.getElementById("exampleFoot"),current);
   }
 
   const showing=hasExample && exampleToggle.checked;
@@ -4188,6 +4193,30 @@ function randomReviewItem(candidates){
   if(!Array.isArray(candidates)||!candidates.length) return null;
   return candidates[Math.floor(Math.random()*candidates.length)];
 }
+const LICENSE_URLS={
+  "CC BY-SA 4.0":"https://creativecommons.org/licenses/by-sa/4.0/deed.ja",
+  "CC BY-SA 3.0":"https://creativecommons.org/licenses/by-sa/3.0/deed.ja"
+};
+// Openly licensed text must carry its source and license next to the example.
+function setExampleSourceFoot(foot,item){
+  foot.textContent="";
+  if(!item.sourceLicense){
+    foot.textContent=item.source||"練習用例";
+    return;
+  }
+  const source=document.createElement(item.sourceUrl?"a":"span");
+  source.textContent=item.source||"";
+  const license=document.createElement(LICENSE_URLS[item.sourceLicense]?"a":"span");
+  license.className="example-license";
+  license.textContent=item.sourceLicense;
+  for(const [el,href] of [[source,item.sourceUrl],[license,LICENSE_URLS[item.sourceLicense]]]){
+    if(!href) continue;
+    el.href=href;
+    el.target="_blank";
+    el.rel="noopener";
+  }
+  foot.append(source,"　",license);
+}
 function renderReviewExample(item){
   const panel=document.getElementById("reviewExamplePanel");
   const text=document.getElementById("reviewExampleText");
@@ -4205,11 +4234,12 @@ function renderReviewExample(item){
     return;
   }
   text.innerHTML=highlight(compactExample,compactTarget,item.occurrence);
+  text.classList.toggle("is-prose",!item.poem);
   if(item.poem){
     const author=poemAuthors[item.poem]||"";
     foot.textContent=`小倉百人一首 ${kansuji(item.poem)}番（${author}）`;
   }else{
-    foot.textContent=item.source||"練習用例";
+    setExampleSourceFoot(foot,item);
   }
   layout.style.gridTemplateColumns="";
   layout.style.gridTemplateAreas="";
@@ -4449,16 +4479,34 @@ async function loadAdjvRuntimeItems(){
   try{
     if(!window.ConjAdjvRuntime) throw new Error("ConjAdjvRuntime is unavailable");
     const runtime=await window.ConjAdjvRuntime.load({base:"./data/"});
+    let publicExamples=new Map();
+    try{
+      publicExamples=await window.ConjAdjvRuntime.loadPublicExamples({base:"./data/"});
+    }catch(error){
+      console.warn("形容動詞の公開用例を読み込めませんでした。活用表のみで続行します。",error);
+    }
     const existing=new Set(items.filter(x=>x.pos==="adjv").map(x=>x.lemma));
     const additions=runtime.tableItems
       .filter(x=>!existing.has(x.lemma))
-      .map(x=>({
-        ...x,
-        example:"",
-        target:"",
-        source:"活用表ドリル",
-        exampleAvailable:false
-      }));
+      .map(x=>{
+        const ex=publicExamples.get(x.id);
+        return ex ? {
+          ...x,
+          example:ex.example,
+          target:ex.publicTarget,
+          source:ex.sourceLabel,
+          sourceUrl:ex.sourceUrl,
+          sourceLicense:ex.sourceLicense,
+          exampleAvailable:true
+        } : {
+          ...x,
+          example:"",
+          target:"",
+          source:"活用表ドリル",
+          exampleAvailable:false
+        };
+      });
+    status.withExample=additions.filter(x=>x.exampleAvailable).length;
     items.push(...additions);
     status.loaded=true;
     status.added=additions.length;
