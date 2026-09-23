@@ -5,6 +5,13 @@ import { readFileSync } from "node:fs";
 const html = readFileSync(new URL("../../vintage-kana/index.html", import.meta.url), "utf8");
 const glyphMaster = JSON.parse(readFileSync(new URL("../../vintage-kana/data/ui-glyph-master.json", import.meta.url), "utf8"));
 
+
+test("vintage-kana fallback glyph data stays identical to the UI master", () => {
+  const match = html.match(/const FALLBACK_GLYPHS=(\\[[^\\n]+\\]);/);
+  assert.ok(match, "FALLBACK_GLYPHS が見つからない");
+  const fallback = JSON.parse(match[1]);
+  assert.deepEqual(fallback, glyphMaster.glyphs);
+});
 test("vintage-kana RC25 staged quiz thresholds stay fixed", () => {
   assert.match(html, /const QUIZ_SET_SIZE=5;/);
   assert.match(html, /const QUIZ_CORRECT_POINTS=10;/);
