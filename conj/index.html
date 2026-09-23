@@ -853,6 +853,27 @@ td.wrong{background:var(--bad)!important}
   color:var(--muted);
   font:600 9px/1.1 "Yu Mincho","Hiragino Mincho ProN",serif;
 }
+/* Keep the primary track names exactly on each column center.
+   The supplementary conjugation name is only an annotation and must not
+   participate in centering the "補助活用" label itself. */
+.table-panel.paired-mode .track-heads > span{
+  position:relative;
+}
+.table-panel.paired-mode .track-heads > span:first-child::after{
+  content:attr(data-track-note);
+  position:absolute;
+  left:6px;
+  top:50%;
+  transform:translateY(-50%);
+  writing-mode:vertical-rl;
+  text-orientation:upright;
+  white-space:nowrap;
+  font-size:7px;
+  font-weight:500;
+  line-height:1;
+  opacity:.86;
+  pointer-events:none;
+}
 .katsuyo.paired-conjugation{
   width:160px;
 }
@@ -895,6 +916,10 @@ td.wrong{background:var(--bad)!important}
   .table-panel.paired-mode .track-heads span{
     min-height:38px;
     font-size:8px;
+  }
+  .table-panel.paired-mode .track-heads > span:first-child::after{
+    left:5px;
+    font-size:6.5px;
   }
   .katsuyo.paired-conjugation{
     width:139px;
@@ -3568,9 +3593,12 @@ function renderTrackHeads(mode){
   }
 }
 
-function supplementaryTrackLabel(item){
-  if(item?.id==="zu") return "補助活用\n（ザリ活用）";
-  return "補助活用\n（カリ活用）";
+function setPairedTrackLabels(left,right,item){
+  if(!left || !right) return;
+  left.textContent="補助活用";
+  left.dataset.trackNote=item?.id==="zu" ? "（ザリ活用）" : "（カリ活用）";
+  right.textContent="本活用";
+  delete right.dataset.trackNote;
 }
 
 function syncPairedTrackHeads(panel,table){
@@ -3623,8 +3651,11 @@ function renderTable(){
 
     const panel=document.getElementById("tablePanel");
     panel.classList.add("adjective-mode","paired-mode");
-    document.getElementById("trackLeft").textContent=supplementaryTrackLabel(current);
-    document.getElementById("trackRight").textContent="本活用";
+    setPairedTrackLabels(
+      document.getElementById("trackLeft"),
+      document.getElementById("trackRight"),
+      current
+    );
 
     names.forEach((name,i)=>{
       const tr=document.createElement("tr");
@@ -3691,8 +3722,11 @@ function renderTable(){
 
     const panel=document.getElementById("tablePanel");
     panel.classList.add("paired-mode");
-    document.getElementById("trackLeft").textContent=supplementaryTrackLabel(current);
-    document.getElementById("trackRight").textContent="本活用";
+    setPairedTrackLabels(
+      document.getElementById("trackLeft"),
+      document.getElementById("trackRight"),
+      current
+    );
 
     names.forEach((name,i)=>{
       const tr=document.createElement("tr");
@@ -4206,8 +4240,7 @@ function renderReviewTable(item){
   if(item.pos==="adj"){
     table.classList.add("adjective-pair");
     panel.classList.add("adjective-mode","paired-mode");
-    left.textContent=supplementaryTrackLabel(item);
-    right.textContent="本活用";
+    setPairedTrackLabels(left,right,item);
     names.forEach((name,index)=>{
       const row=document.createElement("tr");
       row.appendChild(fixedCell(item.forms2[index],"sub"));
@@ -4238,8 +4271,7 @@ function renderReviewTable(item){
   if(item.twoTrack){
     table.classList.add("paired-conjugation");
     panel.classList.add("paired-mode");
-    left.textContent=supplementaryTrackLabel(item);
-    right.textContent="本活用";
+    setPairedTrackLabels(left,right,item);
     names.forEach((name,index)=>{
       const row=document.createElement("tr");
       const sub=item.forms2 ? item.forms2[index] : null;
