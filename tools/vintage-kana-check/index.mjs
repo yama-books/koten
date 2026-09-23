@@ -229,19 +229,34 @@ try {
     if (!record.jiboText || record.jiboText.startsWith("字母")) add(width, "recordGlyphJiboWithoutPrefix", record);
     if (record.meterValue !== "0" || record.percentText !== "0%") add(width, "recordGlyphMeterMatchesPercent", record);
 
+    // 一覧は「すべて」+行ボタンの上段のみ既定表示。行ボタンを押すとその行の仮名だけ下に展開される。
     await page.locator('[data-view="browse"]').click();
-    await page.waitForSelector(".kanaFilterRow");
-    const browse = await page.evaluate(() => ({
-      rowCount: document.querySelectorAll(".kanaFilterRow").length,
-      labels: [...document.querySelectorAll(".kanaFilterRow__label")].map((el) => el.textContent?.trim() ?? ""),
-      maxRight: Math.max(0, ...[...document.querySelectorAll(".kanaFilterRow")].map((el) => el.getBoundingClientRect().right)),
+    await page.waitForSelector(".kanaFilterAll");
+    const browseTop = await page.evaluate(() => ({
+      rowButtonCount: document.querySelectorAll(".kanaFilterAll button").length,
+      labels: [...document.querySelectorAll(".kanaFilterAll button")].map((el) => el.textContent?.trim() ?? ""),
+      maxRight: Math.max(0, ...[...document.querySelectorAll(".kanaFilterAll button")].map((el) => el.getBoundingClientRect().right)),
       viewport: document.documentElement.clientWidth,
       menuText: document.querySelector('[data-view="browse"]')?.textContent?.trim() ?? "",
     }));
-    if (browse.rowCount !== 11) add(width, "browseKanaRowCount", browse);
-    if (browse.labels.at(-1) !== "ん") add(width, "browseKanaNRowIsSeparate", browse);
-    if (browse.menuText !== "一覧") add(width, "browseMenuLabel", browse);
-    if (browse.maxRight > browse.viewport + 1) add(width, "browseRowsNoOverflow", browse);
+    if (browseTop.rowButtonCount !== 12) add(width, "browseKanaRowCount", browseTop); // すべて + 10行 + ん
+    if (browseTop.labels.at(-1) !== "ん") add(width, "browseKanaNRowIsSeparate", browseTop);
+    if (browseTop.menuText !== "一覧") add(width, "browseMenuLabel", browseTop);
+    if (browseTop.maxRight > browseTop.viewport + 1) add(width, "browseRowsNoOverflow", browseTop);
+
+    // 行ボタンを押して展開したときも、その行の仮名ボタン群が横幅からあふれないことを確認する。
+    await page.evaluate(() => {
+      const rowButtons = [...document.querySelectorAll(".kanaFilterAll button")].filter((el) => el.textContent?.trim() !== "すべて");
+      rowButtons.at(-1)?.click(); // 最後の「ん」行
+    });
+    await page.waitForSelector(".kanaFilterRow");
+    const browseExpanded = await page.evaluate(() => ({
+      label: document.querySelector(".kanaFilterRow__label")?.textContent?.trim() ?? "",
+      maxRight: Math.max(0, ...[...document.querySelectorAll(".kanaFilterRow, .kanaFilterRow *")].map((el) => el.getBoundingClientRect().right)),
+      viewport: document.documentElement.clientWidth,
+    }));
+    if (browseExpanded.label !== "ん") add(width, "browseKanaExpandedRowLabel", browseExpanded);
+    if (browseExpanded.maxRight > browseExpanded.viewport + 1) add(width, "browseRowsNoOverflow", browseExpanded);
 
     await page.close();
   }
