@@ -3045,3 +3045,42 @@ ChatGPT が `73efc68` で完了済み・ローカル検証済み（監査確定3
 
 `main` へは実行時に読むファイルだけを出す（`index.html` / `data/ui-glyph-master.json` / `data/glyph-confusion-pairs.json`）。
 `glyph-distribution.json` などの正本データの差分は実行時に使わないため、今回は出していない。
+
+## 65. 2026-09-24 ホーム画面案内の実装・読み方否定形出題の実装
+
+### ホーム画面への追加案内
+
+conj・百人一首（`packages/hyakunin/src/ui/screens/Home.tsx`）と同じ仕組みを、素のJSとDOMで実装した。
+
+- `isStandaloneLaunch()`: `matchMedia("(display-mode: standalone)")` と `navigator.standalone` で判定。standalone起動時は案内を出さない。
+- `installForIos`: `iPad|iPhone|iPod` UA、または Macintosh を名乗る iPadOS（`navigator.maxTouchPoints>1`）を判定。
+  文言は「共有ボタン［共有アイコン。role="img" aria-label="共有"のインラインSVG］からホーム画面に追加すると、アプリとして扱えます」。
+- `beforeinstallprompt` を受けたら `installPromptEvent` に保持し、「ホーム画面に追加する」ボタンを出す。押すと `prompt()` を呼び、閉じたことにする。
+- それ以外は「ブラウザのメニューから『ホーム画面に追加』を選ぶと、アプリとして扱えます」。
+- 閉じる（×ボタン）／`appinstalled` で `localStorage["vintageKanaInstallNoticeDismissed"]` に記憶し、以後出さない。
+- 表示位置は既存レイアウトの外、`<footer>` 直前。色は既存のCSS変数のみ使用（`--line` / `--paper2` / `--muted` / `--accent` など）。
+- テスト: `tests/unit/vintage-kana-install-guide.test.ts`（新規）。`npm test`・`check:vintage-kana`（findings 0）とも通過を確認。
+
+### 読み方モードに否定形の出題を混ぜる
+
+§64末の検討メモの案どおり実装した。「読み」モード・選択式（`quizQuestionMethod==="choice"`）のときだけ、20%の確率
+（`NEGATIVE_QUESTION_RATE=0.2`）で「次のうち『K』ではないものはどれ？」を混ぜる。
+
+- 候補Kの条件（`buildNegativeReadingCandidates()`）: quizEntryと読みが違う／その読みの変体仮名が3字以上ある／
+  平均習熟度（`computeGlyphMastery`の平均）が `NEGATIVE_QUESTION_MASTERY=60` 以上。
+  候補が複数あれば `quizEntry` と同じ行（`kanaRowFor`）を優先し、無ければ全体からランダムに選ぶ（`pickNegativeReadingCandidate()`）。
+- 誤答3字は、読みKの変体仮名から `quizEntry` の混同相手（`CONFUSION_MAP`）を除いてランダムに3字。除いた結果3字に満たないKは候補から外す。
+- 正解は常に `quizEntry.character`（外れの1字）。`recordLearningAttempt()` もこれまでどおり `quizEntry` だけに記録する。
+  習熟度の計算規則・出題の重み付け（`pickQuizWeighted`）・おまかせ（`autoWeight`系）・字母逆引きは一切変えていない。
+- 学習イベントに `questionType:"reading-negative"` を追加した（既存フィールドは変更なし。通常出題には付けない）。
+- フィードバックは正解「正解です。『字』は『kana』と読みます。」、不正解「『quizEntry.character』は『kana』と読みます。ほかの3字は『K』です。」
+- テスト: `tests/unit/vintage-kana-rc25.test.ts` に追加。定数の固定・出題文言・`questionType`付与・実データで読みが3字以上ある仮名が45件以上あることを確認。
+- 確認: `npm run test:node`（833 pass / 0 fail）、`npm test`（node 804 pass + vitest 354 pass）、`check:vintage-kana`（findings 0）。
+  実ブラウザでの目視確認（500回抽選の全数検査・クリックしての表示/記録確認）は今回の作業環境では未実施。テストとコードレビューで代替した。
+
+コミット: `b1ac0d3`（ホーム画面案内）、`252e737`（否定形出題）。両方 `vintage-kana-main` にpush済み。`main`への公開はまだ。
+
+### 残件
+
+- §62の残件（GLYPH_INFO_NOTESへの「似ている字」表示、U+1B052の似ている字の食い違いの監査）は未着手のまま。
+- 今回の2件（§65）の実ブラウザでの目視確認、および `main` への公開。
