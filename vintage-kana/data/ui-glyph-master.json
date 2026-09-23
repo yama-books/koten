@@ -7,9 +7,42 @@
     "glyph-distribution-part2.json",
     "glyph-distribution-supplemental.json"
   ],
-  "glyphCount": 138,
+  "glyphCount": 266,
   "kanaCount": 47,
   "glyphs": [
+    {
+      "kana": "え",
+      "glyph_id": "U+1B001",
+      "character": "𛀁",
+      "jibo": "江",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "040020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "あ",
+      "glyph_id": "U+1B002",
+      "character": "𛀂",
+      "jibo": "安",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "010010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "あ",
+      "glyph_id": "U+1B003",
+      "character": "𛀃",
+      "jibo": "愛",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "010030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
     {
       "kana": "あ",
       "glyph_id": "U+1B004",
@@ -18,6 +51,17 @@
       "totalObserved": 391,
       "witnessCount": 14,
       "ninjal_id": "010040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "あ",
+      "glyph_id": "U+1B005",
+      "character": "𛀅",
+      "jibo": "惡",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "010020010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -44,6 +88,28 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "い",
+      "glyph_id": "U+1B008",
+      "character": "𛀈",
+      "jibo": "意",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "020030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "い",
+      "glyph_id": "U+1B009",
+      "character": "𛀉",
+      "jibo": "移",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "020050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "う",
       "glyph_id": "U+1B00A",
       "character": "𛀊",
@@ -55,6 +121,50 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "う",
+      "glyph_id": "U+1B00B",
+      "character": "𛀋",
+      "jibo": "宇",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "030020020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "う",
+      "glyph_id": "U+1B00C",
+      "character": "𛀌",
+      "jibo": "憂",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "030030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "う",
+      "glyph_id": "U+1B00D",
+      "character": "𛀍",
+      "jibo": "有",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "030040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "う",
+      "glyph_id": "U+1B00E",
+      "character": "𛀎",
+      "jibo": "雲",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "030050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "え",
       "glyph_id": "U+1B00F",
       "character": "𛀏",
@@ -62,6 +172,17 @@
       "totalObserved": 4,
       "witnessCount": 2,
       "ninjal_id": "040030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "え",
+      "glyph_id": "U+1B010",
+      "character": "𛀐",
+      "jibo": "縁",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "040040010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -88,6 +209,17 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "え",
+      "glyph_id": "U+1B013",
+      "character": "𛀓",
+      "jibo": "要",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "040060010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "お",
       "glyph_id": "U+1B014",
       "character": "𛀔",
@@ -106,6 +238,28 @@
       "totalObserved": 2,
       "witnessCount": 2,
       "ninjal_id": "050010020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "お",
+      "glyph_id": "U+1B016",
+      "character": "𛀖",
+      "jibo": "隱",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "050020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "か",
+      "glyph_id": "U+1B017",
+      "character": "𛀗",
+      "jibo": "佳",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "060010010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -144,12 +298,111 @@
     },
     {
       "kana": "か",
+      "glyph_id": "U+1B01B",
+      "character": "𛀛",
+      "jibo": "嘉",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "060050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "か",
+      "glyph_id": "U+1B01C",
+      "character": "𛀜",
+      "jibo": "我",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "060070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "か",
+      "glyph_id": "U+1B01D",
+      "character": "𛀝",
+      "jibo": "歟",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "060090010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "か",
+      "glyph_id": "U+1B01E",
+      "character": "𛀞",
+      "jibo": "賀",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "060100010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "か",
       "glyph_id": "U+1B01F",
       "character": "𛀟",
       "jibo": "閑",
       "totalObserved": 26,
       "witnessCount": 2,
       "ninjal_id": "060110010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "か",
+      "glyph_id": "U+1B020",
+      "character": "𛀠",
+      "jibo": "香",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "060120010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "か",
+      "glyph_id": "U+1B021",
+      "character": "𛀡",
+      "jibo": "駕",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "060130010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "か",
+      "glyph_id": "U+1B022",
+      "character": "𛀢",
+      "jibo": "家",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "060060010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "き",
+      "glyph_id": "U+1B023",
+      "character": "𛀣",
+      "jibo": "喜",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "070020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "き",
+      "glyph_id": "U+1B024",
+      "character": "𛀤",
+      "jibo": "幾",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "070040010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -177,12 +430,45 @@
     },
     {
       "kana": "き",
+      "glyph_id": "U+1B027",
+      "character": "𛀧",
+      "jibo": "木",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "070060010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "き",
+      "glyph_id": "U+1B028",
+      "character": "𛀨",
+      "jibo": "祈",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "070070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "き",
       "glyph_id": "U+1B02A",
       "character": "𛀪",
       "jibo": "起",
       "totalObserved": 321,
       "witnessCount": 15,
       "ninjal_id": "070110010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "く",
+      "glyph_id": "U+1B02B",
+      "character": "𛀫",
+      "jibo": "久",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "080010010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -199,12 +485,56 @@
     },
     {
       "kana": "く",
+      "glyph_id": "U+1B02D",
+      "character": "𛀭",
+      "jibo": "九",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "080020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "く",
+      "glyph_id": "U+1B02E",
+      "character": "𛀮",
+      "jibo": "供",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "080030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "く",
+      "glyph_id": "U+1B02F",
+      "character": "𛀯",
+      "jibo": "倶",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "080040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "く",
       "glyph_id": "U+1B030",
       "character": "𛀰",
       "jibo": "具",
       "totalObserved": 22,
       "witnessCount": 5,
       "ninjal_id": "080050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "く",
+      "glyph_id": "U+1B031",
+      "character": "𛀱",
+      "jibo": "求",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "080060010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -275,6 +605,61 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "こ",
+      "glyph_id": "U+1B039",
+      "character": "𛀹",
+      "jibo": "故",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "100030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "こ",
+      "glyph_id": "U+1B03A",
+      "character": "𛀺",
+      "jibo": "許",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "100070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "こ",
+      "glyph_id": "U+1B03B",
+      "character": "𛀻",
+      "jibo": "期",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "100040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "さ",
+      "glyph_id": "U+1B03C",
+      "character": "𛀼",
+      "jibo": "乍",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "110010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "さ",
+      "glyph_id": "U+1B03D",
+      "character": "𛀽",
+      "jibo": "佐",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "110020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "さ",
       "glyph_id": "U+1B03E",
       "character": "𛀾",
@@ -297,6 +682,61 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "さ",
+      "glyph_id": "U+1B040",
+      "character": "𛁀",
+      "jibo": "差",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "110040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "さ",
+      "glyph_id": "U+1B041",
+      "character": "𛁁",
+      "jibo": "散",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "110050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "さ",
+      "glyph_id": "U+1B042",
+      "character": "𛁂",
+      "jibo": "斜",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "110060010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "さ",
+      "glyph_id": "U+1B043",
+      "character": "𛁃",
+      "jibo": "沙",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "110070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "し",
+      "glyph_id": "U+1B044",
+      "character": "𛁄",
+      "jibo": "之",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "120010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "し",
       "glyph_id": "U+1B045",
       "character": "𛁅",
@@ -309,12 +749,56 @@
     },
     {
       "kana": "し",
+      "glyph_id": "U+1B046",
+      "character": "𛁆",
+      "jibo": "事",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "120020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "し",
+      "glyph_id": "U+1B047",
+      "character": "𛁇",
+      "jibo": "四",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "120030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "し",
       "glyph_id": "U+1B048",
       "character": "𛁈",
       "jibo": "志",
       "totalObserved": 744,
       "witnessCount": 15,
       "ninjal_id": "120050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "し",
+      "glyph_id": "U+1B049",
+      "character": "𛁉",
+      "jibo": "新",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "120070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "す",
+      "glyph_id": "U+1B04A",
+      "character": "𛁊",
+      "jibo": "受",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "130010010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -337,6 +821,17 @@
       "totalObserved": 1,
       "witnessCount": 1,
       "ninjal_id": "130040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "す",
+      "glyph_id": "U+1B04D",
+      "character": "𛁍",
+      "jibo": "數",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "130040020",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -397,12 +892,67 @@
     },
     {
       "kana": "せ",
+      "glyph_id": "U+1B053",
+      "character": "𛁓",
+      "jibo": "世",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "140010040",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "せ",
       "glyph_id": "U+1B055",
       "character": "𛁕",
       "jibo": "勢",
       "totalObserved": 43,
       "witnessCount": 4,
       "ninjal_id": "140020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "せ",
+      "glyph_id": "U+1B056",
+      "character": "𛁖",
+      "jibo": "聲",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "140040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "そ",
+      "glyph_id": "U+1B057",
+      "character": "𛁗",
+      "jibo": "所",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "150010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "そ",
+      "glyph_id": "U+1B058",
+      "character": "𛁘",
+      "jibo": "所",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "150010020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "そ",
+      "glyph_id": "U+1B059",
+      "character": "𛁙",
+      "jibo": "曾",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "150020010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -425,6 +975,28 @@
       "totalObserved": 17,
       "witnessCount": 6,
       "ninjal_id": "150030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "そ",
+      "glyph_id": "U+1B05C",
+      "character": "𛁜",
+      "jibo": "蘇",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "150040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "そ",
+      "glyph_id": "U+1B05D",
+      "character": "𛁝",
+      "jibo": "處",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "150050020",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -462,6 +1034,17 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "た",
+      "glyph_id": "U+1B061",
+      "character": "𛁡",
+      "jibo": "當",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "160050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "ち",
       "glyph_id": "U+1B062",
       "character": "𛁢",
@@ -485,12 +1068,45 @@
     },
     {
       "kana": "ち",
+      "glyph_id": "U+1B064",
+      "character": "𛁤",
+      "jibo": "智",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "170030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ち",
       "glyph_id": "U+1B066",
       "character": "𛁦",
       "jibo": "知",
       "totalObserved": 1,
       "witnessCount": 1,
       "ninjal_id": "170040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ち",
+      "glyph_id": "U+1B067",
+      "character": "𛁧",
+      "jibo": "致",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "170050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ち",
+      "glyph_id": "U+1B068",
+      "character": "𛁨",
+      "jibo": "遲",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "170060010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -529,6 +1145,17 @@
     },
     {
       "kana": "つ",
+      "glyph_id": "U+1B06C",
+      "character": "𛁬",
+      "jibo": "都",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "180040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "つ",
       "glyph_id": "U+1B06D",
       "character": "𛁭",
       "jibo": "徒",
@@ -551,12 +1178,45 @@
     },
     {
       "kana": "て",
+      "glyph_id": "U+1B06F",
+      "character": "𛁯",
+      "jibo": "低",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "190020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "て",
       "glyph_id": "U+1B070",
       "character": "𛁰",
       "jibo": "傳",
       "totalObserved": 2,
       "witnessCount": 1,
       "ninjal_id": "190040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "て",
+      "glyph_id": "U+1B071",
+      "character": "𛁱",
+      "jibo": "天",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "190050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "て",
+      "glyph_id": "U+1B072",
+      "character": "𛁲",
+      "jibo": "天",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "190050020",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -583,6 +1243,72 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "て",
+      "glyph_id": "U+1B075",
+      "character": "𛁵",
+      "jibo": "弖",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "190070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "て",
+      "glyph_id": "U+1B076",
+      "character": "𛁶",
+      "jibo": "轉",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "190080010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "と",
+      "glyph_id": "U+1B077",
+      "character": "𛁷",
+      "jibo": "土",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "200010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "と",
+      "glyph_id": "U+1B078",
+      "character": "𛁸",
+      "jibo": "度",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "200020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "と",
+      "glyph_id": "U+1B079",
+      "character": "𛁹",
+      "jibo": "東",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "200040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "と",
+      "glyph_id": "U+1B07A",
+      "character": "𛁺",
+      "jibo": "登",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "200060010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "と",
       "glyph_id": "U+1B07B",
       "character": "𛁻",
@@ -590,6 +1316,39 @@
       "totalObserved": 179,
       "witnessCount": 10,
       "ninjal_id": "200060020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "と",
+      "glyph_id": "U+1B07C",
+      "character": "𛁼",
+      "jibo": "砥",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "200070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "と",
+      "glyph_id": "U+1B07D",
+      "character": "𛁽",
+      "jibo": "等",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "200080010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "な",
+      "glyph_id": "U+1B07E",
+      "character": "𛁾",
+      "jibo": "南",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "210010010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -639,6 +1398,17 @@
     },
     {
       "kana": "な",
+      "glyph_id": "U+1B083",
+      "character": "𛂃",
+      "jibo": "菜",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "210040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "な",
       "glyph_id": "U+1B084",
       "character": "𛂄",
       "jibo": "那",
@@ -656,6 +1426,17 @@
       "totalObserved": 112,
       "witnessCount": 11,
       "ninjal_id": "210050020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "な",
+      "glyph_id": "U+1B086",
+      "character": "𛂆",
+      "jibo": "難",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "210060010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -678,6 +1459,28 @@
       "totalObserved": 5,
       "witnessCount": 2,
       "ninjal_id": "220020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "に",
+      "glyph_id": "U+1B089",
+      "character": "𛂉",
+      "jibo": "仁",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "220030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "に",
+      "glyph_id": "U+1B08A",
+      "character": "𛂊",
+      "jibo": "兒",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "220040010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -727,6 +1530,17 @@
     },
     {
       "kana": "ぬ",
+      "glyph_id": "U+1B08F",
+      "character": "𛂏",
+      "jibo": "努",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "230010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ぬ",
       "glyph_id": "U+1B091",
       "character": "𛂑",
       "jibo": "怒",
@@ -760,12 +1574,34 @@
     },
     {
       "kana": "ね",
+      "glyph_id": "U+1B096",
+      "character": "𛂖",
+      "jibo": "熱",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "240060010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ね",
       "glyph_id": "U+1B097",
       "character": "𛂗",
       "jibo": "禰",
       "totalObserved": 219,
       "witnessCount": 14,
       "ninjal_id": "240070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ね",
+      "glyph_id": "U+1B098",
+      "character": "𛂘",
+      "jibo": "子",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "240010010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -848,6 +1684,28 @@
     },
     {
       "kana": "は",
+      "glyph_id": "U+1B0A0",
+      "character": "𛂠",
+      "jibo": "婆",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "260030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "は",
+      "glyph_id": "U+1B0A1",
+      "character": "𛂡",
+      "jibo": "波",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "260040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "は",
       "glyph_id": "U+1B0A2",
       "character": "𛂢",
       "jibo": "盤",
@@ -870,12 +1728,56 @@
     },
     {
       "kana": "は",
+      "glyph_id": "U+1B0A4",
+      "character": "𛂤",
+      "jibo": "破",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "260060010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "は",
+      "glyph_id": "U+1B0A5",
+      "character": "𛂥",
+      "jibo": "者",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "260080010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "は",
       "glyph_id": "U+1B0A6",
       "character": "𛂦",
       "jibo": "者",
       "totalObserved": 1360,
       "witnessCount": 15,
       "ninjal_id": "260080020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "は",
+      "glyph_id": "U+1B0A7",
+      "character": "𛂧",
+      "jibo": "葉",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "260100010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "は",
+      "glyph_id": "U+1B0A8",
+      "character": "𛂨",
+      "jibo": "頗",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "260110010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -903,12 +1805,67 @@
     },
     {
       "kana": "ひ",
+      "glyph_id": "U+1B0AB",
+      "character": "𛂫",
+      "jibo": "比",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "270040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ひ",
+      "glyph_id": "U+1B0AC",
+      "character": "𛂬",
+      "jibo": "避",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "270050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ひ",
+      "glyph_id": "U+1B0AD",
+      "character": "𛂭",
+      "jibo": "非",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "270060010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ひ",
+      "glyph_id": "U+1B0AE",
+      "character": "𛂮",
+      "jibo": "飛",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "270070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ひ",
       "glyph_id": "U+1B0AF",
       "character": "𛂯",
       "jibo": "飛",
       "totalObserved": 78,
       "witnessCount": 7,
       "ninjal_id": "270070020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ふ",
+      "glyph_id": "U+1B0B0",
+      "character": "𛂰",
+      "jibo": "不",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "280010010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -936,12 +1893,45 @@
     },
     {
       "kana": "へ",
+      "glyph_id": "U+1B0B3",
+      "character": "𛂳",
+      "jibo": "倍",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "290010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "へ",
+      "glyph_id": "U+1B0B5",
+      "character": "𛂵",
+      "jibo": "弊",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "290030020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "へ",
       "glyph_id": "U+1B0B6",
       "character": "𛂶",
       "jibo": "遍",
       "totalObserved": 87,
       "witnessCount": 11,
       "ninjal_id": "290050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "へ",
+      "glyph_id": "U+1B0B7",
+      "character": "𛂷",
+      "jibo": "邊",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "290060010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -958,12 +1948,67 @@
     },
     {
       "kana": "ほ",
+      "glyph_id": "U+1B0BA",
+      "character": "𛂺",
+      "jibo": "保",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "300010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ほ",
       "glyph_id": "U+1B0BB",
       "character": "𛂻",
       "jibo": "保",
       "totalObserved": 89,
       "witnessCount": 7,
       "ninjal_id": "300010030",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ほ",
+      "glyph_id": "U+1B0BC",
+      "character": "𛂼",
+      "jibo": "報",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "300020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ほ",
+      "glyph_id": "U+1B0BD",
+      "character": "𛂽",
+      "jibo": "奉",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "300030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ほ",
+      "glyph_id": "U+1B0BE",
+      "character": "𛂾",
+      "jibo": "寶",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "300040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ほ",
+      "glyph_id": "U+1B0BF",
+      "character": "𛂿",
+      "jibo": "本",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "300050030",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1045,6 +2090,17 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "ま",
+      "glyph_id": "U+1B0C8",
+      "character": "𛃈",
+      "jibo": "麻",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "310070010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "み",
       "glyph_id": "U+1B0C9",
       "character": "𛃉",
@@ -1052,6 +2108,50 @@
       "totalObserved": 775,
       "witnessCount": 15,
       "ninjal_id": "320010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "み",
+      "glyph_id": "U+1B0CA",
+      "character": "𛃊",
+      "jibo": "微",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "320020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "み",
+      "glyph_id": "U+1B0CB",
+      "character": "𛃋",
+      "jibo": "美",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "320030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "み",
+      "glyph_id": "U+1B0CC",
+      "character": "𛃌",
+      "jibo": "美",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "320030020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "み",
+      "glyph_id": "U+1B0CD",
+      "character": "𛃍",
+      "jibo": "美",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "320030030",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1067,6 +2167,17 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "み",
+      "glyph_id": "U+1B0CF",
+      "character": "𛃏",
+      "jibo": "身",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "320050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "む",
       "glyph_id": "U+1B0D1",
       "character": "𛃑",
@@ -1074,6 +2185,17 @@
       "totalObserved": 88,
       "witnessCount": 4,
       "ninjal_id": "330040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "む",
+      "glyph_id": "U+1B0D2",
+      "character": "𛃒",
+      "jibo": "牟",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "330050010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1100,6 +2222,28 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "め",
+      "glyph_id": "U+1B0D5",
+      "character": "𛃕",
+      "jibo": "面",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "340030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "め",
+      "glyph_id": "U+1B0D6",
+      "character": "𛃖",
+      "jibo": "馬",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "340040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "も",
       "glyph_id": "U+1B0D7",
       "character": "𛃗",
@@ -1107,6 +2251,17 @@
       "totalObserved": 1,
       "witnessCount": 1,
       "ninjal_id": "350010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "も",
+      "glyph_id": "U+1B0D8",
+      "character": "𛃘",
+      "jibo": "毛",
+      "totalObserved": 2,
+      "witnessCount": 1,
+      "ninjal_id": "350020010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1129,6 +2284,17 @@
       "totalObserved": 1153,
       "witnessCount": 15,
       "ninjal_id": "350020060",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "も",
+      "glyph_id": "U+1B0DB",
+      "character": "𛃛",
+      "jibo": "茂",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "350030010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1177,6 +2343,28 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "や",
+      "glyph_id": "U+1B0E1",
+      "character": "𛃡",
+      "jibo": "耶",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "360050020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "や",
+      "glyph_id": "U+1B0E2",
+      "character": "𛃢",
+      "jibo": "夜",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "360030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "ゆ",
       "glyph_id": "U+1B0E4",
       "character": "𛃤",
@@ -1211,6 +2399,17 @@
     },
     {
       "kana": "よ",
+      "glyph_id": "U+1B0E8",
+      "character": "𛃨",
+      "jibo": "余",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "380020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "よ",
       "glyph_id": "U+1B0EA",
       "character": "𛃪",
       "jibo": "與",
@@ -1228,6 +2427,17 @@
       "totalObserved": 50,
       "witnessCount": 5,
       "ninjal_id": "380030030",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "よ",
+      "glyph_id": "U+1B0EC",
+      "character": "𛃬",
+      "jibo": "餘",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "380040010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1288,12 +2498,34 @@
     },
     {
       "kana": "り",
+      "glyph_id": "U+1B0F3",
+      "character": "𛃳",
+      "jibo": "李",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "400020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "り",
       "glyph_id": "U+1B0F4",
       "character": "𛃴",
       "jibo": "梨",
       "totalObserved": 2,
       "witnessCount": 1,
       "ninjal_id": "400030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "り",
+      "glyph_id": "U+1B0F5",
+      "character": "𛃵",
+      "jibo": "理",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "400040010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1309,13 +2541,13 @@
       "renderability": "unicode-text"
     },
     {
-      "kana": "も",
-      "glyph_id": "U+1B0D8",
-      "character": "𛃘",
-      "jibo": "毛",
-      "totalObserved": 2,
-      "witnessCount": 1,
-      "ninjal_id": "350020010",
+      "kana": "り",
+      "glyph_id": "U+1B0F7",
+      "character": "𛃷",
+      "jibo": "離",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "400060010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1419,6 +2651,61 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "れ",
+      "glyph_id": "U+1B101",
+      "character": "𛄁",
+      "jibo": "麗",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "420030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ろ",
+      "glyph_id": "U+1B102",
+      "character": "𛄂",
+      "jibo": "呂",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "430020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ろ",
+      "glyph_id": "U+1B103",
+      "character": "𛄃",
+      "jibo": "呂",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "430020020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ろ",
+      "glyph_id": "U+1B104",
+      "character": "𛄄",
+      "jibo": "婁",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "430030010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ろ",
+      "glyph_id": "U+1B105",
+      "character": "𛄅",
+      "jibo": "樓",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "430040010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "ろ",
       "glyph_id": "U+1B106",
       "character": "𛄆",
@@ -1426,6 +2713,28 @@
       "totalObserved": 164,
       "witnessCount": 8,
       "ninjal_id": "430050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ろ",
+      "glyph_id": "U+1B107",
+      "character": "𛄇",
+      "jibo": "露",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "430060010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "わ",
+      "glyph_id": "U+1B108",
+      "character": "𛄈",
+      "jibo": "倭",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "440010010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1496,6 +2805,28 @@
       "renderability": "unicode-text"
     },
     {
+      "kana": "ゐ",
+      "glyph_id": "U+1B111",
+      "character": "𛄑",
+      "jibo": "遺",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "450050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ゑ",
+      "glyph_id": "U+1B112",
+      "character": "𛄒",
+      "jibo": "惠",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "460010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
       "kana": "ゑ",
       "glyph_id": "U+1B113",
       "character": "𛄓",
@@ -1503,6 +2834,61 @@
       "totalObserved": 2,
       "witnessCount": 1,
       "ninjal_id": "460020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "ゑ",
+      "glyph_id": "U+1B114",
+      "character": "𛄔",
+      "jibo": "衞",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "460020020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "を",
+      "glyph_id": "U+1B116",
+      "character": "𛄖",
+      "jibo": "乎",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "470010010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "を",
+      "glyph_id": "U+1B117",
+      "character": "𛄗",
+      "jibo": "乎",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "470010020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "を",
+      "glyph_id": "U+1B118",
+      "character": "𛄘",
+      "jibo": "尾",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "470020010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "を",
+      "glyph_id": "U+1B119",
+      "character": "𛄙",
+      "jibo": "緒",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "470030010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     },
@@ -1519,12 +2905,34 @@
     },
     {
       "kana": "を",
+      "glyph_id": "U+1B11B",
+      "character": "𛄛",
+      "jibo": "遠",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "470050010",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "を",
       "glyph_id": "U+1B11C",
       "character": "𛄜",
       "jibo": "遠",
       "totalObserved": 3538,
       "witnessCount": 15,
       "ninjal_id": "470050020",
+      "inOfficialCatalog": true,
+      "renderability": "unicode-text"
+    },
+    {
+      "kana": "む",
+      "glyph_id": "U+1B11E",
+      "character": "𛄞",
+      "jibo": "无",
+      "totalObserved": 0,
+      "witnessCount": 0,
+      "ninjal_id": "330020010",
       "inOfficialCatalog": true,
       "renderability": "unicode-text"
     }
