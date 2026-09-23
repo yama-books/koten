@@ -356,7 +356,7 @@ test('conj: install guide sits outside the study card, near the source-credits l
 });
 
 
-test('conj: palette defaults are semantic CSS variables and preserve the current colors', () => {
+test('conj: palette defaults are semantic CSS variables while record POS and donut colors stay fixed', () => {
   const styleMatch = html.match(/<style>([\s\S]*?)<\/style>/);
   assert.ok(styleMatch);
   const css = styleMatch[1];
@@ -375,18 +375,24 @@ test('conj: palette defaults are semantic CSS variables and preserve the current
     '--bad:#fff0f3;',
     '--editable-hover:#eef9f5;',
     '--editable-selected:#e8f7f2;',
-    '--record-verb:#935568;',
-    '--record-adj:#b77d55;',
-    '--record-adjv:#39756f;',
-    '--record-aux:#3d566b;',
-    '--record-empty:#e8eef1;',
     '--review-error-bg:#f8eff2;',
     '--review-error-ink:#825d69;',
   ];
   for (const value of defaults) assert.ok(root.includes(value), value);
 
+  assert.doesNotMatch(root, /--record-(?:verb|adj|adjv|aux|empty|donut-base):/);
+
   const cssBody = css.slice(rootMatch.index! + rootMatch[0].length);
-  assert.doesNotMatch(cssBody, /#[0-9a-fA-F]{3,8}\b/);
+  assert.match(
+    cssBody,
+    /\/\* ===== v42: muted ink-citrus record palette ===== \*\/\s*\.record-screen\{\s*--record-verb:#935568;\s*--record-adj:#b77d55;\s*--record-adjv:#39756f;\s*--record-aux:#3d566b;\s*--record-empty:#e8eef1;/,
+  );
+  assert.match(cssBody, /\.record-donut\{[\s\S]*?background:#e7f1ee;/);
+
+  const themedBody = cssBody
+    .replace(/\s*--record-(?:verb|adj|adjv|aux|empty):#[0-9a-fA-F]+;/g, '')
+    .replace(/background:#e7f1ee;/, 'background:fixed-record-donut;');
+  assert.doesNotMatch(themedBody, /#[0-9a-fA-F]{3,8}\b/);
 
   for (const line of cssBody.split('\n').filter((line) => line.includes('rgba('))) {
     assert.match(line, /box-shadow:/, line.trim());
