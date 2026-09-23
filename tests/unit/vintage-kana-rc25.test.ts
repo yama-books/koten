@@ -399,3 +399,12 @@ test("vintage-kana frequency weighting keeps rare glyphs reachable", () => {
   // 観測0回でも到達できる。
   assert.ok(weight(0) > 0);
 });
+
+test("vintage-kana honours newlines in the preview", () => {
+  // 改行を枠で包むと空白に潰れ、画像だけ改行されて画面と食い違う。
+  assert.match(html, /if\(ch==="\\n"\) return "<br>";/);
+  // 保存PNG側は以前から改行で行・列を切っている。
+  assert.match(html, /if\(token\.text==="\\n"\)\{lines\.push\(\[\]\)/);
+  assert.match(html, /if\(token\.text==="\\n"\)\{columns\.push\(\[\]\)/);
+});
+
