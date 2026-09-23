@@ -109,6 +109,33 @@ test("vintage-kana advanced jibo questions show exactly one correct glyph choice
 });
 
 
+test("vintage-kana jibo-reverse redraws instead of showing two correct glyphs", () => {
+  // 複数正解にはしない。並べたあとに正解の数を数え、2つ以上なら選びなおす。
+  assert.match(html, /const REVERSE_JIBO_MAX_REDRAWS=20;/);
+  assert.match(html, /function drawReverseJiboChoices\(entry\)\{/);
+  assert.match(html, /forms=drawReverseJiboChoices\(entry\);\s*if\(isSingleAnswerReverseJibo\(forms,entry\)\)return forms;/);
+  assert.match(html, /&& reverseJiboAnswerCount\(forms,entry\)===1/);
+});
+
+test("vintage-kana jibo notation keeps each jibo pointing at a single answer set", () => {
+  // 除外は字母の文字列一致に頼っている。異体字の書き分け（与/與 など）があると正解が2つになる。
+  // 標準ひらがなの字母と変体仮名の字母が同じ表記で揃っていることを固定する。
+  const stdMatch = html.match(/const STANDARD_HIRAGANA_JIBO=(\{[\s\S]*?\});/);
+  assert.ok(stdMatch, "STANDARD_HIRAGANA_JIBO が見つからない");
+  const std = JSON.parse(stdMatch[1]) as Record<string, string>;
+  const glyphs = glyphMaster.glyphs as { kana: string; jibo: string }[];
+  const VARIANTS: [string, string][] = [
+    ["与", "與"], ["礼", "禮"], ["為", "爲"], ["恵", "惠"], ["曽", "曾"], ["祢", "禰"],
+    ["余", "餘"], ["寿", "壽"], ["数", "數"], ["処", "處"], ["衛", "衞"], ["弥", "彌"],
+  ];
+  const all = new Set([...Object.values(std), ...glyphs.map((g) => g.jibo)]);
+  for (const [a, b] of VARIANTS) {
+    if (a === "余") continue; // 余 と 餘 は別の字母として公式一覧に両方ある
+    assert.ok(!(all.has(a) && all.has(b)), `字母が ${a} と ${b} で書き分けられている`);
+  }
+  for (const g of glyphs) assert.equal(g.jibo, g.jibo.normalize("NFC").replace(/\s+/g, ""));
+});
+
 test("vintage-kana help is modal and browse navigation uses the compact row menu", () => {
   assert.match(html, /h1\{font-family:var\(--font-ui\)/);
   assert.match(html, /data-view="browse">一覧<\/button>/);

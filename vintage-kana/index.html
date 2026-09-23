@@ -1045,7 +1045,7 @@ function focusedJiboPool(entry){
  const global=[...new Set(GLYPHS.map(g=>g.jibo))].filter(j=>j!==entry.jibo && !focused.includes(j));
  return [...shuffle(focused),...shuffle(global)];
 }
-function reverseJiboChoices(entry){
+function drawReverseJiboChoices(entry){
  const row=kanaRowFor(entry.kana);
  const mastery=computeGlyphMastery(entry.character);
  const confusables=CONFUSION_MAP.get(entry.character)||new Set();
@@ -1066,6 +1066,33 @@ function reverseJiboChoices(entry){
  add(standard.find(f=>!picked.some(x=>x.character===f.character)));
  shuffle(valid).forEach(add);
  return shuffle([entry,...picked.slice(0,3)]);
+}
+// 字母逆引きは正解が1つだけの4択にする。同じ字母の字は誤答候補から除いているが、
+// 並べたあとにも数え直し、正解にあたる字が2つ以上あれば選びなおす（複数正解にはしない）。
+const REVERSE_JIBO_MAX_REDRAWS=20;
+function jiboKey(jibo){
+ return String(jibo||"").normalize("NFC").replace(/\s+/g,"");
+}
+function reverseJiboAnswerCount(forms,entry){
+ const key=jiboKey(entry.jibo);
+ return forms.filter(f=>jiboKey(f.jibo)===key).length;
+}
+function isSingleAnswerReverseJibo(forms,entry){
+ return forms.length===4
+   && forms.includes(entry)
+   && reverseJiboAnswerCount(forms,entry)===1
+   && new Set(forms.map(f=>f.character)).size===forms.length;
+}
+function reverseJiboChoices(entry){
+ let forms=[];
+ for(let i=0;i<REVERSE_JIBO_MAX_REDRAWS;i++){
+   forms=drawReverseJiboChoices(entry);
+   if(isSingleAnswerReverseJibo(forms,entry))return forms;
+ }
+ // 選びなおしで解消しないのはデータ側の不整合だけ。正解以外の同字母の字を落として出す。
+ console.warn("jibo-reverse: could not draw a single-answer set",entry.character,forms.map(f=>f.character));
+ const key=jiboKey(entry.jibo);
+ return forms.filter(f=>f===entry || jiboKey(f.jibo)!==key);
 }
 function readingFeedbackText(correct){
  const jibo=quizEntry&&quizEntry.jibo?"字母は「"+quizEntry.jibo+"」です。":"";
