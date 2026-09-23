@@ -2899,3 +2899,65 @@ OFL-1.1 は派生フォントの作成を許している。
 
 再開指示:
 `vintage-kana-main HANDOFF §60〜§61から再開。NINJAL公式266件と改行修正はPR #27で公開済み。混同ペア表はChatGPTへ切り出し中（CONFUSION_PAIRS_TASK_2026-09-23.md）。戻っていれば検証してから、混同ペアの習熟度別出し分け→字母逆引きの複数正解へ。observedで母集団を絞る案は却下済み、頻度は重みとしてのみ使う。`
+
+## 62. 2026-09-23 混同ペアを字母逆引きの4択に組み込む
+
+§61 残件2（混同ペアの習熟度別出し分け）を実施した。残件1（データ作成）は
+ChatGPT が `73efc68` で完了済み・ローカル検証済み（監査確定3組のみ、画像比較は未実施）。
+この作業は `vintage-kana-resume-20260921` で行い、`vintage-kana-main` へ push 済み。**mainへの公開はしていない。**
+
+### 対象
+
+`vintage-kana/index.html` の `reverseJiboChoices()` のみ。字形を選ばせる4択はここだけなので、
+他の出題（読み当て・自由入力など）には影響しない。
+
+### 実装
+
+- 定数 `CONFUSION_TRAINING_MASTERY=85`（`JIBO_REVERSE_MASTERY_THRESHOLD=65` の隣）を追加。
+- `glyph-confusion-pairs.json` を読む `loadConfusionPairs()` を `loadData()` とは別関数にして、
+  末尾の `loadData();` の隣（`loadConfusionPairs();`）から呼ぶ。
+  fetch失敗時の予備として `const FALLBACK_CONFUSION_PAIRS=[...]`（1行）を用意し、
+  `tests/unit/vintage-kana-confusion-pairs.test.ts` に、JSON の `pairs` と同値であることを検証するテストを追加した。
+- 識別子は `resolveConfusionIdentifier()` で解決する。
+  `"U+1B052"` → `String.fromCodePoint(0x1B052)`、`"std:を"` → `"を"`。
+  文字→相手文字集合（`Set`、双方向）を `CONFUSION_MAP`（`Map`）に構築する。
+- `reverseJiboChoices(entry)` の変更点のみ:
+  - `mastery=computeGlyphMastery(entry.character)`、`confusables=CONFUSION_MAP.get(entry.character)` を取得。
+  - 65〜84%（`mastery<CONFUSION_TRAINING_MASTERY`）: 誤答候補プール（`valid`）から混同相手を除外してから、
+    従来どおり同じ行→他の行→標準ひらがな→残りの順で埋める。
+  - 85%以上: 除外せず、むしろプールの先頭に混同相手を1つ優先して入れてから、従来の順で埋める。
+  - `loadData()` の並び順の行・`FALLBACK_GLYPHS`・`autoWeight`/`pickWeighted`/`pickAutomatic`・
+    `GLYPH_INFO_NOTES` には触れていない。
+
+### 確認
+
+- `npm run test:node`: 788 pass / 0 fail（既存テストのうち `vintage-kana-rc25.test.ts` の
+  `const valid=allKanaForms()...` 正規表現だけ、`let` に変えた実装に合わせて緩めた。ロジックの意図は変えていない）。
+- `npm run check:vintage-kana`: `findings 0`。
+- ブラウザで `reverseJiboChoices()` を直接叩いて確認（`computeGlyphMastery` を一時的に上書きするスタブ方式。
+  ローカルストレージ経由の習熟度再現は、1日あたりの加算上限（`DAILY_MASTERY_GAIN_CAP=20`）のせいで
+  1回のセッション内では85%まで届かせにくく、今回はスタブで代替した）。
+  - `U+1B052`（せ／世）: 70%を40回試行 → 混同相手（`U+1B11B` または標準の「を」）が0回。90%を40回試行 → 40回とも出現。
+  - `U+1B11A`（を／越）: 75%を40回試行 → 混同相手（標準の「せ」）が0回。85%ちょうどを40回試行 → 40回とも出現（境界値も期待どおり）。
+
+### 報告（触らなかったが気づいたこと）
+
+`GLYPH_INFO_NOTES`（解説ダイアログの「似ている字」）で `U+1B052` の比較相手が `U+1B11C` になっており、
+今回の混同ペア表の `U+1B11B` と食い違っている。字形の目視判断が要るため、今回は変更していない。
+別作業として扱うこと。
+
+### 残件（§61 から繰り越し）
+
+1. 字母逆引きの複数正解（同じ字母に複数字体がある問題）。まだ手を付けていない。
+2. `GLYPH_INFO_NOTES` に「形が似ている字」として混同ペアを出す（§61 残件3、CONFUSION_PAIRS_TASK §6 の3）。
+3. `U+1B052` の似ている字の食い違い（`U+1B11B` と `U+1B11C`）の監査。
+
+### 次回再開
+
+1. §62 を読む。
+2. `vintage-kana-main`（`vintage-kana-resume-20260921` からのpush分を含む）で本セッションの実装を確認。
+3. 残件1〜3のいずれかに着手。
+4. 一連の作業がまとまったら `main` への公開を検討する。
+
+再開指示:
+`vintage-kana-main HANDOFF §62から再開。混同ペアの字母逆引き4択出し分け（CONFUSION_TRAINING_MASTERY=85）は実装・テスト・動作確認済みでvintage-kana-mainにpush済み。mainへの公開はまだ。残件は字母逆引きの複数正解対応、GLYPH_INFO_NOTESへの「似ている字」表示、U+1B052の似ている字の食い違い（U+1B11B対U+1B11C）の監査。`

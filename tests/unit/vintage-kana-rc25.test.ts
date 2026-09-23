@@ -102,7 +102,7 @@ test("vintage-kana advanced jibo questions show exactly one correct glyph choice
   assert.match(html, /const same=shuffle\(valid\.filter\(f=>row\.includes\(f\.kana\)\)\)/);
   assert.match(html, /const other=shuffle\(valid\.filter\(f=>!row\.includes\(f\.kana\)\)\)/);
   assert.match(html, /const standard=shuffle\(valid\.filter\(f=>f\.isStandard\)\)/);
-  assert.match(html, /const valid=allKanaForms\(\)\.filter\(f=>f\.character!==entry\.character && f\.jibo!==entry\.jibo\)/);
+  assert.match(html, /valid=allKanaForms\(\)\.filter\(f=>f\.character!==entry\.character && f\.jibo!==entry\.jibo\)/);
   assert.match(html, /この字母からできた平仮名はどれ？/);
   assert.match(html, /id="jiboAnswerReading"/);
   assert.match(html, /jiboAnswerReading\.textContent=quizEntry\.kana/);

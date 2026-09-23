@@ -139,3 +139,15 @@ test("universe はUI字体の実件数と標準ひらがな48字に一致する"
   assert.equal(Object.keys(STANDARD_HIRAGANA_JIBO).length, 48);
   assert.equal(confusion.universe.standardHiragana, 48);
 });
+
+test("index.html の FALLBACK_CONFUSION_PAIRS は glyph-confusion-pairs.json の pairs と同値", () => {
+  const html = readFileSync(new URL("../../vintage-kana/index.html", import.meta.url), "utf8");
+  const match = html.match(/const FALLBACK_CONFUSION_PAIRS=(\[.*?\]);/s);
+  assert.ok(match, "FALLBACK_CONFUSION_PAIRS が index.html に見つからない");
+  const fallback = JSON.parse(match[1]) as { a: string; b: string }[];
+
+  const fallbackKeys = new Set(fallback.map((pair) => canonicalKey(pair.a, pair.b)));
+  const jsonKeys = new Set(confusion.pairs.map((pair) => canonicalKey(pair.a, pair.b)));
+  assert.equal(fallback.length, confusion.pairs.length);
+  assert.deepEqual(fallbackKeys, jsonKeys);
+});
