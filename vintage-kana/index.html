@@ -222,15 +222,15 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .sources a,.readCard a{color:var(--accent)}
 .loading{padding:28px;text-align:center;color:var(--muted)}
 .error{color:var(--danger)}
-.installGuide{position:relative;max-width:640px;margin:12px auto 0;padding:10px 40px 10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--paper2);color:var(--muted);font-size:11px;line-height:1.6;text-align:left}
+.installGuide{position:relative;max-width:640px;margin:12px auto 0;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--paper2);color:var(--muted);font-size:11px;line-height:1.6;text-align:left}
 .installGuide[hidden]{display:none}
 .installGuide__row{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
 .installGuide__text{margin:0;word-break:keep-all;overflow-wrap:anywhere}
 .installGuide__icon{height:1em;width:1em;vertical-align:-0.15em;margin:0 1px}
+.installGuide__minor{display:flex;flex-wrap:wrap;gap:8px}
 .installGuide__btn{min-height:32px;border:1px solid var(--accent-border);border-radius:999px;background:var(--accent2);color:var(--accent);padding:4px 12px;font-size:11px;font-weight:700}
 .installGuide__btn[hidden]{display:none}
-.installGuide__close{position:absolute;top:4px;right:4px;display:grid;place-items:center;border:none;border-radius:999px;background:transparent;color:var(--muted);font-size:15px;line-height:1;padding:0;width:32px;height:32px;min-width:32px;min-height:32px}
-.installGuide__close:hover{background:rgba(0,0,0,.04)}
+.installGuide__btn--primary{border-color:var(--primary);background:var(--primary);color:#fff;padding:8px 16px;font-size:12px}
 footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 @media(max-width:720px){button{min-height:44px}.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:380px){.learnHelpBtn{width:44px;padding:0;justify-content:center}.learnHelpBtn>span:last-child{display:none}.utilityTabs{flex:1;justify-content:flex-end}.tab{padding-inline:7px}.tab.navPrimary{padding-inline:9px}}
@@ -427,8 +427,11 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 <div id="installGuide" class="installGuide" hidden>
   <div class="installGuide__row">
     <p id="installGuideText" class="installGuide__text"></p>
-    <button id="installGuideAction" class="installGuide__btn" type="button" hidden>ホーム画面に追加する</button>
-    <button id="installGuideClose" class="installGuide__close" type="button" aria-label="閉じる">×</button>
+    <button id="installGuideAction" class="installGuide__btn installGuide__btn--primary" type="button" hidden>ホーム画面に追加する</button>
+    <div class="installGuide__minor">
+      <button id="installGuideLater" class="installGuide__btn" type="button">今は追加しない</button>
+      <button id="installGuideNever" class="installGuide__btn" type="button">今後は表示しない</button>
+    </div>
   </div>
 </div>
 
@@ -1791,6 +1794,7 @@ loadConfusionPairs();
 
 // ホーム画面への追加案内。conjアプリと同じ仕組みを、素のJSとDOMで実装する。
 const INSTALL_NOTICE_KEY="vintageKanaInstallNoticeDismissed";
+const INSTALL_NOTICE_SESSION_KEY="vintageKanaInstallNoticeSessionHidden";
 function isStandaloneLaunch(){
  return window.matchMedia?.("(display-mode: standalone)").matches===true ||
    navigator.standalone===true;
@@ -1803,6 +1807,14 @@ function rememberInstallNoticeDismissal(){
    // プライベートブラウズなどで保存できなくても、案内そのものは使える。
  }
 }
+function installNoticeWasSessionHidden(){
+ try{return window.sessionStorage.getItem(INSTALL_NOTICE_SESSION_KEY)==="true"}catch(e){return false}
+}
+function rememberInstallNoticeSessionHidden(){
+ try{window.sessionStorage.setItem(INSTALL_NOTICE_SESSION_KEY,"true")}catch(e){
+   // プライベートブラウズなどで保存できなくても、案内そのものは使える。
+ }
+}
 // iPadOS 13 以降の Safari は Macintosh を名乗る。UA だけ見ると iPad へ Android 向けの文面が出る。
 const installForIos=/iPad|iPhone|iPod/.test(navigator.userAgent) ||
  (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints>1);
@@ -1811,7 +1823,7 @@ let installPromptEvent=null;
 function renderInstallGuide(){
  const el=document.getElementById("installGuide");
  if(!el)return;
- if(isStandaloneLaunch()||installNoticeWasDismissed()){
+ if(isStandaloneLaunch()||installNoticeWasDismissed()||installNoticeWasSessionHidden()){
    el.hidden=true;
    return;
  }
@@ -1830,22 +1842,47 @@ function renderInstallGuide(){
  }
  el.hidden=false;
 }
-function dismissInstallGuide(){
- rememberInstallNoticeDismissal();
+function hideInstallGuideEl(){
  const el=document.getElementById("installGuide");
  if(el)el.hidden=true;
+}
+// 「今は追加しない」: このセッション（タブを閉じる／ブラウザ再起動）だけ隠す。
+function dismissInstallGuideForSession(){
+ rememberInstallNoticeSessionHidden();
+ hideInstallGuideEl();
+}
+// 「今後は表示しない」／ネイティブ追加を承諾: 恒久的に隠す。
+function dismissInstallGuidePermanently(){
+ rememberInstallNoticeDismissal();
+ hideInstallGuideEl();
 }
 window.addEventListener("beforeinstallprompt",(e)=>{
  e.preventDefault();
  installPromptEvent=e;
  renderInstallGuide();
 });
-window.addEventListener("appinstalled",dismissInstallGuide);
-document.getElementById("installGuideClose")?.addEventListener("click",dismissInstallGuide);
+window.addEventListener("appinstalled",dismissInstallGuidePermanently);
+document.getElementById("installGuideLater")?.addEventListener("click",dismissInstallGuideForSession);
+document.getElementById("installGuideNever")?.addEventListener("click",dismissInstallGuidePermanently);
 document.getElementById("installGuideAction")?.addEventListener("click",async()=>{
  if(!installPromptEvent)return;
- await installPromptEvent.prompt();
- dismissInstallGuide();
+ const event=installPromptEvent;
+ // prompt() は同じイベントに対して一度しか呼べないため、呼んだら必ず使い切る。
+ installPromptEvent=null;
+ const actionBtn=document.getElementById("installGuideAction");
+ if(actionBtn)actionBtn.hidden=true;
+ try{
+   await event.prompt();
+   const choice=await event.userChoice;
+   if(choice?.outcome==="accepted"){
+     dismissInstallGuidePermanently();
+   }else{
+     dismissInstallGuideForSession();
+   }
+ }catch(e){
+   // prompt/userChoiceが例外を投げた場合は、次回また案内できるようセッション非表示に留める。
+   dismissInstallGuideForSession();
+ }
 });
 renderInstallGuide();
 </script>
