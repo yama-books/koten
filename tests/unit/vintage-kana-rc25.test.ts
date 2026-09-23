@@ -283,7 +283,7 @@ test("vintage-kana browse grid lines the kana up by vowel column", () => {
   assert.match(html, /\["や行",\["や",null,"ゆ",null,"よ"\]\],/);
   assert.match(html, /\["わ行",\["わ","ゐ",null,"ゑ","を"\]\],/);
   assert.match(html, /\["ん",\["ん",null,null,null,null\]\]/);
-  assert.match(html, /KANA_FILTER_ROWS\.forEach\(\(\[label,slots\]\)=>\{/);
+  assert.match(html, /KANA_FILTER_ROWS\.forEach\(\(\[label\]\)=>\{/);
   assert.match(html, /spacer\.className="kanaFilterSlot";/);
 
   // 記録と出題が使う正本は空きを持たない。
