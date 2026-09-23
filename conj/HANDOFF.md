@@ -994,3 +994,89 @@ PR / GitHub Actions / main / Pages 状態は次のチェックポイントで追
 ### 次の処理
 
 現行mainの `conj/index.html` blobをGitHub connectorのblob経路で読み、色指定を棚卸しする。棚卸し後に用途別変数を設計し、固定色を除外して置換する。
+
+
+
+### 第1段階完了: 現行状態再照合・色棚卸し（2026-09-24）
+
+今回の作業2は、途中状態を失わないよう次の4段階に分け、各段階でHANDOFFへ記録して停止する。
+
+1. 現行main／作業ブランチ再照合＋色棚卸し
+2. CSS変数設計・置換内容の監査（不足がある場合だけ補正）
+3. テスト・静的検証・回帰確認
+4. PR／main反映状態の確定と最終HANDOFF
+
+本節は **第1段階のみ完了**した記録。第2段階には進んでいない。
+
+#### GitHub上の現行状態
+
+- 正本: `yama-books/koten`
+- 基準: `main`
+- 作業ブランチ: `codex/conj-work2-css-vars-20260924`
+- 再照合時のmain HEAD: `e7d6bace43128381e7bef9e81468ac4272248276`
+- main と作業ブランチの比較: **behind 0 / ahead 2**
+- 差分は `conj/HANDOFF.md` の記録だけで、`conj/index.html` はmainと作業ブランチで同一。
+- 現行 `conj/index.html` blob: `7ccf2172ccdfe49fee9cfa75caad8a736f6c3326`
+- blob本文長: 2,909,415 bytes相当。通常 `fetch_file` では本文が空になるため、GitHub connectorの `fetch_blob` 経路で本文を取得して監査した。
+
+#### 再照合で判明した重要事項
+
+着手記録commit `ca676bec08484eafd1c394ddf7966d9c764dbc71` より前に、現行main側では作業2本体と固定色補正がすでにPR #37 / #38を経て反映されている。
+
+- main HEAD `e7d6bace...` の記録でも、PR #38 merge後の「作業2完了」が確定している。
+- 指定作業ブランチは、その完了済みmainを土台にした状態であり、CSS実装を未実装状態へ巻き戻して再適用してはいけない。
+- したがって、以後は「未着手の作業2を一から実装」ではなく、**現行mainにある作業2実装が今回の境界条件を満たしているかを4段階で再監査し、不足がある場合だけ補正する**。
+- 作業1の再実装・巻き戻し、作業3への着手は引き続き禁止。
+
+#### 現行CSSの色棚卸し
+
+`<style>` 全体をGitHub上の現行blobから機械監査した。
+
+- CSS本文長: 60,053文字
+- `:root` のCSSカスタムプロパティ: **64個**
+- 現在の変数群は次の意味単位に整理済み。
+  - Core surfaces and text
+  - Accent and learning states
+  - Translucent theme layers
+  - Level/help text
+  - Record screen and review states
+  - Decorative elevation
+- `:root` 外に残る固体色hexは **6種類だけ**。
+  - `#935568` — 記録欄・動詞
+  - `#b77d55` — 記録欄・形容詞
+  - `#39756f` — 記録欄・形容動詞
+  - `#3d566b` — 記録欄・助動詞
+  - `#e8eef1` — 記録欄・空状態
+  - `#e7f1ee` — ドーナツグラフ基底色
+- 上記6色を除く、`:root` 外の固体色hex: **0件**
+- `:root` 外に残る `rgba(...)` はすべて `box-shadow` 用の固定装飾。背景・境界・outline等のテーマ本体としての直書きrgbaは残っていない。
+- `transparent` は色相を持たない透明指定なので変数化対象外のまま。
+
+#### ユーザー指定の固定色境界
+
+以下は今回の変更対象外として維持する。
+
+- ドーナツグラフの色
+- 記録欄の品詞別の色
+
+現行実装では、品詞別5色は `.record-screen` の局所変数として保持され、ドーナツ基底色 `#e7f1ee` も固定指定になっている。これらを `:root` のテーマ切替対象へ移さない。
+
+したがって、作業2の目標は「直書き色ゼロ」ではない。この6色と固定装飾shadowは意図的な例外として扱う。
+
+#### 作業1 v46ガード確認
+
+現行blobに `/* ===== v46: record layout readability guard ===== */` が存在し、少なくとも以下を維持していることを確認した。
+
+- PC側の記録画面領域分離
+- `@media(max-width:460px)` で `.record-review{grid-template-columns:1fr}`
+- `.review-kind-line strong` の `white-space:nowrap`
+- 主要文字12px指定
+- 補足文字10px指定
+
+第1段階ではCSS・HTML・JS・テストの変更は行っていない。
+
+#### 第1段階の停止位置
+
+**現行状態再照合＋色棚卸し完了。ここで停止。**
+
+次の第2段階では、現行64変数と実際の参照箇所を用途単位で監査し、今回の要件に対して不足・過剰・誤分類がないかを確認する。必要な不足がある場合だけCSSを補正する。固定色6種は変更せず、作業3には進まない。
