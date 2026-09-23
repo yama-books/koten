@@ -287,3 +287,9 @@ test('conj: no caption under the title, and the title uses the UI round gothic',
   const css = readFileSync(new URL('../../conj/branding.css', import.meta.url), 'utf8');
   assert.match(css, /h1 \{\s*font-family: var\(--conj-font-ui\);/);
 });
+
+test('conj: home-screen name is 活用ノート on iOS and Android', () => {
+  assert.match(html, /<meta name="apple-mobile-web-app-title" content="活用ノート">/);
+  const manifest = JSON.parse(readFileSync(new URL('../../conj/manifest.webmanifest', import.meta.url), 'utf8'));
+  assert.equal(manifest.short_name, '活用ノート');
+});
