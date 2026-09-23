@@ -267,3 +267,14 @@ test('conj: 過ぐ (上二段) and 過ぐす (サ行四段) are separate items w
   assert.match(html, /\{id:"sugusu",pos:"verb",label:"動詞",lemma:"過ぐす",kind:"サ行四段活用",\s*forms:\[F\(\["さ"\]\),F\(\["し"\]\),F\(\["す"\]\),F\(\["す"\]\),F\(\["せ"\]\),F\(\["せ"\]\)\],\s*poem:19,target:"すぐし",/);
   assert.match(html, /"過ぐす":"すぐす"/);
 });
+
+test('conj: 忍ぶ follows its example しのぶれど as バ行上二段', () => {
+  assert.match(html, /\{id:"shinobu",pos:"verb",label:"動詞",lemma:"忍ぶ",kind:"バ行上二段活用",\s*forms:\[F\(\["び"\]\),F\(\["び"\]\),F\(\["ぶ"\]\),F\(\["ぶる"\]\),F\(\["ぶれ"\]\),F\(\["びよ"\]\)\],\s*poem:39,target:"しのぶれ",/);
+});
+
+test('conj: source list covers every part of speech, not only 形容動詞', () => {
+  assert.match(html, /<p>用例は、次の資料から短く引用しています（空白を詰めて掲載）。<\/p>/);
+  assert.doesNotMatch(html, /形容動詞の用例は、次の資料から/);
+  assert.match(html, /li\.textContent="『小倉百人一首』（歌番号と作者は各用例に表示）"/);
+  assert.match(html, /（作品名は各用例に表示）/);
+});

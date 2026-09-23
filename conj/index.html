@@ -2487,7 +2487,7 @@ body.review-modal-open{overflow:hidden}
   <button class="source-credits-link" id="openSourceCredits" type="button" hidden>用例の出典</button>
   <dialog class="source-credits" id="sourceCredits" aria-labelledby="sourceCreditsTitle">
     <h2 id="sourceCreditsTitle">用例の出典</h2>
-    <p>形容動詞の用例は、次の資料から短く引用しています（空白を詰めて掲載）。</p>
+    <p>用例は、次の資料から短く引用しています（空白を詰めて掲載）。</p>
     <ul id="sourceCreditsList"></ul>
     <button class="ghost" id="closeSourceCredits" type="button">閉じる</button>
   </dialog>
@@ -2721,8 +2721,8 @@ const items=[
 {id:"chikau",pos:"verb",label:"動詞",lemma:"誓ふ",kind:"ハ行四段活用",
  forms:[F(["は"]),F(["ひ"]),F(["ふ"]),F(["ふ"]),F(["へ"]),F(["へ"])],
  poem:38,target:"ちかひ",example:"忘らるる身をば思はずちかひてし人のいのちの惜しくもあるかな"},
-{id:"shinobu",pos:"verb",label:"動詞",lemma:"忍ぶ",kind:"バ行四段活用",
- forms:[F(["ば"]),F(["び"]),F(["ぶ"]),F(["ぶ"]),F(["べ"]),F(["べ"])],
+{id:"shinobu",pos:"verb",label:"動詞",lemma:"忍ぶ",kind:"バ行上二段活用",
+ forms:[F(["び"]),F(["び"]),F(["ぶ"]),F(["ぶる"]),F(["ぶれ"]),F(["びよ"])],
  poem:39,target:"しのぶれ",example:"浅茅生の小野の篠原しのぶれどあまりてなどか人の恋しき"},
 {id:"tou",pos:"verb",label:"動詞",lemma:"問ふ",kind:"ハ行四段活用",
  forms:[F(["は"]),F(["ひ"]),F(["ふ"]),F(["ふ"]),F(["へ"]),F(["へ"])],
@@ -4243,6 +4243,18 @@ function creditLink(text,href){
 function renderSourceCredits(publicRecords,chj){
   const list=document.getElementById("sourceCreditsList");
   list.textContent="";
+  const staticItems=items.filter(i=>i.example && !i.sourceExampleIds);
+  if(staticItems.some(i=>i.poem)){
+    const li=document.createElement("li");
+    li.textContent="『小倉百人一首』（歌番号と作者は各用例に表示）";
+    list.appendChild(li);
+  }
+  const works=[...new Set(staticItems.filter(i=>!i.poem && i.source).map(i=>i.source.split("・")[0]))];
+  if(works.length){
+    const li=document.createElement("li");
+    li.textContent=`${works.map(w=>`『${w}』`).join("")}（作品名は各用例に表示）`;
+    list.appendChild(li);
+  }
   const chjWorks=[...new Set([...chj.map.values()].map(r=>r.work))];
   if(chj.source && chjWorks.length){
     const li=document.createElement("li");
@@ -4578,6 +4590,7 @@ async function loadAdjvRuntimeItems(){
     status.added=additions.length;
   }catch(error){
     status.error=String(error&&error.message?error.message:error);
+    renderSourceCredits([],{source:null,map:new Map()});
     console.warn("形容動詞の追加データを読み込めませんでした。従来データで続行します。",error);
   }
   window.__conjAdjvRuntimeStatus=status;
