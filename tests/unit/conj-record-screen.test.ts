@@ -253,3 +253,9 @@ test('conj: every runtime 形容動詞 without open text gets a quoted CHJ examp
   assert.match(html, /chj=await window\.ConjAdjvRuntime\.loadChjQuotations/);
   assert.match(html, /occurrence:quote\.occurrence/);
 });
+
+test('conj: review card keeps the example within the table height so it does not scroll', () => {
+  assert.match(html, /\.review-modal-study-layout \.example-panel\{\s*top:0;\s*bottom:0;\s*\}/);
+  assert.match(html, /\.review-modal-study-layout \.example-text\{\s*min-height:0 !important;/);
+  assert.match(html, /\.review-modal-card\{[\s\S]*?height:min\(88vh,700px\);/);
+});

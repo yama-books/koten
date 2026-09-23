@@ -2229,7 +2229,7 @@ input[type="checkbox"]{
 .review-modal-card{
   position:relative;
   width:min(100%,520px);
-  height:min(84vh,700px);
+  height:min(88vh,700px);
   max-height:700px;
   box-sizing:border-box;
   overflow:auto;
@@ -2278,6 +2278,21 @@ input[type="checkbox"]{
   width:100%;
   padding:0;
   gap:4px;
+}
+/* Keep the example and its source line within the table's height so the
+   card never scrolls; the source line sits at the table's bottom edge. */
+.review-modal-study-layout .example-panel{
+  top:0;
+  bottom:0;
+}
+.review-modal-study-layout .example-body{
+  box-sizing:border-box;
+  height:100%;
+  min-height:0 !important;
+}
+.review-modal-study-layout .example-text{
+  min-height:0 !important;
+  flex:1 1 auto !important;
 }
 .review-modal-study-layout .example-panel[hidden]{display:none}
 body.review-modal-open{overflow:hidden}
