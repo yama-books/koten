@@ -2388,6 +2388,105 @@ body.review-modal-open{overflow:hidden}
 
 
 
+
+
+/* ===== v46: record screen layout legibility fix ===== */
+/* Keep the desktop record screen roomy enough for donut legend + summary cards. */
+.record-shell{
+  width:min(100%,920px);
+}
+.record-detail-grid{
+  grid-template-columns:minmax(430px,1fr) minmax(360px,.9fr);
+}
+.record-overview{
+  grid-template-columns:minmax(0,1fr) 152px;
+  gap:12px;
+}
+.record-overview .record-breakdown-panel{
+  grid-template-columns:106px minmax(0,1fr);
+  gap:10px;
+}
+.record-breakdown li{
+  grid-template-columns:minmax(0,1fr) max-content;
+}
+.breakdown-label{
+  font-size:12px;
+  white-space:nowrap;
+}
+.record-breakdown strong{
+  font-size:12px;
+}
+.record-donut-center span{
+  font-size:10px;
+}
+.record-overview .record-stat dt{
+  font-size:12px;
+  line-height:1.25;
+}
+.record-overview .record-stat:first-child dt{
+  width:auto;
+  font-size:12px;
+}
+.record-points-label,
+.record-empty{
+  font-size:12px;
+}
+.review-filters button{
+  font-size:10px;
+}
+.review-rule{
+  font-size:11px;
+}
+.review-rate span{
+  font-size:10px;
+}
+.review-pos-badge{
+  font-size:10px;
+}
+.review-kind-line strong{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.review-copy small{
+  font-size:10px;
+  line-height:1.25;
+  white-space:nowrap;
+}
+
+@media(max-width:900px){
+  .record-detail-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+  .record-overview{
+    grid-template-columns:minmax(0,1fr) 112px;
+    gap:7px;
+  }
+  .record-overview .record-breakdown-panel{
+    grid-template-columns:86px minmax(0,1fr);
+    gap:7px;
+  }
+  .record-overview .record-stat dt,
+  .record-overview .record-stat:first-child dt{
+    font-size:12px;
+  }
+  .breakdown-label,
+  .record-breakdown strong{
+    font-size:12px;
+  }
+}
+
+@media(max-width:460px){
+  .record-review{
+    grid-template-columns:1fr;
+  }
+  .record-review li{
+    grid-template-columns:64px minmax(0,1fr);
+  }
+}
 </style>
 </head>
 <body>
