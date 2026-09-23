@@ -275,6 +275,9 @@ test('conj: 忍ぶ follows its example しのぶれど as バ行上二段', () =
 test('conj: source list covers every part of speech, not only 形容動詞', () => {
   assert.match(html, /<p>用例は、次の資料から短く引用しています（空白を詰めて掲載）。<\/p>/);
   assert.doesNotMatch(html, /形容動詞の用例は、次の資料から/);
-  assert.match(html, /li\.textContent="『小倉百人一首』（歌番号と作者は各用例に表示）"/);
-  assert.match(html, /（作品名は各用例に表示）/);
+  assert.match(html, /addGroup\(\["『小倉百人一首』"\],\[\["和歌の用例（歌番号と作者は各用例に表示）"\]\]\)/);
+  assert.match(html, /古典作品（作品名は各用例に表示）/);
+  // Grouped by provider and license, then by work.
+  assert.match(html, /const key=provider\+"\|"\+r\.sourceLicense;/);
+  assert.match(html, /const workKey=work\+"\|"\+edition;/);
 });

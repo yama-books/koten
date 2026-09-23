@@ -106,7 +106,9 @@ select{margin-left:4px;padding:7px 8px;background:#fff;border:1px solid var(--li
 .source-credits::backdrop{background:rgba(0,0,0,.35)}
 .source-credits h2{margin:0 0 6px;font-size:15px}
 .source-credits p{margin:0 0 8px;color:var(--muted)}
-.source-credits ul{margin:0 0 12px;padding-left:1.4em;overflow-wrap:anywhere}
+.source-credits ul{margin:0 0 12px;padding-left:0;list-style:none;overflow-wrap:anywhere}
+.source-credits ul ul{margin:2px 0 10px;padding-left:1em}
+.source-credits strong{font-weight:700}
 .source-credits a{color:inherit}
 .source-credits #closeSourceCredits{display:block;margin:0 auto}
 /* Prose examples can exceed one column; poems keep their single line. */
@@ -4240,35 +4242,69 @@ function creditLink(text,href){
   }
   return el;
 }
+// Groups sources by provider and license, then by work, so that many
+// excerpts from one source read as a single entry.
 function renderSourceCredits(publicRecords,chj){
   const list=document.getElementById("sourceCreditsList");
   list.textContent="";
+  const addGroup=(heading,lines)=>{
+    if(!lines.length) return;
+    const li=document.createElement("li");
+    const title=document.createElement("strong");
+    title.append(...heading);
+    const ul=document.createElement("ul");
+    for(const line of lines){
+      const item=document.createElement("li");
+      item.append(...line);
+      ul.appendChild(item);
+    }
+    li.append(title,ul);
+    list.appendChild(li);
+  };
+  const quote=w=>`『${w}』`;
+
   const staticItems=items.filter(i=>i.example && !i.sourceExampleIds);
   if(staticItems.some(i=>i.poem)){
-    const li=document.createElement("li");
-    li.textContent="『小倉百人一首』（歌番号と作者は各用例に表示）";
-    list.appendChild(li);
+    addGroup(["『小倉百人一首』"],[["和歌の用例（歌番号と作者は各用例に表示）"]]);
   }
   const works=[...new Set(staticItems.filter(i=>!i.poem && i.source).map(i=>i.source.split("・")[0]))];
-  if(works.length){
-    const li=document.createElement("li");
-    li.textContent=`${works.map(w=>`『${w}』`).join("")}（作品名は各用例に表示）`;
-    list.appendChild(li);
-  }
+  addGroup(["古典作品（作品名は各用例に表示）"],works.length?[[works.map(quote).join("")]]:[]);
+
   const chjWorks=[...new Set([...chj.map.values()].map(r=>r.work))];
-  if(chj.source && chjWorks.length){
-    const li=document.createElement("li");
-    li.append(creditLink(chj.source.name,chj.source.url),`（${chjWorks.join("・")}）`);
-    list.appendChild(li);
+  if(chj.source){
+    addGroup([creditLink(chj.source.name,chj.source.url)],chjWorks.length?[[chjWorks.map(quote).join("")]]:[]);
   }
-  const seen=new Map();
+
+  const providers=new Map();
   for(const r of publicRecords){
-    if(r.sourceLabel && !seen.has(r.sourceLabel)) seen.set(r.sourceLabel,r);
+    const m=String(r.sourceLabel||"").match(/^『(.+?)』(.*)・([^・]+)$/);
+    if(!m) continue;
+    const [,work,rest,provider]=m;
+    const edition=(rest.match(/（(.+?)）/)||[])[1]||"";
+    const part=rest.replace(/（.+?）/g,"").trim();
+    const key=provider+"|"+r.sourceLicense;
+    if(!providers.has(key)) providers.set(key,{provider,license:r.sourceLicense,works:new Map()});
+    const works=providers.get(key).works;
+    const workKey=work+"|"+edition;
+    if(!works.has(workKey)) works.set(workKey,{work,edition,parts:[],url:r.sourceUrl});
+    const entry=works.get(workKey);
+    if(part && !entry.parts.some(p=>p.part===part)) entry.parts.push({part,url:r.sourceUrl});
   }
-  for(const r of seen.values()){
-    const li=document.createElement("li");
-    li.append(creditLink(r.sourceLabel,r.sourceUrl),"（",creditLink(r.sourceLicense,LICENSE_URLS[r.sourceLicense]),"）");
-    list.appendChild(li);
+  const byNumber=(a,b)=>a.localeCompare(b,"ja",{numeric:true});
+  const groups=[...providers.values()]
+    .sort((a,b)=>byNumber(a.provider,b.provider) || byNumber(b.license,a.license));
+  for(const {provider,license,works} of groups){
+    const lines=[...works.values()].map(({work,edition,parts,url})=>{
+      // Numbered sections go in number order after unnumbered ones such as 序;
+      // named chapters (桐壺・夕顔…) keep their source order.
+      const numbered=p=>/\d/.test(p.part);
+      if(parts.some(numbered)) parts.sort((a,b)=>numbered(a)-numbered(b) || byNumber(a.part,b.part));
+      const line=[parts.length ? quote(work) : creditLink(quote(work),url)];
+      if(edition) line.push(`（${edition}）`);
+      parts.forEach((p,i)=>line.push(i ? "・" : "　",creditLink(p.part,p.url)));
+      return line;
+    });
+    addGroup([provider,"（",creditLink(license,LICENSE_URLS[license]),"）"],lines);
   }
   document.getElementById("openSourceCredits").hidden=list.children.length===0;
 }
