@@ -1139,3 +1139,55 @@ Claude Codeへ引き継がれ、クラウド環境で作業を再開した。`ma
 - Playwrightで5テーマすべてのトップ画面を目視確認（配色が意図通り切り替わる）。記録画面をコーヒー・桜の2テーマで比較し、ドーナツ・POS別配色・要確認チップの色が完全に同一であることを確認した。テーマ選択がlocalStorageへ永続化され、リロード後も復元されることを確認した。
 
 作業4「設定画面（配色・記録の書き出し／読み込み／消去）」には着手していない。
+
+## 21. 作業4「設定画面」実装（2026-09-24・Claude Code）
+
+ユーザーから「作業4以降の内容についても続けて着手してください」との指示を受け、PR #40のブランチに引き続き実装した。
+
+### 実装内容
+
+- ヘッダーの `.header-record`（「記録」ボタンの隣）に「設定」ボタン（`#openSettings`）を追加した。
+- 作業3で追加した独立の配色セレクタ（`.theme-control`、`installGuide`と`sourceCredits`の間に単独配置）を廃止し、`<dialog class="settings-dialog" id="settingsDialog">` に統合した。ダイアログは`source-credits`と同じ`showModal()`/`close()`パターンで開閉する。
+  - 「配色」セクション：既存の`#themeSelect`（5系統）をそのまま移設。id・選択肢は変更していないため、`initThemeSwitcher()`等の既存JSは無改修で動作する。
+  - 「記録」セクション：「記録を書き出す」(`#exportRecord`)・「記録を読み込む」(`#importRecordTrigger`+隠しfile input `#importRecordFile`)・「記録を消去する」(`#eraseRecord`)の3操作と、結果を示す`#settingsRecordStatus`を追加。
+- 記録データは`localStorage`の`katsuyoProtoV37`キー1個に格納された単一JSONオブジェクト（`stats`）であることを確認し、これを対象に実装した。
+  - 書き出し：`{app:"conj-katsuyo-record",exportVersion:1,exportedAt,stats}`の形でJSONファイルをダウンロードする。
+  - 読み込み：選択ファイルを読み、`{stats:...}`包装・生の`stats`どちらの形式も許容した上で、既存の`normalizeStats()`（起動時のロードと同じサニタイザ）を必ず通してから`stats`変数とlocalStorageへ反映する。不正なJSON・想定外の形は例外を捕捉し、危険系トーンのメッセージを表示するだけで状態を変更しない。
+  - 消去：誤操作防止のため、ネイティブ`confirm()`は使わず2クリック方式（1回目でボタン文言が「本当に消去しますか？」に変わり、2回目で実行）とした。ダイアログを閉じると確認状態はリセットされる。
+  - 3操作共通で`refreshAfterRecordChange()`を呼び、ヘッダーの累計正答（`updateScore()`）と、記録画面が開いていれば`renderRecord()`を再描画する。
+- 消去ボタンの警告色として新しいuniversalトークン`--danger-ink`（`#a5384a`）を`:root`に追加した。`good`/`bad`/`review-error-*`と同じ扱いで、5テーマいずれでも同一値になる（テーマ別オーバーライドブロックには追加していないため、CSSのカスケードにより自動的に`:root`の値が全テーマで有効になる）。
+- 記録画面が開いている間の`Enter`キー処理をスキップする既存ガード（`sourceCredits`用）と同様に、`settingsDialog`が開いている間もスキップするガードを追加した。
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts` に新規テスト1本を追加した（既存テストは削除せず維持）。設定ダイアログの構造、danger-inkがuniversalトークンであること、export/import/eraseの主要ロジック（`normalizeStats()`を必ず通す、2クリック消去、`refreshAfterRecordChange()`呼び出し、確認状態のリセット、Enterキーガード）を検査する。
+
+### 検証結果
+
+- `node --test tests/unit/conj-record-screen.test.ts`：33/33 pass
+- `npm run test:node`（全体）：859/859 pass（work3セッション時点で無関係に失敗していた18件も含め、今回はすべて成功。詳細な原因切り分けはしていないが、`conj/`関連は全件passしており本作業には影響なし）
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで実機確認：設定ダイアログの表示、記録データを書き出し→消去（スコアが0に戻ることを確認）→書き出したファイルを読み込み（スコアが元の値に復元されることを確認）の一連の流れが正しく動作することを確認した。
+
+### ユーザー追加指示によるUI修正（同セッション内）
+
+上記実装の直後、ユーザーから次の2点の追加指示を受け、同じPR #40ブランチ上で修正した。
+
+1. 「配色選択はプルダウンではなく、色の雰囲気を示しつつボタン選択できるようにしてください」
+   - `<select id="themeSelect">` を廃止し、`<div class="theme-picker" id="themePicker" role="group">` 配下に5つの `<button class="theme-swatch" data-theme="...">` を配置する構成に変更した。各ボタンは丸い色見本（`.theme-swatch__dot`）＋テーマ名のラベルを持つ。
+   - 色見本は各テーマの `--accent` 固定値（コーヒー`#a68c6f`／抹茶`#6fa696`／藍`#6f7ea6`／墨`#878e8c`／桜`#a66f7f`）を直書きした装飾用の固定色とした。現在アクティブなテーマに関わらず「そのテーマ自体の色」を常に示す必要があるため、意図的に`var(--accent)`を使わず固定hexにしている。既存の作業3 CSS実体監査テスト（「`:root`外の想定外直書きhexは0件」）は、この5色を明示的に許容するよう更新した（`themedBody`の除外リストに追加）。
+   - 選択中のテーマは `aria-pressed="true"` で表現し、`initThemeSwitcher()` をselect用からbutton群用に書き換えた。
+2. 「消去の場合は、本当に消去しますか？もとには戻せません、との確認が出るようにする」
+   - 従来の「同じボタンをもう一度押す」2クリック方式から、明示的な確認パネル方式に変更した。「記録を消去する」を押すと、そのボタンが隠れて `#eraseConfirm`（「本当に消去しますか？もとには戻せません。」＋「消去する」／「キャンセル」ボタン）が表示される。「消去する」を押した場合のみ実際に消去する。ダイアログを閉じる、または「キャンセル」を押すと元の状態に戻る。
+   - JS関数名を`eraseRecord()`から`armEraseRecord()`（確認パネル表示）／`confirmEraseRecord()`（実消去）に分割した。
+
+テスト（`tests/unit/conj-record-screen.test.ts`）も上記の新UI構造・新関数名に合わせて全面的に更新した（削除ではなく書き換え）。
+
+### 修正後の再検証
+
+- `node --test tests/unit/conj-record-screen.test.ts`：33/33 pass
+- `npm run test:node`（全体）：859/859 pass
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで実機確認：配色ボタンをクリックして即座にテーマが切り替わりアクティブ表示になること、記録消去が確認パネル経由でのみ実行され「キャンセル」で取り消せること、を確認した。
+
+作業5以降（指示書に定義があれば）には未着手。次セッションでは`conj/HANDOFF.md`および`ROADMAP.md`等を確認し、作業5以降の有無・内容を確認すること。

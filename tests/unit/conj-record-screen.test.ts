@@ -399,6 +399,7 @@ test('conj: work3 theme system exposes 5 named color schemes, defaults to coffee
   const UNIVERSAL = [
     'good',
     'bad',
+    'danger-ink',
     'review-error-border-base',
     'review-error-ink-base',
     'review-error-border',
@@ -430,7 +431,10 @@ test('conj: work3 theme system exposes 5 named color schemes, defaults to coffee
 
   const themedBody = cssBody
     .replace(/\s*--record-(?:verb|adj|adjv|aux|empty):#[0-9a-fA-F]+;/g, '')
-    .replace(/background:#e7f1ee;/, 'background:fixed-record-donut;');
+    .replace(/background:#e7f1ee;/, 'background:fixed-record-donut;')
+    // the theme-picker swatch dots are deliberately fixed previews of each named theme's own
+    // accent color, independent of whichever theme is currently active (checked separately below)
+    .replace(/\.theme-swatch\[data-theme="[a-z]+"\] \.theme-swatch__dot\{background:#[0-9a-fA-F]+\}/g, '');
   assert.doesNotMatch(themedBody, /#[0-9a-fA-F]{3,8}\b/);
 
   for (const line of cssBody.split('\n').filter((line) => line.includes('rgba('))) {
@@ -445,11 +449,35 @@ test('conj: work3 theme system exposes 5 named color schemes, defaults to coffee
   assert.match(cssBody, /\.record-screen\{[\s\S]*?var\(--record-glow-primary\)[\s\S]*?var\(--record-glow-secondary\)[\s\S]*?var\(--bg\)/);
 });
 
-test('conj: theme switcher UI persists the chosen scheme and applies it before first paint', () => {
-  assert.match(
-    html,
-    /<label class="theme-control">配色\s*<select id="themeSelect" aria-label="配色テーマ">\s*<option value="coffee">コーヒー<\/option>\s*<option value="matcha">抹茶<\/option>\s*<option value="indigo">藍<\/option>\s*<option value="sumi">墨<\/option>\s*<option value="sakura">桜<\/option>\s*<\/select>\s*<\/label>/,
-  );
+test('conj: theme picker is a set of mood-swatch buttons, not a dropdown, and applies before first paint', () => {
+  const pickerMatch = html.match(/<div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">([\s\S]*?)<\/div>/);
+  assert.ok(pickerMatch);
+  const picker = pickerMatch[1];
+  for (const [theme, label] of [
+    ['coffee', 'コーヒー'],
+    ['matcha', '抹茶'],
+    ['indigo', '藍'],
+    ['sumi', '墨'],
+    ['sakura', '桜'],
+  ]) {
+    assert.match(
+      picker,
+      new RegExp(`<button class="theme-swatch" type="button" data-theme="${theme}" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>${label}</button>`),
+    );
+  }
+  assert.doesNotMatch(html, /<select id="themeSelect"/);
+
+  // each swatch's dot previews that named theme's own accent color, independent of which theme is currently active
+  const swatchDotColors = {
+    coffee: '#a68c6f',
+    matcha: '#6fa696',
+    indigo: '#6f7ea6',
+    sumi: '#878e8c',
+    sakura: '#a66f7f',
+  };
+  for (const [theme, hex] of Object.entries(swatchDotColors)) {
+    assert.match(html, new RegExp(`\\.theme-swatch\\[data-theme="${theme}"\\] \\.theme-swatch__dot\\{background:${hex}\\}`));
+  }
 
   // an early, synchronous head script restores a saved non-default theme before <style> is parsed, avoiding a flash of the wrong theme
   const headScript = html.match(/<meta name="theme-color"[^>]*>\s*<script>([\s\S]*?)<\/script>\s*<style>/);
@@ -462,6 +490,64 @@ test('conj: theme switcher UI persists the chosen scheme and applies it before f
   const script = scriptMatch[1];
   assert.match(script, /const CONJ_THEMES=\["coffee","matcha","indigo","sumi","sakura"\];/);
   assert.match(script, /function applyConjTheme\(theme\)\{[\s\S]*?root\.removeAttribute\("data-theme"\)[\s\S]*?root\.setAttribute\("data-theme",theme\)/);
+  assert.match(script, /function initThemeSwitcher\(\)\{\s*const buttons=\[\.\.\.document\.querySelectorAll\("#themePicker \.theme-swatch"\)\];/);
+  assert.match(script, /button\.setAttribute\("aria-pressed",String\(button\.dataset\.theme===theme\)\)/);
   assert.match(script, /localStorage\.setItem\("conjTheme",next\)/);
   assert.match(script, /async function bootConj\(\)\{\s*initThemeSwitcher\(\);/);
+});
+
+test('conj: work4 settings screen hosts the theme picker plus record export/import/erase controls', () => {
+  assert.match(html, /<button class="ghost" id="openSettings" type="button">設定<\/button>/);
+  assert.match(html, /<dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">/);
+
+  const dialogMatch = html.match(/<dialog class="settings-dialog"[\s\S]*?<\/dialog>/);
+  assert.ok(dialogMatch);
+  const dialog = dialogMatch[0];
+
+  // the theme picker lives inside the settings dialog, not as a standalone toolbar control
+  assert.match(dialog, /<div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">/);
+
+  assert.match(dialog, /<button class="ghost" id="exportRecord" type="button">記録を書き出す<\/button>/);
+  assert.match(dialog, /<button class="ghost" id="importRecordTrigger" type="button">記録を読み込む<\/button>/);
+  assert.match(dialog, /<input type="file" id="importRecordFile" accept="application\/json,\.json" hidden>/);
+  assert.match(dialog, /<button class="ghost settings-danger" id="eraseRecord" type="button">記録を消去する<\/button>/);
+
+  // erasing shows an explicit, unmistakable confirmation before touching storage - never a single click, never a native confirm()
+  assert.match(dialog, /<div class="settings-erase-confirm" id="eraseConfirm" hidden>/);
+  assert.match(dialog, /<p class="settings-erase-confirm__text">本当に消去しますか？もとには戻せません。<\/p>/);
+  assert.match(dialog, /<button class="ghost settings-danger" id="eraseConfirmYes" type="button">消去する<\/button>/);
+  assert.match(dialog, /<button class="ghost" id="eraseConfirmCancel" type="button">キャンセル<\/button>/);
+
+  assert.match(dialog, /<p class="settings-record-status" id="settingsRecordStatus" role="status"><\/p>/);
+
+  // the danger action color is a universal semantic token, not part of the theme rotation
+  assert.match(html, /\.settings-danger\{color:var\(--danger-ink\)\}/);
+
+  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
+  assert.ok(scriptMatch);
+  const script = scriptMatch[1];
+
+  // export bundles the in-memory stats object, not a copy re-read from localStorage
+  assert.match(script, /function exportRecord\(\)\{[\s\S]*?app:"conj-katsuyo-record",[\s\S]*?stats\s*\};/);
+  assert.match(script, /a\.download=`katsuyo-record-\$\{stamp\}\.json`;/);
+
+  // import runs the parsed payload through the same normalizeStats() sanitizer used on every app load
+  assert.match(script, /function importRecordFromText\(text\)\{[\s\S]*?stats=normalizeStats\(rawStats\);[\s\S]*?localStorage\.setItem\(RECORD_STORAGE_KEY,JSON\.stringify\(stats\)\);/);
+
+  // erase is a two-step flow: the first click only reveals the confirm panel, a second explicit click on eraseConfirmYes performs it
+  assert.match(script, /function armEraseRecord\(\)\{\s*document\.getElementById\("eraseRecord"\)\.hidden=true;\s*document\.getElementById\("eraseConfirm"\)\.hidden=false;\s*\}/);
+  assert.match(script, /function confirmEraseRecord\(\)\{[\s\S]*?localStorage\.removeItem\(RECORD_STORAGE_KEY\);[\s\S]*?stats=normalizeStats\(\{\}\);/);
+  assert.match(script, /document\.getElementById\("eraseRecord"\)\.addEventListener\("click",armEraseRecord\);/);
+  assert.match(script, /document\.getElementById\("eraseConfirmYes"\)\.addEventListener\("click",confirmEraseRecord\);/);
+  assert.match(script, /document\.getElementById\("eraseConfirmCancel"\)\.addEventListener\("click",resetEraseRecordArm\);/);
+
+  assert.match(script, /const RECORD_STORAGE_KEY="katsuyoProtoV37";/);
+  assert.match(script, /function refreshAfterRecordChange\(\)\{\s*updateScore\(\);\s*if\(!document\.getElementById\("recordScreen"\)\.hidden\) renderRecord\(\);\s*\}/);
+
+  // opening the settings dialog resets any leftover erase confirmation state from a previous visit
+  assert.match(script, /document\.getElementById\("openSettings"\)\.addEventListener\("click",\(\)=>\{\s*setSettingsRecordStatus\(""\);\s*resetEraseRecordArm\(\);\s*document\.getElementById\("settingsDialog"\)\.showModal\(\);/);
+  assert.match(script, /document\.getElementById\("settingsDialog"\)\.addEventListener\("close",resetEraseRecordArm\);/);
+
+  // Escape/Enter handling for the study screen ignores keystrokes while the settings dialog is open, like it already does for the source-credits dialog
+  assert.match(script, /if\(document\.getElementById\("sourceCredits"\)\.open\) return;\s*if\(document\.getElementById\("settingsDialog"\)\.open\) return;/);
 });

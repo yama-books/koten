@@ -35,6 +35,7 @@
   --lavender-soft:#f1fbf0;
   --good:#e8f7ee;
   --bad:#fff0f3;
+  --danger-ink:#a5384a;
   --tag-ink:#776650;
   --zero-ink:#938c84;
   --subrow-bg:#faf7f4;
@@ -410,8 +411,6 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .track-heads .spacer{visibility:hidden}
 .source-credits-link{display:block;margin:10px auto 0;padding:4px 8px;border:0;background:none;color:var(--muted);font-size:11px;text-decoration:underline;cursor:pointer}
 .source-credits-link[hidden]{display:none}
-.theme-control{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px auto 0;color:var(--muted);font-size:11px}
-.theme-control select{margin-left:0;padding:3px 6px;font-size:11px}
 .install-guide{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px;max-width:480px;margin:6px auto 0;padding:4px 10px;color:var(--muted);font-size:11px;line-height:1.5;text-align:center}
 .install-guide[hidden]{display:none}
 .install-guide__icon{height:1em;width:auto;vertical-align:-0.15em}
@@ -426,6 +425,28 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .source-credits strong{font-weight:700}
 .source-credits a{color:inherit}
 .source-credits #closeSourceCredits{display:block;margin:0 auto}
+.settings-dialog{width:min(420px,calc(100vw - 32px));padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
+.settings-dialog::backdrop{background:var(--source-backdrop)}
+.settings-dialog h2{margin:0 0 12px;font-size:15px}
+.settings-section{margin:0 0 16px}
+.settings-section h3{margin:0 0 8px;font-size:12px;color:var(--muted)}
+.theme-picker{display:flex;flex-wrap:wrap;gap:6px}
+.theme-swatch{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid var(--line-strong);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:12px;cursor:pointer}
+.theme-swatch__dot{width:12px;height:12px;border-radius:50%;flex:none}
+.theme-swatch[data-theme="coffee"] .theme-swatch__dot{background:#a68c6f}
+.theme-swatch[data-theme="matcha"] .theme-swatch__dot{background:#6fa696}
+.theme-swatch[data-theme="indigo"] .theme-swatch__dot{background:#6f7ea6}
+.theme-swatch[data-theme="sumi"] .theme-swatch__dot{background:#878e8c}
+.theme-swatch[data-theme="sakura"] .theme-swatch__dot{background:#a66f7f}
+.theme-swatch[aria-pressed="true"]{border-color:var(--accent-strong);background:var(--accent-soft);font-weight:600}
+.settings-record-actions{display:flex;flex-wrap:wrap;gap:8px}
+.settings-danger{color:var(--danger-ink)}
+.settings-erase-confirm{margin-top:8px;padding:10px;border:1px solid var(--danger-ink);border-radius:10px}
+.settings-erase-confirm[hidden]{display:none}
+.settings-erase-confirm__text{margin:0 0 8px;color:var(--danger-ink)}
+.settings-record-status{margin:8px 0 0;min-height:1.4em;font-size:11px;color:var(--muted)}
+.settings-record-status[data-tone="danger"]{color:var(--danger-ink)}
+.settings-dialog #closeSettings{display:block;margin:16px auto 0}
 /* Prose examples can exceed one column; poems keep their single line. */
 .example-text.is-prose{white-space:normal !important}
 
@@ -2789,6 +2810,7 @@ body.review-modal-open{overflow:hidden}
         <strong class="score-value" id="scoreValue">0</strong>
       </div>
       <button class="ghost record-open" id="openRecord" type="button">記録</button>
+      <button class="ghost" id="openSettings" type="button">設定</button>
     </div>
   </header>
 
@@ -2886,20 +2908,40 @@ body.review-modal-open{overflow:hidden}
     <button class="install-guide__add" id="installGuideAdd" type="button" hidden>ホーム画面に追加する</button>
     <button class="install-guide__dismiss" id="installGuideDismiss" type="button" aria-label="閉じる">×</button>
   </section>
-  <label class="theme-control">配色
-    <select id="themeSelect" aria-label="配色テーマ">
-      <option value="coffee">コーヒー</option>
-      <option value="matcha">抹茶</option>
-      <option value="indigo">藍</option>
-      <option value="sumi">墨</option>
-      <option value="sakura">桜</option>
-    </select>
-  </label>
   <dialog class="source-credits" id="sourceCredits" aria-labelledby="sourceCreditsTitle">
     <h2 id="sourceCreditsTitle">用例の出典</h2>
     <p>用例は、次の資料から短く引用しています（空白を詰めて掲載）。</p>
     <ul id="sourceCreditsList"></ul>
     <button class="ghost" id="closeSourceCredits" type="button">閉じる</button>
+  </dialog>
+  <dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
+    <h2 id="settingsTitle">設定</h2>
+    <section class="settings-section">
+      <h3>配色</h3>
+      <div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">
+        <button class="theme-swatch" type="button" data-theme="coffee" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>コーヒー</button>
+        <button class="theme-swatch" type="button" data-theme="matcha" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>抹茶</button>
+        <button class="theme-swatch" type="button" data-theme="indigo" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>藍</button>
+        <button class="theme-swatch" type="button" data-theme="sumi" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>墨</button>
+        <button class="theme-swatch" type="button" data-theme="sakura" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>桜</button>
+      </div>
+    </section>
+    <section class="settings-section">
+      <h3>記録</h3>
+      <div class="settings-record-actions">
+        <button class="ghost" id="exportRecord" type="button">記録を書き出す</button>
+        <button class="ghost" id="importRecordTrigger" type="button">記録を読み込む</button>
+        <input type="file" id="importRecordFile" accept="application/json,.json" hidden>
+        <button class="ghost settings-danger" id="eraseRecord" type="button">記録を消去する</button>
+      </div>
+      <div class="settings-erase-confirm" id="eraseConfirm" hidden>
+        <p class="settings-erase-confirm__text">本当に消去しますか？もとには戻せません。</p>
+        <button class="ghost settings-danger" id="eraseConfirmYes" type="button">消去する</button>
+        <button class="ghost" id="eraseConfirmCancel" type="button">キャンセル</button>
+      </div>
+      <p class="settings-record-status" id="settingsRecordStatus" role="status"></p>
+    </section>
+    <button class="ghost" id="closeSettings" type="button">閉じる</button>
   </dialog>
 </div>
 
@@ -4725,6 +4767,92 @@ document.getElementById("closeSourceCredits").addEventListener("click",()=>{
 document.getElementById("sourceCredits").addEventListener("click",event=>{
   if(event.target===event.currentTarget) event.currentTarget.close();
 });
+
+const RECORD_STORAGE_KEY="katsuyoProtoV37";
+function refreshAfterRecordChange(){
+  updateScore();
+  if(!document.getElementById("recordScreen").hidden) renderRecord();
+}
+function setSettingsRecordStatus(message,tone){
+  const status=document.getElementById("settingsRecordStatus");
+  status.textContent=message;
+  if(tone) status.dataset.tone=tone; else delete status.dataset.tone;
+}
+function resetEraseRecordArm(){
+  document.getElementById("eraseRecord").hidden=false;
+  document.getElementById("eraseConfirm").hidden=true;
+}
+function exportRecord(){
+  const envelope={
+    app:"conj-katsuyo-record",
+    exportVersion:1,
+    exportedAt:new Date().toISOString(),
+    stats
+  };
+  const blob=new Blob([JSON.stringify(envelope,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const stamp=new Date().toISOString().slice(0,10);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download=`katsuyo-record-${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  setSettingsRecordStatus("記録を書き出しました。");
+}
+function importRecordFromText(text){
+  const parsed=JSON.parse(text);
+  const rawStats=parsed && typeof parsed==="object" && parsed.stats && typeof parsed.stats==="object"
+    ? parsed.stats
+    : parsed;
+  stats=normalizeStats(rawStats);
+  localStorage.setItem(RECORD_STORAGE_KEY,JSON.stringify(stats));
+  refreshAfterRecordChange();
+  setSettingsRecordStatus("記録を読み込みました。");
+}
+function armEraseRecord(){
+  document.getElementById("eraseRecord").hidden=true;
+  document.getElementById("eraseConfirm").hidden=false;
+}
+function confirmEraseRecord(){
+  resetEraseRecordArm();
+  localStorage.removeItem(RECORD_STORAGE_KEY);
+  stats=normalizeStats({});
+  refreshAfterRecordChange();
+  setSettingsRecordStatus("記録を消去しました。");
+}
+document.getElementById("openSettings").addEventListener("click",()=>{
+  setSettingsRecordStatus("");
+  resetEraseRecordArm();
+  document.getElementById("settingsDialog").showModal();
+});
+document.getElementById("closeSettings").addEventListener("click",()=>{
+  document.getElementById("settingsDialog").close();
+});
+document.getElementById("settingsDialog").addEventListener("click",event=>{
+  if(event.target===event.currentTarget) event.currentTarget.close();
+});
+document.getElementById("settingsDialog").addEventListener("close",resetEraseRecordArm);
+document.getElementById("exportRecord").addEventListener("click",exportRecord);
+document.getElementById("importRecordTrigger").addEventListener("click",()=>{
+  document.getElementById("importRecordFile").click();
+});
+document.getElementById("importRecordFile").addEventListener("change",async event=>{
+  const file=event.target.files?.[0];
+  event.target.value="";
+  if(!file) return;
+  try{
+    importRecordFromText(await file.text());
+  }catch(error){
+    console.warn("記録の読み込みに失敗しました。",error);
+    setSettingsRecordStatus("読み込みに失敗しました。ファイルを確認してください。","danger");
+  }
+});
+document.getElementById("eraseRecord").addEventListener("click",armEraseRecord);
+document.getElementById("eraseConfirmYes").addEventListener("click",confirmEraseRecord);
+document.getElementById("eraseConfirmCancel").addEventListener("click",resetEraseRecordArm);
+
 function renderReviewExample(item){
   const panel=document.getElementById("reviewExamplePanel");
   const text=document.getElementById("reviewExampleText");
@@ -4979,6 +5107,7 @@ document.addEventListener("keydown",e=>{
   }
   if(!document.getElementById("reviewModal").hidden) return;
   if(document.getElementById("sourceCredits").open) return;
+  if(document.getElementById("settingsDialog").open) return;
   if(e.key==="Enter" && !document.querySelector(".editor input")){
     answered?nextQuestion():grade(false);
   }
@@ -5106,17 +5235,23 @@ function applyConjTheme(theme){
   if(meta && bg) meta.setAttribute("content",bg);
 }
 function initThemeSwitcher(){
-  const select=document.getElementById("themeSelect");
-  if(!select) return;
+  const buttons=[...document.querySelectorAll("#themePicker .theme-swatch")];
+  if(!buttons.length) return;
   let stored;
   try{ stored=localStorage.getItem("conjTheme"); }catch(e){}
+  const markActive=theme=>{
+    buttons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.theme===theme)));
+  };
   const theme=CONJ_THEMES.includes(stored)?stored:"coffee";
-  select.value=theme;
+  markActive(theme);
   applyConjTheme(theme);
-  select.addEventListener("change",()=>{
-    const next=CONJ_THEMES.includes(select.value)?select.value:"coffee";
-    try{ localStorage.setItem("conjTheme",next); }catch(e){}
-    applyConjTheme(next);
+  buttons.forEach(button=>{
+    button.addEventListener("click",()=>{
+      const next=CONJ_THEMES.includes(button.dataset.theme)?button.dataset.theme:"coffee";
+      try{ localStorage.setItem("conjTheme",next); }catch(e){}
+      markActive(next);
+      applyConjTheme(next);
+    });
   });
 }
 
