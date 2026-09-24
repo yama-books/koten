@@ -388,6 +388,7 @@ test('conj: palette defaults are semantic CSS variables while record POS and don
     /\/\* ===== v42: muted ink-citrus record palette ===== \*\/\s*\.record-screen\{\s*--record-verb:#935568;\s*--record-adj:#b77d55;\s*--record-adjv:#39756f;\s*--record-aux:#3d566b;\s*--record-empty:#e8eef1;/,
   );
   assert.match(cssBody, /\.record-donut\{[\s\S]*?background:#e7f1ee;/);
+  assert.doesNotMatch(cssBody, /\.record-donut\{[^}]*background:var\(--record-empty\)/);
 
   const themedBody = cssBody
     .replace(/\s*--record-(?:verb|adj|adjv|aux|empty):#[0-9a-fA-F]+;/g, '')
