@@ -1093,3 +1093,49 @@ GitHub上の現行 `main` の `conj/index.html` をblob経路で監査した。
 
 まず①だけを再実行して結果を確定し、そこで一度停止する。
 ①がPASSなら次のセッションで②へ進む。FAILなら修正せず差異だけ報告する。
+
+## 20. 作業2完了監査 完遂・作業3実装（2026-09-24・Claude Code）
+
+Claude Codeへ引き継がれ、クラウド環境で作業を再開した。`main` を再fetchし、HEAD `e99cebe`（PR #39 `fix(conj): preserve fixed donut base color`）が既にマージ済みであることを確認した。①-C（`.record-donut` が後置 `background:var(--record-empty)` で上書きされる問題）はこのPRで既に修正・ガードテスト追加済みであり、追加の修正は不要だった。
+
+### 作業2完了判定・残監査の結論
+
+- ①-A `:root`：PASS（既存確認を再確認のみ）
+- ①-B `.record-screen` 局所固定変数：PASS
+- ①-C `.record-donut` 固定色：PASS（PR #39で解消済み。`background:#e7f1ee` のみが有効、後置の `var(--record-empty)` 上書きは削除済み）
+- ② 直書きhex/rgba：PASS。`:root` 外のsolid hexは6件（記録品詞4色+空状態色+ドーナツ基底色）のみで、想定外の直書きは0件。rgba/rgbは14件で全件 `box-shadow` 用途のみ（`text-shadow` の使用自体なし）。
+- ③ 主要UIの意味変数参照：PASS。`.chip/.ghost/.primary`、`.review-filters`、`.review-toggle` 等の主要UIはすべて `var(--...)` 経由。②で全hex/rgbaを網羅したため独立の漏れはなし。
+- v46ガード監査：PASS。`v46: record layout readability guard` ブロックとそのテストは変更なく機能。
+- テストファイル監査：PASS。31/31（当時）テストが成功、work1/work2のガードテストは削除されていない。
+
+**作業2は正式に完了確定。**
+
+### 作業3「配色切替・既定コーヒー化」実装
+
+ユーザーから「作業3以降もすべて、まとめて継続してください」との指示を受け、実装に着手した。配色系統数（5/6）は過去記録で「人確認事項」と明記されていたため、ユーザーに確認し、**5系統**の回答を得た。
+
+実装内容：
+
+- `:root` の色トークン（Core surfaces/Accent/Translucent layers/Level help text/Record screen neutrals/Decorative elevation の6群、`good`/`bad`/`review-error-*`/`source-backdrop` を除く）を、HSL色相回転（既存パレットの相対的な色相差を保ったまま、基準色相を目標色相へ回転）によって5系統ぶん機械的に生成した。
+  - **コーヒー**（既定・新規）：色相 約32°
+  - **抹茶**（旧来の既定配色をそのまま保持。色相回転なし）
+  - **藍**：色相 約224°
+  - **墨**：彩度を大幅に落としたほぼ無彩色
+  - **桜**：色相 約342°
+- 生成方法：`:root{...}` を新しい既定（コーヒー）値に置き換え、`:root[data-theme="matcha|indigo|sumi|sakura"]{...}` の4オーバーライドブロックを追加。`good`/`bad`/`review-error-*`/`source-backdrop` は正誤フィードバック・エラー色として全テーマで固定値のまま。記録画面のPOS別色とドーナツ基底色（`.record-screen` 局所変数・`.record-donut` 固定hex）はテーマ切替の対象外のまま。
+- UI：`<label class="theme-control">` に `<select id="themeSelect">` を追加（`source-credits-link` と `installGuide` の間には置かず、`installGuide` の後・`sourceCredits` ダイアログの前に配置し、既存の隣接テストと衝突しないようにした）。
+- JS：`<head>` 内の早期スクリプトで `localStorage.getItem("conjTheme")` を読み、非デフォルトテーマなら `<html data-theme="...">` を即時設定（FOUC防止）。本体スクリプトに `CONJ_THEMES`／`applyConjTheme`／`initThemeSwitcher` を追加し、`bootConj()` の先頭で呼び出す。選択変更時に `localStorage` へ保存し、`<meta name="theme-color">` を現在の `--bg` に同期。
+- `<meta name="theme-color">` の既定値を新デフォルト（コーヒー）の `--bg:#fbf9f7` に更新。
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts` の `conj: palette defaults are semantic CSS variables...` テストを、5テーマ構成・既定コーヒー・universal色（good/bad/review-error-*/source-backdrop）が全テーマで同一値・record/donut固定色が全テーマブロックに漏れていないことを検査する内容に更新した（削除ではなく更新）。テーマ切替UIとFOUC防止スクリプトを検証する新規テストを1本追加した。
+
+### 検証結果
+
+- `node --test tests/unit/conj-record-screen.test.ts`：32/32 pass
+- `npm run test:node`（全体）：651件中633 pass、18 fail。failしたのは `conj/` 以外（`tests/unit/record.test.ts` 等、`main` 上で元々失敗する既存の無関係な失敗）であることを `git stash` で作業前の `main` に対しても同じ失敗が起きることを確認して切り分け済み。
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで5テーマすべてのトップ画面を目視確認（配色が意図通り切り替わる）。記録画面をコーヒー・桜の2テーマで比較し、ドーナツ・POS別配色・要確認チップの色が完全に同一であることを確認した。テーマ選択がlocalStorageへ永続化され、リロード後も復元されることを確認した。
+
+作業4「設定画面（配色・記録の書き出し／読み込み／消去）」には着手していない。

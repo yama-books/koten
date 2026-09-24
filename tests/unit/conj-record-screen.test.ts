@@ -356,33 +356,71 @@ test('conj: install guide sits outside the study card, near the source-credits l
 });
 
 
-test('conj: palette defaults are semantic CSS variables while record POS and donut colors stay fixed', () => {
+test('conj: work3 theme system exposes 5 named color schemes, defaults to coffee, and keeps universal/record colors fixed', () => {
   const styleMatch = html.match(/<style>([\s\S]*?)<\/style>/);
   assert.ok(styleMatch);
   const css = styleMatch[1];
-  const rootMatch = css.match(/:root\{([\s\S]*?)\}\n/);
+
+  const rootMatch = css.match(/:root\{([\s\S]*?)\}/);
   assert.ok(rootMatch);
-  const root = rootMatch[1];
+  const rootBody = rootMatch[1];
 
-  const defaults = [
-    '--bg:#f7fbfa;',
-    '--card:#ffffff;',
-    '--ink:#2c3b38;',
-    '--muted:#6d7f7a;',
-    '--accent:#6fa696;',
-    '--accent-strong:#477d70;',
-    '--good:#e8f7ee;',
-    '--bad:#fff0f3;',
-    '--editable-hover:#eef9f5;',
-    '--editable-selected:#e8f7f2;',
-    '--review-error-bg:#f8eff2;',
-    '--review-error-ink:#825d69;',
+  const themeMatches: Record<string, RegExpMatchArray> = {};
+  for (const name of ['matcha', 'indigo', 'sumi', 'sakura']) {
+    const m = css.match(new RegExp(`:root\\[data-theme="${name}"\\]\\{([\\s\\S]*?)\\}`));
+    assert.ok(m, name);
+    themeMatches[name] = m;
+  }
+
+  const parseVars = (body: string) => {
+    const map = new Map<string, string>();
+    for (const m of body.matchAll(/--([a-z0-9-]+):([^;]+);/g)) map.set(m[1], m[2]);
+    return map;
+  };
+  const rootVars = parseVars(rootBody);
+  const themeVars: Record<string, Map<string, string>> = {};
+  for (const [name, m] of Object.entries(themeMatches)) themeVars[name] = parseVars(m[1]);
+
+  // default (no data-theme attribute) is the coffee scheme
+  assert.strictEqual(rootVars.get('bg'), '#fbf9f7');
+  assert.strictEqual(rootVars.get('accent'), '#a68c6f');
+
+  // matcha preserves the exact colors that were the default before work3
+  assert.strictEqual(themeVars.matcha.get('bg'), '#f7fbfa');
+  assert.strictEqual(themeVars.matcha.get('accent'), '#6fa696');
+  assert.strictEqual(themeVars.matcha.get('accent-strong'), '#477d70');
+
+  // the other two named schemes are present with distinct accent hues
+  assert.strictEqual(themeVars.indigo.get('accent'), '#6f7ea6');
+  assert.strictEqual(themeVars.sumi.get('accent'), '#878e8c');
+  assert.strictEqual(themeVars.sakura.get('accent'), '#a66f7f');
+
+  // universal semantic colors (correctness feedback, error state, modal backdrop) never change with theme
+  const UNIVERSAL = [
+    'good',
+    'bad',
+    'review-error-border-base',
+    'review-error-ink-base',
+    'review-error-border',
+    'review-error-bg',
+    'review-error-ink',
+    'source-backdrop',
   ];
-  for (const value of defaults) assert.ok(root.includes(value), value);
+  for (const key of UNIVERSAL) {
+    assert.ok(rootVars.has(key), key);
+    for (const [name, vars] of Object.entries(themeVars)) {
+      if (vars.has(key)) assert.strictEqual(vars.get(key), rootVars.get(key), `${name}:${key}`);
+    }
+  }
 
-  assert.doesNotMatch(root, /--record-(?:verb|adj|adjv|aux|empty|donut-base):/);
+  // record POS palette and donut base color stay out of :root and every theme block, in every scheme
+  assert.doesNotMatch(rootBody, /--record-(?:verb|adj|adjv|aux|empty|donut-base):/);
+  for (const [name, m] of Object.entries(themeMatches)) {
+    assert.doesNotMatch(m[1], /--record-(?:verb|adj|adjv|aux|empty|donut-base):/, name);
+  }
 
-  const cssBody = css.slice(rootMatch.index! + rootMatch[0].length);
+  const lastThemeEnd = Math.max(...Object.values(themeMatches).map((m) => m.index! + m[0].length));
+  const cssBody = css.slice(lastThemeEnd);
   assert.match(
     cssBody,
     /\/\* ===== v42: muted ink-citrus record palette ===== \*\/\s*\.record-screen\{\s*--record-verb:#935568;\s*--record-adj:#b77d55;\s*--record-adjv:#39756f;\s*--record-aux:#3d566b;\s*--record-empty:#e8eef1;/,
@@ -405,4 +443,25 @@ test('conj: palette defaults are semantic CSS variables while record POS and don
   assert.match(cssBody, /\.review-rate\{[\s\S]*?border-color:var\(--review-error-border\);[\s\S]*?background:var\(--review-error-bg\);/);
   assert.match(cssBody, /\.review-toggle:hover,[\s\S]*?\.review-toggle:focus-visible\{background:var\(--review-hover-bg\)\}/);
   assert.match(cssBody, /\.record-screen\{[\s\S]*?var\(--record-glow-primary\)[\s\S]*?var\(--record-glow-secondary\)[\s\S]*?var\(--bg\)/);
+});
+
+test('conj: theme switcher UI persists the chosen scheme and applies it before first paint', () => {
+  assert.match(
+    html,
+    /<label class="theme-control">配色\s*<select id="themeSelect" aria-label="配色テーマ">\s*<option value="coffee">コーヒー<\/option>\s*<option value="matcha">抹茶<\/option>\s*<option value="indigo">藍<\/option>\s*<option value="sumi">墨<\/option>\s*<option value="sakura">桜<\/option>\s*<\/select>\s*<\/label>/,
+  );
+
+  // an early, synchronous head script restores a saved non-default theme before <style> is parsed, avoiding a flash of the wrong theme
+  const headScript = html.match(/<meta name="theme-color"[^>]*>\s*<script>([\s\S]*?)<\/script>\s*<style>/);
+  assert.ok(headScript);
+  assert.match(headScript[1], /localStorage\.getItem\("conjTheme"\)/);
+  assert.match(headScript[1], /document\.documentElement\.setAttribute\("data-theme",t\)/);
+
+  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
+  assert.ok(scriptMatch);
+  const script = scriptMatch[1];
+  assert.match(script, /const CONJ_THEMES=\["coffee","matcha","indigo","sumi","sakura"\];/);
+  assert.match(script, /function applyConjTheme\(theme\)\{[\s\S]*?root\.removeAttribute\("data-theme"\)[\s\S]*?root\.setAttribute\("data-theme",theme\)/);
+  assert.match(script, /localStorage\.setItem\("conjTheme",next\)/);
+  assert.match(script, /async function bootConj\(\)\{\s*initThemeSwitcher\(\);/);
 });
