@@ -229,7 +229,7 @@ test('conj: review uses error rate after three answers and groups auxiliaries by
   assert.match(html, /const MIN_REVIEW_ATTEMPTS=3/);
   assert.match(html, /entry\.total>=MIN_REVIEW_ATTEMPTS && entry\.wrong>0/);
   assert.match(html, /誤答率/);
-  assert.match(html, /`誤答 \$\{entry\.wrong\}\/\$\{entry\.total\}`/);
+  assert.match(html, /<small>誤答 \$\{entry\.wrong\}\/\$\{entry\.total\}<\/small>/);
   assert.match(html, /item\.pos==="aux" \? item\.pos\+":"\+item\.id/);
   assert.match(html, /if\(item\.pos!=="aux"\) return broadKind\(item\.kind\)/);
 });
@@ -736,4 +736,39 @@ test('conj: question selection favors items with fewer past attempts, without ex
   assert.ok(kahenPicks / trials > 0.15, `expected kahen to be picked disproportionately often, got ${kahenPicks}/${trials}`);
   // it must not be the only possible outcome - other items still get drawn sometimes
   assert.ok(otherPicksSeen.size > 1, 'other items must still be reachable, not excluded entirely');
+});
+
+test('conj: record stats show questions as two lines and accuracy as recent + cumulative', () => {
+  assert.match(html, /<div class="record-stat record-stat-questions">\s*<dt>取り組んだ問題<\/dt>\s*<dd id="recordQuestions">0問<\/dd>/);
+  assert.match(html, /<dd class="record-accuracy-pair">[\s\S]*?<small>直近<\/small><b id="recordRecentAccuracy">—<\/b>[\s\S]*?<small>累計<\/small><b id="recordAccuracy">0%<\/b>/);
+  assert.match(html, /\.record-overview \.record-grid \.record-stat\{[\s\S]*?flex-direction:column;/);
+  assert.match(html, /const RECENT_WINDOW=100;/);
+  assert.match(html, /recent:normalizeRecent\(safe\.recent\),/);
+  assert.match(html, /stats\.recent=\(stats\.recent\+\(ok\?"1":"0"\)\)\.slice\(-RECENT_WINDOW\);/);
+  assert.match(html, /stats\.recent\.length \? Math\.round\(\(recentCorrect\/stats\.recent\.length\)\*100\)\+"%" : "—"/);
+});
+
+test('conj: review card qualifiers use half-width parens and wrap as a unit', () => {
+  const source = html.match(/function reviewKindLineHtml\(badge,label\)\{[\s\S]*?\n\}/)?.[0];
+  assert.ok(source);
+  const reviewKindLineHtml = new Function(`${source}; return reviewKindLineHtml;`)();
+  assert.equal(
+    reviewKindLineHtml('<b></b>', 'なり（断定）'),
+    '<span class="review-kind-head"><b></b><strong>なり</strong></span><span class="review-label-note">(断定)</span>',
+  );
+  assert.equal(reviewKindLineHtml('<b></b>', 'たり'), '<span class="review-kind-head"><b></b><strong>たり</strong></span>');
+  assert.match(html, /\.review-kind-line\{\s*flex-wrap:wrap;/);
+  assert.match(html, /\.review-label-note\{[\s\S]*?white-space:nowrap;/);
+});
+
+test('conj: the last 要確認 card keeps its bottom border', () => {
+  assert.doesNotMatch(html, /\.record-review li:last-child\{/);
+});
+
+test('conj: 要確認 lists only attempted items and never untouched ones', () => {
+  assert.doesNotMatch(html, /未着手も表示します/);
+  assert.doesNotMatch(html, /まだ取り組んでいません/);
+  assert.doesNotMatch(html, /const untouched=/);
+  assert.match(html, /return all\.filter\(entry=>entry\.total>=MIN_REVIEW_ATTEMPTS && entry\.wrong>0\)\.slice\(0,6\);/);
+  assert.match(html, /\.review-kind-head\{\s*display:flex;\s*flex-wrap:wrap;/);
 });

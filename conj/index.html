@@ -1858,8 +1858,7 @@ td.wrong{background:var(--bad)!important}
   padding:9px 11px;
   border-bottom:1px solid var(--line);
 }
-.record-breakdown li:last-child,
-.record-review li:last-child{
+.record-breakdown li:last-child{
   border-bottom:0;
 }
 .record-review small,
@@ -2803,6 +2802,89 @@ body.review-modal-open{overflow:hidden}
   .record-review{grid-template-columns:1fr}
   .review-toggle{grid-template-columns:56px minmax(0,1fr)}
 }
+/* ===== v50: record stats stack as label/value pairs; 正答率 shows 直近 and 累計 side by side ===== */
+.record-overview .record-grid{
+  grid-template-columns:1fr;
+  gap:5px;
+}
+.record-overview .record-grid .record-stat{
+  grid-column:auto;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  padding:5px 6px;
+  text-align:center;
+}
+.record-overview .record-grid .record-stat dt{
+  width:auto;
+  font-size:12px;
+  line-height:1.2;
+}
+.record-overview .record-grid .record-stat dd{
+  font-size:17px;
+  line-height:1.1;
+}
+.record-overview .record-grid .record-accuracy-pair{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  font-size:inherit;
+}
+.record-accuracy-pair > span{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+}
+.record-accuracy-pair > span + span{border-left:1px solid var(--line)}
+.record-accuracy-pair small{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.2;
+}
+.record-accuracy-pair b{
+  font-size:16px;
+  font-weight:inherit;
+  line-height:1.1;
+}
+@media(max-width:350px){
+  .record-overview .record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .record-overview .record-grid .record-stat-accuracy{grid-column:1 / -1}
+}
+/* 要確認カード：「なり（断定）」などの補足は半角括弧・小さめで詰め、入りきらなければ次行へ */
+.review-kind-line{
+  flex-wrap:wrap;
+  gap:1px 2px;
+}
+.review-kind-head{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:1px 4px;
+  min-width:0;
+  max-width:100%;
+}
+/* 「形容動詞 ナリ活用」が1行に収まるよう、誤答率欄とバッジの余白を詰める。
+   それでも入らない幅では語だけがバッジの下へ回り、はみ出して切れることはない。 */
+@media(min-width:360px){
+  .review-toggle{
+    grid-template-columns:44px minmax(0,1fr);
+    gap:4px;
+    padding-inline:4px;
+  }
+}
+.review-kind-line .review-pos-badge{padding:2px 3px}
+.review-label-note{
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:-.02em;
+  line-height:1.25;
+  white-space:nowrap;
+}
 
 </style>
 </head>
@@ -2987,17 +3069,20 @@ body.review-modal-open{overflow:hidden}
           <ul class="record-breakdown" id="recordBreakdown"></ul>
         </div>
         <dl class="record-grid">
-          <div class="record-stat">
+          <div class="record-stat record-stat-questions">
             <dt>取り組んだ問題</dt>
             <dd id="recordQuestions">0問</dd>
           </div>
-          <div class="record-stat">
+          <div class="record-stat record-stat-correct">
             <dt>正答数</dt>
             <dd id="recordCorrectCells">0</dd>
           </div>
-          <div class="record-stat">
+          <div class="record-stat record-stat-accuracy">
             <dt>正答率</dt>
-            <dd id="recordAccuracy">0%</dd>
+            <dd class="record-accuracy-pair">
+              <span title="直近100マスの正答率"><small>直近</small><b id="recordRecentAccuracy">—</b></span>
+              <span title="これまでの累計の正答率"><small>累計</small><b id="recordAccuracy">0%</b></span>
+            </dd>
           </div>
         </dl>
       </div>
@@ -3011,7 +3096,7 @@ body.review-modal-open{overflow:hidden}
         <button type="button" data-review-pos="adjv" aria-pressed="false">形容動詞</button>
         <button type="button" data-review-pos="aux" aria-pressed="false">助動詞</button>
       </div>
-      <p class="review-rule">3問以上取り組んだ項目を、誤答率の高い順に表示します。未着手も表示します。</p>
+      <p class="review-rule">3問以上取り組んだ項目を、誤答率の高い順に表示します。</p>
       <p class="record-empty" id="recordReviewEmpty">まだ要確認の活用はありません。</p>
       <ul class="record-review" id="recordReview" hidden></ul>
     </section>
@@ -3691,9 +3776,15 @@ function normalizeStats(raw){
     correctCells:Number.isFinite(Number(safe.correctCells)) ? Number(safe.correctCells) : totals.correct,
     gradedCells:Number.isFinite(Number(safe.gradedCells)) ? Number(safe.gradedCells) : totals.total,
     points:Number(safe.points)||0,
+    recent:normalizeRecent(safe.recent),
     byForm,
     byPos:reconcilePosCounts(storedPosCounts,attemptedTotal,slots)
   };
+}
+// 直近の正誤（1=正答, 0=誤答）を古い順に最大 RECENT_WINDOW 件だけ保持する。
+const RECENT_WINDOW=100;
+function normalizeRecent(value){
+  return typeof value==="string" ? value.replace(/[^01]/g,"").slice(-RECENT_WINDOW) : "";
 }
 function loadStats(){
   try{
@@ -4491,6 +4582,7 @@ function grade(revealOnly=false){
       stats.points+=pointsForCell(ok,levelForPos(current.pos),slotBefore);
       stats.gradedCells++;
       if(ok) stats.correctCells++;
+      stats.recent=(stats.recent+(ok?"1":"0")).slice(-RECENT_WINDOW);
 
       const form=formKeys[i];
       if(form){
@@ -4559,6 +4651,14 @@ function reviewLabel(item){
   return item.lemma;
 }
 
+// 要確認カードは幅が狭いので、補足の括弧だけ半角・小さめにして詰める。
+// 入りきらないときは補足だけが次の行へ回り、品詞バッジと語は1行に保つ。
+function reviewKindLineHtml(badge,label){
+  const match=label.match(/^(.+?)（(.+)）$/);
+  const head=`<span class="review-kind-head">${badge}<strong>${match?match[1]:label}</strong></span>`;
+  return match ? `${head}<span class="review-label-note">(${match[2]})</span>` : head;
+}
+
 const MIN_REVIEW_ATTEMPTS=3;
 
 function reviewKinds(){
@@ -4602,12 +4702,8 @@ function reviewKinds(){
     })
     .sort((a,b)=>(b.wrongRate??-1)-(a.wrongRate??-1) || b.total-a.total || a.label.localeCompare(b.label,"ja"));
 
-  const attempted=all.filter(entry=>entry.total>=MIN_REVIEW_ATTEMPTS && entry.wrong>0);
-  const untouched=all.filter(entry=>entry.total===0);
-  const chosen=attempted.slice(0,untouched.length ? 5 : 6);
-  if(untouched.length) chosen.push(untouched[0]);
-  if(chosen.length<6) chosen.push(...untouched.slice(1,1+(6-chosen.length)));
-  return chosen.slice(0,6);
+  // 未着手は記録画面から選んで取り組めず、出題側で自動的に重みづけされるため表示しない。
+  return all.filter(entry=>entry.total>=MIN_REVIEW_ATTEMPTS && entry.wrong>0).slice(0,6);
 }
 
 function formatPoints(value){
@@ -4619,6 +4715,9 @@ function renderRecord(){
   document.getElementById("recordCorrectCells").textContent=String(stats.correctCells);
   document.getElementById("recordAccuracy").textContent=
     stats.gradedCells ? Math.round((stats.correctCells/stats.gradedCells)*100)+"%" : "0%";
+  const recentCorrect=[...stats.recent].filter(mark=>mark==="1").length;
+  document.getElementById("recordRecentAccuracy").textContent=
+    stats.recent.length ? Math.round((recentCorrect/stats.recent.length)*100)+"%" : "—";
 
   const labels={verb:"動詞",adj:"形容詞",adjv:"形容動詞",aux:"助動詞"};
   const recordStyle=getComputedStyle(document.getElementById("recordScreen"));
@@ -4675,12 +4774,12 @@ function renderRecord(){
 
   review.forEach(entry=>{
     const li=document.createElement("li");
-    const percent=entry.wrongRate===null ? null : Math.round(entry.wrongRate*100);
+    const percent=Math.round(entry.wrongRate*100);
     const button=document.createElement("button");
     button.type="button";
     button.className="review-toggle";
     button.setAttribute("aria-haspopup","dialog");
-    button.innerHTML=`<span class="review-rate"><span>${percent===null?"未着手":"誤答率"}</span><strong>${percent===null?"—":percent+"%"}</strong></span><span class="review-copy"><span class="review-kind-line"><span class="review-pos-badge" style="--review-pos-color:${colors[entry.pos]}">${labels[entry.pos]}</span><strong>${entry.label}</strong></span><small>${entry.total ? `誤答 ${entry.wrong}/${entry.total}` : "まだ取り組んでいません"}</small></span>`;
+    button.innerHTML=`<span class="review-rate"><span>誤答率</span><strong>${percent}%</strong></span><span class="review-copy"><span class="review-kind-line">${reviewKindLineHtml(`<span class="review-pos-badge" style="--review-pos-color:${colors[entry.pos]}">${labels[entry.pos]}</span>`,entry.label)}</span><small>誤答 ${entry.wrong}/${entry.total}</small></span>`;
     button.addEventListener("click",()=>openReviewModal(randomReviewItem(entry.exampleItems)));
     li.appendChild(button);
     reviewList.appendChild(li);
