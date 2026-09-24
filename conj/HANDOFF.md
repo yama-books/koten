@@ -1374,3 +1374,24 @@ PR #41マージ後、ユーザーから「記録欄はなぜ2段でなくなっ�
 - `node --test`：37/37 pass、`npm run test:node`（全体）：863/863 pass、`npm run test:screen`：388/388 pass。
 - Node上でのシミュレーション（20万回試行）：出題履歴なしの項目が理論値2.5%に対し約27%まで引き上がることを確認。
 - Playwrightで実アプリのデータを使い、カ変（「来（く）」）以外の全動詞項目に出題実績20回を人為的に与えた状態で300回連続出題した結果、カ変が51回（約17%）選ばれ、実際に大幅に出やすくなることを確認した（他の全動詞種類も0ではなく選ばれ続けることも確認）。
+
+## 28. ホーム画面追加の案内をvintage-kanaと同じ文言・仕組みにそろえる（2026-09-24・Claude Code）
+
+右上の×だけだったinstall-guideを、vintage-kanaと同じ「文 → 主ボタン → 今は追加しない／今後は表示しない」の構成に変更した。
+
+### 変更内容
+
+- HTML/CSS: `.install-guide`をvintage-kanaの`.installGuide`と同じ枠付きブロック・縦積みレイアウトに変更。色はconjのテーマトークン（`--line`/`--muted`/`--card`/`--accent-soft`/`--accent-strong`/`--on-accent`）のみを使用し、vintage-kana固有の色は持ち込んでいない。
+- 文面: `<wbr>`で文節区切りのみを折り返し位置にする方式に統一（iOS向け・追加ボタンあり・メニュー案内の3種）。
+- 「今は追加しない」はsessionStorage（`conjInstallNoticeSessionHidden`）、「今後は表示しない」は既存のlocalStorageキー（`conjInstallNoticeDismissed`、既存利用者の記録を維持するため変更していない）で使い分け。
+- 不具合修正: 「ホーム画面に追加する」のネイティブ確認をキャンセルした場合に案内が永久に消えていたのを修正。`prompt()`は一度しか呼べないため、呼ぶ前にイベント参照をnullにして追加ボタンを隠し、`userChoice`が`accepted`なら永久非表示、`dismissed`または例外ならセッションのみ非表示にする。
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts`のinstall guide関連テストを更新。×が無いこと・3つのボタンが存在すること・session/localStorageの使い分け・`userChoice`分岐を検証する内容に置き換えた。iOS文言のテストは`<wbr>`を除去してから照合する方式にした。設置場所のテストは変更なしで通っている。
+
+### 検証結果
+
+- `npm run test:node`：864/864 pass（ワークツリー作成直後は`@koten/shared`が未解決で18件失敗したが、`npm install`で解消。install-guide変更とは無関係の環境要因）。
+- ブラウザで390px幅の3文面（メニュー案内・追加ボタンあり）を確認、いずれも1行に収まった。「ホーム画面に追加する」→キャンセル相当（`userChoice`が`dismissed`）でセッションのみ非表示になり永久には消えないことを確認。
+- Playwright WebKit（`devices["iPhone 13"]`）でiOS向け文言（共有アイコン付き、追加ボタンなし）のスクリーンショットを1枚取得し、リポジトリ外に保存した（コミット対象外）。
