@@ -1093,3 +1093,164 @@ GitHub上の現行 `main` の `conj/index.html` をblob経路で監査した。
 
 まず①だけを再実行して結果を確定し、そこで一度停止する。
 ①がPASSなら次のセッションで②へ進む。FAILなら修正せず差異だけ報告する。
+
+## 20. 作業2完了監査 完遂・作業3実装（2026-09-24・Claude Code）
+
+Claude Codeへ引き継がれ、クラウド環境で作業を再開した。`main` を再fetchし、HEAD `e99cebe`（PR #39 `fix(conj): preserve fixed donut base color`）が既にマージ済みであることを確認した。①-C（`.record-donut` が後置 `background:var(--record-empty)` で上書きされる問題）はこのPRで既に修正・ガードテスト追加済みであり、追加の修正は不要だった。
+
+### 作業2完了判定・残監査の結論
+
+- ①-A `:root`：PASS（既存確認を再確認のみ）
+- ①-B `.record-screen` 局所固定変数：PASS
+- ①-C `.record-donut` 固定色：PASS（PR #39で解消済み。`background:#e7f1ee` のみが有効、後置の `var(--record-empty)` 上書きは削除済み）
+- ② 直書きhex/rgba：PASS。`:root` 外のsolid hexは6件（記録品詞4色+空状態色+ドーナツ基底色）のみで、想定外の直書きは0件。rgba/rgbは14件で全件 `box-shadow` 用途のみ（`text-shadow` の使用自体なし）。
+- ③ 主要UIの意味変数参照：PASS。`.chip/.ghost/.primary`、`.review-filters`、`.review-toggle` 等の主要UIはすべて `var(--...)` 経由。②で全hex/rgbaを網羅したため独立の漏れはなし。
+- v46ガード監査：PASS。`v46: record layout readability guard` ブロックとそのテストは変更なく機能。
+- テストファイル監査：PASS。31/31（当時）テストが成功、work1/work2のガードテストは削除されていない。
+
+**作業2は正式に完了確定。**
+
+### 作業3「配色切替・既定コーヒー化」実装
+
+ユーザーから「作業3以降もすべて、まとめて継続してください」との指示を受け、実装に着手した。配色系統数（5/6）は過去記録で「人確認事項」と明記されていたため、ユーザーに確認し、**5系統**の回答を得た。
+
+実装内容：
+
+- `:root` の色トークン（Core surfaces/Accent/Translucent layers/Level help text/Record screen neutrals/Decorative elevation の6群、`good`/`bad`/`review-error-*`/`source-backdrop` を除く）を、HSL色相回転（既存パレットの相対的な色相差を保ったまま、基準色相を目標色相へ回転）によって5系統ぶん機械的に生成した。
+  - **コーヒー**（既定・新規）：色相 約32°
+  - **抹茶**（旧来の既定配色をそのまま保持。色相回転なし）
+  - **藍**：色相 約224°
+  - **墨**：彩度を大幅に落としたほぼ無彩色
+  - **桜**：色相 約342°
+- 生成方法：`:root{...}` を新しい既定（コーヒー）値に置き換え、`:root[data-theme="matcha|indigo|sumi|sakura"]{...}` の4オーバーライドブロックを追加。`good`/`bad`/`review-error-*`/`source-backdrop` は正誤フィードバック・エラー色として全テーマで固定値のまま。記録画面のPOS別色とドーナツ基底色（`.record-screen` 局所変数・`.record-donut` 固定hex）はテーマ切替の対象外のまま。
+- UI：`<label class="theme-control">` に `<select id="themeSelect">` を追加（`source-credits-link` と `installGuide` の間には置かず、`installGuide` の後・`sourceCredits` ダイアログの前に配置し、既存の隣接テストと衝突しないようにした）。
+- JS：`<head>` 内の早期スクリプトで `localStorage.getItem("conjTheme")` を読み、非デフォルトテーマなら `<html data-theme="...">` を即時設定（FOUC防止）。本体スクリプトに `CONJ_THEMES`／`applyConjTheme`／`initThemeSwitcher` を追加し、`bootConj()` の先頭で呼び出す。選択変更時に `localStorage` へ保存し、`<meta name="theme-color">` を現在の `--bg` に同期。
+- `<meta name="theme-color">` の既定値を新デフォルト（コーヒー）の `--bg:#fbf9f7` に更新。
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts` の `conj: palette defaults are semantic CSS variables...` テストを、5テーマ構成・既定コーヒー・universal色（good/bad/review-error-*/source-backdrop）が全テーマで同一値・record/donut固定色が全テーマブロックに漏れていないことを検査する内容に更新した（削除ではなく更新）。テーマ切替UIとFOUC防止スクリプトを検証する新規テストを1本追加した。
+
+### 検証結果
+
+- `node --test tests/unit/conj-record-screen.test.ts`：32/32 pass
+- `npm run test:node`（全体）：651件中633 pass、18 fail。failしたのは `conj/` 以外（`tests/unit/record.test.ts` 等、`main` 上で元々失敗する既存の無関係な失敗）であることを `git stash` で作業前の `main` に対しても同じ失敗が起きることを確認して切り分け済み。
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで5テーマすべてのトップ画面を目視確認（配色が意図通り切り替わる）。記録画面をコーヒー・桜の2テーマで比較し、ドーナツ・POS別配色・要確認チップの色が完全に同一であることを確認した。テーマ選択がlocalStorageへ永続化され、リロード後も復元されることを確認した。
+
+作業4「設定画面（配色・記録の書き出し／読み込み／消去）」には着手していない。
+
+## 21. 作業4「設定画面」実装（2026-09-24・Claude Code）
+
+ユーザーから「作業4以降の内容についても続けて着手してください」との指示を受け、PR #40のブランチに引き続き実装した。
+
+### 実装内容
+
+- ヘッダーの `.header-record`（「記録」ボタンの隣）に「設定」ボタン（`#openSettings`）を追加した。
+- 作業3で追加した独立の配色セレクタ（`.theme-control`、`installGuide`と`sourceCredits`の間に単独配置）を廃止し、`<dialog class="settings-dialog" id="settingsDialog">` に統合した。ダイアログは`source-credits`と同じ`showModal()`/`close()`パターンで開閉する。
+  - 「配色」セクション：既存の`#themeSelect`（5系統）をそのまま移設。id・選択肢は変更していないため、`initThemeSwitcher()`等の既存JSは無改修で動作する。
+  - 「記録」セクション：「記録を書き出す」(`#exportRecord`)・「記録を読み込む」(`#importRecordTrigger`+隠しfile input `#importRecordFile`)・「記録を消去する」(`#eraseRecord`)の3操作と、結果を示す`#settingsRecordStatus`を追加。
+- 記録データは`localStorage`の`katsuyoProtoV37`キー1個に格納された単一JSONオブジェクト（`stats`）であることを確認し、これを対象に実装した。
+  - 書き出し：`{app:"conj-katsuyo-record",exportVersion:1,exportedAt,stats}`の形でJSONファイルをダウンロードする。
+  - 読み込み：選択ファイルを読み、`{stats:...}`包装・生の`stats`どちらの形式も許容した上で、既存の`normalizeStats()`（起動時のロードと同じサニタイザ）を必ず通してから`stats`変数とlocalStorageへ反映する。不正なJSON・想定外の形は例外を捕捉し、危険系トーンのメッセージを表示するだけで状態を変更しない。
+  - 消去：誤操作防止のため、ネイティブ`confirm()`は使わず2クリック方式（1回目でボタン文言が「本当に消去しますか？」に変わり、2回目で実行）とした。ダイアログを閉じると確認状態はリセットされる。
+  - 3操作共通で`refreshAfterRecordChange()`を呼び、ヘッダーの累計正答（`updateScore()`）と、記録画面が開いていれば`renderRecord()`を再描画する。
+- 消去ボタンの警告色として新しいuniversalトークン`--danger-ink`（`#a5384a`）を`:root`に追加した。`good`/`bad`/`review-error-*`と同じ扱いで、5テーマいずれでも同一値になる（テーマ別オーバーライドブロックには追加していないため、CSSのカスケードにより自動的に`:root`の値が全テーマで有効になる）。
+- 記録画面が開いている間の`Enter`キー処理をスキップする既存ガード（`sourceCredits`用）と同様に、`settingsDialog`が開いている間もスキップするガードを追加した。
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts` に新規テスト1本を追加した（既存テストは削除せず維持）。設定ダイアログの構造、danger-inkがuniversalトークンであること、export/import/eraseの主要ロジック（`normalizeStats()`を必ず通す、2クリック消去、`refreshAfterRecordChange()`呼び出し、確認状態のリセット、Enterキーガード）を検査する。
+
+### 検証結果
+
+- `node --test tests/unit/conj-record-screen.test.ts`：33/33 pass
+- `npm run test:node`（全体）：859/859 pass（work3セッション時点で無関係に失敗していた18件も含め、今回はすべて成功。詳細な原因切り分けはしていないが、`conj/`関連は全件passしており本作業には影響なし）
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで実機確認：設定ダイアログの表示、記録データを書き出し→消去（スコアが0に戻ることを確認）→書き出したファイルを読み込み（スコアが元の値に復元されることを確認）の一連の流れが正しく動作することを確認した。
+
+### ユーザー追加指示によるUI修正（同セッション内）
+
+上記実装の直後、ユーザーから次の2点の追加指示を受け、同じPR #40ブランチ上で修正した。
+
+1. 「配色選択はプルダウンではなく、色の雰囲気を示しつつボタン選択できるようにしてください」
+   - `<select id="themeSelect">` を廃止し、`<div class="theme-picker" id="themePicker" role="group">` 配下に5つの `<button class="theme-swatch" data-theme="...">` を配置する構成に変更した。各ボタンは丸い色見本（`.theme-swatch__dot`）＋テーマ名のラベルを持つ。
+   - 色見本は各テーマの `--accent` 固定値（コーヒー`#a68c6f`／抹茶`#6fa696`／藍`#6f7ea6`／墨`#878e8c`／桜`#a66f7f`）を直書きした装飾用の固定色とした。現在アクティブなテーマに関わらず「そのテーマ自体の色」を常に示す必要があるため、意図的に`var(--accent)`を使わず固定hexにしている。既存の作業3 CSS実体監査テスト（「`:root`外の想定外直書きhexは0件」）は、この5色を明示的に許容するよう更新した（`themedBody`の除外リストに追加）。
+   - 選択中のテーマは `aria-pressed="true"` で表現し、`initThemeSwitcher()` をselect用からbutton群用に書き換えた。
+2. 「消去の場合は、本当に消去しますか？もとには戻せません、との確認が出るようにする」
+   - 従来の「同じボタンをもう一度押す」2クリック方式から、明示的な確認パネル方式に変更した。「記録を消去する」を押すと、そのボタンが隠れて `#eraseConfirm`（「本当に消去しますか？もとには戻せません。」＋「消去する」／「キャンセル」ボタン）が表示される。「消去する」を押した場合のみ実際に消去する。ダイアログを閉じる、または「キャンセル」を押すと元の状態に戻る。
+   - JS関数名を`eraseRecord()`から`armEraseRecord()`（確認パネル表示）／`confirmEraseRecord()`（実消去）に分割した。
+
+テスト（`tests/unit/conj-record-screen.test.ts`）も上記の新UI構造・新関数名に合わせて全面的に更新した（削除ではなく書き換え）。
+
+### 修正後の再検証
+
+- `node --test tests/unit/conj-record-screen.test.ts`：33/33 pass
+- `npm run test:node`（全体）：859/859 pass
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで実機確認：配色ボタンをクリックして即座にテーマが切り替わりアクティブ表示になること、記録消去が確認パネル経由でのみ実行され「キャンセル」で取り消せること、を確認した。
+
+## 22. 作業4.6・作業4.7 実装（2026-09-24・Claude Code）
+
+`conj/HANDOFF.md`の残作業順（§17付近）に記載の作業4.6「ホーム画面追加案内の「×」改行修正」・作業4.7「CHJ引用用例の縦書き「…」と抜粋端の監査」に着手した。指示書にはタイトルのみで詳細仕様がなかったため、実装前に実際の描画をPlaywrightで確認して不具合の実体を特定した。
+
+### 作業4.6：ホーム画面追加案内の「×」改行修正
+
+- `.install-guide`は`flex-wrap:wrap;justify-content:center`のため、狭い画面で案内文が複数行に折り返すと、閉じるボタン「×」だけが単独で中央寄せの行に取り残され、不格好に見える不具合を確認した（幅340pxで実機確認）。
+- 修正：`.install-guide`に`position:relative`と右側の余白（`padding-right:26px`）を追加し、`.install-guide__dismiss`を`position:absolute;top:2px;right:4px`でバナー右上に固定した。「×」をflexの折り返し対象から外すことで、本文の折り返し行数に関わらず孤立行が発生しなくなる。
+- ガードテストを1本追加（CSSの該当プロパティを検査）。
+
+### 作業4.7：CHJ引用用例の縦書き「…」と抜粋端の監査
+
+- `.example-text`は`writing-mode:vertical-rl;text-orientation:upright`。`text-orientation:upright`はかな・漢字を正立させるためのものだが、水平三点リーダー「…」もつられて正立し、本来なら縦書きの読み進行に合わせて縦に3点が並ぶべきところ、横に3点が並んだまま表示される不具合をPlaywrightのズーム画像で確認した。
+- `conj/data/adjectival-noun-chj-quotations.json`の`records[].excerpt`には、契約上の抜粋範囲を示すため文頭・文末に「…」を付与した例が多数含まれており、この不具合の影響を直接受ける。
+- 修正：`highlight()`関数が返すHTMLに対し、新設のヘルパー`markVerticalEllipsis()`で全ての「…」を`<span class="v-ellipsis">…</span>`にラップするようにした。CSS側で`.v-ellipsis{text-orientation:sideways}`を追加し、この文字だけ90度回転させて縦の読み進行に合わせた。`<mark>`によるハイライトと共存することを確認済み。
+- `renderRecord()`側は変更していない（ハイライト対象外の記録画面には影響しない）。`exampleText`・`reviewExampleText`の両方が`highlight()`を経由するため、両画面に自動的に適用される。
+- ガードテストを1本追加：CSSルールの存在、`highlight()`が実際に「…」をラップすること（単独の場合・`<mark>`と共存する場合の両方）、実データ（CHJ引用JSON）中の「…」を含む抜粋が実際にラップされることを検査する。
+
+### ユーザー追加指示によるUI修正（同セッション内、続き）
+
+作業4.6/4.7の作業中、ユーザーから追加指示を受けた：「『設定』は縦書きではないです。そもそもかわいい歯車のアイコンなどで文字なしで設定とわかる状態がのぞましい。」
+
+- ヘッダーの「設定」ボタンをテキストラベルから、歯車アイコン（Material Iconsの`settings`グリフを転用したSVG、`fill="currentColor"`）のみのアイコンボタンに変更した。`aria-label="設定"`でアクセシビリティ上のラベルは維持し、視覚的なテキストは撤去した。
+- `.icon-button`（丸型・中央寄せのアイコンボタン共通クラス）と`.settings-icon`（18×18px）を追加。
+- 対応するテストを更新（ボタンにテキスト「設定」が含まれないことを明示的に検査する行を追加）。
+
+### 検証結果（本節全体）
+
+- `node --test tests/unit/conj-record-screen.test.ts`：35/35 pass
+- `npm run test:node`（全体）：861/861 pass
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで実機確認：狭い画面でのホーム画面案内バナーの「×」がバナー右上に固定され孤立行が出ないこと、CHJ抜粋の「…」が縦読み方向に沿って回転して表示されること、設定ボタンが文字なしの歯車アイコンとして表示され開閉が正常に動作することを確認した。
+
+## 23. ユーザー追加指示：記録画面をPCでもスマホ幅で表示（2026-09-24・Claude Code）
+
+作業5「全体確認・公開」の確認中、ユーザーから追加指示を受けた：「記録画面については、PC版での文字サイズがあまりに小さいため、拡大してスマホと同様のレイアウトと画面幅で表示してもよいと思います。」
+
+### 調査結果
+
+- `v46: record layout readability guard`は、PC(`min-width:860px`)で`.record-shell`を最大900pxまで、`.record-detail-grid`を2カラム(`minmax(420px,1fr) minmax(0,1fr)`)まで広げていた。
+- 一方、文字サイズ自体(統計ラベル12px・数値16〜18px等)はPC/スマホ問わず同一値のまま据え置きだった。
+- 結果として、PCでは「同じ小さい文字が、より広い箱の中に間延びして表示される」状態になっていた。
+- v46は元々「作業1:記録画面のPC表示崩れ修正」の成果物で、当時の不具合は「PCで2カラムにした際、凡例が統計欄に重なる」という構造崩れであり、「幅が狭いこと」自体が問題だったわけではない。したがって、スマホと同じ狭い幅・1カラムに統一しても当時の不具合は再発しない。
+
+### 実装内容
+
+- v46の`@media(min-width:860px){ .record-shell{width:min(100%,900px)} .record-detail-grid{...2カラム...} }`と、対応する`@media(max-width:859px){ .record-detail-grid{grid-template-columns:1fr} }`を削除した。
+- 代わりに`.record-detail-grid{grid-template-columns:1fr}`をメディアクエリなしで(=常時)適用するよう変更した。
+- `.record-shell`の幅は、v44で設定済みの`width:min(100%,640px)`がそのまま常時有効になる(v46によるPC専用の900px拡大がなくなったため)。
+- 文字サイズ自体は変更していない(据え置き)。箱が狭くなることで相対的に大きく見える、という方針どおり。
+- コメントを`/* ===== v48: keep the compact single-column record layout at every width, PC included, ===== */`として追加し、変更意図を明記した。
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts`の`conj: record screen keeps summary, legend, and review cards readable across widths`テストのうち、PC専用の900px拡大・2カラム化を検査していた2つのassertionを、「`.record-detail-grid`が常時1カラムであること」「`.record-shell`が900pxに広がる指定が存在しないこと」「640px幅指定が残っていること」を検査する内容に更新した(削除ではなく置き換え)。
+
+### 検証結果
+
+- `node --test tests/unit/conj-record-screen.test.ts`：35/35 pass
+- `npm run test:node`（全体）：861/861 pass
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで1280px・1024px・390pxの3幅を実機確認：PC(1280px/1024px)ではスマホ同様の狭い中央寄せカードで表示され、文字が間延びせず読みやすくなったことを確認。390px(スマホ)側は変更前と見た目が変わっていないことを確認した。
+
+作業5「全体確認・公開」のうち、コード側の全体確認はこの追加修正を含めて完了。GitHub Pagesへの公開反映確認は、`main`へのマージ後に行う必要がある。

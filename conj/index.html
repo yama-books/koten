@@ -8,9 +8,89 @@
 <link rel="apple-touch-icon" href="./icon.svg">
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="apple-mobile-web-app-title" content="活用ノート">
-<meta name="theme-color" content="#f7fbfa">
-<style>:root{
+<meta name="theme-color" content="#fbf9f7">
+<script>(function(){try{var t=localStorage.getItem("conjTheme");if(t&&t!=="coffee")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<style>
+/* ===== v47: color theme system (default: coffee) ===== */
+:root{
   /* Core surfaces and text */
+  --bg:#fbf9f7;
+  --card:#ffffff;
+  --ink:#3b352c;
+  --muted:#7f776d;
+  --heading-ink:#4b4030;
+  --on-accent:#ffffff;
+  --line:#eae4dc;
+  --line-strong:#d5cbbf;
+  --soft:#f7f2ee;
+  --soft2:#fcfaf9;
+  --surface-faint:#fefcfb;
+  --card-gradient-end:#fefdfd;
+
+  /* Accent and learning states */
+  --accent:#a68c6f;
+  --accent-strong:#7d6747;
+  --accent-soft:#f3ebe4;
+  --peach-soft:#eceaff;
+  --lavender-soft:#f1fbf0;
+  --good:#e8f7ee;
+  --bad:#fff0f3;
+  --danger-ink:#a5384a;
+  --tag-ink:#776650;
+  --zero-ink:#938c84;
+  --subrow-bg:#faf7f4;
+  --blank-border:#c9bbab;
+  --blank-filled-border:#ddd3c8;
+  --editable-hover:#f9f3ee;
+  --editable-selected:#f7efe8;
+  --editor-border:#b8a68f;
+  --aux-border:#d5c8b8;
+  --aux-bg:#faf7f3;
+  --aux-ink:#6c6050;
+  --table-label-bg:#f8f4f1;
+  --table-label-ink:#4d4233;
+  --control-hover-border:#c4b39f;
+  --control-hover-bg:#faf6f2;
+
+  /* Translucent theme layers */
+  --page-glow-primary:rgba(241,228,210,.62);
+  --page-glow-secondary:rgba(240,250,226,.48);
+  --toolbar-bg:rgba(255,255,255,.88);
+  --example-mark-bg:rgba(211,179,142,.36);
+  --source-backdrop:rgba(0,0,0,.35);
+  --focus-ring-soft:rgba(166,140,111,.16);
+  --focus-ring:rgba(166,140,111,.24);
+  --level-meter-bg:rgba(255,255,255,.82);
+  --surface-glass:rgba(255,255,255,.72);
+
+  /* Level/help text */
+  --level-tick-ink:#938b82;
+  --level-desc-ink:#786f65;
+  --level-note-ink:#787066;
+  --level-aux-border:#dcd3c9;
+
+  /* Record screen and review states */
+  --record-points-border:#e2e5d2;
+  --record-points-bg-end:#f4f6ee;
+  --record-review-border:#e6e7e0;
+  --record-review-bg:#fcfbfc;
+  --record-stat-bg:#fcfcfb;
+  --record-empty-bg:#f6f6f2;
+  --review-error-border-base:#f3d8df;
+  --review-error-ink-base:#906674;
+  --review-error-border:#ead9df;
+  --review-error-bg:#f8eff2;
+  --review-error-ink:#825d69;
+  --review-hover-bg:#f7f7f5;
+  --record-glow-primary:rgba(234,238,220,.5);
+  --record-glow-secondary:rgba(237,231,222,.44);
+  --review-backdrop:rgba(45,39,29,.5);
+  --review-modal-border:rgba(119,107,92,.22);
+
+  /* Decorative elevation */
+  --shadow:0 12px 30px rgba(107,88,62,.075);}
+
+:root[data-theme="matcha"]{
   --bg:#f7fbfa;
   --card:#ffffff;
   --ink:#2c3b38;
@@ -23,15 +103,11 @@
   --soft2:#f9fcfb;
   --surface-faint:#fbfefd;
   --card-gradient-end:#fdfefd;
-
-  /* Accent and learning states */
   --accent:#6fa696;
   --accent-strong:#477d70;
   --accent-soft:#e4f3ee;
   --peach-soft:#fff0ea;
   --lavender-soft:#f1f0fb;
-  --good:#e8f7ee;
-  --bad:#fff0f3;
   --tag-ink:#50776d;
   --zero-ink:#84938f;
   --subrow-bg:#f4faf8;
@@ -47,44 +123,204 @@
   --table-label-ink:#334d47;
   --control-hover-border:#9fc4b9;
   --control-hover-bg:#f2faf7;
-
-  /* Translucent theme layers */
   --page-glow-primary:rgba(210,241,233,.62);
   --page-glow-secondary:rgba(226,236,250,.48);
   --toolbar-bg:rgba(255,255,255,.88);
   --example-mark-bg:rgba(142,211,191,.36);
-  --source-backdrop:rgba(0,0,0,.35);
   --focus-ring-soft:rgba(111,166,150,.16);
   --focus-ring:rgba(111,166,150,.24);
   --level-meter-bg:rgba(255,255,255,.82);
   --surface-glass:rgba(255,255,255,.72);
-
-  /* Level/help text */
   --level-tick-ink:#82938e;
   --level-desc-ink:#657872;
   --level-note-ink:#667873;
   --level-aux-border:#c9dcd6;
-
-  /* Record screen and review states */
   --record-points-border:#d2dfe5;
   --record-points-bg-end:#eef3f6;
   --record-review-border:#e0e5e7;
   --record-review-bg:#fcfcfb;
   --record-stat-bg:#fbfcfc;
   --record-empty-bg:#f2f5f6;
-  --review-error-border-base:#f3d8df;
-  --review-error-ink-base:#906674;
-  --review-error-border:#ead9df;
-  --review-error-bg:#f8eff2;
-  --review-error-ink:#825d69;
   --review-hover-bg:#f5f7f7;
   --record-glow-primary:rgba(220,231,238,.5);
   --record-glow-secondary:rgba(222,237,234,.44);
   --review-backdrop:rgba(29,45,42,.5);
   --review-modal-border:rgba(92,119,112,.22);
-
-  /* Decorative elevation */
   --shadow:0 12px 30px rgba(62,107,96,.075);
+}
+:root[data-theme="indigo"]{
+  --bg:#f7f8fb;
+  --card:#ffffff;
+  --ink:#2c2f3b;
+  --muted:#6d727f;
+  --heading-ink:#30354b;
+  --on-accent:#ffffff;
+  --line:#dce0ea;
+  --line-strong:#bfc4d5;
+  --soft:#eef1f7;
+  --soft2:#f9fafc;
+  --surface-faint:#fbfcfe;
+  --card-gradient-end:#fdfefe;
+  --accent:#6f7ea6;
+  --accent-strong:#47537d;
+  --accent-soft:#e4e9f3;
+  --peach-soft:#f8ffea;
+  --lavender-soft:#fbf0fa;
+  --tag-ink:#505977;
+  --zero-ink:#848893;
+  --subrow-bg:#f4f6fa;
+  --blank-border:#abb3c9;
+  --blank-filled-border:#c8cddd;
+  --editable-hover:#eef2f9;
+  --editable-selected:#e8edf7;
+  --editor-border:#8f99b8;
+  --aux-border:#b8bfd5;
+  --aux-bg:#f3f5fa;
+  --aux-ink:#50566c;
+  --table-label-bg:#f1f4f8;
+  --table-label-ink:#33384d;
+  --control-hover-border:#9fa9c4;
+  --control-hover-bg:#f2f5fa;
+  --page-glow-primary:rgba(210,217,241,.62);
+  --page-glow-secondary:rgba(241,226,250,.48);
+  --toolbar-bg:rgba(255,255,255,.88);
+  --example-mark-bg:rgba(142,160,211,.36);
+  --focus-ring-soft:rgba(111,126,166,.16);
+  --focus-ring:rgba(111,126,166,.24);
+  --level-meter-bg:rgba(255,255,255,.82);
+  --surface-glass:rgba(255,255,255,.72);
+  --level-tick-ink:#828793;
+  --level-desc-ink:#656b78;
+  --level-note-ink:#666b78;
+  --level-aux-border:#c9cfdc;
+  --record-points-border:#d8d2e5;
+  --record-points-bg-end:#f1eef6;
+  --record-review-border:#e2e0e7;
+  --record-review-bg:#fbfcfb;
+  --record-stat-bg:#fbfbfc;
+  --record-empty-bg:#f3f2f6;
+  --review-hover-bg:#f5f5f7;
+  --record-glow-primary:rgba(227,220,238,.5);
+  --record-glow-secondary:rgba(222,225,237,.44);
+  --review-backdrop:rgba(29,32,45,.5);
+  --review-modal-border:rgba(92,98,119,.22);
+  --shadow:0 12px 30px rgba(62,72,107,.075);
+}
+:root[data-theme="sumi"]{
+  --bg:#f9f9f9;
+  --card:#ffffff;
+  --ink:#333434;
+  --muted:#757776;
+  --heading-ink:#3c3f3e;
+  --on-accent:#ffffff;
+  --line:#e2e4e3;
+  --line-strong:#c9cbcb;
+  --soft:#f2f3f3;
+  --soft2:#fafbfb;
+  --surface-faint:#fcfdfd;
+  --card-gradient-end:#fdfefd;
+  --accent:#878e8c;
+  --accent-strong:#5f6564;
+  --accent-soft:#ebecec;
+  --peach-soft:#f6f4f3;
+  --lavender-soft:#f5f5f6;
+  --tag-ink:#616665;
+  --zero-ink:#8b8c8c;
+  --subrow-bg:#f7f7f7;
+  --blank-border:#b8bcbb;
+  --blank-filled-border:#d1d4d3;
+  --editable-hover:#f3f4f4;
+  --editable-selected:#eff0f0;
+  --editor-border:#a1a6a5;
+  --aux-border:#c5c8c7;
+  --aux-bg:#f6f7f7;
+  --aux-ink:#5c605f;
+  --table-label-bg:#f4f5f5;
+  --table-label-ink:#3e4241;
+  --control-hover-border:#afb4b2;
+  --control-hover-bg:#f6f6f6;
+  --page-glow-primary:rgba(224,227,226,.62);
+  --page-glow-secondary:rgba(237,238,239,.48);
+  --toolbar-bg:rgba(255,255,255,.88);
+  --example-mark-bg:rgba(172,181,178,.36);
+  --focus-ring-soft:rgba(135,142,140,.16);
+  --focus-ring:rgba(135,142,140,.24);
+  --level-meter-bg:rgba(255,255,255,.82);
+  --surface-glass:rgba(255,255,255,.72);
+  --level-tick-ink:#898c8b;
+  --level-desc-ink:#6d706f;
+  --level-note-ink:#6e706f;
+  --level-aux-border:#d1d4d3;
+  --record-points-border:#dadcdd;
+  --record-points-bg-end:#f2f2f2;
+  --record-review-border:#e3e4e4;
+  --record-review-bg:#fcfcfb;
+  --record-stat-bg:#fbfcfc;
+  --record-empty-bg:#f4f4f4;
+  --review-hover-bg:#f6f6f6;
+  --record-glow-primary:rgba(228,229,230,.5);
+  --record-glow-secondary:rgba(229,230,230,.44);
+  --review-backdrop:rgba(36,38,38,.5);
+  --review-modal-border:rgba(104,107,106,.22);
+  --shadow:0 12px 30px rgba(82,87,86,.075);
+}
+:root[data-theme="sakura"]{
+  --bg:#fbf7f8;
+  --card:#ffffff;
+  --ink:#3b2c2f;
+  --muted:#7f6d72;
+  --heading-ink:#4b3036;
+  --on-accent:#ffffff;
+  --line:#eadce0;
+  --line-strong:#d5bfc5;
+  --soft:#f7eef1;
+  --soft2:#fcf9fa;
+  --surface-faint:#fefbfc;
+  --card-gradient-end:#fefdfe;
+  --accent:#a66f7f;
+  --accent-strong:#7d4754;
+  --accent-soft:#f3e4e9;
+  --peach-soft:#eaf9ff;
+  --lavender-soft:#fafbf0;
+  --tag-ink:#77505a;
+  --zero-ink:#938488;
+  --subrow-bg:#faf4f6;
+  --blank-border:#c9abb4;
+  --blank-filled-border:#ddc8ce;
+  --editable-hover:#f9eef2;
+  --editable-selected:#f7e8ed;
+  --editor-border:#b88f9a;
+  --aux-border:#d5b8c0;
+  --aux-bg:#faf3f5;
+  --aux-ink:#6c5057;
+  --table-label-bg:#f8f1f4;
+  --table-label-ink:#4d3339;
+  --control-hover-border:#c49faa;
+  --control-hover-bg:#faf2f5;
+  --page-glow-primary:rgba(241,210,218,.62);
+  --page-glow-secondary:rgba(250,240,226,.48);
+  --toolbar-bg:rgba(255,255,255,.88);
+  --example-mark-bg:rgba(211,142,163,.36);
+  --focus-ring-soft:rgba(166,111,127,.16);
+  --focus-ring:rgba(166,111,127,.24);
+  --level-meter-bg:rgba(255,255,255,.82);
+  --surface-glass:rgba(255,255,255,.72);
+  --level-tick-ink:#938287;
+  --level-desc-ink:#78656b;
+  --level-note-ink:#78666b;
+  --level-aux-border:#dcc9cf;
+  --record-points-border:#e5d8d2;
+  --record-points-bg-end:#f6f1ee;
+  --record-review-border:#e7e2e0;
+  --record-review-bg:#fbfbfc;
+  --record-stat-bg:#fcfbfb;
+  --record-empty-bg:#f6f3f2;
+  --review-hover-bg:#f7f5f5;
+  --record-glow-primary:rgba(238,227,220,.5);
+  --record-glow-secondary:rgba(237,222,225,.44);
+  --review-backdrop:rgba(45,29,32,.5);
+  --review-modal-border:rgba(119,92,99,.22);
+  --shadow:0 12px 30px rgba(107,62,73,.075);
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;color:var(--ink)}
@@ -162,6 +398,7 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .example-body{padding-right:10px;display:flex;align-items:flex-end;justify-content:flex-end;gap:10px;height:390px}
 .example-text{height:100%;min-height:390px;writing-mode:vertical-rl;text-orientation:upright;overflow:auto hidden;font:400 17px/1.72 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.035em;flex:0 1 auto}
 .example-text mark{color:inherit;padding:0;background:linear-gradient(to left,transparent 15%,var(--example-mark-bg) 15%,var(--example-mark-bg) 85%,transparent 85%)}
+.v-ellipsis{text-orientation:sideways}
 .example-foot{color:var(--muted);font-size:9px;writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap;align-self:flex-end}
 
 .table-panel{grid-area:table;width:max-content;display:flex;flex-direction:column}
@@ -175,11 +412,11 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .track-heads .spacer{visibility:hidden}
 .source-credits-link{display:block;margin:10px auto 0;padding:4px 8px;border:0;background:none;color:var(--muted);font-size:11px;text-decoration:underline;cursor:pointer}
 .source-credits-link[hidden]{display:none}
-.install-guide{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px;max-width:480px;margin:6px auto 0;padding:4px 10px;color:var(--muted);font-size:11px;line-height:1.5;text-align:center}
+.install-guide{position:relative;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px;max-width:480px;margin:6px auto 0;padding:4px 26px 4px 10px;color:var(--muted);font-size:11px;line-height:1.5;text-align:center}
 .install-guide[hidden]{display:none}
 .install-guide__icon{height:1em;width:auto;vertical-align:-0.15em}
 .install-guide__add{border:1px solid var(--line);border-radius:8px;background:none;color:inherit;font:inherit;font-size:11px;padding:2px 8px;cursor:pointer}
-.install-guide__dismiss{border:0;background:none;color:inherit;font-size:13px;line-height:1;padding:2px 4px;cursor:pointer}
+.install-guide__dismiss{position:absolute;top:2px;right:4px;border:0;background:none;color:inherit;font-size:13px;line-height:1;padding:2px 4px;cursor:pointer}
 .source-credits{width:min(560px,calc(100vw - 32px));max-height:min(80vh,640px);padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
 .source-credits::backdrop{background:var(--source-backdrop)}
 .source-credits h2{margin:0 0 6px;font-size:15px}
@@ -189,6 +426,28 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .source-credits strong{font-weight:700}
 .source-credits a{color:inherit}
 .source-credits #closeSourceCredits{display:block;margin:0 auto}
+.settings-dialog{width:min(420px,calc(100vw - 32px));padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
+.settings-dialog::backdrop{background:var(--source-backdrop)}
+.settings-dialog h2{margin:0 0 12px;font-size:15px}
+.settings-section{margin:0 0 16px}
+.settings-section h3{margin:0 0 8px;font-size:12px;color:var(--muted)}
+.theme-picker{display:flex;flex-wrap:wrap;gap:6px}
+.theme-swatch{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid var(--line-strong);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:12px;cursor:pointer}
+.theme-swatch__dot{width:12px;height:12px;border-radius:50%;flex:none}
+.theme-swatch[data-theme="coffee"] .theme-swatch__dot{background:#a68c6f}
+.theme-swatch[data-theme="matcha"] .theme-swatch__dot{background:#6fa696}
+.theme-swatch[data-theme="indigo"] .theme-swatch__dot{background:#6f7ea6}
+.theme-swatch[data-theme="sumi"] .theme-swatch__dot{background:#878e8c}
+.theme-swatch[data-theme="sakura"] .theme-swatch__dot{background:#a66f7f}
+.theme-swatch[aria-pressed="true"]{border-color:var(--accent-strong);background:var(--accent-soft);font-weight:600}
+.settings-record-actions{display:flex;flex-wrap:wrap;gap:8px}
+.settings-danger{color:var(--danger-ink)}
+.settings-erase-confirm{margin-top:8px;padding:10px;border:1px solid var(--danger-ink);border-radius:10px}
+.settings-erase-confirm[hidden]{display:none}
+.settings-erase-confirm__text{margin:0 0 8px;color:var(--danger-ink)}
+.settings-record-status{margin:8px 0 0;min-height:1.4em;font-size:11px;color:var(--muted)}
+.settings-record-status[data-tone="danger"]{color:var(--danger-ink)}
+.settings-dialog #closeSettings{display:block;margin:16px auto 0}
 /* Prose examples can exceed one column; poems keep their single line. */
 .example-text.is-prose{white-space:normal !important}
 
@@ -1471,6 +1730,18 @@ td.wrong{background:var(--bad)!important}
 .record-open{
   white-space:nowrap;
 }
+.icon-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px;
+  border-radius:999px;
+  line-height:0;
+}
+.settings-icon{
+  width:18px;
+  height:18px;
+}
 .record-screen[hidden]{
   display:none !important;
 }
@@ -2457,15 +2728,9 @@ body.review-modal-open{overflow:hidden}
 
 
 /* ===== v46: record layout readability guard ===== */
-@media(min-width:860px){
-  .record-shell{width:min(100%,900px)}
-  .record-detail-grid{
-    grid-template-columns:minmax(420px,1fr) minmax(0,1fr);
-  }
-}
-@media(max-width:859px){
-  .record-detail-grid{grid-template-columns:1fr}
-}
+/* ===== v48: keep the compact single-column record layout at every width, PC included, ===== */
+/* ===== instead of stretching the same small type across a wider desktop shell ===== */
+.record-detail-grid{grid-template-columns:1fr}
 .record-overview{
   grid-template-columns:minmax(220px,1fr) 150px;
   gap:12px;
@@ -2552,6 +2817,7 @@ body.review-modal-open{overflow:hidden}
         <strong class="score-value" id="scoreValue">0</strong>
       </div>
       <button class="ghost record-open" id="openRecord" type="button">記録</button>
+      <button class="ghost icon-button" id="openSettings" type="button" aria-label="設定"><svg class="settings-icon" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg></button>
     </div>
   </header>
 
@@ -2654,6 +2920,35 @@ body.review-modal-open{overflow:hidden}
     <p>用例は、次の資料から短く引用しています（空白を詰めて掲載）。</p>
     <ul id="sourceCreditsList"></ul>
     <button class="ghost" id="closeSourceCredits" type="button">閉じる</button>
+  </dialog>
+  <dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
+    <h2 id="settingsTitle">設定</h2>
+    <section class="settings-section">
+      <h3>配色</h3>
+      <div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">
+        <button class="theme-swatch" type="button" data-theme="coffee" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>コーヒー</button>
+        <button class="theme-swatch" type="button" data-theme="matcha" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>抹茶</button>
+        <button class="theme-swatch" type="button" data-theme="indigo" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>藍</button>
+        <button class="theme-swatch" type="button" data-theme="sumi" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>墨</button>
+        <button class="theme-swatch" type="button" data-theme="sakura" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>桜</button>
+      </div>
+    </section>
+    <section class="settings-section">
+      <h3>記録</h3>
+      <div class="settings-record-actions">
+        <button class="ghost" id="exportRecord" type="button">記録を書き出す</button>
+        <button class="ghost" id="importRecordTrigger" type="button">記録を読み込む</button>
+        <input type="file" id="importRecordFile" accept="application/json,.json" hidden>
+        <button class="ghost settings-danger" id="eraseRecord" type="button">記録を消去する</button>
+      </div>
+      <div class="settings-erase-confirm" id="eraseConfirm" hidden>
+        <p class="settings-erase-confirm__text">本当に消去しますか？もとには戻せません。</p>
+        <button class="ghost settings-danger" id="eraseConfirmYes" type="button">消去する</button>
+        <button class="ghost" id="eraseConfirmCancel" type="button">キャンセル</button>
+      </div>
+      <p class="settings-record-status" id="settingsRecordStatus" role="status"></p>
+    </section>
+    <button class="ghost" id="closeSettings" type="button">閉じる</button>
   </dialog>
 </div>
 
@@ -3988,15 +4283,21 @@ function renderTable(){
   document.getElementById("rowNote").textContent="";
 }
 
+// "…" stays upright like kana/kanji under text-orientation:upright, so its dots line up
+// left-to-right instead of stacking top-to-bottom with the vertical reading direction.
+// Wrapping it lets a dedicated rule rotate just this character back onto the vertical axis.
+function markVerticalEllipsis(html){
+  return html.replaceAll("…",'<span class="v-ellipsis">…</span>');
+}
 function highlight(text,target,occurrence){
-  if(!target)return text;
+  if(!target)return markVerticalEllipsis(text);
   const occurrenceIndex=Number.isInteger(occurrence) ? occurrence : 0;
   const positions=[];
   let from=0;
   while(true){ const p=text.indexOf(target,from); if(p<0)break; positions.push(p); from=p+target.length; }
   const i=positions[occurrenceIndex] ?? -1;
-  if(i<0)return text;
-  return text.slice(0,i)+"<mark>"+text.slice(i,i+target.length)+"</mark>"+text.slice(i+target.length);
+  if(i<0)return markVerticalEllipsis(text);
+  return markVerticalEllipsis(text.slice(0,i)+"<mark>"+text.slice(i,i+target.length)+"</mark>"+text.slice(i+target.length));
 }
 
 function syncStudyHeights(){
@@ -4479,6 +4780,92 @@ document.getElementById("closeSourceCredits").addEventListener("click",()=>{
 document.getElementById("sourceCredits").addEventListener("click",event=>{
   if(event.target===event.currentTarget) event.currentTarget.close();
 });
+
+const RECORD_STORAGE_KEY="katsuyoProtoV37";
+function refreshAfterRecordChange(){
+  updateScore();
+  if(!document.getElementById("recordScreen").hidden) renderRecord();
+}
+function setSettingsRecordStatus(message,tone){
+  const status=document.getElementById("settingsRecordStatus");
+  status.textContent=message;
+  if(tone) status.dataset.tone=tone; else delete status.dataset.tone;
+}
+function resetEraseRecordArm(){
+  document.getElementById("eraseRecord").hidden=false;
+  document.getElementById("eraseConfirm").hidden=true;
+}
+function exportRecord(){
+  const envelope={
+    app:"conj-katsuyo-record",
+    exportVersion:1,
+    exportedAt:new Date().toISOString(),
+    stats
+  };
+  const blob=new Blob([JSON.stringify(envelope,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const stamp=new Date().toISOString().slice(0,10);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download=`katsuyo-record-${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  setSettingsRecordStatus("記録を書き出しました。");
+}
+function importRecordFromText(text){
+  const parsed=JSON.parse(text);
+  const rawStats=parsed && typeof parsed==="object" && parsed.stats && typeof parsed.stats==="object"
+    ? parsed.stats
+    : parsed;
+  stats=normalizeStats(rawStats);
+  localStorage.setItem(RECORD_STORAGE_KEY,JSON.stringify(stats));
+  refreshAfterRecordChange();
+  setSettingsRecordStatus("記録を読み込みました。");
+}
+function armEraseRecord(){
+  document.getElementById("eraseRecord").hidden=true;
+  document.getElementById("eraseConfirm").hidden=false;
+}
+function confirmEraseRecord(){
+  resetEraseRecordArm();
+  localStorage.removeItem(RECORD_STORAGE_KEY);
+  stats=normalizeStats({});
+  refreshAfterRecordChange();
+  setSettingsRecordStatus("記録を消去しました。");
+}
+document.getElementById("openSettings").addEventListener("click",()=>{
+  setSettingsRecordStatus("");
+  resetEraseRecordArm();
+  document.getElementById("settingsDialog").showModal();
+});
+document.getElementById("closeSettings").addEventListener("click",()=>{
+  document.getElementById("settingsDialog").close();
+});
+document.getElementById("settingsDialog").addEventListener("click",event=>{
+  if(event.target===event.currentTarget) event.currentTarget.close();
+});
+document.getElementById("settingsDialog").addEventListener("close",resetEraseRecordArm);
+document.getElementById("exportRecord").addEventListener("click",exportRecord);
+document.getElementById("importRecordTrigger").addEventListener("click",()=>{
+  document.getElementById("importRecordFile").click();
+});
+document.getElementById("importRecordFile").addEventListener("change",async event=>{
+  const file=event.target.files?.[0];
+  event.target.value="";
+  if(!file) return;
+  try{
+    importRecordFromText(await file.text());
+  }catch(error){
+    console.warn("記録の読み込みに失敗しました。",error);
+    setSettingsRecordStatus("読み込みに失敗しました。ファイルを確認してください。","danger");
+  }
+});
+document.getElementById("eraseRecord").addEventListener("click",armEraseRecord);
+document.getElementById("eraseConfirmYes").addEventListener("click",confirmEraseRecord);
+document.getElementById("eraseConfirmCancel").addEventListener("click",resetEraseRecordArm);
+
 function renderReviewExample(item){
   const panel=document.getElementById("reviewExamplePanel");
   const text=document.getElementById("reviewExampleText");
@@ -4733,6 +5120,7 @@ document.addEventListener("keydown",e=>{
   }
   if(!document.getElementById("reviewModal").hidden) return;
   if(document.getElementById("sourceCredits").open) return;
+  if(document.getElementById("settingsDialog").open) return;
   if(e.key==="Enter" && !document.querySelector(".editor input")){
     answered?nextQuestion():grade(false);
   }
@@ -4850,7 +5238,38 @@ function initInstallGuide(){
   render();
 }
 
+const CONJ_THEMES=["coffee","matcha","indigo","sumi","sakura"];
+function applyConjTheme(theme){
+  const root=document.documentElement;
+  if(theme==="coffee") root.removeAttribute("data-theme");
+  else root.setAttribute("data-theme",theme);
+  const meta=document.querySelector('meta[name="theme-color"]');
+  const bg=getComputedStyle(root).getPropertyValue("--bg").trim();
+  if(meta && bg) meta.setAttribute("content",bg);
+}
+function initThemeSwitcher(){
+  const buttons=[...document.querySelectorAll("#themePicker .theme-swatch")];
+  if(!buttons.length) return;
+  let stored;
+  try{ stored=localStorage.getItem("conjTheme"); }catch(e){}
+  const markActive=theme=>{
+    buttons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.theme===theme)));
+  };
+  const theme=CONJ_THEMES.includes(stored)?stored:"coffee";
+  markActive(theme);
+  applyConjTheme(theme);
+  buttons.forEach(button=>{
+    button.addEventListener("click",()=>{
+      const next=CONJ_THEMES.includes(button.dataset.theme)?button.dataset.theme:"coffee";
+      try{ localStorage.setItem("conjTheme",next); }catch(e){}
+      markActive(next);
+      applyConjTheme(next);
+    });
+  });
+}
+
 async function bootConj(){
+  initThemeSwitcher();
   nextQuestion();
   initInstallGuide();
   await loadAdjvRuntimeItems();

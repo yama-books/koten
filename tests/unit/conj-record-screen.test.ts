@@ -46,8 +46,13 @@ test('conj: record screen keeps summary, legend, and review cards readable acros
     return Number(match[1]);
   };
 
-  assert.match(v46, /@media\(min-width:860px\)\{[\s\S]*?\.record-shell\{width:min\(100%,900px\)\}/);
-  assert.match(v46, /@media\(min-width:860px\)\{[\s\S]*?\.record-detail-grid\{[\s\S]*?grid-template-columns:minmax\(420px,1fr\) minmax\(0,1fr\);/);
+  // v48: the record screen keeps its compact single-column mobile layout at every width,
+  // including PC, instead of stretching the same small type across a wider desktop shell
+  assert.match(v46, /\/\* ===== v48: keep the compact single-column record layout at every width, PC included, ===== \*\//);
+  assert.match(rule('.record-detail-grid'), /grid-template-columns:1fr/);
+  assert.doesNotMatch(html, /\.record-shell\{width:min\(100%,900px\)\}/);
+  assert.doesNotMatch(html, /grid-template-columns:minmax\(420px,1fr\) minmax\(0,1fr\)/);
+  assert.match(html, /\.record-shell\{width:min\(100%,640px\)\}/);
   assert.match(rule('.record-overview'), /grid-template-columns:minmax\(220px,1fr\) 150px;/);
   assert.match(rule('.record-overview .record-breakdown-panel'), /grid-template-columns:96px minmax\(0,1fr\);/);
   assert.doesNotMatch(rule('.record-overview .record-breakdown-panel'), /max-content/);
@@ -117,9 +122,11 @@ test('conj: supplementary track note (カリ活用/ザリ活用) reads horizonta
 });
 
 test('conj: examples mark only the conjugated word, not a following auxiliary or particle', () => {
+  const helperSrc = html.match(/function markVerticalEllipsis\(html\)\{[\s\S]*?\n\}/);
+  assert.ok(helperSrc);
   const src = html.match(/function highlight\(text,target,occurrence\)\{[\s\S]*?\n\}/);
   assert.ok(src);
-  const highlight = new Function(`${src[0]}; return highlight;`)() as
+  const highlight = new Function(`${helperSrc[0]}\n${src[0]}; return highlight;`)() as
     (text: string, target: string, occurrence?: number) => string;
   const expected: [string, RegExp][] = [
     ['furu_snow', /里に<mark>ふれ<\/mark>る白雪/],
@@ -355,34 +362,80 @@ test('conj: install guide sits outside the study card, near the source-credits l
   assert.doesNotMatch(html, /<main class="card">[\s\S]*id="installGuide"[\s\S]*<\/main>/);
 });
 
+test('conj: work4.6 install guide keeps its dismiss "×" pinned to a corner instead of wrapping onto its own line', () => {
+  // the dismiss button is taken out of the wrapping flex flow and pinned to the banner's corner,
+  // so a long guide message never leaves an orphaned "×" alone on its own line
+  assert.match(html, /\.install-guide\{position:relative;[\s\S]*?padding:4px 26px 4px 10px;/);
+  assert.match(html, /\.install-guide__dismiss\{position:absolute;top:2px;right:4px;/);
+});
 
-test('conj: palette defaults are semantic CSS variables while record POS and donut colors stay fixed', () => {
+
+test('conj: work3 theme system exposes 5 named color schemes, defaults to coffee, and keeps universal/record colors fixed', () => {
   const styleMatch = html.match(/<style>([\s\S]*?)<\/style>/);
   assert.ok(styleMatch);
   const css = styleMatch[1];
-  const rootMatch = css.match(/:root\{([\s\S]*?)\}\n/);
+
+  const rootMatch = css.match(/:root\{([\s\S]*?)\}/);
   assert.ok(rootMatch);
-  const root = rootMatch[1];
+  const rootBody = rootMatch[1];
 
-  const defaults = [
-    '--bg:#f7fbfa;',
-    '--card:#ffffff;',
-    '--ink:#2c3b38;',
-    '--muted:#6d7f7a;',
-    '--accent:#6fa696;',
-    '--accent-strong:#477d70;',
-    '--good:#e8f7ee;',
-    '--bad:#fff0f3;',
-    '--editable-hover:#eef9f5;',
-    '--editable-selected:#e8f7f2;',
-    '--review-error-bg:#f8eff2;',
-    '--review-error-ink:#825d69;',
+  const themeMatches: Record<string, RegExpMatchArray> = {};
+  for (const name of ['matcha', 'indigo', 'sumi', 'sakura']) {
+    const m = css.match(new RegExp(`:root\\[data-theme="${name}"\\]\\{([\\s\\S]*?)\\}`));
+    assert.ok(m, name);
+    themeMatches[name] = m;
+  }
+
+  const parseVars = (body: string) => {
+    const map = new Map<string, string>();
+    for (const m of body.matchAll(/--([a-z0-9-]+):([^;]+);/g)) map.set(m[1], m[2]);
+    return map;
+  };
+  const rootVars = parseVars(rootBody);
+  const themeVars: Record<string, Map<string, string>> = {};
+  for (const [name, m] of Object.entries(themeMatches)) themeVars[name] = parseVars(m[1]);
+
+  // default (no data-theme attribute) is the coffee scheme
+  assert.strictEqual(rootVars.get('bg'), '#fbf9f7');
+  assert.strictEqual(rootVars.get('accent'), '#a68c6f');
+
+  // matcha preserves the exact colors that were the default before work3
+  assert.strictEqual(themeVars.matcha.get('bg'), '#f7fbfa');
+  assert.strictEqual(themeVars.matcha.get('accent'), '#6fa696');
+  assert.strictEqual(themeVars.matcha.get('accent-strong'), '#477d70');
+
+  // the other two named schemes are present with distinct accent hues
+  assert.strictEqual(themeVars.indigo.get('accent'), '#6f7ea6');
+  assert.strictEqual(themeVars.sumi.get('accent'), '#878e8c');
+  assert.strictEqual(themeVars.sakura.get('accent'), '#a66f7f');
+
+  // universal semantic colors (correctness feedback, error state, modal backdrop) never change with theme
+  const UNIVERSAL = [
+    'good',
+    'bad',
+    'danger-ink',
+    'review-error-border-base',
+    'review-error-ink-base',
+    'review-error-border',
+    'review-error-bg',
+    'review-error-ink',
+    'source-backdrop',
   ];
-  for (const value of defaults) assert.ok(root.includes(value), value);
+  for (const key of UNIVERSAL) {
+    assert.ok(rootVars.has(key), key);
+    for (const [name, vars] of Object.entries(themeVars)) {
+      if (vars.has(key)) assert.strictEqual(vars.get(key), rootVars.get(key), `${name}:${key}`);
+    }
+  }
 
-  assert.doesNotMatch(root, /--record-(?:verb|adj|adjv|aux|empty|donut-base):/);
+  // record POS palette and donut base color stay out of :root and every theme block, in every scheme
+  assert.doesNotMatch(rootBody, /--record-(?:verb|adj|adjv|aux|empty|donut-base):/);
+  for (const [name, m] of Object.entries(themeMatches)) {
+    assert.doesNotMatch(m[1], /--record-(?:verb|adj|adjv|aux|empty|donut-base):/, name);
+  }
 
-  const cssBody = css.slice(rootMatch.index! + rootMatch[0].length);
+  const lastThemeEnd = Math.max(...Object.values(themeMatches).map((m) => m.index! + m[0].length));
+  const cssBody = css.slice(lastThemeEnd);
   assert.match(
     cssBody,
     /\/\* ===== v42: muted ink-citrus record palette ===== \*\/\s*\.record-screen\{\s*--record-verb:#935568;\s*--record-adj:#b77d55;\s*--record-adjv:#39756f;\s*--record-aux:#3d566b;\s*--record-empty:#e8eef1;/,
@@ -392,7 +445,10 @@ test('conj: palette defaults are semantic CSS variables while record POS and don
 
   const themedBody = cssBody
     .replace(/\s*--record-(?:verb|adj|adjv|aux|empty):#[0-9a-fA-F]+;/g, '')
-    .replace(/background:#e7f1ee;/, 'background:fixed-record-donut;');
+    .replace(/background:#e7f1ee;/, 'background:fixed-record-donut;')
+    // the theme-picker swatch dots are deliberately fixed previews of each named theme's own
+    // accent color, independent of whichever theme is currently active (checked separately below)
+    .replace(/\.theme-swatch\[data-theme="[a-z]+"\] \.theme-swatch__dot\{background:#[0-9a-fA-F]+\}/g, '');
   assert.doesNotMatch(themedBody, /#[0-9a-fA-F]{3,8}\b/);
 
   for (const line of cssBody.split('\n').filter((line) => line.includes('rgba('))) {
@@ -405,4 +461,144 @@ test('conj: palette defaults are semantic CSS variables while record POS and don
   assert.match(cssBody, /\.review-rate\{[\s\S]*?border-color:var\(--review-error-border\);[\s\S]*?background:var\(--review-error-bg\);/);
   assert.match(cssBody, /\.review-toggle:hover,[\s\S]*?\.review-toggle:focus-visible\{background:var\(--review-hover-bg\)\}/);
   assert.match(cssBody, /\.record-screen\{[\s\S]*?var\(--record-glow-primary\)[\s\S]*?var\(--record-glow-secondary\)[\s\S]*?var\(--bg\)/);
+});
+
+test('conj: theme picker is a set of mood-swatch buttons, not a dropdown, and applies before first paint', () => {
+  const pickerMatch = html.match(/<div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">([\s\S]*?)<\/div>/);
+  assert.ok(pickerMatch);
+  const picker = pickerMatch[1];
+  for (const [theme, label] of [
+    ['coffee', 'コーヒー'],
+    ['matcha', '抹茶'],
+    ['indigo', '藍'],
+    ['sumi', '墨'],
+    ['sakura', '桜'],
+  ]) {
+    assert.match(
+      picker,
+      new RegExp(`<button class="theme-swatch" type="button" data-theme="${theme}" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>${label}</button>`),
+    );
+  }
+  assert.doesNotMatch(html, /<select id="themeSelect"/);
+
+  // each swatch's dot previews that named theme's own accent color, independent of which theme is currently active
+  const swatchDotColors = {
+    coffee: '#a68c6f',
+    matcha: '#6fa696',
+    indigo: '#6f7ea6',
+    sumi: '#878e8c',
+    sakura: '#a66f7f',
+  };
+  for (const [theme, hex] of Object.entries(swatchDotColors)) {
+    assert.match(html, new RegExp(`\\.theme-swatch\\[data-theme="${theme}"\\] \\.theme-swatch__dot\\{background:${hex}\\}`));
+  }
+
+  // an early, synchronous head script restores a saved non-default theme before <style> is parsed, avoiding a flash of the wrong theme
+  const headScript = html.match(/<meta name="theme-color"[^>]*>\s*<script>([\s\S]*?)<\/script>\s*<style>/);
+  assert.ok(headScript);
+  assert.match(headScript[1], /localStorage\.getItem\("conjTheme"\)/);
+  assert.match(headScript[1], /document\.documentElement\.setAttribute\("data-theme",t\)/);
+
+  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
+  assert.ok(scriptMatch);
+  const script = scriptMatch[1];
+  assert.match(script, /const CONJ_THEMES=\["coffee","matcha","indigo","sumi","sakura"\];/);
+  assert.match(script, /function applyConjTheme\(theme\)\{[\s\S]*?root\.removeAttribute\("data-theme"\)[\s\S]*?root\.setAttribute\("data-theme",theme\)/);
+  assert.match(script, /function initThemeSwitcher\(\)\{\s*const buttons=\[\.\.\.document\.querySelectorAll\("#themePicker \.theme-swatch"\)\];/);
+  assert.match(script, /button\.setAttribute\("aria-pressed",String\(button\.dataset\.theme===theme\)\)/);
+  assert.match(script, /localStorage\.setItem\("conjTheme",next\)/);
+  assert.match(script, /async function bootConj\(\)\{\s*initThemeSwitcher\(\);/);
+});
+
+test('conj: work4 settings screen hosts the theme picker plus record export/import/erase controls', () => {
+  // settings is a wordless gear icon button (identified by aria-label, not visible text)
+  assert.match(html, /<button class="ghost icon-button" id="openSettings" type="button" aria-label="設定">\s*<svg class="settings-icon"/);
+  assert.doesNotMatch(html, /<button[^>]*id="openSettings"[^>]*>\s*設定\s*<\/button>/);
+  assert.match(html, /<dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">/);
+
+  const dialogMatch = html.match(/<dialog class="settings-dialog"[\s\S]*?<\/dialog>/);
+  assert.ok(dialogMatch);
+  const dialog = dialogMatch[0];
+
+  // the theme picker lives inside the settings dialog, not as a standalone toolbar control
+  assert.match(dialog, /<div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">/);
+
+  assert.match(dialog, /<button class="ghost" id="exportRecord" type="button">記録を書き出す<\/button>/);
+  assert.match(dialog, /<button class="ghost" id="importRecordTrigger" type="button">記録を読み込む<\/button>/);
+  assert.match(dialog, /<input type="file" id="importRecordFile" accept="application\/json,\.json" hidden>/);
+  assert.match(dialog, /<button class="ghost settings-danger" id="eraseRecord" type="button">記録を消去する<\/button>/);
+
+  // erasing shows an explicit, unmistakable confirmation before touching storage - never a single click, never a native confirm()
+  assert.match(dialog, /<div class="settings-erase-confirm" id="eraseConfirm" hidden>/);
+  assert.match(dialog, /<p class="settings-erase-confirm__text">本当に消去しますか？もとには戻せません。<\/p>/);
+  assert.match(dialog, /<button class="ghost settings-danger" id="eraseConfirmYes" type="button">消去する<\/button>/);
+  assert.match(dialog, /<button class="ghost" id="eraseConfirmCancel" type="button">キャンセル<\/button>/);
+
+  assert.match(dialog, /<p class="settings-record-status" id="settingsRecordStatus" role="status"><\/p>/);
+
+  // the danger action color is a universal semantic token, not part of the theme rotation
+  assert.match(html, /\.settings-danger\{color:var\(--danger-ink\)\}/);
+
+  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
+  assert.ok(scriptMatch);
+  const script = scriptMatch[1];
+
+  // export bundles the in-memory stats object, not a copy re-read from localStorage
+  assert.match(script, /function exportRecord\(\)\{[\s\S]*?app:"conj-katsuyo-record",[\s\S]*?stats\s*\};/);
+  assert.match(script, /a\.download=`katsuyo-record-\$\{stamp\}\.json`;/);
+
+  // import runs the parsed payload through the same normalizeStats() sanitizer used on every app load
+  assert.match(script, /function importRecordFromText\(text\)\{[\s\S]*?stats=normalizeStats\(rawStats\);[\s\S]*?localStorage\.setItem\(RECORD_STORAGE_KEY,JSON\.stringify\(stats\)\);/);
+
+  // erase is a two-step flow: the first click only reveals the confirm panel, a second explicit click on eraseConfirmYes performs it
+  assert.match(script, /function armEraseRecord\(\)\{\s*document\.getElementById\("eraseRecord"\)\.hidden=true;\s*document\.getElementById\("eraseConfirm"\)\.hidden=false;\s*\}/);
+  assert.match(script, /function confirmEraseRecord\(\)\{[\s\S]*?localStorage\.removeItem\(RECORD_STORAGE_KEY\);[\s\S]*?stats=normalizeStats\(\{\}\);/);
+  assert.match(script, /document\.getElementById\("eraseRecord"\)\.addEventListener\("click",armEraseRecord\);/);
+  assert.match(script, /document\.getElementById\("eraseConfirmYes"\)\.addEventListener\("click",confirmEraseRecord\);/);
+  assert.match(script, /document\.getElementById\("eraseConfirmCancel"\)\.addEventListener\("click",resetEraseRecordArm\);/);
+
+  assert.match(script, /const RECORD_STORAGE_KEY="katsuyoProtoV37";/);
+  assert.match(script, /function refreshAfterRecordChange\(\)\{\s*updateScore\(\);\s*if\(!document\.getElementById\("recordScreen"\)\.hidden\) renderRecord\(\);\s*\}/);
+
+  // opening the settings dialog resets any leftover erase confirmation state from a previous visit
+  assert.match(script, /document\.getElementById\("openSettings"\)\.addEventListener\("click",\(\)=>\{\s*setSettingsRecordStatus\(""\);\s*resetEraseRecordArm\(\);\s*document\.getElementById\("settingsDialog"\)\.showModal\(\);/);
+  assert.match(script, /document\.getElementById\("settingsDialog"\)\.addEventListener\("close",resetEraseRecordArm\);/);
+
+  // Escape/Enter handling for the study screen ignores keystrokes while the settings dialog is open, like it already does for the source-credits dialog
+  assert.match(script, /if\(document\.getElementById\("sourceCredits"\)\.open\) return;\s*if\(document\.getElementById\("settingsDialog"\)\.open\) return;/);
+});
+
+test('conj: work4.7 CHJ excerpt ellipsis rotates to match vertical reading direction', () => {
+  // .example-text forces text-orientation:upright so kana/kanji stay upright, but that also
+  // keeps "…" lying on its side; a dedicated rule rotates just that character back in line
+  assert.match(html, /\.v-ellipsis\{text-orientation:sideways\}/);
+
+  const helperSrc = html.match(/function markVerticalEllipsis\(html\)\{[\s\S]*?\n\}/);
+  assert.ok(helperSrc);
+  const src = html.match(/function highlight\(text,target,occurrence\)\{[\s\S]*?\n\}/);
+  assert.ok(src);
+  const highlight = new Function(`${helperSrc[0]}\n${src[0]}; return highlight;`)() as
+    (text: string, target: string, occurrence?: number) => string;
+
+  // both a leading/trailing excerpt-edge ellipsis and one produced alongside a <mark> highlight are wrapped
+  assert.strictEqual(
+    highlight('…屋のさまも…', '', 0),
+    '<span class="v-ellipsis">…</span>屋のさまも<span class="v-ellipsis">…</span>',
+  );
+  assert.strictEqual(
+    highlight('…ふれる白雪…', 'ふれ', 0),
+    '<span class="v-ellipsis">…</span><mark>ふれ</mark>る白雪<span class="v-ellipsis">…</span>',
+  );
+
+  // every excerpt-edge "…" actually present in the CHJ quotation data is reachable through the same wrapper
+  const chj = JSON.parse(
+    readFileSync(new URL('../../conj/data/adjectival-noun-chj-quotations.json', import.meta.url), 'utf8'),
+  );
+  const excerptsWithEllipsis = chj.records
+    .map((record: any) => record.excerpt)
+    .filter((excerpt: unknown): excerpt is string => typeof excerpt === 'string' && excerpt.includes('…'));
+  assert.ok(excerptsWithEllipsis.length > 0);
+  for (const excerpt of excerptsWithEllipsis.slice(0, 5)) {
+    assert.match(highlight(excerpt, '', 0), /<span class="v-ellipsis">…<\/span>/);
+  }
 });
