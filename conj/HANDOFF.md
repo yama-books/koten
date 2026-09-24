@@ -1190,4 +1190,37 @@ Claude Codeへ引き継がれ、クラウド環境で作業を再開した。`ma
 - `npm run test:screen`（vitest）：32ファイル388件 all pass
 - Playwrightで実機確認：配色ボタンをクリックして即座にテーマが切り替わりアクティブ表示になること、記録消去が確認パネル経由でのみ実行され「キャンセル」で取り消せること、を確認した。
 
-作業5以降（指示書に定義があれば）には未着手。次セッションでは`conj/HANDOFF.md`および`ROADMAP.md`等を確認し、作業5以降の有無・内容を確認すること。
+## 22. 作業4.6・作業4.7 実装（2026-09-24・Claude Code）
+
+`conj/HANDOFF.md`の残作業順（§17付近）に記載の作業4.6「ホーム画面追加案内の「×」改行修正」・作業4.7「CHJ引用用例の縦書き「…」と抜粋端の監査」に着手した。指示書にはタイトルのみで詳細仕様がなかったため、実装前に実際の描画をPlaywrightで確認して不具合の実体を特定した。
+
+### 作業4.6：ホーム画面追加案内の「×」改行修正
+
+- `.install-guide`は`flex-wrap:wrap;justify-content:center`のため、狭い画面で案内文が複数行に折り返すと、閉じるボタン「×」だけが単独で中央寄せの行に取り残され、不格好に見える不具合を確認した（幅340pxで実機確認）。
+- 修正：`.install-guide`に`position:relative`と右側の余白（`padding-right:26px`）を追加し、`.install-guide__dismiss`を`position:absolute;top:2px;right:4px`でバナー右上に固定した。「×」をflexの折り返し対象から外すことで、本文の折り返し行数に関わらず孤立行が発生しなくなる。
+- ガードテストを1本追加（CSSの該当プロパティを検査）。
+
+### 作業4.7：CHJ引用用例の縦書き「…」と抜粋端の監査
+
+- `.example-text`は`writing-mode:vertical-rl;text-orientation:upright`。`text-orientation:upright`はかな・漢字を正立させるためのものだが、水平三点リーダー「…」もつられて正立し、本来なら縦書きの読み進行に合わせて縦に3点が並ぶべきところ、横に3点が並んだまま表示される不具合をPlaywrightのズーム画像で確認した。
+- `conj/data/adjectival-noun-chj-quotations.json`の`records[].excerpt`には、契約上の抜粋範囲を示すため文頭・文末に「…」を付与した例が多数含まれており、この不具合の影響を直接受ける。
+- 修正：`highlight()`関数が返すHTMLに対し、新設のヘルパー`markVerticalEllipsis()`で全ての「…」を`<span class="v-ellipsis">…</span>`にラップするようにした。CSS側で`.v-ellipsis{text-orientation:sideways}`を追加し、この文字だけ90度回転させて縦の読み進行に合わせた。`<mark>`によるハイライトと共存することを確認済み。
+- `renderRecord()`側は変更していない（ハイライト対象外の記録画面には影響しない）。`exampleText`・`reviewExampleText`の両方が`highlight()`を経由するため、両画面に自動的に適用される。
+- ガードテストを1本追加：CSSルールの存在、`highlight()`が実際に「…」をラップすること（単独の場合・`<mark>`と共存する場合の両方）、実データ（CHJ引用JSON）中の「…」を含む抜粋が実際にラップされることを検査する。
+
+### ユーザー追加指示によるUI修正（同セッション内、続き）
+
+作業4.6/4.7の作業中、ユーザーから追加指示を受けた：「『設定』は縦書きではないです。そもそもかわいい歯車のアイコンなどで文字なしで設定とわかる状態がのぞましい。」
+
+- ヘッダーの「設定」ボタンをテキストラベルから、歯車アイコン（Material Iconsの`settings`グリフを転用したSVG、`fill="currentColor"`）のみのアイコンボタンに変更した。`aria-label="設定"`でアクセシビリティ上のラベルは維持し、視覚的なテキストは撤去した。
+- `.icon-button`（丸型・中央寄せのアイコンボタン共通クラス）と`.settings-icon`（18×18px）を追加。
+- 対応するテストを更新（ボタンにテキスト「設定」が含まれないことを明示的に検査する行を追加）。
+
+### 検証結果（本節全体）
+
+- `node --test tests/unit/conj-record-screen.test.ts`：35/35 pass
+- `npm run test:node`（全体）：861/861 pass
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで実機確認：狭い画面でのホーム画面案内バナーの「×」がバナー右上に固定され孤立行が出ないこと、CHJ抜粋の「…」が縦読み方向に沿って回転して表示されること、設定ボタンが文字なしの歯車アイコンとして表示され開閉が正常に動作することを確認した。
+
+作業5「全体確認・公開」には未着手。次セッションでは`conj/HANDOFF.md`を確認し、作業5の内容を確認すること。

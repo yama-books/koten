@@ -117,9 +117,11 @@ test('conj: supplementary track note (カリ活用/ザリ活用) reads horizonta
 });
 
 test('conj: examples mark only the conjugated word, not a following auxiliary or particle', () => {
+  const helperSrc = html.match(/function markVerticalEllipsis\(html\)\{[\s\S]*?\n\}/);
+  assert.ok(helperSrc);
   const src = html.match(/function highlight\(text,target,occurrence\)\{[\s\S]*?\n\}/);
   assert.ok(src);
-  const highlight = new Function(`${src[0]}; return highlight;`)() as
+  const highlight = new Function(`${helperSrc[0]}\n${src[0]}; return highlight;`)() as
     (text: string, target: string, occurrence?: number) => string;
   const expected: [string, RegExp][] = [
     ['furu_snow', /里に<mark>ふれ<\/mark>る白雪/],
@@ -355,6 +357,13 @@ test('conj: install guide sits outside the study card, near the source-credits l
   assert.doesNotMatch(html, /<main class="card">[\s\S]*id="installGuide"[\s\S]*<\/main>/);
 });
 
+test('conj: work4.6 install guide keeps its dismiss "×" pinned to a corner instead of wrapping onto its own line', () => {
+  // the dismiss button is taken out of the wrapping flex flow and pinned to the banner's corner,
+  // so a long guide message never leaves an orphaned "×" alone on its own line
+  assert.match(html, /\.install-guide\{position:relative;[\s\S]*?padding:4px 26px 4px 10px;/);
+  assert.match(html, /\.install-guide__dismiss\{position:absolute;top:2px;right:4px;/);
+});
+
 
 test('conj: work3 theme system exposes 5 named color schemes, defaults to coffee, and keeps universal/record colors fixed', () => {
   const styleMatch = html.match(/<style>([\s\S]*?)<\/style>/);
@@ -497,7 +506,9 @@ test('conj: theme picker is a set of mood-swatch buttons, not a dropdown, and ap
 });
 
 test('conj: work4 settings screen hosts the theme picker plus record export/import/erase controls', () => {
-  assert.match(html, /<button class="ghost" id="openSettings" type="button">設定<\/button>/);
+  // settings is a wordless gear icon button (identified by aria-label, not visible text)
+  assert.match(html, /<button class="ghost icon-button" id="openSettings" type="button" aria-label="設定">\s*<svg class="settings-icon"/);
+  assert.doesNotMatch(html, /<button[^>]*id="openSettings"[^>]*>\s*設定\s*<\/button>/);
   assert.match(html, /<dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">/);
 
   const dialogMatch = html.match(/<dialog class="settings-dialog"[\s\S]*?<\/dialog>/);
@@ -550,4 +561,39 @@ test('conj: work4 settings screen hosts the theme picker plus record export/impo
 
   // Escape/Enter handling for the study screen ignores keystrokes while the settings dialog is open, like it already does for the source-credits dialog
   assert.match(script, /if\(document\.getElementById\("sourceCredits"\)\.open\) return;\s*if\(document\.getElementById\("settingsDialog"\)\.open\) return;/);
+});
+
+test('conj: work4.7 CHJ excerpt ellipsis rotates to match vertical reading direction', () => {
+  // .example-text forces text-orientation:upright so kana/kanji stay upright, but that also
+  // keeps "…" lying on its side; a dedicated rule rotates just that character back in line
+  assert.match(html, /\.v-ellipsis\{text-orientation:sideways\}/);
+
+  const helperSrc = html.match(/function markVerticalEllipsis\(html\)\{[\s\S]*?\n\}/);
+  assert.ok(helperSrc);
+  const src = html.match(/function highlight\(text,target,occurrence\)\{[\s\S]*?\n\}/);
+  assert.ok(src);
+  const highlight = new Function(`${helperSrc[0]}\n${src[0]}; return highlight;`)() as
+    (text: string, target: string, occurrence?: number) => string;
+
+  // both a leading/trailing excerpt-edge ellipsis and one produced alongside a <mark> highlight are wrapped
+  assert.strictEqual(
+    highlight('…屋のさまも…', '', 0),
+    '<span class="v-ellipsis">…</span>屋のさまも<span class="v-ellipsis">…</span>',
+  );
+  assert.strictEqual(
+    highlight('…ふれる白雪…', 'ふれ', 0),
+    '<span class="v-ellipsis">…</span><mark>ふれ</mark>る白雪<span class="v-ellipsis">…</span>',
+  );
+
+  // every excerpt-edge "…" actually present in the CHJ quotation data is reachable through the same wrapper
+  const chj = JSON.parse(
+    readFileSync(new URL('../../conj/data/adjectival-noun-chj-quotations.json', import.meta.url), 'utf8'),
+  );
+  const excerptsWithEllipsis = chj.records
+    .map((record: any) => record.excerpt)
+    .filter((excerpt: unknown): excerpt is string => typeof excerpt === 'string' && excerpt.includes('…'));
+  assert.ok(excerptsWithEllipsis.length > 0);
+  for (const excerpt of excerptsWithEllipsis.slice(0, 5)) {
+    assert.match(highlight(excerpt, '', 0), /<span class="v-ellipsis">…<\/span>/);
+  }
 });

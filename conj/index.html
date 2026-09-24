@@ -398,6 +398,7 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .example-body{padding-right:10px;display:flex;align-items:flex-end;justify-content:flex-end;gap:10px;height:390px}
 .example-text{height:100%;min-height:390px;writing-mode:vertical-rl;text-orientation:upright;overflow:auto hidden;font:400 17px/1.72 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.035em;flex:0 1 auto}
 .example-text mark{color:inherit;padding:0;background:linear-gradient(to left,transparent 15%,var(--example-mark-bg) 15%,var(--example-mark-bg) 85%,transparent 85%)}
+.v-ellipsis{text-orientation:sideways}
 .example-foot{color:var(--muted);font-size:9px;writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap;align-self:flex-end}
 
 .table-panel{grid-area:table;width:max-content;display:flex;flex-direction:column}
@@ -411,11 +412,11 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .track-heads .spacer{visibility:hidden}
 .source-credits-link{display:block;margin:10px auto 0;padding:4px 8px;border:0;background:none;color:var(--muted);font-size:11px;text-decoration:underline;cursor:pointer}
 .source-credits-link[hidden]{display:none}
-.install-guide{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px;max-width:480px;margin:6px auto 0;padding:4px 10px;color:var(--muted);font-size:11px;line-height:1.5;text-align:center}
+.install-guide{position:relative;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px;max-width:480px;margin:6px auto 0;padding:4px 26px 4px 10px;color:var(--muted);font-size:11px;line-height:1.5;text-align:center}
 .install-guide[hidden]{display:none}
 .install-guide__icon{height:1em;width:auto;vertical-align:-0.15em}
 .install-guide__add{border:1px solid var(--line);border-radius:8px;background:none;color:inherit;font:inherit;font-size:11px;padding:2px 8px;cursor:pointer}
-.install-guide__dismiss{border:0;background:none;color:inherit;font-size:13px;line-height:1;padding:2px 4px;cursor:pointer}
+.install-guide__dismiss{position:absolute;top:2px;right:4px;border:0;background:none;color:inherit;font-size:13px;line-height:1;padding:2px 4px;cursor:pointer}
 .source-credits{width:min(560px,calc(100vw - 32px));max-height:min(80vh,640px);padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
 .source-credits::backdrop{background:var(--source-backdrop)}
 .source-credits h2{margin:0 0 6px;font-size:15px}
@@ -1729,6 +1730,18 @@ td.wrong{background:var(--bad)!important}
 .record-open{
   white-space:nowrap;
 }
+.icon-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px;
+  border-radius:999px;
+  line-height:0;
+}
+.settings-icon{
+  width:18px;
+  height:18px;
+}
 .record-screen[hidden]{
   display:none !important;
 }
@@ -2810,7 +2823,7 @@ body.review-modal-open{overflow:hidden}
         <strong class="score-value" id="scoreValue">0</strong>
       </div>
       <button class="ghost record-open" id="openRecord" type="button">記録</button>
-      <button class="ghost" id="openSettings" type="button">設定</button>
+      <button class="ghost icon-button" id="openSettings" type="button" aria-label="設定"><svg class="settings-icon" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg></button>
     </div>
   </header>
 
@@ -4276,15 +4289,21 @@ function renderTable(){
   document.getElementById("rowNote").textContent="";
 }
 
+// "…" stays upright like kana/kanji under text-orientation:upright, so its dots line up
+// left-to-right instead of stacking top-to-bottom with the vertical reading direction.
+// Wrapping it lets a dedicated rule rotate just this character back onto the vertical axis.
+function markVerticalEllipsis(html){
+  return html.replaceAll("…",'<span class="v-ellipsis">…</span>');
+}
 function highlight(text,target,occurrence){
-  if(!target)return text;
+  if(!target)return markVerticalEllipsis(text);
   const occurrenceIndex=Number.isInteger(occurrence) ? occurrence : 0;
   const positions=[];
   let from=0;
   while(true){ const p=text.indexOf(target,from); if(p<0)break; positions.push(p); from=p+target.length; }
   const i=positions[occurrenceIndex] ?? -1;
-  if(i<0)return text;
-  return text.slice(0,i)+"<mark>"+text.slice(i,i+target.length)+"</mark>"+text.slice(i+target.length);
+  if(i<0)return markVerticalEllipsis(text);
+  return markVerticalEllipsis(text.slice(0,i)+"<mark>"+text.slice(i,i+target.length)+"</mark>"+text.slice(i+target.length));
 }
 
 function syncStudyHeights(){
