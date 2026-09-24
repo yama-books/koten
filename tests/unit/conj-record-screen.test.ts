@@ -14,7 +14,7 @@ test('conj: header and record screen use cumulative correct wording', () => {
   assert.match(html, /class="score-label">累計正答<\/span>/);
   assert.match(html, /class="score-value" id="scoreValue">0<\/strong>/);
   assert.match(html, /value\.textContent=String\(stats\.correctCells\)/);
-  assert.match(html, /<dt>正答数<\/dt>/);
+  assert.match(html, /<dt>正答数<small>\(累計\)<\/small><\/dt>/);
 });
 
 test('conj: cumulative correct count uses a text-only beat after an increase', () => {
@@ -84,7 +84,7 @@ test('conj: record screen keeps summary, legend, and review cards readable acros
     '.review-pos-badge',
   ]) assert.ok(fontSize(selector) >= 10, selector);
 
-  assert.match(html, /<dt>取り組んだ問題<\/dt>/);
+  assert.match(html, /<span class="record-donut-caption">累計<\/span>/);
 });
 
 test('conj: hanamaru is an overlaid stamp and donut total is centered as one baseline-aligned unit', () => {
@@ -179,7 +179,8 @@ test('conj: record colors keep the palette but map red yellow green navy in POS 
 
 test('conj: attempted count and donut share the same per-POS total', () => {
   assert.match(html, /const total=keys\.reduce\(\(sum,key\)=>sum\+counts\[key\],0\)/);
-  assert.match(html, /recordQuestions"\)\.textContent=total\+"問"/);
+  assert.match(html, /recordBreakdownTotal"\)\.textContent=total;/);
+  assert.doesNotMatch(html, /recordQuestions/);
   assert.match(html, /function reconcilePosCounts\(storedByPos,total,slots\)/);
   assert.match(html, /byPos:reconcilePosCounts\(storedPosCounts,attemptedTotal,slots\)/);
 });
@@ -738,8 +739,11 @@ test('conj: question selection favors items with fewer past attempts, without ex
   assert.ok(otherPicksSeen.size > 1, 'other items must still be reachable, not excluded entirely');
 });
 
-test('conj: record stats show questions as two lines and accuracy as recent + cumulative', () => {
-  assert.match(html, /<div class="record-stat record-stat-questions">\s*<dt>取り組んだ問題<\/dt>\s*<dd id="recordQuestions">0問<\/dd>/);
+test('conj: donut center shows the cumulative total; stats show 正答数 (累計) and recent + cumulative accuracy', () => {
+  assert.doesNotMatch(html, /record-stat-questions/);
+  assert.match(html, /<div class="record-stat record-stat-correct">\s*<dt>正答数<small>\(累計\)<\/small><\/dt>\s*<dd id="recordCorrectCells">0<\/dd>/);
+  assert.match(html, /chart\.classList\.toggle\("is-long",String\(total\)\.length>=4\);/);
+  assert.match(html, /\.record-overview \.record-donut\.is-long \.record-donut-center strong\{font-size:16px\}/);
   assert.match(html, /<dd class="record-accuracy-pair">[\s\S]*?<small>直近<\/small><b id="recordRecentAccuracy">—<\/b>[\s\S]*?<small>累計<\/small><b id="recordAccuracy">0%<\/b>/);
   assert.match(html, /\.record-overview \.record-grid \.record-stat\{[\s\S]*?flex-direction:column;/);
   assert.match(html, /const RECENT_WINDOW=100;/);
