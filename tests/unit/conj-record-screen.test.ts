@@ -626,3 +626,27 @@ test('conj: toggling the 用例 checkbox does not reset an already-answered ques
   // render() (used for an actual new question) still applies example visibility as part of its full reset
   assert.match(script, /function render\(\)\{[\s\S]*?applyExampleVisibility\(\);[\s\S]*?renderTable\(\);/);
 });
+
+test('conj: activation-form labels (未然形 etc.) are centered with an inner flex box, not vertical-align alone', () => {
+  // Safari does not reliably honor vertical-align:middle for vertical-writing-mode text inside
+  // a table cell, which left the 未然形/連用形/... labels sitting off-center in .katsuyo tables
+  // (most visibly in the record screen's 要確認 review modal). Center them with a flex child instead.
+  assert.match(html, /\.katsuyo th\.label \.label-text\{display:flex;width:100%;height:100%;align-items:center;justify-content:center\}/);
+
+  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
+  assert.ok(scriptMatch);
+  const script = scriptMatch[1];
+
+  // every label cell, in the main study table and the review modal alike, goes through the
+  // same builder so the fix (and any future change) can't drift out of sync between the two
+  const builderSrc = script.match(/function makeLabelCell\(name\)\{[\s\S]*?\n\}/);
+  assert.ok(builderSrc);
+  assert.match(builderSrc[0], /th\.className="label";/);
+  assert.match(builderSrc[0], /span\.className="label-text";/);
+  assert.match(builderSrc[0], /span\.textContent=name;/);
+  assert.match(builderSrc[0], /th\.appendChild\(span\);/);
+
+  assert.doesNotMatch(script, /const th=document\.createElement\("th"\);\s*th\.className="label";\s*th\.textContent=name;/);
+  const labelCellCallSites = [...script.matchAll(/makeLabelCell\(name\)/g)];
+  assert.ok(labelCellCallSites.length >= 8, `expected every label-cell site (main table x4 shapes, review modal x4 shapes) to use makeLabelCell(), found ${labelCellCallSites.length}`);
+});

@@ -472,6 +472,9 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .katsuyo.adjective-stacked th.label[rowspan="2"]{height:136px}
 
 .katsuyo th.label{background:var(--card);writing-mode:vertical-rl;text-orientation:upright;font:600 14px/1.12 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.06em}
+/* Safari does not reliably center vertical-writing-mode text with vertical-align:middle
+   inside a table cell; center it explicitly with an inner flex box instead. */
+.katsuyo th.label .label-text{display:flex;width:100%;height:100%;align-items:center;justify-content:center}
 
 .display{width:100%;height:100%;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;font:500 20px/1.1 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.03em}
 .display.small{font-size:18px}
@@ -4167,10 +4170,7 @@ function renderTable(){
           : fixedCell(current.forms[i],"main")
       );
 
-      const th=document.createElement("th");
-      th.className="label";
-      th.textContent=name;
-      tr.appendChild(th);
+      tr.appendChild(makeLabelCell(name));
 
       body.appendChild(tr);
     });
@@ -4199,10 +4199,7 @@ function renderTable(){
       }
       tr.appendChild(td);
 
-      const th=document.createElement("th");
-      th.className="label";
-      th.textContent=name;
-      tr.appendChild(th);
+      tr.appendChild(makeLabelCell(name));
       body.appendChild(tr);
     });
 
@@ -4245,10 +4242,7 @@ function renderTable(){
           : fixedCell(current.forms[i],"main")
       );
 
-      const th=document.createElement("th");
-      th.className="label";
-      th.textContent=name;
-      tr.appendChild(th);
+      tr.appendChild(makeLabelCell(name));
       body.appendChild(tr);
     });
 
@@ -4274,10 +4268,7 @@ function renderTable(){
             : fixedCell(content,"main single"))
     );
 
-    const th=document.createElement("th");
-    th.className="label";
-    th.textContent=name;
-    tr.appendChild(th);
+    tr.appendChild(makeLabelCell(name));
     body.appendChild(tr);
   });
   document.getElementById("rowNote").textContent="";
@@ -4901,10 +4892,13 @@ function renderReviewExample(item){
   layout.style.gridTemplateColumns="";
   layout.style.gridTemplateAreas="";
 }
-function reviewLabelCell(name){
+function makeLabelCell(name){
   const th=document.createElement("th");
   th.className="label";
-  th.textContent=name;
+  const span=document.createElement("span");
+  span.className="label-text";
+  span.textContent=name;
+  th.appendChild(span);
   return th;
 }
 function reviewAdjvComboCell(item,index){
@@ -4937,7 +4931,7 @@ function renderReviewTable(item){
       const row=document.createElement("tr");
       row.appendChild(fixedCell(item.forms2[index],"sub"));
       row.appendChild(fixedCell(item.forms[index],"main"));
-      row.appendChild(reviewLabelCell(name));
+      row.appendChild(makeLabelCell(name));
       body.appendChild(row);
     });
     schedulePairedTrackHeadSync(panel,table);
@@ -4953,7 +4947,7 @@ function renderReviewTable(item){
       row.appendChild(index===1 && item.forms2 && item.forms2[index]
         ? reviewAdjvComboCell(item,index)
         : fixedCell(item.forms[index],"main single"));
-      row.appendChild(reviewLabelCell(name));
+      row.appendChild(makeLabelCell(name));
       body.appendChild(row);
     });
     note.textContent="連用形は2種類";
@@ -4975,7 +4969,7 @@ function renderReviewTable(item){
         row.appendChild(fixedCell(sub,"sub"));
       }
       row.appendChild(fixedCell(item.forms[index],"main"));
-      row.appendChild(reviewLabelCell(name));
+      row.appendChild(makeLabelCell(name));
       body.appendChild(row);
     });
     schedulePairedTrackHeadSync(panel,table);
@@ -4990,7 +4984,7 @@ function renderReviewTable(item){
     row.appendChild(Array.isArray(content) && content.length>1
       ? multiFormCell("main",index,"main single",content,false)
       : fixedCell(content,"main single"));
-    row.appendChild(reviewLabelCell(name));
+    row.appendChild(makeLabelCell(name));
     body.appendChild(row);
   });
 }
