@@ -1353,3 +1353,24 @@ PR #41マージ後、ユーザーから「記録欄はなぜ2段でなくなっ�
 - `npm run test:node`（全体）：862/862 pass
 - `npm run test:screen`（vitest）：32ファイル388件 all pass
 - Playwrightで320〜700pxの9幅を確認。390px（ユーザー実機相当）で「要確認」カードが2列表示になり、活用種類名が欠けずに表示されることを確認した。
+
+## 27. ホーム画面追加の案内をvintage-kanaと同じ文言・仕組みにそろえる（2026-09-24・Claude Code）
+
+右上の×だけだったinstall-guideを、vintage-kanaと同じ「文 → 主ボタン → 今は追加しない／今後は表示しない」の構成に変更した。
+
+### 変更内容
+
+- HTML/CSS: `.install-guide`をvintage-kanaの`.installGuide`と同じ枠付きブロック・縦積みレイアウトに変更。色はconjのテーマトークン（`--line`/`--muted`/`--card`/`--accent-soft`/`--accent-strong`/`--on-accent`）のみを使用し、vintage-kana固有の色は持ち込んでいない。
+- 文面: `<wbr>`で文節区切りのみを折り返し位置にする方式に統一（iOS向け・追加ボタンあり・メニュー案内の3種）。
+- 「今は追加しない」はsessionStorage（`conjInstallNoticeSessionHidden`）、「今後は表示しない」は既存のlocalStorageキー（`conjInstallNoticeDismissed`、既存利用者の記録を維持するため変更していない）で使い分け。
+- 不具合修正: 「ホーム画面に追加する」のネイティブ確認をキャンセルした場合に案内が永久に消えていたのを修正。`prompt()`は一度しか呼べないため、呼ぶ前にイベント参照をnullにして追加ボタンを隠し、`userChoice`が`accepted`なら永久非表示、`dismissed`または例外ならセッションのみ非表示にする。
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts`のinstall guide関連テストを更新。×が無いこと・3つのボタンが存在すること・session/localStorageの使い分け・`userChoice`分岐を検証する内容に置き換えた。iOS文言のテストは`<wbr>`を除去してから照合する方式にした。設置場所のテストは変更なしで通っている。
+
+### 検証結果
+
+- `npm run test:node`：864/864 pass（ワークツリー作成直後は`@koten/shared`が未解決で18件失敗したが、`npm install`で解消。install-guide変更とは無関係の環境要因）。
+- ブラウザで390px幅の3文面（メニュー案内・追加ボタンあり）を確認、いずれも1行に収まった。「ホーム画面に追加する」→キャンセル相当（`userChoice`が`dismissed`）でセッションのみ非表示になり永久には消えないことを確認。
+- Playwright WebKit（`devices["iPhone 13"]`）でiOS向け文言（共有アイコン付き、追加ボタンなし）のスクリーンショットを1枚取得し、リポジトリ外に保存した（コミット対象外）。

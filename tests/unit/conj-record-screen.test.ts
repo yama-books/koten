@@ -347,18 +347,54 @@ test('conj: install guide detects home-screen launch and offers to add it otherw
   assert.match(html, /function isStandaloneLaunch\(\)\{/);
   assert.match(html, /window\.matchMedia\?\.\("\(display-mode: standalone\)"\)\.matches===true/);
   assert.match(html, /navigator\.standalone===true/);
-  assert.match(html, /if\(isStandaloneLaunch\(\) \|\| installNoticeWasDismissed\(\)\) return;/);
+  assert.match(html, /if\(isStandaloneLaunch\(\) \|\| installNoticeWasDismissed\(\) \|\| installNoticeWasSessionHidden\(\)\) return;/);
 });
+
+function plain(text) {
+  return text.replace(/<wbr>/g, '');
+}
 
 test('conj: install guide shows the iOS share icon wording and an SVG labeled 共有', () => {
-  assert.match(html, /共有ボタン\$\{shareIconSvg\}からホーム画面に追加すると、アプリとして扱えます/);
-  assert.match(html, /class="install-guide__icon" viewBox="0 0 24 24" role="img" aria-label="共有"/);
+  const iosTextMatch = html.match(/textEl\.innerHTML="共有ボタン"\+shareIconSvg\+"([^"]*)";/);
+  assert.ok(iosTextMatch);
+  assert.equal(plain(iosTextMatch[1]), 'からホーム画面に追加すると、アプリとして扱えます');
+  assert.match(html, /viewBox="0 0 24 24" role="img" aria-label="共有"/);
 });
 
-test('conj: install guide remembers dismissal under conjInstallNoticeDismissed', () => {
+test('conj: install guide has button-driven wording for the install-prompt and menu-guide cases', () => {
+  const addTextMatch = html.match(/textEl\.innerHTML="([^"]*追加すると[^"]*)";\s*\n\s*addBtn\.hidden=false;/);
+  assert.ok(addTextMatch);
+  assert.equal(plain(addTextMatch[1]), 'ホーム画面に追加すると、アプリとして扱えます');
+
+  const menuTextMatch = html.match(/textEl\.innerHTML="([^"]*ホーム画面に追加[^"]*)";\s*\n\s*addBtn\.hidden=true;\s*\n\s*\}\s*\n\s*guide\.hidden=false;/);
+  assert.ok(menuTextMatch);
+  assert.equal(plain(menuTextMatch[1]), 'メニューの「ホーム画面に追加」でアプリとして扱えます');
+});
+
+test('conj: install guide offers three actions instead of a corner ×, and distinguishes session vs permanent dismissal', () => {
+  assert.doesNotMatch(html, /install-guide__dismiss/);
+  assert.match(html, /<button id="installGuideAdd" class="install-guide__btn install-guide__btn--primary" type="button" hidden>ホーム画面に追加する<\/button>/);
+  assert.match(html, /<button id="installGuideLater" class="install-guide__btn" type="button">今は追加しない<\/button>/);
+  assert.match(html, /<button id="installGuideNever" class="install-guide__btn" type="button">今後は表示しない<\/button>/);
+
   assert.match(html, /const INSTALL_NOTICE_KEY="conjInstallNoticeDismissed";/);
+  assert.match(html, /const INSTALL_NOTICE_SESSION_KEY="conjInstallNoticeSessionHidden";/);
   assert.match(html, /localStorage\.getItem\(INSTALL_NOTICE_KEY\)==="true"/);
   assert.match(html, /localStorage\.setItem\(INSTALL_NOTICE_KEY,"true"\)/);
+  assert.match(html, /sessionStorage\.getItem\(INSTALL_NOTICE_SESSION_KEY\)==="true"/);
+  assert.match(html, /sessionStorage\.setItem\(INSTALL_NOTICE_SESSION_KEY,"true"\)/);
+
+  assert.match(html, /laterBtn\.addEventListener\("click",dismissForSession\)/);
+  assert.match(html, /neverBtn\.addEventListener\("click",dismissPermanently\)/);
+});
+
+test('conj: install guide resolves the add-to-home prompt outcome instead of hiding permanently on cancel', () => {
+  assert.match(html, /const event=installPrompt;/);
+  assert.match(html, /installPrompt=null;/);
+  assert.match(html, /await event\.prompt\(\);/);
+  assert.match(html, /const choice=await event\.userChoice;/);
+  assert.match(html, /if\(choice\?\.outcome==="accepted"\)\{\s*\n\s*dismissPermanently\(\);\s*\n\s*\}else\{\s*\n\s*dismissForSession\(\);\s*\n\s*\}/);
+  assert.match(html, /\}catch\{\s*\n\s*\/\/[^\n]*\n\s*dismissForSession\(\);\s*\n\s*\}/);
 });
 
 test('conj: install guide sits outside the study card, near the source-credits link', () => {
@@ -367,13 +403,6 @@ test('conj: install guide sits outside the study card, near the source-credits l
     /<button class="source-credits-link" id="openSourceCredits" type="button" hidden>用例の出典<\/button>\s*<section class="install-guide" id="installGuide" hidden aria-label="ホーム画面への追加">/,
   );
   assert.doesNotMatch(html, /<main class="card">[\s\S]*id="installGuide"[\s\S]*<\/main>/);
-});
-
-test('conj: work4.6 install guide keeps its dismiss "×" pinned to a corner instead of wrapping onto its own line', () => {
-  // the dismiss button is taken out of the wrapping flex flow and pinned to the banner's corner,
-  // so a long guide message never leaves an orphaned "×" alone on its own line
-  assert.match(html, /\.install-guide\{position:relative;[\s\S]*?padding:4px 26px 4px 10px;/);
-  assert.match(html, /\.install-guide__dismiss\{position:absolute;top:2px;right:4px;/);
 });
 
 

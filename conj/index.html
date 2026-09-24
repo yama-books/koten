@@ -412,11 +412,15 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .track-heads .spacer{visibility:hidden}
 .source-credits-link{display:block;margin:10px auto 0;padding:4px 8px;border:0;background:none;color:var(--muted);font-size:11px;text-decoration:underline;cursor:pointer}
 .source-credits-link[hidden]{display:none}
-.install-guide{position:relative;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px;max-width:480px;margin:6px auto 0;padding:4px 26px 4px 10px;color:var(--muted);font-size:11px;line-height:1.5;text-align:center}
+.install-guide{position:relative;max-width:640px;margin:12px auto 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--muted);font-size:10px;line-height:1.6;text-align:left}
 .install-guide[hidden]{display:none}
-.install-guide__icon{height:1em;width:auto;vertical-align:-0.15em}
-.install-guide__add{border:1px solid var(--line);border-radius:8px;background:none;color:inherit;font:inherit;font-size:11px;padding:2px 8px;cursor:pointer}
-.install-guide__dismiss{position:absolute;top:2px;right:4px;border:0;background:none;color:inherit;font-size:13px;line-height:1;padding:2px 4px;cursor:pointer}
+.install-guide__row{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.install-guide__text{margin:0;word-break:keep-all;overflow-wrap:anywhere}
+.install-guide__icon{height:1em;width:1em;vertical-align:-0.15em;margin:0 1px}
+.install-guide__minor{display:flex;flex-wrap:wrap;gap:8px}
+.install-guide__btn{min-height:32px;border:1px solid var(--line);border-radius:999px;background:var(--accent-soft);color:var(--accent-strong);padding:4px 12px;font-size:11px;font-weight:700}
+.install-guide__btn[hidden]{display:none}
+.install-guide__btn--primary{border-color:var(--accent-strong);background:var(--accent-strong);color:var(--on-accent);padding:8px 16px;font-size:12px}
 .source-credits{width:min(560px,calc(100vw - 32px));max-height:min(80vh,640px);padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
 .source-credits::backdrop{background:var(--source-backdrop)}
 .source-credits h2{margin:0 0 6px;font-size:15px}
@@ -2908,9 +2912,14 @@ body.review-modal-open{overflow:hidden}
   </main>
   <button class="source-credits-link" id="openSourceCredits" type="button" hidden>用例の出典</button>
   <section class="install-guide" id="installGuide" hidden aria-label="ホーム画面への追加">
-    <span id="installGuideText"></span>
-    <button class="install-guide__add" id="installGuideAdd" type="button" hidden>ホーム画面に追加する</button>
-    <button class="install-guide__dismiss" id="installGuideDismiss" type="button" aria-label="閉じる">×</button>
+    <div class="install-guide__row">
+      <p id="installGuideText" class="install-guide__text"></p>
+      <button id="installGuideAdd" class="install-guide__btn install-guide__btn--primary" type="button" hidden>ホーム画面に追加する</button>
+      <div class="install-guide__minor">
+        <button id="installGuideLater" class="install-guide__btn" type="button">今は追加しない</button>
+        <button id="installGuideNever" class="install-guide__btn" type="button">今後は表示しない</button>
+      </div>
+    </div>
   </section>
   <dialog class="source-credits" id="sourceCredits" aria-labelledby="sourceCreditsTitle">
     <h2 id="sourceCreditsTitle">用例の出典</h2>
@@ -5180,6 +5189,7 @@ async function loadAdjvRuntimeItems(){
 }
 
 const INSTALL_NOTICE_KEY="conjInstallNoticeDismissed";
+const INSTALL_NOTICE_SESSION_KEY="conjInstallNoticeSessionHidden";
 function isStandaloneLaunch(){
   return window.matchMedia?.("(display-mode: standalone)").matches===true ||
     navigator.standalone===true;
@@ -5192,29 +5202,43 @@ function rememberInstallNoticeDismissal(){
     // プライベートブラウズなどで保存できなくても、案内そのものは使える。
   }
 }
+function installNoticeWasSessionHidden(){
+  try{ return sessionStorage.getItem(INSTALL_NOTICE_SESSION_KEY)==="true"; }catch{ return false; }
+}
+function rememberInstallNoticeSessionHidden(){
+  try{ sessionStorage.setItem(INSTALL_NOTICE_SESSION_KEY,"true"); }catch{
+    // プライベートブラウズなどで保存できなくても、案内そのものは使える。
+  }
+}
 function initInstallGuide(){
-  if(isStandaloneLaunch() || installNoticeWasDismissed()) return;
+  if(isStandaloneLaunch() || installNoticeWasDismissed() || installNoticeWasSessionHidden()) return;
   const guide=document.getElementById("installGuide");
   const textEl=document.getElementById("installGuideText");
   const addBtn=document.getElementById("installGuideAdd");
-  const dismissBtn=document.getElementById("installGuideDismiss");
+  const laterBtn=document.getElementById("installGuideLater");
+  const neverBtn=document.getElementById("installGuideNever");
   const installForIos=/iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints>1);
-  const shareIconSvg='<svg class="install-guide__icon" viewBox="0 0 24 24" role="img" aria-label="共有" focusable="false"><path d="M12 3v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 7l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="5" y="10" width="14" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+  const shareIconSvg='<svg class="install-guide__icon" viewBox="0 0 24 24" role="img" aria-label="共有" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg>';
   let installPrompt=null;
-  function dismiss(){
+  function dismissForSession(){
+    guide.hidden=true;
+    rememberInstallNoticeSessionHidden();
+  }
+  function dismissPermanently(){
     guide.hidden=true;
     rememberInstallNoticeDismissal();
   }
+  // 文面は固定の文字列。<wbr> で文節の切れ目だけを折り返し位置にする（keep-all と組み合わせる）。
   function render(){
     if(installForIos){
-      textEl.innerHTML=`共有ボタン${shareIconSvg}からホーム画面に追加すると、アプリとして扱えます`;
+      textEl.innerHTML="共有ボタン"+shareIconSvg+"から<wbr>ホーム画面に<wbr>追加すると、<wbr>アプリとして<wbr>扱えます";
       addBtn.hidden=true;
     }else if(installPrompt){
-      textEl.textContent="ホーム画面に追加すると、アプリとして扱えます";
+      textEl.innerHTML="ホーム画面に<wbr>追加すると、<wbr>アプリとして<wbr>扱えます";
       addBtn.hidden=false;
     }else{
-      textEl.textContent="ブラウザのメニューから「ホーム画面に追加」を選ぶと、アプリとして扱えます";
+      textEl.innerHTML="メニューの<wbr>「ホーム画面に追加」で<wbr>アプリとして<wbr>扱えます";
       addBtn.hidden=true;
     }
     guide.hidden=false;
@@ -5224,13 +5248,28 @@ function initInstallGuide(){
     installPrompt=event;
     render();
   });
-  window.addEventListener("appinstalled",dismiss);
+  window.addEventListener("appinstalled",dismissPermanently);
+  laterBtn.addEventListener("click",dismissForSession);
+  neverBtn.addEventListener("click",dismissPermanently);
   addBtn.addEventListener("click",async()=>{
     if(!installPrompt) return;
-    await installPrompt.prompt();
-    dismiss();
+    const event=installPrompt;
+    // prompt() は同じイベントに対して一度しか呼べないため、呼んだら必ず使い切る。
+    installPrompt=null;
+    addBtn.hidden=true;
+    try{
+      await event.prompt();
+      const choice=await event.userChoice;
+      if(choice?.outcome==="accepted"){
+        dismissPermanently();
+      }else{
+        dismissForSession();
+      }
+    }catch{
+      // prompt/userChoiceが例外を投げた場合は、次回また案内できるようセッション非表示に留める。
+      dismissForSession();
+    }
   });
-  dismissBtn.addEventListener("click",dismiss);
   render();
 }
 
