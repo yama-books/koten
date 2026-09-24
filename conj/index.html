@@ -2855,6 +2855,76 @@ body.review-modal-open{overflow:hidden}
   .record-overview .record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .record-overview .record-grid .record-stat-accuracy{grid-column:1 / -1}
 }
+/* ===== v51: 取り組んだ問題はドーナツ中央（累計）へ集約し、右は正答数と正答率だけにする ===== */
+.record-overview .record-breakdown-panel{
+  grid-template-columns:104px minmax(0,1fr);
+  align-items:center;
+}
+.record-overview .record-donut{
+  width:104px;
+  height:104px;
+}
+.record-overview .record-donut-center{
+  inset:15px;
+  flex-direction:column;
+  gap:2px;
+}
+.record-donut-caption{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1;
+}
+.record-overview .record-donut-center strong{font-size:21px}
+.record-overview .record-donut.is-long .record-donut-center strong{font-size:16px}
+.record-overview .record-grid{align-self:center}
+.record-overview .record-grid .record-stat-correct{
+  flex-direction:row;
+  justify-content:space-between;
+  gap:6px;
+  padding:6px 8px;
+}
+.record-overview .record-grid .record-stat-correct dt{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:1px;
+  text-align:left;
+}
+.record-stat-correct dt small{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.2;
+}
+@media(max-width:700px){
+  .record-overview .record-breakdown-panel{grid-template-columns:92px minmax(0,1fr)}
+  .record-overview .record-donut{
+    width:92px;
+    height:92px;
+  }
+  .record-overview .record-donut-center{inset:14px}
+  .record-overview .record-donut-center strong{font-size:19px}
+  .record-overview .record-donut.is-long .record-donut-center strong{font-size:15px}
+}
+@media(max-width:380px){
+  .record-overview{grid-template-columns:minmax(0,1fr) 108px}
+  .record-overview .record-breakdown-panel{
+    grid-template-columns:80px minmax(0,1fr);
+    gap:6px;
+  }
+  .record-overview .record-donut{
+    width:80px;
+    height:80px;
+  }
+  .record-overview .record-donut-center{inset:12px}
+  .record-overview .record-donut-center strong{font-size:17px}
+  .record-overview .record-donut.is-long .record-donut-center strong{font-size:13px}
+}
+.record-overview .breakdown-label{white-space:nowrap}
+@media(max-width:350px){
+  .record-overview{grid-template-columns:1fr}
+  .record-overview .record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .record-overview .record-grid .record-stat-accuracy{grid-column:auto}
+}
 /* 要確認カード：「なり（断定）」などの補足は半角括弧・小さめで詰め、入りきらなければ次行へ */
 .review-kind-line{
   flex-wrap:wrap;
@@ -3064,17 +3134,13 @@ body.review-modal-open{overflow:hidden}
       <div class="record-overview">
         <div class="record-breakdown-panel">
           <div class="record-donut" id="recordBreakdownChart" role="img" aria-label="取り組んだ問題の内訳">
-            <div class="record-donut-center"><span class="record-donut-value"><strong id="recordBreakdownTotal">0</strong><span>問</span></span></div>
+            <div class="record-donut-center"><span class="record-donut-caption">累計</span><span class="record-donut-value"><strong id="recordBreakdownTotal">0</strong><span>問</span></span></div>
           </div>
           <ul class="record-breakdown" id="recordBreakdown"></ul>
         </div>
         <dl class="record-grid">
-          <div class="record-stat record-stat-questions">
-            <dt>取り組んだ問題</dt>
-            <dd id="recordQuestions">0問</dd>
-          </div>
           <div class="record-stat record-stat-correct">
-            <dt>正答数</dt>
+            <dt>正答数<small>(累計)</small></dt>
             <dd id="recordCorrectCells">0</dd>
           </div>
           <div class="record-stat record-stat-accuracy">
@@ -4730,8 +4796,6 @@ function renderRecord(){
   const keys=["verb","adj","adjv","aux"];
   const counts=Object.fromEntries(keys.map(key=>[key,Number(stats.byPos[key])||0]));
   const total=keys.reduce((sum,key)=>sum+counts[key],0);
-  // Use the same source as the donut so the two question totals cannot diverge.
-  document.getElementById("recordQuestions").textContent=total+"問";
 
   const breakdown=document.getElementById("recordBreakdown");
   breakdown.innerHTML="";
@@ -4744,6 +4808,8 @@ function renderRecord(){
 
   const chart=document.getElementById("recordBreakdownChart");
   document.getElementById("recordBreakdownTotal").textContent=total;
+  // 4桁以上はドーナツの穴に収まるよう数字を小さくする。
+  chart.classList.toggle("is-long",String(total).length>=4);
   if(total){
     let cursor=0;
     const segments=keys.map(key=>{
