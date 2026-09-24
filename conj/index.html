@@ -431,8 +431,8 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .settings-dialog h2{margin:0 0 12px;font-size:15px}
 .settings-section{margin:0 0 16px}
 .settings-section h3{margin:0 0 8px;font-size:12px;color:var(--muted)}
-.theme-picker{display:flex;flex-wrap:wrap;gap:6px}
-.theme-swatch{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid var(--line-strong);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:12px;cursor:pointer}
+.theme-picker{display:flex;flex-wrap:nowrap;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.theme-swatch{display:inline-flex;align-items:center;flex:none;gap:4px;padding:5px 7px;border:1px solid var(--line-strong);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:11px;white-space:nowrap;cursor:pointer}
 .theme-swatch__dot{width:12px;height:12px;border-radius:50%;flex:none}
 .theme-swatch[data-theme="coffee"] .theme-swatch__dot{background:#a68c6f}
 .theme-swatch[data-theme="matcha"] .theme-swatch__dot{background:#6fa696}
@@ -2926,7 +2926,7 @@ body.review-modal-open{overflow:hidden}
     <section class="settings-section">
       <h3>配色</h3>
       <div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">
-        <button class="theme-swatch" type="button" data-theme="coffee" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>コーヒー</button>
+        <button class="theme-swatch" type="button" data-theme="coffee" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>珈琲</button>
         <button class="theme-swatch" type="button" data-theme="matcha" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>抹茶</button>
         <button class="theme-swatch" type="button" data-theme="indigo" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>藍</button>
         <button class="theme-swatch" type="button" data-theme="sumi" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>墨</button>
@@ -4388,6 +4388,23 @@ function lemmaAidText(item){
   const aidFull=aid && aidSuffix && !String(aid).endsWith(aidSuffix) ? String(aid)+aidSuffix : aid;
   return aid ? String(aidFull) : "";
 }
+function applyExampleVisibility(){
+  const exampleToggle=document.getElementById("showExample");
+  const compactExample=(current.example||"").replace(/[　 ]+/g,"");
+  const hasExample=current.exampleAvailable!==false && compactExample.length>0;
+  const showing=hasExample && exampleToggle.checked;
+  document.getElementById("examplePanel").style.display=showing?"block":"none";
+  const layout=document.querySelector(".study-layout");
+  if(showing){
+    layout.style.gridTemplateColumns="";
+    layout.style.gridTemplateAreas="";
+  }else{
+    layout.style.gridTemplateColumns="auto";
+    layout.style.gridTemplateAreas='"table"';
+  }
+  requestAnimationFrame(syncStudyHeights);
+  setTimeout(syncStudyHeights, 30);
+}
 function render(){
   document.getElementById("lemma").textContent=lemmaHeadingText(current);
   const lemmaAid=document.getElementById("lemmaAid");
@@ -4416,16 +4433,7 @@ function render(){
     document.getElementById("exampleFoot").textContent=current.source||"練習用例";
   }
 
-  const showing=hasExample && exampleToggle.checked;
-  document.getElementById("examplePanel").style.display=showing?"block":"none";
-  const layout=document.querySelector(".study-layout");
-  if(showing){
-    layout.style.gridTemplateColumns="";
-    layout.style.gridTemplateAreas="";
-  }else{
-    layout.style.gridTemplateColumns="auto";
-    layout.style.gridTemplateAreas='"table"';
-  }
+  applyExampleVisibility();
 
   const ai=document.getElementById("auxInfo");
   if(current.pos==="aux"){
@@ -5057,7 +5065,7 @@ document.getElementById("pos").onchange=()=>{
   updateLevelUI();
   nextQuestion();
 };
-document.getElementById("showExample").onchange=()=>current&&render();
+document.getElementById("showExample").onchange=()=>current&&applyExampleVisibility();
 document.getElementById("openRecord").onclick=openRecord;
 document.getElementById("closeRecord").onclick=closeRecord;
 document.querySelectorAll("[data-review-pos]").forEach(button=>{

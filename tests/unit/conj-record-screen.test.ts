@@ -468,7 +468,7 @@ test('conj: theme picker is a set of mood-swatch buttons, not a dropdown, and ap
   assert.ok(pickerMatch);
   const picker = pickerMatch[1];
   for (const [theme, label] of [
-    ['coffee', 'コーヒー'],
+    ['coffee', '珈琲'],
     ['matcha', '抹茶'],
     ['indigo', '藍'],
     ['sumi', '墨'],
@@ -601,4 +601,28 @@ test('conj: work4.7 CHJ excerpt ellipsis rotates to match vertical reading direc
   for (const excerpt of excerptsWithEllipsis.slice(0, 5)) {
     assert.match(highlight(excerpt, '', 0), /<span class="v-ellipsis">…<\/span>/);
   }
+});
+
+test('conj: toggling the 用例 checkbox does not reset an already-answered question back to its unanswered button state', () => {
+  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
+  assert.ok(scriptMatch);
+  const script = scriptMatch[1];
+
+  // toggling the checkbox must call the dedicated visibility-only helper, never the full render(),
+  // which unconditionally shows 採点/答えを見る and hides 次の問題 regardless of the real answered state
+  assert.match(script, /document\.getElementById\("showExample"\)\.onchange=\(\)=>current&&applyExampleVisibility\(\);/);
+  assert.doesNotMatch(script, /document\.getElementById\("showExample"\)\.onchange=\(\)=>current&&render\(\);/);
+
+  // the helper only touches the example panel/layout and the height sync, not the answered-state buttons
+  const helperMatch = script.match(/function applyExampleVisibility\(\)\{([\s\S]*?)\n\}/);
+  assert.ok(helperMatch);
+  const helper = helperMatch[1];
+  assert.match(helper, /document\.getElementById\("examplePanel"\)\.style\.display=showing\?"block":"none";/);
+  assert.match(helper, /syncStudyHeights/);
+  assert.doesNotMatch(helper, /getElementById\("check"\)/);
+  assert.doesNotMatch(helper, /getElementById\("reveal"\)/);
+  assert.doesNotMatch(helper, /getElementById\("next"\)/);
+
+  // render() (used for an actual new question) still applies example visibility as part of its full reset
+  assert.match(script, /function render\(\)\{[\s\S]*?applyExampleVisibility\(\);[\s\S]*?renderTable\(\);/);
 });
