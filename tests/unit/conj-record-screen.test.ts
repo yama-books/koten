@@ -686,3 +686,54 @@ test('conj: activation-form labels (未然形 etc.) are centered with an inner f
   const labelCellCallSites = [...script.matchAll(/makeLabelCell\(name\)/g)];
   assert.ok(labelCellCallSites.length >= 8, `expected every label-cell site (main table x4 shapes, review modal x4 shapes) to use makeLabelCell(), found ${labelCellCallSites.length}`);
 });
+
+test('conj: question selection favors items with fewer past attempts, without excluding any', () => {
+  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
+  assert.ok(scriptMatch);
+  const script = scriptMatch[1];
+
+  const countsSrc = script.match(/function itemAttemptCounts\(\)\{[\s\S]*?\n\}/);
+  assert.ok(countsSrc);
+  const pickSrc = script.match(/function pickWeightedQuestion\(list\)\{[\s\S]*?\n\}/);
+  assert.ok(pickSrc);
+
+  // itemAttemptCounts sums c+w across every slot key for a given item id (the part before the first ":")
+  const stats = {
+    slots: {
+      'yodan:mizen:0': { c: 8, w: 2 },
+      'yodan:renyo:0': { c: 5, w: 1 },
+      'kahen:mizen:0': undefined,
+    },
+  };
+  const { itemAttemptCounts: counts2 } = new Function(
+    'stats',
+    `${countsSrc[0]}\nreturn {itemAttemptCounts};`,
+  )(stats);
+  const attempts = counts2();
+  assert.strictEqual(attempts.get('yodan'), 16);
+  assert.strictEqual(attempts.get('kahen') ?? 0, 0);
+
+  // an item absent from stats entirely (never drawn before, e.g. a rare kind like カ変)
+  // must end up picked far more often than its plain 1-of-N share, but never guaranteed
+  const pool = [{ id: 'kahen' }, ...Array.from({ length: 19 }, (_, i) => ({ id: `practiced${i}` }))];
+  // give every "practiced" item the same non-zero attempt count so only kahen's zero-count stands out
+  const heavyStats = { slots: Object.fromEntries(pool.filter(x => x.id !== 'kahen').map(x => [`${x.id}:mizen:0`, { c: 10, w: 0 }])) };
+  const { pickWeightedQuestion: pickHeavy } = new Function(
+    'stats',
+    `${countsSrc[0]}\n${pickSrc[0]}\nreturn {pickWeightedQuestion};`,
+  )(heavyStats);
+
+  let kahenPicks = 0;
+  let otherPicksSeen = new Set();
+  const trials = 4000;
+  for (let i = 0; i < trials; i++) {
+    const picked = pickHeavy(pool);
+    if (picked.id === 'kahen') kahenPicks++;
+    else otherPicksSeen.add(picked.id);
+  }
+  // with 20 items uniformly it would land on kahen about 5% of the time; being the only
+  // unpracticed item it should land far more often than that (loose bound to avoid flakiness)
+  assert.ok(kahenPicks / trials > 0.15, `expected kahen to be picked disproportionately often, got ${kahenPicks}/${trials}`);
+  // it must not be the only possible outcome - other items still get drawn sometimes
+  assert.ok(otherPicksSeen.size > 1, 'other items must still be reachable, not excluded entirely');
+});
