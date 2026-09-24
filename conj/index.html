@@ -2862,11 +2862,22 @@ body.review-modal-open{overflow:hidden}
 }
 .review-kind-head{
   display:flex;
+  flex-wrap:wrap;
   align-items:center;
-  gap:4px;
+  gap:1px 4px;
   min-width:0;
   max-width:100%;
 }
+/* 「形容動詞 ナリ活用」が1行に収まるよう、誤答率欄とバッジの余白を詰める。
+   それでも入らない幅では語だけがバッジの下へ回り、はみ出して切れることはない。 */
+@media(min-width:360px){
+  .review-toggle{
+    grid-template-columns:44px minmax(0,1fr);
+    gap:4px;
+    padding-inline:4px;
+  }
+}
+.review-kind-line .review-pos-badge{padding:2px 3px}
 .review-label-note{
   font-size:10px;
   font-weight:700;
@@ -3085,7 +3096,7 @@ body.review-modal-open{overflow:hidden}
         <button type="button" data-review-pos="adjv" aria-pressed="false">形容動詞</button>
         <button type="button" data-review-pos="aux" aria-pressed="false">助動詞</button>
       </div>
-      <p class="review-rule">3問以上取り組んだ項目を、誤答率の高い順に表示します。未着手も表示します。</p>
+      <p class="review-rule">3問以上取り組んだ項目を、誤答率の高い順に表示します。</p>
       <p class="record-empty" id="recordReviewEmpty">まだ要確認の活用はありません。</p>
       <ul class="record-review" id="recordReview" hidden></ul>
     </section>
@@ -4691,12 +4702,8 @@ function reviewKinds(){
     })
     .sort((a,b)=>(b.wrongRate??-1)-(a.wrongRate??-1) || b.total-a.total || a.label.localeCompare(b.label,"ja"));
 
-  const attempted=all.filter(entry=>entry.total>=MIN_REVIEW_ATTEMPTS && entry.wrong>0);
-  const untouched=all.filter(entry=>entry.total===0);
-  const chosen=attempted.slice(0,untouched.length ? 5 : 6);
-  if(untouched.length) chosen.push(untouched[0]);
-  if(chosen.length<6) chosen.push(...untouched.slice(1,1+(6-chosen.length)));
-  return chosen.slice(0,6);
+  // 未着手は記録画面から選んで取り組めず、出題側で自動的に重みづけされるため表示しない。
+  return all.filter(entry=>entry.total>=MIN_REVIEW_ATTEMPTS && entry.wrong>0).slice(0,6);
 }
 
 function formatPoints(value){
@@ -4767,12 +4774,12 @@ function renderRecord(){
 
   review.forEach(entry=>{
     const li=document.createElement("li");
-    const percent=entry.wrongRate===null ? null : Math.round(entry.wrongRate*100);
+    const percent=Math.round(entry.wrongRate*100);
     const button=document.createElement("button");
     button.type="button";
     button.className="review-toggle";
     button.setAttribute("aria-haspopup","dialog");
-    button.innerHTML=`<span class="review-rate"><span>${percent===null?"未着手":"誤答率"}</span><strong>${percent===null?"—":percent+"%"}</strong></span><span class="review-copy"><span class="review-kind-line">${reviewKindLineHtml(`<span class="review-pos-badge" style="--review-pos-color:${colors[entry.pos]}">${labels[entry.pos]}</span>`,entry.label)}</span><small>${entry.total ? `誤答 ${entry.wrong}/${entry.total}` : "まだ取り組んでいません"}</small></span>`;
+    button.innerHTML=`<span class="review-rate"><span>誤答率</span><strong>${percent}%</strong></span><span class="review-copy"><span class="review-kind-line">${reviewKindLineHtml(`<span class="review-pos-badge" style="--review-pos-color:${colors[entry.pos]}">${labels[entry.pos]}</span>`,entry.label)}</span><small>誤答 ${entry.wrong}/${entry.total}</small></span>`;
     button.addEventListener("click",()=>openReviewModal(randomReviewItem(entry.exampleItems)));
     li.appendChild(button);
     reviewList.appendChild(li);

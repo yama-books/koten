@@ -229,7 +229,7 @@ test('conj: review uses error rate after three answers and groups auxiliaries by
   assert.match(html, /const MIN_REVIEW_ATTEMPTS=3/);
   assert.match(html, /entry\.total>=MIN_REVIEW_ATTEMPTS && entry\.wrong>0/);
   assert.match(html, /誤答率/);
-  assert.match(html, /`誤答 \$\{entry\.wrong\}\/\$\{entry\.total\}`/);
+  assert.match(html, /<small>誤答 \$\{entry\.wrong\}\/\$\{entry\.total\}<\/small>/);
   assert.match(html, /item\.pos==="aux" \? item\.pos\+":"\+item\.id/);
   assert.match(html, /if\(item\.pos!=="aux"\) return broadKind\(item\.kind\)/);
 });
@@ -763,4 +763,12 @@ test('conj: review card qualifiers use half-width parens and wrap as a unit', ()
 
 test('conj: the last 要確認 card keeps its bottom border', () => {
   assert.doesNotMatch(html, /\.record-review li:last-child\{/);
+});
+
+test('conj: 要確認 lists only attempted items and never untouched ones', () => {
+  assert.doesNotMatch(html, /未着手も表示します/);
+  assert.doesNotMatch(html, /まだ取り組んでいません/);
+  assert.doesNotMatch(html, /const untouched=/);
+  assert.match(html, /return all\.filter\(entry=>entry\.total>=MIN_REVIEW_ATTEMPTS && entry\.wrong>0\)\.slice\(0,6\);/);
+  assert.match(html, /\.review-kind-head\{\s*display:flex;\s*flex-wrap:wrap;/);
 });
