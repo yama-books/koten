@@ -57,8 +57,15 @@ test('conj: record screen keeps summary, legend, and review cards readable acros
   assert.match(rule('.record-overview .record-breakdown-panel'), /grid-template-columns:96px minmax\(0,1fr\);/);
   assert.doesNotMatch(rule('.record-overview .record-breakdown-panel'), /max-content/);
   assert.match(v46, /@media\(max-width:700px\)\{[\s\S]*?\.record-overview \.record-breakdown-panel\{[\s\S]*?minmax\(0,1fr\)/);
-  assert.match(v46, /@media\(max-width:460px\)\{[\s\S]*?\.record-review\{grid-template-columns:1fr\}/);
   assert.match(rule('.review-kind-line strong'), /white-space:nowrap;/);
+
+  // v49: 要確認 cards stay two-per-row down to real phone widths; only screens narrower than
+  // 360px (well below any current phone) fall back to one-per-row to avoid clipped text
+  assert.doesNotMatch(html, /@media\(max-width:460px\)\{\s*\.record-review\{grid-template-columns:1fr\}/);
+  assert.doesNotMatch(html, /@media\(max-width:460px\)\{\s*\.record-review\{\s*grid-template-columns:1fr;/);
+  assert.match(v46, /\/\* ===== v49: keep 要確認 cards two-per-row down to real phone widths, ===== \*\//);
+  assert.match(v46, /@media\(max-width:359px\)\{\s*\.record-review\{grid-template-columns:1fr\}\s*\.review-toggle\{grid-template-columns:56px minmax\(0,1fr\)\}\s*\}/);
+  assert.match(html, /\.record-review\{\s*grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
 
   for (const selector of [
     '.record-overview .record-stat dt',
@@ -625,6 +632,30 @@ test('conj: toggling the 用例 checkbox does not reset an already-answered ques
 
   // render() (used for an actual new question) still applies example visibility as part of its full reset
   assert.match(script, /function render\(\)\{[\s\S]*?applyExampleVisibility\(\);[\s\S]*?renderTable\(\);/);
+});
+
+test('conj: activation-form labels (未然形 etc.) are centered with an inner flex box, not vertical-align alone', () => {
+  // Safari does not reliably honor vertical-align:middle for vertical-writing-mode text inside
+  // a table cell, which left the 未然形/連用形/... labels sitting off-center in .katsuyo tables
+  // (most visibly in the record screen's 要確認 review modal). Center them with a flex child instead.
+  assert.match(html, /\.katsuyo th\.label \.label-text\{display:flex;width:100%;height:100%;align-items:center;justify-content:center\}/);
+
+  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
+  assert.ok(scriptMatch);
+  const script = scriptMatch[1];
+
+  // every label cell, in the main study table and the review modal alike, goes through the
+  // same builder so the fix (and any future change) can't drift out of sync between the two
+  const builderSrc = script.match(/function makeLabelCell\(name\)\{[\s\S]*?\n\}/);
+  assert.ok(builderSrc);
+  assert.match(builderSrc[0], /th\.className="label";/);
+  assert.match(builderSrc[0], /span\.className="label-text";/);
+  assert.match(builderSrc[0], /span\.textContent=name;/);
+  assert.match(builderSrc[0], /th\.appendChild\(span\);/);
+
+  assert.doesNotMatch(script, /const th=document\.createElement\("th"\);\s*th\.className="label";\s*th\.textContent=name;/);
+  const labelCellCallSites = [...script.matchAll(/makeLabelCell\(name\)/g)];
+  assert.ok(labelCellCallSites.length >= 8, `expected every label-cell site (main table x4 shapes, review modal x4 shapes) to use makeLabelCell(), found ${labelCellCallSites.length}`);
 });
 
 test('conj: question selection favors items with fewer past attempts, without excluding any', () => {
