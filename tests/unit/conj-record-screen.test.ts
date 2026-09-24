@@ -776,3 +776,7 @@ test('conj: 要確認 lists only attempted items and never untouched ones', () =
   assert.match(html, /return all\.filter\(entry=>entry\.total>=MIN_REVIEW_ATTEMPTS && entry\.wrong>0\)\.slice\(0,6\);/);
   assert.match(html, /\.review-kind-head\{\s*display:flex;\s*flex-wrap:wrap;/);
 });
+
+test('conj: 正答数 value is centered in the space right of its label', () => {
+  assert.match(html, /\.record-overview \.record-grid \.record-stat-correct dd\{\s*flex:1 1 auto;\s*min-width:0;\s*text-align:center;/);
+});
