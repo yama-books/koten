@@ -2255,14 +2255,6 @@ td.wrong{background:var(--bad)!important}
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
-@media(max-width:460px){
-  .record-review{
-    grid-template-columns:1fr;
-  }
-  .record-review li{
-    grid-template-columns:64px minmax(0,1fr);
-  }
-}
 
 /* ===== v42: muted ink-citrus record palette ===== */
 .record-screen{
@@ -2794,13 +2786,15 @@ body.review-modal-open{overflow:hidden}
   .record-overview .record-stat{padding:5px 6px}
   .record-overview .record-stat:nth-child(n+2){padding:5px 3px}
 }
-@media(max-width:460px){
-  .record-review{grid-template-columns:1fr}
-  .review-toggle{grid-template-columns:56px minmax(0,1fr)}
-}
 @media(max-width:350px){
   .record-overview{grid-template-columns:1fr}
   .record-overview .record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+/* ===== v49: keep 要確認 cards two-per-row down to real phone widths, ===== */
+/* ===== only falling back to one-per-row on very narrow (<360px) screens ===== */
+@media(max-width:359px){
+  .record-review{grid-template-columns:1fr}
+  .review-toggle{grid-template-columns:56px minmax(0,1fr)}
 }
 
 </style>

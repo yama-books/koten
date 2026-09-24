@@ -1299,3 +1299,31 @@ Playwrightで、①答えを見る→用例チェック操作→ボタンの表�
 - `npm run test:node`（全体）：862/862 pass
 - `npm run test:screen`（vitest）：32ファイル388件 all pass
 - Playwrightで実機確認：用例チェックボックスの不具合修正、配色ボタン1行収まり、「珈琲」表記を確認
+
+## 25. 記録画面「要確認」カードを2列固定に変更（2026-09-24・Claude Code）
+
+PR #41マージ後、ユーザーから「記録欄はなぜ2段でなくなったのかわかりません。2段に収まるよう調整。」との追加指示を受けた。
+
+### 判明した経緯
+
+`.record-review`（「要確認」カード一覧）のCSSを再調査した結果、**460px以下で1列に強制する`@media(max-width:460px)`ブロックが2箇所存在し、これは今回の一連のPR群（#40, #41）より前から存在する、古い（v43世代とv46世代）意図的な設計だった**ことが分かった。ベース（メディアクエリなし）の既定値は`repeat(2,minmax(0,1fr))`（2列）であり、460px以下でのみ1列＋カード内部を横並び（バッジ56px＋テキスト）に変える、という設計。
+
+ユーザーの実機（iPhone、論理幅390px）はこの460px以下の分岐に該当するため、以前から一貫して1列表示だったと考えられる（前回セッションで確認した「コード上は変化なし」という結論と矛盾しない）。今回、ユーザーから「2列にしてほしい」という明確なご要望を得たため、既存仕様の変更として対応した。
+
+### 実装内容
+
+- `.record-review`を460px以下で1列に強制していた2つの`@media(max-width:460px)`ブロック（`.record-review{grid-template-columns:1fr}`および付随する`.record-review li`/`.review-toggle`の内部レイアウト上書き）を削除した。
+- これにより、既定の2列（`repeat(2,minmax(0,1fr))`）が360px以上のすべての幅で有効になる。
+- ただし360px未満（iPhone SE初代・一部の旧型Android等、現行主要端末には存在しない極端に狭い画面）では、2列だと活用の種類名やラベルが欠けて読めなくなることをPlaywrightで確認したため、`v49`として`@media(max-width:359px)`のセーフティネットを新設し、その範囲でのみ1列＋内部横並びレイアウトに戻すようにした。
+- 320px・350px・359px・360px・375px・390px・428px・500px・700pxの各幅で実際にレンダリングされる`grid-template-columns`の計算値を直接検証し、360px以上で確実に2列になること、359px以下で1列に戻ることを確認した。
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts`の`conj: record screen keeps summary, legend, and review cards readable across widths`テストのうち、「460px以下で1列にする」ことを検査していたassertionを、「460px以下で1列にする指定が存在しないこと」「v49の359pxセーフティネットが存在すること」「既定の2列指定が残っていること」を検査する内容に更新した。
+
+### 検証結果
+
+- `node --test tests/unit/conj-record-screen.test.ts`：36/36 pass
+- `npm run test:node`（全体）：862/862 pass
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで320〜700pxの9幅を確認。390px（ユーザー実機相当）で「要確認」カードが2列表示になり、活用種類名が欠けずに表示されることを確認した。
