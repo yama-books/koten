@@ -5033,13 +5033,27 @@ function closeRecord(){
   closeReviewModal();
   document.getElementById("recordScreen").hidden=true;
 }
+function itemAttemptCounts(){
+  const counts=new Map();
+  Object.entries(stats.slots||{}).forEach(([slotKey,result])=>{
+    const itemId=slotKey.split(":")[0];
+    const attempts=(Number(result?.c)||0)+(Number(result?.w)||0);
+    counts.set(itemId,(counts.get(itemId)||0)+attempts);
+  });
+  return counts;
+}
 function pickWeightedQuestion(list){
-  const weighted=list.map(item=>({
-    item,
-    weight:Number.isFinite(Number(item.questionWeight)) && Number(item.questionWeight)>0
+  const attempts=itemAttemptCounts();
+  const weighted=list.map(item=>{
+    const baseWeight=Number.isFinite(Number(item.questionWeight)) && Number(item.questionWeight)>0
       ? Number(item.questionWeight)
-      : 1
-  }));
+      : 1;
+    // items with fewer past attempts get a proportionally larger share of the draw,
+    // so long unseen items (a rare kind like カ変, or plain bad luck) surface sooner,
+    // without making selection deterministic - it's still a weighted random draw.
+    const seen=attempts.get(item.id)||0;
+    return {item,weight:baseWeight/(seen+1)};
+  });
   const total=weighted.reduce((sum,x)=>sum+x.weight,0);
   let cursor=Math.random()*total;
   for(const entry of weighted){
