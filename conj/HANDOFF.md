@@ -1223,4 +1223,34 @@ Claude Codeへ引き継がれ、クラウド環境で作業を再開した。`ma
 - `npm run test:screen`（vitest）：32ファイル388件 all pass
 - Playwrightで実機確認：狭い画面でのホーム画面案内バナーの「×」がバナー右上に固定され孤立行が出ないこと、CHJ抜粋の「…」が縦読み方向に沿って回転して表示されること、設定ボタンが文字なしの歯車アイコンとして表示され開閉が正常に動作することを確認した。
 
-作業5「全体確認・公開」には未着手。次セッションでは`conj/HANDOFF.md`を確認し、作業5の内容を確認すること。
+## 23. ユーザー追加指示：記録画面をPCでもスマホ幅で表示（2026-09-24・Claude Code）
+
+作業5「全体確認・公開」の確認中、ユーザーから追加指示を受けた：「記録画面については、PC版での文字サイズがあまりに小さいため、拡大してスマホと同様のレイアウトと画面幅で表示してもよいと思います。」
+
+### 調査結果
+
+- `v46: record layout readability guard`は、PC(`min-width:860px`)で`.record-shell`を最大900pxまで、`.record-detail-grid`を2カラム(`minmax(420px,1fr) minmax(0,1fr)`)まで広げていた。
+- 一方、文字サイズ自体(統計ラベル12px・数値16〜18px等)はPC/スマホ問わず同一値のまま据え置きだった。
+- 結果として、PCでは「同じ小さい文字が、より広い箱の中に間延びして表示される」状態になっていた。
+- v46は元々「作業1:記録画面のPC表示崩れ修正」の成果物で、当時の不具合は「PCで2カラムにした際、凡例が統計欄に重なる」という構造崩れであり、「幅が狭いこと」自体が問題だったわけではない。したがって、スマホと同じ狭い幅・1カラムに統一しても当時の不具合は再発しない。
+
+### 実装内容
+
+- v46の`@media(min-width:860px){ .record-shell{width:min(100%,900px)} .record-detail-grid{...2カラム...} }`と、対応する`@media(max-width:859px){ .record-detail-grid{grid-template-columns:1fr} }`を削除した。
+- 代わりに`.record-detail-grid{grid-template-columns:1fr}`をメディアクエリなしで(=常時)適用するよう変更した。
+- `.record-shell`の幅は、v44で設定済みの`width:min(100%,640px)`がそのまま常時有効になる(v46によるPC専用の900px拡大がなくなったため)。
+- 文字サイズ自体は変更していない(据え置き)。箱が狭くなることで相対的に大きく見える、という方針どおり。
+- コメントを`/* ===== v48: keep the compact single-column record layout at every width, PC included, ===== */`として追加し、変更意図を明記した。
+
+### テスト更新
+
+`tests/unit/conj-record-screen.test.ts`の`conj: record screen keeps summary, legend, and review cards readable across widths`テストのうち、PC専用の900px拡大・2カラム化を検査していた2つのassertionを、「`.record-detail-grid`が常時1カラムであること」「`.record-shell`が900pxに広がる指定が存在しないこと」「640px幅指定が残っていること」を検査する内容に更新した(削除ではなく置き換え)。
+
+### 検証結果
+
+- `node --test tests/unit/conj-record-screen.test.ts`：35/35 pass
+- `npm run test:node`（全体）：861/861 pass
+- `npm run test:screen`（vitest）：32ファイル388件 all pass
+- Playwrightで1280px・1024px・390pxの3幅を実機確認：PC(1280px/1024px)ではスマホ同様の狭い中央寄せカードで表示され、文字が間延びせず読みやすくなったことを確認。390px(スマホ)側は変更前と見た目が変わっていないことを確認した。
+
+作業5「全体確認・公開」のうち、コード側の全体確認はこの追加修正を含めて完了。GitHub Pagesへの公開反映確認は、`main`へのマージ後に行う必要がある。

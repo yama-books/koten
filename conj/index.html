@@ -2728,15 +2728,9 @@ body.review-modal-open{overflow:hidden}
 
 
 /* ===== v46: record layout readability guard ===== */
-@media(min-width:860px){
-  .record-shell{width:min(100%,900px)}
-  .record-detail-grid{
-    grid-template-columns:minmax(420px,1fr) minmax(0,1fr);
-  }
-}
-@media(max-width:859px){
-  .record-detail-grid{grid-template-columns:1fr}
-}
+/* ===== v48: keep the compact single-column record layout at every width, PC included, ===== */
+/* ===== instead of stretching the same small type across a wider desktop shell ===== */
+.record-detail-grid{grid-template-columns:1fr}
 .record-overview{
   grid-template-columns:minmax(220px,1fr) 150px;
   gap:12px;

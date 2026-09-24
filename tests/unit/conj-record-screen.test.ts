@@ -46,8 +46,13 @@ test('conj: record screen keeps summary, legend, and review cards readable acros
     return Number(match[1]);
   };
 
-  assert.match(v46, /@media\(min-width:860px\)\{[\s\S]*?\.record-shell\{width:min\(100%,900px\)\}/);
-  assert.match(v46, /@media\(min-width:860px\)\{[\s\S]*?\.record-detail-grid\{[\s\S]*?grid-template-columns:minmax\(420px,1fr\) minmax\(0,1fr\);/);
+  // v48: the record screen keeps its compact single-column mobile layout at every width,
+  // including PC, instead of stretching the same small type across a wider desktop shell
+  assert.match(v46, /\/\* ===== v48: keep the compact single-column record layout at every width, PC included, ===== \*\//);
+  assert.match(rule('.record-detail-grid'), /grid-template-columns:1fr/);
+  assert.doesNotMatch(html, /\.record-shell\{width:min\(100%,900px\)\}/);
+  assert.doesNotMatch(html, /grid-template-columns:minmax\(420px,1fr\) minmax\(0,1fr\)/);
+  assert.match(html, /\.record-shell\{width:min\(100%,640px\)\}/);
   assert.match(rule('.record-overview'), /grid-template-columns:minmax\(220px,1fr\) 150px;/);
   assert.match(rule('.record-overview .record-breakdown-panel'), /grid-template-columns:96px minmax\(0,1fr\);/);
   assert.doesNotMatch(rule('.record-overview .record-breakdown-panel'), /max-content/);
