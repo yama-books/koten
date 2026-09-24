@@ -1159,7 +1159,6 @@ td.wrong{background:var(--bad)!important}
 
 /* Slightly smaller waka text to preserve a compact single vertical line. */
 .example-text{
-  font-size:15.5px !important;
   line-height:1.62 !important;
 }
 
@@ -1244,7 +1243,6 @@ td.wrong{background:var(--bad)!important}
 
 @media(max-width:700px){
   .example-text{
-    font-size:12px !important;
     line-height:1.45 !important;
   }
 
@@ -1337,7 +1335,6 @@ td.wrong{background:var(--bad)!important}
 
 /* 用例は全体的に2段階ほど小さくする */
 .example-text{
-  font-size:13px !important;
   line-height:1.48 !important;
   letter-spacing:.025em !important;
 }
@@ -1353,7 +1350,6 @@ td.wrong{background:var(--bad)!important}
 
 @media(max-width:700px){
   .example-text{
-    font-size:10.5px !important;
     line-height:1.42 !important;
     letter-spacing:.02em !important;
   }
@@ -2890,6 +2886,12 @@ body.review-modal-open{overflow:hidden}
   gap:1px;
   text-align:left;
 }
+/* 数字はラベルの右に残る余白の中で中央に置く */
+.record-overview .record-grid .record-stat-correct dd{
+  flex:1 1 auto;
+  min-width:0;
+  text-align:center;
+}
 .record-stat-correct dt small{
   color:var(--muted);
   font-size:10px;
@@ -2956,6 +2958,44 @@ body.review-modal-open{overflow:hidden}
   white-space:nowrap;
 }
 
+
+/* ===== v52: 表をカード中央に置き、用例はその左の余白に入れる ===== */
+/* 左右を同じ 1fr にして表を中央に固定し、用例は左の列で表側に寄せる。 */
+/* （復習ダイアログは別の配置を持つため対象外） */
+.study-layout:not(.review-modal-study-layout){
+  width:100%;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+  grid-template-areas:"example table .";
+}
+.study-layout:not(.review-modal-study-layout) .example-panel{
+  justify-self:end;
+  max-width:100%;
+}
+.study-layout:not(.review-modal-study-layout) .example-body{max-width:100%}
+
+/* 用例・出典を大きく。入りきらない用例だけ JS（fitExampleText）で縮める。 */
+.example-text{font-size:13px}
+.study-layout:not(.review-modal-study-layout) .example-text{font-size:15.5px}
+.study-layout:not(.review-modal-study-layout) .example-foot{font-size:10px !important}
+@media(max-width:700px){
+  .example-text{font-size:10.5px}
+  .study-layout:not(.review-modal-study-layout) .example-text{font-size:13px}
+  .study-layout:not(.review-modal-study-layout) .example-foot{font-size:9px !important}
+}
+
+/* ===== v52: 用例の出典ダイアログは一覧だけをスクロールし、「閉じる」を常に見せる ===== */
+.source-credits[open]{
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.source-credits > #sourceCreditsList{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.source-credits #closeSourceCredits{flex:0 0 auto}
 </style>
 </head>
 <body>
@@ -4471,6 +4511,19 @@ function syncStudyHeights(){
   const h=Math.ceil(tableRect.height);
   body.style.height=h+"px";
   text.style.height=h+"px";
+  fitExampleText(text);
+}
+
+// 用例が表の高さや左の余白に収まらないときだけ、収まるまで文字を小さくする。
+const MIN_EXAMPLE_FONT_PX=9;
+function fitExampleText(text){
+  text.style.fontSize="";
+  let size=parseFloat(getComputedStyle(text).fontSize);
+  const overflowing=()=>text.scrollHeight>text.clientHeight+1 || text.scrollWidth>text.clientWidth+1;
+  while(overflowing() && size>MIN_EXAMPLE_FONT_PX){
+    size=Math.max(MIN_EXAMPLE_FONT_PX,size-0.5);
+    text.style.fontSize=size+"px";
+  }
 }
 
 function hideKindAtStart(){
