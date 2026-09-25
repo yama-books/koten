@@ -24,10 +24,10 @@
     {
       "id": "adjv-093",
       "chjTarget": "手はなちに",
-      "publicTarget": "てばなちに",
+      "publicTarget": "手はなちに",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/さらしな日記_(群書類從)",
-      "excerpt": "これはおとこなどもそはねばいとてばなちにあらあらしげにて",
+      "excerpt": "これはをとこなども添はねば、いと手はなちに、あらあらしげにて、苫といふものを一重うちふきたれば、…",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "上洛の旅。かな表記差。連用形「に」を確認。"
@@ -38,7 +38,7 @@
       "publicTarget": "わづかなる",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/さらしな日記_(群書類從)",
-      "excerpt": "山のなからばかりの木の下のわづかなるに",
+      "excerpt": "山のなからばかりの、木の下のわづかなるに、葵のただ三筋ばかりあるを、「世ばなれてかかる山中にしも生ひけむよ」と、人々あはれがる。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "上洛の旅・足柄山。連体形「なる」を確認。"
@@ -49,7 +49,7 @@
       "publicTarget": "かやうなり",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/更級日記_(有朋堂文庫)",
-      "excerpt": "月のいみじう明きに、かやうなりし夜、宮にまゐりて",
+      "excerpt": "月のいみじう明きに、かやうなりし夜、宮にまゐりて、あひては露まどろまず、眺めあかしゝものを、恋しく思ひつゝ寝入りにけり。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "物詣での記。連用形「なり」＋過去「し」を確認。"
@@ -57,10 +57,10 @@
     {
       "id": "adjv-053",
       "chjTarget": "さらなり",
-      "publicTarget": "更なり",
+      "publicTarget": "さらなり",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/更級日記_(有朋堂文庫)",
-      "excerpt": "見る心地いへば更なり",
+      "excerpt": "かなしき子しのびの森となむおぼえし」とあるを見る心地、いへばさらなり。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "家居の記。漢字表記差。終止形「なり」を確認。"

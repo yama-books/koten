@@ -18,7 +18,7 @@
       "publicTarget": "忍びやかなれ",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
-      "excerpt": "忍びやかなれば萬につけて淚もろく覺ゆ",
+      "excerpt": "鳥どもゐなどしたるも、心にしみてあはれにをかしうおぼゆ。かい忍びやかなれば、よろづにつけて涙もろくおぼゆ。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "已然形「なれ」＋接続助詞「ば」を確認。"
@@ -29,7 +29,7 @@
       "publicTarget": "思はずなれ",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
-      "excerpt": "世に久しきことのいと思はずなれば塵ばかり惜しきにはあらず",
+      "excerpt": "つねに聞こゆるやうに、世に久しきことのいと思はずなれば、ちりばかり惜しきにはあらで、ただこの幼き人の上なむ、いみじくおぼえ侍る。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "已然形「なれ」＋接続助詞「ば」を確認。"
@@ -40,7 +40,7 @@
       "publicTarget": "あまりなり",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
-      "excerpt": "いと情なし。あまりなりなどものすれば",
+      "excerpt": "いと情なし。あまりなり。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "終止形「なり」を確認。"
@@ -48,10 +48,10 @@
     {
       "id": "adjv-075",
       "chjTarget": "ねんごろなる",
-      "publicTarget": "懇なる",
+      "publicTarget": "ねんごろなる",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/蜻蛉日記_(國文大觀)",
-      "excerpt": "その程の心ばへしも懇なるやうなりけり",
+      "excerpt": "そのほどの心ばへはしも、ねんごろなるやうなりけり。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "公開版は語幹を漢字「懇」で表記。連体形「なる」を確認。"

@@ -20,7 +20,7 @@
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "連用形「なり」＋完了「つる」を確認。",
-      "excerpt": "あまぐものはるかなりつる桂川そでをひでゝもわたりぬるかな",
+      "excerpt": "天雲のはるかなりつる桂川袖をひててもわたりぬるかな",
       "sourceLine": 403
     },
     {
@@ -32,43 +32,43 @@
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "已然形「なれ」＋接続助詞「ば」を確認。",
-      "excerpt": "船もいださでいたづらなればある人の詠める",
+      "excerpt": "船も出ださで、いたづらなれば、ある人のよめる、磯ふりの寄する磯には年月をいつともわかぬ雪のみぞ降る",
       "sourceLine": 230
     },
     {
       "id": "adjv-047",
       "chjTarget": "ゐややかなり",
-      "publicTarget": "ゐやゝかなり",
+      "publicTarget": "ゐややかなり",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "踊り字表記差。終止形「なり」を確認。",
-      "excerpt": "家の人のいで入りにくげならずゐやゝかなり",
+      "excerpt": "家の人の出で入り、にくげならず、ゐややかなり。",
       "sourceLine": 396
     },
     {
       "id": "adjv-068",
       "chjTarget": "あざらかなる",
-      "publicTarget": "あさらかなる",
+      "publicTarget": "あざらかなる",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "濁点表記差。連体形「なる」を確認。",
-      "excerpt": "ある人あさらかなる物もてきたり",
+      "excerpt": "ある人、あざらかなる物持て来たり。米して返り事す。",
       "sourceLine": 370
     },
     {
       "id": "adjv-091",
       "chjTarget": "ひそかに",
-      "publicTarget": "密に",
+      "publicTarget": "ひそかに",
       "targetVerified": true,
       "sourcePage": "https://ja.wikisource.org/wiki/土佐日記_(國文大觀)",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "漢字／かな表記差。連用形「に」を確認。",
-      "excerpt": "男ども密にいふなり",
+      "excerpt": "男ども、ひそかにいふなり。「『飯粒して、もつ釣る』とや」。",
       "sourceLine": 370
     }
   ],

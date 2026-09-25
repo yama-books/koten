@@ -3,8 +3,8 @@
   "status": "table-drill lemma pool / no raw text",
   "note": "形容動詞の活用表ドリル用語幹候補。活用セル自体は adjectival-noun-paradigms.json を正本とし、実例本文とは分離する。",
   "counts": {
-    "total": 117,
-    "nari": 94,
+    "total": 116,
+    "nari": 93,
     "tari": 23
   },
   "lemmas": [
@@ -626,10 +626,12 @@
       "normalizedStem": "はなやか",
       "lemma": "はなやかなり",
       "exampleIds": [
-        "adjv-021"
+        "adjv-021",
+        "adjv-087"
       ],
       "attestedForms": [
-        "已然形|main|なれ"
+        "已然形|main|なれ",
+        "連用形|sub|に"
       ]
     },
     {
@@ -1037,19 +1039,6 @@
       ],
       "attestedForms": [
         "終止形|main|なり"
-      ]
-    },
-    {
-      "id": "adjv-lemma-080",
-      "paradigmId": "adjv-nari",
-      "series": "ナリ活用",
-      "normalizedStem": "声花",
-      "lemma": "声花なり",
-      "exampleIds": [
-        "adjv-087"
-      ],
-      "attestedForms": [
-        "連用形|sub|に"
       ]
     },
     {

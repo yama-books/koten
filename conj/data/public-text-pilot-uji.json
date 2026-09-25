@@ -19,7 +19,7 @@
       "publicTarget": "うららかなり",
       "targetVerified": true,
       "sourcePage": "https://yatanavi.org/text/yomeiuji/uji048",
-      "excerpt": "春つかた、日うららかなりけるに",
+      "excerpt": "春つかた、日うららかなりけるに、六十ばかりの女のありけるが、虫打ち取りてゐたりけるに、庭に雀のしありきけるを、童部石を取りて打ちたれば、当たりて腰をうち折られにけり。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "第48話（巻3・第16話）。連用形「なり」＋過去「ける」を確認。"
@@ -30,7 +30,7 @@
       "publicTarget": "大きなれ",
       "targetVerified": true,
       "sourcePage": "https://yatanavi.org/text/yomeiuji/uji008",
-      "excerpt": "屋、大きなれども、人、ありげもなし",
+      "excerpt": "屋大きなれども人のありげもなし。ただ女一人ぞあるけはひしける。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "第8話（巻1・第8話）。已然形「なれ」＋接続助詞「ども」を確認。"
@@ -38,10 +38,10 @@
     {
       "id": "adjv-038",
       "chjTarget": "おぼろけなら",
-      "publicTarget": "おぼろげなら",
+      "publicTarget": "おぼろけなら",
       "targetVerified": true,
       "sourcePage": "https://yatanavi.org/text/yomeiuji/uji108",
-      "excerpt": "泣くさま、おぼろげならず",
+      "excerpt": "「何事ぞ」と問ふに、泣くさまおぼろけならず。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "第108話（巻9・第3話）。濁点表記差。未然形「なら」＋打消「ず」を確認。"
@@ -49,10 +49,10 @@
     {
       "id": "adjv-056",
       "chjTarget": "更なり",
-      "publicTarget": "さらなり",
+      "publicTarget": "更なり",
       "targetVerified": true,
       "sourcePage": "https://yatanavi.org/text/yomeiuji/uji018",
-      "excerpt": "はじめの夜の直垂、はた、さらなり",
+      "excerpt": "初めの夜の宿衣はた更なり。馬に鞍置きながら取らせてこそ送りけれ。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "第18話（巻1・第18話）。漢字／かな表記差。終止形「なり」を確認。"
@@ -63,7 +63,7 @@
       "publicTarget": "同様に",
       "targetVerified": true,
       "sourcePage": "https://yatanavi.org/text/yomeiuji/uji002",
-      "excerpt": "あまた同様に語れば、心も得で、年も暮れぬ",
+      "excerpt": "またその里の人の夢にもこの定に見えたりとて、あまた同様に語れば、心も得で年も暮れぬ。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "第2話（巻1・第2話）。連用形「に」を確認。"
@@ -74,7 +74,7 @@
       "publicTarget": "厚々と",
       "targetVerified": true,
       "sourcePage": "https://yatanavi.org/text/yomeiuji/uji101",
-      "excerpt": "太き糸して、厚々と細かに強げにしたるを持て来たり",
+      "excerpt": "ふくたいといふ物を、なべてにも似ず、太き糸して厚々とこまかに強げにしたるを持て来たり。",
       "excerptReviewed": true,
       "exampleEnabledPublic": true,
       "note": "第101話（巻8・第3話）。タリ活用の連用形「と」を確認。"
