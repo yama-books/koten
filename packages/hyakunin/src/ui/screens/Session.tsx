@@ -1,7 +1,7 @@
 import { appConfig } from "@koten/shared/app-config";
 import type { UserSettings } from "@koten/shared/domain/event";
 import { MasteryMeter } from "@koten/shared/mastery-meter";
-import { useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import {
   buildFeedback,
   beginQuestion,
@@ -168,6 +168,22 @@ export function Session({
   const continueButtonRef = useRef<HTMLButtonElement>(null);
   const exitButtonRef = useRef<HTMLButtonElement>(null);
   const wasConfirmExit = useRef(false);
+  const answerInputRef = useRef<HTMLInputElement>(null);
+  /*
+   * マウス・トラックパッドで操作する端末（PC）では、出題のたびに回答欄へカーソルを置く。
+   * キーボードだけで「入力 → Enter で答え合わせ → Enter で次へ」と進められるようにするため。
+   * タッチ端末では勝手にソフトウェアキーボードが開いて問題文が隠れるので対象外にする。
+   */
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!window.matchMedia?.("(hover: hover) and (pointer: fine)").matches) return;
+    if (flow.phase === "prompt") {
+      answerInputRef.current?.focus({ preventScroll: true });
+    } else if (flow.phase === "revealed") {
+      // 答え合わせで回答欄が読み取り専用に変わるとフォーカスが外れるため、「次へ」に移して Enter で進めるようにする。
+      nextButtonRef.current?.focus({ preventScroll: true });
+    }
+  }, [flow.phase, flow.questionIndex]);
   useLayoutEffect(() => {
     if (confirmExit) {
       continueButtonRef.current?.focus();
@@ -798,6 +814,15 @@ export function Session({
                     readOnly={displayFlow.phase === "revealed"}
                     placeholder={displayFlow.phase === "revealed" ? undefined : "答えを入力"}
                     onInput={(event) => setInput(event.currentTarget.value)}
+                    ref={answerInputRef}
+                    onKeyDown={(event) => {
+                      // IME の変換確定の Enter（Safari は keyCode 229）では送信しない。
+                      if (event.key !== "Enter" || event.isComposing || event.keyCode === 229) return;
+                      if (displayFlow.phase === "revealed" || input.trim() === "") return;
+                      event.preventDefault();
+                      event.stopPropagation();
+                      void submit();
+                    }}
                   />
                 </label>
               )}
@@ -865,7 +890,7 @@ export function Session({
                 />
               )}
               <div class="answer-actions">
-                <button class="primary" type="button" onClick={next}>
+                <button ref={nextButtonRef} class="primary" type="button" onClick={next}>
                   次へ
                 </button>
               </div>
