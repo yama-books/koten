@@ -421,6 +421,12 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .install-guide__btn{min-height:32px;border:1px solid var(--line);border-radius:999px;background:var(--accent-soft);color:var(--accent-strong);padding:4px 12px;font-size:11px;font-weight:700}
 .install-guide__btn[hidden]{display:none}
 .install-guide__btn--primary{border-color:var(--accent-strong);background:var(--accent-strong);color:var(--on-accent);padding:8px 16px;font-size:12px}
+@media(min-width:701px){
+  .install-guide{max-width:none;margin-top:14px;padding:10px 16px;font-size:12px}
+  .install-guide__row{flex-direction:row;align-items:center;flex-wrap:wrap;gap:8px 16px}
+  .install-guide__text{flex:1 1 280px}
+  .install-guide__btn{font-size:12px}
+}
 .source-credits{width:min(560px,calc(100vw - 32px));max-height:min(80vh,640px);padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
 .source-credits::backdrop{background:var(--source-backdrop)}
 .source-credits h2{margin:0 0 6px;font-size:15px}
@@ -4491,7 +4497,43 @@ function highlight(text,target,occurrence){
   return markVerticalEllipsis(text.slice(0,i)+"<mark>"+text.slice(i,i+target.length)+"</mark>"+text.slice(i+target.length));
 }
 
+// PC・タブレットでは画面の高さに余る分だけ活用表と用例をまとめて拡大し、
+// 画面下に不自然な余白が残らないようにする（スマホ幅では常に等倍）。
+const STUDY_ZOOM_MIN_WIDTH=701;
+const STUDY_ZOOM_MAX=1.7;
 function syncStudyHeights(){
+  const layout=document.querySelector(".card .study-layout");
+  if(!layout) return;
+  layout.style.zoom="";
+  syncStudyHeightsAtCurrentZoom();
+  if(window.innerWidth<STUDY_ZOOM_MIN_WIDTH) return;
+  const card=layout.closest(".card");
+  const actions=card && card.querySelector(".actions");
+  if(!card || !actions) return;
+  const layoutRect=layout.getBoundingClientRect();
+  if(layoutRect.height<=0) return;
+  // カード下端（操作ボタン＋カード余白）までが画面内に収まる倍率を求める。
+  const cardBottom=card.getBoundingClientRect().bottom+window.scrollY;
+  const bottomMargin=16;
+  const spare=window.innerHeight-bottomMargin-cardBottom;
+  const byHeight=1+spare/layoutRect.height;
+  const cardStyle=getComputedStyle(card);
+  const innerWidth=card.clientWidth-parseFloat(cardStyle.paddingLeft)-parseFloat(cardStyle.paddingRight);
+  // レイアウト枠そのものは横幅いっぱいに広がることがあるため、中身の実幅で見る。
+  let left=Infinity,right=-Infinity;
+  for(const child of layout.children){
+    const r=child.getBoundingClientRect();
+    if(r.width<=0) continue;
+    left=Math.min(left,r.left); right=Math.max(right,r.right);
+  }
+  const contentWidth=right>left?right-left:layoutRect.width;
+  const byWidth=innerWidth/contentWidth;
+  const zoom=Math.min(STUDY_ZOOM_MAX,byHeight,byWidth);
+  if(zoom<=1.02) return;
+  layout.style.zoom=String(Math.round(zoom*100)/100);
+  syncStudyHeightsAtCurrentZoom();
+}
+function syncStudyHeightsAtCurrentZoom(){
   const table=document.querySelector(".katsuyo");
   const tablePanel=document.getElementById("tablePanel");
   const examplePanel=document.getElementById("examplePanel");
@@ -4499,16 +4541,20 @@ function syncStudyHeights(){
   const text=document.querySelector(".example-text");
   if(!table || !tablePanel || !examplePanel || !body || !text) return;
 
+  // zoom 適用中は getBoundingClientRect と style の px の尺度が異なりうるため、
+  // 既知の高さを一度与えて実測した比率で換算する（ブラウザ差を吸収する）。
+  body.style.height="100px";
+  const scale=(body.getBoundingClientRect().height/100)||1;
   const tableRect=table.getBoundingClientRect();
   const panelRect=tablePanel.getBoundingClientRect();
 
   // 本活用・補助活用の見出しが出る表だけ表本体が下がるため、
   // その差分だけ用例側も下げて、表の一行目と用例の先頭を揃える。
-  const topOffset=Math.max(0, Math.round(tableRect.top-panelRect.top));
+  const topOffset=Math.max(0, Math.round((tableRect.top-panelRect.top)/scale));
   examplePanel.style.paddingTop=topOffset+"px";
 
   // 用例の縦の長さは「表本体」そのものに合わせる。
-  const h=Math.ceil(tableRect.height);
+  const h=Math.ceil(tableRect.height/scale);
   body.style.height=h+"px";
   text.style.height=h+"px";
   fitExampleText(text);
@@ -4656,6 +4702,24 @@ function render(){
   document.getElementById("reveal").style.display="inline-block";
   document.getElementById("next").style.display="none";
   updateScore();
+  focusFirstBlank();
+}
+
+// マウス・トラックパッド操作の端末（PC）では、出題直後に最初の空欄へ
+// カーソルを置き、キーボードだけで入力→Enter→採点→Enter→次の問題と進めるようにする。
+// タッチ端末では勝手にソフトウェアキーボードが開かないよう対象外にする。
+function focusFirstBlank(){
+  if(answered || selected) return;
+  if(!window.matchMedia || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  const active=document.activeElement;
+  // 品詞・レベルの操作中はフォーカスを奪わない（矢印キーでの連続調整を妨げないため）。
+  if(active && active.closest && active.closest(".toolbar")) return;
+  if(document.querySelector("dialog[open]")) return;
+  const reviewModal=document.getElementById("reviewModal");
+  if(reviewModal && !reviewModal.hidden) return;
+  const first=document.querySelector(".card .katsuyo .editable-answer");
+  if(!first) return;
+  openEditor(first, first.dataset.row, Number(first.dataset.i));
 }
 
 function grade(revealOnly=false){

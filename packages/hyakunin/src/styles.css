@@ -1,6 +1,14 @@
 /* Hallmark · macrostructure: Workbench · tone: quiet editorial · anchor hue: wisteria */
 :root { --sync-accent: #2e6762; --sync-accent-hover: #204f4b; --sync-soft: #eaf4f0; --sync-line: #a8c9c1; }
 html { background: var(--color-paper); overflow-x: clip; }
+/*
+ * PC・タブレット（横幅 48rem 以上かつ高さに余裕のある画面）では、画面の高さに合わせて
+ * 基準の文字サイズを上げ、rem で組んだ歌・回答欄・ボタンをまとめて拡大する。
+ * 小さな本文が中央に浮き、下に大きな余白が残るのを避けるため。スマホ幅は従来どおり 16px。
+ */
+@media (min-width: 48rem) and (min-height: 50rem) {
+  html { font-size: clamp(16px, calc(100dvh / 54), 22px); }
+}
 
 body {
   margin: 0;
