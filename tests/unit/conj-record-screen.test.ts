@@ -664,16 +664,14 @@ test('conj: toggling the 用例 checkbox does not reset an already-answered ques
   assert.match(script, /function render\(\)\{[\s\S]*?applyExampleVisibility\(\);[\s\S]*?renderTable\(\);/);
 });
 
-test('conj: activation-form labels (未然形 etc.) are vertical inside a horizontal label cell', () => {
-  // Safari does not reliably honor vertical-align:middle for a vertical-writing-mode table cell,
-  // which left the 未然形/連用形/... labels off-center. Keep the cell horizontal (so the usual
-  // centering works) and put the vertical writing on an inline-block child instead.
-  assert.match(html, /\.katsuyo th\.label \.label-text\{display:inline-block;vertical-align:middle;writing-mode:vertical-rl;text-orientation:upright\}/);
-  // The cell itself must stay horizontal: a vertical-rl <th> makes iPad Safari read the fixed
-  // column width (36px) as the cell's block size, widening the label column to match the answer column.
-  const labelRule = html.match(/\.katsuyo th\.label\{[^}]*\}/);
-  assert.ok(labelRule);
-  assert.doesNotMatch(labelRule[0], /writing-mode/);
+test('conj: activation-form labels (未然形 etc.) are stacked one character per line without writing-mode', () => {
+  // iPad Safari mis-measures vertical writing inside table cells: a vertical-rl <th> widened the label
+  // column, and a vertical-rl child laid the characters out side by side. Stack the characters with a
+  // 1em-wide horizontal box instead, which every engine lays out the same way.
+  assert.match(html, /\.katsuyo th\.label \.label-text\{display:inline-block;vertical-align:middle;width:1em;white-space:normal;word-break:break-all;overflow-wrap:anywhere;line-height:1\.18;text-align:center\}/);
+  const labelRules = html.match(/\.katsuyo th\.label(?: \.label-text)?\{[^}]*\}/g) ?? [];
+  assert.ok(labelRules.length >= 2);
+  for (const rule of labelRules) assert.doesNotMatch(rule, /writing-mode/);
 
   const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
   assert.ok(scriptMatch);

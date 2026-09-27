@@ -488,13 +488,11 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .katsuyo.adjective-stacked th.label{width:36px}
 .katsuyo.adjective-stacked th.label[rowspan="2"]{height:136px}
 
-/* 縦書きはセル（th）ではなく内側の .label-text に掛ける。セル自体を vertical-rl にすると、
-   iPad の Safari が table-layout:fixed の列幅（width:36px）を縦方向の長さとして扱い、
-   活用形の列が回答欄と同じ幅まで広がってしまう。 */
-.katsuyo th.label{background:var(--card);font:600 14px/1.12 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.06em}
-/* セルは横書きのまま text-align/vertical-align で中央に置き、縦書きの文字は中身の大きさだけの
-   inline-block にする（高さ100%を与えると、直交する書字方向の既定の長さで行が縦に伸びる）。 */
-.katsuyo th.label .label-text{display:inline-block;vertical-align:middle;writing-mode:vertical-rl;text-orientation:upright}
+/* 活用形の見出し（未然形…）は writing-mode を使わず、幅1文字の箱で1字ずつ折り返して縦に積む。
+   iPad の Safari は表のセル内の縦書きの寸法を正しく求められず、セル自体を縦書きにすると列が広がり、
+   内側の要素を縦書きにすると文字が横に並んでしまった。横書きの折り返しならどのブラウザでも同じに組める。 */
+.katsuyo th.label{background:var(--card);font:600 14px/1.12 "Yu Mincho","Hiragino Mincho ProN",serif}
+.katsuyo th.label .label-text{display:inline-block;vertical-align:middle;width:1em;white-space:normal;word-break:break-all;overflow-wrap:anywhere;line-height:1.18;text-align:center}
 
 .display{width:100%;height:100%;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;font:500 20px/1.1 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.03em}
 .display.small{font-size:18px}
