@@ -221,14 +221,25 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .foot-line { border-top: var(--rule-thin) solid var(--color-rule); margin-block-start: var(--space-xl); padding-block: var(--space-sm) max(var(--space-md), env(safe-area-inset-bottom)); color: var(--color-ink-muted); font-size: var(--text-sm); }
 .foot-line p { margin: 0; }
 .install-guide { margin-block: var(--space-md); }
-.install-guide--first { display: grid; gap: var(--space-sm); padding-block: var(--space-md); }
-.install-guide--first p,
+/*
+ * ホーム画面追加の案内。フッタの区切り線と重ねないよう枠線は引かず、淡い地色の面で囲む。
+ * スマホは文言を中央に置き、ボタンを横幅いっぱいに2等分する（片側に寄って見えないように）。
+ * PC・タブレットは文言を左、ボタンを右端にそろえた1行にする（conj・vintage-kana と同じ配置）。
+ */
+.install-guide--first { display: grid; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); background: var(--color-surface-soft); color: var(--color-ink); }
 .install-guide--returning { margin: 0; }
-.install-guide__steps { margin: 0; }
-.install-guide__steps summary { min-height: 44px; cursor: pointer; }
-.install-guide__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
-.install-guide__actions button { flex: 1 1 12rem; min-width: 0; }
-.install-guide__actions .install-guide__dismiss { flex: 0 1 auto; min-width: 44px; min-height: 44px; font-size: var(--text-sm); }
+.install-guide__text { margin: 0; text-align: center; word-break: keep-all; overflow-wrap: anywhere; text-wrap: balance; }
+.install-guide__icon { width: 1.1em; height: 1.1em; margin-inline: 0.15em; vertical-align: -0.2em; }
+.install-guide__actions { display: grid; gap: var(--space-xs); }
+.install-guide__minor { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xs); }
+.install-guide__actions button { min-width: 0; font-size: var(--text-sm); }
+.install-guide__add { background: var(--color-ink); color: var(--color-paper); font-weight: 700; }
+@media (min-width: 48rem) {
+  .install-guide--first { display: flex; align-items: center; gap: var(--space-md); padding-inline: var(--space-md) var(--space-sm); }
+  .install-guide__text { flex: 1 1 auto; text-align: start; }
+  .install-guide__actions { display: flex; flex: 0 0 auto; gap: var(--space-xs); }
+  .install-guide__minor { display: flex; }
+}
 .loading { min-height: 12rem; display: grid; place-items: center; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
@@ -659,6 +670,18 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .poem-overlay__sheet { position: relative; display: grid; justify-items: center; gap: var(--space-md); box-sizing: border-box; width: min(100%, 30rem); max-height: 90dvh; overflow: auto; border-radius: 1.25rem; padding: var(--space-lg); background: var(--color-surface); box-shadow: 0 12px 40px oklch(22% 0.018 55 / 0.35); }
 .poem-overlay__no { margin: 0; font-size: var(--text-md); color: var(--color-ink-muted); }
 .poem-overlay__close { justify-self: center; }
+/*
+ * 横幅 40rem 以上では .poem-sheet が「歌｜作者」の2列グリッドになるため、番号と「閉じる」まで
+ * 2列に振り分けられて崩れていた（iPad・PC の記録画面）。暗転表示では配置を明示する：
+ * 番号を上、縦書きの作者を歌の左、「閉じる」を下の中央に置く。
+ */
+@media (min-width: 40rem) {
+  .poem-overlay__sheet { grid-template-columns: auto auto; grid-template-areas: "no no" "author poem" "close close"; justify-content: center; align-items: start; column-gap: var(--space-xl); width: min(100%, 36rem); }
+  .poem-overlay__no { grid-area: no; }
+  .poem-overlay__sheet > .poem { grid-area: poem; }
+  .poem-overlay__sheet > .author { grid-area: author; min-height: 0; }
+  .poem-overlay__close { grid-area: close; }
+}
 
 /* 版だけを静かに名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */
 .app-version { font-variant-numeric: tabular-nums; }

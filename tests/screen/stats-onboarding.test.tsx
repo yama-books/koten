@@ -270,25 +270,25 @@ async function guideTextFor(userAgent: string, maxTouchPoints = 0) {
 // 「端末別に案内する」という趣旨は変えず、両方向で確かめる。片方だけでは判定が死んでいても緑になる。
 test('N-15: ホーム画面への追加方法を端末別に案内する', async () => {
   const ios = await guideTextFor('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15');
-  expect(ios).toContain('ホーム画面への追加をおすすめします');
-  expect(ios).toContain('Safariの共有ボタンから「ホーム画面に追加」');
-  expect(ios).not.toContain('ブラウザのメニューから');
+  expect(ios).toContain('共有ボタンからホーム画面に追加すると、アプリとして扱えます');
+  expect(ios).not.toContain('メニューの');
 
   const other = await guideTextFor('Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/120.0.0.0');
-  expect(other).toContain('ブラウザのメニューから「ホーム画面に追加」');
-  expect(other).not.toContain('Safariの共有ボタン');
+  expect(other).toContain('メニューの「ホーム画面に追加」でアプリとして扱えます');
+  expect(other).not.toContain('共有ボタン');
 
   // iPadOS 13 以降の Safari は Macintosh を名乗る。UA だけで切ると iPad が Android 側へ落ちる。
   const ipad = await guideTextFor('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15', 5);
-  expect(ipad).toContain('Safariの共有ボタンから「ホーム画面に追加」');
+  expect(ipad).toContain('共有ボタンからホーム画面に追加すると');
 });
 
-test('073-5: 追加案内は理由を常時表示し、手順だけを折りたたみ、CSSに二重のstandalone判定がない', async () => {
+// 案内の文面・ボタンは conj・vintage-kana とそろえる（共有ボタンの図形つき、「今は追加しない」「今後は表示しない」）。
+test('073-5: 追加案内は他アプリと同じ文面とボタンで、CSSに二重のstandalone判定がない', async () => {
   const mounted = await mountHome(true);
   const guide = mounted.root.querySelector('.install-guide--first')!;
-  expect(guide.textContent).toContain('データが引き継がれません');
-  expect(guide.querySelector('details.install-guide__steps summary')?.textContent).toBe('追加のしかた');
-  expect(guide.querySelector<HTMLButtonElement>('.install-guide__dismiss')?.getAttribute('class')).toContain('install-guide__dismiss');
+  const buttons = Array.from(guide.querySelectorAll('button')).map((button) => button.textContent);
+  expect(buttons).toEqual(expect.arrayContaining(['今は追加しない', '今後は表示しない']));
+  expect(guide.querySelector<HTMLButtonElement>('.install-guide__dismiss')?.textContent).toBe('今後は表示しない');
   const styles = readFileSync(join(process.cwd(), 'packages/hyakunin/src/styles.css'), 'utf8');
   expect(styles).not.toContain('display-mode: standalone');
 });

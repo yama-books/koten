@@ -380,6 +380,8 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .spacer{flex:1}
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+/* 活用表を transform で拡大したとき、横に広い枠が画面外へはみ出して横スクロールが出ないようにする。 */
+@media(min-width:701px){.card{overflow-x:clip}}
 .meta{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap}
 .tag{background:var(--accent-soft);border-radius:999px;padding:4px 8px;color:var(--tag-ink);font-size:11px}
 .word{margin:12px 0 2px;text-align:center;font:600 36px/1.18 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.04em}
@@ -412,20 +414,24 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .track-heads .spacer{visibility:hidden}
 .source-credits-link{display:block;margin:10px auto 0;padding:4px 8px;border:0;background:none;color:var(--muted);font-size:11px;text-decoration:underline;cursor:pointer}
 .source-credits-link[hidden]{display:none}
-.install-guide{position:relative;max-width:640px;margin:12px auto 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--muted);font-size:10px;line-height:1.6;text-align:left}
+/* ホーム画面追加の案内。スマホは文言を中央に置き、ボタンを横幅いっぱいに2等分して左寄りに見えないようにする。
+   PC・タブレットは文言を左、ボタンを右端にそろえた1行にする。 */
+.install-guide{position:relative;max-width:640px;margin:14px auto 0;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--muted);font-size:11px;line-height:1.6}
 .install-guide[hidden]{display:none}
-.install-guide__row{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
-.install-guide__text{margin:0;word-break:keep-all;overflow-wrap:anywhere}
-.install-guide__icon{height:1em;width:1em;vertical-align:-0.15em;margin:0 1px}
-.install-guide__minor{display:flex;flex-wrap:wrap;gap:8px}
-.install-guide__btn{min-height:32px;border:1px solid var(--line);border-radius:999px;background:var(--accent-soft);color:var(--accent-strong);padding:4px 12px;font-size:11px;font-weight:700}
+.install-guide__row{display:grid;gap:10px}
+.install-guide__text{margin:0;text-align:center;word-break:keep-all;overflow-wrap:anywhere;text-wrap:balance}
+.install-guide__icon{height:1.1em;width:1.1em;vertical-align:-0.2em;margin:0 2px}
+.install-guide__minor{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.install-guide__btn{min-height:36px;border:1px solid var(--line);border-radius:999px;background:var(--accent-soft);color:var(--accent-strong);padding:6px 12px;font-size:12px;font-weight:700;white-space:nowrap}
 .install-guide__btn[hidden]{display:none}
-.install-guide__btn--primary{border-color:var(--accent-strong);background:var(--accent-strong);color:var(--on-accent);padding:8px 16px;font-size:12px}
+.install-guide__btn--primary{width:100%;min-height:40px;border-color:var(--accent-strong);background:var(--accent-strong);color:var(--on-accent);font-size:13px}
 @media(min-width:701px){
-  .install-guide{max-width:none;margin-top:14px;padding:10px 16px;font-size:12px}
-  .install-guide__row{flex-direction:row;align-items:center;flex-wrap:wrap;gap:8px 16px}
-  .install-guide__text{flex:1 1 280px}
-  .install-guide__btn{font-size:12px}
+  .install-guide{max-width:none;padding:12px 12px 12px 20px;border-radius:16px;font-size:12px}
+  .install-guide__row{display:flex;align-items:center;gap:10px 16px}
+  .install-guide__text{flex:1 1 auto;text-align:left}
+  .install-guide__btn--primary{width:auto;padding-inline:18px}
+  .install-guide__minor{display:flex;flex:0 0 auto}
+  .install-guide__btn{padding-inline:16px}
 }
 .source-credits{width:min(560px,calc(100vw - 32px));max-height:min(80vh,640px);padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
 .source-credits::backdrop{background:var(--source-backdrop)}
@@ -3002,6 +3008,21 @@ body.review-modal-open{overflow:hidden}
   overscroll-behavior:contain;
 }
 .source-credits #closeSourceCredits{flex:0 0 auto}
+
+/* ===== 記録画面：PC・タブレット ===== */
+/* 内訳は「品詞名」と「問数」が行の両端に離れすぎないよう、表を中身の幅に縮めて
+   ドーナツの横へ寄せる。問数は右端（末尾）でそろえる。 */
+@media(min-width:701px){
+  .record-overview .record-breakdown-panel{grid-template-columns:96px max-content;justify-content:center;gap:24px}
+  .record-overview .record-breakdown{width:max-content;min-width:8em}
+  .record-overview .record-breakdown li{grid-template-columns:minmax(0,1fr) auto;gap:14px}
+}
+/* 記録画面は幅 640px の組みのまま、画面幅に合わせて全体（文字も含む）を拡大する。
+   CSS の zoom は iPad の Safari でレイアウトが崩れるため transform を使う。
+   拡大分は下方向のスクロール範囲に含まれ、左右は中央基準なので画面からはみ出さない。 */
+@media(min-width:800px){.record-shell{transform:scale(1.2);transform-origin:top center}}
+@media(min-width:960px){.record-shell{transform:scale(1.38)}}
+@media(min-width:1100px){.record-shell{transform:scale(1.5)}}
 </style>
 </head>
 <body>
@@ -4499,12 +4520,16 @@ function highlight(text,target,occurrence){
 
 // PC・タブレットでは画面の高さに余る分だけ活用表と用例をまとめて拡大し、
 // 画面下に不自然な余白が残らないようにする（スマホ幅では常に等倍）。
+// CSS の zoom は iPad の Safari で表の列幅・行位置が崩れるため、transform: scale で拡大し、
+// 拡大で増えた高さだけ下に余白を確保する（transform は周りのレイアウトを押し広げないため）。
 const STUDY_ZOOM_MIN_WIDTH=701;
 const STUDY_ZOOM_MAX=1.7;
 function syncStudyHeights(){
   const layout=document.querySelector(".card .study-layout");
   if(!layout) return;
-  layout.style.zoom="";
+  layout.style.transform="";
+  layout.style.transformOrigin="";
+  layout.style.marginBottom="";
   syncStudyHeightsAtCurrentZoom();
   if(window.innerWidth<STUDY_ZOOM_MIN_WIDTH) return;
   const card=layout.closest(".card");
@@ -4530,7 +4555,11 @@ function syncStudyHeights(){
   const byWidth=innerWidth/contentWidth;
   const zoom=Math.min(STUDY_ZOOM_MAX,byHeight,byWidth);
   if(zoom<=1.02) return;
-  layout.style.zoom=String(Math.round(zoom*100)/100);
+  const scale=Math.round(zoom*100)/100;
+  const originX=(left<right?(left+right)/2:layoutRect.left+layoutRect.width/2)-layoutRect.left;
+  layout.style.transformOrigin=originX+"px 0";
+  layout.style.transform="scale("+scale+")";
+  layout.style.marginBottom=Math.round(layoutRect.height*(scale-1))+"px";
   syncStudyHeightsAtCurrentZoom();
 }
 function syncStudyHeightsAtCurrentZoom(){
@@ -4541,8 +4570,8 @@ function syncStudyHeightsAtCurrentZoom(){
   const text=document.querySelector(".example-text");
   if(!table || !tablePanel || !examplePanel || !body || !text) return;
 
-  // zoom 適用中は getBoundingClientRect と style の px の尺度が異なりうるため、
-  // 既知の高さを一度与えて実測した比率で換算する（ブラウザ差を吸収する）。
+  // 拡大中は getBoundingClientRect が拡大後の値を返すため、
+  // 既知の高さを一度与えて実測した比率で style の px へ換算する。
   body.style.height="100px";
   const scale=(body.getBoundingClientRect().height/100)||1;
   const tableRect=table.getBoundingClientRect();

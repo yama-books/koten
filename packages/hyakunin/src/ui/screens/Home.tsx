@@ -71,6 +71,7 @@ type InstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 const installNoticeKey = "hyakunin:install-notice-dismissed";
+const installNoticeSessionKey = "hyakunin:install-notice-session-hidden";
 const syncIntroSessionKey = "hyakunin:sync-intro-session-dismissed";
 const syncIntroForeverKey = "hyakunin:sync-intro-forever-dismissed";
 
@@ -95,6 +96,31 @@ function installNoticeWasDismissed() {
   } catch {
     return false;
   }
+}
+
+function installNoticeWasSessionHidden() {
+  try {
+    return window.sessionStorage.getItem(installNoticeSessionKey) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function rememberInstallNoticeSessionHidden() {
+  try {
+    window.sessionStorage.setItem(installNoticeSessionKey, "true");
+  } catch {
+    // 保存できなくても、この表示のあいだは閉じたままになる。
+  }
+}
+
+/** 共有ボタンの形。conj・vintage-kana の案内と同じ図形にそろえる。 */
+function ShareIcon() {
+  return (
+    <svg class="install-guide__icon" viewBox="0 0 24 24" role="img" aria-label="共有" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v12" /><path d="M8 7l4-4 4 4" /><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" />
+    </svg>
+  );
 }
 
 function rememberInstallNoticeDismissal() {
@@ -162,6 +188,7 @@ export function Home({
   const [restoring, setRestoring] = useState(true);
   const [standalone] = useState(isStandaloneLaunch);
   const [installDismissed, setInstallDismissed] = useState(installNoticeWasDismissed);
+  const [installSessionHidden, setInstallSessionHidden] = useState(installNoticeWasSessionHidden);
   const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
   const [syncIntroDismissed, setSyncIntroDismissed] = useState(syncIntroWasDismissed);
   function dismissSyncIntro(forever: boolean) {
@@ -264,10 +291,18 @@ export function Home({
     rememberInstallNoticeDismissal();
     setInstallDismissed(true);
   };
+  const hideInstallNoticeForSession = () => {
+    rememberInstallNoticeSessionHidden();
+    setInstallSessionHidden(true);
+  };
   const showInstallPrompt = async () => {
     if (!installPrompt) return;
-    await installPrompt.prompt();
-    dismissInstallNotice();
+    const prompt = installPrompt;
+    setInstallPrompt(null);
+    await prompt.prompt();
+    // 追加を取りやめた人には、次の機会にも案内を残す。
+    const choice = await prompt.userChoice.catch(() => null);
+    if (choice?.outcome === "accepted") dismissInstallNotice();
   };
   const persist = async (next: UserSettings) => {
     setSettings(next);
@@ -615,14 +650,22 @@ export function Home({
         これまでの記録
       </button>
       <footer class="foot-line">
-        {!showStatsOnboarding && !standalone && !installDismissed && (
+        {/* 文面とボタンは conj・vintage-kana の案内とそろえる。<wbr> で文節の切れ目だけを折り返し位置にする。 */}
+        {!showStatsOnboarding && !standalone && !installDismissed && !installSessionHidden && (
           <section class="install-guide install-guide--first" aria-label="ホーム画面への追加">
-            <strong>ホーム画面への追加をおすすめします</strong>
-            <p>ブラウザだと、LINE内のブラウザなど別の入り口から開いたときなどに、データが引き継がれません。ホーム画面に追加すると、普通のアプリのように使用できます。</p>
-            <details class="install-guide__steps"><summary>追加のしかた</summary><p>{installForIos ? "Safariの共有ボタンから「ホーム画面に追加」を選んでください。" : installPrompt ? "追加ボタンを選んで、ホーム画面に追加してください。" : "ブラウザのメニューから「ホーム画面に追加」を選んでください。"}</p></details>
+            <p class="install-guide__text">
+              {installForIos
+                ? <>共有ボタン<ShareIcon />から<wbr />ホーム画面に<wbr />追加すると、<wbr />アプリとして<wbr />扱えます</>
+                : installPrompt
+                  ? <>ホーム画面に<wbr />追加すると、<wbr />アプリとして<wbr />扱えます</>
+                  : <>メニューの<wbr />「ホーム画面に追加」で<wbr />アプリとして<wbr />扱えます</>}
+            </p>
             <div class="install-guide__actions">
-              {installPrompt && <button type="button" onClick={showInstallPrompt}>ホーム画面に追加する</button>}
-              <button class="install-guide__dismiss" type="button" onClick={dismissInstallNotice}>閉じる</button>
+              {installPrompt && <button class="install-guide__add" type="button" onClick={() => void showInstallPrompt()}>ホーム画面に追加する</button>}
+              <div class="install-guide__minor">
+                <button type="button" onClick={hideInstallNoticeForSession}>今は追加しない</button>
+                <button class="install-guide__dismiss" type="button" onClick={dismissInstallNotice}>今後は表示しない</button>
+              </div>
             </div>
           </section>
         )}

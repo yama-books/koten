@@ -103,17 +103,28 @@ test('home: closing the install notice persists a quiet returning hint', async (
   const heading = root.querySelector('h1')!;
   const notice = root.querySelector('.install-guide--first')!;
   expect(heading.compareDocumentPosition(notice) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
-  await act(() => { Array.from(notice.querySelectorAll('button')).find((button) => button.textContent === '閉じる')!.click(); });
+  await act(() => { Array.from(notice.querySelectorAll('button')).find((button) => button.textContent === '今後は表示しない')!.click(); });
   expect(window.localStorage.getItem('hyakunin:install-notice-dismissed')).toBe('true');
   expect(root.querySelector('.install-guide--first')).toBeNull();
   expect(root.querySelector('.install-guide--returning')?.textContent).toContain('ホーム画面に追加する');
+});
+
+// 「今は追加しない」は、この表示のあいだだけ閉じる。次に開いたとき（新しいセッション）はまた出す。
+test('home: "今は追加しない" hides the install notice only for the session', async () => {
+  const root = await renderHome();
+  const notice = root.querySelector('.install-guide--first')!;
+  await act(() => { Array.from(notice.querySelectorAll('button')).find((button) => button.textContent === '今は追加しない')!.click(); });
+  expect(root.querySelector('.install-guide--first')).toBeNull();
+  expect(window.sessionStorage.getItem('hyakunin:install-notice-session-hidden')).toBe('true');
+  expect(window.localStorage.getItem('hyakunin:install-notice-dismissed')).toBeNull();
+  window.sessionStorage.removeItem('hyakunin:install-notice-session-hidden');
 });
 
 // 閉じたことを覚えているのは、書き込みではなく**次のマウントでの読み出し**である。
 // 同じ描画の中だけを見ると、読み出しを落としても全緑になる。
 test('home: a reload after closing the install notice keeps it closed', async () => {
   const first = await renderHome();
-  await act(() => { Array.from(first.querySelectorAll('.install-guide--first button')).find((button) => button.textContent === '閉じる')!.click(); });
+  await act(() => { Array.from(first.querySelectorAll('.install-guide--first button')).find((button) => button.textContent === '今後は表示しない')!.click(); });
   render(null, first);
   first.remove();
   container = undefined;
