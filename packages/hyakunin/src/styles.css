@@ -235,10 +235,12 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .install-guide__actions button { min-width: 0; font-size: var(--text-sm); }
 .install-guide__add { background: var(--color-ink); color: var(--color-paper); font-weight: 700; }
 @media (min-width: 48rem) {
-  .install-guide--first { display: flex; align-items: center; gap: var(--space-md); padding-inline: var(--space-md) var(--space-sm); }
-  .install-guide__text { flex: 1 1 auto; text-align: start; }
-  .install-guide__actions { display: flex; flex: 0 0 auto; gap: var(--space-xs); }
-  .install-guide__minor { display: flex; }
+  /* 文字を拡大したときは、はみ出さずに折り返して2段になる。 */
+  .install-guide--first { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-md); padding-inline: var(--space-md) var(--space-sm); }
+  .install-guide__text { flex: 1 1 16rem; text-align: start; }
+  .install-guide__actions { display: flex; flex: 0 1 auto; flex-wrap: wrap; gap: var(--space-xs); margin-inline-start: auto; }
+  .install-guide__minor { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .install-guide__actions button { white-space: normal; }
 }
 .loading { min-height: 12rem; display: grid; place-items: center; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
