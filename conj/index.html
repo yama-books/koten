@@ -412,20 +412,24 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .track-heads .spacer{visibility:hidden}
 .source-credits-link{display:block;margin:10px auto 0;padding:4px 8px;border:0;background:none;color:var(--muted);font-size:11px;text-decoration:underline;cursor:pointer}
 .source-credits-link[hidden]{display:none}
-.install-guide{position:relative;max-width:640px;margin:12px auto 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--muted);font-size:10px;line-height:1.6;text-align:left}
+/* ホーム画面追加の案内。スマホは文言を中央に置き、ボタンを横幅いっぱいに2等分して左寄りに見えないようにする。
+   PC・タブレットは文言を左、ボタンを右端にそろえた1行にする。 */
+.install-guide{position:relative;max-width:640px;margin:14px auto 0;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--muted);font-size:11px;line-height:1.6}
 .install-guide[hidden]{display:none}
-.install-guide__row{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
-.install-guide__text{margin:0;word-break:keep-all;overflow-wrap:anywhere}
-.install-guide__icon{height:1em;width:1em;vertical-align:-0.15em;margin:0 1px}
-.install-guide__minor{display:flex;flex-wrap:wrap;gap:8px}
-.install-guide__btn{min-height:32px;border:1px solid var(--line);border-radius:999px;background:var(--accent-soft);color:var(--accent-strong);padding:4px 12px;font-size:11px;font-weight:700}
+.install-guide__row{display:grid;gap:10px}
+.install-guide__text{margin:0;text-align:center;word-break:keep-all;overflow-wrap:anywhere;text-wrap:balance}
+.install-guide__icon{height:1.1em;width:1.1em;vertical-align:-0.2em;margin:0 2px}
+.install-guide__minor{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.install-guide__btn{min-height:36px;border:1px solid var(--line);border-radius:999px;background:var(--accent-soft);color:var(--accent-strong);padding:6px 12px;font-size:12px;font-weight:700;white-space:nowrap}
 .install-guide__btn[hidden]{display:none}
-.install-guide__btn--primary{border-color:var(--accent-strong);background:var(--accent-strong);color:var(--on-accent);padding:8px 16px;font-size:12px}
+.install-guide__btn--primary{width:100%;min-height:40px;border-color:var(--accent-strong);background:var(--accent-strong);color:var(--on-accent);font-size:13px}
 @media(min-width:701px){
-  .install-guide{max-width:none;margin-top:14px;padding:10px 16px;font-size:12px}
-  .install-guide__row{flex-direction:row;align-items:center;flex-wrap:wrap;gap:8px 16px}
-  .install-guide__text{flex:1 1 280px}
-  .install-guide__btn{font-size:12px}
+  .install-guide{max-width:none;padding:12px 12px 12px 20px;border-radius:16px;font-size:12px}
+  .install-guide__row{display:flex;align-items:center;gap:10px 16px}
+  .install-guide__text{flex:1 1 auto;text-align:left}
+  .install-guide__btn--primary{width:auto;padding-inline:18px}
+  .install-guide__minor{display:flex;flex:0 0 auto}
+  .install-guide__btn{padding-inline:16px}
 }
 .source-credits{width:min(560px,calc(100vw - 32px));max-height:min(80vh,640px);padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
 .source-credits::backdrop{background:var(--source-backdrop)}
