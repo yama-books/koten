@@ -1,0 +1,321 @@
+{
+  "schemaVersion": "1.0",
+  "source": "conj/DESIGN_GLOSS_LAYOUT_2026-09-28.md §6.5（Claude 案をユーザーが 2026-09-28 に監査・承認）",
+  "policy": "status が \"audited\" のものだけを画面で強調する（exampleMeanings の各要素にマーカー＋太字）。candidate は一覧を普通に表示するだけ。意味が1つの語は status によらず強調しない。exampleMeanings の各要素は問題の meaning を「・」で分けた要素のどれかと一致すること。",
+  "records": [
+    {
+      "id": "ru_aux",
+      "target": "れ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "自発"
+      ],
+      "basis": "百人一首84「しのばれむ」 — 「しのばれむ」＝自然と懐かしく思い出されるだろう",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "raru_aux",
+      "target": "られ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "可能"
+      ],
+      "basis": "方丈記「目もあてられぬ」 — 打消を伴い不可能の意",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "su_aux",
+      "target": "せ",
+      "occurrence": 1,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "basis": "貝合「随身に歌はせ給ふ」 — 「随身に」が使役の相手。occurrence=1 の「せ」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "sasu_aux",
+      "target": "させ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "basis": "徒然草185「置きかへさせけり」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "shimu_aux",
+      "target": "しめ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "basis": "夢浮橋「出家せしめ奉りて」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "zu",
+      "target": "ぬ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "basis": "百人一首92「みえぬ」 — 意味が1つなので強調しない",
+      "confidence": "—",
+      "status": "audited"
+    },
+    {
+      "id": "mu_aux",
+      "target": "む",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推量",
+        "意志"
+      ],
+      "basis": "百人一首3「ひとりかも寝む」 — 疑問の「かも」と結ぶ推量が通説だが、主語が一人称で意志とも解せるため両方に印（2026-09-28 ユーザー決定）",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "muzu_aux",
+      "target": "むずる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "意志"
+      ],
+      "basis": "大鏡「われは…そこに建てむずるぞ」 — 主語が一人称（基経）の意志（2026-09-28 ユーザー確認）",
+      "confidence": "要確認",
+      "status": "audited",
+      "auditNote": "2026-09-28 ユーザー確認：意志"
+    },
+    {
+      "id": "ji_aux",
+      "target": "じ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消意志"
+      ],
+      "basis": "徒然草110「負けじと」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "mashi_aux",
+      "target": "まし",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "反実仮想"
+      ],
+      "basis": "百人一首44「恨みざらまし」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "mahoshi_aux",
+      "target": "まほしけれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "basis": "宇治拾遺6「行かまほしけれ」 — 意味が1つ",
+      "confidence": "—",
+      "status": "audited"
+    },
+    {
+      "id": "ki_aux",
+      "target": "し",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "過去"
+      ],
+      "basis": "百人一首7「いでし月」 — 意味が1つ",
+      "confidence": "—",
+      "status": "audited"
+    },
+    {
+      "id": "keri",
+      "target": "けり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "詠嘆"
+      ],
+      "basis": "百人一首69「錦なりけり」 — 和歌の「なりけり」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "tsu_aux",
+      "target": "つ",
+      "occurrence": 1,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "basis": "竹取物語「つけつ」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "nu_aux",
+      "target": "ぬる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "basis": "百人一首61「にほひぬるかな」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "tari_comp_aux",
+      "target": "たる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "存続"
+      ],
+      "basis": "百人一首32「かけたるしがらみ」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "ri_aux",
+      "target": "ら",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "存続"
+      ],
+      "basis": "土佐日記「思へらず」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "kemu_aux",
+      "target": "けめ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "過去推量"
+      ],
+      "basis": "更級日記「前の世に…宿世こそありけめ」 — 宿世があったこと自体の推量（2026-09-28 ユーザー確認）",
+      "confidence": "中",
+      "status": "audited",
+      "auditNote": "2026-09-28 ユーザー確認：過去推量"
+    },
+    {
+      "id": "ramu_aux",
+      "target": "らむ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "現在推量"
+      ],
+      "basis": "百人一首22「むべ山風を嵐といふらむ」 — 現在推量のみに印（2026-09-28 ユーザー決定）",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "beshi_aux",
+      "target": "べき",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "当然",
+        "推量"
+      ],
+      "basis": "百人一首88「みをつくしてや恋ひわたるべき」 — 当然・推量の両方に印（2026-09-28 ユーザー決定）",
+      "confidence": "要確認",
+      "status": "audited",
+      "auditNote": "2026-09-28 ユーザー確認：当然・推量"
+    },
+    {
+      "id": "maji_aux",
+      "target": "まじ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消推量"
+      ],
+      "basis": "徒然草120「事欠くまじ」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "rashi_aux",
+      "target": "らし",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推定"
+      ],
+      "basis": "百人一首2「来にけらし」 — 意味が1つ",
+      "confidence": "—",
+      "status": "audited"
+    },
+    {
+      "id": "meri_aux",
+      "target": "めり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推定"
+      ],
+      "basis": "百人一首75「秋もいぬめり」 — 推定（2026-09-28 ユーザー確認）",
+      "confidence": "中",
+      "status": "audited",
+      "auditNote": "2026-09-28 ユーザー確認：推定"
+    },
+    {
+      "id": "nari_hearsay_aux",
+      "target": "なり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "伝聞"
+      ],
+      "basis": "百人一首8「いふなり」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "nari_assert_aux",
+      "target": "なり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "断定"
+      ],
+      "basis": "百人一首96「わが身なりけり」",
+      "confidence": "高",
+      "status": "audited"
+    },
+    {
+      "id": "tari_assert_aux",
+      "target": "たり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "断定"
+      ],
+      "basis": "平治物語「うへたり」 — 意味が1つ",
+      "confidence": "—",
+      "status": "audited"
+    },
+    {
+      "id": "tashi_aux",
+      "target": "たかり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "希望"
+      ],
+      "basis": "平家物語「入りたかり」 — 意味が1つ",
+      "confidence": "—",
+      "status": "audited"
+    },
+    {
+      "id": "gotoshi_aux",
+      "target": "ごとし",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "比況"
+      ],
+      "basis": "平家物語1「夢のごとし」",
+      "confidence": "高",
+      "status": "audited"
+    }
+  ]
+}

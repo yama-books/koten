@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>conj 語釈レイアウト案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf9f7;--card:#fff;--ink:#3b352c;--muted:#7f776d;--heading-ink:#4b4030;
+  --line:#eae4dc;--line-strong:#d5cbbf;--accent:#a68c6f;--accent-strong:#7d6747;--accent-soft:#f3ebe4;
+  --tag-ink:#776650;--table-label-bg:#f8f4f1;--table-label-ink:#4d4233;--mark:rgba(211,179,142,.36);
+  --good:#e8f7ee;--blank:#c9bbab;--cell:#fefcfb;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#efebe6;font-family:"Zen Maru Gothic",sans-serif;color:var(--ink);padding:24px}
+h1{font-size:18px;margin:0 0 4px;color:var(--heading-ink)}
+.lead{font-size:12px;color:var(--muted);margin:0 0 18px}
+.row{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.frame{width:375px;flex:none}
+.cap{font-size:12px;font-weight:700;color:var(--heading-ink);margin:0 0 6px 4px}
+.cap small{font-weight:400;color:var(--muted);margin-left:6px}
+.screen{background:var(--bg);padding:12px;border-radius:22px;border:1px solid #ddd5cb}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 11px 14px;text-align:center}
+.tag{display:inline-block;font-size:9px;padding:3px 7px;border-radius:999px;background:var(--accent-soft);color:var(--tag-ink)}
+
+/* heading with reserved ruby band: no layout shift on reveal */
+.word{font:600 23px/1.18 "Klee One",serif;letter-spacing:.04em;color:var(--heading-ink);margin:0;padding-top:13px;position:relative}
+.word ruby{ruby-position:over}
+.word rt{font:600 11px/1 "Klee One",serif;letter-spacing:.02em;color:var(--accent-strong);transform:translateY(-1px)}
+.q .word rt{visibility:hidden}
+.aid{font:400 11px/1.25 "Klee One",serif;color:var(--muted);min-height:14px;margin:1px 0 0}
+.kind{font-size:10px;color:var(--muted);min-height:27px;display:flex;align-items:center;justify-content:center;gap:0}
+.kind .sep{margin:0 .55em;color:var(--line-strong)}
+.kind .conn{color:var(--muted)}
+
+.study{display:flex;justify-content:center;gap:6px;margin-top:4px}
+.ex{writing-mode:vertical-rl;white-space:nowrap;overflow:hidden;max-width:16px;font:400 10.5px/1.42 "Klee One",serif;letter-spacing:.02em;display:flex;flex-direction:column;justify-content:space-between;height:372px}
+.ex mark{background:linear-gradient(to left,transparent 15%,var(--mark) 15%,var(--mark) 85%,transparent 85%);color:inherit}
+.ex .foot{font:400 7px "Zen Maru Gothic";color:var(--muted);text-orientation:upright}
+table{border-collapse:collapse}
+td,th{border:1px solid var(--line-strong);height:62px;padding:0}
+th{background:var(--table-label-bg);color:var(--table-label-ink);writing-mode:vertical-rl;font-size:13px;font-weight:600;width:31px;letter-spacing:.06em}
+td{background:var(--cell);width:70px;font:400 16px "Zen Maru Gothic";writing-mode:vertical-rl}
+td.half{width:35px}
+td .blank{display:inline-block;width:30px;height:40px;border:2px solid var(--blank);border-radius:9px;writing-mode:horizontal-tb}
+.a td.ans{background:var(--good)}
+.rownote{font-size:8px;color:var(--muted);margin-top:4px}
+
+/* ===== proposed: gloss strip (answer phase) ===== */
+.gloss{display:grid;grid-template-columns:auto minmax(0,auto);column-gap:8px;row-gap:5px;width:fit-content;max-width:100%;margin:10px auto 0;text-align:left;align-items:baseline;
+  padding:8px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.gloss dt{font-size:10px;color:var(--tag-ink);text-align:right;white-space:nowrap;margin:0}
+.gloss dd{margin:0;font-size:12.5px;line-height:1.5;color:var(--ink)}
+.gloss dd span{white-space:nowrap}
+.gloss dt.ctx{color:var(--ink);background:linear-gradient(transparent 20%,var(--mark) 20%,var(--mark) 90%,transparent 90%);padding:0 2px}
+.gloss dd.sub{font-size:11px;color:var(--muted)}
+.gloss .emph{font-weight:700;color:var(--ink);background:linear-gradient(transparent 20%,var(--mark) 20%,var(--mark) 90%,transparent 90%);padding:0 1px}
+.gloss .future{opacity:.5}
+
+.btns{display:flex;justify-content:center;gap:10px;margin-top:12px}
+.btn{font-size:10px;border-radius:12px;padding:0 14px;height:40px;display:inline-flex;align-items:center;border:1px solid var(--line-strong);background:#fff}
+.btn.p{background:var(--accent-strong);color:#fff;border-color:var(--accent-strong)}
+.fold{height:0;border-top:1px dashed #c98;position:relative;margin:0 -12px}
+.fold span{position:absolute;right:6px;top:-13px;font-size:9px;color:#b76}
+.notes{font-size:11px;color:var(--muted);line-height:1.6;margin:8px 4px 0;padding-left:1.2em}
+.notes li::marker{color:var(--accent)}
+</style>
+</head>
+<body>
+<h1>conj 語釈レイアウト案（モバイル 375px・coffee テーマ）</h1>
+<p class="lead">左2枚：形容動詞ナリ活用（出題中 → 答え合わせ後）／中央：タリ活用（答え合わせ後）／右2枚：助動詞（出題中 → 答え合わせ後）。値はv0.6監査済みデータを使用。</p>
+<div class="row">
+
+<!-- A1 -->
+<div class="frame q">
+  <p class="cap">A1 形容動詞・出題中<small>ルビ帯は確保のみ（非表示）</small></p>
+  <div class="screen"><div class="card">
+    <span class="tag">形容動詞</span>
+    <div class="word" aria-label="しづかなり">し<ruby>づ<rt>ず</rt></ruby>かなり</div>
+    <div class="aid">&nbsp;</div>
+    <div class="kind">ナリ活用</div>
+    <div class="study">
+      <div class="ex"><span>…聞き分けたる事はなけれども、道々関々<mark>しづかなら</mark>ず。京中の家々には、門戸を閉ぢ…</span><span class="foot">保元物語</span></div>
+      <table><tbody>
+        <tr><td colspan="2"><span class="blank"></span></td><th>未然形</th></tr>
+        <tr><td class="half">に</td><td class="half">なり</td><th>連用形</th></tr>
+        <tr><td colspan="2"><span class="blank"></span></td><th>終止形</th></tr>
+        <tr><td colspan="2">なる</td><th>連体形</th></tr>
+        <tr><td colspan="2"><span class="blank"></span></td><th>已然形</th></tr>
+        <tr><td colspan="2"><span class="blank"></span></td><th>命令形</th></tr>
+      </tbody></table>
+    </div>
+    <div class="rownote">連用形は2種類</div>
+    <div class="btns"><span class="btn">答えを見る</span><span class="btn p">採点</span></div>
+  </div></div>
+</div>
+
+<!-- A2 -->
+<div class="frame a">
+  <p class="cap">A2 形容動詞・答え合わせ後<small>ルビ＋語釈帯が出現</small></p>
+  <div class="screen"><div class="card">
+    <span class="tag">形容動詞</span>
+    <div class="word" aria-label="しづかなり（現代仮名遣い しずかなり）">し<ruby>づ<rt>ず</rt></ruby>かなり</div>
+    <div class="aid">&nbsp;</div>
+    <div class="kind">ナリ活用</div>
+    <div class="study">
+      <div class="ex"><span>…聞き分けたる事はなけれども、道々関々<mark>しづかなら</mark>ず。京中の家々には、門戸を閉ぢ…</span><span class="foot">保元物語</span></div>
+      <table><tbody>
+        <tr><td colspan="2" class="ans">なら</td><th>未然形</th></tr>
+        <tr><td class="half">に</td><td class="half">なり</td><th>連用形</th></tr>
+        <tr><td colspan="2" class="ans">なり</td><th>終止形</th></tr>
+        <tr><td colspan="2">なる</td><th>連体形</th></tr>
+        <tr><td colspan="2" class="ans">なれ</td><th>已然形</th></tr>
+        <tr><td colspan="2" class="ans">なれ</td><th>命令形</th></tr>
+      </tbody></table>
+    </div>
+    <div class="rownote">連用形は2種類</div>
+    <dl class="gloss">
+      <dt>意味</dt><dd><span>静かだ・</span><span>平穏だ</span></dd>
+      <dt class="ctx">この用例では</dt><dd>打消で「平穏でない」</dd>
+    </dl>
+    <div class="btns"><span class="btn p">次の問題</span></div>
+  </div></div>
+</div>
+
+<!-- A3 -->
+<div class="frame a">
+  <p class="cap">A3 タリ活用・答え合わせ後<small>複数字の差分ルビ</small></p>
+  <div class="screen"><div class="card">
+    <span class="tag">形容動詞</span>
+    <div class="word" aria-label="ばうばうたり（現代仮名遣い ぼうぼうたり）"><ruby>ばう<rt>ぼう</rt></ruby><ruby>ばう<rt>ぼう</rt></ruby>たり</div>
+    <div class="aid">茫々たり</div>
+    <div class="kind">タリ活用</div>
+    <div class="study">
+      <div class="ex"><span>南には蒼海漫々として岸うつ浪も<mark>茫々たり</mark>。</span><span class="foot">平家物語</span></div>
+      <table><tbody>
+        <tr><td colspan="2" class="ans">たら</td><th>未然形</th></tr>
+        <tr><td class="half ans">と</td><td class="half">たり</td><th>連用形</th></tr>
+        <tr><td colspan="2">たり</td><th>終止形</th></tr>
+        <tr><td colspan="2" class="ans">たる</td><th>連体形</th></tr>
+        <tr><td colspan="2" class="ans">たれ</td><th>已然形</th></tr>
+        <tr><td colspan="2" class="ans">たれ</td><th>命令形</th></tr>
+      </tbody></table>
+    </div>
+    <div class="rownote">連用形は2種類</div>
+    <dl class="gloss">
+      <dt>意味</dt><dd><span>広々としてはるかだ</span></dd>
+      <dt class="ctx">この用例では</dt><dd>「波の音が激しい」</dd>
+    </dl>
+    <div class="btns"><span class="btn p">次の問題</span></div>
+  </div></div>
+</div>
+
+<!-- B1 -->
+<div class="frame q">
+  <p class="cap">B1 助動詞・出題中<small>接続を活用型の行へ</small></p>
+  <div class="screen"><div class="card">
+    <span class="tag">助動詞</span>
+    <div class="word">る</div>
+    <div class="aid">&nbsp;</div>
+    <div class="kind"><span>下二段型</span><span class="sep">|</span><span class="conn">未然形接続</span></div>
+    <div class="study">
+      <div class="ex"><span>ながらへばまたこのごろやしのば<mark>れ</mark>む憂しと見し世ぞ今は恋しき</span><span class="foot">小倉百人一首 八十四番</span></div>
+      <table><tbody>
+        <tr><td><span class="blank"></span></td><th>未然形</th></tr>
+        <tr><td>れ</td><th>連用形</th></tr>
+        <tr><td><span class="blank"></span></td><th>終止形</th></tr>
+        <tr><td><span class="blank"></span></td><th>連体形</th></tr>
+        <tr><td>るれ</td><th>已然形</th></tr>
+        <tr><td><span class="blank"></span></td><th>命令形</th></tr>
+      </tbody></table>
+    </div>
+    <div class="rownote">&nbsp;</div>
+    <div class="btns"><span class="btn">答えを見る</span><span class="btn p">採点</span></div>
+  </div></div>
+</div>
+
+<!-- B2 -->
+<div class="frame a">
+  <p class="cap">B2 助動詞・答え合わせ後<small>意味は語釈帯へ</small></p>
+  <div class="screen"><div class="card">
+    <span class="tag">助動詞</span>
+    <div class="word">る</div>
+    <div class="aid">&nbsp;</div>
+    <div class="kind"><span>下二段型</span><span class="sep">|</span><span class="conn">未然形接続</span></div>
+    <div class="study">
+      <div class="ex"><span>ながらへばまたこのごろやしのば<mark>れ</mark>む憂しと見し世ぞ今は恋しき</span><span class="foot">小倉百人一首 八十四番</span></div>
+      <table><tbody>
+        <tr><td class="ans">れ</td><th>未然形</th></tr>
+        <tr><td>れ</td><th>連用形</th></tr>
+        <tr><td class="ans">る</td><th>終止形</th></tr>
+        <tr><td class="ans">るる</td><th>連体形</th></tr>
+        <tr><td>るれ</td><th>已然形</th></tr>
+        <tr><td class="ans">れよ</td><th>命令形</th></tr>
+      </tbody></table>
+    </div>
+    <div class="rownote">&nbsp;</div>
+    <dl class="gloss">
+      <dt>意味</dt><dd><span>受身・</span><span>尊敬・</span><span class="emph future-demo">自発</span><span>・可能</span></dd>
+      <dt>接続</dt><dd class="sub">四段・ナ変・ラ変の未然形</dd>
+    </dl>
+    <div class="btns"><span class="btn p">次の問題</span></div>
+  </div></div>
+</div>
+
+</div>
+<script>
+const f=new URLSearchParams(location.search).get("f");
+if(f){const keep=f.split(",");document.querySelectorAll(".frame").forEach(el=>{const id=el.querySelector(".cap").textContent.slice(0,2);if(!keep.includes(id))el.remove();});document.querySelector("h1").remove();document.querySelector(".lead").remove();}
+</script>
+</body>
+</html>

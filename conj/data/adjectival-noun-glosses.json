@@ -1,0 +1,2630 @@
+{
+ "schemaVersion": "1.0",
+ "source": "形容動詞_現代仮名遣い・基本義・用例補足ストック_v0.6_adjv001-120.xlsx#runtime候補",
+ "generatedBy": "conj/audit/build_adjv_glosses.py",
+ "policy": "records は v0.6 の監査値をそのまま使う。contextNote は displayGloss の「（この用例では…）」の中身。画面は表示中の用例 ID（exampleId）で record を引き、作品が一致しないときは表示しない。",
+ "records": [
+  {
+   "id": "adjv-001",
+   "work": "平治物語",
+   "modernKana": "しずかなれ",
+   "basicGloss": "静かだ・穏やかだ",
+   "contextNote": "「世の中が平穏だ」",
+   "displayGloss": "静かだ・穏やかだ（この用例では「世の中が平穏だ」）"
+  },
+  {
+   "id": "adjv-002",
+   "work": "伊勢物語",
+   "modernKana": "さすがなり",
+   "basicGloss": "そうはいっても・やはり",
+   "contextNote": null,
+   "displayGloss": "そうはいっても・やはり"
+  },
+  {
+   "id": "adjv-003",
+   "work": "古今和歌集",
+   "modernKana": "たえなり",
+   "basicGloss": "非常にすぐれている・巧みだ",
+   "contextNote": null,
+   "displayGloss": "非常にすぐれている・巧みだ"
+  },
+  {
+   "id": "adjv-004",
+   "work": "保元物語",
+   "modernKana": "やわらかなり",
+   "basicGloss": "柔らかだ・穏やかだ",
+   "contextNote": "「浪の音が穏やかだ」",
+   "displayGloss": "柔らかだ・穏やかだ（この用例では「浪の音が穏やかだ」）"
+  },
+  {
+   "id": "adjv-005",
+   "work": "土佐日記",
+   "modernKana": "はるかなり",
+   "basicGloss": "遠く隔たっている",
+   "contextNote": null,
+   "displayGloss": "遠く隔たっている"
+  },
+  {
+   "id": "adjv-006",
+   "work": "十訓抄",
+   "modernKana": "やわらかなり",
+   "basicGloss": "柔らかだ・穏やかだ",
+   "contextNote": "「政治が穏やかだ」",
+   "displayGloss": "柔らかだ・穏やかだ（この用例では「政治が穏やかだ」）"
+  },
+  {
+   "id": "adjv-007",
+   "work": "堤中納言物語",
+   "modernKana": "とりどりなり",
+   "basicGloss": "それぞれ違う・さまざまだ",
+   "contextNote": null,
+   "displayGloss": "それぞれ違う・さまざまだ"
+  },
+  {
+   "id": "adjv-008",
+   "work": "宇治拾遺物語",
+   "modernKana": "うららかなり",
+   "basicGloss": "晴れて明るくのどかだ",
+   "contextNote": null,
+   "displayGloss": "晴れて明るくのどかだ"
+  },
+  {
+   "id": "adjv-009",
+   "work": "更級日記",
+   "modernKana": "かようなり",
+   "basicGloss": "このようだ・そのようだ",
+   "contextNote": null,
+   "displayGloss": "このようだ・そのようだ"
+  },
+  {
+   "id": "adjv-010",
+   "work": "平家物語",
+   "modernKana": "しんびょうなれ",
+   "basicGloss": "感心だ・殊勝だ",
+   "contextNote": "「用意が立派だ」",
+   "displayGloss": "感心だ・殊勝だ（この用例では「用意が立派だ」）"
+  },
+  {
+   "id": "adjv-011",
+   "work": "枕草子",
+   "modernKana": "あらわなれ",
+   "basicGloss": "むき出しだ・はっきり見える",
+   "contextNote": null,
+   "displayGloss": "むき出しだ・はっきり見える"
+  },
+  {
+   "id": "adjv-012",
+   "work": "徒然草",
+   "modernKana": "おろかなれ",
+   "basicGloss": "愚かだ・考えが足りない",
+   "contextNote": null,
+   "displayGloss": "愚かだ・考えが足りない"
+  },
+  {
+   "id": "adjv-013",
+   "work": "源氏物語",
+   "modernKana": "ほのかなれ",
+   "basicGloss": "かすかだ・はっきりしない",
+   "contextNote": null,
+   "displayGloss": "かすかだ・はっきりしない"
+  },
+  {
+   "id": "adjv-014",
+   "work": "方丈記",
+   "modernKana": "まめなれ",
+   "basicGloss": "まじめだ・誠実だ",
+   "contextNote": "「丈夫だ・健康だ」",
+   "displayGloss": "まじめだ・誠実だ（この用例では「丈夫だ・健康だ」）"
+  },
+  {
+   "id": "adjv-015",
+   "work": "紫式部日記",
+   "modernKana": "けそうなれ",
+   "basicGloss": "目立つ・はっきりしている",
+   "contextNote": null,
+   "displayGloss": "目立つ・はっきりしている"
+  },
+  {
+   "id": "adjv-016",
+   "work": "蜻蛉日記",
+   "modernKana": "しのびやかなれ",
+   "basicGloss": "ひっそりしている・人目につかない",
+   "contextNote": null,
+   "displayGloss": "ひっそりしている・人目につかない"
+  },
+  {
+   "id": "adjv-017",
+   "work": "保元物語",
+   "modernKana": "むざんなれ",
+   "basicGloss": "残酷だ・痛ましい",
+   "contextNote": "「気の毒だ」",
+   "displayGloss": "残酷だ・痛ましい（この用例では「気の毒だ」）"
+  },
+  {
+   "id": "adjv-018",
+   "work": "十訓抄",
+   "modernKana": "さまざまなれ",
+   "basicGloss": "さまざまだ・いろいろだ",
+   "contextNote": null,
+   "displayGloss": "さまざまだ・いろいろだ"
+  },
+  {
+   "id": "adjv-019",
+   "work": "土佐日記",
+   "modernKana": "いたずらなれ",
+   "basicGloss": "無駄だ・むなしい",
+   "contextNote": "「暇だ・手持ち無沙汰だ」",
+   "displayGloss": "無駄だ・むなしい（この用例では「暇だ・手持ち無沙汰だ」）"
+  },
+  {
+   "id": "adjv-020",
+   "work": "宇治拾遺物語",
+   "modernKana": "おおきなれ",
+   "basicGloss": "大きい・広い",
+   "contextNote": null,
+   "displayGloss": "大きい・広い"
+  },
+  {
+   "id": "adjv-021",
+   "work": "堤中納言物語",
+   "modernKana": "はなやかなれ",
+   "basicGloss": "華やかだ・明るく目立つ",
+   "contextNote": "「色が鮮やかで華やかだ」",
+   "displayGloss": "華やかだ・明るく目立つ（この用例では「色が鮮やかで華やかだ」）"
+  },
+  {
+   "id": "adjv-022",
+   "work": "平治物語",
+   "modernKana": "むざんなれ",
+   "basicGloss": "残酷だ・痛ましい",
+   "contextNote": "「気の毒だ」",
+   "displayGloss": "残酷だ・痛ましい（この用例では「気の毒だ」）"
+  },
+  {
+   "id": "adjv-023",
+   "work": "枕草子",
+   "modernKana": "あさはかなれ",
+   "basicGloss": "浅い・思慮が浅い",
+   "contextNote": "「建物の奥行きが浅い」",
+   "displayGloss": "浅い・思慮が浅い（この用例では「建物の奥行きが浅い」）"
+  },
+  {
+   "id": "adjv-024",
+   "work": "平家物語",
+   "modernKana": "むざんなれ",
+   "basicGloss": "残酷だ・痛ましい",
+   "contextNote": "「気の毒だ」",
+   "displayGloss": "残酷だ・痛ましい（この用例では「気の毒だ」）"
+  },
+  {
+   "id": "adjv-025",
+   "work": "源氏物語",
+   "modernKana": "ねんごろなれ",
+   "basicGloss": "心がこもっている・親身だ",
+   "contextNote": "「熱心だ」",
+   "displayGloss": "心がこもっている・親身だ（この用例では「熱心だ」）"
+  },
+  {
+   "id": "adjv-026",
+   "work": "徒然草",
+   "modernKana": "さやかなれ",
+   "basicGloss": "はっきりしている・明るく澄んでいる",
+   "contextNote": "「月が明るく澄んでいる」",
+   "displayGloss": "はっきりしている・明るく澄んでいる（この用例では「月が明るく澄んでいる」）"
+  },
+  {
+   "id": "adjv-027",
+   "work": "蜻蛉日記",
+   "modernKana": "おもわずなれ",
+   "basicGloss": "意外だ・思いがけない",
+   "contextNote": "「長生きするとは思っていない」",
+   "displayGloss": "意外だ・思いがけない（この用例では「長生きするとは思っていない」）"
+  },
+  {
+   "id": "adjv-028",
+   "work": "今昔物語集",
+   "modernKana": "さようなら",
+   "basicGloss": "そのようだ・そのとおりだ",
+   "contextNote": null,
+   "displayGloss": "そのようだ・そのとおりだ"
+  },
+  {
+   "id": "adjv-029",
+   "work": "大和物語",
+   "modernKana": "ただなら",
+   "basicGloss": "普通ではない・ただごとではない",
+   "contextNote": null,
+   "displayGloss": "普通ではない・ただごとではない"
+  },
+  {
+   "id": "adjv-030",
+   "work": "平中物語",
+   "modernKana": "ことなら",
+   "basicGloss": "同じことなら・どうせなら",
+   "contextNote": null,
+   "displayGloss": "同じことなら・どうせなら"
+  },
+  {
+   "id": "adjv-031",
+   "work": "落窪物語",
+   "modernKana": "たしかなら",
+   "basicGloss": "確かだ・間違いない",
+   "contextNote": "打消で「確かでない」",
+   "displayGloss": "確かだ・間違いない（この用例では打消で「確かでない」）"
+  },
+  {
+   "id": "adjv-032",
+   "work": "方丈記",
+   "modernKana": "なべてなら",
+   "basicGloss": "普通だ・並一通りだ",
+   "contextNote": "打消で「並一通りでない」",
+   "displayGloss": "普通だ・並一通りだ（この用例では打消で「並一通りでない」）"
+  },
+  {
+   "id": "adjv-033",
+   "work": "更級日記",
+   "modernKana": "やすらかなら",
+   "basicGloss": "穏やかだ・心配がない",
+   "contextNote": "「気楽だ」",
+   "displayGloss": "穏やかだ・心配がない（この用例では「気楽だ」）"
+  },
+  {
+   "id": "adjv-034",
+   "work": "紫式部日記",
+   "modernKana": "まほなら",
+   "basicGloss": "完全だ・整っている",
+   "contextNote": "打消で「完全ではない」",
+   "displayGloss": "完全だ・整っている（この用例では打消で「完全ではない」）"
+  },
+  {
+   "id": "adjv-035",
+   "work": "竹取物語",
+   "modernKana": "まめなら",
+   "basicGloss": "まじめだ・誠実だ",
+   "contextNote": "「しっかりした」",
+   "displayGloss": "まじめだ・誠実だ（この用例では「しっかりした」）"
+  },
+  {
+   "id": "adjv-036",
+   "work": "保元物語",
+   "modernKana": "しずかなら",
+   "basicGloss": "静かだ・平穏だ",
+   "contextNote": "打消で「平穏でない」",
+   "displayGloss": "静かだ・平穏だ（この用例では打消で「平穏でない」）"
+  },
+  {
+   "id": "adjv-037",
+   "work": "十訓抄",
+   "modernKana": "おだやかなら",
+   "basicGloss": "穏やかだ・穏当だ",
+   "contextNote": "打消で「穏当でない」",
+   "displayGloss": "穏やかだ・穏当だ（この用例では打消で「穏当でない」）"
+  },
+  {
+   "id": "adjv-038",
+   "work": "宇治拾遺物語",
+   "modernKana": "おぼろけなら",
+   "basicGloss": "並一通りだ・普通だ",
+   "contextNote": "打消で「並々でない」",
+   "displayGloss": "並一通りだ・普通だ（この用例では打消で「並々でない」）"
+  },
+  {
+   "id": "adjv-039",
+   "work": "平家物語",
+   "modernKana": "おろそかなら",
+   "basicGloss": "いい加減だ・なおざりだ",
+   "contextNote": "打消で「熱心だ」",
+   "displayGloss": "いい加減だ・なおざりだ（この用例では打消で「熱心だ」）"
+  },
+  {
+   "id": "adjv-040",
+   "work": "平治物語",
+   "modernKana": "おんびんなら",
+   "basicGloss": "穏やかだ・穏当だ",
+   "contextNote": "打消で「穏当でない」",
+   "displayGloss": "穏やかだ・穏当だ（この用例では打消で「穏当でない」）"
+  },
+  {
+   "id": "adjv-041",
+   "work": "堤中納言物語",
+   "modernKana": "ふさやかなら",
+   "basicGloss": "ふさふさと豊かだ・たっぷりしている",
+   "contextNote": "打消で「ふさふさと豊かではない」",
+   "displayGloss": "ふさふさと豊かだ・たっぷりしている（この用例では打消で「ふさふさと豊かではない」）"
+  },
+  {
+   "id": "adjv-042",
+   "work": "徒然草",
+   "modernKana": "きららかなら",
+   "basicGloss": "きらびやかだ・華やかだ",
+   "contextNote": "打消で「きらびやかではない」",
+   "displayGloss": "きらびやかだ・華やかだ（この用例では打消で「きらびやかではない」）"
+  },
+  {
+   "id": "adjv-043",
+   "work": "大和物語",
+   "modernKana": "きよらなり",
+   "basicGloss": "清らかで美しい・気品がある",
+   "contextNote": null,
+   "displayGloss": "清らかで美しい・気品がある"
+  },
+  {
+   "id": "adjv-044",
+   "work": "竹取物語",
+   "modernKana": "きょうらなり",
+   "basicGloss": "清らかで美しい",
+   "contextNote": null,
+   "displayGloss": "清らかで美しい"
+  },
+  {
+   "id": "adjv-045",
+   "work": "落窪物語",
+   "modernKana": "ありがおなり",
+   "basicGloss": "何かありそうな様子だ・意味ありげだ",
+   "contextNote": "「好意がありそうな様子だ」",
+   "displayGloss": "何かありそうな様子だ・意味ありげだ（この用例では「好意がありそうな様子だ」）"
+  },
+  {
+   "id": "adjv-046",
+   "work": "方丈記",
+   "modernKana": "まれなり",
+   "basicGloss": "めったにない・珍しい",
+   "contextNote": null,
+   "displayGloss": "めったにない・珍しい"
+  },
+  {
+   "id": "adjv-047",
+   "work": "土佐日記",
+   "modernKana": "いややかなり",
+   "basicGloss": "礼儀正しい・うやうやしい",
+   "contextNote": null,
+   "displayGloss": "礼儀正しい・うやうやしい"
+  },
+  {
+   "id": "adjv-048",
+   "work": "枕草子",
+   "modernKana": "こころことなり",
+   "basicGloss": "格別だ・特別だ",
+   "contextNote": null,
+   "displayGloss": "格別だ・特別だ"
+  },
+  {
+   "id": "adjv-049",
+   "work": "源氏物語",
+   "modernKana": "しめやかなり",
+   "basicGloss": "ひっそり静かだ・もの静かだ",
+   "contextNote": null,
+   "displayGloss": "ひっそり静かだ・もの静かだ"
+  },
+  {
+   "id": "adjv-050",
+   "work": "紫式部日記",
+   "modernKana": "なかなかなり",
+   "basicGloss": "中途半端だ・なまじだ",
+   "contextNote": "「かえってわずらわしい・面倒だ」",
+   "displayGloss": "中途半端だ・なまじだ（この用例では「かえってわずらわしい・面倒だ」）"
+  },
+  {
+   "id": "adjv-051",
+   "work": "蜻蛉日記",
+   "modernKana": "あまりなり",
+   "basicGloss": "度が過ぎている・ひどい",
+   "contextNote": null,
+   "displayGloss": "度が過ぎている・ひどい"
+  },
+  {
+   "id": "adjv-052",
+   "work": "古今和歌集",
+   "modernKana": "おろかなり",
+   "basicGloss": "愚かだ・思慮が浅い",
+   "contextNote": null,
+   "displayGloss": "愚かだ・思慮が浅い"
+  },
+  {
+   "id": "adjv-053",
+   "work": "更級日記",
+   "modernKana": "さらなり",
+   "basicGloss": "言うまでもない・もちろんだ",
+   "contextNote": null,
+   "displayGloss": "言うまでもない・もちろんだ"
+  },
+  {
+   "id": "adjv-054",
+   "work": "保元物語",
+   "modernKana": "さだかなり",
+   "basicGloss": "はっきりしている・確かだ",
+   "contextNote": null,
+   "displayGloss": "はっきりしている・確かだ"
+  },
+  {
+   "id": "adjv-055",
+   "work": "十訓抄",
+   "modernKana": "まれなり",
+   "basicGloss": "めったにない・珍しい",
+   "contextNote": null,
+   "displayGloss": "めったにない・珍しい"
+  },
+  {
+   "id": "adjv-056",
+   "work": "宇治拾遺物語",
+   "modernKana": "さらなり",
+   "basicGloss": "言うまでもない・もちろんだ",
+   "contextNote": null,
+   "displayGloss": "言うまでもない・もちろんだ"
+  },
+  {
+   "id": "adjv-057",
+   "work": "平家物語",
+   "modernKana": "すみやかなり",
+   "basicGloss": "速い・すぐだ",
+   "contextNote": null,
+   "displayGloss": "速い・すぐだ"
+  },
+  {
+   "id": "adjv-058",
+   "work": "平治物語",
+   "modernKana": "たいらなり",
+   "basicGloss": "平穏だ・穏やかだ",
+   "contextNote": null,
+   "displayGloss": "平穏だ・穏やかだ"
+  },
+  {
+   "id": "adjv-059",
+   "work": "今昔物語集",
+   "modernKana": "ひたぐろなる",
+   "basicGloss": "一面に黒い・真っ黒だ",
+   "contextNote": null,
+   "displayGloss": "一面に黒い・真っ黒だ"
+  },
+  {
+   "id": "adjv-060",
+   "work": "伊勢物語",
+   "modernKana": "あばらなる",
+   "basicGloss": "隙間が多い・がらんとしている",
+   "contextNote": null,
+   "displayGloss": "隙間が多い・がらんとしている"
+  },
+  {
+   "id": "adjv-061",
+   "work": "平中物語",
+   "modernKana": "いささかなる",
+   "basicGloss": "少しばかりだ・わずかだ",
+   "contextNote": null,
+   "displayGloss": "少しばかりだ・わずかだ"
+  },
+  {
+   "id": "adjv-062",
+   "work": "古今和歌集",
+   "modernKana": "あだなる",
+   "basicGloss": "はかない・長続きしない",
+   "contextNote": null,
+   "displayGloss": "はかない・長続きしない"
+  },
+  {
+   "id": "adjv-063",
+   "work": "大和物語",
+   "modernKana": "すずろなる",
+   "basicGloss": "理由がない・関係がない",
+   "contextNote": null,
+   "displayGloss": "理由がない・関係がない"
+  },
+  {
+   "id": "adjv-064",
+   "work": "竹取物語",
+   "modernKana": "きよらなる",
+   "basicGloss": "清らかで美しい・気品がある",
+   "contextNote": null,
+   "displayGloss": "清らかで美しい・気品がある"
+  },
+  {
+   "id": "adjv-065",
+   "work": "落窪物語",
+   "modernKana": "つややかなる",
+   "basicGloss": "つやがあって美しい",
+   "contextNote": null,
+   "displayGloss": "つやがあって美しい"
+  },
+  {
+   "id": "adjv-066",
+   "work": "徒然草",
+   "modernKana": "おろかなる",
+   "basicGloss": "愚かだ・考えが足りない",
+   "contextNote": null,
+   "displayGloss": "愚かだ・考えが足りない"
+  },
+  {
+   "id": "adjv-067",
+   "work": "方丈記",
+   "modernKana": "せちなる",
+   "basicGloss": "ひたむきだ・思いが強い",
+   "contextNote": "「嘆きが非常に激しい・痛切だ」",
+   "displayGloss": "ひたむきだ・思いが強い（この用例では「嘆きが非常に激しい・痛切だ」）"
+  },
+  {
+   "id": "adjv-068",
+   "work": "土佐日記",
+   "modernKana": "あざらかなる",
+   "basicGloss": "新鮮だ・生き生きしている",
+   "contextNote": null,
+   "displayGloss": "新鮮だ・生き生きしている"
+  },
+  {
+   "id": "adjv-069",
+   "work": "堤中納言物語",
+   "modernKana": "きびわなる",
+   "basicGloss": "幼くか弱い・うら若い",
+   "contextNote": null,
+   "displayGloss": "幼くか弱い・うら若い"
+  },
+  {
+   "id": "adjv-070",
+   "work": "今昔物語集",
+   "modernKana": "みみょうなる",
+   "basicGloss": "奥深くすぐれている・たいそう美しい",
+   "contextNote": null,
+   "displayGloss": "奥深くすぐれている・たいそう美しい"
+  },
+  {
+   "id": "adjv-071",
+   "work": "更級日記",
+   "modernKana": "わずかなる",
+   "basicGloss": "少ない・わずかだ",
+   "contextNote": "「狭い」",
+   "displayGloss": "少ない・わずかだ（この用例では「狭い」）"
+  },
+  {
+   "id": "adjv-072",
+   "work": "枕草子",
+   "modernKana": "なよらかなる",
+   "basicGloss": "柔らかくしなやかだ",
+   "contextNote": null,
+   "displayGloss": "柔らかくしなやかだ"
+  },
+  {
+   "id": "adjv-073",
+   "work": "源氏物語",
+   "modernKana": "めずらかなる",
+   "basicGloss": "珍しい・めったにない",
+   "contextNote": "「珍しいほどすばらしい」",
+   "displayGloss": "珍しい・めったにない（この用例では「珍しいほどすばらしい」）"
+  },
+  {
+   "id": "adjv-074",
+   "work": "紫式部日記",
+   "modernKana": "わかやかなる",
+   "basicGloss": "若々しい・ういういしい",
+   "contextNote": null,
+   "displayGloss": "若々しい・ういういしい"
+  },
+  {
+   "id": "adjv-075",
+   "work": "蜻蛉日記",
+   "modernKana": "ねんごろなる",
+   "basicGloss": "心がこもっている・親身だ",
+   "contextNote": null,
+   "displayGloss": "心がこもっている・親身だ"
+  },
+  {
+   "id": "adjv-076",
+   "work": "伊勢物語",
+   "modernKana": "おぼろなる",
+   "basicGloss": "ぼんやりかすんでいる・はっきりしない",
+   "contextNote": null,
+   "displayGloss": "ぼんやりかすんでいる・はっきりしない"
+  },
+  {
+   "id": "adjv-077",
+   "work": "平中物語",
+   "modernKana": "たまさかに",
+   "basicGloss": "まれに・たまたま",
+   "contextNote": null,
+   "displayGloss": "まれに・たまたま"
+  },
+  {
+   "id": "adjv-078",
+   "work": "今昔物語集",
+   "modernKana": "ねんごろに",
+   "basicGloss": "熱心だ・心をこめて努める",
+   "contextNote": null,
+   "displayGloss": "熱心だ・心をこめて努める"
+  },
+  {
+   "id": "adjv-079",
+   "work": "伊勢物語",
+   "modernKana": "みそかに",
+   "basicGloss": "人に知られないように・こっそり",
+   "contextNote": null,
+   "displayGloss": "人に知られないように・こっそり"
+  },
+  {
+   "id": "adjv-080",
+   "work": "古今和歌集",
+   "modernKana": "たくみに",
+   "basicGloss": "上手だ・巧妙だ",
+   "contextNote": null,
+   "displayGloss": "上手だ・巧妙だ"
+  },
+  {
+   "id": "adjv-081",
+   "work": "大和物語",
+   "modernKana": "まちどおに",
+   "basicGloss": "待ち遠しい",
+   "contextNote": null,
+   "displayGloss": "待ち遠しい"
+  },
+  {
+   "id": "adjv-082",
+   "work": "竹取物語",
+   "modernKana": "あながちに",
+   "basicGloss": "無理に・強引だ／一途だ",
+   "contextNote": "「一途に」",
+   "displayGloss": "無理に・強引だ／一途だ（この用例では「一途に」）"
+  },
+  {
+   "id": "adjv-083",
+   "work": "落窪物語",
+   "modernKana": "まめやかに",
+   "basicGloss": "まじめだ・本気だ",
+   "contextNote": "「本当に」",
+   "displayGloss": "まじめだ・本気だ（この用例では「本当に」）"
+  },
+  {
+   "id": "adjv-084",
+   "work": "保元物語",
+   "modernKana": "にわかに",
+   "basicGloss": "急だ・突然だ",
+   "contextNote": null,
+   "displayGloss": "急だ・突然だ"
+  },
+  {
+   "id": "adjv-085",
+   "work": "十訓抄",
+   "modernKana": "しずかに",
+   "basicGloss": "静かだ・落ち着いている",
+   "contextNote": null,
+   "displayGloss": "静かだ・落ち着いている"
+  },
+  {
+   "id": "adjv-086",
+   "work": "宇治拾遺物語",
+   "modernKana": "どうように",
+   "basicGloss": "同じだ・同じようだ",
+   "contextNote": null,
+   "displayGloss": "同じだ・同じようだ"
+  },
+  {
+   "id": "adjv-087",
+   "work": "枕草子",
+   "modernKana": "はなやかに",
+   "basicGloss": "華やかだ・明るく目立つ",
+   "contextNote": "「声が晴れやかで、はっきりしている」",
+   "displayGloss": "華やかだ・明るく目立つ（この用例では「声が晴れやかで、はっきりしている」）"
+  },
+  {
+   "id": "adjv-088",
+   "work": "平治物語",
+   "modernKana": "いるがせに",
+   "basicGloss": "いい加減だ・おろそかだ",
+   "contextNote": "「朝廷の威光を軽んじる」",
+   "displayGloss": "いい加減だ・おろそかだ（この用例では「朝廷の威光を軽んじる」）"
+  },
+  {
+   "id": "adjv-089",
+   "work": "徒然草",
+   "modernKana": "もうに",
+   "basicGloss": "勢いが激しい・盛んだ",
+   "contextNote": null,
+   "displayGloss": "勢いが激しい・盛んだ"
+  },
+  {
+   "id": "adjv-090",
+   "work": "方丈記",
+   "modernKana": "にわかに",
+   "basicGloss": "急だ・突然だ",
+   "contextNote": null,
+   "displayGloss": "急だ・突然だ"
+  },
+  {
+   "id": "adjv-091",
+   "work": "土佐日記",
+   "modernKana": "ひそかに",
+   "basicGloss": "人に知られない・こっそり",
+   "contextNote": null,
+   "displayGloss": "人に知られない・こっそり"
+  },
+  {
+   "id": "adjv-092",
+   "work": "堤中納言物語",
+   "modernKana": "なおざりに",
+   "basicGloss": "いい加減だ・おろそかだ",
+   "contextNote": "反語で「いい加減なことではない」",
+   "displayGloss": "いい加減だ・おろそかだ（この用例では反語で「いい加減なことではない」）"
+  },
+  {
+   "id": "adjv-093",
+   "work": "更級日記",
+   "modernKana": "てはなちに",
+   "basicGloss": "手入れができない・手が回らない",
+   "contextNote": "「粗末で荒々しい」",
+   "displayGloss": "手入れができない・手が回らない（この用例では「粗末で荒々しい」）"
+  },
+  {
+   "id": "adjv-094",
+   "work": "枕草子",
+   "modernKana": "のどかに",
+   "basicGloss": "静かで穏やかだ・のんびりしている",
+   "contextNote": null,
+   "displayGloss": "静かで穏やかだ・のんびりしている"
+  },
+  {
+   "id": "adjv-095",
+   "work": "源氏物語",
+   "modernKana": "たえだえに",
+   "basicGloss": "とぎれとぎれだ・間を置いて時々だ",
+   "contextNote": null,
+   "displayGloss": "とぎれとぎれだ・間を置いて時々だ"
+  },
+  {
+   "id": "adjv-096",
+   "work": "紫式部日記",
+   "modernKana": "あざやかに",
+   "basicGloss": "はっきり目立つ・際立って美しい",
+   "contextNote": null,
+   "displayGloss": "はっきり目立つ・際立って美しい"
+  },
+  {
+   "id": "adjv-097",
+   "work": "平家物語",
+   "modernKana": "さっさつたり",
+   "basicGloss": "風が音を立てて吹くさま",
+   "contextNote": null,
+   "displayGloss": "風が音を立てて吹くさま"
+  },
+  {
+   "id": "adjv-098",
+   "work": "保元物語",
+   "modernKana": "ぼうぜんたり",
+   "basicGloss": "ぼんやりして我を失うさま・呆然としている",
+   "contextNote": null,
+   "displayGloss": "ぼんやりして我を失うさま・呆然としている"
+  },
+  {
+   "id": "adjv-099",
+   "work": "十訓抄",
+   "modernKana": "じょうじょうたり",
+   "basicGloss": "露が濃く多く降りているさま",
+   "contextNote": null,
+   "displayGloss": "露が濃く多く降りているさま"
+  },
+  {
+   "id": "adjv-100",
+   "work": "平家物語",
+   "modernKana": "こうこうたり",
+   "basicGloss": "広々としている",
+   "contextNote": null,
+   "displayGloss": "広々としている"
+  },
+  {
+   "id": "adjv-101",
+   "work": "十訓抄",
+   "modernKana": "へんぺんたり",
+   "basicGloss": "きれぎれだ・ひらひらと漂う",
+   "contextNote": null,
+   "displayGloss": "きれぎれだ・ひらひらと漂う"
+  },
+  {
+   "id": "adjv-102",
+   "work": "平家物語",
+   "modernKana": "こうようたり",
+   "basicGloss": "光がゆらゆら揺らめく",
+   "contextNote": null,
+   "displayGloss": "光がゆらゆら揺らめく"
+  },
+  {
+   "id": "adjv-103",
+   "work": "平家物語",
+   "modernKana": "いんりんたり",
+   "basicGloss": "深く広い水が動くさま",
+   "contextNote": null,
+   "displayGloss": "深く広い水が動くさま"
+  },
+  {
+   "id": "adjv-104",
+   "work": "平家物語",
+   "modernKana": "ぼうぼうたり",
+   "basicGloss": "広々としてはるかだ",
+   "contextNote": "「波の音が激しい」",
+   "displayGloss": "広々としてはるかだ（この用例では「波の音が激しい」）"
+  },
+  {
+   "id": "adjv-105",
+   "work": "枕草子",
+   "modernKana": "りんりんと",
+   "basicGloss": "寒さが厳しく身にしみるさま",
+   "contextNote": null,
+   "displayGloss": "寒さが厳しく身にしみるさま"
+  },
+  {
+   "id": "adjv-106",
+   "work": "宇治拾遺物語",
+   "modernKana": "あつあつと",
+   "basicGloss": "たいそう厚い・厚ぼったい",
+   "contextNote": null,
+   "displayGloss": "たいそう厚い・厚ぼったい"
+  },
+  {
+   "id": "adjv-107",
+   "work": "保元物語",
+   "modernKana": "ささと",
+   "basicGloss": "高く険しい",
+   "contextNote": null,
+   "displayGloss": "高く険しい"
+  },
+  {
+   "id": "adjv-108",
+   "work": "十訓抄",
+   "modernKana": "びょうぼうと",
+   "basicGloss": "遠くはるかだ・広く果てしない",
+   "contextNote": null,
+   "displayGloss": "遠くはるかだ・広く果てしない"
+  },
+  {
+   "id": "adjv-109",
+   "work": "保元物語",
+   "modernKana": "びょうびょうと",
+   "basicGloss": "小さい・取るに足りない／遠くはるかだ",
+   "contextNote": "「遠くはるかだ」",
+   "displayGloss": "小さい・取るに足りない／遠くはるかだ（この用例では「遠くはるかだ」）"
+  },
+  {
+   "id": "adjv-110",
+   "work": "十訓抄",
+   "modernKana": "せいぜいと",
+   "basicGloss": "清らかで、もろくはかない・清くあわれだ",
+   "contextNote": null,
+   "displayGloss": "清らかで、もろくはかない・清くあわれだ"
+  },
+  {
+   "id": "adjv-111",
+   "work": "平家物語",
+   "modernKana": "しんしんと",
+   "basicGloss": "奥深く静かだ・ひっそり静まり返っている",
+   "contextNote": null,
+   "displayGloss": "奥深く静かだ・ひっそり静まり返っている"
+  },
+  {
+   "id": "adjv-112",
+   "work": "保元物語",
+   "modernKana": "らんかんと",
+   "basicGloss": "涙が盛んに流れるさま",
+   "contextNote": null,
+   "displayGloss": "涙が盛んに流れるさま"
+  },
+  {
+   "id": "adjv-113",
+   "work": "平治物語",
+   "modernKana": "まんまんたる",
+   "basicGloss": "広々と一面に広がる・果てしない",
+   "contextNote": null,
+   "displayGloss": "広々と一面に広がる・果てしない"
+  },
+  {
+   "id": "adjv-114",
+   "work": "平治物語",
+   "modernKana": "まんまんたる",
+   "basicGloss": "広々と一面に広がる・果てしない",
+   "contextNote": null,
+   "displayGloss": "広々と一面に広がる・果てしない"
+  },
+  {
+   "id": "adjv-115",
+   "work": "保元物語",
+   "modernKana": "びょうぼうたる",
+   "basicGloss": "遠くはるかだ・広く果てしない",
+   "contextNote": null,
+   "displayGloss": "遠くはるかだ・広く果てしない"
+  },
+  {
+   "id": "adjv-116",
+   "work": "平家物語",
+   "modernKana": "ががたる",
+   "basicGloss": "山や岩が高く険しくそびえ立つ",
+   "contextNote": null,
+   "displayGloss": "山や岩が高く険しくそびえ立つ"
+  },
+  {
+   "id": "adjv-117",
+   "work": "平家物語",
+   "modernKana": "けんけんたる",
+   "basicGloss": "険しい・切り立っている",
+   "contextNote": null,
+   "displayGloss": "険しい・切り立っている"
+  },
+  {
+   "id": "adjv-118",
+   "work": "平家物語",
+   "modernKana": "ばくばくたる",
+   "basicGloss": "広々として果てしない／風などが一面にわき起こる",
+   "contextNote": "「寒風が一面に吹きわたる」",
+   "displayGloss": "広々として果てしない／風などが一面にわき起こる（この用例では「寒風が一面に吹きわたる」）"
+  },
+  {
+   "id": "adjv-119",
+   "work": "平家物語",
+   "modernKana": "せいせいたる",
+   "basicGloss": "寒く冷たい・寒々としてもの寂しい",
+   "contextNote": null,
+   "displayGloss": "寒く冷たい・寒々としてもの寂しい"
+  },
+  {
+   "id": "adjv-120",
+   "work": "平家物語",
+   "modernKana": "びょうびょうたる",
+   "basicGloss": "広く果てしない・遠くはるかだ",
+   "contextNote": null,
+   "displayGloss": "広く果てしない・遠くはるかだ"
+  }
+ ],
+ "itemGlosses": [
+  {
+   "itemId": "itadura",
+   "work": "小倉百人一首",
+   "basicGloss": "無駄だ・むなしい",
+   "contextNote": null,
+   "glossFrom": "adjv-019",
+   "note": "百人一首九番「いたづらに」＝むなしく・無駄に。基本義のみ表示し、adjv-019（土佐日記）の用例補足は付けない（DESIGN_GLOSS_LAYOUT §1.3）。"
+  }
+ ],
+ "lemmaReadings": [
+  {
+   "itemId": "itadura",
+   "lemmaId": "adjv-lemma-011",
+   "heading": "いたづらなり",
+   "modernKana": "いたずらなり",
+   "ruby": [
+    [
+     "いた"
+    ],
+    [
+     "づ",
+     "ず"
+    ],
+    [
+     "らなり"
+    ]
+   ],
+   "readingFrom": "adjv-019"
+  },
+  {
+   "itemId": "adjv-lemma-001",
+   "lemmaId": "adjv-lemma-001",
+   "heading": "あさはかなり",
+   "modernKana": "あさはかなり",
+   "ruby": [
+    [
+     "あさはかなり"
+    ]
+   ],
+   "readingFrom": "adjv-023"
+  },
+  {
+   "itemId": "adjv-lemma-002",
+   "lemmaId": "adjv-lemma-002",
+   "heading": "あざやかなり",
+   "modernKana": "あざやかなり",
+   "ruby": [
+    [
+     "あざやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-096"
+  },
+  {
+   "itemId": "adjv-lemma-003",
+   "lemmaId": "adjv-lemma-003",
+   "heading": "あざらかなり",
+   "modernKana": "あざらかなり",
+   "ruby": [
+    [
+     "あざらかなり"
+    ]
+   ],
+   "readingFrom": "adjv-068"
+  },
+  {
+   "itemId": "adjv-lemma-004",
+   "lemmaId": "adjv-lemma-004",
+   "heading": "あだなり",
+   "modernKana": "あだなり",
+   "ruby": [
+    [
+     "あだなり"
+    ]
+   ],
+   "readingFrom": "adjv-062"
+  },
+  {
+   "itemId": "adjv-lemma-005",
+   "lemmaId": "adjv-lemma-005",
+   "heading": "あながちなり",
+   "modernKana": "あながちなり",
+   "ruby": [
+    [
+     "あながちなり"
+    ]
+   ],
+   "readingFrom": "adjv-082"
+  },
+  {
+   "itemId": "adjv-lemma-006",
+   "lemmaId": "adjv-lemma-006",
+   "heading": "あばらなり",
+   "modernKana": "あばらなり",
+   "ruby": [
+    [
+     "あばらなり"
+    ]
+   ],
+   "readingFrom": "adjv-060"
+  },
+  {
+   "itemId": "adjv-lemma-007",
+   "lemmaId": "adjv-lemma-007",
+   "heading": "あまりなり",
+   "modernKana": "あまりなり",
+   "ruby": [
+    [
+     "あまりなり"
+    ]
+   ],
+   "readingFrom": "adjv-051"
+  },
+  {
+   "itemId": "adjv-lemma-008",
+   "lemmaId": "adjv-lemma-008",
+   "heading": "あらはなり",
+   "modernKana": "あらわなり",
+   "ruby": [
+    [
+     "あら"
+    ],
+    [
+     "は",
+     "わ"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-011"
+  },
+  {
+   "itemId": "adjv-lemma-009",
+   "lemmaId": "adjv-lemma-009",
+   "heading": "ありがほなり",
+   "modernKana": "ありがおなり",
+   "ruby": [
+    [
+     "ありが"
+    ],
+    [
+     "ほ",
+     "お"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-045"
+  },
+  {
+   "itemId": "adjv-lemma-010",
+   "lemmaId": "adjv-lemma-010",
+   "heading": "いささかなり",
+   "modernKana": "いささかなり",
+   "ruby": [
+    [
+     "いささかなり"
+    ]
+   ],
+   "readingFrom": "adjv-061"
+  },
+  {
+   "itemId": "adjv-lemma-012",
+   "lemmaId": "adjv-lemma-012",
+   "heading": "いるがせなり",
+   "modernKana": "いるがせなり",
+   "ruby": [
+    [
+     "いるがせなり"
+    ]
+   ],
+   "readingFrom": "adjv-088"
+  },
+  {
+   "itemId": "adjv-lemma-013",
+   "lemmaId": "adjv-lemma-013",
+   "heading": "うららかなり",
+   "modernKana": "うららかなり",
+   "ruby": [
+    [
+     "うららかなり"
+    ]
+   ],
+   "readingFrom": "adjv-008"
+  },
+  {
+   "itemId": "adjv-lemma-014",
+   "lemmaId": "adjv-lemma-014",
+   "heading": "おだやかなり",
+   "modernKana": "おだやかなり",
+   "ruby": [
+    [
+     "おだやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-037"
+  },
+  {
+   "itemId": "adjv-lemma-015",
+   "lemmaId": "adjv-lemma-015",
+   "heading": "おぼろなり",
+   "modernKana": "おぼろなり",
+   "ruby": [
+    [
+     "おぼろなり"
+    ]
+   ],
+   "readingFrom": "adjv-076"
+  },
+  {
+   "itemId": "adjv-lemma-016",
+   "lemmaId": "adjv-lemma-016",
+   "heading": "おぼろけなり",
+   "modernKana": "おぼろけなり",
+   "ruby": [
+    [
+     "おぼろけなり"
+    ]
+   ],
+   "readingFrom": "adjv-038"
+  },
+  {
+   "itemId": "adjv-lemma-017",
+   "lemmaId": "adjv-lemma-017",
+   "heading": "おろかなり",
+   "modernKana": "おろかなり",
+   "ruby": [
+    [
+     "おろかなり"
+    ]
+   ],
+   "readingFrom": "adjv-066"
+  },
+  {
+   "itemId": "adjv-lemma-018",
+   "lemmaId": "adjv-lemma-018",
+   "heading": "おろそかなり",
+   "modernKana": "おろそかなり",
+   "ruby": [
+    [
+     "おろそかなり"
+    ]
+   ],
+   "readingFrom": "adjv-039"
+  },
+  {
+   "itemId": "adjv-lemma-019",
+   "lemmaId": "adjv-lemma-019",
+   "heading": "かやうなり",
+   "modernKana": "かようなり",
+   "ruby": [
+    [
+     "か"
+    ],
+    [
+     "やう",
+     "よう"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-009"
+  },
+  {
+   "itemId": "adjv-lemma-020",
+   "lemmaId": "adjv-lemma-020",
+   "heading": "きびはなり",
+   "modernKana": "きびわなり",
+   "ruby": [
+    [
+     "きび"
+    ],
+    [
+     "は",
+     "わ"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-069"
+  },
+  {
+   "itemId": "adjv-lemma-021",
+   "lemmaId": "adjv-lemma-021",
+   "heading": "きよらなり",
+   "modernKana": "きよらなり",
+   "ruby": [
+    [
+     "きよらなり"
+    ]
+   ],
+   "readingFrom": "adjv-064"
+  },
+  {
+   "itemId": "adjv-lemma-022",
+   "lemmaId": "adjv-lemma-022",
+   "heading": "きららかなり",
+   "modernKana": "きららかなり",
+   "ruby": [
+    [
+     "きららかなり"
+    ]
+   ],
+   "readingFrom": "adjv-042"
+  },
+  {
+   "itemId": "adjv-lemma-023",
+   "lemmaId": "adjv-lemma-023",
+   "heading": "けうらなり",
+   "modernKana": "きょうらなり",
+   "ruby": [
+    [
+     "けう",
+     "きょう"
+    ],
+    [
+     "らなり"
+    ]
+   ],
+   "readingFrom": "adjv-044"
+  },
+  {
+   "itemId": "adjv-lemma-024",
+   "lemmaId": "adjv-lemma-024",
+   "heading": "ことなり",
+   "modernKana": "ことなり",
+   "ruby": [
+    [
+     "ことなり"
+    ]
+   ],
+   "readingFrom": "adjv-030"
+  },
+  {
+   "itemId": "adjv-lemma-025",
+   "lemmaId": "adjv-lemma-025",
+   "heading": "さすがなり",
+   "modernKana": "さすがなり",
+   "ruby": [
+    [
+     "さすがなり"
+    ]
+   ],
+   "readingFrom": "adjv-002"
+  },
+  {
+   "itemId": "adjv-lemma-026",
+   "lemmaId": "adjv-lemma-026",
+   "heading": "さだかなり",
+   "modernKana": "さだかなり",
+   "ruby": [
+    [
+     "さだかなり"
+    ]
+   ],
+   "readingFrom": "adjv-054"
+  },
+  {
+   "itemId": "adjv-lemma-027",
+   "lemmaId": "adjv-lemma-027",
+   "heading": "さまざまなり",
+   "modernKana": "さまざまなり",
+   "ruby": [
+    [
+     "さまざまなり"
+    ]
+   ],
+   "readingFrom": "adjv-018"
+  },
+  {
+   "itemId": "adjv-lemma-028",
+   "lemmaId": "adjv-lemma-028",
+   "heading": "さやかなり",
+   "modernKana": "さやかなり",
+   "ruby": [
+    [
+     "さやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-026"
+  },
+  {
+   "itemId": "adjv-lemma-029",
+   "lemmaId": "adjv-lemma-029",
+   "heading": "さらなり",
+   "modernKana": "さらなり",
+   "ruby": [
+    [
+     "さらなり"
+    ]
+   ],
+   "readingFrom": "adjv-053"
+  },
+  {
+   "itemId": "adjv-lemma-030",
+   "lemmaId": "adjv-lemma-030",
+   "heading": "しづかなり",
+   "modernKana": "しずかなり",
+   "ruby": [
+    [
+     "し"
+    ],
+    [
+     "づ",
+     "ず"
+    ],
+    [
+     "かなり"
+    ]
+   ],
+   "readingFrom": "adjv-036"
+  },
+  {
+   "itemId": "adjv-lemma-031",
+   "lemmaId": "adjv-lemma-031",
+   "heading": "しめやかなり",
+   "modernKana": "しめやかなり",
+   "ruby": [
+    [
+     "しめやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-049"
+  },
+  {
+   "itemId": "adjv-lemma-032",
+   "lemmaId": "adjv-lemma-032",
+   "heading": "すずろなり",
+   "modernKana": "すずろなり",
+   "ruby": [
+    [
+     "すずろなり"
+    ]
+   ],
+   "readingFrom": "adjv-063"
+  },
+  {
+   "itemId": "adjv-lemma-033",
+   "lemmaId": "adjv-lemma-033",
+   "heading": "すみやかなり",
+   "modernKana": "すみやかなり",
+   "ruby": [
+    [
+     "すみやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-057"
+  },
+  {
+   "itemId": "adjv-lemma-034",
+   "lemmaId": "adjv-lemma-034",
+   "heading": "たくみなり",
+   "modernKana": "たくみなり",
+   "ruby": [
+    [
+     "たくみなり"
+    ]
+   ],
+   "readingFrom": "adjv-080"
+  },
+  {
+   "itemId": "adjv-lemma-035",
+   "lemmaId": "adjv-lemma-035",
+   "heading": "たしかなり",
+   "modernKana": "たしかなり",
+   "ruby": [
+    [
+     "たしかなり"
+    ]
+   ],
+   "readingFrom": "adjv-031"
+  },
+  {
+   "itemId": "adjv-lemma-036",
+   "lemmaId": "adjv-lemma-036",
+   "heading": "ただなり",
+   "modernKana": "ただなり",
+   "ruby": [
+    [
+     "ただなり"
+    ]
+   ],
+   "readingFrom": "adjv-029"
+  },
+  {
+   "itemId": "adjv-lemma-037",
+   "lemmaId": "adjv-lemma-037",
+   "heading": "たまさかなり",
+   "modernKana": "たまさかなり",
+   "ruby": [
+    [
+     "たまさかなり"
+    ]
+   ],
+   "readingFrom": "adjv-077"
+  },
+  {
+   "itemId": "adjv-lemma-038",
+   "lemmaId": "adjv-lemma-038",
+   "heading": "つややかなり",
+   "modernKana": "つややかなり",
+   "ruby": [
+    [
+     "つややかなり"
+    ]
+   ],
+   "readingFrom": "adjv-065"
+  },
+  {
+   "itemId": "adjv-lemma-039",
+   "lemmaId": "adjv-lemma-039",
+   "heading": "とりどりなり",
+   "modernKana": "とりどりなり",
+   "ruby": [
+    [
+     "とりどりなり"
+    ]
+   ],
+   "readingFrom": "adjv-007"
+  },
+  {
+   "itemId": "adjv-lemma-040",
+   "lemmaId": "adjv-lemma-040",
+   "heading": "なかなかなり",
+   "modernKana": "なかなかなり",
+   "ruby": [
+    [
+     "なかなかなり"
+    ]
+   ],
+   "readingFrom": "adjv-050"
+  },
+  {
+   "itemId": "adjv-lemma-041",
+   "lemmaId": "adjv-lemma-041",
+   "heading": "なべてなり",
+   "modernKana": "なべてなり",
+   "ruby": [
+    [
+     "なべてなり"
+    ]
+   ],
+   "readingFrom": "adjv-032"
+  },
+  {
+   "itemId": "adjv-lemma-042",
+   "lemmaId": "adjv-lemma-042",
+   "heading": "なほざりなり",
+   "modernKana": "なおざりなり",
+   "ruby": [
+    [
+     "な"
+    ],
+    [
+     "ほ",
+     "お"
+    ],
+    [
+     "ざりなり"
+    ]
+   ],
+   "readingFrom": "adjv-092"
+  },
+  {
+   "itemId": "adjv-lemma-043",
+   "lemmaId": "adjv-lemma-043",
+   "heading": "なよらかなり",
+   "modernKana": "なよらかなり",
+   "ruby": [
+    [
+     "なよらかなり"
+    ]
+   ],
+   "readingFrom": "adjv-072"
+  },
+  {
+   "itemId": "adjv-lemma-044",
+   "lemmaId": "adjv-lemma-044",
+   "heading": "にはかなり",
+   "modernKana": "にわかなり",
+   "ruby": [
+    [
+     "に"
+    ],
+    [
+     "は",
+     "わ"
+    ],
+    [
+     "かなり"
+    ]
+   ],
+   "readingFrom": "adjv-090"
+  },
+  {
+   "itemId": "adjv-lemma-045",
+   "lemmaId": "adjv-lemma-045",
+   "heading": "ねむごろなり",
+   "modernKana": "ねんごろなり",
+   "ruby": [
+    [
+     "ね"
+    ],
+    [
+     "む",
+     "ん"
+    ],
+    [
+     "ごろなり"
+    ]
+   ],
+   "readingFrom": "adjv-025"
+  },
+  {
+   "itemId": "adjv-lemma-046",
+   "lemmaId": "adjv-lemma-046",
+   "heading": "ねんごろなり",
+   "modernKana": "ねんごろなり",
+   "ruby": [
+    [
+     "ねんごろなり"
+    ]
+   ],
+   "readingFrom": "adjv-075"
+  },
+  {
+   "itemId": "adjv-lemma-047",
+   "lemmaId": "adjv-lemma-047",
+   "heading": "のどかなり",
+   "modernKana": "のどかなり",
+   "ruby": [
+    [
+     "のどかなり"
+    ]
+   ],
+   "readingFrom": "adjv-094"
+  },
+  {
+   "itemId": "adjv-lemma-048",
+   "lemmaId": "adjv-lemma-048",
+   "heading": "はなやかなり",
+   "modernKana": "はなやかなり",
+   "ruby": [
+    [
+     "はなやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-021"
+  },
+  {
+   "itemId": "adjv-lemma-049",
+   "lemmaId": "adjv-lemma-049",
+   "heading": "はるかなり",
+   "modernKana": "はるかなり",
+   "ruby": [
+    [
+     "はるかなり"
+    ]
+   ],
+   "readingFrom": "adjv-005"
+  },
+  {
+   "itemId": "adjv-lemma-050",
+   "lemmaId": "adjv-lemma-050",
+   "heading": "ひそかなり",
+   "modernKana": "ひそかなり",
+   "ruby": [
+    [
+     "ひそかなり"
+    ]
+   ],
+   "readingFrom": "adjv-091"
+  },
+  {
+   "itemId": "adjv-lemma-051",
+   "lemmaId": "adjv-lemma-051",
+   "heading": "ひたぐろなり",
+   "modernKana": "ひたぐろなり",
+   "ruby": [
+    [
+     "ひたぐろなり"
+    ]
+   ],
+   "readingFrom": "adjv-059"
+  },
+  {
+   "itemId": "adjv-lemma-052",
+   "lemmaId": "adjv-lemma-052",
+   "heading": "ふさやかなり",
+   "modernKana": "ふさやかなり",
+   "ruby": [
+    [
+     "ふさやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-041"
+  },
+  {
+   "itemId": "adjv-lemma-053",
+   "lemmaId": "adjv-lemma-053",
+   "heading": "ほのかなり",
+   "modernKana": "ほのかなり",
+   "ruby": [
+    [
+     "ほのかなり"
+    ]
+   ],
+   "readingFrom": "adjv-013"
+  },
+  {
+   "itemId": "adjv-lemma-054",
+   "lemmaId": "adjv-lemma-054",
+   "heading": "まうなり",
+   "modernKana": "もうなり",
+   "ruby": [
+    [
+     "まう",
+     "もう"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-089"
+  },
+  {
+   "itemId": "adjv-lemma-055",
+   "lemmaId": "adjv-lemma-055",
+   "heading": "まちどほなり",
+   "modernKana": "まちどおなり",
+   "ruby": [
+    [
+     "まちど"
+    ],
+    [
+     "ほ",
+     "お"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-081"
+  },
+  {
+   "itemId": "adjv-lemma-056",
+   "lemmaId": "adjv-lemma-056",
+   "heading": "まほなり",
+   "modernKana": "まほなり",
+   "ruby": [
+    [
+     "まほなり"
+    ]
+   ],
+   "readingFrom": "adjv-034"
+  },
+  {
+   "itemId": "adjv-lemma-057",
+   "lemmaId": "adjv-lemma-057",
+   "heading": "まめなり",
+   "modernKana": "まめなり",
+   "ruby": [
+    [
+     "まめなり"
+    ]
+   ],
+   "readingFrom": "adjv-035"
+  },
+  {
+   "itemId": "adjv-lemma-058",
+   "lemmaId": "adjv-lemma-058",
+   "heading": "まめやかなり",
+   "modernKana": "まめやかなり",
+   "ruby": [
+    [
+     "まめやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-083"
+  },
+  {
+   "itemId": "adjv-lemma-059",
+   "lemmaId": "adjv-lemma-059",
+   "heading": "まれなり",
+   "modernKana": "まれなり",
+   "ruby": [
+    [
+     "まれなり"
+    ]
+   ],
+   "readingFrom": "adjv-055"
+  },
+  {
+   "itemId": "adjv-lemma-060",
+   "lemmaId": "adjv-lemma-060",
+   "heading": "みそかなり",
+   "modernKana": "みそかなり",
+   "ruby": [
+    [
+     "みそかなり"
+    ]
+   ],
+   "readingFrom": "adjv-079"
+  },
+  {
+   "itemId": "adjv-lemma-061",
+   "lemmaId": "adjv-lemma-061",
+   "heading": "むざんなり",
+   "modernKana": "むざんなり",
+   "ruby": [
+    [
+     "むざんなり"
+    ]
+   ],
+   "readingFrom": "adjv-024"
+  },
+  {
+   "itemId": "adjv-lemma-062",
+   "lemmaId": "adjv-lemma-062",
+   "heading": "めづらかなり",
+   "modernKana": "めずらかなり",
+   "ruby": [
+    [
+     "め"
+    ],
+    [
+     "づ",
+     "ず"
+    ],
+    [
+     "らかなり"
+    ]
+   ],
+   "readingFrom": "adjv-073"
+  },
+  {
+   "itemId": "adjv-lemma-063",
+   "lemmaId": "adjv-lemma-063",
+   "heading": "やはらかなり",
+   "modernKana": "やわらかなり",
+   "ruby": [
+    [
+     "や"
+    ],
+    [
+     "は",
+     "わ"
+    ],
+    [
+     "らかなり"
+    ]
+   ],
+   "readingFrom": "adjv-006"
+  },
+  {
+   "itemId": "adjv-lemma-064",
+   "lemmaId": "adjv-lemma-064",
+   "heading": "わづかなり",
+   "modernKana": "わずかなり",
+   "ruby": [
+    [
+     "わ"
+    ],
+    [
+     "づ",
+     "ず"
+    ],
+    [
+     "かなり"
+    ]
+   ],
+   "readingFrom": "adjv-071"
+  },
+  {
+   "itemId": "adjv-lemma-065",
+   "lemmaId": "adjv-lemma-065",
+   "heading": "ゐややかなり",
+   "modernKana": "いややかなり",
+   "ruby": [
+    [
+     "ゐ",
+     "い"
+    ],
+    [
+     "ややかなり"
+    ]
+   ],
+   "readingFrom": "adjv-047"
+  },
+  {
+   "itemId": "adjv-lemma-066",
+   "lemmaId": "adjv-lemma-066",
+   "heading": "やすらかなり",
+   "modernKana": "やすらかなり",
+   "ruby": [
+    [
+     "やすらかなり"
+    ]
+   ],
+   "readingFrom": "adjv-033"
+  },
+  {
+   "itemId": "adjv-lemma-067",
+   "lemmaId": "adjv-lemma-067",
+   "heading": "をんびんなり",
+   "modernKana": "おんびんなり",
+   "ruby": [
+    [
+     "を",
+     "お"
+    ],
+    [
+     "んびんなり"
+    ]
+   ],
+   "readingFrom": "adjv-040"
+  },
+  {
+   "itemId": "adjv-lemma-068",
+   "lemmaId": "adjv-lemma-068",
+   "heading": "にはかなり",
+   "modernKana": "にわかなり",
+   "ruby": [
+    [
+     "に"
+    ],
+    [
+     "は",
+     "わ"
+    ],
+    [
+     "かなり"
+    ]
+   ],
+   "readingFrom": "adjv-084"
+  },
+  {
+   "itemId": "adjv-lemma-069",
+   "lemmaId": "adjv-lemma-069",
+   "heading": "しづかなり",
+   "modernKana": "しずかなり",
+   "ruby": [
+    [
+     "し"
+    ],
+    [
+     "づ",
+     "ず"
+    ],
+    [
+     "かなり"
+    ]
+   ],
+   "readingFrom": "adjv-085"
+  },
+  {
+   "itemId": "adjv-lemma-070",
+   "lemmaId": "adjv-lemma-070",
+   "heading": "まれなり",
+   "modernKana": "まれなり",
+   "ruby": [
+    [
+     "まれなり"
+    ]
+   ],
+   "readingFrom": "adjv-046"
+  },
+  {
+   "itemId": "adjv-lemma-071",
+   "lemmaId": "adjv-lemma-071",
+   "heading": "おろかなり",
+   "modernKana": "おろかなり",
+   "ruby": [
+    [
+     "おろかなり"
+    ]
+   ],
+   "readingFrom": "adjv-012"
+  },
+  {
+   "itemId": "adjv-lemma-072",
+   "lemmaId": "adjv-lemma-072",
+   "heading": "けそうなり",
+   "modernKana": "けそうなり",
+   "ruby": [
+    [
+     "けそうなり"
+    ]
+   ],
+   "readingFrom": "adjv-015"
+  },
+  {
+   "itemId": "adjv-lemma-073",
+   "lemmaId": "adjv-lemma-073",
+   "heading": "さらなり",
+   "modernKana": "さらなり",
+   "ruby": [
+    [
+     "さらなり"
+    ]
+   ],
+   "readingFrom": "adjv-056"
+  },
+  {
+   "itemId": "adjv-lemma-074",
+   "lemmaId": "adjv-lemma-074",
+   "heading": "おもはずなり",
+   "modernKana": "おもわずなり",
+   "ruby": [
+    [
+     "おも"
+    ],
+    [
+     "は",
+     "わ"
+    ],
+    [
+     "ずなり"
+    ]
+   ],
+   "readingFrom": "adjv-027"
+  },
+  {
+   "itemId": "adjv-lemma-075",
+   "lemmaId": "adjv-lemma-075",
+   "heading": "わかやかなり",
+   "modernKana": "わかやかなり",
+   "ruby": [
+    [
+     "わかやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-074"
+  },
+  {
+   "itemId": "adjv-lemma-076",
+   "lemmaId": "adjv-lemma-076",
+   "heading": "てはなちなり",
+   "modernKana": "てはなちなり",
+   "ruby": [
+    [
+     "てはなちなり"
+    ]
+   ],
+   "readingFrom": "adjv-093"
+  },
+  {
+   "itemId": "adjv-lemma-077",
+   "lemmaId": "adjv-lemma-077",
+   "heading": "こころことなり",
+   "modernKana": "こころことなり",
+   "ruby": [
+    [
+     "こころことなり"
+    ]
+   ],
+   "readingFrom": "adjv-048"
+  },
+  {
+   "itemId": "adjv-lemma-078",
+   "lemmaId": "adjv-lemma-078",
+   "heading": "しんべうなり",
+   "modernKana": "しんびょうなり",
+   "ruby": [
+    [
+     "しん"
+    ],
+    [
+     "べう",
+     "びょう"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-010"
+  },
+  {
+   "itemId": "adjv-lemma-079",
+   "lemmaId": "adjv-lemma-079",
+   "heading": "きよらなり",
+   "modernKana": "きよらなり",
+   "ruby": [
+    [
+     "きよらなり"
+    ]
+   ],
+   "readingFrom": "adjv-043"
+  },
+  {
+   "itemId": "adjv-lemma-081",
+   "lemmaId": "adjv-lemma-081",
+   "heading": "しづかなり",
+   "modernKana": "しずかなり",
+   "ruby": [
+    [
+     "し"
+    ],
+    [
+     "づ",
+     "ず"
+    ],
+    [
+     "かなり"
+    ]
+   ],
+   "readingFrom": "adjv-001"
+  },
+  {
+   "itemId": "adjv-lemma-082",
+   "lemmaId": "adjv-lemma-082",
+   "heading": "せちなり",
+   "modernKana": "せちなり",
+   "ruby": [
+    [
+     "せちなり"
+    ]
+   ],
+   "readingFrom": "adjv-067"
+  },
+  {
+   "itemId": "adjv-lemma-083",
+   "lemmaId": "adjv-lemma-083",
+   "heading": "たえだえなり",
+   "modernKana": "たえだえなり",
+   "ruby": [
+    [
+     "たえだえなり"
+    ]
+   ],
+   "readingFrom": "adjv-095"
+  },
+  {
+   "itemId": "adjv-lemma-084",
+   "lemmaId": "adjv-lemma-084",
+   "heading": "さやうなり",
+   "modernKana": "さようなり",
+   "ruby": [
+    [
+     "さ"
+    ],
+    [
+     "やう",
+     "よう"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-028"
+  },
+  {
+   "itemId": "adjv-lemma-085",
+   "lemmaId": "adjv-lemma-085",
+   "heading": "おほきなり",
+   "modernKana": "おおきなり",
+   "ruby": [
+    [
+     "お"
+    ],
+    [
+     "ほ",
+     "お"
+    ],
+    [
+     "きなり"
+    ]
+   ],
+   "readingFrom": "adjv-020"
+  },
+  {
+   "itemId": "adjv-lemma-086",
+   "lemmaId": "adjv-lemma-086",
+   "heading": "どうやうなり",
+   "modernKana": "どうようなり",
+   "ruby": [
+    [
+     "どう"
+    ],
+    [
+     "やう",
+     "よう"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-086"
+  },
+  {
+   "itemId": "adjv-lemma-087",
+   "lemmaId": "adjv-lemma-087",
+   "heading": "しのびやかなり",
+   "modernKana": "しのびやかなり",
+   "ruby": [
+    [
+     "しのびやかなり"
+    ]
+   ],
+   "readingFrom": "adjv-016"
+  },
+  {
+   "itemId": "adjv-lemma-088",
+   "lemmaId": "adjv-lemma-088",
+   "heading": "みめうなり",
+   "modernKana": "みみょうなり",
+   "ruby": [
+    [
+     "み"
+    ],
+    [
+     "めう",
+     "みょう"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-070"
+  },
+  {
+   "itemId": "adjv-lemma-089",
+   "lemmaId": "adjv-lemma-089",
+   "heading": "たひらなり",
+   "modernKana": "たいらなり",
+   "ruby": [
+    [
+     "た"
+    ],
+    [
+     "ひ",
+     "い"
+    ],
+    [
+     "らなり"
+    ]
+   ],
+   "readingFrom": "adjv-058"
+  },
+  {
+   "itemId": "adjv-lemma-090",
+   "lemmaId": "adjv-lemma-090",
+   "heading": "たへなり",
+   "modernKana": "たえなり",
+   "ruby": [
+    [
+     "た"
+    ],
+    [
+     "へ",
+     "え"
+    ],
+    [
+     "なり"
+    ]
+   ],
+   "readingFrom": "adjv-003"
+  },
+  {
+   "itemId": "adjv-lemma-091",
+   "lemmaId": "adjv-lemma-091",
+   "heading": "むざんなり",
+   "modernKana": "むざんなり",
+   "ruby": [
+    [
+     "むざんなり"
+    ]
+   ],
+   "readingFrom": "adjv-017"
+  },
+  {
+   "itemId": "adjv-lemma-092",
+   "lemmaId": "adjv-lemma-092",
+   "heading": "むざんなり",
+   "modernKana": "むざんなり",
+   "ruby": [
+    [
+     "むざんなり"
+    ]
+   ],
+   "readingFrom": "adjv-022"
+  },
+  {
+   "itemId": "adjv-lemma-093",
+   "lemmaId": "adjv-lemma-093",
+   "heading": "やはらかなり",
+   "modernKana": "やわらかなり",
+   "ruby": [
+    [
+     "や"
+    ],
+    [
+     "は",
+     "わ"
+    ],
+    [
+     "らかなり"
+    ]
+   ],
+   "readingFrom": "adjv-004"
+  },
+  {
+   "itemId": "adjv-lemma-094",
+   "lemmaId": "adjv-lemma-094",
+   "heading": "ねんごろなり",
+   "modernKana": "ねんごろなり",
+   "ruby": [
+    [
+     "ねんごろなり"
+    ]
+   ],
+   "readingFrom": "adjv-078"
+  },
+  {
+   "itemId": "adjv-lemma-095",
+   "lemmaId": "adjv-lemma-095",
+   "heading": "まんまんたり",
+   "modernKana": "まんまんたり",
+   "ruby": [
+    [
+     "まんまんたり"
+    ]
+   ],
+   "readingFrom": "adjv-113"
+  },
+  {
+   "itemId": "adjv-lemma-096",
+   "lemmaId": "adjv-lemma-096",
+   "heading": "ががたり",
+   "modernKana": "ががたり",
+   "ruby": [
+    [
+     "ががたり"
+    ]
+   ],
+   "readingFrom": "adjv-116"
+  },
+  {
+   "itemId": "adjv-lemma-097",
+   "lemmaId": "adjv-lemma-097",
+   "heading": "あつあつたり",
+   "modernKana": "あつあつたり",
+   "ruby": [
+    [
+     "あつあつたり"
+    ]
+   ],
+   "readingFrom": "adjv-106"
+  },
+  {
+   "itemId": "adjv-lemma-098",
+   "lemmaId": "adjv-lemma-098",
+   "heading": "ささたり",
+   "modernKana": "ささたり",
+   "ruby": [
+    [
+     "ささたり"
+    ]
+   ],
+   "readingFrom": "adjv-107"
+  },
+  {
+   "itemId": "adjv-lemma-099",
+   "lemmaId": "adjv-lemma-099",
+   "heading": "しんしんたり",
+   "modernKana": "しんしんたり",
+   "ruby": [
+    [
+     "しんしんたり"
+    ]
+   ],
+   "readingFrom": "adjv-111"
+  },
+  {
+   "itemId": "adjv-lemma-100",
+   "lemmaId": "adjv-lemma-100",
+   "heading": "せいせいたり",
+   "modernKana": "せいせいたり",
+   "ruby": [
+    [
+     "せいせいたり"
+    ]
+   ],
+   "readingFrom": "adjv-119"
+  },
+  {
+   "itemId": "adjv-lemma-101",
+   "lemmaId": "adjv-lemma-101",
+   "heading": "せいぜいたり",
+   "modernKana": "せいぜいたり",
+   "ruby": [
+    [
+     "せいぜいたり"
+    ]
+   ],
+   "readingFrom": "adjv-110"
+  },
+  {
+   "itemId": "adjv-lemma-102",
+   "lemmaId": "adjv-lemma-102",
+   "heading": "ばくばくたり",
+   "modernKana": "ばくばくたり",
+   "ruby": [
+    [
+     "ばくばくたり"
+    ]
+   ],
+   "readingFrom": "adjv-118"
+  },
+  {
+   "itemId": "adjv-lemma-103",
+   "lemmaId": "adjv-lemma-103",
+   "heading": "へんぺんたり",
+   "modernKana": "へんぺんたり",
+   "ruby": [
+    [
+     "へんぺんたり"
+    ]
+   ],
+   "readingFrom": "adjv-101"
+  },
+  {
+   "itemId": "adjv-lemma-104",
+   "lemmaId": "adjv-lemma-104",
+   "heading": "ばうぜんたり",
+   "modernKana": "ぼうぜんたり",
+   "ruby": [
+    [
+     "ばう",
+     "ぼう"
+    ],
+    [
+     "ぜんたり"
+    ]
+   ],
+   "readingFrom": "adjv-098"
+  },
+  {
+   "itemId": "adjv-lemma-105",
+   "lemmaId": "adjv-lemma-105",
+   "heading": "まんまんたり",
+   "modernKana": "まんまんたり",
+   "ruby": [
+    [
+     "まんまんたり"
+    ]
+   ],
+   "readingFrom": "adjv-114"
+  },
+  {
+   "itemId": "adjv-lemma-106",
+   "lemmaId": "adjv-lemma-106",
+   "heading": "けんけんたり",
+   "modernKana": "けんけんたり",
+   "ruby": [
+    [
+     "けんけんたり"
+    ]
+   ],
+   "readingFrom": "adjv-117"
+  },
+  {
+   "itemId": "adjv-lemma-107",
+   "lemmaId": "adjv-lemma-107",
+   "heading": "くわうくわうたり",
+   "modernKana": "こうこうたり",
+   "ruby": [
+    [
+     "くわう",
+     "こう"
+    ],
+    [
+     "くわう",
+     "こう"
+    ],
+    [
+     "たり"
+    ]
+   ],
+   "readingFrom": "adjv-100"
+  },
+  {
+   "itemId": "adjv-lemma-108",
+   "lemmaId": "adjv-lemma-108",
+   "heading": "べうべうたり",
+   "modernKana": "びょうびょうたり",
+   "ruby": [
+    [
+     "べう",
+     "びょう"
+    ],
+    [
+     "べう",
+     "びょう"
+    ],
+    [
+     "たり"
+    ]
+   ],
+   "readingFrom": "adjv-120"
+  },
+  {
+   "itemId": "adjv-lemma-109",
+   "lemmaId": "adjv-lemma-109",
+   "heading": "べうばうたり",
+   "modernKana": "びょうぼうたり",
+   "ruby": [
+    [
+     "べう",
+     "びょう"
+    ],
+    [
+     "ばう",
+     "ぼう"
+    ],
+    [
+     "たり"
+    ]
+   ],
+   "readingFrom": "adjv-108"
+  },
+  {
+   "itemId": "adjv-lemma-110",
+   "lemmaId": "adjv-lemma-110",
+   "heading": "くわうやうたり",
+   "modernKana": "こうようたり",
+   "ruby": [
+    [
+     "くわう",
+     "こう"
+    ],
+    [
+     "やう",
+     "よう"
+    ],
+    [
+     "たり"
+    ]
+   ],
+   "readingFrom": "adjv-102"
+  },
+  {
+   "itemId": "adjv-lemma-111",
+   "lemmaId": "adjv-lemma-111",
+   "heading": "らんかんたり",
+   "modernKana": "らんかんたり",
+   "ruby": [
+    [
+     "らんかんたり"
+    ]
+   ],
+   "readingFrom": "adjv-112"
+  },
+  {
+   "itemId": "adjv-lemma-112",
+   "lemmaId": "adjv-lemma-112",
+   "heading": "べうべうたり",
+   "modernKana": "びょうびょうたり",
+   "ruby": [
+    [
+     "べう",
+     "びょう"
+    ],
+    [
+     "べう",
+     "びょう"
+    ],
+    [
+     "たり"
+    ]
+   ],
+   "readingFrom": "adjv-109"
+  },
+  {
+   "itemId": "adjv-lemma-113",
+   "lemmaId": "adjv-lemma-113",
+   "heading": "ばうばうたり",
+   "modernKana": "ぼうぼうたり",
+   "ruby": [
+    [
+     "ばう",
+     "ぼう"
+    ],
+    [
+     "ばう",
+     "ぼう"
+    ],
+    [
+     "たり"
+    ]
+   ],
+   "readingFrom": "adjv-104"
+  },
+  {
+   "itemId": "adjv-lemma-114",
+   "lemmaId": "adjv-lemma-114",
+   "heading": "さつさつたり",
+   "modernKana": "さっさつたり",
+   "ruby": [
+    [
+     "さ"
+    ],
+    [
+     "つ",
+     "っ"
+    ],
+    [
+     "さつたり"
+    ]
+   ],
+   "readingFrom": "adjv-097"
+  },
+  {
+   "itemId": "adjv-lemma-115",
+   "lemmaId": "adjv-lemma-115",
+   "heading": "りんりんたり",
+   "modernKana": "りんりんたり",
+   "ruby": [
+    [
+     "りんりんたり"
+    ]
+   ],
+   "readingFrom": "adjv-105"
+  },
+  {
+   "itemId": "adjv-lemma-116",
+   "lemmaId": "adjv-lemma-116",
+   "heading": "いんりんたり",
+   "modernKana": "いんりんたり",
+   "ruby": [
+    [
+     "いんりんたり"
+    ]
+   ],
+   "readingFrom": "adjv-103"
+  },
+  {
+   "itemId": "adjv-lemma-117",
+   "lemmaId": "adjv-lemma-117",
+   "heading": "じやうじやうたり",
+   "modernKana": "じょうじょうたり",
+   "ruby": [
+    [
+     "じやう",
+     "じょう"
+    ],
+    [
+     "じやう",
+     "じょう"
+    ],
+    [
+     "たり"
+    ]
+   ],
+   "readingFrom": "adjv-099"
+  }
+ ]
+}

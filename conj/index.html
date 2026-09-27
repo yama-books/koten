@@ -17,7 +17,7 @@
   --bg:#fbf9f7;
   --card:#ffffff;
   --ink:#3b352c;
-  --muted:#7f776d;
+  --muted:#7a7269;
   --heading-ink:#4b4030;
   --on-accent:#ffffff;
   --line:#eae4dc;
@@ -94,7 +94,7 @@
   --bg:#f7fbfa;
   --card:#ffffff;
   --ink:#2c3b38;
-  --muted:#6d7f7a;
+  --muted:#667773;
   --heading-ink:#304b45;
   --on-accent:#ffffff;
   --line:#dceae6;
@@ -210,7 +210,7 @@
   --bg:#f9f9f9;
   --card:#ffffff;
   --ink:#333434;
-  --muted:#757776;
+  --muted:#717372;
   --heading-ink:#3c3f3e;
   --on-accent:#ffffff;
   --line:#e2e4e3;
@@ -3035,6 +3035,80 @@ body.review-modal-open{overflow:hidden}
 @media(min-width:800px){.record-shell{transform:scale(1.2);transform-origin:top center}}
 @media(min-width:960px){.record-shell{transform:scale(1.38)}}
 @media(min-width:1100px){.record-shell{transform:scale(1.5)}}
+/* ===== v53: 語釈帯・見出しの差分ルビ・助動詞の接続・はなまるを見出し語に固定（DESIGN_GLOSS_LAYOUT_2026-09-28） ===== */
+/* 「形は上、意味は下。語についての情報は答えの後」。色はトークンだけで組み、5テーマに対応する。 */
+
+/* 見出し語の上に現代仮名遣いのルビの高さをいつも確保する。ルビは変わる字だけに付け、答え合わせの後に見せる。
+   確保した帯の高さは問題によらず同じなので、答えの前後でも問題の間でも表の位置は動かない。 */
+#lemma,#reviewModalWord{padding-top:12px;margin-top:2px}
+#lemma rt,#reviewModalWord rt{font-weight:600;font-size:11px;line-height:1;font-family:var(--conj-font-classical,serif);letter-spacing:.02em;color:var(--accent-strong);visibility:hidden}
+.card.is-answered #lemma rt,.review-modal-card #reviewModalWord rt{visibility:visible}
+@media(min-width:701px){
+  #lemma,#reviewModalWord{padding-top:17px;margin-top:4px}
+  #lemma rt,#reviewModalWord rt{font-size:15px}
+}
+
+/* 助動詞の活用型の行に接続を並べる（下二段型 ｜ 未然形接続）。 */
+.kind .kind-sep{margin:0 .6em;color:var(--line-strong)}
+.kind.kind-answer-badge .kind-sep{color:inherit;opacity:.55}
+/* Lv5–7 で答えの後に出るバッジも、出題中の行（30px／スマホ 27px）と同じ高さに収め、表を動かさない。
+   上の余白は漢字補助の下余白（2px）と相殺されるため 8px（実質 +6px）とし、下の余白は付けない。 */
+#kind.kind-answer-badge{height:24px;min-height:0;margin:8px auto 0;padding-top:0;padding-bottom:0}
+@media(max-width:700px){#kind.kind-answer-badge{height:21px}}
+
+/* 語釈帯：見出し（dt）と語釈（dd）の2列。スマホは活用表の下に、問題によらず同じ幅で置く。
+   出題時に中身を組んで場所を確保し（visibility:hidden）、答え合わせの後に見せる。display:none は使わない。 */
+.gloss{
+  display:grid;grid-template-columns:6.2em minmax(0,1fr);column-gap:10px;row-gap:6px;align-items:baseline;
+  width:min(calc(100% - 32px),300px);box-sizing:border-box;margin:12px auto 0;padding:10px 4px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:left;
+  visibility:hidden;opacity:0;
+}
+.gloss[hidden]{display:none!important}
+.card.is-answered .gloss,.review-modal-card .gloss{visibility:visible;opacity:1;transition:opacity .16s ease}
+@media(prefers-reduced-motion:reduce){.card.is-answered .gloss{transition:none}}
+.gloss dt{font-size:10px;line-height:1.5;color:var(--tag-ink);text-align:right;white-space:nowrap;justify-self:end}
+.gloss dd{margin:0;font-size:12.5px;line-height:1.5;color:var(--ink);word-break:auto-phrase}
+.gloss dd.gloss-sub{font-size:11px;color:var(--muted)}
+/* まとまりは丸ごと次の行へ送り、1行に入らない長いまとまりだけはその中で折り返す。 */
+.gloss .gloss-chunk{display:inline-block;max-width:100%;vertical-align:top}
+/* 「この用例では」と、この用例での意味は、用例中の対象語と同じマーカー色でつなぐ。 */
+.gloss .gloss-mark,.gloss .gloss-em{background:linear-gradient(transparent 18%,var(--example-mark-bg) 18%,var(--example-mark-bg) 92%,transparent 92%);padding:0 2px;border-radius:2px;color:var(--ink)}
+.gloss .gloss-em{font-weight:700}
+@media(max-width:700px){
+  .study-layout:not(.review-modal-study-layout){grid-template-areas:"example table ." "gloss gloss gloss";row-gap:0}
+  .study-layout.no-example:not(.review-modal-study-layout){grid-template-areas:". table ." "gloss gloss gloss"}
+  .study-layout:not(.review-modal-study-layout) > .gloss{grid-area:gloss}
+  .card:has(#gloss:not([hidden])) .actions{margin-top:16px}
+}
+/* 高さの低いスマホ（iPhone SE など）では、語釈帯の分だけ活用表の行を低くし、ボタンを画面内に残す。 */
+@media(max-width:700px) and (max-height:760px){
+  .card:has(#gloss:not([hidden])){--mobile-form-row-h:clamp(48px,calc((100dvh - 390px)/6),55px)}
+}
+
+/* iPad・PC：語釈は表の右の空いた列に置く（用例｜表｜語釈）。表と一緒に拡大され、カードの高さは増えない。 */
+@media(min-width:701px){
+  .study-layout:not(.review-modal-study-layout){grid-template-areas:"example table gloss"}
+  .study-layout.no-example:not(.review-modal-study-layout){grid-template-areas:". table gloss"}
+  .study-layout:not(.review-modal-study-layout) > .gloss{
+    grid-area:gloss;align-self:start;justify-self:start;display:block;width:auto;max-width:17em;
+    margin:0 0 0 16px;padding:1px 0 1px 13px;border:0;border-left:1px solid var(--line);font-size:13px
+  }
+  .study-layout:not(.review-modal-study-layout) > .gloss dt{text-align:left;justify-self:start;font-size:11px;margin:14px 0 2px}
+  .study-layout:not(.review-modal-study-layout) > .gloss dt:first-child{margin-top:0}
+  .study-layout:not(.review-modal-study-layout) > .gloss dd{font-size:14px;line-height:1.6}
+  .study-layout:not(.review-modal-study-layout) > .gloss dd.gloss-sub{font-size:12px}
+}
+
+/* はなまる：カードの角ではなく見出し語に固定する。位置と大きさは placePerfectStamp() が決める。
+   最前面に置き、multiply で重ねて、線の下の文字が朱の下から透けて読めるようにする。 */
+.perfect-result{z-index:20;mix-blend-mode:multiply}
+.perfect-result.show:not(.is-placed){visibility:hidden}
+#lemmaAid{width:fit-content;max-width:100%;margin-left:auto;margin-right:auto}
+/* はなまるを出している間は、灰色の補助文字を本文色にして朱と重なっても読めるようにする。区切り線は灰色のまま。 */
+.card:has(.perfect-result.show) #kind:not(.kind-answer-badge),
+.card:has(.perfect-result.show) #lemmaAid{color:var(--ink)}
+.card:has(.perfect-result.show) #kind:not(.kind-answer-badge) .kind-sep{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -3126,13 +3200,14 @@ body.review-modal-open{overflow:hidden}
         </table>
         <div class="row-note" id="rowNote"></div>
       </section>
+
+      <dl class="gloss" id="gloss" aria-live="polite" hidden></dl>
     </div>
 
     <div class="perfect-result" id="perfectResult">
       <img alt="全問正解 はなまる" src="./img/hanamaru.png">
     </div>
 
-    <div class="auxinfo" id="auxInfo"></div>
     <div class="feedback" id="feedback"></div>
 
     <div class="actions">
@@ -3277,10 +3352,11 @@ body.review-modal-open{overflow:hidden}
         <div class="row-note" id="reviewRowNote"></div>
       </section>
     </div>
+    <dl class="gloss gloss-review" id="reviewGloss" hidden></dl>
   </section>
 </div>
 
-<script src="./adjv-runtime-adapter.js?v=20260923-chj-quotations"></script>
+<script src="./adjv-runtime-adapter.js?v=20260928-gloss"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -3977,9 +4053,9 @@ const auxLevelPresets={
   2:{ratio:.42, includeZero:false, hideKind:false, label:"4割ほど空欄・〇以外・活用型あり"},
   3:{ratio:.55, includeZero:false, hideKind:false, label:"半分ほど空欄・〇以外・活用型あり"},
   4:{ratio:.65, includeZero:true,  hideKind:false, label:"6割ほど空欄・〇も出題・活用型あり"},
-  5:{ratio:.75, includeZero:true,  hideKind:true,  label:"7割ほど空欄・〇も出題・活用型なし"},
-  6:{ratio:.90, includeZero:true,  hideKind:true,  label:"ほとんど空欄・〇も出題・活用型なし"},
-  7:{ratio:1.00,includeZero:true,  hideKind:true,  label:"全部空欄・〇も出題・活用型なし"}
+  5:{ratio:.75, includeZero:true,  hideKind:true,  label:"7割ほど空欄・〇も出題・活用型・接続なし"},
+  6:{ratio:.90, includeZero:true,  hideKind:true,  label:"ほとんど空欄・〇も出題・活用型・接続なし"},
+  7:{ratio:1.00,includeZero:true,  hideKind:true,  label:"全部空欄・〇も出題・活用型・接続なし"}
 };
 
 function usingCommonLevel(){
@@ -4618,28 +4694,254 @@ function fitExampleText(text){
   }
 }
 
+// ===== はなまる（全問正解のスタンプ）：見出し語に固定する（DESIGN_GLOSS_LAYOUT §4.6）=====
+// 基準はカードの角ではなく、見出し語の基字（ルビを除く）の範囲。大きさは見出しの文字サイズの 4.35 倍。
+// 線の形（透過 PNG を 48×48 に縮めたマスク）が、ルビ・漢字補助・活用型の行・品詞タグの文字と
+// 交わる量を候補位置ごとに数え、「交差の量＋既定位置からの距離」が最小の位置に置く。
+// はなまるは最前面で multiply 合成にし、線の下の文字は朱の下から透けて読める。
+const STAMP_MASK_N=48;
+let stampMaskPromise=null;
+function loadStampMask(){
+  if(stampMaskPromise) return stampMaskPromise;
+  stampMaskPromise=(async()=>{
+    try{
+      const img=new Image();
+      img.src="./img/hanamaru.png";
+      await img.decode();
+      const canvas=document.createElement("canvas");
+      canvas.width=canvas.height=STAMP_MASK_N;
+      const ctx=canvas.getContext("2d");
+      ctx.drawImage(img,0,0,STAMP_MASK_N,STAMP_MASK_N);
+      const data=ctx.getImageData(0,0,STAMP_MASK_N,STAMP_MASK_N).data;
+      const mask=[];
+      for(let y=0;y<STAMP_MASK_N;y++){
+        for(let x=0;x<STAMP_MASK_N;x++){
+          if(data[(y*STAMP_MASK_N+x)*4+3]>40) mask.push([(x+.5)/STAMP_MASK_N,(y+.5)/STAMP_MASK_N]);
+        }
+      }
+      return mask;
+    }catch(error){
+      // マスクが取れなくても、既定の位置（見出し語に少しかかる位置）には置ける。
+      console.warn("conj: hanamaru mask unavailable; placing the stamp without collision check.",error);
+      return [];
+    }
+  })();
+  return stampMaskPromise;
+}
+function textClientRects(el){
+  if(!el) return [];
+  const range=document.createRange();
+  const out=[];
+  const walk=node=>{
+    if(node.nodeType===3){
+      if(node.textContent.trim()){ range.selectNodeContents(node); out.push(...range.getClientRects()); }
+    }else node.childNodes.forEach(walk);
+  };
+  walk(el);
+  return out;
+}
+let stampPlacementId=0;
+async function placePerfectStamp(){
+  const stamp=document.getElementById("perfectResult");
+  const lemma=document.getElementById("lemma");
+  if(!stamp || !lemma || !stamp.classList.contains("show")) return;
+  const placementId=++stampPlacementId;
+  const mask=await loadStampMask();
+  if(placementId!==stampPlacementId || !stamp.classList.contains("show")) return;
+  const card=lemma.closest(".card");
+  const fs=parseFloat(getComputedStyle(lemma).fontSize);
+  const size=Math.round(Math.min(156,Math.max(96,fs*4.35)));
+  const range=document.createRange();
+  const base=[...lemma.childNodes].flatMap(node=>{
+    if(node.nodeType===3){ range.selectNodeContents(node); return [...range.getClientRects()]; }
+    if(node.nodeName==="RUBY" && node.firstChild){ range.selectNodeContents(node.firstChild); return [...range.getClientRects()]; }
+    return [];
+  }).filter(r=>r.width>0);
+  if(!base.length) return;
+  const L=Math.min(...base.map(r=>r.left)), R=Math.max(...base.map(r=>r.right));
+  const T=Math.min(...base.map(r=>r.top)), B=Math.max(...base.map(r=>r.bottom));
+  const obstacles=[
+    ...[...lemma.querySelectorAll("rt")].flatMap(textClientRects).map(r=>[r,1]),
+    ...textClientRects(document.getElementById("lemmaAid")).map(r=>[r,1]),
+    ...textClientRects(document.getElementById("kind")).map(r=>[r,1]),
+    ...textClientRects(card.querySelector(".meta")).map(r=>[r,.6])
+  ];
+  const c=card.getBoundingClientRect(), minTop=c.top+4, maxRight=c.right-6;
+  const hits=(x0,y0)=>{
+    let h=0;
+    for(const [u,v] of mask){
+      const px=x0+u*size, py=y0+v*size;
+      for(const [r,w] of obstacles){
+        if(px>=r.left-1 && px<=r.right+1 && py>=r.top-1 && py<=r.bottom+1){ h+=w; break; }
+      }
+    }
+    return h;
+  };
+  // 見出し語にかかる量：0.3字〜min(0.9字, 語の幅の半分)。縦は −0.24〜+0.06 × 大きさ。
+  const oMax=Math.min(.9*fs,.5*(R-L)), oMin=Math.min(.3*fs,oMax);
+  let best=null;
+  for(let k=0;k<=6;k++){
+    const o=oMax-(oMax-oMin)*k/6;
+    for(const f of [0,-.06,-.12,-.18,-.24,.06]){
+      let x0=R-o;
+      const y0=(T+B)/2-.54*size+f*size;
+      if(x0+size>maxRight) x0=maxRight-size; // カードからはみ出すときは左へ（重なりが増える）
+      if(y0<minTop) continue;
+      const h=hits(x0,y0);
+      const cost=h+4*(oMax-o)/fs+20*Math.abs(f);
+      if(!best || cost<best.cost) best={cost,x0,y0,h};
+    }
+  }
+  if(!best){
+    const x0=Math.min(R-oMin,maxRight-size);
+    best={x0,y0:minTop,h:hits(x0,minTop)};
+  }
+  Object.assign(stamp.style,{
+    width:size+"px",height:size+"px",right:"auto",
+    left:Math.round(best.x0-c.left-card.clientLeft)+"px",
+    top:Math.round(best.y0-c.top-card.clientTop)+"px"
+  });
+  stamp.dataset.hits=String(Math.round(best.h*10)/10);
+  stamp.classList.add("is-placed");
+}
+
 function hideKindAtStart(){
   if(!current) return false;
   return current.pos==="aux"
     ? auxLevelPresets[levelForPos("aux")].hideKind
     : generalLevelPresets[levelForPos(current.pos)].hideKind;
 }
+// 助動詞は活用型の後ろに接続を並べる（「下二段型 ｜ 未然形接続」）。出し分けは活用型と同じ（hideKind）。
+function renderKindText(el,item){
+  el.textContent=item.kind;
+  if(item.pos!=="aux" || !item.connectionShort) return;
+  const sep=document.createElement("span");
+  sep.className="kind-sep";
+  sep.setAttribute("aria-hidden","true");
+  sep.textContent="|";
+  const conn=document.createElement("span");
+  conn.className="kind-conn";
+  conn.textContent=item.connectionShort+"接続";
+  el.append(sep,conn);
+}
 function renderKindInitial(){
   const el=document.getElementById("kind");
   el.classList.remove("kind-hidden","kind-answer-badge");
   if(hideKindAtStart()){
-    el.textContent=current.kind;
+    renderKindText(el,current);
     el.classList.add("kind-hidden");
   }else{
-    el.textContent=current.kind;
+    renderKindText(el,current);
   }
 }
 function revealKindWithAnswers(){
   if(!hideKindAtStart()) return;
   const el=document.getElementById("kind");
-  el.textContent=current.kind;
+  renderKindText(el,current);
   el.classList.remove("kind-hidden");
   el.classList.add("kind-answer-badge");
+}
+
+// ===== 語釈（DESIGN_GLOSS_LAYOUT_2026-09-28）=====
+// 見出し語の現代仮名遣いは、変わる字だけにルビを付ける。ルビの高さは CSS で常に確保し、
+// 答え合わせ（採点・答えを見る）の後に表示する。本画面と復習ダイアログで共通。
+function lemmaReadingFor(item){
+  const r=item&&item.lemmaReading;
+  return r && r.heading===lemmaHeadingText(item) && Array.isArray(r.ruby) && r.ruby.some(seg=>seg.length===2) ? r : null;
+}
+function applyLemmaReading(el,item,revealed){
+  const reading=lemmaReadingFor(item);
+  if(reading){
+    el.replaceChildren(...reading.ruby.map(([base,rt])=>{
+      if(!rt) return document.createTextNode(base);
+      const ruby=document.createElement("ruby");
+      const t=document.createElement("rt");
+      t.textContent=rt;
+      ruby.append(base,t);
+      return ruby;
+    }));
+  }
+  if(reading && revealed) el.setAttribute("aria-label",`${reading.heading}（現代仮名遣い ${reading.modernKana}）`);
+  else el.removeAttribute("aria-label");
+}
+// 助動詞の「この用例での意味」は、監査済み（audited）で意味が2つ以上ある語だけ強調する。
+// 1つの用例に2つの意味を認める場合（例: べし＝当然・推量）は、どちらにも印を付ける。
+function emphasizedAuxMeanings(item){
+  const m=item&&item.exampleMeanings;
+  const list=String(item&&item.meaning||"").split("・");
+  if(!m || m.status!=="audited" || list.length<2 || !Array.isArray(m.meanings)) return [];
+  return m.meanings.every(x=>list.includes(x)) ? m.meanings.slice() : [];
+}
+// 語釈は「・」「／」で区切ったまとまりの途中で改行しない。
+function appendGlossChunks(dd,text,emphasis=[]){
+  // 後読み（?<=）は古い iPad Safari で構文エラーになるため使わない。
+  const parts=String(text).match(/[^・／]+[・／]?|[・／]/g)||[];
+  for(const part of parts){
+    const chunk=document.createElement("span");
+    chunk.className="gloss-chunk";
+    const sep=/[・／]$/.test(part) ? part.slice(-1) : "";
+    const word=sep ? part.slice(0,-1) : part;
+    if(emphasis.includes(word)){
+      const em=document.createElement("span");
+      em.className="gloss-em";
+      em.textContent=word;
+      chunk.append(em,sep);
+    }else{
+      chunk.textContent=part;
+    }
+    dd.appendChild(chunk);
+  }
+}
+function glossRows(item,showContext){
+  if(!item) return [];
+  if(item.pos==="aux"){
+    const rows=[];
+    if(item.meaning) rows.push({label:"意味",text:item.meaning,emphasis:emphasizedAuxMeanings(item)});
+    if(item.connection && item.connectionShort && item.connection!==item.connectionShort){
+      rows.push({label:"接続",text:item.connection,sub:true});
+    }
+    return rows;
+  }
+  if(!item.gloss) return [];
+  const rows=[{label:"意味",text:item.gloss.basicGloss}];
+  if(showContext && item.gloss.contextNote) rows.push({label:"この用例では",text:item.gloss.contextNote,context:true});
+  return rows;
+}
+function renderGloss(dl,item,showContext){
+  const rows=glossRows(item,showContext);
+  dl.replaceChildren();
+  for(const row of rows){
+    const dt=document.createElement("dt");
+    const dd=document.createElement("dd");
+    if(row.context){
+      const mark=document.createElement("span");
+      mark.className="gloss-mark";
+      mark.textContent=row.label;
+      dt.appendChild(mark);
+    }else{
+      dt.textContent=row.label;
+    }
+    if(row.sub) dd.className="gloss-sub";
+    appendGlossChunks(dd,row.text,row.emphasis);
+    dl.append(dt,dd);
+  }
+  dl.hidden=rows.length===0;
+}
+function currentExampleShowing(){
+  const compactExample=(current.example||"").replace(/[　 ]+/g,"");
+  const hasExample=current.exampleAvailable!==false && compactExample.length>0;
+  return hasExample && document.getElementById("showExample").checked;
+}
+function renderCurrentGloss(){
+  if(!current) return;
+  renderGloss(document.getElementById("gloss"),current,currentExampleShowing());
+}
+// 答え合わせの後：ルビと語釈帯を見せる。語釈帯の場所は出題時から確保してあるので、表も見出しも動かない。
+function revealGlossWithAnswers(){
+  document.querySelector("main.card").classList.add("is-answered");
+  applyLemmaReading(document.getElementById("lemma"),current,true);
+  // 中身を入れ直して aria-live で読み上げさせる（同じ内容なので寸法は変わらない）。
+  renderCurrentGloss();
 }
 
 const HISTORICAL_KANA_HEADINGS={
@@ -4691,18 +4993,17 @@ function applyExampleVisibility(){
   const showing=hasExample && exampleToggle.checked;
   document.getElementById("examplePanel").style.display=showing?"block":"none";
   const layout=document.querySelector(".study-layout");
-  if(showing){
-    layout.style.gridTemplateColumns="";
-    layout.style.gridTemplateAreas="";
-  }else{
-    layout.style.gridTemplateColumns="auto";
-    layout.style.gridTemplateAreas='"table"';
-  }
+  // 用例を出さないときも表は中央のまま、語釈の列（PC・iPad）や行（スマホ）は残す（v53）。
+  layout.classList.toggle("no-example",!showing);
+  // 「この用例では」は用例を出しているときだけ。
+  renderCurrentGloss();
   requestAnimationFrame(syncStudyHeights);
   setTimeout(syncStudyHeights, 30);
 }
 function render(){
+  document.querySelector("main.card").classList.remove("is-answered");
   document.getElementById("lemma").textContent=lemmaHeadingText(current);
+  applyLemmaReading(document.getElementById("lemma"),current,false);
   const lemmaAid=document.getElementById("lemmaAid");
   const aidText=lemmaAidText(current);
   lemmaAid.textContent=aidText;
@@ -4729,20 +5030,13 @@ function render(){
     document.getElementById("exampleFoot").textContent=current.source||"練習用例";
   }
 
+  // 語釈帯は applyExampleVisibility() の中で組み立てる（出題時から場所を確保し、答えの後に見せる）。
   applyExampleVisibility();
-
-  const ai=document.getElementById("auxInfo");
-  if(current.pos==="aux"){
-    ai.style.display="block";
-    const connMatch=(current.connection||"").match(/未然形|連用形|終止形|連体形|已然形|命令形/);
-    const shortConnection=current.connectionShort || (connMatch?connMatch[0]:(current.connection||""));
-    ai.innerHTML=`<strong>意味：</strong>${current.meaning}　　<strong>接続：</strong>${shortConnection}`;
-  }else ai.style.display="none";
 
   renderTable();
   requestAnimationFrame(syncStudyHeights);
   setTimeout(syncStudyHeights, 30);
-  document.getElementById("perfectResult").classList.remove("show");
+  document.getElementById("perfectResult").classList.remove("show","is-placed");
   document.getElementById("feedback").innerHTML="";
   document.getElementById("check").style.display="inline-block";
   document.getElementById("reveal").style.display="inline-block";
@@ -4826,6 +5120,7 @@ function grade(revealOnly=false){
   });
 
   revealKindWithAnswers();
+  revealGlossWithAnswers();
 
   const perfectAll=!revealOnly && gradedCount>0 && correctCount===gradedCount;
 
@@ -4839,6 +5134,7 @@ function grade(revealOnly=false){
   answered=true;
   const perfect=document.getElementById("perfectResult");
   perfect.classList.toggle("show", perfectAll);
+  if(perfectAll) placePerfectStamp();
 
   document.getElementById("feedback").textContent="";
 
@@ -5326,11 +5622,15 @@ function openReviewModal(item){
   renderReviewTable(item);
   document.getElementById("reviewModalPosTag").textContent=item.label;
   document.getElementById("reviewModalWord").textContent=lemmaHeadingText(item);
+  // 復習ダイアログは答え合わせ後の状態で開く：ルビと語釈帯を最初から見せる。
+  applyLemmaReading(document.getElementById("reviewModalWord"),item,true);
   const lemmaAid=document.getElementById("reviewModalLemmaAid");
   const aidText=lemmaAidText(item);
   lemmaAid.textContent=aidText;
   lemmaAid.style.visibility=aidText?"visible":"hidden";
-  document.getElementById("reviewModalKind").textContent=item.kind;
+  renderKindText(document.getElementById("reviewModalKind"),item);
+  const reviewExample=(item.example||"").replace(/[　 ]+/g,"");
+  renderGloss(document.getElementById("reviewGloss"),item,item.exampleAvailable!==false && reviewExample.length>0);
   reviewModalReturnFocus=document.activeElement;
   modal.hidden=false;
   document.body.classList.add("review-modal-open");
@@ -5458,7 +5758,7 @@ bindLevelMeter("adjv", v=>adjvLevel=v);
 bindLevelMeter("aux",  v=>auxLevel=v);
 
 updateLevelUI();
-window.addEventListener("resize",()=>requestAnimationFrame(syncStudyHeights));
+window.addEventListener("resize",()=>requestAnimationFrame(()=>{syncStudyHeights();placePerfectStamp();}));
 
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape" && !document.getElementById("reviewModal").hidden){
@@ -5489,6 +5789,12 @@ async function loadAdjvRuntimeItems(){
     }catch(error){
       console.warn("形容動詞のコーパス用例を読み込めませんでした。",error);
     }
+    let glosses=null;
+    try{
+      glosses=await window.ConjAdjvRuntime.loadGlosses({base:"./data/"});
+    }catch(error){
+      console.warn("形容動詞の語釈を読み込めませんでした。語釈なしで続行します。",error);
+    }
     const existing=new Set(items.filter(x=>x.pos==="adjv").map(x=>x.lemma));
     const additions=runtime.tableItems
       .filter(x=>!existing.has(x.lemma))
@@ -5500,6 +5806,7 @@ async function loadAdjvRuntimeItems(){
           example:ex.example,
           target:ex.publicTarget,
           source:ex.work,
+          exampleId:ex.sourceExampleId,
           exampleAvailable:true
         } : quote ? {
           ...x,
@@ -5507,6 +5814,7 @@ async function loadAdjvRuntimeItems(){
           target:quote.target,
           occurrence:quote.occurrence,
           source:quote.work,
+          exampleId:quote.id,
           exampleAvailable:true
         } : {
           ...x,
@@ -5516,6 +5824,8 @@ async function loadAdjvRuntimeItems(){
           exampleAvailable:false
         };
       });
+    if(glosses) attachAdjvGlosses([...items.filter(x=>x.pos==="adjv"),...additions],glosses);
+    status.glosses=[...items,...additions].filter(x=>x.pos==="adjv"&&x.gloss).length;
     status.withExample=additions.filter(x=>x.exampleAvailable).length;
     renderSourceCredits([...publicExamples.values()],chj);
     items.push(...additions);
@@ -5528,6 +5838,53 @@ async function loadAdjvRuntimeItems(){
   }
   window.__conjAdjvRuntimeStatus=status;
   return status;
+}
+
+// 語釈は表示中の用例（exampleId）で引き、作品が合わなければ付けない。
+// 組み込みの百人一首 itadura は用例 ID を持たないため、itemGlosses（基本義のみ）を使う（§1.3）。
+function attachAdjvGlosses(list,glosses){
+  for(const item of list){
+    const builtin=glosses.itemGlosses.get(item.id);
+    if(builtin){
+      item.gloss=item.poem && builtin.work==="小倉百人一首"
+        ? {basicGloss:builtin.basicGloss,contextNote:builtin.contextNote||null}
+        : null;
+    }else if(item.exampleId){
+      item.gloss=window.ConjAdjvRuntime.glossForExample(glosses,item.exampleId,item.source);
+    }
+    const reading=glosses.readings.get(item.id);
+    item.lemmaReading=reading && reading.heading===lemmaHeadingText(item) ? reading : null;
+  }
+}
+// 助動詞の用例ごとの意味（aux-example-meanings.json）。問題の用例・意味と食い違う記録は使わない。
+function auxExampleMeaningProblem(record,item){
+  if(!item) return "unknown item";
+  if(record.target!==item.target) return "target mismatch";
+  if(record.occurrence!==(Number.isInteger(item.occurrence)?item.occurrence:0)) return "occurrence mismatch";
+  const list=String(item.meaning||"").split("・");
+  if(!record.exampleMeanings.every(m=>list.includes(m))) return "meaning not in list";
+  return "";
+}
+async function loadAuxExampleMeanings(){
+  try{
+    const records=await window.ConjAdjvRuntime.loadAuxExampleMeanings({base:"./data/"});
+    const byId=new Map(items.filter(x=>x.pos==="aux").map(x=>[x.id,x]));
+    for(const record of records){
+      const item=byId.get(record.id);
+      const problem=auxExampleMeaningProblem(record,item);
+      if(problem){ console.warn("conj: aux example meaning "+record.id+" ignored: "+problem); continue; }
+      item.exampleMeanings={meanings:record.exampleMeanings.slice(),status:record.status};
+    }
+  }catch(error){
+    console.warn("助動詞の用例ごとの意味を読み込めませんでした。意味の一覧だけを表示します。",error);
+  }
+}
+// 起動直後の1問目はデータの読み込みより先に描かれるため、読み込み後にルビと語釈帯だけを描き直す。
+function refreshCurrentGloss(){
+  if(!current) return;
+  applyLemmaReading(document.getElementById("lemma"),current,answered);
+  renderCurrentGloss();
+  requestAnimationFrame(()=>{syncStudyHeights();placePerfectStamp();});
 }
 
 const INSTALL_NOTICE_KEY="conjInstallNoticeDismissed";
@@ -5649,8 +6006,10 @@ async function bootConj(){
   initThemeSwitcher();
   nextQuestion();
   initInstallGuide();
-  await loadAdjvRuntimeItems();
-  if(document.fonts?.ready) document.fonts.ready.then(()=>requestAnimationFrame(syncStudyHeights));
+  loadStampMask();
+  await Promise.all([loadAdjvRuntimeItems(),loadAuxExampleMeanings()]);
+  refreshCurrentGloss();
+  if(document.fonts?.ready) document.fonts.ready.then(()=>requestAnimationFrame(()=>{syncStudyHeights();placePerfectStamp();}));
 }
 bootConj();
 
