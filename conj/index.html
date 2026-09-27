@@ -447,7 +447,8 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .settings-dialog h2{margin:0 0 12px;font-size:15px}
 .settings-section{margin:0 0 16px}
 .settings-section h3{margin:0 0 8px;font-size:12px;color:var(--muted)}
-.theme-picker{display:flex;flex-wrap:nowrap;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+/* 横スクロール枠の内側に、フォーカス枠（outline 3px + offset 2px）が収まる余白を取る。無いと選択中の枠の周りが切れて見える。 */
+.theme-picker{display:flex;flex-wrap:nowrap;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px;margin:-6px}
 .theme-swatch{display:inline-flex;align-items:center;flex:none;gap:4px;padding:5px 7px;border:1px solid var(--line-strong);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:11px;white-space:nowrap;cursor:pointer}
 .theme-swatch__dot{width:12px;height:12px;border-radius:50%;flex:none}
 .theme-swatch[data-theme="coffee"] .theme-swatch__dot{background:#a68c6f}

@@ -246,8 +246,6 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 @media(max-width:720px){button{min-height:44px}.wrap{padding-top:20px}.panel{padding:15px}.panelTop{align-items:center;gap:7px}.utilityTabs{gap:4px}.tab{padding:6px 8px;font-size:10px}.tab.navPrimary{padding-inline:11px}.choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.composeRow{grid-template-columns:34px 1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.jiboExamples{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.jiboExample .modernKana{font-size:31px}.jiboExample .jiboChar{font-size:21px}textarea{min-height:64px}.preview{min-height:84px;padding:10px 12px;font-size:33px}.recordRows{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:380px){.learnHelpBtn{width:44px;padding:0;justify-content:center}.learnHelpBtn>span:last-child{display:none}.utilityTabs{flex:1;justify-content:flex-end}.tab{padding-inline:7px}.tab.navPrimary{padding-inline:9px}}
 @media(max-width:360px){.rowGlyphMastery{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(orientation:landscape) and (min-width:721px){.recordRows{grid-template-columns:repeat(4,minmax(0,1fr))}}
-/* タブレット縦持ちなど 721px 以上では、固定3列だと文字カードが縦長に引き伸ばされて余白だらけになるため、カード幅を約100pxに保って列数を増やす。 */
 /* タブレット・PC（721px 以上）では、記録画面だけ枠を一覧と同じ横幅まで広げ、
    習得率カードを字形一覧のカード（字形 50px）に近い大きさにして読みやすくする。 */
 @media(min-width:721px){
@@ -262,7 +260,8 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   .ringMeter{width:84px;height:84px}
   .ringMeter::after{width:64px;height:64px}
   .ringMeter span{font-size:14px}
-  .rowGlyphMastery{grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:10px;padding:14px}
+  /* 字形一覧（.cards）と同じ列数（iPad縦で4列）になるよう、入れ子の余白の分だけ最小幅を小さくする。 */
+  .rowGlyphMastery{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:14px}
   .glyphMasteryCard{min-height:150px;padding:30px 6px 10px;border-radius:14px}
   .glyphMasteryReading{top:8px;left:8px;font-size:14px}
   .glyphMasteryCore{gap:5px;transform:none}
@@ -271,6 +270,9 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   .glyphMasteryGlyph{font-size:50px}
   .glyphMasteryJibo{margin-top:4px;font-size:13px}
   .glyphMasteryPercent{font-size:14px}
+  /* 行ごとのカードは 5列×2段（あ〜わ行の10行）の正方形で並べる。2列だとカードが横長になり余白が大きすぎた。 */
+  .recordRows{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+  .recordRowGroup:not([open]) summary{aspect-ratio:1/1;min-height:0;gap:8px}
 }
 @media(max-width:340px){.recordRowGroup:not([open]) summary{min-height:94px;padding:5px 5px}.recordRow__label{font-size:12px}.ringMeter{width:66px;height:66px}.ringMeter::after{width:50px;height:50px}.ringMeter span{font-size:11px}}
 </style>
