@@ -1395,3 +1395,36 @@ PR #41マージ後、ユーザーから「記録欄はなぜ2段でなくなっ�
 - `npm run test:node`：864/864 pass（ワークツリー作成直後は`@koten/shared`が未解決で18件失敗したが、`npm install`で解消。install-guide変更とは無関係の環境要因）。
 - ブラウザで390px幅の3文面（メニュー案内・追加ボタンあり）を確認、いずれも1行に収まった。「ホーム画面に追加する」→キャンセル相当（`userChoice`が`dismissed`）でセッションのみ非表示になり永久には消えないことを確認。
 - Playwright WebKit（`devices["iPhone 13"]`）でiOS向け文言（共有アイコン付き、追加ボタンなし）のスクリーンショットを1枚取得し、リポジトリ外に保存した（コミット対象外）。
+
+## 29. PC・iPad向けレイアウト調整（2026-09-26〜27・Claude Code、PR #50〜#55）
+
+同じ作業で百人一首（`packages/hyakunin`）と vintage-kana も調整した。3アプリ共通の注意点もここにまとめる。
+
+### conj の現状
+
+- **活用表の拡大**（701px以上）：`syncStudyHeights()` が、カード下端が画面内に収まる倍率（最大1.7）を求め、`.card .study-layout` に `transform: scale()` を掛ける。
+  - 拡大で増えた高さは `margin-bottom` で確保する。横スクロールは `.card{overflow-x:clip}` で防ぐ。
+  - **拡大の基準点は表（`#tablePanel`）の中心**。v52 の配置（`1fr auto 1fr` で表をカード中央、用例は左に添える）を保つため。基準点を用例と表を合わせた範囲の中心にすると、表が左へずれる（PR #55 で修正）。
+  - 用例の高さ合わせ（`syncStudyHeightsAtCurrentZoom`）は、`getBoundingClientRect` が拡大後の値を返すため、既知の高さ（100px）を実測した比率で換算している。
+- **CSS の `zoom` は使わない**。iPad Safari で表の列幅・行位置が崩れた（PR #51 で `transform` に変更）。
+- **活用形の見出し（未然形…）は `writing-mode` を使わない**。幅 `1em` の横書きの箱で1字ずつ折り返して縦に積む（PR #54）。
+  - iPad Safari は表のセル内の縦書きの寸法を誤る。セル自体を縦書きにすると列が広がり、内側の要素を縦書きにすると文字が横に並んだ。
+  - テスト `conj-record-screen.test.ts` で、`th.label` と `.label-text` に `writing-mode` が無いことを確認している。
+- **自動フォーカス**：マウス操作の端末（`(hover: hover) and (pointer: fine)`）では、出題直後に `focusFirstBlank()` で最初の空欄を編集状態にする。ツールバー操作中やダイアログ表示中は除く。
+- **記録画面**（800px以上）：640px の組みのまま `.record-shell` を 1.2〜1.5倍に `transform` で拡大する。
+  - 内訳カードは「ドーナツ・凡例｜区切り線｜正答数・正答率」を一定の間隔でまとめて中央に置き、左右の余白をそろえる。
+- **設定の配色ボタン**：`.theme-picker` に `padding:6px; margin:-6px` を与え、フォーカス枠が横スクロール枠で切れないようにした。
+
+### 3アプリ共通
+
+- ホーム画面追加の案内：スマホは文言を中央、ボタンを2等分にする。PC・タブレットは文言を左、ボタンを右にそろえた1行にする。
+  - 百人一首も同じ文言（iOS は共有マークつき）と「今は追加しない／今後は表示しない」にそろえた。
+  - 百人一首は文字200%表示で折り返すこと（`check:overflow` の「拡大時の走査」768px で違反が出た）。
+- 百人一首：48rem以上かつ高さ50rem以上では `html` の文字サイズを画面の高さに合わせて16〜22pxにする。回答欄への自動フォーカスと、Enter での答え合わせあり。記録画面の歌の暗転表示は `grid-template-areas` で配置している。
+- vintage-kana（721px以上）：記録画面の枠を一覧と同じ幅にする（`.quizBox:has(#quizRecord:not([hidden]))`）。行カードは5列×2段の正方形、字形カードは `minmax(150px,1fr)` で、字形一覧と同じ列数になる。
+
+### 検証の注意
+
+- ローカルの Playwright はヘッドレスシェルが無いので `executablePath:'/opt/pw-browsers/chromium'` を使う。
+  - `npm run check:overflow` は、ヘッドレスシェルの場所をこの chromium へのシンボリックリンクに向けた `PLAYWRIGHT_BROWSERS_PATH` で実行できる。
+- Chromium では Safari 固有の崩れ（zoom・縦書き）を再現できない。iPad の実機での確認が必要。
