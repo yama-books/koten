@@ -670,6 +670,18 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .poem-overlay__sheet { position: relative; display: grid; justify-items: center; gap: var(--space-md); box-sizing: border-box; width: min(100%, 30rem); max-height: 90dvh; overflow: auto; border-radius: 1.25rem; padding: var(--space-lg); background: var(--color-surface); box-shadow: 0 12px 40px oklch(22% 0.018 55 / 0.35); }
 .poem-overlay__no { margin: 0; font-size: var(--text-md); color: var(--color-ink-muted); }
 .poem-overlay__close { justify-self: center; }
+/*
+ * 横幅 40rem 以上では .poem-sheet が「歌｜作者」の2列グリッドになるため、番号と「閉じる」まで
+ * 2列に振り分けられて崩れていた（iPad・PC の記録画面）。暗転表示では配置を明示する：
+ * 番号を上、縦書きの作者を歌の左、「閉じる」を下の中央に置く。
+ */
+@media (min-width: 40rem) {
+  .poem-overlay__sheet { grid-template-columns: auto auto; grid-template-areas: "no no" "author poem" "close close"; justify-content: center; align-items: start; column-gap: var(--space-xl); width: min(100%, 36rem); }
+  .poem-overlay__no { grid-area: no; }
+  .poem-overlay__sheet > .poem { grid-area: poem; }
+  .poem-overlay__sheet > .author { grid-area: author; min-height: 0; }
+  .poem-overlay__close { grid-area: close; }
+}
 
 /* 版だけを静かに名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */
 .app-version { font-variant-numeric: tabular-nums; }
