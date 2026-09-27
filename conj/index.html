@@ -4563,12 +4563,17 @@ function syncStudyHeights(){
     if(r.width<=0) continue;
     left=Math.min(left,r.left); right=Math.max(right,r.right);
   }
-  const contentWidth=right>left?right-left:layoutRect.width;
-  const byWidth=innerWidth/contentWidth;
+  // 拡大の基準は表の中心にする（表をカード中央に置き、用例は左に添える配置を保つため）。
+  // 表の中心から左右それぞれの端までの遠い方が、カードの半幅に収まる倍率に抑える。
+  const tablePanel=document.getElementById("tablePanel");
+  const tableRect=tablePanel?tablePanel.getBoundingClientRect():null;
+  const centerX=tableRect&&tableRect.width>0?tableRect.left+tableRect.width/2:(left<right?(left+right)/2:layoutRect.left+layoutRect.width/2);
+  const halfSpan=Math.max(centerX-(left<right?left:layoutRect.left),(left<right?right:layoutRect.right)-centerX,1);
+  const byWidth=(innerWidth/2)/halfSpan;
   const zoom=Math.min(STUDY_ZOOM_MAX,byHeight,byWidth);
   if(zoom<=1.02) return;
   const scale=Math.round(zoom*100)/100;
-  const originX=(left<right?(left+right)/2:layoutRect.left+layoutRect.width/2)-layoutRect.left;
+  const originX=centerX-layoutRect.left;
   layout.style.transformOrigin=originX+"px 0";
   layout.style.transform="scale("+scale+")";
   layout.style.marginBottom=Math.round(layoutRect.height*(scale-1))+"px";
