@@ -488,10 +488,13 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .katsuyo.adjective-stacked th.label{width:36px}
 .katsuyo.adjective-stacked th.label[rowspan="2"]{height:136px}
 
-.katsuyo th.label{background:var(--card);writing-mode:vertical-rl;text-orientation:upright;font:600 14px/1.12 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.06em}
-/* Safari does not reliably center vertical-writing-mode text with vertical-align:middle
-   inside a table cell; center it explicitly with an inner flex box instead. */
-.katsuyo th.label .label-text{display:flex;width:100%;height:100%;align-items:center;justify-content:center}
+/* 縦書きはセル（th）ではなく内側の .label-text に掛ける。セル自体を vertical-rl にすると、
+   iPad の Safari が table-layout:fixed の列幅（width:36px）を縦方向の長さとして扱い、
+   活用形の列が回答欄と同じ幅まで広がってしまう。 */
+.katsuyo th.label{background:var(--card);font:600 14px/1.12 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.06em}
+/* セルは横書きのまま text-align/vertical-align で中央に置き、縦書きの文字は中身の大きさだけの
+   inline-block にする（高さ100%を与えると、直交する書字方向の既定の長さで行が縦に伸びる）。 */
+.katsuyo th.label .label-text{display:inline-block;vertical-align:middle;writing-mode:vertical-rl;text-orientation:upright}
 
 .display{width:100%;height:100%;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;font:500 20px/1.1 "Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.03em}
 .display.small{font-size:18px}
@@ -3014,9 +3017,19 @@ body.review-modal-open{overflow:hidden}
 /* 内訳は「品詞名」と「問数」が行の両端に離れすぎないよう、表を中身の幅に縮めて
    ドーナツの横へ寄せる。問数は右端（末尾）でそろえる。 */
 @media(min-width:701px){
-  .record-overview .record-breakdown-panel{grid-template-columns:96px max-content;justify-content:center;gap:24px}
+  /* 内訳カードは「ドーナツ・凡例・正答数と正答率」の3つを一定の間隔でまとめ、カードの中央に置く。
+     左右の余白が必ず同じになり、右の数値だけが端に離れて浮いて見えることもない。
+     正答数・正答率の前には区切り線を置き、区切り線の左右も同じ間隔にする。 */
+  .record-overview{display:flex;justify-content:center;align-items:center;gap:0}
+  .record-overview .record-breakdown-panel{display:flex;align-items:center;gap:40px;padding-right:32px}
   .record-overview .record-breakdown{width:max-content;min-width:8em}
   .record-overview .record-breakdown li{grid-template-columns:minmax(0,1fr) auto;gap:14px}
+  .record-overview .record-grid{flex:0 0 204px;align-self:stretch;align-content:center;gap:8px;padding-left:32px;border-left:1px solid var(--line)}
+  .record-overview .record-stat{padding:6px 10px}
+  .record-overview .record-stat:first-child{min-height:44px}
+  .record-overview .record-stat:first-child dt{font-size:10px}
+  .record-overview .record-stat:first-child dd{font-size:20px}
+  .record-overview .record-stat:nth-child(n+2){padding:6px 4px}
 }
 /* 記録画面は幅 640px の組みのまま、画面幅に合わせて全体（文字も含む）を拡大する。
    CSS の zoom は iPad の Safari でレイアウトが崩れるため transform を使う。
