@@ -242,10 +242,82 @@
     return {source:data.source,map};
   }
 
+  // 語釈（DESIGN_GLOSS_LAYOUT_2026-09-28 §6）。用例単位の基本義・用例補足と、見出しの現代仮名遣い。
+  // 検証に通らないファイルは丸ごと使わない（語釈が出ないだけで、出題は続けられる）。
+  function glossDisplayText(record){
+    return record.basicGloss+(record.contextNote ? "（この用例では"+record.contextNote+"）" : "");
+  }
+
+  function validateGlosses(data){
+    const errors=[];
+    const records=data?.records;
+    if(!Array.isArray(records)) return {ok:false,errors:["gloss records missing"]};
+    if(records.length!==120) errors.push("gloss record count != 120");
+    const seen=new Set();
+    for(const r of records){
+      if(!r || typeof r.id!=="string"){ errors.push("gloss record without id"); continue; }
+      if(seen.has(r.id)) errors.push("duplicate gloss record "+r.id);
+      seen.add(r.id);
+      if(!r.work || !r.basicGloss) errors.push("gloss record incomplete "+r.id);
+      if(glossDisplayText(r)!==r.displayGloss) errors.push("displayGloss mismatch "+r.id);
+    }
+    const readingIds=new Set();
+    for(const x of data?.lemmaReadings||[]){
+      if(readingIds.has(x.itemId)) errors.push("duplicate lemma reading "+x.itemId);
+      readingIds.add(x.itemId);
+      const ruby=Array.isArray(x.ruby) ? x.ruby : [];
+      if(ruby.map(s=>s[0]).join("")!==x.heading) errors.push("ruby base mismatch "+x.itemId);
+      if(ruby.map(s=>s[s.length-1]).join("")!==x.modernKana) errors.push("ruby reading mismatch "+x.itemId);
+      if(ruby.some(s=>s.length===2)!==(x.heading!==x.modernKana)) errors.push("ruby presence mismatch "+x.itemId);
+    }
+    for(const g of data?.itemGlosses||[]){
+      if(!g.itemId || !g.basicGloss) errors.push("item gloss incomplete");
+    }
+    return {ok:errors.length===0,errors};
+  }
+
+  async function loadGlosses(options={}){
+    const base=options.base||DEFAULT_BASE;
+    const data=await fetchJson(base+"adjectival-noun-glosses.json");
+    const validation=validateGlosses(data);
+    if(!validation.ok) throw new Error("Adjv gloss validation failed: "+validation.errors.join("; "));
+    return {
+      records:new Map(data.records.map(r=>[r.id,r])),
+      readings:new Map((data.lemmaReadings||[]).map(r=>[r.itemId,r])),
+      itemGlosses:new Map((data.itemGlosses||[]).map(g=>[g.itemId,g])),
+      validation
+    };
+  }
+
+  // 表示中の用例（exampleId）に結び付いた語釈だけを返す。作品が一致しなければ出さない（fail closed）。
+  function glossForExample(glosses,exampleId,work){
+    const r=glosses?.records?.get(exampleId);
+    if(!r) return null;
+    if(r.work!==work){
+      console.warn("conj: gloss "+exampleId+" is for "+r.work+", but the example shown is from "+work+"; gloss hidden.");
+      return null;
+    }
+    return {exampleId,basicGloss:r.basicGloss,contextNote:r.contextNote||null};
+  }
+
+  // 助動詞の用例ごとの意味（§6.5）。形の検証だけを行い、問題データとの照合は index.html 側で行う。
+  async function loadAuxExampleMeanings(options={}){
+    const base=options.base||DEFAULT_BASE;
+    const data=await fetchJson(base+"aux-example-meanings.json");
+    if(!Array.isArray(data?.records)) throw new Error("aux example meanings missing");
+    return data.records.filter(r=>r && typeof r.id==="string"
+      && Array.isArray(r.exampleMeanings) && r.exampleMeanings.length>0 && r.exampleMeanings.every(m=>typeof m==="string" && m)
+      && typeof r.target==="string" && Number.isInteger(r.occurrence) && typeof r.status==="string");
+  }
+
   global.ConjAdjvRuntime={
     load,
     loadPublicExamples,
     loadChjQuotations,
+    loadGlosses,
+    validateGlosses,
+    glossForExample,
+    loadAuxExampleMeanings,
     publicExampleMap,
     validateRuntime,
     buildTableItems,
