@@ -3017,14 +3017,14 @@ body.review-modal-open{overflow:hidden}
 /* 内訳は「品詞名」と「問数」が行の両端に離れすぎないよう、表を中身の幅に縮めて
    ドーナツの横へ寄せる。問数は右端（末尾）でそろえる。 */
 @media(min-width:701px){
-  /* 内訳カードは「ドーナツ＋凡例」と「正答数・正答率」の2区画にする。
-     左区画はドーナツと凡例を区画の中で均等に配し、右区画は区切り線を挟んでドーナツと同じ高さに収める
-     （右端に小さく離れて浮いて見えないように）。 */
-  .record-overview{grid-template-columns:minmax(0,1fr) 172px;gap:0;align-items:stretch}
-  .record-overview .record-breakdown-panel{grid-template-columns:96px max-content;justify-content:space-evenly;gap:28px;padding-right:20px}
+  /* 内訳カードは「ドーナツ・凡例・正答数と正答率」の3つを一定の間隔でまとめ、カードの中央に置く。
+     左右の余白が必ず同じになり、右の数値だけが端に離れて浮いて見えることもない。
+     正答数・正答率の前には区切り線を置き、区切り線の左右も同じ間隔にする。 */
+  .record-overview{display:flex;justify-content:center;align-items:center;gap:0}
+  .record-overview .record-breakdown-panel{display:flex;align-items:center;gap:40px;padding-right:32px}
   .record-overview .record-breakdown{width:max-content;min-width:8em}
   .record-overview .record-breakdown li{grid-template-columns:minmax(0,1fr) auto;gap:14px}
-  .record-overview .record-grid{align-self:stretch;align-content:center;gap:8px;padding-left:20px;border-left:1px solid var(--line)}
+  .record-overview .record-grid{flex:0 0 204px;align-self:stretch;align-content:center;gap:8px;padding-left:32px;border-left:1px solid var(--line)}
   .record-overview .record-stat{padding:6px 10px}
   .record-overview .record-stat:first-child{min-height:44px}
   .record-overview .record-stat:first-child dt{font-size:10px}
