@@ -3017,9 +3017,19 @@ body.review-modal-open{overflow:hidden}
 /* 内訳は「品詞名」と「問数」が行の両端に離れすぎないよう、表を中身の幅に縮めて
    ドーナツの横へ寄せる。問数は右端（末尾）でそろえる。 */
 @media(min-width:701px){
-  .record-overview .record-breakdown-panel{grid-template-columns:96px max-content;justify-content:center;gap:24px}
+  /* 内訳カードは「ドーナツ＋凡例」と「正答数・正答率」の2区画にする。
+     左区画はドーナツと凡例を区画の中で均等に配し、右区画は区切り線を挟んでドーナツと同じ高さに収める
+     （右端に小さく離れて浮いて見えないように）。 */
+  .record-overview{grid-template-columns:minmax(0,1fr) 172px;gap:0;align-items:stretch}
+  .record-overview .record-breakdown-panel{grid-template-columns:96px max-content;justify-content:space-evenly;gap:28px;padding-right:20px}
   .record-overview .record-breakdown{width:max-content;min-width:8em}
   .record-overview .record-breakdown li{grid-template-columns:minmax(0,1fr) auto;gap:14px}
+  .record-overview .record-grid{align-self:stretch;align-content:center;gap:8px;padding-left:20px;border-left:1px solid var(--line)}
+  .record-overview .record-stat{padding:6px 10px}
+  .record-overview .record-stat:first-child{min-height:44px}
+  .record-overview .record-stat:first-child dt{font-size:10px}
+  .record-overview .record-stat:first-child dd{font-size:20px}
+  .record-overview .record-stat:nth-child(n+2){padding:6px 4px}
 }
 /* 記録画面は幅 640px の組みのまま、画面幅に合わせて全体（文字も含む）を拡大する。
    CSS の zoom は iPad の Safari でレイアウトが崩れるため transform を使う。
