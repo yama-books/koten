@@ -32,6 +32,7 @@ packages/shared/**
 tools/blank-chunks/**
 tools/build-data/**
 tools/check-storage/**
+tools/conj-layout-check/**
 tools/eol-check/**
 tools/font-assets-check/**
 tools/font-check/**

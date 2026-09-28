@@ -3109,6 +3109,32 @@ body.review-modal-open{overflow:hidden}
 .card:has(.perfect-result.show) #kind:not(.kind-answer-badge),
 .card:has(.perfect-result.show) #lemmaAid{color:var(--ink)}
 .card:has(.perfect-result.show) #kind:not(.kind-answer-badge) .kind-sep{color:var(--muted)}
+
+/* ===== v54: 高さの低いスマホでもボタンを画面内に、iPad 縦でも語釈の列が表の拡大を妨げないようにする ===== */
+/* 幅 360px では題名が1px足りずに2行になり、見出しの帯が 14px 高くなっていた。記録ボタンとの間を詰めて1行に収める。 */
+/* 固定表示の3〜5字の語形（まほしから など）は、行の高さに収まるように縮める（行が十分高ければ従来の大きさのまま）。 */
+@media(max-width:700px){
+  header{gap:10px}
+  .card .katsuyo .display.fit-3{font-size:min(15px,calc((var(--mobile-form-row-h) - 4px)/3.09))}
+  .card .katsuyo .display.fit-4{font-size:min(13px,calc((var(--mobile-form-row-h) - 4px)/4.12))}
+  .card .katsuyo .display.fit-5{font-size:min(11.5px,calc((var(--mobile-form-row-h) - 4px)/5.15))}
+}
+/* 高さ 700px 以下のスマホ（iPhone SE 375×667 など）：行の高さは fitMobileRows() が画面に合わせて決める（下限 44px）。
+   活用形の見出し（未然形…）の字の間を詰めて、行を 44px まで低くできるようにする。
+   あわせて、上の操作帯・カード・注記・語釈帯の上下の余白を詰める（語釈帯 12/10/16px → 6/6/8px）。
+   どれも出題時から同じ値なので、答えの前後では何も動かない。高さ 700px を超える画面は変えない。 */
+@media(max-width:700px) and (max-height:700px){
+  /* v53 の「語釈帯のある問題は行を 55px まで」の一律の上限はやめ、語釈帯の高さに応じて fitMobileRows() で決める。 */
+  .card:has(#gloss:not([hidden])){--mobile-form-row-h:clamp(48px,calc((100dvh - 285px)/6),58px)}
+  .wrap{padding-top:6px}
+  header{margin-bottom:4px}
+  .toolbar{margin-bottom:5px}
+  .card{padding-top:7px;padding-bottom:7px}
+  .katsuyo th.label .label-text{line-height:1.02}
+  .table-panel .row-note{min-height:10px}
+  .study-layout:not(.review-modal-study-layout) > .gloss{margin-top:6px;padding-top:6px;padding-bottom:6px;row-gap:4px}
+  .card:has(#gloss:not([hidden])) .actions{margin-top:8px}
+}
 </style>
 </head>
 <body>
@@ -4250,59 +4276,29 @@ function closeEditor(commit=true){
     selected=null;
   }
 }
-function focusNext(afterTd){
-  const cells=[...document.querySelectorAll(".katsuyo .editable-answer")];
-  if(!cells.length)return;
-
-  const row=afterTd.dataset.row;
-  const base=baseRow(row);
-  const i=Number(afterTd.dataset.i);
-  const vi=variantIndex(row);
-
-  // A split cell: first move to the other half of the same conjugation form.
-  if(vi!==null){
-    const sameCellNext=cells.find(td=>
-      Number(td.dataset.i)===i &&
-      baseRow(td.dataset.row)===base &&
-      variantIndex(td.dataset.row)===vi+1
-    );
-    if(sameCellNext){
-      openEditor(sameCellNext, sameCellNext.dataset.row, Number(sameCellNext.dataset.i));
-      return;
-    }
-  }
-
-  // Then continue downward in the same logical track.
-  const below=cells
-    .filter(td=>baseRow(td.dataset.row)===base && Number(td.dataset.i)>i)
+// Enter で進む順番：基本形の列（main）を上から下へ、次に第二形の列（sub）を上から下へ、
+// そのほかの列はその後ろ。同じ活用形を二つに分けたマスは続けて進む。最後のマスで止まり、先頭へは戻らない
+// （以前は二つの列の間を行き来し続け、編集が閉じないため Enter で採点へ進めなかった）。
+function editableOrder(){
+  const cells=[...document.querySelectorAll(".card .katsuyo .editable-answer")];
+  const bases=[...new Set(cells.map(td=>baseRow(td.dataset.row)))];
+  const orderedBases=[
+    ...["main","sub"].filter(b=>bases.includes(b)),
+    ...bases.filter(b=>b!=="main"&&b!=="sub")
+  ];
+  return orderedBases.flatMap(base=>cells
+    .filter(td=>baseRow(td.dataset.row)===base)
     .sort((a,b)=>{
       const di=Number(a.dataset.i)-Number(b.dataset.i);
       if(di) return di;
       return (variantIndex(a.dataset.row)??-1)-(variantIndex(b.dataset.row)??-1);
-    });
-
-  if(below.length){
-    const td=below[0];
-    openEditor(td, td.dataset.row, Number(td.dataset.i));
-    return;
-  }
-
-  // Two-track tables: after reaching the bottom, continue at the top of the other track.
-  const otherBases = base==="main" ? ["sub"] : base==="sub" ? ["main"] : [];
-  for(const other of otherBases){
-    const candidates=cells
-      .filter(td=>baseRow(td.dataset.row)===other)
-      .sort((a,b)=>{
-        const di=Number(a.dataset.i)-Number(b.dataset.i);
-        if(di) return di;
-        return (variantIndex(a.dataset.row)??-1)-(variantIndex(b.dataset.row)??-1);
-      });
-    if(candidates.length){
-      const td=candidates[0];
-      openEditor(td, td.dataset.row, Number(td.dataset.i));
-      return;
-    }
-  }
+    }));
+}
+function focusNext(afterTd){
+  const order=editableOrder();
+  const next=order[order.indexOf(afterTd)+1];
+  if(next) openEditor(next, next.dataset.row, Number(next.dataset.i));
+  // 最後のマスでは編集を閉じる。確定の Enter はそのまま document の「Enter で採点」に届き、採点される。
 }
 function editableCell(row,i, klass=""){
   const td=document.createElement("td");
@@ -4612,19 +4608,60 @@ function highlight(text,target,occurrence){
 // 拡大で増えた高さだけ下に余白を確保する（transform は周りのレイアウトを押し広げないため）。
 const STUDY_ZOOM_MIN_WIDTH=701;
 const STUDY_ZOOM_MAX=1.7;
+// 右の列の語釈は、この幅（語釈の文字サイズの倍数）より狭めない（v54）。
+const GLOSS_SIDE_MIN_EM=8;
+let mobileRowFitKey="";
 function syncStudyHeights(){
   const layout=document.querySelector(".card .study-layout");
   if(!layout) return;
+  const card=layout.closest(".card");
+  // スマホで入力中に、ソフトウェアキーボードで画面の高さだけが変わったときは、行の高さを決め直さない（出題中に表を動かさない）。
+  const fitKey=(current?current.id:"")+"|"+window.innerWidth;
+  const active=document.activeElement;
+  const editing=!!(active&&active.closest&&active.closest(".card .editor"));
+  if(window.innerWidth<STUDY_ZOOM_MIN_WIDTH&&editing&&fitKey===mobileRowFitKey) return;
+  mobileRowFitKey=fitKey;
+  const gloss=layout.querySelector(":scope > .gloss");
   layout.style.transform="";
   layout.style.transformOrigin="";
   layout.style.marginBottom="";
+  if(card) card.style.removeProperty("--mobile-form-row-h");
+  if(gloss) gloss.style.maxWidth="";
   syncStudyHeightsAtCurrentZoom();
-  if(window.innerWidth<STUDY_ZOOM_MIN_WIDTH) return;
-  const card=layout.closest(".card");
+  if(window.innerWidth<STUDY_ZOOM_MIN_WIDTH){
+    if(card) fitMobileRows(card);
+    return;
+  }
   const actions=card && card.querySelector(".actions");
   if(!card || !actions) return;
+  let m=measureStudyZoom(layout,card,gloss);
+  if(!m) return;
+  // 右の列の語釈が横幅の制約になっているとき（助動詞の意味の一覧など）は、語釈の列を狭めて
+  // 「・」「／」のまとまりごとに折り返し、高さの許す倍率まで表を拡大する（v54）。
+  // 語釈の中身は出題時から組んであるので、答えの前後で幅も倍率も変わらない。
+  const target=Math.min(STUDY_ZOOM_MAX,m.byHeight,m.byWidthWithoutGloss);
+  if(gloss && m.byWidth<target-0.005 && target>1.02){
+    const glossRect=gloss.getBoundingClientRect();
+    const minWidth=GLOSS_SIDE_MIN_EM*parseFloat(getComputedStyle(gloss).fontSize);
+    const allowed=Math.floor(m.centerX+m.halfWidth/target-glossRect.left);
+    gloss.style.maxWidth=Math.max(minWidth,allowed)+"px";
+    syncStudyHeightsAtCurrentZoom();
+    m=measureStudyZoom(layout,card,gloss);
+    if(!m) return;
+  }
+  const zoom=Math.min(STUDY_ZOOM_MAX,m.byHeight,m.byWidth);
+  if(zoom<=1.02) return;
+  const scale=Math.round(zoom*100)/100;
+  const originX=m.centerX-m.layoutRect.left;
+  layout.style.transformOrigin=originX+"px 0";
+  layout.style.transform="scale("+scale+")";
+  layout.style.marginBottom=Math.round(m.layoutRect.height*(scale-1))+"px";
+  syncStudyHeightsAtCurrentZoom();
+}
+// 拡大前の配置から、高さ・横幅それぞれの制約で許される倍率を求める。
+function measureStudyZoom(layout,card,gloss){
   const layoutRect=layout.getBoundingClientRect();
-  if(layoutRect.height<=0) return;
+  if(layoutRect.height<=0) return null;
   // カード下端（操作ボタン＋カード余白）までが画面内に収まる倍率を求める。
   const cardBottom=card.getBoundingClientRect().bottom+window.scrollY;
   const bottomMargin=16;
@@ -4632,28 +4669,52 @@ function syncStudyHeights(){
   const byHeight=1+spare/layoutRect.height;
   const cardStyle=getComputedStyle(card);
   const innerWidth=card.clientWidth-parseFloat(cardStyle.paddingLeft)-parseFloat(cardStyle.paddingRight);
-  // レイアウト枠そのものは横幅いっぱいに広がることがあるため、中身の実幅で見る。
-  let left=Infinity,right=-Infinity;
-  for(const child of layout.children){
-    const r=child.getBoundingClientRect();
-    if(r.width<=0) continue;
-    left=Math.min(left,r.left); right=Math.max(right,r.right);
-  }
   // 拡大の基準は表の中心にする（表をカード中央に置き、用例は左に添える配置を保つため）。
   // 表の中心から左右それぞれの端までの遠い方が、カードの半幅に収まる倍率に抑える。
   const tablePanel=document.getElementById("tablePanel");
   const tableRect=tablePanel?tablePanel.getBoundingClientRect():null;
-  const centerX=tableRect&&tableRect.width>0?tableRect.left+tableRect.width/2:(left<right?(left+right)/2:layoutRect.left+layoutRect.width/2);
-  const halfSpan=Math.max(centerX-(left<right?left:layoutRect.left),(left<right?right:layoutRect.right)-centerX,1);
-  const byWidth=(innerWidth/2)/halfSpan;
-  const zoom=Math.min(STUDY_ZOOM_MAX,byHeight,byWidth);
-  if(zoom<=1.02) return;
-  const scale=Math.round(zoom*100)/100;
-  const originX=centerX-layoutRect.left;
-  layout.style.transformOrigin=originX+"px 0";
-  layout.style.transform="scale("+scale+")";
-  layout.style.marginBottom=Math.round(layoutRect.height*(scale-1))+"px";
-  syncStudyHeightsAtCurrentZoom();
+  // レイアウト枠そのものは横幅いっぱいに広がることがあるため、中身の実幅で見る。
+  const spanOf=(withGloss)=>{
+    let left=Infinity,right=-Infinity;
+    for(const child of layout.children){
+      if(!withGloss && child===gloss) continue;
+      const r=child.getBoundingClientRect();
+      if(r.width<=0) continue;
+      left=Math.min(left,r.left); right=Math.max(right,r.right);
+    }
+    return left<right?{left,right}:{left:layoutRect.left,right:layoutRect.right};
+  };
+  const all=spanOf(true);
+  const centerX=tableRect&&tableRect.width>0?tableRect.left+tableRect.width/2:(all.left+all.right)/2;
+  const halfWidth=innerWidth/2;
+  const byWidthOf=(span)=>halfWidth/Math.max(centerX-span.left,span.right-centerX,1);
+  return {layoutRect,byHeight,centerX,halfWidth,byWidth:byWidthOf(all),byWidthWithoutGloss:byWidthOf(spanOf(false))};
+}
+
+// スマホ（700px以下）：カードの下端が画面の下端を越える問題だけ、活用表の行を低くして
+// 「採点」「次の問題」を画面内に残す（v54）。語釈帯は出題時から場所を確保しているため、
+// 行の高さは出題の時点で決まり、答えの前後では変わらない。押しやすさのため 44px より低くはしない。
+const MOBILE_ROW_MIN=44;
+const MOBILE_BOTTOM_GAP=4;
+function fitMobileRows(card){
+  const rows=[...card.querySelectorAll("#formBody > tr")];
+  if(!rows.length) return;
+  let lastHeight=-1;
+  for(let pass=0;pass<3;pass++){
+    const over=card.getBoundingClientRect().bottom+window.scrollY-(window.innerHeight-MOBILE_BOTTOM_GAP);
+    if(over<=0.5) return;
+    const heights=rows.map(tr=>tr.getBoundingClientRect().height);
+    const total=heights.reduce((a,b)=>a+b,0);
+    if(Math.abs(total-lastHeight)<0.5) return;
+    lastHeight=total;
+    // 中身の多い行（2つの語形を並べる行など）は変わらないので、ふつうの高さの行で割り振る。
+    const rowHeight=Math.min(...heights);
+    if(rowHeight<=MOBILE_ROW_MIN+0.25) return;
+    const shrinkable=heights.filter(h=>h<rowHeight+3).length;
+    const next=Math.max(MOBILE_ROW_MIN,Math.floor((rowHeight-over/shrinkable)*4)/4);
+    card.style.setProperty("--mobile-form-row-h",next+"px");
+    syncStudyHeightsAtCurrentZoom();
+  }
 }
 function syncStudyHeightsAtCurrentZoom(){
   const table=document.querySelector(".katsuyo");
@@ -5057,7 +5118,7 @@ function focusFirstBlank(){
   if(document.querySelector("dialog[open]")) return;
   const reviewModal=document.getElementById("reviewModal");
   if(reviewModal && !reviewModal.hidden) return;
-  const first=document.querySelector(".card .katsuyo .editable-answer");
+  const first=editableOrder()[0];
   if(!first) return;
   openEditor(first, first.dataset.row, Number(first.dataset.i));
 }

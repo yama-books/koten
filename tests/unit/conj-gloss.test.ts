@@ -229,6 +229,30 @@ test('gloss: v53 CSS keeps reserved space, reveals after answering, and keeps th
   assert.match(html, /renderGloss\(document\.getElementById\("reviewGloss"\),item,/);
 });
 
+test('gloss v54: short phones fit the table rows (≥44px) and iPad narrows only a width-bound side gloss', () => {
+  const v54 = html.match(/\/\* ===== v54:[\s\S]*?<\/style>/);
+  assert.ok(v54);
+  const css = v54[0];
+  assert.ok(html.indexOf('/* ===== v53:') < html.indexOf('/* ===== v54:'));
+  assert.doesNotMatch(css, /#[0-9a-fA-F]{3,8}\b|rgba?\(/, 'tokens only');
+  // short phones: labels can shrink to 44px rows; the strip keeps its box (only its margins shrink)
+  const short = css.match(/@media\(max-width:700px\) and \(max-height:700px\)\{[\s\S]*?\n\}/);
+  assert.ok(short);
+  assert.match(short[0], /\.katsuyo th\.label \.label-text\{line-height:1\.02\}/);
+  assert.match(short[0], /> \.gloss\{margin-top:6px;padding-top:6px;padding-bottom:6px;row-gap:4px\}/);
+  assert.doesNotMatch(short[0], /\.gloss\{[^}]*(display|visibility)/);
+  // fixed 3–5 character forms follow the row height instead of overflowing the cell
+  assert.match(css, /\.display\.fit-5\{font-size:min\(11\.5px,calc\(\(var\(--mobile-form-row-h\) - 4px\)\/5\.15\)\)\}/);
+  // JS: rows are fitted at question time (the strip is already reserved), never below 44px
+  assert.match(html, /const MOBILE_ROW_MIN=44;/);
+  assert.match(html, /function fitMobileRows\(card\)\{[\s\S]*?Math\.max\(MOBILE_ROW_MIN,[\s\S]*?card\.style\.setProperty\("--mobile-form-row-h",next\+"px"\);/);
+  assert.match(html, /if\(window\.innerWidth<STUDY_ZOOM_MIN_WIDTH\)\{\s*if\(card\) fitMobileRows\(card\);\s*return;\s*\}/);
+  // iPad/PC: the side gloss is narrowed (not moved under the table) only when it limits the zoom, with a floor
+  assert.match(html, /const GLOSS_SIDE_MIN_EM=8;/);
+  assert.match(html, /if\(gloss && m\.byWidth<target-0\.005 && target>1\.02\)\{[\s\S]*?gloss\.style\.maxWidth=Math\.max\(minWidth,allowed\)\+"px";/);
+  assert.match(html, /grid-template-areas:"example table gloss"/);
+});
+
 test('gloss §4 / audit §1.2-6: small text tokens reach WCAG AA 4.5:1 on card and background in all 5 themes', () => {
   const style = html.match(/<style>([\s\S]*?)<\/style>/)![1];
   const blocks: Record<string, string> = { coffee: style.match(/:root\{([\s\S]*?)\}/)![1] };

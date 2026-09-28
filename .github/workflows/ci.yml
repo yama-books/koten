@@ -19,11 +19,13 @@ jobs:
       - run: npm run data:check
       - run: npm run build
       - run: npx playwright install --with-deps chromium
-      # ports: overflow=4173 font-weight=4174,4175 storage=4176
+      # ports: overflow=4173 font-weight=4174,4175 storage=4176 conj-layout=4177
       - run: npm run check:font
       - run: npm run check:font-assets
       - run: npm run check:font-weight
       - run: npm run check:overflow
+      # conj の語釈帯・ルビ・はなまる・表の拡大の不変条件（conj/HANDOFF.md §32）。/100/ の Web フォントを使うので build の後。
+      - run: npm run check:conj-layout
       # H-21: check:storage は「未知 product の拒否」シナリオで止まる（2026-09-04 に特定）。
       # 改名より前から壊れており、watchdog を入れて有限時間で失敗するようにしたうえで CI から外した。
       # 常に落ちる検査は、検査が無いより悪い（誰も出力を見なくなる）。原因が分かり次第ここへ戻す。
