@@ -1561,3 +1561,73 @@ PR #41マージ後、ユーザーから「記録欄はなぜ2段でなくなっ�
   - 出題直後の自動フォーカスも、この順番の先頭に置く。
 - **検査**: `check:conj-layout` に、PC で全問を Lv4・Lv7 のキーボードだけで解く走査（490件）を追加した。
   - 修正前の conj では不合格 211件で失敗し、修正後は 0件。
+
+## 33. 「活用形を判別」「活用の種類を判別」問題バンク基礎実装（2026-09-29・ChatGPT）
+
+基準: Google Drive `活用表アプリ_conj_活用判別モード_計画書_2026-09-28.md`。この作業ではユーザー指示により **GitHub `yama-books/koten` の現行 `main` を実装上の正本**とし、Drive の代表監査・runtime仕様・master仕様を監査資料として照合した。ローカルは使用していない。
+
+### 現行実装との差分確認
+
+- 現行 `conj` は引き続き `index.html` 中心で、`conj/data/conjugation_master.json` / `conj/app.js` / `conj/PROGRESS.md` は GitHub `main` には存在しない。
+- 形容動詞は外部データ層が進んでいる一方、助動詞は `index.html` の `items` に28語が組み込まれ、現在の活用型は各項目の `kind` が保持している。
+- Drive の master 仕様書には 2026-09-20 時点で 75 entries / 82 rows / 492 cells / pending 0 の完成記録があるが、その JSON 実体は現行 GitHub には置かれていない。このため今回の **助動詞の活用種類正答は、GitHub 現行 `item.kind` を正本**として解決した。
+- 計画書にある一般名 `形容動詞型` より、現行 GitHub は `形容動詞（ナリ活用）型` / `形容動詞（タリ活用）型`、また `ラ変型（伝聞・推定）` のように細分化されている。今後も GitHub 現行値を勝手に丸めない。
+
+### 代表127例の変換・QA
+
+Drive `活用表アプリ_代表サンプル公開前監査_2026-09-19` の `代表監査127` を変換して検査した。
+
+- 127/127 読込。
+- 内訳: 動詞59 / 形容詞21 / 形容動詞18 / 助動詞29。
+- 分類: `standard` 89 / `attention` 38 / `hold` 0。
+- AI監査状態: 127/127 `ai-audited`。
+- 人間承認: **127/127 承認済み**。Drive の `人間承認ダッシュボード` / `人間承認バッチ` で A1/A2/A3/V1/V2/V3 がすべて「代表監査承認＋同層一括承認」であることを2026-09-29に再確認。`代表監査127` タブの旧い `監査判定=未確認` 列より、専用の人間承認タブを優先する。
+- `publicEnabled`: 127/127 **false のまま**。
+- `【】` は監査用強調記号なので公開用引用へ持ち込まないことを確認。
+- 助動詞29件は5語のみで、GitHub 現行型へ全件一意に解決:
+  - `ず → 特殊型`
+  - `たし / べし → 形容詞（ク活用）型`
+  - `まじ / まほし → 形容詞（シク活用）型`
+- 同形targetの位置:
+  - `aux-012 / 013 / 054 / 055 / 124 / 150` は元助動詞監査の **一意な anchor** を根拠にする。
+  - `verb-091` は既存の修正済み監査どおり **zero-based `targetOccurrence: 3`（4個目の「き」）**。
+  - 現行 `highlight(text,target,occurrence)` も occurrence を0始まりで扱っているため整合する。
+
+### public リポジトリ境界
+
+GitHub API で `yama-books/koten` が **public** であることを確認した。代表127は人間承認済みだが、quotation / final compliance 等の公開ゲート前の CHJ 引用が含まれるため、完全な `quotationExcerpt` / `originalTarget` / `anchor` / `attentionNote` を feature branch へ書き出すと、その時点で外部公開になり得る。
+
+したがって今回は公開ゲートを維持し、GitHub には **回答キーとQAに必要な非引用メタデータのみ**を置いた。完全な問題文は **残る引用公開ゲート・final compliance 等**を通過するまで GitHub へ入れない。
+
+### この branch に追加したもの
+
+branch: `feature/conj-conjugation-quiz-bank-20260929`
+
+- `conj/data/conjugation-quiz-bank-127.meta.json`
+  - 127件の品詞・lemma・活用種類・系列・活用形・standard/attention・quiz eligibility・承認/公開ゲート。
+  - 引用本文・target・anchor・注意文は意図的に含めない。
+  - 位置情報は `positionStrategy` と、公開して問題のない `targetOccurrence` のみ保持。
+- `conj/data/conjugation-quiz-config.json`
+  - 活用形6択。
+  - 形容詞2択 / 形容動詞2択。
+  - 動詞は代表127に現れる39活用種類を候補pool化。
+  - 助動詞は GitHub 現行28語から得た12種類の `kind` を候補pool化。
+- `conj/conjugation-quiz-engine.js`
+  - 活用種類の候補集合を純粋関数で生成。
+  - 動詞は同じ行の通常活用を最優先、次に同系統、その他の順。
+  - 助動詞は型ラベルの系統を使って近接候補を優先。
+  - 候補生成と表示時shuffleを分離。
+- `tests/unit/conj-conjugation-quiz-bank.test.ts`
+  - 127件数・品詞内訳・分類・公開ゲート。
+  - held quotation が public repo のmetadataへ混入しないこと。
+  - 重複target位置。
+  - 助動詞5語の正答型。
+  - 全127問で選択肢数・重複なし・正答包含。
+  - 「カ行上二段活用」は `カ行四段 / カ行下二段 / カ行上一段` を近接誤答にすること。
+
+### 現在の停止点
+
+**問題データQAの論理検査は通過。UIはまだ変更していない。** 計画書の順序どおり、まず追加テストを CI で通す。その後、引用本文を公開repoへ出さない境界を維持したまま、UI骨格をどこまで先行実装するかを決める。
+
+人間承認は完了済み。完全な127問題を公開出題へ接続する残条件は、引用境界・quotation公開判定・final compliance 等の公開ゲート通過であり、今回のAI QAはそれらを代替しない。
+
