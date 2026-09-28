@@ -33,8 +33,9 @@ test('conj identification bank: answer keys and gates are explicit without publi
     assert.equal(r.formQuizEligible, true, String(r.exampleId));
     assert.equal(r.typeQuizEligible, true, String(r.exampleId));
     assert.equal(r.reviewStatus, 'ai-audited', String(r.exampleId));
-    assert.equal(r.humanApprovalStatus, 'pending', String(r.exampleId));
+    assert.equal(r.humanApprovalStatus, 'approved', String(r.exampleId));
     assert.equal(r.publicEnabled, false, String(r.exampleId));
+    assert.equal(bank.publicationBoundary.humanApprovalSatisfied, true);
     for (const held of ['quotationExcerpt','originalTarget','anchor','attentionNote']) {
       assert.ok(!(held in r), `${r.exampleId}: held field leaked: ${held}`);
     }
