@@ -155,7 +155,7 @@ CC BY 4.0 での提供は、権利者である依頼者自身が `LICENSE-CONTEN
 | 再配布可否 | **未確認**。中身は本作業では読んでいない（読む必要がない）。 |
 | 扱い | 公開対象外。`CONSTITUTION.md` §4「公開しないもの」の「原資料PDFのうち再配布許可を確認していないもの」に該当する。 |
 | 公開リポジトリへの扱い | 公開リポジトリ・Git履歴・raw URL・配布物のいずれにも含めない。README にも所在を書かない（`docs/IMPLEMENTATION_PLAN.md` §14.3）。 |
-| 現状のリスク | **2026-09-28 訂正：作業リポジトリ `yama-books/koten` は公開されており、3 点は 2026-08-28（d001ce5）から追跡されているので GitHub 上で読める**（`docs/PUBLISH_MANIFEST.md` §1。扱いは依頼者の判断待ち）。以下は訂正前の記述：現行の非公開リポジトリ（`github.com/moyashimisosoup/koten`、H-01で非公開と確認済み）には存在するが、`docs/PUBLISH_MANIFEST.md`（許可リスト方式）により、公開移管対象から機械的に除外する。 |
+| 現状のリスク | **2026-09-28 訂正：作業リポジトリ `yama-books/koten` は公開されており、3 点は 2026-08-28（d001ce5）から追跡されているので GitHub 上で読める**（`docs/PUBLISH_MANIFEST.md` §1）。**2026-09-28、依頼者の決定（案A）で追跡を外し `.gitignore` に `USB-*.pdf` を追加した。過去のコミットには残る（履歴の書き換えは未実施）。**以下は訂正前の記述：現行の非公開リポジトリ（`github.com/moyashimisosoup/koten`、H-01で非公開と確認済み）には存在するが、`docs/PUBLISH_MANIFEST.md`（許可リスト方式）により、公開移管対象から機械的に除外する。 |
 
 ---
 
