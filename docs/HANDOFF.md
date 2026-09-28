@@ -400,6 +400,21 @@ github.com/moyashimisosoup/koten                                      → HTTP 4
 
 ## 4. 決定の記録
 
+### 2026-09-28・作業リポジトリは公開のまま／example-index-120 を内部扱い／checkpoint の usb3212 は Pages に残す
+
+**依頼者決定（2026-09-28・PR #58 の続き）。** 詳細は `docs/PUBLISH_MANIFEST.md` §1・§4.3・§6.2。
+
+- **作業リポジトリ `yama-books/koten` は公開のまま。** Pages でアプリを配信するためで、非公開にするとアプリが損なわれる。
+  `PUBLISH_MANIFEST` §1 の「現リポジトリは非公開」は誤りだったので訂正した（`.gitignore` の冒頭・`LICENSE_AUDIT` §4・許可リストの冒頭も）。
+  許可リストは P12 の公開ソースリポジトリへ移すもの、Pages は `tools/pages-assemble` が決める。**内部資料が GitHub で読めることは受け入れ済み。**
+- **`conj/data/adjectival-noun-example-index-120.json` を内部扱いにし、許可リストから外した。** CHJ 由来の書誌データ（サンプル ID・文字位置・
+  JapanKnowledge のリンク。本文なし）のため。アプリが読む（形容動詞 115 語の出題に必須）ので Pages には置く（`pages-assemble` は変更なし）。
+  公開ツリーでは形容動詞の出題が無くなるので、`check:conj-layout` の形容動詞 3 問とはなまるの全問走査はそこでだけ外れる（`held-data.ts`）。
+- **CHJ の引用**はソース公開の対象外（内部）のまま。Pages には置く（変更なし）。
+- **`checkpoint/data/*usb3212*.json`（2 本）** はアプリが実行時に読むので Pages に残す。ソース公開の対象ではない。
+- **判断待ち（新たに判明）**：原資料 PDF 3 点（`USB-3211_*` / `USB-3212_*` / `USB-3215_*`、再配布許可は未確認）が 2026-08-28 の d001ce5 から
+  この作業リポジトリで追跡されており、リポジトリが公開なので GitHub 上で読める。履歴にも残る。扱いは依頼者が決める。
+
 ### 2026-09-28・conj を公開許可リストへ（案B）、Pages の配信から作業文書を外した
 
 **依頼者決定（2026-09-28）。** 詳細は `docs/PUBLISH_MANIFEST.md` §4.3・§6・§6.2、権利は `docs/LICENSE_AUDIT.md` §8。

@@ -155,7 +155,7 @@ CC BY 4.0 での提供は、権利者である依頼者自身が `LICENSE-CONTEN
 | 再配布可否 | **未確認**。中身は本作業では読んでいない（読む必要がない）。 |
 | 扱い | 公開対象外。`CONSTITUTION.md` §4「公開しないもの」の「原資料PDFのうち再配布許可を確認していないもの」に該当する。 |
 | 公開リポジトリへの扱い | 公開リポジトリ・Git履歴・raw URL・配布物のいずれにも含めない。README にも所在を書かない（`docs/IMPLEMENTATION_PLAN.md` §14.3）。 |
-| 現状のリスク | 現行の非公開リポジトリ（`github.com/moyashimisosoup/koten`、H-01で非公開と確認済み）には存在するが、`docs/PUBLISH_MANIFEST.md`（許可リスト方式）により、公開移管対象から機械的に除外する。 |
+| 現状のリスク | **2026-09-28 訂正：作業リポジトリ `yama-books/koten` は公開されており、3 点は 2026-08-28（d001ce5）から追跡されているので GitHub 上で読める**（`docs/PUBLISH_MANIFEST.md` §1。扱いは依頼者の判断待ち）。以下は訂正前の記述：現行の非公開リポジトリ（`github.com/moyashimisosoup/koten`、H-01で非公開と確認済み）には存在するが、`docs/PUBLISH_MANIFEST.md`（許可リスト方式）により、公開移管対象から機械的に除外する。 |
 
 ---
 
@@ -247,4 +247,5 @@ P1以降、依存関係が確定した時点で `THIRD_PARTY_NOTICES.md` を生�
 | 確認状態 | 未確認（人間確認待ち） |
 
 `conj/data/adjectival-noun-example-index-120.json` は本文を含まない（`rawTextPublished: false`）が、CHJ のサンプル ID・文字位置・
-作品の年代と、JapanKnowledge の書誌リンクを持つ。書誌情報であり本文の複製ではないと判断して許可リストに載せた。
+作品の年代と、JapanKnowledge の書誌リンクを持つ。**2026-09-28 依頼者決定で、CHJ 由来の書誌データとして内部扱い**とし、
+許可リストから外した。アプリが実行時に読むので GitHub Pages には配信する。

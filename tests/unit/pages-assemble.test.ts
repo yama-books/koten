@@ -6,7 +6,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { assemble, pagesFiles, staticApps } from '../../tools/pages-assemble/index.ts';
 import { readAllowlist } from '../../tools/scan-publish/allowlist.ts';
-import { chjQuotationsExpected, chjQuotationsPath, isWorkingRepository } from '../../tools/conj-layout-check/held-data.ts';
+import { heldConjData, heldDataExpected, isWorkingRepository } from '../../tools/conj-layout-check/held-data.ts';
 
 /**
  * GitHub Pages の静的アプリ（conj / vintage-kana / checkpoint）の配信物。
@@ -80,10 +80,9 @@ test('conj: アプリが実行時に読むファイル（データ・画像・CS
     assert.ok(refs.has(expected), `参照の抽出から ${expected} が漏れている`);
   }
   const files = deployed('conj');
-  const chjExpected = chjQuotationsExpected();
   const missing = [...refs].filter((ref) => !files.has(ref))
-    // CHJ の引用は公開ツリーには無い（許可リストで保留）。作業リポジトリでは必ず配信する。
-    .filter((ref) => chjExpected || `conj/${ref}` !== chjQuotationsPath);
+    // 内部扱いのデータ（CHJ の引用・example-index-120）は公開ツリーには無い。作業リポジトリでは必ず配信する。
+    .filter((ref) => !heldConjData.includes(`conj/${ref}`) || heldDataExpected(`conj/${ref}`));
   assert.deepEqual(missing, [], `Pages に置かれない: ${missing.join(', ')}`);
   assert.ok(files.has('index.html'));
 });

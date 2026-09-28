@@ -5,10 +5,11 @@
 #   .gitignore              … このリポジトリで「追跡しないもの」を決める。
 #   docs/PUBLISH_MANIFEST.md … 公開リポジトリへ「移すもの」を決める（許可リスト）。
 #
-# このリポジトリは非公開の作業用・Codex 共有用である。
-# したがって docs/ 配下の内部資料はここでは除外しない。追跡して Codex と共有する。
+# このリポジトリは作業用・Codex 共有用である。GitHub Pages でアプリを配信するため**公開されており**、
+# 依頼者は非公開化しないと決めた（2026-09-28。PUBLISH_MANIFEST §1）。docs/ 配下の内部資料は GitHub 上で読める（受け入れ済み）。
+# それでも docs/ はここでは除外しない。追跡して Codex と共有する。
 # docs/HANDOFF.md も除外しない（除外すると Codex から読めない。§2.3.1）。
-# 公開側への流出は PUBLISH_MANIFEST の許可リストで防ぐ。
+# 公開ソースリポジトリ（P12）へ移すものは PUBLISH_MANIFEST の許可リストが、Pages に置くものは tools/pages-assemble が決める。
 
 # ---- 依存とビルド成果物 ----
 node_modules/
