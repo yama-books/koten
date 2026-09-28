@@ -182,8 +182,9 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 | `conj/data/adjectival-noun-chj-quotations.json` | **条件つき** | CHJ 本文の抜粋 56 件。**アプリへの掲載は引用として裁定済み**（`conj/PUBLIC_TEXT_SOURCE_POLICY.md` 2026-09-23）だが、**ソースファイルとしての再配布は未確認。§5 のブロックに載せない。** GitHub Pages には配信する（§6.2） |
 
 > **公開ツリーでの試験。** 内部扱いの 2 本が無いので、それを前提にする試験は公開ツリーでだけ外れる：
-> CHJ の引用を読む試験（`tests/unit/conj-*.test.ts` の一部）と、`check:conj-layout` の形容動詞 3 問・はなまるの全問走査
-> （example-index-120 が無いと形容動詞 115 語が出題されない）。作業リポジトリかどうかは本書（`docs/PUBLISH_MANIFEST.md`）の
+> CHJ の引用を読む試験（`tests/unit/conj-*.test.ts` の一部）と、`check:conj-layout` の形容動詞 3 問・はなまるの全問走査・
+> いたづらなり の語釈帯（example-index-120 が無いと形容動詞 115 語が出題されず、語釈も読まれない）。Enter の走査では、形容動詞が
+> いたづらなり 1 問だけなので「次の問題」が同じ問題になることを許す。作業リポジトリかどうかは本書（`docs/PUBLISH_MANIFEST.md`）の
 > 有無で判定し、作業リポジトリでは必ず実行する（`tools/conj-layout-check/held-data.ts`）。
 > **公開ソースリポジトリ単体では、conj は形容動詞を出題しない状態になる**（Pages の配信は影響を受けない）。
 

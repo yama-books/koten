@@ -145,7 +145,7 @@ try {
 }
 
 const seconds = ((Date.now() - started) / 1000).toFixed(1);
-if (glossSkipped.size) notes.push(`CHJ の引用が無い（公開ツリー）：用例の無い ${[...glossSkipped].join('・')} の語釈帯の検査を外した`);
+if (glossSkipped.size) notes.push(`内部扱いのデータが無い（公開ツリー）：語釈の出ない ${[...glossSkipped].join('・')} の語釈帯の検査を外した`);
 if (!adjvExpected) notes.push(`形容動詞の実行時データ（example-index-120）が無い（公開ツリー）：${checkedItems.filter((item) => !activeItems.includes(item)).map((item) => item.id).join('・')} とはなまるの全問走査を外した`);
 for (const note of notes) console.log(`check:conj-layout: ${note}`);
 if (cases !== expectedCases) failures.push(`走査が不足または過剰です（${cases} 件、必要 ${expectedCases} 件ちょうど）`);
@@ -194,7 +194,9 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
       // 語釈帯：動詞・形容詞には無い。形容動詞・助動詞は出題時から場所を確保して隠し、答えの後に表示する。
       if (item.pos === 'verb' || item.pos === 'adj') {
         check(after.glossHidden, `${tag}: ${item.pos} に語釈帯がある`);
-      } else if (!chjExpected && item.pos === 'adjv' && !(await exampleShown(page, item.id))) {
+      } else if (item.pos === 'adjv' && (!adjvExpected || (!chjExpected && !(await exampleShown(page, item.id))))) {
+        // 公開ツリー：形容動詞の実行時データが無いと語釈（adjectival-noun-glosses.json）も読まれない（いたづらなり を含む）。
+        // CHJ の引用だけが無いときは、用例の無い語に語釈が出ない。
         glossSkipped.add(item.id);
       } else if (check(!after.glossHidden && after.gloss !== null, `${tag}: 語釈帯が無い`)) {
         const gloss = after.gloss!;
@@ -280,7 +282,11 @@ async function sweepEnterFlow(page: any): Promise<{ total: number; bad: string[]
   const ids: Array<{ id: string; pos: string }> = await page.evaluate(() => items.map((entry: { id: string; pos: string }) => ({ id: entry.id, pos: entry.pos })));
   const bad: string[] = [];
   let total = 0;
+  // 公開ツリーで形容動詞の実行時データが無いと、形容動詞は いたづらなり 1 問だけになり、次の問題も同じ問題になる。
+  // そのときだけ「別の問題へ進む」を「新しい（未採点の）問題が出る」に緩める。作業リポジトリでは常に別の問題を求める。
+  const singleAdjv = !adjvExpected && ids.filter((entry) => entry.pos === 'adjv').length === 1;
   for (const { id, pos } of ids) {
+    const sameAllowed = singleAdjv && pos === 'adjv';
     for (const level of [4, 7]) {
       total++;
       const setup = await page.evaluate(({ id, pos, level }: { id: string; pos: string; level: number }) => {
@@ -309,7 +315,7 @@ async function sweepEnterFlow(page: any): Promise<{ total: number; bad: string[]
       await page.keyboard.press('Enter');
       const next = await page.evaluate(() => ({ answered, id: current.id }));
       const ok = setup.open && visited.length === setup.blanks && new Set(visited).size === setup.blanks
-        && last.answered && !last.editor && last.perfect && !next.answered && next.id !== last.id;
+        && last.answered && !last.editor && last.perfect && !next.answered && (next.id !== last.id || sameAllowed);
       if (!ok) bad.push(`${id} Lv${level}: Enter で解けない（空欄 ${setup.blanks}、回った順 ${visited.join(' ')}、最後の Enter の後 採点=${last.answered} 全問正解=${last.perfect}、次の Enter で次の問題=${next.id !== last.id}）`);
     }
   }
