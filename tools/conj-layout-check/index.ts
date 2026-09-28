@@ -19,6 +19,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { adjvRuntimeExpected, chjQuotationsExpected } from './held-data.ts';
 
 // conj/index.html の古典スクリプトの大域変数・関数。page.evaluate の中（ページの大域）でだけ使う。
 declare let items: any[];
@@ -43,6 +44,13 @@ const port = Number(process.env.CONJ_LAYOUT_CHECK_PORT ?? 4177);
 const conjDir = path.resolve(process.env.CONJ_LAYOUT_CONJ_DIR ?? path.join(root, 'conj'));
 const hyakuninDist = path.join(root, 'packages/hyakunin/dist');
 const useWebFonts = !process.argv.includes('--no-web-fonts');
+// 形容動詞の語釈は表示中の用例に結び付く。しづかなり（adjv-lemma-030）など CHJ の引用を用例にする語は、
+// CHJ の引用が無い公開ツリーでは用例も語釈も出ないので、そこでだけ語釈帯の検査を外す（作業リポジトリでは常に検査する）。
+const chjExpected = chjQuotationsExpected(conjDir);
+const glossSkipped = new Set<string>();
+// 形容動詞 115 語は adjectival-noun-example-index-120.json（内部扱い）が無いと出題されない。公開ツリーでだけ、
+// それらの問題（とはなまるの全問走査）を外す。作業リポジトリでは常に検査する。
+const adjvExpected = adjvRuntimeExpected(conjDir);
 const baseUrl = `http://127.0.0.1:${port}/conj/`;
 const started = Date.now();
 
@@ -81,7 +89,8 @@ const emphasisItems = ['beshi_aux', 'mu_aux', 'ramu_aux', 'meri_aux'];
 const stampSweepViewports = new Set(['phoneSE375', 'ipad820']);
 const minimumAdjvItems = 100;
 // 12 問 × 7 画面。過不足とも検査不全である。
-const expectedCases = viewports.length * checkedItems.length;
+const activeItems = adjvExpected ? checkedItems : checkedItems.filter((item) => !item.id.startsWith('adjv-lemma-'));
+const expectedCases = viewports.length * activeItems.length;
 
 const failures: string[] = [];
 const notes: string[] = [];
@@ -136,9 +145,11 @@ try {
 }
 
 const seconds = ((Date.now() - started) / 1000).toFixed(1);
+if (glossSkipped.size) notes.push(`内部扱いのデータが無い（公開ツリー）：語釈の出ない ${[...glossSkipped].join('・')} の語釈帯の検査を外した`);
+if (!adjvExpected) notes.push(`形容動詞の実行時データ（example-index-120）が無い（公開ツリー）：${checkedItems.filter((item) => !activeItems.includes(item)).map((item) => item.id).join('・')} とはなまるの全問走査を外した`);
 for (const note of notes) console.log(`check:conj-layout: ${note}`);
 if (cases !== expectedCases) failures.push(`走査が不足または過剰です（${cases} 件、必要 ${expectedCases} 件ちょうど）`);
-console.log(`check:conj-layout: 問題×画面 ${cases} 件（${viewports.length} 画面 × ${checkedItems.length} 問）、はなまるの全問走査 ${stampSweepCount} 件、Enter の走査 ${keyboardSweepCount} 件、フォント ${useWebFonts ? 'Web フォント（/100/）' : '端末のフォールバック'}、${seconds} 秒`);
+console.log(`check:conj-layout: 問題×画面 ${cases} 件（${viewports.length} 画面 × ${activeItems.length} 問）、はなまるの全問走査 ${stampSweepCount} 件、Enter の走査 ${keyboardSweepCount} 件、フォント ${useWebFonts ? 'Web フォント（/100/）' : '端末のフォールバック'}、${seconds} 秒`);
 console.log(`check:conj-layout: 違反 ${failures.length} 件`);
 for (const message of failures.slice(0, 400)) console.log(`  ${message}`);
 if (failures.length > 400) console.log(`  …残り ${failures.length - 400} 件`);
@@ -157,12 +168,12 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
     await page.goto(baseUrl, { waitUntil: 'load' });
     await page.waitForFunction(() => (window as any).__conjAdjvRuntimeStatus !== undefined);
     const runtime = await page.evaluate(() => ({ loaded: (window as any).__conjAdjvRuntimeStatus.loaded, error: (window as any).__conjAdjvRuntimeStatus.error ?? null }));
-    if (!runtime.loaded) throw new Error(`${vp}: 形容動詞のデータを読み込めません: ${runtime.error}`);
+    if (!runtime.loaded && adjvExpected) throw new Error(`${vp}: 形容動詞のデータを読み込めません: ${runtime.error}`);
     const fonts = await loadFonts(page);
     if (vp === viewports[0].name) notes.push(`フォント: ${fonts.summary}`);
 
     const stripWidths = new Set<number>();
-    for (const item of checkedItems) {
+    for (const item of activeItems) {
       const tag = `${vp} ${item.id}`;
       await show(page, item);
       const before = await measure(page);
@@ -183,6 +194,10 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
       // 語釈帯：動詞・形容詞には無い。形容動詞・助動詞は出題時から場所を確保して隠し、答えの後に表示する。
       if (item.pos === 'verb' || item.pos === 'adj') {
         check(after.glossHidden, `${tag}: ${item.pos} に語釈帯がある`);
+      } else if (item.pos === 'adjv' && (!adjvExpected || (!chjExpected && !(await exampleShown(page, item.id))))) {
+        // 公開ツリー：形容動詞の実行時データが無いと語釈（adjectival-noun-glosses.json）も読まれない（いたづらなり を含む）。
+        // CHJ の引用だけが無いときは、用例の無い語に語釈が出ない。
+        glossSkipped.add(item.id);
       } else if (check(!after.glossHidden && after.gloss !== null, `${tag}: 語釈帯が無い`)) {
         const gloss = after.gloss!;
         check(before.glossVisibility === 'hidden' && after.glossVisibility === 'visible', `${tag}: 語釈帯の表示 ${before.glossVisibility} → ${after.glossVisibility}`);
@@ -198,7 +213,7 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
 
       // 「この用例では」は、形容動詞で用例ごとの注記があり、用例を表示しているときだけ。
       const hasNote = after.glossDt.includes('この用例では');
-      if (item.id === 'adjv-lemma-030') check(hasNote, `${tag}: しづかなり に「この用例では」が無い（${after.glossDt.join('/')}）`);
+      if (item.id === 'adjv-lemma-030' && chjExpected) check(hasNote, `${tag}: しづかなり に「この用例では」が無い（${after.glossDt.join('/')}）`);
       if (item.pos === 'aux' || item.id === 'adjv-lemma-117' || item.id === 'itadura') check(!hasNote, `${tag}: 注記の無い問題に「この用例では」がある（${after.glossDt.join('/')}）`);
       if (after.glossDt.length && !after.glossHidden) check(after.glossDt[0] === '意味', `${tag}: 語釈帯の先頭が「意味」でない（${after.glossDt.join('/')}）`);
 
@@ -229,13 +244,15 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
     }
 
     // 用例を隠すと「この用例では」の行は DOM から消える。
-    await show(page, { id: 'adjv-lemma-030', pos: 'adjv' }, { exampleOff: true });
-    await answerAll(page);
-    const off = await measure(page);
-    check(off.glossDt.join('/') === '意味', `${vp}: 用例を隠しても語釈帯に ${off.glossDt.join('/')} が出る`);
-    await page.evaluate(() => { (document.getElementById('showExample') as HTMLInputElement).checked = true; });
+    if (adjvExpected) {
+      await show(page, { id: 'adjv-lemma-030', pos: 'adjv' }, { exampleOff: true });
+      await answerAll(page);
+      const off = await measure(page);
+      if (chjExpected || await exampleShown(page, 'adjv-lemma-030')) check(off.glossDt.join('/') === '意味', `${vp}: 用例を隠しても語釈帯に ${off.glossDt.join('/')} が出る`);
+      await page.evaluate(() => { (document.getElementById('showExample') as HTMLInputElement).checked = true; });
+    }
 
-    if (stampSweepViewports.has(vp)) {
+    if (stampSweepViewports.has(vp) && adjvExpected) {
       const sweep = await sweepAdjvStamps(page);
       stampSweepCount += sweep.total;
       check(sweep.total >= minimumAdjvItems, `${vp}: 形容動詞が ${sweep.total} 問しかない（${minimumAdjvItems} 問以上のはず）`);
@@ -265,7 +282,11 @@ async function sweepEnterFlow(page: any): Promise<{ total: number; bad: string[]
   const ids: Array<{ id: string; pos: string }> = await page.evaluate(() => items.map((entry: { id: string; pos: string }) => ({ id: entry.id, pos: entry.pos })));
   const bad: string[] = [];
   let total = 0;
+  // 公開ツリーで形容動詞の実行時データが無いと、形容動詞は いたづらなり 1 問だけになり、次の問題も同じ問題になる。
+  // そのときだけ「別の問題へ進む」を「新しい（未採点の）問題が出る」に緩める。作業リポジトリでは常に別の問題を求める。
+  const singleAdjv = !adjvExpected && ids.filter((entry) => entry.pos === 'adjv').length === 1;
   for (const { id, pos } of ids) {
+    const sameAllowed = singleAdjv && pos === 'adjv';
     for (const level of [4, 7]) {
       total++;
       const setup = await page.evaluate(({ id, pos, level }: { id: string; pos: string; level: number }) => {
@@ -294,7 +315,7 @@ async function sweepEnterFlow(page: any): Promise<{ total: number; bad: string[]
       await page.keyboard.press('Enter');
       const next = await page.evaluate(() => ({ answered, id: current.id }));
       const ok = setup.open && visited.length === setup.blanks && new Set(visited).size === setup.blanks
-        && last.answered && !last.editor && last.perfect && !next.answered && next.id !== last.id;
+        && last.answered && !last.editor && last.perfect && !next.answered && (next.id !== last.id || sameAllowed);
       if (!ok) bad.push(`${id} Lv${level}: Enter で解けない（空欄 ${setup.blanks}、回った順 ${visited.join(' ')}、最後の Enter の後 採点=${last.answered} 全問正解=${last.perfect}、次の Enter で次の問題=${next.id !== last.id}）`);
     }
   }
@@ -322,6 +343,11 @@ async function loadFonts(page: any): Promise<{ summary: string }> {
 }
 
 /** `id` を新しい問題として表示する（助動詞・形容動詞は Lv4）。PC ではアプリが最初の空欄を編集状態にするので閉じる。 */
+/** 用例のある問題か（形容動詞の語釈は用例に結び付く）。CHJ の引用が無い公開ツリーでだけ問う。 */
+async function exampleShown(page: any, id: string): Promise<boolean> {
+  return page.evaluate((itemId: string) => Boolean(items.find((entry: { id: string }) => entry.id === itemId)?.example), id);
+}
+
 async function show(page: any, item: Item, options: { exampleOff?: boolean } = {}): Promise<void> {
   const found = await page.evaluate(async ({ id, pos, exampleOff }: { id: string; pos: string; exampleOff: boolean }) => {
     (document.getElementById('pos') as HTMLSelectElement).value = pos;

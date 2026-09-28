@@ -1,10 +1,10 @@
 # 公開許可リスト（機械可読な唯一の入力）
 #
 # tools/scan-publish と tools/publish-transfer、および tests/unit/scan-publish-allowlist.test.ts が
-# このファイルだけを読む。人間向けの説明と除外理由は非公開の docs/PUBLISH_MANIFEST.md にあり、
+# このファイルだけを読む。人間向けの説明と除外理由は公開ソースへ移さない docs/PUBLISH_MANIFEST.md にあり、
 # 表と食い違った場合は表が正である。表を直したらこのファイルも直すこと。
 #
-# このファイル自体が公開対象である。docs/ は公開しないので、
+# このファイル自体が公開対象である。docs/ は公開ソースリポジトリへ移さないので、
 # 許可リストを docs/ の中に置くと公開版で scan:publish と npm test が動かない。
 
 [sources]
@@ -38,6 +38,7 @@ tools/font-assets-check/**
 tools/font-check/**
 tools/font-weight-check/**
 tools/overflow-check/**
+tools/pages-assemble/**
 tools/review-approve/**
 tools/scan-publish/**
 tests/**
@@ -52,6 +53,24 @@ assets/mascot/**
 packages/hyakunin/**
 # unit:kanazukai
 packages/kanazukai/**
+# unit:conj（アプリの実行ファイルと、アプリが読むデータのうち自作・公開本文由来のもの）
+# 内部扱いで載せない（Pages にはアプリの一部として置く）：
+#   conj/data/adjectival-noun-chj-quotations.json（CHJ の引用。ソースとしての再配布が未確認）
+#   conj/data/adjectival-noun-example-index-120.json（CHJ 由来の書誌データ。サンプル ID・文字位置・リンク）
+# conj/data/adjectival-noun-public-examples.json の本文は CC BY-SA（THIRD_PARTY_NOTICES.md）。
+conj/index.html
+conj/adjv-runtime-adapter.js
+conj/branding.css
+conj/icon.svg
+conj/manifest.webmanifest
+conj/img/**
+conj/data/adjectival-noun-paradigms.json
+conj/data/adjectival-noun-lemma-pool.json
+conj/data/adjectival-noun-integration-audit.json
+conj/data/adjectival-noun-lexical-annotations.json
+conj/data/adjectival-noun-glosses.json
+conj/data/adjectival-noun-public-examples.json
+conj/data/aux-example-meanings.json
 
 [build-extensions]
 # build-artifact extensions

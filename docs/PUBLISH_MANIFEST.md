@@ -1,6 +1,6 @@
 # 公開マニフェスト（許可リスト）
 
-最終更新: 2026-08-30
+最終更新: 2026-09-28
 種別: 内部作業資料。**このファイル自身は公開しない。**
 根拠: `docs/IMPLEMENTATION_PLAN.md` §10 P0 / §14.1〜§14.2、`CONSTITUTION.md`、裁定 D-03・D-06
 
@@ -21,11 +21,21 @@
 
 | 文書 | 決めること | 効き先 |
 |---|---|---|
-| `.gitignore` | この（非公開）リポジトリで追跡しないもの | 現リポジトリ |
-| **この文書** | 公開リポジトリへ移すもの | P12 の移管作業 |
+| `.gitignore` | この作業リポジトリで追跡しないもの | 現リポジトリ |
+| **この文書** | 公開ソースリポジトリへ移すもの | P12 の移管作業 |
+| `tools/pages-assemble` | GitHub Pages に置く静的アプリのファイル（§6.2） | Pages の配信 |
 
-現リポジトリは非公開であり、原資料 PDF と内部資料を含んだまま存続する（裁定 H-01）。
-公開側への流出は `.gitignore` ではなく**この許可リストだけ**が防ぐ。
+> **2026-09-28 訂正。現リポジトリ（作業リポジトリ `yama-books/koten`）は公開されている。**
+> 以前ここには「現リポジトリは非公開」とあったが、実態と違っていた。GitHub Pages でアプリを配信するために公開のままにしており、
+> **依頼者は非公開化しないと決めた**（非公開にするとアプリの配信が損なわれるため）。したがって:
+>
+> - **この許可リストが決めるのは、P12 で作る別の清潔な公開ソースリポジトリへ移すものである。** 作業リポジトリの可視性は決めない。
+> - **Pages で配信するものは `tools/pages-assemble` が決める**（§6.2）。
+> - **作業リポジトリの内部資料（`docs/`・各アプリの作業文書など）は GitHub 上で誰でも読める。** 依頼者はこれを受け入れている。
+>   「公開しない」と書かれたものは、公開ソースリポジトリへ移さないという意味に読むこと。
+> - **原資料 PDF（`USB-3211_*` / `USB-3212_*` / `USB-3215_*`）は 2026-08-28（d001ce5）から追跡され、GitHub 上で読める状態だった。**
+>   依頼者の決定（2026-09-28、案A）により**追跡を外し**、`.gitignore` に `USB-*.pdf` を加えた（手元には残す）。
+>   **過去のコミットには残っており、履歴の書き換えは行っていない**（再配布許可は未確認のまま。`docs/LICENSE_AUDIT.md` §4）。
 
 ## 2. 状態欄の読み方
 
@@ -89,13 +99,14 @@ P0 時点ではアプリコードが 1 行も存在しない。したがって�
 | `packages/shared/**` | 一部現存 | P1、共有ErrorBoundary、D-08ローダー、トークンまで。保存・統計等は未実装 |
 | `tools/build-data/**` | 現存 | 発注001。生成の再現性のため公開する |
 | `tools/overflow-check/**` | 未作成 | P3 |
+| `tools/pages-assemble/**` | 現存 | 2026-09-28。`deploy-pages.yml` が conj / vintage-kana / checkpoint を Pages へ置くのに使う。公開ツリーでも同じ workflow が動くよう公開する。§6.2 |
 | `tools/scan-publish/**` | 初版現存 | 最終staging全体と許可リストの1対1検査は未実装 |
 | `tests/**` | 一部現存 | data/unit 16件。`tools/review-page` に依存する試験を含めない |
 | `firebase/firestore.rules` | 未作成 | P9。**実プロジェクト ID・鍵・実値を含まないこと** |
 | `firebase/firestore.indexes.json` | 未作成 | 同上 |
 | `firebase/firebase.json` | 未作成 | Emulator 設定のみ。実プロジェクト ID は環境変数 |
 | `.github/workflows/ci.yml` | 現存 | P1完了。typecheck / lint / unit / data / build / scan |
-| `.github/workflows/deploy-pages.yml` | 未作成 | P12 で有効化 |
+| `.github/workflows/deploy-pages.yml` | 現存 | 静的アプリは `tools/pages-assemble` で置く（2026-09-28。丸ごと複写をやめた）。§6.2 |
 | `.gitignore` / `.gitattributes` | 要書換 | 公開側の構成に合わせて作り直す。現物をそのまま移さない |
 | `README.md` | 要書換 | **公開用に書き直したものを移す。** 現行 README は内部向け |
 
@@ -147,6 +158,36 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 | `packages/kanazukai/src/**` | 足場のみ現存 | 「準備中」Homeのみ。横書き単語・規則診断・3モードは未実装 |
 | `packages/kanazukai/src/data/generated/**` | 未作成 | **手編集禁止。CI で検査** |
 | `packages/kanazukai/public/**` | 一部現存 | `404.html`のみ。フォントは§3.6の条件に従う |
+
+### 4.3 公開単位 3: 古典文法活用ノート — `/conj/`（2026-09-28 追加・案B）
+
+独立した静的アプリ（ビルド不要）。**載せるのは、アプリの実行ファイルと、アプリが実行時に読むデータのうち
+自作または公開本文由来のものだけ**である。§7-1 の「必要である」は、`conj/index.html` と
+`conj/adjv-runtime-adapter.js` が実行時に読むことを実物で確かめた（`fetch` とファイル名の突き合わせ）。
+データの権利は `docs/LICENSE_AUDIT.md` §8 を参照。
+
+| パス | 状態 | 条件 |
+|---|---|---|
+| `conj/index.html` | 現存 | アプリ本体 |
+| `conj/adjv-runtime-adapter.js` | 現存 | 形容動詞データの読み込み |
+| `conj/branding.css` / `conj/icon.svg` / `conj/manifest.webmanifest` | 現存 | 実行時に読む。`icon.svg` は PNG を埋め込んだ SVG（外部参照なし） |
+| `conj/img/**` | 現存 | 4 点（はなまる・記録の猫・結果の丸／バツ）。自作 |
+| `conj/data/adjectival-noun-paradigms.json` | 現存 | 活用表。自作 |
+| `conj/data/adjectival-noun-lemma-pool.json` | 現存 | 語幹候補。本文を含まない |
+| `conj/data/adjectival-noun-example-index-120.json` | **条件つき（内部扱い）** | 実例の索引。本文は含まない（`rawTextPublished: false`）が、**CHJ 由来の書誌データ**（サンプル ID・文字位置・JapanKnowledge のリンク）である。**2026-09-28 依頼者決定で内部扱いとし、§5 のブロックから外した。** アプリが実行時に読む（形容動詞 115 語の出題に必須）ので GitHub Pages には配信する（§6.2） |
+| `conj/data/adjectival-noun-integration-audit.json` | 現存 | 実行時に検証へ使う集計 |
+| `conj/data/adjectival-noun-lexical-annotations.json` | 現存 | 見出しの表示形など。自作 |
+| `conj/data/adjectival-noun-glosses.json` | 現存 | 語釈・現代仮名遣いのルビ。自作 |
+| `conj/data/adjectival-noun-public-examples.json` | 現存 | **公開本文の短い抜粋（Wikisource・やたがらすナビ）。CC BY-SA 4.0／3.0 のまま。** プロジェクトの CC BY 4.0 とは別条件（`THIRD_PARTY_NOTICES.md`・`LICENSE-CONTENT.md`） |
+| `conj/data/aux-example-meanings.json` | 現存 | 助動詞の用例ごとの意味。自作（用例は百人一首） |
+| `conj/data/adjectival-noun-chj-quotations.json` | **条件つき** | CHJ 本文の抜粋 56 件。**アプリへの掲載は引用として裁定済み**（`conj/PUBLIC_TEXT_SOURCE_POLICY.md` 2026-09-23）だが、**ソースファイルとしての再配布は未確認。§5 のブロックに載せない。** GitHub Pages には配信する（§6.2） |
+
+> **公開ツリーでの試験。** 内部扱いの 2 本が無いので、それを前提にする試験は公開ツリーでだけ外れる：
+> CHJ の引用を読む試験（`tests/unit/conj-*.test.ts` の一部）と、`check:conj-layout` の形容動詞 3 問・はなまるの全問走査・
+> いたづらなり の語釈帯（example-index-120 が無いと形容動詞 115 語が出題されず、語釈も読まれない）。Enter の走査では、形容動詞が
+> いたづらなり 1 問だけなので「次の問題」が同じ問題になることを許す。作業リポジトリかどうかは本書（`docs/PUBLISH_MANIFEST.md`）の
+> 有無で判定し、作業リポジトリでは必ず実行する（`tools/conj-layout-check/held-data.ts`）。
+> **公開ソースリポジトリ単体では、conj は形容動詞を出題しない状態になる**（Pages の配信は影響を受けない）。
 
 ---
 
@@ -211,6 +252,14 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 | 実利用データ・未集計報告・バックアップ | `.gitignore` で追跡もしない |
 | サービスアカウント鍵・管理者認証情報・API 秘密鍵 | 憲章。Secrets には公開 Web 設定のみ |
 | ローカル絶対パス（`H:/` 等）を含む記述 | 環境が露出する。`scan-publish` の禁止パターンに含める |
+| conj の作業文書（`conj/*.md`：`HANDOFF*`・`PROGRESS*`・`ROADMAP`・`README`・`IMPLEMENTATION`・`DESIGN_*`・`*_POLICY` 等） | 内部作業資料。アプリは読まない。方針の要点は `docs/LICENSE_AUDIT.md` §8 に移した |
+| `conj/audit/**` | 監査用スクリプト・計測結果・モックアップ。アプリは読まない |
+| `conj/adjv-runtime-smoke.html` | 二層データの確認用ページ。本番の `index.html` と接続していない |
+| `conj/data/adjectival-noun-selection-120.json` / `conj/data/corpus-status.json` | 選定の作業データ。**Drive のフォルダ／ファイル ID を含む。** アプリは読まない |
+| `conj/data/public-text-pilot-*.json`（20 本）/ `conj/data/public-text-source-registry.json` | 公開本文の探索・照合の作業記録。**アプリは読まない**（採用した抜粋は `adjectival-noun-public-examples.json` に入っている）。§7-1 を満たさない |
+| `conj/data/adjectival-noun-chj-quotations.json` | §4.3 の条件つき。ソースとしての再配布が未確認 |
+| `conj/data/adjectival-noun-example-index-120.json` | §4.3 の条件つき（内部扱い）。CHJ 由来の書誌データ（2026-09-28 依頼者決定） |
+| `tools/publish-transfer/**` | 私的リポジトリの所在を引数で受ける道具（既存の判断） |
 
 ### 6.1 `古典文法_一次データ索引.md` を初回公開に含めない判断（**新規・人間確認 H-14**）
 
@@ -232,6 +281,24 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 - そのとき、原表の語順に依らない形へ書き直した版を公開するのか、公開しないのか。
 
 判断が出るまでは**移さない**。§1 の原則（迷ったら移さない）に従う。
+
+### 6.2 GitHub Pages の配信物と許可リストの違い（2026-09-28）
+
+**GitHub リポジトリ `yama-books/koten` は現に公開されており、Pages は `conj/` `vintage-kana/` `checkpoint/` を
+`cp -r` で丸ごと置いていた。** そのため引き継ぎ・監査の Markdown まで Pages の URL で読めた。
+依頼者の優先順位は「**アプリの中身（用例・出典・画像・データ）を減らさない**」が第一、作業文書を隠すのは第二である。
+
+- Pages は `tools/pages-assemble` で組み立てる。**除外リスト方式**：`*.md`・ドットファイルと、アプリが読まないと確かめた
+  conj の 4 項目（`audit/`・`adjv-runtime-smoke.html`・Drive ID を含む 2 本）だけを外す。アプリが新しいデータを読むようになっても配信から落ちない。
+- 本書の許可リストは**ソースとして公開ツリーへ移すもの**、Pages は**アプリとして配信するもの**で、目的が違う。
+  CHJ の引用はアプリへの掲載が裁定済みなので Pages には置くが、許可リストには載せない。
+- `tests/unit/pages-assemble.test.ts` が、(a) 丸ごと複写に戻っていない、(b) `index.html` とアダプタが実行時に読む
+  ファイルがすべて置かれる、(c) `.md`・監査ファイルが置かれない、(d) 許可リストの conj のファイルがすべて置かれる、を検査する。
+- vintage-kana / checkpoint は許可リストに無い（公開単位になっていない）。Pages からは `*.md` だけを外した
+  （どちらも実行時に `.md` を読まないことと、実ブラウザで 404・コンソールエラーが増えないことを確かめた）。
+  **データは実行時に読むので外していない。**
+- **`checkpoint/data/discrimination_source_usb3212.json` と `auxiliary_evidence_usb3212.json`（2026-09-28 依頼者決定）**：
+  アプリ（`checkpoint/core4.js`）が実行時に読むので Pages に置き続ける。**ソースとしての公開の対象ではない**（許可リストに載せない）。
 
 ---
 
@@ -265,6 +332,9 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 
 | 日付 | 内容 |
 |---|---|
+| 2026-09-28 | 原資料 PDF 3 点の追跡を外し、`.gitignore` に `USB-*.pdf` を追加（依頼者の決定・案A。履歴は書き換えない）|
+| 2026-09-28 | §1 を訂正：作業リポジトリ `yama-books/koten` は公開（Pages のため。依頼者は非公開化しないと決定）。許可リストは P12 の公開ソースリポジトリへ移すもの、Pages は `tools/pages-assemble` が決めると整理。原資料 PDF が追跡されている事実を明記。`adjectival-noun-example-index-120.json` を内部扱いとして §5 から外し、checkpoint の `*usb3212*` を Pages に残す決定を §6.2 に記録 |
+| 2026-09-28 | §4.3 に公開単位 3（古典文法活用ノート `/conj/`）を追加（案B）。実行ファイルとアプリが読む自作・公開本文由来のデータを §5 に載せ、CHJ の引用は条件つきで保留。アプリが読まない探索記録・Drive ID を含む作業データ・作業文書・監査は §6 に理由つきで除外。§6.2 で Pages の配信物を許可リストと分けて整理し、`tools/pages-assemble` を §3.4 に追加 |
 | 2026-08-31 | 正式名称を確定（H-10 解消）。プロジェクト名「古典学習帳」、公開単位1「百人一首練習帳」、公開単位2「歴史的仮名遣い確認ツール」。§4.1 の見出しと `NOTICE` を更新 |
 | 2026-08-31 | 裁定 D-10（公開名義は noreply アドレス、実メール不可）を §8 手順 7 に反映。根拠は ADR-0003 追補 |
 | 2026-08-31 | P1・発注001・先行実機確認版の実体に状態欄を同期。フォントはライセンス確認済みだが実ファイル未作成であること、`scan:publish` 初版は最終staging検査を満たさないことを明記 |
