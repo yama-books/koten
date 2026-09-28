@@ -1,0 +1,4881 @@
+{
+  "schemaVersion": "1.0",
+  "updated": "2026-09-28",
+  "policy": "活用表の各セルに、実在が確認できた歴史的用例を1つ以上。実例が確認できないセルは人工例で埋めず status=unattested（活用表ドリルのみ）。target は原文の表記、normalizedKey は活用表の語形。CHJ の本文は引用として掲載し、出典は用例ごとではなく出典一覧に示す（PUBLIC_TEXT_SOURCE_POLICY.md の裁定）。",
+  "sources": {
+    "chj": {
+      "name": "国立国語研究所『日本語歴史コーパス』",
+      "url": "https://clrd.ninjal.ac.jp/chj/"
+    },
+    "hyakunin": {
+      "name": "『小倉百人一首』"
+    }
+  },
+  "counts": {
+    "records": 145,
+    "cells": 152,
+    "cells_example": 145,
+    "cells_unattested": 7
+  },
+  "tableNotes": [
+    "2026-09-28: べし・まじ・まほし・たし の補助活用命令形（べかれ・まじかれ・まほしかれ・たかれ）は、『新しい古典文法』付録の助動詞一覧表どおり「○」（活用形なし）のセルに改めた。"
+  ],
+  "cells": [
+    {
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "れ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ru-001"
+      ]
+    },
+    {
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "れ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ru-002"
+      ]
+    },
+    {
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "る",
+      "status": "example",
+      "exampleIds": [
+        "aux-ru-003"
+      ]
+    },
+    {
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "るる",
+      "status": "example",
+      "exampleIds": [
+        "aux-ru-004"
+      ]
+    },
+    {
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "るれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ru-005"
+      ]
+    },
+    {
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "れよ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ru-006"
+      ]
+    },
+    {
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "られ",
+      "status": "example",
+      "exampleIds": [
+        "aux-raru-001"
+      ]
+    },
+    {
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "られ",
+      "status": "example",
+      "exampleIds": [
+        "aux-raru-002"
+      ]
+    },
+    {
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "らる",
+      "status": "example",
+      "exampleIds": [
+        "aux-raru-003"
+      ]
+    },
+    {
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "らるる",
+      "status": "example",
+      "exampleIds": [
+        "aux-raru-004"
+      ]
+    },
+    {
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "らるれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-raru-005"
+      ]
+    },
+    {
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "られよ",
+      "status": "example",
+      "exampleIds": [
+        "aux-raru-006"
+      ]
+    },
+    {
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "せ",
+      "status": "example",
+      "exampleIds": [
+        "aux-su-001"
+      ]
+    },
+    {
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "せ",
+      "status": "example",
+      "exampleIds": [
+        "aux-su-002"
+      ]
+    },
+    {
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "す",
+      "status": "example",
+      "exampleIds": [
+        "aux-su-003"
+      ]
+    },
+    {
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "する",
+      "status": "example",
+      "exampleIds": [
+        "aux-su-004"
+      ]
+    },
+    {
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "すれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-su-005"
+      ]
+    },
+    {
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "せよ",
+      "status": "example",
+      "exampleIds": [
+        "aux-su-006"
+      ]
+    },
+    {
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "させ",
+      "status": "example",
+      "exampleIds": [
+        "aux-sasu-001"
+      ]
+    },
+    {
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "させ",
+      "status": "example",
+      "exampleIds": [
+        "aux-sasu-002"
+      ]
+    },
+    {
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "さす",
+      "status": "example",
+      "exampleIds": [
+        "aux-sasu-003"
+      ]
+    },
+    {
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "さする",
+      "status": "example",
+      "exampleIds": [
+        "aux-sasu-004"
+      ]
+    },
+    {
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "さすれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-sasu-005"
+      ]
+    },
+    {
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "させよ",
+      "status": "example",
+      "exampleIds": [
+        "aux-sasu-006"
+      ]
+    },
+    {
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "しめ",
+      "status": "example",
+      "exampleIds": [
+        "aux-shimu-001"
+      ]
+    },
+    {
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "しめ",
+      "status": "example",
+      "exampleIds": [
+        "aux-shimu-002"
+      ]
+    },
+    {
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "しむ",
+      "status": "example",
+      "exampleIds": [
+        "aux-shimu-003"
+      ]
+    },
+    {
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "しむる",
+      "status": "example",
+      "exampleIds": [
+        "aux-shimu-004"
+      ]
+    },
+    {
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "しむれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-shimu-005"
+      ]
+    },
+    {
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "しめよ",
+      "status": "example",
+      "exampleIds": [
+        "aux-shimu-006"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "ず",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-001"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "ざら",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-002"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "ず",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-003"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "ざり",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-004"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "ず",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-005"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "ぬ",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-006"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "ざる",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-007"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "ね",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-008"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "ざれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-009"
+      ]
+    },
+    {
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "ざれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-zu-010"
+      ]
+    },
+    {
+      "itemId": "mu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "む",
+      "status": "example",
+      "exampleIds": [
+        "aux-mu-001"
+      ]
+    },
+    {
+      "itemId": "mu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "む",
+      "status": "example",
+      "exampleIds": [
+        "aux-mu-002"
+      ]
+    },
+    {
+      "itemId": "mu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "め",
+      "status": "example",
+      "exampleIds": [
+        "aux-mu-003"
+      ]
+    },
+    {
+      "itemId": "muzu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "むず",
+      "status": "example",
+      "exampleIds": [
+        "aux-muzu-001"
+      ]
+    },
+    {
+      "itemId": "muzu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "むずる",
+      "status": "example",
+      "exampleIds": [
+        "aux-muzu-002"
+      ]
+    },
+    {
+      "itemId": "muzu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "むずれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-muzu-003"
+      ]
+    },
+    {
+      "itemId": "ji_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "じ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ji-001"
+      ]
+    },
+    {
+      "itemId": "ji_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "じ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ji-002"
+      ]
+    },
+    {
+      "itemId": "ji_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "じ",
+      "status": "unattested",
+      "exampleIds": [],
+      "note": "こそ…じ（已然形）の実例は収集資料に見当たらない"
+    },
+    {
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "ましか",
+      "status": "example",
+      "exampleIds": [
+        "aux-mashi-001"
+      ]
+    },
+    {
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "ませ",
+      "status": "example",
+      "exampleIds": [
+        "aux-mashi-002"
+      ]
+    },
+    {
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "まし",
+      "status": "example",
+      "exampleIds": [
+        "aux-mashi-003"
+      ]
+    },
+    {
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "まし",
+      "status": "example",
+      "exampleIds": [
+        "aux-mashi-004"
+      ]
+    },
+    {
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "ましか",
+      "status": "example",
+      "exampleIds": [
+        "aux-mashi-005"
+      ]
+    },
+    {
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "まほしく",
+      "status": "example",
+      "exampleIds": [
+        "aux-mahoshi-001"
+      ]
+    },
+    {
+      "itemId": "mahoshi_aux",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "まほしから",
+      "status": "example",
+      "exampleIds": [
+        "aux-mahoshi-002"
+      ]
+    },
+    {
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "まほしく",
+      "status": "example",
+      "exampleIds": [
+        "aux-mahoshi-003"
+      ]
+    },
+    {
+      "itemId": "mahoshi_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "まほしかり",
+      "status": "example",
+      "exampleIds": [
+        "aux-mahoshi-004"
+      ]
+    },
+    {
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "まほし",
+      "status": "example",
+      "exampleIds": [
+        "aux-mahoshi-005"
+      ]
+    },
+    {
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "まほしき",
+      "status": "example",
+      "exampleIds": [
+        "aux-mahoshi-006"
+      ]
+    },
+    {
+      "itemId": "mahoshi_aux",
+      "track": "sub",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "まほしかる",
+      "status": "example",
+      "exampleIds": [
+        "aux-mahoshi-007"
+      ]
+    },
+    {
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "まほしけれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-mahoshi-008"
+      ]
+    },
+    {
+      "itemId": "ki_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "せ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ki-001"
+      ]
+    },
+    {
+      "itemId": "ki_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "き",
+      "status": "example",
+      "exampleIds": [
+        "aux-ki-002"
+      ]
+    },
+    {
+      "itemId": "ki_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "し",
+      "status": "example",
+      "exampleIds": [
+        "aux-ki-003"
+      ]
+    },
+    {
+      "itemId": "ki_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "しか",
+      "status": "example",
+      "exampleIds": [
+        "aux-ki-004"
+      ]
+    },
+    {
+      "itemId": "keri",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "けら",
+      "status": "unattested",
+      "exampleIds": [],
+      "note": "「けら」の実例は収集資料に見当たらない（CHJ 収集範囲で0件）"
+    },
+    {
+      "itemId": "keri",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "けり",
+      "status": "example",
+      "exampleIds": [
+        "aux-keri-001"
+      ]
+    },
+    {
+      "itemId": "keri",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "ける",
+      "status": "example",
+      "exampleIds": [
+        "aux-keri-002"
+      ]
+    },
+    {
+      "itemId": "keri",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "けれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-keri-003"
+      ]
+    },
+    {
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "て",
+      "status": "example",
+      "exampleIds": [
+        "aux-tsu-001"
+      ]
+    },
+    {
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "て",
+      "status": "example",
+      "exampleIds": [
+        "aux-tsu-002"
+      ]
+    },
+    {
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "つ",
+      "status": "example",
+      "exampleIds": [
+        "aux-tsu-003"
+      ]
+    },
+    {
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "つる",
+      "status": "example",
+      "exampleIds": [
+        "aux-tsu-004"
+      ]
+    },
+    {
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "つれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-tsu-005"
+      ]
+    },
+    {
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "てよ",
+      "status": "example",
+      "exampleIds": [
+        "aux-tsu-006"
+      ]
+    },
+    {
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "な",
+      "status": "example",
+      "exampleIds": [
+        "aux-nu-001"
+      ]
+    },
+    {
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "に",
+      "status": "example",
+      "exampleIds": [
+        "aux-nu-002"
+      ]
+    },
+    {
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "ぬ",
+      "status": "example",
+      "exampleIds": [
+        "aux-nu-003"
+      ]
+    },
+    {
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "ぬる",
+      "status": "example",
+      "exampleIds": [
+        "aux-nu-004"
+      ]
+    },
+    {
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "ぬれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-nu-005"
+      ]
+    },
+    {
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "ね",
+      "status": "example",
+      "exampleIds": [
+        "aux-nu-006"
+      ]
+    },
+    {
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "たら",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-comp-001"
+      ]
+    },
+    {
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "たり",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-comp-002"
+      ]
+    },
+    {
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "たり",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-comp-003"
+      ]
+    },
+    {
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "たる",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-comp-004"
+      ]
+    },
+    {
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "たれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-comp-005"
+      ]
+    },
+    {
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "たれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-comp-006"
+      ]
+    },
+    {
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "ら",
+      "status": "example",
+      "exampleIds": [
+        "aux-ri-001"
+      ]
+    },
+    {
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "り",
+      "status": "example",
+      "exampleIds": [
+        "aux-ri-002"
+      ]
+    },
+    {
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "り",
+      "status": "example",
+      "exampleIds": [
+        "aux-ri-003"
+      ]
+    },
+    {
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "る",
+      "status": "example",
+      "exampleIds": [
+        "aux-ri-004"
+      ]
+    },
+    {
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "れ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ri-005"
+      ]
+    },
+    {
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "れ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ri-006"
+      ]
+    },
+    {
+      "itemId": "kemu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "けむ",
+      "status": "example",
+      "exampleIds": [
+        "aux-kemu-001"
+      ]
+    },
+    {
+      "itemId": "kemu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "けむ",
+      "status": "example",
+      "exampleIds": [
+        "aux-kemu-002"
+      ]
+    },
+    {
+      "itemId": "kemu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "けめ",
+      "status": "example",
+      "exampleIds": [
+        "aux-kemu-003"
+      ]
+    },
+    {
+      "itemId": "ramu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "らむ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ramu-001"
+      ]
+    },
+    {
+      "itemId": "ramu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "らむ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ramu-002"
+      ]
+    },
+    {
+      "itemId": "ramu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "らめ",
+      "status": "example",
+      "exampleIds": [
+        "aux-ramu-003"
+      ]
+    },
+    {
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "べく",
+      "status": "example",
+      "exampleIds": [
+        "aux-beshi-001"
+      ]
+    },
+    {
+      "itemId": "beshi_aux",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "べから",
+      "status": "example",
+      "exampleIds": [
+        "aux-beshi-002"
+      ]
+    },
+    {
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "べく",
+      "status": "example",
+      "exampleIds": [
+        "aux-beshi-003"
+      ]
+    },
+    {
+      "itemId": "beshi_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "べかり",
+      "status": "example",
+      "exampleIds": [
+        "aux-beshi-004"
+      ]
+    },
+    {
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "べし",
+      "status": "example",
+      "exampleIds": [
+        "aux-beshi-005"
+      ]
+    },
+    {
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "べき",
+      "status": "example",
+      "exampleIds": [
+        "aux-beshi-006"
+      ]
+    },
+    {
+      "itemId": "beshi_aux",
+      "track": "sub",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "べかる",
+      "status": "example",
+      "exampleIds": [
+        "aux-beshi-007"
+      ]
+    },
+    {
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "べけれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-beshi-008"
+      ]
+    },
+    {
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "まじく",
+      "status": "example",
+      "exampleIds": [
+        "aux-maji-001"
+      ]
+    },
+    {
+      "itemId": "maji_aux",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "まじから",
+      "status": "example",
+      "exampleIds": [
+        "aux-maji-002"
+      ]
+    },
+    {
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "まじく",
+      "status": "example",
+      "exampleIds": [
+        "aux-maji-003"
+      ]
+    },
+    {
+      "itemId": "maji_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "まじかり",
+      "status": "example",
+      "exampleIds": [
+        "aux-maji-004"
+      ]
+    },
+    {
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "まじ",
+      "status": "example",
+      "exampleIds": [
+        "aux-maji-005"
+      ]
+    },
+    {
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "まじき",
+      "status": "example",
+      "exampleIds": [
+        "aux-maji-006"
+      ]
+    },
+    {
+      "itemId": "maji_aux",
+      "track": "sub",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "まじかる",
+      "status": "example",
+      "exampleIds": [
+        "aux-maji-007"
+      ]
+    },
+    {
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "まじけれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-maji-008"
+      ]
+    },
+    {
+      "itemId": "rashi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "らし",
+      "status": "example",
+      "exampleIds": [
+        "aux-rashi-001"
+      ]
+    },
+    {
+      "itemId": "rashi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "らし",
+      "status": "example",
+      "exampleIds": [
+        "aux-rashi-002"
+      ]
+    },
+    {
+      "itemId": "rashi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "らし",
+      "status": "example",
+      "exampleIds": [
+        "aux-rashi-003"
+      ]
+    },
+    {
+      "itemId": "meri_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "めり",
+      "status": "example",
+      "exampleIds": [
+        "aux-meri-001"
+      ]
+    },
+    {
+      "itemId": "meri_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "めり",
+      "status": "example",
+      "exampleIds": [
+        "aux-meri-002"
+      ]
+    },
+    {
+      "itemId": "meri_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "める",
+      "status": "example",
+      "exampleIds": [
+        "aux-meri-003"
+      ]
+    },
+    {
+      "itemId": "meri_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "めれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-meri-004"
+      ]
+    },
+    {
+      "itemId": "nari_hearsay_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "なり",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-hearsay-001"
+      ]
+    },
+    {
+      "itemId": "nari_hearsay_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "なり",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-hearsay-002"
+      ]
+    },
+    {
+      "itemId": "nari_hearsay_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "なる",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-hearsay-003"
+      ]
+    },
+    {
+      "itemId": "nari_hearsay_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "なれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-hearsay-004"
+      ]
+    },
+    {
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "なら",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-assert-001"
+      ]
+    },
+    {
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "なり",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-assert-002"
+      ]
+    },
+    {
+      "itemId": "nari_assert_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "に",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-assert-003"
+      ]
+    },
+    {
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "なり",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-assert-004"
+      ]
+    },
+    {
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "なる",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-assert-005"
+      ]
+    },
+    {
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "なれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-nari-assert-006"
+      ]
+    },
+    {
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "なれ",
+      "status": "unattested",
+      "exampleIds": [],
+      "note": "断定「なり」の命令形の実例は収集資料に見当たらない"
+    },
+    {
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "たら",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-assert-001"
+      ]
+    },
+    {
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "たり",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-assert-002"
+      ]
+    },
+    {
+      "itemId": "tari_assert_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "と",
+      "status": "unattested",
+      "exampleIds": [],
+      "note": "例文を立てない（2026-09-28 監査）。「と」は主に「として」の形で現れ、格助詞とみる説もあるため（精選版日本国語大辞典・デジタル大辞泉は両説併記）。連用形は「たり」の例文（神竜たりき）で示す",
+      "retiredExampleId": "aux-tari-assert-003"
+    },
+    {
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "たり",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-assert-004"
+      ]
+    },
+    {
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "たる",
+      "status": "example",
+      "exampleIds": [
+        "aux-tari-assert-005"
+      ]
+    },
+    {
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "たれ",
+      "status": "unattested",
+      "exampleIds": [],
+      "note": "断定「たり」の已然形の実例は収集資料に見当たらない"
+    },
+    {
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "surface": "たれ",
+      "status": "unattested",
+      "exampleIds": [],
+      "note": "断定「たり」の命令形の実例は収集資料に見当たらない"
+    },
+    {
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "たく",
+      "status": "example",
+      "exampleIds": [
+        "aux-tashi-001"
+      ]
+    },
+    {
+      "itemId": "tashi_aux",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "surface": "たから",
+      "status": "example",
+      "exampleIds": [
+        "aux-tashi-002"
+      ]
+    },
+    {
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "たく",
+      "status": "example",
+      "exampleIds": [
+        "aux-tashi-003"
+      ]
+    },
+    {
+      "itemId": "tashi_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "たかり",
+      "status": "example",
+      "exampleIds": [
+        "aux-tashi-004"
+      ]
+    },
+    {
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "たし",
+      "status": "example",
+      "exampleIds": [
+        "aux-tashi-005"
+      ]
+    },
+    {
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "たき",
+      "status": "example",
+      "exampleIds": [
+        "aux-tashi-006"
+      ]
+    },
+    {
+      "itemId": "tashi_aux",
+      "track": "sub",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "たかる",
+      "status": "unattested",
+      "exampleIds": [],
+      "note": "CHJ 全1,277件で0件。外部調査でも確実な実例なし（HANDOFF §5）"
+    },
+    {
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "surface": "たけれ",
+      "status": "example",
+      "exampleIds": [
+        "aux-tashi-007"
+      ]
+    },
+    {
+      "itemId": "gotoshi_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "surface": "ごとく",
+      "status": "example",
+      "exampleIds": [
+        "aux-gotoshi-001"
+      ]
+    },
+    {
+      "itemId": "gotoshi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "surface": "ごとし",
+      "status": "example",
+      "exampleIds": [
+        "aux-gotoshi-002"
+      ]
+    },
+    {
+      "itemId": "gotoshi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "surface": "ごとき",
+      "status": "example",
+      "exampleIds": [
+        "aux-gotoshi-003"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "id": "aux-ru-001",
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "れ",
+      "target": "れ",
+      "occurrence": 0,
+      "example": "ながらへばまたこのごろやしのばれむ憂しと見し世ぞ今は恋しき",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 84,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#ru_aux"
+      }
+    },
+    {
+      "id": "aux-ru-002",
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "れ",
+      "target": "れ",
+      "occurrence": 0,
+      "example": "家はこぼたれて淀河に浮び、地は目のまへに畠となる。",
+      "work": "方丈記",
+      "source": "方丈記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-方丈1212_00004",
+        "start": 3060,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-198"
+      }
+    },
+    {
+      "id": "aux-ru-003",
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "る",
+      "target": "る",
+      "occurrence": 1,
+      "example": "冬はいかなる所にも住まる。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01055",
+        "start": 280,
+        "volume": "第五五段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ru-004",
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "るる",
+      "target": "るる",
+      "occurrence": 0,
+      "example": "また、姑に思はるる嫁の君。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00072",
+        "start": 240,
+        "volume": "ありがたきもの",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ru-005",
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "るれ",
+      "target": "るれ",
+      "occurrence": 0,
+      "example": "大方は、家居にこそ、ことざまはおしはからるれ。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01010",
+        "start": 3040,
+        "volume": "第一〇段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ru-006",
+      "itemId": "ru_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "れよ",
+      "target": "れよ",
+      "occurrence": 0,
+      "example": "何事ぞ、ことの子細を申されよ」",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_04005",
+        "start": 11970,
+        "volume": "信連",
+        "part": "巻四"
+      }
+    },
+    {
+      "id": "aux-raru-001",
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "られ",
+      "target": "られ",
+      "occurrence": 0,
+      "example": "変りゆくかたちありさま、目もあてられぬこと多かり",
+      "work": "方丈記",
+      "source": "方丈記",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#raru_aux"
+      }
+    },
+    {
+      "id": "aux-raru-002",
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "られ",
+      "target": "られ",
+      "occurrence": 0,
+      "example": "…いひて、局の前を過ぎられけるを、御簾よりなからばかり出でて、わづかに直衣の袖をひかへて、",
+      "work": "十訓抄",
+      "source": "十訓抄",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-十訓1252_03001",
+        "start": 1400,
+        "volume": "第三・一",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-raru-003",
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "らる",
+      "target": "らる",
+      "occurrence": 0,
+      "example": "灯影に見し顔思し出でらる。",
+      "work": "源氏物語",
+      "source": "源氏物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-源氏1010_00004",
+        "start": 209070,
+        "volume": "夕顔",
+        "part": "夕顔"
+      }
+    },
+    {
+      "id": "aux-raru-004",
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "らるる",
+      "target": "らるる",
+      "occurrence": 0,
+      "example": "舅にほめらるる婿。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00072",
+        "start": 120,
+        "volume": "ありがたきもの",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-raru-005",
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "らるれ",
+      "target": "らるれ",
+      "occurrence": 0,
+      "example": "さやうの所にてこそ、万に心づかひせらるれ。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01015",
+        "start": 1290,
+        "volume": "第一五段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-raru-006",
+      "itemId": "raru_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "られよ",
+      "target": "られよ",
+      "occurrence": 0,
+      "example": "…「験あらん僧達、祈り試みられよ」など言ひしろひて、埋みつる木のもとに向きて、数珠おしすり…",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01054",
+        "start": 2250,
+        "volume": "第五四段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-su-001",
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "せ",
+      "target": "せ",
+      "occurrence": 0,
+      "example": "子孫あらせじと思ふなり」と侍りけるとかや。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01006",
+        "start": 1650,
+        "volume": "第六段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-su-002",
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "せ",
+      "target": "せ",
+      "occurrence": 1,
+      "example": "例の声出ださせて、随身に歌はせ給ふ",
+      "work": "堤中納言物語",
+      "source": "堤中納言物語・貝合",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#su_aux"
+      }
+    },
+    {
+      "id": "aux-su-003",
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "す",
+      "target": "す",
+      "occurrence": 0,
+      "example": "妻の嫗にあづけてやしなはす。",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-竹取0900_00001",
+        "start": 2170,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-205"
+      }
+    },
+    {
+      "id": "aux-su-004",
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "する",
+      "target": "する",
+      "occurrence": 0,
+      "example": "人に食はする事なし。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01060",
+        "start": 1510,
+        "volume": "第六〇段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-su-005",
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "すれ",
+      "target": "すれ",
+      "occurrence": 0,
+      "example": "いつのまに何事のあるぞ」と問はすれば、主殿司なりけり。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00078",
+        "start": 4350,
+        "volume": "頭中将のすずろなるそら言を聞きて",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-su-006",
+      "itemId": "su_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "せよ",
+      "target": "せよ",
+      "occurrence": 0,
+      "example": "馬に鞍おかせよ。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_02006",
+        "start": 7150,
+        "volume": "教訓状",
+        "part": "巻二"
+      }
+    },
+    {
+      "id": "aux-sasu-001",
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "させ",
+      "target": "させ",
+      "occurrence": 0,
+      "example": "今はいかで、この若き人々おとなびさせむと思ふよりほかのことなきに、かへる年の四月に上り来て…",
+      "work": "更級日記",
+      "source": "更級日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-更級1059_00005",
+        "start": 6740,
+        "volume": "晩年の記",
+        "part": "",
+        "collectedId": "aux-208"
+      }
+    },
+    {
+      "id": "aux-sasu-002",
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "させ",
+      "target": "させ",
+      "occurrence": 0,
+      "example": "これはいさめる馬なりとて、鞍を置きかへさせけり",
+      "work": "徒然草",
+      "source": "徒然草・一八五",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#sasu_aux"
+      }
+    },
+    {
+      "id": "aux-sasu-003",
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "さす",
+      "target": "さす",
+      "occurrence": 0,
+      "example": "かの贈物御覧ぜさす。",
+      "work": "源氏物語",
+      "source": "源氏物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-源氏1010_00001",
+        "start": 61890,
+        "volume": "桐壺",
+        "part": "桐壺"
+      }
+    },
+    {
+      "id": "aux-sasu-004",
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "さする",
+      "target": "さする",
+      "occurrence": 0,
+      "example": "法師どもを帰して求めさするに、「同じさまなる大衆多くて、え求め逢はず」と言ひて…",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01238",
+        "start": 12100,
+        "volume": "第二三八段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-sasu-005",
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "さすれ",
+      "target": "さすれ",
+      "occurrence": 0,
+      "example": "源氏卅騎を出いて射さすれば、平家卅騎を出いて卅の鏑を射かへす。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_07006",
+        "start": 1300,
+        "volume": "倶梨迦羅落",
+        "part": "巻七"
+      }
+    },
+    {
+      "id": "aux-sasu-006",
+      "itemId": "sasu_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "させよ",
+      "target": "させよ",
+      "occurrence": 0,
+      "example": "人にさとは知らせで我に得させよ。",
+      "work": "源氏物語",
+      "source": "源氏物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-源氏1010_00004",
+        "start": 192520,
+        "volume": "夕顔",
+        "part": "夕顔"
+      }
+    },
+    {
+      "id": "aux-shimu-001",
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "しめ",
+      "target": "しめ",
+      "occurrence": 0,
+      "example": "芸はこれつたなけれども、人の耳をよろこばしめむとにはあらず。",
+      "work": "方丈記",
+      "source": "方丈記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-方丈1212_00010",
+        "start": 6830,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-shimu-002",
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "しめ",
+      "target": "しめ",
+      "occurrence": 0,
+      "example": "まことに出家せしめ奉りてしに侍る",
+      "work": "源氏物語",
+      "source": "源氏物語・夢浮橋",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#shimu_aux"
+      }
+    },
+    {
+      "id": "aux-shimu-003",
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "しむ",
+      "target": "しむ",
+      "occurrence": 0,
+      "example": "…ふるき人々心ぼそくおぼえて、めでたきいはひのなかに、涙をながし心をいたましむ。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_04001",
+        "start": 7170,
+        "volume": "厳島御幸",
+        "part": "巻四"
+      }
+    },
+    {
+      "id": "aux-shimu-004",
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "しむる",
+      "target": "しむる",
+      "occurrence": 0,
+      "example": "生を苦しめて目を喜ばしむるは、桀・紂が心なり。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01121",
+        "start": 2210,
+        "volume": "第一二一段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-shimu-005",
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "しむれ",
+      "target": "しむれ",
+      "occurrence": 0,
+      "example": "…口をして鼻の如くせしむれば、身の終るまで事勿し",
+      "work": "十訓抄",
+      "source": "十訓抄",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-十訓1252_04001",
+        "start": 2810,
+        "volume": "第四・一",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-shimu-006",
+      "itemId": "shimu_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "しめよ",
+      "target": "しめよ",
+      "occurrence": 0,
+      "example": "「いで其の子返し得しめよ」と云なり。",
+      "work": "今昔物語集",
+      "source": "今昔物語集",
+      "poem": null,
+      "origin": "public-text",
+      "provenance": {
+        "volume": "巻第二十七・第四十三",
+        "chj": "30-今昔1100_27043,9540（CHJ原文「返シ令得ヨ」）"
+      },
+      "publicSource": {
+        "sourceLabel": "『今昔物語集』巻27第43話・やたがらすナビ",
+        "sourceUrl": "https://yatanavi.org/text/k_konjaku/k_konjaku27-43",
+        "sourceLicense": "CC BY-SA 4.0"
+      }
+    },
+    {
+      "id": "aux-zu-001",
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "ず",
+      "target": "ず",
+      "occurrence": 0,
+      "example": "いかばかり人のつらさをうらみましうき身のとがと思ひなさずは",
+      "work": "詞花和歌集",
+      "source": "詞花和歌集",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20W詞花1151_07007",
+        "start": 5000,
+        "volume": "恋上",
+        "part": "",
+        "poemNumber": "198",
+        "collectedId": "aux-001",
+        "sourceOrthography": {
+          "example": "いかはかり人のつらさをうらみましうき身のとかと思ひなさすは",
+          "target": "す"
+        }
+      },
+      "orthography": "濁点・読点を補った校訂表記（濁点補正（target す→ず））"
+    },
+    {
+      "id": "aux-zu-002",
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "ざら",
+      "target": "ざら",
+      "occurrence": 0,
+      "example": "咲かざらむものとはなしに桜花おもかげにのみまだき立つらむ",
+      "work": "十訓抄",
+      "source": "十訓抄",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-十訓1252_01010",
+        "start": 2060,
+        "volume": "第一・十",
+        "part": "",
+        "collectedId": "aux-030"
+      }
+    },
+    {
+      "id": "aux-zu-003",
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "ず",
+      "target": "ず",
+      "occurrence": 0,
+      "example": "空薫きなどするさまも、なべてならずことごとしきさまなり。",
+      "work": "とはずがたり",
+      "source": "とはずがたり",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-とは1306_01001",
+        "start": 13290,
+        "volume": "巻一",
+        "part": "",
+        "collectedId": "aux-005"
+      }
+    },
+    {
+      "id": "aux-zu-004",
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "ざり",
+      "target": "ざり",
+      "occurrence": 0,
+      "example": "夏衣花のたもとにぬぎかへて春のかた見もとまらざりけり",
+      "work": "千載和歌集",
+      "source": "千載和歌集",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20W千載1188_03004",
+        "start": 520,
+        "volume": "夏歌",
+        "part": "",
+        "poemNumber": "136",
+        "collectedId": "aux-033",
+        "sourceOrthography": {
+          "example": "夏衣花のたもとにぬきかへて春のかた見もとまらさりけり",
+          "target": "さり"
+        }
+      },
+      "orthography": "濁点・読点を補った校訂表記（濁点補正（target さり→ざり））"
+    },
+    {
+      "id": "aux-zu-005",
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "ず",
+      "target": "ず",
+      "occurrence": 0,
+      "example": "この歌おぼえず。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00095",
+        "start": 21590,
+        "volume": "五月の御精進のほど",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-zu-006",
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "ぬ",
+      "target": "ぬ",
+      "occurrence": 0,
+      "example": "わが袖は潮干にみえぬ沖の石の人こそしらねかわくまもなし",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 92,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#zu"
+      }
+    },
+    {
+      "id": "aux-zu-007",
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "ざる",
+      "target": "ざる",
+      "occurrence": 0,
+      "example": "世の中にそら物語多かれば、まことともや思はざるらむ。",
+      "work": "堤中納言物語",
+      "source": "堤中納言物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-堤中1055_00001",
+        "start": 251520,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-047"
+      }
+    },
+    {
+      "id": "aux-zu-008",
+      "itemId": "zu",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "ね",
+      "target": "ね",
+      "occurrence": 0,
+      "example": "帝も殊なる御咎もわたらせたまはねども、御位を下し進らせたまひけり。",
+      "work": "保元物語",
+      "source": "保元物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-保元1223_01001",
+        "start": 5640,
+        "volume": "後白河院御即位の事",
+        "part": "上",
+        "collectedId": "aux-017"
+      }
+    },
+    {
+      "id": "aux-zu-009",
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "ざれ",
+      "target": "ざれ",
+      "occurrence": 0,
+      "example": "外相もし背かざれば、内証必ず熟す。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01157",
+        "start": 2610,
+        "volume": "第一五七段",
+        "part": "",
+        "collectedId": "aux-059"
+      }
+    },
+    {
+      "id": "aux-zu-010",
+      "itemId": "zu",
+      "track": "sub",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "ざれ",
+      "target": "ざれ",
+      "occurrence": 0,
+      "example": "刑の疑はしきは行はざれ。",
+      "work": "十訓抄",
+      "source": "十訓抄",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-十訓1252_10078",
+        "start": 3390,
+        "volume": "第十・七十八",
+        "part": "",
+        "collectedId": "aux-066"
+      }
+    },
+    {
+      "id": "aux-mu-001",
+      "itemId": "mu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "む",
+      "target": "む",
+      "occurrence": 0,
+      "example": "いとはつらく見ゆれど、志はせむとす。",
+      "work": "土佐日記",
+      "source": "土佐日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-土佐0934_00001",
+        "start": 118310,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-182"
+      }
+    },
+    {
+      "id": "aux-mu-002",
+      "itemId": "mu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "む",
+      "target": "む",
+      "occurrence": 0,
+      "example": "あしびきの山鳥の尾のしだり尾のながながし夜をひとりかも寝む",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 3,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#mu_aux"
+      }
+    },
+    {
+      "id": "aux-mu-003",
+      "itemId": "mu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "め",
+      "target": "め",
+      "occurrence": 0,
+      "example": "春鳴くゆゑこそはあらめ。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00039",
+        "start": 5780,
+        "volume": "鳥は",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-muzu-001",
+      "itemId": "muzu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "むず",
+      "target": "むず",
+      "occurrence": 0,
+      "example": "…「もはら、さやうの宮仕へつかまつらじと思ふを、しひて仕うまつらせたまはば、消え失せなむず。",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-竹取0900_00001",
+        "start": 137290,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-muzu-002",
+      "itemId": "muzu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "むずる",
+      "target": "むずる",
+      "occurrence": 0,
+      "example": "そこに建てむずるぞ",
+      "work": "大鏡",
+      "source": "大鏡・道長上",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#muzu_aux"
+      }
+    },
+    {
+      "id": "aux-muzu-003",
+      "itemId": "muzu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "むずれ",
+      "target": "んずれ",
+      "occurrence": 0,
+      "example": "「ここで鳥ないては、六波羅は白昼にこそ寄せんずれ。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_04010",
+        "start": 5930,
+        "volume": "大衆揃",
+        "part": "巻四"
+      }
+    },
+    {
+      "id": "aux-ji-001",
+      "itemId": "ji_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "じ",
+      "target": "じ",
+      "occurrence": 0,
+      "example": "勝たんと打つべからず。負けじと打つべきなり",
+      "work": "徒然草",
+      "source": "徒然草・一一〇",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#ji_aux"
+      }
+    },
+    {
+      "id": "aux-ji-002",
+      "itemId": "ji_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "じ",
+      "target": "じ",
+      "occurrence": 0,
+      "example": "負けじ心にて、また、…",
+      "work": "蜻蛉日記",
+      "source": "蜻蛉日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-蜻蛉0974_00001",
+        "start": 65750,
+        "volume": "上",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-mashi-001",
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "ましか",
+      "target": "ましか",
+      "occurrence": 0,
+      "example": "鏡に色・かたちあらましかば、うつらざらまし。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01235",
+        "start": 1350,
+        "volume": "第二三五段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-mashi-002",
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "ませ",
+      "target": "ませ",
+      "occurrence": 0,
+      "example": "うちわびておち穂ひろふと聞かませばわれも田づらにゆかましものを",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 107290,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-mashi-003",
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "まし",
+      "target": "まし",
+      "occurrence": 0,
+      "example": "逢ふことの絶えてしなくはなかなかに人をも身をも恨みざらまし",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 44,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#mashi_aux"
+      }
+    },
+    {
+      "id": "aux-mashi-004",
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "まし",
+      "target": "まし",
+      "occurrence": 0,
+      "example": "もみぢはのながれざりせば立田川水の秋をばたれかしらまし",
+      "work": "古今和歌集",
+      "source": "古今和歌集",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20W古今0905_05006",
+        "start": 23330,
+        "volume": "秋歌下",
+        "part": "",
+        "poemNumber": "302",
+        "collectedId": "aux-193",
+        "sourceOrthography": {
+          "example": "もみちはのなかれさりせは立田川水の秋をはたれかしらまし",
+          "target": "まし"
+        }
+      },
+      "orthography": "濁点・読点を補った校訂表記（濁点補正）"
+    },
+    {
+      "id": "aux-mashi-005",
+      "itemId": "mashi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "ましか",
+      "target": "ましか",
+      "occurrence": 0,
+      "example": "その聞きつらむ所にて、きとこそはよまましか。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00095",
+        "start": 20470,
+        "volume": "五月の御精進のほど",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-mahoshi-001",
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "まほしく",
+      "target": "まほしく",
+      "occurrence": 0,
+      "example": "…期もなくはべるを、もしまことに聞こし召しはてまほしくは、駄一疋をたまはせよ。",
+      "work": "大鏡",
+      "source": "大鏡",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-大鏡1100_02011",
+        "start": 132870,
+        "volume": "人　雑々物語",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-mahoshi-002",
+      "itemId": "mahoshi_aux",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "まほしから",
+      "target": "まほしから",
+      "occurrence": 0,
+      "example": "されば、一生のうち、むねとあらまほしからん事の中に、いづれかまさるとよく思ひくらべて…",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01188",
+        "start": 4810,
+        "volume": "第一八八段",
+        "part": "",
+        "collectedId": "aux-160"
+      }
+    },
+    {
+      "id": "aux-mahoshi-003",
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "まほしく",
+      "target": "まほしく",
+      "occurrence": 0,
+      "example": "…しに、着るべき物、常よりも心とどめたる色あひ、しざまいとあらまほしくて…",
+      "work": "源氏物語",
+      "source": "源氏物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-源氏1010_00002",
+        "start": 84620,
+        "volume": "帚木",
+        "part": "帚木",
+        "collectedId": "aux-146"
+      }
+    },
+    {
+      "id": "aux-mahoshi-004",
+      "itemId": "mahoshi_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "まほしかり",
+      "target": "まほしかり",
+      "occurrence": 0,
+      "example": "「ここにあり」とて、さし出でまほしかりしか。",
+      "work": "大鏡",
+      "source": "大鏡",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-大鏡1100_02010",
+        "start": 118880,
+        "volume": "人　藤原氏物語",
+        "part": "",
+        "collectedId": "aux-162"
+      }
+    },
+    {
+      "id": "aux-mahoshi-005",
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "まほし",
+      "target": "まほし",
+      "occurrence": 0,
+      "example": "人の子生みたるに、男女とく聞かまほし。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00153",
+        "start": 440,
+        "volume": "とくゆかしきもの",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-mahoshi-006",
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "まほしき",
+      "target": "まほしき",
+      "occurrence": 0,
+      "example": "心から下り立つ田子のあま衣干さぬ恨みも人にかこつな　とぞ言はまほしき。",
+      "work": "十六夜日記",
+      "source": "十六夜日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-十六1280_00004",
+        "start": 13800,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-151"
+      }
+    },
+    {
+      "id": "aux-mahoshi-007",
+      "itemId": "mahoshi_aux",
+      "track": "sub",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "まほしかる",
+      "target": "まほしかる",
+      "occurrence": 0,
+      "example": "人は、かたち・ありさまのすぐれたらんこそ、あらまほしかるべけれ。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01001",
+        "start": 3580,
+        "volume": "第一段",
+        "part": "",
+        "collectedId": "aux-165"
+      }
+    },
+    {
+      "id": "aux-mahoshi-008",
+      "itemId": "mahoshi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "まほしけれ",
+      "target": "まほしけれ",
+      "occurrence": 0,
+      "example": "あはぬまでも、見に行かまほしけれど",
+      "work": "宇治拾遺物語",
+      "source": "宇治拾遺物語・六",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#mahoshi_aux"
+      }
+    },
+    {
+      "id": "aux-ki-001",
+      "itemId": "ki_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "せ",
+      "target": "せ",
+      "occurrence": 0,
+      "example": "世の中にたえてさくらのなかりせば春の心はのどけからまし",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 165600,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ki-002",
+      "itemId": "ki_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "き",
+      "target": "き",
+      "occurrence": 0,
+      "example": "ほとりに松もありき。",
+      "work": "土佐日記",
+      "source": "土佐日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-土佐0934_00001",
+        "start": 118640,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ki-003",
+      "itemId": "ki_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "し",
+      "target": "し",
+      "occurrence": 0,
+      "example": "天の原ふりさけ見れば春日なる三笠の山にいでし月かも",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 7,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#ki_aux"
+      }
+    },
+    {
+      "id": "aux-ki-004",
+      "itemId": "ki_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "しか",
+      "target": "しか",
+      "occurrence": 0,
+      "example": "昨日こそ年はくれしか春がすみかすがの山にはや立にけり",
+      "work": "拾遺和歌集",
+      "source": "拾遺和歌集",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20W拾遺1005_01001",
+        "start": 1060,
+        "volume": "春",
+        "part": "",
+        "poemNumber": "3",
+        "collectedId": "aux-215",
+        "sourceOrthography": {
+          "example": "昨日こそ年はくれしか春かすみかすかの山にはや立にけり",
+          "target": "しか"
+        }
+      },
+      "orthography": "濁点・読点を補った校訂表記（濁点補正）"
+    },
+    {
+      "id": "aux-keri-001",
+      "itemId": "keri",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "けり",
+      "target": "けり",
+      "occurrence": 0,
+      "example": "あらしふくみ室の山のもみぢ葉は竜田の川の錦なりけり",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 69,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#keri"
+      }
+    },
+    {
+      "id": "aux-keri-002",
+      "itemId": "keri",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "ける",
+      "target": "ける",
+      "occurrence": 0,
+      "example": "などおぼえしは、我も通ふ心の出で来けるにや。",
+      "work": "とはずがたり",
+      "source": "とはずがたり",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-とは1306_03003",
+        "start": 14580,
+        "volume": "巻三",
+        "part": "",
+        "collectedId": "aux-218"
+      }
+    },
+    {
+      "id": "aux-keri-003",
+      "itemId": "keri",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "けれ",
+      "target": "けれ",
+      "occurrence": 0,
+      "example": "…男、伊勢の国なりける女、またえあはで、となりの国へいくとて、いみじう恨みければ、女、",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 144650,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-217"
+      }
+    },
+    {
+      "id": "aux-tsu-001",
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "て",
+      "target": "て",
+      "occurrence": 1,
+      "example": "…さいはるる相撲脇を掻きて、「おのれが蹴てんには、いかにも生かじものを。",
+      "work": "宇治拾遺物語",
+      "source": "宇治拾遺物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-宇治1220_02013",
+        "start": 4610,
+        "volume": "巻第二・十三",
+        "part": "",
+        "collectedId": "aux-229"
+      }
+    },
+    {
+      "id": "aux-tsu-002",
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "て",
+      "target": "て",
+      "occurrence": 0,
+      "example": "この男かいまみてけり。",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 630,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-tsu-003",
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "つ",
+      "target": "つ",
+      "occurrence": 1,
+      "example": "なよ竹のかぐや姫とつけつ",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#tsu_aux"
+      }
+    },
+    {
+      "id": "aux-tsu-004",
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "つる",
+      "target": "つる",
+      "occurrence": 0,
+      "example": "誰がしつるぞ。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00260",
+        "start": 20510,
+        "volume": "関白殿、二月二十一日に、法興院の",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-tsu-005",
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "つれ",
+      "target": "つれ",
+      "occurrence": 0,
+      "example": "つひに御車ども立てつづけつれば、副車の奥に押しやられてものも見えず。",
+      "work": "源氏物語",
+      "source": "源氏物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-源氏1010_00009",
+        "start": 21650,
+        "volume": "葵",
+        "part": "葵"
+      }
+    },
+    {
+      "id": "aux-tsu-006",
+      "itemId": "tsu_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "てよ",
+      "target": "てよ",
+      "occurrence": 0,
+      "example": "今はおろしてよ。",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-竹取0900_00001",
+        "start": 119290,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-nu-001",
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "な",
+      "target": "な",
+      "occurrence": 0,
+      "example": "植ゑずともありなん。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01139",
+        "start": 1130,
+        "volume": "第一三九段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-nu-002",
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "に",
+      "target": "に",
+      "occurrence": 1,
+      "example": "思ほえず、ふる里にいとはしたなくてありければ、心地まどひにけり。",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 960,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-234"
+      }
+    },
+    {
+      "id": "aux-nu-003",
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "ぬ",
+      "target": "ぬ",
+      "occurrence": 0,
+      "example": "年ごろよくくらべつる人々なむ、別れがたく思ひて、日しきりにとかくしつつ、ののしるうちに夜更けぬ。",
+      "work": "土佐日記",
+      "source": "土佐日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-土佐0934_00001",
+        "start": 1920,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-236"
+      }
+    },
+    {
+      "id": "aux-nu-004",
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "ぬる",
+      "target": "ぬる",
+      "occurrence": 0,
+      "example": "いにしへの奈良の都の八重桜けふ九重ににほひぬるかな",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 61,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#nu_aux"
+      }
+    },
+    {
+      "id": "aux-nu-005",
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "ぬれ",
+      "target": "ぬれ",
+      "occurrence": 0,
+      "example": "今は和泉の国に来ぬれば、海賊ものならず。",
+      "work": "土佐日記",
+      "source": "土佐日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-土佐0934_00001",
+        "start": 78390,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-nu-006",
+      "itemId": "nu_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "ね",
+      "target": "ね",
+      "occurrence": 0,
+      "example": "元の御かたちとなりたまひね。",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-竹取0900_00001",
+        "start": 145750,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-tari-comp-001",
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "たら",
+      "target": "たら",
+      "occurrence": 0,
+      "example": "ふんやのやすひではことばはたくみにてそのさま身におはず、いはばあき人のよききぬきたらんがごとし、",
+      "work": "古今和歌集",
+      "source": "古今和歌集",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20W古今0905_00001",
+        "start": 34350,
+        "volume": "仮名序",
+        "part": "",
+        "collectedId": "aux-226",
+        "sourceOrthography": {
+          "example": "ふんやのやすひてはことははたくみにてそのさま身におはす、いはゝあき人のよききぬきたらんかことし、",
+          "target": "たら"
+        }
+      },
+      "orthography": "濁点・読点を補った校訂表記（濁点補正）"
+    },
+    {
+      "id": "aux-tari-comp-002",
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "たり",
+      "target": "たり",
+      "occurrence": 0,
+      "example": "朝に死に夕に生るるならひ、ただ水の泡にぞ似たりける。",
+      "work": "方丈記",
+      "source": "方丈記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-方丈1212_00001",
+        "start": 2540,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-235"
+      }
+    },
+    {
+      "id": "aux-tari-comp-003",
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "たり",
+      "target": "たり",
+      "occurrence": 0,
+      "example": "かかるほどに、門を叩きて、「くらもちの皇子おはしたり」と告ぐ。",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-竹取0900_00001",
+        "start": 37230,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-232"
+      }
+    },
+    {
+      "id": "aux-tari-comp-004",
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "たる",
+      "target": "たる",
+      "occurrence": 0,
+      "example": "山川に風のかけたるしがらみは流れもあへぬ紅葉なりけり",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 32,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#tari_comp_aux"
+      }
+    },
+    {
+      "id": "aux-tari-comp-005",
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "たれ",
+      "target": "たれ",
+      "occurrence": 0,
+      "example": "人みなまだ寝たれば、海のありやうも見えず。",
+      "work": "土佐日記",
+      "source": "土佐日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-土佐0934_00001",
+        "start": 37200,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-tari-comp-006",
+      "itemId": "tari_comp_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "たれ",
+      "target": "たれ",
+      "occurrence": 0,
+      "example": "男は何の色の衣をも着たれ。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00264",
+        "start": 500,
+        "volume": "狩衣は",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ri-001",
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "ら",
+      "target": "ら",
+      "occurrence": 0,
+      "example": "舟子、かぢとりは、舟唄うたひて何とも思へらず",
+      "work": "土佐日記",
+      "source": "土佐日記",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#ri_aux"
+      }
+    },
+    {
+      "id": "aux-ri-002",
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "り",
+      "target": "り",
+      "occurrence": 0,
+      "example": "鳥の子を十づつ十はかさぬとも思はぬひとを思ふものかは　といへりければ、",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 99040,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ri-003",
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "り",
+      "target": "り",
+      "occurrence": 0,
+      "example": "なきものならば、使にそへて金をば返したてまつらむ。　といへり。",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-竹取0900_00001",
+        "start": 66770,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ri-004",
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "る",
+      "target": "る",
+      "occurrence": 0,
+      "example": "行く先に立つ白波の声よりもおくれて泣かむわれやまさらむ　とぞよめる。",
+      "work": "土佐日記",
+      "source": "土佐日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-土佐0934_00001",
+        "start": 23100,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ri-005",
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "れ",
+      "target": "れ",
+      "occurrence": 0,
+      "example": "いと思ひのほかなる人のいへれば、人々あやしがる。",
+      "work": "土佐日記",
+      "source": "土佐日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-土佐0934_00001",
+        "start": 97890,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-ri-006",
+      "itemId": "ri_aux",
+      "track": "main",
+      "formIndex": 5,
+      "form": "命令形",
+      "normalizedKey": "れ",
+      "target": "れ",
+      "occurrence": 0,
+      "example": "上らざらん限りはかくて居給へれ。",
+      "work": "宇治拾遺物語",
+      "source": "宇治拾遺物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-宇治1220_07005",
+        "start": 39180,
+        "volume": "巻第七・五",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-kemu-001",
+      "itemId": "kemu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "けむ",
+      "target": "けむ",
+      "occurrence": 0,
+      "example": "かしこ淵は、いかなる底の心を見て、さる名をつけけむと、をかし。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00015",
+        "start": 260,
+        "volume": "淵は",
+        "part": "",
+        "collectedId": "aux-254"
+      }
+    },
+    {
+      "id": "aux-kemu-002",
+      "itemId": "kemu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "けむ",
+      "target": "けむ",
+      "occurrence": 0,
+      "example": "いつか聞きけむ、「くらもちの皇子は優曇華の花持ちて上りたまへり」とののしりけり。",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-竹取0900_00001",
+        "start": 36270,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-253"
+      }
+    },
+    {
+      "id": "aux-kemu-003",
+      "itemId": "kemu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "けめ",
+      "target": "けめ",
+      "occurrence": 0,
+      "example": "この国に跡を垂るべき宿世こそありけめ",
+      "work": "更級日記",
+      "source": "更級日記",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#kemu_aux"
+      }
+    },
+    {
+      "id": "aux-ramu-001",
+      "itemId": "ramu_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "らむ",
+      "target": "らむ",
+      "occurrence": 0,
+      "example": "吹くからに秋の草木のしをるればむべ山風を嵐といふらむ",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 22,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#ramu_aux"
+      }
+    },
+    {
+      "id": "aux-ramu-002",
+      "itemId": "ramu_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "らむ",
+      "target": "らむ",
+      "occurrence": 0,
+      "example": "さやうの方は覚ゆらむものぞ。",
+      "work": "大鏡",
+      "source": "大鏡",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-大鏡1100_02011",
+        "start": 57330,
+        "volume": "人　雑々物語",
+        "part": "",
+        "collectedId": "aux-264"
+      }
+    },
+    {
+      "id": "aux-ramu-003",
+      "itemId": "ramu_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "らめ",
+      "target": "らめ",
+      "occurrence": 0,
+      "example": "「まことにさこそは思ひ給ふらめ。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_11016",
+        "start": 20560,
+        "volume": "副将被斬",
+        "part": "巻十一"
+      }
+    },
+    {
+      "id": "aux-beshi-001",
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "べく",
+      "target": "べく",
+      "occurrence": 0,
+      "example": "ゆくほたる雲の上までいぬべくは秋風吹くと雁につげこせ",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 93510,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-beshi-002",
+      "itemId": "beshi_aux",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "べから",
+      "target": "べから",
+      "occurrence": 0,
+      "example": "一つも欠けてはあるべからず。",
+      "work": "平治物語",
+      "source": "平治物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平治1246_01001",
+        "start": 1360,
+        "volume": "信頼信西不快の事",
+        "part": "上",
+        "collectedId": "aux-099"
+      }
+    },
+    {
+      "id": "aux-beshi-003",
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "べく",
+      "target": "べく",
+      "occurrence": 0,
+      "example": "蔵人などの具にしつべくて。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00015",
+        "start": 770,
+        "volume": "淵は",
+        "part": "",
+        "collectedId": "aux-071"
+      }
+    },
+    {
+      "id": "aux-beshi-004",
+      "itemId": "beshi_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "べかり",
+      "target": "べかり",
+      "occurrence": 0,
+      "example": "恐れのなかに恐るべかりけるはただ地震なりけりとこそ覚え侍りしか。",
+      "work": "方丈記",
+      "source": "方丈記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-方丈1212_00006",
+        "start": 2550,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-105"
+      }
+    },
+    {
+      "id": "aux-beshi-005",
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "べし",
+      "target": "べし",
+      "occurrence": 0,
+      "example": "…いでや、上の品と思ふにだにかたげなる世を、と君は思すべし。",
+      "work": "源氏物語",
+      "source": "源氏物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-源氏1010_00002",
+        "start": 30350,
+        "volume": "帚木",
+        "part": "帚木",
+        "collectedId": "aux-077"
+      }
+    },
+    {
+      "id": "aux-beshi-006",
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "べき",
+      "target": "べき",
+      "occurrence": 0,
+      "example": "難波江の芦のかりねのひとよゆゑみをつくしてや恋ひわたるべき",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 88,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#beshi_aux"
+      }
+    },
+    {
+      "id": "aux-beshi-007",
+      "itemId": "beshi_aux",
+      "track": "sub",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "べかる",
+      "target": "べかる",
+      "occurrence": 0,
+      "example": "何者が信頼を失ふべかるらん」",
+      "work": "平治物語",
+      "source": "平治物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平治1246_01003",
+        "start": 2220,
+        "volume": "三条殿へ発向付けたり信西の宿所焼き払ふ事",
+        "part": "上",
+        "collectedId": "aux-109"
+      }
+    },
+    {
+      "id": "aux-beshi-008",
+      "itemId": "beshi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "べけれ",
+      "target": "べけれ",
+      "occurrence": 0,
+      "example": "この守のいとこにて、ここにおはするこそ、さやうにものしつべけれ」",
+      "work": "落窪物語",
+      "source": "落窪物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-落窪0986_00002",
+        "start": 97380,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-087"
+      }
+    },
+    {
+      "id": "aux-maji-001",
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "まじく",
+      "target": "まじく",
+      "occurrence": 0,
+      "example": "…こと人こそはなるべかなれ」とのたまはせければ、「かの左衛門督まかりなるまじくは、由なし。",
+      "work": "大鏡",
+      "source": "大鏡",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-大鏡1100_02004",
+        "start": 6000,
+        "volume": "地　太政大臣為光　恒徳公",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-maji-002",
+      "itemId": "maji_aux",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "まじから",
+      "target": "まじから",
+      "occurrence": 0,
+      "example": "なかにも、あるまじからむ振舞は、よくよく慎むべし。",
+      "work": "十訓抄",
+      "source": "十訓抄",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-十訓1252_05008",
+        "start": 5410,
+        "volume": "第五・八",
+        "part": "",
+        "collectedId": "aux-137"
+      }
+    },
+    {
+      "id": "aux-maji-003",
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "まじく",
+      "target": "まじく",
+      "occurrence": 0,
+      "example": "さて、御うれへの所は、長く論あるまじく、この人の領にてあるべきよし、仰せ下されにければ…",
+      "work": "大鏡",
+      "source": "大鏡",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-大鏡1100_01026",
+        "start": 99240,
+        "volume": "天　左大臣師尹",
+        "part": "",
+        "collectedId": "aux-117"
+      }
+    },
+    {
+      "id": "aux-maji-004",
+      "itemId": "maji_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "まじかり",
+      "target": "まじかり",
+      "occurrence": 0,
+      "example": "女のえ得まじかりけるを、年を経てよばひわたりけるを、からうじて盗みいでて、いと暗きに来けり。",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 10940,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-141"
+      }
+    },
+    {
+      "id": "aux-maji-005",
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "まじ",
+      "target": "まじ",
+      "occurrence": 0,
+      "example": "唐の物は、薬のほかは、なくとも事欠くまじ",
+      "work": "徒然草",
+      "source": "徒然草・一二〇",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#maji_aux"
+      }
+    },
+    {
+      "id": "aux-maji-006",
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "まじき",
+      "target": "まじき",
+      "occurrence": 0,
+      "example": "あるまじきところへおはするにてもなし」など、さかしだち、すすめたてまつ…",
+      "work": "堤中納言物語",
+      "source": "堤中納言物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-堤中1055_00001",
+        "start": 193420,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-127"
+      }
+    },
+    {
+      "id": "aux-maji-007",
+      "itemId": "maji_aux",
+      "track": "sub",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "まじかる",
+      "target": "まじかん",
+      "occurrence": 0,
+      "example": "凡そ是にも限るまじかんなり。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_03017",
+        "start": 6230,
+        "volume": "行隆之沙汰",
+        "part": "巻三"
+      },
+      "note": "撥音便「まじかん」（まじかる＋なり）。源氏物語・若紫「違ふまじかなるものを」は撥音無表記の同例"
+    },
+    {
+      "id": "aux-maji-008",
+      "itemId": "maji_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "まじけれ",
+      "target": "まじけれ",
+      "occurrence": 0,
+      "example": "なほえこそ思ひ捨つまじけれ』とて、見さわぎて、『これが本つけてやらむ。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00078",
+        "start": 13570,
+        "volume": "頭中将のすずろなるそら言を聞きて",
+        "part": "",
+        "collectedId": "aux-130"
+      }
+    },
+    {
+      "id": "aux-rashi-001",
+      "itemId": "rashi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "らし",
+      "target": "らし",
+      "occurrence": 0,
+      "example": "春すぎて夏来にけらし白妙の衣ほすてふ天の香具山",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 2,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#rashi_aux"
+      }
+    },
+    {
+      "id": "aux-rashi-002",
+      "itemId": "rashi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "らし",
+      "target": "らし",
+      "occurrence": 0,
+      "example": "この川にもみぢばながるおく山の雪げの水ぞいまゝさるらし",
+      "work": "古今和歌集",
+      "source": "古今和歌集",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20W古今0905_06007",
+        "start": 2190,
+        "volume": "冬歌",
+        "part": "",
+        "poemNumber": "321",
+        "sourceOrthography": {
+          "example": "この川にもみちはなかるおく山の雪けの水そいまゝさるらし",
+          "target": "らし"
+        }
+      },
+      "orthography": "濁点・読点を補った校訂表記（濁点補正）"
+    },
+    {
+      "id": "aux-rashi-003",
+      "itemId": "rashi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "らし",
+      "target": "らし",
+      "occurrence": 0,
+      "example": "氷こそいまはすらしもみよしのゝ山のたぎつせ声も聞えず",
+      "work": "後撰和歌集",
+      "source": "後撰和歌集",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20W後撰0955_08008",
+        "start": 12160,
+        "volume": "冬歌",
+        "part": "",
+        "poemNumber": "477",
+        "collectedId": "aux-257",
+        "sourceOrthography": {
+          "example": "氷こそいまはすらしもみよしのゝ山のたきつせ声も聞えす",
+          "target": "らし"
+        }
+      },
+      "orthography": "濁点・読点を補った校訂表記（濁点補正）"
+    },
+    {
+      "id": "aux-meri-001",
+      "itemId": "meri_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "めり",
+      "target": "めり",
+      "occurrence": 0,
+      "example": "…をば、知らざりける」とて、それより後は、局の簾うちかづきなどしたまふめりき。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00047",
+        "start": 17260,
+        "volume": "職の御曹司の西面の立蔀のもとにて",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-meri-002",
+      "itemId": "meri_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "めり",
+      "target": "めり",
+      "occurrence": 0,
+      "example": "契りおきしさせもが露を命にてあはれ今年の秋もいぬめり",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 75,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#meri_aux"
+      }
+    },
+    {
+      "id": "aux-meri-003",
+      "itemId": "meri_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "める",
+      "target": "める",
+      "occurrence": 0,
+      "example": "くらつまろ申すやう、「燕子うまむとする時は、尾を捧げて、七度めぐりてなむうみ落とすめる。",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-竹取0900_00001",
+        "start": 114740,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-275"
+      }
+    },
+    {
+      "id": "aux-meri-004",
+      "itemId": "meri_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "めれ",
+      "target": "めれ",
+      "occurrence": 0,
+      "example": "…遠くて、三位二位のうへの衣染むるをりばかりこそ、葉をだに人の見るめれば、をかしき事…",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00038",
+        "start": 6890,
+        "volume": "花の木ならぬは",
+        "part": "",
+        "collectedId": "aux-276"
+      }
+    },
+    {
+      "id": "aux-nari-hearsay-001",
+      "itemId": "nari_hearsay_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "なり",
+      "target": "なり",
+      "occurrence": 0,
+      "example": "『いとかたくて、おほくなむありつる』などぞ言ふなりしかば、げに二十日も待ちつけてまし。",
+      "work": "枕草子",
+      "source": "枕草子",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-枕草1001_00083",
+        "start": 45860,
+        "volume": "職の御曹司におはしますころ、西の廂に",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-nari-hearsay-002",
+      "itemId": "nari_hearsay_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "なり",
+      "target": "なり",
+      "occurrence": 0,
+      "example": "わが庵は都のたつみしかぞすむ世をうぢ山と人はいふなり",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 8,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#nari_hearsay_aux"
+      }
+    },
+    {
+      "id": "aux-nari-hearsay-003",
+      "itemId": "nari_hearsay_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "なる",
+      "target": "なる",
+      "occurrence": 0,
+      "example": "さてその玉を返して後、唐綾一つをば、唐には美濃五疋が程にぞ用ゐるなる。",
+      "work": "宇治拾遺物語",
+      "source": "宇治拾遺物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-宇治1220_14006",
+        "start": 26500,
+        "volume": "巻第十四・六",
+        "part": "",
+        "collectedId": "aux-280"
+      }
+    },
+    {
+      "id": "aux-nari-hearsay-004",
+      "itemId": "nari_hearsay_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "なれ",
+      "target": "なれ",
+      "occurrence": 0,
+      "example": "…小一条に帰らせたまひにし後、この頃聞けば、心えぬ有様の、ことのほかなるにてこそおはすなれ。",
+      "work": "大鏡",
+      "source": "大鏡",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-大鏡1100_01026",
+        "start": 23700,
+        "volume": "天　左大臣師尹",
+        "part": "",
+        "collectedId": "aux-279"
+      }
+    },
+    {
+      "id": "aux-nari-assert-001",
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "なら",
+      "target": "なら",
+      "occurrence": 0,
+      "example": "男子ならば忠盛が子にして、弓矢とる身にしたてよ」",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_06010",
+        "start": 9460,
+        "volume": "祇園女御",
+        "part": "巻六"
+      }
+    },
+    {
+      "id": "aux-nari-assert-002",
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "なり",
+      "target": "なり",
+      "occurrence": 0,
+      "example": "花さそふ嵐の庭の雪ならでふりゆくものはわが身なりけり",
+      "work": "小倉百人一首",
+      "source": null,
+      "poem": 96,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#nari_assert_aux"
+      }
+    },
+    {
+      "id": "aux-nari-assert-003",
+      "itemId": "nari_assert_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "に",
+      "target": "に",
+      "occurrence": 0,
+      "example": "おのが身は、この国の人にもあらず。",
+      "work": "竹取物語",
+      "source": "竹取物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-竹取0900_00001",
+        "start": 158890,
+        "volume": "",
+        "part": ""
+      },
+      "pattern": {
+        "label": "定型「にあり」",
+        "text": "に（断定「なり」の連用形）＋係助詞（も）＋あり。ここでは「あらず」で「〜でもない」。「にや（あらむ）」「にか（あらむ）」「にこそ（あらめ）」も同じ組み立てで、後ろの「あり」は省かれることが多い。",
+        "short": "「に＋係助詞＋あり」の定型。「にや」「にこそ」なども同じ形で、「あり」はよく省かれる。"
+      }
+    },
+    {
+      "id": "aux-nari-assert-004",
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "なり",
+      "target": "なり",
+      "occurrence": 0,
+      "example": "…男もすなる日記といふものを、女もしてみむとてするなり。",
+      "work": "土佐日記",
+      "source": "土佐日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-土佐0934_00001",
+        "start": 200,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-nari-assert-005",
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "なる",
+      "target": "なる",
+      "occurrence": 0,
+      "example": "駿河なるうつの山辺のうつつにも夢にも人にあはぬなりけり",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 22500,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-nari-assert-006",
+      "itemId": "nari_assert_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "なれ",
+      "target": "なれ",
+      "occurrence": 0,
+      "example": "人の子なれば、まだ心いきほひなかりければ、とどむるいきほひなし。",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 80300,
+        "volume": "",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-tari-assert-001",
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "たら",
+      "target": "たら",
+      "occurrence": 0,
+      "example": "君、君たらずと云ふとも、臣もッて臣たらずンばあるべからず。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_02007",
+        "start": 22710,
+        "volume": "烽火之沙汰",
+        "part": "巻二",
+        "sourceOrthography": {
+          "example": "君君たらずと云ふとも、臣もッて臣たらずンばあるべからず。",
+          "target": "たら"
+        }
+      },
+      "orthography": "濁点・読点を補った校訂表記（読点補正（君、君たらず））"
+    },
+    {
+      "id": "aux-tari-assert-002",
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "たり",
+      "target": "たり",
+      "occurrence": 0,
+      "example": "昨日は雲の上に雨をくだす神竜たりき。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_07015",
+        "start": 3220,
+        "volume": "聖主臨幸",
+        "part": "巻七"
+      },
+      "pattern": {
+        "label": "連用形「と」について",
+        "text": "断定「たり」の連用形には「たり」と「と」がある。「と」は主に「として」の形で現れるが、この「と」は格助詞とみる説もある（精選版日本国語大辞典・デジタル大辞泉は両説を併記）。そのため連用形の例文は「たり」の形で示す。",
+        "short": "連用形には「と」もある（「〜として」）。格助詞とみる説もあるので、例は「たり」で示す。"
+      }
+    },
+    {
+      "id": "aux-tari-assert-004",
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "たり",
+      "target": "たり",
+      "occurrence": 0,
+      "example": "けふは人のうへたりといへども、あすは我が身のうへたるべし",
+      "work": "平治物語",
+      "source": "平治物語・下",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#tari_assert_aux"
+      }
+    },
+    {
+      "id": "aux-tari-assert-005",
+      "itemId": "tari_assert_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "たる",
+      "target": "たる",
+      "occurrence": 0,
+      "example": "清盛嫡男たるによッて其跡をつぐ。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_01003",
+        "start": 3530,
+        "volume": "鱸",
+        "part": "巻一"
+      }
+    },
+    {
+      "id": "aux-tashi-001",
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "たく",
+      "target": "たく",
+      "occurrence": 0,
+      "example": "『八島へかへりたくは、一門の中へいひおくッて、三種の神器を都へ返し入れ奉れ。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_10002",
+        "start": 4520,
+        "volume": "内裏女房",
+        "part": "巻十"
+      }
+    },
+    {
+      "id": "aux-tashi-002",
+      "itemId": "tashi_aux",
+      "track": "sub",
+      "formIndex": 0,
+      "form": "未然形",
+      "normalizedKey": "たから",
+      "target": "たから",
+      "occurrence": 0,
+      "example": "敵にあうてこそ死にたけれ、悪所におちては死にたからず。",
+      "work": "平家物語",
+      "source": "平家物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-平家1250_09009",
+        "start": 10240,
+        "volume": "老馬",
+        "part": "巻九",
+        "collectedId": "aux-286"
+      }
+    },
+    {
+      "id": "aux-tashi-003",
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "たく",
+      "target": "たく",
+      "occurrence": 0,
+      "example": "この返事、いとおとなしければ、心安くあはれなるにも、昔の人に聞かせ奉りたくて、又うちしほたれぬ。",
+      "work": "十六夜日記",
+      "source": "十六夜日記",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-十六1280_00001",
+        "start": 12070,
+        "volume": "",
+        "part": "",
+        "collectedId": "aux-167"
+      }
+    },
+    {
+      "id": "aux-tashi-004",
+      "itemId": "tashi_aux",
+      "track": "sub",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "たかり",
+      "target": "たかり",
+      "occurrence": 0,
+      "example": "近う参って、見参にも入りたかりつれども",
+      "work": "平家物語",
+      "source": "平家物語・一〇",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#tashi_aux"
+      }
+    },
+    {
+      "id": "aux-tashi-005",
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "たし",
+      "target": "たし",
+      "occurrence": 0,
+      "example": "「相撲ハ見たしあひてハなし、",
+      "work": "虎明本狂言集",
+      "source": "虎明本狂言集",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "40-虎明1642_02006",
+        "start": 44480,
+        "volume": "はなとりずもう（鼻取相撲）",
+        "part": "大名狂言類",
+        "collectedId": "aux-290"
+      }
+    },
+    {
+      "id": "aux-tashi-006",
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "たき",
+      "target": "たき",
+      "occurrence": 0,
+      "example": "かくあるべしとだに知りたらば、云ひ置きたき事どももありけるを、父の呼ばせたまふと聞きつる嬉しさに、急ぎ…",
+      "work": "保元物語",
+      "source": "保元物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-保元1223_03001",
+        "start": 43300,
+        "volume": "義朝幼少の弟悉く失はるる事",
+        "part": "下",
+        "collectedId": "aux-172"
+      }
+    },
+    {
+      "id": "aux-tashi-007",
+      "itemId": "tashi_aux",
+      "track": "main",
+      "formIndex": 4,
+      "form": "已然形",
+      "normalizedKey": "たけれ",
+      "target": "たけれ",
+      "occurrence": 0,
+      "example": "…我が前に据ゑぬれば、やがてひとりうち食ひて、帰りたければ、ひとりつい立ちて行きけり。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01060",
+        "start": 5800,
+        "volume": "第六〇段",
+        "part": "",
+        "collectedId": "aux-179"
+      }
+    },
+    {
+      "id": "aux-gotoshi-001",
+      "itemId": "gotoshi_aux",
+      "track": "main",
+      "formIndex": 1,
+      "form": "連用形",
+      "normalizedKey": "ごとく",
+      "target": "ごとく",
+      "occurrence": 0,
+      "example": "君のごとく、神のごとく畏れ尊みて、従へもちゐることなかれ。",
+      "work": "徒然草",
+      "source": "徒然草",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "30-徒然1336_01217",
+        "start": 3220,
+        "volume": "第二一七段",
+        "part": ""
+      }
+    },
+    {
+      "id": "aux-gotoshi-002",
+      "itemId": "gotoshi_aux",
+      "track": "main",
+      "formIndex": 2,
+      "form": "終止形",
+      "normalizedKey": "ごとし",
+      "target": "ごとし",
+      "occurrence": 0,
+      "example": "おごれる人も久しからず、ただ春の夜の夢のごとし",
+      "work": "平家物語",
+      "source": "平家物語・一",
+      "poem": null,
+      "origin": "builtin",
+      "provenance": {
+        "builtinSnapshot": "builtin-items-bdaa05e.json#gotoshi_aux"
+      }
+    },
+    {
+      "id": "aux-gotoshi-003",
+      "itemId": "gotoshi_aux",
+      "track": "main",
+      "formIndex": 3,
+      "form": "連体形",
+      "normalizedKey": "ごとき",
+      "target": "ごとき",
+      "occurrence": 0,
+      "example": "目には見て手にはとられぬ月のうちの桂のごとき君にぞありける",
+      "work": "伊勢物語",
+      "source": "伊勢物語",
+      "poem": null,
+      "origin": "chj",
+      "provenance": {
+        "corpus": "CHJ",
+        "sampleId": "20-伊勢0920_00001",
+        "start": 145810,
+        "volume": "",
+        "part": ""
+      }
+    }
+  ]
+}

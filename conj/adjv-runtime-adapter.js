@@ -307,11 +307,56 @@
     if(!Array.isArray(data?.records)) throw new Error("aux example meanings missing");
     return data.records.filter(r=>r && typeof r.id==="string"
       && Array.isArray(r.exampleMeanings) && r.exampleMeanings.length>0 && r.exampleMeanings.every(m=>typeof m==="string" && m)
+      && (r.altMeanings===undefined || (Array.isArray(r.altMeanings) && r.altMeanings.every(m=>typeof m==="string" && m)))
       && typeof r.target==="string" && Number.isInteger(r.occurrence) && typeof r.status==="string");
+  }
+
+  // 助動詞の用例（aux-examples.json）。活用表のセル（itemId・track・formIndex・normalizedKey）ごとの実例。
+  // 表との照合（normalizedKey がそのセルの語形か）は index.html 側で行う。ここでは記録の形と本文中の target を確かめ、
+  // 通らない記録は使わない（その用例が出ないだけで、活用表の出題は続けられる）。
+  function occurrenceCount(text,target){
+    let n=0,from=0;
+    while(true){ const p=text.indexOf(target,from); if(p<0) break; n++; from=p+target.length; }
+    return n;
+  }
+  function auxExampleProblem(r){
+    if(!r || typeof r.id!=="string" || typeof r.itemId!=="string") return "record without id";
+    if(r.track!=="main" && r.track!=="sub") return "bad track";
+    if(!Number.isInteger(r.formIndex) || r.formIndex<0 || r.formIndex>5) return "bad formIndex";
+    if(typeof r.normalizedKey!=="string" || !r.normalizedKey) return "normalizedKey missing";
+    if(typeof r.example!=="string" || !r.example || typeof r.target!=="string" || !r.target) return "example or target missing";
+    if(!Number.isInteger(r.occurrence) || r.occurrence<0) return "bad occurrence";
+    if(occurrenceCount(r.example,r.target)<=r.occurrence) return "target not in example";
+    if(!r.work) return "work missing";
+    if(r.poem!==null && r.poem!==undefined && !Number.isInteger(r.poem)) return "bad poem";
+    return "";
+  }
+  function validateAuxExamples(data){
+    const errors=[];
+    const records=Array.isArray(data?.records) ? data.records : null;
+    if(!records) return {ok:false,errors:["aux example records missing"],records:[]};
+    const seen=new Set();
+    const ok=[];
+    for(const r of records){
+      const problem=auxExampleProblem(r) || (seen.has(r.id) ? "duplicate id" : "");
+      if(problem){ errors.push((r&&r.id||"?")+": "+problem); continue; }
+      seen.add(r.id);
+      ok.push(r);
+    }
+    return {ok:errors.length===0,errors,records:ok};
+  }
+  async function loadAuxExamples(options={}){
+    const base=options.base||DEFAULT_BASE;
+    const data=await fetchJson(base+"aux-examples.json");
+    const validation=validateAuxExamples(data);
+    if(!validation.ok) console.warn("conj: aux examples skipped: "+validation.errors.join("; "));
+    return {records:validation.records,cells:Array.isArray(data.cells)?data.cells:[],sources:data.sources||{},validation};
   }
 
   global.ConjAdjvRuntime={
     load,
+    loadAuxExamples,
+    validateAuxExamples,
     loadPublicExamples,
     loadChjQuotations,
     loadGlosses,
