@@ -1,7 +1,7 @@
 const {chromium}=require('D:/dev/koten/node_modules/playwright');
 (async()=>{
  const b=await chromium.launch(); const out={};
- for(const [name,vp,mob] of [['phone375',{width:375,height:812},true],['phone360',{width:360,height:740},true],['ipad820',{width:820,height:1180},false],['pc1440',{width:1440,height:900},false]]){
+ for(const [name,vp,mob] of [['phone375',{width:375,height:812},true],['phone360',{width:360,height:740},true],['phoneSE375',{width:375,height:667},true],['phone360s',{width:360,height:640},true],['ipad820',{width:820,height:1180},false],['ipad768',{width:768,height:1024},false],['pc1440',{width:1440,height:900},false]]){
   const ctx=await b.newContext({viewport:vp,deviceScaleFactor:1,isMobile:mob,hasTouch:mob});
   const p=await ctx.newPage();
   await p.addInitScript(()=>{try{localStorage.setItem('conjInstallNoticeDismissed','1')}catch(e){}});
