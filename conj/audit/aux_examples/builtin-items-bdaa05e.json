@@ -1,0 +1,961 @@
+{
+ "schemaVersion": "1.0",
+ "source": "conj/index.html @ bdaa05e（PR #56 マージ時点）の助動詞28項目。用例は aux-examples.json へ移したため、ここに当時の組み込み値を固定して残す。",
+ "items": [
+  {
+   "id": "ru_aux",
+   "lemma": "る",
+   "kind": "下二段型",
+   "meaning": "受身・尊敬・自発・可能",
+   "connection": "四段・ナ変・ラ変の未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [
+     "れ"
+    ],
+    [
+     "れ"
+    ],
+    [
+     "る"
+    ],
+    [
+     "るる"
+    ],
+    [
+     "るれ"
+    ],
+    [
+     "れよ"
+    ]
+   ],
+   "poem": 84,
+   "source": null,
+   "target": "れ",
+   "occurrence": 0,
+   "example": "ながらへばまたこのごろやしのばれむ憂しと見し世ぞ今は恋しき"
+  },
+  {
+   "id": "raru_aux",
+   "lemma": "らる",
+   "kind": "下二段型",
+   "meaning": "受身・尊敬・自発・可能",
+   "connection": "未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [
+     "られ"
+    ],
+    [
+     "られ"
+    ],
+    [
+     "らる"
+    ],
+    [
+     "らるる"
+    ],
+    [
+     "らるれ"
+    ],
+    [
+     "られよ"
+    ]
+   ],
+   "poem": null,
+   "source": "方丈記",
+   "target": "られ",
+   "occurrence": 0,
+   "example": "変りゆくかたちありさま、目もあてられぬこと多かり"
+  },
+  {
+   "id": "su_aux",
+   "lemma": "す",
+   "kind": "下二段型",
+   "meaning": "使役・尊敬",
+   "connection": "四段・ナ変・ラ変の未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [
+     "せ"
+    ],
+    [
+     "せ"
+    ],
+    [
+     "す"
+    ],
+    [
+     "する"
+    ],
+    [
+     "すれ"
+    ],
+    [
+     "せよ"
+    ]
+   ],
+   "poem": null,
+   "source": "堤中納言物語・貝合",
+   "target": "せ",
+   "occurrence": 1,
+   "example": "例の声出ださせて、随身に歌はせ給ふ"
+  },
+  {
+   "id": "sasu_aux",
+   "lemma": "さす",
+   "kind": "下二段型",
+   "meaning": "使役・尊敬",
+   "connection": "未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [
+     "させ"
+    ],
+    [
+     "させ"
+    ],
+    [
+     "さす"
+    ],
+    [
+     "さする"
+    ],
+    [
+     "さすれ"
+    ],
+    [
+     "させよ"
+    ]
+   ],
+   "poem": null,
+   "source": "徒然草・一八五",
+   "target": "させ",
+   "occurrence": 0,
+   "example": "これはいさめる馬なりとて、鞍を置きかへさせけり"
+  },
+  {
+   "id": "shimu_aux",
+   "lemma": "しむ",
+   "kind": "下二段型",
+   "meaning": "使役・尊敬",
+   "connection": "未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [
+     "しめ"
+    ],
+    [
+     "しめ"
+    ],
+    [
+     "しむ"
+    ],
+    [
+     "しむる"
+    ],
+    [
+     "しむれ"
+    ],
+    [
+     "しめよ"
+    ]
+   ],
+   "poem": null,
+   "source": "源氏物語・夢浮橋",
+   "target": "しめ",
+   "occurrence": 0,
+   "example": "まことに出家せしめ奉りてしに侍る"
+  },
+  {
+   "id": "zu",
+   "lemma": "ず",
+   "kind": "特殊型",
+   "meaning": "打消",
+   "connection": "未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [
+     "ず"
+    ],
+    [
+     "ず"
+    ],
+    [
+     "ず"
+    ],
+    [
+     "ぬ"
+    ],
+    [
+     "ね"
+    ],
+    []
+   ],
+   "forms2": [
+    [
+     "ざら"
+    ],
+    [
+     "ざり"
+    ],
+    [],
+    [
+     "ざる"
+    ],
+    [
+     "ざれ"
+    ],
+    [
+     "ざれ"
+    ]
+   ],
+   "poem": 92,
+   "source": null,
+   "target": "ぬ",
+   "occurrence": 0,
+   "example": "わが袖は潮干にみえぬ沖の石の人こそしらねかわくまもなし"
+  },
+  {
+   "id": "mu_aux",
+   "lemma": "む",
+   "kind": "四段型",
+   "meaning": "推量・意志・勧誘・適当・仮定・婉曲",
+   "connection": "未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [],
+    [],
+    [
+     "む"
+    ],
+    [
+     "む"
+    ],
+    [
+     "め"
+    ],
+    []
+   ],
+   "poem": 3,
+   "source": null,
+   "target": "む",
+   "occurrence": 0,
+   "example": "あしびきの山鳥の尾のしだり尾のながながし夜をひとりかも寝む"
+  },
+  {
+   "id": "muzu_aux",
+   "lemma": "むず",
+   "kind": "サ変型",
+   "meaning": "推量・意志",
+   "connection": "未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [],
+    [],
+    [
+     "むず"
+    ],
+    [
+     "むずる"
+    ],
+    [
+     "むずれ"
+    ],
+    []
+   ],
+   "poem": null,
+   "source": "大鏡・道長上",
+   "target": "むずる",
+   "occurrence": 0,
+   "example": "そこに建てむずるぞ"
+  },
+  {
+   "id": "ji_aux",
+   "lemma": "じ",
+   "kind": "無変化型",
+   "meaning": "打消推量・打消意志",
+   "connection": "未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [],
+    [],
+    [
+     "じ"
+    ],
+    [
+     "じ"
+    ],
+    [
+     "じ"
+    ],
+    []
+   ],
+   "poem": null,
+   "source": "徒然草・一一〇",
+   "target": "じ",
+   "occurrence": 0,
+   "example": "勝たんと打つべからず。負けじと打つべきなり"
+  },
+  {
+   "id": "mashi_aux",
+   "lemma": "まし",
+   "kind": "特殊型",
+   "meaning": "反実仮想・ためらいの意志",
+   "connection": "未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [
+     "ましか",
+     "ませ"
+    ],
+    [],
+    [
+     "まし"
+    ],
+    [
+     "まし"
+    ],
+    [
+     "ましか"
+    ],
+    []
+   ],
+   "poem": 44,
+   "source": null,
+   "target": "まし",
+   "occurrence": 0,
+   "example": "逢ふことの絶えてしなくはなかなかに人をも身をも恨みざらまし"
+  },
+  {
+   "id": "mahoshi_aux",
+   "lemma": "まほし",
+   "kind": "形容詞（シク活用）型",
+   "meaning": "願望",
+   "connection": "未然形",
+   "connectionShort": "未然形",
+   "forms": [
+    [
+     "まほしく"
+    ],
+    [
+     "まほしく"
+    ],
+    [
+     "まほし"
+    ],
+    [
+     "まほしき"
+    ],
+    [
+     "まほしけれ"
+    ],
+    []
+   ],
+   "forms2": [
+    [
+     "まほしから"
+    ],
+    [
+     "まほしかり"
+    ],
+    [],
+    [
+     "まほしかる"
+    ],
+    [],
+    [
+     "まほしかれ"
+    ]
+   ],
+   "poem": null,
+   "source": "宇治拾遺物語・六",
+   "target": "まほしけれ",
+   "occurrence": 0,
+   "example": "あはぬまでも、見に行かまほしけれど"
+  },
+  {
+   "id": "ki_aux",
+   "lemma": "き",
+   "kind": "特殊型",
+   "meaning": "過去",
+   "connection": "連用形",
+   "connectionShort": "連用形",
+   "forms": [
+    [
+     "せ"
+    ],
+    [],
+    [
+     "き"
+    ],
+    [
+     "し"
+    ],
+    [
+     "しか"
+    ],
+    []
+   ],
+   "poem": 7,
+   "source": null,
+   "target": "し",
+   "occurrence": 0,
+   "example": "天の原ふりさけ見れば春日なる三笠の山にいでし月かも"
+  },
+  {
+   "id": "keri",
+   "lemma": "けり",
+   "kind": "ラ変型",
+   "meaning": "過去・詠嘆",
+   "connection": "連用形",
+   "connectionShort": "連用形",
+   "forms": [
+    [
+     "けら"
+    ],
+    [],
+    [
+     "けり"
+    ],
+    [
+     "ける"
+    ],
+    [
+     "けれ"
+    ],
+    []
+   ],
+   "poem": 69,
+   "source": null,
+   "target": "けり",
+   "occurrence": 0,
+   "example": "あらしふくみ室の山のもみぢ葉は竜田の川の錦なりけり"
+  },
+  {
+   "id": "tsu_aux",
+   "lemma": "つ",
+   "kind": "下二段型",
+   "meaning": "完了・強意",
+   "connection": "連用形",
+   "connectionShort": "連用形",
+   "forms": [
+    [
+     "て"
+    ],
+    [
+     "て"
+    ],
+    [
+     "つ"
+    ],
+    [
+     "つる"
+    ],
+    [
+     "つれ"
+    ],
+    [
+     "てよ"
+    ]
+   ],
+   "poem": null,
+   "source": "竹取物語",
+   "target": "つ",
+   "occurrence": 1,
+   "example": "なよ竹のかぐや姫とつけつ"
+  },
+  {
+   "id": "nu_aux",
+   "lemma": "ぬ",
+   "kind": "ナ変型",
+   "meaning": "完了・強意",
+   "connection": "連用形",
+   "connectionShort": "連用形",
+   "forms": [
+    [
+     "な"
+    ],
+    [
+     "に"
+    ],
+    [
+     "ぬ"
+    ],
+    [
+     "ぬる"
+    ],
+    [
+     "ぬれ"
+    ],
+    [
+     "ね"
+    ]
+   ],
+   "poem": 61,
+   "source": null,
+   "target": "ぬる",
+   "occurrence": 0,
+   "example": "いにしへの奈良の都の八重桜けふ九重ににほひぬるかな"
+  },
+  {
+   "id": "tari_comp_aux",
+   "lemma": "たり",
+   "kind": "ラ変型",
+   "meaning": "完了・存続",
+   "connection": "連用形",
+   "connectionShort": "連用形",
+   "forms": [
+    [
+     "たら"
+    ],
+    [
+     "たり"
+    ],
+    [
+     "たり"
+    ],
+    [
+     "たる"
+    ],
+    [
+     "たれ"
+    ],
+    [
+     "たれ"
+    ]
+   ],
+   "poem": 32,
+   "source": null,
+   "target": "たる",
+   "occurrence": 0,
+   "example": "山川に風のかけたるしがらみは流れもあへぬ紅葉なりけり"
+  },
+  {
+   "id": "ri_aux",
+   "lemma": "り",
+   "kind": "ラ変型",
+   "meaning": "完了・存続",
+   "connection": "四段已然形・サ変未然形",
+   "connectionShort": "四已・サ未",
+   "forms": [
+    [
+     "ら"
+    ],
+    [
+     "り"
+    ],
+    [
+     "り"
+    ],
+    [
+     "る"
+    ],
+    [
+     "れ"
+    ],
+    [
+     "れ"
+    ]
+   ],
+   "poem": null,
+   "source": "土佐日記",
+   "target": "ら",
+   "occurrence": 0,
+   "example": "舟子、かぢとりは、舟唄うたひて何とも思へらず"
+  },
+  {
+   "id": "kemu_aux",
+   "lemma": "けむ",
+   "kind": "四段型",
+   "meaning": "過去推量・過去の原因推量・伝聞・婉曲",
+   "connection": "連用形",
+   "connectionShort": "連用形",
+   "forms": [
+    [],
+    [],
+    [
+     "けむ"
+    ],
+    [
+     "けむ"
+    ],
+    [
+     "けめ"
+    ],
+    []
+   ],
+   "poem": null,
+   "source": "更級日記",
+   "target": "けめ",
+   "occurrence": 0,
+   "example": "この国に跡を垂るべき宿世こそありけめ"
+  },
+  {
+   "id": "ramu_aux",
+   "lemma": "らむ",
+   "kind": "四段型",
+   "meaning": "現在推量・現在の原因推量・伝聞・婉曲",
+   "connection": "終止形",
+   "connectionShort": "終止形",
+   "forms": [
+    [],
+    [],
+    [
+     "らむ"
+    ],
+    [
+     "らむ"
+    ],
+    [
+     "らめ"
+    ],
+    []
+   ],
+   "poem": 22,
+   "source": null,
+   "target": "らむ",
+   "occurrence": 0,
+   "example": "吹くからに秋の草木のしをるればむべ山風を嵐といふらむ"
+  },
+  {
+   "id": "beshi_aux",
+   "lemma": "べし",
+   "kind": "形容詞（ク活用）型",
+   "meaning": "推量・意志・可能・当然・命令・適当",
+   "connection": "終止形",
+   "connectionShort": "終止形",
+   "forms": [
+    [
+     "べく"
+    ],
+    [
+     "べく"
+    ],
+    [
+     "べし"
+    ],
+    [
+     "べき"
+    ],
+    [
+     "べけれ"
+    ],
+    []
+   ],
+   "forms2": [
+    [
+     "べから"
+    ],
+    [
+     "べかり"
+    ],
+    [],
+    [
+     "べかる"
+    ],
+    [],
+    [
+     "べかれ"
+    ]
+   ],
+   "poem": 88,
+   "source": null,
+   "target": "べき",
+   "occurrence": 0,
+   "example": "難波江の芦のかりねのひとよゆゑみをつくしてや恋ひわたるべき"
+  },
+  {
+   "id": "maji_aux",
+   "lemma": "まじ",
+   "kind": "形容詞（シク活用）型",
+   "meaning": "打消推量・打消意志・不可能・打消当然・禁止・不適当",
+   "connection": "終止形",
+   "connectionShort": "終止形",
+   "forms": [
+    [
+     "まじく"
+    ],
+    [
+     "まじく"
+    ],
+    [
+     "まじ"
+    ],
+    [
+     "まじき"
+    ],
+    [
+     "まじけれ"
+    ],
+    []
+   ],
+   "forms2": [
+    [
+     "まじから"
+    ],
+    [
+     "まじかり"
+    ],
+    [],
+    [
+     "まじかる"
+    ],
+    [],
+    [
+     "まじかれ"
+    ]
+   ],
+   "poem": null,
+   "source": "徒然草・一二〇",
+   "target": "まじ",
+   "occurrence": 0,
+   "example": "唐の物は、薬のほかは、なくとも事欠くまじ"
+  },
+  {
+   "id": "rashi_aux",
+   "lemma": "らし",
+   "kind": "無変化型",
+   "meaning": "推定",
+   "connection": "終止形",
+   "connectionShort": "終止形",
+   "forms": [
+    [],
+    [],
+    [
+     "らし"
+    ],
+    [
+     "らし"
+    ],
+    [
+     "らし"
+    ],
+    []
+   ],
+   "poem": 2,
+   "source": null,
+   "target": "らし",
+   "occurrence": 0,
+   "example": "春すぎて夏来にけらし白妙の衣ほすてふ天の香具山"
+  },
+  {
+   "id": "meri_aux",
+   "lemma": "めり",
+   "kind": "ラ変型",
+   "meaning": "推定・婉曲",
+   "connection": "終止形",
+   "connectionShort": "終止形",
+   "forms": [
+    [],
+    [
+     "めり"
+    ],
+    [
+     "めり"
+    ],
+    [
+     "める"
+    ],
+    [
+     "めれ"
+    ],
+    []
+   ],
+   "poem": 75,
+   "source": null,
+   "target": "めり",
+   "occurrence": 0,
+   "example": "契りおきしさせもが露を命にてあはれ今年の秋もいぬめり"
+  },
+  {
+   "id": "nari_hearsay_aux",
+   "lemma": "なり",
+   "kind": "ラ変型（伝聞・推定）",
+   "meaning": "伝聞・推定",
+   "connection": "終止形",
+   "connectionShort": "終止形",
+   "forms": [
+    [],
+    [
+     "なり"
+    ],
+    [
+     "なり"
+    ],
+    [
+     "なる"
+    ],
+    [
+     "なれ"
+    ],
+    []
+   ],
+   "poem": 8,
+   "source": null,
+   "target": "なり",
+   "occurrence": 0,
+   "example": "わが庵は都のたつみしかぞすむ世をうぢ山と人はいふなり"
+  },
+  {
+   "id": "nari_assert_aux",
+   "lemma": "なり",
+   "kind": "形容動詞（ナリ活用）型",
+   "meaning": "断定・存在",
+   "connection": "体言・連体形",
+   "connectionShort": "体言・連体形",
+   "forms": [
+    [
+     "なら"
+    ],
+    [
+     "なり"
+    ],
+    [
+     "なり"
+    ],
+    [
+     "なる"
+    ],
+    [
+     "なれ"
+    ],
+    [
+     "なれ"
+    ]
+   ],
+   "forms2": [
+    null,
+    [
+     "に"
+    ],
+    null,
+    null,
+    null,
+    null
+   ],
+   "poem": 96,
+   "source": null,
+   "target": "なり",
+   "occurrence": 0,
+   "example": "花さそふ嵐の庭の雪ならでふりゆくものはわが身なりけり"
+  },
+  {
+   "id": "tari_assert_aux",
+   "lemma": "たり",
+   "kind": "形容動詞（タリ活用）型",
+   "meaning": "断定",
+   "connection": "体言",
+   "connectionShort": "体言",
+   "forms": [
+    [
+     "たら"
+    ],
+    [
+     "たり"
+    ],
+    [
+     "たり"
+    ],
+    [
+     "たる"
+    ],
+    [
+     "たれ"
+    ],
+    [
+     "たれ"
+    ]
+   ],
+   "forms2": [
+    null,
+    [
+     "と"
+    ],
+    null,
+    null,
+    null,
+    null
+   ],
+   "poem": null,
+   "source": "平治物語・下",
+   "target": "たり",
+   "occurrence": 0,
+   "example": "けふは人のうへたりといへども、あすは我が身のうへたるべし"
+  },
+  {
+   "id": "tashi_aux",
+   "lemma": "たし",
+   "kind": "形容詞（ク活用）型",
+   "meaning": "希望",
+   "connection": "連用形",
+   "connectionShort": "連用形",
+   "forms": [
+    [
+     "たく"
+    ],
+    [
+     "たく"
+    ],
+    [
+     "たし"
+    ],
+    [
+     "たき"
+    ],
+    [
+     "たけれ"
+    ],
+    []
+   ],
+   "forms2": [
+    [
+     "たから"
+    ],
+    [
+     "たかり"
+    ],
+    [],
+    [
+     "たかる"
+    ],
+    [],
+    [
+     "たかれ"
+    ]
+   ],
+   "poem": null,
+   "source": "平家物語・一〇",
+   "target": "たかり",
+   "occurrence": 0,
+   "example": "近う参って、見参にも入りたかりつれども"
+  },
+  {
+   "id": "gotoshi_aux",
+   "lemma": "ごとし",
+   "kind": "形容詞（ク活用）型",
+   "meaning": "比況・例示",
+   "connection": "体言＋の・連体形",
+   "connectionShort": "体言＋の・連体形",
+   "forms": [
+    [],
+    [
+     "ごとく"
+    ],
+    [
+     "ごとし"
+    ],
+    [
+     "ごとき"
+    ],
+    [],
+    []
+   ],
+   "poem": null,
+   "source": "平家物語・一",
+   "target": "ごとし",
+   "occurrence": 0,
+   "example": "おごれる人も久しからず、ただ春の夜の夢のごとし"
+  }
+ ]
+}

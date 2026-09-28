@@ -57,6 +57,7 @@ packages/kanazukai/**
 # 内部扱いで載せない（Pages にはアプリの一部として置く）：
 #   conj/data/adjectival-noun-chj-quotations.json（CHJ の引用。ソースとしての再配布が未確認）
 #   conj/data/adjectival-noun-example-index-120.json（CHJ 由来の書誌データ。サンプル ID・文字位置・リンク）
+#   conj/data/aux-examples.json（助動詞の用例。CHJ の引用と CHJ 由来の書誌データ）
 # conj/data/adjectival-noun-public-examples.json の本文は CC BY-SA（THIRD_PARTY_NOTICES.md）。
 conj/index.html
 conj/adjv-runtime-adapter.js

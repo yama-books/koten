@@ -44,9 +44,14 @@ const ITEMS=[
   ['mahoshi_aux','aux'],
   ['ku','verb'],
   ['kanasi','adj'],
+  // HANDOFF §30: the longest aux example (candidate meaning, so no emphasis)
+  ['tashi_aux','aux','aux-tashi-006'],
+  // 2026-09-28 audit: 別解 labels (maji-003) and the longest 備考 row (nari-assert-003)
+  ['maji_aux','aux','aux-maji-003'],
+  ['nari_assert_aux','aux','aux-nari-assert-003'],
 ];
 const SHOTS=new Set(['phone375','phoneSE375','phone360s','ipad820','pc1440']);
-const SHOT_ITEMS=new Set(['adjv-lemma-030','adjv-lemma-117','ru_aux','meri_aux','beshi_aux','adjv-lemma-052','maji_aux']);
+const SHOT_ITEMS=new Set(['adjv-lemma-030','adjv-lemma-117','ru_aux','meri_aux','beshi_aux','adjv-lemma-052','maji_aux','nari_assert_aux']);
 
 async function open(browser,url,vp,mobile){
   const ctx=await browser.newContext({viewport:vp,deviceScaleFactor:2,isMobile:mobile,hasTouch:mobile});
@@ -55,7 +60,8 @@ async function open(browser,url,vp,mobile){
   page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(()=>{try{localStorage.setItem('conjInstallNoticeDismissed','true');}catch(e){}});
   await page.goto(url,{waitUntil:'networkidle'});
-  await page.waitForFunction(()=>window.__conjAdjvRuntimeStatus&&window.__conjAdjvRuntimeStatus.loaded);
+  await page.waitForFunction(()=>window.__conjAdjvRuntimeStatus&&window.__conjAdjvRuntimeStatus.loaded
+    &&(typeof loadAuxExamples!=='function'||window.__conjAuxExampleStatus));
   await page.evaluate(async()=>{ if(document.fonts) await document.fonts.ready; });
   return {ctx,page,errors};
 }
@@ -67,6 +73,13 @@ async function show(page,id,pos,opts={}){
     if(opts.level){ auxLevel=opts.level; adjvLevel=opts.level; updateLevelUI(); }
     if(opts.exampleOff!==undefined) document.getElementById('showExample').checked=!opts.exampleOff;
     current=items.find(x=>x.id===id);
+    // aux: show the former built-in example (audited meanings) unless an example id is given (HANDOFF §30)
+    if(current.pos==='aux'&&typeof assignAuxExample==='function'){
+      const all=current.auxExamples||[];
+      const want=opts.exampleId||(all.find(x=>x.origin==='builtin')||{}).id;
+      current.auxExamples=all.filter(x=>x.id===want); current.exampleId=null;
+      assignAuxExample(current); current.auxExamples=all;
+    }
     let seed=7; Math.random=()=>((seed=seed*16807%2147483647)/2147483647);
     chooseBlankSlots(); answered=false; answers={}; selected=null;
     render();
@@ -134,8 +147,8 @@ const hex2rgb=h=>{h=h.replace('#','');return `rgb(${parseInt(h.slice(0,2),16)}, 
     let baseline=null;
     if(BASELINE) baseline=await open(browser,BASELINE,vp,mobile);
     const stripWidths=new Set(), dtCols=new Set();
-    for(const [id,pos] of ITEMS){
-      await show(page,id,pos);
+    for(const [id,pos,exampleId] of ITEMS){
+      await show(page,id,pos,{exampleId});
       if(SHOTS.has(vpName)&&SHOT_ITEMS.has(id)) await page.screenshot({path:path.join(OUT,`${vpName}-${id}-q.png`)});
       const before=await measure(page);
       await answerAll(page);

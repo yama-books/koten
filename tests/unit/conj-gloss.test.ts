@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { chjQuotationsExpected } from '../../tools/conj-layout-check/held-data.ts';
+import { auxExamplesExpected, chjQuotationsExpected } from '../../tools/conj-layout-check/held-data.ts';
 
 // DESIGN_GLOSS_LAYOUT_2026-09-28 §8: data criteria 1–6, 10, 11 and the static CSS/markup contract.
 const html = readFileSync(new URL('../../conj/index.html', import.meta.url), 'utf8');
@@ -83,7 +83,7 @@ test('gloss §8-3: displayGloss is exactly basicGloss (+（この用例では co
 
 test('gloss §8-4: no 「この用例では」 row without a note or while the example is hidden', () => {
   type Row = { label: string; context?: boolean };
-  const glossRows = fn<(item: unknown, showContext: boolean) => Row[]>('glossRows', ['emphasizedAuxMeanings']);
+  const glossRows = fn<(item: unknown, showContext: boolean) => Row[]>('glossRows', ['emphasizedAuxMeanings', 'altAuxMeanings']);
   const withNote = { pos: 'adjv', gloss: { basicGloss: '静かだ・平穏だ', contextNote: '打消で「平穏でない」' } };
   assert.deepEqual(glossRows(withNote, true).map((r) => r.label), ['意味', 'この用例では']);
   assert.deepEqual(glossRows(withNote, false).map((r) => r.label), ['意味']);
@@ -146,35 +146,58 @@ test('gloss §8-10: 百人一首 itadura shows only the basic gloss and いた[�
   assert.match(html, /\{id:"itadura",pos:"adjv",label:"形容動詞",lemma:"いたづらなり",[\s\S]*?poem:9,/);
 });
 
-test('gloss §8-11: aux example meanings match the items; only audited multi-meaning records are emphasised', () => {
+// aux-examples.json は内部扱い（公開ツリーには無い）。作業リポジトリでは必ず検査する。
+(auxExamplesExpected() ? test : test.skip)('gloss §8-11: aux example meanings are keyed by example id and match each example; the 28 audited records carry over', () => {
   const data = read('aux-example-meanings.json');
-  const recs = data.records as { id: string; target: string; occurrence: number; exampleMeanings: string[]; status: string }[];
-  const aux = new Map<string, { meaning: string; target: string; occurrence: number }>();
-  for (const m of html.matchAll(/\{id:"([^"]+)",pos:"aux"[\s\S]*?meaning:"([^"]*)"[\s\S]*?target:"([^"]*)"(?:,occurrence:(\d+))?/g)) {
-    aux.set(m[1], { meaning: m[2], target: m[3], occurrence: Number(m[4] ?? 0) });
-  }
-  assert.equal(aux.size, 28);
-  assert.equal(recs.length, 28);
-  assert.deepEqual(new Set(recs.map((r) => r.id)), new Set(aux.keys()));
+  const recs = data.records as { id: string; itemId: string; target: string; occurrence: number; exampleMeanings: string[]; altMeanings: string[]; status: string }[];
+  const examples = new Map((read('aux-examples.json').records as { id: string; itemId: string; target: string; occurrence: number; origin: string }[])
+    .map((r) => [r.id, r]));
+  const auxMeaning = new Map<string, string>();
+  for (const m of html.matchAll(/\{id:"([^"]+)",pos:"aux"[\s\S]*?meaning:"([^"]*)"/g)) auxMeaning.set(m[1], m[2]);
+  assert.equal(auxMeaning.size, 28);
+  assert.equal(recs.length, examples.size);
+  assert.deepEqual(new Set(recs.map((r) => r.id)), new Set(examples.keys()));
   for (const r of recs) {
-    const item = aux.get(r.id)!;
+    const ex = examples.get(r.id)!;
     assert.ok(!('exampleMeaning' in r), `${r.id}: use the exampleMeanings array`);
     assert.ok(Array.isArray(r.exampleMeanings) && r.exampleMeanings.length > 0, r.id);
     assert.equal(new Set(r.exampleMeanings).size, r.exampleMeanings.length, r.id);
-    for (const m of r.exampleMeanings) assert.ok(item.meaning.split('・').includes(m), `${r.id}: ${m}`);
-    assert.equal(r.target, item.target, r.id);
-    assert.equal(r.occurrence, item.occurrence, r.id);
+    assert.equal(r.itemId, ex.itemId, r.id);
+    for (const m of [...r.exampleMeanings, ...r.altMeanings]) assert.ok(auxMeaning.get(r.itemId)!.split('・').includes(m), `${r.id}: ${m}`);
+    assert.ok(r.altMeanings.every((m) => !r.exampleMeanings.includes(m)), `${r.id}: primary and alternative overlap`);
+    assert.equal(r.target, ex.target, r.id);
+    assert.equal(r.occurrence, ex.occurrence, r.id);
     assert.ok(['candidate', 'audited'].includes(r.status), r.id);
   }
-  // user audit 2026-09-28: all 28 records audited
-  assert.equal(recs.filter((r) => r.status === 'audited').length, 28);
-  const byId = Object.fromEntries(recs.map((r) => [r.id, r.exampleMeanings]));
-  assert.deepEqual(byId.muzu_aux, ['意志']);
-  assert.deepEqual(byId.beshi_aux, ['当然', '推量']);
-  assert.deepEqual(byId.kemu_aux, ['過去推量']);
-  assert.deepEqual(byId.meri_aux, ['推定']);
-  assert.deepEqual(byId.mu_aux, ['推量', '意志']);
-  assert.deepEqual(byId.ramu_aux, ['現在推量']);
+  // user audit 2026-09-28: the 28 former built-in examples stay audited under their example ids
+  const builtin = recs.filter((r) => examples.get(r.id)!.origin === 'builtin');
+  assert.equal(builtin.length, 28);
+  assert.ok(builtin.every((r) => r.status === 'audited'));
+  const byItem = Object.fromEntries(builtin.map((r) => [r.itemId, r.exampleMeanings]));
+  assert.deepEqual(byItem.muzu_aux, ['意志']);
+  assert.deepEqual(byItem.beshi_aux, ['当然', '推量']);
+  assert.deepEqual(byItem.kemu_aux, ['過去推量']);
+  assert.deepEqual(byItem.meri_aux, ['推定']);
+  assert.deepEqual(byItem.mu_aux, ['推量', '意志']);
+  assert.deepEqual(byItem.ramu_aux, ['現在推量']);
+  assert.deepEqual(byItem.tashi_aux, ['願望']);
+  // user audit 2026-09-28 of the 117 new examples: every record audited, with primary / alternative meanings
+  assert.ok(recs.every((r) => r.status === 'audited'));
+  const audit = new Map((JSON.parse(readFileSync(new URL('../../conj/audit/aux_examples/audit-2026-09-28.json', import.meta.url), 'utf8')).records as
+    { id: string; decision: string; primary: string[]; secondary: string[] }[]).map((r) => [r.id, r]));
+  for (const r of recs) {
+    const a = audit.get(r.id)!;
+    assert.ok(a && a.decision !== 'withdrawn', r.id);
+    assert.deepEqual(r.exampleMeanings, a.primary, r.id);
+    assert.deepEqual(r.altMeanings, a.secondary, r.id);
+  }
+  const byId2 = Object.fromEntries(recs.map((r) => [r.id, r]));
+  assert.deepEqual([byId2['aux-beshi-007'].exampleMeanings, byId2['aux-beshi-007'].altMeanings], [['意志'], ['推量', '可能']]);
+  assert.deepEqual([byId2['aux-maji-003'].exampleMeanings, byId2['aux-maji-003'].altMeanings], [['禁止'], ['打消当然', '不適当']]);
+  assert.deepEqual([byId2['aux-maji-008'].exampleMeanings, byId2['aux-maji-008'].altMeanings], [['打消意志'], ['不可能']]);
+  // まほし・たし は「願望」（桐原書店の文法書に準拠）
+  assert.match(html, /\{id:"tashi_aux",[\s\S]*?meaning:"願望"/);
+  assert.doesNotMatch(html, /meaning:"希望"/);
 
   const emphasized = fn<(item: unknown) => string[]>('emphasizedAuxMeanings');
   const meri = { meaning: '推定・婉曲', exampleMeanings: { meanings: ['推定'], status: 'audited' } };
@@ -186,7 +209,7 @@ test('gloss §8-11: aux example meanings match the items; only audited multi-mea
   const beshi = { pos: 'aux', meaning: '推量・意志・可能・当然・命令・適当', connection: '終止形', connectionShort: '終止形',
     exampleMeanings: { meanings: ['当然', '推量'], status: 'audited' } };
   assert.deepEqual(emphasized(beshi), ['当然', '推量']);
-  const glossRows = fn<(item: unknown, showContext: boolean) => { label: string; emphasis?: string[]; text: string }[]>('glossRows', ['emphasizedAuxMeanings']);
+  const glossRows = fn<(item: unknown, showContext: boolean) => { label: string; emphasis?: string[]; text: string }[]>('glossRows', ['emphasizedAuxMeanings', 'altAuxMeanings']);
   assert.deepEqual(glossRows(beshi, true)[0].emphasis, ['当然', '推量']);
   // 接続 row only when the full connection differs from the short one
   assert.deepEqual(glossRows({ pos: 'aux', meaning: '受身・尊敬・自発・可能', connection: '四段・ナ変・ラ変の未然形', connectionShort: '未然形' }, true)
@@ -286,4 +309,41 @@ test('gloss §4 / audit §1.2-6: small text tokens reach WCAG AA 4.5:1 on card a
       }
     }
   }
+});
+
+test('gloss: aux 別解 carries a text label, and an example 備考 (pattern) row appears only while the example is shown', () => {
+  type Row = { label: string; emphasis?: string[]; alt?: string[]; text: string; heading?: string; note?: boolean };
+  const glossRows = fn<(item: unknown, showContext: boolean) => Row[]>('glossRows', ['emphasizedAuxMeanings', 'altAuxMeanings']);
+  const alt = fn<(item: unknown) => string[]>('altAuxMeanings', ['emphasizedAuxMeanings']);
+  const maji = { pos: 'aux', meaning: '打消推量・打消意志・不可能・打消当然・禁止・不適当', connection: '終止形', connectionShort: '終止形',
+    exampleMeanings: { meanings: ['禁止'], alt: ['打消当然', '不適当'], status: 'audited' } };
+  assert.deepEqual(glossRows(maji, true)[0].emphasis, ['禁止']);
+  assert.deepEqual(glossRows(maji, true)[0].alt, ['打消当然', '不適当']);
+  // no alternative shown unless audited, and never one that is also primary or outside the list
+  assert.deepEqual(alt({ ...maji, exampleMeanings: { ...maji.exampleMeanings, status: 'candidate' } }), []);
+  assert.deepEqual(alt({ ...maji, exampleMeanings: { meanings: ['禁止'], alt: ['禁止', '伝聞', '不適当'], status: 'audited' } }), ['不適当']);
+  // the chunk renderer labels an alternative with the word 別解 (not colour alone)
+  assert.match(html, /al\.className="gloss-alt";[\s\S]*?tag\.className="gloss-alt-tag";\s*tag\.textContent="別解";/);
+  assert.match(html, /\.gloss \.gloss-alt-tag\{[^}]*border:1px solid var\(--line-strong\)/);
+  // 備考
+  const nari = { pos: 'aux', meaning: '断定・存在', connection: '体言・連体形', connectionShort: '体言・連体形',
+    exampleMeanings: { meanings: ['断定'], alt: [], status: 'audited' }, pattern: { label: '定型「にあり」', text: 'に（断定「なり」の連用形）＋係助詞（も）＋あり。' } };
+  assert.deepEqual(glossRows(nari, true).map((r) => r.label), ['意味', '備考']);
+  assert.equal(glossRows(nari, true)[1].heading, '定型「にあり」');
+  assert.deepEqual(glossRows(nari, false).map((r) => r.label), ['意味']);
+  assert.match(html, /pattern:chosen\.pattern\|\|null,/);
+  // the short text (not the full audit note) goes in the bubble
+  assert.equal(glossRows({ ...nari, pattern: { label: '定型「にあり」', text: '長い全文', short: '短い説明' } }, true)[1].text, '短い説明');
+});
+
+test('gloss: 備考 is a small button that opens a speech bubble (closed by default, animated unless reduced motion)', () => {
+  assert.match(html, /function noteBubbleButton\(heading,text\)\{[\s\S]*?btn\.setAttribute\("aria-expanded","false"\);[\s\S]*?bubble\.hidden=true;/);
+  assert.match(html, /dd\.appendChild\(noteBubbleButton\(row\.heading,row\.text\)\);/);
+  assert.match(html, /if\(e\.key==="Escape"\) closeNoteBubbles\(\);/);
+  const v55 = html.match(/\/\* ===== v55:[\s\S]*?<\/style>/)![0];
+  assert.ok(html.indexOf('/* ===== v54:') < html.indexOf('/* ===== v55:'));
+  assert.match(v55, /\.gloss \.note-bubble\{position:absolute;[^}]*animation:note-pop/);
+  assert.match(v55, /\.gloss \.note-bubble::after\{/);
+  assert.match(v55, /@media \(prefers-reduced-motion:reduce\)\{ \.gloss \.note-bubble\{animation:none\} \}/);
+  assert.doesNotMatch(html, /<details[^>]*gloss-note/);
 });

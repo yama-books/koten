@@ -3135,6 +3135,31 @@ body.review-modal-open{overflow:hidden}
   .study-layout:not(.review-modal-study-layout) > .gloss{margin-top:6px;padding-top:6px;padding-bottom:6px;row-gap:4px}
   .card:has(#gloss:not([hidden])) .actions{margin-top:8px}
 }
+
+/* ===== v55: 助動詞の用例ごとの意味（主・別解）と備考（HANDOFF §34、2026-09-28 監査） ===== */
+/* 別解は色だけに頼らず「別解」の文字ラベルを付ける。主は従来どおりマーカー＋太字。 */
+.gloss .gloss-alt{text-decoration:underline dotted var(--tag-ink);text-underline-offset:3px;text-decoration-thickness:1px}
+.gloss .gloss-alt-tag{display:inline-block;margin-left:2px;padding:0 4px;border:1px solid var(--line-strong);border-radius:4px;font-size:.72em;line-height:1.35;color:var(--tag-ink);vertical-align:.12em;white-space:nowrap}
+/* 備考：見出しの小さなボタン＋ふきだし（押したときだけ。表・語釈帯の高さは変えない） */
+.gloss dd.gloss-note{position:relative}
+.gloss .note-wrap{position:relative;display:inline-block}
+.gloss .note-pill{display:inline-flex;align-items:center;gap:4px;font:inherit;font-size:11.5px;line-height:1.4;color:var(--accent-strong);background:var(--accent-soft);border:1px solid var(--line-strong);border-radius:999px;padding:1px 9px 1px 7px;cursor:pointer}
+.gloss .note-pill:hover{border-color:var(--accent)}
+.gloss .note-pill:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+.gloss .note-pill[aria-expanded="true"]{background:var(--card);border-color:var(--accent)}
+.gloss .note-pill-icon{width:12px;height:12px;fill:currentColor;flex:none}
+.gloss .note-bubble{position:absolute;left:-4px;bottom:calc(100% + 10px);z-index:25;width:max-content;max-width:min(15.5em,70vw);padding:8px 11px;border-radius:14px;background:var(--card);border:1.5px solid var(--accent);box-shadow:0 6px 18px color-mix(in srgb,var(--ink) 16%,transparent);color:var(--ink);font-size:12px;line-height:1.6;text-align:left;white-space:normal;transform-origin:22px calc(100% + 8px);animation:note-pop .22s cubic-bezier(.2,.9,.3,1.35) both}
+.gloss .note-bubble::after{content:"";position:absolute;left:18px;bottom:-7px;width:11px;height:11px;background:var(--card);border-right:1.5px solid var(--accent);border-bottom:1.5px solid var(--accent);transform:rotate(45deg);border-bottom-right-radius:3px}
+.gloss .note-bubble[hidden]{display:none}
+@keyframes note-pop{from{opacity:0;transform:translateY(4px) scale(.82)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){ .gloss .note-bubble{animation:none} }
+@media (min-width:701px){
+  .study-layout:not(.review-modal-study-layout) > .gloss .note-pill{font-size:12.5px}
+  .study-layout:not(.review-modal-study-layout) > .gloss .note-bubble{font-size:13px}
+  /* iPad・PC は語釈の列の下に空きがあるので、下向きに開いて「意味」「接続」を隠さない */
+  .gloss .note-bubble{bottom:auto;top:calc(100% + 10px);transform-origin:22px -8px}
+  .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
+}
 </style>
 </head>
 <body>
@@ -3382,7 +3407,7 @@ body.review-modal-open{overflow:hidden}
   </section>
 </div>
 
-<script src="./adjv-runtime-adapter.js?v=20260928-gloss"></script>
+<script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -3714,129 +3739,101 @@ const items=[
 
 {id:"ru_aux",pos:"aux",label:"助動詞",lemma:"る",kind:"下二段型",
  forms:[F(["れ"]),F(["れ"]),F(["る"]),F(["るる"]),F(["るれ"]),F(["れよ"])],
- meaning:"受身・尊敬・自発・可能",connection:"四段・ナ変・ラ変の未然形",connectionShort:"未然形",
- poem:84,target:"れ",example:"ながらへばまたこのごろやしのばれむ憂しと見し世ぞ今は恋しき"},
+ meaning:"受身・尊敬・自発・可能",connection:"四段・ナ変・ラ変の未然形",connectionShort:"未然形"},
 {id:"raru_aux",pos:"aux",label:"助動詞",lemma:"らる",kind:"下二段型",
  forms:[F(["られ"]),F(["られ"]),F(["らる"]),F(["らるる"]),F(["らるれ"]),F(["られよ"])],
- meaning:"受身・尊敬・自発・可能",connection:"未然形",connectionShort:"未然形",
- poem:null,source:"方丈記",target:"られ",example:"変りゆくかたちありさま、目もあてられぬこと多かり"},
+ meaning:"受身・尊敬・自発・可能",connection:"未然形",connectionShort:"未然形"},
 {id:"su_aux",pos:"aux",label:"助動詞",lemma:"す",kind:"下二段型",
  forms:[F(["せ"]),F(["せ"]),F(["す"]),F(["する"]),F(["すれ"]),F(["せよ"])],
- meaning:"使役・尊敬",connection:"四段・ナ変・ラ変の未然形",connectionShort:"未然形",
- poem:null,source:"堤中納言物語・貝合",target:"せ",occurrence:1,example:"例の声出ださせて、随身に歌はせ給ふ"},
+ meaning:"使役・尊敬",connection:"四段・ナ変・ラ変の未然形",connectionShort:"未然形"},
 {id:"sasu_aux",pos:"aux",label:"助動詞",lemma:"さす",kind:"下二段型",
  forms:[F(["させ"]),F(["させ"]),F(["さす"]),F(["さする"]),F(["さすれ"]),F(["させよ"])],
- meaning:"使役・尊敬",connection:"未然形",connectionShort:"未然形",
- poem:null,source:"徒然草・一八五",target:"させ",example:"これはいさめる馬なりとて、鞍を置きかへさせけり"},
+ meaning:"使役・尊敬",connection:"未然形",connectionShort:"未然形"},
 {id:"shimu_aux",pos:"aux",label:"助動詞",lemma:"しむ",kind:"下二段型",
  forms:[F(["しめ"]),F(["しめ"]),F(["しむ"]),F(["しむる"]),F(["しむれ"]),F(["しめよ"])],
- meaning:"使役・尊敬",connection:"未然形",connectionShort:"未然形",
- poem:null,source:"源氏物語・夢浮橋",target:"しめ",example:"まことに出家せしめ奉りてしに侍る"},
+ meaning:"使役・尊敬",connection:"未然形",connectionShort:"未然形"},
 
 {id:"zu",pos:"aux",label:"助動詞",lemma:"ず",kind:"特殊型",twoTrack:true,
  forms:[F(["ず"]),F(["ず"]),F(["ず"]),F(["ぬ"]),F(["ね"]),F([])],
  forms2:[F(["ざら"]),F(["ざり"]),F([]),F(["ざる"]),F(["ざれ"]),F(["ざれ"])],
- meaning:"打消",connection:"未然形",connectionShort:"未然形",
- poem:92,target:"ぬ",example:"わが袖は潮干にみえぬ沖の石の人こそしらねかわくまもなし"},
+ meaning:"打消",connection:"未然形",connectionShort:"未然形"},
 
 {id:"mu_aux",pos:"aux",label:"助動詞",lemma:"む",kind:"四段型",
  forms:[F([]),F([]),F(["む"]),F(["む"]),F(["め"]),F([])],
- meaning:"推量・意志・勧誘・適当・仮定・婉曲",connection:"未然形",connectionShort:"未然形",
- poem:3,target:"む",example:"あしびきの山鳥の尾のしだり尾のながながし夜をひとりかも寝む"},
+ meaning:"推量・意志・勧誘・適当・仮定・婉曲",connection:"未然形",connectionShort:"未然形"},
 {id:"muzu_aux",pos:"aux",label:"助動詞",lemma:"むず",kind:"サ変型",
  forms:[F([]),F([]),F(["むず"]),F(["むずる"]),F(["むずれ"]),F([])],
- meaning:"推量・意志",connection:"未然形",connectionShort:"未然形",
- poem:null,source:"大鏡・道長上",target:"むずる",example:"そこに建てむずるぞ"},
+ meaning:"推量・意志",connection:"未然形",connectionShort:"未然形"},
 {id:"ji_aux",pos:"aux",label:"助動詞",lemma:"じ",kind:"無変化型",
  forms:[F([]),F([]),F(["じ"]),F(["じ"]),F(["じ"]),F([])],
- meaning:"打消推量・打消意志",connection:"未然形",connectionShort:"未然形",
- poem:null,source:"徒然草・一一〇",target:"じ",example:"勝たんと打つべからず。負けじと打つべきなり"},
+ meaning:"打消推量・打消意志",connection:"未然形",connectionShort:"未然形"},
 {id:"mashi_aux",pos:"aux",label:"助動詞",lemma:"まし",kind:"特殊型",
  forms:[F(["ましか","ませ"]),F([]),F(["まし"]),F(["まし"]),F(["ましか"]),F([])],
- meaning:"反実仮想・ためらいの意志",connection:"未然形",connectionShort:"未然形",
- poem:44,target:"まし",example:"逢ふことの絶えてしなくはなかなかに人をも身をも恨みざらまし"},
+ meaning:"反実仮想・ためらいの意志",connection:"未然形",connectionShort:"未然形"},
 {id:"mahoshi_aux",pos:"aux",label:"助動詞",lemma:"まほし",kind:"形容詞（シク活用）型",twoTrack:true,
  forms:[F(["まほしく"]),F(["まほしく"]),F(["まほし"]),F(["まほしき"]),F(["まほしけれ"]),F([])],
- forms2:[F(["まほしから"]),F(["まほしかり"]),F([]),F(["まほしかる"]),F([]),F(["まほしかれ"])],
- meaning:"願望",connection:"未然形",connectionShort:"未然形",
- poem:null,source:"宇治拾遺物語・六",target:"まほしけれ",example:"あはぬまでも、見に行かまほしけれど"},
+ forms2:[F(["まほしから"]),F(["まほしかり"]),F([]),F(["まほしかる"]),F([]),F([])],
+ meaning:"願望",connection:"未然形",connectionShort:"未然形"},
 
 {id:"ki_aux",pos:"aux",label:"助動詞",lemma:"き",kind:"特殊型",
  forms:[F(["せ"]),F([]),F(["き"]),F(["し"]),F(["しか"]),F([])],
- meaning:"過去",connection:"連用形",connectionShort:"連用形",
- poem:7,target:"し",example:"天の原ふりさけ見れば春日なる三笠の山にいでし月かも"},
+ meaning:"過去",connection:"連用形",connectionShort:"連用形"},
 {id:"keri",pos:"aux",label:"助動詞",lemma:"けり",kind:"ラ変型",
  forms:[F(["けら"]),F([]),F(["けり"]),F(["ける"]),F(["けれ"]),F([])],
- meaning:"過去・詠嘆",connection:"連用形",connectionShort:"連用形",
- poem:69,target:"けり",example:"あらしふくみ室の山のもみぢ葉は竜田の川の錦なりけり"},
+ meaning:"過去・詠嘆",connection:"連用形",connectionShort:"連用形"},
 {id:"tsu_aux",pos:"aux",label:"助動詞",lemma:"つ",kind:"下二段型",
  forms:[F(["て"]),F(["て"]),F(["つ"]),F(["つる"]),F(["つれ"]),F(["てよ"])],
- meaning:"完了・強意",connection:"連用形",connectionShort:"連用形",
- poem:null,source:"竹取物語",target:"つ",occurrence:1,example:"なよ竹のかぐや姫とつけつ"},
+ meaning:"完了・強意",connection:"連用形",connectionShort:"連用形"},
 {id:"nu_aux",pos:"aux",label:"助動詞",lemma:"ぬ",kind:"ナ変型",
  forms:[F(["な"]),F(["に"]),F(["ぬ"]),F(["ぬる"]),F(["ぬれ"]),F(["ね"])],
- meaning:"完了・強意",connection:"連用形",connectionShort:"連用形",
- poem:61,target:"ぬる",example:"いにしへの奈良の都の八重桜けふ九重ににほひぬるかな"},
+ meaning:"完了・強意",connection:"連用形",connectionShort:"連用形"},
 {id:"tari_comp_aux",pos:"aux",label:"助動詞",lemma:"たり",kind:"ラ変型",
  forms:[F(["たら"]),F(["たり"]),F(["たり"]),F(["たる"]),F(["たれ"]),F(["たれ"])],
- meaning:"完了・存続",connection:"連用形",connectionShort:"連用形",
- poem:32,target:"たる",example:"山川に風のかけたるしがらみは流れもあへぬ紅葉なりけり"},
+ meaning:"完了・存続",connection:"連用形",connectionShort:"連用形"},
 {id:"ri_aux",pos:"aux",label:"助動詞",lemma:"り",kind:"ラ変型",
  forms:[F(["ら"]),F(["り"]),F(["り"]),F(["る"]),F(["れ"]),F(["れ"])],
- meaning:"完了・存続",connection:"四段已然形・サ変未然形",connectionShort:"四已・サ未",
- poem:null,source:"土佐日記",target:"ら",example:"舟子、かぢとりは、舟唄うたひて何とも思へらず"},
+ meaning:"完了・存続",connection:"四段已然形・サ変未然形",connectionShort:"四已・サ未"},
 
 {id:"kemu_aux",pos:"aux",label:"助動詞",lemma:"けむ",kind:"四段型",
  forms:[F([]),F([]),F(["けむ"]),F(["けむ"]),F(["けめ"]),F([])],
- meaning:"過去推量・過去の原因推量・伝聞・婉曲",connection:"連用形",connectionShort:"連用形",
- poem:null,source:"更級日記",target:"けめ",example:"この国に跡を垂るべき宿世こそありけめ"},
+ meaning:"過去推量・過去の原因推量・伝聞・婉曲",connection:"連用形",connectionShort:"連用形"},
 {id:"ramu_aux",pos:"aux",label:"助動詞",lemma:"らむ",kind:"四段型",
  forms:[F([]),F([]),F(["らむ"]),F(["らむ"]),F(["らめ"]),F([])],
- meaning:"現在推量・現在の原因推量・伝聞・婉曲",connection:"終止形",connectionShort:"終止形",
- poem:22,target:"らむ",example:"吹くからに秋の草木のしをるればむべ山風を嵐といふらむ"},
+ meaning:"現在推量・現在の原因推量・伝聞・婉曲",connection:"終止形",connectionShort:"終止形"},
 
 {id:"beshi_aux",pos:"aux",label:"助動詞",lemma:"べし",kind:"形容詞（ク活用）型",twoTrack:true,
  forms:[F(["べく"]),F(["べく"]),F(["べし"]),F(["べき"]),F(["べけれ"]),F([])],
- forms2:[F(["べから"]),F(["べかり"]),F([]),F(["べかる"]),F([]),F(["べかれ"])],
- meaning:"推量・意志・可能・当然・命令・適当",connection:"終止形",connectionShort:"終止形",
- poem:88,target:"べき",example:"難波江の芦のかりねのひとよゆゑみをつくしてや恋ひわたるべき"},
+ forms2:[F(["べから"]),F(["べかり"]),F([]),F(["べかる"]),F([]),F([])],
+ meaning:"推量・意志・可能・当然・命令・適当",connection:"終止形",connectionShort:"終止形"},
 {id:"maji_aux",pos:"aux",label:"助動詞",lemma:"まじ",kind:"形容詞（シク活用）型",twoTrack:true,
  forms:[F(["まじく"]),F(["まじく"]),F(["まじ"]),F(["まじき"]),F(["まじけれ"]),F([])],
- forms2:[F(["まじから"]),F(["まじかり"]),F([]),F(["まじかる"]),F([]),F(["まじかれ"])],
- meaning:"打消推量・打消意志・不可能・打消当然・禁止・不適当",connection:"終止形",connectionShort:"終止形",
- poem:null,source:"徒然草・一二〇",target:"まじ",example:"唐の物は、薬のほかは、なくとも事欠くまじ"},
+ forms2:[F(["まじから"]),F(["まじかり"]),F([]),F(["まじかる"]),F([]),F([])],
+ meaning:"打消推量・打消意志・不可能・打消当然・禁止・不適当",connection:"終止形",connectionShort:"終止形"},
 {id:"rashi_aux",pos:"aux",label:"助動詞",lemma:"らし",kind:"無変化型",
  forms:[F([]),F([]),F(["らし"]),F(["らし"]),F(["らし"]),F([])],
- meaning:"推定",connection:"終止形",connectionShort:"終止形",
- poem:2,target:"らし",example:"春すぎて夏来にけらし白妙の衣ほすてふ天の香具山"},
+ meaning:"推定",connection:"終止形",connectionShort:"終止形"},
 {id:"meri_aux",pos:"aux",label:"助動詞",lemma:"めり",kind:"ラ変型",
  forms:[F([]),F(["めり"]),F(["めり"]),F(["める"]),F(["めれ"]),F([])],
- meaning:"推定・婉曲",connection:"終止形",connectionShort:"終止形",
- poem:75,target:"めり",example:"契りおきしさせもが露を命にてあはれ今年の秋もいぬめり"},
+ meaning:"推定・婉曲",connection:"終止形",connectionShort:"終止形"},
 {id:"nari_hearsay_aux",pos:"aux",label:"助動詞",lemma:"なり",kind:"ラ変型（伝聞・推定）",
  forms:[F([]),F(["なり"]),F(["なり"]),F(["なる"]),F(["なれ"]),F([])],
- meaning:"伝聞・推定",connection:"終止形",connectionShort:"終止形",
- poem:8,target:"なり",example:"わが庵は都のたつみしかぞすむ世をうぢ山と人はいふなり"},
+ meaning:"伝聞・推定",connection:"終止形",connectionShort:"終止形"},
 
 {id:"nari_assert_aux",pos:"aux",label:"助動詞",lemma:"なり",kind:"形容動詞（ナリ活用）型",adjv:true,twoTrack:true,
  forms:[F(["なら"]),F(["なり"]),F(["なり"]),F(["なる"]),F(["なれ"]),F(["なれ"])],
  forms2:[null,F(["に"]),null,null,null,null],
- meaning:"断定・存在",connection:"体言・連体形",connectionShort:"体言・連体形",
- poem:96,target:"なり",example:"花さそふ嵐の庭の雪ならでふりゆくものはわが身なりけり"},
+ meaning:"断定・存在",connection:"体言・連体形",connectionShort:"体言・連体形"},
 {id:"tari_assert_aux",pos:"aux",label:"助動詞",lemma:"たり",kind:"形容動詞（タリ活用）型",adjv:true,twoTrack:true,
  forms:[F(["たら"]),F(["たり"]),F(["たり"]),F(["たる"]),F(["たれ"]),F(["たれ"])],
  forms2:[null,F(["と"]),null,null,null,null],
- meaning:"断定",connection:"体言",connectionShort:"体言",
- poem:null,source:"平治物語・下",target:"たり",example:"けふは人のうへたりといへども、あすは我が身のうへたるべし"},
+ meaning:"断定",connection:"体言",connectionShort:"体言"},
 {id:"tashi_aux",pos:"aux",label:"助動詞",lemma:"たし",kind:"形容詞（ク活用）型",twoTrack:true,
  forms:[F(["たく"]),F(["たく"]),F(["たし"]),F(["たき"]),F(["たけれ"]),F([])],
- forms2:[F(["たから"]),F(["たかり"]),F([]),F(["たかる"]),F([]),F(["たかれ"])],
- meaning:"希望",connection:"連用形",connectionShort:"連用形",
- poem:null,source:"平家物語・一〇",target:"たかり",example:"近う参って、見参にも入りたかりつれども"},
+ forms2:[F(["たから"]),F(["たかり"]),F([]),F(["たかる"]),F([]),F([])],
+ meaning:"願望",connection:"連用形",connectionShort:"連用形"},
 {id:"gotoshi_aux",pos:"aux",label:"助動詞",lemma:"ごとし",kind:"形容詞（ク活用）型",
  forms:[F([]),F(["ごとく"]),F(["ごとし"]),F(["ごとき"]),F([]),F([])],
- meaning:"比況・例示",connection:"体言＋の・連体形",connectionShort:"体言＋の・連体形",
- poem:null,source:"平家物語・一",target:"ごとし",example:"おごれる人も久しからず、ただ春の夜の夢のごとし"}
+ meaning:"比況・例示",connection:"体言＋の・連体形",connectionShort:"体言＋の・連体形"}
 ];
 const poemAuthors={
   1:"天智天皇",
@@ -4933,8 +4930,15 @@ function emphasizedAuxMeanings(item){
   if(!m || m.status!=="audited" || list.length<2 || !Array.isArray(m.meanings)) return [];
   return m.meanings.every(x=>list.includes(x)) ? m.meanings.slice() : [];
 }
+// 別解（2026-09-28 監査）。主と同じ条件（監査済み・意味が2つ以上）のときだけ示す。
+function altAuxMeanings(item){
+  const m=item&&item.exampleMeanings;
+  if(!emphasizedAuxMeanings(item).length || !Array.isArray(m.alt)) return [];
+  const list=String(item.meaning||"").split("・");
+  return m.alt.filter(x=>list.includes(x) && !m.meanings.includes(x));
+}
 // 語釈は「・」「／」で区切ったまとまりの途中で改行しない。
-function appendGlossChunks(dd,text,emphasis=[]){
+function appendGlossChunks(dd,text,emphasis=[],alt=[]){
   // 後読み（?<=）は古い iPad Safari で構文エラーになるため使わない。
   const parts=String(text).match(/[^・／]+[・／]?|[・／]/g)||[];
   for(const part of parts){
@@ -4947,6 +4951,14 @@ function appendGlossChunks(dd,text,emphasis=[]){
       em.className="gloss-em";
       em.textContent=word;
       chunk.append(em,sep);
+    }else if(alt.includes(word)){
+      const al=document.createElement("span");
+      al.className="gloss-alt";
+      al.textContent=word;
+      const tag=document.createElement("span");
+      tag.className="gloss-alt-tag";
+      tag.textContent="別解";
+      chunk.append(al,tag,sep);
     }else{
       chunk.textContent=part;
     }
@@ -4957,9 +4969,13 @@ function glossRows(item,showContext){
   if(!item) return [];
   if(item.pos==="aux"){
     const rows=[];
-    if(item.meaning) rows.push({label:"意味",text:item.meaning,emphasis:emphasizedAuxMeanings(item)});
+    if(item.meaning) rows.push({label:"意味",text:item.meaning,emphasis:emphasizedAuxMeanings(item),alt:altAuxMeanings(item)});
     if(item.connection && item.connectionShort && item.connection!==item.connectionShort){
       rows.push({label:"接続",text:item.connection,sub:true});
+    }
+    // 用例についての備考（定型「にあり」など）。用例を出しているときだけ。
+    if(showContext && item.pattern && (item.pattern.short||item.pattern.text)){
+      rows.push({label:"備考",heading:item.pattern.label||"備考",text:item.pattern.short||item.pattern.text,note:true});
     }
     return rows;
   }
@@ -4968,6 +4984,45 @@ function glossRows(item,showContext){
   if(showContext && item.gloss.contextNote) rows.push({label:"この用例では",text:item.gloss.contextNote,context:true});
   return rows;
 }
+const NOTE_ICON='<svg class="note-pill-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.5h10a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 13 11.5H8l-3 2.5v-2.5H3A1.5 1.5 0 0 1 1.5 10V4A1.5 1.5 0 0 1 3 2.5z"/></svg>';
+let noteBubbleSeq=0;
+function closeNoteBubbles(except){
+  document.querySelectorAll(".note-pill[aria-expanded='true']").forEach(btn=>{
+    if(btn===except) return;
+    btn.setAttribute("aria-expanded","false");
+    const bubble=document.getElementById(btn.getAttribute("aria-controls"));
+    if(bubble) bubble.hidden=true;
+  });
+}
+function noteBubbleButton(heading,text){
+  const wrap=document.createElement("span");
+  wrap.className="note-wrap";
+  const id="noteBubble"+(++noteBubbleSeq);
+  const btn=document.createElement("button");
+  btn.type="button";
+  btn.className="note-pill";
+  btn.setAttribute("aria-expanded","false");
+  btn.setAttribute("aria-controls",id);
+  btn.innerHTML=NOTE_ICON;
+  btn.append(heading);
+  const bubble=document.createElement("span");
+  bubble.className="note-bubble";
+  bubble.id=id;
+  bubble.setAttribute("role","note");
+  bubble.hidden=true;
+  bubble.textContent=text;
+  btn.addEventListener("click",e=>{
+    e.stopPropagation();
+    const open=btn.getAttribute("aria-expanded")!=="true";
+    closeNoteBubbles(btn);
+    btn.setAttribute("aria-expanded",open?"true":"false");
+    bubble.hidden=!open;
+  });
+  wrap.append(btn,bubble);
+  return wrap;
+}
+document.addEventListener("click",e=>{ if(!e.target.closest || !e.target.closest(".note-wrap")) closeNoteBubbles(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeNoteBubbles(); });
 function renderGloss(dl,item,showContext){
   const rows=glossRows(item,showContext);
   dl.replaceChildren();
@@ -4983,7 +5038,13 @@ function renderGloss(dl,item,showContext){
       dt.textContent=row.label;
     }
     if(row.sub) dd.className="gloss-sub";
-    appendGlossChunks(dd,row.text,row.emphasis);
+    if(row.note){
+      // 備考は見出しの小さなボタンだけを置き、押すとふきだしで短い説明を出す（表や語釈帯の高さは変えない）。
+      dd.className="gloss-note";
+      dd.appendChild(noteBubbleButton(row.heading,row.text));
+    }else{
+      appendGlossChunks(dd,row.text,row.emphasis,row.alt);
+    }
     dl.append(dt,dd);
   }
   dl.hidden=rows.length===0;
@@ -5394,7 +5455,18 @@ function creditLink(text,href){
 }
 // Groups sources by provider and license, then by work, so that many
 // excerpts from one source read as a single entry.
+// 出典一覧は形容動詞（公開本文・CHJ）と助動詞（aux-examples.json）の両方から作る。
+// 読み込みが別々に終わるため、形容動詞側の引数を覚えておき、助動詞の読み込み後に描き直す。
+let sourceCreditArgs={publicRecords:[],chj:{source:null,map:new Map()}};
+// 助動詞の用例（loadAuxExamples() が入れる）。
+let auxExampleData={records:[],sources:{}};
+function refreshSourceCredits(){
+  renderSourceCredits(sourceCreditArgs.publicRecords,sourceCreditArgs.chj);
+}
 function renderSourceCredits(publicRecords,chj){
+  sourceCreditArgs={publicRecords,chj};
+  const aux=auxExampleData.records;
+  publicRecords=[...publicRecords,...aux.filter(r=>r.publicSource).map(r=>r.publicSource)];
   const list=document.getElementById("sourceCreditsList");
   list.textContent="";
   const addGroup=(heading,lines)=>{
@@ -5413,16 +5485,21 @@ function renderSourceCredits(publicRecords,chj){
   };
   const quote=w=>`『${w}』`;
 
-  const staticItems=items.filter(i=>i.example && !i.sourceExampleIds);
-  if(staticItems.some(i=>i.poem)){
+  // 助動詞の用例は出題のたびに入れ替わるので、組み込みの問題データではなく aux-examples.json の全用例から数える。
+  const staticItems=items.filter(i=>i.example && !i.sourceExampleIds && i.pos!=="aux");
+  if(staticItems.some(i=>i.poem) || aux.some(r=>r.poem)){
     addGroup(["『小倉百人一首』"],[["和歌の用例（歌番号と作者は各用例に表示）"]]);
   }
-  const works=[...new Set(staticItems.filter(i=>!i.poem && i.source).map(i=>i.source.split("・")[0]))];
+  const works=[...new Set([
+    ...staticItems.filter(i=>!i.poem && i.source).map(i=>i.source.split("・")[0]),
+    ...aux.filter(r=>r.origin==="builtin" && !r.poem).map(r=>r.work)
+  ])];
   addGroup(["古典作品（作品名は各用例に表示）"],works.length?[[works.map(quote).join("")]]:[]);
 
-  const chjWorks=[...new Set([...chj.map.values()].map(r=>r.work))];
-  if(chj.source){
-    addGroup([creditLink(chj.source.name,chj.source.url)],chjWorks.length?[[chjWorks.map(quote).join("")]]:[]);
+  const chjWorks=[...new Set([...[...chj.map.values()].map(r=>r.work),...aux.filter(r=>r.origin==="chj").map(r=>r.work)])];
+  const chjSource=chj.source||(chjWorks.length ? auxExampleData.sources.chj : null);
+  if(chjSource){
+    addGroup([creditLink(chjSource.name,chjSource.url)],chjWorks.length?[[chjWorks.map(quote).join("")]]:[]);
   }
 
   const providers=new Map();
@@ -5678,6 +5755,7 @@ function renderReviewTable(item){
 }
 function openReviewModal(item){
   if(!item) return;
+  if(item.pos==="aux" && !item.exampleId) assignAuxExample(item);
   const modal=document.getElementById("reviewModal");
   renderReviewExample(item);
   renderReviewTable(item);
@@ -5753,6 +5831,7 @@ function nextQuestion(){
   const p=pool(); if(!p.length)return;
   let q=p.filter(x=>!current||x.id!==current.id); if(!q.length)q=p;
   current=pickWeightedQuestion(q);
+  if(current.pos==="aux") assignAuxExample(current);
   chooseBlankSlots();
   answered=false; answers={}; selected=null;
   render();
@@ -5917,28 +5996,88 @@ function attachAdjvGlosses(list,glosses){
     item.lemmaReading=reading && reading.heading===lemmaHeadingText(item) ? reading : null;
   }
 }
-// 助動詞の用例ごとの意味（aux-example-meanings.json）。問題の用例・意味と食い違う記録は使わない。
+// 助動詞の用例（aux-examples.json）と用例ごとの意味（aux-example-meanings.json）。HANDOFF §30。
+// 1語に活用形ごとの用例を持ち、出題のたびに1つ選ぶ。表のセルに合わない用例、用例と食い違う意味の記録は使わない。
+function auxExampleCellProblem(example,item){
+  if(!item) return "unknown item";
+  const forms=example.track==="sub" ? item.forms2 : item.forms;
+  const cell=forms && forms[example.formIndex];
+  if(!Array.isArray(cell) || !cell.includes(example.normalizedKey)) return "not a cell of the table";
+  return "";
+}
 function auxExampleMeaningProblem(record,item){
   if(!item) return "unknown item";
   if(record.target!==item.target) return "target mismatch";
   if(record.occurrence!==(Number.isInteger(item.occurrence)?item.occurrence:0)) return "occurrence mismatch";
   const list=String(item.meaning||"").split("・");
   if(!record.exampleMeanings.every(m=>list.includes(m))) return "meaning not in list";
+  if(!(record.altMeanings||[]).every(m=>list.includes(m) && !record.exampleMeanings.includes(m))) return "alternative meaning not in list";
   return "";
 }
-async function loadAuxExampleMeanings(){
+async function loadAuxExamples(){
+  const status={loaded:false,examples:0,meanings:0,error:null};
   try{
-    const records=await window.ConjAdjvRuntime.loadAuxExampleMeanings({base:"./data/"});
+    const data=await window.ConjAdjvRuntime.loadAuxExamples({base:"./data/"});
     const byId=new Map(items.filter(x=>x.pos==="aux").map(x=>[x.id,x]));
-    for(const record of records){
-      const item=byId.get(record.id);
-      const problem=auxExampleMeaningProblem(record,item);
-      if(problem){ console.warn("conj: aux example meaning "+record.id+" ignored: "+problem); continue; }
-      item.exampleMeanings={meanings:record.exampleMeanings.slice(),status:record.status};
+    let meanings=[];
+    try{
+      meanings=await window.ConjAdjvRuntime.loadAuxExampleMeanings({base:"./data/"});
+    }catch(error){
+      console.warn("助動詞の用例ごとの意味を読み込めませんでした。意味の一覧だけを表示します。",error);
     }
+    const meaningById=new Map(meanings.map(r=>[r.id,r]));
+    const accepted=[];
+    for(const example of data.records){
+      const item=byId.get(example.itemId);
+      const problem=auxExampleCellProblem(example,item);
+      if(problem){ console.warn("conj: aux example "+example.id+" ignored: "+problem); continue; }
+      const record=meaningById.get(example.id);
+      let exampleMeanings=null;
+      if(record && record.itemId===example.itemId){
+        const meaningProblem=auxExampleMeaningProblem(record,{...example,meaning:item.meaning});
+        if(meaningProblem) console.warn("conj: aux example meaning "+record.id+" ignored: "+meaningProblem);
+        else exampleMeanings={meanings:record.exampleMeanings.slice(),alt:(record.altMeanings||[]).slice(),status:record.status};
+      }
+      if(!item.auxExamples) item.auxExamples=[];
+      item.auxExamples.push({...example,exampleMeanings});
+      accepted.push(example);
+      if(exampleMeanings) status.meanings++;
+    }
+    auxExampleData={records:accepted,sources:data.sources||{}};
+    status.examples=accepted.length;
+    status.loaded=true;
   }catch(error){
-    console.warn("助動詞の用例ごとの意味を読み込めませんでした。意味の一覧だけを表示します。",error);
+    status.error=String(error&&error.message?error.message:error);
+    console.warn("助動詞の用例を読み込めませんでした。助動詞は活用表だけで出題します。",error);
   }
+  window.__conjAuxExampleStatus=status;
+  return status;
+}
+// 出題のたびに用例を1つ選ぶ。このセッションで見せた回数の少ない用例ほど選ばれやすく、直前と同じ用例は避ける。
+const auxExampleShown=new Map();
+function assignAuxExample(item){
+  const list=item.auxExamples||[];
+  if(!list.length){
+    Object.assign(item,{example:"",target:"",occurrence:0,poem:null,source:"活用表ドリル",exampleId:null,exampleMeanings:null,pattern:null,exampleAvailable:false});
+    return;
+  }
+  const pool=list.length>1 ? list.filter(x=>x.id!==item.exampleId) : list;
+  const weighted=pool.map(x=>({x,w:1/((auxExampleShown.get(x.id)||0)+1)}));
+  let cursor=Math.random()*weighted.reduce((sum,e)=>sum+e.w,0);
+  let chosen=weighted[weighted.length-1].x;
+  for(const e of weighted){ cursor-=e.w; if(cursor<=0){ chosen=e.x; break; } }
+  auxExampleShown.set(chosen.id,(auxExampleShown.get(chosen.id)||0)+1);
+  Object.assign(item,{
+    example:chosen.example,
+    target:chosen.target,
+    occurrence:chosen.occurrence,
+    poem:chosen.poem||null,
+    source:chosen.source||chosen.work,
+    exampleId:chosen.id,
+    exampleMeanings:chosen.exampleMeanings,
+    pattern:chosen.pattern||null,
+    exampleAvailable:true
+  });
 }
 // 起動直後の1問目はデータの読み込みより先に描かれるため、読み込み後にルビと語釈帯だけを描き直す。
 function refreshCurrentGloss(){
@@ -6068,7 +6207,12 @@ async function bootConj(){
   nextQuestion();
   initInstallGuide();
   loadStampMask();
-  await Promise.all([loadAdjvRuntimeItems(),loadAuxExampleMeanings()]);
+  await Promise.all([loadAdjvRuntimeItems(),loadAuxExamples()]);
+  refreshSourceCredits();
+  if(current && current.pos==="aux" && !answered){
+    assignAuxExample(current);
+    render();
+  }
   refreshCurrentGloss();
   if(document.fonts?.ready) document.fonts.ready.then(()=>requestAnimationFrame(()=>{syncStudyHeights();placePerfectStamp();}));
 }

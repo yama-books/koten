@@ -1,0 +1,1593 @@
+{
+ "schemaVersion": "1.0",
+ "audited": "2026-09-28",
+ "source": "ユーザーの意味監査（監査ページ https://claude.ai/code/artifact/4f19edb0-0249-4c14-856b-cd991d60cf8f の judgments を書き出した jodoshi-audit-results.json）",
+ "policies": [
+  "濁点・読点を補った校訂表記で表示する（display の example・target・occurrence）。元の CHJ 表記との違いは濁点・読点だけであることを build.py で確かめる",
+  "まほし・たしの意味名は「願望」（桐原書店の文法書に準拠）",
+  "過去の原因推量・現在の原因推量は推量と別の意味として残す",
+  "解釈が分かれる用例は主（primary）と別解（secondary）に分ける。表示は色だけに頼らず「別解」の文字ラベルを付ける",
+  "「え〜まじ」の不可能は副詞「え」が担うとみて、「まじ」は打消推量・打消意志を主、不可能を別解とする",
+  "禁止を主にするのは相手に向けた文（宣下など）",
+  "「一人称なら意志、三人称なら推量」は主語が決まった平叙文の目安。疑問詞が主語の文では保留する",
+  "「に（断定）＋係助詞＋あり」は定型として注記する（pattern）",
+  "断定「たり」の連用形「と」は例文を立てない（格助詞とみる説もあるため）。連用形は「たり」の形の例文で示し、備考を付ける"
+ ],
+ "records": [
+  {
+   "id": "aux-ru-001",
+   "itemId": "ru_aux",
+   "normalizedKey": "れ",
+   "decision": "audited-previously",
+   "primary": [
+    "自発"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ru-002",
+   "itemId": "ru_aux",
+   "normalizedKey": "れ",
+   "decision": "approved",
+   "primary": [
+    "受身"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ru-003",
+   "itemId": "ru_aux",
+   "normalizedKey": "る",
+   "decision": "approved",
+   "primary": [
+    "可能"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ru-004",
+   "itemId": "ru_aux",
+   "normalizedKey": "るる",
+   "decision": "approved",
+   "primary": [
+    "受身"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ru-005",
+   "itemId": "ru_aux",
+   "normalizedKey": "るれ",
+   "decision": "approved",
+   "primary": [
+    "自発"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ru-006",
+   "itemId": "ru_aux",
+   "normalizedKey": "れよ",
+   "decision": "approved",
+   "primary": [
+    "尊敬"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-raru-001",
+   "itemId": "raru_aux",
+   "normalizedKey": "られ",
+   "decision": "audited-previously",
+   "primary": [
+    "可能"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-raru-002",
+   "itemId": "raru_aux",
+   "normalizedKey": "られ",
+   "decision": "approved",
+   "primary": [
+    "尊敬"
+   ],
+   "secondary": [],
+   "auditChange": "用例差し替え（源氏・夕顔→十訓抄・大江山）"
+  },
+  {
+   "id": "aux-raru-003",
+   "itemId": "raru_aux",
+   "normalizedKey": "らる",
+   "decision": "approved",
+   "primary": [
+    "自発"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-raru-004",
+   "itemId": "raru_aux",
+   "normalizedKey": "らるる",
+   "decision": "approved",
+   "primary": [
+    "受身"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-raru-005",
+   "itemId": "raru_aux",
+   "normalizedKey": "らるれ",
+   "decision": "approved",
+   "primary": [
+    "自発"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-raru-006",
+   "itemId": "raru_aux",
+   "normalizedKey": "られよ",
+   "decision": "approved",
+   "primary": [
+    "尊敬"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-su-001",
+   "itemId": "su_aux",
+   "normalizedKey": "せ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-su-002",
+   "itemId": "su_aux",
+   "normalizedKey": "せ",
+   "decision": "audited-previously",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-su-003",
+   "itemId": "su_aux",
+   "normalizedKey": "す",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-su-004",
+   "itemId": "su_aux",
+   "normalizedKey": "する",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-su-005",
+   "itemId": "su_aux",
+   "normalizedKey": "すれ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-su-006",
+   "itemId": "su_aux",
+   "normalizedKey": "せよ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-sasu-001",
+   "itemId": "sasu_aux",
+   "normalizedKey": "させ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-sasu-002",
+   "itemId": "sasu_aux",
+   "normalizedKey": "させ",
+   "decision": "audited-previously",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-sasu-003",
+   "itemId": "sasu_aux",
+   "normalizedKey": "さす",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-sasu-004",
+   "itemId": "sasu_aux",
+   "normalizedKey": "さする",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-sasu-005",
+   "itemId": "sasu_aux",
+   "normalizedKey": "さすれ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-sasu-006",
+   "itemId": "sasu_aux",
+   "normalizedKey": "させよ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-shimu-001",
+   "itemId": "shimu_aux",
+   "normalizedKey": "しめ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-shimu-002",
+   "itemId": "shimu_aux",
+   "normalizedKey": "しめ",
+   "decision": "audited-previously",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-shimu-003",
+   "itemId": "shimu_aux",
+   "normalizedKey": "しむ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-shimu-004",
+   "itemId": "shimu_aux",
+   "normalizedKey": "しむる",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-shimu-005",
+   "itemId": "shimu_aux",
+   "normalizedKey": "しむれ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-shimu-006",
+   "itemId": "shimu_aux",
+   "normalizedKey": "しめよ",
+   "decision": "approved",
+   "primary": [
+    "使役"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-zu-001",
+   "itemId": "zu",
+   "normalizedKey": "ず",
+   "decision": "approved",
+   "primary": [
+    "打消"
+   ],
+   "secondary": [],
+   "auditChange": "濁点補正（target す→ず）",
+   "display": {
+    "example": "いかばかり人のつらさをうらみましうき身のとがと思ひなさずは",
+    "target": "ず",
+    "occurrence": 0
+   }
+  },
+  {
+   "id": "aux-zu-002",
+   "itemId": "zu",
+   "normalizedKey": "ざら",
+   "decision": "approved",
+   "primary": [
+    "打消"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-zu-003",
+   "itemId": "zu",
+   "normalizedKey": "ず",
+   "decision": "approved",
+   "primary": [
+    "打消"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-zu-004",
+   "itemId": "zu",
+   "normalizedKey": "ざり",
+   "decision": "approved",
+   "primary": [
+    "打消"
+   ],
+   "secondary": [],
+   "auditChange": "濁点補正（target さり→ざり）",
+   "display": {
+    "example": "夏衣花のたもとにぬぎかへて春のかた見もとまらざりけり",
+    "target": "ざり",
+    "occurrence": 0
+   }
+  },
+  {
+   "id": "aux-zu-005",
+   "itemId": "zu",
+   "normalizedKey": "ず",
+   "decision": "approved",
+   "primary": [
+    "打消"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-zu-006",
+   "itemId": "zu",
+   "normalizedKey": "ぬ",
+   "decision": "audited-previously",
+   "primary": [
+    "打消"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-zu-007",
+   "itemId": "zu",
+   "normalizedKey": "ざる",
+   "decision": "approved",
+   "primary": [
+    "打消"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-zu-008",
+   "itemId": "zu",
+   "normalizedKey": "ね",
+   "decision": "approved",
+   "primary": [
+    "打消"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-zu-009",
+   "itemId": "zu",
+   "normalizedKey": "ざれ",
+   "decision": "approved",
+   "primary": [
+    "打消"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-zu-010",
+   "itemId": "zu",
+   "normalizedKey": "ざれ",
+   "decision": "approved",
+   "primary": [
+    "打消"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mu-001",
+   "itemId": "mu_aux",
+   "normalizedKey": "む",
+   "decision": "approved",
+   "primary": [
+    "意志"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mu-002",
+   "itemId": "mu_aux",
+   "normalizedKey": "む",
+   "decision": "audited-previously",
+   "primary": [
+    "推量",
+    "意志"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mu-003",
+   "itemId": "mu_aux",
+   "normalizedKey": "め",
+   "decision": "approved",
+   "primary": [
+    "推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-muzu-001",
+   "itemId": "muzu_aux",
+   "normalizedKey": "むず",
+   "decision": "approved",
+   "primary": [
+    "推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-muzu-002",
+   "itemId": "muzu_aux",
+   "normalizedKey": "むずる",
+   "decision": "audited-previously",
+   "primary": [
+    "意志"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-muzu-003",
+   "itemId": "muzu_aux",
+   "normalizedKey": "むずれ",
+   "decision": "approved",
+   "primary": [
+    "推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ji-001",
+   "itemId": "ji_aux",
+   "normalizedKey": "じ",
+   "decision": "audited-previously",
+   "primary": [
+    "打消意志"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ji-002",
+   "itemId": "ji_aux",
+   "normalizedKey": "じ",
+   "decision": "approved",
+   "primary": [
+    "打消意志"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mashi-001",
+   "itemId": "mashi_aux",
+   "normalizedKey": "ましか",
+   "decision": "approved",
+   "primary": [
+    "反実仮想"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mashi-002",
+   "itemId": "mashi_aux",
+   "normalizedKey": "ませ",
+   "decision": "approved",
+   "primary": [
+    "反実仮想"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mashi-003",
+   "itemId": "mashi_aux",
+   "normalizedKey": "まし",
+   "decision": "audited-previously",
+   "primary": [
+    "反実仮想"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mashi-004",
+   "itemId": "mashi_aux",
+   "normalizedKey": "まし",
+   "decision": "approved",
+   "primary": [
+    "反実仮想"
+   ],
+   "secondary": [],
+   "auditChange": "濁点補正",
+   "display": {
+    "example": "もみぢはのながれざりせば立田川水の秋をばたれかしらまし",
+    "target": "まし",
+    "occurrence": 0
+   }
+  },
+  {
+   "id": "aux-mashi-005",
+   "itemId": "mashi_aux",
+   "normalizedKey": "ましか",
+   "decision": "approved",
+   "primary": [
+    "反実仮想"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mahoshi-001",
+   "itemId": "mahoshi_aux",
+   "normalizedKey": "まほしく",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mahoshi-002",
+   "itemId": "mahoshi_aux",
+   "normalizedKey": "まほしから",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mahoshi-003",
+   "itemId": "mahoshi_aux",
+   "normalizedKey": "まほしく",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mahoshi-004",
+   "itemId": "mahoshi_aux",
+   "normalizedKey": "まほしかり",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mahoshi-005",
+   "itemId": "mahoshi_aux",
+   "normalizedKey": "まほし",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mahoshi-006",
+   "itemId": "mahoshi_aux",
+   "normalizedKey": "まほしき",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mahoshi-007",
+   "itemId": "mahoshi_aux",
+   "normalizedKey": "まほしかる",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-mahoshi-008",
+   "itemId": "mahoshi_aux",
+   "normalizedKey": "まほしけれ",
+   "decision": "audited-previously",
+   "primary": [
+    "願望"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ki-001",
+   "itemId": "ki_aux",
+   "normalizedKey": "せ",
+   "decision": "approved",
+   "primary": [
+    "過去"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ki-002",
+   "itemId": "ki_aux",
+   "normalizedKey": "き",
+   "decision": "approved",
+   "primary": [
+    "過去"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ki-003",
+   "itemId": "ki_aux",
+   "normalizedKey": "し",
+   "decision": "audited-previously",
+   "primary": [
+    "過去"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ki-004",
+   "itemId": "ki_aux",
+   "normalizedKey": "しか",
+   "decision": "approved",
+   "primary": [
+    "過去"
+   ],
+   "secondary": [],
+   "auditChange": "濁点補正",
+   "display": {
+    "example": "昨日こそ年はくれしか春がすみかすがの山にはや立にけり",
+    "target": "しか",
+    "occurrence": 0
+   }
+  },
+  {
+   "id": "aux-keri-001",
+   "itemId": "keri",
+   "normalizedKey": "けり",
+   "decision": "audited-previously",
+   "primary": [
+    "詠嘆"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-keri-002",
+   "itemId": "keri",
+   "normalizedKey": "ける",
+   "decision": "approved",
+   "primary": [
+    "過去"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-keri-003",
+   "itemId": "keri",
+   "normalizedKey": "けれ",
+   "decision": "approved",
+   "primary": [
+    "過去"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tsu-001",
+   "itemId": "tsu_aux",
+   "normalizedKey": "て",
+   "decision": "approved",
+   "primary": [
+    "強意"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tsu-002",
+   "itemId": "tsu_aux",
+   "normalizedKey": "て",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tsu-003",
+   "itemId": "tsu_aux",
+   "normalizedKey": "つ",
+   "decision": "audited-previously",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tsu-004",
+   "itemId": "tsu_aux",
+   "normalizedKey": "つる",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tsu-005",
+   "itemId": "tsu_aux",
+   "normalizedKey": "つれ",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tsu-006",
+   "itemId": "tsu_aux",
+   "normalizedKey": "てよ",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nu-001",
+   "itemId": "nu_aux",
+   "normalizedKey": "な",
+   "decision": "approved",
+   "primary": [
+    "強意"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nu-002",
+   "itemId": "nu_aux",
+   "normalizedKey": "に",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nu-003",
+   "itemId": "nu_aux",
+   "normalizedKey": "ぬ",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nu-004",
+   "itemId": "nu_aux",
+   "normalizedKey": "ぬる",
+   "decision": "audited-previously",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nu-005",
+   "itemId": "nu_aux",
+   "normalizedKey": "ぬれ",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nu-006",
+   "itemId": "nu_aux",
+   "normalizedKey": "ね",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tari-comp-001",
+   "itemId": "tari_comp_aux",
+   "normalizedKey": "たら",
+   "decision": "approved",
+   "primary": [
+    "存続"
+   ],
+   "secondary": [],
+   "auditChange": "濁点補正",
+   "display": {
+    "example": "ふんやのやすひではことばはたくみにてそのさま身におはず、いはばあき人のよききぬきたらんがごとし、",
+    "target": "たら",
+    "occurrence": 0
+   }
+  },
+  {
+   "id": "aux-tari-comp-002",
+   "itemId": "tari_comp_aux",
+   "normalizedKey": "たり",
+   "decision": "approved",
+   "primary": [
+    "存続"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tari-comp-003",
+   "itemId": "tari_comp_aux",
+   "normalizedKey": "たり",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tari-comp-004",
+   "itemId": "tari_comp_aux",
+   "normalizedKey": "たる",
+   "decision": "audited-previously",
+   "primary": [
+    "存続"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tari-comp-005",
+   "itemId": "tari_comp_aux",
+   "normalizedKey": "たれ",
+   "decision": "approved",
+   "primary": [
+    "存続"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tari-comp-006",
+   "itemId": "tari_comp_aux",
+   "normalizedKey": "たれ",
+   "decision": "approved",
+   "primary": [
+    "存続"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ri-001",
+   "itemId": "ri_aux",
+   "normalizedKey": "ら",
+   "decision": "audited-previously",
+   "primary": [
+    "存続"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ri-002",
+   "itemId": "ri_aux",
+   "normalizedKey": "り",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ri-003",
+   "itemId": "ri_aux",
+   "normalizedKey": "り",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ri-004",
+   "itemId": "ri_aux",
+   "normalizedKey": "る",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ri-005",
+   "itemId": "ri_aux",
+   "normalizedKey": "れ",
+   "decision": "approved",
+   "primary": [
+    "完了"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ri-006",
+   "itemId": "ri_aux",
+   "normalizedKey": "れ",
+   "decision": "approved",
+   "primary": [
+    "存続"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-kemu-001",
+   "itemId": "kemu_aux",
+   "normalizedKey": "けむ",
+   "decision": "changed",
+   "primary": [
+    "過去の原因推量"
+   ],
+   "secondary": [
+    "過去推量"
+   ],
+   "basis": "「いかなる底の心を見て、さる名をつけけむ」＝どんな深い心を見てそんな名をつけたのだろう。理由を推量するので過去の原因推量。過去推量と訳してもよい"
+  },
+  {
+   "id": "aux-kemu-002",
+   "itemId": "kemu_aux",
+   "normalizedKey": "けむ",
+   "decision": "approved",
+   "primary": [
+    "過去推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-kemu-003",
+   "itemId": "kemu_aux",
+   "normalizedKey": "けめ",
+   "decision": "audited-previously",
+   "primary": [
+    "過去推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ramu-001",
+   "itemId": "ramu_aux",
+   "normalizedKey": "らむ",
+   "decision": "audited-previously",
+   "primary": [
+    "現在推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ramu-002",
+   "itemId": "ramu_aux",
+   "normalizedKey": "らむ",
+   "decision": "approved",
+   "primary": [
+    "現在推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-ramu-003",
+   "itemId": "ramu_aux",
+   "normalizedKey": "らめ",
+   "decision": "approved",
+   "primary": [
+    "現在推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-beshi-001",
+   "itemId": "beshi_aux",
+   "normalizedKey": "べく",
+   "decision": "approved",
+   "primary": [
+    "可能"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-beshi-002",
+   "itemId": "beshi_aux",
+   "normalizedKey": "べから",
+   "decision": "changed",
+   "primary": [
+    "当然"
+   ],
+   "secondary": [
+    "命令",
+    "適当"
+   ],
+   "basis": "「一つも欠けてはあるべからず」＝一つも欠けていてはならない。当然が主、命令・適当とも解せる"
+  },
+  {
+   "id": "aux-beshi-003",
+   "itemId": "beshi_aux",
+   "normalizedKey": "べく",
+   "decision": "approved",
+   "primary": [
+    "可能"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-beshi-004",
+   "itemId": "beshi_aux",
+   "normalizedKey": "べかり",
+   "decision": "changed",
+   "primary": [
+    "当然"
+   ],
+   "secondary": [
+    "適当"
+   ],
+   "basis": "「恐れのなかに恐るべかりけるは」＝恐ろしいものの中で当然恐れるべきであったのは。適当とも解せる"
+  },
+  {
+   "id": "aux-beshi-005",
+   "itemId": "beshi_aux",
+   "normalizedKey": "べし",
+   "decision": "approved",
+   "primary": [
+    "推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-beshi-006",
+   "itemId": "beshi_aux",
+   "normalizedKey": "べき",
+   "decision": "audited-previously",
+   "primary": [
+    "当然",
+    "推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-beshi-007",
+   "itemId": "beshi_aux",
+   "normalizedKey": "べかる",
+   "decision": "changed",
+   "primary": [
+    "意志"
+   ],
+   "secondary": [
+    "推量",
+    "可能"
+   ],
+   "basis": "「何者が信頼を失ふべかるらん」。疑問詞が主語の文なので人称の原則は保留し、前提（誰かが滅ぼそうとしている）の動作主の意図を問う文として意志を主とする。推量は「らむ」が担う。驚きの問い「誰が滅ぼせるというのか」とも読めるので可能も別解。流布本は「べかなる」",
+   "textCheck": "新編全集＜41＞平治物語 p.418（CHJ の底本）で「何者が信頼を失ふべかるらん」を確認"
+  },
+  {
+   "id": "aux-beshi-008",
+   "itemId": "beshi_aux",
+   "normalizedKey": "べけれ",
+   "decision": "changed",
+   "primary": [
+    "適当"
+   ],
+   "secondary": [
+    "当然"
+   ],
+   "basis": "「ここにおはするこそ、さやうにものしつべけれ」＝ここにいらっしゃる方こそ、そのようにするのがよい。当然とも解せる"
+  },
+  {
+   "id": "aux-maji-001",
+   "itemId": "maji_aux",
+   "normalizedKey": "まじく",
+   "decision": "changed",
+   "primary": [
+    "打消推量"
+   ],
+   "secondary": [
+    "不可能"
+   ],
+   "basis": "「かの左衛門督まかりなるまじくは」。道長の「えなられじ」を斉信が受けた言葉で、人柄・人望から（中納言に）なりそうもないならの意。不可能とも解せる",
+   "auditChange": "basis修正（大納言→中納言）",
+   "textCheck": "新編全集＜34＞大鏡 pp.228–229 をジャパンナレッジSchool で確認（2026-09-29）。本文は CHJ と同じ。現代語訳は「（あの兄の左衛門督）が栄進しないということであれば、遠慮するのも意味がないことです」"
+  },
+  {
+   "id": "aux-maji-002",
+   "itemId": "maji_aux",
+   "normalizedKey": "まじから",
+   "decision": "changed",
+   "primary": [
+    "打消当然"
+   ],
+   "secondary": [
+    "禁止",
+    "不適当"
+   ],
+   "basis": "「あるまじからむ振舞は、よくよく慎むべし」＝あってはならないような振る舞い。禁止・不適当とも解せる"
+  },
+  {
+   "id": "aux-maji-003",
+   "itemId": "maji_aux",
+   "normalizedKey": "まじく",
+   "decision": "changed",
+   "primary": [
+    "禁止"
+   ],
+   "secondary": [
+    "打消当然",
+    "不適当"
+   ],
+   "basis": "「長く論あるまじく」。宣下の文なので相手に向けた禁止が主。打消当然・不適当とも解せる"
+  },
+  {
+   "id": "aux-maji-004",
+   "itemId": "maji_aux",
+   "normalizedKey": "まじかり",
+   "decision": "changed",
+   "primary": [
+    "打消推量"
+   ],
+   "secondary": [
+    "不可能"
+   ],
+   "basis": "「女のえ得まじかりけるを」。不可能は副詞「え」が担うとみて、「まじ」は打消推量を主、不可能を別解とする",
+   "firstImpression": "どれでも訳せる"
+  },
+  {
+   "id": "aux-maji-005",
+   "itemId": "maji_aux",
+   "normalizedKey": "まじ",
+   "decision": "audited-previously",
+   "primary": [
+    "打消推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-maji-006",
+   "itemId": "maji_aux",
+   "normalizedKey": "まじき",
+   "decision": "changed",
+   "primary": [
+    "打消当然"
+   ],
+   "secondary": [
+    "禁止",
+    "不適当"
+   ],
+   "basis": "「あるまじきところへおはする」＝行くべきでない所へいらっしゃる。禁止・不適当とも解せる"
+  },
+  {
+   "id": "aux-maji-007",
+   "itemId": "maji_aux",
+   "normalizedKey": "まじかる",
+   "decision": "approved",
+   "primary": [
+    "打消推量"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-maji-008",
+   "itemId": "maji_aux",
+   "normalizedKey": "まじけれ",
+   "decision": "changed",
+   "primary": [
+    "打消意志"
+   ],
+   "secondary": [
+    "不可能"
+   ],
+   "basis": "「なほえこそ思ひ捨つまじけれ」。不可能は副詞「え」が担うとみて、「まじ」は打消意志を主、不可能を別解とする",
+   "firstImpression": "すべてを包括している"
+  },
+  {
+   "id": "aux-rashi-001",
+   "itemId": "rashi_aux",
+   "normalizedKey": "らし",
+   "decision": "audited-previously",
+   "primary": [
+    "推定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-rashi-002",
+   "itemId": "rashi_aux",
+   "normalizedKey": "らし",
+   "decision": "approved",
+   "primary": [
+    "推定"
+   ],
+   "secondary": [],
+   "auditChange": "濁点補正",
+   "display": {
+    "example": "この川にもみぢばながるおく山の雪げの水ぞいまゝさるらし",
+    "target": "らし",
+    "occurrence": 0
+   }
+  },
+  {
+   "id": "aux-rashi-003",
+   "itemId": "rashi_aux",
+   "normalizedKey": "らし",
+   "decision": "approved",
+   "primary": [
+    "推定"
+   ],
+   "secondary": [],
+   "auditChange": "濁点補正",
+   "display": {
+    "example": "氷こそいまはすらしもみよしのゝ山のたぎつせ声も聞えず",
+    "target": "らし",
+    "occurrence": 0
+   },
+   "textCheck": "「たぎつせ」の濁点はユーザーが承認（2026-09-29）"
+  },
+  {
+   "id": "aux-meri-001",
+   "itemId": "meri_aux",
+   "normalizedKey": "めり",
+   "decision": "approved",
+   "primary": [
+    "推定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-meri-002",
+   "itemId": "meri_aux",
+   "normalizedKey": "めり",
+   "decision": "audited-previously",
+   "primary": [
+    "推定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-meri-003",
+   "itemId": "meri_aux",
+   "normalizedKey": "める",
+   "decision": "approved",
+   "primary": [
+    "推定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-meri-004",
+   "itemId": "meri_aux",
+   "normalizedKey": "めれ",
+   "decision": "approved",
+   "primary": [
+    "婉曲"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nari-hearsay-001",
+   "itemId": "nari_hearsay_aux",
+   "normalizedKey": "なり",
+   "decision": "approved",
+   "primary": [
+    "伝聞"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nari-hearsay-002",
+   "itemId": "nari_hearsay_aux",
+   "normalizedKey": "なり",
+   "decision": "audited-previously",
+   "primary": [
+    "伝聞"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nari-hearsay-003",
+   "itemId": "nari_hearsay_aux",
+   "normalizedKey": "なる",
+   "decision": "approved",
+   "primary": [
+    "伝聞"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nari-hearsay-004",
+   "itemId": "nari_hearsay_aux",
+   "normalizedKey": "なれ",
+   "decision": "approved",
+   "primary": [
+    "伝聞"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nari-assert-001",
+   "itemId": "nari_assert_aux",
+   "normalizedKey": "なら",
+   "decision": "approved",
+   "primary": [
+    "断定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nari-assert-002",
+   "itemId": "nari_assert_aux",
+   "normalizedKey": "なり",
+   "decision": "audited-previously",
+   "primary": [
+    "断定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nari-assert-003",
+   "itemId": "nari_assert_aux",
+   "normalizedKey": "に",
+   "decision": "approved",
+   "primary": [
+    "断定"
+   ],
+   "secondary": [],
+   "pattern": {
+    "label": "定型「にあり」",
+    "text": "に（断定「なり」の連用形）＋係助詞（も）＋あり。ここでは「あらず」で「〜でもない」。「にや（あらむ）」「にか（あらむ）」「にこそ（あらめ）」も同じ組み立てで、後ろの「あり」は省かれることが多い。",
+    "short": "「に＋係助詞＋あり」の定型。「にや」「にこそ」なども同じ形で、「あり」はよく省かれる。"
+   }
+  },
+  {
+   "id": "aux-nari-assert-004",
+   "itemId": "nari_assert_aux",
+   "normalizedKey": "なり",
+   "decision": "approved",
+   "primary": [
+    "断定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nari-assert-005",
+   "itemId": "nari_assert_aux",
+   "normalizedKey": "なる",
+   "decision": "approved",
+   "primary": [
+    "存在"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-nari-assert-006",
+   "itemId": "nari_assert_aux",
+   "normalizedKey": "なれ",
+   "decision": "approved",
+   "primary": [
+    "断定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tari-assert-001",
+   "itemId": "tari_assert_aux",
+   "normalizedKey": "たら",
+   "decision": "approved",
+   "primary": [
+    "断定"
+   ],
+   "secondary": [],
+   "auditChange": "読点補正（君、君たらず）",
+   "display": {
+    "example": "君、君たらずと云ふとも、臣もッて臣たらずンばあるべからず。",
+    "target": "たら",
+    "occurrence": 0
+   }
+  },
+  {
+   "id": "aux-tari-assert-002",
+   "itemId": "tari_assert_aux",
+   "normalizedKey": "たり",
+   "decision": "approved",
+   "primary": [
+    "断定"
+   ],
+   "secondary": [],
+   "pattern": {
+    "label": "連用形「と」について",
+    "text": "断定「たり」の連用形には「たり」と「と」がある。「と」は主に「として」の形で現れるが、この「と」は格助詞とみる説もある（精選版日本国語大辞典・デジタル大辞泉は両説を併記）。そのため連用形の例文は「たり」の形で示す。",
+    "short": "連用形には「と」もある（「〜として」）。格助詞とみる説もあるので、例は「たり」で示す。"
+   },
+   "auditChange": "連用形「と」についての備考を追加"
+  },
+  {
+   "id": "aux-tari-assert-003",
+   "itemId": "tari_assert_aux",
+   "normalizedKey": "と",
+   "decision": "withdrawn",
+   "primary": [],
+   "secondary": [],
+   "auditChange": "取り下げ（連用形「と」の例文は立てない）"
+  },
+  {
+   "id": "aux-tari-assert-004",
+   "itemId": "tari_assert_aux",
+   "normalizedKey": "たり",
+   "decision": "audited-previously",
+   "primary": [
+    "断定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tari-assert-005",
+   "itemId": "tari_assert_aux",
+   "normalizedKey": "たる",
+   "decision": "approved",
+   "primary": [
+    "断定"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-tashi-001",
+   "itemId": "tashi_aux",
+   "normalizedKey": "たく",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": [],
+   "auditChange": "意味名 希望→願望"
+  },
+  {
+   "id": "aux-tashi-002",
+   "itemId": "tashi_aux",
+   "normalizedKey": "たから",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": [],
+   "auditChange": "意味名 希望→願望"
+  },
+  {
+   "id": "aux-tashi-003",
+   "itemId": "tashi_aux",
+   "normalizedKey": "たく",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": [],
+   "auditChange": "意味名 希望→願望"
+  },
+  {
+   "id": "aux-tashi-004",
+   "itemId": "tashi_aux",
+   "normalizedKey": "たかり",
+   "decision": "audited-previously",
+   "primary": [
+    "願望"
+   ],
+   "secondary": [],
+   "auditChange": "意味名 希望→願望"
+  },
+  {
+   "id": "aux-tashi-005",
+   "itemId": "tashi_aux",
+   "normalizedKey": "たし",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": [],
+   "auditChange": "意味名 希望→願望"
+  },
+  {
+   "id": "aux-tashi-006",
+   "itemId": "tashi_aux",
+   "normalizedKey": "たき",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": [],
+   "auditChange": "意味名 希望→願望"
+  },
+  {
+   "id": "aux-tashi-007",
+   "itemId": "tashi_aux",
+   "normalizedKey": "たけれ",
+   "decision": "approved",
+   "primary": [
+    "願望"
+   ],
+   "secondary": [],
+   "auditChange": "意味名 希望→願望"
+  },
+  {
+   "id": "aux-gotoshi-001",
+   "itemId": "gotoshi_aux",
+   "normalizedKey": "ごとく",
+   "decision": "approved",
+   "primary": [
+    "比況"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-gotoshi-002",
+   "itemId": "gotoshi_aux",
+   "normalizedKey": "ごとし",
+   "decision": "audited-previously",
+   "primary": [
+    "比況"
+   ],
+   "secondary": []
+  },
+  {
+   "id": "aux-gotoshi-003",
+   "itemId": "gotoshi_aux",
+   "normalizedKey": "ごとき",
+   "decision": "approved",
+   "primary": [
+    "比況"
+   ],
+   "secondary": []
+  }
+ ],
+ "notes": [
+  "pattern.short は画面のふきだしに出す短い文（2026-09-28。解説が過剰にならないように）。pattern.text は監査時の全文。firstImpression は監査ページのメモに残した初見の印象で、最新の判定は primary・secondary。"
+ ]
+}

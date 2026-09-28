@@ -71,17 +71,17 @@ test('conj: アプリが実行時に読むファイル（データ・画像・CS
   const adapter = readFileSync(path.join(root, 'conj/adjv-runtime-adapter.js'), 'utf8');
   assert.match(adapter, /const DEFAULT_BASE="\.\/data\/";/);
   const data = [...adapter.matchAll(/base\+"([^"]+\.json)"/g)].map((m) => `data/${m[1]}`);
-  // 活用表5・公開本文・CHJ 引用・語釈・助動詞の意味。減ったら抽出が壊れている。
-  assert.equal(new Set(data).size, 9, data.join(', '));
+  // 活用表5・公開本文・CHJ 引用・語釈・助動詞の用例・助動詞の意味。減ったら抽出が壊れている。
+  assert.equal(new Set(data).size, 10, data.join(', '));
   for (const file of data) refs.add(file);
   for (const expected of ['adjv-runtime-adapter.js', 'branding.css', 'icon.svg', 'manifest.webmanifest',
     'img/hanamaru.png', 'img/record-cat.webp', 'img/result-ok.png', 'img/result-ng.png',
-    'data/adjectival-noun-public-examples.json', 'data/adjectival-noun-chj-quotations.json']) {
+    'data/adjectival-noun-public-examples.json', 'data/adjectival-noun-chj-quotations.json', 'data/aux-examples.json']) {
     assert.ok(refs.has(expected), `参照の抽出から ${expected} が漏れている`);
   }
   const files = deployed('conj');
   const missing = [...refs].filter((ref) => !files.has(ref))
-    // 内部扱いのデータ（CHJ の引用・example-index-120）は公開ツリーには無い。作業リポジトリでは必ず配信する。
+    // 内部扱いのデータ（CHJ の引用・example-index-120・助動詞の用例）は公開ツリーには無い。作業リポジトリでは必ず配信する。
     .filter((ref) => !heldConjData.includes(`conj/${ref}`) || heldDataExpected(`conj/${ref}`));
   assert.deepEqual(missing, [], `Pages に置かれない: ${missing.join(', ')}`);
   assert.ok(files.has('index.html'));

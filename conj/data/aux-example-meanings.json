@@ -1,321 +1,2066 @@
 {
-  "schemaVersion": "1.0",
-  "source": "conj/DESIGN_GLOSS_LAYOUT_2026-09-28.md §6.5（Claude 案をユーザーが 2026-09-28 に監査・承認）",
-  "policy": "status が \"audited\" のものだけを画面で強調する（exampleMeanings の各要素にマーカー＋太字）。candidate は一覧を普通に表示するだけ。意味が1つの語は status によらず強調しない。exampleMeanings の各要素は問題の meaning を「・」で分けた要素のどれかと一致すること。",
+  "schemaVersion": "2.0",
+  "source": "conj/audit/aux_examples/meanings.py（Claude 案）。組み込みの28例は DESIGN_GLOSS_LAYOUT_2026-09-28 §6.5 でユーザーが 2026-09-28 に監査・承認したもの",
+  "policy": "id は aux-examples.json の用例 id。status が \"audited\" のものだけを画面で強調する（exampleMeanings の各要素にマーカー＋太字）。candidate は一覧を普通に表示するだけ。意味が1つの語は status によらず強調しない。exampleMeanings の各要素は問題の meaning を「・」で分けた要素のどれかと一致すること。target・occurrence が用例と一致しない記録は使わない。",
   "records": [
     {
-      "id": "ru_aux",
+      "id": "aux-ru-001",
+      "itemId": "ru_aux",
       "target": "れ",
       "occurrence": 0,
       "exampleMeanings": [
         "自発"
       ],
+      "altMeanings": [],
       "basis": "百人一首84「しのばれむ」 — 「しのばれむ」＝自然と懐かしく思い出されるだろう",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "raru_aux",
+      "id": "aux-ru-002",
+      "itemId": "ru_aux",
+      "target": "れ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "受身"
+      ],
+      "altMeanings": [],
+      "basis": "「家はこぼたれて」＝（大火で）家が壊されて。主語「家」が動作を受ける",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ru-003",
+      "itemId": "ru_aux",
+      "target": "る",
+      "occurrence": 1,
+      "exampleMeanings": [
+        "可能"
+      ],
+      "altMeanings": [],
+      "basis": "「冬はいかなる所にも住まる」＝冬はどんな所にでも住むことができる（家の作りやうは夏をむねとすべし）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ru-004",
+      "itemId": "ru_aux",
+      "target": "るる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "受身"
+      ],
+      "altMeanings": [],
+      "basis": "「姑に思はるる嫁の君」＝姑にかわいがられるお嫁さん。「姑に」が動作主",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ru-005",
+      "itemId": "ru_aux",
+      "target": "るれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "自発"
+      ],
+      "altMeanings": [],
+      "basis": "「ことざまはおしはからるれ」＝（住まいによって）人柄は自然と推し量られる。可能とも解せる",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ru-006",
+      "itemId": "ru_aux",
+      "target": "れよ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "尊敬"
+      ],
+      "altMeanings": [],
+      "basis": "「ことの子細を申されよ」＝事情をおっしゃい。相手への敬意（「申さ」＋尊敬の「る」）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-raru-001",
+      "itemId": "raru_aux",
       "target": "られ",
       "occurrence": 0,
       "exampleMeanings": [
         "可能"
       ],
+      "altMeanings": [],
       "basis": "方丈記「目もあてられぬ」 — 打消を伴い不可能の意",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "su_aux",
+      "id": "aux-raru-002",
+      "itemId": "raru_aux",
+      "target": "られ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "尊敬"
+      ],
+      "altMeanings": [],
+      "basis": "「わが御紅の御衣の着られたりつる」＝自分の紅の御衣が（夕顔に）着せ掛けられていた。主語は「御衣」",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-raru-003",
+      "itemId": "raru_aux",
+      "target": "らる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "自発"
+      ],
+      "altMeanings": [],
+      "basis": "「灯影に見し顔思し出でらる」＝灯火の光で見た顔が自然と思い出される",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-raru-004",
+      "itemId": "raru_aux",
+      "target": "らるる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "受身"
+      ],
+      "altMeanings": [],
+      "basis": "「舅にほめらるる婿」＝舅にほめられる婿。「舅に」が動作主",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-raru-005",
+      "itemId": "raru_aux",
+      "target": "らるれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "自発"
+      ],
+      "altMeanings": [],
+      "basis": "「万に心づかひせらるれ」＝（旅先では）何事にも自然と気配りされる",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-raru-006",
+      "itemId": "raru_aux",
+      "target": "られよ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "尊敬"
+      ],
+      "altMeanings": [],
+      "basis": "「験あらん僧達、祈り試みられよ」＝霊験のある僧たちよ、祈ってごらんなさい。僧への敬意",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-su-001",
+      "itemId": "su_aux",
+      "target": "せ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「子孫あらせじ」＝子孫をいさせまい（持たせまい）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-su-002",
+      "itemId": "su_aux",
       "target": "せ",
       "occurrence": 1,
       "exampleMeanings": [
         "使役"
       ],
+      "altMeanings": [],
       "basis": "貝合「随身に歌はせ給ふ」 — 「随身に」が使役の相手。occurrence=1 の「せ」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "sasu_aux",
+      "id": "aux-su-003",
+      "itemId": "su_aux",
+      "target": "す",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「妻の嫗にあづけてやしなはす」＝妻の嫗に預けて養わせる",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-su-004",
+      "itemId": "su_aux",
+      "target": "する",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「人に食はする事なし」＝人に食べさせることはない",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-su-005",
+      "itemId": "su_aux",
+      "target": "すれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「問はすれば」＝（人に）尋ねさせると",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-su-006",
+      "itemId": "su_aux",
+      "target": "せよ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「馬に鞍おかせよ」＝馬に鞍を置かせよ（家来に命じる）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-sasu-001",
+      "itemId": "sasu_aux",
       "target": "させ",
       "occurrence": 0,
       "exampleMeanings": [
         "使役"
       ],
-      "basis": "徒然草185「置きかへさせけり」",
+      "altMeanings": [],
+      "basis": "「この若き人々おとなびさせむ」＝この若い子どもたちを一人前にさせよう",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "approved"
     },
     {
-      "id": "shimu_aux",
+      "id": "aux-sasu-002",
+      "itemId": "sasu_aux",
+      "target": "させ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "徒然草185「置きかへさせけり」",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "audited-previously"
+    },
+    {
+      "id": "aux-sasu-003",
+      "itemId": "sasu_aux",
+      "target": "さす",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「かの贈物御覧ぜさす」＝（命婦が）あの贈り物を帝にご覧に入れる（ご覧にならせる）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-sasu-004",
+      "itemId": "sasu_aux",
+      "target": "さする",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「法師どもを帰して求めさするに」＝法師たちを戻らせて探させたところ",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-sasu-005",
+      "itemId": "sasu_aux",
+      "target": "さすれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「源氏卅騎を出いて射さすれば」＝源氏が三十騎を出して（鏑矢を）射させると",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-sasu-006",
+      "itemId": "sasu_aux",
+      "target": "させよ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「我に得させよ」＝私に（その子を）もらわせよ（＝私にくれ）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-shimu-001",
+      "itemId": "shimu_aux",
       "target": "しめ",
       "occurrence": 0,
       "exampleMeanings": [
         "使役"
       ],
-      "basis": "夢浮橋「出家せしめ奉りて」",
+      "altMeanings": [],
+      "basis": "「人の耳をよろこばしめむとにはあらず」＝人の耳を喜ばせようというのではない",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "approved"
     },
     {
-      "id": "zu",
+      "id": "aux-shimu-002",
+      "itemId": "shimu_aux",
+      "target": "しめ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "夢浮橋「出家せしめ奉りて」",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "audited-previously"
+    },
+    {
+      "id": "aux-shimu-003",
+      "itemId": "shimu_aux",
+      "target": "しむ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「涙をながし心をいたましむ」＝涙を流させ心を痛ませる",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-shimu-004",
+      "itemId": "shimu_aux",
+      "target": "しむる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「目を喜ばしむるは」＝目を楽しませることは",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-shimu-005",
+      "itemId": "shimu_aux",
+      "target": "しむれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「鼻の如くせしむれば」＝（口を）鼻のようにさせれば（＝口を閉ざせば）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-shimu-006",
+      "itemId": "shimu_aux",
+      "target": "しめよ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "使役"
+      ],
+      "altMeanings": [],
+      "basis": "「其の子返し得しめよ」＝その子を返して（私に）受け取らせよ",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-zu-001",
+      "itemId": "zu",
+      "target": "ず",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-zu-002",
+      "itemId": "zu",
+      "target": "ざら",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-zu-003",
+      "itemId": "zu",
+      "target": "ず",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-zu-004",
+      "itemId": "zu",
+      "target": "ざり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-zu-005",
+      "itemId": "zu",
+      "target": "ず",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-zu-006",
+      "itemId": "zu",
       "target": "ぬ",
       "occurrence": 0,
       "exampleMeanings": [
         "打消"
       ],
+      "altMeanings": [],
       "basis": "百人一首92「みえぬ」 — 意味が1つなので強調しない",
       "confidence": "—",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "mu_aux",
+      "id": "aux-zu-007",
+      "itemId": "zu",
+      "target": "ざる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-zu-008",
+      "itemId": "zu",
+      "target": "ね",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-zu-009",
+      "itemId": "zu",
+      "target": "ざれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-zu-010",
+      "itemId": "zu",
+      "target": "ざれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mu-001",
+      "itemId": "mu_aux",
+      "target": "む",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "意志"
+      ],
+      "altMeanings": [],
+      "basis": "「志はせむとす」＝（それでも）お礼はしようとする。主語は一人称",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mu-002",
+      "itemId": "mu_aux",
       "target": "む",
       "occurrence": 0,
       "exampleMeanings": [
         "推量",
         "意志"
       ],
+      "altMeanings": [],
       "basis": "百人一首3「ひとりかも寝む」 — 疑問の「かも」と結ぶ推量が通説だが、主語が一人称で意志とも解せるため両方に印（2026-09-28 ユーザー決定）",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "muzu_aux",
+      "id": "aux-mu-003",
+      "itemId": "mu_aux",
+      "target": "め",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推量"
+      ],
+      "altMeanings": [],
+      "basis": "「春鳴くゆゑこそはあらめ」＝（鶯が愛されるのは）春に鳴くからであろう",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-muzu-001",
+      "itemId": "muzu_aux",
+      "target": "むず",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推量"
+      ],
+      "altMeanings": [],
+      "basis": "「消え失せなむず」＝（無理に宮仕えさせるなら）消えてしまうでしょう。自分の身の成り行きの予告。「消え失せてしまおう」と意志に解する説もある",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-muzu-002",
+      "itemId": "muzu_aux",
       "target": "むずる",
       "occurrence": 0,
       "exampleMeanings": [
         "意志"
       ],
+      "altMeanings": [],
       "basis": "大鏡「われは…そこに建てむずるぞ」 — 主語が一人称（基経）の意志（2026-09-28 ユーザー確認）",
       "confidence": "要確認",
       "status": "audited",
-      "auditNote": "2026-09-28 ユーザー確認：意志"
+      "decision": "audited-previously"
     },
     {
-      "id": "ji_aux",
+      "id": "aux-muzu-003",
+      "itemId": "muzu_aux",
+      "target": "んずれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推量"
+      ],
+      "altMeanings": [],
+      "basis": "「六波羅は白昼にこそ寄せんずれ」＝六波羅（の敵）は真昼に攻め寄せるだろう。主語は第三者",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ji-001",
+      "itemId": "ji_aux",
       "target": "じ",
       "occurrence": 0,
       "exampleMeanings": [
         "打消意志"
       ],
+      "altMeanings": [],
       "basis": "徒然草110「負けじと」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "mashi_aux",
+      "id": "aux-ji-002",
+      "itemId": "ji_aux",
+      "target": "じ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消意志"
+      ],
+      "altMeanings": [],
+      "basis": "「負けじ心」＝負けまいとする心",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mashi-001",
+      "itemId": "mashi_aux",
+      "target": "ましか",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "反実仮想"
+      ],
+      "altMeanings": [],
+      "basis": "「鏡に色・かたちあらましかば、うつらざらまし」＝もし鏡に色や形があったなら、映らなかっただろう",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mashi-002",
+      "itemId": "mashi_aux",
+      "target": "ませ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "反実仮想"
+      ],
+      "altMeanings": [],
+      "basis": "「聞かませば…ゆかましものを」＝（そうと）聞いていたなら私も田に行っただろうに",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mashi-003",
+      "itemId": "mashi_aux",
       "target": "まし",
       "occurrence": 0,
       "exampleMeanings": [
         "反実仮想"
       ],
+      "altMeanings": [],
       "basis": "百人一首44「恨みざらまし」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "mahoshi_aux",
+      "id": "aux-mashi-004",
+      "itemId": "mashi_aux",
+      "target": "まし",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "反実仮想"
+      ],
+      "altMeanings": [],
+      "basis": "「ながれざりせば…たれかしらまし」＝もし（紅葉が）流れなかったら誰が知るだろうか。「か」の結び",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mashi-005",
+      "itemId": "mashi_aux",
+      "target": "ましか",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "反実仮想"
+      ],
+      "altMeanings": [],
+      "basis": "「きとこそはよまましか」＝（その場で）すぐに詠めばよかったのに（実際は詠まなかった）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mahoshi-001",
+      "itemId": "mahoshi_aux",
+      "target": "まほしく",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mahoshi-002",
+      "itemId": "mahoshi_aux",
+      "target": "まほしから",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mahoshi-003",
+      "itemId": "mahoshi_aux",
+      "target": "まほしく",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mahoshi-004",
+      "itemId": "mahoshi_aux",
+      "target": "まほしかり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mahoshi-005",
+      "itemId": "mahoshi_aux",
+      "target": "まほし",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mahoshi-006",
+      "itemId": "mahoshi_aux",
+      "target": "まほしき",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mahoshi-007",
+      "itemId": "mahoshi_aux",
+      "target": "まほしかる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-mahoshi-008",
+      "itemId": "mahoshi_aux",
       "target": "まほしけれ",
       "occurrence": 0,
       "exampleMeanings": [
         "願望"
       ],
+      "altMeanings": [],
       "basis": "宇治拾遺6「行かまほしけれ」 — 意味が1つ",
       "confidence": "—",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "ki_aux",
+      "id": "aux-ki-001",
+      "itemId": "ki_aux",
+      "target": "せ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "過去"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ki-002",
+      "itemId": "ki_aux",
+      "target": "き",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "過去"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ki-003",
+      "itemId": "ki_aux",
       "target": "し",
       "occurrence": 0,
       "exampleMeanings": [
         "過去"
       ],
+      "altMeanings": [],
       "basis": "百人一首7「いでし月」 — 意味が1つ",
       "confidence": "—",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "keri",
+      "id": "aux-ki-004",
+      "itemId": "ki_aux",
+      "target": "しか",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "過去"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-keri-001",
+      "itemId": "keri",
       "target": "けり",
       "occurrence": 0,
       "exampleMeanings": [
         "詠嘆"
       ],
+      "altMeanings": [],
       "basis": "百人一首69「錦なりけり」 — 和歌の「なりけり」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "tsu_aux",
+      "id": "aux-keri-002",
+      "itemId": "keri",
+      "target": "ける",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "過去"
+      ],
+      "altMeanings": [],
+      "basis": "「我も通ふ心の出で来けるにや」＝自分にも通じ合う心が生じたのだろうか",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-keri-003",
+      "itemId": "keri",
+      "target": "けれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "過去"
+      ],
+      "altMeanings": [],
+      "basis": "「いみじう恨みければ」＝ひどく恨んだので（地の文の過去）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tsu-001",
+      "itemId": "tsu_aux",
+      "target": "て",
+      "occurrence": 1,
+      "exampleMeanings": [
+        "強意"
+      ],
+      "altMeanings": [],
+      "basis": "「おのれが蹴てんには」＝おまえがきっと蹴るというなら（「てむ」の「て」＝強意）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tsu-002",
+      "itemId": "tsu_aux",
+      "target": "て",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「この男かいまみてけり」＝この男は（垣根越しに）のぞき見てしまった",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tsu-003",
+      "itemId": "tsu_aux",
       "target": "つ",
       "occurrence": 1,
       "exampleMeanings": [
         "完了"
       ],
+      "altMeanings": [],
       "basis": "竹取物語「つけつ」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "nu_aux",
+      "id": "aux-tsu-004",
+      "itemId": "tsu_aux",
+      "target": "つる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「誰がしつるぞ」＝誰がしたのか",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tsu-005",
+      "itemId": "tsu_aux",
+      "target": "つれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「御車ども立てつづけつれば」＝（従者が）車を並べて止めてしまったので",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tsu-006",
+      "itemId": "tsu_aux",
+      "target": "てよ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「今はおろしてよ」＝もう（籠を）下ろしてくれ。命令形の「つ」は完了（「下ろしてしまえ」）と説明するのが一般的。強意とする説明もある",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nu-001",
+      "itemId": "nu_aux",
+      "target": "な",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "強意"
+      ],
+      "altMeanings": [],
+      "basis": "「植ゑずともありなん」＝植えなくてもきっとよいだろう（「なむ」の「な」＝強意）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nu-002",
+      "itemId": "nu_aux",
+      "target": "に",
+      "occurrence": 1,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「心地まどひにけり」＝気持ちが乱れてしまった",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nu-003",
+      "itemId": "nu_aux",
+      "target": "ぬ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「ののしるうちに夜更けぬ」＝大騒ぎするうちに夜が更けてしまった",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nu-004",
+      "itemId": "nu_aux",
       "target": "ぬる",
       "occurrence": 0,
       "exampleMeanings": [
         "完了"
       ],
+      "altMeanings": [],
       "basis": "百人一首61「にほひぬるかな」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "tari_comp_aux",
+      "id": "aux-nu-005",
+      "itemId": "nu_aux",
+      "target": "ぬれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「今は和泉の国に来ぬれば」＝今はもう和泉の国に来てしまったので",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nu-006",
+      "itemId": "nu_aux",
+      "target": "ね",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「元の御かたちとなりたまひね」＝元のお姿になってしまいなさい。命令形の「ぬ」は完了と説明するのが一般的",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tari-comp-001",
+      "itemId": "tari_comp_aux",
+      "target": "たら",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "存続"
+      ],
+      "altMeanings": [],
+      "basis": "「商人のよききぬきたらんがごとし」＝商人がよい着物を着ているようなものだ",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tari-comp-002",
+      "itemId": "tari_comp_aux",
+      "target": "たり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "存続"
+      ],
+      "altMeanings": [],
+      "basis": "「ただ水の泡にぞ似たりける」＝まったく水の泡に似ていることよ（状態）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tari-comp-003",
+      "itemId": "tari_comp_aux",
+      "target": "たり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「くらもちの皇子おはしたり」＝くらもちの皇子がいらっしゃった（到着した）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tari-comp-004",
+      "itemId": "tari_comp_aux",
       "target": "たる",
       "occurrence": 0,
       "exampleMeanings": [
         "存続"
       ],
+      "altMeanings": [],
       "basis": "百人一首32「かけたるしがらみ」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "ri_aux",
+      "id": "aux-tari-comp-005",
+      "itemId": "tari_comp_aux",
+      "target": "たれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "存続"
+      ],
+      "altMeanings": [],
+      "basis": "「人みなまだ寝たれば」＝人はみなまだ寝ているので",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tari-comp-006",
+      "itemId": "tari_comp_aux",
+      "target": "たれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "存続"
+      ],
+      "altMeanings": [],
+      "basis": "「男は何の色の衣をも着たれ」＝男はどんな色の衣を着ていてもよい（放任の命令）",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ri-001",
+      "itemId": "ri_aux",
       "target": "ら",
       "occurrence": 0,
       "exampleMeanings": [
         "存続"
       ],
+      "altMeanings": [],
       "basis": "土佐日記「思へらず」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "kemu_aux",
+      "id": "aux-ri-002",
+      "itemId": "ri_aux",
+      "target": "り",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「といへりければ」＝と言ったので",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ri-003",
+      "itemId": "ri_aux",
+      "target": "り",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「といへり」＝と言った",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ri-004",
+      "itemId": "ri_aux",
+      "target": "る",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「とぞよめる」＝と詠んだ（「ぞ」の結び）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ri-005",
+      "itemId": "ri_aux",
+      "target": "れ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "完了"
+      ],
+      "altMeanings": [],
+      "basis": "「思ひのほかなる人のいへれば」＝意外な人が（歌を）詠んだので",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ri-006",
+      "itemId": "ri_aux",
+      "target": "れ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "存続"
+      ],
+      "altMeanings": [],
+      "basis": "「かくて居給へれ」＝このままここにいらっしゃい（状態の継続を命じる）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-kemu-001",
+      "itemId": "kemu_aux",
+      "target": "けむ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "過去の原因推量"
+      ],
+      "altMeanings": [
+        "過去推量"
+      ],
+      "basis": "「いかなる底の心を見て、さる名をつけけむ」＝どんな深い心を見てそんな名をつけたのだろう。理由を推量するので過去の原因推量。過去推量と訳してもよい",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-kemu-002",
+      "itemId": "kemu_aux",
+      "target": "けむ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "過去推量"
+      ],
+      "altMeanings": [],
+      "basis": "「いつか聞きけむ」＝（世間は）いつ聞いたのだろうか。「か」の結び",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-kemu-003",
+      "itemId": "kemu_aux",
       "target": "けめ",
       "occurrence": 0,
       "exampleMeanings": [
         "過去推量"
       ],
+      "altMeanings": [],
       "basis": "更級日記「前の世に…宿世こそありけめ」 — 宿世があったこと自体の推量（2026-09-28 ユーザー確認）",
       "confidence": "中",
       "status": "audited",
-      "auditNote": "2026-09-28 ユーザー確認：過去推量"
+      "decision": "audited-previously"
     },
     {
-      "id": "ramu_aux",
+      "id": "aux-ramu-001",
+      "itemId": "ramu_aux",
       "target": "らむ",
       "occurrence": 0,
       "exampleMeanings": [
         "現在推量"
       ],
+      "altMeanings": [],
       "basis": "百人一首22「むべ山風を嵐といふらむ」 — 現在推量のみに印（2026-09-28 ユーザー決定）",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "beshi_aux",
+      "id": "aux-ramu-002",
+      "itemId": "ramu_aux",
+      "target": "らむ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "現在推量"
+      ],
+      "altMeanings": [],
+      "basis": "「さやうの方は覚ゆらむものぞ」＝そういう方面のことは（今も）覚えているだろうものだよ。体言の前なので婉曲とする見方もある",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-ramu-003",
+      "itemId": "ramu_aux",
+      "target": "らめ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "現在推量"
+      ],
+      "altMeanings": [],
+      "basis": "「さこそは思ひ給ふらめ」＝（今）さぞそうお思いになっているだろう。「こそ」の結び",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-beshi-001",
+      "itemId": "beshi_aux",
+      "target": "べく",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "可能"
+      ],
+      "altMeanings": [],
+      "basis": "「雲の上までいぬべくは」＝雲の上まで行くことができるなら（蛍に呼びかける）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-beshi-002",
+      "itemId": "beshi_aux",
+      "target": "べから",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "当然"
+      ],
+      "altMeanings": [
+        "命令",
+        "適当"
+      ],
+      "basis": "「一つも欠けてはあるべからず」＝一つも欠けていてはならない。当然が主、命令・適当とも解せる",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-beshi-003",
+      "itemId": "beshi_aux",
+      "target": "べく",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "可能"
+      ],
+      "altMeanings": [],
+      "basis": "「蔵人などの具にしつべくて」＝（青色なので）蔵人などの衣装にもできそうで",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-beshi-004",
+      "itemId": "beshi_aux",
+      "target": "べかり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "当然"
+      ],
+      "altMeanings": [
+        "適当"
+      ],
+      "basis": "「恐れのなかに恐るべかりけるは」＝恐ろしいものの中で当然恐れるべきであったのは。適当とも解せる",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-beshi-005",
+      "itemId": "beshi_aux",
+      "target": "べし",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推量"
+      ],
+      "altMeanings": [],
+      "basis": "「と君は思すべし」＝と源氏の君はお思いになるだろう（語り手の推量）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-beshi-006",
+      "itemId": "beshi_aux",
       "target": "べき",
       "occurrence": 0,
       "exampleMeanings": [
         "当然",
         "推量"
       ],
+      "altMeanings": [],
       "basis": "百人一首88「みをつくしてや恋ひわたるべき」 — 当然・推量の両方に印（2026-09-28 ユーザー決定）",
       "confidence": "要確認",
       "status": "audited",
-      "auditNote": "2026-09-28 ユーザー確認：当然・推量"
+      "decision": "audited-previously"
     },
     {
-      "id": "maji_aux",
+      "id": "aux-beshi-007",
+      "itemId": "beshi_aux",
+      "target": "べかる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "意志"
+      ],
+      "altMeanings": [
+        "推量",
+        "可能"
+      ],
+      "basis": "「何者が信頼を失ふべかるらん」。疑問詞が主語の文なので人称の原則は保留し、前提（誰かが滅ぼそうとしている）の動作主の意図を問う文として意志を主とする。推量は「らむ」が担う。驚きの問い「誰が滅ぼせるというのか」とも読めるので可能も別解。流布本は「べかなる」",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-beshi-008",
+      "itemId": "beshi_aux",
+      "target": "べけれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "適当"
+      ],
+      "altMeanings": [
+        "当然"
+      ],
+      "basis": "「ここにおはするこそ、さやうにものしつべけれ」＝ここにいらっしゃる方こそ、そのようにするのがよい。当然とも解せる",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-maji-001",
+      "itemId": "maji_aux",
+      "target": "まじく",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消推量"
+      ],
+      "altMeanings": [
+        "不可能"
+      ],
+      "basis": "「かの左衛門督まかりなるまじくは」。道長の「えなられじ」を斉信が受けた言葉で、人柄・人望から（中納言に）なりそうもないならの意。不可能とも解せる",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-maji-002",
+      "itemId": "maji_aux",
+      "target": "まじから",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消当然"
+      ],
+      "altMeanings": [
+        "禁止",
+        "不適当"
+      ],
+      "basis": "「あるまじからむ振舞は、よくよく慎むべし」＝あってはならないような振る舞い。禁止・不適当とも解せる",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-maji-003",
+      "itemId": "maji_aux",
+      "target": "まじく",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "禁止"
+      ],
+      "altMeanings": [
+        "打消当然",
+        "不適当"
+      ],
+      "basis": "「長く論あるまじく」。宣下の文なので相手に向けた禁止が主。打消当然・不適当とも解せる",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-maji-004",
+      "itemId": "maji_aux",
+      "target": "まじかり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消推量"
+      ],
+      "altMeanings": [
+        "不可能"
+      ],
+      "basis": "「女のえ得まじかりけるを」。不可能は副詞「え」が担うとみて、「まじ」は打消推量を主、不可能を別解とする",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-maji-005",
+      "itemId": "maji_aux",
       "target": "まじ",
       "occurrence": 0,
       "exampleMeanings": [
         "打消推量"
       ],
+      "altMeanings": [],
       "basis": "徒然草120「事欠くまじ」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "rashi_aux",
+      "id": "aux-maji-006",
+      "itemId": "maji_aux",
+      "target": "まじき",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消当然"
+      ],
+      "altMeanings": [
+        "禁止",
+        "不適当"
+      ],
+      "basis": "「あるまじきところへおはする」＝行くべきでない所へいらっしゃる。禁止・不適当とも解せる",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-maji-007",
+      "itemId": "maji_aux",
+      "target": "まじかん",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消推量"
+      ],
+      "altMeanings": [],
+      "basis": "「是にも限るまじかんなり」＝これだけで終わらないだろうということだ（「まじかる＋なり」の撥音便）",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-maji-008",
+      "itemId": "maji_aux",
+      "target": "まじけれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "打消意志"
+      ],
+      "altMeanings": [
+        "不可能"
+      ],
+      "basis": "「なほえこそ思ひ捨つまじけれ」。不可能は副詞「え」が担うとみて、「まじ」は打消意志を主、不可能を別解とする",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "changed"
+    },
+    {
+      "id": "aux-rashi-001",
+      "itemId": "rashi_aux",
       "target": "らし",
       "occurrence": 0,
       "exampleMeanings": [
         "推定"
       ],
+      "altMeanings": [],
       "basis": "百人一首2「来にけらし」 — 意味が1つ",
       "confidence": "—",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "meri_aux",
+      "id": "aux-rashi-002",
+      "itemId": "rashi_aux",
+      "target": "らし",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推定"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-rashi-003",
+      "itemId": "rashi_aux",
+      "target": "らし",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推定"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-meri-001",
+      "itemId": "meri_aux",
       "target": "めり",
       "occurrence": 0,
       "exampleMeanings": [
         "推定"
       ],
+      "altMeanings": [],
+      "basis": "「局の簾うちかづきなどしたまふめりき」＝（その後は）局の簾をかぶって入ったりなさったようだった",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-meri-002",
+      "itemId": "meri_aux",
+      "target": "めり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推定"
+      ],
+      "altMeanings": [],
       "basis": "百人一首75「秋もいぬめり」 — 推定（2026-09-28 ユーザー確認）",
       "confidence": "中",
       "status": "audited",
-      "auditNote": "2026-09-28 ユーザー確認：推定"
+      "decision": "audited-previously"
     },
     {
-      "id": "nari_hearsay_aux",
+      "id": "aux-meri-003",
+      "itemId": "meri_aux",
+      "target": "める",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "推定"
+      ],
+      "altMeanings": [],
+      "basis": "「七度めぐりてなむうみ落とすめる」＝七度回って産み落とすようです。「なむ」の結び",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-meri-004",
+      "itemId": "meri_aux",
+      "target": "めれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "婉曲"
+      ],
+      "altMeanings": [],
+      "basis": "「葉をだに人の見るめれば」＝葉だけでも人が見るようだから（断定を避けた言い方）",
+      "confidence": "中",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nari-hearsay-001",
+      "itemId": "nari_hearsay_aux",
       "target": "なり",
       "occurrence": 0,
       "exampleMeanings": [
         "伝聞"
       ],
-      "basis": "百人一首8「いふなり」",
+      "altMeanings": [],
+      "basis": "「などぞ言ふなりしかば」＝などと言うということだったので",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "approved"
     },
     {
-      "id": "nari_assert_aux",
+      "id": "aux-nari-hearsay-002",
+      "itemId": "nari_hearsay_aux",
+      "target": "なり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "伝聞"
+      ],
+      "altMeanings": [],
+      "basis": "百人一首8「いふなり」",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "audited-previously"
+    },
+    {
+      "id": "aux-nari-hearsay-003",
+      "itemId": "nari_hearsay_aux",
+      "target": "なる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "伝聞"
+      ],
+      "altMeanings": [],
+      "basis": "「唐には美濃五疋が程にぞ用ゐるなる」＝唐では美濃絹五疋ほどに相当するということだ。「ぞ」の結び",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nari-hearsay-004",
+      "itemId": "nari_hearsay_aux",
+      "target": "なれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "伝聞"
+      ],
+      "altMeanings": [],
+      "basis": "「この頃聞けば…こそおはすなれ」＝この頃聞くところでは…でいらっしゃるそうだ",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nari-assert-001",
+      "itemId": "nari_assert_aux",
+      "target": "なら",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "断定"
+      ],
+      "altMeanings": [],
+      "basis": "「男子ならば」＝男の子であるならば",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nari-assert-002",
+      "itemId": "nari_assert_aux",
       "target": "なり",
       "occurrence": 0,
       "exampleMeanings": [
         "断定"
       ],
+      "altMeanings": [],
       "basis": "百人一首96「わが身なりけり」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "tari_assert_aux",
+      "id": "aux-nari-assert-003",
+      "itemId": "nari_assert_aux",
+      "target": "に",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "断定"
+      ],
+      "altMeanings": [],
+      "basis": "「この国の人にもあらず」＝この国の人でもない（「に」＋「あり」）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nari-assert-004",
+      "itemId": "nari_assert_aux",
+      "target": "なり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "断定"
+      ],
+      "altMeanings": [],
+      "basis": "「女もしてみむとてするなり」＝女もしてみようと思って書くのである。直前の「すなる」は伝聞の「なり」",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nari-assert-005",
+      "itemId": "nari_assert_aux",
+      "target": "なる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "存在"
+      ],
+      "altMeanings": [],
+      "basis": "「駿河なるうつの山辺」＝駿河にある宇津の山のあたり（場所＋なる＝存在・所在）",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-nari-assert-006",
+      "itemId": "nari_assert_aux",
+      "target": "なれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "断定"
+      ],
+      "altMeanings": [],
+      "basis": "「人の子なれば」＝（まだ）親がかりの子であるので",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tari-assert-001",
+      "itemId": "tari_assert_aux",
+      "target": "たら",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "断定"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tari-assert-002",
+      "itemId": "tari_assert_aux",
       "target": "たり",
       "occurrence": 0,
       "exampleMeanings": [
         "断定"
       ],
-      "basis": "平治物語「うへたり」 — 意味が1つ",
+      "altMeanings": [],
+      "basis": "意味が1つの語",
       "confidence": "—",
-      "status": "audited"
+      "status": "audited",
+      "decision": "approved"
     },
     {
-      "id": "tashi_aux",
+      "id": "aux-tari-assert-004",
+      "itemId": "tari_assert_aux",
+      "target": "たり",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "断定"
+      ],
+      "altMeanings": [],
+      "basis": "平治物語「うへたり」 — 意味が1つ",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "audited-previously"
+    },
+    {
+      "id": "aux-tari-assert-005",
+      "itemId": "tari_assert_aux",
+      "target": "たる",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "断定"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tashi-001",
+      "itemId": "tashi_aux",
+      "target": "たく",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tashi-002",
+      "itemId": "tashi_aux",
+      "target": "たから",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tashi-003",
+      "itemId": "tashi_aux",
+      "target": "たく",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tashi-004",
+      "itemId": "tashi_aux",
       "target": "たかり",
       "occurrence": 0,
       "exampleMeanings": [
-        "希望"
+        "願望"
       ],
+      "altMeanings": [],
       "basis": "平家物語「入りたかり」 — 意味が1つ",
       "confidence": "—",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
     },
     {
-      "id": "gotoshi_aux",
+      "id": "aux-tashi-005",
+      "itemId": "tashi_aux",
+      "target": "たし",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tashi-006",
+      "itemId": "tashi_aux",
+      "target": "たき",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-tashi-007",
+      "itemId": "tashi_aux",
+      "target": "たけれ",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "願望"
+      ],
+      "altMeanings": [],
+      "basis": "意味が1つの語",
+      "confidence": "—",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-gotoshi-001",
+      "itemId": "gotoshi_aux",
+      "target": "ごとく",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "比況"
+      ],
+      "altMeanings": [],
+      "basis": "「君のごとく、神のごとく畏れ尊みて」＝主君のように、神のように畏れ敬って",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
+    },
+    {
+      "id": "aux-gotoshi-002",
+      "itemId": "gotoshi_aux",
       "target": "ごとし",
       "occurrence": 0,
       "exampleMeanings": [
         "比況"
       ],
+      "altMeanings": [],
       "basis": "平家物語1「夢のごとし」",
       "confidence": "高",
-      "status": "audited"
+      "status": "audited",
+      "decision": "audited-previously"
+    },
+    {
+      "id": "aux-gotoshi-003",
+      "itemId": "gotoshi_aux",
+      "target": "ごとき",
+      "occurrence": 0,
+      "exampleMeanings": [
+        "比況"
+      ],
+      "altMeanings": [],
+      "basis": "「月のうちの桂のごとき君」＝月の中の桂の木のような（手の届かない）あなた",
+      "confidence": "高",
+      "status": "audited",
+      "decision": "approved"
     }
   ]
 }
