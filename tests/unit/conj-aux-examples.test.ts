@@ -249,3 +249,28 @@ dataTest('aux examples: 備考 (pattern) notes from the audit are attached to th
   assert.equal(raru.provenance.volume, '第三・一');
   assert.match(raru.example, /局の前を過ぎられけるを/);
 });
+
+dataTest('aux examples: the app itself accepts all 145 records with their audited meanings (no record is dropped at load time)', () => {
+  // index.html の読み込み時の検査（表のセル・意味と用例の照合）に、実データをそのまま通す。
+  const cellProblem = fn<(e: unknown, item: unknown) => string>('auxExampleCellProblem');
+  const meaningProblem = fn<(record: unknown, item: unknown) => string>('auxExampleMeaningProblem');
+  const emphasized = fn<(item: unknown) => string[]>('emphasizedAuxMeanings');
+  const alt = fn<(item: unknown) => string[]>('altAuxMeanings', ['emphasizedAuxMeanings']);
+  const meanings = new Map((read('aux-example-meanings.json').records as
+    { id: string; itemId: string; target: string; occurrence: number; exampleMeanings: string[]; altMeanings: string[]; status: string }[]).map((m) => [m.id, m]));
+  let withAlt = 0;
+  for (const r of records) {
+    const item = auxById.get(r.itemId)!;
+    assert.equal(cellProblem(r, item), '', r.id);
+    const m = meanings.get(r.id)!;
+    assert.ok(m && m.itemId === r.itemId, r.id);
+    assert.equal(meaningProblem(m, { ...r, meaning: item.meaning }), '', r.id);
+    // 画面での強調：意味が2つ以上の語だけ主を強調し、別解は主と重ならない
+    const shown = { meaning: item.meaning, exampleMeanings: { meanings: m.exampleMeanings, alt: m.altMeanings, status: m.status } };
+    const list = item.meaning!.split('・');
+    assert.deepEqual(emphasized(shown), list.length >= 2 ? m.exampleMeanings : [], r.id);
+    assert.deepEqual(alt(shown), list.length >= 2 ? m.altMeanings : [], r.id);
+    if (m.altMeanings.length) withAlt++;
+  }
+  assert.equal(withAlt, 11);
+});
