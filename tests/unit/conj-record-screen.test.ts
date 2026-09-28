@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { chjQuotationsExpected } from '../../tools/conj-layout-check/held-data.ts';
 
 const html = readFileSync(new URL('../../conj/index.html', import.meta.url), 'utf8');
 
@@ -286,7 +287,10 @@ test('conj: 形容動詞 show reviewed public examples, credited once rather tha
   assert.match(html, /\.example-text\.is-prose\{white-space:normal !important\}/);
 });
 
-test('conj: every runtime 形容動詞 without open text gets a quoted CHJ example', () => {
+// CHJ の引用は公開ツリーに無い（許可リストで保留。tools/conj-layout-check/held-data.ts）。作業リポジトリでは必ず実行する。
+const chjTest = chjQuotationsExpected() ? test : test.skip;
+
+chjTest('conj: every runtime 形容動詞 without open text gets a quoted CHJ example', () => {
   const read = (name: string) =>
     JSON.parse(readFileSync(new URL(`../../conj/data/${name}`, import.meta.url), 'utf8'));
   const pool = read('adjectival-noun-lemma-pool.json').lemmas as { id: string }[];
@@ -628,6 +632,8 @@ test('conj: work4.7 CHJ excerpt ellipsis rotates to match vertical reading direc
   );
 
   // every excerpt-edge "…" actually present in the CHJ quotation data is reachable through the same wrapper
+  // （CHJ の引用は公開ツリーに無い。作業リポジトリでは chjQuotationsExpected() が常に true）
+  if (!chjQuotationsExpected()) return;
   const chj = JSON.parse(
     readFileSync(new URL('../../conj/data/adjectival-noun-chj-quotations.json', import.meta.url), 'utf8'),
   );

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { auxExamplesExpected, chjQuotationsExpected } from '../../tools/conj-layout-check/held-data.ts';
 
 // DESIGN_GLOSS_LAYOUT_2026-09-28 §8: data criteria 1–6, 10, 11 and the static CSS/markup contract.
 const html = readFileSync(new URL('../../conj/index.html', import.meta.url), 'utf8');
@@ -41,20 +42,28 @@ test('gloss §8-2: the example each runtime heading shows comes from the same wo
     if (!r.example || !r.publicTarget || !r.example.includes(r.publicTarget)) continue;
     if (!shown.has(r.lemmaId)) shown.set(r.lemmaId, { id: r.sourceExampleId, work: r.work });
   }
+  // CHJ の引用は公開ツリーに無い（許可リストで保留。tools/conj-layout-check/held-data.ts）。
+  // 作業リポジトリでは必ず読み、115 語すべてに用例があることを確かめる。公開ツリーでは公開本文の語だけを見る。
+  const chjExpected = chjQuotationsExpected();
   const chj = new Map<string, { id: string; work: string }>();
-  for (const r of read('adjectival-noun-chj-quotations.json').records) {
+  for (const r of chjExpected ? read('adjectival-noun-chj-quotations.json').records : []) {
     if (!r.excerpt || !r.target || !r.excerpt.includes(r.target)) continue;
     if (!chj.has(r.lemmaId)) chj.set(r.lemmaId, { id: r.id, work: r.work });
   }
   const runtimeReadings = readings.filter((r) => r.itemId !== 'itadura');
   assert.equal(runtimeReadings.length, 115);
+  let checked = 0;
   for (const reading of runtimeReadings) {
     const ex = shown.get(reading.lemmaId) ?? chj.get(reading.lemmaId);
+    if (!ex && !chjExpected) continue;
     assert.ok(ex, reading.lemmaId);
+    checked += 1;
     const record = byId.get(ex.id);
     assert.ok(record, `${reading.lemmaId}: ${ex.id} has no gloss record`);
     assert.equal(record.work, ex.work, `${reading.lemmaId}: ${ex.id}`);
   }
+  assert.equal(checked, chjExpected ? 115 : runtimeReadings.filter((r) => shown.has(r.lemmaId)).length);
+  assert.ok(checked > 0);
   // the app wires exampleId from the shown example and refuses a gloss whose work differs (fail closed)
   assert.match(html, /exampleId:ex\.sourceExampleId,/);
   assert.match(html, /exampleId:quote\.id,/);
@@ -137,7 +146,8 @@ test('gloss §8-10: 百人一首 itadura shows only the basic gloss and いた[�
   assert.match(html, /\{id:"itadura",pos:"adjv",label:"形容動詞",lemma:"いたづらなり",[\s\S]*?poem:9,/);
 });
 
-test('gloss §8-11: aux example meanings are keyed by example id and match each example; the 28 audited records carry over', () => {
+// aux-examples.json は内部扱い（公開ツリーには無い）。作業リポジトリでは必ず検査する。
+(auxExamplesExpected() ? test : test.skip)('gloss §8-11: aux example meanings are keyed by example id and match each example; the 28 audited records carry over', () => {
   const data = read('aux-example-meanings.json');
   const recs = data.records as { id: string; itemId: string; target: string; occurrence: number; exampleMeanings: string[]; altMeanings: string[]; status: string }[];
   const examples = new Map((read('aux-examples.json').records as { id: string; itemId: string; target: string; occurrence: number; origin: string }[])
@@ -251,6 +261,30 @@ test('gloss: v53 CSS keeps reserved space, reveals after answering, and keeps th
   assert.match(html, /renderGloss\(document\.getElementById\("reviewGloss"\),item,/);
 });
 
+test('gloss v54: short phones fit the table rows (≥44px) and iPad narrows only a width-bound side gloss', () => {
+  const v54 = html.match(/\/\* ===== v54:[\s\S]*?<\/style>/);
+  assert.ok(v54);
+  const css = v54[0];
+  assert.ok(html.indexOf('/* ===== v53:') < html.indexOf('/* ===== v54:'));
+  assert.doesNotMatch(css, /#[0-9a-fA-F]{3,8}\b|rgba?\(/, 'tokens only');
+  // short phones: labels can shrink to 44px rows; the strip keeps its box (only its margins shrink)
+  const short = css.match(/@media\(max-width:700px\) and \(max-height:700px\)\{[\s\S]*?\n\}/);
+  assert.ok(short);
+  assert.match(short[0], /\.katsuyo th\.label \.label-text\{line-height:1\.02\}/);
+  assert.match(short[0], /> \.gloss\{margin-top:6px;padding-top:6px;padding-bottom:6px;row-gap:4px\}/);
+  assert.doesNotMatch(short[0], /\.gloss\{[^}]*(display|visibility)/);
+  // fixed 3–5 character forms follow the row height instead of overflowing the cell
+  assert.match(css, /\.display\.fit-5\{font-size:min\(11\.5px,calc\(\(var\(--mobile-form-row-h\) - 4px\)\/5\.15\)\)\}/);
+  // JS: rows are fitted at question time (the strip is already reserved), never below 44px
+  assert.match(html, /const MOBILE_ROW_MIN=44;/);
+  assert.match(html, /function fitMobileRows\(card\)\{[\s\S]*?Math\.max\(MOBILE_ROW_MIN,[\s\S]*?card\.style\.setProperty\("--mobile-form-row-h",next\+"px"\);/);
+  assert.match(html, /if\(window\.innerWidth<STUDY_ZOOM_MIN_WIDTH\)\{\s*if\(card\) fitMobileRows\(card\);\s*return;\s*\}/);
+  // iPad/PC: the side gloss is narrowed (not moved under the table) only when it limits the zoom, with a floor
+  assert.match(html, /const GLOSS_SIDE_MIN_EM=8;/);
+  assert.match(html, /if\(gloss && m\.byWidth<target-0\.005 && target>1\.02\)\{[\s\S]*?gloss\.style\.maxWidth=Math\.max\(minWidth,allowed\)\+"px";/);
+  assert.match(html, /grid-template-areas:"example table gloss"/);
+});
+
 test('gloss §4 / audit §1.2-6: small text tokens reach WCAG AA 4.5:1 on card and background in all 5 themes', () => {
   const style = html.match(/<style>([\s\S]*?)<\/style>/)![1];
   const blocks: Record<string, string> = { coffee: style.match(/:root\{([\s\S]*?)\}/)![1] };
@@ -306,9 +340,10 @@ test('gloss: 備考 is a small button that opens a speech bubble (closed by defa
   assert.match(html, /function noteBubbleButton\(heading,text\)\{[\s\S]*?btn\.setAttribute\("aria-expanded","false"\);[\s\S]*?bubble\.hidden=true;/);
   assert.match(html, /dd\.appendChild\(noteBubbleButton\(row\.heading,row\.text\)\);/);
   assert.match(html, /if\(e\.key==="Escape"\) closeNoteBubbles\(\);/);
-  const v54 = html.match(/\/\* ===== v54:[\s\S]*?<\/style>/)![0];
-  assert.match(v54, /\.gloss \.note-bubble\{position:absolute;[^}]*animation:note-pop/);
-  assert.match(v54, /\.gloss \.note-bubble::after\{/);
-  assert.match(v54, /@media \(prefers-reduced-motion:reduce\)\{ \.gloss \.note-bubble\{animation:none\} \}/);
+  const v55 = html.match(/\/\* ===== v55:[\s\S]*?<\/style>/)![0];
+  assert.ok(html.indexOf('/* ===== v54:') < html.indexOf('/* ===== v55:'));
+  assert.match(v55, /\.gloss \.note-bubble\{position:absolute;[^}]*animation:note-pop/);
+  assert.match(v55, /\.gloss \.note-bubble::after\{/);
+  assert.match(v55, /@media \(prefers-reduced-motion:reduce\)\{ \.gloss \.note-bubble\{animation:none\} \}/);
   assert.doesNotMatch(html, /<details[^>]*gloss-note/);
 });

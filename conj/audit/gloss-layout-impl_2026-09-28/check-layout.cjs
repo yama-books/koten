@@ -13,10 +13,20 @@ const OUT=__dirname;
 const VIEWPORTS=[
   ['phone375',{width:375,height:812},true],
   ['phone360',{width:360,height:740},true],
+  // v54: 高さの低いスマホ（iPhone SE など）。答えの後もボタンが画面内にあり、行は 44px 以上。
+  ['phoneSE375',{width:375,height:667},true],
+  ['phone360s',{width:360,height:640},true],
+  ['phone390s',{width:390,height:664},true],
   ['ipad820',{width:820,height:1180},false],
+  ['ipad768',{width:768,height:1024},false],
   ['ipadL1180',{width:1180,height:820},false],
+  ['ipadL1024',{width:1024,height:768},false],
   ['pc1440',{width:1440,height:900},false],
 ];
+const SHORT_PHONES=new Set(['phoneSE375','phone360s','phone390s']);
+// v54: iPad 縦で、右の列の語釈が長い問題の拡大率の下限（べし 1.11 → 1.42 に改善した）。
+const MIN_ZOOM={'ipad820 beshi_aux':1.3,'ipad820 maji_aux':1.3,'ipad820 mu_aux':1.3,'ipad820 ramu_aux':1.3,'ipad820 adjv-lemma-117':1.3};
+const zoomOf=t=>{const m=/scale\(([\d.]+)\)/.exec(t);return m?Number(m[1]):1;};
 const ITEMS=[
   ['adjv-lemma-030','adjv'],
   ['adjv-lemma-113','adjv'],
@@ -28,14 +38,20 @@ const ITEMS=[
   ['itadura','adjv'],
   ['mu_aux','aux'],
   ['ramu_aux','aux'],
+  // v54: 高さの低いスマホで下端に近い問題（2行の語釈・表の上の見出し・3〜5字の固定の語形）と、ほかの品詞
+  ['adjv-lemma-052','adjv'],
+  ['maji_aux','aux'],
+  ['mahoshi_aux','aux'],
+  ['ku','verb'],
+  ['kanasi','adj'],
   // HANDOFF §30: the longest aux example (candidate meaning, so no emphasis)
   ['tashi_aux','aux','aux-tashi-006'],
   // 2026-09-28 audit: 別解 labels (maji-003) and the longest 備考 row (nari-assert-003)
   ['maji_aux','aux','aux-maji-003'],
   ['nari_assert_aux','aux','aux-nari-assert-003'],
 ];
-const SHOTS=new Set(['phone375','ipad820','pc1440']);
-const SHOT_ITEMS=new Set(['adjv-lemma-030','adjv-lemma-117','ru_aux','meri_aux','beshi_aux','maji_aux','nari_assert_aux']);
+const SHOTS=new Set(['phone375','phoneSE375','phone360s','ipad820','pc1440']);
+const SHOT_ITEMS=new Set(['adjv-lemma-030','adjv-lemma-117','ru_aux','meri_aux','beshi_aux','adjv-lemma-052','maji_aux','nari_assert_aux']);
 
 async function open(browser,url,vp,mobile){
   const ctx=await browser.newContext({viewport:vp,deviceScaleFactor:2,isMobile:mobile,hasTouch:mobile});
@@ -109,6 +125,13 @@ const measure=page=>page.evaluate(()=>{
     kindColor:cs(q('#kind')).color, aidColor:cs(q('#lemmaAid')).color,
     ink:getComputedStyle(document.documentElement).getPropertyValue('--ink').trim(),
     word, fs,
+    minRow:Math.min(...[...document.querySelectorAll('#formBody > tr')].map(tr=>tr.getBoundingClientRect().height)),
+    cardPadR:parseFloat(getComputedStyle(card).paddingRight),
+    // 固定表示の語形の文字（行ボックス）が、そのセルの上下から何px出ているか（最大）
+    cellTextOut:(()=>{let worst=0;const rg=document.createRange();
+      for(const c of document.querySelectorAll('.card .katsuyo td')){const r=c.getBoundingClientRect();
+        for(const d of c.querySelectorAll('.display')){rg.selectNodeContents(d);for(const b of rg.getClientRects()) worst=Math.max(worst,r.top-b.top,b.bottom-r.bottom);}}
+      return worst;})(),
     stamp:stamp.classList.contains('show')?{...rect(stamp),z:cs(stamp).zIndex,blend:cs(stamp).mixBlendMode,hits:Number(stamp.dataset.hits),placed:stamp.classList.contains('is-placed'),vis:cs(stamp).visibility}:null,
     vh:innerHeight
   };
@@ -141,8 +164,17 @@ const hex2rgb=h=>{h=h.replace('#','');return `rgb(${parseInt(h.slice(0,2),16)}, 
       check(before.rt.every(r=>r.endsWith(':hidden'))&&after.rt.every(r=>r.endsWith(':visible')),`${tag}: rt visibility ${before.rt}/${after.rt}`);
       check(before.card.h===after.card.h,`${tag}: card height changed ${before.card.h}->${after.card.h}`);
       // §8-15: side column on wide screens, strip under the table on phones
-      if(!mobile) check(after.gloss.t<=after.tableTop+1 && after.gloss.l>=after.card.l && after.gloss.r<=after.card.r,`${tag}: gloss is not in the right column`);
+      // 動詞・形容詞には語釈帯が無い（hidden）ので、語釈帯の配置は見ない
+      if(after.glossHidden) check(pos==='verb'||pos==='adj',`${tag}: gloss hidden for ${pos}`);
+      else if(!mobile) check(after.gloss.t<=after.tableTop+1 && after.gloss.l>=after.card.l && after.gloss.r<=after.card.r-after.cardPadR+1,`${tag}: gloss is not in the right column or runs into the card padding (${after.gloss.r} > ${after.card.r}-${after.cardPadR})`);
       else { stripWidths.add(Math.round(after.gloss.w)); dtCols.add(Math.round(after.glossDtCol)); check(after.gloss.t>after.tableTop,`${tag}: strip not under table`); }
+      // v54: 行は 44px 以上、固定の語形はセルからはみ出さない。高さの低いスマホでも答えの後のボタンが画面内にある。
+      if(mobile){
+        check(after.minRow>=43.5,`${tag}: table row ${after.minRow.toFixed(1)}px < 44px`);
+        check(after.cellTextOut<=1,`${tag}: fixed form text overflows its cell by ${after.cellTextOut.toFixed(1)}px`);
+      }
+      if(SHORT_PHONES.has(vpName)) check(after.actionsBottom<=after.vh+0.5,`${tag}: buttons off screen after answering: bottom ${after.actionsBottom.toFixed(1)} > ${after.vh}`);
+      if(MIN_ZOOM[tag]) check(zoomOf(after.transform)>=MIN_ZOOM[tag],`${tag}: zoom ${after.transform} < ${MIN_ZOOM[tag]}`);
       // §8-14: hanamaru
       const s=after.stamp;
       let overlapEm=null;
@@ -167,10 +199,13 @@ const hex2rgb=h=>{h=h.replace('#','');return `rgb(${parseInt(h.slice(0,2),16)}, 
         // The buttons must stay on screen wherever they were on screen before this change
         // (§4.6 参考: syncStudyHeights never shrinks, so some wide screens already overflowed).
         check(after.actionsBottom<=after.vh+0.5 || b.actionsBottom>after.vh,`${tag}: buttons newly off screen: bottom ${after.actionsBottom} > ${after.vh} (before: ${b.actionsBottom})`);
+        // v54: 表の拡大率は変更前より下がらない
+        check(zoomOf(after.transform)>=zoomOf(b.transform)-0.005,`${tag}: zoom dropped ${b.transform}→${after.transform}`);
       }
       rows.push({vp:vpName,id,lemmaTop:after.lemmaTop.toFixed(1),tableTop:after.tableTop.toFixed(1),transform:after.transform,
         gloss:`${Math.round(after.gloss.w)}×${Math.round(after.gloss.h)}`,stamp:s?`${Math.round(s.w)}px hits=${s.hits} overlap=${overlapEm.toFixed(2)}em`:'-',
-        dt:after.glossDt.join('/'),em:after.glossEm.join('/'),vsBaseline:baseDelta});
+        dt:after.glossDt.join('/'),em:after.glossEm.join('/'),vsBaseline:baseDelta,
+        row:after.minRow.toFixed(1),buttons:`${after.actionsBottom.toFixed(0)}/${after.vh}`});
       // item-specific content checks
       if(id==='meri_aux') check(after.glossEm.join()==='推定',`${tag}: meri_aux (audited) should emphasise 推定, got ${after.glossEm}`);
       if(id==='beshi_aux') check(after.glossEm.join()==='推量,当然',`${tag}: beshi_aux (audited) should mark 推量 and 当然, got ${after.glossEm}`);
@@ -217,8 +252,8 @@ const hex2rgb=h=>{h=h.replace('#','');return `rgb(${parseInt(h.slice(0,2),16)}, 
     if(baseline) await baseline.ctx.close();
   }
   await browser.close();
-  const table=['| viewport | item | lemma top | table top | transform | gloss w×h | hanamaru | gloss rows | emphasised | vs. before change |','|---|---|---|---|---|---|---|---|---|---|',
-    ...rows.map(r=>`| ${r.vp} | ${r.id} | ${r.lemmaTop} | ${r.tableTop} | ${r.transform} | ${r.gloss} | ${r.stamp} | ${r.dt} | ${r.em||'-'} | ${r.vsBaseline||'-'} |`)].join('\n');
+  const table=['| viewport | item | lemma top | table top | transform | row | buttons bottom/vh | gloss w×h | hanamaru | gloss rows | emphasised | vs. before change |','|---|---|---|---|---|---|---|---|---|---|---|---|',
+    ...rows.map(r=>`| ${r.vp} | ${r.id} | ${r.lemmaTop} | ${r.tableTop} | ${r.transform} | ${r.row} | ${r.buttons} | ${r.gloss} | ${r.stamp} | ${r.dt} | ${r.em||'-'} | ${r.vsBaseline||'-'} |`)].join('\n');
   const report=`# gloss layout check (${new Date().toISOString()})\n\n${table}\n\n${notes.map(n=>'- '+n).join('\n')}\n\n${fails.length?'## FAILURES\n'+fails.map(f=>'- '+f).join('\n'):'All checks passed ('+rows.length+' item×viewport combinations + per-viewport example-off / Lv5 / review-modal checks).'}\n`;
 
   console.log(report);

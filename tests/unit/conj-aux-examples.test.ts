@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { auxExamplesExpected } from '../../tools/conj-layout-check/held-data.ts';
 
 // HANDOFF §30: 助動詞の用例の増補。活用表の各セルに実在の用例（実例がないセルは unattested）。
 const html = readFileSync(new URL('../../conj/index.html', import.meta.url), 'utf8');
@@ -39,7 +40,11 @@ function fn<T>(name: string, deps: string[] = [], prelude = ''): T {
 const FORMS = ['未然形', '連用形', '終止形', '連体形', '已然形', '命令形'];
 const aux = embeddedItems().filter((x) => x.pos === 'aux');
 const auxById = new Map(aux.map((x) => [x.id, x]));
-const data = read('aux-examples.json');
+// aux-examples.json は内部扱いのデータ（CHJ の引用と書誌データ）で、公開ツリーには無い（tools/conj-layout-check/held-data.ts）。
+// 作業リポジトリでは必ず検査する。
+const haveAux = auxExamplesExpected();
+const dataTest = haveAux ? test : test.skip;
+const data = haveAux ? read('aux-examples.json') : { schemaVersion: '1.0', records: [], cells: [], counts: {}, sources: {} };
 const records = data.records as Example[];
 const cells = data.cells as Cell[];
 const byId = new Map(records.map((r) => [r.id, r]));
@@ -56,7 +61,7 @@ test('aux examples: the 28 embedded aux items keep their tables but no longer ca
   }
 });
 
-test('aux examples: every record sits in a real table cell, and its target is found in the example', () => {
+dataTest('aux examples: every record sits in a real table cell, and its target is found in the example', () => {
   assert.equal(data.schemaVersion, '1.0');
   assert.equal(new Set(records.map((r) => r.id)).size, records.length, 'ids are unique');
   for (const r of records) {
@@ -81,7 +86,7 @@ test('aux examples: every record sits in a real table cell, and its target is fo
   }
 });
 
-test('aux examples: the displayed target keeps the text spelling; differences from the table form are deliberate', () => {
+dataTest('aux examples: the displayed target keeps the text spelling; differences from the table form are deliberate', () => {
   // 原文 target と正規化キーの分離（HANDOFF §4）: 撥音便・「ん」表記
   const diffs = records.filter((r) => r.target !== r.normalizedKey).map((r) => `${r.normalizedKey}→${r.target}`).sort();
   assert.deepEqual(diffs, ['まじかる→まじかん', 'むずれ→んずれ']);
@@ -89,7 +94,7 @@ test('aux examples: the displayed target keeps the text spelling; differences fr
   assert.match(onbin.note ?? '', /撥音便/);
 });
 
-test('aux examples: 校訂表記 (2026-09-28 audit) only adds dakuten/commas or spells out 踊り字, and keeps the source spelling', () => {
+dataTest('aux examples: 校訂表記 (2026-09-28 audit) only adds dakuten/commas or spells out 踊り字, and keeps the source spelling', () => {
   const base = (t: string) => {
     const out: string[] = [];
     for (const ch of t.normalize('NFD')) {
@@ -111,7 +116,7 @@ test('aux examples: 校訂表記 (2026-09-28 audit) only adds dakuten/commas or 
   assert.equal(byId.get('aux-tari-assert-001')!.example.slice(0, 6), '君、君たらず');
 });
 
-test('aux examples: every cell of every aux table is accounted for, and all attested cells have an example', () => {
+dataTest('aux examples: every cell of every aux table is accounted for, and all attested cells have an example', () => {
   const key = (c: { itemId: string; track: string; formIndex: number; surface: string }) => `${c.itemId}|${c.track}|${c.formIndex}|${c.surface}`;
   const expected = new Set<string>();
   for (const it of aux) {
@@ -156,7 +161,7 @@ test('aux tables: 補助活用命令形 of べし・まじ・まほし・たし 
   assert.equal(cellCorrect('べかれ', []), false);
 });
 
-test('aux examples: the former built-in examples are kept verbatim', () => {
+dataTest('aux examples: the former built-in examples are kept verbatim', () => {
   const snap = JSON.parse(readFileSync(new URL('../../conj/audit/aux_examples/builtin-items-bdaa05e.json', import.meta.url), 'utf8'));
   const builtin = records.filter((r) => r.origin === 'builtin');
   assert.equal(builtin.length, 28);
@@ -171,7 +176,7 @@ test('aux examples: the former built-in examples are kept verbatim', () => {
   }
 });
 
-test('aux examples: the adapter rejects malformed records and the app checks each record against the table', () => {
+dataTest('aux examples: the adapter rejects malformed records and the app checks each record against the table', () => {
   const ctx: Record<string, any> = {};
   const documentStub = {
     readyState: 'complete', title: '', addEventListener() {}, head: { appendChild() {} },
@@ -192,7 +197,7 @@ test('aux examples: the adapter rejects malformed records and the app checks eac
   assert.equal(cellProblem({ track: 'sub', formIndex: 2, normalizedKey: 'べし' }, beshi), 'not a cell of the table');
 });
 
-test('aux examples: each question shows one example, favouring unseen ones and never repeating the previous one', () => {
+dataTest('aux examples: each question shows one example, favouring unseen ones and never repeating the previous one', () => {
   const assign = fn<(item: any) => void>('assignAuxExample', [], 'const auxExampleShown=new Map();');
   const item: any = { id: 'ru_aux', auxExamples: records.filter((r) => r.itemId === 'ru_aux').map((r) => ({ ...r, exampleMeanings: null })) };
   assert.equal(item.auxExamples.length, 6);
@@ -220,14 +225,14 @@ test('aux examples: each question shows one example, favouring unseen ones and n
   assert.match(html, /await Promise\.all\(\[loadAdjvRuntimeItems\(\),loadAuxExamples\(\)\]\);/);
 });
 
-test('aux examples: sources are listed once in the credits popup, including the aux works', () => {
+dataTest('aux examples: sources are listed once in the credits popup, including the aux works', () => {
   assert.match(html, /const staticItems=items\.filter\(i=>i\.example && !i\.sourceExampleIds && i\.pos!=="aux"\);/);
   assert.match(html, /aux\.filter\(r=>r\.origin==="chj"\)\.map\(r=>r\.work\)/);
   assert.match(html, /aux\.filter\(r=>r\.publicSource\)\.map\(r=>r\.publicSource\)/);
   assert.ok(data.sources.chj.name && data.sources.chj.url);
 });
 
-test('aux examples: 備考 (pattern) notes from the audit are attached to their examples', () => {
+dataTest('aux examples: 備考 (pattern) notes from the audit are attached to their examples', () => {
   const withPattern = records.filter((r) => (r as Example & { pattern?: unknown }).pattern).map((r) => r.id).sort();
   assert.deepEqual(withPattern, ['aux-nari-assert-003', 'aux-tari-assert-002']);
   const p = (byId.get('aux-nari-assert-003') as Example & { pattern: { label: string; text: string } }).pattern;

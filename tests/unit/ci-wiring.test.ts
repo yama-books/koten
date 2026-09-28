@@ -45,6 +45,26 @@ test('overflow と font-weight は別の run 行で実行する', () => {
   }
 });
 
+test('実ブラウザの検査は、build と Playwright の導入より後に実行する', () => {
+  // conj-layout は /100/（packages/hyakunin/dist）の Web フォントを、overflow と font-weight は vite preview を使う。
+  const lines = ci.split(/\r?\n/);
+  const at = (pattern: RegExp) => lines.findIndex((line) => pattern.test(line));
+  const build = at(/^\s*- run: npm run build\s*$/);
+  const install = at(/^\s*- run: npx playwright install\b/);
+  assert.ok(build >= 0 && install >= 0, 'build または Playwright の導入が CI にない');
+  for (const name of ['check:overflow', 'check:font-weight', 'check:conj-layout']) {
+    const index = at(new RegExp(`^\\s*- run: npm run ${escapeRegExp(name)}\\s*$`));
+    assert.ok(index > build && index > install, `${name} が build・Playwright の導入より前にある`);
+  }
+});
+
+test('CI のポート表に conj-layout の既定ポートがある', () => {
+  const source = readFileSync(path.join(root, 'tools/conj-layout-check/index.ts'), 'utf8');
+  const port = /CONJ_LAYOUT_CHECK_PORT \?\? (\d+)/.exec(source)?.[1];
+  assert.ok(port, 'conj-layout の既定ポートが読めない');
+  assert.match(ci, new RegExp(`# ports:.*\\bconj-layout=${port}\\b`), 'ci.yml のポート表と conj-layout の既定ポートが違う');
+});
+
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
