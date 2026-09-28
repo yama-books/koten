@@ -32,6 +32,7 @@ koten contributors が権利を持つ次の成果物は、クリエイティブ�
 - 校訂・配列・注釈・構造化等に権利が成立する場合は、その独自部分だけが上記CC BY 4.0の対象です。
 - 原資料PDFは、再配布可否を確認するまで公開対象外です。
 - フォント、ライブラリ、その他の第三者素材には、それぞれの元ライセンスが適用されます。
+- `conj/data/adjectival-noun-public-examples.json` の用例本文は、Wikisource・やたがらすナビの電子テキストの抜粋です。各レコードの `sourceLicense` に示す CC BY-SA 4.0／3.0（継承）のまま提供し、このファイルは CC BY 4.0 の対象に含めません（[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)）。
 - 出典・権利者が別に示された資料には、その表示を優先します。
 - この文書は、koten contributors が許諾できる権利の範囲だけに適用されます。
 

@@ -400,6 +400,28 @@ github.com/moyashimisosoup/koten                                      → HTTP 4
 
 ## 4. 決定の記録
 
+### 2026-09-28・conj を公開許可リストへ（案B）、Pages の配信から作業文書を外した
+
+**依頼者決定（2026-09-28）。** 詳細は `docs/PUBLISH_MANIFEST.md` §4.3・§6・§6.2、権利は `docs/LICENSE_AUDIT.md` §8。
+
+- **許可リストに載せた（§7 の 5 条件）**：`conj/index.html`・`adjv-runtime-adapter.js`・`branding.css`・`icon.svg`・`manifest.webmanifest`・`img/**` と、
+  アプリが実行時に読むデータ 8 本（`adjectival-noun-paradigms` / `-lemma-pool` / `-example-index-120` / `-integration-audit` / `-lexical-annotations` / `-glosses` / `-public-examples`、`aux-example-meanings`）。
+  「必要」は `fetch` とファイル名を突き合わせて確かめ、Drive ID・ローカル絶対パス・個人情報が無いことを grep で確かめた。
+- **案Bの候補から落とした**：`public-text-pilot-*.json`（20 本）と `public-text-source-registry.json`。**アプリが読まない**（§7-1 を満たさない）。
+- **条件つきで保留**：`adjectival-noun-chj-quotations.json`（CHJ の引用。アプリ掲載は裁定済み、ソースとしての再配布は未確認）。
+  ほかに `adjectival-noun-selection-120.json`・`corpus-status.json`（Drive ID）、`conj/*.md`、`conj/audit/**`、`adjv-runtime-smoke.html` を除外。
+- **CC BY-SA**：`adjectival-noun-public-examples.json` の本文は Wikisource（CC BY-SA 4.0、渋谷栄一校訂『紫式部日記』は 3.0）とやたがらすナビ（CC BY-SA 4.0）。
+  **このファイルは CC BY 4.0 ではなく CC BY-SA のまま**と `THIRD_PARTY_NOTICES.md`・`LICENSE-CONTENT.md` に明記した。帰属はアプリの「用例の出典」に一覧で出る。
+- **Pages**：`yama-books/koten` は公開リポジトリで、Pages は `conj/` `vintage-kana/` `checkpoint/` を `cp -r` で丸ごと置いていた。
+  依頼者の優先順位（**アプリの中身を減らさない**が第一）に従い、許可リストから導く方式はとらず、`tools/pages-assemble` の**除外リスト**で
+  `*.md`・ドットファイルと conj の 4 項目（`audit/`・スモークページ・Drive ID の 2 本）だけを外した。CHJ の引用は Pages に置く。
+  `tests/unit/pages-assemble.test.ts` がアプリの読むファイルの配信・丸ごと複写の禁止・`.md` と監査の不在を検査する。
+- **公開ツリーでの試験**：CHJ の引用を読む試験・`check:conj-layout` の一部は、`docs/PUBLISH_MANIFEST.md` が無い（＝公開ツリー）ときだけ外れる
+  （`tools/conj-layout-check/held-data.ts`）。環境変数にしないのは、付け忘れで作業リポジトリの検査が黙って弱まるため。
+  `stats-onboarding` の N-1（`docs/APP_SPEC.md` の有無で判定）と同じ考え方。
+- **残した判断**：vintage-kana / checkpoint は許可リストに無い。`checkpoint/data/*usb3212*.json` など、原資料PDF（再配布未確認）由来と読める名前のデータが Pages で実行時に読まれている。
+  CHJ の引用をソースとして公開するか、`public-examples` 冒頭の `licensePolicy`（Wikisource のみ記載）を直すかも未決。
+
 ### 2026-09-08・設計監査残件の引継ぎ方針
 
 依頼者から、Astraによる全件起草の資源負担を減らし、SolまたはOpus中〜高へ今後の発注起草を引き継ぐ依頼。[継続計画](DESIGN_AUDIT_CONTINUATION.md)を作成した。対象を絞った原文照合と独立検収を維持し、全履歴の再読・全件再監査・起草時の全検査の重複を減らす運用を提案。D-77と9/8の表示要望は未決／未吟味のまま区別する。製品の新たな裁定・修正・検収は今回行っていない。

@@ -19,6 +19,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { chjQuotationsExpected } from './held-data.ts';
 
 // conj/index.html の古典スクリプトの大域変数・関数。page.evaluate の中（ページの大域）でだけ使う。
 declare let items: any[];
@@ -43,6 +44,10 @@ const port = Number(process.env.CONJ_LAYOUT_CHECK_PORT ?? 4177);
 const conjDir = path.resolve(process.env.CONJ_LAYOUT_CONJ_DIR ?? path.join(root, 'conj'));
 const hyakuninDist = path.join(root, 'packages/hyakunin/dist');
 const useWebFonts = !process.argv.includes('--no-web-fonts');
+// 形容動詞の語釈は表示中の用例に結び付く。しづかなり（adjv-lemma-030）など CHJ の引用を用例にする語は、
+// CHJ の引用が無い公開ツリーでは用例も語釈も出ないので、そこでだけ語釈帯の検査を外す（作業リポジトリでは常に検査する）。
+const chjExpected = chjQuotationsExpected(conjDir);
+const glossSkipped = new Set<string>();
 const baseUrl = `http://127.0.0.1:${port}/conj/`;
 const started = Date.now();
 
@@ -136,6 +141,7 @@ try {
 }
 
 const seconds = ((Date.now() - started) / 1000).toFixed(1);
+if (glossSkipped.size) notes.push(`CHJ の引用が無い（公開ツリー）：用例の無い ${[...glossSkipped].join('・')} の語釈帯の検査を外した`);
 for (const note of notes) console.log(`check:conj-layout: ${note}`);
 if (cases !== expectedCases) failures.push(`走査が不足または過剰です（${cases} 件、必要 ${expectedCases} 件ちょうど）`);
 console.log(`check:conj-layout: 問題×画面 ${cases} 件（${viewports.length} 画面 × ${checkedItems.length} 問）、はなまるの全問走査 ${stampSweepCount} 件、Enter の走査 ${keyboardSweepCount} 件、フォント ${useWebFonts ? 'Web フォント（/100/）' : '端末のフォールバック'}、${seconds} 秒`);
@@ -183,6 +189,8 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
       // 語釈帯：動詞・形容詞には無い。形容動詞・助動詞は出題時から場所を確保して隠し、答えの後に表示する。
       if (item.pos === 'verb' || item.pos === 'adj') {
         check(after.glossHidden, `${tag}: ${item.pos} に語釈帯がある`);
+      } else if (!chjExpected && item.pos === 'adjv' && !(await exampleShown(page, item.id))) {
+        glossSkipped.add(item.id);
       } else if (check(!after.glossHidden && after.gloss !== null, `${tag}: 語釈帯が無い`)) {
         const gloss = after.gloss!;
         check(before.glossVisibility === 'hidden' && after.glossVisibility === 'visible', `${tag}: 語釈帯の表示 ${before.glossVisibility} → ${after.glossVisibility}`);
@@ -198,7 +206,7 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
 
       // 「この用例では」は、形容動詞で用例ごとの注記があり、用例を表示しているときだけ。
       const hasNote = after.glossDt.includes('この用例では');
-      if (item.id === 'adjv-lemma-030') check(hasNote, `${tag}: しづかなり に「この用例では」が無い（${after.glossDt.join('/')}）`);
+      if (item.id === 'adjv-lemma-030' && chjExpected) check(hasNote, `${tag}: しづかなり に「この用例では」が無い（${after.glossDt.join('/')}）`);
       if (item.pos === 'aux' || item.id === 'adjv-lemma-117' || item.id === 'itadura') check(!hasNote, `${tag}: 注記の無い問題に「この用例では」がある（${after.glossDt.join('/')}）`);
       if (after.glossDt.length && !after.glossHidden) check(after.glossDt[0] === '意味', `${tag}: 語釈帯の先頭が「意味」でない（${after.glossDt.join('/')}）`);
 
@@ -232,7 +240,7 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
     await show(page, { id: 'adjv-lemma-030', pos: 'adjv' }, { exampleOff: true });
     await answerAll(page);
     const off = await measure(page);
-    check(off.glossDt.join('/') === '意味', `${vp}: 用例を隠しても語釈帯に ${off.glossDt.join('/')} が出る`);
+    if (chjExpected || await exampleShown(page, 'adjv-lemma-030')) check(off.glossDt.join('/') === '意味', `${vp}: 用例を隠しても語釈帯に ${off.glossDt.join('/')} が出る`);
     await page.evaluate(() => { (document.getElementById('showExample') as HTMLInputElement).checked = true; });
 
     if (stampSweepViewports.has(vp)) {
@@ -322,6 +330,11 @@ async function loadFonts(page: any): Promise<{ summary: string }> {
 }
 
 /** `id` を新しい問題として表示する（助動詞・形容動詞は Lv4）。PC ではアプリが最初の空欄を編集状態にするので閉じる。 */
+/** 用例のある問題か（形容動詞の語釈は用例に結び付く）。CHJ の引用が無い公開ツリーでだけ問う。 */
+async function exampleShown(page: any, id: string): Promise<boolean> {
+  return page.evaluate((itemId: string) => Boolean(items.find((entry: { id: string }) => entry.id === itemId)?.example), id);
+}
+
 async function show(page: any, item: Item, options: { exampleOff?: boolean } = {}): Promise<void> {
   const found = await page.evaluate(async ({ id, pos, exampleOff }: { id: string; pos: string; exampleOff: boolean }) => {
     (document.getElementById('pos') as HTMLSelectElement).value = pos;

@@ -1,6 +1,6 @@
 # 公開マニフェスト（許可リスト）
 
-最終更新: 2026-08-30
+最終更新: 2026-09-28
 種別: 内部作業資料。**このファイル自身は公開しない。**
 根拠: `docs/IMPLEMENTATION_PLAN.md` §10 P0 / §14.1〜§14.2、`CONSTITUTION.md`、裁定 D-03・D-06
 
@@ -89,13 +89,14 @@ P0 時点ではアプリコードが 1 行も存在しない。したがって�
 | `packages/shared/**` | 一部現存 | P1、共有ErrorBoundary、D-08ローダー、トークンまで。保存・統計等は未実装 |
 | `tools/build-data/**` | 現存 | 発注001。生成の再現性のため公開する |
 | `tools/overflow-check/**` | 未作成 | P3 |
+| `tools/pages-assemble/**` | 現存 | 2026-09-28。`deploy-pages.yml` が conj / vintage-kana / checkpoint を Pages へ置くのに使う。公開ツリーでも同じ workflow が動くよう公開する。§6.2 |
 | `tools/scan-publish/**` | 初版現存 | 最終staging全体と許可リストの1対1検査は未実装 |
 | `tests/**` | 一部現存 | data/unit 16件。`tools/review-page` に依存する試験を含めない |
 | `firebase/firestore.rules` | 未作成 | P9。**実プロジェクト ID・鍵・実値を含まないこと** |
 | `firebase/firestore.indexes.json` | 未作成 | 同上 |
 | `firebase/firebase.json` | 未作成 | Emulator 設定のみ。実プロジェクト ID は環境変数 |
 | `.github/workflows/ci.yml` | 現存 | P1完了。typecheck / lint / unit / data / build / scan |
-| `.github/workflows/deploy-pages.yml` | 未作成 | P12 で有効化 |
+| `.github/workflows/deploy-pages.yml` | 現存 | 静的アプリは `tools/pages-assemble` で置く（2026-09-28。丸ごと複写をやめた）。§6.2 |
 | `.gitignore` / `.gitattributes` | 要書換 | 公開側の構成に合わせて作り直す。現物をそのまま移さない |
 | `README.md` | 要書換 | **公開用に書き直したものを移す。** 現行 README は内部向け |
 
@@ -147,6 +148,33 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 | `packages/kanazukai/src/**` | 足場のみ現存 | 「準備中」Homeのみ。横書き単語・規則診断・3モードは未実装 |
 | `packages/kanazukai/src/data/generated/**` | 未作成 | **手編集禁止。CI で検査** |
 | `packages/kanazukai/public/**` | 一部現存 | `404.html`のみ。フォントは§3.6の条件に従う |
+
+### 4.3 公開単位 3: 古典文法活用ノート — `/conj/`（2026-09-28 追加・案B）
+
+独立した静的アプリ（ビルド不要）。**載せるのは、アプリの実行ファイルと、アプリが実行時に読むデータのうち
+自作または公開本文由来のものだけ**である。§7-1 の「必要である」は、`conj/index.html` と
+`conj/adjv-runtime-adapter.js` が実行時に読むことを実物で確かめた（`fetch` とファイル名の突き合わせ）。
+データの権利は `docs/LICENSE_AUDIT.md` §8 を参照。
+
+| パス | 状態 | 条件 |
+|---|---|---|
+| `conj/index.html` | 現存 | アプリ本体 |
+| `conj/adjv-runtime-adapter.js` | 現存 | 形容動詞データの読み込み |
+| `conj/branding.css` / `conj/icon.svg` / `conj/manifest.webmanifest` | 現存 | 実行時に読む。`icon.svg` は PNG を埋め込んだ SVG（外部参照なし） |
+| `conj/img/**` | 現存 | 4 点（はなまる・記録の猫・結果の丸／バツ）。自作 |
+| `conj/data/adjectival-noun-paradigms.json` | 現存 | 活用表。自作 |
+| `conj/data/adjectival-noun-lemma-pool.json` | 現存 | 語幹候補。本文を含まない |
+| `conj/data/adjectival-noun-example-index-120.json` | 現存 | 実例の索引。**本文を含まない**（`rawTextPublished: false`）。CHJ のサンプル ID・位置・JapanKnowledge の書誌リンクを持つ（書誌情報） |
+| `conj/data/adjectival-noun-integration-audit.json` | 現存 | 実行時に検証へ使う集計 |
+| `conj/data/adjectival-noun-lexical-annotations.json` | 現存 | 見出しの表示形など。自作 |
+| `conj/data/adjectival-noun-glosses.json` | 現存 | 語釈・現代仮名遣いのルビ。自作 |
+| `conj/data/adjectival-noun-public-examples.json` | 現存 | **公開本文の短い抜粋（Wikisource・やたがらすナビ）。CC BY-SA 4.0／3.0 のまま。** プロジェクトの CC BY 4.0 とは別条件（`THIRD_PARTY_NOTICES.md`・`LICENSE-CONTENT.md`） |
+| `conj/data/aux-example-meanings.json` | 現存 | 助動詞の用例ごとの意味。自作（用例は百人一首） |
+| `conj/data/adjectival-noun-chj-quotations.json` | **条件つき** | CHJ 本文の抜粋 56 件。**アプリへの掲載は引用として裁定済み**（`conj/PUBLIC_TEXT_SOURCE_POLICY.md` 2026-09-23）だが、**ソースファイルとしての再配布は未確認。§5 のブロックに載せない。** GitHub Pages には配信する（§6.2） |
+
+> **公開ツリーでの試験。** CHJ の引用が無いので、それを読む試験（`tests/unit/conj-*.test.ts` の一部と
+> `check:conj-layout` のしづかなり注記）は公開ツリーでだけ外れる。作業リポジトリかどうかは本書（`docs/PUBLISH_MANIFEST.md`）の
+> 有無で判定し、作業リポジトリでは必ず実行する（`tools/conj-layout-check/held-data.ts`）。
 
 ---
 
@@ -211,6 +239,13 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 | 実利用データ・未集計報告・バックアップ | `.gitignore` で追跡もしない |
 | サービスアカウント鍵・管理者認証情報・API 秘密鍵 | 憲章。Secrets には公開 Web 設定のみ |
 | ローカル絶対パス（`H:/` 等）を含む記述 | 環境が露出する。`scan-publish` の禁止パターンに含める |
+| conj の作業文書（`conj/*.md`：`HANDOFF*`・`PROGRESS*`・`ROADMAP`・`README`・`IMPLEMENTATION`・`DESIGN_*`・`*_POLICY` 等） | 内部作業資料。アプリは読まない。方針の要点は `docs/LICENSE_AUDIT.md` §8 に移した |
+| `conj/audit/**` | 監査用スクリプト・計測結果・モックアップ。アプリは読まない |
+| `conj/adjv-runtime-smoke.html` | 二層データの確認用ページ。本番の `index.html` と接続していない |
+| `conj/data/adjectival-noun-selection-120.json` / `conj/data/corpus-status.json` | 選定の作業データ。**Drive のフォルダ／ファイル ID を含む。** アプリは読まない |
+| `conj/data/public-text-pilot-*.json`（20 本）/ `conj/data/public-text-source-registry.json` | 公開本文の探索・照合の作業記録。**アプリは読まない**（採用した抜粋は `adjectival-noun-public-examples.json` に入っている）。§7-1 を満たさない |
+| `conj/data/adjectival-noun-chj-quotations.json` | §4.3 の条件つき。ソースとしての再配布が未確認 |
+| `tools/publish-transfer/**` | 私的リポジトリの所在を引数で受ける道具（既存の判断） |
 
 ### 6.1 `古典文法_一次データ索引.md` を初回公開に含めない判断（**新規・人間確認 H-14**）
 
@@ -232,6 +267,22 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 - そのとき、原表の語順に依らない形へ書き直した版を公開するのか、公開しないのか。
 
 判断が出るまでは**移さない**。§1 の原則（迷ったら移さない）に従う。
+
+### 6.2 GitHub Pages の配信物と許可リストの違い（2026-09-28）
+
+**GitHub リポジトリ `yama-books/koten` は現に公開されており、Pages は `conj/` `vintage-kana/` `checkpoint/` を
+`cp -r` で丸ごと置いていた。** そのため引き継ぎ・監査の Markdown まで Pages の URL で読めた。
+依頼者の優先順位は「**アプリの中身（用例・出典・画像・データ）を減らさない**」が第一、作業文書を隠すのは第二である。
+
+- Pages は `tools/pages-assemble` で組み立てる。**除外リスト方式**：`*.md`・ドットファイルと、アプリが読まないと確かめた
+  conj の 4 項目（`audit/`・`adjv-runtime-smoke.html`・Drive ID を含む 2 本）だけを外す。アプリが新しいデータを読むようになっても配信から落ちない。
+- 本書の許可リストは**ソースとして公開ツリーへ移すもの**、Pages は**アプリとして配信するもの**で、目的が違う。
+  CHJ の引用はアプリへの掲載が裁定済みなので Pages には置くが、許可リストには載せない。
+- `tests/unit/pages-assemble.test.ts` が、(a) 丸ごと複写に戻っていない、(b) `index.html` とアダプタが実行時に読む
+  ファイルがすべて置かれる、(c) `.md`・監査ファイルが置かれない、(d) 許可リストの conj のファイルがすべて置かれる、を検査する。
+- vintage-kana / checkpoint は許可リストに無い（公開単位になっていない）。Pages からは `*.md` だけを外した
+  （どちらも実行時に `.md` を読まないことと、実ブラウザで 404・コンソールエラーが増えないことを確かめた）。
+  **データ（`checkpoint/data/*usb3212*.json` 等）は実行時に読むので外していない。** 扱いは後日の判断。
 
 ---
 
@@ -265,6 +316,7 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 
 | 日付 | 内容 |
 |---|---|
+| 2026-09-28 | §4.3 に公開単位 3（古典文法活用ノート `/conj/`）を追加（案B）。実行ファイルとアプリが読む自作・公開本文由来のデータを §5 に載せ、CHJ の引用は条件つきで保留。アプリが読まない探索記録・Drive ID を含む作業データ・作業文書・監査は §6 に理由つきで除外。§6.2 で Pages の配信物を許可リストと分けて整理し、`tools/pages-assemble` を §3.4 に追加 |
 | 2026-08-31 | 正式名称を確定（H-10 解消）。プロジェクト名「古典学習帳」、公開単位1「百人一首練習帳」、公開単位2「歴史的仮名遣い確認ツール」。§4.1 の見出しと `NOTICE` を更新 |
 | 2026-08-31 | 裁定 D-10（公開名義は noreply アドレス、実メール不可）を §8 手順 7 に反映。根拠は ADR-0003 追補 |
 | 2026-08-31 | P1・発注001・先行実機確認版の実体に状態欄を同期。フォントはライセンス確認済みだが実ファイル未作成であること、`scan:publish` 初版は最終staging検査を満たさないことを明記 |
