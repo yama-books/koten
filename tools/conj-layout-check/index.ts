@@ -19,7 +19,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { adjvRuntimeExpected, chjQuotationsExpected } from './held-data.ts';
+import { adjvRuntimeExpected, auxExamplesExpected, chjQuotationsExpected } from './held-data.ts';
 
 // conj/index.html の古典スクリプトの大域変数・関数。page.evaluate の中（ページの大域）でだけ使う。
 declare let items: any[];
@@ -32,6 +32,7 @@ declare function closeEditor(commit?: boolean): void;
 declare function chooseBlankSlots(): void;
 declare function render(): void;
 declare function grade(revealOnly?: boolean): void;
+declare function assignAuxExample(item: unknown): void;
 declare function placePerfectStamp(): Promise<void>;
 declare function targetFor(row: string | undefined, index: number): string[] | undefined;
 declare function key(row: string | undefined, index: number): string;
@@ -51,6 +52,8 @@ const glossSkipped = new Set<string>();
 // 形容動詞 115 語は adjectival-noun-example-index-120.json（内部扱い）が無いと出題されない。公開ツリーでだけ、
 // それらの問題（とはなまるの全問走査）を外す。作業リポジトリでは常に検査する。
 const adjvExpected = adjvRuntimeExpected(conjDir);
+// 助動詞の用例（aux-examples.json、内部扱い）。無い公開ツリーでは助動詞は活用表だけになり、意味の強調は出ない。
+const auxExpected = auxExamplesExpected(conjDir);
 const baseUrl = `http://127.0.0.1:${port}/conj/`;
 const started = Date.now();
 
@@ -104,10 +107,11 @@ const check = (ok: boolean, message: string): boolean => { if (!ok) failures.pus
 try { await stat(path.join(conjDir, 'index.html')); } catch {
   fail(`${path.relative(root, conjDir) || '.'} に conj の index.html がありません。`);
 }
-const auxMeanings = JSON.parse(readFileSync(path.join(conjDir, 'data/aux-example-meanings.json'), 'utf8')) as { records: Array<{ id: string; exampleMeanings: string[]; status: string }> };
+// 意味は用例 id がキー（HANDOFF §34）。検査では各語の従来の組み込み例（decision: audited-previously）を出す。
+const auxMeanings = JSON.parse(readFileSync(path.join(conjDir, 'data/aux-example-meanings.json'), 'utf8')) as { records: Array<{ id: string; itemId?: string; decision?: string; exampleMeanings: string[]; status: string }> };
 const expectedEmphasis = new Map<string, string[]>();
-for (const id of emphasisItems) {
-  const record = auxMeanings.records.find((entry) => entry.id === id);
+for (const id of auxExpected ? emphasisItems : []) {
+  const record = auxMeanings.records.find((entry) => entry.itemId === id && entry.decision === 'audited-previously');
   if (!record || record.status !== 'audited' || !record.exampleMeanings.length) fail(`aux-example-meanings.json に監査済みの ${id} がありません（強調の検査が空になる）`);
   expectedEmphasis.set(id, [...record.exampleMeanings].sort());
 }
@@ -166,7 +170,7 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
     page.on('pageerror', (error: Error) => pageErrors.push(error.message));
     await page.addInitScript(() => { try { localStorage.setItem('conjInstallNoticeDismissed', 'true'); } catch { /* storage unavailable */ } });
     await page.goto(baseUrl, { waitUntil: 'load' });
-    await page.waitForFunction(() => (window as any).__conjAdjvRuntimeStatus !== undefined);
+    await page.waitForFunction(() => (window as any).__conjAdjvRuntimeStatus !== undefined && (window as any).__conjAuxExampleStatus !== undefined);
     const runtime = await page.evaluate(() => ({ loaded: (window as any).__conjAdjvRuntimeStatus.loaded, error: (window as any).__conjAdjvRuntimeStatus.error ?? null }));
     if (!runtime.loaded && adjvExpected) throw new Error(`${vp}: 形容動詞のデータを読み込めません: ${runtime.error}`);
     const fonts = await loadFonts(page);
@@ -356,6 +360,15 @@ async function show(page: any, item: Item, options: { exampleOff?: boolean } = {
     closeEditor(false);
     current = items.find((entry: { id: string }) => entry.id === id);
     if (!current) return false;
+    // 助動詞は出題ごとに用例を選ぶ（HANDOFF §34）。検査では従来の組み込み例に固定する。
+    if (current.pos === 'aux' && typeof assignAuxExample === 'function') {
+      const all = current.auxExamples || [];
+      const builtin = all.filter((entry: { origin?: string }) => entry.origin === 'builtin');
+      current.auxExamples = builtin.length ? builtin : all;
+      current.exampleId = null;
+      assignAuxExample(current);
+      current.auxExamples = all;
+    }
     // 空欄の位置は乱数で決まる。毎回同じ空欄で測る。
     let seed = 7;
     const random = Math.random;
