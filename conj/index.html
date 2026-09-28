@@ -4276,59 +4276,29 @@ function closeEditor(commit=true){
     selected=null;
   }
 }
-function focusNext(afterTd){
-  const cells=[...document.querySelectorAll(".katsuyo .editable-answer")];
-  if(!cells.length)return;
-
-  const row=afterTd.dataset.row;
-  const base=baseRow(row);
-  const i=Number(afterTd.dataset.i);
-  const vi=variantIndex(row);
-
-  // A split cell: first move to the other half of the same conjugation form.
-  if(vi!==null){
-    const sameCellNext=cells.find(td=>
-      Number(td.dataset.i)===i &&
-      baseRow(td.dataset.row)===base &&
-      variantIndex(td.dataset.row)===vi+1
-    );
-    if(sameCellNext){
-      openEditor(sameCellNext, sameCellNext.dataset.row, Number(sameCellNext.dataset.i));
-      return;
-    }
-  }
-
-  // Then continue downward in the same logical track.
-  const below=cells
-    .filter(td=>baseRow(td.dataset.row)===base && Number(td.dataset.i)>i)
+// Enter で進む順番：基本形の列（main）を上から下へ、次に第二形の列（sub）を上から下へ、
+// そのほかの列はその後ろ。同じ活用形を二つに分けたマスは続けて進む。最後のマスで止まり、先頭へは戻らない
+// （以前は二つの列の間を行き来し続け、編集が閉じないため Enter で採点へ進めなかった）。
+function editableOrder(){
+  const cells=[...document.querySelectorAll(".card .katsuyo .editable-answer")];
+  const bases=[...new Set(cells.map(td=>baseRow(td.dataset.row)))];
+  const orderedBases=[
+    ...["main","sub"].filter(b=>bases.includes(b)),
+    ...bases.filter(b=>b!=="main"&&b!=="sub")
+  ];
+  return orderedBases.flatMap(base=>cells
+    .filter(td=>baseRow(td.dataset.row)===base)
     .sort((a,b)=>{
       const di=Number(a.dataset.i)-Number(b.dataset.i);
       if(di) return di;
       return (variantIndex(a.dataset.row)??-1)-(variantIndex(b.dataset.row)??-1);
-    });
-
-  if(below.length){
-    const td=below[0];
-    openEditor(td, td.dataset.row, Number(td.dataset.i));
-    return;
-  }
-
-  // Two-track tables: after reaching the bottom, continue at the top of the other track.
-  const otherBases = base==="main" ? ["sub"] : base==="sub" ? ["main"] : [];
-  for(const other of otherBases){
-    const candidates=cells
-      .filter(td=>baseRow(td.dataset.row)===other)
-      .sort((a,b)=>{
-        const di=Number(a.dataset.i)-Number(b.dataset.i);
-        if(di) return di;
-        return (variantIndex(a.dataset.row)??-1)-(variantIndex(b.dataset.row)??-1);
-      });
-    if(candidates.length){
-      const td=candidates[0];
-      openEditor(td, td.dataset.row, Number(td.dataset.i));
-      return;
-    }
-  }
+    }));
+}
+function focusNext(afterTd){
+  const order=editableOrder();
+  const next=order[order.indexOf(afterTd)+1];
+  if(next) openEditor(next, next.dataset.row, Number(next.dataset.i));
+  // 最後のマスでは編集を閉じる。確定の Enter はそのまま document の「Enter で採点」に届き、採点される。
 }
 function editableCell(row,i, klass=""){
   const td=document.createElement("td");
@@ -5148,7 +5118,7 @@ function focusFirstBlank(){
   if(document.querySelector("dialog[open]")) return;
   const reviewModal=document.getElementById("reviewModal");
   if(reviewModal && !reviewModal.hidden) return;
-  const first=document.querySelector(".card .katsuyo .editable-answer");
+  const first=editableOrder()[0];
   if(!first) return;
   openEditor(first, first.dataset.row, Number(first.dataset.i));
 }

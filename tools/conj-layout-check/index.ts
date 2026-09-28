@@ -87,6 +87,9 @@ const failures: string[] = [];
 const notes: string[] = [];
 let cases = 0;
 let stampSweepCount = 0;
+// Enter だけで全問を解く走査（PC。二つの列を持つ表でも空欄を一度ずつ回り、最後の Enter で採点される）。
+const keyboardSweepViewports = new Set(['pc1440']);
+let keyboardSweepCount = 0;
 const check = (ok: boolean, message: string): boolean => { if (!ok) failures.push(message); return ok; };
 
 try { await stat(path.join(conjDir, 'index.html')); } catch {
@@ -135,7 +138,7 @@ try {
 const seconds = ((Date.now() - started) / 1000).toFixed(1);
 for (const note of notes) console.log(`check:conj-layout: ${note}`);
 if (cases !== expectedCases) failures.push(`走査が不足または過剰です（${cases} 件、必要 ${expectedCases} 件ちょうど）`);
-console.log(`check:conj-layout: 問題×画面 ${cases} 件（${viewports.length} 画面 × ${checkedItems.length} 問）、はなまるの全問走査 ${stampSweepCount} 件、フォント ${useWebFonts ? 'Web フォント（/100/）' : '端末のフォールバック'}、${seconds} 秒`);
+console.log(`check:conj-layout: 問題×画面 ${cases} 件（${viewports.length} 画面 × ${checkedItems.length} 問）、はなまるの全問走査 ${stampSweepCount} 件、Enter の走査 ${keyboardSweepCount} 件、フォント ${useWebFonts ? 'Web フォント（/100/）' : '端末のフォールバック'}、${seconds} 秒`);
 console.log(`check:conj-layout: 違反 ${failures.length} 件`);
 for (const message of failures.slice(0, 400)) console.log(`  ${message}`);
 if (failures.length > 400) console.log(`  …残り ${failures.length - 400} 件`);
@@ -239,10 +242,63 @@ async function checkViewport(browser: any, viewport: Viewport): Promise<void> {
       for (const bad of sweep.bad) failures.push(`${vp} ${bad.id}: はなまる（全問走査）${JSON.stringify(bad)}`);
       notes.push(`${vp}: はなまるの全問走査 形容動詞 ${sweep.total} 問、交差あり ${sweep.bad.filter((entry) => entry.hits > 0).length} 問`);
     }
+    if (keyboardSweepViewports.has(vp)) {
+      const sweep = await sweepEnterFlow(page);
+      keyboardSweepCount += sweep.total;
+      check(sweep.total >= 200, `${vp}: Enter の走査が ${sweep.total} 件しかない`);
+      for (const bad of sweep.bad.slice(0, 20)) failures.push(`${vp} ${bad}`);
+      if (sweep.bad.length > 20) failures.push(`${vp}: Enter の走査 ほか ${sweep.bad.length - 20} 件`);
+      notes.push(`${vp}: Enter だけで解く走査 ${sweep.total} 件（全問 × Lv4・Lv7）、不合格 ${sweep.bad.length} 件`);
+    }
     if (pageErrors.length) failures.push(`${vp}: ページのエラー ${pageErrors.join(' | ')}`);
   } finally {
     await context.close();
   }
+}
+
+/**
+ * 全問を Lv4・Lv7 で、キーボードだけで解く。空欄を正答で埋めて Enter を押し続けたとき、
+ * すべての空欄を一度ずつ回り（二つの列の間を行き来し続けない）、最後の空欄の Enter で採点され
+ * （全問正解）、次の Enter で次の問題へ進むことを確かめる。
+ */
+async function sweepEnterFlow(page: any): Promise<{ total: number; bad: string[] }> {
+  const ids: Array<{ id: string; pos: string }> = await page.evaluate(() => items.map((entry: { id: string; pos: string }) => ({ id: entry.id, pos: entry.pos })));
+  const bad: string[] = [];
+  let total = 0;
+  for (const { id, pos } of ids) {
+    for (const level of [4, 7]) {
+      total++;
+      const setup = await page.evaluate(({ id, pos, level }: { id: string; pos: string; level: number }) => {
+        (document.getElementById('pos') as HTMLSelectElement).value = pos;
+        updateLevelUI();
+        const meter = document.getElementById(pos === 'aux' ? 'auxLevel' : `${pos}Level`) as HTMLInputElement | null;
+        if (meter) { meter.value = String(level); meter.dispatchEvent(new Event('input', { bubbles: true })); }
+        closeEditor(false);
+        current = items.find((entry: { id: string }) => entry.id === id);
+        chooseBlankSlots();
+        answered = false; answers = {}; selected = null;
+        render();
+        if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+        focusFirstBlank();
+        return { blanks: document.querySelectorAll('.card .katsuyo .editable-answer').length, open: !!selected };
+      }, { id, pos, level });
+      const visited: string[] = [];
+      for (let step = 0; step < setup.blanks + 3; step++) {
+        const cell = await page.evaluate(() => selected ? { key: `${selected.row}:${selected.i}`, answer: (targetFor(selected.row, selected.i) || [])[0] || '' } : null);
+        if (!cell) break;
+        visited.push(cell.key);
+        await page.keyboard.type(cell.answer);
+        await page.keyboard.press('Enter');
+      }
+      const last = await page.evaluate(() => ({ answered, editor: !!document.querySelector('.editor input'), perfect: document.getElementById('perfectResult')!.classList.contains('show'), id: current.id }));
+      await page.keyboard.press('Enter');
+      const next = await page.evaluate(() => ({ answered, id: current.id }));
+      const ok = setup.open && visited.length === setup.blanks && new Set(visited).size === setup.blanks
+        && last.answered && !last.editor && last.perfect && !next.answered && next.id !== last.id;
+      if (!ok) bad.push(`${id} Lv${level}: Enter で解けない（空欄 ${setup.blanks}、回った順 ${visited.join(' ')}、最後の Enter の後 採点=${last.answered} 全問正解=${last.perfect}、次の Enter で次の問題=${next.id !== last.id}）`);
+    }
+  }
+  return { total, bad };
 }
 
 /** Web フォントを全部読み込んでから測る（途中で字形が差し替わって、答えの前後の比較が揺れないように）。 */
