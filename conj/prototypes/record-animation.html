@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f8f5f0">
+<title>活用記録アニメーション試作</title>
+<style>
+:root{--bg:#f6f3ee;--panel:#fffdf9;--ink:#2f2d2a;--muted:#80796e;--line:#e6e0d6;--accent:#785f4c;--soft:#efe6dd}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(#f8f5f0,#f1ede6);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI","Yu Gothic",sans-serif}
+.wrap{width:min(980px,94vw);margin:32px auto 56px}.header{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;margin-bottom:16px}
+h1{font-size:clamp(22px,6vw,34px);margin:0}.lead{color:var(--muted);margin:.4rem 0 0;font-size:13px;line-height:1.6}
+button{border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-weight:700;border-radius:999px;padding:10px 15px;cursor:pointer;white-space:nowrap}
+.dashboard{background:#ffffff8f;border:1px solid #fff;border-radius:25px;padding:14px;display:grid;grid-template-columns:1.1fr .9fr;gap:12px;box-shadow:0 10px 30px #46372314}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:17px;box-shadow:0 5px 18px #3c2d1c0a}
+.appear{opacity:0;transform:translate3d(0,12px,0) scale(.992)}
+.dashboard.play .appear{animation:cardIn .48s cubic-bezier(.2,.75,.25,1) forwards}.dashboard.play .d1{animation-delay:.05s}.dashboard.play .d2{animation-delay:.12s}.dashboard.play .d3{animation-delay:.19s}.dashboard.play .d4{animation-delay:.26s}
+@keyframes cardIn{to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+.top{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px}.eyebrow{color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.08em}
+.big{display:flex;align-items:baseline;gap:4px;margin-top:5px}.big .num{font-size:46px;line-height:1;font-weight:800;letter-spacing:-.04em}.unit{font-size:16px;color:var(--muted);font-weight:700}.note{margin-top:8px;font-size:12px;color:var(--muted)}
+.badge{min-width:112px;text-align:center;padding:10px 13px;border-radius:16px;background:var(--soft);color:var(--accent);transform:scale(.92);opacity:0}
+.dashboard.play .badge{animation:badge .42s cubic-bezier(.2,.8,.2,1.15) .68s forwards}.badge b{display:block;font-size:24px;margin-top:2px}
+@keyframes badge{65%{opacity:1;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}
+.title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}.title h2{font-size:15px;margin:0}.title span{font-size:11px;color:var(--muted)}
+.chart{min-height:290px}.chartrow{display:grid;grid-template-columns:174px 1fr;gap:18px;align-items:center}.piewrap{width:166px;height:166px;margin:auto;position:relative}svg{display:block;width:100%;height:100%;overflow:visible}
+.piece{opacity:0;transform-box:fill-box;transform-origin:center}.dashboard.play .piece{animation:merge .64s cubic-bezier(.16,.8,.3,1) forwards}
+.dashboard.play .p1{animation-delay:.18s}.dashboard.play .p2{animation-delay:.24s}.dashboard.play .p3{animation-delay:.30s}.dashboard.play .p4{animation-delay:.36s}
+.p1{transform:translate3d(-10px,-7px,0) rotate(-3deg)}.p2{transform:translate3d(11px,-5px,0) rotate(3deg)}.p3{transform:translate3d(8px,10px,0) rotate(2deg)}.p4{transform:translate3d(-9px,9px,0) rotate(-2deg)}
+@keyframes merge{0%{opacity:0}45%{opacity:1}78%{transform:translate3d(1px,1px,0) rotate(0)}to{opacity:1;transform:translate3d(0,0,0) rotate(0)}}
+.center{position:absolute;inset:0;display:grid;place-items:center;text-align:center;opacity:0;transform:scale(.96);pointer-events:none}.dashboard.play .center{animation:center .35s ease .65s forwards}.center b{font-size:25px}.center small{display:block;color:var(--muted);font-size:11px}@keyframes center{to{opacity:1;transform:scale(1)}}
+.legend{display:grid;gap:8px}.li{display:grid;grid-template-columns:9px 1fr auto;align-items:center;gap:8px;font-size:12px;opacity:0;transform:translate3d(7px,0,0)}.dashboard.play .li{animation:lin .35s ease forwards}
+.dashboard.play .l1{animation-delay:.52s}.dashboard.play .l2{animation-delay:.59s}.dashboard.play .l3{animation-delay:.66s}.dashboard.play .l4{animation-delay:.73s}@keyframes lin{to{opacity:1;transform:none}}
+.dot{width:8px;height:8px;border-radius:50%}.a{background:#8c725d}.b{background:#9cae9c}.c{background:#d2a777}.d{background:#c8867b}
+.reviews{display:grid;gap:8px}.review{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:11px;border:1px solid var(--line);border-radius:14px;background:#fff;opacity:0;transform:translate3d(10px,0,0)}.dashboard.play .review{animation:rin .38s cubic-bezier(.2,.8,.2,1) forwards}
+.dashboard.play .r1{animation-delay:.34s}.dashboard.play .r2{animation-delay:.40s}.dashboard.play .r3{animation-delay:.46s}@keyframes rin{to{opacity:1;transform:none}}
+.rname{font-weight:800;font-size:14px}.review small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.rate{text-align:right;min-width:54px}.rate b{display:block;font-size:20px;line-height:1}.rate span{font-size:10px;color:var(--muted)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.metric{padding:12px 6px;border:1px solid var(--line);border-radius:14px;background:#fff;text-align:center;opacity:0;transform:translate3d(0,8px,0)}.dashboard.play .metric{animation:min .36s ease forwards}
+.dashboard.play .m1{animation-delay:.38s}.dashboard.play .m2{animation-delay:.44s}.dashboard.play .m3{animation-delay:.50s}@keyframes min{to{opacity:1;transform:none}}.metric b{display:block;font-size:21px}.metric span{font-size:10px;color:var(--muted)}
+.help{margin:14px 4px 0;color:var(--muted);font-size:11px;line-height:1.65}.motion-status{font-weight:700;color:var(--accent)}
+@media(max-width:720px){.wrap{margin-top:20px}.header{align-items:flex-start;flex-direction:column}.dashboard{grid-template-columns:1fr}.top{grid-column:auto}.chartrow{grid-template-columns:1fr}.legend{grid-template-columns:1fr 1fr}.chart{min-height:auto}}
+@media(prefers-reduced-motion:reduce){body:not(.force-motion) .appear,body:not(.force-motion) .piece,body:not(.force-motion) .center,body:not(.force-motion) .li,body:not(.force-motion) .review,body:not(.force-motion) .metric,body:not(.force-motion) .badge{opacity:1!important;transform:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="header"><div><h1>活用記録</h1><p class="lead">カード整列 → グラフ集合 → 数値確定、のモーション試作</p></div><button id="replay">↻ アニメーションを再生</button></div>
+ <section class="dashboard" id="dash">
+  <article class="card top appear d1"><div><div class="eyebrow">今回の記録</div><div class="big"><span class="num count" data-target="82">0</span><span class="unit">%</span></div><div class="note">正答 82 / 100 ・ 前回より +7pt</div></div><div class="badge">誤答率<b><span class="count" data-target="18">0</span>%</b></div></article>
+  <article class="card chart appear d2"><div class="title"><h2>品詞・活用の内訳</h2><span>100問</span></div><div class="chartrow">
+   <div class="piewrap"><svg viewBox="0 0 200 200" aria-label="活用の内訳">
+    <circle cx="100" cy="100" r="70" fill="none" stroke="#eee9e1" stroke-width="30"/>
+    <g class="piece p1"><circle cx="100" cy="100" r="70" fill="none" stroke="#8c725d" stroke-width="30" pathLength="100" stroke-dasharray="42 58" stroke-dashoffset="0" transform="rotate(-90 100 100)"/></g>
+    <g class="piece p2"><circle cx="100" cy="100" r="70" fill="none" stroke="#9cae9c" stroke-width="30" pathLength="100" stroke-dasharray="26 74" stroke-dashoffset="-42" transform="rotate(-90 100 100)"/></g>
+    <g class="piece p3"><circle cx="100" cy="100" r="70" fill="none" stroke="#d2a777" stroke-width="30" pathLength="100" stroke-dasharray="19 81" stroke-dashoffset="-68" transform="rotate(-90 100 100)"/></g>
+    <g class="piece p4"><circle cx="100" cy="100" r="70" fill="none" stroke="#c8867b" stroke-width="30" pathLength="100" stroke-dasharray="13 87" stroke-dashoffset="-87" transform="rotate(-90 100 100)"/></g>
+   </svg><div class="center"><div><b>100</b><small>回答</small></div></div></div>
+   <div class="legend"><div class="li l1"><i class="dot a"></i><span>四段活用</span><strong>42</strong></div><div class="li l2"><i class="dot b"></i><span>上一・下一段</span><strong>26</strong></div><div class="li l3"><i class="dot c"></i><span>変格活用</span><strong>19</strong></div><div class="li l4"><i class="dot d"></i><span>形容詞・形容動詞</span><strong>13</strong></div></div>
+  </div></article>
+  <article class="card appear d3"><div class="title"><h2>要確認</h2><span>誤答率の高い順</span></div><div class="reviews">
+   <div class="review r1"><div><div class="rname">四段活用</div><small>誤答 19 / 20</small></div><div class="rate"><b><span class="count" data-target="95">0</span>%</b><span>誤答率</span></div></div>
+   <div class="review r2"><div><div class="rname">ナリ活用</div><small>誤答 7 / 10</small></div><div class="rate"><b><span class="count" data-target="70">0</span>%</b><span>誤答率</span></div></div>
+   <div class="review r3"><div><div class="rname">下一段活用</div><small>誤答 4 / 10</small></div><div class="rate"><b><span class="count" data-target="40">0</span>%</b><span>誤答率</span></div></div>
+  </div></article>
+  <article class="card appear d4"><div class="title"><h2>今回の傾向</h2><span>簡易集計</span></div><div class="metrics"><div class="metric m1"><b><span class="count" data-target="82">0</span></b><span>正解</span></div><div class="metric m2"><b><span class="count" data-target="18">0</span></b><span>誤答</span></div><div class="metric m3"><b>+<span class="count" data-target="7">0</span></b><span>前回差 pt</span></div></div><p class="help">全体約0.9秒。<span class="motion-status" id="status"></span></p></article>
+ </section>
+</div>
+<script>
+(function(){
+ const d=document.getElementById('dash'),b=document.getElementById('replay'),s=document.getElementById('status');
+ const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ s.textContent=reduced?'端末は「視差効果を減らす」設定です。ボタン再生では試験用に動きを有効化します。':'端末の通常モーション設定で表示中です。';
+ function counts(){
+  document.querySelectorAll('.count').forEach(function(el){
+   const t=Number(el.dataset.target||0),start=performance.now()+470,dur=420;el.textContent='0';
+   function tick(now){if(now<start){requestAnimationFrame(tick);return}const p=Math.min(1,(now-start)/dur),e=1-Math.pow(1-p,3);el.textContent=String(Math.round(t*e));if(p<1)requestAnimationFrame(tick)}
+   requestAnimationFrame(tick);
+  });
+ }
+ function play(force){
+  if(force)document.body.classList.add('force-motion');
+  d.classList.remove('play');void d.offsetWidth;
+  requestAnimationFrame(function(){requestAnimationFrame(function(){d.classList.add('play');counts()})});
+ }
+ b.addEventListener('click',function(){play(true)});
+ window.addEventListener('pageshow',function(){setTimeout(function(){play(false)},180)},{once:true});
+})();
+</script>
+</body>
+</html>
