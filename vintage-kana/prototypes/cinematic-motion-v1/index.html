@@ -246,7 +246,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 05: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 06: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -598,74 +598,132 @@ async function play(){
   if(token!==playToken)return;
 
   // 4) 回転の勢いを切らず、そのまま半径を絞って竜巻へ。
+  //    ここから刻印直前まで、角速度をほぼ一定に保って一度も止めない。
   const baseAngles=g.map((_,i)=>(i/n)*Math.PI*2+rotations*Math.PI*2);
-  await frameTween(2150,(p)=>{
-    const e=easeInOut(p);
-    const spin=p*Math.PI*2*3.5;
-    const radius=lerp(ringR,22,e);
-    const ellipse=lerp(ringRY,10,e);
-    const vertical=lerp(0,175,e);
-    portalGlow.style.opacity=String(lerp(1,.82,e));
-    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.22,.72,e)})`;
+  const continuousTurnsPerSecond=4.14;
+  let spinPhase=0;
+
+  await frameTween(2350,(p)=>{
+    // 角度だけは linear。形だけ ease で竜巻へ変える。
+    spinPhase=p*Math.PI*2*(continuousTurnsPerSecond*2.35);
+    const shape=easeInOut(p);
+    const radius=lerp(ringR,20,shape);
+    const ellipse=lerp(ringRY,8,shape);
+    const vertical=lerp(8,190,shape);
+    portalGlow.style.opacity=String(lerp(1,.92,shape));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.22,.78,shape)})`;
     [...rushLines.children].forEach(line=>{
       const speed=parseFloat(line.dataset.speed);
       const phase=parseFloat(line.dataset.phase);
-      const travel=((p*speed*1.65+phase)%1)*160-45;
-      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.4-p*.5})`;
+      const travel=((p*speed*1.85+phase)%1)*172-48;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.8-p*.4})`;
     });
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spin;
+      const angle=baseAngles[i]+spinPhase;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
       const x=Math.cos(angle)*radius;
-      const y=-84+Math.sin(angle)*ellipse+layer*vertical;
-      const scale=.60+depth*.38;
-      const rot=(spin*180/Math.PI)*(i%2?-.18:.18)+Math.sin(angle)*8;
+      const y=-88+Math.sin(angle)*ellipse+layer*vertical;
+      const scale=.58+depth*.42;
+      const rot=(spinPhase*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
       setT(el,x,y,scale,rot,0);
       el.style.opacity=String(.64+depth*.36);
     });
   },token);
   if(token!==playToken)return;
 
-  // 5) 白い閃光の中心で字形だけが変わる。色はそのまま。
-  await frameTween(520,(p)=>{
+  const spinAtVortex=spinPhase;
+
+  // 5) 最大回転のまま閃光へ突入。
+  //    閃光中も同じ角速度で回り続け、白飛びの裏で字形だけを変える。
+  await frameTween(1100,(p)=>{
     const peak=Math.sin(p*Math.PI);
-    flash.style.opacity=String(peak*.96);
-    portalGlow.style.opacity=String(.82+peak*.18);
-    g.forEach(el=>{
-      el.style.filter=`brightness(${1+peak*2.5}) blur(${peak*1.6}px)`;
-    });
-    if(p>.48&&!g[0].dataset.converted){
-      g.forEach((el,i)=>{
+    spinPhase=spinAtVortex+p*Math.PI*2*(continuousTurnsPerSecond*1.10);
+    const pulse=Math.sin(p*Math.PI);
+    const radius=20-pulse*4;
+    const ellipse=8-pulse*2;
+    const vertical=190;
+    flash.style.opacity=String(peak*.98);
+    portalGlow.style.opacity=String(.90+peak*.10);
+    g.forEach((el,i)=>{
+      const angle=baseAngles[i]+spinPhase;
+      const depth=(Math.sin(angle)+1)/2;
+      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const x=Math.cos(angle)*radius;
+      const y=-88+Math.sin(angle)*ellipse+layer*vertical;
+      const scale=.56+depth*.42;
+      const rot=(spinPhase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9;
+      setT(el,x,y,scale,rot,0);
+      el.style.opacity=String(.72+depth*.28);
+      el.style.filter=`brightness(${1+peak*2.7}) blur(${peak*1.8}px)`;
+      if(p>.43&&!el.dataset.converted){
         el.textContent=[...out][i]||el.textContent;
         el.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
         el.dataset.converted="1";
-      });
-    }
+      }
+    });
   },token);
   if(token!==playToken)return;
   flash.style.opacity=0;
 
-  // 6) 変体仮名の竜巻を少しだけほどき、中心へ収束。
-  await frameTween(980,(p)=>{
-    const e=easeInOut(p);
-    const spin=p*Math.PI*2*1.45;
-    const radius=lerp(24,82,Math.sin(p*Math.PI)*.75);
+  const spinAtFlashEnd=spinPhase;
+
+  // 6) 閃光が明けた瞬間も同じ最大回転。
+  //    変体仮名の竜巻が高速のまま再び広がって見えてくる。
+  await frameTween(1450,(p)=>{
+    spinPhase=spinAtFlashEnd+p*Math.PI*2*(continuousTurnsPerSecond*1.45);
+    const shape=easeInOut(p);
+    const bloom=Math.sin(p*Math.PI);
+    const radius=lerp(20,72,.18+bloom*.52);
+    const ellipse=lerp(8,28,.12+bloom*.45);
+    const vertical=lerp(190,128,shape);
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+Math.PI*2*3.5+spin;
+      const angle=baseAngles[i]+spinPhase;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const x=Math.cos(angle)*radius*(1-e*.78);
-      const y=lerp(-84+layer*175,0,e);
-      const scale=lerp(.64+depth*.28,.30,e);
-      setT(el,x,y,scale,(spin*180/Math.PI)*(i%2?-.14:.14),0);
-      el.style.opacity=String(1-e);
+      const x=Math.cos(angle)*radius;
+      const y=-82+Math.sin(angle)*ellipse+layer*vertical;
+      const scale=.64+depth*.34;
+      const rot=(spinPhase*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*8;
+      setT(el,x,y,scale,rot,0);
+      el.style.opacity=String(.68+depth*.32);
       el.style.filter="none";
       el.style.textShadow="0 0 10px rgba(139,125,101,.12)";
     });
-    whiteRoom.style.opacity=String(1-e*.74);
-    rushLines.style.opacity=String(1-e);
-    portalGlow.style.opacity=String(.82*(1-e));
+    whiteRoom.style.opacity=String(1-.06*shape);
+    [...rushLines.children].forEach(line=>{
+      const speed=parseFloat(line.dataset.speed);
+      const phase=parseFloat(line.dataset.phase);
+      const travel=((p*speed*1.7+phase)%1)*170-46;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.35-p*.25})`;
+    });
+  },token);
+  if(token!==playToken)return;
+
+  const spinAtReturnEnd=spinPhase;
+
+  // 7) 刻印へ移る直前まで回転を維持したまま収束。
+  //    「回転していたものが止まり、次へ行く」間を作らない。
+  await frameTween(900,(p)=>{
+    spinPhase=spinAtReturnEnd+p*Math.PI*2*(continuousTurnsPerSecond*.90);
+    const collapse=easeIn(p);
+    const radius=lerp(72,4,collapse);
+    const ellipse=lerp(28,2,collapse);
+    const vertical=lerp(128,0,collapse);
+    g.forEach((el,i)=>{
+      const angle=baseAngles[i]+spinPhase;
+      const depth=(Math.sin(angle)+1)/2;
+      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const x=Math.cos(angle)*radius*(1-collapse*.25);
+      const y=-36+Math.sin(angle)*ellipse+layer*vertical;
+      const scale=lerp(.72+depth*.26,.18,collapse);
+      const rot=(spinPhase*180/Math.PI)*(i%2?-.22:.22);
+      setT(el,x,y,scale,rot,0);
+      el.style.opacity=String(1-collapse);
+    });
+    whiteRoom.style.opacity=String(1-collapse*.78);
+    rushLines.style.opacity=String(1-collapse);
+    portalGlow.style.opacity=String(.92*(1-collapse));
   },token);
   if(token!==playToken)return;
   g.forEach(el=>el.remove());
