@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fbf8f4">
+<title>記録画面 D案モーション試作</title>
+<style>
+:root{
+  --bg:#fbf8f4;
+  --card:#fffefc;
+  --ink:#4a4036;
+  --muted:#84796e;
+  --line:#e9dfd4;
+  --line-green:#e2e6cb;
+  --soft:#fbfaf8;
+  --verb:#a6526b;
+  --adj:#c88753;
+  --adjv:#3d7f77;
+  --aux:#3b576d;
+  --pink-soft:#fbf0f3;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Maru Gothic ProN","Yu Gothic","Yu Gothic UI",sans-serif}
+body{min-height:100vh}
+.page{width:min(430px,100%);margin:0 auto;padding:18px 15px 110px}
+header{display:flex;justify-content:space-between;align-items:center;padding:0 0 14px;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:30px;line-height:1;font-weight:850;letter-spacing:.01em}
+.back{border:1.5px solid #d7cabb;background:#fff;border-radius:14px;padding:10px 16px;color:var(--ink);font-size:15px;font-weight:750}
+.stack{display:grid;gap:13px;margin-top:14px}
+.card{background:var(--card);border:1.4px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 4px 12px rgba(70,55,40,.025)}
+.reveal{opacity:0;transform:translate3d(0,10px,0)}
+.page.play .reveal{animation:cardIn .46s cubic-bezier(.2,.78,.22,1) forwards}
+.page.play .r1{animation-delay:.03s}.page.play .r2{animation-delay:.10s}.page.play .r3{animation-delay:.17s}
+@keyframes cardIn{to{opacity:1;transform:none}}
+.points-card{border-color:var(--line-green);padding:16px 15px 14px}
+.points-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kicker{font-size:13px;color:#857d75;font-weight:700;letter-spacing:.07em}
+.points{margin-top:8px;font-size:32px;font-weight:900;letter-spacing:-.03em}
+.cat{width:48px;height:48px;position:relative;margin-right:4px}
+.cat .head{position:absolute;left:9px;top:9px;width:31px;height:31px;background:#ead3b8;border:2px solid #5c5046;border-radius:45% 45% 40% 40%}
+.cat .head:before,.cat .head:after{content:"";position:absolute;top:-8px;width:11px;height:13px;background:#ead3b8;border:2px solid #5c5046;transform:rotate(12deg);z-index:-1}
+.cat .head:before{left:1px}.cat .head:after{right:1px;transform:rotate(-12deg)}
+.cat .eye{position:absolute;top:13px;width:2px;height:2px;background:#5c5046;border-radius:50%}.cat .eye.e1{left:8px}.cat .eye.e2{right:8px}
+.cat .body{position:absolute;left:12px;top:27px;width:27px;height:18px;background:#ead3b8;border:2px solid #5c5046;border-top:none;border-radius:0 0 45% 45%}
+.cat .tail{position:absolute;right:0;bottom:4px;width:14px;height:11px;border:2px solid #5c5046;border-left:none;border-radius:0 10px 10px 0;transform:rotate(20deg)}
+.cat .paw{position:absolute;bottom:5px;width:7px;height:4px;border-bottom:1.5px solid #5c5046}.cat .p1{left:18px}.cat .p2{left:29px}
+
+.section-title{margin:1px 0 13px;font-size:18px;font-weight:900;letter-spacing:.02em}
+.breakdown-grid{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center}
+.chart-col{display:grid;place-items:center}
+.donut{width:146px;height:146px;position:relative}
+svg{width:100%;height:100%;display:block;overflow:visible}
+.track{fill:none;stroke:#eee8e2;stroke-width:26}
+.arc{fill:none;stroke-width:26;stroke-linecap:butt;transform-box:view-box;transform-origin:100px 100px;opacity:0;transform:scale(.18) rotate(-28deg)}
+.a{stroke:var(--verb)}.b{stroke:var(--adj)}.c{stroke:var(--adjv)}.d{stroke:var(--aux)}
+.page.play .arc{animation:bloom .72s cubic-bezier(.19,.86,.22,1) forwards}
+.page.play .p1{animation-delay:.18s}.page.play .p2{animation-delay:.25s}.page.play .p3{animation-delay:.32s}.page.play .p4{animation-delay:.39s}
+@keyframes bloom{
+  0%{opacity:0;transform:scale(.18) rotate(-28deg)}
+  40%{opacity:1}
+  82%{transform:scale(1.025) rotate(1deg)}
+  100%{opacity:1;transform:none}
+}
+.nucleus{position:absolute;left:50%;top:50%;width:27px;height:27px;margin:-13.5px;border-radius:50%;background:#e9dfd5;opacity:0;transform:scale(.35)}
+.page.play .nucleus{animation:nucleus .50s ease .10s forwards}
+@keyframes nucleus{0%{opacity:0;transform:scale(.35)}48%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(.72)}}
+.center-label{position:absolute;inset:0;display:grid;place-items:center;text-align:center;opacity:0;transform:scale(.94)}
+.page.play .center-label{animation:centerIn .32s ease .78s forwards}
+@keyframes centerIn{to{opacity:1;transform:scale(1)}}
+.center-label small{display:block;color:#8c8279;font-weight:700;font-size:11px;line-height:1}
+.center-label b{display:inline-block;margin-top:5px;font-size:25px;color:#7e756d;letter-spacing:-.03em}
+.center-label em{font-style:normal;font-size:11px;margin-left:2px;color:#8c8279}
+
+.legend{display:grid;gap:9px}
+.legend-row{display:grid;grid-template-columns:10px 1fr auto;gap:7px;align-items:center;font-size:13px;opacity:0;transform:translateX(7px)}
+.page.play .legend-row{animation:legendIn .30s ease forwards}
+.page.play .legend-row:nth-child(1){animation-delay:.58s}
+.page.play .legend-row:nth-child(2){animation-delay:.64s}
+.page.play .legend-row:nth-child(3){animation-delay:.70s}
+.page.play .legend-row:nth-child(4){animation-delay:.76s}
+@keyframes legendIn{to{opacity:1;transform:none}}
+.dot{width:9px;height:9px;border-radius:50%}.dot.a{background:var(--verb)}.dot.b{background:var(--adj)}.dot.c{background:var(--adjv)}.dot.d{background:var(--aux)}
+.legend-row strong{font-size:13px}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.statbox{border:1.4px solid var(--line);border-radius:14px;padding:10px 9px;background:#fff;text-align:center;opacity:0;transform:translateY(7px)}
+.page.play .statbox{animation:statIn .34s ease forwards}
+.page.play .s1{animation-delay:.52s}.page.play .s2{animation-delay:.61s}
+@keyframes statIn{to{opacity:1;transform:none}}
+.statbox .label{font-size:12px;color:#786e65;font-weight:800}
+.statbox .value{margin-top:4px;font-size:24px;font-weight:500}
+.ratebox{grid-column:1/-1;padding:9px 7px 10px}
+.rate-title{font-size:13px;font-weight:800;color:#756b63}
+.rate-cols{display:grid;grid-template-columns:1fr 1fr;margin-top:3px}
+.rate-col+ .rate-col{border-left:1px solid var(--line)}
+.rate-col small{display:block;color:#857c74;font-size:10px}
+.rate-col b{display:block;font-size:24px;font-weight:500;margin-top:2px}
+
+.check-title{font-size:18px;font-weight:900;margin:0 0 12px}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.chip{border:2px solid currentColor;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:800;background:#fff}
+.chip.active{color:#fff;background:var(--verb);border-color:var(--verb)}.chip.adj{color:var(--adj)}.chip.adjv{color:var(--adjv)}.chip.aux{color:var(--aux)}
+.explain{font-size:11px;color:#8b8178;line-height:1.6;margin-bottom:11px}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.review{border:1.4px solid #e4dfd8;border-radius:14px;background:#fff;padding:10px 9px;display:grid;grid-template-columns:auto 1fr;gap:7px;align-items:center;opacity:0;transform:translate3d(0,8px,0)}
+.page.play .review{animation:reviewIn .36s cubic-bezier(.2,.8,.2,1) forwards}
+.page.play .q1{animation-delay:.44s}.page.play .q2{animation-delay:.49s}.page.play .q3{animation-delay:.54s}.page.play .q4{animation-delay:.59s}.page.play .q5{animation-delay:.64s}.page.play .q6{animation-delay:.69s}
+@keyframes reviewIn{to{opacity:1;transform:none}}
+.error{background:var(--pink-soft);border:1px solid #ead1d8;border-radius:11px;padding:7px 7px;text-align:center;min-width:50px}
+.error small{display:block;color:#9a6475;font-size:9px;font-weight:800}.error b{display:block;font-size:17px;margin-top:1px}
+.qmain{min-width:0}.qtop{display:flex;align-items:center;gap:5px;min-width:0}.qtag{flex:none;border-radius:999px;background:var(--verb);color:#fff;font-size:9px;padding:4px 6px;font-weight:800}
+.qname{font-size:13px;font-weight:900;white-space:nowrap}.qsub{font-size:9px;color:#81776e;margin-top:3px;white-space:nowrap}
+
+.replay{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:10;border:1px solid #d9cec2;border-radius:999px;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);padding:10px 17px;box-shadow:0 7px 24px rgba(65,50,35,.14);font:inherit;color:var(--ink);font-size:13px;font-weight:800}
+.prototype-note{text-align:center;color:#9a9087;font-size:10px;margin-top:8px}
+@media(max-width:370px){
+  .breakdown-grid{grid-template-columns:135px 1fr}.donut{width:132px;height:132px}.legend-row{font-size:12px}.review-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+ body:not(.force-motion) .reveal,body:not(.force-motion) .arc,body:not(.force-motion) .center-label,body:not(.force-motion) .legend-row,body:not(.force-motion) .statbox,body:not(.force-motion) .review{opacity:1!important;transform:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div class="page" id="page">
+<header><h1>記録</h1><button class="back">戻る</button></header>
+<div class="stack">
+  <section class="card points-card reveal r1">
+    <div class="points-row">
+      <div><div class="kicker">これまでにためたポイント</div><div class="points count" data-target="18984">0</div></div>
+      <div class="cat" aria-hidden="true"><div class="head"><i class="eye e1"></i><i class="eye e2"></i></div><div class="body"></div><div class="tail"></div><div class="paw p1"></div><div class="paw p2"></div></div>
+    </div>
+  </section>
+
+  <section class="card reveal r2">
+    <h2 class="section-title">取り組んだ問題の内訳</h2>
+    <div class="breakdown-grid">
+      <div class="chart-col">
+        <div class="donut">
+          <div class="nucleus"></div>
+          <svg viewBox="0 0 200 200" aria-label="取り組んだ問題の内訳">
+            <circle class="track" cx="100" cy="100" r="70"/>
+            <circle class="arc a p1" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="27.64 72.36" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
+            <circle class="arc b p2" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="1.67 98.33" stroke-dashoffset="-27.64" transform="rotate(-90 100 100)"/>
+            <circle class="arc c p3" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="24.30 75.70" stroke-dashoffset="-29.31" transform="rotate(-90 100 100)"/>
+            <circle class="arc d p4" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="46.39 53.61" stroke-dashoffset="-53.61" transform="rotate(-90 100 100)"/>
+          </svg>
+          <div class="center-label"><div><small>累計</small><b class="count" data-target="539">0</b><em>問</em></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="legend">
+          <div class="legend-row"><i class="dot a"></i><span>動詞</span><strong>149問</strong></div>
+          <div class="legend-row"><i class="dot b"></i><span>形容詞</span><strong>9問</strong></div>
+          <div class="legend-row"><i class="dot c"></i><span>形容動詞</span><strong>131問</strong></div>
+          <div class="legend-row"><i class="dot d"></i><span>助動詞</span><strong>250問</strong></div>
+        </div>
+        <div class="stats">
+          <div class="statbox s1"><div class="label">正答数<br><span style="font-size:10px">(累計)</span></div><div class="value count" data-target="312">0</div></div>
+          <div class="statbox ratebox s2"><div class="rate-title">正答率</div><div class="rate-cols"><div class="rate-col"><small>直近</small><b><span class="count" data-target="29">0</span>%</b></div><div class="rate-col"><small>累計</small><b><span class="count" data-target="14">0</span>%</b></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card reveal r3">
+    <h2 class="check-title">要確認</h2>
+    <div class="chips"><span class="chip active">動詞</span><span class="chip adj">形容詞</span><span class="chip adjv">形容動詞</span><span class="chip aux">助動詞</span></div>
+    <div class="explain">3問以上取り組んだ項目を、誤答率の高い順に表示します。</div>
+    <div class="review-grid">
+      <div class="review q1"><div class="error"><small>誤答率</small><b>100%</b></div><div class="qmain"><div class="qtop"><span class="qtag">動詞</span><span class="qname">下二段活用</span></div><div class="qsub">誤答 105/105</div></div></div>
+      <div class="review q2"><div class="error"><small>誤答率</small><b>100%</b></div><div class="qmain"><div class="qtop"><span class="qtag">動詞</span><span class="qname">上一段活用</span></div><div class="qsub">誤答 6/6</div></div></div>
+      <div class="review q3"><div class="error"><small>誤答率</small><b>100%</b></div><div class="qmain"><div class="qtop"><span class="qtag">動詞</span><span class="qname">ナ変活用</span></div><div class="qsub">誤答 3/3</div></div></div>
+      <div class="review q4"><div class="error"><small>誤答率</small><b>100%</b></div><div class="qmain"><div class="qtop"><span class="qtag">動詞</span><span class="qname">ラ変活用</span></div><div class="qsub">誤答 3/3</div></div></div>
+      <div class="review q5"><div class="error"><small>誤答率</small><b>98%</b></div><div class="qmain"><div class="qtop"><span class="qtag">動詞</span><span class="qname">四段活用</span></div><div class="qsub">誤答 280/285</div></div></div>
+      <div class="review q6"><div class="error"><small>誤答率</small><b>93%</b></div><div class="qmain"><div class="qtop"><span class="qtag">動詞</span><span class="qname">上二段活用</span></div><div class="qsub">誤答 42/45</div></div></div>
+    </div>
+    <div class="prototype-note">D案モーション試作</div>
+  </section>
+</div>
+</div>
+<button class="replay" id="replay">↻ アニメーションを再生</button>
+<script>
+(function(){
+ const page=document.getElementById('page');
+ document.body.classList.add('force-motion');
+ function counts(){
+   document.querySelectorAll('.count').forEach(function(el){
+     const target=Number(el.dataset.target||0);
+     const duration=target>1000?650:440;
+     const delay=target===18984?240:620;
+     el.textContent='0';
+     const start=performance.now()+delay;
+     function tick(now){
+       if(now<start){requestAnimationFrame(tick);return}
+       const p=Math.min(1,(now-start)/duration);
+       const e=1-Math.pow(1-p,3);
+       el.textContent=Math.round(target*e).toLocaleString('ja-JP');
+       if(p<1)requestAnimationFrame(tick);
+     }
+     requestAnimationFrame(tick);
+   });
+ }
+ function play(){
+   page.classList.remove('play'); void page.offsetWidth;
+   requestAnimationFrame(function(){requestAnimationFrame(function(){page.classList.add('play');counts()})});
+ }
+ document.getElementById('replay').addEventListener('click',play);
+ window.addEventListener('pageshow',function(){setTimeout(play,180)},{once:true});
+})();
+</script>
+</body>
+</html>
