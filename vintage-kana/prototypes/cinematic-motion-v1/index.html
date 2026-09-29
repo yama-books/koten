@@ -122,7 +122,10 @@
   }
   .stage-core{
     position:relative;width:min(96vw,900px);height:min(68vh,620px);
+    perspective:1200px;
+    -webkit-perspective:1200px;
     transform-style:preserve-3d;
+    -webkit-transform-style:preserve-3d;
   }
   .glyph{
     position:absolute;left:50%;top:50%;
@@ -132,6 +135,9 @@
     font-size:58px;line-height:1;color:#fff;
     text-shadow:0 3px 22px rgba(0,0,0,.26);
     transform-style:preserve-3d;
+    -webkit-transform-style:preserve-3d;
+    backface-visibility:visible;
+    -webkit-backface-visibility:visible;
     will-change:transform,opacity,filter;
     opacity:0;
   }
@@ -246,7 +252,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 07: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 08: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -393,8 +399,8 @@ function frameTween(duration,onFrame,token){
     requestAnimationFrame(step);
   });
 }
-function setT(el,x,y,scale=1,rot=0,rx=0){
-  el.style.transform=`translate3d(${x}px,${y}px,0) scale(${scale}) rotate(${rot}deg) rotateX(${rx}deg)`;
+function setT(el,x,y,scale=1,rot=0,rx=0,ry=0,z=0){
+  el.style.transform=`translate3d(${x}px,${y}px,${z}px) scale(${scale}) rotateZ(${rot}deg) rotateX(${rx}deg) rotateY(${ry}deg)`;
 }
 function ensureRushLines(){
   if(rushLines.children.length)return;
@@ -511,7 +517,11 @@ async function play(){
       x:p.x,y:p.y,
       sway:(Math.random()<.5?-1:1)*(8+Math.random()*12),
       phase:Math.random()*Math.PI*2,
-      tilt:(Math.random()<.5?-1:1)*(3+Math.random()*5)
+      tilt:(Math.random()<.5?-1:1)*(3+Math.random()*5),
+      rxSpeed:(Math.random()<.5?-1:1)*(82+Math.random()*54),
+      rySpeed:(Math.random()<.5?-1:1)*(94+Math.random()*68),
+      rzSpeed:(Math.random()<.5?-1:1)*(24+Math.random()*30),
+      zAmp:22+Math.random()*28
     };
   });
 
@@ -519,89 +529,84 @@ async function play(){
   input.style.color="transparent";
   input.style.caretColor="transparent";
 
-  // 1) ゆっくり剥がれ、浮力で自然に上がる。
-  const riseDuration=3900+(n-1)*150;
-  await frameTween(riseDuration,(raw,elapsed)=>{
-    g.forEach((el,i)=>{
-      const delay=i*150;
-      const t=clamp((elapsed-delay)/3900);
-      const e=easeSoft(t);
-      const s=seeds[i];
-      const lift=lerp(0,155,e);
-      const x=s.x + Math.sin(t*Math.PI*2.15+s.phase)*s.sway*(.28+.72*Math.sin(t*Math.PI));
-      const bob=Math.sin(t*Math.PI*3.0+s.phase)*4.5*Math.sin(t*Math.PI);
-      const y=s.y-lift+bob;
-      const scale=lerp(baseScale,1,easeOut(t));
-      const rot=Math.sin(t*Math.PI*2+s.phase)*s.tilt*(1-t*.45);
-      const rx=-Math.sin(Math.PI*clamp(t/.7))*13;
-      setT(el,x,y,scale,rot,rx);
-      el.style.opacity=String(clamp(t*2.4));
-    });
-  },token);
-  if(token!==playToken)return;
-
-  // 2) 水面で短く漂う。背景はまだ元画面を残す。
-  const riseEnds=seeds.map((s,i)=>({
-    x:s.x+Math.sin(Math.PI*2.15+s.phase)*s.sway*.28,
-    y:s.y-155
-  }));
-  await frameTween(1250,(p)=>{
-    const e=easeInOut(p);
-    g.forEach((el,i)=>{
-      const s=seeds[i],r=riseEnds[i];
-      const x=r.x+Math.sin(p*Math.PI*2+s.phase)*18;
-      const y=r.y+Math.sin(p*Math.PI*1.5+s.phase)*8-lerp(0,16,e);
-      const rot=Math.sin(p*Math.PI*2+s.phase)*5;
-      setT(el,x,y,1,rot,-4*Math.sin(p*Math.PI));
-    });
-    whiteRoom.style.opacity=String(.08*e);
-  },token);
-  if(token!==playToken)return;
-
-  // 3) ふわふわ漂う動きを残したまま、白い異空間と円環へ連続的に吸い込まれる。
-  //    一度横一列に並んで静止する状態は作らない。
+  // 1-3) 剥離 → 立体浮遊 → 円環吸引を1本のタイムラインで連続実行。
+  //      区切りごとの停止や速度ゼロを作らず、常に何かが動いている状態を維持する。
   const ringR=Math.min(170,Math.max(118,innerWidth*.30));
   const ringRY=Math.min(54,ringR*.32);
-  const rotations=4.25;
-  rushLines.style.opacity="1";
-  await frameTween(3000,(p)=>{
-    const accel=easeIn(p);
-    const settle=easeInOut(p);
-    whiteRoom.style.opacity=String(clamp(.08+p*1.22));
-    const roomScale=lerp(.94,1.13,accel);
-    whiteRoom.style.transform=`scale(${roomScale})`;
-    portalGlow.style.opacity=String(clamp((p-.18)*1.45));
-    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.22,easeOut(p))})`;
-    rushLines.style.opacity=String(clamp((p-.08)*1.5)*(1-p*.2));
+  const rotations=4.55;
+  const preDuration=7000;
+  rushLines.style.opacity="0";
+
+  await frameTween(preDuration,(p,elapsed)=>{
+    const tSec=elapsed/1000;
+    const ringBlend=easeInOut(clamp((elapsed-2350)/4050));
+    const whiteBlend=easeInOut(clamp((elapsed-2600)/2850));
+    const spinQ=clamp((elapsed-3700)/3300);
+    // q^3 gives a gentle start but leaves a high non-zero angular velocity at the end,
+    // matching the following vortex phase instead of visibly stopping.
+    const spinProgress=spinQ*spinQ*spinQ;
+    const spinAngle=rotations*Math.PI*2*spinProgress;
+
+    whiteRoom.style.opacity=String(clamp(.10*ringBlend + whiteBlend*.92));
+    whiteRoom.style.transform=`scale(${lerp(.985,1.15,whiteBlend)})`;
+    portalGlow.style.opacity=String(clamp((whiteBlend-.08)*1.22));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.24,easeOut(whiteBlend))})`;
+    rushLines.style.opacity=String(clamp((whiteBlend-.05)*1.35));
     [...rushLines.children].forEach(line=>{
       const speed=parseFloat(line.dataset.speed);
       const phase=parseFloat(line.dataset.phase);
-      const travel=((p*speed+phase)%1)*155-40;
-      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1+accel*1.7})`;
+      const travel=((whiteBlend*speed+phase)%1)*165-45;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1+whiteBlend*1.95})`;
     });
+
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const start=riseEnds[i];
-      const drift=1-settle;
-      const driftX=Math.sin((1.12+p*1.95)*Math.PI+s.phase)*18*drift;
-      const driftY=Math.sin((.88+p*1.5)*Math.PI+s.phase)*9*drift;
+      const delay=i*115;
+      const riseT=clamp((elapsed-delay)/3950);
+      const rise=easeSoft(riseT);
+      const driftEnvelope=.34+.66*Math.sin(clamp(riseT,0,1)*Math.PI);
+
+      // Free-floating trajectory. These never resolve to a static pose.
+      const freeX=s.x
+        + Math.sin(tSec*2.25+s.phase)*s.sway*driftEnvelope
+        + Math.sin(tSec*.83+s.phase*.7)*7;
+      const freeY=s.y
+        - lerp(0,166,rise)
+        + Math.sin(tSec*2.95+s.phase)*5.8*driftEnvelope
+        + Math.cos(tSec*1.08+s.phase*.4)*3.5;
+      const freeZ=
+        Math.sin(tSec*2.38+s.phase)*s.zAmp*driftEnvelope
+        + Math.cos(tSec*.72+s.phase*.8)*10;
+
+      // The ring itself is already moving while the glyph is being attracted into it.
       const base=(i/n)*Math.PI*2;
-      const angle=base+rotations*Math.PI*2*accel;
-      const ringX=Math.cos(angle)*ringR;
-      const ringY=Math.sin(angle)*ringRY;
+      const angle=base+spinAngle;
       const depth=(Math.sin(angle)+1)/2;
-      const targetY=-42+ringY-accel*42;
-      const floatingX=start.x+driftX;
-      const floatingY=start.y-16+driftY-accel*8;
-      const x=lerp(floatingX,ringX,settle);
-      const y=lerp(floatingY,targetY,settle);
-      const scale=lerp(1,.70+depth*.52,settle);
-      const floatRot=Math.sin((p*2.45+1.05)*Math.PI+s.phase)*5*drift;
-      const ringRot=(rotations*360*accel)*(i%2?-.22:.22)+Math.sin(angle)*7;
-      const rot=lerp(floatRot,ringRot,settle);
-      setT(el,x,y,scale,rot,0);
-      el.style.opacity=String(lerp(1,.58+depth*.42,settle));
-      el.style.textShadow=`0 0 ${8+depth*13}px rgba(139,125,101,${.08+depth*.13})`;
+      const ringX=Math.cos(angle)*ringR;
+      const ringY=-42+Math.sin(angle)*ringRY-whiteBlend*44;
+      const ringZ=12+depth*38;
+
+      const x=lerp(freeX,ringX,ringBlend);
+      const y=lerp(freeY,ringY,ringBlend);
+      const z=lerp(freeZ,ringZ,ringBlend);
+      const scale=lerp(lerp(baseScale,1,easeOut(riseT)),.70+depth*.52,ringBlend);
+
+      // True 3D tumbling: every glyph rotates independently on X/Y/Z while floating.
+      // As the ring takes over, it keeps some tilt instead of snapping flat.
+      const freeRx=tSec*s.rxSpeed + Math.sin(tSec*1.7+s.phase)*18;
+      const freeRy=tSec*s.rySpeed + Math.cos(tSec*1.45+s.phase)*22;
+      const freeRz=tSec*s.rzSpeed + Math.sin(tSec*1.2+s.phase)*s.tilt;
+      const ringRx=-12+Math.cos(angle)*16;
+      const ringRy=10+Math.sin(angle)*18;
+      const ringRz=(spinAngle*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
+
+      const rx=lerp(freeRx,ringRx,ringBlend);
+      const ry=lerp(freeRy,ringRy,ringBlend);
+      const rz=lerp(freeRz,ringRz,ringBlend);
+
+      setT(el,x,y,scale,rz,rx,ry,z);
+      el.style.opacity=String(clamp(riseT*2.25));
+      el.style.textShadow=`0 0 ${8+depth*14*ringBlend}px rgba(139,125,101,${.06+depth*.15*ringBlend})`;
     });
   },token);
   if(token!==playToken)return;
@@ -635,7 +640,10 @@ async function play(){
       const y=-88+Math.sin(angle)*ellipse+layer*vertical;
       const scale=.58+depth*.42;
       const rot=(spinPhase*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
-      setT(el,x,y,scale,rot,0);
+      const rx3d=-10+Math.cos(angle)*16;
+      const ry3d=8+Math.sin(angle)*18;
+      const z3d=(depth-.5)*44;
+      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
       el.style.opacity=String(.64+depth*.36);
     });
   },token);
@@ -662,7 +670,10 @@ async function play(){
       const y=-88+Math.sin(angle)*ellipse+layer*vertical;
       const scale=.56+depth*.42;
       const rot=(spinPhase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9;
-      setT(el,x,y,scale,rot,0);
+      const rx3d=-10+Math.cos(angle)*16;
+      const ry3d=8+Math.sin(angle)*18;
+      const z3d=(depth-.5)*44;
+      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
       el.style.opacity=String(.72+depth*.28);
       el.style.filter=`brightness(${1+peak*2.7}) blur(${peak*1.8}px)`;
       if(p>.43&&!el.dataset.converted){
@@ -694,7 +705,10 @@ async function play(){
       const y=-82+Math.sin(angle)*ellipse+layer*vertical;
       const scale=.64+depth*.34;
       const rot=(spinPhase*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*8;
-      setT(el,x,y,scale,rot,0);
+      const rx3d=-10+Math.cos(angle)*16;
+      const ry3d=8+Math.sin(angle)*18;
+      const z3d=(depth-.5)*44;
+      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
       el.style.opacity=String(.68+depth*.32);
       el.style.filter="none";
       el.style.textShadow="0 0 10px rgba(139,125,101,.12)";
@@ -727,7 +741,10 @@ async function play(){
       const y=-36+Math.sin(angle)*ellipse+layer*vertical;
       const scale=lerp(.72+depth*.26,.34,collapse);
       const rot=(spinPhase*180/Math.PI)*(i%2?-.22:.22);
-      setT(el,x,y,scale,rot,0);
+      const rx3d=-10+Math.cos(angle)*16;
+      const ry3d=8+Math.sin(angle)*18;
+      const z3d=(depth-.5)*44;
+      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
       el.style.opacity=String(lerp(.68+depth*.32,.90,collapse));
     });
     whiteRoom.style.opacity=String(1-collapse*.72);
@@ -755,7 +772,10 @@ async function play(){
       const y=lerp(startY,0,rush);
       const scale=lerp(.32+depth*.08,3.25,rush);
       const rot=(globalSpin*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*rush*42;
-      setT(el,x,y,scale,rot,0);
+      const rx3d=-10+Math.cos(angle)*16;
+      const ry3d=8+Math.sin(angle)*18;
+      const z3d=(depth-.5)*44;
+      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
       const fade=rush<.72?1:1-clamp((rush-.72)/.28);
       el.style.opacity=String(fade);
       el.style.filter=`blur(${rush*7}px) brightness(${1+rush*1.35})`;
