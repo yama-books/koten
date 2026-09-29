@@ -3161,6 +3161,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20260929">
 </head>
 <body>
 <div class="wrap">
@@ -3224,6 +3225,13 @@ body.review-modal-open{overflow:hidden}
   </div>
 
   <main class="card">
+    <div class="quiz-controls" id="quizControls" hidden>
+      <label>選択肢 <select id="choiceScope"><option value="near">近い型</option><option value="part_of_speech">同じ品詞</option><option value="cross_pos">品詞をまたぐ</option><option value="all">すべての型</option></select></label>
+      <label>はじめの表 <select id="supportLevel"><option value="0">表なし</option><option value="1">部分表</option><option value="2">全表</option></select></label>
+      <label>動詞の行 <select id="rowMode"><option value="omitted">省略</option><option value="select">選択</option><option value="input">入力</option></select></label>
+    </div>
+    <p id="quizPrompt" hidden></p>
+    <p id="quizEmpty" role="status" hidden></p>
     <div class="meta">
       <span class="tag" id="posTag"></span>
     </div>
@@ -3252,6 +3260,10 @@ body.review-modal-open{overflow:hidden}
         <div class="row-note" id="rowNote"></div>
       </section>
 
+      <section id="quizAnswerPanel" aria-label="解答" hidden>
+        <div class="quiz-choices" id="quizChoices" role="group" aria-label="選択肢"></div>
+        <div class="quiz-row-answer" id="quizRowAnswer" hidden></div>
+      </section>
       <dl class="gloss" id="gloss" aria-live="polite" hidden></dl>
     </div>
 
@@ -3259,7 +3271,7 @@ body.review-modal-open{overflow:hidden}
       <img alt="全問正解 はなまる" src="./img/hanamaru.png">
     </div>
 
-    <div class="feedback" id="feedback"></div>
+    <div class="feedback" id="feedback" role="status"></div>
 
     <div class="actions">
       <button class="ghost" id="reveal">答えを見る</button>
@@ -3286,6 +3298,16 @@ body.review-modal-open{overflow:hidden}
   </dialog>
   <dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
     <h2 id="settingsTitle">設定</h2>
+    <section class="settings-section">
+      <h3>学習モード</h3>
+      <label class="mode-control">学習
+        <select id="quizMode" disabled>
+          <option value="table">活用表ドリル</option>
+          <option value="form">活用形を判別</option>
+          <option value="type">活用の種類を判別</option>
+        </select>
+      </label>
+    </section>
     <section class="settings-section">
       <h3>配色</h3>
       <div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">
@@ -3360,6 +3382,11 @@ body.review-modal-open{overflow:hidden}
     </section>
 
     <section class="record-section">
+      <h3>活用判別の記録</h3>
+      <div class="quiz-record-summary" id="quizRecordSummary"></div>
+    </section>
+
+    <section class="record-section">
       <h3>要確認</h3>
       <div class="review-filters" id="reviewFilters" aria-label="要確認に表示する品詞">
         <button type="button" data-review-pos="verb" aria-pressed="true">動詞</button>
@@ -3408,6 +3435,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
+<script src="./conj-quiz-ui.js?v=20260929"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4021,6 +4049,7 @@ function normalizeStats(raw){
     gradedCells:Number.isFinite(Number(safe.gradedCells)) ? Number(safe.gradedCells) : totals.total,
     points:Number(safe.points)||0,
     recent:normalizeRecent(safe.recent),
+    quiz:quizAdapter ? quizAdapter.normalizeHistory(safe.quiz) : safe.quiz || null,
     byForm,
     byPos:reconcilePosCounts(storedPosCounts,attemptedTotal,slots)
   };
@@ -4189,6 +4218,7 @@ function chooseBlankSlots(){
   );
 }
 function shouldBlank(row,i){
+  if(isIdentificationMode()) return false;
   return blankSlots.has(key(row,i));
 }
 
@@ -5112,7 +5142,7 @@ function applyExampleVisibility(){
   const exampleToggle=document.getElementById("showExample");
   const compactExample=(current.example||"").replace(/[　 ]+/g,"");
   const hasExample=current.exampleAvailable!==false && compactExample.length>0;
-  const showing=hasExample && exampleToggle.checked;
+  const showing=hasExample && (isIdentificationMode() || exampleToggle.checked);
   document.getElementById("examplePanel").style.display=showing?"block":"none";
   const layout=document.querySelector(".study-layout");
   // 用例を出さないときも表は中央のまま、語釈の列（PC・iPad）や行（スマホ）は残す（v53）。
@@ -5164,7 +5194,8 @@ function render(){
   document.getElementById("reveal").style.display="inline-block";
   document.getElementById("next").style.display="none";
   updateScore();
-  focusFirstBlank();
+  renderQuizUI();
+  if(!isIdentificationMode()) focusFirstBlank();
 }
 
 // マウス・トラックパッド操作の端末（PC）では、出題直後に最初の空欄へ
@@ -5185,6 +5216,7 @@ function focusFirstBlank(){
 }
 
 function grade(revealOnly=false){
+  if(isIdentificationMode()){revealOnly?hintQuiz():gradeQuiz();return;}
   if(answered)return;
   if(selected)commitEditor(false);
 
@@ -5358,6 +5390,7 @@ function formatPoints(value){
 }
 
 function renderRecord(){
+  renderQuizRecord();
   document.getElementById("recordPoints").textContent=formatPoints(stats.points);
   document.getElementById("recordCorrectCells").textContent=String(stats.correctCells);
   document.getElementById("recordAccuracy").textContent=
@@ -5828,6 +5861,8 @@ function pickWeightedQuestion(list){
 }
 function nextQuestion(){
   closeEditor(false);
+  if(isIdentificationMode()){nextQuizQuestion();return;}
+  quizState=null;
   const p=pool(); if(!p.length)return;
   let q=p.filter(x=>!current||x.id!==current.id); if(!q.length)q=p;
   current=pickWeightedQuestion(q);
@@ -5908,6 +5943,12 @@ document.addEventListener("keydown",e=>{
   if(!document.getElementById("reviewModal").hidden) return;
   if(document.getElementById("sourceCredits").open) return;
   if(document.getElementById("settingsDialog").open) return;
+  // Native select/button activation must not also grade or draw a new quiz.
+  if(isIdentificationMode() && e.key==="Enter"){
+    if(e.target.closest('.toolbar,.quiz-controls') || e.target.tagName==='BUTTON') return;
+    if(e.isComposing) return;
+    e.preventDefault();answered?nextQuestion():gradeQuiz();return;
+  }
   if(e.key==="Enter" && !document.querySelector(".editor input")){
     answered?nextQuestion():grade(false);
   }
@@ -6209,6 +6250,7 @@ async function bootConj(){
   loadStampMask();
   await Promise.all([loadAdjvRuntimeItems(),loadAuxExamples()]);
   refreshSourceCredits();
+  await initQuizUI();
   if(current && current.pos==="aux" && !answered){
     assignAuxExample(current);
     render();

@@ -33,6 +33,7 @@ tools/blank-chunks/**
 tools/build-data/**
 tools/check-storage/**
 tools/conj-layout-check/**
+tools/conj-quiz-check/**
 tools/eol-check/**
 tools/font-assets-check/**
 tools/font-check/**
@@ -62,6 +63,11 @@ packages/kanazukai/**
 conj/index.html
 conj/adjv-runtime-adapter.js
 conj/branding.css
+conj/conj-quiz-engine.mjs
+conj/conj-quiz-adapter.mjs
+conj/conj-quiz-ui.js
+conj/conj-quiz-ui.css
+conj/data/conjugation-quiz-bank-127.meta.json
 conj/icon.svg
 conj/manifest.webmanifest
 conj/img/**

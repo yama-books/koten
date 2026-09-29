@@ -37,6 +37,7 @@ export const staticApps: readonly StaticApp[] = [
       'audit/',
       // 二層データの確認用ページ。本番の index.html とは接続していない。
       'adjv-runtime-smoke.html',
+      'conj-quiz-engine.test.mjs',
       // 選定の作業データと Drive 上の資料の所在（フォルダ／ファイル ID）。アプリは読まない。
       'data/adjectival-noun-selection-120.json',
       'data/corpus-status.json',
