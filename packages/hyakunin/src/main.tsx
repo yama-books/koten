@@ -9,6 +9,10 @@ import { Result } from './ui/screens/Result.tsx';
 import { History } from './ui/screens/History.tsx';
 import { SyncSettings } from './ui/screens/SyncSettings.tsx';
 import { startSync, type SyncStatus } from './sync/runtime.ts';
+import { writeInstallHandoff } from './sync/install-handoff.ts';
+import { loadJson } from '@koten/shared/data/load';
+import { parsePoems } from './data/schema.ts';
+import { parseQuestions } from './data/question-schema.ts';
 import { createIndexedDbPort } from './ui/adapters/indexeddb-port.ts';
 import type { ApplicationPort } from './ui/adapters/indexeddb-port.ts';
 import { completeSession, createSession } from './domain/session.ts';
@@ -54,6 +58,16 @@ type Selection = {
 };
 
 export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
+  const [pairingNotice, setPairingNotice] = useState(false);
+  useEffect(() => {
+    const notify = () => setPairingNotice(true);
+    window.addEventListener('koten:pairing-complete', notify);
+    return () => window.removeEventListener('koten:pairing-complete', notify);
+  }, []);
+  return <>{pairingNotice && <aside class="sync-notice" role="status"><p>新しい端末で同期が完了しました。これからの記録も自動で同期します。</p><button type="button" onClick={() => setPairingNotice(false)}>閉じる</button></aside>}<AppScreens port={port} /></>;
+}
+
+function AppScreens({ port }: { port: ApplicationPort }) {
   const [screen, setScreen] = useState<'home' | 'sync' | 'picker' | 'session' | 'review-error' | 'result-loading' | 'result' | 'history-loading' | 'history'>(new URL(window.location.href).searchParams.has('join') ? 'sync' : 'home');
   const [selected, setSelected] = useState<Selection | null>(null);
   // **設定の出所は保存領域ひとつである。** ここで既定値を持つと、`Home` が読み込んだ設定を
@@ -69,6 +83,13 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   const [historyInitialTab, setHistoryInitialTab] = useState<'一覧' | 'データ管理'>('一覧');
   const [syncReturn, setSyncReturn] = useState<'home' | 'history'>('home');
   const [saveFailure, setSaveFailure] = useState(false);
+  useEffect(() => {
+    if (settings?.syncJoinRequest) setScreen('sync');
+  }, [settings?.syncJoinRequest]);
+  useEffect(() => {
+    if (syncStatus === 'connected' && !settings?.syncJoinRequest) writeInstallHandoff(settings);
+    else if (settings && !settings.syncEnabled) writeInstallHandoff(null);
+  }, [syncStatus, settings?.syncEnabled, settings?.syncCode, settings?.syncJoinRequest]);
 
   // 統計は「終わった日」だけを送る。起動時に1度だけ試み、失敗は送信待ちへ回す。
   // **画面には何も出さない**——通信の失敗で学習を妨げない（APP_SPEC §11）。
@@ -129,7 +150,7 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
     if (!settings) return false;
     syncStopRef.current?.();
     syncStopRef.current = null;
-    return saveSyncSettings({ ...settings, syncEnabled: false, syncCode: undefined, syncSeededFor: undefined });
+    return saveSyncSettings({ ...settings, syncEnabled: false, syncCode: undefined, syncSeededFor: undefined, syncJoinRequest: undefined });
   }
 
   async function saveSyncSettings(next: UserSettings): Promise<boolean> {
@@ -236,7 +257,14 @@ export function App({ port = defaultPort }: { port?: ApplicationPort } = {}) {
   // 設定を読むのはホームである。**読み込みが済むまで他の画面へ渡さない**——
   // 既定値のまま渡すと、そこからの保存が保存済みの学年を消す（発注074 工程1）。
   if (!settings) return homeScreen();
-  if (screen === 'sync') return <SyncSettings settings={settings} status={syncStatus} onChange={saveSyncSettings} backLabel={syncReturn === 'history' ? 'データ管理へ戻る' : 'ホームへ戻る'} onBack={() => setScreen(syncReturn === 'history' && history ? 'history' : 'home')} />;
+  if (screen === 'sync') return <SyncSettings settings={settings} status={syncStatus} onChange={saveSyncSettings} onOpenHistory={async () => {
+    const [blanks, authors, poems] = await Promise.all([
+      loadJson(new URL('./data/generated/questions.blank.json', import.meta.url), parseQuestions),
+      loadJson(new URL('./data/generated/questions.author.json', import.meta.url), parseQuestions),
+      loadJson(new URL('./data/generated/poems.json', import.meta.url), parsePoems),
+    ]);
+    openHistory([...blanks, ...authors], poems, '一覧');
+  }} backLabel={syncReturn === 'history' ? 'データ管理へ戻る' : 'ホームへ戻る'} onBack={() => setScreen(syncReturn === 'history' && history ? 'history' : 'home')} />;
   if (screen === 'picker' && selected) return <RangePicker entry={selected.entry} range={selected.range} order={settings.order} autoRung={pickerAutoRung} onBack={() => setScreen('home')} onStart={(range, order, answerMode, includeAuthors, rungAdjust) => {
     void startNew(selected.entry, range, order, selected.questions, selected.poems, answerMode, includeAuthors, rungAdjust);
     setSettings({ ...settings, order });

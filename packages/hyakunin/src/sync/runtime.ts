@@ -8,7 +8,7 @@ import type { SyncKind } from '@koten/shared/sync/codec';
 import type { ApplicationPort } from '../ui/adapters/indexeddb-port.ts';
 
 export type SyncStatus = 'connecting' | 'connected' | 'offline' | 'error';
-type SharedPreferences = Pick<UserSettings, 'reading' | 'writing' | 'order' | 'soundEnabled' | 'grade' | 'syncDeviceName'>;
+type SharedPreferences = Pick<UserSettings, 'reading' | 'writing' | 'order' | 'soundEnabled' | 'grade' | 'syncDeviceName' | 'syncPairingReceipt'>;
 const kinds: SyncKind[] = ['events', 'sessions', 'reports'];
 
 function sharedPreferences(settings: UserSettings): SharedPreferences {
@@ -19,6 +19,7 @@ function sharedPreferences(settings: UserSettings): SharedPreferences {
     // **同期グループの属性として扱う。** 作った端末の呼び名で、参加する側の確認に使う。
     // どちらの端末が送っても同じ値になるよう、受け取った側も自分の設定へ写す。
     ...(settings.syncDeviceName === undefined ? {} : { syncDeviceName: settings.syncDeviceName }),
+    ...(settings.syncPairingReceipt === undefined ? {} : { syncPairingReceipt: settings.syncPairingReceipt }),
   };
 }
 
@@ -30,7 +31,8 @@ export function validPreferences(value: unknown): value is SharedPreferences {
     && ['number', 'random'].includes(item.order ?? '')
     && typeof item.soundEnabled === 'boolean'
     && (item.grade === undefined || typeof item.grade === 'string')
-    && (item.syncDeviceName === undefined || typeof item.syncDeviceName === 'string');
+    && (item.syncDeviceName === undefined || typeof item.syncDeviceName === 'string')
+    && (item.syncPairingReceipt === undefined || typeof item.syncPairingReceipt === 'string');
 }
 
 /** 画面の存続とは独立に、端末の同期設定が有効な間だけ稼働する。 */
@@ -43,21 +45,54 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
   let unsubscribers: Array<() => void> = [];
   let flushing = false;
   let settingsReady = false;
+  let preferencesApplied = false;
   let settingsDirty = false;
   let applyingRemote = false;
   let subscriptionFailed = false;
   let lastShared = '';
   let lastObserved = JSON.stringify(sharedPreferences(settings));
+  const ready = new Set<SyncKind>();
+  let sentInitial = false;
+  let completing = false;
+  let settingsObserved = false;
+  let generation = 0;
   const received: Record<SyncKind, Promise<unknown>> = { events: Promise.resolve(), sessions: Promise.resolve(), reports: Promise.resolve() };
   const fail = () => { if (!stopped) onStatus(navigator.onLine ? 'error' : 'offline'); };
+
+  async function completeInitial() {
+    if (stopped || completing || !navigator.onLine || subscriptionFailed || !preferencesApplied || ready.size !== kinds.length || !sentInitial) return;
+    completing = true;
+    const currentGeneration = generation;
+    try {
+      const local = await port.loadSettings();
+      if (stopped || currentGeneration !== generation || !local?.syncEnabled || local.syncCode !== code) return;
+      if (local.syncJoinRequest) {
+        const next = { ...local, syncPairingReceipt: local.syncJoinRequest, syncJoinRequest: undefined };
+        const enc = await encryptField('settings', code!, sharedPreferences(next));
+        if (stopped || currentGeneration !== generation) return;
+        if (await putSettings(houseId, { enc }) !== 'ok') { fail(); return; }
+        if (stopped || currentGeneration !== generation) return;
+        applyingRemote = true;
+        const saved = await port.saveSettings(next);
+        applyingRemote = false;
+        if ('reason' in saved) { fail(); return; }
+        lastShared = JSON.stringify(sharedPreferences(next));
+        lastObserved = lastShared;
+        onSettings(next);
+      }
+      if (!stopped && currentGeneration === generation) onStatus('connected');
+    } catch { applyingRemote = false; fail(); }
+    finally { completing = false; }
+  }
 
   async function flush() {
     if (stopped || !db || flushing || !navigator.onLine) return;
     flushing = true;
     try {
       const result = await flushOutbox(db, code!, houseId, { createRecord, createRecords });
-      if (result.failed) fail();
-    } catch { fail(); }
+      if (result.failed) { sentInitial = false; fail(); }
+      else { sentInitial = true; await completeInitial(); }
+    } catch { sentInitial = false; fail(); }
     finally { flushing = false; }
   }
 
@@ -67,11 +102,11 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
     if (!local?.syncEnabled || local.syncCode !== code) return;
     const value = sharedPreferences(local);
     const serialized = JSON.stringify(value);
-    if (serialized === lastShared) return;
+    if (serialized === lastShared) { preferencesApplied = true; return; }
     try {
       const enc = await encryptField('settings', code!, value);
       if (stopped) return;
-      if (await putSettings(houseId, { enc }) === 'ok') { lastShared = serialized; settingsDirty = false; }
+      if (await putSettings(houseId, { enc }) === 'ok') { lastShared = serialized; settingsDirty = false; preferencesApplied = true; }
       else fail();
     } catch { fail(); }
   }
@@ -79,8 +114,10 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
   async function receiveSettings(payload: unknown | null) {
     if (stopped) return;
     if (payload === null) {
+      settingsObserved = true;
       settingsReady = true;
       await publishSettings();
+      void completeInitial();
       return;
     }
     const enc = typeof payload === 'object' && payload !== null ? (payload as { enc?: unknown }).enc : null;
@@ -90,17 +127,23 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
       if (!validPreferences(remote) || stopped) { fail(); return; }
       lastShared = JSON.stringify(sharedPreferences(remote as UserSettings));
       settingsReady = true;
-      if (settingsDirty) { await publishSettings(); return; }
+      if (settingsDirty) { await publishSettings(); void completeInitial(); return; }
       const local = await port.loadSettings();
       if (!local || !local.syncEnabled || local.syncCode !== code) return;
-      if (JSON.stringify(sharedPreferences(local)) === lastShared) return;
-      const next = { ...local, ...remote, key: 'user' as const };
+      const notify = settingsObserved && remote.syncPairingReceipt && remote.syncPairingReceipt !== local.syncPairingReceipt && remote.syncPairingReceipt !== local.syncJoinRequest;
+      settingsObserved = true;
+      if (JSON.stringify(sharedPreferences(local)) === lastShared) { preferencesApplied = true; void completeInitial(); return; }
+      const next = { ...local, ...sharedPreferences(remote as UserSettings), key: 'user' as const };
       if (!('grade' in remote)) delete next.grade;
       applyingRemote = true;
-      await port.saveSettings(next);
+      const saved = await port.saveSettings(next);
       applyingRemote = false;
+      if ('reason' in saved) { fail(); return; }
+      preferencesApplied = true;
       lastObserved = lastShared;
       if (!stopped) onSettings(next);
+      if (!stopped && notify) window.dispatchEvent(new Event('koten:pairing-complete'));
+      void completeInitial();
     } catch { applyingRemote = false; fail(); }
   }
 
@@ -109,20 +152,28 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
     unsubscribers = [];
     if (stopped) return;
     settingsReady = false;
+    preferencesApplied = false;
+    ready.clear();
+    generation += 1;
     subscriptionFailed = false;
     onStatus(navigator.onLine ? 'connecting' : 'offline');
     const watchFailed = () => { subscriptionFailed = true; fail(); };
     for (const kind of kinds) {
-      unsubscribers.push(watchCollection(houseId, kind, (records) => {
+      const currentGeneration = generation;
+      unsubscribers.push(watchCollection(houseId, kind, (records, fromServer) => {
         received[kind] = received[kind].then(async () => {
-          if (stopped || !db) return;
+          if (stopped || !db || currentGeneration !== generation) return;
+          ready.delete(kind);
           const result = await applyRemoteRecords(db, code!, kind, records);
+          if (stopped || currentGeneration !== generation) return;
           if (result.added > 0 || kind === 'sessions') window.dispatchEvent(new Event('koten:remote-records'));
-          onStatus(navigator.onLine ? 'connected' : 'offline');
+          if (fromServer) ready.add(kind);
+          await completeInitial();
         }).catch(fail);
       }, watchFailed));
     }
-    unsubscribers.push(watchSettings(houseId, (payload) => { void receiveSettings(payload); }, watchFailed));
+    const settingsGeneration = generation;
+    unsubscribers.push(watchSettings(houseId, (payload) => { if (settingsGeneration === generation) void receiveSettings(payload); }, watchFailed));
   }
 
   const onRecordSaved = () => { void flush(); };
@@ -140,7 +191,11 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
   window.addEventListener('koten:settings-saved', onSettingsSaved);
   window.addEventListener('online', onOnline);
   window.addEventListener('offline', onOffline);
-  const retry = window.setInterval(() => { if (subscriptionFailed && navigator.onLine) subscribe(); void flush(); }, 30_000);
+  const retry = window.setInterval(() => {
+    if (subscriptionFailed && navigator.onLine) subscribe();
+    if (settingsReady && !preferencesApplied) void publishSettings().then(completeInitial);
+    void flush();
+  }, 30_000);
   onStatus(navigator.onLine ? 'connecting' : 'offline');
 
   void (async () => {

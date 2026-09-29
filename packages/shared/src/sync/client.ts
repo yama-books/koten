@@ -109,15 +109,15 @@ export async function readSettings(houseId: string): Promise<unknown | null> {
   return snapshot.exists() ? snapshot.data() : null;
 }
 
-export function watchCollection(houseId: string, kind: SyncKind, onRecords: (records: RemoteRecord[]) => void, onError: (error: unknown) => void = () => {}): () => void {
+export function watchCollection(houseId: string, kind: SyncKind, onRecords: (records: RemoteRecord[], fromServer?: boolean) => void, onError: (error: unknown) => void = () => {}): () => void {
   let unsubscribed = false;
   let unsubscribe: (() => void) | null = null;
   void getFirestore().then(async (db) => {
     if (unsubscribed) return;
     const { collection, onSnapshot } = await import('firebase/firestore');
     if (unsubscribed) return;
-    unsubscribe = onSnapshot(collection(db, 'households', houseId, kind), (snapshot) => {
-      onRecords(snapshot.docChanges().filter((change) => change.type !== 'removed').map(({ doc: docSnap }) => ({ id: docSnap.id, payload: docSnap.data() })));
+    unsubscribe = onSnapshot(collection(db, 'households', houseId, kind), { includeMetadataChanges: true }, (snapshot) => {
+      onRecords(snapshot.docChanges().filter((change) => change.type !== 'removed').map(({ doc: docSnap }) => ({ id: docSnap.id, payload: docSnap.data() })), !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites);
     }, onError);
   }).catch(onError);
   return () => {

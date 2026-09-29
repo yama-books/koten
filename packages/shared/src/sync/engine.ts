@@ -46,7 +46,7 @@ export async function flushOutbox(
   deps: SyncDeps,
 ): Promise<{ sent: number; failed: number }> {
   const queued = await listSyncOutbox(database);
-  if (!queued.ok) return { sent: 0, failed: 0 };
+  if (!queued.ok) return { sent: 0, failed: 1 };
 
   // 先に全部を暗号にしておく。記録が消えている待ち行列はここで畳む。
   const pending: Array<{ syncOutboxId: string; kind: SyncKind; id: string; payload: { enc: string } }> = [];
@@ -98,7 +98,7 @@ export async function applyRemoteRecords(
   if (decoded.length === 0) return { added: 0, duplicates: 0 };
 
   const existing = await listByKind(database, kind);
-  if (!existing.ok) return { added: 0, duplicates: 0 };
+  if (!existing.ok) throw new Error('同期記録を読み込めませんでした。');
 
   const merged = kind === 'events'
     ? mergeEvents(existing.value as Event[], decoded as Event[])
@@ -116,6 +116,6 @@ export async function applyRemoteRecords(
     for (const record of [...newRecords, ...completedSessions]) store.put(record);
     return store.count() as unknown as IDBRequest<unknown>;
   });
-  if (!written.ok) return { added: 0, duplicates: 0 };
+  if (!written.ok) throw new Error('同期記録を保存できませんでした。');
   return merged.counts;
 }

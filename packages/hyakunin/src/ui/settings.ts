@@ -1,5 +1,6 @@
 import type { UserSettings } from '@koten/shared/domain/event';
 import type { ApplicationPort } from './adapters/indexeddb-port.ts';
+import { isStandalone, readInstallHandoff, writeInstallHandoff } from '../sync/install-handoff.ts';
 
 /**
  * 保存領域に何も無い端末のためだけの初期値。**画面はこれを保存領域へ書き戻さない。**
@@ -23,12 +24,18 @@ const legacyOrientationKey = 'hyakunin:orientation';
  */
 export async function loadUserSettings(port: Pick<ApplicationPort, 'loadSettings' | 'saveSettings'>): Promise<UserSettings> {
   const saved = await port.loadSettings();
-  if (saved) return saved;
+  if (saved) {
+    if (isStandalone()) writeInstallHandoff(null);
+    return saved;
+  }
+  const syncCode = readInstallHandoff();
   const migrated: UserSettings = {
     ...initialSettings,
     writing: window.localStorage?.getItem(legacyOrientationKey) === 'horizontal' ? 'horizontal' : 'vertical',
+    ...(syncCode ? { syncCode, syncEnabled: true, syncJoinRequest: crypto.randomUUID() } : {}),
   };
-  await port.saveSettings(migrated);
+  const result = await port.saveSettings(migrated);
+  if (syncCode && !('reason' in result)) writeInstallHandoff(null);
   window.localStorage?.removeItem(legacyOrientationKey);
   return migrated;
 }

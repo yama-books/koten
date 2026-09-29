@@ -110,6 +110,9 @@ export type UserSettings = {
    * 既定は UA からの大雑把な推測で、利用者が直せる。統計には含めない。
    */
   syncDeviceName?: string;
+  /** 初回同期の完了通知。共有する受領票と、この端末だけの参加要求。 */
+  syncPairingReceipt?: string;
+  syncJoinRequest?: string;
 };
 
 export type OutboxItem = {

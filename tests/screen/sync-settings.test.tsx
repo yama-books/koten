@@ -75,3 +75,24 @@ test('端末名が空なら名前なしで作る', () => {
   act(() => { button('新しい同期グループを作る')!.click(); });
   expect(saved[0].syncDeviceName).toBeUndefined();
 });
+
+test('参加端末は受信待ちから完了案内へ進み、共有QRを隠して記録と追加の導線を出す', async () => {
+  const pending = { ...initialSettings, syncCode: 'abcdefghjkmnpqrs', syncEnabled: true, syncJoinRequest: 'receipt' };
+  const openHistory = vi.fn(async () => {});
+  const draw = (settings: UserSettings, status: 'connecting' | 'connected' | 'offline') => render(<SyncSettings settings={settings} status={status} onChange={async () => true} onBack={() => {}} onOpenHistory={openHistory} />, root!);
+  root = document.createElement('div'); document.body.append(root);
+  act(() => draw(pending, 'connecting'));
+  expect(root.textContent).toContain('記録を同期しています');
+  expect(button('記録を見る')).toBeUndefined();
+  expect(root.querySelector('[aria-label="同期用の QR"]')).toBeNull();
+  act(() => draw(pending, 'offline'));
+  expect(root.textContent).toContain('接続が戻ると再試行');
+  expect(root.textContent).not.toContain('同期が完了しました');
+  act(() => draw({ ...pending, syncJoinRequest: undefined }, 'connected'));
+  expect(root.textContent).toContain('同期が完了しました');
+  expect(root.textContent).toContain('記録を引き継いでホーム画面に追加');
+  await act(async () => { button('記録を見る')!.click(); });
+  expect(openHistory).toHaveBeenCalledOnce();
+  act(() => { button('別の端末にも共有する')!.click(); });
+  expect(root.querySelector('[aria-label="同期用の QR"]')).toBeTruthy();
+});

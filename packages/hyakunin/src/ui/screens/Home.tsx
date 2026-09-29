@@ -30,6 +30,7 @@ import type { ApplicationPort } from "../adapters/indexeddb-port.ts";
 import { initialSettings, loadUserSettings } from "../settings.ts";
 import { ReadingToggle } from "../components/ReadingToggle.tsx";
 import { WritingModeToggle } from "../components/WritingModeToggle.tsx";
+import { SyncInstallGuide } from '../components/SyncInstallGuide.tsx';
 
 type Props = {
   port?: ApplicationPort;
@@ -651,7 +652,8 @@ export function Home({
       </button>
       <footer class="foot-line">
         {/* 文面とボタンは conj・vintage-kana の案内とそろえる。<wbr> で文節の切れ目だけを折り返し位置にする。 */}
-        {!showStatsOnboarding && !standalone && !installDismissed && !installSessionHidden && (
+        {!showStatsOnboarding && settings.syncEnabled && settings.syncCode && <SyncInstallGuide code={settings.syncCode} />}
+        {!showStatsOnboarding && !settings.syncEnabled && !standalone && !installDismissed && !installSessionHidden && (
           <section class="install-guide install-guide--first" aria-label="ホーム画面への追加">
             <p class="install-guide__text">
               {installForIos
@@ -669,7 +671,7 @@ export function Home({
             </div>
           </section>
         )}
-        {!showStatsOnboarding && !standalone && installDismissed && (
+        {!showStatsOnboarding && !settings.syncEnabled && !standalone && installDismissed && (
           <p class="install-guide install-guide--returning">ホーム画面に追加するには、ブラウザのメニューを開いてください。</p>
         )}
         {/* 版は名乗る。テスト公開の断り書きと既知の制約は README と変更履歴が持つ（発注074 工程3）。 */}
