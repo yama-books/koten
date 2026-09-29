@@ -245,6 +245,61 @@
     86%{transform:translate3d(2px,-1px,0) scale(1.003)}
     100%{transform:translate3d(0,0,0) scale(1)}
   }
+
+  /* MOTION STUDY 05: source-peel -> white ascent -> orbit -> vortex */
+  .veil{
+    background:transparent;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+  .white-room{
+    position:absolute;inset:0;z-index:0;opacity:0;overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% 46%,rgba(255,255,255,1) 0%,rgba(255,255,255,.99) 34%,rgba(250,249,246,.98) 68%,rgba(238,234,226,.96) 100%);
+    will-change:opacity,transform;
+  }
+  .white-room:before{
+    content:"";position:absolute;left:50%;top:50%;
+    width:130vmax;height:130vmax;border-radius:50%;
+    transform:translate(-50%,-50%) scale(.42);
+    background:
+      repeating-conic-gradient(from 0deg,
+        rgba(185,174,154,.00) 0deg,
+        rgba(185,174,154,.00) 7deg,
+        rgba(185,174,154,.075) 7.5deg,
+        rgba(185,174,154,.00) 8.8deg);
+    mask-image:radial-gradient(circle,black 0 15%,rgba(0,0,0,.76) 34%,transparent 68%);
+    -webkit-mask-image:radial-gradient(circle,black 0 15%,rgba(0,0,0,.76) 34%,transparent 68%);
+    opacity:.62;will-change:transform,opacity;
+  }
+  .white-room:after{
+    content:"";position:absolute;left:50%;top:50%;
+    width:min(88vw,720px);height:min(88vw,720px);border-radius:50%;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(255,255,255,1) 0 8%,rgba(255,255,255,.88) 22%,rgba(230,223,210,.16) 48%,transparent 72%);
+    filter:blur(7px);
+  }
+  .rush-lines{position:absolute;inset:0;overflow:hidden;opacity:0;will-change:opacity}
+  .rush-line{
+    position:absolute;top:-38vh;width:1.5px;height:32vh;border-radius:999px;
+    background:linear-gradient(to bottom,transparent,rgba(156,143,122,.08) 18%,rgba(156,143,122,.34) 56%,transparent);
+    filter:blur(.15px);will-change:transform,opacity;
+  }
+  .portal-glow{
+    position:absolute;left:50%;top:50%;width:min(72vw,560px);aspect-ratio:1;border-radius:50%;
+    transform:translate(-50%,-50%) scale(.4);opacity:0;
+    background:radial-gradient(circle,rgba(255,255,255,.98) 0 12%,rgba(255,248,228,.72) 32%,rgba(215,199,165,.15) 54%,transparent 72%);
+    filter:blur(8px);will-change:transform,opacity;
+  }
+  .stage-core{z-index:2}
+  .glyph{
+    color:var(--ink);
+    text-shadow:none;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+  }
+  .glyph:after{display:none}
+
   @media (max-width:620px){
     .composer{grid-template-columns:1fr}
     button{width:100%}
@@ -261,7 +316,7 @@
 <div class="app" id="app">
   <header>
     <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 04</div>
+    <div class="mode">MOTION STUDY 05</div>
   </header>
   <main>
     <section class="panel">
@@ -279,6 +334,10 @@
 </div>
 <div id="stage" aria-hidden="true">
   <div class="veil"></div>
+  <div class="white-room" id="whiteRoom">
+    <div class="rush-lines" id="rushLines"></div>
+    <div class="portal-glow" id="portalGlow"></div>
+  </div>
   <div class="stage-core" id="core">
     <div class="done-glow" id="doneGlow"></div>
     <div class="resultLabel" id="resultLabel">HENTAIGANA</div>
@@ -300,189 +359,317 @@ const firstVariant = {
   "ら":"𛃭","り":"𛃱","る":"𛃸","れ":"𛃾","ろ":"𛄂",
   "わ":"𛄈","ゐ":"𛄍","ゑ":"𛄒","を":"𛄖","ん":"𛄝"
 };
-const stage=document.getElementById("stage"),core=document.getElementById("core"),flash=document.getElementById("flash"),board=document.getElementById("stampboard"),glow=document.getElementById("doneGlow"),label=document.getElementById("resultLabel"),btn=document.getElementById("convert"),input=document.getElementById("input"),skip=document.getElementById("skip");
-let running=false,timers=[];
-const sleep=ms=>new Promise(r=>{const t=setTimeout(r,ms);timers.push(t)}),easeOut="cubic-bezier(.16,.84,.22,1)",easeInOut="cubic-bezier(.64,0,.36,1)";
-function clearStage(){timers.forEach(clearTimeout);timers=[];core.querySelectorAll(".glyph,.spark,.orbitRig").forEach(n=>n.remove());board.innerHTML="";board.style.opacity=0;glow.style.opacity=0;label.style.opacity=0;flash.style.opacity=0;stage.classList.remove("active");running=false;btn.disabled=false}
-function finishInstant(text){core.querySelectorAll(".glyph,.spark").forEach(n=>n.remove());board.innerHTML="";[...text].forEach(ch=>{const s=document.createElement("div");s.className="stamp hit";s.textContent=ch;board.appendChild(s)});board.style.opacity=1;label.style.opacity=1;glow.style.opacity=.8}
-function makeGlyphs(text,cls="glyph"){return [...text].map((ch,i)=>{const e=document.createElement("div");e.className=cls;e.textContent=ch;e.dataset.i=i;core.appendChild(e);return e})}
-function animate(el,frames,options){return el.animate(frames,options).finished.catch(()=>{})}
+const stage=document.getElementById("stage"),
+core=document.getElementById("core"),
+flash=document.getElementById("flash"),
+board=document.getElementById("stampboard"),
+glow=document.getElementById("doneGlow"),
+label=document.getElementById("resultLabel"),
+btn=document.getElementById("convert"),
+input=document.getElementById("input"),
+skip=document.getElementById("skip"),
+whiteRoom=document.getElementById("whiteRoom"),
+rushLines=document.getElementById("rushLines"),
+portalGlow=document.getElementById("portalGlow");
+
+let running=false,timers=[],playToken=0;
+const sleep=ms=>new Promise(r=>{const t=setTimeout(r,ms);timers.push(t)});
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const easeInOut=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const easeOut=t=>1-Math.pow(1-t,3);
+const easeIn=t=>t*t*t;
+const easeSoft=t=>t*t*(3-2*t);
+
+function frameTween(duration,onFrame,token){
+  return new Promise(resolve=>{
+    const start=performance.now();
+    const step=now=>{
+      if(token!==playToken){resolve(false);return;}
+      const p=clamp((now-start)/duration);
+      onFrame(p,now-start);
+      if(p<1)requestAnimationFrame(step);else resolve(true);
+    };
+    requestAnimationFrame(step);
+  });
+}
+function setT(el,x,y,scale=1,rot=0,rx=0){
+  el.style.transform=`translate3d(${x}px,${y}px,0) scale(${scale}) rotate(${rot}deg) rotateX(${rx}deg)`;
+}
+function ensureRushLines(){
+  if(rushLines.children.length)return;
+  const count=18;
+  for(let i=0;i<count;i++){
+    const line=document.createElement("i");
+    line.className="rush-line";
+    line.style.left=`${4+Math.random()*92}%`;
+    line.dataset.speed=(.78+Math.random()*.7).toFixed(3);
+    line.dataset.phase=Math.random().toFixed(3);
+    line.style.opacity=(.34+Math.random()*.46).toFixed(2);
+    rushLines.appendChild(line);
+  }
+}
+function measureOrigins(text){
+  const ir=input.getBoundingClientRect();
+  const cr=core.getBoundingClientRect();
+  const cs=getComputedStyle(input);
+  const wrap=document.createElement("div");
+  Object.assign(wrap.style,{
+    position:"fixed",left:ir.left+"px",top:ir.top+"px",width:ir.width+"px",height:ir.height+"px",
+    padding:cs.padding,display:"flex",alignItems:"center",whiteSpace:"pre",visibility:"hidden",
+    pointerEvents:"none",fontFamily:cs.fontFamily,fontSize:cs.fontSize,fontWeight:cs.fontWeight,
+    letterSpacing:cs.letterSpacing,lineHeight:cs.lineHeight
+  });
+  const spans=[...text].map(ch=>{
+    const s=document.createElement("span");
+    s.textContent=ch;
+    wrap.appendChild(s);
+    return s;
+  });
+  document.body.appendChild(wrap);
+  const pts=spans.map(s=>{
+    const r=s.getBoundingClientRect();
+    return {x:r.left+r.width/2-(cr.left+cr.width/2),y:r.top+r.height/2-(cr.top+cr.height/2)};
+  });
+  wrap.remove();
+  return {pts,fontSize:parseFloat(cs.fontSize)||32,color:cs.color,fontFamily:cs.fontFamily};
+}
+function makeGlyphs(text){
+  return [...text].map((ch,i)=>{
+    const e=document.createElement("div");
+    e.className="glyph";
+    e.textContent=ch;
+    e.dataset.i=i;
+    core.appendChild(e);
+    return e;
+  });
+}
+function resetVisuals(){
+  core.querySelectorAll(".glyph,.spark,.impactWave,.orbitRig").forEach(n=>n.remove());
+  board.innerHTML="";
+  board.style.opacity=0;
+  glow.style.opacity=0;
+  label.style.opacity=0;
+  flash.style.opacity=0;
+  whiteRoom.style.opacity=0;
+  whiteRoom.style.transform="none";
+  rushLines.style.opacity=0;
+  portalGlow.style.opacity=0;
+  portalGlow.style.transform="translate(-50%,-50%) scale(.4)";
+  [...rushLines.children].forEach(l=>l.style.transform="translate3d(0,-40vh,0)");
+}
+function clearStage(cancel=true){
+  if(cancel)playToken++;
+  timers.forEach(clearTimeout);timers=[];
+  resetVisuals();
+  stage.classList.remove("active");
+  input.style.color="";
+  input.style.caretColor="";
+  running=false;
+  btn.disabled=false;
+}
+function finishInstant(text){
+  resetVisuals();
+  board.innerHTML="";
+  [...text].forEach(ch=>{
+    const s=document.createElement("div");
+    s.className="stamp hit";
+    s.textContent=ch;
+    board.appendChild(s);
+  });
+  board.style.opacity=1;
+  label.style.opacity=1;
+  glow.style.opacity=.8;
+}
 async function play(){
   if(running)return;
   running=true;
   btn.disabled=true;
-
+  const token=++playToken;
   const src=input.value.trim()||"あさきゆめみし";
   const out=[...src].map(c=>firstVariant[c]||c).join("");
-  stage.classList.add("active");
-  stage.querySelector(".veil").animate(
-    [{opacity:0},{opacity:1}],
-    {duration:420,fill:"forwards",easing:easeOut}
-  );
 
+  stage.classList.add("active");
+  ensureRushLines();
+  resetVisuals();
+
+  const metrics=measureOrigins(src);
   const g=makeGlyphs(src);
   const n=g.length;
-  const compact=n>7;
-  const spacing=compact?46:60;
-  const radius=Math.min(compact?190:220,Math.max(128,innerWidth*.29));
-  const floatX=Math.min(innerWidth*.27,190);
-  const floatY=Math.min(innerHeight*.14,105);
-
-  // 1) 水底から葉がゆっくり浮いてくるような上昇。
-  //    順番は保つが、各文字の揺れ方・傾き・速度は少しずつ違う。
-  const rise=g.map((el,i)=>{
-    const x=(i-(n-1)/2)*spacing;
-    const s1=(Math.random()<.5?-1:1)*(9+Math.random()*13);
-    const s2=-s1*(.65+Math.random()*.42);
-    const s3=-s2*(.52+Math.random()*.36);
-    const tilt=(Math.random()<.5?-1:1)*(5+Math.random()*8);
-    const depth=28+Math.random()*34;
-    const duration=2550+Math.random()*520;
-    const delay=i*145;
-    animate(el,[
-      {opacity:0,transform:`translate3d(${x-s1*.4}px,128px,-18px) rotateX(24deg) rotateY(${-tilt*.18}deg) rotateZ(${-tilt*.55}deg) scale(.82)`,filter:"blur(5px)"},
-      {offset:.14,opacity:.42,transform:`translate3d(${x+s1*.48}px,111px,-2px) rotateX(19deg) rotateY(${tilt*.10}deg) rotateZ(${tilt*.34}deg) scale(.88)`,filter:"blur(3px)"},
-      {offset:.31,opacity:.78,transform:`translate3d(${x+s1}px,84px,${depth*.26}px) rotateX(13deg) rotateY(${tilt*.14}deg) rotateZ(${tilt*.72}deg) scale(.94)`,filter:"blur(1.5px)"},
-      {offset:.48,opacity:1,transform:`translate3d(${x+s2}px,55px,${depth*.54}px) rotateX(8deg) rotateY(${-tilt*.13}deg) rotateZ(${-tilt*.50}deg) scale(.985)`,filter:"blur(.5px)"},
-      {offset:.66,opacity:1,transform:`translate3d(${x+s3}px,27px,${depth*.78}px) rotateX(3deg) rotateY(${tilt*.08}deg) rotateZ(${tilt*.28}deg) scale(1.01)`,filter:"blur(0)"},
-      {offset:.82,opacity:1,transform:`translate3d(${x-s3*.45}px,5px,${depth+8}px) rotateX(-2deg) rotateY(${-tilt*.05}deg) rotateZ(${-tilt*.12}deg) scale(.995)`},
-      {offset:.92,opacity:1,transform:`translate3d(${x+s3*.18}px,-3px,${depth+11}px) rotateX(1deg) rotateZ(${tilt*.05}deg) scale(1.003)`},
-      {opacity:1,transform:`translate3d(${x}px,0,${depth}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)`,filter:"blur(0)"}
-    ],{duration,delay,fill:"forwards",easing:"cubic-bezier(.27,.52,.20,1)"});
-    return {el,i,x,depth};
-  });
-
-  await sleep(3300+n*145);
-
-  // 2) 水面に出たあと、しばらく各文字が自由に漂う。
-  const wander=rise.map(w=>{
-    const dx1=(Math.random()-.5)*floatX*1.25;
-    const dy1=(Math.random()-.5)*floatY*.95;
-    const dz1=70+Math.random()*150;
-    const dx2=(Math.random()-.5)*floatX*1.55;
-    const dy2=(Math.random()-.5)*floatY*1.20;
-    const dz2=70+Math.random()*210;
-    const sx=Math.random()<.5?-1:1;
-    const sy=Math.random()<.5?-1:1;
-    const sz=Math.random()<.5?-1:1;
-    const rx=sx*(360+Math.random()*220);
-    const ry=sy*(360+Math.random()*330);
-    const rz=sz*(170+Math.random()*250);
-    return {...w,dx1,dy1,dz1,dx2,dy2,dz2,rx,ry,rz};
-  });
-
-  wander.forEach((w,i)=>{
-    animate(w.el,[
-      {transform:`translate3d(${w.x}px,0,${w.depth}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)`},
-      {offset:.24,transform:`translate3d(${w.dx1*.55}px,${w.dy1*.55}px,${w.dz1}px) rotateX(${w.rx*.20}deg) rotateY(${w.ry*.20}deg) rotateZ(${w.rz*.20}deg) scale(.98)`},
-      {offset:.50,transform:`translate3d(${w.dx1}px,${w.dy1}px,${w.dz1+30}px) rotateX(${w.rx*.48}deg) rotateY(${w.ry*.48}deg) rotateZ(${w.rz*.48}deg) scale(1.04)`},
-      {offset:.75,transform:`translate3d(${w.dx2}px,${w.dy2}px,${w.dz2}px) rotateX(${w.rx*.76}deg) rotateY(${w.ry*.76}deg) rotateZ(${w.rz*.76}deg) scale(.96)`},
-      {transform:`translate3d(${w.dx2*.72}px,${w.dy1*.65}px,${w.dz2}px) rotateX(${w.rx}deg) rotateY(${w.ry}deg) rotateZ(${w.rz}deg) scale(1)`}
-    ],{duration:2100+Math.random()*350,delay:i*18,fill:"forwards",easing:"cubic-bezier(.30,.05,.22,1)"});
-  });
-  await sleep(2550);
-
-  // 3) 円環へ吸い寄せる。ここで個別3Dアニメーションは終わらせる。
-  wander.forEach((w,i)=>{
-    animate(w.el,[
-      {opacity:1,filter:"blur(0)"},
-      {offset:.62,opacity:1,transform:`translate3d(${w.dx2*.18}px,${w.dy1*.12}px,80px) rotateX(${w.rx*.15}deg) rotateY(${w.ry*.15}deg) rotateZ(${w.rz*.15}deg) scale(.90)`},
-      {opacity:.15,transform:"translate3d(0,0,0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(.72)",filter:"blur(2px)"}
-    ],{duration:720,delay:i*20,fill:"forwards",easing:"cubic-bezier(.14,.72,.14,1)"});
-  });
-  await sleep(960);
-
-  // 4) Safari対策:
-  //    各文字を個別に回すのではなく、固定した文字円環を1個の親要素ごと回転させる。
-  const rig=document.createElement("div");
-  rig.className="orbitRig";
-  core.appendChild(rig);
-
-  g.forEach((el,i)=>{
-    el.getAnimations().forEach(a=>a.cancel());
-    rig.appendChild(el);
-    const a=(360/n)*i-90;
-    const y=Math.sin(i*.82)*13;
+  const baseScale=clamp(metrics.fontSize/58,.42,.78);
+  const ink=metrics.color||"#1d1a17";
+  const seeds=g.map((el,i)=>{
+    el.style.color=ink;
+    el.style.fontFamily=metrics.fontFamily;
     el.style.opacity="1";
     el.style.filter="none";
-    el.style.transform=`rotateY(${a}deg) translateZ(${radius}px) translateY(${y}px)`;
-    el.style.webkitTransform=`rotateY(${a}deg) translateZ(${radius}px) translateY(${y}px)`;
+    const p=metrics.pts[i]||{x:(i-(n-1)/2)*40,y:95};
+    setT(el,p.x,p.y,baseScale,0,0);
+    return {
+      x:p.x,y:p.y,
+      sway:(Math.random()<.5?-1:1)*(8+Math.random()*12),
+      phase:Math.random()*Math.PI*2,
+      tilt:(Math.random()<.5?-1:1)*(3+Math.random()*5)
+    };
   });
 
-  // 強制レイアウトを1回挟んでからCSSアニメーションを開始。
-  void rig.offsetWidth;
-  rig.classList.add("spinning");
-  await sleep(3700);
+  // 元の入力文字を透明にし、同じ位置の複製だけが剥がれて見えるようにする。
+  input.style.color="transparent";
+  input.style.caretColor="transparent";
 
-  // 5) 円環から竜巻へ。親回転を止め、文字をcoreへ戻して個別に絞る。
-  rig.classList.remove("spinning");
-  g.forEach((el,i)=>{
-    el.getAnimations().forEach(a=>a.cancel());
-    core.appendChild(el);
-    const a=(360/n)*i-90;
-    const y=(i-(n-1)/2)*-24;
-    const r2=Math.max(42,radius*(.24+((i%3)*.065)));
-    el.style.transform=`rotateY(${a}deg) translateZ(${radius}px) translateY(${Math.sin(i*.82)*13}px)`;
-    el.style.webkitTransform=el.style.transform;
-    animate(el,[
-      {transform:`rotateY(${a}deg) translateZ(${radius}px) translateY(${Math.sin(i*.82)*13}px) scale(1)`},
-      {offset:.38,transform:`rotateY(${a+360}deg) translateZ(${radius*.66}px) translateY(${y*.28}px) scale(.93)`},
-      {offset:.70,transform:`rotateY(${a+690}deg) translateZ(${radius*.40}px) translateY(${y*.66}px) scale(.76)`},
-      {transform:`rotateY(${a+980}deg) translateZ(${r2}px) translateY(${y}px) scale(.60)`,filter:"blur(1px) brightness(1.17)"}
-    ],{duration:1250,delay:i*12,fill:"forwards",easing:"cubic-bezier(.56,.02,.32,.98)"});
-  });
-  rig.remove();
+  // 1) ゆっくり剥がれ、浮力で自然に上がる。
+  const riseDuration=3900+(n-1)*150;
+  await frameTween(riseDuration,(raw,elapsed)=>{
+    g.forEach((el,i)=>{
+      const delay=i*150;
+      const t=clamp((elapsed-delay)/3900);
+      const e=easeSoft(t);
+      const s=seeds[i];
+      const lift=lerp(0,155,e);
+      const x=s.x + Math.sin(t*Math.PI*2.15+s.phase)*s.sway*(.28+.72*Math.sin(t*Math.PI));
+      const bob=Math.sin(t*Math.PI*3.0+s.phase)*4.5*Math.sin(t*Math.PI);
+      const y=s.y-lift+bob;
+      const scale=lerp(baseScale,1,easeOut(t));
+      const rot=Math.sin(t*Math.PI*2+s.phase)*s.tilt*(1-t*.45);
+      const rx=-Math.sin(Math.PI*clamp(t/.7))*13;
+      setT(el,x,y,scale,rot,rx);
+      el.style.opacity=String(clamp(t*2.4));
+    });
+  },token);
+  if(token!==playToken)return;
 
-  for(let i=0;i<22;i++){
-    const s=document.createElement("div");
-    s.className="spark";
-    core.appendChild(s);
-    const a=Math.random()*Math.PI*2;
-    const r=45+Math.random()*220;
-    const y=-165+Math.random()*330;
-    animate(s,[
-      {opacity:0,transform:"translate3d(0,0,0) scale(.35)"},
-      {opacity:1,offset:.28,transform:`translate3d(${Math.cos(a)*r*.35}px,${y*.32}px,${Math.sin(a)*r*.35}px) scale(1)`},
-      {opacity:.75,offset:.62,transform:`translate3d(${Math.cos(a+2.1)*r*.72}px,${y*.68}px,${Math.sin(a+2.1)*r*.72}px) scale(.72)`},
-      {opacity:0,transform:`translate3d(${Math.cos(a+4.4)*r}px,${y}px,${Math.sin(a+4.4)*r}px) scale(.12)`}
-    ],{duration:900+Math.random()*420,delay:Math.random()*180,fill:"forwards",easing:easeOut});
-  }
+  // 2) 水面で短く漂う。背景はまだ元画面を残す。
+  const riseEnds=seeds.map((s,i)=>({
+    x:s.x+Math.sin(Math.PI*2.15+s.phase)*s.sway*.28,
+    y:s.y-155
+  }));
+  await frameTween(1250,(p)=>{
+    const e=easeInOut(p);
+    g.forEach((el,i)=>{
+      const s=seeds[i],r=riseEnds[i];
+      const x=r.x+Math.sin(p*Math.PI*2+s.phase)*18;
+      const y=r.y+Math.sin(p*Math.PI*1.5+s.phase)*8-lerp(0,16,e);
+      const rot=Math.sin(p*Math.PI*2+s.phase)*5;
+      setT(el,x,y,1,rot,-4*Math.sin(p*Math.PI));
+    });
+    whiteRoom.style.opacity=String(.08*e);
+  },token);
+  if(token!==playToken)return;
 
-  await sleep(1380);
+  // 3) 白い空間へ突入。円環を作りながら急加速して上昇する。
+  const ringR=Math.min(170,Math.max(118,innerWidth*.30));
+  const ringRY=Math.min(54,ringR*.32);
+  const rotations=4.25;
+  rushLines.style.opacity="1";
+  await frameTween(3000,(p)=>{
+    const accel=easeIn(p);
+    const settle=easeInOut(p);
+    whiteRoom.style.opacity=String(clamp(.08+p*1.22));
+    const roomScale=lerp(.94,1.13,accel);
+    whiteRoom.style.transform=`scale(${roomScale})`;
+    portalGlow.style.opacity=String(clamp((p-.18)*1.45));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.22,easeOut(p))})`;
+    rushLines.style.opacity=String(clamp((p-.08)*1.5)*(1-p*.2));
+    [...rushLines.children].forEach(line=>{
+      const speed=parseFloat(line.dataset.speed);
+      const phase=parseFloat(line.dataset.phase);
+      const travel=((p*speed+phase)%1)*155-40;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1+accel*1.7})`;
+    });
+    g.forEach((el,i)=>{
+      const s=seeds[i];
+      const start=riseEnds[i];
+      const base=(i/n)*Math.PI*2;
+      const angle=base+rotations*Math.PI*2*accel;
+      const ringX=Math.cos(angle)*ringR;
+      const ringY=Math.sin(angle)*ringRY;
+      const depth=(Math.sin(angle)+1)/2;
+      const targetY=-42+ringY-accel*42;
+      const x=lerp(start.x,ringX,settle);
+      const y=lerp(start.y-16,targetY,settle);
+      const scale=lerp(1,.70+depth*.52,settle);
+      const rot=lerp(Math.sin(s.phase)*4,(rotations*360*accel)*(i%2?-.22:.22),settle);
+      setT(el,x,y,scale,rot,0);
+      el.style.opacity=String(lerp(1,.58+depth*.42,settle));
+      el.style.textShadow=`0 0 ${8+depth*13}px rgba(139,125,101,${.08+depth*.13})`;
+    });
+  },token);
+  if(token!==playToken)return;
 
-  // 6) 閃光でひらがなを消す。
-  animate(flash,[{opacity:0},{opacity:.98,offset:.48},{opacity:0}],{duration:720,fill:"forwards",easing:easeInOut});
-  g.forEach((el,i)=>animate(el,[
-    {opacity:1,filter:"blur(1px) brightness(1)"},
-    {opacity:0,transform:`translate3d(0,0,0) scale(.06) rotateZ(${i%2?110:-110}deg)`,filter:"blur(14px) brightness(3)"}
-  ],{duration:390,fill:"forwards",easing:"cubic-bezier(.7,0,1,.45)"}));
-  await sleep(460);
+  // 4) 回転の勢いを切らず、そのまま半径を絞って竜巻へ。
+  const baseAngles=g.map((_,i)=>(i/n)*Math.PI*2+rotations*Math.PI*2);
+  await frameTween(2150,(p)=>{
+    const e=easeInOut(p);
+    const spin=p*Math.PI*2*3.5;
+    const radius=lerp(ringR,22,e);
+    const ellipse=lerp(ringRY,10,e);
+    const vertical=lerp(0,175,e);
+    portalGlow.style.opacity=String(lerp(1,.82,e));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.22,.72,e)})`;
+    [...rushLines.children].forEach(line=>{
+      const speed=parseFloat(line.dataset.speed);
+      const phase=parseFloat(line.dataset.phase);
+      const travel=((p*speed*1.65+phase)%1)*160-45;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.4-p*.5})`;
+    });
+    g.forEach((el,i)=>{
+      const angle=baseAngles[i]+spin;
+      const depth=(Math.sin(angle)+1)/2;
+      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const x=Math.cos(angle)*radius;
+      const y=-84+Math.sin(angle)*ellipse+layer*vertical;
+      const scale=.60+depth*.38;
+      const rot=(spin*180/Math.PI)*(i%2?-.18:.18)+Math.sin(angle)*8;
+      setT(el,x,y,scale,rot,0);
+      el.style.opacity=String(.64+depth*.36);
+    });
+  },token);
+  if(token!==playToken)return;
+
+  // 5) 白い閃光の中心で字形だけが変わる。色はそのまま。
+  await frameTween(520,(p)=>{
+    const peak=Math.sin(p*Math.PI);
+    flash.style.opacity=String(peak*.96);
+    portalGlow.style.opacity=String(.82+peak*.18);
+    g.forEach(el=>{
+      el.style.filter=`brightness(${1+peak*2.5}) blur(${peak*1.6}px)`;
+    });
+    if(p>.48&&!g[0].dataset.converted){
+      g.forEach((el,i)=>{
+        el.textContent=[...out][i]||el.textContent;
+        el.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
+        el.dataset.converted="1";
+      });
+    }
+  },token);
+  if(token!==playToken)return;
+  flash.style.opacity=0;
+
+  // 6) 変体仮名の竜巻を少しだけほどき、中心へ収束。
+  await frameTween(980,(p)=>{
+    const e=easeInOut(p);
+    const spin=p*Math.PI*2*1.45;
+    const radius=lerp(24,82,Math.sin(p*Math.PI)*.75);
+    g.forEach((el,i)=>{
+      const angle=baseAngles[i]+Math.PI*2*3.5+spin;
+      const depth=(Math.sin(angle)+1)/2;
+      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const x=Math.cos(angle)*radius*(1-e*.78);
+      const y=lerp(-84+layer*175,0,e);
+      const scale=lerp(.64+depth*.28,.30,e);
+      setT(el,x,y,scale,(spin*180/Math.PI)*(i%2?-.14:.14),0);
+      el.style.opacity=String(1-e);
+      el.style.filter="none";
+      el.style.textShadow="0 0 10px rgba(139,125,101,.12)";
+    });
+    whiteRoom.style.opacity=String(1-e*.74);
+    rushLines.style.opacity=String(1-e);
+    portalGlow.style.opacity=String(.82*(1-e));
+  },token);
+  if(token!==playToken)return;
   g.forEach(el=>el.remove());
 
-  // 7) 変体仮名の竜巻が再登場。
-  const h=makeGlyphs(out);
-  h.forEach((el,i)=>{
-    el.style.color=i%2?"#fff":"#f1d9a0";
-    const a=(360/n)*i+220;
-    const startR=28+(i%3)*17;
-    const y=(i-(n-1)/2)*-26;
-    animate(el,[
-      {opacity:0,transform:`rotateY(${a}deg) translateZ(${startR}px) translateY(${y}px) scale(.38)`,filter:"blur(9px) brightness(2.6)"},
-      {opacity:1,offset:.28,filter:"blur(0) brightness(1.5)"},
-      {offset:.72,transform:`rotateY(${a+260}deg) translateZ(${radius*.52}px) translateY(${Math.sin(i*.8)*30}px) scale(.96)`,filter:"blur(0) brightness(1.15)"},
-      {opacity:1,transform:`rotateY(${a+520}deg) translateZ(${radius*.78}px) translateY(${Math.sin(i*.8)*22}px) scale(1.06)`,filter:"blur(0) brightness(1)"}
-    ],{duration:980,delay:i*24,fill:"forwards",easing:easeOut});
-  });
-  await sleep(1150);
-
-  h.forEach((el,i)=>animate(el,[
-    {opacity:1},
-    {opacity:0,transform:`translate3d(${(i-(n-1)/2)*20}px,0,18px) scale(.24)`,filter:"blur(5px)"}
-  ],{duration:340,delay:i*10,fill:"forwards",easing:"cubic-bezier(.55,0,.85,.28)"}));
-  await sleep(400);
-  h.forEach(el=>el.remove());
-
-  // 8) 重量級刻印は前版を維持。
+  // 7) 重量級刻印は好評だった前版を維持。
   board.innerHTML="";
   [...out].forEach(ch=>{
     const s=document.createElement("div");
@@ -493,9 +680,11 @@ async function play(){
   board.style.opacity=1;
   label.style.opacity=0;
   await sleep(90);
+  if(token!==playToken)return;
 
   const stamps=[...board.children];
   for(let i=0;i<stamps.length;i++){
+    if(token!==playToken)return;
     stamps[i].classList.add("hit");
 
     const sr=stamps[i].getBoundingClientRect();
@@ -528,20 +717,33 @@ async function play(){
     await sleep(280);
   }
 
-  animate(label,[
-    {opacity:0,transform:"translate(-50%,8px)"},
-    {opacity:1,transform:"translate(-50%,0)"}
-  ],{duration:420,fill:"forwards",easing:easeOut});
-  animate(glow,[
-    {opacity:0,transform:"translate(-50%,-50%) scale(.45)"},
-    {opacity:1,transform:"translate(-50%,-50%) scale(1)"}
-  ],{duration:620,fill:"forwards",easing:easeOut});
+  label.animate(
+    [{opacity:0,transform:"translate(-50%,8px)"},{opacity:1,transform:"translate(-50%,0)"}],
+    {duration:420,fill:"forwards",easing:"cubic-bezier(.16,.84,.22,1)"}
+  );
+  glow.animate(
+    [{opacity:0,transform:"translate(-50%,-50%) scale(.45)"},{opacity:1,transform:"translate(-50%,-50%) scale(1)"}],
+    {duration:620,fill:"forwards",easing:"cubic-bezier(.16,.84,.22,1)"}
+  );
 
   await sleep(1050);
-  clearStage();
+  if(token!==playToken)return;
   input.value=out;
+  input.style.color="";
+  input.style.caretColor="";
+  clearStage(false);
 }
-btn.addEventListener("click",play);input.addEventListener("keydown",e=>{if(e.key==="Enter")play()});skip.addEventListener("click",()=>{const src=input.value.trim()||"あさきゆめみし",out=[...src].map(c=>firstVariant[c]||c).join("");finishInstant(out);setTimeout(()=>{clearStage();input.value=out},700)});
+btn.addEventListener("click",play);
+input.addEventListener("keydown",e=>{if(e.key==="Enter")play()});
+skip.addEventListener("click",()=>{
+  const src=input.value.trim()||"あさきゆめみし";
+  const out=[...src].map(c=>firstVariant[c]||c).join("");
+  playToken++;
+  input.style.color="";
+  input.style.caretColor="";
+  finishInstant(out);
+  setTimeout(()=>{input.value=out;clearStage(false)},700);
+});
 </script>
 </body>
 </html>
