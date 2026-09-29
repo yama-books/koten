@@ -191,13 +191,13 @@
     filter:blur(14px);
     text-shadow:0 1px 0 rgba(255,255,255,.7);
   }
-  .stamp.hit{animation:stampHit .46s cubic-bezier(.08,.78,.10,1.20) forwards}
+  .stamp.hit{animation:stampHit .56s cubic-bezier(.05,.82,.10,1.18) forwards}
   @keyframes stampHit{
-    0%{opacity:0;transform:translateY(-138px) scale(2.15);filter:blur(14px)}
-    34%{opacity:1;transform:translateY(18px) scale(.74,.60);filter:blur(0);text-shadow:0 12px 24px rgba(29,26,23,.36)}
-    51%{transform:translateY(-11px) scale(1.15,1.24);text-shadow:0 3px 8px rgba(29,26,23,.20)}
-    68%{transform:translateY(5px) scale(.95,.90)}
-    82%{transform:translateY(-2px) scale(1.025,1.045)}
+    0%{opacity:0;transform:translateY(-164px) scale(2.34);filter:blur(16px)}
+    28%{opacity:1;transform:translateY(24px) scale(.68,.54);filter:blur(0);text-shadow:0 15px 28px rgba(29,26,23,.40)}
+    46%{transform:translateY(-14px) scale(1.22,1.34);text-shadow:0 4px 10px rgba(29,26,23,.22)}
+    64%{transform:translateY(8px) scale(.92,.86)}
+    80%{transform:translateY(-3px) scale(1.035,1.06)}
     100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0);text-shadow:0 1px 0 rgba(255,255,255,.7)}
   }
   .impactWave{
@@ -246,7 +246,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 06: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 07: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -481,6 +481,7 @@ function finishInstant(text){
   board.style.opacity=1;
   label.style.opacity=1;
   glow.style.opacity=.8;
+  input.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
 }
 async function play(){
   if(running)return;
@@ -557,7 +558,8 @@ async function play(){
   },token);
   if(token!==playToken)return;
 
-  // 3) 白い空間へ突入。円環を作りながら急加速して上昇する。
+  // 3) ふわふわ漂う動きを残したまま、白い異空間と円環へ連続的に吸い込まれる。
+  //    一度横一列に並んで静止する状態は作らない。
   const ringR=Math.min(170,Math.max(118,innerWidth*.30));
   const ringRY=Math.min(54,ringR*.32);
   const rotations=4.25;
@@ -580,16 +582,23 @@ async function play(){
     g.forEach((el,i)=>{
       const s=seeds[i];
       const start=riseEnds[i];
+      const drift=1-settle;
+      const driftX=Math.sin((1.12+p*1.95)*Math.PI+s.phase)*18*drift;
+      const driftY=Math.sin((.88+p*1.5)*Math.PI+s.phase)*9*drift;
       const base=(i/n)*Math.PI*2;
       const angle=base+rotations*Math.PI*2*accel;
       const ringX=Math.cos(angle)*ringR;
       const ringY=Math.sin(angle)*ringRY;
       const depth=(Math.sin(angle)+1)/2;
       const targetY=-42+ringY-accel*42;
-      const x=lerp(start.x,ringX,settle);
-      const y=lerp(start.y-16,targetY,settle);
+      const floatingX=start.x+driftX;
+      const floatingY=start.y-16+driftY-accel*8;
+      const x=lerp(floatingX,ringX,settle);
+      const y=lerp(floatingY,targetY,settle);
       const scale=lerp(1,.70+depth*.52,settle);
-      const rot=lerp(Math.sin(s.phase)*4,(rotations*360*accel)*(i%2?-.22:.22),settle);
+      const floatRot=Math.sin((p*2.45+1.05)*Math.PI+s.phase)*5*drift;
+      const ringRot=(rotations*360*accel)*(i%2?-.22:.22)+Math.sin(angle)*7;
+      const rot=lerp(floatRot,ringRot,settle);
       setT(el,x,y,scale,rot,0);
       el.style.opacity=String(lerp(1,.58+depth*.42,settle));
       el.style.textShadow=`0 0 ${8+depth*13}px rgba(139,125,101,${.08+depth*.13})`;
@@ -702,33 +711,63 @@ async function play(){
 
   const spinAtReturnEnd=spinPhase;
 
-  // 7) 刻印へ移る直前まで回転を維持したまま収束。
-  //    「回転していたものが止まり、次へ行く」間を作らない。
+  // 7) 刻印へ移る直前まで回転を維持し、中心に小さな高速渦として集める。
+  //    ここでは消さず、次の「画面へ突っ込む」動きにつなぐ。
   await frameTween(900,(p)=>{
     spinPhase=spinAtReturnEnd+p*Math.PI*2*(continuousTurnsPerSecond*.90);
     const collapse=easeIn(p);
-    const radius=lerp(72,4,collapse);
-    const ellipse=lerp(28,2,collapse);
-    const vertical=lerp(128,0,collapse);
+    const radius=lerp(72,18,collapse);
+    const ellipse=lerp(28,7,collapse);
+    const vertical=lerp(128,24,collapse);
     g.forEach((el,i)=>{
       const angle=baseAngles[i]+spinPhase;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const x=Math.cos(angle)*radius*(1-collapse*.25);
+      const x=Math.cos(angle)*radius;
       const y=-36+Math.sin(angle)*ellipse+layer*vertical;
-      const scale=lerp(.72+depth*.26,.18,collapse);
+      const scale=lerp(.72+depth*.26,.34,collapse);
       const rot=(spinPhase*180/Math.PI)*(i%2?-.22:.22);
       setT(el,x,y,scale,rot,0);
-      el.style.opacity=String(1-collapse);
+      el.style.opacity=String(lerp(.68+depth*.32,.90,collapse));
     });
-    whiteRoom.style.opacity=String(1-collapse*.78);
-    rushLines.style.opacity=String(1-collapse);
-    portalGlow.style.opacity=String(.92*(1-collapse));
+    whiteRoom.style.opacity=String(1-collapse*.72);
+    rushLines.style.opacity=String(1-collapse*.55);
+    portalGlow.style.opacity=String(.92*(1-collapse*.45));
+  },token);
+  if(token!==playToken)return;
+
+  const spinBeforeRush=spinPhase;
+
+  // 8) 一文字ずつ、回転する渦から画面へ高速で飛び込み、カメラを突き抜ける。
+  //    他の文字はその間も回り続けるので、ここにも停止点を作らない。
+  await frameTween(920,(p)=>{
+    const globalSpin=spinBeforeRush+p*Math.PI*2*(continuousTurnsPerSecond*.92);
+    g.forEach((el,i)=>{
+      const base=(i/n)*Math.PI*2;
+      const angle=base+globalSpin;
+      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const startX=Math.cos(angle)*18;
+      const startY=-36+Math.sin(angle)*7+layer*24;
+      const local=clamp((p*1.34)-(i*.075));
+      const rush=easeIn(local);
+      const depth=(Math.sin(angle)+1)/2;
+      const x=lerp(startX,0,rush);
+      const y=lerp(startY,0,rush);
+      const scale=lerp(.32+depth*.08,3.25,rush);
+      const rot=(globalSpin*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*rush*42;
+      setT(el,x,y,scale,rot,0);
+      const fade=rush<.72?1:1-clamp((rush-.72)/.28);
+      el.style.opacity=String(fade);
+      el.style.filter=`blur(${rush*7}px) brightness(${1+rush*1.35})`;
+    });
+    whiteRoom.style.opacity=String(lerp(.28,.14,p));
+    rushLines.style.opacity=String(lerp(.45,.18,p));
+    portalGlow.style.opacity=String(lerp(.50,.22,p));
   },token);
   if(token!==playToken)return;
   g.forEach(el=>el.remove());
 
-  // 7) 重量級刻印は好評だった前版を維持。
+  // 9) 重量級刻印。
   board.innerHTML="";
   [...out].forEach(ch=>{
     const s=document.createElement("div");
@@ -761,19 +800,19 @@ async function play(){
 
     stage.animate([
       {transform:"translate3d(0,0,0)"},
-      {offset:.12,transform:"translate3d(0,13px,0) scale(.992)"},
-      {offset:.30,transform:"translate3d(0,-7px,0) scale(1.006)"},
-      {offset:.52,transform:"translate3d(0,4px,0)"},
+      {offset:.12,transform:"translate3d(0,18px,0) scale(.988)"},
+      {offset:.30,transform:"translate3d(0,-8px,0) scale(1.008)"},
+      {offset:.54,transform:"translate3d(0,5px,0)"},
       {transform:"translate3d(0,0,0)"}
-    ],{duration:390,easing:"cubic-bezier(.10,.76,.12,1)"});
+    ],{duration:470,easing:"cubic-bezier(.08,.78,.10,1)"});
 
     flash.animate(
-      [{opacity:0},{opacity:.42,offset:.14},{opacity:0}],
-      {duration:280,fill:"forwards",easing:"ease-out"}
+      [{opacity:0},{opacity:.48,offset:.13},{opacity:0}],
+      {duration:320,fill:"forwards",easing:"ease-out"}
     );
 
-    if(navigator.vibrate)navigator.vibrate([34,18,58]);
-    await sleep(280);
+    if(navigator.vibrate)navigator.vibrate([45,20,70]);
+    await sleep(330);
   }
 
   label.animate(
@@ -788,6 +827,7 @@ async function play(){
   await sleep(1050);
   if(token!==playToken)return;
   input.value=out;
+  input.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
   input.style.color="";
   input.style.caretColor="";
   clearStage(false);
