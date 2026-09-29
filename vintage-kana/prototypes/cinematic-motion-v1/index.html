@@ -106,6 +106,13 @@
   button:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(29,26,23,.25)}
   button:active{transform:translateY(1px) scale(.99)}
   button:disabled{opacity:.45;cursor:default}
+  .options{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    margin-top:12px;padding:0 4px;color:var(--muted);font-size:13px;
+  }
+  .options label{display:flex;align-items:center;gap:6px}
+  .options input{accent-color:var(--ink)}
+  .optLabel{font-size:12px;letter-spacing:.08em;color:rgba(65,56,48,.76)}
   .hint{margin-top:14px;font-size:12px;color:var(--muted)}
   footer{font-size:11px;color:rgba(65,56,48,.55);text-align:center}
   #stage{
@@ -187,12 +194,24 @@
   }
   .stampboard{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    gap:clamp(2px,1.2vw,12px);padding:20px;
+    gap:var(--stamp-gap,clamp(2px,1.2vw,12px));padding:20px;
     opacity:0;transform:translateZ(80px);
+    --stamp-size:clamp(46px,8.8vw,90px);
+    --stamp-gap:clamp(2px,1.2vw,12px);
+  }
+  .stampboard.horizontal{
+    flex-direction:row;flex-wrap:wrap;align-content:center;
+    max-width:min(90vw,780px);margin-inline:auto;
+  }
+  .stampboard.vertical{
+    display:grid;grid-auto-flow:column;
+    grid-template-rows:repeat(var(--stamp-rows,8),auto);
+    justify-content:center;align-content:center;justify-items:center;
+    max-height:min(82vh,720px);direction:rtl;
   }
   .stamp{
     font-family:"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif;
-    font-size:clamp(46px,8.8vw,90px);font-weight:600;
+    font-size:var(--stamp-size);font-weight:600;
     color:var(--ink);opacity:0;transform:translateY(-138px) scale(2.15);
     filter:blur(14px);
     text-shadow:0 1px 0 rgba(255,255,255,.7);
@@ -252,7 +271,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 08: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 09: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -330,10 +349,15 @@
       <h1>文字を、ほどく。</h1>
       <div class="lead">変換そのものは一瞬。そこへ、必要以上の儀式を足した実験版です。</div>
       <div class="composer">
-        <input id="input" maxlength="10" value="あさきゆめみし" aria-label="変換するひらがな">
+        <input id="input" maxlength="20" value="あさきゆめみし" aria-label="変換するひらがな">
         <button id="convert">変換する</button>
       </div>
-      <div class="hint">※ 演出検証用。iPhone Safari対応。入力できるのは清音のひらがな中心です。未対応文字はそのまま表示します。</div>
+      <div class="options" role="group" aria-label="刻印方向の選択">
+        <span class="optLabel">刻印方向</span>
+        <label><input type="radio" name="stampDirection" value="horizontal" checked> 横</label>
+        <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
+      </div>
+      <div class="hint">※ 演出検証用。後半も連続変形としてつなぎ、文字数に応じて刻印レイアウトを自動調整します。</div>
     </section>
   </main>
   <footer>prototype / cinematic conversion motion</footer>
@@ -377,6 +401,7 @@ skip=document.getElementById("skip"),
 whiteRoom=document.getElementById("whiteRoom"),
 rushLines=document.getElementById("rushLines"),
 portalGlow=document.getElementById("portalGlow");
+const stampDirectionInputs=[...document.querySelectorAll('input[name="stampDirection"]')];
 
 let running=false,timers=[],playToken=0;
 const sleep=ms=>new Promise(r=>{const t=setTimeout(r,ms);timers.push(t)});
@@ -401,6 +426,39 @@ function frameTween(duration,onFrame,token){
 }
 function setT(el,x,y,scale=1,rot=0,rx=0,ry=0,z=0){
   el.style.transform=`translate3d(${x}px,${y}px,${z}px) scale(${scale}) rotateZ(${rot}deg) rotateX(${rx}deg) rotateY(${ry}deg)`;
+}
+function getStampDirection(){
+  const checked=stampDirectionInputs.find(el=>el.checked);
+  return checked?checked.value:"horizontal";
+}
+function setupStampBoard(text){
+  const len=[...text].length;
+  const direction=getStampDirection();
+  board.className="stampboard "+direction;
+  board.style.removeProperty("--stamp-rows");
+  let size="clamp(46px,8.8vw,90px)";
+  let gap="clamp(2px,1.2vw,12px)";
+  if(direction==="horizontal"){
+    if(len<=8){
+      size="clamp(46px,8.8vw,90px)";
+      gap="clamp(2px,1.2vw,12px)";
+    }else if(len<=14){
+      size="clamp(40px,7.2vw,74px)";
+      gap="clamp(2px,1vw,10px)";
+    }else{
+      size="clamp(32px,5.8vw,58px)";
+      gap="clamp(1px,.8vw,8px)";
+    }
+  }else{
+    const rows=len<=8?len:(len<=14?Math.ceil(len/2):Math.min(10,Math.ceil(len/2)));
+    size=len<=8
+      ?"clamp(46px,8.4vw,86px)"
+      :(len<=14?"clamp(38px,6.8vw,66px)":"clamp(30px,5.2vw,52px)");
+    gap=len<=8?"clamp(2px,1.1vw,10px)":"clamp(1px,.7vw,8px)";
+    board.style.setProperty("--stamp-rows",String(rows));
+  }
+  board.style.setProperty("--stamp-size",size);
+  board.style.setProperty("--stamp-gap",gap);
 }
 function ensureRushLines(){
   if(rushLines.children.length)return;
@@ -478,6 +536,7 @@ function clearStage(cancel=true){
 function finishInstant(text){
   resetVisuals();
   board.innerHTML="";
+  setupStampBoard(text);
   [...text].forEach(ch=>{
     const s=document.createElement("div");
     s.className="stamp hit";
@@ -504,6 +563,7 @@ async function play(){
   const metrics=measureOrigins(src);
   const g=makeGlyphs(src);
   const n=g.length;
+  const densityScale=n>16?.72:n>12?.80:n>9?.90:1;
   const baseScale=clamp(metrics.fontSize/58,.42,.78);
   const ink=metrics.color||"#1d1a17";
   const seeds=g.map((el,i)=>{
@@ -589,7 +649,7 @@ async function play(){
       const x=lerp(freeX,ringX,ringBlend);
       const y=lerp(freeY,ringY,ringBlend);
       const z=lerp(freeZ,ringZ,ringBlend);
-      const scale=lerp(lerp(baseScale,1,easeOut(riseT)),.70+depth*.52,ringBlend);
+      const scale=lerp(lerp(baseScale,1,easeOut(riseT)),(.70+depth*.52)*densityScale,ringBlend);
 
       // True 3D tumbling: every glyph rotates independently on X/Y/Z while floating.
       // As the ring takes over, it keeps some tilt instead of snapping flat.
@@ -611,69 +671,76 @@ async function play(){
   },token);
   if(token!==playToken)return;
 
-  // 4) 回転の勢いを切らず、そのまま半径を絞って竜巻へ。
-  //    ここから刻印直前まで、角速度をほぼ一定に保って一度も止めない。
-  const baseAngles=g.map((_,i)=>(i/n)*Math.PI*2+rotations*Math.PI*2);
-  const continuousTurnsPerSecond=4.14;
-  let spinPhase=0;
+  // 4) 円環がそのまま縦に伸び、軸が龍のようにうねりながら竜巻へ変形する。
+  //    ここから先は spin を一度もリセットしない。
+  let spin=rotations*Math.PI*2;
+  const turnsPerSecond=4.14;
+  const omega=Math.PI*2*turnsPerSecond;
+  const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
 
-  await frameTween(2350,(p)=>{
-    // 角度だけは linear。形だけ ease で竜巻へ変える。
-    spinPhase=p*Math.PI*2*(continuousTurnsPerSecond*2.35);
-    const shape=easeInOut(p);
-    const radius=lerp(ringR,20,shape);
-    const ellipse=lerp(ringRY,8,shape);
-    const vertical=lerp(8,190,shape);
-    portalGlow.style.opacity=String(lerp(1,.92,shape));
-    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.22,.78,shape)})`;
+  await frameTween(2350,(p,elapsed)=>{
+    const e=easeInOut(p);
+    spin=rotations*Math.PI*2+omega*(elapsed/1000);
+    const radius=lerp(ringR,24,e);
+    const ellipse=lerp(ringRY,10,e);
+    const vertical=lerp(26,190,e);
+    const axisAmp=lerp(0,16,e);
+    const axisTwist=Math.sin(spin*.18)*axisAmp;
+    portalGlow.style.opacity=String(lerp(.98,.92,e));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.18,.82,e)})`;
+    rushLines.style.opacity=String(lerp(.92,1,e));
     [...rushLines.children].forEach(line=>{
-      const speed=parseFloat(line.dataset.speed);
-      const phase=parseFloat(line.dataset.phase);
-      const travel=((p*speed*1.85+phase)%1)*172-48;
-      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.8-p*.4})`;
+      const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
+      const travel=((e*speed*1.85+phase)%1)*172-48;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.3+e*.45})`;
     });
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spinPhase;
+      const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const x=Math.cos(angle)*radius;
-      const y=-88+Math.sin(angle)*ellipse+layer*vertical;
-      const scale=.58+depth*.42;
-      const rot=(spinPhase*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
-      const rx3d=-10+Math.cos(angle)*16;
-      const ry3d=8+Math.sin(angle)*18;
-      const z3d=(depth-.5)*44;
-      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
+      const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp+axisTwist*.12;
+      const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.16;
+      const x=axisX+Math.cos(angle)*radius;
+      const y=-86+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const z=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8*e;
+      const scale=(.58+depth*.42)*densityScale;
+      const rot=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
+      const rx=-14+Math.cos(angle+layer*.4)*17;
+      const ry=11+Math.sin(angle-layer*.3)*20;
+      setT(el,x,y,scale,rot,rx,ry,z);
       el.style.opacity=String(.64+depth*.36);
     });
   },token);
   if(token!==playToken)return;
 
-  const spinAtVortex=spinPhase;
+  const spinVortexEnd=spin;
 
-  // 5) 最大回転のまま閃光へ突入。
-  //    閃光中も同じ角速度で回り続け、白飛びの裏で字形だけを変える。
-  await frameTween(1100,(p)=>{
+  // 5) 極小圧縮からそのまま閃光へ。回転速度は維持。
+  await frameTween(1180,(p,elapsed)=>{
+    const e=easeInOut(p);
+    spin=spinVortexEnd+omega*(elapsed/1000);
     const peak=Math.sin(p*Math.PI);
-    spinPhase=spinAtVortex+p*Math.PI*2*(continuousTurnsPerSecond*1.10);
-    const pulse=Math.sin(p*Math.PI);
-    const radius=20-pulse*4;
-    const ellipse=8-pulse*2;
-    const vertical=190;
+    const radius=lerp(24,11,e);
+    const ellipse=lerp(10,5,e);
+    const vertical=lerp(190,170,e);
+    const axisAmp=lerp(16,6,e);
     flash.style.opacity=String(peak*.98);
     portalGlow.style.opacity=String(.90+peak*.10);
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.82,.92,peak)})`;
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spinPhase;
+      const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const x=Math.cos(angle)*radius;
-      const y=-88+Math.sin(angle)*ellipse+layer*vertical;
-      const scale=.56+depth*.42;
-      const rot=(spinPhase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9;
-      const rx3d=-10+Math.cos(angle)*16;
-      const ry3d=8+Math.sin(angle)*18;
-      const z3d=(depth-.5)*44;
-      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
+      const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
+      const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.14;
+      const x=axisX+Math.cos(angle)*radius;
+      const y=-86+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const z=(depth-.5)*48;
+      const scale=(.56+depth*.40)*densityScale;
+      const rot=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9;
+      const rx=-16+Math.cos(angle+layer*.35)*15;
+      const ry=12+Math.sin(angle-layer*.25)*18;
+      setT(el,x,y,scale,rot,rx,ry,z);
       el.style.opacity=String(.72+depth*.28);
       el.style.filter=`brightness(${1+peak*2.7}) blur(${peak*1.8}px)`;
       if(p>.43&&!el.dataset.converted){
@@ -686,109 +753,114 @@ async function play(){
   if(token!==playToken)return;
   flash.style.opacity=0;
 
-  const spinAtFlashEnd=spinPhase;
+  const spinFlashEnd=spin;
 
-  // 6) 閃光が明けた瞬間も同じ最大回転。
-  //    変体仮名の竜巻が高速のまま再び広がって見えてくる。
-  await frameTween(1450,(p)=>{
-    spinPhase=spinAtFlashEnd+p*Math.PI*2*(continuousTurnsPerSecond*1.45);
+  // 6) 閃光明けも同じ位相のまま変体仮名の渦が戻る。
+  await frameTween(1500,(p,elapsed)=>{
     const shape=easeInOut(p);
     const bloom=Math.sin(p*Math.PI);
-    const radius=lerp(20,72,.18+bloom*.52);
-    const ellipse=lerp(8,28,.12+bloom*.45);
-    const vertical=lerp(190,128,shape);
+    spin=spinFlashEnd+omega*(elapsed/1000);
+    const radius=lerp(11,72,.18+bloom*.52);
+    const ellipse=lerp(5,25,.12+bloom*.44);
+    const vertical=lerp(170,126,shape);
+    const axisAmp=lerp(6,12,shape);
+    whiteRoom.style.opacity=String(1-.05*shape);
+    portalGlow.style.opacity=String(lerp(.88,.64,shape));
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spinPhase;
+      const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const x=Math.cos(angle)*radius;
-      const y=-82+Math.sin(angle)*ellipse+layer*vertical;
-      const scale=.64+depth*.34;
-      const rot=(spinPhase*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*8;
-      const rx3d=-10+Math.cos(angle)*16;
-      const ry3d=8+Math.sin(angle)*18;
-      const z3d=(depth-.5)*44;
-      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
+      const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
+      const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.14;
+      const x=axisX+Math.cos(angle)*radius;
+      const y=-82+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const z=(depth-.5)*52;
+      const scale=(.64+depth*.34)*densityScale;
+      const rot=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*8;
+      const rx=-12+Math.cos(angle+layer*.3)*14;
+      const ry=10+Math.sin(angle-layer*.24)*18;
+      setT(el,x,y,scale,rot,rx,ry,z);
       el.style.opacity=String(.68+depth*.32);
       el.style.filter="none";
       el.style.textShadow="0 0 10px rgba(139,125,101,.12)";
     });
-    whiteRoom.style.opacity=String(1-.06*shape);
-    [...rushLines.children].forEach(line=>{
-      const speed=parseFloat(line.dataset.speed);
-      const phase=parseFloat(line.dataset.phase);
-      const travel=((p*speed*1.7+phase)%1)*170-46;
-      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.35-p*.25})`;
-    });
   },token);
   if(token!==playToken)return;
 
-  const spinAtReturnEnd=spinPhase;
+  const spinReturnEnd=spin;
 
-  // 7) 刻印へ移る直前まで回転を維持し、中心に小さな高速渦として集める。
-  //    ここでは消さず、次の「画面へ突っ込む」動きにつなぐ。
-  await frameTween(900,(p)=>{
-    spinPhase=spinAtReturnEnd+p*Math.PI*2*(continuousTurnsPerSecond*.90);
-    const collapse=easeIn(p);
+  // 7) 龍のうねりを小さくしながら高速の小渦へ圧縮。
+  await frameTween(980,(p,elapsed)=>{
+    const collapse=easeInOut(p);
+    spin=spinReturnEnd+omega*(elapsed/1000);
     const radius=lerp(72,18,collapse);
-    const ellipse=lerp(28,7,collapse);
-    const vertical=lerp(128,24,collapse);
+    const ellipse=lerp(25,7,collapse);
+    const vertical=lerp(126,24,collapse);
+    const axisAmp=lerp(12,3,collapse);
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spinPhase;
+      const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const x=Math.cos(angle)*radius;
-      const y=-36+Math.sin(angle)*ellipse+layer*vertical;
-      const scale=lerp(.72+depth*.26,.34,collapse);
-      const rot=(spinPhase*180/Math.PI)*(i%2?-.22:.22);
-      const rx3d=-10+Math.cos(angle)*16;
-      const ry3d=8+Math.sin(angle)*18;
-      const z3d=(depth-.5)*44;
-      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
-      el.style.opacity=String(lerp(.68+depth*.32,.90,collapse));
+      const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
+      const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.12;
+      const x=axisX+Math.cos(angle)*radius;
+      const y=-38+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const z=(depth-.5)*42;
+      const scale=lerp((.72+depth*.26)*densityScale,.36*densityScale,collapse);
+      const rot=(spin*180/Math.PI)*(i%2?-.22:.22);
+      const rx=-10+Math.cos(angle+layer*.22)*12;
+      const ry=8+Math.sin(angle-layer*.18)*14;
+      setT(el,x,y,scale,rot,rx,ry,z);
+      el.style.opacity=String(lerp(.68+depth*.32,.9,collapse));
     });
     whiteRoom.style.opacity=String(1-collapse*.72);
-    rushLines.style.opacity=String(1-collapse*.55);
-    portalGlow.style.opacity=String(.92*(1-collapse*.45));
+    rushLines.style.opacity=String(1-collapse*.45);
+    portalGlow.style.opacity=String(.62*(1-collapse*.45));
   },token);
   if(token!==playToken)return;
 
-  const spinBeforeRush=spinPhase;
+  const spinMiniEnd=spin;
 
-  // 8) 一文字ずつ、回転する渦から画面へ高速で飛び込み、カメラを突き抜ける。
-  //    他の文字はその間も回り続けるので、ここにも停止点を作らない。
-  await frameTween(920,(p)=>{
-    const globalSpin=spinBeforeRush+p*Math.PI*2*(continuousTurnsPerSecond*.92);
+  // 8) 小渦から1文字ずつカメラへ突き抜ける。
+  //    残っている文字は、その間も同じ渦を回り続ける。
+  await frameTween(980,(p,elapsed)=>{
+    spin=spinMiniEnd+omega*(elapsed/1000);
+    const baseRadius=lerp(18,8,easeIn(p));
+    const baseEllipse=lerp(7,3,easeIn(p));
     g.forEach((el,i)=>{
-      const base=(i/n)*Math.PI*2;
-      const angle=base+globalSpin;
-      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const startX=Math.cos(angle)*18;
-      const startY=-36+Math.sin(angle)*7+layer*24;
-      const local=clamp((p*1.34)-(i*.075));
-      const rush=easeIn(local);
+      const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
-      const x=lerp(startX,0,rush);
-      const y=lerp(startY,0,rush);
-      const scale=lerp(.32+depth*.08,3.25,rush);
-      const rot=(globalSpin*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*rush*42;
-      const rx3d=-10+Math.cos(angle)*16;
-      const ry3d=8+Math.sin(angle)*18;
-      const z3d=(depth-.5)*44;
-      setT(el,x,y,scale,rot,rx3d,ry3d,z3d);
+      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const stagger=Math.min(.055, .62/Math.max(1,n));
+      const local=clamp((p*1.34)-(i*stagger));
+      const rush=easeIn(local);
+      const axisX=Math.sin(layer*1.8+spin*.22)*3;
+      const orbitX=axisX+Math.cos(angle)*baseRadius;
+      const orbitY=-18+Math.sin(angle)*baseEllipse+layer*10;
+      const orbitZ=(depth-.5)*34;
+      const x=lerp(orbitX,0,rush);
+      const y=lerp(orbitY,0,rush);
+      const z=lerp(orbitZ,340,rush);
+      const scale=lerp((.34+depth*.08)*densityScale,3.15,rush);
+      const rot=(spin*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*rush*44;
+      const rx=lerp(-8+Math.cos(angle)*10,0,rush);
+      const ry=lerp(7+Math.sin(angle)*12,0,rush);
+      setT(el,x,y,scale,rot,rx,ry,z);
       const fade=rush<.72?1:1-clamp((rush-.72)/.28);
       el.style.opacity=String(fade);
       el.style.filter=`blur(${rush*7}px) brightness(${1+rush*1.35})`;
     });
-    whiteRoom.style.opacity=String(lerp(.28,.14,p));
-    rushLines.style.opacity=String(lerp(.45,.18,p));
-    portalGlow.style.opacity=String(lerp(.50,.22,p));
+    whiteRoom.style.opacity=String(lerp(.28,.12,p));
+    rushLines.style.opacity=String(lerp(.38,.14,p));
+    portalGlow.style.opacity=String(lerp(.24,.10,p));
   },token);
   if(token!==playToken)return;
+
   g.forEach(el=>el.remove());
 
   // 9) 重量級刻印。
   board.innerHTML="";
+  setupStampBoard(out);
   [...out].forEach(ch=>{
     const s=document.createElement("div");
     s.className="stamp";
