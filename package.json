@@ -23,6 +23,7 @@
     "check:font-assets": "node --experimental-strip-types tools/font-assets-check/index.ts",
     "check:storage": "node --experimental-strip-types tools/check-storage/index.ts",
     "check:conj-layout": "node --experimental-strip-types tools/conj-layout-check/index.ts",
+    "check:conj-quiz": "node --experimental-strip-types tools/conj-quiz-check/index.ts",
     "chunks:build": "node --experimental-strip-types tools/blank-chunks/build.ts"
   },
   "devDependencies": {

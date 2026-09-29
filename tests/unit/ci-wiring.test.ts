@@ -52,7 +52,7 @@ test('実ブラウザの検査は、build と Playwright の導入より後に�
   const build = at(/^\s*- run: npm run build\s*$/);
   const install = at(/^\s*- run: npx playwright install\b/);
   assert.ok(build >= 0 && install >= 0, 'build または Playwright の導入が CI にない');
-  for (const name of ['check:overflow', 'check:font-weight', 'check:conj-layout']) {
+  for (const name of ['check:overflow', 'check:font-weight', 'check:conj-layout', 'check:conj-quiz']) {
     const index = at(new RegExp(`^\\s*- run: npm run ${escapeRegExp(name)}\\s*$`));
     assert.ok(index > build && index > install, `${name} が build・Playwright の導入より前にある`);
   }
