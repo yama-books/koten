@@ -445,6 +445,7 @@ function makeGlyphs(text){
   });
 }
 function resetVisuals(){
+  [stage,flash,glow,label,whiteRoom,portalGlow].forEach(el=>el.getAnimations().forEach(a=>a.cancel()));
   core.querySelectorAll(".glyph,.spark,.impactWave,.orbitRig").forEach(n=>n.remove());
   board.innerHTML="";
   board.style.opacity=0;
