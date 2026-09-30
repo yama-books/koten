@@ -3191,7 +3191,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20260930-6">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261001-8">
 </head>
 <body>
 <div class="wrap">
@@ -3473,7 +3473,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
-<script src="./conj-quiz-ui.js?v=20261001-7"></script>
+<script src="./conj-quiz-ui.js?v=20261001-8"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4798,10 +4798,22 @@ function syncStudyHeightsAtCurrentZoom(){
 
   // In the quiz's hint-first state the table is hidden. Keep the original
   // sentence readable instead of inheriting a zero height from that table.
-  if(isIdentificationMode() && tablePanel.dataset.support==="hidden"){
+  // 百人一首の歌は折り返さない一行書きのため、136px の枠では解答ボタンの下へはみ出す。
+  // 表を隠している間だけ二行書きにし、枠の高さを歌の半分の長さに合わせる。
+  const quizHidden=isIdentificationMode() && tablePanel.dataset.support==="hidden";
+  const quizPoem=quizHidden && !text.classList.contains("is-prose");
+  text.classList.toggle("is-quiz-poem",quizPoem);
+  if(quizHidden){
     examplePanel.style.paddingTop="0px";
-    body.style.height="136px";
-    text.style.height="136px";
+    let h=136;
+    if(quizPoem){
+      text.style.fontSize="";
+      text.style.height=h+"px";
+      const cap=Math.max(h,Math.min(240,Math.round(window.innerHeight*0.3)));
+      h=Math.min(cap,Math.max(h,Math.ceil(text.scrollHeight/2)+8));
+    }
+    body.style.height=h+"px";
+    text.style.height=h+"px";
     fitExampleText(text);
     return;
   }
@@ -4816,10 +4828,16 @@ function syncStudyHeightsAtCurrentZoom(){
   body.style.height=h+"px";
   text.style.height=h+"px";
   fitExampleText(text);
+  // 判別モードの低いスマホでは、表の高さに一行で収めると歌が読めない大きさまで縮む。
+  // そのときだけ二行書きにして、読める大きさを保つ。
+  if(!isIdentificationMode() || text.classList.contains("is-prose") || !(parseFloat(text.style.fontSize)<QUIZ_POEM_WRAP_BELOW_PX)) return;
+  text.classList.add("is-quiz-poem");
+  fitExampleText(text);
 }
 
 // 用例が表の高さや左の余白に収まらないときだけ、収まるまで文字を小さくする。
 const MIN_EXAMPLE_FONT_PX=9;
+const QUIZ_POEM_WRAP_BELOW_PX=11;
 function fitExampleText(text){
   text.style.fontSize="";
   let size=parseFloat(getComputedStyle(text).fontSize);

@@ -209,6 +209,43 @@ try{
         masterCases++;
       }
     }
+    // Real 百人一首 sentences never run under the answer buttons, the buttons
+    // stay reachable after a hint or an answer, and choices keep a fixed order.
+    const sweep=await page.evaluate(async()=>{
+      const w=window as any;
+      const frames=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+      // Smooth scrolling needs a moment; wait until the button is on screen or give up.
+      const onScreen=async(id:string)=>{for(let t=0;t<30;t++){if(document.getElementById(id)!.getBoundingClientRect().bottom<=innerHeight+1)return true;await new Promise(resolve=>setTimeout(resolve,50));}return false;};
+      const overlap=(a:DOMRect,b:DOMRect)=>a.left<b.right-1&&b.left<a.right-1&&a.top<b.bottom-1&&b.top<a.bottom-1;
+      const problems:string[]=[];let checked=0;
+      for(const mode of ['form','type']){
+        const select=document.getElementById('quizMode') as HTMLSelectElement;
+        select.value=mode;select.dispatchEvent(new Event('change'));
+        for(let i=0;i<12;i++){
+          w.nextQuestion();await frames();
+          const text=document.getElementById('exampleText')!;
+          const tag=mode+' '+text.textContent!.slice(0,8);
+          const range=document.createRange();range.selectNodeContents(text);
+          const box=text.getBoundingClientRect();
+          const buttons=[...document.querySelectorAll('#quizAnswerPanel button,.card .actions button')]
+            .filter(e=>(e as HTMLElement).offsetParent).map(e=>e.getBoundingClientRect());
+          for(const r of [...range.getClientRects()].filter(r=>r.width&&r.height)){
+            if(buttons.some(b=>overlap(r,b)))problems.push(tag+': sentence under a button');
+            if(r.top<box.top-2||r.bottom>box.bottom+2)problems.push(tag+': sentence outside its box');
+          }
+          if(mode==='form' && (0,eval)('quizChoices').map((c:any)=>c.canonical).join()!=='未然形,連用形,終止形,連体形,已然形,命令形')problems.push(tag+': form choices out of order');
+          w.hintQuiz();
+          if(!await onScreen('reveal'))problems.push(tag+': hint button below the screen');
+          (document.querySelector('#quizChoices .quiz-choice') as HTMLButtonElement).click();
+          if(!await onScreen('next'))problems.push(tag+': next button below the screen');
+          if(document.querySelector('.card .study-layout')!.getBoundingClientRect().top<0)problems.push(tag+': sentence scrolled away');
+          checked++;
+        }
+      }
+      return {problems:[...new Set(problems)],checked};
+    });
+    assert.deepEqual(sweep.problems,[],`${viewport.width}x${viewport.height} master sentence/action sweep`);
+    assert.equal(sweep.checked,24);
     assert.deepEqual(errors,[],`${viewport.width} master page errors`);await context.close();
   }
   fixtures=true;
