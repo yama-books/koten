@@ -286,7 +286,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 15: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 16: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -784,7 +784,7 @@ async function play(){
   // 5) 圧縮と閃光。変身の瞬間からキラキラを発生させる。
   const omega5Start=omega4End;
   const omega5End=Math.PI*2*5.02;
-  const phase5Duration=1260;
+  const phase5Duration=1450;
 
   const sparkleCount=Math.min(38,Math.max(20,n*3));
   const sparkleSeeds=Array.from({length:sparkleCount},(_,i)=>({
@@ -808,7 +808,9 @@ async function play(){
     const e=easeInOut(p);
     const prog=spinProgress(spinVortexEnd,omega5Start,omega5End,elapsed,phase5Duration);
     spin=prog.spin;
-    const peak=Math.sin(p*Math.PI);
+    const flashRise=easeOut(clamp(p/.42));
+    const flashHold=1-.08*easeInOut(clamp((p-.76)/.24));
+    const peak=flashRise*flashHold;
 
     const radius=lerp(24,11,e);
     const ellipse=lerp(10,5,e);
@@ -869,13 +871,13 @@ async function play(){
     });
   },token);
   if(token!==playToken)return;
-  flash.style.opacity=0;
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光直後、「ぱっ」と放射状にほどける。
-  //    ここでは円運動を視覚上捨て、閃光直前の位置から外向きの初速で弾け、そのまま独立した無重力漂流へ溶かす。
-  const phase6Duration=1750;
+  // 6) 閃光が「開ける」瞬間に、ぱっと放射状へ弾ける。
+  //    閃光のフェードアウトと散開を同じ短い時間窓で同期し、そのまま回転を捨てて無重力漂流へ入る。
+  const phase6Duration=1800;
+  const flashOpenMs=220;
 
   const zeroGState=(i,timeMs)=>{
     const s=seeds[i];
@@ -914,10 +916,13 @@ async function play(){
   };
 
   await frameTween(phase6Duration,(p,elapsed)=>{
-    const burst=easeOut(clamp(p/.24));
-    const floatBlend=easeInOut(clamp((p-.10)/.72));
-    const soften=easeInOut(clamp((p-.16)/.84));
+    const flashOpen=easeOut(clamp(elapsed/flashOpenMs));
+    const burst=easeOut(clamp(elapsed/flashOpenMs));
+    const floatBlend=easeInOut(clamp((elapsed-90)/1180));
+    const soften=easeInOut(clamp((elapsed-120)/1520));
 
+    // The flash literally opens while the glyphs burst apart behind it.
+    flash.style.opacity=String((1-flashOpen)*.92);
     whiteRoom.style.opacity=String(lerp(1,.84,soften));
     portalGlow.style.opacity=String(lerp(.90,.20,soften));
     rushLines.style.opacity=String(lerp(1,.18,soften));
@@ -939,12 +944,12 @@ async function play(){
       const startRx=-16+Math.cos(endAngle+layer*.35)*15;
       const startRy=12+Math.sin(endAngle-layer*.25)*18;
 
-      // One-time explosive outward impulse. No orbit calculation here.
+      // One explosive outward impulse only. No circular orbit survives this point.
       const burstAngle=baseAngles[i]+s.phase*.18+(i%2?-.10:.10);
-      const burstR=58+(i%4)*9+Math.abs(layer)*16;
+      const burstR=68+(i%4)*10+Math.abs(layer)*18;
       const burstX=Math.cos(burstAngle)*burstR;
-      const burstY=Math.sin(burstAngle)*burstR*.58+layer*22;
-      const burstZ=Math.sin(burstAngle*1.7+s.phase)*(32+Math.abs(layer)*10);
+      const burstY=Math.sin(burstAngle)*burstR*.62+layer*24;
+      const burstZ=Math.sin(burstAngle*1.7+s.phase)*(38+Math.abs(layer)*12);
 
       const burstPos={
         x:startX+burstX*burst,
@@ -961,7 +966,6 @@ async function play(){
       const targetScale=(.55+targetDepth*.16)*densityScale;
       const scale=lerp(startScale,targetScale,soften);
 
-      // Spin posture dissolves into slow independent tumbling.
       const rot=lerp(startRot,floatPos.rot,floatBlend);
       const rx=lerp(startRx,floatPos.rx,floatBlend);
       const ry=lerp(startRy,floatPos.ry,floatBlend);
@@ -971,18 +975,17 @@ async function play(){
       el.style.filter="none";
     });
 
-    // Sparkles also explode once, then inherit the same zero-gravity world.
+    // Sparkles snap outward under the opening flash, then drift freely.
     sparkleSeeds.forEach(s=>{
-      const end=sparkZeroGState(s,0);
-      const burstR=(34+s.radius*.42)*burst;
-      const burstX=Math.cos(s.angle)*burstR;
-      const burstY=Math.sin(s.angle)*burstR*.72;
-      const burstZ=Math.sin(s.angle*1.6+s.phase)*burstR*.62;
       const target=sparkZeroGState(s,elapsed);
+      const burstR=(44+s.radius*.46)*burst;
+      const burstX=Math.cos(s.angle)*burstR;
+      const burstY=Math.sin(s.angle)*burstR*.74;
+      const burstZ=Math.sin(s.angle*1.6+s.phase)*burstR*.65;
 
-      const x=lerp(end.x+burstX,end.x===target.x?target.x:target.x,floatBlend);
-      const y=lerp(end.y+burstY,target.y,floatBlend);
-      const z=lerp(end.z+burstZ,target.z,floatBlend);
+      const x=lerp(burstX,target.x,floatBlend);
+      const y=lerp(burstY,target.y,floatBlend);
+      const z=lerp(burstZ,target.z,floatBlend);
       const pulse=target.pulse;
 
       setT(s.el,x,y,s.size*(.72+.58*pulse),0,0,0,z);
@@ -991,9 +994,10 @@ async function play(){
     });
   },token);
   if(token!==playToken)return;
+  flash.style.opacity="0";
 
-  // 7) そのまま「ふわふわふわふわ」。回転軌道へ戻さず、各文字が独立して無重力漂流する。
-  const phase7Duration=1350;
+  // 7) そのまま「ふわふわふわふわ」。回転軌道へ戻さず、独立した無重力漂流を少し見せる。
+  const phase7Duration=1450;
 
   await frameTween(phase7Duration,(p,elapsed)=>{
     const zeroTime=phase6Duration+elapsed;
@@ -1020,14 +1024,15 @@ async function play(){
   },token);
   if(token!==playToken)return;
 
-  // 8) 激しい龍の一巡。
-  //    無重力の moving source を残したまま、画面端から端まで大きく蛇行する一本の流れへ回収する。
-  const phase8Duration=2550;
-  const dragonLaps=1.18;
-  const dragonThetaEnd=Math.PI*2*dragonLaps;
-  const dragonOmega=dragonThetaEnd/(phase8Duration/1000);
+  // 8) 無重力から龍へ漸進的にまとまり、同時に徐々に加速する。
+  //    最初から高速の龍にはせず、低速→中速→激しい高速蛇行へ連続的に育てる。
+  const phase8Duration=3000;
+  const dragonOmegaStart=Math.PI*2*.18;
+  const dragonOmegaEnd=Math.PI*2*1.02;
+  const dragonAccel=(dragonOmegaEnd-dragonOmegaStart)/(phase8Duration/1000);
   const sweepX=Math.min(268,innerWidth*.47);
   const sweepY=Math.min(172,innerHeight*.23);
+  const zeroBaseTime=phase6Duration+phase7Duration;
 
   const dragonPoint=(i,theta)=>{
     const s=seeds[i];
@@ -1055,15 +1060,17 @@ async function play(){
     };
   };
 
+  let dragonTheta=0;
   await frameTween(phase8Duration,(p,elapsed)=>{
-    const sweepBlend=easeInOut(clamp(p/.28));
-    const zeroTime=phase6Duration+phase7Duration+elapsed;
-    const theta=dragonThetaEnd*p;
+    const tSec=elapsed/1000;
+    dragonTheta=dragonOmegaStart*tSec+.5*dragonAccel*tSec*tSec;
+    const sweepBlend=easeInOut(clamp(p/.46));
+    const zeroTime=zeroBaseTime+elapsed;
 
     g.forEach((el,i)=>{
       const s=seeds[i];
       const zero=zeroGState(i,zeroTime);
-      const dragon=dragonPoint(i,theta);
+      const dragon=dragonPoint(i,dragonTheta);
       const depth=.5+.5*Math.sin(dragon.t);
 
       const x=lerp(zero.x,dragon.x,sweepBlend);
@@ -1082,18 +1089,15 @@ async function play(){
       el.style.opacity=String(lerp(.90,.98,sweepBlend));
     });
 
-    // Sparkles become an energetic wake around the dragon.
     sparkleSeeds.forEach((s,i)=>{
       const zero=sparkZeroGState(s,zeroTime);
       const trail=(i-(sparkleCount-1)/2)*.046;
-      const t=theta-trail;
+      const t=dragonTheta-trail;
       const pulse=.42+.58*Math.sin(zeroTime*.0053*s.pulse+s.phase)**2;
-      const dragonX=Math.sin(t)*sweepX
-        +Math.cos(t*3.45+s.phase)*30;
-      const dragonY=-4+Math.sin(t*2.25+.52)*sweepY
-        +Math.sin(t*4.0+s.phase)*24;
-      const dragonZ=Math.cos(t)*104
-        +Math.sin(t*2.9+s.phase)*36;
+
+      const dragonX=Math.sin(t)*sweepX+Math.cos(t*3.45+s.phase)*30;
+      const dragonY=-4+Math.sin(t*2.25+.52)*sweepY+Math.sin(t*4.0+s.phase)*24;
+      const dragonZ=Math.cos(t)*104+Math.sin(t*2.9+s.phase)*36;
 
       setT(
         s.el,
@@ -1114,12 +1118,12 @@ async function play(){
 
   // 9) 龍の終端速度をそのまま初速にして、さらに急加速しながら中央収束→画面前方へ突き抜ける。
   const phase9Duration=1650;
-  const dragonOmegaEnd=Math.PI*2*3.65;
-  const dragonAccel=(dragonOmegaEnd-dragonOmega)/(phase9Duration/1000);
+  const dragonOmegaRushEnd=Math.PI*2*3.65;
+  const dragonRushAccel=(dragonOmegaRushEnd-dragonOmegaEnd)/(phase9Duration/1000);
 
   await frameTween(phase9Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
-    const theta=dragonThetaEnd+dragonOmega*tSec+.5*dragonAccel*tSec*tSec;
+    const theta=dragonTheta+dragonOmegaEnd*tSec+.5*dragonRushAccel*tSec*tSec;
     const gather=easeInOut(clamp(p/.68));
 
     g.forEach((el,i)=>{
@@ -1176,13 +1180,15 @@ async function play(){
   sparkleSeeds.forEach(s=>s.el.remove());
   g.forEach(el=>el.remove());
 
-  // 10) 重量級刻印。ここでは背景を白く整理して可読性を最優先。
+  // 10) 重量級刻印。突進後は白背景で一拍置き、それから「ダン、ダン、ダン！」へ。
   whiteRoom.style.opacity="1";
   whiteRoom.style.transform="none";
   whiteRoom.style.background="#fff";
   rushLines.style.opacity="0";
   portalGlow.style.opacity="0";
   flash.style.opacity="0";
+  await sleep(420);
+  if(token!==playToken)return;
   board.innerHTML="";
   setupStampBoard(out);
   [...out].forEach(ch=>{
