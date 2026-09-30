@@ -63,8 +63,11 @@ const VARIANT_LABELS = new Map([
   ["サ変型", "サ変"],
   ["ナ変型", "ナ変"],
   ["ラ変型", "ラ変"],
+  ["ラ変型（伝聞・推定）", "伝聞ラ変"],
   ["形容詞（ク活用）型", "ク型"],
   ["形容詞（シク活用）型", "シク型"],
+  ["形容動詞（ナリ活用）型", "ナリ型"],
+  ["形容動詞（タリ活用）型", "タリ型"],
   ["形容動詞型", "形動型"],
 ]);
 
@@ -217,6 +220,39 @@ function stableShuffle(items, rng = Math.random) {
   return a;
 }
 
+const VERB_FORMAL_FAMILIES = {四:'四段活用',上二:'上二段活用',下二:'下二段活用',上一:'上一段活用',下一:'下一段活用'};
+export function formalTypeLabel(choice) {
+  if(!choice)return '';
+  return choice.partOfSpeech==='動詞' && choice.rowRequired
+    ? VERB_FORMAL_FAMILIES[choice.family] ?? choice.canonical
+    : choice.canonical;
+}
+
+// Keep mastery local to the requested task and auxiliary/predicate domain.
+// Recent independent retrieval controls fading; hints and wrong answers do
+// not count as evidence for removing support.
+export function quizMasteryStage(history, partOfSpeech, quizMode='type') {
+  const auxiliary=normalizePartOfSpeech(partOfSpeech)==='助動詞';
+  const historyForDomain=(history?.events || []).filter(e=>e.quizMode===quizMode &&
+    (normalizePartOfSpeech(e.partOfSpeech)==='助動詞')===auxiliary);
+  const passes=(count,minIndependent,maxWrong,minSamples)=>{
+    const recent=historyForDomain.slice(-count);
+    return recent.length>=minSamples &&
+      recent.filter(e=>e.correct===true && Number(e.maxHintLevel)===0).length>=minIndependent &&
+      recent.filter(e=>e.correct!==true).length<=maxWrong;
+  };
+  if(passes(20,16,2,18))return 3;
+  if(passes(12,9,1,10))return 2;
+  if(passes(8,3,1,5))return 1;
+  return 0;
+}
+export function shouldUseShortTypeLabels(history, partOfSpeech) {
+  return quizMasteryStage(history,partOfSpeech,'type')>=2;
+}
+export function scopeForMasteryStage(stage) {
+  return [CHOICE_SCOPE.NEAR,CHOICE_SCOPE.PART_OF_SPEECH,CHOICE_SCOPE.CROSS_POS,CHOICE_SCOPE.ALL][Math.max(0,Math.min(3,Number(stage)||0))];
+}
+
 export function buildTypeChoices({ example, masterEntries, scope = CHOICE_SCOPE.NEAR, nearCount = 4, rng = Math.random }) {
   if (!example?.conjugationType) return [];
   const catalog = buildTypeCatalog(masterEntries);
@@ -232,7 +268,11 @@ export function buildTypeChoices({ example, masterEntries, scope = CHOICE_SCOPE.
     groups.get(id).canonicals.push(entry.canonical);
   }
   const correct = { ...groups.get(groupKey(correctEntry)), canonical: correctEntry.canonical };
-  const samePos = [...groups.values()].filter(x => x.partOfSpeech === pos && x.id !== correct.id);
+  // Auxiliary conjugation types form their own list. Predicate types never
+  // borrow auxiliary cards, even at the broadest choice scope.
+  const inDomain=x => (x.partOfSpeech === '助動詞') === (pos === '助動詞');
+  const domain=[...groups.values()].filter(inDomain);
+  const samePos = domain.filter(x => x.partOfSpeech === pos && x.id !== correct.id);
   const rank = x => {
     const entries = catalog.filter(e => x.canonicals.includes(e.canonical));
     if (entries.some(e => e.row && e.row === correctEntry.row)) return 0;
@@ -240,11 +280,12 @@ export function buildTypeChoices({ example, masterEntries, scope = CHOICE_SCOPE.
     return 2;
   };
   const near = stableShuffle(samePos, rng).sort((a,b) => rank(a)-rank(b));
-  const others = stableShuffle([...groups.values()].filter(x => x.partOfSpeech !== pos), rng);
+  const others = stableShuffle(domain.filter(x => x.partOfSpeech !== pos), rng);
+  const auxiliary=pos==='助動詞';
   let pool;
   if (scope === CHOICE_SCOPE.ALL) pool = [correct, ...samePos, ...others];
-  else if (scope === CHOICE_SCOPE.CROSS_POS) pool = [correct, ...samePos, ...others.slice(0, 6)];
-  else if (scope === CHOICE_SCOPE.PART_OF_SPEECH) pool = [correct, ...samePos];
+  else if (scope === CHOICE_SCOPE.CROSS_POS) pool = auxiliary ? [correct,...near.slice(0,8)] : [correct, ...samePos, ...others.slice(0,2)];
+  else if (scope === CHOICE_SCOPE.PART_OF_SPEECH) pool = auxiliary ? [correct,...near.slice(0,5)] : [correct, ...samePos];
   else pool = [correct, ...near.slice(0, Math.max(1, nearCount-1))];
   // A part of speech represented by only one type (currently adjectival
   // nouns) needs one outside distractor; a one-button quiz cannot assess it.
@@ -253,6 +294,7 @@ export function buildTypeChoices({ example, masterEntries, scope = CHOICE_SCOPE.
   const counts = new Map();
   pool.forEach(x => counts.set(x.label, (counts.get(x.label) || 0) + 1));
   return stableShuffle(pool.map(x => ({ ...x,
+    formalLabel:formalTypeLabel(x),
     displayLabel: counts.get(x.label) > 1 || sparseFallback ? x.label + '・' + x.partOfSpeech : x.label,
     isCorrect: x.id === correct.id,
   })), rng);
@@ -333,6 +375,7 @@ export function buildHintMask({
   example,
   tableRows,
   hintProfile,
+  masteryStage=0,
 }) {
   const rows = Array.isArray(tableRows) ? tableRows : [];
   const visible = new Set();
@@ -349,14 +392,15 @@ export function buildHintMask({
     };
   }
 
-  // H1: 部分表
+  // H1: the same rows are shown for every answer at a given mastery stage.
+  // Support becomes sparser only after independent answers have accumulated.
   if (quizMode === QUIZ_MODE.FORM) {
-    // A fixed profile avoids making the hidden-row pattern a clue to the answer.
-    [0, 2].filter(i => i < rows.length).forEach(i => visible.add(i));
+    const fixed=masteryStage>=2?[0,2]:masteryStage>=1?[0,2,4]:[0,2,3,4];
+    fixed.filter(i => i < rows.length).forEach(i => visible.add(i));
   } else {
     const profileIndexes = hintProfile?.rowIndexes;
     if (Array.isArray(profileIndexes) && profileIndexes.length) {
-      profileIndexes.slice(0, 3).forEach((i) => {
+      profileIndexes.slice(0, masteryStage>=2?1:masteryStage>=1?2:3).forEach((i) => {
         if (i >= 0 && i < rows.length) visible.add(i);
       });
     } else {
@@ -367,7 +411,7 @@ export function buildHintMask({
           const value = typeof row === "string" ? row : row?.value;
           return value && value !== "○";
         })
-        .slice(0, 3)
+        .slice(0, masteryStage>=2?1:masteryStage>=1?2:3)
         .forEach(({ i }) => visible.add(i));
     }
   }

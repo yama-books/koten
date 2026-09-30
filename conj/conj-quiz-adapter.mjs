@@ -1,28 +1,94 @@
-import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs?v=20260930-3';
+import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs?v=20260930-6';
 
 const POS = { verb:'動詞', adj:'形容詞', adjv:'形容動詞', aux:'助動詞' };
 const POS_KEYS = { verb:'verb', adjective:'adj', adjectivalVerb:'adjv', adjectival_noun:'adjv', auxiliary:'aux', ...Object.fromEntries(Object.entries(POS).map(([k,v])=>[v,k])), adj:'adj', adjv:'adjv', aux:'aux' };
+// The representative audit includes thirteen regular school-grammar kinds
+// without a heading in today's drill master. These suffix tables let those
+// examples use the same six-row renderer without adding unrelated drill cards.
+const QUIZ_TABLE_TEMPLATES = {
+  'ア行下二段活用':['え','え','う','うる','うれ','えよ'],
+  'カ行上一段活用':['き','き','きる','きる','きれ','きよ'],
+  'カ行上二段活用':['き','き','く','くる','くれ','きよ'],
+  'カ行下一段活用':['け','け','ける','ける','けれ','けよ'],
+  'サ行下二段活用':['せ','せ','す','する','すれ','せよ'],
+  'タ行下二段活用':['て','て','つ','つる','つれ','てよ'],
+  'ナ行上一段活用':['に','に','にる','にる','にれ','によ'],
+  'バ行四段活用':['ば','び','ぶ','ぶ','べ','べ'],
+  'ヤ行上一段活用':['い','い','いる','いる','いれ','いよ'],
+  'ヤ行上二段活用':['い','い','ゆ','ゆる','ゆれ','いよ'],
+  'ラ行上二段活用':['り','り','る','るる','るれ','りよ'],
+  'ワ行上一段活用':['ゐ','ゐ','ゐる','ゐる','ゐれ','ゐよ'],
+  'ワ行下二段活用':['ゑ','ゑ','う','うる','うれ','ゑよ'],
+};
 export function masterFromItems(items) {
-  return buildTypeCatalog(items.map(item=>({conjugationType:item.kind,partOfSpeech:POS[item.pos]})))
+  return buildTypeCatalog([...items.map(item=>({conjugationType:item.kind,partOfSpeech:POS[item.pos]})),
+    ...Object.keys(QUIZ_TABLE_TEMPLATES).map(kind=>({conjugationType:kind,partOfSpeech:'動詞'}))])
     .map(entry=>({...entry,conjugationType:entry.canonical}));
 }
 
-// These questions use only the already-published conjugation table. They are
-// separate from the quotation bank and cannot promote a held quotation.
-export function buildMasterPractice(items) {
+// The practice pool uses texts already present in the published drill or
+// individually cleared public-text records. Never synthesize a sentence.
+export function buildMasterPractice(items,{publicAdjvRecords=[],auxExampleRecords=[]}={}) {
   const result={form:[],type:[]};
-  for(const item of items){
-    if(!item?.id || !item.kind || !POS[item.pos] || !Array.isArray(item.forms) || item.forms.length!==6)continue;
-    const {example,target,poem,...tableData}=item;
-    const tableItem={...tableData,example:'',target:'',poem:null,source:'',occurrence:0,exampleAvailable:false};
+  const byId=new Map(items.map(item=>[item.id,item]));
+  const rows=item=>item.forms.map((main,i)=>[
+    ...(Array.isArray(main)?main:[]),...(Array.isArray(item.forms2?.[i])?item.forms2[i]:[])
+  ]);
+  const validItem=item=>item?.id && item.kind && POS[item.pos] && Array.isArray(item.forms) && item.forms.length===6;
+  const validText=(example,target,occurrence)=>{
+    if(typeof example!=='string' || typeof target!=='string' || !target || /[<>【】]/u.test(example+target))return false;
+    const count=example.split(target).length-1;
+    return count>0 && Number.isInteger(occurrence) && occurrence>=0 && occurrence<count;
+  };
+  const add=(item,record,{formIndex=null,tableValue=null}={})=>{
+    if(!validItem(item) || !validText(record.example,record.target,record.occurrence))return;
+    const tableItem={...item,example:record.example,target:record.target,occurrence:record.occurrence,
+      poem:record.poem??null,source:record.work,sourceLabel:record.sourceLabel,
+      sourceUrl:record.sourceUrl??null,sourceLicense:record.sourceLicense,exampleAvailable:true};
     const base={origin:'master',itemId:item.id,partOfSpeech:POS[item.pos],lemma:item.lemma,
-      conjugationType:item.kind,bucket:'standard',tableItem};
-    result.type.push({...base,exampleId:'master:type:'+item.id,form:null});
-    const rows=item.forms.map((main,i)=>[...(Array.isArray(main)?main:[]),...(Array.isArray(item.forms2?.[i])?item.forms2[i]:[])]);
-    rows.forEach((values,i)=>values.forEach((value,j)=>{
-      if(typeof value!=='string' || !value.trim() || rows.some((row,k)=>k!==i && row.includes(value)))return;
-      result.form.push({...base,exampleId:'master:form:'+item.id+':'+i+':'+j,form:FORMS[i],tableValue:value});
-    }));
+      conjugationType:item.kind,bucket:'standard',work:record.work,sourceLabel:record.sourceLabel,
+      sourceUrl:record.sourceUrl??null,sourceLicense:record.sourceLicense,tableItem};
+    result.type.push({...base,exampleId:'master:type:'+record.id,form:null});
+    if(Number.isInteger(formIndex) && formIndex>=0 && formIndex<6 && tableValue)
+      result.form.push({...base,exampleId:'master:form:'+record.id,form:FORMS[formIndex],tableValue});
+  };
+  for(const item of items){
+    if(!validItem(item) || !Number.isInteger(item.poem) || item.poem<1 || item.poem>100)continue;
+    // Existing 百人一首 headings have no audited formIndex. Only a suffix
+    // belonging to exactly one row can support a form question.
+    const target=item.target;
+    const matching=typeof target==='string' ? rows(item).flatMap((row,i)=>row
+      .filter(value=>typeof value==='string' && value && target.endsWith(value))
+      .map(value=>({formIndex:i,tableValue:value}))) : [];
+    const distinctRows=new Set(matching.map(x=>x.formIndex));
+    const form=distinctRows.size===1 ? matching.sort((a,b)=>b.tableValue.length-a.tableValue.length)[0] : null;
+    add(item,{id:'hyakunin:'+item.id,example:item.example,target,occurrence:item.occurrence??0,
+      poem:item.poem,work:'小倉百人一首',sourceLabel:'『小倉百人一首』第'+item.poem+'首',
+      sourceUrl:null,sourceLicense:'public domain'},form??{});
+  }
+  for(const record of publicAdjvRecords){
+    if(record?.exampleEnabledPublic!==true || record.rightsVerified!==true || record.targetVerified!==true || record.excerptReviewed!==true)continue;
+    if(!record.sourceExampleId || !record.sourceLabel || !record.sourceUrl || !record.sourceLicense || !record.work)continue;
+    const item=byId.get(record.lemmaId);
+    if(item?.pos!=='adjv' || !item.sourceExampleIds?.includes(record.sourceExampleId))continue;
+    const formIndex=FORMS.indexOf(record.form);
+    const values=rows(item)[formIndex]||[];
+    const tableValue=values.filter(value=>record.publicTarget?.endsWith(value)).sort((a,b)=>b.length-a.length)[0];
+    if(!tableValue)continue;
+    add(item,{id:'public-adjv:'+record.id,example:record.example,target:record.publicTarget,occurrence:0,
+      poem:null,work:record.work,sourceLabel:record.sourceLabel,
+      sourceUrl:record.sourceUrl,sourceLicense:record.sourceLicense},{formIndex,tableValue});
+  }
+  for(const record of auxExampleRecords){
+    if(record?.origin!=='builtin' || record.work!=='小倉百人一首' || !Number.isInteger(record.poem) || record.poem<1 || record.poem>100)continue;
+    const item=byId.get(record.itemId);
+    if(item?.pos!=='aux' || record.form!==FORMS[record.formIndex])continue;
+    const values=rows(item)[record.formIndex]||[];
+    if(!values.includes(record.normalizedKey))continue;
+    add(item,{id:record.id,example:record.example,target:record.target,occurrence:record.occurrence,
+      poem:record.poem,work:record.work,sourceLabel:'『小倉百人一首』第'+record.poem+'首',
+      sourceUrl:null,sourceLicense:'public domain'},
+      {formIndex:record.formIndex,tableValue:record.normalizedKey});
   }
   return result;
 }
@@ -47,10 +113,16 @@ export function resolveQuizRecords(metadata, quotations, items) {
     const text = texts.get(record.exampleId);
     if (!text || ['quotationStatus','finalComplianceStatus','releaseQaStatus'].some(g=>text[g] !== 'approved')) continue;
     const pos = POS_KEYS[record.partOfSpeech];
-    const candidates = items.filter(item=>item.pos === pos && item.kind === record.conjugationType &&
-      (text.itemId ? item.id === text.itemId : item.lemma === record.lemma));
-    if (candidates.length !== 1) continue;
-    const item = candidates[0];
+    const kindItems = items.filter(item=>item.pos === pos && item.kind === record.conjugationType);
+    const candidates = kindItems.filter(item=>text.itemId ? item.id === text.itemId : item.lemma === record.lemma);
+    // A representative table of the exact same part of speech and conjugation
+    // type supplies the six suffix rows when the quoted lemma is not a drill
+    // heading. An explicit itemId must still resolve exactly.
+    const supplemental = !text.itemId && pos === 'verb' && QUIZ_TABLE_TEMPLATES[record.conjugationType]
+      ? {id:'quiz-template:'+record.conjugationType,pos:'verb',label:'動詞',kind:record.conjugationType,
+          lemma:record.lemma,forms:QUIZ_TABLE_TEMPLATES[record.conjugationType].map(value=>[value])} : null;
+    const item = candidates.length === 1 ? candidates[0] : !text.itemId && candidates.length === 0 ? kindItems[0] ?? supplemental : null;
+    if(!item)continue;
     if (!Array.isArray(item.forms) || item.forms.length !== 6 || !FORMS.includes(record.form)) continue;
     const excerpt = text.quotationExcerpt;
     const target = text.originalTarget;
@@ -66,7 +138,7 @@ export function resolveQuizRecords(metadata, quotations, items) {
     if (!Number.isInteger(occurrence) || occurrence < 0 || occurrence >= positions.length) continue;
     result.push({...normalized, partOfSpeech:POS[pos], quotationExcerpt:excerpt, originalTarget:target,
       targetOccurrence:occurrence, source:typeof text.source === 'string' ? text.source : '',
-      tableItem:{...item,example:excerpt,target,occurrence,poem:text.poem ?? null,source:text.source ?? '',exampleAvailable:true},
+      tableItem:{...item,id:'quiz:'+record.exampleId,lemma:record.lemma,example:excerpt,target,occurrence,poem:text.poem ?? null,source:text.source ?? '',exampleAvailable:true},
     });
   }
   return result;

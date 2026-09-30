@@ -2,20 +2,26 @@
 let quizEngine=null, quizAdapter=null, quizState=null, quizRecords=[], quizMaster=[], quizChoices=[];
 let quizLoadFailed=false, quizRowChoices=[], quizPreviousMode='table', quizExamplePreference=true;
 let quizMasterPractice={form:[],type:[]};
-const quizSettings={choiceScope:'near',supportLevel:0,rowMode:'omitted'};
+const quizSettings={choiceScope:'auto',supportLevel:0,rowMode:'omitted'};
 function isIdentificationMode(){return document.getElementById('quizMode').value!=='table';}
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20260930-3'),import('./conj-quiz-adapter.mjs?v=20260930-3')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20260930-6'),import('./conj-quiz-adapter.mjs?v=20260930-6')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
-    quizMasterPractice=quizAdapter.buildMasterPractice(items);
+    const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
+    const [publicAdjvRecords,auxExampleRecords]=await Promise.all([
+      optionalRecords('./data/adjectival-noun-public-examples.json'),
+      optionalRecords('./data/aux-examples.json')
+    ]);
+    renderSourceCredits([...sourceCreditArgs.publicRecords,...publicAdjvRecords],sourceCreditArgs.chj);
+    quizMasterPractice=quizAdapter.buildMasterPractice(items,{publicAdjvRecords,auxExampleRecords});
     quizRecords=await quizAdapter.loadQuizRecords(items);
     try{
       const saved=JSON.parse(localStorage.getItem('conjQuizPreferences')||'{}');
-      if(['near','part_of_speech','cross_pos','all'].includes(saved.choiceScope)) quizSettings.choiceScope=saved.choiceScope;
-      if([0,1,2].includes(saved.supportLevel)) quizSettings.supportLevel=saved.supportLevel;
+      if(['auto','near','part_of_speech','cross_pos','all'].includes(saved.choiceScope)) quizSettings.choiceScope=saved.choiceScope==='near'?'auto':saved.choiceScope;
+      if([0,1,2].includes(saved.supportLevel)) quizSettings.supportLevel=saved.supportLevel===2?2:0;
       if(['omitted','select','input'].includes(saved.rowMode)) quizSettings.rowMode=saved.rowMode;
     }catch(_error){}
   }catch(_error){quizLoadFailed=true;}
@@ -65,10 +71,16 @@ function nextQuizQuestion(){
     renderQuizUI();return;
   }
   current={...ex.tableItem};answers={};selected=null;answered=false;blankSlots=new Set();
-  quizState=quizEngine.createQuizState({example:ex,quizMode:mode,...quizSettings});
+  const masteryStage=quizEngine.quizMasteryStage?.(stats.quiz,ex.partOfSpeech,mode)??0;
+  const resolvedScope=quizSettings.choiceScope==='auto'
+    ? (quizEngine.scopeForMasteryStage?.(masteryStage)??['near','part_of_speech','cross_pos','all'][Math.min(3,masteryStage)])
+    : quizSettings.choiceScope;
+  quizState=quizEngine.createQuizState({example:ex,quizMode:mode,...quizSettings,choiceScope:resolvedScope});
+  quizState.shortLabels=mode==='type' && (quizEngine.shouldUseShortTypeLabels?.(stats.quiz,ex.partOfSpeech)??false);
+  quizState.masteryStage=masteryStage;
   quizRowChoices=[];
   document.getElementById('quizChoices').scrollTop=0;
-  quizChoices=mode==='form'?quizEngine.buildFormChoices():quizEngine.buildTypeChoices({example:ex,masterEntries:quizMaster,scope:quizSettings.choiceScope});
+  quizChoices=mode==='form'?quizEngine.buildFormChoices():quizEngine.buildTypeChoices({example:ex,masterEntries:quizMaster,scope:quizState.choiceScope});
   render();
 }
 
@@ -82,7 +94,7 @@ function applyQuizTableMask(){
   }
   const level=quizState.answered?2:quizState.hintLevel;
   panel.dataset.support=quizState.answered?'answered':['hidden','partial','full'][level];
-  const mask=quizEngine.buildHintMask({quizMode:quizState.quizMode,hintLevel:level,example:quizState.example,tableRows:current.forms.map(display)});
+  const mask=quizEngine.buildHintMask({quizMode:quizState.quizMode,hintLevel:level,example:quizState.example,tableRows:current.forms.map(display),masteryStage:quizState.masteryStage});
   document.querySelectorAll('#formBody > tr').forEach((tr,i)=>{
     const hidden=!mask.visibleIndexes.includes(i);
     tr.classList.toggle('quiz-masked',hidden);
@@ -123,21 +135,16 @@ function renderQuizUI(){
     for(const id of ['check','reveal','next']) document.getElementById(id).style.display='none';
     return;
   }
-  document.getElementById('quizPrompt').textContent=quizState.example.origin==='master'
-    ? quizState.quizMode==='form'?'活用表の「'+quizState.example.tableValue+'」は何形？':'この語の活用の種類は？'
-    : quizState.quizMode==='form'?'強調した語は何形？':'強調した語の活用の種類は？';
+  document.getElementById('quizPrompt').textContent=quizState.quizMode==='form'?'例文で強調した部分は何形？':'例文で強調した部分の活用の種類は？';
   if(!quizState.answered){
     // Remove the hidden answer text from accessibility APIs as well as sight.
     document.getElementById('kind').textContent='';
   }
   applyQuizTableMask();
   renderQuizChoices();renderQuizRowAnswer();
-  document.getElementById('reveal').textContent=quizState.hintLevel===0?'部分表のヒント':'全表のヒント';
+  document.getElementById('reveal').textContent=quizState.hintLevel===0?'ヒントを見る':'表全体を見る';
   document.getElementById('reveal').style.display=quizState.answered||quizState.hintLevel===2?'none':'inline-block';
-  document.getElementById('check').textContent='答え合わせ';
-  document.getElementById('check').style.display=quizState.answered?'none':'inline-block';
-  const choice=quizChoices.find(c=>c.canonical===quizState.selectedAnswer);
-  document.getElementById('check').disabled=!choice || (quizState.quizMode==='type' && quizState.rowMode!=='omitted' && choice.rowRequired && !String(quizState.selectedRow||'').trim());
+  document.getElementById('check').style.display='none';
   document.getElementById('next').style.display=quizState.answered?'inline-block':'none';
   requestAnimationFrame(syncStudyHeights);
 }
@@ -149,22 +156,29 @@ function renderQuizChoices(){
     const button=document.createElement('button');button.type='button';button.className='quiz-choice';
     button.dataset.canonical=choice.canonical;
     button.setAttribute('aria-pressed',String(quizState.selectedAnswer===choice.canonical));
-    button.setAttribute('aria-label',choice.displayLabel);
-    const label=document.createElement('span');label.className='quiz-choice-label';label.textContent=choice.label;
+    const visibleLabel=quizState.shortLabels?choice.label:(choice.formalLabel||choice.label);
+    button.setAttribute('aria-label',visibleLabel);
+    const label=document.createElement('span');label.className='quiz-choice-label';label.textContent=visibleLabel;
     button.append(label);
     if(choice.displayLabel!==choice.label){const pos=document.createElement('small');pos.className='quiz-choice-pos';pos.textContent=choice.partOfSpeech;button.append(pos);}
     if(quizState.answered){
       const correct=quizState.quizMode==='form'?choice.canonical===quizState.example.form:choice.canonicals.includes(quizState.example.conjugationType);
       button.classList.toggle('is-correct',correct);
       button.classList.toggle('is-wrong',!correct&&quizState.selectedAnswer===choice.canonical);
-      if(correct) button.setAttribute('aria-label',choice.displayLabel+'・正答');
+      if(correct){
+        button.setAttribute('aria-label',visibleLabel+'・正答');
+        const mark=document.createElement('img');mark.className='quiz-correct-mark';mark.src='./img/result-ok.png';mark.alt='';mark.setAttribute('aria-hidden','true');button.append(mark);
+      }
     }
     button.disabled=quizState.answered;
     button.addEventListener('click',()=>{
       if(quizState.answered)return;
       if(quizState.selectedAnswer!==choice.canonical){quizState.selectedRow=null;quizRowChoices=quizEngine.buildRowChoices(quizMaster,choice);}
-      quizState.selectedAnswer=choice.canonical;renderQuizUI();
-      [...box.children].find(b=>b.dataset.canonical===choice.canonical)?.focus({preventScroll:true});
+      quizState.selectedAnswer=choice.canonical;
+      if(quizState.quizMode==='type' && quizState.rowMode!=='omitted' && choice.rowRequired){
+        renderQuizUI();
+        (document.getElementById('quizRowInput')||document.querySelector('#quizRowAnswer button'))?.focus({preventScroll:true});
+      }else gradeQuiz();
     });
     box.append(button);
   });
@@ -181,18 +195,20 @@ function renderQuizRowAnswer(){
     const input=document.createElement('input');input.className='quiz-row-input';input.id='quizRowInput';input.maxLength=3;
     input.setAttribute('aria-label','動詞の行');input.placeholder='例：カ';input.value=quizState.selectedRow||'';input.disabled=quizState.answered;
     label.htmlFor=input.id;
-    input.addEventListener('input',()=>{quizState.selectedRow=input.value;document.getElementById('check').disabled=!input.value.trim();});
+    input.addEventListener('input',()=>{quizState.selectedRow=input.value;});
     box.append(input);return;
   }
   quizRowChoices.forEach(row=>{
     const button=document.createElement('button');button.type='button';button.className='quiz-row-choice';button.textContent=row.label+'行';button.dataset.row=row.canonical;
     button.setAttribute('aria-pressed',String(quizState.selectedRow===row.canonical));button.disabled=quizState.answered;
-    button.addEventListener('click',()=>{quizState.selectedRow=row.canonical;renderQuizUI();box.querySelector('[data-row="'+row.canonical+'"]')?.focus({preventScroll:true});});box.append(button);
+    button.addEventListener('click',()=>{quizState.selectedRow=row.canonical;gradeQuiz();});box.append(button);
   });
 }
 
 function gradeQuiz(){
-  if(!quizState || quizState.answered || document.getElementById('check').disabled)return;
+  if(!quizState || quizState.answered)return;
+  const choice=quizChoices.find(c=>c.canonical===quizState.selectedAnswer);
+  if(!choice || (quizState.quizMode==='type' && quizState.rowMode!=='omitted' && choice.rowRequired && !String(quizState.selectedRow||'').trim()))return;
   const evaluation=quizEngine.evaluateAnswer({quizMode:quizState.quizMode,example:quizState.example,selectedForm:quizState.selectedAnswer,selectedType:quizState.selectedAnswer,selectedRow:quizState.selectedRow,rowMode:quizState.rowMode});
   const event=quizEngine.buildLearningEvent({...quizState,evaluation,responseTimeMs:Math.round(performance.now()-quizState.startedAt)});
   // Answer feedback shows the full table without raising maxHintLevel or hintCount.
@@ -205,7 +221,7 @@ function gradeQuiz(){
   applyLemmaReading(document.getElementById('lemma'),current,true);
   renderQuizUI();
   const detail=quizState.quizMode==='type'?'正答：'+quizState.example.conjugationType:'正答：'+quizState.example.form;
-  document.getElementById('feedback').textContent=(evaluation.correct?'正解。':evaluation.typeCorrect?'型は正解。行を表で確認しよう。':'表で確かめよう。')+' '+detail;
+  document.getElementById('feedback').textContent=(evaluation.correct?'正解。':evaluation.typeCorrect?'型は正解。行の正答を確認しましょう。':'不正解。')+' '+detail;
   document.getElementById('next').focus({preventScroll:true});
 }
 function hintQuiz(){
@@ -219,6 +235,12 @@ function renderQuizRecord(){
     const count=history?.byMode[mode] || {total:0,correct:0,independent:0,hintUsed:0};
     const p=document.createElement('p');
     p.textContent=(mode==='form'?'活用形':'活用の種類')+'：正解 '+count.correct+' / '+count.total+'問 ・表なし正解 '+count.independent+'問 ・ヒント使用 '+count.hintUsed+'問';box.append(p);
+  }
+  if(quizEngine?.quizMasteryStage){
+    const stages=['基礎','練習','発展','全候補'];
+    const p=document.createElement('p');
+    p.textContent='活用種類の進み具合：用言 '+stages[quizEngine.quizMasteryStage(history,'動詞','type')]+' ・助動詞 '+stages[quizEngine.quizMasteryStage(history,'助動詞','type')];
+    box.append(p);
   }
   const last=history?.events.at(-1);
   if(last){
