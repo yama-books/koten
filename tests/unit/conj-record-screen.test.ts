@@ -802,3 +802,23 @@ test('conj: source credits keep the close button visible while the list scrolls'
   assert.match(html, /\.source-credits\[open\]\{\s*display:flex;\s*flex-direction:column;\s*overflow:hidden;/);
   assert.match(html, /\.source-credits > #sourceCreditsList\{\s*flex:1 1 auto;\s*min-height:0;\s*overflow-y:auto;/);
 });
+
+test('conj: record screen entrance motion follows the final prototype without changing the recorded values', () => {
+  const script = html.match(/<script>(?![\s\S]*<script>)([\s\S]*)<\/script>/)?.[1] ?? html;
+  // Cards glide in from far right with transform/opacity only; horizontal overflow is clipped.
+  assert.match(html, /\.record-screen\{overflow-x:hidden;--record-glide-x:78vw\}/);
+  assert.match(html, /@keyframes record-glide\{\s*0%\{opacity:\.04;transform:translate3d\(var\(--record-glide-x\),0,0\) scale\(\.988\)\}/);
+  assert.match(html, /\.record-glide\.is-in\{animation:record-glide \.86s cubic-bezier\(\.16,\.82,\.20,1\) var\(--record-glide-delay,0ms\) both\}/);
+  // The donut draws all four colors at once from their own start angles; the default is the finished chart.
+  assert.match(html, /@property --record-draw\{syntax:"<number>";inherits:false;initial-value:1\}/);
+  assert.match(script, /const drawn=`calc\(\$\{start\}% \+ \$\{cursor-start\}% \* var\(--record-draw\)\)`;/);
+  // Reduced motion shows the final state at once.
+  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{\s*\.record-glide\{opacity:1\}\s*\.record-glide\.is-in,\.record-donut\.is-drawing,\.record-donut\.is-drawing \.record-donut-center\{animation:none\}/);
+  // PC paints the waiting state for a frame, then staggers top-to-bottom (70ms); phones observe
+  // stationary boxes and reveal each card once (75ms).
+  assert.match(script, /staggerRecordGlide\(cards,70\)/);
+  assert.match(script, /visible\.forEach\(card=>observer\.unobserve\(card\)\);\s*staggerRecordGlide\(visible,75\);/);
+  assert.match(script, /function openRecord\(\)\{\s*renderRecord\(\);\s*document\.getElementById\("recordScreen"\)\.hidden=false;\s*playRecordMotion\(\);\s*\}/);
+  // Counting ends on exactly the text renderRecord() wrote.
+  assert.match(script, /counter\.written=p<1 \? format\(Math\.round\(target\*\(1-Math\.pow\(1-p,4\)\)\)\) : text;/);
+});

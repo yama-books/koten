@@ -3035,6 +3035,35 @@ body.review-modal-open{overflow:hidden}
 @media(min-width:800px){.record-shell{transform:scale(1.2);transform-origin:top center}}
 @media(min-width:960px){.record-shell{transform:scale(1.38)}}
 @media(min-width:1100px){.record-shell{transform:scale(1.5)}}
+/* ===== 記録画面の登場アニメーション（prototypes/record-animation-final-candidate.html） ===== */
+/* 小カード（正答数・正答率・要確認）は右の遠方から長く滑って定位置で止まる。動かすのは transform と opacity だけ。
+   待機中は opacity だけを 0 にして定位置に置いたままにするので、スマホで IntersectionObserver が見る箱は動かない。
+   滑り出す距離は画面幅の約78%。記録画面全体を拡大する幅では、拡大後の見た目の距離が同じになるよう割り戻す。 */
+.record-screen{overflow-x:hidden;--record-glide-x:78vw}
+@media(min-width:800px){.record-screen{--record-glide-x:65vw}}
+@media(min-width:960px){.record-screen{--record-glide-x:56.5vw}}
+@media(min-width:1100px){.record-screen{--record-glide-x:52vw}}
+.record-glide{opacity:0}
+.record-glide.is-in{animation:record-glide .86s cubic-bezier(.16,.82,.20,1) var(--record-glide-delay,0ms) both}
+@keyframes record-glide{
+  0%{opacity:.04;transform:translate3d(var(--record-glide-x),0,0) scale(.988)}
+  72%{opacity:1;transform:translate3d(-2px,0,0) scale(1.001)}
+  100%{opacity:1;transform:none}
+}
+/* ドーナツは4色とも同時に、それぞれ本来の開始位置から時計回りに伸びる。
+   --record-draw（0→1）を conic-gradient の各色の終端に掛ける。既定値は 1（完成形）なので、
+   アニメーションしない環境や @property 非対応の環境でも最終の見た目になる。 */
+@property --record-draw{syntax:"<number>";inherits:false;initial-value:1}
+.record-donut.is-drawing{animation:record-donut-draw .82s cubic-bezier(.22,.72,.18,1) .08s both}
+.record-donut.is-drawing .record-donut-center{animation:record-donut-center .28s ease .78s both}
+.record-donut.is-waiting{--record-draw:0}
+.record-donut.is-waiting .record-donut-center{opacity:0}
+@keyframes record-donut-draw{from{--record-draw:0}to{--record-draw:1}}
+@keyframes record-donut-center{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .record-glide{opacity:1}
+  .record-glide.is-in,.record-donut.is-drawing,.record-donut.is-drawing .record-donut-center{animation:none}
+}
 /* ===== v53: 語釈帯・見出しの差分ルビ・助動詞の接続・はなまるを見出し語に固定（DESIGN_GLOSS_LAYOUT_2026-09-28） ===== */
 /* 「形は上、意味は下。語についての情報は答えの後」。色はトークンだけで組み、5テーマに対応する。 */
 
@@ -5444,10 +5473,13 @@ function renderRecord(){
   chart.classList.toggle("is-long",String(total).length>=4);
   if(total){
     let cursor=0;
+    const empty=recordStyle.getPropertyValue("--record-empty").trim() || "#e8eef1";
+    // 各色の終端に --record-draw（既定 1）を掛け、開く時のアニメーションで4色を同時に時計回りへ伸ばす。
     const segments=keys.map(key=>{
       const start=cursor;
       cursor+=counts[key]/total*100;
-      return `${colors[key]} ${start}% ${cursor}%`;
+      const drawn=`calc(${start}% + ${cursor-start}% * var(--record-draw))`;
+      return `${colors[key]} ${start}% ${drawn},${empty} ${drawn} ${cursor}%`;
     });
     chart.style.background=`conic-gradient(${segments.join(",")})`;
   }else{
@@ -5840,12 +5872,123 @@ document.getElementById("reviewModal").addEventListener("click",event=>{
   if(event.target===event.currentTarget) closeReviewModal();
 });
 
+// 記録画面を開いた時の登場アニメーション（prototypes/record-animation-final-candidate.html）。
+// 表示内容は renderRecord() が書いた最終値のままで、ここでは見せ方だけを変える。
+let recordMotion=null;
+function stopRecordMotion(){
+  if(!recordMotion) return;
+  recordMotion.observers.forEach(observer=>observer.disconnect());
+  recordMotion.frames.forEach(frame=>cancelAnimationFrame(frame));
+  recordMotion.counters.forEach(counter=>{
+    if(counter.el.textContent===counter.written) counter.el.textContent=counter.text;
+  });
+  recordMotion=null;
+}
+// 数字は 0 から最終値まで、終盤で緩やかに減速しながら数え上げる。
+// 途中で renderRecord() が書き直したら（要確認の絞り込みなど）、その値を優先して止める。
+function prepareRecordNumbers(motion){
+  ["recordPoints","recordBreakdownTotal","recordCorrectCells","recordRecentAccuracy","recordAccuracy"].forEach(id=>{
+    const el=document.getElementById(id);
+    const text=el.textContent;
+    const match=text.match(/^([\d,]+)(%?)$/);
+    if(!match) return;
+    const target=Number(match[1].replace(/,/g,""));
+    const format=value=>(match[1].includes(",") ? formatPoints(value) : String(value))+match[2];
+    const counter={el,text,target,format,written:format(0)};
+    motion.counters.push(counter);
+    el.textContent=counter.written;
+  });
+}
+function countRecordNumbers(motion){
+  motion.counters.forEach((counter,i)=>{
+    const {el,text,target,format}=counter;
+    const startTime=performance.now()+180+i*28;
+    const tick=now=>{
+      if(recordMotion!==motion || el.textContent!==counter.written) return;
+      const p=Math.max(0,Math.min(1,(now-startTime)/780));
+      counter.written=p<1 ? format(Math.round(target*(1-Math.pow(1-p,4)))) : text;
+      el.textContent=counter.written;
+      if(p<1) motion.frames.push(requestAnimationFrame(tick));
+    };
+    motion.frames.push(requestAnimationFrame(tick));
+  });
+}
+function startRecordChart(motion){
+  if(motion.chartPlayed) return;
+  motion.chartPlayed=true;
+  const chart=document.getElementById("recordBreakdownChart");
+  chart.classList.remove("is-waiting");
+  chart.classList.add("is-drawing");
+  countRecordNumbers(motion);
+}
+// 上から下へ、同じ高さなら左から右へ並べて、短い時間差を付ける。
+function staggerRecordGlide(targets,step){
+  const rects=new Map(targets.map(el=>[el,el.getBoundingClientRect()]));
+  targets.slice().sort((a,b)=>{
+    const ar=rects.get(a),br=rects.get(b);
+    return Math.abs(ar.top-br.top)>3 ? ar.top-br.top : ar.left-br.left;
+  }).forEach((el,i)=>{
+    el.style.setProperty("--record-glide-delay",(i*step)+"ms");
+    el.classList.add("is-in");
+  });
+}
+function playRecordMotion(){
+  stopRecordMotion();
+  const screen=document.getElementById("recordScreen");
+  const chart=document.getElementById("recordBreakdownChart");
+  const cards=[...screen.querySelectorAll(".record-overview .record-stat, #recordReview > li")];
+  chart.classList.remove("is-drawing","is-waiting");
+  cards.forEach(card=>{
+    card.classList.remove("is-in");
+    card.style.removeProperty("--record-glide-delay");
+    card.classList.add("record-glide");
+  });
+  const motion={observers:[],frames:[],counters:[],chartPlayed:false};
+  recordMotion=motion;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+    cards.forEach(card=>card.classList.add("is-in"));
+    return;
+  }
+  // 描き始めるまでは、ドーナツを空、中央の累計を非表示、数字を 0 にしておく。
+  chart.classList.add("is-waiting");
+  prepareRecordNumbers(motion);
+  if(matchMedia("(min-width: 768px)").matches){
+    // PC・iPad: 待機状態を1フレーム確実に描いてから、全カードを上から順に流し込む。
+    void screen.offsetWidth;
+    motion.frames.push(requestAnimationFrame(()=>{
+      motion.frames.push(requestAnimationFrame(()=>{
+        if(recordMotion!==motion) return;
+        staggerRecordGlide(cards,70);
+        startRecordChart(motion);
+      }));
+    }));
+    return;
+  }
+  // スマホ: 画面に入ったカードだけを一度だけ流し込む。待機中のカードは opacity だけを 0 にして
+  // 定位置に置いてあるので、監視している箱は右へ退避しておらず、そのまま固定の枠として判定できる。
+  const options={threshold:.05,rootMargin:"0px 0px -3% 0px"};
+  const cardObserver=new IntersectionObserver((entries,observer)=>{
+    const visible=entries.filter(entry=>entry.isIntersecting).map(entry=>entry.target);
+    visible.forEach(card=>observer.unobserve(card));
+    staggerRecordGlide(visible,75);
+  },options);
+  cards.forEach(card=>cardObserver.observe(card));
+  const chartObserver=new IntersectionObserver((entries,observer)=>{
+    if(!entries.some(entry=>entry.isIntersecting)) return;
+    observer.disconnect();
+    startRecordChart(motion);
+  },options);
+  chartObserver.observe(document.querySelector("#recordScreen .record-overview"));
+  motion.observers.push(cardObserver,chartObserver);
+}
 function openRecord(){
   renderRecord();
   document.getElementById("recordScreen").hidden=false;
+  playRecordMotion();
 }
 function closeRecord(){
   closeReviewModal();
+  stopRecordMotion();
   document.getElementById("recordScreen").hidden=true;
 }
 function itemAttemptCounts(){
