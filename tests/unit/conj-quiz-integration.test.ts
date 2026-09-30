@@ -26,7 +26,9 @@ test('quiz: master includes current drill kinds and audited representative type 
   assert.ok(master.length>40);
 });
 test('quiz: only published classical texts become practice, with source and verified form',()=>{
-  const practice=buildMasterPractice([...items,...adjvItems],{publicAdjvRecords,auxExampleRecords});
+  const existing=new Set(items.filter((e:any)=>e.pos==='adjv').map((e:any)=>e.lemma));
+  const runtimeItems=[...items,...adjvItems.filter((e:any)=>!existing.has(e.lemma))];
+  const practice=buildMasterPractice(runtimeItems,{publicAdjvRecords,auxExampleRecords});
   assert.equal(practice.type.length,180); // 102 anthology headings + 64 cleared public texts + 14 anthology auxiliaries
   assert.equal(practice.form.length,124); // 46 unambiguous headings + 64 explicitly audited + 14 audited auxiliaries
   for(const mode of ['type','form'] as const){
@@ -53,6 +55,7 @@ test('quiz: only published classical texts become practice, with source and veri
   assert.notEqual(pickMasterPractice(practice.type,prior.itemId,()=>0).itemId,prior.itemId);
   assert.ok(!practice.form.some((q:any)=>q.itemId==='naku'),'鳴く is ambiguous between 終止 and 連体');
   assert.ok(practice.form.some((q:any)=>q.itemId==='inoru' && q.form==='未然形'));
+  assert.ok(practice.form.some((q:any)=>q.exampleId==='master:form:public-adjv:public-adjv-019' && q.itemId==='itadura' && q.form==='已然形'));
   const blocked=buildMasterPractice(items,{
     publicAdjvRecords:[{...publicAdjvRecords[0],exampleEnabledPublic:false}],
     auxExampleRecords:[auxExampleRecords.find((r:any)=>r.provenance?.corpus==='CHJ')]

@@ -69,8 +69,14 @@ export function buildMasterPractice(items,{publicAdjvRecords=[],auxExampleRecord
   for(const record of publicAdjvRecords){
     if(record?.exampleEnabledPublic!==true || record.rightsVerified!==true || record.targetVerified!==true || record.excerptReviewed!==true)continue;
     if(!record.sourceExampleId || !record.sourceLabel || !record.sourceUrl || !record.sourceLicense || !record.work)continue;
-    const item=byId.get(record.lemmaId);
-    if(item?.pos!=='adjv' || !item.sourceExampleIds?.includes(record.sourceExampleId))continue;
+    // The existing drill already owns a few lemma headings, so the runtime
+    // intentionally skips duplicate lemma IDs. Match that heading by its
+    // unique lemma when the audited runtime ID was not added.
+    const sameLemma=items.filter(candidate=>candidate.pos==='adjv' && candidate.lemma===record.lemma);
+    const item=byId.get(record.lemmaId)??(sameLemma.length===1?sameLemma[0]:null);
+    if(item?.pos!=='adjv' || (item.sourceExampleIds
+      ? !item.sourceExampleIds.includes(record.sourceExampleId)
+      : item.lemma!==record.lemma))continue;
     const formIndex=FORMS.indexOf(record.form);
     const values=rows(item)[formIndex]||[];
     const tableValue=values.filter(value=>record.publicTarget?.endsWith(value)).sort((a,b)=>b.length-a.length)[0];
