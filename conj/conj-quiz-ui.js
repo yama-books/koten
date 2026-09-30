@@ -1,13 +1,13 @@
 // Thin bridge to the classic index.html state, renderer and record storage.
 let quizEngine=null, quizAdapter=null, quizState=null, quizRecords=[], quizMaster=[], quizChoices=[];
 let quizLoadFailed=false, quizRowChoices=[], quizPreviousMode='table', quizExamplePreference=true;
-let quizMasterPractice={form:[],type:[]}, quizAutoScrolled=false;
+let quizMasterPractice={form:[],type:[]}, quizAutoScrolled=false, quizResolveItemId=null;
 const quizSettings={choiceScope:'auto',supportLevel:0,rowMode:'omitted'};
 function isIdentificationMode(){return document.getElementById('quizMode').value!=='table';}
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261001-8'),import('./conj-quiz-adapter.mjs?v=20261001-8')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261001-9'),import('./conj-quiz-adapter.mjs?v=20261001-9')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
@@ -18,6 +18,13 @@ async function initQuizUI(){
     renderSourceCredits([...sourceCreditArgs.publicRecords,...publicAdjvRecords],sourceCreditArgs.chj);
     quizMasterPractice=quizAdapter.buildMasterPractice(items,{publicAdjvRecords,auxExampleRecords});
     quizRecords=await quizAdapter.loadQuizRecords(items);
+    // Name each example's drill item, then move old answers into the running totals once.
+    const itemIds=new Map([...quizMasterPractice.form,...quizMasterPractice.type,...quizRecords].map(e=>[e.exampleId,e.itemId]));
+    quizResolveItemId=exampleId=>itemIds.get(exampleId)??null;
+    const pending=!stats.quiz?.totals;
+    stats.quiz=quizAdapter.normalizeHistory(stats.quiz,{resolveItemId:quizResolveItemId});
+    if(pending){try{localStorage.setItem(RECORD_STORAGE_KEY,JSON.stringify(stats));}catch(_error){}}
+    updateScore();
     try{
       const saved=JSON.parse(localStorage.getItem('conjQuizPreferences')||'{}');
       if(['auto','near','part_of_speech','cross_pos','all'].includes(saved.choiceScope)) quizSettings.choiceScope=saved.choiceScope==='near'?'auto':saved.choiceScope;
@@ -214,8 +221,14 @@ function gradeQuiz(){
   const event=quizEngine.buildLearningEvent({...quizState,evaluation,responseTimeMs:Math.round(performance.now()-quizState.startedAt)});
   // Answer feedback shows the full table without raising maxHintLevel or hintCount.
   quizState.evaluation=evaluation;quizState.answered=true;answered=true;
-  stats.quiz=quizAdapter.recordLearningEvent(stats.quiz,event);
+  const itemId=quizState.example.itemId??quizResolveItemId?.(quizState.example.exampleId)??null;
+  // Identification answers count toward points and the recent accuracy like one table cell.
+  const before=stats.quiz?.totals?.byItem?.[itemId]||{c:0,n:0};
+  stats.points+=pointsForCell(evaluation.correct,3,{c:before.c,w:before.n-before.c});
+  stats.recent=(stats.recent+(evaluation.correct?'1':'0')).slice(-RECENT_WINDOW);
+  stats.quiz=quizAdapter.recordLearningEvent(stats.quiz,{...event,itemId},{resolveItemId:quizResolveItemId});
   try{localStorage.setItem(RECORD_STORAGE_KEY,JSON.stringify(stats));}catch(_error){setSettingsRecordStatus('記録を保存できませんでした。書き出して保管してください。');}
+  updateScore();
   document.querySelector('main.card').classList.add('is-answered');
   renderKindText(document.getElementById('kind'),current);
   document.getElementById('kind').classList.add('kind-answer-badge');
@@ -241,32 +254,4 @@ function revealQuizActions(){
     quizAutoScrolled=true;
     window.scrollBy({top:over,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
   }));
-}
-function renderQuizRecord(){
-  const box=document.getElementById('quizRecordSummary');box.replaceChildren();
-  const history=quizAdapter?.normalizeHistory(stats.quiz);
-  const el=(tag,className,text)=>{const e=document.createElement(tag);if(className)e.className=className;if(text!==undefined)e.textContent=text;return e;};
-  const count=(value,total)=>{const td=el('td');td.append(el('b','',String(value)),el('small','',total===undefined?'問':'/'+total+'問'));return td;};
-  // Same tile language as the neighbouring stats: muted headings, tabular figures.
-  const table=el('table','quiz-record-table');
-  const head=el('tr');for(const label of ['','正解','表なし正解','ヒント使用'])head.append(el('th','',label));
-  const thead=el('thead');thead.append(head);const tbody=el('tbody');
-  for(const mode of ['form','type']){
-    const c=history?.byMode[mode] || {total:0,correct:0,independent:0,hintUsed:0};
-    const tr=el('tr');const th=el('th','',mode==='form'?'活用形':'活用の種類');th.scope='row';
-    tr.append(th,count(c.correct,c.total),count(c.independent),count(c.hintUsed));tbody.append(tr);
-  }
-  table.append(thead,tbody);box.append(table);
-  if(quizEngine?.quizMasteryStage){
-    const stages=['基礎','練習','発展','全候補'];
-    const p=el('p','quiz-record-stage');p.append(el('span','quiz-record-caption','活用種類の進み具合'));
-    for(const [label,pos] of [['用言','動詞'],['助動詞','助動詞']]){
-      const chip=el('span','quiz-record-chip');chip.append(el('small','',label),el('b','',stages[quizEngine.quizMasteryStage(history,pos,'type')]));p.append(chip);
-    }
-    box.append(p);
-  }
-  const last=history?.events.at(-1);
-  if(last){
-    box.append(el('p','quiz-record-last','直近：'+(last.correct?'正解':'要確認')+' / '+['表なし','部分表','全表'][last.maxHintLevel]+(last.typeCorrect!==null?' / 型 '+(last.typeCorrect?'正解':'要確認'):'')+(last.rowCorrect!==null?' / 行 '+(last.rowCorrect?'正解':'要確認'):'')));
-  }
 }

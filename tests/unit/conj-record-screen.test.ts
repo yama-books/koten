@@ -14,13 +14,13 @@ test('conj: mobile answer editor avoids iOS zoom and focuses synchronously', () 
 test('conj: header and record screen use cumulative correct wording', () => {
   assert.match(html, /class="score-label">累計正答<\/span>/);
   assert.match(html, /class="score-value" id="scoreValue">0<\/strong>/);
-  assert.match(html, /value\.textContent=String\(stats\.correctCells\)/);
+  assert.match(html, /const correct=recordTotals\(\)\.correct;\s*value\.textContent=String\(correct\)/);
   assert.match(html, /<dt>正答数<small>\(累計\)<\/small><\/dt>/);
 });
 
 test('conj: cumulative correct count uses a text-only beat after an increase', () => {
   assert.match(html, /let scoreAnimationReady=false/);
-  assert.match(html, /stats\.correctCells>previous/);
+  assert.match(html, /scoreAnimationReady && correct>previous/);
   assert.match(html, /score\.classList\.add\("is-updating"\)/);
   assert.match(html, /@keyframes score-beat/);
   assert.doesNotMatch(html, /score-ripple|score-splash/);
@@ -31,7 +31,7 @@ test('conj: cumulative correct label and value stay on two lines on mobile', () 
   assert.match(html, /\.header-record \.score\{\s*display:flex;\s*flex-direction:column;\s*align-items:center;/);
 });
 
-test('conj: record screen keeps summary, legend, and review cards readable across widths', () => {
+test('conj: record screen keeps summary, legend, rings and bars readable across widths', () => {
   const css = html.match(/\/\* ===== v46: record layout readability guard ===== \*\/([\s\S]*?)<\/style>/);
   assert.ok(css);
   const v46 = css[1];
@@ -58,15 +58,8 @@ test('conj: record screen keeps summary, legend, and review cards readable acros
   assert.match(rule('.record-overview .record-breakdown-panel'), /grid-template-columns:96px minmax\(0,1fr\);/);
   assert.doesNotMatch(rule('.record-overview .record-breakdown-panel'), /max-content/);
   assert.match(v46, /@media\(max-width:700px\)\{[\s\S]*?\.record-overview \.record-breakdown-panel\{[\s\S]*?minmax\(0,1fr\)/);
-  assert.match(rule('.review-kind-line strong'), /white-space:nowrap;/);
-
-  // v49: 要確認 cards stay two-per-row down to real phone widths; only screens narrower than
-  // 360px (well below any current phone) fall back to one-per-row to avoid clipped text
-  assert.doesNotMatch(html, /@media\(max-width:460px\)\{\s*\.record-review\{grid-template-columns:1fr\}/);
-  assert.doesNotMatch(html, /@media\(max-width:460px\)\{\s*\.record-review\{\s*grid-template-columns:1fr;/);
-  assert.match(v46, /\/\* ===== v49: keep 要確認 cards two-per-row down to real phone widths, ===== \*\//);
-  assert.match(v46, /@media\(max-width:359px\)\{\s*\.record-review\{grid-template-columns:1fr\}\s*\.review-toggle\{grid-template-columns:56px minmax\(0,1fr\)\}\s*\}/);
-  assert.match(html, /\.record-review\{\s*grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
+  // 旧「要確認」カードの一覧は、活用の種類の円に置き換えた。
+  assert.doesNotMatch(html, /\.record-review\{|\.review-toggle\{|id="recordReview"/);
 
   for (const selector of [
     '.record-overview .record-stat dt',
@@ -75,14 +68,16 @@ test('conj: record screen keeps summary, legend, and review cards readable acros
     '.breakdown-label',
     '.record-breakdown strong',
     '.review-filters button',
-    '.record-empty',
+    '.kind-ring-label',
+    '.form-bar',
   ]) assert.ok(fontSize(selector) >= 12, selector);
 
   for (const selector of [
     '.record-donut-center span',
-    '.review-rate span',
-    '.review-copy small',
-    '.review-pos-badge',
+    '.kind-ring-label small',
+    '.kind-ring-count',
+    '.kind-rings-rule',
+    '.form-bar-value small',
   ]) assert.ok(fontSize(selector) >= 10, selector);
 
   assert.match(html, /<span class="record-donut-caption">累計<\/span>/);
@@ -186,8 +181,9 @@ test('conj: attempted count and donut share the same per-POS total', () => {
   assert.match(html, /byPos:reconcilePosCounts\(storedPosCounts,attemptedTotal,slots\)/);
 });
 
-test('conj: review defaults to verbs and supports full-table modal plus POS filters', () => {
-  assert.match(html, /const reviewPosFilters=new Set\(\["verb"\]\)/);
+test('conj: kind rings default to verbs, switch by POS, and open the full-table modal', () => {
+  assert.match(html, /let recordRingPos="verb";/);
+  assert.match(html, /recordRingPos=button\.dataset\.reviewPos;\s*renderRecord\(\);\s*redrawKindRings\(\);/);
   assert.match(html, /data-review-pos="verb" aria-pressed="true"/);
   assert.match(html, /data-review-pos="adj" aria-pressed="false"/);
   assert.match(html, /role="dialog" aria-modal="true"/);
@@ -220,20 +216,19 @@ test('conj: review defaults to verbs and supports full-table modal plus POS filt
 
 test('conj: review randomly chooses a word in the selected group and shows its example', () => {
   assert.match(html, /exampleItems:\[\]/);
-  assert.match(html, /prev\.exampleItems\.push\(item\)/);
+  assert.match(html, /group\.exampleItems\.push\(item\)/);
   assert.match(html, /function randomReviewItem\(candidates\)/);
   assert.match(html, /Math\.floor\(Math\.random\(\)\*candidates\.length\)/);
-  assert.match(html, /openReviewModal\(randomReviewItem\(entry\.exampleItems\)\)/);
+  assert.match(html, /openReviewModal\(randomReviewItem\(ring\.exampleItems\)\)/);
   assert.match(html, /text\.innerHTML=highlight\(compactExample,compactTarget,item\.occurrence\)/);
 });
 
-test('conj: review uses error rate after three answers and groups auxiliaries by word', () => {
-  assert.match(html, /const MIN_REVIEW_ATTEMPTS=3/);
-  assert.match(html, /entry\.total>=MIN_REVIEW_ATTEMPTS && entry\.wrong>0/);
-  assert.match(html, /誤答率/);
-  assert.match(html, /<small>誤答 \$\{entry\.wrong\}\/\$\{entry\.total\}<\/small>/);
-  assert.match(html, /item\.pos==="aux" \? item\.pos\+":"\+item\.id/);
-  assert.match(html, /if\(item\.pos!=="aux"\) return broadKind\(item\.kind\)/);
+test('conj: kind rings keep textbook order, group auxiliaries by word, and mark weak ones after three answers', () => {
+  assert.match(html, /const MIN_WEAK_ATTEMPTS=3;/);
+  assert.match(html, /const groupKey=pos==="aux" \? item\.id : broadKind\(item\.kind\);/);
+  assert.match(html, /const measured=rings\.filter\(ring=>ring\.n>=MIN_WEAK_ATTEMPTS\);/);
+  assert.match(html, /stats\.recent=\(stats\.recent\+\(ok\?"1":"0"\)\)\.slice\(-RECENT_WINDOW\);/);
+  assert.match(html, /stats\.recent\.length \? Math\.round\(\(recentCorrect\/stats\.recent\.length\)\*100\)\+"%" : "—"/);
 });
 
 test('conj: every runtime 形容動詞 heading resolves to kana, leaving kanji for the aid line', () => {
@@ -499,8 +494,8 @@ test('conj: work3 theme system exposes 5 named color schemes, defaults to coffee
   assert.match(cssBody, /body\{background:[\s\S]*?var\(--page-glow-primary\)[\s\S]*?var\(--page-glow-secondary\)[\s\S]*?var\(--bg\)/);
   assert.match(cssBody, /td\.editable:hover\{background:var\(--editable-hover\)\}/);
   assert.match(cssBody, /td\.selected\{background:var\(--editable-selected\)\}/);
-  assert.match(cssBody, /\.review-rate\{[\s\S]*?border-color:var\(--review-error-border\);[\s\S]*?background:var\(--review-error-bg\);/);
-  assert.match(cssBody, /\.review-toggle:hover,[\s\S]*?\.review-toggle:focus-visible\{background:var\(--review-hover-bg\)\}/);
+  assert.match(cssBody, /\.kind-ring\.is-weak\{border-color:var\(--review-error-border\);background:var\(--review-error-bg\)\}/);
+  assert.match(cssBody, /\.kind-ring:hover\{background:var\(--review-hover-bg\)\}/);
   assert.match(cssBody, /\.record-screen\{[\s\S]*?var\(--record-glow-primary\)[\s\S]*?var\(--record-glow-secondary\)[\s\S]*?var\(--bg\)/);
 });
 
@@ -761,29 +756,44 @@ test('conj: donut center shows the cumulative total; stats show 正答数 (累�
   assert.match(html, /stats\.recent\.length \? Math\.round\(\(recentCorrect\/stats\.recent\.length\)\*100\)\+"%" : "—"/);
 });
 
-test('conj: review card qualifiers use half-width parens and wrap as a unit', () => {
-  const source = html.match(/function reviewKindLineHtml\(badge,label\)\{[\s\S]*?\n\}/)?.[0];
-  assert.ok(source);
-  const reviewKindLineHtml = new Function(`${source}; return reviewKindLineHtml;`)();
-  assert.equal(
-    reviewKindLineHtml('<b></b>', 'なり（断定）'),
-    '<span class="review-kind-head"><b></b><strong>なり</strong></span><span class="review-label-note">(断定)</span>',
-  );
-  assert.equal(reviewKindLineHtml('<b></b>', 'たり'), '<span class="review-kind-head"><b></b><strong>たり</strong></span>');
-  assert.match(html, /\.review-kind-line\{\s*flex-wrap:wrap;/);
-  assert.match(html, /\.review-label-note\{[\s\S]*?white-space:nowrap;/);
+test('conj: mastery is accuracy times coverage, and weak rings are the lowest measured ones', () => {
+  const block = html.match(/\/\/ 判別モードの累計（stats\.quiz\.totals）[\s\S]*?\n  return rings;\n\}/)?.[0];
+  assert.ok(block);
+  const make = (items: unknown[], stats: unknown) => new Function('items', 'stats', `
+    function broadKind(kind){
+      const regular=String(kind).match(/^(.+?)行(四段|上二段|下二段|上一段|下一段)活用$/);
+      return regular ? regular[2]+"活用" : kind;
+    }
+    ${block}
+    return {recordTotals,itemRecordTotals,masteryOf,kindRings,kindRingLabel};`)(items, stats);
+  const row = ['a', 'b', 'c', 'd', 'e', 'f'].map((x) => [x]);
+  const items = [
+    { id: 'v1', pos: 'verb', kind: 'カ行四段活用', forms: row },
+    { id: 'v2', pos: 'verb', kind: 'ラ行下二段活用', forms: row },
+    { id: 'v3', pos: 'verb', kind: 'ハ行上二段活用', forms: row },
+    { id: 'v4', pos: 'verb', kind: 'マ行上一段活用', forms: row },
+    { id: 't1', pos: 'aux', kind: '形容動詞型', lemma: 'たり', forms: row },
+  ];
+  const stats = {
+    correctCells: 6, gradedCells: 8,
+    slots: { 'v1:main:0': { c: 3, w: 1 }, 'v1:main:1': { c: 1, w: 0 }, 'v2:main:0': { c: 1, w: 2 }, 'v3:main:5': { c: 1, w: 0 } },
+    quiz: { totals: { correct: 2, total: 2, byPos: {}, byForm: {}, byItem: { v1: { c: 1, n: 1 }, v3: { c: 1, n: 1 } }, byCell: { 'v1:2': { c: 1, n: 1 } } } },
+  };
+  const api = make(items, stats);
+  assert.deepEqual(api.recordTotals(), { correct: 8, total: 10 });
+  // 四段 counts table and identification answers: 5/6 correct, 3 of 6 cells tried -> 42%
+  const rings = api.kindRings('verb', api.itemRecordTotals());
+  assert.deepEqual(rings.map((r: { label: string }) => r.label), ['四段', '上一段', '上二段', '下二段']);
+  assert.deepEqual(rings.map((r: { value: number }) => r.value), [42, 0, 17, 6]);
+  // only rings with three or more answers can be weak; 下二段 is the lower of 四段 and 下二段
+  assert.deepEqual(rings.map((r: { weak?: boolean }) => Boolean(r.weak)), [false, false, false, true]);
+  assert.deepEqual(api.kindRingLabel(items[4]), { label: 'たり', note: '断定' });
 });
 
-test('conj: the last 要確認 card keeps its bottom border', () => {
-  assert.doesNotMatch(html, /\.record-review li:last-child\{/);
-});
-
-test('conj: 要確認 lists only attempted items and never untouched ones', () => {
-  assert.doesNotMatch(html, /未着手も表示します/);
-  assert.doesNotMatch(html, /まだ取り組んでいません/);
-  assert.doesNotMatch(html, /const untouched=/);
-  assert.match(html, /return all\.filter\(entry=>entry\.total>=MIN_REVIEW_ATTEMPTS && entry\.wrong>0\)\.slice\(0,6\);/);
-  assert.match(html, /\.review-kind-head\{\s*display:flex;\s*flex-wrap:wrap;/);
+test('conj: untouched kind rings are dashed and marked 未, not hidden', () => {
+  assert.match(html, /button\.className="kind-ring"\+\(ring\.n \? "" : " is-untouched"\)/);
+  assert.match(html, /\.kind-ring\.is-untouched \.kind-ring-meter::after\{[^}]*border:1\.5px dashed var\(--line-strong\)/);
+  assert.doesNotMatch(html, /\.kind-ring\.is-thin/);
 });
 
 test('conj: 正答数 value is centered in the space right of its label', () => {

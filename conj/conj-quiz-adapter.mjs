@@ -1,4 +1,4 @@
-import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs?v=20261001-8';
+import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs?v=20261001-9';
 
 const POS = { verb:'動詞', adj:'形容詞', adjv:'形容動詞', aux:'助動詞' };
 const POS_KEYS = { verb:'verb', adjective:'adj', adjectivalVerb:'adjv', adjectival_noun:'adjv', auxiliary:'aux', ...Object.fromEntries(Object.entries(POS).map(([k,v])=>[v,k])), adj:'adj', adjv:'adjv', aux:'aux' };
@@ -142,7 +142,7 @@ export function resolveQuizRecords(metadata, quotations, items) {
     }
     const occurrence = record.targetOccurrence ?? text.targetOccurrence ?? (positions.length === 1 ? 0 : null);
     if (!Number.isInteger(occurrence) || occurrence < 0 || occurrence >= positions.length) continue;
-    result.push({...normalized, partOfSpeech:POS[pos], quotationExcerpt:excerpt, originalTarget:target,
+    result.push({...normalized, itemId:item.id, partOfSpeech:POS[pos], quotationExcerpt:excerpt, originalTarget:target,
       targetOccurrence:occurrence, source:typeof text.source === 'string' ? text.source : '',
       tableItem:{...item,id:'quiz:'+record.exampleId,lemma:record.lemma,example:excerpt,target,occurrence,poem:text.poem ?? null,source:text.source ?? '',exampleAvailable:true},
     });
@@ -164,10 +164,49 @@ export async function loadQuizRecords(items, fetcher = fetch) {
 const number = value => Number.isFinite(Number(value)) ? Math.max(0,Number(value)) : 0;
 const bool = value => typeof value === 'boolean' ? value : null;
 const boundedText = value => typeof value === 'string' ? value.slice(0,200) : null;
-export function normalizeHistory(raw) {
+// Running totals are kept apart from the capped event log so that the record
+// screen can count every answer ever given. Cells are itemId:formIndex, the
+// same cell the table drill records as itemId:row:formIndex.
+const POS_FROM_LABEL = Object.fromEntries(Object.entries(POS).map(([k,v])=>[v,k]));
+const emptyTotals = () => ({correct:0,total:0,byPos:{verb:0,adj:0,adjv:0,aux:0},
+  byForm:Object.fromEntries(FORMS.map(form=>[form,{c:0,n:0}])),byItem:{},byCell:{}});
+const countPair = value => {
+  const n=number(value?.n);
+  return {c:Math.min(n,number(value?.c)),n};
+};
+const boundedMap = (source,validKey) => Object.fromEntries(Object.entries(source && typeof source === 'object' ? source : {})
+  .filter(([key])=>typeof key === 'string' && key.length <= 200 && validKey(key)).map(([key,value])=>[key,countPair(value)]).filter(([,value])=>value.n>0));
+function normalizeTotals(raw) {
+  const totals=emptyTotals();
+  totals.total=number(raw.total);
+  totals.correct=Math.min(totals.total,number(raw.correct));
+  for(const pos of Object.keys(totals.byPos))totals.byPos[pos]=number(raw.byPos?.[pos]);
+  for(const form of FORMS)totals.byForm[form]=countPair(raw.byForm?.[form]);
+  totals.byItem=boundedMap(raw.byItem,()=>true);
+  totals.byCell=boundedMap(raw.byCell,key=>/^.+:[0-5]$/.test(key));
+  return totals;
+}
+function addToTotals(totals,entry) {
+  const add=(map,key)=>{const pair=map[key]||(map[key]={c:0,n:0});pair.n++;if(entry.correct)pair.c++;};
+  totals.total++; if(entry.correct) totals.correct++;
+  const pos=POS_FROM_LABEL[entry.partOfSpeech];
+  if(pos) totals.byPos[pos]++;
+  const formIndex=FORMS.indexOf(entry.form);
+  // Only a form question grades the form; a type question with a known form
+  // still marks that cell as tried.
+  if(entry.quizMode === 'form' && formIndex >= 0) add(totals.byForm,entry.form);
+  if(entry.itemId){
+    add(totals.byItem,entry.itemId);
+    if(formIndex >= 0) add(totals.byCell,entry.itemId+':'+formIndex);
+  }
+}
+// Old records hold only the event log. Their totals are rebuilt once, from the
+// events that remain, when a resolver can name each example's drill item.
+// Until then totals stay null so that the migration is not done without items.
+export function normalizeHistory(raw,{resolveItemId=null}={}) {
   const history = raw && typeof raw === 'object' ? raw : {};
   const events = (Array.isArray(history.events) ? history.events : []).filter(e=>e && ['form','type'].includes(e.quizMode) && typeof e.exampleId === 'string').slice(-1000).map(e=>({
-    exampleId:boundedText(e.exampleId),quizMode:e.quizMode,partOfSpeech:boundedText(e.partOfSpeech),
+    exampleId:boundedText(e.exampleId),itemId:boundedText(e.itemId),quizMode:e.quizMode,partOfSpeech:boundedText(e.partOfSpeech),
     conjugationType:boundedText(e.conjugationType),form:boundedText(e.form),
     choiceScope:['near','part_of_speech','cross_pos','all'].includes(e.choiceScope) ? e.choiceScope : 'near',
     rowMode:['omitted','select','input'].includes(e.rowMode) ? e.rowMode : 'omitted',
@@ -186,16 +225,22 @@ export function normalizeHistory(raw) {
     const total = count('total');
     return [mode,{total,correct:Math.min(total,count('correct')),independent:Math.min(total,count('independent')),hintUsed:Math.min(total,count('hintUsed'))}];
   }));
-  return {version:1,events,byMode};
+  let totals = history.totals && typeof history.totals === 'object' ? normalizeTotals(history.totals) : null;
+  if (!totals && (!events.length || typeof resolveItemId === 'function')) {
+    totals = emptyTotals();
+    for (const e of events) addToTotals(totals,{...e,itemId:e.itemId ?? boundedText(resolveItemId?.(e.exampleId) ?? null)});
+  }
+  return {version:1,events,byMode,totals};
 }
-export function recordLearningEvent(history,event) {
-  const result=normalizeHistory(history);
+export function recordLearningEvent(history,event,{resolveItemId=null}={}) {
+  const result=normalizeHistory(history,{resolveItemId:resolveItemId ?? (()=>null)});
   const entry=normalizeHistory({events:[event]}).events[0];
   if (!entry) return result;
   const count=result.byMode[entry.quizMode];
   count.total++; if(entry.correct) count.correct++;
   if(entry.correct && entry.maxHintLevel === 0) count.independent++;
   if(entry.hintCount > 0) count.hintUsed++;
+  addToTotals(result.totals,entry);
   result.events=[...result.events,entry].slice(-1000);
   return result;
 }

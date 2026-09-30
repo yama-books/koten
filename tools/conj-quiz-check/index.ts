@@ -342,7 +342,20 @@ try{
     assert.equal(await page.evaluate('JSON.stringify(stats)'),saved);
     await page.reload();await page.waitForFunction("!document.getElementById('quizMode').disabled");assert.equal(await page.evaluate('JSON.stringify(stats)'),saved);
     await chooseMode(page,'table');assert.equal(await page.locator('#quizAnswerPanel').isHidden(),true);
-    await page.locator('#openRecord').click();assert.match(await page.locator('#quizRecordSummary').innerText(),/表なし正解/);
+    // Identification answers are counted in the record screen (running totals, not the 1000-event log).
+    const record=await page.evaluate(`({events:stats.quiz.events.length,totals:stats.quiz.totals.total,correct:stats.correctCells+stats.quiz.totals.correct,
+      donut:["verb","adj","adjv","aux"].reduce((sum,key)=>sum+(stats.byPos[key]||0)+(stats.quiz.totals.byPos[key]||0),0)})`) as any;
+    assert.ok(record.totals>0 && record.totals===record.events,'every identification answer enters the running totals');
+    assert.equal(await page.locator('#scoreValue').innerText(),String(record.correct));
+    await page.locator('#openRecord').click();
+    await page.waitForFunction(`document.getElementById('recordCorrectCells').textContent===${JSON.stringify(String(record.correct))}`);
+    assert.equal(await page.locator('#recordBreakdownTotal').innerText(),String(record.donut));
+    assert.equal(await page.locator('#quizRecordSummary').count(),0,'the separate identification table is retired');
+    assert.equal(await page.locator('#formBars li').count(),6);assert.ok(await page.locator('#kindRings li').count()>0);
+    // The learner must never pan the record screen sideways. (WebKit counts the scaled shell of
+    // the tablet/PC layout in scrollWidth, so the screen clips it with overflow-x:hidden.)
+    assert.ok(await page.evaluate(`(s=>getComputedStyle(s).overflowX==='hidden' || s.scrollWidth<=s.clientWidth)(document.getElementById('recordScreen'))
+      && document.documentElement.scrollWidth<=innerWidth`),`${viewport.width}x${viewport.height} record screen scrolls sideways`);
     assert.deepEqual(errors,[],`${viewport.width} page errors`);await context.close();
     console.log(`checked ${viewport.width}x${viewport.height}: ${cases} cases`);
   }
