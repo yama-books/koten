@@ -1,10 +1,39 @@
-import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs';
+import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs?v=20260930-3';
 
 const POS = { verb:'動詞', adj:'形容詞', adjv:'形容動詞', aux:'助動詞' };
 const POS_KEYS = { verb:'verb', adjective:'adj', adjectivalVerb:'adjv', adjectival_noun:'adjv', auxiliary:'aux', ...Object.fromEntries(Object.entries(POS).map(([k,v])=>[v,k])), adj:'adj', adjv:'adjv', aux:'aux' };
 export function masterFromItems(items) {
   return buildTypeCatalog(items.map(item=>({conjugationType:item.kind,partOfSpeech:POS[item.pos]})))
     .map(entry=>({...entry,conjugationType:entry.canonical}));
+}
+
+// These questions use only the already-published conjugation table. They are
+// separate from the quotation bank and cannot promote a held quotation.
+export function buildMasterPractice(items) {
+  const result={form:[],type:[]};
+  for(const item of items){
+    if(!item?.id || !item.kind || !POS[item.pos] || !Array.isArray(item.forms) || item.forms.length!==6)continue;
+    const {example,target,poem,...tableData}=item;
+    const tableItem={...tableData,example:'',target:'',poem:null,source:'',occurrence:0,exampleAvailable:false};
+    const base={origin:'master',itemId:item.id,partOfSpeech:POS[item.pos],lemma:item.lemma,
+      conjugationType:item.kind,bucket:'standard',tableItem};
+    result.type.push({...base,exampleId:'master:type:'+item.id,form:null});
+    const rows=item.forms.map((main,i)=>[...(Array.isArray(main)?main:[]),...(Array.isArray(item.forms2?.[i])?item.forms2[i]:[])]);
+    rows.forEach((values,i)=>values.forEach((value,j)=>{
+      if(typeof value!=='string' || !value.trim() || rows.some((row,k)=>k!==i && row.includes(value)))return;
+      result.form.push({...base,exampleId:'master:form:'+item.id+':'+i+':'+j,form:FORMS[i],tableValue:value});
+    }));
+  }
+  return result;
+}
+
+export function pickMasterPractice(records,lastItemId=null,rng=Math.random) {
+  if(!records.length)return null;
+  const ids=[...new Set(records.map(record=>record.itemId))];
+  const choices=ids.length>1?ids.filter(id=>id!==lastItemId):ids;
+  const itemId=choices[Math.min(choices.length-1,Math.floor(rng()*choices.length))];
+  const forms=records.filter(record=>record.itemId===itemId);
+  return forms[Math.min(forms.length-1,Math.floor(rng()*forms.length))];
 }
 
 // Metadata owns the public gates. A quotation payload cannot promote a held record.

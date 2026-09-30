@@ -43,6 +43,8 @@
 .card.is-quiz #kind:not(.kind-answer-badge){visibility:hidden}
 .card.is-quiz #gloss{display:none!important}
 .card.is-quiz #tablePanel[data-support="hidden"]{visibility:hidden;pointer-events:none}
+.card.is-quiz.master-practice #tablePanel[data-support="hidden"]{display:none}
+.card.is-quiz.master-practice:has(#tablePanel[data-support="hidden"]) #quizAnswerPanel{align-self:start}
 .card.is-quiz #tablePanel .quiz-masked td>*{visibility:hidden}
 .card.is-quiz #tablePanel .quiz-masked td{position:relative}
 .card.is-quiz #tablePanel .quiz-masked td::after{content:"？";position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:14px}

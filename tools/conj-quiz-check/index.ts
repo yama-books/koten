@@ -44,7 +44,7 @@ const viewports=[{width:360,height:640},{width:375,height:667},{width:375,height
 const themes=['coffee','matcha','indigo','sumi','sakura'];
 const selectedViewports=process.argv.includes('--smoke')?viewports.slice(0,1):viewports;
 const expectedCases=selectedViewports.length*themes.length*2*4;
-const failures:string[]=[];let cases=0;
+const failures:string[]=[];let cases=0,masterCases=0;
 // Windows WebKit's full-page capture can stall; geometry/interaction checks still run.
 const output=process.argv.includes('--webkit')?undefined:process.env.CONJ_QUIZ_ARTIFACT_DIR;
 async function chooseMode(page:any,mode:string){
@@ -58,23 +58,86 @@ async function chooseMode(page:any,mode:string){
   if(await page.locator('#openQuizModes').isVisible())assert.match(await page.locator('#openQuizModes').innerText(),{table:/活用表/,form:/活用形/,type:/活用種類/}[mode]);
 }
 try{
-  // Real data is still held; returning to the drill must clear the empty state.
-  const empty=await browser.newPage();await empty.goto(`http://127.0.0.1:${port}/conj/`);
+  // Real quotations are held; the public table still supplies usable practice.
+  const empty=await browser.newPage({viewport:{width:375,height:812}});await empty.goto(`http://127.0.0.1:${port}/conj/`);
   await empty.waitForFunction("!document.getElementById('quizMode').disabled");
   assert.equal(await empty.locator('.quiz-mode-tabs button').count(),3,'all modes exist in the main card');
   assert.ok(await empty.locator('.quiz-mode-tabs').isVisible() || await empty.locator('#openQuizModes').isVisible(),'mode entry is visible on the main screen');
   await empty.locator('#showExample').uncheck();
-  await chooseMode(empty,'form');await empty.locator('#quizEmpty').waitFor({state:'visible'});
-  assert.equal(await empty.locator('#quizChoices button').count(),0);
+  await chooseMode(empty,'form');await empty.locator('#quizPrompt').waitFor({state:'visible'});
+  assert.equal(await empty.locator('#quizEmpty').isHidden(),true);
+  assert.equal(await empty.locator('#quizChoices button').count(),6);
+  assert.equal(await empty.evaluate('quizRecords.length'),0,'held quotations remain unavailable');
+  assert.equal(await empty.evaluate('quizState.example.origin'),'master');
+  assert.match(await empty.locator('#quizPrompt').innerText(),/活用表の「.+」は何形/);
+  assert.equal(await empty.locator('#examplePanel').isVisible(),false,'no quotation fallback');
+  assert.equal(await empty.locator('#tablePanel').isVisible(),false,'table begins hidden without leaving a blank frame');
+  if(output){await mkdir(output,{recursive:true});await empty.screenshot({path:path.join(output,'master-form-mobile.png'),fullPage:true,timeout:15000});}
+  const formAnswer=await empty.evaluate('quizState.example.form');
+  await empty.locator('#quizChoices button').evaluateAll((buttons,value)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical===value) as HTMLButtonElement).click();},formAnswer);
+  await empty.locator('#check').click();
+  assert.match(await empty.locator('#feedback').innerText(),/^正解/);
+  assert.match(await empty.evaluate('stats.quiz.events.at(-1).exampleId'),/^master:form:/);
+  await empty.locator('#next').click();
+  await empty.locator('#reveal').click();
+  assert.equal(await empty.locator('#tablePanel').getAttribute('data-support'),'partial');
+  assert.equal(await empty.locator('#tablePanel').isVisible(),true);
+  await empty.locator('#reveal').click();
+  assert.equal(await empty.locator('#tablePanel').getAttribute('data-support'),'full');
+  await chooseMode(empty,'type');
+  assert.equal(await empty.evaluate('quizState.example.origin'),'master');
+  assert.ok(await empty.locator('#quizChoices button').count()>=2);
+  assert.equal(await empty.locator('#examplePanel').isVisible(),false);
+  const typeAnswer=await empty.evaluate('quizChoices.find(c=>c.canonicals.includes(quizState.example.conjugationType)).canonical');
+  await empty.locator('#quizChoices button').evaluateAll((buttons,value)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical===value) as HTMLButtonElement).click();},typeAnswer);
+  await empty.locator('#check').click();
+  assert.match(await empty.locator('#feedback').innerText(),/^正解/);
+  assert.match(await empty.evaluate('stats.quiz.events.at(-1).exampleId'),/^master:type:/);
+  if(output)await empty.screenshot({path:path.join(output,'master-type-mobile.png'),fullPage:true,timeout:15000});
+  for(const pos of ['verb','adj','adjv','aux']){
+    await empty.selectOption('#pos',pos);
+    for(const mode of ['form','type']){
+      await chooseMode(empty,mode);
+      assert.equal(await empty.locator('#quizEmpty').isHidden(),true,`master ${mode} ${pos}`);
+      assert.equal(await empty.evaluate('quizState.example.origin'),'master');
+      assert.ok(await empty.locator('#quizChoices button').count()>=2,`master choices ${mode} ${pos}`);
+    }
+  }
+  await empty.selectOption('#pos','verb');
   await chooseMode(empty,'table');assert.ok(await empty.locator('#formBody > tr').count()===6);
   await empty.locator('#openSettings').click();await empty.selectOption('#quizMode','type');
   assert.equal(await empty.locator('[data-quiz-mode="type"]').getAttribute('aria-pressed'),'true','settings mode stays in sync');
+  assert.equal(await empty.locator('#quizEmpty').isHidden(),true);
   await chooseMode(empty,'table');
   assert.equal(await empty.locator('#showExample').isChecked(),false,'drill example preference is preserved');
   assert.equal(await empty.locator('#showExample').isEnabled(),true,'drill example control is restored');
   await empty.locator('#showExample').check();
   assert.equal(await empty.locator('#examplePanel').isVisible(),true,'drill example control still works');
-  await empty.close();fixtures=true;
+  await empty.close();
+  for(const viewport of selectedViewports){
+    const context=await browser.newContext({viewport,isMobile:viewport.width<701,hasTouch:viewport.width<701});
+    const page=await context.newPage();const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+    await page.addInitScript(()=>localStorage.setItem('conjInstallNoticeDismissed','true'));
+    await page.goto(`http://127.0.0.1:${port}/conj/`);
+    await page.waitForFunction("!document.getElementById('quizMode').disabled");
+    await page.evaluate('document.fonts.ready');
+    for(const theme of themes){
+      await page.evaluate(`applyConjTheme('${theme}')`);
+      for(const mode of ['form','type']){
+        await chooseMode(page,mode);
+        assert.equal(await page.evaluate('quizState.example.origin'),'master',`${viewport.width} ${theme} ${mode}`);
+        assert.equal(await page.locator('#quizEmpty').isHidden(),true);
+        assert.equal(await page.locator('#tablePanel').isVisible(),false);
+        assert.ok(await page.locator('#quizChoices button').count()>=2);
+        assert.equal(await page.evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,'master horizontal overflow');
+        const action=await page.locator('#check').boundingBox();
+        assert.ok(action && action.y+action.height<=viewport.height+1,'master action stays in view');
+        masterCases++;
+      }
+    }
+    assert.deepEqual(errors,[],`${viewport.width} master page errors`);await context.close();
+  }
+  fixtures=true;
   for(const viewport of selectedViewports){
     const context=await browser.newContext({viewport,isMobile:viewport.width<701,hasTouch:viewport.width<701});
     const page=await context.newPage();const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
@@ -164,6 +227,6 @@ try{
     console.log(`checked ${viewport.width}x${viewport.height}: ${cases} cases`);
   }
 }finally{await browser.close();await new Promise<void>(resolve=>server.close(()=>resolve()));}
-console.log(`check:conj-quiz: ${cases}/${expectedCases} mode/POS/viewport/theme cases, real held-bank check, hints, row modes, 4 scopes, record roundtrip/reload`);
+console.log(`check:conj-quiz: ${cases}/${expectedCases} approved-fixture cases; ${masterCases}/${selectedViewports.length*themes.length*2} held-bank master cases; hints, row modes, 4 scopes, record roundtrip/reload`);
 if(failures.length){console.error(failures.join('\n'));process.exitCode=1;}
 assert.equal(cases,expectedCases);
