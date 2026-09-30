@@ -271,7 +271,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 10: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 11: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -599,17 +599,17 @@ async function play(){
   input.style.color="transparent";
   input.style.caretColor="transparent";
 
-  // 1) 最初は平面を保ったまま浮上し、その後ふわふわした立体浮遊へ移る。
-  //    停止は挟まず、そのまま白い異空間と円環回転へ接続する。
+  // 1) 本当に最初だけ平面を保ち、そのあと紙のように一文字ずつはがれ上がる。
+  //    はがれ動作はすぐ浮遊へ溶かし込み、停止を作らずに次の流れへ渡す。
   const ringR=Math.min(170,Math.max(118,innerWidth*.30));
   const ringRY=Math.min(54,ringR*.32);
-  const phase1Duration=4700;
+  const phase1Duration=4950;
 
   await frameTween(phase1Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
     const rise=easeSoft(clamp(p/.88));
-    const floatBlend=easeInOut(clamp((p-.32)/.34));
-    const approach=easeInOut(clamp((p-.62)/.38));
+    const floatBlend=easeInOut(clamp((p-.14)/.30));
+    const approach=easeInOut(clamp((p-.57)/.43));
 
     whiteRoom.style.opacity=String(.10*approach);
     whiteRoom.style.transform=`scale(${lerp(1,.988,approach)})`;
@@ -617,56 +617,63 @@ async function play(){
     g.forEach((el,i)=>{
       const s=seeds[i];
       const base=(i/n)*Math.PI*2;
-      const preAngle=base+approach*Math.PI*2*.58;
-      const lift=lerp(0,170,rise);
+      const preAngle=base+approach*Math.PI*2*.62;
+      const peelDelay=i*.012;
+      const peelT=easeInOut(clamp((p-peelDelay)/.18));
+      const lift=lerp(0,174,rise);
 
-      // First section stays almost flat.
-      const planarDriftX=Math.sin(tSec*.95+s.phase)*3*(1-approach);
-      const planarDriftY=Math.cos(tSec*1.08+s.phase)*1.5*(1-approach);
+      // The first instant stays flat. Then each character peels from the lower hinge.
+      const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-approach);
+      const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-approach);
+      const peelSkew=(i-(n-1)/2)*1.4;
+      const peelX=s.sway*.34*peelT+peelSkew*peelT*.35;
+      const peelY=-12*peelT;
+      const peelZ=18*peelT;
+      const peelRX=-30*peelT;
+      const peelRY=s.sway*7*peelT;
+      const peelRZ=s.tilt*1.6*peelT;
 
-      // 3D flutter fades in only after the initial planar rise.
-      const floatStrength=(.24+.76*Math.sin(Math.min(rise,.98)*Math.PI))*floatBlend;
-      const floatX=s.x+planarDriftX+Math.sin(tSec*2.15+s.phase)*s.sway*floatStrength;
-      const floatY=s.y-lift+planarDriftY+Math.sin(tSec*3.05+s.phase)*6*floatStrength;
+      // Flutter grows out of the peel instead of starting as a separate motion.
+      const floatStrength=(.20+.80*Math.sin(Math.min(rise,.985)*Math.PI))*floatBlend;
+      const floatX=s.x+planarDriftX+peelX+Math.sin(tSec*2.18+s.phase)*s.sway*floatStrength;
+      const floatY=s.y-lift+planarDriftY+peelY+Math.sin(tSec*3.05+s.phase)*6.4*floatStrength;
+      const floatZ=peelZ+Math.sin(tSec*2.55+s.phase)*26*floatStrength;
 
-      const looseX=Math.cos(preAngle)*(ringR*.46)+Math.sin(tSec*2.0+s.phase)*10*(1-approach);
-      const looseY=-34+Math.sin(preAngle)*(ringRY*.48)-approach*18+Math.sin(tSec*1.45+s.phase)*4*(1-approach);
+      const looseX=Math.cos(preAngle)*(ringR*.46)+Math.sin(tSec*1.95+s.phase)*11*(1-approach);
+      const looseY=-34+Math.sin(preAngle)*(ringRY*.48)-approach*18+Math.sin(tSec*1.45+s.phase)*4.5*(1-approach);
+      const looseZ=18+Math.cos(preAngle)*14;
 
       const x=lerp(floatX,looseX,approach);
       const y=lerp(floatY,looseY,approach);
-      const zFloat=Math.sin(tSec*2.55+s.phase)*26*floatStrength;
-      const z=lerp(zFloat,18+Math.cos(preAngle)*14,approach);
-
+      const z=lerp(floatZ,looseZ,approach);
       const scale=lerp(baseScale,.92,rise);
-      const rotZBase=Math.sin(tSec*1.6+s.phase)*s.tilt*(1-p*.22);
-      const rotZ=lerp(rotZBase,Math.sin(preAngle)*9,approach);
 
-      // X/Y are zero at first, then flutter grows in smoothly.
-      const rotX=floatBlend*(Math.sin(tSec*2.45+s.phase)*34*floatStrength)-approach*6;
-      const rotY=floatBlend*(Math.cos(tSec*2.25+s.phase)*38*floatStrength)+approach*10;
+      const flutterRZ=Math.sin(tSec*1.55+s.phase)*s.tilt*(1-p*.18);
+      const rotZ=lerp(peelRZ+flutterRZ,Math.sin(preAngle)*9,approach);
+      const rotX=lerp(peelRX,floatBlend*(Math.sin(tSec*2.45+s.phase)*34*floatStrength)-approach*6,floatBlend);
+      const rotY=lerp(peelRY,floatBlend*(Math.cos(tSec*2.25+s.phase)*38*floatStrength)+approach*10,floatBlend);
 
       setT(el,x,y,scale,rotZ,rotX,rotY,z);
-      el.style.opacity=String(clamp(p*2.2));
+      el.style.opacity=String(clamp(p*2.35));
     });
   },token);
   if(token!==playToken)return;
 
-  // 2) 漂いを保ったまま白い異空間へ急上昇し、長めの円環回転へ入る。
-  //    ここから回転速度は単調に加速し、次フェーズへ持ち越す。
+  // 2) 浮遊を維持したまま白い異空間へ突入し、円環回転へ自然に回収する。
   const riseEnds=seeds.map((s,i)=>{
     const base=(i/n)*Math.PI*2;
-    const preAngle=base+Math.PI*2*.58;
+    const preAngle=base+Math.PI*2*.62;
     return {
       x:Math.cos(preAngle)*(ringR*.46),
       y:-52+Math.sin(preAngle)*(ringRY*.48),
       z:18+Math.cos(preAngle)*14,
-      rx:2,
-      ry:3,
+      rx:-6,
+      ry:10,
       rz:Math.sin(preAngle)*9
     };
   });
 
-  const phase2Duration=3600;
+  const phase2Duration=3650;
   const omega2Start=Math.PI*2*.42;
   const omega2End=Math.PI*2*3.55;
   const a2=(omega2End-omega2Start)/(phase2Duration/1000);
@@ -675,15 +682,16 @@ async function play(){
   rushLines.style.opacity="1";
   await frameTween(phase2Duration,(p,elapsed)=>{
     const accel=easeInOut(p);
-    const settle=easeInOut(clamp((p-.08)/.92));
+    const settle=easeInOut(clamp(p/.96));
+    const driftAmt=Math.sin(Math.PI*settle);
     const sec=elapsed/1000;
     spinBase=omega2Start*sec+.5*a2*sec*sec;
 
     whiteRoom.style.opacity=String(clamp(.10+p*1.18));
     whiteRoom.style.transform=`scale(${lerp(.988,1.15,accel)})`;
-    portalGlow.style.opacity=String(clamp((p-.10)*1.5));
+    portalGlow.style.opacity=String(clamp((p-.08)*1.55));
     portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(p))})`;
-    rushLines.style.opacity=String(clamp((p-.03)*1.32));
+    rushLines.style.opacity=String(clamp((p-.02)*1.34));
 
     [...rushLines.children].forEach(line=>{
       const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
@@ -693,33 +701,32 @@ async function play(){
 
     g.forEach((el,i)=>{
       const s=seeds[i],start=riseEnds[i];
-      const driftAmt=1-settle;
       const base=(i/n)*Math.PI*2;
       const angle=base+spinBase;
       const ringX=Math.cos(angle)*ringR;
       const ringY=Math.sin(angle)*ringRY;
       const depth=(Math.sin(angle)+1)/2;
-      const targetY=-48+ringY-accel*56;
+      const targetY=-104+ringY;
 
       const x=lerp(
-        start.x+Math.sin((1.1+sec*1.05)*Math.PI+s.phase)*14*driftAmt,
+        start.x+Math.sin((1.1+sec*1.02)*Math.PI+s.phase)*14*driftAmt,
         ringX,
         settle
       );
       const y=lerp(
-        start.y+Math.sin((.88+sec*.92)*Math.PI+s.phase)*6*driftAmt-accel*8,
+        start.y+Math.sin((.88+sec*.94)*Math.PI+s.phase)*6.5*driftAmt-accel*8,
         targetY,
         settle
       );
       const z=lerp(
-        start.z+Math.cos((1.0+sec*1.18)*Math.PI+s.phase)*8*driftAmt,
+        start.z+Math.cos((1.0+sec*1.20)*Math.PI+s.phase)*8.5*driftAmt,
         10+depth*34,
         settle
       );
 
       const scale=lerp(.92,(.72+depth*.50)*densityScale,settle);
       const rotZ=lerp(
-        start.rz+Math.sin((p*2.4+1.05)*Math.PI+s.phase)*4.5*driftAmt,
+        start.rz+Math.sin((p*2.4+1.05)*Math.PI+s.phase)*4.8*driftAmt,
         (spinBase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8,
         settle
       );
@@ -741,12 +748,11 @@ async function play(){
   },token);
   if(token!==playToken)return;
 
-  // 4) 円環を長めに見せながら、そのまま竜巻へ変形。
-  //    回転はまだ加速中。途中で一度遅くして再加速することはしない。
+  // 4) 円環から竜巻へ。ここまでは加速基調を保ちながら滑らかに接続する。
   const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
   const omega4Start=omega2End;
   const omega4End=Math.PI*2*4.45;
-  const phase4Duration=3200;
+  const phase4Duration=3100;
   let spin=spinBase;
 
   await frameTween(phase4Duration,(p,elapsed)=>{
@@ -756,7 +762,8 @@ async function play(){
 
     const radius=lerp(ringR,24,e);
     const ellipse=lerp(ringRY,10,e);
-    const vertical=lerp(26,196,e);
+    const baseY=lerp(-104,-86,e);
+    const vertical=lerp(0,196,e);
     const axisAmp=lerp(0,16,e);
     const axisTwist=Math.sin(spin*.18)*axisAmp;
 
@@ -777,12 +784,22 @@ async function play(){
       const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp+axisTwist*.12;
       const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.16;
       const x=axisX+Math.cos(angle)*radius;
-      const y=-86+axisY+Math.sin(angle)*ellipse+layer*vertical;
-      const z=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8*e;
-      const scale=(.58+depth*.42)*densityScale;
-      const rot=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
-      const rx=-14+Math.cos(angle+layer*.4)*17;
-      const ry=11+Math.sin(angle-layer*.3)*20;
+      const y=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical;
+
+      const z0=10+depth*34;
+      const z1=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
+      const z=lerp(z0,z1,e);
+
+      const scale0=(.72+depth*.50)*densityScale;
+      const scale1=(.58+depth*.42)*densityScale;
+      const scale=lerp(scale0,scale1,e);
+
+      const rot0=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
+      const rot1=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
+      const rot=lerp(rot0,rot1,e);
+      const rx=lerp(-12+Math.cos(angle)*10,-14+Math.cos(angle+layer*.4)*17,e);
+      const ry=lerp(10+Math.sin(angle)*12,11+Math.sin(angle-layer*.3)*20,e);
+
       setT(el,x,y,scale,rot,rx,ry,z);
       el.style.opacity=String(.64+depth*.36);
     });
@@ -791,20 +808,20 @@ async function play(){
 
   const spinVortexEnd=spin;
 
-  // 5) 極小圧縮と閃光。ここでもまだ加速を続ける。
+  // 5) 極小圧縮と閃光。まだ流れは切らずに変換へ接続。
   const omega5Start=omega4End;
-  const omega5End=Math.PI*2*5.05;
-  const phase5Duration=1320;
+  const omega5End=Math.PI*2*5.02;
+  const phase5Duration=1260;
 
   await frameTween(phase5Duration,(p,elapsed)=>{
     const e=easeInOut(p);
     const prog=spinProgress(spinVortexEnd,omega5Start,omega5End,elapsed,phase5Duration);
     spin=prog.spin;
-
     const peak=Math.sin(p*Math.PI);
+
     const radius=lerp(24,11,e);
     const ellipse=lerp(10,5,e);
-    const vertical=lerp(196,172,e);
+    const vertical=lerp(196,170,e);
     const axisAmp=lerp(16,6,e);
 
     flash.style.opacity=String(peak*.98);
@@ -841,10 +858,10 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光明けは最高速付近を維持しつつ、わずかにだけ加速。
+  // 6) 閃光明けの渦が戻る。終端は次の「力が抜ける」状態へ完全に接続。
   const omega6Start=omega5End;
-  const omega6End=Math.PI*2*5.22;
-  const phase6Duration=1760;
+  const omega6End=Math.PI*2*4.85;
+  const phase6Duration=1700;
 
   await frameTween(phase6Duration,(p,elapsed)=>{
     const shape=easeInOut(p);
@@ -852,13 +869,13 @@ async function play(){
     const prog=spinProgress(spinFlashEnd,omega6Start,omega6End,elapsed,phase6Duration);
     spin=prog.spin;
 
-    const radius=lerp(11,72,.18+bloom*.52);
-    const ellipse=lerp(5,25,.12+bloom*.44);
-    const vertical=lerp(172,128,shape);
-    const axisAmp=lerp(6,12,shape);
+    const radius=lerp(11,76,shape)+bloom*10;
+    const ellipse=lerp(5,26,shape)+bloom*3;
+    const vertical=lerp(170,118,shape);
+    const axisAmp=lerp(6,11,shape);
 
-    whiteRoom.style.opacity=String(1-.05*shape);
-    portalGlow.style.opacity=String(lerp(.88,.64,shape));
+    whiteRoom.style.opacity=String(lerp(1,.92,shape));
+    portalGlow.style.opacity=String(lerp(.88,.56,shape));
 
     g.forEach((el,i)=>{
       const angle=baseAngles[i]+spin;
@@ -884,90 +901,141 @@ async function play(){
 
   const spinReturnEnd=spin;
 
-  // 7) ここから初めて減速へ。以後は再加速せず、そのまま終了へ向かう。
+  // 7) 減速して力が抜け、いったん全体不統一にふわりと散る。
   const omega7Start=omega6End;
-  const omega7End=Math.PI*2*4.35;
-  const phase7Duration=1180;
+  const omega7End=Math.PI*2*.55;
+  const phase7Duration=1500;
 
   await frameTween(phase7Duration,(p,elapsed)=>{
-    const collapse=easeInOut(p);
+    const release=easeInOut(p);
     const prog=spinProgress(spinReturnEnd,omega7Start,omega7End,elapsed,phase7Duration);
     spin=prog.spin;
 
-    const radius=lerp(72,18,collapse);
-    const ellipse=lerp(25,7,collapse);
-    const vertical=lerp(128,24,collapse);
-    const axisAmp=lerp(12,3,collapse);
+    const radius=lerp(76,88,release);
+    const ellipse=lerp(26,20,release);
+    const vertical=lerp(118,18,release);
+    const axisAmp=lerp(11,2,release);
+    const driftAmp=lerp(0,24,release);
+    const driftLift=lerp(0,16,release);
 
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spin;
+      const s=seeds[i];
+      const angle=baseAngles[i]+spin+(i%2?1:-1)*release*.35;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
-      const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.12;
-      const x=axisX+Math.cos(angle)*radius;
-      const y=-38+axisY+Math.sin(angle)*ellipse+layer*vertical;
-      const z=(depth-.5)*42;
-      const scale=lerp((.72+depth*.26)*densityScale,.36*densityScale,collapse);
-      const rot=(spin*180/Math.PI)*(i%2?-.22:.22);
-      const rx=-10+Math.cos(angle+layer*.22)*12;
-      const ry=8+Math.sin(angle-layer*.18)*14;
+
+      const driftX=Math.sin(elapsed*.0017+s.phase*1.4)*driftAmp
+        +Math.cos(elapsed*.0011+s.phase)*driftAmp*.35;
+      const driftY=Math.cos(elapsed*.0015+s.phase*1.2)*driftLift
+        +Math.sin(elapsed*.0011+s.phase)*driftAmp*.18;
+      const driftZ=Math.sin(elapsed*.0019+s.phase)*driftAmp*.55;
+
+      const axisX=Math.sin(layer*1.8+spin*.20)*axisAmp;
+      const axisY=Math.cos(layer*1.25+spin*.15)*axisAmp*.10;
+
+      const x=axisX+Math.cos(angle)*radius+driftX;
+      const y=-20+axisY+Math.sin(angle)*ellipse+layer*vertical+driftY;
+      const z=(depth-.5)*32+driftZ;
+
+      const scale=lerp(
+        (.64+depth*.34)*densityScale,
+        (.54+depth*.18)*densityScale,
+        release
+      );
+      const rot=(spin*180/Math.PI)*(i%2?-.17:.17)
+        +Math.sin(elapsed*.002+s.phase)*12*release;
+      const rx=lerp(
+        -10+Math.cos(angle+layer*.3)*12,
+        Math.sin(elapsed*.0022+s.phase)*22,
+        release
+      );
+      const ry=lerp(
+        8+Math.sin(angle-layer*.24)*14,
+        Math.cos(elapsed*.0021+s.phase)*26,
+        release
+      );
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.68+depth*.32,.9,collapse));
+      el.style.opacity=String(lerp(.70+depth*.30,.86,release));
     });
 
-    whiteRoom.style.opacity=String(1-collapse*.72);
-    rushLines.style.opacity=String(1-collapse*.45);
-    portalGlow.style.opacity=String(.62*(1-collapse*.45));
+    whiteRoom.style.opacity=String(lerp(.92,.74,release));
+    rushLines.style.opacity=String(lerp(.86,.26,release));
+    portalGlow.style.opacity=String(lerp(.56,.20,release));
   },token);
   if(token!==playToken)return;
 
-  const spinMiniEnd=spin;
+  const spinFloatEnd=spin;
 
-  // 8) 最終突進も減速の続き。速度を落としながらそのまま刻印へ。
+  // 8) 同じ漂いの位相を引き継いだまま、急速に中央へ収束。
   const omega8Start=omega7End;
-  const omega8End=Math.PI*2*3.15;
-  const phase8Duration=1180;
+  const omega8End=Math.PI*2*4.75;
+  const phase8Duration=1500;
 
   await frameTween(phase8Duration,(p,elapsed)=>{
-    const prog=spinProgress(spinMiniEnd,omega8Start,omega8End,elapsed,phase8Duration);
+    const gather=easeInOut(clamp(p/.72));
+    const prog=spinProgress(spinFloatEnd,omega8Start,omega8End,elapsed,phase8Duration);
     spin=prog.spin;
 
-    const baseRadius=lerp(18,8,easeIn(p));
-    const baseEllipse=lerp(7,3,easeIn(p));
+    const radius=lerp(88,10,gather);
+    const ellipse=lerp(20,4,gather);
+    const vertical=lerp(18,4,gather);
+    const scatter=1-gather;
+    const driftTime=elapsed+phase7Duration;
 
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spin;
+      const s=seeds[i];
+      const angle=baseAngles[i]+spin+(i%2?1:-1)*scatter*.35;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const stagger=Math.min(.06,.64/Math.max(1,n));
-      const local=clamp((p*1.34)-(i*stagger));
-      const rush=easeIn(local);
 
-      const axisX=Math.sin(layer*1.8+spin*.22)*3;
-      const orbitX=axisX+Math.cos(angle)*baseRadius;
-      const orbitY=-18+Math.sin(angle)*baseEllipse+layer*10;
-      const orbitZ=(depth-.5)*34;
+      const driftX=(
+        Math.sin(driftTime*.0017+s.phase*1.4)*24
+        +Math.cos(driftTime*.0011+s.phase)*24*.35
+      )*scatter;
+      const driftY=(
+        Math.cos(driftTime*.0015+s.phase*1.2)*16
+        +Math.sin(driftTime*.0011+s.phase)*24*.18
+      )*scatter;
+      const driftZ=Math.sin(driftTime*.0019+s.phase)*24*.55*scatter;
+
+      const axisAmp=2*scatter;
+      const axisX=Math.sin(layer*1.8+spin*.20)*axisAmp;
+      const axisY=Math.cos(layer*1.25+spin*.15)*axisAmp*.10;
+
+      const orbitX=axisX+Math.cos(angle)*radius+driftX;
+      const orbitY=-20+axisY+Math.sin(angle)*ellipse+layer*vertical+driftY;
+      const orbitZ=(depth-.5)*32+driftZ;
+
+      const stagger=Math.min(.055,.60/Math.max(1,n));
+      const local=clamp((p-.44-i*stagger)/.56);
+      const rush=easeIn(local);
 
       const x=lerp(orbitX,0,rush);
       const y=lerp(orbitY,0,rush);
-      const z=lerp(orbitZ,340,rush);
-      const scale=lerp((.34+depth*.08)*densityScale,3.15,rush);
-      const rot=(spin*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*rush*44;
-      const rx=lerp(-8+Math.cos(angle)*10,0,rush);
-      const ry=lerp(7+Math.sin(angle)*12,0,rush);
+      const z=lerp(orbitZ,360,rush);
+      const scale=lerp((.54+depth*.18)*densityScale,3.22,rush);
+
+      const floatingRot=(spin*180/Math.PI)*(i%2?-.17:.17)
+        +Math.sin(driftTime*.002+s.phase)*12*scatter;
+      const rot=lerp(
+        floatingRot,
+        (spin*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*46,
+        rush
+      );
+      const rx=lerp(Math.sin(driftTime*.0022+s.phase)*22*scatter,0,rush);
+      const ry=lerp(Math.cos(driftTime*.0021+s.phase)*26*scatter,0,rush);
 
       setT(el,x,y,scale,rot,rx,ry,z);
 
       const fade=rush<.72?1:1-clamp((rush-.72)/.28);
-      el.style.opacity=String(fade);
+      el.style.opacity=String(lerp(.86,fade,rush));
       el.style.filter=`blur(${rush*7}px) brightness(${1+rush*1.35})`;
     });
 
-    whiteRoom.style.opacity=String(lerp(.28,.12,p));
-    rushLines.style.opacity=String(lerp(.38,.14,p));
-    portalGlow.style.opacity=String(lerp(.24,.10,p));
+    whiteRoom.style.opacity=String(lerp(.74,.12,p));
+    rushLines.style.opacity=String(lerp(.26,.14,p));
+    portalGlow.style.opacity=String(lerp(.20,.10,p));
   },token);
   if(token!==playToken)return;
 
