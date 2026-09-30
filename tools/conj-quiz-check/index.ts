@@ -123,6 +123,8 @@ try{
   // Real quotations are held; the public table still supplies usable practice.
   const empty=await browser.newPage({viewport:{width:375,height:812}});await empty.goto(`http://127.0.0.1:${port}/conj/`);
   await empty.waitForFunction("!document.getElementById('quizMode').disabled");
+  assert.deepEqual(await empty.evaluate('({form:quizMasterPractice.form.length,type:quizMasterPractice.type.length})'),
+    {form:124,type:180},'the actual runtime must include every cleared source example');
   assert.equal(await empty.locator('.quiz-mode-tabs button').count(),3,'all modes exist in the main card');
   assert.ok(await empty.locator('.quiz-mode-tabs').isVisible() || await empty.locator('#openQuizModes').isVisible(),'mode entry is visible on the main screen');
   await empty.locator('#showExample').uncheck();
