@@ -1,14 +1,16 @@
 // Thin bridge to the classic index.html state, renderer and record storage.
 let quizEngine=null, quizAdapter=null, quizState=null, quizRecords=[], quizMaster=[], quizChoices=[];
 let quizLoadFailed=false, quizRowChoices=[], quizPreviousMode='table', quizExamplePreference=true;
+let quizMasterPractice={form:[],type:[]};
 const quizSettings={choiceScope:'near',supportLevel:0,rowMode:'omitted'};
 function isIdentificationMode(){return document.getElementById('quizMode').value!=='table';}
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs'),import('./conj-quiz-adapter.mjs')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20260930-3'),import('./conj-quiz-adapter.mjs?v=20260930-3')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
+    quizMasterPractice=quizAdapter.buildMasterPractice(items);
     quizRecords=await quizAdapter.loadQuizRecords(items);
     try{
       const saved=JSON.parse(localStorage.getItem('conjQuizPreferences')||'{}');
@@ -54,7 +56,10 @@ function nextQuizQuestion(){
   const pos=document.getElementById('pos').value;
   const labels={verb:'動詞',adj:'形容詞',adjv:'形容動詞',aux:'助動詞'};
   const eligible=quizRecords.filter(e=>quizEngine?.isPublicQuizEligible(e,mode) && (pos==='all'||e.partOfSpeech===labels[pos]));
-  const ex=quizEngine?.pickQuestion(eligible,{quizMode:mode,attentionWeight:.65,lastExampleId:quizState?.example.exampleId});
+  const previous=quizState?.example;
+  const ex=eligible.length
+    ? quizEngine.pickQuestion(eligible,{quizMode:mode,attentionWeight:.65,lastExampleId:previous?.exampleId})
+    : quizAdapter?.pickMasterPractice(quizMasterPractice[mode].filter(e=>pos==='all'||e.partOfSpeech===labels[pos]),previous?.origin==='master'?previous.itemId:null);
   if(!ex){
     current=null;quizState=null;answered=false;answers={};blankSlots=new Set();
     renderQuizUI();return;
@@ -93,6 +98,7 @@ function renderQuizUI(){
   const active=isIdentificationMode();
   const card=document.querySelector('main.card');
   card.classList.toggle('is-quiz',active);
+  card.classList.toggle('master-practice',active && quizState?.example.origin==='master');
   document.getElementById('levelMeters').hidden=active;
   document.getElementById('quizControls').hidden=!active;
   document.getElementById('choiceScope').disabled=document.getElementById('quizMode').value==='form';
@@ -117,7 +123,9 @@ function renderQuizUI(){
     for(const id of ['check','reveal','next']) document.getElementById(id).style.display='none';
     return;
   }
-  document.getElementById('quizPrompt').textContent=quizState.quizMode==='form'?'強調した語は何形？':'強調した語の活用の種類は？';
+  document.getElementById('quizPrompt').textContent=quizState.example.origin==='master'
+    ? quizState.quizMode==='form'?'活用表の「'+quizState.example.tableValue+'」は何形？':'この語の活用の種類は？'
+    : quizState.quizMode==='form'?'強調した語は何形？':'強調した語の活用の種類は？';
   if(!quizState.answered){
     // Remove the hidden answer text from accessibility APIs as well as sight.
     document.getElementById('kind').textContent='';

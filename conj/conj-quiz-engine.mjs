@@ -246,10 +246,14 @@ export function buildTypeChoices({ example, masterEntries, scope = CHOICE_SCOPE.
   else if (scope === CHOICE_SCOPE.CROSS_POS) pool = [correct, ...samePos, ...others.slice(0, 6)];
   else if (scope === CHOICE_SCOPE.PART_OF_SPEECH) pool = [correct, ...samePos];
   else pool = [correct, ...near.slice(0, Math.max(1, nearCount-1))];
+  // A part of speech represented by only one type (currently adjectival
+  // nouns) needs one outside distractor; a one-button quiz cannot assess it.
+  const sparseFallback=pool.length===1 && others.length>0;
+  if(sparseFallback)pool.push(others[0]);
   const counts = new Map();
   pool.forEach(x => counts.set(x.label, (counts.get(x.label) || 0) + 1));
   return stableShuffle(pool.map(x => ({ ...x,
-    displayLabel: counts.get(x.label) > 1 ? x.label + '・' + x.partOfSpeech : x.label,
+    displayLabel: counts.get(x.label) > 1 || sparseFallback ? x.label + '・' + x.partOfSpeech : x.label,
     isCorrect: x.id === correct.id,
   })), rng);
 }

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as engine from '../../conj/conj-quiz-engine.mjs';
-import { masterFromItems,resolveQuizRecords,loadQuizRecords,normalizeHistory,recordLearningEvent } from '../../conj/conj-quiz-adapter.mjs';
+import { masterFromItems,buildMasterPractice,pickMasterPractice,resolveQuizRecords,loadQuizRecords,normalizeHistory,recordLearningEvent } from '../../conj/conj-quiz-adapter.mjs';
 
 const html=readFileSync(new URL('../../conj/index.html',import.meta.url),'utf8');
 const items=new Function(html.match(/const F=a=>a;[\s\S]*?\n\];/)![0]+';return items;')();
@@ -14,10 +14,33 @@ test('quiz: master is derived from the actual item kinds, with no guessed canoni
   assert.deepEqual(new Set(master.map(e=>e.conjugationType)),new Set(items.map((e:any)=>e.kind)));
   assert.ok(master.length>40);
 });
+test('quiz: public master provides unambiguous non-quotation practice in both modes',()=>{
+  const practice=buildMasterPractice(items);
+  assert.equal(practice.type.length,items.length);
+  assert.ok(practice.form.length>300);
+  for(const pos of ['動詞','形容詞','形容動詞','助動詞']){
+    assert.ok(practice.form.some((e:any)=>e.partOfSpeech===pos),pos);
+    assert.ok(practice.type.some((e:any)=>e.partOfSpeech===pos),pos);
+  }
+  for(const question of [...practice.form,...practice.type]){
+    assert.equal(question.origin,'master');
+    assert.equal(question.tableItem.example,'');
+    assert.equal(question.tableItem.target,'');
+    assert.equal(question.tableItem.exampleAvailable,false);
+    assert.equal(question.quotationExcerpt,undefined);
+  }
+  const prior=pickMasterPractice(practice.type,null,()=>0);
+  assert.notEqual(pickMasterPractice(practice.type,prior.itemId,()=>0).itemId,prior.itemId);
+  const ambiguous=buildMasterPractice([{id:'ambiguous',pos:'verb',label:'動詞',lemma:'試す',kind:'サ行四段活用',
+    forms:[['a'],['a'],['b'],['c'],['d'],['e']],example:'公開しない引用文',target:'試す',poem:1}]);
+  assert.deepEqual(ambiguous.form.map((e:any)=>e.tableValue),['b','c','d','e']);
+  assert.ok(!JSON.stringify(ambiguous).includes('公開しない引用文'));
+});
 test('quiz: scopes expand type families and ALL covers every official master value',()=>{
   for(const item of items){
     const example={...ex,conjugationType:item.kind,partOfSpeech:item.label};
     const sets=['near','part_of_speech','cross_pos','all'].map(scope=>engine.buildTypeChoices({example,masterEntries:master,scope,rng:()=>.5}));
+    assert.ok(sets[0].length>=2,item.kind+' must have a real choice');
     assert.ok(sets[0].length<=sets[1].length && sets[1].length<sets[2].length && sets[2].length<sets[3].length,item.kind);
     for(const choices of sets){
       assert.equal(new Set(choices.map((c:any)=>c.displayLabel)).size,choices.length);
