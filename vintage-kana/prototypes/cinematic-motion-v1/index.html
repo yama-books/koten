@@ -286,7 +286,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 13: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 14: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -615,12 +615,12 @@ async function play(){
   input.style.color="transparent";
   input.style.caretColor="transparent";
 
-  // 1-2) 紙のような剥離 → 立体浮遊 → 崩れた円環への吸引 → 回転を1本で連続実行。
-  //      円環に整列してから回り始めるのではなく、動きながら回り、回りながら整う。
+  // 1-2) 一文字ずつ「ぺり、ぺり、ぺり」と剥離し、そのまま浮遊→崩れた円環→回転へ連続接続。
+  //      各文字が個別の時計を持つので、剥がれる前の文字が先に浮いたり整列したりしない。
   const ringR=Math.min(170,Math.max(118,innerWidth*.30));
   const ringRY=Math.min(54,ringR*.32);
-  const phase12Duration=8500;
-  const spinStartMs=3250;
+  const phase12Duration=8900;
+  const spinStartMs=3300;
   const spinDurationMs=phase12Duration-spinStartMs;
   const omega2Start=Math.PI*2*.38;
   const omega2End=Math.PI*2*3.55;
@@ -629,10 +629,8 @@ async function play(){
 
   await frameTween(phase12Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
-    const rise=easeSoft(clamp(elapsed/4300));
-    const floatBlend=easeInOut(clamp((elapsed-650)/1900));
-    const orbitBlend=easeInOut(clamp((elapsed-2450)/6050));
-    const whiteBlend=easeInOut(clamp((elapsed-3300)/3800));
+    const globalOrbit=easeInOut(clamp((elapsed-2500)/6400));
+    const whiteBlend=easeInOut(clamp((elapsed-3400)/3800));
 
     const spinElapsed=Math.max(0,elapsed-spinStartMs);
     const spinSec=spinElapsed/1000;
@@ -640,7 +638,7 @@ async function play(){
       ? omega2Start*spinSec+.5*spinAccel*spinSec*spinSec
       : 0;
 
-    whiteRoom.style.opacity=String(clamp(.10*orbitBlend+whiteBlend*.90));
+    whiteRoom.style.opacity=String(clamp(.10*globalOrbit+whiteBlend*.90));
     whiteRoom.style.transform=`scale(${lerp(1,1.15,whiteBlend)})`;
     portalGlow.style.opacity=String(clamp((whiteBlend-.05)*1.22));
     portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(whiteBlend))})`;
@@ -655,33 +653,38 @@ async function play(){
     g.forEach((el,i)=>{
       const s=seeds[i];
       const base=(i/n)*Math.PI*2;
-      const peelStagger=n>14?82:n>10?96:118;
-      const peelDelay=180+i*peelStagger;
-      const peelT=easeInOut(clamp((elapsed-peelDelay)/620));
-      const localFloat=easeInOut(clamp((elapsed-(peelDelay+250))/1450));
-      const lift=lerp(0,174,rise);
 
-      // Paper peel begins immediately after the first flat instant.
-      const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-orbitBlend);
-      const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-orbitBlend);
+      const peelStagger=n>16?88:n>12?108:n>8?130:158;
+      const peelDelay=150+i*peelStagger;
+      const peelT=easeInOut(clamp((elapsed-peelDelay)/520));
+      const localRise=easeSoft(clamp((elapsed-(peelDelay+120))/3000));
+      const localFloat=easeInOut(clamp((elapsed-(peelDelay+220))/1250));
+      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+700))/3100));
+
+      const lift=174*localRise;
+
+      // "Paper" peel around the lower hinge.
+      const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-charOrbit);
+      const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-charOrbit);
       const peelSkew=(i-(n-1)/2)*1.4;
-      const peelX=s.sway*.34*peelT+peelSkew*peelT*.35;
-      const peelY=-12*peelT;
-      const peelZ=18*peelT;
-      const peelRX=-30*peelT;
-      const peelRY=s.sway*7*peelT;
-      const peelRZ=s.tilt*1.6*peelT;
+      const peelX=s.sway*.36*peelT+peelSkew*peelT*.36;
+      const peelY=-13*peelT;
+      const peelZ=19*peelT;
+      const peelRX=-34*peelT;
+      const peelRY=s.sway*7.5*peelT;
+      const peelRZ=s.tilt*1.7*peelT;
 
-      // Free 3D drift never stops.
-      const floatStrength=(.20+.80*Math.sin(Math.min(rise,.985)*Math.PI))*floatBlend*localFloat;
+      // The peeled glyph immediately begins to float.
+      const floatEnvelope=.20+.80*Math.sin(Math.min(localRise,.985)*Math.PI);
+      const floatStrength=floatEnvelope*localFloat;
       const freeX=s.x+planarDriftX+peelX+Math.sin(tSec*2.18+s.phase)*s.sway*floatStrength;
       const freeY=s.y-lift+planarDriftY+peelY+Math.sin(tSec*3.05+s.phase)*6.4*floatStrength;
       const freeZ=peelZ+Math.sin(tSec*2.55+s.phase)*26*floatStrength;
 
-      // Imperfect orbit is already rotating while glyphs are still being attracted into it.
+      // The imperfect ring is already rotating while glyphs are still being attracted.
       const angle=base+spinBase;
       const depth=(Math.sin(angle)+1)/2;
-      const residual=(1-orbitBlend);
+      const residual=1-charOrbit;
       const wobbleX=Math.sin(tSec*1.75+s.phase)*20*residual;
       const wobbleY=Math.cos(tSec*1.42+s.phase)*10*residual;
       const wobbleZ=Math.sin(tSec*1.88+s.phase)*12*residual;
@@ -690,29 +693,29 @@ async function play(){
       const orbitY=-104+Math.sin(angle)*ringRY+wobbleY;
       const orbitZ=10+depth*34+wobbleZ;
 
-      const x=lerp(freeX,orbitX,orbitBlend);
-      const y=lerp(freeY,orbitY,orbitBlend);
-      const z=lerp(freeZ,orbitZ,orbitBlend);
+      const x=lerp(freeX,orbitX,charOrbit);
+      const y=lerp(freeY,orbitY,charOrbit);
+      const z=lerp(freeZ,orbitZ,charOrbit);
 
-      const freeScale=lerp(baseScale,.92,rise);
+      const freeScale=lerp(baseScale,.92,localRise);
       const orbitScale=(.72+depth*.50)*densityScale;
-      const scale=lerp(freeScale,orbitScale,orbitBlend);
+      const scale=lerp(freeScale,orbitScale,charOrbit);
 
       const flutterRZ=Math.sin(tSec*1.55+s.phase)*s.tilt*(1-p*.18);
       const freeRZ=peelRZ+flutterRZ;
       const orbitRZ=(spinBase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
-      const rotZ=lerp(freeRZ,orbitRZ,orbitBlend);
+      const rotZ=lerp(freeRZ,orbitRZ,charOrbit);
 
-      const freeRX=lerp(peelRX,Math.sin(tSec*2.45+s.phase)*34*floatStrength,floatBlend);
-      const freeRY=lerp(peelRY,Math.cos(tSec*2.25+s.phase)*38*floatStrength,floatBlend);
+      const freeRX=lerp(peelRX,Math.sin(tSec*2.45+s.phase)*34*floatStrength,localFloat);
+      const freeRY=lerp(peelRY,Math.cos(tSec*2.25+s.phase)*38*floatStrength,localFloat);
       const orbitRX=-12+Math.cos(angle)*10;
       const orbitRY=10+Math.sin(angle)*12;
-      const rotX=lerp(freeRX,orbitRX,orbitBlend);
-      const rotY=lerp(freeRY,orbitRY,orbitBlend);
+      const rotX=lerp(freeRX,orbitRX,charOrbit);
+      const rotY=lerp(freeRY,orbitRY,charOrbit);
 
       setT(el,x,y,scale,rotZ,rotX,rotY,z);
-      el.style.opacity=String(clamp(elapsed/700));
-      el.style.textShadow=`0 0 ${8+depth*14*orbitBlend}px rgba(139,125,101,${.08+depth*.16*orbitBlend})`;
+      el.style.opacity=String(clamp((elapsed-peelDelay+160)/430));
+      el.style.textShadow=`0 0 ${8+depth*14*charOrbit}px rgba(139,125,101,${.08+depth*.16*charOrbit})`;
     });
   },token);
   if(token!==playToken)return;
@@ -870,14 +873,14 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 変身直後。急激に力が抜け、無重力のように不統一へ広がる。
-  //    低速になっても各文字とキラキラは常に漂い続ける。
+  // 6) 閃光直後、束縛がほどけたように「ぱっ」と広がる。
+  //    高速回転の勢いを急減速しつつ、スローモーションの無重力漂流へ溶かす。
   const omega6Start=omega5End;
-  const omega6End=Math.PI*2*.42;
-  const phase6Duration=1850;
+  const omega6End=Math.PI*2*.38;
+  const phase6Duration=1950;
 
   await frameTween(phase6Duration,(p,elapsed)=>{
-    const release=easeInOut(p);
+    const release=easeOut(p);
     const prog=spinProgress(spinFlashEnd,omega6Start,omega6End,elapsed,phase6Duration);
     spin=prog.spin;
 
@@ -885,7 +888,7 @@ async function play(){
     const ellipse=lerp(5,24,release);
     const baseY=lerp(-86,-18,release);
     const vertical=lerp(170,16,release);
-    const driftAmp=lerp(0,26,release);
+    const driftAmp=lerp(0,27,release);
     const driftLift=lerp(0,18,release);
 
     whiteRoom.style.opacity=String(lerp(1,.84,release));
@@ -934,26 +937,30 @@ async function play(){
       el.style.filter="none";
     });
 
+    // Sparkles start exactly where the flash phase left them, then slowly bloom outward.
     const sparkTime=phase5Duration+elapsed;
     sparkleSeeds.forEach(s=>{
       const tt=sparkTime/1000;
       const ang=s.angle+tt*s.speed;
-      const x=Math.cos(ang)*s.radius+Math.sin(tt*1.35+s.phase)*12*release;
-      const y=s.y+Math.sin(tt*1.6+s.phase)*9+Math.cos(tt*.82+s.phase)*5*release;
-      const z=s.z+Math.cos(tt*1.22+s.phase)*14*release;
-      const pulse=.38+.62*Math.sin(tt*5.2*s.pulse+s.phase)**2;
-      setT(s.el,x,y,s.size*(.62+.58*pulse),0,0,0,z);
-      s.el.style.opacity=String(.50+.46*pulse);
-      s.el.style.filter=`blur(${(1-pulse)*.7}px)`;
+      const basePulse=.45+.55*Math.sin(tt*5.2*s.pulse+s.phase)**2;
+      const x=Math.cos(ang)*s.radius
+        +Math.sin(tt*1.35+s.phase)*18*release;
+      const y=s.y
+        +Math.sin(tt*1.6+s.phase)*(5+5*release)
+        +Math.cos(tt*.82+s.phase)*8*release;
+      const z=s.z+Math.cos(tt*1.22+s.phase)*18*release;
+      setT(s.el,x,y,s.size*basePulse*(1+.28*release),0,0,0,z);
+      s.el.style.opacity=String((.45+.55*basePulse)*(1-.06*release));
+      s.el.style.filter=`blur(${(1-basePulse)*.7}px)`;
     });
   },token);
   if(token!==playToken)return;
 
   const spinZeroGStart=spin;
 
-  // 7) 短い無重力の余韻。回転系はほぼ力を失うが、漂いは連続している。
-  const phase7Duration=850;
-  const omega7=Math.PI*2*.42;
+  // 7) 無重力の余韻。完全停止はせず、文字も光もゆっくり漂い続ける。
+  const phase7Duration=1050;
+  const omega7=omega6End;
 
   await frameTween(phase7Duration,(p,elapsed)=>{
     spin=spinZeroGStart+omega7*(elapsed/1000);
@@ -965,11 +972,11 @@ async function play(){
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
 
-      const driftX=Math.sin(driftTime*.0017+s.phase*1.4)*26
-        +Math.cos(driftTime*.0011+s.phase)*26*.35;
+      const driftX=Math.sin(driftTime*.0017+s.phase*1.4)*27
+        +Math.cos(driftTime*.0011+s.phase)*27*.35;
       const driftY=Math.cos(driftTime*.0015+s.phase*1.2)*18
-        +Math.sin(driftTime*.0011+s.phase)*26*.18;
-      const driftZ=Math.sin(driftTime*.0019+s.phase)*26*.55;
+        +Math.sin(driftTime*.0011+s.phase)*27*.18;
+      const driftZ=Math.sin(driftTime*.0019+s.phase)*27*.55;
 
       const x=Math.cos(angle)*86+driftX;
       const y=-18+Math.sin(angle)*24+layer*16+driftY;
@@ -987,12 +994,13 @@ async function play(){
     sparkleSeeds.forEach(s=>{
       const tt=sparkTime/1000;
       const ang=s.angle+tt*s.speed;
-      const x=Math.cos(ang)*s.radius+Math.sin(tt*1.35+s.phase)*12;
-      const y=s.y+Math.sin(tt*1.6+s.phase)*9+Math.cos(tt*.82+s.phase)*5;
-      const z=s.z+Math.cos(tt*1.22+s.phase)*14;
-      const pulse=.32+.68*Math.sin(tt*5.4*s.pulse+s.phase)**2;
-      setT(s.el,x,y,s.size*(.58+.68*pulse),0,0,0,z);
-      s.el.style.opacity=String(.54+.46*pulse);
+      const pulse=.45+.55*Math.sin(tt*5.2*s.pulse+s.phase)**2;
+      const x=Math.cos(ang)*s.radius+Math.sin(tt*1.35+s.phase)*18;
+      const y=s.y+Math.sin(tt*1.6+s.phase)*10+Math.cos(tt*.82+s.phase)*8;
+      const z=s.z+Math.cos(tt*1.22+s.phase)*18;
+      setT(s.el,x,y,s.size*pulse*1.28,0,0,0,z);
+      s.el.style.opacity=String((.45+.55*pulse)*.94);
+      s.el.style.filter=`blur(${(1-pulse)*.7}px)`;
     });
 
     whiteRoom.style.opacity=String(lerp(.84,.80,easeInOut(p)));
@@ -1001,93 +1009,190 @@ async function play(){
   },token);
   if(token!==playToken)return;
 
-  const spinFloatEnd=spin;
+  const spinZeroGEnd=spin;
 
-  // 8) 無重力から急速に再加速。同じ漂い位相を残したまま中央へ吸い込む。
-  const omega8Start=omega7;
-  const omega8End=Math.PI*2*5.10;
-  const phase8Duration=1550;
+  // 8) 龍のような一巡。
+  //    無重力の漂いを残したまま一本の流れにまとまり、画面全体をS字にうねって一周する。
+  const phase8Duration=2250;
+  const sweepX=Math.min(176,innerWidth*.37);
+  const sweepY=Math.min(112,innerHeight*.16);
 
   await frameTween(phase8Duration,(p,elapsed)=>{
-    const gather=easeInOut(clamp(p/.74));
-    const prog=spinProgress(spinFloatEnd,omega8Start,omega8End,elapsed,phase8Duration);
-    spin=prog.spin;
-
-    const radius=lerp(86,10,gather);
-    const ellipse=lerp(24,4,gather);
-    const baseY=lerp(-18,-10,gather);
-    const vertical=lerp(16,4,gather);
-    const scatter=1-gather;
+    const sweepBlend=easeInOut(clamp(p/.34));
     const driftTime=phase6Duration+phase7Duration+elapsed;
+    spin=spinZeroGEnd+omega7*(elapsed/1000);
+
+    // One full lap, with a little natural acceleration but no stop at either end.
+    const lap=p+.10*(p*p-p);
+    const theta=Math.PI*2*lap;
 
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const angle=baseAngles[i]+spin+(i%2?1:-1)*.38*scatter;
-      const depth=(Math.sin(angle)+1)/2;
+      const baseAngle=baseAngles[i]+spin+(i%2?1:-1)*.38;
+      const depth0=(Math.sin(baseAngle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
 
-      const driftX=(
-        Math.sin(driftTime*.0017+s.phase*1.4)*26
-        +Math.cos(driftTime*.0011+s.phase)*26*.35
-      )*scatter;
-      const driftY=(
-        Math.cos(driftTime*.0015+s.phase*1.2)*18
-        +Math.sin(driftTime*.0011+s.phase)*26*.18
-      )*scatter;
-      const driftZ=Math.sin(driftTime*.0019+s.phase)*26*.55*scatter;
+      // Moving zero-g source trajectory.
+      const driftX=Math.sin(driftTime*.0017+s.phase*1.4)*27
+        +Math.cos(driftTime*.0011+s.phase)*27*.35;
+      const driftY=Math.cos(driftTime*.0015+s.phase*1.2)*18
+        +Math.sin(driftTime*.0011+s.phase)*27*.18;
+      const driftZ=Math.sin(driftTime*.0019+s.phase)*27*.55;
+      const zeroX=Math.cos(baseAngle)*86+driftX;
+      const zeroY=-18+Math.sin(baseAngle)*24+layer*16+driftY;
+      const zeroZ=(depth0-.5)*30+driftZ;
 
-      const orbitX=Math.cos(angle)*radius+driftX;
-      const orbitY=baseY+Math.sin(angle)*ellipse+layer*vertical+driftY;
-      const orbitZ=(depth-.5)*30+driftZ;
+      // Dragon body: each glyph trails the previous one along the same flowing path.
+      const trail=(i-(n-1)/2)*.115;
+      const bodyT=theta-trail;
+      const dragonX=Math.sin(bodyT)*sweepX+Math.sin(bodyT*3+s.phase)*7;
+      const dragonY=-8+Math.sin(bodyT*2+.52)*sweepY+Math.cos(bodyT*1.35+s.phase)*8;
+      const dragonZ=Math.cos(bodyT)*54+Math.sin(bodyT*2+s.phase)*10;
 
-      const stagger=Math.min(.052,.58/Math.max(1,n));
-      const local=clamp((p-.46-i*stagger)/.54);
+      const x=lerp(zeroX,dragonX,sweepBlend);
+      const y=lerp(zeroY,dragonY,sweepBlend);
+      const z=lerp(zeroZ,dragonZ,sweepBlend);
+
+      const dragonDepth=(Math.sin(bodyT)+1)/2;
+      const zeroScale=(.55+depth0*.18)*densityScale;
+      const dragonScale=(.56+dragonDepth*.22)*densityScale;
+      const scale=lerp(zeroScale,dragonScale,sweepBlend);
+
+      const zeroRot=(spin*180/Math.PI)*(i%2?-.15:.15)+Math.sin(driftTime*.002+s.phase)*13;
+      const tangent=Math.atan2(
+        2*sweepY*Math.cos(bodyT*2+.52),
+        sweepX*Math.cos(bodyT)
+      )*180/Math.PI;
+      const rot=lerp(zeroRot,tangent*.34,sweepBlend);
+      const rx=lerp(
+        Math.sin(driftTime*.0022+s.phase)*24,
+        -8+Math.cos(bodyT)*18,
+        sweepBlend
+      );
+      const ry=lerp(
+        Math.cos(driftTime*.0021+s.phase)*28,
+        Math.sin(bodyT)*24,
+        sweepBlend
+      );
+
+      setT(el,x,y,scale,rot,rx,ry,z);
+      el.style.opacity=String(lerp(.88,.94,sweepBlend));
+    });
+
+    // Sparkles are gently gathered into a glittering trail around the dragon.
+    const sparkTime=phase5Duration+phase6Duration+phase7Duration+elapsed;
+    sparkleSeeds.forEach((s,i)=>{
+      const tt=sparkTime/1000;
+      const ang=s.angle+tt*s.speed;
+      const pulse=.45+.55*Math.sin(tt*5.2*s.pulse+s.phase)**2;
+
+      const zeroX=Math.cos(ang)*s.radius+Math.sin(tt*1.35+s.phase)*18;
+      const zeroY=s.y+Math.sin(tt*1.6+s.phase)*10+Math.cos(tt*.82+s.phase)*8;
+      const zeroZ=s.z+Math.cos(tt*1.22+s.phase)*18;
+
+      const trail=(i-(sparkleCount-1)/2)*.035;
+      const st=theta-trail;
+      const dragonX=Math.sin(st)*sweepX+Math.cos(st*3+s.phase)*18;
+      const dragonY=-8+Math.sin(st*2+.52)*sweepY+Math.sin(st*2.6+s.phase)*14;
+      const dragonZ=Math.cos(st)*60;
+
+      setT(
+        s.el,
+        lerp(zeroX,dragonX,sweepBlend),
+        lerp(zeroY,dragonY,sweepBlend),
+        s.size*pulse*1.22,
+        0,0,0,
+        lerp(zeroZ,dragonZ,sweepBlend)
+      );
+      s.el.style.opacity=String((.42+.52*pulse)*lerp(1,.82,sweepBlend));
+    });
+
+    whiteRoom.style.opacity=String(lerp(.80,.82,easeInOut(p)));
+    portalGlow.style.opacity=String(lerp(.16,.22,easeInOut(p)));
+    rushLines.style.opacity=String(lerp(.14,.20,easeInOut(p)));
+  },token);
+  if(token!==playToken)return;
+
+  const spinDragonEnd=spin;
+
+  // 9) 龍の一巡の勢いを切らず、そのまま急加速して中央へ収束し、最後に画面へ突き抜ける。
+  const omega9Start=omega7;
+  const omega9End=Math.PI*2*5.25;
+  const phase9Duration=1650;
+
+  await frameTween(phase9Duration,(p,elapsed)=>{
+    const prog=spinProgress(spinDragonEnd,omega9Start,omega9End,elapsed,phase9Duration);
+    spin=prog.spin;
+
+    const speedUp=easeIn(p);
+    const gather=easeInOut(clamp(p/.70));
+    const thetaEnd=Math.PI*2;
+    const theta=thetaEnd+Math.PI*2*.28*p;
+
+    g.forEach((el,i)=>{
+      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const trail=(i-(n-1)/2)*.115;
+      const bodyT=theta-trail;
+
+      // Continue the exact dragon family of paths at p=0.
+      const dragonX=Math.sin(bodyT)*sweepX+Math.sin(bodyT*3+seeds[i].phase)*7;
+      const dragonY=-8+Math.sin(bodyT*2+.52)*sweepY+Math.cos(bodyT*1.35+seeds[i].phase)*8;
+      const dragonZ=Math.cos(bodyT)*54+Math.sin(bodyT*2+seeds[i].phase)*10;
+
+      const coilR=lerp(1,.12,gather);
+      const coilX=dragonX*coilR;
+      const coilY=dragonY*coilR+layer*lerp(0,8,gather);
+      const coilZ=dragonZ*coilR;
+
+      const stagger=Math.min(.050,.56/Math.max(1,n));
+      const local=clamp((p-.42-i*stagger)/.58);
       const rush=easeIn(local);
 
-      const x=lerp(orbitX,0,rush);
-      const y=lerp(orbitY,0,rush);
-      const z=lerp(orbitZ,360,rush);
-      const scale=lerp((.55+depth*.18)*densityScale,3.22,rush);
+      const x=lerp(coilX,0,rush);
+      const y=lerp(coilY,0,rush);
+      const z=lerp(coilZ,380,rush);
+      const scale=lerp((.58+Math.sin(bodyT)*.08)*densityScale,3.28,rush);
 
-      const floatingRot=(spin*180/Math.PI)*(i%2?-.15:.15)
-        +Math.sin(driftTime*.002+s.phase)*13*scatter;
+      const tangent=Math.atan2(
+        2*sweepY*Math.cos(bodyT*2+.52),
+        sweepX*Math.cos(bodyT)
+      )*180/Math.PI;
       const rot=lerp(
-        floatingRot,
-        (spin*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*46,
+        tangent*.34,
+        (spin*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*48,
         rush
       );
-      const rx=lerp(Math.sin(driftTime*.0022+s.phase)*24*scatter,0,rush);
-      const ry=lerp(Math.cos(driftTime*.0021+s.phase)*28*scatter,0,rush);
+      const rx=lerp(-8+Math.cos(bodyT)*18,0,rush);
+      const ry=lerp(Math.sin(bodyT)*24,0,rush);
 
       setT(el,x,y,scale,rot,rx,ry,z);
 
       const fade=rush<.72?1:1-clamp((rush-.72)/.28);
-      el.style.opacity=String(lerp(.88,fade,rush));
-      el.style.filter=`blur(${rush*7}px) brightness(${1+rush*1.35})`;
+      el.style.opacity=String(fade);
+      el.style.filter=`blur(${rush*7}px) brightness(${1+rush*1.40})`;
     });
 
-    const sparkTime=phase5Duration+phase6Duration+phase7Duration+elapsed;
-    sparkleSeeds.forEach(s=>{
-      const tt=sparkTime/1000;
-      const ang=s.angle+tt*s.speed;
-      const x=(Math.cos(ang)*s.radius+Math.sin(tt*1.35+s.phase)*12)*scatter;
-      const y=(s.y+Math.sin(tt*1.6+s.phase)*9+Math.cos(tt*.82+s.phase)*5)*scatter;
-      const z=(s.z+Math.cos(tt*1.22+s.phase)*14)*scatter;
-      const pulse=.35+.65*Math.sin(tt*5.4*s.pulse+s.phase)**2;
-      setT(s.el,x,y,s.size*(.62+.55*pulse)*(1-gather*.45),0,0,0,z);
-      s.el.style.opacity=String((.46+.44*pulse)*scatter);
+    sparkleSeeds.forEach((s,i)=>{
+      const trail=(i-(sparkleCount-1)/2)*.035;
+      const st=theta-trail;
+      const pulse=.45+.55*Math.sin((phase9Duration+elapsed)*.006*s.pulse+s.phase)**2;
+      const x=Math.sin(st)*sweepX*(1-gather*.88);
+      const y=(-8+Math.sin(st*2+.52)*sweepY)*(1-gather*.88);
+      const z=Math.cos(st)*60*(1-gather*.88);
+      setT(s.el,x,y,s.size*pulse*(1-gather*.30),0,0,0,z);
+      s.el.style.opacity=String((.40+.50*pulse)*(1-p*.92));
     });
 
-    whiteRoom.style.opacity=String(lerp(.80,1,p));
-    rushLines.style.opacity=String(lerp(.14,0,p));
-    portalGlow.style.opacity=String(lerp(.16,0,p));
+    whiteRoom.style.opacity=String(lerp(.82,1,p));
+    rushLines.style.opacity=String(lerp(.20,0,p));
+    portalGlow.style.opacity=String(lerp(.22,0,p));
   },token);
   if(token!==playToken)return;
 
   sparkleSeeds.forEach(s=>s.el.remove());
   g.forEach(el=>el.remove());
 
-  // 9) 重量級刻印。ここでは背景を白く整理して可読性を最優先。
+  // 10) 重量級刻印。ここでは背景を白く整理して可読性を最優先。
   whiteRoom.style.opacity="1";
   whiteRoom.style.transform="none";
   whiteRoom.style.background="#fff";
