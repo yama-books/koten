@@ -227,7 +227,7 @@
   .stamp{
     font-family:"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif;
     font-size:var(--stamp-size);font-weight:600;
-    color:var(--ink);opacity:0;transform:translateY(-210px) scale(2.55);
+    color:var(--ink);opacity:0;transform:translateY(-210px) scale(2.55);position:relative;z-index:2;
     filter:blur(18px);
     text-shadow:0 1px 0 rgba(255,255,255,.7);
     will-change:transform,opacity,filter;
@@ -273,12 +273,12 @@
   }
   .impactWave{
     position:absolute;width:132px;height:132px;margin:-66px 0 0 -66px;
-    border-radius:50%;pointer-events:none;z-index:8;
+    border-radius:50%;pointer-events:none;z-index:1;
     border:5px solid rgba(255,244,209,.96);
     box-shadow:
       0 0 36px 11px rgba(255,229,151,.62),
       inset 0 0 28px rgba(255,255,255,.72);
-    animation:impactWave .58s cubic-bezier(.06,.66,.12,1) forwards;
+    animation:impactWave .62s .13s cubic-bezier(.06,.66,.12,1) both;
   }
   @keyframes impactWave{
     0%{opacity:.98;transform:scale(.14);filter:blur(0)}
@@ -321,7 +321,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 17: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 18: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -642,7 +642,16 @@ async function play(){
       rxSpeed:(Math.random()<.5?-1:1)*(82+Math.random()*54),
       rySpeed:(Math.random()<.5?-1:1)*(94+Math.random()*68),
       rzSpeed:(Math.random()<.5?-1:1)*(24+Math.random()*30),
-      zAmp:22+Math.random()*28
+      zAmp:22+Math.random()*28,
+      peelJitter:(Math.random()-.5)*34,
+      liftAmp:148+Math.random()*54,
+      floatAmpX:.72+Math.random()*.62,
+      floatAmpY:.72+Math.random()*.66,
+      floatAmpZ:.74+Math.random()*.66,
+      floatFreqX:.90+Math.random()*.38,
+      floatFreqY:.88+Math.random()*.42,
+      floatFreqZ:.92+Math.random()*.36,
+      orbitLag:Math.random()*260
     };
   });
 
@@ -690,13 +699,13 @@ async function play(){
       const base=(i/n)*Math.PI*2;
 
       const peelStagger=n>16?88:n>12?108:n>8?130:158;
-      const peelDelay=150+i*peelStagger;
+      const peelDelay=150+i*peelStagger+s.peelJitter;
       const peelT=easeInOut(clamp((elapsed-peelDelay)/520));
       const localRise=easeSoft(clamp((elapsed-(peelDelay+120))/3000));
       const localFloat=easeInOut(clamp((elapsed-(peelDelay+220))/1250));
-      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+700))/3100));
+      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+700+s.orbitLag))/3100));
 
-      const lift=174*localRise;
+      const lift=s.liftAmp*localRise;
 
       // "Paper" peel around the lower hinge.
       const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-charOrbit);
@@ -712,9 +721,12 @@ async function play(){
       // The peeled glyph immediately begins to float.
       const floatEnvelope=.20+.80*Math.sin(Math.min(localRise,.985)*Math.PI);
       const floatStrength=floatEnvelope*localFloat;
-      const freeX=s.x+planarDriftX+peelX+Math.sin(tSec*2.18+s.phase)*s.sway*floatStrength;
-      const freeY=s.y-lift+planarDriftY+peelY+Math.sin(tSec*3.05+s.phase)*6.4*floatStrength;
-      const freeZ=peelZ+Math.sin(tSec*2.55+s.phase)*26*floatStrength;
+      const freeX=s.x+planarDriftX+peelX
+        +Math.sin(tSec*2.18*s.floatFreqX+s.phase)*s.sway*s.floatAmpX*floatStrength;
+      const freeY=s.y-lift+planarDriftY+peelY
+        +Math.sin(tSec*3.05*s.floatFreqY+s.phase)*6.4*s.floatAmpY*floatStrength;
+      const freeZ=peelZ
+        +Math.sin(tSec*2.55*s.floatFreqZ+s.phase)*26*s.floatAmpZ*floatStrength;
 
       // The imperfect ring is already rotating while glyphs are still being attracted.
       const angle=base+spinBase;
@@ -909,46 +921,47 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光が開ける瞬間にぱっと散り、そのまま「花びらのような」独立運動へ移る。
-  //    ここからは集団回転を使わず、各文字が別々の揺れ・傾き・上下動を持つ。
-  const phase6Duration=1950;
+  // 6) 閃光が開けた瞬間にぱっと生まれ落ち、花びらのような自由落下へ。
+  //    個々の文字はフル回転させず、左右の揺れ・前後の揺れ・傾きだけで「ひらひら」を作る。
+  const phase6Duration=2050;
   const flashOpenMs=230;
 
   const petalState=(i,timeMs)=>{
     const s=seeds[i];
     const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
     const tt=timeMs/1000;
-    const anchorAngle=baseAngles[i]+s.phase*.14;
+    const anchorAngle=baseAngles[i]+s.phase*.13;
     const anchorR=72+(i%4)*7;
+    const fall=Math.min(tt,4.6)*(7.5+s.floatAmpY*2.2);
     const anchorX=Math.cos(anchorAngle)*anchorR+layer*10;
-    const anchorY=-14+Math.sin(anchorAngle*.78)*17+layer*20;
-    const anchorZ=Math.sin(anchorAngle*1.28+s.phase)*26;
+    const anchorY=-34+Math.sin(anchorAngle*.78)*16+layer*18+fall;
+    const anchorZ=Math.sin(anchorAngle*1.24+s.phase)*25;
 
-    // Petal-like movement: lateral sway, slow lift/fall and rocking, but no full spin.
-    const swayX=Math.sin(tt*1.08+s.phase*1.35)*27
-      +Math.sin(tt*.48+s.phase*.62)*9;
-    const swayY=Math.cos(tt*.94+s.phase*1.12)*18
-      +Math.sin(tt*.41+s.phase)*7;
-    const swayZ=Math.sin(tt*1.20+s.phase)*16
-      +Math.cos(tt*.52+s.phase*.74)*8;
+    const swayX=Math.sin(tt*(.92+s.floatFreqX*.22)+s.phase*1.35)*(24*s.floatAmpX)
+      +Math.sin(tt*.44+s.phase*.62)*8;
+    const swayY=Math.cos(tt*(.82+s.floatFreqY*.18)+s.phase*1.12)*(13*s.floatAmpY)
+      +Math.sin(tt*.39+s.phase)*6;
+    const swayZ=Math.sin(tt*(1.02+s.floatFreqZ*.20)+s.phase)*(14*s.floatAmpZ)
+      +Math.cos(tt*.50+s.phase*.74)*7;
 
     return {
       x:anchorX+swayX,
       y:anchorY+swayY,
       z:anchorZ+swayZ,
-      rot:Math.sin(tt*1.18+s.phase)*8,
-      rx:-8+Math.sin(tt*1.42+s.phase)*18,
-      ry:Math.cos(tt*1.26+s.phase)*21
+      rot:Math.sin(tt*1.10+s.phase)*5.5,
+      rx:-6+Math.sin(tt*1.30+s.phase)*13,
+      ry:Math.cos(tt*1.18+s.phase)*15
     };
   };
 
   const sparkPetalState=(s,timeMs)=>{
     const tt=timeMs/1000;
-    const ang=s.angle+Math.sin(tt*.28+s.phase)*.18;
+    const fall=Math.min(tt,4.6)*6.5;
+    const ang=s.angle+Math.sin(tt*.24+s.phase)*.14;
     return {
-      x:Math.cos(ang)*s.radius+Math.sin(tt*.98+s.phase)*19,
-      y:s.y+Math.sin(tt*1.18+s.phase)*12+Math.cos(tt*.48+s.phase)*7,
-      z:s.z+Math.cos(tt*.92+s.phase)*20,
+      x:Math.cos(ang)*s.radius+Math.sin(tt*.92+s.phase)*18,
+      y:s.y+fall+Math.sin(tt*1.08+s.phase)*10+Math.cos(tt*.46+s.phase)*6,
+      z:s.z+Math.cos(tt*.84+s.phase)*18,
       pulse:.45+.55*Math.sin(tt*5.0*s.pulse+s.phase)**2
     };
   };
@@ -956,13 +969,13 @@ async function play(){
   await frameTween(phase6Duration,(p,elapsed)=>{
     const flashOpen=easeOut(clamp(elapsed/flashOpenMs));
     const burst=easeOut(clamp(elapsed/flashOpenMs));
-    const petalBlend=easeInOut(clamp((elapsed-70)/1260));
-    const soften=easeInOut(clamp((elapsed-110)/1580));
+    const petalBlend=easeInOut(clamp((elapsed-70)/1320));
+    const soften=easeInOut(clamp((elapsed-110)/1660));
 
     flash.style.opacity=String((1-flashOpen)*.92);
     whiteRoom.style.opacity=String(lerp(1,.84,soften));
-    portalGlow.style.opacity=String(lerp(.90,.18,soften));
-    rushLines.style.opacity=String(lerp(1,.14,soften));
+    portalGlow.style.opacity=String(lerp(.90,.16,soften));
+    rushLines.style.opacity=String(lerp(1,.10,soften));
 
     g.forEach((el,i)=>{
       const s=seeds[i];
@@ -980,12 +993,11 @@ async function play(){
       const startRx=-16+Math.cos(endAngle+layer*.35)*15;
       const startRy=12+Math.sin(endAngle-layer*.25)*18;
 
-      // A single explosive opening. After this, the path is purely petal drift.
       const burstAngle=baseAngles[i]+s.phase*.18+(i%2?-.12:.12);
       const burstR=72+(i%4)*10+Math.abs(layer)*20;
       const burstX=Math.cos(burstAngle)*burstR;
-      const burstY=Math.sin(burstAngle)*burstR*.64+layer*26;
-      const burstZ=Math.sin(burstAngle*1.7+s.phase)*(40+Math.abs(layer)*12);
+      const burstY=Math.sin(burstAngle)*burstR*.62+layer*24;
+      const burstZ=Math.sin(burstAngle*1.7+s.phase)*(38+Math.abs(layer)*12);
 
       const burstPos={
         x:startX+burstX*burst,
@@ -1002,7 +1014,7 @@ async function play(){
       const targetScale=(.55+targetDepth*.15)*densityScale;
       const scale=lerp(startScale,targetScale,soften);
 
-      // Flash hides the old rotational pose; what emerges is a rocking petal.
+      // Old rotational pose disappears under the flash; the emerging glyph only rocks like a petal.
       const rot=lerp(startRot,petal.rot,petalBlend);
       const rx=lerp(startRx,petal.rx,petalBlend);
       const ry=lerp(startRy,petal.ry,petalBlend);
@@ -1019,11 +1031,14 @@ async function play(){
       const burstY=Math.sin(s.angle)*burstR*.76;
       const burstZ=Math.sin(s.angle*1.6+s.phase)*burstR*.66;
 
-      const x=lerp(burstX,petal.x,petalBlend);
-      const y=lerp(burstY,petal.y,petalBlend);
-      const z=lerp(burstZ,petal.z,petalBlend);
-
-      setT(s.el,x,y,s.size*(.72+.58*petal.pulse),0,0,0,z);
+      setT(
+        s.el,
+        lerp(burstX,petal.x,petalBlend),
+        lerp(burstY,petal.y,petalBlend),
+        s.size*(.72+.58*petal.pulse),
+        0,0,0,
+        lerp(burstZ,petal.z,petalBlend)
+      );
       s.el.style.opacity=String(.48+.48*petal.pulse);
       s.el.style.filter=`blur(${(1-petal.pulse)*.7}px)`;
     });
@@ -1031,8 +1046,8 @@ async function play(){
   if(token!==playToken)return;
   flash.style.opacity="0";
 
-  // 7) 「ひらひら、ふわふわ」を十分に見せる。まだ収束しない。
-  const phase7Duration=1750;
+  // 7) 自由落下の余韻。まだ集団回転には戻さず、花びらの独立運動を見せる。
+  const phase7Duration=1700;
 
   await frameTween(phase7Duration,(p,elapsed)=>{
     const petalTime=phase6Duration+elapsed;
@@ -1054,101 +1069,123 @@ async function play(){
     });
 
     whiteRoom.style.opacity=String(lerp(.84,.81,easeInOut(p)));
-    portalGlow.style.opacity=String(lerp(.18,.12,easeInOut(p)));
-    rushLines.style.opacity=String(lerp(.14,.08,easeInOut(p)));
+    portalGlow.style.opacity=String(lerp(.16,.12,easeInOut(p)));
+    rushLines.style.opacity=String(lerp(.10,.08,easeInOut(p)));
   },token);
   if(token!==playToken)return;
 
-  // 8) 再収束。円運動には戻さず、花びらの漂いを残したまま中央の「流れ」に吸い寄せる。
-  const phase8Duration=2050;
+  // 8) 花びらの散開から集団回転へ自然復帰。
+  //    petalState を moving source として残し、共有角度の円環へ徐々に吸着させる。
+  const phase8Duration=2450;
   const petalBaseTime=phase6Duration+phase7Duration;
-
-  const gatherState=(i,timeMs,amount)=>{
-    const s=seeds[i];
-    const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-    const petal=petalState(i,timeMs);
-    const tt=timeMs/1000;
-
-    // An elongated, slightly wavy stream rather than a ring.
-    const streamX=layer*lerp(72,20,amount)
-      +Math.sin(tt*1.55+s.phase)*lerp(14,5,amount);
-    const streamY=-6
-      +layer*lerp(58,12,amount)
-      +Math.cos(tt*1.22+s.phase)*lerp(12,4,amount);
-    const streamZ=Math.sin(layer*2.1+s.phase)*lerp(28,8,amount)
-      +Math.sin(tt*1.38+s.phase)*lerp(10,3,amount);
-
-    return {
-      x:lerp(petal.x,streamX,amount),
-      y:lerp(petal.y,streamY,amount),
-      z:lerp(petal.z,streamZ,amount),
-      rot:lerp(petal.rot,Math.sin(tt*1.45+s.phase)*7,amount),
-      rx:lerp(petal.rx,-5+Math.sin(tt*1.30+s.phase)*12,amount),
-      ry:lerp(petal.ry,Math.cos(tt*1.36+s.phase)*14,amount)
-    };
-  };
+  const groupOmegaStart=Math.PI*2*.20;
+  const groupOmegaEnd=Math.PI*2*1.18;
+  const groupAccel=(groupOmegaEnd-groupOmegaStart)/(phase8Duration/1000);
+  const groupR=84;
+  const groupRY=28;
+  let groupTheta=0;
 
   await frameTween(phase8Duration,(p,elapsed)=>{
-    const gather=easeInOut(p);
+    const tSec=elapsed/1000;
+    groupTheta=groupOmegaStart*tSec+.5*groupAccel*tSec*tSec;
+    const groupBlend=easeInOut(clamp((p-.04)/.82));
     const time=petalBaseTime+elapsed;
+    const centerX=Math.sin(groupTheta*.34)*9*groupBlend;
+    const centerY=-12+Math.cos(groupTheta*.29)*7*groupBlend;
 
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const pos=gatherState(i,time,gather);
-      const depth=.5+.5*Math.sin(s.phase+time*.0010);
-      const scale=lerp(
-        (.55+depth*.15)*densityScale,
-        (.48+depth*.12)*densityScale,
-        gather
-      );
-      setT(el,pos.x,pos.y,scale,pos.rot,pos.rx,pos.ry,pos.z);
-      el.style.opacity=String(lerp(.91,.95,gather));
+      const petal=petalState(i,time);
+      const angle=baseAngles[i]+groupTheta;
+      const depth=(Math.sin(angle)+1)/2;
+      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+
+      const orbitX=centerX+Math.cos(angle)*groupR;
+      const orbitY=centerY+Math.sin(angle)*groupRY+layer*34;
+      const orbitZ=(depth-.5)*50;
+
+      const x=lerp(petal.x,orbitX,groupBlend);
+      const y=lerp(petal.y,orbitY,groupBlend);
+      const z=lerp(petal.z,orbitZ,groupBlend);
+
+      const petalDepth=.5+.5*Math.sin(s.phase+time*.0009);
+      const petalScale=(.55+petalDepth*.15)*densityScale;
+      const orbitScale=(.56+depth*.24)*densityScale;
+      const scale=lerp(petalScale,orbitScale,groupBlend);
+
+      // Individual tumbling stays restrained. The visible rotation is the group orbit itself.
+      const orbitRot=Math.sin(angle)*7;
+      const orbitRx=-7+Math.cos(angle)*12;
+      const orbitRy=Math.sin(angle)*15;
+      const rot=lerp(petal.rot,orbitRot,groupBlend);
+      const rx=lerp(petal.rx,orbitRx,groupBlend);
+      const ry=lerp(petal.ry,orbitRy,groupBlend);
+
+      setT(el,x,y,scale,rot,rx,ry,z);
+      el.style.opacity=String(lerp(.91,.97,groupBlend));
     });
 
-    sparkleSeeds.forEach(s=>{
+    sparkleSeeds.forEach((s,i)=>{
       const petal=sparkPetalState(s,time);
-      const x=lerp(petal.x,Math.sin(time*.0015+s.phase)*26,gather);
-      const y=lerp(petal.y,Math.cos(time*.0012+s.phase)*18,gather);
-      const z=lerp(petal.z,Math.sin(time*.0013+s.phase)*14,gather);
-      setT(s.el,x,y,s.size*(.70+.55*petal.pulse)*(1-gather*.16),0,0,0,z);
-      s.el.style.opacity=String((.45+.45*petal.pulse)*(1-gather*.18));
+      const angle=(i/sparkleCount)*Math.PI*2+groupTheta;
+      const depth=(Math.sin(angle)+1)/2;
+      const orbitX=centerX+Math.cos(angle)*(groupR+20);
+      const orbitY=centerY+Math.sin(angle)*(groupRY+10);
+      const orbitZ=(depth-.5)*64;
+      setT(
+        s.el,
+        lerp(petal.x,orbitX,groupBlend),
+        lerp(petal.y,orbitY,groupBlend),
+        s.size*(.70+.56*petal.pulse),
+        0,0,0,
+        lerp(petal.z,orbitZ,groupBlend)
+      );
+      s.el.style.opacity=String((.44+.48*petal.pulse)*lerp(1,.86,groupBlend));
     });
 
-    whiteRoom.style.opacity=String(lerp(.81,.88,gather));
-    portalGlow.style.opacity=String(lerp(.12,.22,gather));
-    rushLines.style.opacity=String(lerp(.08,.18,gather));
+    whiteRoom.style.opacity=String(lerp(.81,.86,groupBlend));
+    portalGlow.style.opacity=String(lerp(.12,.24,groupBlend));
+    rushLines.style.opacity=String(lerp(.08,.20,groupBlend));
   },token);
   if(token!==playToken)return;
 
-  // 9) 再収束した流れが一気に加速し、中央へ締まりながら画面前方へ突き抜ける。
-  const phase9Duration=1650;
+  // 9) 集団回転の角速度をそのまま引き継ぎ、加速しながら円環を締めて前方へ突き抜ける。
+  const phase9Duration=1750;
+  const groupOmegaRushEnd=Math.PI*2*4.10;
+  const groupRushAccel=(groupOmegaRushEnd-groupOmegaEnd)/(phase9Duration/1000);
 
   await frameTween(phase9Duration,(p,elapsed)=>{
-    const accel=easeIn(p);
-    const time=petalBaseTime+phase8Duration+elapsed;
-    const collapse=easeInOut(clamp(p/.68));
+    const tSec=elapsed/1000;
+    const theta=groupTheta+groupOmegaEnd*tSec+.5*groupRushAccel*tSec*tSec;
+    const collapse=easeInOut(clamp(p/.70));
+    const radius=lerp(groupR,10,collapse);
+    const ellipse=lerp(groupRY,4,collapse);
+    const vertical=lerp(34,4,collapse);
+    const centerX=Math.sin(theta*.34)*9*(1-collapse);
+    const centerY=lerp(-12,-4,collapse)+Math.cos(theta*.29)*7*(1-collapse);
 
     g.forEach((el,i)=>{
+      const angle=baseAngles[i]+theta;
+      const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-      const src=gatherState(i,time,1);
 
-      const pull=lerp(1,.08,collapse);
-      const sourceX=src.x*pull;
-      const sourceY=src.y*pull+layer*lerp(0,7,collapse);
-      const sourceZ=src.z*pull;
+      const orbitX=centerX+Math.cos(angle)*radius;
+      const orbitY=centerY+Math.sin(angle)*ellipse+layer*vertical;
+      const orbitZ=(depth-.5)*50*(1-collapse*.45);
 
       const stagger=Math.min(.050,.56/Math.max(1,n));
-      const local=clamp((p-.40-i*stagger)/.60);
+      const local=clamp((p-.43-i*stagger)/.57);
       const rush=easeIn(local);
 
-      const x=lerp(sourceX,0,rush);
-      const y=lerp(sourceY,0,rush);
-      const z=lerp(sourceZ,400,rush);
-      const scale=lerp((.50+Math.abs(layer)*.05)*densityScale,3.38,rush);
+      const x=lerp(orbitX,0,rush);
+      const y=lerp(orbitY,0,rush);
+      const z=lerp(orbitZ,400,rush);
+      const scale=lerp((.56+depth*.24)*densityScale,3.38,rush);
 
-      const rot=lerp(src.rot,(i%2?-1:1)*48*rush,rush);
-      const rx=lerp(src.rx,0,rush);
-      const ry=lerp(src.ry,0,rush);
+      const orbitRot=Math.sin(angle)*7;
+      const rot=lerp(orbitRot,(i%2?-1:1)*50*rush,rush);
+      const rx=lerp(-7+Math.cos(angle)*12,0,rush);
+      const ry=lerp(Math.sin(angle)*15,0,rush);
 
       setT(el,x,y,scale,rot,rx,ry,z);
 
@@ -1158,18 +1195,19 @@ async function play(){
     });
 
     sparkleSeeds.forEach((s,i)=>{
-      const petal=sparkPetalState(s,time);
-      const collapse2=1-collapse*.92;
-      const x=Math.sin(time*.0015+s.phase)*26*collapse2;
-      const y=Math.cos(time*.0012+s.phase)*18*collapse2;
-      const z=Math.sin(time*.0013+s.phase)*14*collapse2;
-      setT(s.el,x,y,s.size*(.68+.54*petal.pulse)*(1-collapse*.34),0,0,0,z);
-      s.el.style.opacity=String((.40+.48*petal.pulse)*(1-p*.94));
+      const angle=(i/sparkleCount)*Math.PI*2+theta;
+      const depth=(Math.sin(angle)+1)/2;
+      const x=(centerX+Math.cos(angle)*(radius+18))*(1-collapse*.22);
+      const y=centerY+Math.sin(angle)*(ellipse+8);
+      const z=(depth-.5)*62*(1-collapse*.60);
+      const pulse=.45+.55*Math.sin((petalBaseTime+phase8Duration+elapsed)*.005*s.pulse+s.phase)**2;
+      setT(s.el,x,y,s.size*(.68+.54*pulse)*(1-collapse*.32),0,0,0,z);
+      s.el.style.opacity=String((.40+.48*pulse)*(1-p*.94));
     });
 
-    whiteRoom.style.opacity=String(lerp(.88,1,p));
-    rushLines.style.opacity=String(lerp(.18,0,p));
-    portalGlow.style.opacity=String(lerp(.22,0,p));
+    whiteRoom.style.opacity=String(lerp(.86,1,p));
+    rushLines.style.opacity=String(lerp(.20,0,p));
+    portalGlow.style.opacity=String(lerp(.24,0,p));
   },token);
   if(token!==playToken)return;
 
@@ -1201,16 +1239,16 @@ async function play(){
   const stamps=[...board.children];
   for(let i=0;i<stamps.length;i++){
     if(token!==playToken)return;
-    stamps[i].classList.add("hit");
-
     const sr=stamps[i].getBoundingClientRect();
-    const cr=core.getBoundingClientRect();
+    const br=board.getBoundingClientRect();
     const wave=document.createElement("div");
     wave.className="impactWave";
-    wave.style.left=`${sr.left+sr.width/2-cr.left}px`;
-    wave.style.top=`${sr.top+sr.height/2-cr.top}px`;
-    core.appendChild(wave);
-    setTimeout(()=>wave.remove(),460);
+    wave.style.left=`${sr.left+sr.width/2-br.left}px`;
+    wave.style.top=`${sr.top+sr.height/2-br.top}px`;
+    board.appendChild(wave);
+    setTimeout(()=>wave.remove(),820);
+
+    stamps[i].classList.add("hit");
 
     core.classList.remove("shake");
     void core.offsetWidth;
