@@ -19,11 +19,28 @@ async function initQuizUI(){
   }catch(_error){quizLoadFailed=true;}
   for(const [id,value] of Object.entries(quizSettings)) document.getElementById(id).value=value;
   document.getElementById('quizMode').disabled=false;
+  const shortcut=document.getElementById('openQuizModes');shortcut.hidden=false;
+  shortcut.addEventListener('click',()=>{
+    const dialog=document.getElementById('settingsDialog');dialog.showModal();document.getElementById('quizMode').focus();
+  });
+  document.querySelectorAll('[data-quiz-mode]').forEach(button=>{
+    button.disabled=false;
+    button.addEventListener('click',()=>{
+      const select=document.getElementById('quizMode');
+      if(select.value===button.dataset.quizMode)return;
+      select.value=button.dataset.quizMode;
+      select.dispatchEvent(new Event('change',{bubbles:true}));
+    });
+  });
   document.getElementById('quizMode').addEventListener('change',()=>{
     const mode=document.getElementById('quizMode').value;
+    shortcut.textContent={table:'活用表 ▾',form:'活用形 ▾',type:'活用種類 ▾'}[mode];
+    document.querySelectorAll('[data-quiz-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.quizMode===mode)));
     if(quizPreviousMode==='table')quizExamplePreference=document.getElementById('showExample').checked;
     if(mode==='table')document.getElementById('showExample').checked=quizExamplePreference;
-    quizPreviousMode=mode;closeEditor(false);document.getElementById('settingsDialog').close();nextQuestion();
+    quizPreviousMode=mode;closeEditor(false);
+    const dialog=document.getElementById('settingsDialog');if(dialog.open)dialog.close();
+    nextQuestion();
   });
   for(const id of ['choiceScope','supportLevel','rowMode']) document.getElementById(id).addEventListener('change',()=>{
     quizSettings[id]=id==='supportLevel'?Number(document.getElementById(id).value):document.getElementById(id).value;

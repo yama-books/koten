@@ -47,15 +47,29 @@ const expectedCases=selectedViewports.length*themes.length*2*4;
 const failures:string[]=[];let cases=0;
 // Windows WebKit's full-page capture can stall; geometry/interaction checks still run.
 const output=process.argv.includes('--webkit')?undefined:process.env.CONJ_QUIZ_ARTIFACT_DIR;
-async function chooseMode(page:any,mode:string){await page.locator('#openSettings').click();await page.selectOption('#quizMode',mode);}
+async function chooseMode(page:any,mode:string){
+  if(await page.locator('#quizMode').inputValue()===mode)return;
+  if(await page.locator('.quiz-mode-tabs').isVisible())await page.locator(`[data-quiz-mode="${mode}"]`).click();
+  else{
+    await page.locator('#openQuizModes').click();
+    await page.selectOption('#quizMode',mode);
+  }
+  assert.equal(await page.locator(`[data-quiz-mode="${mode}"]`).getAttribute('aria-pressed'),'true');
+  if(await page.locator('#openQuizModes').isVisible())assert.match(await page.locator('#openQuizModes').innerText(),{table:/活用表/,form:/活用形/,type:/活用種類/}[mode]);
+}
 try{
   // Real data is still held; returning to the drill must clear the empty state.
   const empty=await browser.newPage();await empty.goto(`http://127.0.0.1:${port}/conj/`);
   await empty.waitForFunction("!document.getElementById('quizMode').disabled");
+  assert.equal(await empty.locator('.quiz-mode-tabs button').count(),3,'all modes exist in the main card');
+  assert.ok(await empty.locator('.quiz-mode-tabs').isVisible() || await empty.locator('#openQuizModes').isVisible(),'mode entry is visible on the main screen');
   await empty.locator('#showExample').uncheck();
   await chooseMode(empty,'form');await empty.locator('#quizEmpty').waitFor({state:'visible'});
   assert.equal(await empty.locator('#quizChoices button').count(),0);
   await chooseMode(empty,'table');assert.ok(await empty.locator('#formBody > tr').count()===6);
+  await empty.locator('#openSettings').click();await empty.selectOption('#quizMode','type');
+  assert.equal(await empty.locator('[data-quiz-mode="type"]').getAttribute('aria-pressed'),'true','settings mode stays in sync');
+  await chooseMode(empty,'table');
   assert.equal(await empty.locator('#showExample').isChecked(),false,'drill example preference is preserved');
   assert.equal(await empty.locator('#showExample').isEnabled(),true,'drill example control is restored');
   await empty.locator('#showExample').check();
@@ -67,6 +81,12 @@ try{
     await page.addInitScript(()=>localStorage.setItem('conjInstallNoticeDismissed','true'));
     await page.goto(`http://127.0.0.1:${port}/conj/`);
     await page.waitForFunction("!document.getElementById('quizMode').disabled");
+    if(viewport.height>700 || viewport.width>700){
+      assert.deepEqual(await page.locator('.quiz-mode-tabs button:visible').allTextContents(),['活用表','活用形を判別','活用の種類を判別']);
+    }else assert.equal(await page.locator('#openQuizModes').isVisible(),true);
+    if(output && viewport.width===375 && viewport.height===812){
+      await mkdir(output,{recursive:true});await page.screenshot({path:path.join(output,'mode-entry-mobile.png'),fullPage:true,timeout:15000});
+    }
     await page.waitForFunction("!!document.getElementById('conj-hyakunin-font-faces')");
     await page.evaluate('document.fonts.ready');
     assert.equal(await page.evaluate('quizRecords.length'),4,'all fixtures must resolve to the actual renderer');
