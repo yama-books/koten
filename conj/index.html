@@ -3161,7 +3161,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20260929">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20260930-2">
 </head>
 <body>
 <div class="wrap">
@@ -3170,6 +3170,7 @@ body.review-modal-open{overflow:hidden}
       <h1>古典文法活用ノート</h1>
     </div>
     <div class="header-record">
+      <button class="ghost quiz-mode-shortcut" id="openQuizModes" type="button" aria-label="学習モードを切り替える" hidden>活用表 ▾</button>
       <div class="score" id="score" aria-live="polite">
         <span class="score-label">累計正答</span>
         <strong class="score-value" id="scoreValue">0</strong>
@@ -3225,6 +3226,11 @@ body.review-modal-open{overflow:hidden}
   </div>
 
   <main class="card">
+    <div class="quiz-mode-tabs" role="group" aria-label="学習モード">
+      <button type="button" data-quiz-mode="table" aria-pressed="true" disabled>活用表</button>
+      <button type="button" data-quiz-mode="form" aria-pressed="false" disabled>活用形を判別</button>
+      <button type="button" data-quiz-mode="type" aria-pressed="false" disabled>活用の種類を判別</button>
+    </div>
     <div class="quiz-controls" id="quizControls" hidden>
       <label>選択肢 <select id="choiceScope"><option value="near">近い型</option><option value="part_of_speech">同じ品詞</option><option value="cross_pos">品詞をまたぐ</option><option value="all">すべての型</option></select></label>
       <label>はじめの表 <select id="supportLevel"><option value="0">表なし</option><option value="1">部分表</option><option value="2">全表</option></select></label>
@@ -3435,7 +3441,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
-<script src="./conj-quiz-ui.js?v=20260929"></script>
+<script src="./conj-quiz-ui.js?v=20260930-2"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;

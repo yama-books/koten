@@ -2,6 +2,19 @@
 .quiz-controls[hidden],#quizAnswerPanel[hidden],#quizEmpty[hidden],#quizPrompt[hidden],#levelMeters[hidden]{display:none!important}
 .mode-control{display:flex;align-items:center;gap:5px;font-size:12px}
 .mode-control select{max-width:100%;min-height:34px}
+.quiz-mode-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-bottom:9px}
+.quiz-mode-tabs button{min-width:0;min-height:38px;padding:5px 4px;border:1px solid var(--line);border-radius:10px;background:var(--toolbar-bg);color:var(--ink);font:inherit;font-size:12px;cursor:pointer}
+.quiz-mode-tabs button[aria-pressed="true"]{border-color:var(--accent-strong);background:var(--good);font-weight:700}
+.quiz-mode-tabs button:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+.quiz-mode-tabs button:disabled{opacity:.6;cursor:default}
+.quiz-mode-shortcut{display:none}
+@media(max-width:700px) and (max-height:700px){
+  .quiz-mode-tabs{display:none}
+  .quiz-mode-shortcut:not([hidden]){display:inline-flex;align-items:center;min-height:28px;padding:3px 4px;font-size:9px;white-space:nowrap}
+  header{gap:3px}
+  .header-record{gap:3px}
+  .card{padding-top:5px;padding-bottom:5px}
+}
 .quiz-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0;color:var(--muted);font-size:12px}
 .quiz-controls label{display:flex;align-items:center;gap:4px}
 .quiz-controls label[hidden]{display:none}
@@ -39,6 +52,8 @@
 .quiz-record-summary p{margin:0}
 .card.is-quiz .actions button{min-height:44px}
 @media(max-width:700px){
+  .quiz-mode-tabs{gap:3px;margin-bottom:5px}
+  .quiz-mode-tabs button{min-height:36px;padding:4px 2px;font-size:clamp(9px,2.7vw,11px)}
   .quiz-choices[data-count="6"]{grid-template-columns:repeat(3,minmax(44px,1fr))}
   .quiz-choices[data-count="4"]{grid-template-columns:repeat(2,minmax(44px,1fr))}
   .quiz-choices{max-height:148px}
