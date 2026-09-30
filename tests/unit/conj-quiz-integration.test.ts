@@ -159,6 +159,50 @@ test('quiz: bounded detailed history keeps cumulative counts and removes arbitra
   assert.equal(history.events.length,1000);assert.equal(history.byMode.form.total,1005);
   assert.equal(history.byMode.form.independent,1005);assert.ok(!JSON.stringify(history).includes('never store'));
 });
+test('quiz: running totals count every answer by item, cell, form and part of speech, beyond the 1000-event log',()=>{
+  let history:any;
+  for(let i=0;i<1005;i++) history=recordLearningEvent(history,{...ex,itemId:'nu_verb',partOfSpeech:'動詞',quizMode:'form',form:'連体形',correct:i%5!==0,maxHintLevel:0,hintCount:0});
+  history=recordLearningEvent(history,{...ex,itemId:'zu',partOfSpeech:'助動詞',quizMode:'type',form:null,correct:true,maxHintLevel:0,hintCount:0});
+  assert.equal(history.events.length,1000);
+  const totals=history.totals;
+  assert.equal(totals.total,1006);assert.equal(totals.correct,805);
+  assert.deepEqual(totals.byPos,{verb:1005,adj:0,adjv:0,aux:1});
+  assert.deepEqual(totals.byForm['連体形'],{c:804,n:1005});
+  // a type question grades the item, not a form or a cell
+  assert.deepEqual(totals.byItem.zu,{c:1,n:1});assert.equal(totals.byCell['zu:3'],undefined);
+  assert.deepEqual(totals.byCell['nu_verb:3'],{c:804,n:1005});
+  // export/import is a JSON roundtrip of stats, and the totals survive it
+  assert.deepEqual(normalizeHistory(JSON.parse(JSON.stringify(history))),history);
+});
+test('quiz: old records move their remaining events into totals once, only when examples can be named',()=>{
+  const old={version:1,byMode:{form:{total:40,correct:30}},events:[
+    {exampleId:'master:form:hyakunin:nu_verb',quizMode:'form',partOfSpeech:'動詞',form:'連用形',correct:true,maxHintLevel:0,hintCount:0},
+    {exampleId:'master:type:aux-zu-001',quizMode:'type',partOfSpeech:'助動詞',form:null,correct:false,maxHintLevel:1,hintCount:1},
+  ]};
+  // before the practice pool loads there is no resolver: keep the log and wait
+  assert.equal(normalizeHistory(old).totals,null);
+  assert.equal(normalizeHistory(JSON.parse(JSON.stringify(normalizeHistory(old)))).totals,null);
+  const ids:Record<string,string>={'master:form:hyakunin:nu_verb':'nu_verb','master:type:aux-zu-001':'zu'};
+  const migrated=normalizeHistory(old,{resolveItemId:(id:string)=>ids[id]});
+  assert.equal(migrated.totals.total,2);assert.equal(migrated.totals.correct,1);
+  assert.deepEqual(migrated.totals.byItem,{nu_verb:{c:1,n:1},zu:{c:0,n:1}});
+  assert.deepEqual(migrated.totals.byCell,{'nu_verb:1':{c:1,n:1}});
+  assert.equal(migrated.byMode.form.total,40);
+  // once totals exist they are never rebuilt from the log again
+  const again=normalizeHistory({...migrated,events:[...migrated.events,...migrated.events]},{resolveItemId:(id:string)=>ids[id]});
+  assert.equal(again.totals.total,2);
+  // an empty history needs no resolver
+  assert.deepEqual(normalizeHistory(undefined).totals.byPos,{verb:0,adj:0,adjv:0,aux:0});
+});
+test('quiz: imported totals are clamped to sane counts',()=>{
+  const history=normalizeHistory({events:[],totals:{total:3,correct:9,byPos:{verb:-2,aux:'x'},byForm:{'未然形':{c:5,n:2}},
+    byItem:{a:{c:1,n:1},b:{c:0,n:0}},byCell:{'a:2':{c:1,n:1},'a:9':{c:1,n:1},bad:{c:1,n:1}}}});
+  assert.equal(history.totals.correct,3);
+  assert.deepEqual(history.totals.byPos,{verb:0,adj:0,adjv:0,aux:0});
+  assert.deepEqual(history.totals.byForm['未然形'],{c:2,n:2});
+  assert.deepEqual(history.totals.byItem,{a:{c:1,n:1}});
+  assert.deepEqual(history.totals.byCell,{'a:2':{c:1,n:1}});
+});
 test('quiz: weighted draw preserves attention proportion while avoiding repeats within a bucket',()=>{
   const pool=[{...ex,exampleId:'s1'},{...ex,exampleId:'s2'},{...ex,exampleId:'a1',bucket:'attention'},{...ex,exampleId:'a2',bucket:'attention'}];
   let attention=0;

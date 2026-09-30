@@ -1847,8 +1847,7 @@ td.wrong{background:var(--bad)!important}
   margin:0 0 8px;
   font-size:15px;
 }
-.record-breakdown,
-.record-review{
+.record-breakdown{
   display:grid;
   gap:0;
   margin:0;
@@ -1859,8 +1858,7 @@ td.wrong{background:var(--bad)!important}
   overflow:hidden;
   background:var(--card);
 }
-.record-breakdown li,
-.record-review li{
+.record-breakdown li{
   display:flex;
   align-items:baseline;
   justify-content:space-between;
@@ -1871,16 +1869,8 @@ td.wrong{background:var(--bad)!important}
 .record-breakdown li:last-child{
   border-bottom:0;
 }
-.record-review small,
-.record-note{
-  color:var(--muted);
-  font-size:9px;
-}
-.record-empty{
-  margin:0;
-  color:var(--muted);
-  font-size:11px;
-}
+
+
 
 @media(max-width:700px){
   header{
@@ -2158,67 +2148,15 @@ td.wrong{background:var(--bad)!important}
   font-variant-numeric:tabular-nums;
 }
 
-.record-review{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:6px;
-  border:0;
-  border-radius:0;
-  overflow:visible;
-  background:transparent;
-}
-.record-review li{
-  display:grid;
-  grid-template-columns:68px minmax(0,1fr);
-  align-items:center;
-  gap:8px;
-  min-width:0;
-  padding:6px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:var(--soft2);
-}
-.review-rate{
-  display:grid;
-  place-items:center;
-  gap:1px;
-  padding:5px 4px;
-  border:1px solid var(--review-error-border-base);
-  border-radius:8px;
-  background:var(--bad);
-  text-align:center;
-}
-.review-rate span{
-  color:var(--review-error-ink-base);
-  font-size:8px;
-  line-height:1.15;
-}
-.review-rate strong{
-  font-size:17px;
-  line-height:1.05;
-  font-variant-numeric:tabular-nums;
-}
-.review-copy{
-  display:grid;
-  gap:2px;
-  min-width:0;
-}
-.review-copy strong{
-  font-size:12px;
-  line-height:1.25;
-}
-.review-copy small{
-  color:var(--muted);
-  font-size:8px;
-  line-height:1.15;
-  letter-spacing:-.02em;
-  white-space:nowrap;
-  font-variant-numeric:tabular-nums;
-}
-.record-empty{
-  padding:8px 9px;
-  border-radius:9px;
-  background:var(--soft2);
-}
+
+
+
+
+
+
+
+
+
 
 @media(max-width:700px){
   .record-dashboard{
@@ -2267,9 +2205,7 @@ td.wrong{background:var(--bad)!important}
   .record-breakdown li{
     padding:3px 0;
   }
-  .record-review{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
+  
 }
 
 /* ===== v42: muted ink-citrus record palette ===== */
@@ -2316,20 +2252,10 @@ td.wrong{background:var(--bad)!important}
 .breakdown-dot{
   box-shadow:0 0 0 2px rgba(255,255,255,.9);
 }
-.record-review li{
-  border-color:var(--record-review-border);
-  background:var(--record-review-bg);
-}
-.review-rate{
-  border-color:var(--review-error-border);
-  background:var(--review-error-bg);
-}
-.review-rate span{
-  color:var(--review-error-ink);
-}
-.record-empty{
-  background:var(--record-empty-bg);
-}
+
+
+
+
 
 @media(max-width:700px){
   .record-shell{
@@ -2516,61 +2442,16 @@ input[type="checkbox"]{
   background:var(--filter-color);
   color:var(--on-accent);
 }
-.review-rule{
-  margin:5px 0 8px;
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.45;
-}
-.record-review{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:6px;
-}
-.record-review li{
-  display:block;
-  min-width:0;
-  padding:0;
-  overflow:hidden;
-}
-.review-toggle{
-  width:100%;
-  min-height:58px;
-  display:grid;
-  grid-template-columns:52px minmax(0,1fr);
-  align-items:center;
-  gap:6px;
-  padding:5px;
-  border:0;
-  background:transparent;
-  color:var(--ink);
-  text-align:left;
-}
-.review-toggle:hover,
-.review-toggle:focus-visible{background:var(--review-hover-bg)}
-.review-rate{
-  min-width:0;
-  padding:5px 3px;
-}
-.review-rate strong{font-size:14px}
-.review-kind-line{
-  display:flex;
-  align-items:center;
-  gap:4px;
-  min-width:0;
-}
-.review-kind-line strong{
-  min-width:0;
-  overflow-wrap:anywhere;
-}
-.review-pos-badge{
-  flex:0 0 auto;
-  padding:2px 4px;
-  border-radius:999px;
-  background:var(--review-pos-color);
-  color:var(--on-accent);
-  font-size:7px;
-  font-weight:700;
-}
+
+
+
+
+
+
+
+
+
+
 .review-modal{
   position:fixed;
   inset:0;
@@ -2689,7 +2570,7 @@ body.review-modal-open{overflow:hidden}
   .record-overview .record-stat{padding:4px 6px}
   .record-overview .record-stat:nth-child(n+2){padding:4px 2px}
   .record-overview .record-stat dd{font-size:15px}
-  .record-review{grid-template-columns:repeat(2,minmax(0,1fr))}
+  
 }
 
 @media(max-width:350px){
@@ -2767,20 +2648,13 @@ body.review-modal-open{overflow:hidden}
 .breakdown-label{font-size:12px}
 .record-breakdown strong{font-size:12px}
 .review-filters button{font-size:12px}
-.record-empty{font-size:12px}
+
 .record-donut-center span{font-size:10px}
-.review-rate span{font-size:10px}
-.review-copy small{
-  font-size:10px;
-  letter-spacing:0;
-  white-space:nowrap;
-}
-.review-pos-badge{font-size:10px}
-.review-kind-line strong{
-  white-space:nowrap;
-  overflow-wrap:normal;
-}
-.review-toggle{min-height:62px}
+
+
+
+
+
 
 @media(max-width:700px){
   .record-overview{
@@ -2805,12 +2679,6 @@ body.review-modal-open{overflow:hidden}
 @media(max-width:350px){
   .record-overview{grid-template-columns:1fr}
   .record-overview .record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-/* ===== v49: keep 要確認 cards two-per-row down to real phone widths, ===== */
-/* ===== only falling back to one-per-row on very narrow (<360px) screens ===== */
-@media(max-width:359px){
-  .record-review{grid-template-columns:1fr}
-  .review-toggle{grid-template-columns:56px minmax(0,1fr)}
 }
 /* ===== v50: record stats stack as label/value pairs; 正答率 shows 直近 and 累計 side by side ===== */
 .record-overview .record-grid{
@@ -2941,36 +2809,8 @@ body.review-modal-open{overflow:hidden}
   .record-overview .record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .record-overview .record-grid .record-stat-accuracy{grid-column:auto}
 }
-/* 要確認カード：「なり（断定）」などの補足は半角括弧・小さめで詰め、入りきらなければ次行へ */
-.review-kind-line{
-  flex-wrap:wrap;
-  gap:1px 2px;
-}
-.review-kind-head{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:1px 4px;
-  min-width:0;
-  max-width:100%;
-}
-/* 「形容動詞 ナリ活用」が1行に収まるよう、誤答率欄とバッジの余白を詰める。
-   それでも入らない幅では語だけがバッジの下へ回り、はみ出して切れることはない。 */
-@media(min-width:360px){
-  .review-toggle{
-    grid-template-columns:44px minmax(0,1fr);
-    gap:4px;
-    padding-inline:4px;
-  }
-}
-.review-kind-line .review-pos-badge{padding:2px 3px}
-.review-label-note{
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:-.02em;
-  line-height:1.25;
-  white-space:nowrap;
-}
+
+
 
 
 /* ===== v52: 表をカード中央に置き、用例はその左の余白に入れる ===== */
@@ -3036,7 +2876,7 @@ body.review-modal-open{overflow:hidden}
 @media(min-width:960px){.record-shell{transform:scale(1.38)}}
 @media(min-width:1100px){.record-shell{transform:scale(1.5)}}
 /* ===== 記録画面の登場アニメーション（prototypes/record-animation-final-candidate.html） ===== */
-/* 小カード（正答数・正答率・要確認）は右の遠方から長く滑って定位置で止まる。動かすのは transform と opacity だけ。
+/* 小カード（正答数・正答率）は右の遠方から長く滑って定位置で止まる。動かすのは transform と opacity だけ。
    待機中は opacity だけを 0 にして定位置に置いたままにするので、スマホで IntersectionObserver が見る箱は動かない。
    滑り出す距離は画面幅の約78%。記録画面全体を拡大する幅では、拡大後の見た目の距離が同じになるよう割り戻す。 */
 .record-screen{overflow-x:hidden;--record-glide-x:78vw}
@@ -3064,6 +2904,56 @@ body.review-modal-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   .record-glide{opacity:1}
   .record-glide.is-in,.record-donut.is-drawing,.record-donut.is-drawing .record-donut-center > *{animation:none}
+}
+/* ===== v56: 記録画面の習熟度（全体のバー・活用の種類の円・活用形の横棒） =====
+   習熟度＝正答率×取り組み範囲。円と横棒はドーナツと同じく --record-draw／縦の伸びで、静かに描き始める。 */
+.record-mastery{display:grid;gap:7px;min-width:0;padding:10px 12px 11px;border:1px solid var(--record-points-border);border-radius:14px;background:var(--card);box-shadow:0 5px 15px rgba(61,86,107,.05)}
+.record-mastery-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.record-mastery-head > span{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.04em}
+.record-mastery-head strong{font-size:26px;line-height:1;font-variant-numeric:tabular-nums;color:var(--heading-ink)}
+.record-mastery-head strong small{margin-left:1px;font-size:13px;color:var(--muted)}
+.record-mastery-track,.form-bar-track{position:relative;height:10px;border-radius:999px;background:var(--record-empty);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(61,86,107,.05)}
+/* 4分の1ごとの目盛りは、まだ満ちていない部分にだけ見せる（塗りの下に敷く）。 */
+.record-mastery-track{background:linear-gradient(90deg,transparent calc(25% - .5px),var(--card) 0 calc(25% + .5px),transparent 0 calc(50% - .5px),var(--card) 0 calc(50% + .5px),transparent 0 calc(75% - .5px),var(--card) 0 calc(75% + .5px),transparent 0),var(--record-empty)}
+.record-mastery-fill,.form-bar-track i{display:block;height:100%;width:calc(var(--p,0) * 1%);border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent-strong));transform-origin:left center}
+.kind-rings{list-style:none;margin:2px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:10px 4px}
+.kind-rings.is-aux{grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:8px 2px}
+.kind-ring{display:grid;justify-items:center;gap:3px;width:100%;min-width:0;min-height:0;padding:5px 2px 4px;border:1px solid transparent;border-radius:12px;background:transparent;box-shadow:none;color:var(--ink);font:inherit;cursor:pointer;transition:background-color .18s ease,border-color .18s ease}
+.kind-ring:hover{background:var(--review-hover-bg)}
+.kind-ring:focus-visible{outline:2px solid var(--focus-ring);outline-offset:1px}
+.kind-ring-meter{--p:0;--record-draw:1;position:relative;display:grid;place-items:center;width:54px;aspect-ratio:1;border-radius:50%;background:conic-gradient(var(--ring-color) calc(var(--p) * var(--record-draw) * 1%),var(--record-empty) 0);box-shadow:inset 0 0 0 1px rgba(61,86,107,.06)}
+.is-aux .kind-ring-meter{width:48px}
+.kind-ring-meter::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--card);box-shadow:0 0 0 1px var(--line)}
+.kind-ring-meter b{position:relative;z-index:1;font-size:15px;line-height:1;font-variant-numeric:tabular-nums;color:var(--heading-ink)}
+.kind-ring-meter b small{margin-left:.5px;font-size:9px;color:var(--muted)}
+.is-aux .kind-ring-meter b{font-size:13px}
+.kind-ring-label{max-width:100%;font-size:12px;font-weight:700;line-height:1.2;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kind-ring-label small{display:block;font-size:10px;font-weight:400;color:var(--muted)}
+.kind-ring-count{font-size:10px;line-height:1;color:var(--muted);font-variant-numeric:tabular-nums}
+/* 未着手は破線の空の輪。1〜2問でも伸びはそのまま見せ、弱い円の判定は3問以上に限る。 */
+.kind-ring.is-untouched .kind-ring-meter{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line-strong)}
+.kind-ring.is-untouched .kind-ring-meter::after{inset:6px;border:1.5px dashed var(--line-strong);background:transparent;box-shadow:none}
+.kind-ring.is-untouched .kind-ring-meter b{font-size:11px;color:var(--zero-ink)}
+.kind-ring.is-weak{border-color:var(--review-error-border);background:var(--review-error-bg)}
+.kind-ring.is-weak .kind-ring-count{color:var(--review-error-ink);font-weight:700}
+.kind-rings-rule{margin:6px 0 0;color:var(--muted);font-size:11px;line-height:1.5}
+.form-bars{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.form-bar{display:grid;grid-template-columns:2.6em minmax(0,1fr) 3.1em;align-items:center;gap:9px;font-size:12px}
+.form-bar > span:first-child{font-weight:700}
+.form-bar-track{height:6px;box-shadow:none}
+.form-bar-track i{background:var(--accent-strong)}
+.form-bar-value{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.form-bar-value small{margin-left:1px;font-size:10px;color:var(--muted)}
+.form-bar.is-weak > span:first-child,.form-bar.is-weak .form-bar-value{color:var(--review-error-ink)}
+.form-bar.is-weak .form-bar-track i{background:var(--review-error-ink)}
+@media(min-width:701px){.kind-rings{grid-template-columns:repeat(auto-fill,minmax(62px,1fr))}}
+.is-waiting .kind-ring-meter{--record-draw:0}
+.is-waiting .record-mastery-fill,.is-waiting .form-bar-track i{transform:scaleX(0)}
+.is-drawing .kind-ring-meter{animation:record-donut-draw .82s cubic-bezier(.22,.72,.18,1) calc(.08s + var(--i,0) * 24ms) both}
+.is-drawing .record-mastery-fill,.is-drawing .form-bar-track i{animation:record-bar-grow .82s cubic-bezier(.22,.72,.18,1) calc(.08s + var(--i,0) * 50ms) both}
+@keyframes record-bar-grow{from{transform:scaleX(0)}to{transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .is-drawing .kind-ring-meter,.is-drawing .record-mastery-fill,.is-drawing .form-bar-track i{animation:none}
 }
 /* ===== v53: 語釈帯・見出しの差分ルビ・助動詞の接続・はなまるを見出し語に固定（DESIGN_GLOSS_LAYOUT_2026-09-28） ===== */
 /* 「形は上、意味は下。語についての情報は答えの後」。色はトークンだけで組み、5テーマに対応する。 */
@@ -3191,7 +3081,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261001-8">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261001-9">
 </head>
 <body>
 <div class="wrap">
@@ -3390,7 +3280,10 @@ body.review-modal-open{overflow:hidden}
       </div>
       <img class="record-cat" alt="" aria-hidden="true" src="./img/record-cat.webp">
     </div>
-
+    <div class="record-mastery" id="recordMastery" role="meter" aria-label="全体の習熟度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="record-mastery-head"><span>全体の習熟度</span><strong><span id="recordMasteryValue">0</span><small>%</small></strong></div>
+      <div class="record-mastery-track"><div class="record-mastery-fill" id="recordMasteryFill"></div></div>
+    </div>
     </div>
 
     <div class="record-detail-grid">
@@ -3420,21 +3313,20 @@ body.review-modal-open{overflow:hidden}
     </section>
 
     <section class="record-section">
-      <h3>活用判別の記録</h3>
-      <div class="quiz-record-summary" id="quizRecordSummary"></div>
-    </section>
-
-    <section class="record-section">
-      <h3>要確認</h3>
-      <div class="review-filters" id="reviewFilters" aria-label="要確認に表示する品詞">
+      <h3>活用の種類</h3>
+      <div class="review-filters" id="reviewFilters" aria-label="表示する品詞">
         <button type="button" data-review-pos="verb" aria-pressed="true">動詞</button>
         <button type="button" data-review-pos="adj" aria-pressed="false">形容詞</button>
         <button type="button" data-review-pos="adjv" aria-pressed="false">形容動詞</button>
         <button type="button" data-review-pos="aux" aria-pressed="false">助動詞</button>
       </div>
-      <p class="review-rule">3問以上取り組んだ項目を、誤答率の高い順に表示します。</p>
-      <p class="record-empty" id="recordReviewEmpty">まだ要確認の活用はありません。</p>
-      <ul class="record-review" id="recordReview" hidden></ul>
+      <ul class="kind-rings" id="kindRings"></ul>
+      <p class="kind-rings-rule">枠付きは、習熟度の特に低い種類です。円を押すと例題を開きます。</p>
+    </section>
+
+    <section class="record-section">
+      <h3>活用形</h3>
+      <ul class="form-bars" id="formBars"></ul>
     </section>
     </div>
 
@@ -3473,7 +3365,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
-<script src="./conj-quiz-ui.js?v=20261001-8"></script>
+<script src="./conj-quiz-ui.js?v=20261001-9"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4087,7 +3979,7 @@ function normalizeStats(raw){
     gradedCells:Number.isFinite(Number(safe.gradedCells)) ? Number(safe.gradedCells) : totals.total,
     points:Number(safe.points)||0,
     recent:normalizeRecent(safe.recent),
-    quiz:quizAdapter ? quizAdapter.normalizeHistory(safe.quiz) : safe.quiz || null,
+    quiz:quizAdapter ? quizAdapter.normalizeHistory(safe.quiz,{resolveItemId:quizResolveItemId}) : safe.quiz || null,
     byForm,
     byPos:reconcilePosCounts(storedPosCounts,attemptedTotal,slots)
   };
@@ -4106,7 +3998,7 @@ function loadStats(){
 }
 let stats=loadStats();
 let scoreAnimationReady=false;
-const reviewPosFilters=new Set(["verb"]);
+let recordRingPos="verb";
 
 const FREE_INPUT_POINTS=14;
 const ATTEMPT_POINTS=3;
@@ -5368,8 +5260,9 @@ function updateScore(){
   const score=document.getElementById("score");
   const value=document.getElementById("scoreValue");
   const previous=Number(value.textContent)||0;
-  value.textContent=String(stats.correctCells);
-  if(scoreAnimationReady && stats.correctCells>previous){
+  const correct=recordTotals().correct;
+  value.textContent=String(correct);
+  if(scoreAnimationReady && correct>previous){
     score.classList.remove("is-updating");
     void score.offsetWidth;
     score.classList.add("is-updating");
@@ -5389,66 +5282,90 @@ function broadKind(kind){
   return value||"その他";
 }
 
-function reviewLabel(item){
-  if(item.pos!=="aux") return broadKind(item.kind);
-  if(item.kind.includes("伝聞・推定")) return item.lemma+"（伝聞・推定）";
-  if(item.lemma==="なり" && item.kind.includes("形容動詞")) return item.lemma+"（断定）";
-  return item.lemma;
+// 判別モードの累計（stats.quiz.totals）。読み込み前・移行前は 0 として扱う。
+function quizTotals(){
+  const totals=stats.quiz&&stats.quiz.totals;
+  return totals&&typeof totals==="object" ? totals : {correct:0,total:0,byPos:{},byForm:{},byItem:{},byCell:{}};
 }
-
-// 要確認カードは幅が狭いので、補足の括弧だけ半角・小さめにして詰める。
-// 入りきらないときは補足だけが次の行へ回り、品詞バッジと語は1行に保つ。
-function reviewKindLineHtml(badge,label){
-  const match=label.match(/^(.+?)（(.+)）$/);
-  const head=`<span class="review-kind-head">${badge}<strong>${match?match[1]:label}</strong></span>`;
-  return match ? `${head}<span class="review-label-note">(${match[2]})</span>` : head;
+// 表の穴埋めと判別モードを合わせた正答数・解答数。
+function recordTotals(){
+  const quiz=quizTotals();
+  return {
+    correct:stats.correctCells+(Number(quiz.correct)||0),
+    total:stats.gradedCells+(Number(quiz.total)||0)
+  };
 }
-
-const MIN_REVIEW_ATTEMPTS=3;
-
-function reviewKinds(){
-  const itemTotals=new Map();
+// 習熟度の対象になるマス（語×活用形）。表の穴埋めで空欄にできる活用形を数える。
+function itemCellIndexes(item){
+  const has=value=>value!==null && value!==undefined;
+  return [0,1,2,3,4,5].filter(i=>has(item.forms?.[i]) || has(item.forms2?.[i]));
+}
+// 語ごとの正答・解答と、一度でも解答したマス。
+function itemRecordTotals(){
+  const byItem=new Map();
+  const entry=id=>{
+    if(!byItem.has(id)) byItem.set(id,{c:0,n:0,cells:new Set()});
+    return byItem.get(id);
+  };
   Object.entries(stats.slots||{}).forEach(([slotKey,result])=>{
-    const itemId=slotKey.split(":")[0];
-    const prev=itemTotals.get(itemId)||{correct:0,wrong:0};
-    prev.correct+=Number(result?.c)||0;
-    prev.wrong+=Number(result?.w)||0;
-    itemTotals.set(itemId,prev);
+    const parts=slotKey.split(":");
+    const c=Number(result?.c)||0, n=c+(Number(result?.w)||0);
+    if(!n) return;
+    const target=entry(parts[0]);
+    target.c+=c; target.n+=n;
+    target.cells.add(Number(parts[parts.length-1]));
   });
-
+  const quiz=quizTotals();
+  Object.entries(quiz.byItem||{}).forEach(([id,pair])=>{
+    const target=entry(id);
+    target.c+=Number(pair?.c)||0; target.n+=Number(pair?.n)||0;
+  });
+  Object.entries(quiz.byCell||{}).forEach(([cellKey,pair])=>{
+    if(!(Number(pair?.n)>0)) return;
+    const at=cellKey.lastIndexOf(":");
+    entry(cellKey.slice(0,at)).cells.add(Number(cellKey.slice(at+1)));
+  });
+  return byItem;
+}
+// 習熟度＝正答率×取り組み範囲（0〜100）。
+function masteryOf(c,n,tried,cells){
+  return n&&cells ? Math.round((c/n)*(tried/cells)*100) : 0;
+}
+const KIND_RING_ORDER=["四段活用","上一段活用","上二段活用","下一段活用","下二段活用","カ変活用","サ変活用","ナ変活用","ラ変活用","ク活用","シク活用","ナリ活用","タリ活用"];
+function kindRingLabel(item){
+  if(item.pos!=="aux") return {label:broadKind(item.kind).replace(/活用$/,""),note:""};
+  if(item.kind.includes("伝聞・推定")) return {label:item.lemma,note:"伝聞・推定"};
+  if((item.lemma==="なり"||item.lemma==="たり") && item.kind.includes("形容動詞")) return {label:item.lemma,note:"断定"};
+  if(item.lemma==="たり") return {label:item.lemma,note:"完了"};
+  return {label:item.lemma,note:""};
+}
+const MIN_WEAK_ATTEMPTS=3;
+// 活用の種類ごとの円。用言は活用の種類ごと、助動詞は語ごとに1つ。並びは教科書の順のまま動かさない。
+function kindRings(pos,byItem){
   const groups=new Map();
-  items.filter(item=>reviewPosFilters.has(item.pos)).forEach(item=>{
-    const label=reviewLabel(item);
-    const groupKey=item.pos==="aux" ? item.pos+":"+item.id : item.pos+":"+label;
-    const prev=groups.get(groupKey)||{
-      label,
-      pos:item.pos,
-      correct:0,
-      wrong:0,
-      exampleItems:[]
-    };
-    const itemResult=itemTotals.get(item.id)||{correct:0,wrong:0};
-    const itemTotal=itemResult.correct+itemResult.wrong;
-    prev.correct+=itemResult.correct;
-    prev.wrong+=itemResult.wrong;
-    prev.exampleItems.push(item);
-    groups.set(groupKey,prev);
+  items.filter(item=>item.pos===pos).forEach(item=>{
+    const groupKey=pos==="aux" ? item.id : broadKind(item.kind);
+    const group=groups.get(groupKey)||{...kindRingLabel(item),order:pos==="aux"?groups.size:KIND_RING_ORDER.indexOf(broadKind(item.kind)),c:0,n:0,tried:0,cells:0,exampleItems:[]};
+    const result=byItem.get(item.id);
+    const cells=itemCellIndexes(item);
+    group.cells+=cells.length;
+    if(result){
+      group.c+=result.c; group.n+=result.n;
+      group.tried+=cells.filter(i=>result.cells.has(i)).length;
+    }
+    group.exampleItems.push(item);
+    groups.set(groupKey,group);
   });
-
-  const all=[...groups.values()]
-    .map(entry=>{
-      const total=entry.correct+entry.wrong;
-      const wrongRate=total ? entry.wrong/total : null;
-      return {
-        ...entry,
-        total,
-        wrongRate
-      };
-    })
-    .sort((a,b)=>(b.wrongRate??-1)-(a.wrongRate??-1) || b.total-a.total || a.label.localeCompare(b.label,"ja"));
-
-  // 未着手は記録画面から選んで取り組めず、出題側で自動的に重みづけされるため表示しない。
-  return all.filter(entry=>entry.total>=MIN_REVIEW_ATTEMPTS && entry.wrong>0).slice(0,6);
+  const rings=[...groups.values()]
+    .sort((a,b)=>(a.order<0?99:a.order)-(b.order<0?99:b.order))
+    .map(group=>({...group,value:masteryOf(group.c,group.n,group.tried,group.cells)}));
+  // 3問以上の円のうち、習熟度の低いものを最大3つまで強調する（旧「要確認」）。
+  const measured=rings.filter(ring=>ring.n>=MIN_WEAK_ATTEMPTS);
+  const count=measured.length>=2 ? Math.min(3,Math.max(1,Math.floor(measured.length/3))) : 0;
+  const top=Math.max(...measured.map(ring=>ring.value));
+  measured.slice().sort((a,b)=>a.value-b.value || a.c/a.n-b.c/b.n).slice(0,count)
+    .filter(ring=>ring.value<top).forEach(ring=>{ring.weak=true;});
+  return rings;
 }
 
 function formatPoints(value){
@@ -5456,11 +5373,12 @@ function formatPoints(value){
 }
 
 function renderRecord(){
-  renderQuizRecord();
+  const totals=recordTotals();
+  const quiz=quizTotals();
   document.getElementById("recordPoints").textContent=formatPoints(stats.points);
-  document.getElementById("recordCorrectCells").textContent=String(stats.correctCells);
+  document.getElementById("recordCorrectCells").textContent=String(totals.correct);
   document.getElementById("recordAccuracy").textContent=
-    stats.gradedCells ? Math.round((stats.correctCells/stats.gradedCells)*100)+"%" : "0%";
+    totals.total ? Math.round((totals.correct/totals.total)*100)+"%" : "0%";
   const recentCorrect=[...stats.recent].filter(mark=>mark==="1").length;
   document.getElementById("recordRecentAccuracy").textContent=
     stats.recent.length ? Math.round((recentCorrect/stats.recent.length)*100)+"%" : "—";
@@ -5474,7 +5392,7 @@ function renderRecord(){
     aux:recordStyle.getPropertyValue("--record-aux").trim() || "#3d566b"
   };
   const keys=["verb","adj","adjv","aux"];
-  const counts=Object.fromEntries(keys.map(key=>[key,Number(stats.byPos[key])||0]));
+  const counts=Object.fromEntries(keys.map(key=>[key,(Number(stats.byPos[key])||0)+(Number(quiz.byPos?.[key])||0)]));
   const total=keys.reduce((sum,key)=>sum+counts[key],0);
 
   const breakdown=document.getElementById("recordBreakdown");
@@ -5510,28 +5428,62 @@ function renderRecord(){
       : "取り組んだ問題はまだありません。"
   );
 
+  // 全体の習熟度：全マスを対象にした 正答率×取り組み範囲。
+  const byItem=itemRecordTotals();
+  const allCells=items.reduce((sum,item)=>sum+itemCellIndexes(item).length,0);
+  const triedCells=items.reduce((sum,item)=>{
+    const result=byItem.get(item.id);
+    return sum+(result ? itemCellIndexes(item).filter(i=>result.cells.has(i)).length : 0);
+  },0);
+  const mastery=masteryOf(totals.correct,totals.total,triedCells,allCells);
+  document.getElementById("recordMasteryValue").textContent=String(mastery);
+  document.getElementById("recordMasteryFill").style.setProperty("--p",mastery);
+  document.getElementById("recordMastery").setAttribute("aria-valuenow",String(mastery));
+
   document.querySelectorAll("[data-review-pos]").forEach(button=>{
-    button.setAttribute("aria-pressed",String(reviewPosFilters.has(button.dataset.reviewPos)));
+    button.setAttribute("aria-pressed",String(button.dataset.reviewPos===recordRingPos));
   });
-
-  const review=reviewKinds();
-  const reviewList=document.getElementById("recordReview");
-  const reviewEmpty=document.getElementById("recordReviewEmpty");
-  reviewList.innerHTML="";
-  reviewList.hidden=review.length===0;
-  reviewEmpty.hidden=review.length!==0;
-
-  review.forEach(entry=>{
+  const ringList=document.getElementById("kindRings");
+  ringList.classList.toggle("is-aux",recordRingPos==="aux");
+  ringList.innerHTML="";
+  kindRings(recordRingPos,byItem).forEach((ring,i)=>{
     const li=document.createElement("li");
-    const percent=Math.round(entry.wrongRate*100);
     const button=document.createElement("button");
     button.type="button";
-    button.className="review-toggle";
+    button.className="kind-ring"+(ring.n ? "" : " is-untouched")+(ring.weak ? " is-weak" : "");
+    button.style.setProperty("--ring-color",colors[recordRingPos]);
+    button.style.setProperty("--i",String(i));
     button.setAttribute("aria-haspopup","dialog");
-    button.innerHTML=`<span class="review-rate"><span>誤答率</span><strong>${percent}%</strong></span><span class="review-copy"><span class="review-kind-line">${reviewKindLineHtml(`<span class="review-pos-badge" style="--review-pos-color:${colors[entry.pos]}">${labels[entry.pos]}</span>`,entry.label)}</span><small>誤答 ${entry.wrong}/${entry.total}</small></span>`;
-    button.addEventListener("click",()=>openReviewModal(randomReviewItem(entry.exampleItems)));
+    const name=ring.label+(ring.note ? "（"+ring.note+"）" : "");
+    button.setAttribute("aria-label",ring.n ? `${name}、習熟度${ring.value}%、${ring.n}回解答` : `${name}、まだ解答していません`);
+    button.innerHTML=`<span class="kind-ring-meter" style="--p:${ring.value}" aria-hidden="true"><b>${ring.n ? `${ring.value}<small>%</small>` : "未"}</b></span>`
+      +`<span class="kind-ring-label">${ring.label}${recordRingPos==="aux" ? `<small>${ring.note||"&nbsp;"}</small>` : ""}</span>`
+      +`<span class="kind-ring-count" aria-hidden="true">${ring.n}回</span>`;
+    button.addEventListener("click",()=>openReviewModal(randomReviewItem(ring.exampleItems)));
     li.appendChild(button);
-    reviewList.appendChild(li);
+    ringList.appendChild(li);
+  });
+
+  // 活用形：表の穴埋めと判別モード（活用形を答える問題）の正答率。6つとも全員が解くので範囲は掛けない。
+  const forms=formKeys.map((key,i)=>{
+    const table=stats.byForm[key]||{correct:0,total:0};
+    const fromQuiz=quiz.byForm?.[names[i]]||{c:0,n:0};
+    const c=(Number(table.correct)||0)+(Number(fromQuiz.c)||0);
+    const n=(Number(table.total)||0)+(Number(fromQuiz.n)||0);
+    return {label:names[i].replace(/形$/,""),c,n,rate:n ? Math.round(c/n*100) : null};
+  });
+  const measuredForms=forms.filter(form=>form.n>=MIN_WEAK_ATTEMPTS);
+  const lowestForm=measuredForms.length>=2 ? Math.min(...measuredForms.map(form=>form.rate)) : null;
+  const highestForm=Math.max(...measuredForms.map(form=>form.rate));
+  const formList=document.getElementById("formBars");
+  formList.innerHTML="";
+  forms.forEach((form,i)=>{
+    const li=document.createElement("li");
+    li.className="form-bar"+(form.n>=MIN_WEAK_ATTEMPTS && form.rate===lowestForm && lowestForm<highestForm ? " is-weak" : "");
+    li.style.setProperty("--i",String(i));
+    li.innerHTML=`<span>${form.label}</span><span class="form-bar-track" aria-hidden="true"><i style="--p:${form.rate??0}"></i></span>`
+      +`<span class="form-bar-value">${form.n ? `${form.rate}<small>%</small>` : "—"}</span>`;
+    formList.appendChild(li);
   });
 }
 
@@ -5904,9 +5856,9 @@ function stopRecordMotion(){
   recordMotion=null;
 }
 // 数字は 0 から最終値まで、終盤で緩やかに減速しながら数え上げる。
-// 途中で renderRecord() が書き直したら（要確認の絞り込みなど）、その値を優先して止める。
+// 途中で renderRecord() が書き直したら（品詞の切り替えなど）、その値を優先して止める。
 function prepareRecordNumbers(motion){
-  ["recordPoints","recordBreakdownTotal","recordCorrectCells","recordRecentAccuracy","recordAccuracy"].forEach(id=>{
+  ["recordPoints","recordMasteryValue","recordBreakdownTotal","recordCorrectCells","recordRecentAccuracy","recordAccuracy"].forEach(id=>{
     const el=document.getElementById(id);
     const text=el.textContent;
     const match=text.match(/^([\d,]+)(%?)$/);
@@ -5940,6 +5892,20 @@ function startRecordChart(motion){
   chart.classList.add("is-drawing");
   countRecordNumbers(motion);
 }
+// 全体のバー・活用の種類の円・活用形の横棒。ドーナツと同じく、見えたときに一度だけ描く。
+const RECORD_DRAWABLES=["recordMastery","kindRings","formBars"];
+function startRecordDrawing(el){
+  el.classList.remove("is-waiting");
+  el.classList.add("is-drawing");
+}
+// 品詞を切り替えたときは、新しい円だけを描き直す。
+function redrawKindRings(){
+  const list=document.getElementById("kindRings");
+  list.classList.remove("is-drawing","is-waiting");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  void list.offsetWidth;
+  list.classList.add("is-drawing");
+}
 // 上から下へ、同じ高さなら左から右へ並べて、短い時間差を付ける。
 function staggerRecordGlide(targets,step){
   const rects=new Map(targets.map(el=>[el,el.getBoundingClientRect()]));
@@ -5955,8 +5921,10 @@ function playRecordMotion(){
   stopRecordMotion();
   const screen=document.getElementById("recordScreen");
   const chart=document.getElementById("recordBreakdownChart");
-  const cards=[...screen.querySelectorAll(".record-overview .record-stat, #recordReview > li")];
+  const cards=[...screen.querySelectorAll(".record-overview .record-stat")];
+  const drawables=RECORD_DRAWABLES.map(id=>document.getElementById(id));
   chart.classList.remove("is-drawing","is-waiting");
+  drawables.forEach(el=>el.classList.remove("is-drawing","is-waiting"));
   cards.forEach(card=>{
     card.classList.remove("is-in");
     card.style.removeProperty("--record-glide-delay");
@@ -5970,6 +5938,7 @@ function playRecordMotion(){
   }
   // 描き始めるまでは、ドーナツを空、中央の累計を非表示、数字を 0 にしておく。
   chart.classList.add("is-waiting");
+  drawables.forEach(el=>el.classList.add("is-waiting"));
   prepareRecordNumbers(motion);
   if(matchMedia("(min-width: 768px)").matches){
     // PC・iPad: 待機状態を1フレーム確実に描いてから、全カードを上から順に流し込む。
@@ -5979,6 +5948,7 @@ function playRecordMotion(){
         if(recordMotion!==motion) return;
         staggerRecordGlide(cards,70);
         startRecordChart(motion);
+        drawables.forEach(startRecordDrawing);
       }));
     }));
     return;
@@ -5998,7 +5968,14 @@ function playRecordMotion(){
     startRecordChart(motion);
   },options);
   chartObserver.observe(document.querySelector("#recordScreen .record-overview"));
-  motion.observers.push(cardObserver,chartObserver);
+  const drawObserver=new IntersectionObserver((entries,observer)=>{
+    entries.filter(entry=>entry.isIntersecting).forEach(entry=>{
+      observer.unobserve(entry.target);
+      startRecordDrawing(entry.target);
+    });
+  },options);
+  drawables.forEach(el=>drawObserver.observe(el));
+  motion.observers.push(cardObserver,chartObserver,drawObserver);
 }
 function openRecord(){
   renderRecord();
@@ -6064,14 +6041,10 @@ document.getElementById("openRecord").onclick=openRecord;
 document.getElementById("closeRecord").onclick=closeRecord;
 document.querySelectorAll("[data-review-pos]").forEach(button=>{
   button.addEventListener("click",()=>{
-    const pos=button.dataset.reviewPos;
-    if(reviewPosFilters.has(pos)){
-      if(reviewPosFilters.size===1) return;
-      reviewPosFilters.delete(pos);
-    }else{
-      reviewPosFilters.add(pos);
-    }
+    if(recordRingPos===button.dataset.reviewPos) return;
+    recordRingPos=button.dataset.reviewPos;
     renderRecord();
+    redrawKindRings();
   });
 });
 
