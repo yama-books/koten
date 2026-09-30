@@ -3055,14 +3055,15 @@ body.review-modal-open{overflow:hidden}
    アニメーションしない環境や @property 非対応の環境でも最終の見た目になる。 */
 @property --record-draw{syntax:"<number>";inherits:false;initial-value:1}
 .record-donut.is-drawing{animation:record-donut-draw .82s cubic-bezier(.22,.72,.18,1) .08s both}
-.record-donut.is-drawing .record-donut-center{animation:record-donut-center .28s ease .78s both}
+/* 中央の丸はドーナツの穴そのものなので常に見せ、中の「累計 ○問」だけを描画の終盤に出す。 */
+.record-donut.is-drawing .record-donut-center > *{animation:record-donut-center .28s ease .78s both}
 .record-donut.is-waiting{--record-draw:0}
-.record-donut.is-waiting .record-donut-center{opacity:0}
+.record-donut.is-waiting .record-donut-center > *{opacity:0}
 @keyframes record-donut-draw{from{--record-draw:0}to{--record-draw:1}}
 @keyframes record-donut-center{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){
   .record-glide{opacity:1}
-  .record-glide.is-in,.record-donut.is-drawing,.record-donut.is-drawing .record-donut-center{animation:none}
+  .record-glide.is-in,.record-donut.is-drawing,.record-donut.is-drawing .record-donut-center > *{animation:none}
 }
 /* ===== v53: 語釈帯・見出しの差分ルビ・助動詞の接続・はなまるを見出し語に固定（DESIGN_GLOSS_LAYOUT_2026-09-28） ===== */
 /* 「形は上、意味は下。語についての情報は答えの後」。色はトークンだけで組み、5テーマに対応する。 */

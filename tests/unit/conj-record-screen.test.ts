@@ -812,8 +812,11 @@ test('conj: record screen entrance motion follows the final prototype without ch
   // The donut draws all four colors at once from their own start angles; the default is the finished chart.
   assert.match(html, /@property --record-draw\{syntax:"<number>";inherits:false;initial-value:1\}/);
   assert.match(script, /const drawn=`calc\(\$\{start\}% \+ \$\{cursor-start\}% \* var\(--record-draw\)\)`;/);
+  // The center disc is the donut hole: it stays visible, only its caption and total fade in.
+  assert.match(html, /\.record-donut\.is-waiting \.record-donut-center > \*\{opacity:0\}/);
+  assert.doesNotMatch(html, /\.record-donut\.is-(?:waiting|drawing) \.record-donut-center\{/);
   // Reduced motion shows the final state at once.
-  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{\s*\.record-glide\{opacity:1\}\s*\.record-glide\.is-in,\.record-donut\.is-drawing,\.record-donut\.is-drawing \.record-donut-center\{animation:none\}/);
+  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{\s*\.record-glide\{opacity:1\}\s*\.record-glide\.is-in,\.record-donut\.is-drawing,\.record-donut\.is-drawing \.record-donut-center > \*\{animation:none\}/);
   // PC paints the waiting state for a frame, then staggers top-to-bottom (70ms); phones observe
   // stationary boxes and reveal each card once (75ms).
   assert.match(script, /staggerRecordGlide\(cards,70\)/);
