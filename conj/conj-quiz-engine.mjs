@@ -220,6 +220,32 @@ function stableShuffle(items, rng = Math.random) {
   return a;
 }
 
+// 選択肢は並べ替えず、文法書の配列順に固定する。
+// 用言は動詞→形容詞→形容動詞、助動詞は動詞型→形容詞型→形容動詞型→特殊型の順。
+const TYPE_ORDER = [
+  "動詞:四", "動詞:上一", "動詞:上二", "動詞:下一", "動詞:下二",
+  "動詞:カ変", "動詞:サ変", "動詞:ナ変", "動詞:ラ変",
+  "形容詞:ク活用", "形容詞:シク活用",
+  "形容動詞:ナリ活用", "形容動詞:タリ活用",
+  "助動詞:四段型", "助動詞:下二段型", "助動詞:サ変型", "助動詞:ナ変型",
+  "助動詞:ラ変型", "助動詞:ラ変型（伝聞・推定）",
+  "助動詞:形容詞（ク活用）型", "助動詞:形容詞（シク活用）型",
+  "助動詞:形容動詞（ナリ活用）型", "助動詞:形容動詞（タリ活用）型", "助動詞:形容動詞型",
+  "助動詞:特殊型", "助動詞:無変化型",
+];
+const ROW_ORDER = "アカガサザタダナハバパマヤラワ";
+
+function typeOrderIndex(choice) {
+  const key = choice.partOfSpeech + ":" + (choice.partOfSpeech === "動詞" ? choice.family : choice.canonical);
+  const i = TYPE_ORDER.indexOf(key);
+  return i < 0 ? TYPE_ORDER.length : i;
+}
+
+function sortTypeChoices(choices) {
+  return [...choices].sort((a, b) =>
+    typeOrderIndex(a) - typeOrderIndex(b) || String(a.canonical).localeCompare(String(b.canonical), "ja"));
+}
+
 const VERB_FORMAL_FAMILIES = {四:'四段活用',上二:'上二段活用',下二:'下二段活用',上一:'上一段活用',下一:'下一段活用'};
 export function formalTypeLabel(choice) {
   if(!choice)return '';
@@ -293,36 +319,32 @@ export function buildTypeChoices({ example, masterEntries, scope = CHOICE_SCOPE.
   if(sparseFallback)pool.push(others[0]);
   const counts = new Map();
   pool.forEach(x => counts.set(x.label, (counts.get(x.label) || 0) + 1));
-  return stableShuffle(pool.map(x => ({ ...x,
+  return sortTypeChoices(pool.map(x => ({ ...x,
     formalLabel:formalTypeLabel(x),
     displayLabel: counts.get(x.label) > 1 || sparseFallback ? x.label + '・' + x.partOfSpeech : x.label,
     isCorrect: x.id === correct.id,
-  })), rng);
+  })));
 }
 
-export function buildFormChoices({ rng = Math.random } = {}) {
-  return stableShuffle(
-    FORMS.map((form) => ({
-      canonical: form,
-      label: form.replace(/形$/, ""),
-      displayLabel: form.replace(/形$/, ""),
-      isCorrect: false,
-    })),
-    rng
-  );
+export function buildFormChoices() {
+  return FORMS.map((form) => ({
+    canonical: form,
+    label: form.replace(/形$/, ""),
+    displayLabel: form.replace(/形$/, ""),
+    isCorrect: false,
+  }));
 }
 
-export function buildRowChoices(masterEntries, typeChoice, rng = Math.random) {
+export function buildRowChoices(masterEntries, typeChoice) {
   if (!typeChoice || !typeChoice.rowRequired) return [];
   const family = typeChoice.family;
   const rows = buildTypeCatalog(masterEntries)
     .filter((x) => x.family === family && x.row)
     .map((x) => x.row);
-
-  return stableShuffle(
-    [...new Set(rows)].map((row) => ({ canonical: row, label: row })),
-    rng
-  );
+  const rank = (row) => (ROW_ORDER.includes(row) ? ROW_ORDER.indexOf(row) : ROW_ORDER.length);
+  return [...new Set(rows)]
+    .sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, "ja"))
+    .map((row) => ({ canonical: row, label: row }));
 }
 
 export function evaluateAnswer({

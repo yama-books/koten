@@ -1,13 +1,13 @@
 // Thin bridge to the classic index.html state, renderer and record storage.
 let quizEngine=null, quizAdapter=null, quizState=null, quizRecords=[], quizMaster=[], quizChoices=[];
 let quizLoadFailed=false, quizRowChoices=[], quizPreviousMode='table', quizExamplePreference=true;
-let quizMasterPractice={form:[],type:[]};
+let quizMasterPractice={form:[],type:[]}, quizAutoScrolled=false;
 const quizSettings={choiceScope:'auto',supportLevel:0,rowMode:'omitted'};
 function isIdentificationMode(){return document.getElementById('quizMode').value!=='table';}
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20260930-6'),import('./conj-quiz-adapter.mjs?v=20261001-7')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261001-8'),import('./conj-quiz-adapter.mjs?v=20261001-8')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
@@ -80,6 +80,7 @@ function nextQuizQuestion(){
   quizState.masteryStage=masteryStage;
   quizRowChoices=[];
   document.getElementById('quizChoices').scrollTop=0;
+  if(quizAutoScrolled){quizAutoScrolled=false;window.scrollTo({top:0});}
   quizChoices=mode==='form'?quizEngine.buildFormChoices():quizEngine.buildTypeChoices({example:ex,masterEntries:quizMaster,scope:quizState.choiceScope});
   render();
 }
@@ -223,28 +224,49 @@ function gradeQuiz(){
   const detail=quizState.quizMode==='type'?'正答：'+quizState.example.conjugationType:'正答：'+quizState.example.form;
   document.getElementById('feedback').textContent=(evaluation.correct?'正解。':evaluation.typeCorrect?'型は正解。行の正答を確認しましょう。':'不正解。')+' '+detail;
   document.getElementById('next').focus({preventScroll:true});
+  revealQuizActions();
 }
 function hintQuiz(){
   if(!quizState)return;
-  quizState=quizEngine.requestNextHint(quizState);renderQuizUI();
+  quizState=quizEngine.requestNextHint(quizState);renderQuizUI();revealQuizActions();
+}
+// Hints and grading add the table and the answer, which can push the buttons
+// below a short screen. Scroll just enough to keep them reachable, and return
+// to the top when the next question starts.
+function revealQuizActions(){
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const actions=document.querySelector('main.card .actions');
+    const over=actions?actions.getBoundingClientRect().bottom+12-window.innerHeight:0;
+    if(over<=0)return;
+    quizAutoScrolled=true;
+    window.scrollBy({top:over,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  }));
 }
 function renderQuizRecord(){
   const box=document.getElementById('quizRecordSummary');box.replaceChildren();
   const history=quizAdapter?.normalizeHistory(stats.quiz);
+  const el=(tag,className,text)=>{const e=document.createElement(tag);if(className)e.className=className;if(text!==undefined)e.textContent=text;return e;};
+  const count=(value,total)=>{const td=el('td');td.append(el('b','',String(value)),el('small','',total===undefined?'問':'/'+total+'問'));return td;};
+  // Same tile language as the neighbouring stats: muted headings, tabular figures.
+  const table=el('table','quiz-record-table');
+  const head=el('tr');for(const label of ['','正解','表なし正解','ヒント使用'])head.append(el('th','',label));
+  const thead=el('thead');thead.append(head);const tbody=el('tbody');
   for(const mode of ['form','type']){
-    const count=history?.byMode[mode] || {total:0,correct:0,independent:0,hintUsed:0};
-    const p=document.createElement('p');
-    p.textContent=(mode==='form'?'活用形':'活用の種類')+'：正解 '+count.correct+' / '+count.total+'問 ・表なし正解 '+count.independent+'問 ・ヒント使用 '+count.hintUsed+'問';box.append(p);
+    const c=history?.byMode[mode] || {total:0,correct:0,independent:0,hintUsed:0};
+    const tr=el('tr');const th=el('th','',mode==='form'?'活用形':'活用の種類');th.scope='row';
+    tr.append(th,count(c.correct,c.total),count(c.independent),count(c.hintUsed));tbody.append(tr);
   }
+  table.append(thead,tbody);box.append(table);
   if(quizEngine?.quizMasteryStage){
     const stages=['基礎','練習','発展','全候補'];
-    const p=document.createElement('p');
-    p.textContent='活用種類の進み具合：用言 '+stages[quizEngine.quizMasteryStage(history,'動詞','type')]+' ・助動詞 '+stages[quizEngine.quizMasteryStage(history,'助動詞','type')];
+    const p=el('p','quiz-record-stage');p.append(el('span','quiz-record-caption','活用種類の進み具合'));
+    for(const [label,pos] of [['用言','動詞'],['助動詞','助動詞']]){
+      const chip=el('span','quiz-record-chip');chip.append(el('small','',label),el('b','',stages[quizEngine.quizMasteryStage(history,pos,'type')]));p.append(chip);
+    }
     box.append(p);
   }
   const last=history?.events.at(-1);
   if(last){
-    const p=document.createElement('p');
-    p.textContent='直近：'+(last.correct?'正解':'要確認')+' / '+['表なし','部分表','全表'][last.maxHintLevel]+(last.typeCorrect!==null?' / 型 '+(last.typeCorrect?'正解':'要確認'):'')+(last.rowCorrect!==null?' / 行 '+(last.rowCorrect?'正解':'要確認'):'');box.append(p);
+    box.append(el('p','quiz-record-last','直近：'+(last.correct?'正解':'要確認')+' / '+['表なし','部分表','全表'][last.maxHintLevel]+(last.typeCorrect!==null?' / 型 '+(last.typeCorrect?'正解':'要確認'):'')+(last.rowCorrect!==null?' / 行 '+(last.rowCorrect?'正解':'要確認'):'')));
   }
 }

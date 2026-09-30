@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import {
   QUIZ_MODE, CHOICE_SCOPE, ROW_MODE, SUPPORT_LEVEL,
-  shortTypeLabel, splitVerbType, buildTypeChoices, evaluateAnswer,
+  shortTypeLabel, splitVerbType, buildTypeChoices, buildFormChoices, buildRowChoices, evaluateAnswer,
   buildHintMask, evidenceWeight, isPublicQuizEligible
 } from "./conj-quiz-engine.mjs";
 
@@ -29,6 +29,22 @@ const ex={
 const all=buildTypeChoices({example:ex,masterEntries:master,scope:CHOICE_SCOPE.ALL,rng:()=>0.5});
 assert.ok(all.some(x=>x.canonical==="カ行上二段活用"));
 assert.ok(all.some(x=>x.canonical==="ク活用"));
+// 選択肢はランダムにせず、動詞→形容詞→形容動詞の文法書順に固定する。
+const orderMaster=[...master,
+  {conjugationType:"ナリ活用",partOfSpeech:"形容動詞"},
+  {conjugationType:"カ行変格活用",partOfSpeech:"動詞"},
+  {conjugationType:"マ行上一段活用",partOfSpeech:"動詞"},
+];
+for(const rng of [()=>0,()=>0.99]){
+  const ordered=buildTypeChoices({example:ex,masterEntries:orderMaster,scope:CHOICE_SCOPE.ALL,rng});
+  assert.deepEqual(ordered.map(x=>x.family),["四","上一","上二","下二","カ変","ク","シク","ナリ"]);
+}
+const auxMaster=["特殊型","形容詞（ク活用）型","ラ変型","四段型","無変化型","形容動詞（ナリ活用）型","下二段型"]
+  .map(t=>({conjugationType:t,partOfSpeech:"助動詞"}));
+const auxOrdered=buildTypeChoices({example:{...ex,partOfSpeech:"助動詞",conjugationType:"特殊型"},masterEntries:auxMaster,scope:CHOICE_SCOPE.ALL,rng:()=>0});
+assert.deepEqual(auxOrdered.map(x=>x.canonical),["四段型","下二段型","ラ変型","形容詞（ク活用）型","形容動詞（ナリ活用）型","特殊型","無変化型"]);
+assert.deepEqual(buildFormChoices().map(x=>x.canonical),["未然形","連用形","終止形","連体形","已然形","命令形"]);
+assert.deepEqual(buildRowChoices([{conjugationType:"ラ行四段活用",partOfSpeech:"動詞"},{conjugationType:"カ行四段活用",partOfSpeech:"動詞"},{conjugationType:"ハ行四段活用",partOfSpeech:"動詞"}],{rowRequired:true,family:"四"}).map(x=>x.canonical),["カ","ハ","ラ"]);
 
 const eval1=evaluateAnswer({
   quizMode:QUIZ_MODE.TYPE,example:ex,selectedType:"カ行上二段活用",
