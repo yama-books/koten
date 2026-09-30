@@ -46,7 +46,7 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
   100%{opacity:1;transform:translate3d(0,0,0) scale(1)}
 }
 .num{font-variant-numeric:tabular-nums}
-.chart-ready .seg1{animation:draw1 .42s cubic-bezier(.25,.72,.2,1) .05s forwards}.chart-ready .seg2{animation:draw2 .34s cubic-bezier(.25,.72,.2,1) .34s forwards}.chart-ready .seg3{animation:draw3 .38s cubic-bezier(.25,.72,.2,1) .56s forwards}.chart-ready .seg4{animation:draw4 .46s cubic-bezier(.25,.72,.2,1) .82s forwards}.chart-ready .center{animation:centerIn .28s ease 1.15s forwards}
+.chart-ready .seg1{animation:draw1 .82s cubic-bezier(.22,.72,.18,1) .08s forwards}.chart-ready .seg2{animation:draw2 .82s cubic-bezier(.22,.72,.18,1) .08s forwards}.chart-ready .seg3{animation:draw3 .82s cubic-bezier(.22,.72,.18,1) .08s forwards}.chart-ready .seg4{animation:draw4 .82s cubic-bezier(.22,.72,.18,1) .08s forwards}.chart-ready .center{animation:centerIn .28s ease .78s forwards}
 .seg1{stroke-dasharray:0 100;stroke-dashoffset:0}.seg2{stroke-dasharray:0 100;stroke-dashoffset:-27.64}.seg3{stroke-dasharray:0 100;stroke-dashoffset:-29.31}.seg4{stroke-dasharray:0 100;stroke-dashoffset:-53.61}
 @keyframes draw1{to{stroke-dasharray:27.64 72.36}}@keyframes draw2{to{stroke-dasharray:1.67 98.33}}@keyframes draw3{to{stroke-dasharray:24.30 75.70}}@keyframes draw4{to{stroke-dasharray:46.39 53.61}}@keyframes centerIn{to{opacity:1;transform:scale(1)}}
 @media(max-width:370px){.breakdown{grid-template-columns:132px 1fr}.donut{width:128px;height:128px}.review-grid{grid-template-columns:1fr}.qname{white-space:normal}}
@@ -95,7 +95,7 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
 </div>
 </div>
 </section>
-<div class="note">画面を開くと、小カードが右の遠方から自動でロング・グライドして所定位置で停止します。ドーナツはパーツ移動をせず、上端から時計回りに順番に描画します。</div>
+<div class="note">画面を開くと、小カードが右の遠方から自動でロング・グライドして所定位置で停止します。ドーナツはパーツ移動をせず、4色すべてが同時にそれぞれの開始位置から時計回りに描画されます。</div>
 </div>
 </div>
 <script>
