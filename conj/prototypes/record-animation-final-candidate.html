@@ -34,6 +34,7 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
 .desktop-play .scroll-card,
 .scroll-card.is-in{
   animation:autoGlide .86s cubic-bezier(.16,.82,.20,1) forwards;
+  animation-delay:var(--glide-delay,0ms);
 }
 @keyframes autoGlide{
   0%{opacity:.04;transform:translate3d(78vw,0,0) scale(.988)}
@@ -148,6 +149,18 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
    countNumbers();
  }
 
+ function setTopDownDelays(targetCards,step){
+   const ordered=targetCards.slice().sort(function(a,b){
+     const ar=a.getBoundingClientRect();
+     const br=b.getBoundingClientRect();
+     if(Math.abs(ar.top-br.top)>3)return ar.top-br.top;
+     return ar.left-br.left;
+   });
+   ordered.forEach(function(card,i){
+     card.style.setProperty('--glide-delay',(i*step)+'ms');
+   });
+ }
+
  function playDesktop(){
    if(cardObserver){cardObserver.disconnect();cardObserver=null}
    document.body.classList.remove('desktop-play');
@@ -156,13 +169,35 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
      card.removeAttribute('style');
    });
 
-   /* 初期の画面外位置を確実に一度描画してから、一斉に再生する */
+   setTopDownDelays(cards,70);
+
+   /* 初期位置を1フレーム確実に描画してから、上から順に一斉系列で再生 */
    void document.body.offsetWidth;
    requestAnimationFrame(function(){
      requestAnimationFrame(function(){
        document.body.classList.add('desktop-play');
        startChart();
      });
+   });
+ }
+
+ function revealMobileBatch(entries,observer){
+   const visible=entries
+     .filter(function(entry){return entry.isIntersecting})
+     .sort(function(a,b){
+       const ar=a.boundingClientRect;
+       const br=b.boundingClientRect;
+       if(Math.abs(ar.top-br.top)>3)return ar.top-br.top;
+       return ar.left-br.left;
+     });
+
+   visible.forEach(function(entry,i){
+     const card=entry.target.querySelector('.scroll-card');
+     if(card){
+       card.style.setProperty('--glide-delay',(i*75)+'ms');
+       card.classList.add('is-in');
+     }
+     observer.unobserve(entry.target);
    });
  }
 
@@ -175,14 +210,9 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
 
    if(cardObserver)cardObserver.disconnect();
 
-   /* 動いていない slot を監視する。transform 済み card 自身は監視しない */
+   /* 動かない slot を監視。1回の判定で複数入った場合は上から順に時間差を付ける */
    cardObserver=new IntersectionObserver(function(entries,observer){
-     entries.forEach(function(entry){
-       if(!entry.isIntersecting)return;
-       const card=entry.target.querySelector('.scroll-card');
-       if(card)card.classList.add('is-in');
-       observer.unobserve(entry.target);
-     });
+     revealMobileBatch(entries,observer);
    },{
      threshold:.05,
      rootMargin:'0px 0px -3% 0px'
@@ -216,7 +246,6 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
  }
 
  function boot(){
-   /* pageshow 依存にせず、DOM 構築後に初期フレームを確保する */
    requestAnimationFrame(function(){
      requestAnimationFrame(init);
    });
