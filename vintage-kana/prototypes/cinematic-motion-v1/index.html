@@ -321,7 +321,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 18: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 19: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -921,9 +921,10 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光が開けた瞬間にぱっと生まれ落ち、花びらのような自由落下へ。
-  //    個々の文字はフル回転させず、左右の揺れ・前後の揺れ・傾きだけで「ひらひら」を作る。
+  // 6) 閃光中に旧回転姿勢を完全に消し、開けた瞬間から花びらの自由落下だけを見せる。
+  //    個々の文字はフル回転させない。横揺れ・前後揺れ・わずかな傾き + 下方向の自由落下で phase7 の漂いへ着地する。
   const phase6Duration=2050;
+  const hiddenPoseMs=130;
   const flashOpenMs=230;
 
   const petalState=(i,timeMs)=>{
@@ -948,9 +949,9 @@ async function play(){
       x:anchorX+swayX,
       y:anchorY+swayY,
       z:anchorZ+swayZ,
-      rot:Math.sin(tt*1.10+s.phase)*5.5,
-      rx:-6+Math.sin(tt*1.30+s.phase)*13,
-      ry:Math.cos(tt*1.18+s.phase)*15
+      rot:Math.sin(tt*1.10+s.phase)*4.2,
+      rx:-4+Math.sin(tt*1.30+s.phase)*9,
+      ry:Math.cos(tt*1.18+s.phase)*10
     };
   };
 
@@ -967,12 +968,15 @@ async function play(){
   };
 
   await frameTween(phase6Duration,(p,elapsed)=>{
-    const flashOpen=easeOut(clamp(elapsed/flashOpenMs));
-    const burst=easeOut(clamp(elapsed/flashOpenMs));
-    const petalBlend=easeInOut(clamp((elapsed-70)/1320));
-    const soften=easeInOut(clamp((elapsed-110)/1660));
+    // First 130ms stays white: use it to change pose invisibly.
+    const poseReady=easeOut(clamp(elapsed/hiddenPoseMs));
+    const flashOpen=easeOut(clamp((elapsed-hiddenPoseMs)/flashOpenMs));
+    const visibleTime=Math.max(0,elapsed-hiddenPoseMs);
+    const burst=easeOut(clamp(visibleTime/flashOpenMs));
+    const fallBlend=easeInOut(clamp((visibleTime-20)/1350));
+    const soften=easeInOut(clamp((visibleTime-40)/1650));
 
-    flash.style.opacity=String((1-flashOpen)*.92);
+    flash.style.opacity=String(elapsed<hiddenPoseMs ? .98 : (1-flashOpen)*.98);
     whiteRoom.style.opacity=String(lerp(1,.84,soften));
     portalGlow.style.opacity=String(lerp(.90,.16,soften));
     rushLines.style.opacity=String(lerp(1,.10,soften));
@@ -981,6 +985,7 @@ async function play(){
       const s=seeds[i];
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
 
+      // Exact hidden phase-5 position, used only as the origin of the burst.
       const endAngle=baseAngles[i]+spinFlashEnd;
       const endDepth=(Math.sin(endAngle)+1)/2;
       const endAxisX=Math.sin(layer*1.8+spinFlashEnd*.22)*6;
@@ -989,55 +994,57 @@ async function play(){
       const startY=-86+endAxisY+Math.sin(endAngle)*5+layer*170;
       const startZ=(endDepth-.5)*48;
       const startScale=(.56+endDepth*.40)*densityScale;
-      const startRot=(spinFlashEnd*180/Math.PI)*(i%2?-.26:.26)+Math.sin(endAngle)*9;
-      const startRx=-16+Math.cos(endAngle+layer*.35)*15;
-      const startRy=12+Math.sin(endAngle-layer*.25)*18;
 
-      const burstAngle=baseAngles[i]+s.phase*.18+(i%2?-.12:.12);
-      const burstR=72+(i%4)*10+Math.abs(layer)*20;
-      const burstX=Math.cos(burstAngle)*burstR;
-      const burstY=Math.sin(burstAngle)*burstR*.62+layer*24;
-      const burstZ=Math.sin(burstAngle*1.7+s.phase)*(38+Math.abs(layer)*12);
+      // Flower-petal birth impulse. Once the flash opens, no group/individual spin remains.
+      const birthAngle=baseAngles[i]+s.phase*.18+(i%2?-.12:.12);
+      const birthR=72+(i%4)*10+Math.abs(layer)*20;
+      const impulseX=Math.cos(birthAngle)*birthR;
+      const impulseY=Math.sin(birthAngle)*birthR*.42+layer*18;
+      const impulseZ=Math.sin(birthAngle*1.7+s.phase)*(34+Math.abs(layer)*10);
 
-      const burstPos={
-        x:startX+burstX*burst,
-        y:startY+burstY*burst,
-        z:startZ+burstZ*burst
-      };
-      const petal=petalState(i,elapsed);
+      // Gravity-like downward displacement after the burst.
+      const t=visibleTime/1000;
+      const gravityY=34*t+24*t*t;
+      const sideDrift=Math.sin(t*2.0+s.phase)*10*s.floatAmpX;
 
-      const x=lerp(burstPos.x,petal.x,petalBlend);
-      const y=lerp(burstPos.y,petal.y,petalBlend);
-      const z=lerp(burstPos.z,petal.z,petalBlend);
+      const fallX=startX+impulseX*burst+sideDrift*burst;
+      const fallY=startY+impulseY*burst+gravityY;
+      const fallZ=startZ+impulseZ*burst+Math.sin(t*1.6+s.phase)*8;
 
-      const targetDepth=.5+.5*Math.sin(s.phase+elapsed*.0009);
+      const petal=petalState(i,visibleTime);
+      const x=lerp(fallX,petal.x,fallBlend);
+      const y=lerp(fallY,petal.y,fallBlend);
+      const z=lerp(fallZ,petal.z,fallBlend);
+
+      const targetDepth=.5+.5*Math.sin(s.phase+visibleTime*.0009);
       const targetScale=(.55+targetDepth*.15)*densityScale;
       const scale=lerp(startScale,targetScale,soften);
 
-      // Old rotational pose disappears under the flash; the emerging glyph only rocks like a petal.
-      const rot=lerp(startRot,petal.rot,petalBlend);
-      const rx=lerp(startRx,petal.rx,petalBlend);
-      const ry=lerp(startRy,petal.ry,petalBlend);
+      // Crucial: old rotational pose is gone before the flash opens.
+      const rot=petal.rot*poseReady;
+      const rx=petal.rx*poseReady;
+      const ry=petal.ry*poseReady;
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.72+endDepth*.28,.91,soften));
+      el.style.opacity=String(lerp(.76,.91,soften));
       el.style.filter="none";
     });
 
     sparkleSeeds.forEach(s=>{
-      const petal=sparkPetalState(s,elapsed);
-      const burstR=(46+s.radius*.48)*burst;
-      const burstX=Math.cos(s.angle)*burstR;
-      const burstY=Math.sin(s.angle)*burstR*.76;
-      const burstZ=Math.sin(s.angle*1.6+s.phase)*burstR*.66;
+      const petal=sparkPetalState(s,visibleTime);
+      const birthR=(46+s.radius*.48)*burst;
+      const t=visibleTime/1000;
+      const x=Math.cos(s.angle)*birthR+Math.sin(t*1.8+s.phase)*8;
+      const y=Math.sin(s.angle)*birthR*.50+30*t+20*t*t;
+      const z=Math.sin(s.angle*1.6+s.phase)*birthR*.62;
 
       setT(
         s.el,
-        lerp(burstX,petal.x,petalBlend),
-        lerp(burstY,petal.y,petalBlend),
+        lerp(x,petal.x,fallBlend),
+        lerp(y,petal.y,fallBlend),
         s.size*(.72+.58*petal.pulse),
         0,0,0,
-        lerp(burstZ,petal.z,petalBlend)
+        lerp(z,petal.z,fallBlend)
       );
       s.el.style.opacity=String(.48+.48*petal.pulse);
       s.el.style.filter=`blur(${(1-petal.pulse)*.7}px)`;
@@ -1239,16 +1246,27 @@ async function play(){
   const stamps=[...board.children];
   for(let i=0;i<stamps.length;i++){
     if(token!==playToken)return;
-    const sr=stamps[i].getBoundingClientRect();
-    const br=board.getBoundingClientRect();
+    const stamp=stamps[i];
     const wave=document.createElement("div");
     wave.className="impactWave";
-    wave.style.left=`${sr.left+sr.width/2-br.left}px`;
-    wave.style.top=`${sr.top+sr.height/2-br.top}px`;
+
+    // offsetLeft/offsetTop are the untransformed final layout box.
+    // getBoundingClientRect() was wrong here because .stamp starts translated/scaled.
+    const cx=stamp.offsetLeft+stamp.offsetWidth/2;
+    const cy=stamp.offsetTop+stamp.offsetHeight/2;
+    wave.style.left=`${cx}px`;
+    wave.style.top=`${cy}px`;
+
+    const waveSize=Math.max(104,Math.min(154,stamp.offsetHeight*1.55));
+    wave.style.width=`${waveSize}px`;
+    wave.style.height=`${waveSize}px`;
+    wave.style.marginLeft=`${-waveSize/2}px`;
+    wave.style.marginTop=`${-waveSize/2}px`;
+
     board.appendChild(wave);
     setTimeout(()=>wave.remove(),820);
 
-    stamps[i].classList.add("hit");
+    stamp.classList.add("hit");
 
     core.classList.remove("shake");
     void core.offsetWidth;
