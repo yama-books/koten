@@ -3161,7 +3161,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20260930-3">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20260930-6">
 </head>
 <body>
 <div class="wrap">
@@ -3232,9 +3232,11 @@ body.review-modal-open{overflow:hidden}
       <button type="button" data-quiz-mode="type" aria-pressed="false" disabled>活用の種類を判別</button>
     </div>
     <div class="quiz-controls" id="quizControls" hidden>
-      <label>選択肢 <select id="choiceScope"><option value="near">近い型</option><option value="part_of_speech">同じ品詞</option><option value="cross_pos">品詞をまたぐ</option><option value="all">すべての型</option></select></label>
-      <label>はじめの表 <select id="supportLevel"><option value="0">表なし</option><option value="1">部分表</option><option value="2">全表</option></select></label>
-      <label>動詞の行 <select id="rowMode"><option value="omitted">省略</option><option value="select">選択</option><option value="input">入力</option></select></label>
+      <label>活用表 <select id="supportLevel"><option value="0">ヒントで表示</option><option value="2">常に表示</option></select></label>
+      <details class="quiz-advanced"><summary>詳しい設定</summary>
+        <label>選択肢 <select id="choiceScope"><option value="auto">学習に合わせる</option><option value="near">近い型</option><option value="part_of_speech">同じ品詞</option><option value="cross_pos">さらに広く</option><option value="all">全候補</option></select></label>
+        <label>動詞の行 <select id="rowMode"><option value="omitted">省略</option><option value="select">選択</option><option value="input">入力</option></select></label>
+      </details>
     </div>
     <p id="quizPrompt" hidden></p>
     <p id="quizEmpty" role="status" hidden></p>
@@ -3441,7 +3443,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
-<script src="./conj-quiz-ui.js?v=20260930-3"></script>
+<script src="./conj-quiz-ui.js?v=20260930-6"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4763,6 +4765,16 @@ function syncStudyHeightsAtCurrentZoom(){
   const scale=(body.getBoundingClientRect().height/100)||1;
   const tableRect=table.getBoundingClientRect();
   const panelRect=tablePanel.getBoundingClientRect();
+
+  // In the quiz's hint-first state the table is hidden. Keep the original
+  // sentence readable instead of inheriting a zero height from that table.
+  if(isIdentificationMode() && tablePanel.dataset.support==="hidden"){
+    examplePanel.style.paddingTop="0px";
+    body.style.height="136px";
+    text.style.height="136px";
+    fitExampleText(text);
+    return;
+  }
 
   // 本活用・補助活用の見出しが出る表だけ表本体が下がるため、
   // その差分だけ用例側も下げて、表の一行目と用例の先頭を揃える。
