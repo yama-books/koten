@@ -97,15 +97,20 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
 (function(){
  const section=document.querySelector('.chart-section');
  const cards=[...document.querySelectorAll('.scroll-card')];
+ const slots=cards.map(function(card){return card.closest('.slot')}).filter(Boolean);
  const nums=[...document.querySelectorAll('.smooth')];
  const desktopQuery=matchMedia('(min-width: 768px)');
  const reducedQuery=matchMedia('(prefers-reduced-motion: reduce)');
  let numberPlayed=false;
  let chartPlayed=false;
  let cardObserver=null;
+ let initialized=false;
 
  function setFinalState(){
+   document.body.classList.remove('desktop-play');
+   if(cardObserver){cardObserver.disconnect();cardObserver=null}
    cards.forEach(function(card){
+     card.classList.add('is-in');
      card.style.animation='none';
      card.style.opacity='1';
      card.style.transform='none';
@@ -123,11 +128,11 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
      const target=Number(el.dataset.value||0);
      const delay=180+i*28;
      const duration=780;
-     const start=performance.now()+delay;
+     const startTime=performance.now()+delay;
      el.textContent='0';
      function tick(now){
-       if(now<start){requestAnimationFrame(tick);return}
-       const p=Math.min(1,(now-start)/duration);
+       if(now<startTime){requestAnimationFrame(tick);return}
+       const p=Math.min(1,(now-startTime)/duration);
        const e=1-Math.pow(1-p,4);
        el.textContent=Math.round(target*e).toLocaleString('ja-JP');
        if(p<1)requestAnimationFrame(tick);
@@ -145,27 +150,45 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
 
  function playDesktop(){
    if(cardObserver){cardObserver.disconnect();cardObserver=null}
-   cards.forEach(function(card){card.classList.remove('is-in')});
-   document.body.classList.add('desktop-play');
-   startChart();
+   document.body.classList.remove('desktop-play');
+   cards.forEach(function(card){
+     card.classList.remove('is-in');
+     card.removeAttribute('style');
+   });
+
+   /* 初期の画面外位置を確実に一度描画してから、一斉に再生する */
+   void document.body.offsetWidth;
+   requestAnimationFrame(function(){
+     requestAnimationFrame(function(){
+       document.body.classList.add('desktop-play');
+       startChart();
+     });
+   });
  }
 
  function playMobile(){
    document.body.classList.remove('desktop-play');
+   cards.forEach(function(card){
+     card.classList.remove('is-in');
+     card.removeAttribute('style');
+   });
 
    if(cardObserver)cardObserver.disconnect();
+
+   /* 動いていない slot を監視する。transform 済み card 自身は監視しない */
    cardObserver=new IntersectionObserver(function(entries,observer){
      entries.forEach(function(entry){
        if(!entry.isIntersecting)return;
-       entry.target.classList.add('is-in');
+       const card=entry.target.querySelector('.scroll-card');
+       if(card)card.classList.add('is-in');
        observer.unobserve(entry.target);
      });
    },{
-     threshold:.08,
-     rootMargin:'0px 0px -4% 0px'
+     threshold:.05,
+     rootMargin:'0px 0px -3% 0px'
    });
 
-   cards.forEach(function(card){cardObserver.observe(card)});
+   slots.forEach(function(slot){cardObserver.observe(slot)});
 
    const chartObserver=new IntersectionObserver(function(entries,observer){
      entries.forEach(function(entry){
@@ -174,13 +197,16 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
        observer.disconnect();
      });
    },{
-     threshold:.08,
-     rootMargin:'0px 0px -4% 0px'
+     threshold:.05,
+     rootMargin:'0px 0px -3% 0px'
    });
    chartObserver.observe(section);
  }
 
  function init(){
+   if(initialized)return;
+   initialized=true;
+
    if(reducedQuery.matches){
      setFinalState();
      return;
@@ -189,7 +215,18 @@ svg{width:100%;height:100%;display:block;overflow:visible}.track{fill:none;strok
    else playMobile();
  }
 
- addEventListener('pageshow',function(){setTimeout(init,160)},{once:true});
+ function boot(){
+   /* pageshow 依存にせず、DOM 構築後に初期フレームを確保する */
+   requestAnimationFrame(function(){
+     requestAnimationFrame(init);
+   });
+ }
+
+ if(document.readyState==='loading'){
+   document.addEventListener('DOMContentLoaded',boot,{once:true});
+ }else{
+   boot();
+ }
 })();
 </script>
 </body>
