@@ -183,10 +183,25 @@
     100%{-webkit-transform:rotateX(-9deg) rotateY(1440deg) rotateZ(0deg)}
   }
   .spark{
-    position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:50%;
-    background:#fff;box-shadow:0 0 12px 4px rgba(255,241,198,.8);
-    opacity:0;
+    position:absolute;left:50%;top:50%;
+    width:6px;height:6px;margin:-3px 0 0 -3px;
+    border-radius:50%;
+    background:#fffdf4;
+    box-shadow:
+      0 0 8px 2px rgba(255,255,255,.96),
+      0 0 18px 5px rgba(255,236,166,.62);
+    opacity:0;pointer-events:none;
+    will-change:transform,opacity,filter;
+    mix-blend-mode:screen;
   }
+  .spark:before,.spark:after{
+    content:"";position:absolute;left:50%;top:50%;
+    background:rgba(255,255,255,.92);
+    transform:translate(-50%,-50%);
+    border-radius:2px;
+  }
+  .spark:before{width:18px;height:1px}
+  .spark:after{width:1px;height:18px}
   .flash{
     position:fixed;inset:-10%;z-index:40;opacity:0;
     background:radial-gradient(circle at 50% 50%,#fff 0%,#fff 18%,rgba(255,250,228,.98) 30%,rgba(255,244,192,.72) 48%,transparent 72%);
@@ -271,7 +286,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 12: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 13: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -640,8 +655,10 @@ async function play(){
     g.forEach((el,i)=>{
       const s=seeds[i];
       const base=(i/n)*Math.PI*2;
-      const peelDelay=i*12;
-      const peelT=easeInOut(clamp((elapsed-peelDelay)/900));
+      const peelStagger=n>14?82:n>10?96:118;
+      const peelDelay=180+i*peelStagger;
+      const peelT=easeInOut(clamp((elapsed-peelDelay)/620));
+      const localFloat=easeInOut(clamp((elapsed-(peelDelay+250))/1450));
       const lift=lerp(0,174,rise);
 
       // Paper peel begins immediately after the first flat instant.
@@ -656,7 +673,7 @@ async function play(){
       const peelRZ=s.tilt*1.6*peelT;
 
       // Free 3D drift never stops.
-      const floatStrength=(.20+.80*Math.sin(Math.min(rise,.985)*Math.PI))*floatBlend;
+      const floatStrength=(.20+.80*Math.sin(Math.min(rise,.985)*Math.PI))*floatBlend*localFloat;
       const freeX=s.x+planarDriftX+peelX+Math.sin(tSec*2.18+s.phase)*s.sway*floatStrength;
       const freeY=s.y-lift+planarDriftY+peelY+Math.sin(tSec*3.05+s.phase)*6.4*floatStrength;
       const freeZ=peelZ+Math.sin(tSec*2.55+s.phase)*26*floatStrength;
@@ -761,10 +778,28 @@ async function play(){
 
   const spinVortexEnd=spin;
 
-  // 5) 圧縮と閃光。phase4終端から各パラメータを連続補間する。
+  // 5) 圧縮と閃光。変身の瞬間からキラキラを発生させる。
   const omega5Start=omega4End;
   const omega5End=Math.PI*2*5.02;
   const phase5Duration=1260;
+
+  const sparkleCount=Math.min(38,Math.max(20,n*3));
+  const sparkleSeeds=Array.from({length:sparkleCount},(_,i)=>({
+    el:(()=>{
+      const s=document.createElement("div");
+      s.className="spark";
+      core.appendChild(s);
+      return s;
+    })(),
+    angle:(i/sparkleCount)*Math.PI*2+Math.random()*.45,
+    radius:34+Math.random()*92,
+    y:-72+Math.random()*144,
+    z:-24+Math.random()*70,
+    phase:Math.random()*Math.PI*2,
+    speed:(Math.random()<.5?-1:1)*(.35+Math.random()*.45),
+    pulse:.75+Math.random()*1.4,
+    size:.55+Math.random()*.95
+  }));
 
   await frameTween(phase5Duration,(p,elapsed)=>{
     const e=easeInOut(p);
@@ -815,95 +850,51 @@ async function play(){
         el.dataset.converted="1";
       }
     });
+
+    const sparkBirth=easeOut(clamp((p-.34)/.66));
+    sparkleSeeds.forEach((s,i)=>{
+      const tt=elapsed/1000;
+      const ang=s.angle+tt*s.speed;
+      const r=lerp(12,s.radius,sparkBirth);
+      const x=Math.cos(ang)*r;
+      const y=lerp(-28,s.y,sparkBirth)+Math.sin(tt*1.6+s.phase)*5*sparkBirth;
+      const z=lerp(20,s.z,sparkBirth);
+      const pulse=.45+.55*Math.sin(tt*5.2*s.pulse+s.phase)**2;
+      setT(s.el,x,y,s.size*(.45+.55*sparkBirth)*pulse,0,0,0,z);
+      s.el.style.opacity=String(sparkBirth*(.45+.55*pulse));
+      s.el.style.filter=`blur(${(1-pulse)*.6}px)`;
+    });
   },token);
   if(token!==playToken)return;
   flash.style.opacity=0;
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光明け。phase5の終端値から、力が抜け始める状態へ連続的に広げる。
+  // 6) 変身直後。急激に力が抜け、無重力のように不統一へ広がる。
+  //    低速になっても各文字とキラキラは常に漂い続ける。
   const omega6Start=omega5End;
-  const omega6End=Math.PI*2*4.85;
-  const phase6Duration=1700;
+  const omega6End=Math.PI*2*.42;
+  const phase6Duration=1850;
 
   await frameTween(phase6Duration,(p,elapsed)=>{
-    const shape=easeInOut(p);
-    const bloom=Math.sin(p*Math.PI);
+    const release=easeInOut(p);
     const prog=spinProgress(spinFlashEnd,omega6Start,omega6End,elapsed,phase6Duration);
     spin=prog.spin;
 
-    const radius=lerp(11,76,shape)+bloom*10;
-    const ellipse=lerp(5,26,shape)+bloom*3;
-    const baseY=lerp(-86,-82,shape);
-    const vertical=lerp(170,118,shape);
-    const axisAmp=lerp(6,11,shape);
+    const radius=lerp(11,86,release);
+    const ellipse=lerp(5,24,release);
+    const baseY=lerp(-86,-18,release);
+    const vertical=lerp(170,16,release);
+    const driftAmp=lerp(0,26,release);
+    const driftLift=lerp(0,18,release);
 
-    whiteRoom.style.opacity=String(lerp(1,.92,shape));
-    portalGlow.style.opacity=String(lerp(.88,.56,shape));
-
-    g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spin;
-      const depth=(Math.sin(angle)+1)/2;
-      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-
-      const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
-      const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.14;
-      const x=axisX+Math.cos(angle)*radius;
-      const y=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical;
-
-      const z=lerp((depth-.5)*48,(depth-.5)*52,shape);
-      const scale=lerp(
-        (.56+depth*.40)*densityScale,
-        (.64+depth*.34)*densityScale,
-        shape
-      );
-
-      const rot=lerp(
-        (spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9,
-        (spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*8,
-        shape
-      );
-      const rx=lerp(
-        -16+Math.cos(angle+layer*.35)*15,
-        -12+Math.cos(angle+layer*.3)*14,
-        shape
-      );
-      const ry=lerp(
-        12+Math.sin(angle-layer*.25)*18,
-        10+Math.sin(angle-layer*.24)*18,
-        shape
-      );
-
-      setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(.68+depth*.32);
-      el.style.filter="none";
-      el.style.textShadow="0 0 10px rgba(139,125,101,.12)";
-    });
-  },token);
-  if(token!==playToken)return;
-
-  const spinReturnEnd=spin;
-
-  // 7) 減速して力が抜ける。phase6終端から漂いへ滑らかに崩す。
-  const omega7Start=omega6End;
-  const omega7End=Math.PI*2*.55;
-  const phase7Duration=1500;
-
-  await frameTween(phase7Duration,(p,elapsed)=>{
-    const release=easeInOut(p);
-    const prog=spinProgress(spinReturnEnd,omega7Start,omega7End,elapsed,phase7Duration);
-    spin=prog.spin;
-
-    const radius=lerp(76,88,release);
-    const ellipse=lerp(26,20,release);
-    const baseY=lerp(-82,-20,release);
-    const vertical=lerp(118,18,release);
-    const driftAmp=lerp(0,24,release);
-    const driftLift=lerp(0,16,release);
+    whiteRoom.style.opacity=String(lerp(1,.84,release));
+    portalGlow.style.opacity=String(lerp(.90,.22,release));
+    rushLines.style.opacity=String(lerp(1,.24,release));
 
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const angle=baseAngles[i]+spin+(i%2?1:-1)*release*.35;
+      const angle=baseAngles[i]+spin+(i%2?1:-1)*release*.38;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
 
@@ -913,122 +904,187 @@ async function play(){
         +Math.sin(elapsed*.0011+s.phase)*driftAmp*.18;
       const driftZ=Math.sin(elapsed*.0019+s.phase)*driftAmp*.55;
 
-      const axisXStart=Math.sin(layer*1.8+spin*.22)*11;
-      const axisYStart=Math.cos(layer*1.25+spin*.18)*11*.14;
-      const axisXEnd=Math.sin(layer*1.8+spin*.20)*2;
-      const axisYEnd=Math.cos(layer*1.25+spin*.15)*2*.10;
-      const axisX=lerp(axisXStart,axisXEnd,release);
-      const axisY=lerp(axisYStart,axisYEnd,release);
-
-      const x=axisX+Math.cos(angle)*radius+driftX;
-      const y=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical+driftY;
-      const z=lerp((depth-.5)*52,(depth-.5)*32+driftZ,release);
+      const x=Math.cos(angle)*radius+driftX;
+      const y=baseY+Math.sin(angle)*ellipse+layer*vertical+driftY;
+      const z=lerp((depth-.5)*48,(depth-.5)*30+driftZ,release);
 
       const scale=lerp(
-        (.64+depth*.34)*densityScale,
-        (.54+depth*.18)*densityScale,
+        (.56+depth*.40)*densityScale,
+        (.55+depth*.18)*densityScale,
         release
       );
-
-      const rotStart=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*8;
-      const rotEnd=(spin*180/Math.PI)*(i%2?-.17:.17)+Math.sin(elapsed*.002+s.phase)*12;
-      const rot=lerp(rotStart,rotEnd,release);
+      const rot=lerp(
+        (spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9,
+        (spin*180/Math.PI)*(i%2?-.15:.15)+Math.sin(elapsed*.002+s.phase)*13,
+        release
+      );
       const rx=lerp(
-        -12+Math.cos(angle+layer*.3)*14,
-        Math.sin(elapsed*.0022+s.phase)*22,
+        -16+Math.cos(angle+layer*.35)*15,
+        Math.sin(elapsed*.0022+s.phase)*24,
         release
       );
       const ry=lerp(
-        10+Math.sin(angle-layer*.24)*18,
-        Math.cos(elapsed*.0021+s.phase)*26,
+        12+Math.sin(angle-layer*.25)*18,
+        Math.cos(elapsed*.0021+s.phase)*28,
         release
       );
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.68+depth*.32,.86,release));
+      el.style.opacity=String(lerp(.72+depth*.28,.88,release));
+      el.style.filter="none";
     });
 
-    whiteRoom.style.opacity=String(lerp(.92,.74,release));
-    rushLines.style.opacity=String(lerp(.86,.26,release));
-    portalGlow.style.opacity=String(lerp(.56,.20,release));
+    const sparkTime=phase5Duration+elapsed;
+    sparkleSeeds.forEach(s=>{
+      const tt=sparkTime/1000;
+      const ang=s.angle+tt*s.speed;
+      const x=Math.cos(ang)*s.radius+Math.sin(tt*1.35+s.phase)*12*release;
+      const y=s.y+Math.sin(tt*1.6+s.phase)*9+Math.cos(tt*.82+s.phase)*5*release;
+      const z=s.z+Math.cos(tt*1.22+s.phase)*14*release;
+      const pulse=.38+.62*Math.sin(tt*5.2*s.pulse+s.phase)**2;
+      setT(s.el,x,y,s.size*(.62+.58*pulse),0,0,0,z);
+      s.el.style.opacity=String(.50+.46*pulse);
+      s.el.style.filter=`blur(${(1-pulse)*.7}px)`;
+    });
+  },token);
+  if(token!==playToken)return;
+
+  const spinZeroGStart=spin;
+
+  // 7) 短い無重力の余韻。回転系はほぼ力を失うが、漂いは連続している。
+  const phase7Duration=850;
+  const omega7=Math.PI*2*.42;
+
+  await frameTween(phase7Duration,(p,elapsed)=>{
+    spin=spinZeroGStart+omega7*(elapsed/1000);
+    const driftTime=phase6Duration+elapsed;
+
+    g.forEach((el,i)=>{
+      const s=seeds[i];
+      const angle=baseAngles[i]+spin+(i%2?1:-1)*.38;
+      const depth=(Math.sin(angle)+1)/2;
+      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+
+      const driftX=Math.sin(driftTime*.0017+s.phase*1.4)*26
+        +Math.cos(driftTime*.0011+s.phase)*26*.35;
+      const driftY=Math.cos(driftTime*.0015+s.phase*1.2)*18
+        +Math.sin(driftTime*.0011+s.phase)*26*.18;
+      const driftZ=Math.sin(driftTime*.0019+s.phase)*26*.55;
+
+      const x=Math.cos(angle)*86+driftX;
+      const y=-18+Math.sin(angle)*24+layer*16+driftY;
+      const z=(depth-.5)*30+driftZ;
+      const scale=(.55+depth*.18)*densityScale;
+      const rot=(spin*180/Math.PI)*(i%2?-.15:.15)+Math.sin(driftTime*.002+s.phase)*13;
+      const rx=Math.sin(driftTime*.0022+s.phase)*24;
+      const ry=Math.cos(driftTime*.0021+s.phase)*28;
+
+      setT(el,x,y,scale,rot,rx,ry,z);
+      el.style.opacity=".88";
+    });
+
+    const sparkTime=phase5Duration+phase6Duration+elapsed;
+    sparkleSeeds.forEach(s=>{
+      const tt=sparkTime/1000;
+      const ang=s.angle+tt*s.speed;
+      const x=Math.cos(ang)*s.radius+Math.sin(tt*1.35+s.phase)*12;
+      const y=s.y+Math.sin(tt*1.6+s.phase)*9+Math.cos(tt*.82+s.phase)*5;
+      const z=s.z+Math.cos(tt*1.22+s.phase)*14;
+      const pulse=.32+.68*Math.sin(tt*5.4*s.pulse+s.phase)**2;
+      setT(s.el,x,y,s.size*(.58+.68*pulse),0,0,0,z);
+      s.el.style.opacity=String(.54+.46*pulse);
+    });
+
+    whiteRoom.style.opacity=String(lerp(.84,.80,easeInOut(p)));
+    portalGlow.style.opacity=String(lerp(.22,.16,easeInOut(p)));
+    rushLines.style.opacity=String(lerp(.24,.14,easeInOut(p)));
   },token);
   if(token!==playToken)return;
 
   const spinFloatEnd=spin;
 
-  // 8) 同じ漂い位相の続きから急収束。漂いの関数をそのまま引き継ぎ、収束係数だけ上げる。
-  const omega8Start=omega7End;
-  const omega8End=Math.PI*2*4.75;
-  const phase8Duration=1500;
+  // 8) 無重力から急速に再加速。同じ漂い位相を残したまま中央へ吸い込む。
+  const omega8Start=omega7;
+  const omega8End=Math.PI*2*5.10;
+  const phase8Duration=1550;
 
   await frameTween(phase8Duration,(p,elapsed)=>{
-    const gather=easeInOut(clamp(p/.72));
+    const gather=easeInOut(clamp(p/.74));
     const prog=spinProgress(spinFloatEnd,omega8Start,omega8End,elapsed,phase8Duration);
     spin=prog.spin;
 
-    const radius=lerp(88,10,gather);
-    const ellipse=lerp(20,4,gather);
-    const baseY=lerp(-20,-10,gather);
-    const vertical=lerp(18,4,gather);
+    const radius=lerp(86,10,gather);
+    const ellipse=lerp(24,4,gather);
+    const baseY=lerp(-18,-10,gather);
+    const vertical=lerp(16,4,gather);
     const scatter=1-gather;
-    const driftTime=elapsed+phase7Duration;
+    const driftTime=phase6Duration+phase7Duration+elapsed;
 
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const angle=baseAngles[i]+spin+(i%2?1:-1)*scatter*.35;
+      const angle=baseAngles[i]+spin+(i%2?1:-1)*.38*scatter;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
 
       const driftX=(
-        Math.sin(driftTime*.0017+s.phase*1.4)*24
-        +Math.cos(driftTime*.0011+s.phase)*24*.35
+        Math.sin(driftTime*.0017+s.phase*1.4)*26
+        +Math.cos(driftTime*.0011+s.phase)*26*.35
       )*scatter;
       const driftY=(
-        Math.cos(driftTime*.0015+s.phase*1.2)*16
-        +Math.sin(driftTime*.0011+s.phase)*24*.18
+        Math.cos(driftTime*.0015+s.phase*1.2)*18
+        +Math.sin(driftTime*.0011+s.phase)*26*.18
       )*scatter;
-      const driftZ=Math.sin(driftTime*.0019+s.phase)*24*.55*scatter;
+      const driftZ=Math.sin(driftTime*.0019+s.phase)*26*.55*scatter;
 
-      const axisX=Math.sin(layer*1.8+spin*.20)*2*scatter;
-      const axisY=Math.cos(layer*1.25+spin*.15)*2*.10*scatter;
+      const orbitX=Math.cos(angle)*radius+driftX;
+      const orbitY=baseY+Math.sin(angle)*ellipse+layer*vertical+driftY;
+      const orbitZ=(depth-.5)*30+driftZ;
 
-      const orbitX=axisX+Math.cos(angle)*radius+driftX;
-      const orbitY=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical+driftY;
-      const orbitZ=(depth-.5)*32+driftZ;
-
-      const stagger=Math.min(.055,.60/Math.max(1,n));
-      const local=clamp((p-.44-i*stagger)/.56);
+      const stagger=Math.min(.052,.58/Math.max(1,n));
+      const local=clamp((p-.46-i*stagger)/.54);
       const rush=easeIn(local);
 
       const x=lerp(orbitX,0,rush);
       const y=lerp(orbitY,0,rush);
       const z=lerp(orbitZ,360,rush);
-      const scale=lerp((.54+depth*.18)*densityScale,3.22,rush);
+      const scale=lerp((.55+depth*.18)*densityScale,3.22,rush);
 
-      const floatingRot=(spin*180/Math.PI)*(i%2?-.17:.17)
-        +Math.sin(driftTime*.002+s.phase)*12*scatter;
+      const floatingRot=(spin*180/Math.PI)*(i%2?-.15:.15)
+        +Math.sin(driftTime*.002+s.phase)*13*scatter;
       const rot=lerp(
         floatingRot,
         (spin*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*46,
         rush
       );
-      const rx=lerp(Math.sin(driftTime*.0022+s.phase)*22*scatter,0,rush);
-      const ry=lerp(Math.cos(driftTime*.0021+s.phase)*26*scatter,0,rush);
+      const rx=lerp(Math.sin(driftTime*.0022+s.phase)*24*scatter,0,rush);
+      const ry=lerp(Math.cos(driftTime*.0021+s.phase)*28*scatter,0,rush);
 
       setT(el,x,y,scale,rot,rx,ry,z);
 
       const fade=rush<.72?1:1-clamp((rush-.72)/.28);
-      el.style.opacity=String(lerp(.86,fade,rush));
+      el.style.opacity=String(lerp(.88,fade,rush));
       el.style.filter=`blur(${rush*7}px) brightness(${1+rush*1.35})`;
     });
 
-    // Clear the special-effects layer while the motion converges.
-    whiteRoom.style.opacity=String(lerp(.74,1,p));
-    rushLines.style.opacity=String(lerp(.26,0,p));
-    portalGlow.style.opacity=String(lerp(.20,0,p));
+    const sparkTime=phase5Duration+phase6Duration+phase7Duration+elapsed;
+    sparkleSeeds.forEach(s=>{
+      const tt=sparkTime/1000;
+      const ang=s.angle+tt*s.speed;
+      const x=(Math.cos(ang)*s.radius+Math.sin(tt*1.35+s.phase)*12)*scatter;
+      const y=(s.y+Math.sin(tt*1.6+s.phase)*9+Math.cos(tt*.82+s.phase)*5)*scatter;
+      const z=(s.z+Math.cos(tt*1.22+s.phase)*14)*scatter;
+      const pulse=.35+.65*Math.sin(tt*5.4*s.pulse+s.phase)**2;
+      setT(s.el,x,y,s.size*(.62+.55*pulse)*(1-gather*.45),0,0,0,z);
+      s.el.style.opacity=String((.46+.44*pulse)*scatter);
+    });
+
+    whiteRoom.style.opacity=String(lerp(.80,1,p));
+    rushLines.style.opacity=String(lerp(.14,0,p));
+    portalGlow.style.opacity=String(lerp(.16,0,p));
   },token);
   if(token!==playToken)return;
 
+  sparkleSeeds.forEach(s=>s.el.remove());
   g.forEach(el=>el.remove());
 
   // 9) 重量級刻印。ここでは背景を白く整理して可読性を最優先。
