@@ -271,7 +271,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 11: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 12: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -528,6 +528,7 @@ function resetVisuals(){
   flash.style.opacity=0;
   whiteRoom.style.opacity=0;
   whiteRoom.style.transform="none";
+  whiteRoom.style.background="";
   rushLines.style.opacity=0;
   portalGlow.style.opacity=0;
   portalGlow.style.transform="translate(-50%,-50%) scale(.4)";
@@ -599,32 +600,53 @@ async function play(){
   input.style.color="transparent";
   input.style.caretColor="transparent";
 
-  // 1) 本当に最初だけ平面を保ち、そのあと紙のように一文字ずつはがれ上がる。
-  //    はがれ動作はすぐ浮遊へ溶かし込み、停止を作らずに次の流れへ渡す。
+  // 1-2) 紙のような剥離 → 立体浮遊 → 崩れた円環への吸引 → 回転を1本で連続実行。
+  //      円環に整列してから回り始めるのではなく、動きながら回り、回りながら整う。
   const ringR=Math.min(170,Math.max(118,innerWidth*.30));
   const ringRY=Math.min(54,ringR*.32);
-  const phase1Duration=4950;
+  const phase12Duration=8500;
+  const spinStartMs=3250;
+  const spinDurationMs=phase12Duration-spinStartMs;
+  const omega2Start=Math.PI*2*.38;
+  const omega2End=Math.PI*2*3.55;
+  const spinAccel=(omega2End-omega2Start)/(spinDurationMs/1000);
+  let spinBase=0;
 
-  await frameTween(phase1Duration,(p,elapsed)=>{
+  await frameTween(phase12Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
-    const rise=easeSoft(clamp(p/.88));
-    const floatBlend=easeInOut(clamp((p-.14)/.30));
-    const approach=easeInOut(clamp((p-.57)/.43));
+    const rise=easeSoft(clamp(elapsed/4300));
+    const floatBlend=easeInOut(clamp((elapsed-650)/1900));
+    const orbitBlend=easeInOut(clamp((elapsed-2450)/6050));
+    const whiteBlend=easeInOut(clamp((elapsed-3300)/3800));
 
-    whiteRoom.style.opacity=String(.10*approach);
-    whiteRoom.style.transform=`scale(${lerp(1,.988,approach)})`;
+    const spinElapsed=Math.max(0,elapsed-spinStartMs);
+    const spinSec=spinElapsed/1000;
+    spinBase=spinElapsed>0
+      ? omega2Start*spinSec+.5*spinAccel*spinSec*spinSec
+      : 0;
+
+    whiteRoom.style.opacity=String(clamp(.10*orbitBlend+whiteBlend*.90));
+    whiteRoom.style.transform=`scale(${lerp(1,1.15,whiteBlend)})`;
+    portalGlow.style.opacity=String(clamp((whiteBlend-.05)*1.22));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(whiteBlend))})`;
+    rushLines.style.opacity=String(clamp((whiteBlend-.04)*1.30));
+
+    [...rushLines.children].forEach(line=>{
+      const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
+      const travel=((whiteBlend*speed+phase)%1)*165-45;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1+whiteBlend*1.95})`;
+    });
 
     g.forEach((el,i)=>{
       const s=seeds[i];
       const base=(i/n)*Math.PI*2;
-      const preAngle=base+approach*Math.PI*2*.62;
-      const peelDelay=i*.012;
-      const peelT=easeInOut(clamp((p-peelDelay)/.18));
+      const peelDelay=i*12;
+      const peelT=easeInOut(clamp((elapsed-peelDelay)/900));
       const lift=lerp(0,174,rise);
 
-      // The first instant stays flat. Then each character peels from the lower hinge.
-      const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-approach);
-      const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-approach);
+      // Paper peel begins immediately after the first flat instant.
+      const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-orbitBlend);
+      const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-orbitBlend);
       const peelSkew=(i-(n-1)/2)*1.4;
       const peelX=s.sway*.34*peelT+peelSkew*peelT*.35;
       const peelY=-12*peelT;
@@ -633,122 +655,52 @@ async function play(){
       const peelRY=s.sway*7*peelT;
       const peelRZ=s.tilt*1.6*peelT;
 
-      // Flutter grows out of the peel instead of starting as a separate motion.
+      // Free 3D drift never stops.
       const floatStrength=(.20+.80*Math.sin(Math.min(rise,.985)*Math.PI))*floatBlend;
-      const floatX=s.x+planarDriftX+peelX+Math.sin(tSec*2.18+s.phase)*s.sway*floatStrength;
-      const floatY=s.y-lift+planarDriftY+peelY+Math.sin(tSec*3.05+s.phase)*6.4*floatStrength;
-      const floatZ=peelZ+Math.sin(tSec*2.55+s.phase)*26*floatStrength;
+      const freeX=s.x+planarDriftX+peelX+Math.sin(tSec*2.18+s.phase)*s.sway*floatStrength;
+      const freeY=s.y-lift+planarDriftY+peelY+Math.sin(tSec*3.05+s.phase)*6.4*floatStrength;
+      const freeZ=peelZ+Math.sin(tSec*2.55+s.phase)*26*floatStrength;
 
-      const looseX=Math.cos(preAngle)*(ringR*.46)+Math.sin(tSec*1.95+s.phase)*11*(1-approach);
-      const looseY=-34+Math.sin(preAngle)*(ringRY*.48)-approach*18+Math.sin(tSec*1.45+s.phase)*4.5*(1-approach);
-      const looseZ=18+Math.cos(preAngle)*14;
+      // Imperfect orbit is already rotating while glyphs are still being attracted into it.
+      const angle=base+spinBase;
+      const depth=(Math.sin(angle)+1)/2;
+      const residual=(1-orbitBlend);
+      const wobbleX=Math.sin(tSec*1.75+s.phase)*20*residual;
+      const wobbleY=Math.cos(tSec*1.42+s.phase)*10*residual;
+      const wobbleZ=Math.sin(tSec*1.88+s.phase)*12*residual;
 
-      const x=lerp(floatX,looseX,approach);
-      const y=lerp(floatY,looseY,approach);
-      const z=lerp(floatZ,looseZ,approach);
-      const scale=lerp(baseScale,.92,rise);
+      const orbitX=Math.cos(angle)*ringR+wobbleX;
+      const orbitY=-104+Math.sin(angle)*ringRY+wobbleY;
+      const orbitZ=10+depth*34+wobbleZ;
+
+      const x=lerp(freeX,orbitX,orbitBlend);
+      const y=lerp(freeY,orbitY,orbitBlend);
+      const z=lerp(freeZ,orbitZ,orbitBlend);
+
+      const freeScale=lerp(baseScale,.92,rise);
+      const orbitScale=(.72+depth*.50)*densityScale;
+      const scale=lerp(freeScale,orbitScale,orbitBlend);
 
       const flutterRZ=Math.sin(tSec*1.55+s.phase)*s.tilt*(1-p*.18);
-      const rotZ=lerp(peelRZ+flutterRZ,Math.sin(preAngle)*9,approach);
-      const rotX=lerp(peelRX,floatBlend*(Math.sin(tSec*2.45+s.phase)*34*floatStrength)-approach*6,floatBlend);
-      const rotY=lerp(peelRY,floatBlend*(Math.cos(tSec*2.25+s.phase)*38*floatStrength)+approach*10,floatBlend);
+      const freeRZ=peelRZ+flutterRZ;
+      const orbitRZ=(spinBase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
+      const rotZ=lerp(freeRZ,orbitRZ,orbitBlend);
+
+      const freeRX=lerp(peelRX,Math.sin(tSec*2.45+s.phase)*34*floatStrength,floatBlend);
+      const freeRY=lerp(peelRY,Math.cos(tSec*2.25+s.phase)*38*floatStrength,floatBlend);
+      const orbitRX=-12+Math.cos(angle)*10;
+      const orbitRY=10+Math.sin(angle)*12;
+      const rotX=lerp(freeRX,orbitRX,orbitBlend);
+      const rotY=lerp(freeRY,orbitRY,orbitBlend);
 
       setT(el,x,y,scale,rotZ,rotX,rotY,z);
-      el.style.opacity=String(clamp(p*2.35));
+      el.style.opacity=String(clamp(elapsed/700));
+      el.style.textShadow=`0 0 ${8+depth*14*orbitBlend}px rgba(139,125,101,${.08+depth*.16*orbitBlend})`;
     });
   },token);
   if(token!==playToken)return;
 
-  // 2) 浮遊を維持したまま白い異空間へ突入し、円環回転へ自然に回収する。
-  const riseEnds=seeds.map((s,i)=>{
-    const base=(i/n)*Math.PI*2;
-    const preAngle=base+Math.PI*2*.62;
-    return {
-      x:Math.cos(preAngle)*(ringR*.46),
-      y:-52+Math.sin(preAngle)*(ringRY*.48),
-      z:18+Math.cos(preAngle)*14,
-      rx:-6,
-      ry:10,
-      rz:Math.sin(preAngle)*9
-    };
-  });
-
-  const phase2Duration=3650;
-  const omega2Start=Math.PI*2*.42;
-  const omega2End=Math.PI*2*3.55;
-  const a2=(omega2End-omega2Start)/(phase2Duration/1000);
-  let spinBase=0;
-
-  rushLines.style.opacity="1";
-  await frameTween(phase2Duration,(p,elapsed)=>{
-    const accel=easeInOut(p);
-    const settle=easeInOut(clamp(p/.96));
-    const driftAmt=Math.sin(Math.PI*settle);
-    const sec=elapsed/1000;
-    spinBase=omega2Start*sec+.5*a2*sec*sec;
-
-    whiteRoom.style.opacity=String(clamp(.10+p*1.18));
-    whiteRoom.style.transform=`scale(${lerp(.988,1.15,accel)})`;
-    portalGlow.style.opacity=String(clamp((p-.08)*1.55));
-    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(p))})`;
-    rushLines.style.opacity=String(clamp((p-.02)*1.34));
-
-    [...rushLines.children].forEach(line=>{
-      const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
-      const travel=((p*speed+phase)%1)*165-45;
-      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1+accel*1.95})`;
-    });
-
-    g.forEach((el,i)=>{
-      const s=seeds[i],start=riseEnds[i];
-      const base=(i/n)*Math.PI*2;
-      const angle=base+spinBase;
-      const ringX=Math.cos(angle)*ringR;
-      const ringY=Math.sin(angle)*ringRY;
-      const depth=(Math.sin(angle)+1)/2;
-      const targetY=-104+ringY;
-
-      const x=lerp(
-        start.x+Math.sin((1.1+sec*1.02)*Math.PI+s.phase)*14*driftAmt,
-        ringX,
-        settle
-      );
-      const y=lerp(
-        start.y+Math.sin((.88+sec*.94)*Math.PI+s.phase)*6.5*driftAmt-accel*8,
-        targetY,
-        settle
-      );
-      const z=lerp(
-        start.z+Math.cos((1.0+sec*1.20)*Math.PI+s.phase)*8.5*driftAmt,
-        10+depth*34,
-        settle
-      );
-
-      const scale=lerp(.92,(.72+depth*.50)*densityScale,settle);
-      const rotZ=lerp(
-        start.rz+Math.sin((p*2.4+1.05)*Math.PI+s.phase)*4.8*driftAmt,
-        (spinBase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8,
-        settle
-      );
-      const rotX=lerp(
-        start.rx+Math.sin((p*2.15+.6)*Math.PI+s.phase)*12*driftAmt,
-        -12+Math.cos(angle)*10,
-        settle
-      );
-      const rotY=lerp(
-        start.ry+Math.cos((p*1.95+.9)*Math.PI+s.phase)*12*driftAmt,
-        10+Math.sin(angle)*12,
-        settle
-      );
-
-      setT(el,x,y,scale,rotZ,rotX,rotY,z);
-      el.style.opacity=String(lerp(1,.58+depth*.42,settle));
-      el.style.textShadow=`0 0 ${8+depth*14}px rgba(139,125,101,${.08+depth*.16})`;
-    });
-  },token);
-  if(token!==playToken)return;
-
-  // 4) 円環から竜巻へ。ここまでは加速基調を保ちながら滑らかに接続する。
+  // 4) 崩れた円環から竜巻へ。phase12終端の位置・姿勢・角速度をそのまま引き継ぐ。
   const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
   const omega4Start=omega2End;
   const omega4End=Math.PI*2*4.45;
@@ -781,22 +733,23 @@ async function play(){
       const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+
       const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp+axisTwist*.12;
       const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.16;
       const x=axisX+Math.cos(angle)*radius;
       const y=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical;
 
-      const z0=10+depth*34;
-      const z1=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
-      const z=lerp(z0,z1,e);
+      const zStart=10+depth*34;
+      const zEnd=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
+      const z=lerp(zStart,zEnd,e);
 
-      const scale0=(.72+depth*.50)*densityScale;
-      const scale1=(.58+depth*.42)*densityScale;
-      const scale=lerp(scale0,scale1,e);
+      const scaleStart=(.72+depth*.50)*densityScale;
+      const scaleEnd=(.58+depth*.42)*densityScale;
+      const scale=lerp(scaleStart,scaleEnd,e);
 
-      const rot0=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
-      const rot1=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
-      const rot=lerp(rot0,rot1,e);
+      const rotStart=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
+      const rotEnd=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
+      const rot=lerp(rotStart,rotEnd,e);
       const rx=lerp(-12+Math.cos(angle)*10,-14+Math.cos(angle+layer*.4)*17,e);
       const ry=lerp(10+Math.sin(angle)*12,11+Math.sin(angle-layer*.3)*20,e);
 
@@ -808,7 +761,7 @@ async function play(){
 
   const spinVortexEnd=spin;
 
-  // 5) 極小圧縮と閃光。まだ流れは切らずに変換へ接続。
+  // 5) 圧縮と閃光。phase4終端から各パラメータを連続補間する。
   const omega5Start=omega4End;
   const omega5End=Math.PI*2*5.02;
   const phase5Duration=1260;
@@ -832,15 +785,25 @@ async function play(){
       const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+
       const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
       const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.14;
       const x=axisX+Math.cos(angle)*radius;
       const y=-86+axisY+Math.sin(angle)*ellipse+layer*vertical;
-      const z=(depth-.5)*48;
-      const scale=(.56+depth*.40)*densityScale;
-      const rot=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9;
-      const rx=-16+Math.cos(angle+layer*.35)*15;
-      const ry=12+Math.sin(angle-layer*.25)*18;
+
+      const zStart=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
+      const zEnd=(depth-.5)*48;
+      const z=lerp(zStart,zEnd,e);
+
+      const scaleStart=(.58+depth*.42)*densityScale;
+      const scaleEnd=(.56+depth*.40)*densityScale;
+      const scale=lerp(scaleStart,scaleEnd,e);
+
+      const rotStart=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
+      const rotEnd=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9;
+      const rot=lerp(rotStart,rotEnd,e);
+      const rx=lerp(-14+Math.cos(angle+layer*.4)*17,-16+Math.cos(angle+layer*.35)*15,e);
+      const ry=lerp(11+Math.sin(angle-layer*.3)*20,12+Math.sin(angle-layer*.25)*18,e);
 
       setT(el,x,y,scale,rot,rx,ry,z);
       el.style.opacity=String(.72+depth*.28);
@@ -858,7 +821,7 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光明けの渦が戻る。終端は次の「力が抜ける」状態へ完全に接続。
+  // 6) 閃光明け。phase5の終端値から、力が抜け始める状態へ連続的に広げる。
   const omega6Start=omega5End;
   const omega6End=Math.PI*2*4.85;
   const phase6Duration=1700;
@@ -871,6 +834,7 @@ async function play(){
 
     const radius=lerp(11,76,shape)+bloom*10;
     const ellipse=lerp(5,26,shape)+bloom*3;
+    const baseY=lerp(-86,-82,shape);
     const vertical=lerp(170,118,shape);
     const axisAmp=lerp(6,11,shape);
 
@@ -881,15 +845,34 @@ async function play(){
       const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+
       const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
       const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.14;
       const x=axisX+Math.cos(angle)*radius;
-      const y=-82+axisY+Math.sin(angle)*ellipse+layer*vertical;
-      const z=(depth-.5)*52;
-      const scale=(.64+depth*.34)*densityScale;
-      const rot=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*8;
-      const rx=-12+Math.cos(angle+layer*.3)*14;
-      const ry=10+Math.sin(angle-layer*.24)*18;
+      const y=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical;
+
+      const z=lerp((depth-.5)*48,(depth-.5)*52,shape);
+      const scale=lerp(
+        (.56+depth*.40)*densityScale,
+        (.64+depth*.34)*densityScale,
+        shape
+      );
+
+      const rot=lerp(
+        (spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9,
+        (spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*8,
+        shape
+      );
+      const rx=lerp(
+        -16+Math.cos(angle+layer*.35)*15,
+        -12+Math.cos(angle+layer*.3)*14,
+        shape
+      );
+      const ry=lerp(
+        12+Math.sin(angle-layer*.25)*18,
+        10+Math.sin(angle-layer*.24)*18,
+        shape
+      );
 
       setT(el,x,y,scale,rot,rx,ry,z);
       el.style.opacity=String(.68+depth*.32);
@@ -901,7 +884,7 @@ async function play(){
 
   const spinReturnEnd=spin;
 
-  // 7) 減速して力が抜け、いったん全体不統一にふわりと散る。
+  // 7) 減速して力が抜ける。phase6終端から漂いへ滑らかに崩す。
   const omega7Start=omega6End;
   const omega7End=Math.PI*2*.55;
   const phase7Duration=1500;
@@ -913,8 +896,8 @@ async function play(){
 
     const radius=lerp(76,88,release);
     const ellipse=lerp(26,20,release);
+    const baseY=lerp(-82,-20,release);
     const vertical=lerp(118,18,release);
-    const axisAmp=lerp(11,2,release);
     const driftAmp=lerp(0,24,release);
     const driftLift=lerp(0,16,release);
 
@@ -930,33 +913,39 @@ async function play(){
         +Math.sin(elapsed*.0011+s.phase)*driftAmp*.18;
       const driftZ=Math.sin(elapsed*.0019+s.phase)*driftAmp*.55;
 
-      const axisX=Math.sin(layer*1.8+spin*.20)*axisAmp;
-      const axisY=Math.cos(layer*1.25+spin*.15)*axisAmp*.10;
+      const axisXStart=Math.sin(layer*1.8+spin*.22)*11;
+      const axisYStart=Math.cos(layer*1.25+spin*.18)*11*.14;
+      const axisXEnd=Math.sin(layer*1.8+spin*.20)*2;
+      const axisYEnd=Math.cos(layer*1.25+spin*.15)*2*.10;
+      const axisX=lerp(axisXStart,axisXEnd,release);
+      const axisY=lerp(axisYStart,axisYEnd,release);
 
       const x=axisX+Math.cos(angle)*radius+driftX;
-      const y=-20+axisY+Math.sin(angle)*ellipse+layer*vertical+driftY;
-      const z=(depth-.5)*32+driftZ;
+      const y=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical+driftY;
+      const z=lerp((depth-.5)*52,(depth-.5)*32+driftZ,release);
 
       const scale=lerp(
         (.64+depth*.34)*densityScale,
         (.54+depth*.18)*densityScale,
         release
       );
-      const rot=(spin*180/Math.PI)*(i%2?-.17:.17)
-        +Math.sin(elapsed*.002+s.phase)*12*release;
+
+      const rotStart=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*8;
+      const rotEnd=(spin*180/Math.PI)*(i%2?-.17:.17)+Math.sin(elapsed*.002+s.phase)*12;
+      const rot=lerp(rotStart,rotEnd,release);
       const rx=lerp(
-        -10+Math.cos(angle+layer*.3)*12,
+        -12+Math.cos(angle+layer*.3)*14,
         Math.sin(elapsed*.0022+s.phase)*22,
         release
       );
       const ry=lerp(
-        8+Math.sin(angle-layer*.24)*14,
+        10+Math.sin(angle-layer*.24)*18,
         Math.cos(elapsed*.0021+s.phase)*26,
         release
       );
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.70+depth*.30,.86,release));
+      el.style.opacity=String(lerp(.68+depth*.32,.86,release));
     });
 
     whiteRoom.style.opacity=String(lerp(.92,.74,release));
@@ -967,7 +956,7 @@ async function play(){
 
   const spinFloatEnd=spin;
 
-  // 8) 同じ漂いの位相を引き継いだまま、急速に中央へ収束。
+  // 8) 同じ漂い位相の続きから急収束。漂いの関数をそのまま引き継ぎ、収束係数だけ上げる。
   const omega8Start=omega7End;
   const omega8End=Math.PI*2*4.75;
   const phase8Duration=1500;
@@ -979,6 +968,7 @@ async function play(){
 
     const radius=lerp(88,10,gather);
     const ellipse=lerp(20,4,gather);
+    const baseY=lerp(-20,-10,gather);
     const vertical=lerp(18,4,gather);
     const scatter=1-gather;
     const driftTime=elapsed+phase7Duration;
@@ -999,12 +989,11 @@ async function play(){
       )*scatter;
       const driftZ=Math.sin(driftTime*.0019+s.phase)*24*.55*scatter;
 
-      const axisAmp=2*scatter;
-      const axisX=Math.sin(layer*1.8+spin*.20)*axisAmp;
-      const axisY=Math.cos(layer*1.25+spin*.15)*axisAmp*.10;
+      const axisX=Math.sin(layer*1.8+spin*.20)*2*scatter;
+      const axisY=Math.cos(layer*1.25+spin*.15)*2*.10*scatter;
 
       const orbitX=axisX+Math.cos(angle)*radius+driftX;
-      const orbitY=-20+axisY+Math.sin(angle)*ellipse+layer*vertical+driftY;
+      const orbitY=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical+driftY;
       const orbitZ=(depth-.5)*32+driftZ;
 
       const stagger=Math.min(.055,.60/Math.max(1,n));
@@ -1033,15 +1022,22 @@ async function play(){
       el.style.filter=`blur(${rush*7}px) brightness(${1+rush*1.35})`;
     });
 
-    whiteRoom.style.opacity=String(lerp(.74,.12,p));
-    rushLines.style.opacity=String(lerp(.26,.14,p));
-    portalGlow.style.opacity=String(lerp(.20,.10,p));
+    // Clear the special-effects layer while the motion converges.
+    whiteRoom.style.opacity=String(lerp(.74,1,p));
+    rushLines.style.opacity=String(lerp(.26,0,p));
+    portalGlow.style.opacity=String(lerp(.20,0,p));
   },token);
   if(token!==playToken)return;
 
   g.forEach(el=>el.remove());
 
-  // 9) 重量級刻印。
+  // 9) 重量級刻印。ここでは背景を白く整理して可読性を最優先。
+  whiteRoom.style.opacity="1";
+  whiteRoom.style.transform="none";
+  whiteRoom.style.background="#fff";
+  rushLines.style.opacity="0";
+  portalGlow.style.opacity="0";
+  flash.style.opacity="0";
   board.innerHTML="";
   setupStampBoard(out);
   [...out].forEach(ch=>{
