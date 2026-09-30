@@ -873,280 +873,263 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光直後。円運動ではなく、束縛が切れたように「ぱっ」と放射状へ弾ける。
-  //    最初の約0.3秒だけ前フェーズの角速度を滑らかに殺し、以後は回転系を使わず無重力ドリフトへ。
-  const phase6Duration=1900;
-  const spinBrakeDuration=.34;
-  const spinBrakeEnd=spinFlashEnd+omega5End*spinBrakeDuration*.5;
+  // 6) 閃光直後、「ぱっ」と放射状にほどける。
+  //    ここでは円運動を視覚上捨て、閃光直前の位置から外向きの初速で弾け、そのまま独立した無重力漂流へ溶かす。
+  const phase6Duration=1750;
 
-  const zeroGAnchors=seeds.map((s,i)=>{
-    const base=baseAngles[i]+spinFlashEnd;
-    const burstAngle=base+s.phase*.28+(i%2?1:-1)*.20;
-    const burstRadius=68+(i%4)*9+Math.abs(s.sway)*1.05;
+  const zeroGState=(i,timeMs)=>{
+    const s=seeds[i];
+    const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+    const tt=timeMs/1000;
+    const anchorAngle=baseAngles[i]+s.phase*.16;
+    const anchorR=70+(i%4)*6;
+    const anchorX=Math.cos(anchorAngle)*anchorR+layer*8;
+    const anchorY=-16+Math.sin(anchorAngle*.82)*18+layer*18;
+    const anchorZ=Math.sin(anchorAngle*1.35+s.phase)*25;
     return {
-      x:Math.cos(burstAngle)*burstRadius,
-      y:-10+Math.sin(burstAngle)*burstRadius*.42+(i-(n-1)/2)*5.2,
-      z:Math.sin(s.phase*1.7+i*.6)*34,
-      rxPhase:s.phase*.82+i*.33,
-      ryPhase:s.phase*1.13+i*.29,
-      rzPhase:s.phase*.63+i*.41
+      x:anchorX
+        +Math.sin(tt*1.28+s.phase*1.4)*24
+        +Math.cos(tt*.73+s.phase*.55)*8,
+      y:anchorY
+        +Math.cos(tt*1.10+s.phase*1.2)*17
+        +Math.sin(tt*.67+s.phase)*6,
+      z:anchorZ
+        +Math.sin(tt*1.44+s.phase)*15
+        +Math.cos(tt*.62+s.phase*.8)*7,
+      rot:Math.sin(tt*1.55+s.phase)*12,
+      rx:Math.sin(tt*1.72+s.phase)*24,
+      ry:Math.cos(tt*1.61+s.phase)*28
     };
-  });
+  };
 
-  const zeroGDrift=(i,timeMs)=>{
-    const s=seeds[i],a=zeroGAnchors[i],tt=timeMs/1000;
+  const sparkZeroGState=(s,timeMs)=>{
+    const tt=timeMs/1000;
+    const ang=s.angle+Math.sin(tt*.33+s.phase)*.22;
     return {
-      x:a.x
-        +Math.sin(tt*1.22+s.phase*1.4)*24
-        +Math.cos(tt*.73+s.phase*.8)*9,
-      y:a.y
-        +Math.cos(tt*1.05+s.phase*1.2)*16
-        +Math.sin(tt*.68+s.phase)*7,
-      z:a.z
-        +Math.sin(tt*1.31+s.phase)*16
-        +Math.cos(tt*.61+s.phase*.7)*7,
-      rz:Math.sin(tt*1.15+a.rzPhase)*13,
-      rx:Math.sin(tt*1.27+a.rxPhase)*24,
-      ry:Math.cos(tt*1.19+a.ryPhase)*28
+      x:Math.cos(ang)*s.radius+Math.sin(tt*1.18+s.phase)*18,
+      y:s.y+Math.sin(tt*1.44+s.phase)*11+Math.cos(tt*.74+s.phase)*8,
+      z:s.z+Math.cos(tt*1.12+s.phase)*19,
+      pulse:.45+.55*Math.sin(tt*5.2*s.pulse+s.phase)**2
     };
   };
 
   await frameTween(phase6Duration,(p,elapsed)=>{
-    const sec=elapsed/1000;
-    const burst=easeOut(clamp(p/.18));
-    const floatBlend=easeInOut(clamp((p-.08)/.48));
+    const burst=easeOut(clamp(p/.24));
+    const floatBlend=easeInOut(clamp((p-.10)/.72));
+    const soften=easeInOut(clamp((p-.16)/.84));
 
-    // Preserve angular velocity only for the first instant, then reduce it to zero.
-    const brakeT=Math.min(sec,spinBrakeDuration);
-    const omegaNow=omega5End*(1-brakeT/spinBrakeDuration);
-    const spinNow=spinFlashEnd
-      +omega5End*brakeT
-      -.5*(omega5End/spinBrakeDuration)*brakeT*brakeT;
-
-    whiteRoom.style.opacity=String(lerp(1,.84,floatBlend));
-    portalGlow.style.opacity=String(lerp(.90,.18,burst));
-    rushLines.style.opacity=String(lerp(1,.18,burst));
+    whiteRoom.style.opacity=String(lerp(1,.84,soften));
+    portalGlow.style.opacity=String(lerp(.90,.20,soften));
+    rushLines.style.opacity=String(lerp(1,.18,soften));
 
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const startAngle=baseAngles[i]+spinNow;
-      const depth=(Math.sin(startAngle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
 
-      // Exact phase-5 family at p=0.
-      const startAxisX=Math.sin(layer*1.8+spinNow*.22)*6;
-      const startAxisY=Math.cos(layer*1.25+spinNow*.18)*6*.14;
-      const startX=startAxisX+Math.cos(startAngle)*11;
-      const startY=-86+startAxisY+Math.sin(startAngle)*5+layer*170;
-      const startZ=(depth-.5)*48;
-      const startScale=(.56+depth*.40)*densityScale;
-      const startRot=(spinNow*180/Math.PI)*(i%2?-.26:.26)+Math.sin(startAngle)*9;
-      const startRx=-16+Math.cos(startAngle+layer*.35)*15;
-      const startRy=12+Math.sin(startAngle-layer*.25)*18;
+      // Exact phase-5 end state.
+      const endAngle=baseAngles[i]+spinFlashEnd;
+      const endDepth=(Math.sin(endAngle)+1)/2;
+      const endAxisX=Math.sin(layer*1.8+spinFlashEnd*.22)*6;
+      const endAxisY=Math.cos(layer*1.25+spinFlashEnd*.18)*6*.14;
+      const startX=endAxisX+Math.cos(endAngle)*11;
+      const startY=-86+endAxisY+Math.sin(endAngle)*5+layer*170;
+      const startZ=(endDepth-.5)*48;
+      const startScale=(.56+endDepth*.40)*densityScale;
+      const startRot=(spinFlashEnd*180/Math.PI)*(i%2?-.26:.26)+Math.sin(endAngle)*9;
+      const startRx=-16+Math.cos(endAngle+layer*.35)*15;
+      const startRy=12+Math.sin(endAngle-layer*.25)*18;
 
-      // Moving zero-G target. The burst reaches it quickly, then the target itself keeps drifting.
-      const drift=zeroGDrift(i,elapsed);
-      const burstOvershoot=Math.sin(Math.PI*clamp(p/.28))*18*(i%2?1:-1);
-      const targetX=drift.x+Math.cos(s.phase+i*.73)*burstOvershoot;
-      const targetY=drift.y+Math.sin(s.phase*.8+i*.51)*Math.abs(burstOvershoot)*.48;
-      const targetZ=drift.z+Math.sin(s.phase+i*.37)*Math.abs(burstOvershoot)*.65;
+      // One-time explosive outward impulse. No orbit calculation here.
+      const burstAngle=baseAngles[i]+s.phase*.18+(i%2?-.10:.10);
+      const burstR=58+(i%4)*9+Math.abs(layer)*16;
+      const burstX=Math.cos(burstAngle)*burstR;
+      const burstY=Math.sin(burstAngle)*burstR*.58+layer*22;
+      const burstZ=Math.sin(burstAngle*1.7+s.phase)*(32+Math.abs(layer)*10);
 
-      const x=lerp(startX,targetX,burst);
-      const y=lerp(startY,targetY,burst);
-      const z=lerp(startZ,targetZ,burst);
-      const floatDepth=(Math.sin(s.phase+elapsed*.001)+1)/2;
-      const targetScale=(.55+floatDepth*.16)*densityScale;
-      const scale=lerp(startScale,targetScale,burst);
+      const burstPos={
+        x:startX+burstX*burst,
+        y:startY+burstY*burst,
+        z:startZ+burstZ*burst
+      };
+      const floatPos=zeroGState(i,elapsed);
 
-      // Orbital rotation dissolves rapidly into independent floating tilts.
-      const rot=lerp(startRot,drift.rz,floatBlend);
-      const rx=lerp(startRx,drift.rx,floatBlend);
-      const ry=lerp(startRy,drift.ry,floatBlend);
+      const x=lerp(burstPos.x,floatPos.x,floatBlend);
+      const y=lerp(burstPos.y,floatPos.y,floatBlend);
+      const z=lerp(burstPos.z,floatPos.z,floatBlend);
+
+      const targetDepth=.5+.5*Math.sin(s.phase+elapsed*.0011);
+      const targetScale=(.55+targetDepth*.16)*densityScale;
+      const scale=lerp(startScale,targetScale,soften);
+
+      // Spin posture dissolves into slow independent tumbling.
+      const rot=lerp(startRot,floatPos.rot,floatBlend);
+      const rx=lerp(startRx,floatPos.rx,floatBlend);
+      const ry=lerp(startRy,floatPos.ry,floatBlend);
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.72+depth*.28,.90,burst));
+      el.style.opacity=String(lerp(.72+endDepth*.28,.90,soften));
       el.style.filter="none";
     });
 
-    // Sparkles burst at the same instant and then drift independently.
-    const sparkTime=phase5Duration+elapsed;
-    sparkleSeeds.forEach((s,i)=>{
-      const tt=sparkTime/1000;
-      const burstDir=s.angle+s.phase*.22;
-      const burstR=s.radius*(.55+.55*burst);
-      const driftX=Math.sin(tt*1.28+s.phase)*18*floatBlend;
-      const driftY=Math.cos(tt*1.04+s.phase)*12*floatBlend;
-      const driftZ=Math.sin(tt*.91+s.phase)*14*floatBlend;
-      const pulse=.36+.64*Math.sin(tt*5.3*s.pulse+s.phase)**2;
+    // Sparkles also explode once, then inherit the same zero-gravity world.
+    sparkleSeeds.forEach(s=>{
+      const end=sparkZeroGState(s,0);
+      const burstR=(34+s.radius*.42)*burst;
+      const burstX=Math.cos(s.angle)*burstR;
+      const burstY=Math.sin(s.angle)*burstR*.72;
+      const burstZ=Math.sin(s.angle*1.6+s.phase)*burstR*.62;
+      const target=sparkZeroGState(s,elapsed);
 
-      const x=Math.cos(burstDir)*burstR+driftX;
-      const y=lerp(-22,s.y,burst)+Math.sin(burstDir)*burstR*.20+driftY;
-      const z=lerp(18,s.z,burst)+driftZ;
-      setT(s.el,x,y,s.size*(.55+.70*pulse),0,0,0,z);
-      s.el.style.opacity=String((.44+.54*pulse)*burst);
+      const x=lerp(end.x+burstX,end.x===target.x?target.x:target.x,floatBlend);
+      const y=lerp(end.y+burstY,target.y,floatBlend);
+      const z=lerp(end.z+burstZ,target.z,floatBlend);
+      const pulse=target.pulse;
+
+      setT(s.el,x,y,s.size*(.72+.58*pulse),0,0,0,z);
+      s.el.style.opacity=String(.48+.48*pulse);
       s.el.style.filter=`blur(${(1-pulse)*.7}px)`;
     });
   },token);
   if(token!==playToken)return;
 
-  // 7) そのまま「ふわふわふわふわ」。円環回転は完全にやめ、独立した無重力漂流だけを続ける。
-  const phase7Duration=1250;
+  // 7) そのまま「ふわふわふわふわ」。回転軌道へ戻さず、各文字が独立して無重力漂流する。
+  const phase7Duration=1350;
 
   await frameTween(phase7Duration,(p,elapsed)=>{
-    const driftTime=phase6Duration+elapsed;
+    const zeroTime=phase6Duration+elapsed;
 
     g.forEach((el,i)=>{
-      const d=zeroGDrift(i,driftTime);
-      const floatDepth=(Math.sin(seeds[i].phase+driftTime*.001)+1)/2;
-      setT(
-        el,d.x,d.y,(.55+floatDepth*.16)*densityScale,
-        d.rz,d.rx,d.ry,d.z
-      );
+      const s=seeds[i];
+      const pos=zeroGState(i,zeroTime);
+      const depth=.5+.5*Math.sin(s.phase+zeroTime*.0011);
+      const scale=(.55+depth*.16)*densityScale;
+      setT(el,pos.x,pos.y,scale,pos.rot,pos.rx,pos.ry,pos.z);
       el.style.opacity=".90";
     });
 
-    const sparkTime=phase5Duration+phase6Duration+elapsed;
     sparkleSeeds.forEach(s=>{
-      const tt=sparkTime/1000;
-      const ang=s.angle+s.phase*.22;
-      const pulse=.36+.64*Math.sin(tt*5.3*s.pulse+s.phase)**2;
-      const x=Math.cos(ang)*s.radius+Math.sin(tt*1.28+s.phase)*18;
-      const y=s.y+Math.sin(ang)*s.radius*.20+Math.cos(tt*1.04+s.phase)*12;
-      const z=s.z+Math.sin(tt*.91+s.phase)*14;
-      setT(s.el,x,y,s.size*(.55+.70*pulse),0,0,0,z);
-      s.el.style.opacity=String(.44+.54*pulse);
-      s.el.style.filter=`blur(${(1-pulse)*.7}px)`;
+      const pos=sparkZeroGState(s,zeroTime);
+      setT(s.el,pos.x,pos.y,s.size*(.72+.58*pos.pulse),0,0,0,pos.z);
+      s.el.style.opacity=String(.48+.48*pos.pulse);
+      s.el.style.filter=`blur(${(1-pos.pulse)*.7}px)`;
     });
 
     whiteRoom.style.opacity=String(lerp(.84,.80,easeInOut(p)));
-    portalGlow.style.opacity=String(lerp(.18,.12,easeInOut(p)));
-    rushLines.style.opacity=String(lerp(.18,.10,easeInOut(p)));
+    portalGlow.style.opacity=String(lerp(.20,.14,easeInOut(p)));
+    rushLines.style.opacity=String(lerp(.18,.12,easeInOut(p)));
   },token);
   if(token!==playToken)return;
 
-  // 8) 激しい龍の一巡。無重力ドリフトを動く始点として、画面いっぱいの多重うねりへ連続変形。
+  // 8) 激しい龍の一巡。
+  //    無重力の moving source を残したまま、画面端から端まで大きく蛇行する一本の流れへ回収する。
   const phase8Duration=2550;
-  const sweepX=Math.min(260,innerWidth*.49);
-  const sweepY=Math.min(176,innerHeight*.25);
-  const sweepZ=Math.min(120,innerWidth*.30);
-  const dragonLaps=1.08;
-  const thetaEnd=Math.PI*2*dragonLaps;
+  const dragonLaps=1.18;
+  const dragonThetaEnd=Math.PI*2*dragonLaps;
+  const dragonOmega=dragonThetaEnd/(phase8Duration/1000);
+  const sweepX=Math.min(268,innerWidth*.47);
+  const sweepY=Math.min(172,innerHeight*.23);
 
-  const dragonState=(i,theta)=>{
+  const dragonPoint=(i,theta)=>{
     const s=seeds[i];
-    const trail=(i-(n-1)/2)*.165;
+    const trail=(i-(n-1)/2)*.155;
     const t=theta-trail;
     return {
-      x:
-        Math.sin(t)*sweepX
-        +Math.sin(t*3.65+s.phase)*24
-        +Math.cos(t*5.1+s.phase*.7)*11,
-      y:
-        -6
-        +Math.sin(t*2.28+.52)*sweepY
-        +Math.cos(t*4.15+s.phase)*20
-        +Math.sin(t*6.0+s.phase*.4)*8,
-      z:
-        Math.cos(t*1.34)*sweepZ
-        +Math.sin(t*3.15+s.phase)*30,
-      t
+      t,
+      x:Math.sin(t)*sweepX
+        +Math.sin(t*3.7+s.phase)*24
+        +Math.cos(t*1.65+s.phase*.7)*15,
+      y:-4
+        +Math.sin(t*2.25+.52)*sweepY
+        +Math.cos(t*4.1+s.phase)*20
+        +Math.sin(t*1.35+s.phase*.5)*12,
+      z:Math.cos(t)*96
+        +Math.sin(t*3.05+s.phase)*32,
+      tangent:Math.atan2(
+        2.25*sweepY*Math.cos(t*2.25+.52)
+          -4.1*20*Math.sin(t*4.1+s.phase)
+          +1.35*12*Math.cos(t*1.35+s.phase*.5),
+        sweepX*Math.cos(t)
+          +3.7*24*Math.cos(t*3.7+s.phase)
+          -1.65*15*Math.sin(t*1.65+s.phase*.7)
+      )*180/Math.PI
     };
   };
 
   await frameTween(phase8Duration,(p,elapsed)=>{
     const sweepBlend=easeInOut(clamp(p/.28));
-    const driftTime=phase6Duration+phase7Duration+elapsed;
-
-    // Starts already moving and finishes faster, without easing to zero.
-    const lapProgress=p+.24*(p*p-p);
-    const theta=thetaEnd*lapProgress;
+    const zeroTime=phase6Duration+phase7Duration+elapsed;
+    const theta=dragonThetaEnd*p;
 
     g.forEach((el,i)=>{
-      const d=zeroGDrift(i,driftTime);
-      const dragon=dragonState(i,theta);
+      const s=seeds[i];
+      const zero=zeroGState(i,zeroTime);
+      const dragon=dragonPoint(i,theta);
+      const depth=.5+.5*Math.sin(dragon.t);
 
-      const x=lerp(d.x,dragon.x,sweepBlend);
-      const y=lerp(d.y,dragon.y,sweepBlend);
-      const z=lerp(d.z,dragon.z,sweepBlend);
+      const x=lerp(zero.x,dragon.x,sweepBlend);
+      const y=lerp(zero.y,dragon.y,sweepBlend);
+      const z=lerp(zero.z,dragon.z,sweepBlend);
 
-      const dragonDepth=(Math.sin(dragon.t)+1)/2;
-      const zeroDepth=(Math.sin(seeds[i].phase+driftTime*.001)+1)/2;
-      const scale=lerp(
-        (.55+zeroDepth*.16)*densityScale,
-        (.54+dragonDepth*.26)*densityScale,
-        sweepBlend
-      );
+      const zeroScale=(.55+(.5+.5*Math.sin(s.phase+zeroTime*.0011))*.16)*densityScale;
+      const dragonScale=(.54+depth*.28)*densityScale;
+      const scale=lerp(zeroScale,dragonScale,sweepBlend);
 
-      const tangent=Math.atan2(
-        2.28*sweepY*Math.cos(dragon.t*2.28+.52)
-          -4.15*20*Math.sin(dragon.t*4.15+seeds[i].phase),
-        sweepX*Math.cos(dragon.t)
-          +3.65*24*Math.cos(dragon.t*3.65+seeds[i].phase)
-      )*180/Math.PI;
-
-      const rot=lerp(d.rz,tangent*.58,sweepBlend);
-      const rx=lerp(d.rx,-12+Math.cos(dragon.t*1.7)*30,sweepBlend);
-      const ry=lerp(d.ry,Math.sin(dragon.t*1.35)*38,sweepBlend);
+      const rot=lerp(zero.rot,dragon.tangent*.58,sweepBlend);
+      const rx=lerp(zero.rx,-12+Math.cos(dragon.t)*30,sweepBlend);
+      const ry=lerp(zero.ry,Math.sin(dragon.t)*42,sweepBlend);
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.90,.96,sweepBlend));
+      el.style.opacity=String(lerp(.90,.98,sweepBlend));
     });
 
-    const sparkTime=phase5Duration+phase6Duration+phase7Duration+elapsed;
+    // Sparkles become an energetic wake around the dragon.
     sparkleSeeds.forEach((s,i)=>{
-      const tt=sparkTime/1000;
-      const pulse=.36+.64*Math.sin(tt*5.3*s.pulse+s.phase)**2;
-
-      const zeroX=Math.cos(s.angle+s.phase*.22)*s.radius+Math.sin(tt*1.28+s.phase)*18;
-      const zeroY=s.y+Math.sin(s.angle+s.phase*.22)*s.radius*.20+Math.cos(tt*1.04+s.phase)*12;
-      const zeroZ=s.z+Math.sin(tt*.91+s.phase)*14;
-
-      const st=theta-(i-(sparkleCount-1)/2)*.050;
-      const dragonX=
-        Math.sin(st)*sweepX
-        +Math.sin(st*3.65+s.phase)*34;
-      const dragonY=
-        -6+Math.sin(st*2.28+.52)*sweepY
-        +Math.cos(st*4.15+s.phase)*27;
-      const dragonZ=
-        Math.cos(st*1.34)*sweepZ
-        +Math.sin(st*3.15+s.phase)*38;
+      const zero=sparkZeroGState(s,zeroTime);
+      const trail=(i-(sparkleCount-1)/2)*.046;
+      const t=theta-trail;
+      const pulse=.42+.58*Math.sin(zeroTime*.0053*s.pulse+s.phase)**2;
+      const dragonX=Math.sin(t)*sweepX
+        +Math.cos(t*3.45+s.phase)*30;
+      const dragonY=-4+Math.sin(t*2.25+.52)*sweepY
+        +Math.sin(t*4.0+s.phase)*24;
+      const dragonZ=Math.cos(t)*104
+        +Math.sin(t*2.9+s.phase)*36;
 
       setT(
         s.el,
-        lerp(zeroX,dragonX,sweepBlend),
-        lerp(zeroY,dragonY,sweepBlend),
-        s.size*(.55+.70*pulse),
+        lerp(zero.x,dragonX,sweepBlend),
+        lerp(zero.y,dragonY,sweepBlend),
+        s.size*(.70+.66*pulse),
         0,0,0,
-        lerp(zeroZ,dragonZ,sweepBlend)
+        lerp(zero.z,dragonZ,sweepBlend)
       );
-      s.el.style.opacity=String((.40+.54*pulse)*lerp(1,.88,sweepBlend));
+      s.el.style.opacity=String((.44+.52*pulse)*lerp(1,.88,sweepBlend));
     });
 
     whiteRoom.style.opacity=String(lerp(.80,.84,easeInOut(p)));
-    portalGlow.style.opacity=String(lerp(.12,.28,easeInOut(p)));
-    rushLines.style.opacity=String(lerp(.10,.24,easeInOut(p)));
+    portalGlow.style.opacity=String(lerp(.14,.28,easeInOut(p)));
+    rushLines.style.opacity=String(lerp(.12,.28,easeInOut(p)));
   },token);
   if(token!==playToken)return;
 
-  // 9) 激しい龍の軌道をそのまま継続し、急加速しながら中央へ巻き込み、最後に画面へ突き抜ける。
+  // 9) 龍の終端速度をそのまま初速にして、さらに急加速しながら中央収束→画面前方へ突き抜ける。
   const phase9Duration=1650;
-  const omega9Start=Math.PI*2*1.10;
-  const omega9End=Math.PI*2*5.35;
+  const dragonOmegaEnd=Math.PI*2*3.65;
+  const dragonAccel=(dragonOmegaEnd-dragonOmega)/(phase9Duration/1000);
 
   await frameTween(phase9Duration,(p,elapsed)=>{
-    const gather=easeInOut(clamp(p/.70));
-    const prog=spinProgress(thetaEnd,omega9Start,omega9End,elapsed,phase9Duration);
-    const theta=prog.spin;
+    const tSec=elapsed/1000;
+    const theta=dragonThetaEnd+dragonOmega*tSec+.5*dragonAccel*tSec*tSec;
+    const gather=easeInOut(clamp(p/.68));
 
     g.forEach((el,i)=>{
-      const dragon=dragonState(i,theta);
+      const dragon=dragonPoint(i,theta);
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
 
-      const coilR=lerp(1,.10,gather);
-      const coilX=dragon.x*coilR;
-      const coilY=dragon.y*coilR+layer*lerp(0,8,gather);
-      const coilZ=dragon.z*coilR;
+      const coil=lerp(1,.10,gather);
+      const coilX=dragon.x*coil;
+      const coilY=dragon.y*coil+layer*lerp(0,8,gather);
+      const coilZ=dragon.z*coil;
 
       const stagger=Math.min(.050,.56/Math.max(1,n));
       const local=clamp((p-.42-i*stagger)/.58);
@@ -1155,23 +1138,16 @@ async function play(){
       const x=lerp(coilX,0,rush);
       const y=lerp(coilY,0,rush);
       const z=lerp(coilZ,390,rush);
-      const depth=(Math.sin(dragon.t)+1)/2;
-      const scale=lerp((.54+depth*.26)*densityScale,3.34,rush);
-
-      const tangent=Math.atan2(
-        2.28*sweepY*Math.cos(dragon.t*2.28+.52)
-          -4.15*20*Math.sin(dragon.t*4.15+seeds[i].phase),
-        sweepX*Math.cos(dragon.t)
-          +3.65*24*Math.cos(dragon.t*3.65+seeds[i].phase)
-      )*180/Math.PI;
+      const depth=.5+.5*Math.sin(dragon.t);
+      const scale=lerp((.54+depth*.28)*densityScale,3.32,rush);
 
       const rot=lerp(
-        tangent*.58,
-        (theta*180/Math.PI)*(i%2?-.20:.20)+(i%2?-1:1)*50,
+        dragon.tangent*.58,
+        theta*180/Math.PI*(i%2?-.20:.20)+(i%2?-1:1)*50,
         rush
       );
-      const rx=lerp(-12+Math.cos(dragon.t*1.7)*30,0,rush);
-      const ry=lerp(Math.sin(dragon.t*1.35)*38,0,rush);
+      const rx=lerp(-12+Math.cos(dragon.t)*30,0,rush);
+      const ry=lerp(Math.sin(dragon.t)*42,0,rush);
 
       setT(el,x,y,scale,rot,rx,ry,z);
 
@@ -1181,18 +1157,18 @@ async function play(){
     });
 
     sparkleSeeds.forEach((s,i)=>{
-      const st=theta-(i-(sparkleCount-1)/2)*.050;
-      const pulse=.36+.64*Math.sin((phase9Duration+elapsed)*.006*s.pulse+s.phase)**2;
-      const coil=1-gather*.90;
-      const x=(Math.sin(st)*sweepX+Math.sin(st*3.65+s.phase)*34)*coil;
-      const y=(-6+Math.sin(st*2.28+.52)*sweepY+Math.cos(st*4.15+s.phase)*27)*coil;
-      const z=(Math.cos(st*1.34)*sweepZ+Math.sin(st*3.15+s.phase)*38)*coil;
-      setT(s.el,x,y,s.size*(.55+.70*pulse)*(1-gather*.30),0,0,0,z);
-      s.el.style.opacity=String((.40+.50*pulse)*(1-p*.94));
+      const trail=(i-(sparkleCount-1)/2)*.046;
+      const st=theta-trail;
+      const pulse=.42+.58*Math.sin((phase9Duration+elapsed)*.0053*s.pulse+s.phase)**2;
+      const x=(Math.sin(st)*sweepX+Math.cos(st*3.45+s.phase)*30)*(1-gather*.90);
+      const y=(-4+Math.sin(st*2.25+.52)*sweepY+Math.sin(st*4.0+s.phase)*24)*(1-gather*.90);
+      const z=(Math.cos(st)*104+Math.sin(st*2.9+s.phase)*36)*(1-gather*.90);
+      setT(s.el,x,y,s.size*(.70+.66*pulse)*(1-gather*.32),0,0,0,z);
+      s.el.style.opacity=String((.42+.50*pulse)*(1-p*.93));
     });
 
     whiteRoom.style.opacity=String(lerp(.84,1,p));
-    rushLines.style.opacity=String(lerp(.24,0,p));
+    rushLines.style.opacity=String(lerp(.28,0,p));
     portalGlow.style.opacity=String(lerp(.28,0,p));
   },token);
   if(token!==playToken)return;
