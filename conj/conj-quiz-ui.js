@@ -7,7 +7,7 @@ function isIdentificationMode(){return document.getElementById('quizMode').value
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20260930-6'),import('./conj-quiz-adapter.mjs?v=20260930-6')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20260930-6'),import('./conj-quiz-adapter.mjs?v=20261001-7')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
