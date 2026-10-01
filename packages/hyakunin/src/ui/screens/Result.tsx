@@ -1,8 +1,10 @@
-import type { SessionResult } from '../../domain/result.ts';
+import type { MasteryChange, SessionResult } from '../../domain/result.ts';
 import type { Poem } from '../../data/schema.ts';
 import { PoemRows } from '../components/PoemRows.tsx';
 import { PerfectMark } from '../components/FeedbackMark.tsx';
 import { CatMascot } from '../components/CatMascot.tsx';
+import { slideRowsIn } from '../list-motion.ts';
+import { masteryDisplay } from '@koten/shared/domain/mastery/color';
 
 type Props = {
   result: SessionResult;
@@ -55,12 +57,13 @@ export function Result({ result, poems = [], onRetryWeak, onRetrySame, onHome }:
       <div class="practice-choice"><button class="primary" type="button" onClick={onRetrySame}>同じ範囲をもう一度</button><p>同じ範囲でもう一度出題します。</p></div>
     </section>
     {result.recommendation && <section class="result-section result-recommend" aria-labelledby="recommend-heading"><h2 id="recommend-heading">次に確認する</h2><p>{Number(result.recommendation.poemId.slice(1))}番{recommendedFirstKu && <span class="result-recommend__ku">{recommendedFirstKu}…</span>}</p><p>{result.recommendation.reason}</p></section>}
-    <details class="result-details">
+    {/* 詳細を開いた時、変化の行と歌の行を上から順に出し、帯を伸ばす（依頼者・2026-10-01）。 */}
+    <details class="result-details" onToggle={(event) => { const details = event.currentTarget as HTMLDetailsElement; if (details.open) details.querySelectorAll('.result-changes, .history-list').forEach(slideRowsIn); }}>
       <summary>学習記録の詳細</summary>
       <p class="result-details__note">習熟度は、これまでの学習記録をもとにした目安です。今回の正答率ではありません。</p>
       <section class="result-section" aria-labelledby="changes-heading">
         <h2 id="changes-heading">習熟度の変化</h2>
-        {result.changes.length === 0 ? <p>変化はありません</p> : <table><thead><tr><th scope="col">歌</th><th scope="col">前</th><th scope="col">後</th></tr></thead><tbody>{result.changes.map((change) => <tr key={change.poemId}><th scope="row">{Number(change.poemId.slice(1))}</th><td>{formatPercent(change.before)}</td><td>{formatPercent(change.after)}</td></tr>)}</tbody></table>}
+        {result.changes.length === 0 ? <p>変化はありません</p> : <ul class="result-changes">{result.changes.map((change) => <ChangeRow key={change.poemId} change={change} />)}</ul>}
       </section>
       <section class="result-section" aria-labelledby="poems-heading">
         <h2 id="poems-heading">歌ごとの状態</h2>
@@ -74,4 +77,38 @@ export function Result({ result, poems = [], onRetryWeak, onRetrySame, onHome }:
 
 function formatPercent(value: number): string {
   return `${Number(value.toFixed(1))}%`;
+}
+
+/**
+ * 習熟度の変化を帯で見せる（依頼者・2026-10-01、比較モックの案1）。
+ *
+ * 帯は一覧の帯と同じ形・同じ 5 色（**後の値の色**）。前の分を淡く、増えた分を濃く塗る。
+ * 減った分は赤の斜線で、失った幅として見せる。**数値も必ず添える**——▲＋9 と「12% → 21%」。
+ * 色だけでは、色の見え方が違う人に増減が伝わらない。
+ */
+function ChangeRow({ change }: { change: MasteryChange }) {
+  const no = Number(change.poemId.slice(1));
+  const delta = change.after - change.before;
+  const rounded = Number(Math.abs(delta).toFixed(1));
+  const direction = rounded === 0 ? 'same' : delta > 0 ? 'up' : 'down';
+  const sign = direction === 'same' ? '±' : direction === 'up' ? '+' : '−';
+  const mark = direction === 'same' ? '' : direction === 'up' ? '▲ ' : '▼ ';
+  const low = clampPercent(Math.min(change.before, change.after));
+  const high = clampPercent(Math.max(change.before, change.after));
+  const words = direction === 'same' ? '変わらず' : `${rounded}${direction === 'up' ? '増えました' : '減りました'}`;
+  return <li class={`result-change mastery-meter--${masteryDisplay(change.after).color}`} aria-label={`${no}番 ${formatPercent(change.before)}から${formatPercent(change.after)}、${words}`}>
+    <span class="result-change__no" aria-hidden="true">{no}</span>
+    <span class="result-change__bar" aria-hidden="true">
+      <span class="result-change__before" data-list-bar style={{ width: `${low}%` }} />
+      {direction !== 'same' && <span class={`result-change__${direction === 'up' ? 'gain' : 'loss'}`} data-list-bar style={{ left: `${low}%`, width: `${high - low}%` }} />}
+    </span>
+    <span class="result-change__nums" aria-hidden="true">
+      <strong class={`result-change__delta result-change__delta--${direction}`}>{mark}{sign}{rounded}</strong>
+      <small><span class="result-change__from">{formatPercent(change.before)}</span> → <span class="result-change__to">{formatPercent(change.after)}</span></small>
+    </span>
+  </li>;
+}
+
+function clampPercent(value: number): number {
+  return Math.max(0, Math.min(100, value));
 }

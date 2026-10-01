@@ -131,3 +131,75 @@ test('動き: CSS は既定で完成形を描き、動きを減らす設定で�
   expect(glide.match(/[a-z-]+(?=:)/g)?.filter((name) => !['opacity', 'transform'].includes(name))).toEqual([]);
   expect(styles).toMatch(/@media \(prefers-reduced-motion: reduce\) \{\n  \.history-group-item\.is-waiting \{ --history-draw: 1; opacity: 1; \}/);
 });
+
+/**
+ * 2026-10-01・依頼者。**まとまりを開くと行が上から順に滑り込み、帯が伸びる。しまう時は逆。**
+ * 試験の jsdom には `element.animate` が無いので差し替え、呼ばれ方（順番と遅延）を見る。
+ */
+function stubAnimate() {
+  const calls: { el: Element; keyframes: Keyframe[]; options: KeyframeAnimationOptions; finish: () => void }[] = [];
+  const original = Element.prototype.animate;
+  Element.prototype.animate = function (keyframes, options) {
+    let finish = () => {};
+    const finished = new Promise<void>((resolve) => { finish = resolve; });
+    calls.push({ el: this, keyframes: keyframes as Keyframe[], options: options as KeyframeAnimationOptions, finish });
+    return { finished } as unknown as Animation;
+  };
+  return { calls, restore: () => { Element.prototype.animate = original; } };
+}
+
+test('開閉: 開くと行が上から順に滑り込み、各歌の帯が左から伸びる', async () => {
+  media(false, false);
+  const { calls, restore } = stubAnimate();
+  try {
+    const view = mount();
+    calls.length = 0;
+    await act(() => { group('1〜10番').click(); });
+    const rows = Array.from(view.querySelectorAll('.history-group-item .history-list > li'));
+    expect(rows).toHaveLength(11);
+    const rowCalls = calls.filter((call) => rows.includes(call.el));
+    expect(rowCalls.map((call) => call.options.delay)).toEqual(rows.map((_, index) => index * 35));
+    expect(rowCalls[0]!.keyframes[0]).toMatchObject({ opacity: 0 });
+    const bars = calls.filter((call) => (call.el as HTMLElement).classList?.contains('mastery-meter__fill'));
+    expect(bars).toHaveLength(10);
+    expect(bars[0]!.keyframes[0]).toEqual({ transform: 'scaleX(0)' });
+  } finally { restore(); }
+});
+
+test('開閉: しまう時は下の行から順に抜いてから閉じる', async () => {
+  media(false, false);
+  const { calls, restore } = stubAnimate();
+  try {
+    const view = mount();
+    await act(() => { group('1〜10番').click(); });
+    const rows = Array.from(view.querySelectorAll('.history-group-item .history-list > li'));
+    calls.length = 0;
+    await act(() => { group('1〜10番').click(); });
+    const delays = calls.filter((call) => rows.includes(call.el)).map((call) => call.options.delay!);
+    expect(delays).toHaveLength(11);
+    // 下の行ほど先に抜ける（遅延が小さい）。
+    expect(delays[10]).toBe(0);
+    expect(delays.slice().sort((a, b) => b - a)).toEqual(delays);
+    // 抜き終えるまでは開いたまま。
+    expect(group('1〜10番').getAttribute('aria-expanded')).toBe('true');
+    await act(async () => { calls.forEach((call) => call.finish()); await new Promise((resolve) => setTimeout(resolve, 0)); });
+    expect(group('1〜10番').getAttribute('aria-expanded')).toBe('false');
+    expect(view.querySelector('.history-group-item .history-list')).toBeNull();
+  } finally { restore(); }
+});
+
+test('開閉: 動かせない環境では、その場で開け閉めする', async () => {
+  const view = mount();
+  await act(() => { group('1〜10番').click(); });
+  expect(view.querySelectorAll('.history-group-item .history-list > li')).toHaveLength(11);
+  await act(() => { group('1〜10番').click(); });
+  expect(group('1〜10番').getAttribute('aria-expanded')).toBe('false');
+});
+
+test('全体のバー: 4 分の 1 の区切りは塗りの上でも消えない（溝ごと隙間で切る）', () => {
+  // 目盛りを塗りの下に敷くと、25% を超えた時に最初の線が隠れて 3 区画に見えた（依頼者・2026-10-01）。
+  const styles = readFileSync(join(process.cwd(), 'packages/hyakunin/src/styles.css'), 'utf8');
+  const track = styles.match(/\.history-overall__track \{([\s\S]*?)\n\}/)?.[1] ?? '';
+  expect(track).toContain('mask-image: var(--history-ticks)');
+  for (const at of ['25%', '50%', '75%']) expect(track).toContain(`transparent 0 calc(${at} + 1px)`);
+});
