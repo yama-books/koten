@@ -141,7 +141,7 @@ assert.equal(reference.ringCount, 10);
 assert.deepEqual(reference.untouched, ['や行', 'わ行']);
 assert.ok(reference.weak.length >= 1 && reference.weak.length <= 3, 'weak rows: ' + reference.weak);
 assert.ok(reference.rings.filter(r => r.startsWith('未|')).length === 2);
-for (const [w, h] of [[320, 640], [340, 700], [360, 640], [375, 812], [390, 844], [820, 1180], [1180, 820], [1440, 900]]) {
+for (const [w, h] of [[320, 640], [340, 700], [360, 640], [375, 812], [390, 844], [721, 900], [820, 1180], [1180, 820], [1440, 900]]) {
   const page = await browser.newPage({ viewport: { width: w, height: h } });
   page.on('pageerror', e => errors.push(`${w}x${h}: ${e.message}`));
   await openRecord(page, partial);
@@ -168,6 +168,12 @@ for (const [w, h] of [[320, 640], [340, 700], [360, 640], [375, 812], [390, 844]
   assert.deepEqual(drawn.draw, ['1'], `${w}: rings fully drawn`);
   assert.ok(drawn.fill === 'none' || drawn.fill === 'matrix(1, 0, 0, 1, 0, 0)', `${w}: bar fully grown ${drawn.fill}`);
   assert.deepEqual(drawn.glide, ['1'], `${w}: cards visible`);
+  // 行の輪は円のまま（楕円に潰れない）で、カードの中に収まる。
+  const shapes = await page.evaluate(() => [...document.querySelectorAll('.recordRowGroup')].map(card => {
+    const c = card.getBoundingClientRect(), r = card.querySelector('.ringMeter')!.getBoundingClientRect();
+    return { round: Math.abs(r.width - r.height) < 1, inside: r.top >= c.top && r.bottom <= c.bottom + 0.5 && r.left >= c.left && r.right <= c.right + 0.5, size: Math.round(r.width) };
+  }));
+  assert.ok(shapes.every(x => x.round && x.inside), `${w}: row rings round and inside ${JSON.stringify(shapes)}`);
   // あ行を開くと字形の輪を描き、カードは列幅に収まって重ならない。
   const open = await page.evaluate(async () => {
     const row = document.querySelector<HTMLDetailsElement>('.recordRowGroup')!;
@@ -193,7 +199,7 @@ for (const [w, h] of [[320, 640], [340, 700], [360, 640], [375, 812], [390, 844]
     return ok;
   });
   assert.ok(info, `${w}: glyph info dialog`);
-  results.push(`${w}x${h}: overflow ${maxOverflow}, rings ${done.ringCount}, glyph cards ${open.total} (未 ${open.untouched})`);
+  results.push(`${w}x${h}: overflow ${maxOverflow}, rings ${done.ringCount} (${shapes[0].size}px), glyph cards ${open.total} (未 ${open.untouched})`);
   await page.close();
 }
 

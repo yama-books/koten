@@ -294,6 +294,18 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   .recordMastery__head>span{font-size:13px}
   .recordMastery__head strong{font-size:30px}
   .recordMastery__head small{font-size:14px}
+  /* 行のカードは画面幅に応じて 111〜183px 角になる。輪と文字をカードの幅に合わせて大きくし、
+     広い画面で余白だけが増えないようにする。狭いカード（721px 付近）では輪を縮め、楕円に潰さない。
+     cqi 非対応の環境では上の 84px・16px のまま。 */
+  .recordRowGroup:not([open]){container-type:inline-size}
+  .recordRowGroup:not([open]) summary{gap:clamp(8px,5.5cqi,12px)}
+  .recordRowGroup:not([open]) .recordRow__label{font-size:clamp(16px,10.5cqi,20px)}
+  .recordRowGroup:not([open]) .ringMeter{flex-shrink:0;width:clamp(64px,62cqi,116px);height:clamp(64px,62cqi,116px)}
+  .recordRowGroup:not([open]) .ringMeter span{font-size:clamp(13px,10cqi,19px)}
+  .ringMeter::after{width:76%;height:76%}
+  /* 開いた行の見出しは、行名と輪を左にまとめる（両端に離すと中央が大きく空く）。 */
+  .recordRowGroup[open] summary{justify-content:flex-start;gap:18px;padding:10px 16px}
+  .recordRowGroup[open] .recordRow__label{font-size:18px}
 }
 /* ===== 記録画面の登場アニメーション（conj の記録画面と同じ動き） =====
    カードは右の遠くから長く滑って定位置で止まる。動かすのは transform と opacity だけ。
