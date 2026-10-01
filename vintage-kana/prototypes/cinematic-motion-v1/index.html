@@ -321,7 +321,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 20: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 21: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -407,7 +407,7 @@
         <label><input type="radio" name="stampDirection" value="horizontal" checked> 横</label>
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
       </div>
-      <div class="hint">※ 演出検証用。平面剥離→浮遊、閃光の中で花火状に誕生→ひらひら自由落下→漂いながら徐々に集合。全区間を滑らかにつなぎます。</div>
+      <div class="hint">※ 演出検証用。平面剥離→全方位ゆらゆら浮遊→超高速竜巻→中心へギュッと圧縮→閃光の中で花火状に破裂→ひらひら自由落下。全区間を滑らかにつなぎます。</div>
     </section>
   </main>
   <footer>prototype / cinematic conversion motion</footer>
@@ -704,8 +704,9 @@ async function play(){
       const localRise=easeSoft(clamp((elapsed-(peelDelay+120))/3000));
       // Keep the glyph face completely flat through the peel and first lift.
       // 3D floating begins only after the planar character has visibly risen away from the source.
-      const localFloat=easeInOut(clamp((elapsed-(peelDelay+760))/1120));
-      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+1260+s.orbitLag))/2700));
+      const localFloat=easeInOut(clamp((elapsed-(peelDelay+720))/1080));
+      // Let each peeled glyph wander in all directions for longer before the orbit captures it.
+      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+1900+s.orbitLag))/2400));
 
       const lift=s.liftAmp*localRise;
 
@@ -720,10 +721,15 @@ async function play(){
       const floatEnvelope=.20+.80*Math.sin(Math.min(localRise,.985)*Math.PI);
       const floatStrength=floatEnvelope*localFloat;
       const freeX=s.x+planarDriftX+peelX
-        +Math.sin(tSec*2.18*s.floatFreqX+s.phase)*s.sway*s.floatAmpX*floatStrength;
+        +Math.sin(tSec*2.18*s.floatFreqX+s.phase)*s.sway*s.floatAmpX*1.34*floatStrength
+        +Math.cos(tSec*.84+s.phase*.63)*10*s.floatAmpX*floatStrength;
       const freeY=s.y-lift+planarDriftY+peelY
-        +Math.sin(tSec*3.05*s.floatFreqY+s.phase)*6.4*s.floatAmpY*floatStrength;
-      const freeZ=Math.sin(tSec*2.55*s.floatFreqZ+s.phase)*26*s.floatAmpZ*floatStrength;
+        +Math.sin(tSec*3.05*s.floatFreqY+s.phase)*8.8*s.floatAmpY*floatStrength
+        +Math.cos(tSec*.76+s.phase*.82)*7*s.floatAmpY*floatStrength;
+      const freeZ=(
+        Math.sin(tSec*2.55*s.floatFreqZ+s.phase)*34
+        +Math.cos(tSec*.92+s.phase*.71)*12
+      )*s.floatAmpZ*floatStrength;
 
       // The imperfect ring is already rotating while glyphs are still being attracted.
       const angle=base+spinBase;
@@ -750,8 +756,14 @@ async function play(){
       const orbitRZ=(spinBase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
       const rotZ=lerp(freeRZ,orbitRZ,charOrbit);
 
-      const freeRX=Math.sin(tSec*2.45+s.phase)*34*floatStrength;
-      const freeRY=Math.cos(tSec*2.25+s.phase)*38*floatStrength;
+      const freeRX=(
+        Math.sin(tSec*2.45+s.phase)*38
+        +Math.cos(tSec*.86+s.phase*.54)*11
+      )*floatStrength;
+      const freeRY=(
+        Math.cos(tSec*2.25+s.phase)*43
+        +Math.sin(tSec*.79+s.phase*.68)*12
+      )*floatStrength;
       const orbitRX=-12+Math.cos(angle)*10;
       const orbitRY=10+Math.sin(angle)*12;
       const rotX=lerp(freeRX,orbitRX,charOrbit);
@@ -767,7 +779,7 @@ async function play(){
   // 4) 崩れた円環から竜巻へ。phase12終端の位置・姿勢・角速度をそのまま引き継ぐ。
   const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
   const omega4Start=omega2End;
-  const omega4End=Math.PI*2*4.45;
+  const omega4End=Math.PI*2*31.15;
   const phase4Duration=3100;
   let spin=spinBase;
 
@@ -789,8 +801,8 @@ async function play(){
 
     [...rushLines.children].forEach(line=>{
       const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
-      const travel=((e*speed*1.85+phase)%1)*172-48;
-      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.15+e*.55})`;
+      const travel=((e*speed*7.8+phase)%1)*172-48;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.15+e*1.55})`;
     });
 
     g.forEach((el,i)=>{
@@ -825,10 +837,10 @@ async function play(){
 
   const spinVortexEnd=spin;
 
-  // 5) 圧縮と閃光。変身の瞬間からキラキラを発生させる。
+  // 5) 超高速竜巻の勢いを保ったまま中心へギュッと圧縮し、その圧縮エネルギーを閃光として見せる。
   const omega5Start=omega4End;
-  const omega5End=Math.PI*2*5.02;
-  const phase5Duration=1450;
+  const omega5End=Math.PI*2*34.0;
+  const phase5Duration=1320;
 
   const sparkleCount=Math.min(38,Math.max(20,n*3));
   const sparkleSeeds=Array.from({length:sparkleCount},(_,i)=>({
@@ -852,14 +864,18 @@ async function play(){
     const e=easeInOut(p);
     const prog=spinProgress(spinVortexEnd,omega5Start,omega5End,elapsed,phase5Duration);
     spin=prog.spin;
-    const flashRise=easeOut(clamp(p/.42));
-    const flashHold=1-.08*easeInOut(clamp((p-.76)/.24));
+
+    // The flash and the squeeze are the same event: light is born from the compression.
+    const squeeze=easeInOut(clamp((p-.10)/.58));
+    const flashRise=easeOut(clamp((p-.16)/.34));
+    const flashHold=1-.04*easeInOut(clamp((p-.84)/.16));
     const peak=flashRise*flashHold;
 
-    const radius=lerp(24,11,e);
-    const ellipse=lerp(10,5,e);
-    const vertical=lerp(196,170,e);
-    const axisAmp=lerp(16,6,e);
+    const radius=lerp(24,3.5,squeeze);
+    const ellipse=lerp(10,1.8,squeeze);
+    const vertical=lerp(196,8,squeeze);
+    const axisAmp=lerp(16,1.5,squeeze);
+    const baseY5=lerp(-86,-16,squeeze);
 
     flash.style.opacity=String(peak*.98);
     portalGlow.style.opacity=String(.90+peak*.10);
@@ -873,15 +889,15 @@ async function play(){
       const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
       const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.14;
       const x=axisX+Math.cos(angle)*radius;
-      const y=-86+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const y=baseY5+axisY+Math.sin(angle)*ellipse+layer*vertical;
 
       const zStart=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
-      const zEnd=(depth-.5)*48;
-      const z=lerp(zStart,zEnd,e);
+      const zEnd=(depth-.5)*12;
+      const z=lerp(zStart,zEnd,squeeze);
 
       const scaleStart=(.58+depth*.42)*densityScale;
-      const scaleEnd=(.56+depth*.40)*densityScale;
-      const scale=lerp(scaleStart,scaleEnd,e);
+      const scaleEnd=(.46+depth*.16)*densityScale;
+      const scale=lerp(scaleStart,scaleEnd,squeeze);
 
       const rotStart=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
       const rotEnd=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9;
@@ -922,9 +938,9 @@ async function play(){
   //    強い白光の中で花火のようにぱっと散り、その勢いを失いながら、ひらひら自由落下へ連続移行。
   const phase6Duration=2200;
   const hiddenPoseMs=110;
-  const birthBurstMs=210;
-  const flashOpenDelayMs=70;
-  const flashOpenMs=460;
+  const birthBurstMs=175;
+  const flashOpenDelayMs=105;
+  const flashOpenMs=500;
 
   const petalState=(i,timeMs)=>{
     const s=seeds[i];
@@ -988,12 +1004,12 @@ async function play(){
       // Exact phase-5 endpoint, hidden inside the birth flash.
       const endAngle=baseAngles[i]+spinFlashEnd;
       const endDepth=(Math.sin(endAngle)+1)/2;
-      const endAxisX=Math.sin(layer*1.8+spinFlashEnd*.22)*6;
-      const endAxisY=Math.cos(layer*1.25+spinFlashEnd*.18)*6*.14;
-      const startX=endAxisX+Math.cos(endAngle)*11;
-      const startY=-86+endAxisY+Math.sin(endAngle)*5+layer*170;
-      const startZ=(endDepth-.5)*48;
-      const startScale=(.56+endDepth*.40)*densityScale;
+      const endAxisX=Math.sin(layer*1.8+spinFlashEnd*.22)*1.5;
+      const endAxisY=Math.cos(layer*1.25+spinFlashEnd*.18)*1.5*.14;
+      const startX=endAxisX+Math.cos(endAngle)*3.5;
+      const startY=-16+endAxisY+Math.sin(endAngle)*1.8+layer*8;
+      const startZ=(endDepth-.5)*12;
+      const startScale=(.46+endDepth*.16)*densityScale;
 
       const petal=petalState(i,visibleTime);
 
