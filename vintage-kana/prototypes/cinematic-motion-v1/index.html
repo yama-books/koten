@@ -114,6 +114,22 @@
   .options input{accent-color:var(--ink)}
   .optLabel{font-size:12px;letter-spacing:.08em;color:rgba(65,56,48,.76)}
   .hint{margin-top:14px;font-size:12px;color:var(--muted)}
+  .debug-tools{
+    display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+    margin-top:12px;padding-top:10px;border-top:1px solid rgba(65,56,48,.10);
+  }
+  .debug-label{font-size:10px;letter-spacing:.12em;color:rgba(65,56,48,.50);margin-right:2px}
+  .debug-btn{
+    min-height:30px;width:auto;padding:5px 9px;border-radius:999px;
+    font-size:10px;font-weight:600;letter-spacing:.03em;
+    color:rgba(29,26,23,.78);background:rgba(255,255,255,.62);
+    border:1px solid rgba(65,56,48,.13);box-shadow:none;
+  }
+  .debug-btn:hover{transform:none;box-shadow:none;background:rgba(255,255,255,.88)}
+  .debug-plan{
+    width:100%;min-height:15px;font:10px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:rgba(65,56,48,.48);letter-spacing:.015em;
+  }
   footer{font-size:11px;color:rgba(65,56,48,.55);text-align:center}
   #stage{
     position:fixed;inset:0;z-index:20;pointer-events:none;
@@ -209,10 +225,13 @@
   }
   .stampboard{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    gap:var(--stamp-gap,clamp(2px,1.2vw,12px));padding:20px;
+    row-gap:var(--stamp-row-gap,clamp(2px,1vw,10px));
+    column-gap:var(--stamp-col-gap,clamp(2px,1.2vw,12px));
+    padding:20px;
     opacity:0;transform:translateZ(80px);
     --stamp-size:clamp(46px,8.8vw,90px);
-    --stamp-gap:clamp(2px,1.2vw,12px);
+    --stamp-row-gap:clamp(2px,1vw,10px);
+    --stamp-col-gap:clamp(2px,1.2vw,12px);
   }
   .stampboard.horizontal{
     flex-direction:row;flex-wrap:wrap;align-content:center;
@@ -321,7 +340,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 24: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 25: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -391,7 +410,7 @@
 <div class="app" id="app">
   <header>
     <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 24</div>
+    <div class="mode">MOTION STUDY 25</div>
   </header>
   <main>
     <section class="panel">
@@ -407,7 +426,16 @@
         <label><input type="radio" name="stampDirection" value="horizontal" checked> 横</label>
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
       </div>
-      <div class="hint">※ 演出検証用。灰の漂流後は「円・円環・龍・ぴょこぴょこ整列」×「上・奥・爆散・正面・下・斜め」を毎回組み替え。低確率ではぐれ者やビターン演出も発生します。</div>
+      <div class="hint">※ 演出検証用。前半・閃光直後・後半・退場を毎回組み替え。3〜5回に1回程度ではぐれ者が混ざります。下のデバッグボタンでレア演出を直接確認できます。</div>
+      <div class="debug-tools" aria-label="演出デバッグ">
+        <span class="debug-label">DEBUG</span>
+        <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
+        <button class="debug-btn" type="button" data-preset="radial">放射線</button>
+        <button class="debug-btn" type="button" data-preset="rain">上から</button>
+        <button class="debug-btn" type="button" data-preset="peek">かくれんぼ</button>
+        <button class="debug-btn" type="button" data-preset="front-chick">前半ぴょこ</button>
+        <div class="debug-plan" id="debugPlan">通常ランダム</div>
+      </div>
     </section>
   </main>
   <footer>prototype / cinematic conversion motion</footer>
@@ -450,10 +478,12 @@ input=document.getElementById("input"),
 skip=document.getElementById("skip"),
 whiteRoom=document.getElementById("whiteRoom"),
 rushLines=document.getElementById("rushLines"),
-portalGlow=document.getElementById("portalGlow");
+portalGlow=document.getElementById("portalGlow"),
+debugPlan=document.getElementById("debugPlan");
 const stampDirectionInputs=[...document.querySelectorAll('input[name="stampDirection"]')];
+const debugButtons=[...document.querySelectorAll(".debug-btn")];
 
-let running=false,timers=[],playToken=0;
+let running=false,timers=[],playToken=0,nextPreset=null;
 const sleep=ms=>new Promise(r=>{const t=setTimeout(r,ms);timers.push(t)});
 const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 const lerp=(a,b,t)=>a+(b-a)*t;
@@ -462,7 +492,17 @@ const easeOut=t=>1-Math.pow(1-t,3);
 const easeIn=t=>t*t*t;
 const easeSoft=t=>t*t*(3-2*t);
 const pick=list=>list[Math.floor(Math.random()*list.length)];
+const pickWeighted=items=>{
+  const total=items.reduce((sum,item)=>sum+item[1],0);
+  let r=Math.random()*total;
+  for(const [value,weight] of items){
+    r-=weight;
+    if(r<=0)return value;
+  }
+  return items[items.length-1][0];
+};
 const randomIndex=n=>n>0?Math.floor(Math.random()*n):-1;
+const triWave=x=>(2/Math.PI)*Math.asin(Math.sin(x));
 
 function spinProgress(spin0,omega0,omega1,elapsedMs,durationMs){
   const t=elapsedMs/1000;
@@ -499,28 +539,43 @@ function setupStampBoard(text){
   board.className="stampboard "+direction;
   board.style.removeProperty("--stamp-rows");
   let size="clamp(46px,8.8vw,90px)";
-  let gap="clamp(2px,1.2vw,12px)";
+  let rowGap="clamp(2px,1vw,10px)";
+  let colGap="clamp(2px,1.2vw,12px)";
+
   if(direction==="horizontal"){
     if(len<=8){
       size="clamp(46px,8.8vw,90px)";
-      gap="clamp(2px,1.2vw,12px)";
+      rowGap="clamp(4px,1.2vw,12px)";
+      colGap="clamp(2px,1.2vw,12px)";
     }else if(len<=14){
       size="clamp(40px,7.2vw,74px)";
-      gap="clamp(2px,1vw,10px)";
+      rowGap="clamp(3px,.9vw,9px)";
+      colGap="clamp(2px,.85vw,8px)";
     }else{
-      size="clamp(32px,5.8vw,58px)";
-      gap="clamp(1px,.8vw,8px)";
+      size="clamp(31px,5.6vw,56px)";
+      rowGap="clamp(2px,.65vw,6px)";
+      colGap="clamp(1px,.55vw,5px)";
     }
   }else{
     const rows=len<=8?len:(len<=14?Math.ceil(len/2):Math.min(10,Math.ceil(len/2)));
+    const columns=Math.max(1,Math.ceil(len/Math.max(1,rows)));
     size=len<=8
       ?"clamp(46px,8.4vw,86px)"
       :(len<=14?"clamp(38px,6.8vw,66px)":"clamp(30px,5.2vw,52px)");
-    gap=len<=8?"clamp(2px,1.1vw,10px)":"clamp(1px,.7vw,8px)";
+
+    // Vertical text needs different spacing within a column and between columns.
+    rowGap=len<=8
+      ?"clamp(1px,.50vw,5px)"
+      :(len<=14?"clamp(0px,.32vw,3px)":"clamp(0px,.18vw,2px)");
+    colGap=columns<=1
+      ?"clamp(4px,1.3vw,13px)"
+      :(columns===2?"clamp(3px,.85vw,8px)":"clamp(2px,.52vw,5px)");
     board.style.setProperty("--stamp-rows",String(rows));
   }
+
   board.style.setProperty("--stamp-size",size);
-  board.style.setProperty("--stamp-gap",gap);
+  board.style.setProperty("--stamp-row-gap",rowGap);
+  board.style.setProperty("--stamp-col-gap",colGap);
 }
 function ensureRushLines(){
   if(rushLines.children.length)return;
@@ -626,47 +681,78 @@ async function play(){
   const metrics=measureOrigins(src);
   const g=makeGlyphs(src);
   const n=g.length;
-  const densityScale=n>16?.72:n>12?.80:n>9?.90:1;
+  const densityScale=n>28?.54:n>20?.62:n>16?.72:n>12?.80:n>9?.90:1;
   const baseScale=clamp(metrics.fontSize/58,.42,.78);
   const ink=metrics.color||"#1d1a17";
 
   // One stable random plan per play. Randomness is never re-rolled per frame.
-  const ensembleMode=pick(["circle","ring","dragon","chick"]);
-  const exitMode=pick(["up","far","burst","camera","down","diagonal"]);
+  const forcedPreset=nextPreset;
+  nextPreset=null;
+  const forceRare=forcedPreset==="rare";
 
-  // Most plays have no special troublemaker. When one appears, it keeps the same role for the whole play.
-  const rogueIndex=n>2&&Math.random()<.38?randomIndex(n):-1;
+  const frontMode=forcedPreset==="front-chick"
+    ?"chick"
+    :pickWeighted([["orbit",.62],["chick",.25],["formation",.13]]);
+
+  const flashExitMode=forcedPreset==="radial"
+    ?"radial"
+    :forcedPreset==="rain"
+      ?"rain"
+      :forcedPreset==="peek"
+        ?"peek"
+        :pickWeighted([["ash",.35],["radial",.30],["rain",.20],["peek",.15]]);
+
+  const backChoices=frontMode==="chick"
+    ?["circle","ring","dragon"]
+    :["circle","ring","dragon","chick"];
+  const ensembleMode=pick(backChoices);
+
+  // Rare-debug mode deliberately chooses a route where the special event can be seen.
+  const exitMode=forceRare
+    ?pick(["camera","far"])
+    :pick(["up","far","burst","camera","down","diagonal"]);
+
+  // About three plays in ten contain a visible troublemaker.
+  const rogueIndex=n>2&&(forceRare||Math.random()<.30)?randomIndex(n):-1;
   const rogueType=rogueIndex>=0?pick(["reverse","drop","wander","early"]):"none";
 
-  // Sometimes one glyph refuses to peel until the others have already started moving.
-  const stickyIndex=n>2&&Math.random()<.16?randomIndex(n):-1;
+  // Sticky peel counts as a separate small gag and stays uncommon.
+  const stickyIndex=n>2&&(forceRare?Math.random()<.55:Math.random()<.12)
+    ?randomIndex(n)
+    :-1;
 
-  // "Left behind, then panic chase" is meaningful only when the group flies away into the distance.
-  const lateChaserIndex=exitMode==="far"&&n>2&&Math.random()<.28
-    ? randomIndex(n)
-    : -1;
+  const lateChaserIndex=exitMode==="far"&&n>2&&(forceRare||Math.random()<.30)
+    ?randomIndex(n)
+    :-1;
 
-  // Camera splats are intentionally rare. Two simultaneous splats are very rare.
   let slapCount=0;
   if(exitMode==="camera"&&n>1){
-    const slapRoll=Math.random();
-    slapCount=slapRoll<.045?2:(slapRoll<.32?1:0);
+    if(forceRare){
+      slapCount=Math.random()<.18?2:1;
+    }else{
+      const slapRoll=Math.random();
+      slapCount=slapRoll<.04?2:(slapRoll<.28?1:0);
+    }
   }
   const slapIndices=[];
   while(slapIndices.length<slapCount){
     const idx=randomIndex(n);
     if(!slapIndices.includes(idx))slapIndices.push(idx);
   }
-  const slapDropIndex=slapCount===2&&Math.random()<.70
-    ? slapIndices[1]
-    :(slapCount===1&&Math.random()<.18?slapIndices[0]:-1);
+  const slapDropIndex=slapCount===2&&Math.random()<.72
+    ?slapIndices[1]
+    :(slapCount===1&&Math.random()<.20?slapIndices[0]:-1);
 
   const diagonalSign=Math.random()<.5?-1:1;
   const motionPlan={
-    ensembleMode,exitMode,rogueIndex,rogueType,stickyIndex,
-    lateChaserIndex,slapIndices:[...slapIndices],slapDropIndex,diagonalSign
+    forcedPreset:forcedPreset||"random",
+    frontMode,flashExitMode,ensembleMode,exitMode,
+    rogueIndex,rogueType,stickyIndex,lateChaserIndex,
+    slapIndices:[...slapIndices],slapDropIndex,diagonalSign
   };
   stage.dataset.motionPlan=JSON.stringify(motionPlan);
+  debugPlan.textContent=
+    `FRONT:${frontMode.toUpperCase()} / FLASH:${flashExitMode.toUpperCase()} / BACK:${ensembleMode.toUpperCase()} / EXIT:${exitMode.toUpperCase()} / ROGUE:${rogueIndex>=0?rogueType.toUpperCase():"NONE"}`;
   console.debug("[hentaigana-motion]",motionPlan);
 
   const seeds=g.map((el,i)=>{
@@ -715,8 +801,7 @@ async function play(){
   input.style.color="transparent";
   input.style.caretColor="transparent";
 
-  // 1-2) 一文字ずつ「ぺり、ぺり、ぺり」と剥離し、そのまま浮遊→崩れた円環→回転へ連続接続。
-  //      各文字が個別の時計を持つので、剥がれる前の文字が先に浮いたり整列したりしない。
+  // 1-2) 平面剥離のあと、今回の前半パターンへ滑らかに捕捉する。
   const ringR=Math.min(170,Math.max(118,innerWidth*.30));
   const ringRY=Math.min(54,ringR*.32);
   const phase12Duration=8900;
@@ -725,20 +810,72 @@ async function play(){
   const omega2Start=Math.PI*2*.38;
   const omega2End=Math.PI*2*3.55;
   const spinAccel=(omega2End-omega2Start)/(spinDurationMs/1000);
+  const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
+  const frontSpacing=Math.min(74,Math.max(34,(innerWidth*.72)/Math.max(1,n-1)));
   let spinBase=0;
+
+  const orbitFrontPose=(i,spinValue,timeSec)=>{
+    const s=seeds[i];
+    const angle=baseAngles[i]+spinValue;
+    const depth=(Math.sin(angle)+1)/2;
+    return {
+      x:Math.cos(angle)*ringR,
+      y:-104+Math.sin(angle)*ringRY,
+      z:10+depth*34,
+      scale:(.72+depth*.50)*densityScale,
+      rot:(spinValue*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8,
+      rx:-12+Math.cos(angle)*10,
+      ry:10+Math.sin(angle)*12
+    };
+  };
+
+  const formationFrontPose=(i,timeSec)=>{
+    const s=seeds[i];
+    const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+    return {
+      x:(i-(n-1)/2)*frontSpacing+Math.sin(timeSec*.92+s.phase)*5,
+      y:-74+Math.sin(layer*Math.PI)*18+Math.cos(timeSec*1.18+s.phase)*6,
+      z:Math.sin(timeSec*.76+s.phase)*14,
+      scale:.72*densityScale,
+      rot:Math.sin(timeSec*1.05+s.phase)*4.5,
+      rx:Math.sin(timeSec*.88+s.phase)*5,
+      ry:Math.cos(timeSec*.80+s.phase)*6
+    };
+  };
+
+  const chickFrontPose=(i,timeSec)=>{
+    const s=seeds[i];
+    const hopPhase=timeSec*7.8-i*.58+s.phase*.08;
+    const hop=Math.pow(Math.max(0,Math.sin(hopPhase)),1.70);
+    return {
+      x:(i-(n-1)/2)*frontSpacing,
+      y:-56-hop*30+Math.sin(timeSec*1.08+s.phase)*2,
+      z:Math.sin(hopPhase*.42)*6,
+      scale:.72*densityScale*(1+hop*.035),
+      rot:Math.sin(hopPhase)*4,
+      rx:-hop*6,
+      ry:Math.cos(hopPhase*.54)*4
+    };
+  };
+
+  const frontTargetPose=(i,spinValue,timeSec)=>{
+    if(frontMode==="chick")return chickFrontPose(i,timeSec);
+    if(frontMode==="formation")return formationFrontPose(i,timeSec);
+    return orbitFrontPose(i,spinValue,timeSec);
+  };
 
   await frameTween(phase12Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
-    const globalOrbit=easeInOut(clamp((elapsed-2500)/6400));
+    const globalCapture=easeInOut(clamp((elapsed-2500)/6400));
     const whiteBlend=easeInOut(clamp((elapsed-3400)/3800));
 
     const spinElapsed=Math.max(0,elapsed-spinStartMs);
     const spinSec=spinElapsed/1000;
     spinBase=spinElapsed>0
-      ? omega2Start*spinSec+.5*spinAccel*spinSec*spinSec
-      : 0;
+      ?omega2Start*spinSec+.5*spinAccel*spinSec*spinSec
+      :0;
 
-    whiteRoom.style.opacity=String(clamp(.10*globalOrbit+whiteBlend*.90));
+    whiteRoom.style.opacity=String(clamp(.10*globalCapture+whiteBlend*.90));
     whiteRoom.style.transform=`scale(${lerp(1,1.15,whiteBlend)})`;
     portalGlow.style.opacity=String(clamp((whiteBlend-.05)*1.22));
     portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(whiteBlend))})`;
@@ -752,30 +889,23 @@ async function play(){
 
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const base=(i/n)*Math.PI*2;
-
       const peelStagger=n>16?88:n>12?108:n>8?130:158;
       const sticky=i===stickyIndex;
       const peelDelay=150+i*peelStagger+s.peelJitter+(sticky?980:0);
       const peelT=easeInOut(clamp((elapsed-peelDelay)/(sticky?390:520)));
       const localRise=easeSoft(clamp((elapsed-(peelDelay+120))/(sticky?1800:3000)));
-      // Keep the glyph face completely flat through the peel and first lift.
-      // A rare sticky glyph waits behind, then springs out and catches the flock.
       const localFloat=easeInOut(clamp((elapsed-(peelDelay+(sticky?520:720)))/(sticky?680:1080)));
-      const orbitStart=sticky?1120:1900;
-      const orbitDuration=sticky?1050:2400;
-      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+orbitStart+s.orbitLag*.45))/orbitDuration));
+      const captureStart=sticky?1120:1900;
+      const captureDuration=sticky?1050:2400;
+      const charCapture=globalCapture*easeInOut(clamp((elapsed-(peelDelay+captureStart+s.orbitLag*.45))/captureDuration));
 
       const lift=s.liftAmp*localRise;
-
-      // Peel and first ascent remain a flat sheet: translate only, no 3D tilt or depth.
-      const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-charOrbit);
-      const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-charOrbit);
+      const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-charCapture);
+      const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-charCapture);
       const peelSkew=(i-(n-1)/2)*1.4;
       const peelX=s.sway*.18*peelT+peelSkew*peelT*.24;
       const peelY=-13*peelT;
 
-      // After the flat glyph has risen, it gradually acquires leaf-like 3D floating.
       const floatEnvelope=.20+.80*Math.sin(Math.min(localRise,.985)*Math.PI);
       const floatStrength=floatEnvelope*localFloat;
       const freeX=s.x+planarDriftX+peelX
@@ -789,31 +919,16 @@ async function play(){
         +Math.cos(tSec*.92+s.phase*.71)*12
       )*s.floatAmpZ*floatStrength;
 
-      // The imperfect ring is already rotating while glyphs are still being attracted.
-      const angle=base+spinBase;
-      const depth=(Math.sin(angle)+1)/2;
-      const residual=1-charOrbit;
-      const wobbleX=Math.sin(tSec*1.75+s.phase)*20*residual;
-      const wobbleY=Math.cos(tSec*1.42+s.phase)*10*residual;
-      const wobbleZ=Math.sin(tSec*1.88+s.phase)*12*residual;
-
-      const orbitX=Math.cos(angle)*ringR+wobbleX;
-      const orbitY=-104+Math.sin(angle)*ringRY+wobbleY;
-      const orbitZ=10+depth*34+wobbleZ;
-
-      const x=lerp(freeX,orbitX,charOrbit);
-      const y=lerp(freeY,orbitY,charOrbit);
-      const z=lerp(freeZ,orbitZ,charOrbit);
+      const target=frontTargetPose(i,spinBase,tSec);
+      const x=lerp(freeX,target.x,charCapture);
+      const y=lerp(freeY,target.y,charCapture);
+      const z=lerp(freeZ,target.z,charCapture);
 
       const freeScale=lerp(baseScale,.92,localRise);
-      const orbitScale=(.72+depth*.50)*densityScale;
-      const scale=lerp(freeScale,orbitScale,charOrbit);
+      const scale=lerp(freeScale,target.scale,charCapture);
 
       const flutterRZ=Math.sin(tSec*1.55+s.phase)*s.tilt*(1-p*.18);
       const freeRZ=flutterRZ*localFloat;
-      const orbitRZ=(spinBase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
-      const rotZ=lerp(freeRZ,orbitRZ,charOrbit);
-
       const freeRX=(
         Math.sin(tSec*2.45+s.phase)*38
         +Math.cos(tSec*.86+s.phase*.54)*11
@@ -822,30 +937,75 @@ async function play(){
         Math.cos(tSec*2.25+s.phase)*43
         +Math.sin(tSec*.79+s.phase*.68)*12
       )*floatStrength;
-      const orbitRX=-12+Math.cos(angle)*10;
-      const orbitRY=10+Math.sin(angle)*12;
-      const rotX=lerp(freeRX,orbitRX,charOrbit);
-      const rotY=lerp(freeRY,orbitRY,charOrbit);
 
-      setT(el,x,y,scale,rotZ,rotX,rotY,z);
-      el.style.opacity=String(clamp((elapsed-peelDelay+160)/430));
-      el.style.textShadow=`0 0 ${8+depth*14*charOrbit}px rgba(139,125,101,${.08+depth*.16*charOrbit})`;
+      setT(
+        el,x,y,scale,
+        lerp(freeRZ,target.rot,charCapture),
+        lerp(freeRX,target.rx,charCapture),
+        lerp(freeRY,target.ry,charCapture),
+        z
+      );
+      el.style.opacity="1";
+      el.style.textShadow=`0 0 ${8+12*charCapture}px rgba(139,125,101,${.08+.14*charCapture})`;
     });
   },token);
   if(token!==playToken)return;
 
-  // 4) 崩れた円環から竜巻へ。phase12終端の位置・姿勢・角速度をそのまま引き継ぐ。
-  const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
+  // 4) 前半の第二幕。通常系は竜巻へ、ぴょこ系は可愛い整列からピンボール暴走へ。
   const omega4Start=omega2End;
   const omega4End=Math.PI*2*31.15;
   const phase4Duration=3100;
   let spin=spinBase;
+  const phase12EndSec=phase12Duration/1000;
+
+  const pinballPose=(i,timeSec,intensity)=>{
+    const s=seeds[i];
+    const start=chickFrontPose(i,timeSec);
+    const boundsX=Math.min(330,innerWidth*.43);
+    const boundsY=Math.min(218,innerHeight*.34);
+    const speed=lerp(1.0,8.4,intensity);
+    const px=triWave(timeSec*speed+s.phase*.72+i*.43)*boundsX;
+    const py=triWave(timeSec*speed*1.27+s.phase*1.13+i*.61)*boundsY-12;
+    const pz=triWave(timeSec*speed*.73+s.phase*.91)*118;
+    return {
+      x:lerp(start.x,px,intensity),
+      y:lerp(start.y,py,intensity),
+      z:lerp(start.z,pz,intensity),
+      scale:lerp(start.scale,(.56+Math.abs(triWave(timeSec*.9+s.phase))*.16)*densityScale,intensity),
+      rot:lerp(start.rot,triWave(timeSec*speed*.61+s.phase)*34,intensity),
+      rx:lerp(start.rx,triWave(timeSec*speed*.83+s.phase)*38,intensity),
+      ry:lerp(start.ry,triWave(timeSec*speed*.77+s.phase)*46,intensity)
+    };
+  };
 
   await frameTween(phase4Duration,(p,elapsed)=>{
     const e=easeInOut(p);
+    const tSec=phase12EndSec+elapsed/1000;
+
+    if(frontMode==="chick"){
+      const violence=easeInOut(clamp((p-.06)/.94));
+      const light=easeInOut(clamp((p-.28)/.72));
+      g.forEach((el,i)=>{
+        const pose=pinballPose(i,tSec,violence);
+        setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
+        el.style.opacity="1";
+        el.style.filter=`brightness(${1+light*.45})`;
+      });
+      whiteRoom.style.opacity=String(lerp(.84,1,light));
+      whiteRoom.style.transform=`scale(${lerp(1.08,1.18,light)})`;
+      portalGlow.style.opacity=String(lerp(.20,.78,light));
+      portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.92,.58,light)})`;
+      rushLines.style.opacity=String(lerp(.10,.64,violence));
+      [...rushLines.children].forEach(line=>{
+        const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
+        const travel=((violence*speed*5.4+phase)%1)*170-46;
+        line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1.4+violence*2.2})`;
+      });
+      return;
+    }
+
     const prog=spinProgress(spinBase,omega4Start,omega4End,elapsed,phase4Duration);
     spin=prog.spin;
-
     const radius=lerp(ringR,24,e);
     const ellipse=lerp(ringRY,10,e);
     const baseY=lerp(-104,-86,e);
@@ -867,35 +1027,40 @@ async function play(){
       const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const start=frontMode==="formation"
+        ?formationFrontPose(i,tSec)
+        :orbitFrontPose(i,spin,tSec);
 
       const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp+axisTwist*.12;
       const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.16;
-      const x=axisX+Math.cos(angle)*radius;
-      const y=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const targetX=axisX+Math.cos(angle)*radius;
+      const targetY=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const targetZ=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
+      const targetScale=(.58+depth*.42)*densityScale;
+      const targetRot=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
+      const targetRx=-14+Math.cos(angle+layer*.4)*17;
+      const targetRy=11+Math.sin(angle-layer*.3)*20;
 
-      const zStart=10+depth*34;
-      const zEnd=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
-      const z=lerp(zStart,zEnd,e);
-
-      const scaleStart=(.72+depth*.50)*densityScale;
-      const scaleEnd=(.58+depth*.42)*densityScale;
-      const scale=lerp(scaleStart,scaleEnd,e);
-
-      const rotStart=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
-      const rotEnd=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
-      const rot=lerp(rotStart,rotEnd,e);
-      const rx=lerp(-12+Math.cos(angle)*10,-14+Math.cos(angle+layer*.4)*17,e);
-      const ry=lerp(10+Math.sin(angle)*12,11+Math.sin(angle-layer*.3)*20,e);
-
-      setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(.64+depth*.36);
+      const blend=frontMode==="formation"?e:1;
+      setT(
+        el,
+        lerp(start.x,targetX,blend),
+        lerp(start.y,targetY,blend),
+        lerp(start.scale,targetScale,blend),
+        lerp(start.rot,targetRot,blend),
+        lerp(start.rx,targetRx,blend),
+        lerp(start.ry,targetRy,blend),
+        lerp(start.z,targetZ,blend)
+      );
+      el.style.opacity=String(.68+depth*.32);
+      el.style.filter="none";
     });
   },token);
   if(token!==playToken)return;
 
   const spinVortexEnd=spin;
 
-  // 5) 超高速竜巻の勢いを保ったまま中心へギュッと圧縮し、その圧縮エネルギーを閃光として見せる。
+  // 5) どの前半からでも、動きを止めずに中心核へ圧縮して「誕生の閃光」を作る。
   const omega5Start=omega4End;
   const omega5End=Math.PI*2*34.0;
   const phase5Duration=1540;
@@ -903,10 +1068,10 @@ async function play(){
   const sparkleCount=Math.min(38,Math.max(20,n*3));
   const sparkleSeeds=Array.from({length:sparkleCount},(_,i)=>({
     el:(()=>{
-      const s=document.createElement("div");
-      s.className="spark";
-      core.appendChild(s);
-      return s;
+      const spark=document.createElement("div");
+      spark.className="spark";
+      core.appendChild(spark);
+      return spark;
     })(),
     angle:(i/sparkleCount)*Math.PI*2+Math.random()*.45,
     radius:34+Math.random()*92,
@@ -921,21 +1086,13 @@ async function play(){
   await frameTween(phase5Duration,(p,elapsed)=>{
     const e=easeInOut(p);
     const prog=spinProgress(spinVortexEnd,omega5Start,omega5End,elapsed,phase5Duration);
-    spin=prog.spin;
+    if(frontMode!=="chick")spin=prog.spin;
 
-    // The flash and the squeeze are the same event: light is born from the compression.
     const squeeze=easeInOut(clamp((p-.12)/.62));
     const coreHold=easeInOut(clamp((p-.72)/.18));
     const flashRise=easeOut(clamp((p-.20)/.28));
     const flashHold=1-.02*easeInOut(clamp((p-.92)/.08));
     const peak=flashRise*flashHold;
-
-    // Collapse the whole vortex to an unmistakably tiny luminous nucleus.
-    const radius=lerp(24,.65,squeeze);
-    const ellipse=lerp(10,.34,squeeze);
-    const vertical=lerp(196,1.2,squeeze);
-    const axisAmp=lerp(16,.22,squeeze);
-    const baseY5=lerp(-86,-8,squeeze);
 
     flash.style.opacity=String(peak*.99);
     portalGlow.style.opacity=String(.86+peak*.14);
@@ -943,32 +1100,42 @@ async function play(){
     whiteRoom.style.transform=`scale(${lerp(1.10,1.22,squeeze)})`;
 
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spin;
-      const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      let start;
 
-      const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
-      const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.14;
-      const x=axisX+Math.cos(angle)*radius;
-      const y=baseY5+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      if(frontMode==="chick"){
+        start=pinballPose(i,phase12EndSec+phase4Duration/1000,1);
+      }else{
+        const angle=baseAngles[i]+spin;
+        const depth=(Math.sin(angle)+1)/2;
+        start={
+          x:Math.sin(layer*1.8+spin*.22)*16+Math.sin(spin*.18)*16*.12+Math.cos(angle)*24,
+          y:-86+Math.cos(layer*1.25+spin*.18)*16*.16+Math.sin(angle)*10+layer*196,
+          z:(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8,
+          scale:(.58+depth*.42)*densityScale,
+          rot:(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9,
+          rx:-14+Math.cos(angle+layer*.4)*17,
+          ry:11+Math.sin(angle-layer*.3)*20
+        };
+      }
 
-      const zStart=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
-      const zEnd=(depth-.5)*2.4;
-      const z=lerp(zStart,zEnd,squeeze);
+      const nucleusX=(i-(n-1)/2)*.08;
+      const nucleusY=-8+layer*.25;
+      const nucleusZ=(i%2?-.5:.5)*.8;
+      const nucleusScale=.20*densityScale;
 
-      const scaleStart=(.58+depth*.42)*densityScale;
-      const scaleEnd=(.18+depth*.05)*densityScale;
-      const scale=lerp(scaleStart,scaleEnd,squeeze);
-
-      const rotStart=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
-      const rotEnd=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9;
-      const rot=lerp(rotStart,rotEnd,e);
-      const rx=lerp(-14+Math.cos(angle+layer*.4)*17,-16+Math.cos(angle+layer*.35)*15,e);
-      const ry=lerp(11+Math.sin(angle-layer*.3)*20,12+Math.sin(angle-layer*.25)*18,e);
-
-      setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.72+depth*.28,.96,coreHold));
-      el.style.filter=`brightness(${1+peak*4.2+coreHold*2.1}) blur(${peak*1.6+coreHold*1.8}px)`;
+      setT(
+        el,
+        lerp(start.x,nucleusX,squeeze),
+        lerp(start.y,nucleusY,squeeze),
+        lerp(start.scale,nucleusScale,squeeze),
+        lerp(start.rot,0,squeeze),
+        lerp(start.rx,0,squeeze),
+        lerp(start.ry,0,squeeze),
+        lerp(start.z,nucleusZ,squeeze)
+      );
+      el.style.opacity=String(lerp(.88,.98,coreHold));
+      el.style.filter=`brightness(${1+peak*4.4+coreHold*2.2}) blur(${peak*1.6+coreHold*1.6}px)`;
 
       if(p>.43&&!el.dataset.converted){
         el.textContent=[...out][i]||el.textContent;
@@ -978,15 +1145,19 @@ async function play(){
     });
 
     const sparkBirth=easeOut(clamp((p-.58)/.42));
-    sparkleSeeds.forEach((s,i)=>{
+    sparkleSeeds.forEach(s=>{
       const tt=elapsed/1000;
       const ang=s.angle+tt*s.speed;
       const r=lerp(5,7,sparkBirth)*(1-squeeze*.72);
-      const x=Math.cos(ang)*r;
-      const y=lerp(-10,-7,squeeze)+Math.sin(tt*1.6+s.phase)*2*(1-squeeze);
-      const z=lerp(8,s.z*.08,sparkBirth)*(1-squeeze*.70);
       const pulse=.45+.55*Math.sin(tt*5.2*s.pulse+s.phase)**2;
-      setT(s.el,x,y,s.size*(.45+.55*sparkBirth)*pulse,0,0,0,z);
+      setT(
+        s.el,
+        Math.cos(ang)*r,
+        -8+Math.sin(tt*1.6+s.phase)*2*(1-squeeze),
+        s.size*(.45+.55*sparkBirth)*pulse,
+        0,0,0,
+        lerp(8,s.z*.08,sparkBirth)*(1-squeeze*.70)
+      );
       s.el.style.opacity=String(sparkBirth*(.45+.55*pulse));
       s.el.style.filter=`blur(${(1-pulse)*.6}px)`;
     });
@@ -995,167 +1166,199 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光が明ける瞬間そのものを「誕生の破裂光」にする。
-  //    強い白光の中で花火のようにぱっと散り、その勢いを失いながら、ひらひら自由落下へ連続移行。
-  const phase6Duration=2350;
-  const hiddenPoseMs=95;
-  const birthBurstMs=185;
-  const flashOpenDelayMs=165;
-  const flashOpenMs=620;
+  // 6) 閃光そのものから次の運動を生む。灰・放射線・上空落下・かくれんぼの4系統。
+  const phase6Duration=flashExitMode==="peek"?2700:(flashExitMode==="rain"?2550:2350);
+  const hiddenPoseMs=90;
+  const flashOpenDelayMs=flashExitMode==="rain"||flashExitMode==="peek"?230:135;
+  const flashOpenMs=flashExitMode==="radial"?470:620;
+  const phase7Duration=1850;
 
-  const petalState=(i,timeMs)=>{
+  const ashPose=(i,timeMs)=>{
     const s=seeds[i];
     const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
     const tt=timeMs/1000;
-
-    // The burst landing position IS the new home position.
-    // Nothing here moves the glyph back toward the center.
     const scatterBase=Math.min(246,Math.max(158,innerWidth*.35));
     const anchorAngle=baseAngles[i]+s.phase*.18+s.scatterAngleJitter;
     const anchorR=scatterBase*s.scatterRadiusMul+Math.abs(layer)*20;
-
-    // Slow ash-like fall. Individual speed differences make the cloud feel alive.
-    const fall=(16*s.fallSpeedMul)*tt
-      +24*s.fallSpeedMul*(1-Math.exp(-tt*1.15));
-
-    const anchorX=Math.cos(anchorAngle)*anchorR+layer*12+s.ashDriftX;
-    const anchorY=-30+Math.sin(anchorAngle)*anchorR*.50+layer*22+fall;
-    const anchorZ=Math.sin(anchorAngle*1.31+s.phase)*Math.min(112,anchorR*.46)+s.ashDriftZ;
-
-    const swayX=Math.sin(tt*(.88+s.floatFreqX*.24)+s.phase*1.35)*(29*s.floatAmpX)
-      +Math.sin(tt*.43+s.phase*.62)*11;
-    const swayY=Math.cos(tt*(.78+s.floatFreqY*.20)+s.phase*1.12)*(15*s.floatAmpY)
-      +Math.sin(tt*.37+s.phase)*8;
-    const swayZ=Math.sin(tt*(.96+s.floatFreqZ*.22)+s.phase)*(18*s.floatAmpZ)
-      +Math.cos(tt*.47+s.phase*.74)*9;
-
-    // Rare whimsical glyphs wander against the flow or hover oddly,
-    // but the offset stays bounded so they can still rejoin the finale.
-    const whimX=s.whimsical
-      ? Math.sin(tt*.57+s.whimPhase)*s.whimAmp*s.whimSign
-      : 0;
-    const whimY=s.whimsical
-      ? -Math.sin(Math.min(tt/3.2,1)*Math.PI)*s.whimAmp*.42
-      : 0;
-    const whimZ=s.whimsical
-      ? Math.cos(tt*.49+s.whimPhase)*s.whimAmp*.78
-      : 0;
-
+    const fall=(16*s.fallSpeedMul)*tt+24*s.fallSpeedMul*(1-Math.exp(-tt*1.15));
     return {
-      x:anchorX+swayX+whimX,
-      y:anchorY+swayY+whimY,
-      z:anchorZ+swayZ+whimZ,
-      rot:Math.sin(tt*1.18+s.phase)*6.4+(s.whimsical?Math.sin(tt*.52+s.whimPhase)*4.5:0),
-      rx:-3+Math.sin(tt*1.34+s.phase)*15+(s.whimsical?Math.cos(tt*.61+s.whimPhase)*7:0),
-      ry:Math.cos(tt*1.24+s.phase)*17+(s.whimsical?Math.sin(tt*.55+s.whimPhase)*8:0)
+      x:Math.cos(anchorAngle)*anchorR+layer*12+s.ashDriftX
+        +Math.sin(tt*(.88+s.floatFreqX*.24)+s.phase*1.35)*(29*s.floatAmpX)
+        +Math.sin(tt*.43+s.phase*.62)*11,
+      y:-30+Math.sin(anchorAngle)*anchorR*.50+layer*22+fall
+        +Math.cos(tt*(.78+s.floatFreqY*.20)+s.phase*1.12)*(15*s.floatAmpY)
+        +Math.sin(tt*.37+s.phase)*8,
+      z:Math.sin(anchorAngle*1.31+s.phase)*Math.min(112,anchorR*.46)+s.ashDriftZ
+        +Math.sin(tt*(.96+s.floatFreqZ*.22)+s.phase)*(18*s.floatAmpZ)
+        +Math.cos(tt*.47+s.phase*.74)*9,
+      rot:Math.sin(tt*1.18+s.phase)*6.4,
+      rx:-3+Math.sin(tt*1.34+s.phase)*15,
+      ry:Math.cos(tt*1.24+s.phase)*17,
+      opacity:.92
     };
   };
 
-  const sparkPetalState=(s,timeMs)=>{
-    const tt=timeMs/1000;
-    const fall=14*tt+20*(1-Math.exp(-tt*1.12));
-    const ang=s.angle+Math.sin(tt*.23+s.phase)*.18;
-    const spreadR=Math.min(285,Math.max(184,innerWidth*.41))*(.78+s.radius/260);
+  const radialPose=(i,timeMs)=>{
+    const s=seeds[i];
+    const tt=Math.max(0,timeMs)/1000;
+    const angle=baseAngles[i]+s.scatterAngleJitter+s.phase*.08;
+    const maxR=Math.min(310,Math.max(190,innerWidth*.41))*s.scatterRadiusMul;
+    const shot=maxR*(1-Math.exp(-tt*5.8));
+    const fall=12*s.fallSpeedMul*tt;
     return {
-      x:Math.cos(ang)*spreadR+Math.sin(tt*.91+s.phase)*22,
-      y:-18+Math.sin(ang)*spreadR*.58+fall+Math.sin(tt*1.03+s.phase)*12,
-      z:Math.sin(ang*1.47+s.phase)*Math.min(138,spreadR*.50)+Math.cos(tt*.83+s.phase)*22,
-      pulse:.45+.55*Math.sin(tt*5.0*s.pulse+s.phase)**2
+      x:Math.cos(angle)*shot+Math.sin(tt*.82+s.phase)*18+s.ashDriftX,
+      y:-8+Math.sin(angle)*shot*.72+fall+Math.cos(tt*.74+s.phase)*12,
+      z:Math.sin(angle*1.43+s.phase)*shot*.35+Math.sin(tt*.91+s.phase)*18,
+      rot:Math.sin(tt*1.05+s.phase)*7,
+      rx:Math.sin(tt*1.22+s.phase)*15,
+      ry:Math.cos(tt*1.16+s.phase)*18,
+      opacity:.94
     };
+  };
+
+  const rainPose=(i,timeMs)=>{
+    const s=seeds[i];
+    const delay=130+(i%5)*115+(s.phase/(Math.PI*2))*170;
+    const local=Math.max(0,timeMs-delay);
+    const tt=local/1000;
+    const appear=easeOut(clamp(local/260));
+    const xBase=(i/(Math.max(1,n-1))-.5)*Math.min(innerWidth*.78,620)
+      +s.ashDriftX*2.2;
+    const fall=Math.min(innerHeight*.88,520)*(1-Math.exp(-tt*.72));
+    return {
+      x:xBase+Math.sin(tt*1.18+s.phase)*26,
+      y:-Math.min(innerHeight*.55,360)+fall,
+      z:s.ashDriftZ*2+Math.sin(tt*.86+s.phase)*34,
+      rot:Math.sin(tt*1.6+s.phase)*10,
+      rx:Math.sin(tt*1.34+s.phase)*22,
+      ry:Math.cos(tt*1.22+s.phase)*20,
+      opacity:appear*.94
+    };
+  };
+
+  const peekPose=(i,timeMs)=>{
+    const s=seeds[i];
+    const delay=120+(i%6)*135+(s.phase/(Math.PI*2))*160;
+    const local=Math.max(0,timeMs-delay);
+    const tt=local/1000;
+    const appear=easeOut(clamp(local/230));
+    const enter=easeInOut(clamp(local/720));
+    const side=i%4;
+    const edgeX=side===0?-Math.min(innerWidth*.50,420):side===1?Math.min(innerWidth*.50,420):(i/(Math.max(1,n-1))-.5)*innerWidth*.70;
+    const edgeY=side===2?-Math.min(innerHeight*.42,280):side===3?Math.min(innerHeight*.42,280):(i%5-2)*46;
+    const targetX=(i-(n-1)/2)*Math.min(46,innerWidth*.055)+Math.sin(s.phase)*18;
+    const targetY=-8+Math.cos(s.phase)*42;
+    const peekBack=Math.sin(Math.min(1,tt*1.8)*Math.PI)*10;
+    return {
+      x:lerp(edgeX,targetX,enter)+(side===0?-peekBack:side===1?peekBack:0),
+      y:lerp(edgeY,targetY,enter)+(side===2?-peekBack:side===3?peekBack:0),
+      z:lerp(-36,Math.sin(s.phase)*42,enter),
+      rot:Math.sin(tt*2.1+s.phase)*5,
+      rx:Math.sin(tt*1.5+s.phase)*9,
+      ry:Math.cos(tt*1.4+s.phase)*11,
+      opacity:appear*.96
+    };
+  };
+
+  const postFlashPose=(i,timeMs)=>{
+    if(flashExitMode==="radial")return radialPose(i,timeMs);
+    if(flashExitMode==="rain")return rainPose(i,timeMs);
+    if(flashExitMode==="peek")return peekPose(i,timeMs);
+    return ashPose(i,timeMs);
+  };
+
+  const postFlashSparkPose=(s,timeMs)=>{
+    const tt=Math.max(0,timeMs)/1000;
+    const pulse=.45+.55*Math.sin(tt*5.0*s.pulse+s.phase)**2;
+    const r=Math.min(300,Math.max(190,innerWidth*.40))*(.74+s.radius/280);
+    let x=Math.cos(s.angle)*r+Math.sin(tt*.91+s.phase)*22;
+    let y=-18+Math.sin(s.angle)*r*.56+14*tt+Math.sin(tt*1.03+s.phase)*12;
+    let z=Math.sin(s.angle*1.47+s.phase)*Math.min(138,r*.50)+Math.cos(tt*.83+s.phase)*22;
+    if(flashExitMode==="radial"){
+      const shot=r*(1-Math.exp(-tt*5.5));
+      x=Math.cos(s.angle)*shot;
+      y=-8+Math.sin(s.angle)*shot*.70+10*tt;
+      z=Math.sin(s.angle*1.3+s.phase)*shot*.33;
+    }
+    return {x,y,z,pulse};
   };
 
   await frameTween(phase6Duration,(p,elapsed)=>{
     const visibleTime=Math.max(0,elapsed-hiddenPoseMs);
-    const burst=easeOut(clamp(visibleTime/birthBurstMs));
-    // Keep the first expansion hidden inside the glare, then reveal the overshoot as the light opens.
     const flashOpen=easeInOut(clamp((visibleTime-flashOpenDelayMs)/flashOpenMs));
-    const soften=easeInOut(clamp((visibleTime-120)/1850));
-
-    const blastGlow=1-easeInOut(clamp((visibleTime-80)/520));
-    flash.style.opacity=String(elapsed<hiddenPoseMs ? .995 : Math.max((1-flashOpen)*.995,blastGlow*.72));
+    const soften=easeInOut(clamp((visibleTime-100)/1850));
+    const blastGlow=1-easeInOut(clamp((visibleTime-70)/520));
+    flash.style.opacity=String(
+      elapsed<hiddenPoseMs
+        ?.998
+        :Math.max((1-flashOpen)*.998,blastGlow*.78)
+    );
     whiteRoom.style.opacity=String(lerp(1,.85,soften));
     portalGlow.style.opacity=String(lerp(1,.16,soften));
-    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.12,1.48,easeOut(clamp(visibleTime/260)))})`;
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.10,1.52,easeOut(clamp(visibleTime/260)))})`;
     rushLines.style.opacity=String(lerp(.98,.10,soften));
 
     g.forEach((el,i)=>{
-      const s=seeds[i];
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const startX=(i-(n-1)/2)*.08;
+      const startY=-8+layer*.25;
+      const startZ=(i%2?-.5:.5)*.8;
+      const startScale=.20*densityScale;
+      const pose=postFlashPose(i,visibleTime);
 
-      // Exact phase-5 endpoint, hidden inside the birth flash.
-      const endAngle=baseAngles[i]+spinFlashEnd;
-      const endDepth=(Math.sin(endAngle)+1)/2;
-      const endAxisX=Math.sin(layer*1.8+spinFlashEnd*.22)*.22;
-      const endAxisY=Math.cos(layer*1.25+spinFlashEnd*.18)*.22*.14;
-      const startX=endAxisX+Math.cos(endAngle)*.65;
-      const startY=-8+endAxisY+Math.sin(endAngle)*.34+layer*1.2;
-      const startZ=(endDepth-.5)*2.4;
-      const startScale=(.18+endDepth*.05)*densityScale;
-
-      const petal=petalState(i,visibleTime);
-
-      // Tiny nucleus -> dispersed ash trajectory. No overshoot-and-return.
-      const x=lerp(startX,petal.x,burst);
-      const y=lerp(startY,petal.y,burst);
-      const z=lerp(startZ,petal.z,burst);
-
-      const targetDepth=.5+.5*Math.sin(s.phase+visibleTime*.0009);
-      const targetScale=(.55+targetDepth*.15)*densityScale;
-      const scale=lerp(startScale,targetScale*1.14,burst);
+      // Ash/radial visibly burst out of the light. Rain/peek relocate while the glare still hides them.
+      const burst=flashExitMode==="ash"
+        ?easeOut(clamp(visibleTime/190))
+        :flashExitMode==="radial"
+          ?easeOut(clamp(visibleTime/150))
+          :easeOut(clamp((visibleTime-80)/210));
+      const hiddenTeleport=flashExitMode==="rain"||flashExitMode==="peek";
+      const mix=hiddenTeleport?easeOut(clamp((visibleTime-40)/150)):burst;
+      const depth=.5+.5*Math.sin(seeds[i].phase+visibleTime*.0009);
+      const targetScale=(.55+depth*.15)*densityScale;
 
       setT(
-        el,x,y,scale,
-        petal.rot*burst,
-        petal.rx*burst,
-        petal.ry*burst,
-        z
+        el,
+        lerp(startX,pose.x,mix),
+        lerp(startY,pose.y,mix),
+        lerp(startScale,targetScale,mix),
+        pose.rot*mix,
+        pose.rx*mix,
+        pose.ry*mix,
+        lerp(startZ,pose.z,mix)
       );
-      el.style.opacity=String(lerp(.78,.92,soften));
+      el.style.opacity=String(clamp(pose.opacity*mix));
       el.style.filter="none";
     });
 
-    sparkleSeeds.forEach((s,i)=>{
-      const petal=sparkPetalState(s,visibleTime);
-      const startR=3.5;
-      const startX=Math.cos(s.angle)*startR;
-      const startY=-8+Math.sin(s.angle)*startR*.25;
-      const startZ=2;
-
-      setT(
-        s.el,
-        lerp(startX,petal.x,burst),
-        lerp(startY,petal.y,burst),
-        s.size*(.84+.72*petal.pulse),
-        0,0,0,
-        lerp(startZ,petal.z,burst)
-      );
-      s.el.style.opacity=String(burst*(.56+.44*petal.pulse));
-      s.el.style.filter=`blur(${(1-petal.pulse)*.6}px)`;
+    sparkleSeeds.forEach(s=>{
+      const pose=postFlashSparkPose(s,visibleTime);
+      const mix=easeOut(clamp(visibleTime/180));
+      setT(s.el,pose.x*mix,lerp(-8,pose.y,mix),s.size*(.78+.70*pose.pulse),0,0,0,pose.z*mix);
+      s.el.style.opacity=String(mix*(.50+.46*pose.pulse));
+      s.el.style.filter=`blur(${(1-pose.pulse)*.6}px)`;
     });
   },token);
   if(token!==playToken)return;
   flash.style.opacity="0";
 
-  // 7) ひらひら自由落下の余韻。そのまま無重力寄りの漂いへ移り、まだ集団運動には戻さない。
-  const phase7Duration=1900;
-
+  // 7) 閃光後の固有運動をそのまま継続。ここではまだ無理に中心へ集めない。
   await frameTween(phase7Duration,(p,elapsed)=>{
-    const petalTime=phase6Duration+elapsed;
-
+    const postTime=phase6Duration+elapsed;
     g.forEach((el,i)=>{
-      const s=seeds[i];
-      const pos=petalState(i,petalTime);
-      const depth=.5+.5*Math.sin(s.phase+petalTime*.0009);
+      const pose=postFlashPose(i,postTime);
+      const depth=.5+.5*Math.sin(seeds[i].phase+postTime*.0009);
       const scale=(.55+depth*.15)*densityScale;
-      setT(el,pos.x,pos.y,scale,pos.rot,pos.rx,pos.ry,pos.z);
-      el.style.opacity=".92";
+      setT(el,pose.x,pose.y,scale,pose.rot,pose.rx,pose.ry,pose.z);
+      el.style.opacity=String(clamp(pose.opacity));
+      el.style.filter="none";
     });
 
     sparkleSeeds.forEach(s=>{
-      const pos=sparkPetalState(s,petalTime);
-      setT(s.el,pos.x,pos.y,s.size*(.72+.58*pos.pulse),0,0,0,pos.z);
-      s.el.style.opacity=String(.48+.48*pos.pulse);
-      s.el.style.filter=`blur(${(1-pos.pulse)*.7}px)`;
+      const pose=postFlashSparkPose(s,postTime);
+      setT(s.el,pose.x,pose.y,s.size*(.70+.58*pose.pulse),0,0,0,pose.z);
+      s.el.style.opacity=String(.44+.48*pose.pulse);
+      s.el.style.filter=`blur(${(1-pose.pulse)*.7}px)`;
     });
 
     whiteRoom.style.opacity=String(lerp(.85,.81,easeInOut(p)));
@@ -1251,7 +1454,7 @@ async function play(){
 
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const petal=petalState(i,time);
+      const petal=postFlashPose(i,time);
       let gatherStart=.02+s.gatherLag;
       if(i===rogueIndex&&rogueType==="early")gatherStart=Math.max(0,gatherStart-.20);
       const charBlend=easeInOut(clamp((p-gatherStart)/Math.max(.001,1-gatherStart)));
@@ -1289,7 +1492,7 @@ async function play(){
     });
 
     sparkleSeeds.forEach((s,i)=>{
-      const petal=sparkPetalState(s,time);
+      const petal=postFlashSparkPose(s,time);
       const fakeIndex=Math.min(n-1,Math.floor((i/sparkleCount)*Math.max(1,n)));
       const pose=ensemblePose(fakeIndex,groupTheta,tSec);
       const spread=18+(i%5)*4;
@@ -1499,6 +1702,8 @@ async function play(){
   if(token!==playToken)return;
 
   const stamps=[...board.children];
+  const shakeStrength=n<=3?1:(n<=8?.72:(n<=14?.46:.25));
+  const stampBeat=n<=3?520:(n<=8?450:(n<=14?340:250));
   for(let i=0;i<stamps.length;i++){
     if(token!==playToken)return;
     const stamp=stamps[i];
@@ -1523,27 +1728,24 @@ async function play(){
 
     stamp.classList.add("hit");
 
-    core.classList.remove("shake");
-    void core.offsetWidth;
-    core.classList.add("shake");
-
+    const sx=shakeStrength;
     stage.animate([
       {transform:"translate3d(0,0,0) scale(1)"},
-      {offset:.10,transform:"translate3d(0,24px,0) scale(.974)"},
-      {offset:.24,transform:"translate3d(-4px,-11px,0) scale(1.014)"},
-      {offset:.42,transform:"translate3d(3px,8px,0) scale(.989)"},
-      {offset:.62,transform:"translate3d(-2px,-4px,0) scale(1.006)"},
-      {offset:.80,transform:"translate3d(1px,2px,0) scale(.998)"},
+      {offset:.12,transform:`translate3d(0,${(20*sx).toFixed(2)}px,0) scale(${(1-.020*sx).toFixed(4)})`},
+      {offset:.30,transform:`translate3d(${(-3*sx).toFixed(2)}px,${(-8*sx).toFixed(2)}px,0) scale(${(1+.012*sx).toFixed(4)})`},
+      {offset:.52,transform:`translate3d(${(2*sx).toFixed(2)}px,${(4*sx).toFixed(2)}px,0) scale(${(1-.007*sx).toFixed(4)})`},
+      {offset:.74,transform:`translate3d(${(-1*sx).toFixed(2)}px,${(-2*sx).toFixed(2)}px,0) scale(${(1+.003*sx).toFixed(4)})`},
       {transform:"translate3d(0,0,0) scale(1)"}
-    ],{duration:660,easing:"cubic-bezier(.06,.70,.08,1)"});
+    ],{duration:500,easing:"cubic-bezier(.06,.70,.08,1)"});
 
     flash.animate(
       [{opacity:0},{opacity:.42,offset:.10},{opacity:.14,offset:.34},{opacity:0}],
       {duration:460,fill:"forwards",easing:"ease-out"}
     );
 
-    if(navigator.vibrate)navigator.vibrate([65,28,110]);
-    const stampBeat=n<=8?480:(n<=14?390:310);
+    if(navigator.vibrate){
+      navigator.vibrate(n<=3?[65,28,110]:(n<=8?[48,22,78]:(n<=14?[34,16,52]:[24])));
+    }
     await sleep(stampBeat);
   }
 
@@ -1564,8 +1766,15 @@ async function play(){
   input.style.caretColor="";
   clearStage(false);
 }
-btn.addEventListener("click",play);
-input.addEventListener("keydown",e=>{if(e.key==="Enter")play()});
+btn.addEventListener("click",()=>{nextPreset=null;play()});
+debugButtons.forEach(debugButton=>{
+  debugButton.addEventListener("click",()=>{
+    if(running)return;
+    nextPreset=debugButton.dataset.preset||null;
+    play();
+  });
+});
+input.addEventListener("keydown",e=>{if(e.key==="Enter"){nextPreset=null;play();}});
 skip.addEventListener("click",()=>{
   const src=input.value.trim()||"あさきゆめみし";
   const out=[...src].map(c=>firstVariant[c]||c).join("");
