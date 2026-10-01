@@ -159,3 +159,45 @@ test('自分のセッションにイベントが無ければ0ポイント', () =
   assert.equal(summarizeSession(input({ allEvents: [other] })).points, 0);
 });
 
+
+/*
+ * 2026-10-01・依頼者。**習熟度の変化に補足（当日上限・要作者）を付ける。**
+ * 自由入力の正答は +9・天井 90。10 問で本文は 90 に届き、その日はもう上がらない。
+ */
+const textRun = (sessionId: string, localDate: string, count: number, poemId = 'p010') => Array.from({ length: count }, (_, index) => event({
+  eventId: `${sessionId}-${poemId}-${index}`, questionId: `${sessionId}-q${index}`, sessionId, poemId, itemKey: `${poemId}:text`, localDate,
+}));
+
+test('補足: この回で本文が 90 に届いた歌に当日上限を付ける', () => {
+  const result = summarizeSession(input({ allEvents: textRun('session-a', '2026-09-02', 10) }));
+  assert.deepEqual(result.changes.find((change) => change.poemId === 'p010')?.notes, ['daily-cap']);
+});
+
+test('補足: 当日上限で止まった歌は、±0 でも変化の欄に出す', () => {
+  // 前の回で 90 に届き、同じ日にもう一回解いた。習熟度は変わらない。
+  const result = summarizeSession(input({ allEvents: [...textRun('earlier', '2026-09-02', 10), ...textRun('session-a', '2026-09-02', 2)] }));
+  const change = result.changes.find((item) => item.poemId === 'p010');
+  assert.ok(change, '止まった歌が欄から消えている');
+  assert.equal(change.before, change.after);
+  assert.deepEqual(change.notes, ['daily-cap']);
+});
+
+test('補足: 90 に届いたのが前の日なら、当日上限は付けない', () => {
+  const result = summarizeSession(input({ allEvents: [...textRun('earlier', '2026-09-01', 10), ...textRun('session-a', '2026-09-02', 1)] }));
+  const change = result.changes.find((item) => item.poemId === 'p010');
+  assert.ok(change && change.after > change.before, '別の日なら 90 の先へ進む');
+  assert.equal(change.notes, undefined);
+});
+
+test('補足: 作者が未確認で本文が満点（80%）の歌に要作者を付ける', () => {
+  // 本文を 100 まで上げる：初日に 90、別の日に +2 を 5 回。
+  const events = [...textRun('day1', '2026-09-01', 10), ...textRun('session-a', '2026-09-02', 5)];
+  const change = summarizeSession(input({ allEvents: events })).changes.find((item) => item.poemId === 'p010');
+  assert.equal(change?.after, 80);
+  assert.deepEqual(change?.notes, ['author']);
+});
+
+test('補足: この回に解いていない歌には付けない', () => {
+  const result = summarizeSession(input({ allEvents: textRun('earlier', '2026-09-02', 10) }));
+  assert.deepEqual(result.changes, []);
+});

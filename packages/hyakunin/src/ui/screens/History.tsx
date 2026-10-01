@@ -5,7 +5,8 @@ import { RecordTransfer, canTransferRecords } from '../components/RecordTransfer
 import { CatMascot } from '../components/CatMascot.tsx';
 import type { ApplicationPort } from '../adapters/indexeddb-port.ts';
 import { playHistoryMotion } from '../history-motion.ts';
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { measurePlaces, slideRowsIn, slideRowsOut, slideToNewPlaces } from '../list-motion.ts';
+import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
 
 /** タブの並び（依頼者・2026-09-16）。**一覧が既定である。** */
 const TABS = ['一覧', '要確認', 'データ管理'] as const;
@@ -32,14 +33,42 @@ const REVIEW_CRITERION = '最後に解いたとき、まちがえたか「わか
 function Group({ group, onOpen }: { group: HistoryGroup; onOpen?: (row: PoemRowData) => void }) {
   const [open, setOpen] = useState(false);
   const label = `${group.from}〜${group.to}番`;
+  const item = useRef<HTMLLIElement>(null);
+  const list = useRef<HTMLUListElement>(null);
+  // 段が変わる前の箱の位置。開け閉めした直後の描画で、そこから新しい位置へ滑らせる。
+  const places = useRef<ReturnType<typeof measurePlaces>>(null);
+  const closing = useRef(false);
+  useLayoutEffect(() => {
+    if (!places.current) return;
+    slideToNewPlaces(places.current);
+    places.current = null;
+    if (open) slideRowsIn(list.current);
+  }, [open]);
+  /*
+   * **開く時は行を上から順に滑り込ませ、しまう時は下から順に抜いてから閉じる**（依頼者・2026-10-01）。
+   * 段が変わる（開いたまとまりが行いっぱいに広がる）ので、ほかの箱も新しい位置へ滑らせる。
+   * 動かせない環境では、その場で開け閉めする。
+   */
+  const toggle = () => {
+    if (closing.current) return;
+    if (!open) { places.current = measurePlaces(item.current?.parentElement); setOpen(true); return; }
+    const leaving = slideRowsOut(list.current);
+    if (!leaving) { setOpen(false); return; }
+    closing.current = true;
+    void leaving.then(() => {
+      closing.current = false;
+      places.current = measurePlaces(item.current?.parentElement);
+      setOpen(false);
+    });
+  };
   // 開いた時の動き（`playHistoryMotion`）で、箱が滑り込み、輪が時計回りに伸びる。
   return (
-    <li class="history-group-item" data-history-glide>
-      <button class="history-group" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+    <li class="history-group-item" data-history-glide ref={item}>
+      <button class="history-group" type="button" aria-expanded={open} onClick={toggle}>
         <span class="history-group__label">{label}</span>
         <RingMeter percent={group.percent} color={group.color} label={label} untouched={group.entries.every((entry) => entry.untouched)} />
       </button>
-      {open && <ul class="history-list"><PoemRowHead />{group.entries.map((entry) => <PoemRow key={entry.poemId} row={entry} onOpen={onOpen} />)}</ul>}
+      {open && <ul class="history-list" ref={list}><PoemRowHead />{group.entries.map((entry) => <PoemRow key={entry.poemId} row={entry} onOpen={onOpen} />)}</ul>}
     </li>
   );
 }

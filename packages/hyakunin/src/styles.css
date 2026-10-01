@@ -482,6 +482,58 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .result-breakdown dd { margin: 0; font-variant-numeric: tabular-nums; }
 .result-section table { width: 100%; border-collapse: collapse; margin-block-start: var(--space-md); }
 .result-section th, .result-section td { border-bottom: var(--rule-thin) solid var(--color-rule); padding: var(--space-xs); text-align: start; }
+/*
+ * 習熟度の変化（依頼者・2026-10-01、比較モックの案1）。帯は一覧の帯と同じ溝と 5 色。
+ * 前の分は淡く、増えた分は濃く、減った分は赤の斜線。右に増減と「前 → 後」を必ず添える。
+ */
+.result-changes { display: grid; margin: var(--space-md) 0 0; padding: 0; list-style: none; }
+.result-change { position: relative; display: grid; grid-template-columns: 2.2em minmax(0, 1fr) 7.5em; grid-template-areas: "no bar nums" ". . badges" ". note note"; align-items: center; gap: 0 var(--space-sm); border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-xs); }
+.result-change__no { grid-area: no; }
+.result-change__bar { grid-area: bar; }
+.result-change__nums { grid-area: nums; }
+.result-change__no { color: var(--color-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+.result-change__bar { position: relative; display: block; box-sizing: border-box; height: 0.75rem; overflow: hidden; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-surface-soft); }
+.result-change__bar > span { position: absolute; inset-block: 0; transform-origin: left center; }
+.result-change__before { left: 0; background: currentColor; opacity: 0.38; }
+.result-change__gain { background: currentColor; }
+/* 減った分は、小さい幅でも見えるよう斜線を濃くし、縁取りも付ける（デザイン監査・2026-10-01）。 */
+.result-change__loss { background: repeating-linear-gradient(135deg, var(--color-danger) 0 2px, transparent 2px 4px); box-shadow: inset 0 0 0 1px var(--color-danger); opacity: 0.85; }
+.result-change__nums { display: grid; justify-items: end; line-height: 1.3; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.result-change__nums small { color: var(--color-ink-muted); font-size: var(--text-sm); }
+.result-change__delta { color: var(--color-ink); font-size: var(--text-sm); }
+.result-change__delta--down { color: var(--color-danger); }
+/*
+ * 補足のバッジ（依頼者・2026-10-01）。押すと行の下に説明が開く。色は既存の「次にやること」の強調から借りる——
+ * 当日上限は習熟度の青（`.mastery-next-step` と同じ組み）、要作者は記録一覧の作者の強調（同期の緑）。
+ */
+.result-change__badges { grid-area: badges; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-3xs) var(--space-2xs); margin-block-start: var(--space-3xs); }
+.result-note-badge { min-width: 0; min-height: 0; border: var(--rule-thin) solid; border-radius: 999px; padding: 0.1em 0.6em; font-size: 0.75rem; font-weight: 700; line-height: 1.5; white-space: nowrap; }
+.result-note-badge--daily-cap { border-color: var(--mastery-blue); background: oklch(91% 0.055 250); color: oklch(38% 0.11 250); }
+.result-note-badge--author { border-color: var(--sync-accent); background: var(--sync-soft); color: var(--sync-accent-hover); }
+/* 押せる範囲は見た目より広く取る（タップ領域 44px）。並ぶバッジ同士は重ならない程度に。 */
+.result-note-badge { position: relative; }
+.result-note-badge::before { content: ""; position: absolute; inset: -0.75rem -0.15rem; }
+@media (hover: hover) and (pointer: fine) { .result-note-badge:not(:disabled):hover { background: var(--color-surface); } }
+.result-note-badge[aria-expanded="true"] { box-shadow: 0 0 0 2px var(--color-focus); }
+.result-change__note { grid-area: note; margin: var(--space-xs) 0 0; border-radius: var(--radius-sm); padding: var(--space-2xs) var(--space-xs); background: var(--color-surface-soft); color: var(--color-ink); font-size: var(--text-sm); }
+.result-change__note[hidden] { display: none; }
+/*
+ * 増えた分・減った分を光らせる（依頼者・2026-10-01、比較モックの G1）。帯が伸び終わった後に、
+ * 白い光が 2 回なぞり、増えた分は一瞬明るくなる。光は紙の色（`--color-surface`）で、新しい色を作らない。
+ */
+.result-change__gain, .result-change__loss { overflow: hidden; }
+.result-changes.is-lit .result-change__gain::after, .result-changes.is-lit .result-change__loss::after {
+  content: ""; position: absolute; inset: 0; transform: translateX(-120%);
+  background: linear-gradient(100deg, transparent 20%, color-mix(in oklab, var(--color-surface) 85%, transparent) 50%, transparent 80%);
+  animation: result-sheen 1.1s ease-in-out calc(0.9s + var(--i, 0) * 35ms) 2 both;
+}
+.result-changes.is-lit .result-change__gain { animation: result-glow 2.6s ease-in-out calc(0.8s + var(--i, 0) * 35ms) both; }
+@keyframes result-sheen { to { transform: translateX(120%); } }
+@keyframes result-glow { 0%, 100% { filter: none; } 35% { filter: brightness(1.18) saturate(1.25); } }
+@media (prefers-reduced-motion: reduce) {
+  .result-changes.is-lit .result-change__gain, .result-changes.is-lit .result-change__gain::after, .result-changes.is-lit .result-change__loss::after { animation: none; }
+  .result-changes.is-lit .result-change__gain::after, .result-changes.is-lit .result-change__loss::after { content: none; }
+}
 .result-poems { display: grid; gap: var(--space-sm); margin: var(--space-md) 0 0; padding: 0; list-style: none; }
 .result-poem { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); border-inline-start: 4px solid var(--color-rule); padding-inline-start: var(--space-sm); }
 .result-poem--gray { border-color: var(--mastery-gray); }
@@ -522,7 +574,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .result-save-failure { box-sizing: border-box; width: min(100%, 62rem); margin: var(--space-md) auto 0; border: var(--rule-thin) solid var(--color-coral); padding: var(--space-sm) var(--space-md); }
 .mastery-meter { display: inline-flex; align-items: center; gap: var(--space-xs); }
 .mastery-meter [role="meter"] { box-sizing: border-box; width: 6rem; height: 0.75rem; overflow: hidden; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-surface-soft); }
-.mastery-meter__fill { display: block; height: 100%; background: currentColor; }
+.mastery-meter__fill { display: block; height: 100%; background: currentColor; transform-origin: left center; }
 .mastery-meter--gray { color: var(--mastery-gray); }
 .mastery-meter--red { color: var(--mastery-red); }
 .mastery-meter--yellow { color: var(--mastery-yellow); }
@@ -592,7 +644,11 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 
 /*
  * 全体の習熟度（依頼者・2026-10-01）。全首の平均を 1 本のバーと％で出す。
- * **帯（1 首）・輪（10 首）と形を分ける**：全幅・太め・丸い端。4 分の 1 ごとの目盛りは塗りの下に敷く。
+ * **帯（1 首）・輪（10 首）と形を分ける**：全幅・太め・丸い端。
+ *
+ * **4 分の 1 ごとの区切りは、塗りの上でも消さない**（依頼者・2026-10-01「線が一つ足りない」）。
+ * 目盛りを塗りの下に敷いていたため、25% を超えると最初の線が塗りに隠れ、3 区画に見えた。
+ * 溝ごと 2px の隙間で切り、どの値でも 4 区画に見せる。隙間は `mask` なので新しい色を足さない。
  */
 .history-overall { display: grid; gap: var(--space-2xs); margin-block: var(--space-xs) var(--space-sm); }
 .history-overall__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-xs); color: var(--color-ink); }
@@ -601,10 +657,10 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .history-overall__value small { margin-inline-start: 1px; color: var(--color-ink-muted); font-size: var(--text-sm); }
 .history-overall__track {
   display: block; box-sizing: border-box; height: 0.875rem; overflow: hidden;
-  border: var(--rule-thin) solid var(--color-rule); border-radius: 999px;
-  background:
-    linear-gradient(90deg, transparent calc(25% - 0.5px), var(--color-rule) 0 calc(25% + 0.5px), transparent 0 calc(50% - 0.5px), var(--color-rule) 0 calc(50% + 0.5px), transparent 0 calc(75% - 0.5px), var(--color-rule) 0 calc(75% + 0.5px), transparent 0),
-    var(--color-surface-soft);
+  border: var(--rule-thin) solid var(--color-rule); border-radius: 999px; background: var(--color-surface-soft);
+  --history-ticks: linear-gradient(90deg, black calc(25% - 1px), transparent 0 calc(25% + 1px), black 0 calc(50% - 1px), transparent 0 calc(50% + 1px), black 0 calc(75% - 1px), transparent 0 calc(75% + 1px), black 0);
+  -webkit-mask-image: var(--history-ticks);
+  mask-image: var(--history-ticks);
 }
 .history-overall__fill { display: block; width: calc(var(--p, 0) * 1%); height: 100%; border-radius: inherit; background: currentColor; transform-origin: left center; }
 .history-overall--gray { color: var(--mastery-gray); }

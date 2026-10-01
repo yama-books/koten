@@ -1,8 +1,11 @@
-import type { SessionResult } from '../../domain/result.ts';
+import type { MasteryChange, MasteryNote, SessionResult } from '../../domain/result.ts';
+import { useState } from 'preact/hooks';
 import type { Poem } from '../../data/schema.ts';
 import { PoemRows } from '../components/PoemRows.tsx';
 import { PerfectMark } from '../components/FeedbackMark.tsx';
 import { CatMascot } from '../components/CatMascot.tsx';
+import { slideRowsIn } from '../list-motion.ts';
+import { masteryDisplay } from '@koten/shared/domain/mastery/color';
 
 type Props = {
   result: SessionResult;
@@ -55,12 +58,13 @@ export function Result({ result, poems = [], onRetryWeak, onRetrySame, onHome }:
       <div class="practice-choice"><button class="primary" type="button" onClick={onRetrySame}>同じ範囲をもう一度</button><p>同じ範囲でもう一度出題します。</p></div>
     </section>
     {result.recommendation && <section class="result-section result-recommend" aria-labelledby="recommend-heading"><h2 id="recommend-heading">次に確認する</h2><p>{Number(result.recommendation.poemId.slice(1))}番{recommendedFirstKu && <span class="result-recommend__ku">{recommendedFirstKu}…</span>}</p><p>{result.recommendation.reason}</p></section>}
-    <details class="result-details">
+    {/* 詳細を開いた時、変化の行と歌の行を上から順に出し、帯を伸ばす（依頼者・2026-10-01）。 */}
+    <details class="result-details" onToggle={(event) => { const details = event.currentTarget as HTMLDetailsElement; if (!details.open) return; details.querySelectorAll('.result-changes, .history-list').forEach(slideRowsIn); lightChanges(details.querySelector('.result-changes')); }}>
       <summary>学習記録の詳細</summary>
       <p class="result-details__note">習熟度は、これまでの学習記録をもとにした目安です。今回の正答率ではありません。</p>
       <section class="result-section" aria-labelledby="changes-heading">
         <h2 id="changes-heading">習熟度の変化</h2>
-        {result.changes.length === 0 ? <p>変化はありません</p> : <table><thead><tr><th scope="col">歌</th><th scope="col">前</th><th scope="col">後</th></tr></thead><tbody>{result.changes.map((change) => <tr key={change.poemId}><th scope="row">{Number(change.poemId.slice(1))}</th><td>{formatPercent(change.before)}</td><td>{formatPercent(change.after)}</td></tr>)}</tbody></table>}
+        {result.changes.length === 0 ? <p>変化はありません</p> : <ul class="result-changes">{result.changes.map((change, index) => <ChangeRow key={change.poemId} change={change} index={index} />)}</ul>}
       </section>
       <section class="result-section" aria-labelledby="poems-heading">
         <h2 id="poems-heading">歌ごとの状態</h2>
@@ -74,4 +78,68 @@ export function Result({ result, poems = [], onRetryWeak, onRetrySame, onHome }:
 
 function formatPercent(value: number): string {
   return `${Number(value.toFixed(1))}%`;
+}
+
+/**
+ * 習熟度の変化を帯で見せる（依頼者・2026-10-01、比較モックの案1）。
+ *
+ * 帯は一覧の帯と同じ形・同じ 5 色（**後の値の色**）。前の分を淡く、増えた分を濃く塗る。
+ * 減った分は赤の斜線で、失った幅として見せる。**数値も必ず添える**——▲＋9 と「12% → 21%」。
+ * 色だけでは、色の見え方が違う人に増減が伝わらない。
+ */
+/**
+ * 補足のバッジ（依頼者・2026-10-01）。**標題と説明は依頼者の文言そのまま。**
+ * バッジは押せる。押すとその行の下に説明が開く（比較モックの案A）。
+ */
+const NOTES: Readonly<Record<MasteryNote, Readonly<{ badge: string; text: string }>>> = {
+  'daily-cap': { badge: '当日上限', text: '本日の上限に達しました。この先は別の日に取り組むことで上げられます。' },
+  author: { badge: '要作者', text: '作者を答える問題にも取り組みましょう。' },
+};
+
+/**
+ * 増えた分・減った分を光らせる（依頼者・2026-10-01、比較モックの G1）。帯が伸び終わった後に一度だけ。
+ * 印を付け直すので、詳細を開くたびに一度光る。動きを減らす設定では CSS が止める。
+ */
+function lightChanges(list: Element | null): void {
+  if (!list) return;
+  list.classList.remove('is-lit');
+  void (list as HTMLElement).offsetWidth;
+  list.classList.add('is-lit');
+}
+
+function ChangeRow({ change, index }: { change: MasteryChange; index: number }) {
+  const [openNote, setOpenNote] = useState<MasteryNote | null>(null);
+  const no = Number(change.poemId.slice(1));
+  const delta = change.after - change.before;
+  const rounded = Number(Math.abs(delta).toFixed(1));
+  const direction = rounded === 0 ? 'same' : delta > 0 ? 'up' : 'down';
+  const sign = direction === 'same' ? '±' : direction === 'up' ? '+' : '−';
+  const mark = direction === 'same' ? '' : direction === 'up' ? '▲ ' : '▼ ';
+  const low = clampPercent(Math.min(change.before, change.after));
+  const high = clampPercent(Math.max(change.before, change.after));
+  const words = direction === 'same' ? '変わらず' : `${rounded}${direction === 'up' ? '増えました' : '減りました'}`;
+  const notes = change.notes ?? [];
+  const noteId = (note: MasteryNote) => `${change.poemId}-${note}`;
+  return <li class={`result-change mastery-meter--${masteryDisplay(change.after).color}`} style={{ '--i': index }}>
+    <span class="result-change__summary sr-only">{`${no}番 ${formatPercent(change.before)}から${formatPercent(change.after)}、${words}`}</span>
+    <span class="result-change__no" aria-hidden="true">{no}</span>
+    <span class="result-change__bar" aria-hidden="true">
+      <span class="result-change__before" data-list-bar style={{ width: `${low}%` }} />
+      {direction !== 'same' && <span class={`result-change__${direction === 'up' ? 'gain' : 'loss'}`} data-list-bar style={{ left: `${low}%`, width: `${high - low}%` }} />}
+    </span>
+    <span class="result-change__nums" aria-hidden="true">
+      <strong class={`result-change__delta result-change__delta--${direction}`}>{mark}{sign}{rounded}</strong>
+      <small><span class="result-change__from">{formatPercent(change.before)}</span> → <span class="result-change__to">{formatPercent(change.after)}</span></small>
+    </span>
+    {notes.length > 0 && <span class="result-change__badges">{notes.map((note) => (
+      <button key={note} type="button" class={`result-note-badge result-note-badge--${note}`} aria-expanded={openNote === note} aria-controls={noteId(note)} onClick={() => setOpenNote((current) => current === note ? null : note)}>
+        {NOTES[note].badge}<span aria-hidden="true"> ›</span>
+      </button>
+    ))}</span>}
+    {notes.map((note) => <p key={note} id={noteId(note)} class="result-change__note" hidden={openNote !== note}>{NOTES[note].text}</p>)}
+  </li>;
+}
+
+function clampPercent(value: number): number {
+  return Math.max(0, Math.min(100, value));
 }
