@@ -31,10 +31,12 @@ test('history: まとまりを開くと全首の記録を表示する', () => { 
   for (const card of ['12', '45', '99']) expect(view.querySelector('.history-list')?.textContent).toContain(card); });
 test('history: メーターと数値を表示する', () => {
   const view = mount();
-  expect(view.querySelectorAll('[role="meter"]'), 'まとまりの輪だけが出る').toHaveLength(1);
+  // タブの外に全体のバーが 1 本（依頼者・2026-10-01）。一覧の面には、まとまりの輪だけが出る。
+  expect(view.querySelectorAll('.history-overall[role="meter"]'), '全体のバーは 1 本').toHaveLength(1);
+  expect(view.querySelectorAll('.history-panel [role="meter"]'), 'まとまりの輪だけが出る').toHaveLength(1);
   openGroup(view);
   // 未着手にも帯を出すようになった（依頼者・2026-09-21）。輪1つと全3首の帯。
-  expect(view.querySelectorAll('[role="meter"]'), '輪1つと、3首すべての帯').toHaveLength(4);
+  expect(view.querySelectorAll('.history-panel [role="meter"]'), '輪1つと、3首すべての帯').toHaveLength(4);
   // 「習熟度」の語は行から外し、数字だけを出す。意味は読み上げ名が持つ。
   expect(view.textContent).toContain('90%');
   // 「習熟度」は見出しにだけ置く。行には数字と帯だけ。
