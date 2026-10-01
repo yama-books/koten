@@ -103,15 +103,29 @@ test('quiz: row errors do not turn a correct verb type into a type error; input 
   for(const selectedRow of ['カ','か','ｶ','カ行']) assert.equal(engine.evaluateAnswer({quizMode:'type',example:ex,selectedType:ex.conjugationType,selectedRow,rowMode:'input'}).correct,true);
   assert.equal(engine.evaluateAnswer({quizMode:'type',example:ex,selectedType:'カ行上二段活用',selectedRow:'カ',rowMode:'select'}).rowCorrect,true);
 });
-test('quiz: all publication gates must be explicit, and the actual 127 bank stays held',async()=>{
-  const bank=JSON.parse(readFileSync(new URL('../../conj/data/conjugation-quiz-bank-127.meta.json',import.meta.url),'utf8'));
+test('quiz: all publication gates must be explicit; the 125 audited records resolve and 未確認 stays held',async()=>{
+  const bank=data('conjugation-quiz-bank-127.meta.json');
+  const quotations=data('conjugation-quiz-examples.json');
   assert.equal(bank.records.length,127);
-  for(const record of bank.records) assert.equal(engine.isPublicQuizEligible({...record,bucket:record.classification},'form'),false);
+  const eligible=bank.records.filter((record:any)=>engine.isPublicQuizEligible({...record,bucket:record.classification},'form'));
+  assert.equal(eligible.length,125);
+  for(const id of ['aux-289','aux-290']) assert.ok(!eligible.some((record:any)=>record.exampleId===id),id);
   for(const key of Object.keys(gates)) assert.equal(engine.isPublicQuizEligible({...ex,[key]:undefined},'form'),false,key);
   assert.equal(engine.isPublicQuizEligible({...ex,bucket:'hold'},'type'),false);
-  let fetches=0;
-  assert.deepEqual(await loadQuizRecords(items,async()=>{fetches++;return {ok:true,json:async()=>bank} as any;}),[]);
-  assert.equal(fetches,1,'held records must not trigger a quotation download');
+  // The runtime merges adjectival-noun items before the quiz loads; タリ活用 examples need them.
+  const runtimeItems=[...items,...adjvItems];
+  const urls:string[]=[];
+  const loaded=await loadQuizRecords(runtimeItems,async(url:string)=>{urls.push(url);return {ok:true,json:async()=>url.endsWith('-examples.json')?quotations:bank} as any;});
+  assert.deepEqual(urls,['./data/conjugation-quiz-bank-127.meta.json','./data/conjugation-quiz-examples.json']);
+  assert.deepEqual(loaded.map((record:any)=>record.exampleId),eligible.map((record:any)=>record.exampleId));
+  // Repeated targets resolve to the reviewed occurrence, not the first match.
+  const byId=new Map(loaded.map((record:any)=>[record.exampleId,record]));
+  assert.equal(byId.get('aux-012').targetOccurrence,0);
+  assert.equal(byId.get('aux-013').targetOccurrence,1);
+  assert.equal(byId.get('aux-055').targetOccurrence,1);
+  // A quotation payload cannot open a held record by itself.
+  const held=bank.records.find((record:any)=>record.exampleId==='aux-289');
+  assert.equal(resolveQuizRecords({records:[held]},{records:[{...gates,exampleId:'aux-289',quotationExcerpt:'検証用：たし',originalTarget:'たし'}]},runtimeItems).length,0);
 });
 test('quiz: adapter validates explicit renderer linkage, gates, target occurrence and HTML boundary',()=>{
   const metadata={records:[{...ex,partOfSpeech:'verb'}]};

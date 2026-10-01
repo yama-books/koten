@@ -100,7 +100,7 @@ const viewports=[{width:360,height:640},{width:375,height:667},{width:375,height
 const themes=['coffee','matcha','indigo','sumi','sakura'];
 const selectedViewports=process.argv.includes('--smoke')?viewports.slice(0,1):viewports;
 const expectedCases=selectedViewports.length*themes.length*2*4;
-const failures:string[]=[];let cases=0,masterCases=0;
+const failures:string[]=[];let cases=0,masterCases=0,realCases=0;
 // Windows WebKit's full-page capture can stall; geometry/interaction checks still run.
 const output=process.argv.includes('--webkit')?undefined:process.env.CONJ_QUIZ_ARTIFACT_DIR;
 async function chooseMode(page:any,mode:string){
@@ -120,8 +120,35 @@ async function setAdvanced(page:any,id:string,value:string){
   await details.locator('summary').click();
 }
 try{
-  // Real quotations are held; the public table still supplies usable practice.
-  const empty=await browser.newPage({viewport:{width:375,height:812}});await empty.goto(`http://127.0.0.1:${port}/conj/`);
+  // The 125 published representative examples: every one links to the renderer, highlights its
+  // reviewed occurrence, and their CHJ works join the single source list.
+  const real=await browser.newPage({viewport:{width:375,height:812}});await real.goto(`http://127.0.0.1:${port}/conj/`);
+  await real.waitForFunction("!document.getElementById('quizMode').disabled");
+  const published=JSON.parse(readFileSync(path.join(root,'conj/data/conjugation-quiz-examples.json'),'utf8')).records;
+  assert.equal(published.length,125);
+  assert.deepEqual(await real.evaluate('quizRecords.map(r=>r.exampleId)'),published.map((r:any)=>r.exampleId),'all published examples resolve at runtime');
+  assert.equal(await real.evaluate("quizRecords.some(r=>r.exampleId==='aux-289'||r.exampleId==='aux-290')"),false,'未確認 examples stay held');
+  await chooseMode(real,'form');
+  for(const pos of ['verb','adj','adjv','aux']){
+    await real.selectOption('#pos',pos);
+    await real.locator('#quizPrompt').waitFor({state:'visible'});
+    assert.notEqual(await real.evaluate('quizState.example.origin'),'master',`published example is used for ${pos}`);
+    assert.equal(await real.locator('#exampleText mark').count(),1,`one marked target for ${pos}`);
+    assert.equal(await real.locator('#exampleText mark').innerText(),await real.evaluate('quizState.example.originalTarget'),`marked text is the target for ${pos}`);
+    assert.equal(await real.locator('#exampleFoot').innerText(),await real.evaluate('quizState.example.source'),`work name only under the example for ${pos}`);
+  }
+  // Repeated targets keep the reviewed occurrence (aux-013 and aux-055 use the second match).
+  for(const [id,occurrence] of [['aux-012',0],['aux-013',1],['aux-054',0],['aux-055',1]] as const){
+    assert.equal(await real.evaluate(`quizRecords.find(r=>r.exampleId==='${id}').targetOccurrence`),occurrence,id);
+  }
+  const credits=await real.locator('#sourceCreditsList').innerText();
+  assert.match(credits,/日本語歴史コーパス/);
+  for(const work of new Set(published.map((r:any)=>r.source))) assert.ok(credits.includes(`『${work}』`),`source list includes ${work}`);
+  await real.close();
+  // With the quotation payload withheld, the public table still supplies usable practice.
+  const empty=await browser.newPage({viewport:{width:375,height:812}});
+  await empty.route('**/conjugation-quiz-examples.json',route=>route.fulfill({contentType:'application/json',body:'{"records":[]}'}));
+  await empty.goto(`http://127.0.0.1:${port}/conj/`);
   await empty.waitForFunction("!document.getElementById('quizMode').disabled");
   assert.deepEqual(await empty.evaluate('({form:quizMasterPractice.form.length,type:quizMasterPractice.type.length})'),
     {form:124,type:180},'the actual runtime must include every cleared source example');
@@ -131,7 +158,7 @@ try{
   await chooseMode(empty,'form');await empty.locator('#quizPrompt').waitFor({state:'visible'});
   assert.equal(await empty.locator('#quizEmpty').isHidden(),true);
   assert.equal(await empty.locator('#quizChoices button').count(),6);
-  assert.equal(await empty.evaluate('quizRecords.length'),0,'held quotations remain unavailable');
+  assert.equal(await empty.evaluate('quizRecords.length'),0,'withheld payload leaves no quoted records');
   assert.equal(await empty.evaluate('quizState.example.origin'),'master');
   assert.match(await empty.locator('#quizPrompt').innerText(),/例文で強調した部分は何形/);
   assert.equal(await empty.locator('#examplePanel').isVisible(),true,'original sentence is visible '+JSON.stringify(await empty.evaluate('({example:current.example,target:current.target,display:document.getElementById("examplePanel").style.display,rect:document.getElementById("examplePanel").getBoundingClientRect().toJSON()})')));
@@ -188,7 +215,51 @@ try{
   assert.equal(await empty.evaluate('document.querySelector("#quizChoices .quiz-choice-label").textContent===quizChoices[0].label'),true);
   await empty.close();
   for(const viewport of selectedViewports){
+    // Every published example at this width: one mark on the target, no sideways scroll,
+    // the hint button stays on screen and the example does not run under the choices.
+    const realContext=await browser.newContext({viewport,isMobile:viewport.width<701,hasTouch:viewport.width<701});
+    const realPage=await realContext.newPage();const realErrors:string[]=[];realPage.on('pageerror',error=>realErrors.push(error.message));
+    await realPage.addInitScript(()=>localStorage.setItem('conjInstallNoticeDismissed','true'));
+    await realPage.goto(`http://127.0.0.1:${port}/conj/`);
+    await realPage.waitForFunction("!document.getElementById('quizMode').disabled");
+    await realPage.evaluate('document.fonts.ready');
+    for(const mode of ['form','type']){
+      await chooseMode(realPage,mode);
+      const problems=await realPage.evaluate(async(mode)=>{
+        const out:string[]=[];
+        const frames=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+        const keys:Record<string,string>={'動詞':'verb','形容詞':'adj','形容動詞':'adjv','助動詞':'aux'};
+        const all=quizRecords;
+        for(const record of all){
+          // Narrow the pool to one record so the real picker and renderer show it.
+          quizRecords=[record];(document.getElementById('pos') as HTMLSelectElement).value=keys[record.partOfSpeech];
+          nextQuestion();await frames();
+          const id=record.exampleId+' '+mode;
+          if(quizState?.example?.exampleId!==record.exampleId){out.push(id+': not shown');continue;}
+          const marks=document.querySelectorAll('#exampleText mark');
+          if(marks.length!==1||marks[0].textContent!==record.originalTarget) out.push(id+': mark');
+          if(document.documentElement.scrollWidth>innerWidth+1) out.push(id+': horizontal overflow');
+          const text=document.getElementById('exampleText')!.getBoundingClientRect();
+          const choices=document.getElementById('quizChoices')!.getBoundingClientRect();
+          // Vertical text grows leftwards, so a too-narrow column clips without any page scroll.
+          const card=document.querySelector('main.card')!.getBoundingClientRect();
+          for(const [name,box] of [['example',text],['work name',document.getElementById('exampleFoot')!.getBoundingClientRect()]] as const){
+            if(box.left<card.left-1||box.right>card.right+1||box.left<0) out.push(id+': '+name+' outside the card');
+          }
+          const sideBySide=choices.left>=text.right-1||text.left>=choices.right-1;
+          if(!sideBySide && text.bottom>choices.top+1 && text.top<choices.bottom-1) out.push(id+': example under choices');
+        }
+        quizRecords=all;
+        return out;
+      },mode);
+      assert.deepEqual(problems,[],`${viewport.width}x${viewport.height} real ${mode}`);
+      realCases+=125;
+    }
+    assert.deepEqual(realErrors,[],`page errors with published examples ${viewport.width}`);
+    await realContext.close();
     const context=await browser.newContext({viewport,isMobile:viewport.width<701,hasTouch:viewport.width<701});
+    // The 百人一首・table practice below runs with the quotation payload withheld.
+    await context.route('**/conjugation-quiz-examples.json',route=>route.fulfill({contentType:'application/json',body:'{"records":[]}'}));
     const page=await context.newPage();const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
     await page.addInitScript(()=>localStorage.setItem('conjInstallNoticeDismissed','true'));
     await page.goto(`http://127.0.0.1:${port}/conj/`);
@@ -360,6 +431,6 @@ try{
     console.log(`checked ${viewport.width}x${viewport.height}: ${cases} cases`);
   }
 }finally{await browser.close();await new Promise<void>(resolve=>server.close(()=>resolve()));}
-console.log(`check:conj-quiz: ${cases}/${expectedCases} approved-fixture cases; ${masterCases}/${selectedViewports.length*themes.length*2} held-bank master cases; hints, row modes, 4 scopes, record roundtrip/reload`);
+console.log(`check:conj-quiz: ${realCases}/${selectedViewports.length*2*125} published-example screens; ${cases}/${expectedCases} approved-fixture cases; ${masterCases}/${selectedViewports.length*themes.length*2} held-bank master cases; hints, row modes, 4 scopes, record roundtrip/reload`);
 if(failures.length){console.error(failures.join('\n'));process.exitCode=1;}
 assert.equal(cases,expectedCases);

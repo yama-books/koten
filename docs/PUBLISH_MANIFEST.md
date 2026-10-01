@@ -181,6 +181,7 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 | `conj/data/adjectival-noun-public-examples.json` | 現存 | **公開本文の短い抜粋（Wikisource・やたがらすナビ）。CC BY-SA 4.0／3.0 のまま。** プロジェクトの CC BY 4.0 とは別条件（`THIRD_PARTY_NOTICES.md`・`LICENSE-CONTENT.md`） |
 | `conj/data/aux-example-meanings.json` | 現存 | 助動詞の用例ごとの意味（主・別解）。自作（ユーザー監査 2026-09-28）。用例 id・対象語・出現位置を持つが、本文は含まない |
 | `conj/data/aux-examples.json` | **条件つき（内部扱い）** | 助動詞の用例 145 例（2026-09-28）。**CHJ 本文の引用**（116 例）と **CHJ 由来の書誌データ**（サンプル ID・文字位置）を含む。ほかは従来の組み込み例（百人一首ほか）28 例とやたがらすナビ（CC BY-SA 4.0）1 例。アプリへの掲載は引用として裁定済みの扱い（`conj/PUBLIC_TEXT_SOURCE_POLICY.md`）で、`adjectival-noun-chj-quotations.json` と同じく**§5 のブロックに載せない。GitHub Pages には配信する**（§6.2）。無いと助動詞は活用表だけで出題される |
+| `conj/data/conjugation-quiz-examples.json` | **条件つき（内部扱い）** | 活用判別モードの代表用例 125 例（2026-10-01 ユーザー公開判断）。**CHJ 本文の引用**と **CHJ 由来の書誌データ**（サンプル ID・文字位置）。公開の可否は `conjugation-quiz-bank-127.meta.json` のゲートが決める（未確認の aux-289・aux-290 は含めない）。`aux-examples.json` と同じく**§5 のブロックに載せない。GitHub Pages には配信する**（§6.2）。無いと判別モードは活用表由来の問題だけで出題される |
 | `conj/data/adjectival-noun-chj-quotations.json` | **条件つき** | CHJ 本文の抜粋 56 件。**アプリへの掲載は引用として裁定済み**（`conj/PUBLIC_TEXT_SOURCE_POLICY.md` 2026-09-23）だが、**ソースファイルとしての再配布は未確認。§5 のブロックに載せない。** GitHub Pages には配信する（§6.2） |
 
 > **公開ツリーでの試験。** 内部扱いの 2 本が無いので、それを前提にする試験は公開ツリーでだけ外れる：
@@ -261,6 +262,7 @@ self-host・サブセット化・同梱物の 3 点が確認できるまで移�
 | `conj/data/adjectival-noun-chj-quotations.json` | §4.3 の条件つき。ソースとしての再配布が未確認 |
 | `conj/data/adjectival-noun-example-index-120.json` | §4.3 の条件つき（内部扱い）。CHJ 由来の書誌データ（2026-09-28 依頼者決定） |
 | `conj/data/aux-examples.json` | §4.3 の条件つき（内部扱い）。CHJ の引用と CHJ 由来の書誌データ（2026-09-28。chj-quotations と同じ扱い） |
+| `conj/data/conjugation-quiz-examples.json` | §4.3 の条件つき（内部扱い）。CHJ の引用と CHJ 由来の書誌データ（2026-10-01。aux-examples と同じ扱い） |
 | `tools/publish-transfer/**` | 私的リポジトリの所在を引数で受ける道具（既存の判断） |
 
 ### 6.1 `古典文法_一次データ索引.md` を初回公開に含めない判断（**新規・人間確認 H-14**）

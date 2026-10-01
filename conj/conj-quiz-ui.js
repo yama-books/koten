@@ -7,7 +7,7 @@ function isIdentificationMode(){return document.getElementById('quizMode').value
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261001-9'),import('./conj-quiz-adapter.mjs?v=20261001-9')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261001-10'),import('./conj-quiz-adapter.mjs?v=20261001-10')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
@@ -18,6 +18,7 @@ async function initQuizUI(){
     renderSourceCredits([...sourceCreditArgs.publicRecords,...publicAdjvRecords],sourceCreditArgs.chj);
     quizMasterPractice=quizAdapter.buildMasterPractice(items,{publicAdjvRecords,auxExampleRecords});
     quizRecords=await quizAdapter.loadQuizRecords(items);
+    if(quizRecords.length) refreshSourceCredits();
     // Name each example's drill item, then move old answers into the running totals once.
     const itemIds=new Map([...quizMasterPractice.form,...quizMasterPractice.type,...quizRecords].map(e=>[e.exampleId,e.itemId]));
     quizResolveItemId=exampleId=>itemIds.get(exampleId)??null;
@@ -118,7 +119,9 @@ function renderQuizUI(){
   const active=isIdentificationMode();
   const card=document.querySelector('main.card');
   card.classList.toggle('is-quiz',active);
-  card.classList.toggle('master-practice',active && quizState?.example.origin==='master');
+  // Every identification question (table practice or a quoted example) shows its sentence in the
+  // centred, wrapped panel while the table is hidden; the drill's narrow column cannot hold prose.
+  card.classList.toggle('quiz-example-layout',active && !!quizState);
   document.getElementById('levelMeters').hidden=active;
   document.getElementById('quizControls').hidden=!active;
   document.getElementById('choiceScope').disabled=document.getElementById('quizMode').value==='form';

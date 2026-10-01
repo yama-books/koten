@@ -10,6 +10,9 @@
  * - `aux-examples.json`：助動詞の用例（2026-09-28）。CHJ の本文の引用と、CHJ 由来の書誌データ（サンプル ID・
  *   文字位置）を含む。無いと助動詞は活用表だけで出題される。
  *
+ * - `conjugation-quiz-examples.json`：活用判別モードの代表用例 125 例（2026-10-01 公開判断）。CHJ の本文の引用と、
+ *   CHJ 由来の書誌データ（サンプル ID・文字位置）を含む。無いと判別モードは活用表由来の問題だけで出題される。
+ *
  * いずれも**GitHub Pages には配信する**（tools/pages-assemble）が、公開ツリーへは複写しない。
  * したがって公開ツリーでは、これらを前提にする検査を実行できない。
  *
@@ -26,8 +29,9 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 export const chjQuotationsPath = 'conj/data/adjectival-noun-chj-quotations.json';
 export const exampleIndexPath = 'conj/data/adjectival-noun-example-index-120.json';
 export const auxExamplesPath = 'conj/data/aux-examples.json';
+export const quizExamplesPath = 'conj/data/conjugation-quiz-examples.json';
 /** 許可リストに載せず、Pages にだけ置く conj のデータ（リポジトリ直下からの相対パス）。 */
-export const heldConjData: readonly string[] = [chjQuotationsPath, exampleIndexPath, auxExamplesPath];
+export const heldConjData: readonly string[] = [chjQuotationsPath, exampleIndexPath, auxExamplesPath, quizExamplesPath];
 
 /** 許可リストの表（非公開）がある＝作業リポジトリ。 */
 export const isWorkingRepository = existsSync(path.join(root, 'docs', 'PUBLISH_MANIFEST.md'));

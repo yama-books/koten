@@ -52,11 +52,11 @@
 .card.is-quiz:not(.is-answered) #lemma,.card.is-quiz:not(.is-answered) #lemmaAid{display:none}
 .card.is-quiz #gloss{display:none!important}
 .card.is-quiz #tablePanel[data-support="hidden"]{visibility:hidden;pointer-events:none;height:136px;overflow:hidden}
-.card.is-quiz.master-practice:has(#tablePanel[data-support="hidden"]) .example-panel{justify-self:center;width:fit-content;min-width:104px;max-width:min(100%,280px);padding:6px 8px;border-radius:10px;background:var(--surface-faint)}
-.card.is-quiz.master-practice:has(#tablePanel[data-support="hidden"]) .example-panel::after{display:none}
-.card.is-quiz.master-practice:has(#tablePanel[data-support="hidden"]) .example-body{width:100%;max-width:100%;height:136px;justify-content:center;align-items:center}
-.card.is-quiz.master-practice:has(#tablePanel[data-support="hidden"]) .example-foot{align-self:center}
-.card.is-quiz.master-practice:has(#tablePanel[data-support="hidden"]) .example-text{height:136px;min-height:0;max-width:240px;flex:0 1 auto}
+.card.is-quiz.quiz-example-layout:has(#tablePanel[data-support="hidden"]) .example-panel{justify-self:center;width:fit-content;min-width:104px;max-width:min(100%,280px);padding:6px 8px;border-radius:10px;background:var(--surface-faint)}
+.card.is-quiz.quiz-example-layout:has(#tablePanel[data-support="hidden"]) .example-panel::after{display:none}
+.card.is-quiz.quiz-example-layout:has(#tablePanel[data-support="hidden"]) .example-body{width:100%;max-width:100%;height:136px;justify-content:center;align-items:center}
+.card.is-quiz.quiz-example-layout:has(#tablePanel[data-support="hidden"]) .example-foot{align-self:center}
+.card.is-quiz.quiz-example-layout:has(#tablePanel[data-support="hidden"]) .example-text{height:136px;min-height:0;max-width:240px;flex:0 1 auto}
 @media(min-width:701px){
   .card.is-quiz .study-layout:not(.review-modal-study-layout){grid-template-areas:"example table quiz"}
   .card.is-quiz #quizAnswerPanel{grid-area:quiz;grid-row:1;grid-column:3;align-self:center;justify-self:stretch;width:100%;margin:0}
@@ -64,7 +64,7 @@
   .card.is-quiz .quiz-choices[data-count="4"]{grid-template-columns:repeat(2,minmax(44px,1fr))}
   .card.is-quiz .quiz-choices[data-count="6"]{grid-template-columns:repeat(3,minmax(44px,1fr))}
   .card.is-quiz .quiz-choice{font-size:13px}
-  .card.is-quiz.master-practice:has(#tablePanel[data-support="hidden"]) .example-panel{justify-self:end;width:max-content;max-width:100%}
+  .card.is-quiz.quiz-example-layout:has(#tablePanel[data-support="hidden"]) .example-panel{justify-self:end;width:max-content;max-width:100%}
 }
 .card.is-quiz #tablePanel .quiz-masked td>*{visibility:hidden}
 .card.is-quiz #tablePanel .quiz-masked td{position:relative}
@@ -74,9 +74,9 @@
 .card.is-quiz .actions button{min-height:44px}
 @media(max-width:700px){
   .card.is-quiz:has(#tablePanel[data-support="hidden"]) #quizAnswerPanel{grid-area:table;align-self:center;margin:0;width:220px;max-width:100%}
-  .card.is-quiz.master-practice #tablePanel[data-support="hidden"]{display:none}
-  .card.is-quiz.master-practice:has(#tablePanel[data-support="hidden"]) .study-layout{grid-template-columns:1fr;grid-template-areas:"example" "table";gap:4px}
-  .card.is-quiz.master-practice:has(#tablePanel[data-support="hidden"]) #quizAnswerPanel{grid-area:table;align-self:start;justify-self:center;width:min(100%,520px)}
+  .card.is-quiz.quiz-example-layout #tablePanel[data-support="hidden"]{display:none}
+  .card.is-quiz.quiz-example-layout:has(#tablePanel[data-support="hidden"]) .study-layout{grid-template-columns:1fr;grid-template-areas:"example" "table";gap:4px}
+  .card.is-quiz.quiz-example-layout:has(#tablePanel[data-support="hidden"]) #quizAnswerPanel{grid-area:table;align-self:start;justify-self:center;width:min(100%,520px)}
   .quiz-mode-tabs{gap:3px;margin-bottom:5px}
   .quiz-mode-tabs button{min-height:36px;padding:4px 2px;font-size:clamp(9px,2.7vw,11px)}
   .quiz-choices[data-count="6"]{grid-template-columns:repeat(3,minmax(44px,1fr))}

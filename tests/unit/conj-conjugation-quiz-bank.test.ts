@@ -10,7 +10,7 @@ const records = bank.records as Array<Record<string, unknown>>;
 
 test('conj identification bank: representative 127 metadata is complete and source-balanced', () => {
   assert.equal(bank.schemaVersion, '1.0');
-  assert.equal(bank.status, 'internal-qa-metadata');
+  assert.equal(bank.status, 'public-quiz-metadata');
   assert.equal(records.length, 127);
   assert.deepEqual(bank.counts.partOfSpeech, {
     adjectivalVerb: 18,
@@ -22,8 +22,11 @@ test('conj identification bank: representative 127 metadata is complete and sour
   assert.equal(new Set(records.map((r) => r.exampleId)).size, 127);
 });
 
-test('conj identification bank: answer keys and gates are explicit without publishing held quotations', () => {
+test('conj identification bank: answer keys and gates are explicit and quotations stay out of metadata', () => {
   const forms = new Set(formChoices());
+  const heldIds = new Set(bank.publicationBoundary.heldIds as string[]);
+  assert.deepEqual([...heldIds], ['aux-289','aux-290']);
+  assert.equal(bank.counts.publicEnabled, 125);
   assert.deepEqual([...forms], ['未然形','連用形','終止形','連体形','已然形','命令形']);
   for (const r of records) {
     assert.ok(['verb','adjective','adjectivalVerb','auxiliary'].includes(String(r.partOfSpeech)), String(r.exampleId));
@@ -34,12 +37,59 @@ test('conj identification bank: answer keys and gates are explicit without publi
     assert.equal(r.typeQuizEligible, true, String(r.exampleId));
     assert.equal(r.reviewStatus, 'ai-audited', String(r.exampleId));
     assert.equal(r.humanApprovalStatus, 'approved', String(r.exampleId));
-    assert.equal(r.publicEnabled, false, String(r.exampleId));
+    // Only primary-source-audited records are published; 未確認 records keep every gate closed.
+    const open = !heldIds.has(String(r.exampleId));
+    assert.equal(open, (r.primarySourceAudit as Record<string, unknown>).judgment !== '未確認', String(r.exampleId));
+    assert.equal(r.publicEnabled, open, String(r.exampleId));
+    for (const gate of ['quotationStatus','finalComplianceStatus','releaseQaStatus']) {
+      assert.equal(r[gate], open ? 'approved' : 'pending', `${r.exampleId}: ${gate}`);
+    }
     assert.equal(bank.publicationBoundary.humanApprovalSatisfied, true);
     for (const held of ['quotationExcerpt','originalTarget','anchor','attentionNote']) {
       assert.ok(!(held in r), `${r.exampleId}: held field leaked: ${held}`);
     }
   }
+});
+
+test('conj identification bank: AI primary-source audit stays separate from approval and publication gates', () => {
+  const audit = bank.primarySourceAudit;
+  const judgments = ['一致','表記差','表記差・訓読差','本文差','未確認'];
+  assert.equal(audit.kind, 'ai-primary-source-collation');
+  assert.deepEqual(audit.judgments, judgments);
+  assert.deepEqual(audit.totals, { '一致':105, '表記差':17, '表記差・訓読差':3, '本文差':0, '未確認':2, total:127 });
+  assert.deepEqual(audit.pendingIds, ['aux-289','aux-290']);
+  const byId = new Map(records.map((r) => [String(r.exampleId), r.primarySourceAudit as Record<string, unknown>]));
+  for (const id of audit.pendingIds) assert.equal(byId.get(id)?.judgment, '未確認', id);
+  for (const id of ['adjv-114','adjv-053','adjv-004']) assert.equal(byId.get(id)?.judgment, '一致', id);
+  const tally: Record<string, number> = { total: 0 };
+  for (const r of records) {
+    const a = byId.get(String(r.exampleId));
+    assert.ok(a && judgments.includes(String(a.judgment)), String(r.exampleId));
+    assert.equal(a.auditedBy, 'ai', String(r.exampleId));
+    // Held text stays out of public metadata: no quotations or alternate-edition spellings.
+    assert.deepEqual(Object.keys(a).filter((k) => !['judgment','basis','location','note','auditedBy','recordedOn'].includes(k)), [], String(r.exampleId));
+    tally[String(a.judgment)] = (tally[String(a.judgment)] ?? 0) + 1;
+    tally.total++;
+  }
+  assert.deepEqual({ ...Object.fromEntries(judgments.map((j) => [j, 0])), ...tally }, audit.totals);
+});
+
+test('conj identification bank: the quotation payload holds exactly the published records', () => {
+  const examples = readJson('conjugation-quiz-examples.json');
+  const payload = examples.records as Array<Record<string, unknown>>;
+  const published = records.filter((r) => r.publicEnabled === true).map((r) => r.exampleId);
+  assert.deepEqual(payload.map((r) => r.exampleId), published);
+  assert.equal(payload.length, 125);
+  for (const id of ['aux-289','aux-290']) assert.ok(!payload.some((r) => r.exampleId === id), id);
+  for (const r of payload) {
+    const excerpt = String(r.quotationExcerpt), target = String(r.originalTarget);
+    assert.ok(excerpt.replace(/[　 ]+/g,'').includes(target.replace(/[　 ]+/g,'')), `${r.exampleId}: target not in excerpt`);
+    assert.ok(String(r.source), String(r.exampleId));
+    for (const gate of ['quotationStatus','finalComplianceStatus','releaseQaStatus']) assert.equal(r[gate], 'approved', `${r.exampleId}: ${gate}`);
+    // AI audit details (with JapanKnowledge text) are not published.
+    assert.ok(!('primarySourceAudit' in r), String(r.exampleId));
+  }
+  assert.equal(examples.sources.chj.url, 'https://clrd.ninjal.ac.jp/chj/');
 });
 
 test('conj identification bank: reviewed duplicate-target positions stay explicit', () => {

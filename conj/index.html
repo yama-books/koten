@@ -3081,7 +3081,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261001-9">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261001-10">
 </head>
 <body>
 <div class="wrap">
@@ -3365,7 +3365,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
-<script src="./conj-quiz-ui.js?v=20261001-9"></script>
+<script src="./conj-quiz-ui.js?v=20261001-10"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -5496,6 +5496,7 @@ const LICENSE_URLS={
   "CC BY-SA 4.0":"https://creativecommons.org/licenses/by-sa/4.0/deed.ja",
   "CC BY-SA 3.0":"https://creativecommons.org/licenses/by-sa/3.0/deed.ja"
 };
+const CHJ_SOURCE={name:"国立国語研究所『日本語歴史コーパス』",url:"https://clrd.ninjal.ac.jp/chj/"};
 // Examples show only the work name; their sources are listed once, in a popup.
 function creditLink(text,href){
   const el=document.createElement(href?"a":"span");
@@ -5550,8 +5551,10 @@ function renderSourceCredits(publicRecords,chj){
   ])];
   addGroup(["古典作品（作品名は各用例に表示）"],works.length?[[works.map(quote).join("")]]:[]);
 
-  const chjWorks=[...new Set([...[...chj.map.values()].map(r=>r.work),...aux.filter(r=>r.origin==="chj").map(r=>r.work)])];
-  const chjSource=chj.source||(chjWorks.length ? auxExampleData.sources.chj : null);
+  // 活用判別の代表用例（conjugation-quiz-examples.json）も CHJ の引用。conj-quiz-ui.js が読み込み後に描き直す。
+  const quizChj=typeof quizRecords!=="undefined" ? quizRecords.map(r=>r.source).filter(Boolean) : [];
+  const chjWorks=[...new Set([...[...chj.map.values()].map(r=>r.work),...aux.filter(r=>r.origin==="chj").map(r=>r.work),...quizChj])];
+  const chjSource=chj.source||(chjWorks.length ? auxExampleData.sources.chj || CHJ_SOURCE : null);
   if(chjSource){
     addGroup([creditLink(chjSource.name,chjSource.url)],chjWorks.length?[[chjWorks.map(quote).join("")]]:[]);
   }
