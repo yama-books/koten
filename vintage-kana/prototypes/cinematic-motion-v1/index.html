@@ -84,16 +84,16 @@
   }
   .lead{color:var(--muted);font-size:14px;line-height:1.8;margin-bottom:28px}
   .composer{
-    display:grid;grid-template-columns:1fr auto;gap:12px;
+    display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch;
     background:rgba(255,255,255,.48);
     border:1px solid rgba(52,42,32,.12);
     border-radius:20px;padding:10px;
   }
-  input{
-    min-width:0;border:0;background:transparent;outline:none;
+  textarea#input{
+    min-width:0;min-height:82px;border:0;background:transparent;outline:none;resize:vertical;
     font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
-    font-size:clamp(22px,4vw,34px);padding:12px 14px;color:var(--ink);
-    letter-spacing:.12em;
+    font-size:clamp(22px,4vw,34px);padding:10px 14px;color:var(--ink);
+    letter-spacing:.12em;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;
   }
   button{
     -webkit-tap-highlight-color:transparent;
@@ -234,14 +234,12 @@
     --stamp-col-gap:clamp(2px,1.2vw,12px);
   }
   .stampboard.horizontal{
-    flex-direction:row;flex-wrap:wrap;align-content:center;
-    max-width:min(90vw,780px);margin-inline:auto;
+    display:grid;place-content:center;place-items:center;
+    max-width:min(92vw,820px);max-height:min(82vh,720px);margin-inline:auto;
   }
   .stampboard.vertical{
-    display:grid;grid-auto-flow:column;
-    grid-template-rows:repeat(var(--stamp-rows,8),auto);
-    justify-content:center;align-content:center;justify-items:center;
-    max-height:min(82vh,720px);direction:rtl;
+    display:grid;place-content:center;place-items:center;
+    max-width:min(92vw,820px);max-height:min(84vh,740px);
   }
   .stamp{
     font-family:"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif;
@@ -340,7 +338,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 25: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 26: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -410,7 +408,7 @@
 <div class="app" id="app">
   <header>
     <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 25</div>
+    <div class="mode">MOTION STUDY 26</div>
   </header>
   <main>
     <section class="panel">
@@ -418,22 +416,31 @@
       <h1>文字を、ほどく。</h1>
       <div class="lead">変換そのものは一瞬。そこへ、必要以上の儀式を足した実験版です。</div>
       <div class="composer">
-        <input id="input" maxlength="20" value="あさきゆめみし" aria-label="変換するひらがな">
+        <textarea id="input" maxlength="80" rows="2" aria-label="変換する文字列">あさきゆめみし</textarea>
         <button id="convert">変換する</button>
+      </div>
+      <div class="options" role="group" aria-label="変換方向の選択">
+        <span class="optLabel">変換</span>
+        <label><input type="radio" name="conversionMode" value="forward" checked> 変体仮名にする</label>
+        <label><input type="radio" name="conversionMode" value="reverse"> ひらがなに戻す</label>
       </div>
       <div class="options" role="group" aria-label="刻印方向の選択">
         <span class="optLabel">刻印方向</span>
         <label><input type="radio" name="stampDirection" value="horizontal" checked> 横</label>
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
+        <span class="optLabel">改行可 / 80文字まで / Ctrl・⌘+Enterで変換</span>
       </div>
       <div class="hint">※ 演出検証用。前半・閃光直後・後半・退場を毎回組み替え。3〜5回に1回程度ではぐれ者が混ざります。下のデバッグボタンでレア演出を直接確認できます。</div>
       <div class="debug-tools" aria-label="演出デバッグ">
         <span class="debug-label">DEBUG</span>
         <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
         <button class="debug-btn" type="button" data-preset="radial">放射線</button>
+        <button class="debug-btn" type="button" data-preset="radial-extreme">放射線・極</button>
         <button class="debug-btn" type="button" data-preset="rain">上から</button>
         <button class="debug-btn" type="button" data-preset="peek">かくれんぼ</button>
         <button class="debug-btn" type="button" data-preset="front-chick">前半ぴょこ</button>
+        <button class="debug-btn" type="button" data-preset="front-column">前半縦ぴょこ</button>
+        <button class="debug-btn" type="button" data-preset="front-pinball">前半ばらピン</button>
         <div class="debug-plan" id="debugPlan">通常ランダム</div>
       </div>
     </section>
@@ -467,6 +474,9 @@ const firstVariant = {
   "ら":"𛃭","り":"𛃱","る":"𛃸","れ":"𛃾","ろ":"𛄂",
   "わ":"𛄈","ゐ":"𛄍","ゑ":"𛄒","を":"𛄖","ん":"𛄝"
 };
+const reverseVariant=Object.fromEntries(
+  Object.entries(firstVariant).map(([hiragana,hentaigana])=>[hentaigana,hiragana])
+);
 const stage=document.getElementById("stage"),
 core=document.getElementById("core"),
 flash=document.getElementById("flash"),
@@ -481,6 +491,7 @@ rushLines=document.getElementById("rushLines"),
 portalGlow=document.getElementById("portalGlow"),
 debugPlan=document.getElementById("debugPlan");
 const stampDirectionInputs=[...document.querySelectorAll('input[name="stampDirection"]')];
+const conversionModeInputs=[...document.querySelectorAll('input[name="conversionMode"]')];
 const debugButtons=[...document.querySelectorAll(".debug-btn")];
 
 let running=false,timers=[],playToken=0,nextPreset=null;
@@ -529,53 +540,120 @@ function frameTween(duration,onFrame,token){
 function setT(el,x,y,scale=1,rot=0,rx=0,ry=0,z=0){
   el.style.transform=`translate3d(${x}px,${y}px,${z}px) scale(${scale}) rotateZ(${rot}deg) rotateX(${rx}deg) rotateY(${ry}deg)`;
 }
+function getConversionMode(){
+  const checked=conversionModeInputs.find(el=>el.checked);
+  return checked?checked.value:"forward";
+}
+function transformText(text,mode=getConversionMode()){
+  const table=mode==="reverse"?reverseVariant:firstVariant;
+  return [...text].map(ch=>ch==="\n"?"\n":(table[ch]||ch)).join("");
+}
+function targetFontFor(mode){
+  return mode==="reverse"
+    ?'"Yu Mincho","Hiragino Mincho ProN",serif'
+    :'"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
+}
+function updateConversionUi(){
+  const mode=getConversionMode();
+  btn.textContent=mode==="reverse"?"ひらがなに戻す":"変換する";
+  label.textContent=mode==="reverse"?"HIRAGANA":"HENTAIGANA";
+}
 function getStampDirection(){
   const checked=stampDirectionInputs.find(el=>el.checked);
   return checked?checked.value:"horizontal";
 }
+function getLayoutLines(text,direction=getStampDirection()){
+  const wrapAt=direction==="vertical"?10:18;
+  const source=String(text).replace(/\r\n?/g,"\n").split("\n");
+  const lines=[];
+  source.forEach(line=>{
+    const chars=[...line];
+    if(!chars.length){
+      lines.push([]);
+      return;
+    }
+    for(let i=0;i<chars.length;i+=wrapAt)lines.push(chars.slice(i,i+wrapAt));
+  });
+  return lines.length?lines:[[]];
+}
 function setupStampBoard(text){
-  const len=[...text].length;
   const direction=getStampDirection();
+  const lines=getLayoutLines(text,direction);
+  const maxLen=Math.max(1,...lines.map(line=>line.length));
+  const lineCount=Math.max(1,lines.length);
+  const glyphCount=lines.reduce((sum,line)=>sum+line.length,0);
+
   board.className="stampboard "+direction;
   board.style.removeProperty("--stamp-rows");
-  let size="clamp(46px,8.8vw,90px)";
-  let rowGap="clamp(2px,1vw,10px)";
-  let colGap="clamp(2px,1.2vw,12px)";
+  board.style.gridTemplateRows="";
+  board.style.gridTemplateColumns="";
 
+  let size,rowGap,colGap;
   if(direction==="horizontal"){
-    if(len<=8){
+    if(maxLen<=8&&lineCount<=2){
       size="clamp(46px,8.8vw,90px)";
-      rowGap="clamp(4px,1.2vw,12px)";
-      colGap="clamp(2px,1.2vw,12px)";
-    }else if(len<=14){
-      size="clamp(40px,7.2vw,74px)";
+      rowGap="clamp(5px,1.4vw,14px)";
+      colGap="clamp(2px,1.1vw,11px)";
+    }else if(maxLen<=14&&lineCount<=3){
+      size="clamp(38px,6.8vw,70px)";
       rowGap="clamp(3px,.9vw,9px)";
-      colGap="clamp(2px,.85vw,8px)";
+      colGap="clamp(2px,.75vw,7px)";
+    }else if(maxLen<=18&&lineCount<=4){
+      size="clamp(29px,5.1vw,52px)";
+      rowGap="clamp(2px,.55vw,6px)";
+      colGap="clamp(1px,.45vw,5px)";
     }else{
-      size="clamp(31px,5.6vw,56px)";
-      rowGap="clamp(2px,.65vw,6px)";
-      colGap="clamp(1px,.55vw,5px)";
+      size="clamp(22px,3.9vw,40px)";
+      rowGap="clamp(1px,.36vw,4px)";
+      colGap="clamp(0px,.28vw,3px)";
     }
+    board.style.gridTemplateRows=`repeat(${lineCount},auto)`;
+    board.style.gridTemplateColumns=`repeat(${maxLen},auto)`;
   }else{
-    const rows=len<=8?len:(len<=14?Math.ceil(len/2):Math.min(10,Math.ceil(len/2)));
-    const columns=Math.max(1,Math.ceil(len/Math.max(1,rows)));
-    size=len<=8
-      ?"clamp(46px,8.4vw,86px)"
-      :(len<=14?"clamp(38px,6.8vw,66px)":"clamp(30px,5.2vw,52px)");
-
-    // Vertical text needs different spacing within a column and between columns.
-    rowGap=len<=8
-      ?"clamp(1px,.50vw,5px)"
-      :(len<=14?"clamp(0px,.32vw,3px)":"clamp(0px,.18vw,2px)");
-    colGap=columns<=1
-      ?"clamp(4px,1.3vw,13px)"
-      :(columns===2?"clamp(3px,.85vw,8px)":"clamp(2px,.52vw,5px)");
-    board.style.setProperty("--stamp-rows",String(rows));
+    if(maxLen<=8&&lineCount<=2){
+      size="clamp(44px,8vw,82px)";
+      rowGap="clamp(1px,.45vw,5px)";
+      colGap="clamp(4px,1.2vw,12px)";
+    }else if(maxLen<=10&&lineCount<=4){
+      size="clamp(34px,6vw,60px)";
+      rowGap="clamp(0px,.28vw,3px)";
+      colGap="clamp(3px,.72vw,7px)";
+    }else{
+      size="clamp(25px,4.4vw,44px)";
+      rowGap="clamp(0px,.16vw,2px)";
+      colGap="clamp(1px,.42vw,4px)";
+    }
+    board.style.gridTemplateRows=`repeat(${maxLen},auto)`;
+    board.style.gridTemplateColumns=`repeat(${lineCount},auto)`;
   }
 
   board.style.setProperty("--stamp-size",size);
   board.style.setProperty("--stamp-row-gap",rowGap);
   board.style.setProperty("--stamp-col-gap",colGap);
+  board.dataset.glyphCount=String(glyphCount);
+  return {direction,lines,maxLen,lineCount,glyphCount};
+}
+function populateStampBoard(text,hit=false){
+  board.innerHTML="";
+  const layout=setupStampBoard(text);
+  const stamps=[];
+  layout.lines.forEach((line,lineIndex)=>{
+    line.forEach((ch,charIndex)=>{
+      const s=document.createElement("div");
+      s.className="stamp"+(hit?" hit":"");
+      s.textContent=ch;
+      if(layout.direction==="horizontal"){
+        s.style.gridRow=String(lineIndex+1);
+        s.style.gridColumn=String(charIndex+1);
+      }else{
+        s.style.gridRow=String(charIndex+1);
+        s.style.gridColumn=String(layout.lineCount-lineIndex);
+      }
+      board.appendChild(s);
+      stamps.push(s);
+    });
+  });
+  return stamps;
 }
 function ensureRushLines(){
   if(rushLines.children.length)return;
@@ -597,15 +675,20 @@ function measureOrigins(text){
   const wrap=document.createElement("div");
   Object.assign(wrap.style,{
     position:"fixed",left:ir.left+"px",top:ir.top+"px",width:ir.width+"px",height:ir.height+"px",
-    padding:cs.padding,display:"flex",alignItems:"center",whiteSpace:"pre",visibility:"hidden",
-    pointerEvents:"none",fontFamily:cs.fontFamily,fontSize:cs.fontSize,fontWeight:cs.fontWeight,
-    letterSpacing:cs.letterSpacing,lineHeight:cs.lineHeight
+    boxSizing:"border-box",padding:cs.padding,whiteSpace:"pre-wrap",overflowWrap:"anywhere",
+    visibility:"hidden",pointerEvents:"none",fontFamily:cs.fontFamily,fontSize:cs.fontSize,
+    fontWeight:cs.fontWeight,letterSpacing:cs.letterSpacing,lineHeight:cs.lineHeight
   });
-  const spans=[...text].map(ch=>{
-    const s=document.createElement("span");
-    s.textContent=ch;
-    wrap.appendChild(s);
-    return s;
+  const spans=[];
+  [...text].forEach(ch=>{
+    if(ch==="\n"){
+      wrap.appendChild(document.createElement("br"));
+    }else{
+      const s=document.createElement("span");
+      s.textContent=ch;
+      wrap.appendChild(s);
+      spans.push(s);
+    }
   });
   document.body.appendChild(wrap);
   const pts=spans.map(s=>{
@@ -639,6 +722,7 @@ function resetVisuals(){
   rushLines.style.opacity=0;
   portalGlow.style.opacity=0;
   portalGlow.style.transform="translate(-50%,-50%) scale(.4)";
+  stage.style.transform="none";
   [...rushLines.children].forEach(l=>l.style.transform="translate3d(0,-40vh,0)");
 }
 function clearStage(cancel=true){
@@ -651,37 +735,36 @@ function clearStage(cancel=true){
   running=false;
   btn.disabled=false;
 }
-function finishInstant(text){
+function finishInstant(text,mode=getConversionMode()){
   resetVisuals();
-  board.innerHTML="";
-  setupStampBoard(text);
-  [...text].forEach(ch=>{
-    const s=document.createElement("div");
-    s.className="stamp hit";
-    s.textContent=ch;
-    board.appendChild(s);
-  });
+  populateStampBoard(text,true);
   board.style.opacity=1;
+  label.textContent=mode==="reverse"?"HIRAGANA":"HENTAIGANA";
   label.style.opacity=1;
   glow.style.opacity=.8;
-  input.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
+  input.style.fontFamily=targetFontFor(mode);
 }
 async function play(){
   if(running)return;
   running=true;
   btn.disabled=true;
   const token=++playToken;
-  const src=input.value.trim()||"あさきゆめみし";
-  const out=[...src].map(c=>firstVariant[c]||c).join("");
+  const mode=getConversionMode();
+  const src=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
+  const motionSrc=src.replace(/\n/g,"");
+  const out=transformText(src,mode);
+  const motionOut=out.replace(/\n/g,"");
+  const targetFontFamily=targetFontFor(mode);
+  label.textContent=mode==="reverse"?"HIRAGANA":"HENTAIGANA";
 
   stage.classList.add("active");
   ensureRushLines();
   resetVisuals();
 
   const metrics=measureOrigins(src);
-  const g=makeGlyphs(src);
+  const g=makeGlyphs(motionSrc);
   const n=g.length;
-  const densityScale=n>28?.54:n>20?.62:n>16?.72:n>12?.80:n>9?.90:1;
+  const densityScale=n>60?.27:n>48?.33:n>36?.40:n>28?.48:n>20?.58:n>16?.70:n>12?.79:n>9?.90:1;
   const baseScale=clamp(metrics.fontSize/58,.42,.78);
   const ink=metrics.color||"#1d1a17";
 
@@ -1138,8 +1221,8 @@ async function play(){
       el.style.filter=`brightness(${1+peak*4.4+coreHold*2.2}) blur(${peak*1.6+coreHold*1.6}px)`;
 
       if(p>.43&&!el.dataset.converted){
-        el.textContent=[...out][i]||el.textContent;
-        el.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
+        el.textContent=[...motionOut][i]||el.textContent;
+        el.style.fontFamily=targetFontFamily;
         el.dataset.converted="1";
       }
     });
@@ -1688,22 +1771,15 @@ async function play(){
   flash.style.opacity="0";
   await sleep(420);
   if(token!==playToken)return;
-  board.innerHTML="";
-  setupStampBoard(out);
-  [...out].forEach(ch=>{
-    const s=document.createElement("div");
-    s.className="stamp";
-    s.textContent=ch;
-    board.appendChild(s);
-  });
+  const stamps=populateStampBoard(out,false);
   board.style.opacity=1;
   label.style.opacity=0;
   await sleep(90);
   if(token!==playToken)return;
 
-  const stamps=[...board.children];
-  const shakeStrength=n<=3?1:(n<=8?.72:(n<=14?.46:.25));
-  const stampBeat=n<=3?520:(n<=8?450:(n<=14?340:250));
+  const stampCount=stamps.length;
+  const shakeStrength=stampCount<=3?1:(stampCount<=8?.72:(stampCount<=14?.46:.25));
+  const stampBeat=stampCount<=3?520:(stampCount<=8?450:(stampCount<=14?340:250));
   for(let i=0;i<stamps.length;i++){
     if(token!==playToken)return;
     const stamp=stamps[i];
@@ -1744,7 +1820,7 @@ async function play(){
     );
 
     if(navigator.vibrate){
-      navigator.vibrate(n<=3?[65,28,110]:(n<=8?[48,22,78]:(n<=14?[34,16,52]:[24])));
+      navigator.vibrate(stampCount<=3?[65,28,110]:(stampCount<=8?[48,22,78]:(stampCount<=14?[34,16,52]:[24])));
     }
     await sleep(stampBeat);
   }
@@ -1761,7 +1837,7 @@ async function play(){
   await sleep(1050);
   if(token!==playToken)return;
   input.value=out;
-  input.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
+  input.style.fontFamily=targetFontFamily;
   input.style.color="";
   input.style.caretColor="";
   clearStage(false);
@@ -1774,15 +1850,28 @@ debugButtons.forEach(debugButton=>{
     play();
   });
 });
-input.addEventListener("keydown",e=>{if(e.key==="Enter"){nextPreset=null;play();}});
+conversionModeInputs.forEach(el=>el.addEventListener("change",updateConversionUi));
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){
+    e.preventDefault();
+    nextPreset=null;
+    play();
+  }
+});
+updateConversionUi();
 skip.addEventListener("click",()=>{
-  const src=input.value.trim()||"あさきゆめみし";
-  const out=[...src].map(c=>firstVariant[c]||c).join("");
+  const mode=getConversionMode();
+  const src=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
+  const out=transformText(src,mode);
   playToken++;
   input.style.color="";
   input.style.caretColor="";
-  finishInstant(out);
-  setTimeout(()=>{input.value=out;clearStage(false)},700);
+  finishInstant(out,mode);
+  setTimeout(()=>{
+    input.value=out;
+    input.style.fontFamily=targetFontFor(mode);
+    clearStage(false);
+  },700);
 });
 </script>
 </body>
