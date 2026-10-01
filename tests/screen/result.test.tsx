@@ -301,7 +301,7 @@ test('result: 歌を渡せば行を押して歌と作者を出せる', () => {
 test('result: 増えた歌は前の分を淡く・増えた分を濃く塗り、▲＋と「前 → 後」を添える', () => {
   const view = mount({ ...base, changes: [{ poemId: 'p003', before: 12, after: 21 }] });
   const row = view.querySelector<HTMLElement>('.result-change')!;
-  expect(row.getAttribute('aria-label')).toBe('3番 12%から21%、9増えました');
+  expect(row.querySelector('.result-change__summary')?.textContent).toBe('3番 12%から21%、9増えました');
   expect(row.querySelector('.result-change__delta')?.textContent).toBe('▲ +9');
   expect(row.querySelector('small')?.textContent).toBe('12% → 21%');
   expect(row.querySelector<HTMLElement>('.result-change__before')!.style.width).toBe('12%');
@@ -314,10 +314,41 @@ test('result: 増えた歌は前の分を淡く・増えた分を濃く塗り、
 test('result: 減った歌は失った幅を斜線で示し、▼−と赤字で出す', () => {
   const view = mount({ ...base, changes: [{ poemId: 'p005', before: 45, after: 38.4 }] });
   const row = view.querySelector<HTMLElement>('.result-change')!;
-  expect(row.getAttribute('aria-label')).toBe('5番 45%から38.4%、6.6減りました');
+  expect(row.querySelector('.result-change__summary')?.textContent).toBe('5番 45%から38.4%、6.6減りました');
   expect(row.querySelector('.result-change__delta--down')?.textContent).toBe('▼ −6.6');
   const loss = row.querySelector<HTMLElement>('.result-change__loss')!;
   expect(loss.style.left).toBe('38.4%');
   expect(Number.parseFloat(loss.style.width)).toBeCloseTo(6.6);
   expect(row.querySelector('.result-change__gain')).toBeNull();
+});
+
+// --- 2026-10-01・依頼者：当日上限・要作者のバッジ。押すと行の下に説明が開く（比較モックの案A） ---
+test('result: 当日上限のバッジを押すと、その行の下に説明が開く', async () => {
+  const view = mount({ ...base, changes: [{ poemId: 'p008', before: 72, after: 72, notes: ['daily-cap'] }] });
+  const row = view.querySelector<HTMLElement>('.result-change')!;
+  expect(row.querySelector('.result-change__delta')?.textContent).toBe('±0');
+  const badge = row.querySelector<HTMLButtonElement>('.result-note-badge--daily-cap')!;
+  expect(badge.textContent).toBe('当日上限 ›');
+  const note = row.querySelector<HTMLElement>(`#${badge.getAttribute('aria-controls')}`)!;
+  expect(note.hidden).toBe(true);
+  await act(() => { badge.click(); });
+  expect(badge.getAttribute('aria-expanded')).toBe('true');
+  expect(note.hidden).toBe(false);
+  expect(note.textContent).toBe('本日の上限に達しました。この先は別の日に取り組むことで上げられます。');
+  await act(() => { badge.click(); });
+  expect(note.hidden).toBe(true);
+});
+
+test('result: 要作者のバッジは作者の問題へ誘う', async () => {
+  const view = mount({ ...base, changes: [{ poemId: 'p010', before: 72, after: 80, notes: ['author'] }] });
+  const badge = view.querySelector<HTMLButtonElement>('.result-note-badge--author')!;
+  expect(badge.textContent).toBe('要作者 ›');
+  await act(() => { badge.click(); });
+  expect(view.querySelector(`#${badge.getAttribute('aria-controls')}`)?.textContent).toBe('作者を答える問題にも取り組みましょう。');
+});
+
+test('result: 補足の無い行にはバッジを出さない', () => {
+  const view = mount({ ...base, changes: [{ poemId: 'p003', before: 12, after: 21 }] });
+  expect(view.querySelector('.result-note-badge')).toBeNull();
+  expect(view.querySelector('.result-change__note')).toBeNull();
 });

@@ -487,17 +487,53 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
  * 前の分は淡く、増えた分は濃く、減った分は赤の斜線。右に増減と「前 → 後」を必ず添える。
  */
 .result-changes { display: grid; margin: var(--space-md) 0 0; padding: 0; list-style: none; }
-.result-change { display: grid; grid-template-columns: 2.2em minmax(0, 1fr) 7.5em; align-items: center; gap: var(--space-sm); border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-xs); }
+.result-change { position: relative; display: grid; grid-template-columns: 2.2em minmax(0, 1fr) 7.5em; grid-template-areas: "no bar nums" ". . badges" ". note note"; align-items: center; gap: 0 var(--space-sm); border-bottom: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-xs); }
+.result-change__no { grid-area: no; }
+.result-change__bar { grid-area: bar; }
+.result-change__nums { grid-area: nums; }
 .result-change__no { color: var(--color-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
 .result-change__bar { position: relative; display: block; box-sizing: border-box; height: 0.75rem; overflow: hidden; border: var(--rule-thin) solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-surface-soft); }
 .result-change__bar > span { position: absolute; inset-block: 0; transform-origin: left center; }
 .result-change__before { left: 0; background: currentColor; opacity: 0.38; }
 .result-change__gain { background: currentColor; }
-.result-change__loss { background: repeating-linear-gradient(135deg, var(--color-danger) 0 2px, transparent 2px 5px); opacity: 0.7; }
+/* 減った分は、小さい幅でも見えるよう斜線を濃くし、縁取りも付ける（デザイン監査・2026-10-01）。 */
+.result-change__loss { background: repeating-linear-gradient(135deg, var(--color-danger) 0 2px, transparent 2px 4px); box-shadow: inset 0 0 0 1px var(--color-danger); opacity: 0.85; }
 .result-change__nums { display: grid; justify-items: end; line-height: 1.3; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .result-change__nums small { color: var(--color-ink-muted); font-size: var(--text-sm); }
 .result-change__delta { color: var(--color-ink); font-size: var(--text-sm); }
 .result-change__delta--down { color: var(--color-danger); }
+/*
+ * 補足のバッジ（依頼者・2026-10-01）。押すと行の下に説明が開く。色は既存の「次にやること」の強調から借りる——
+ * 当日上限は習熟度の青（`.mastery-next-step` と同じ組み）、要作者は記録一覧の作者の強調（同期の緑）。
+ */
+.result-change__badges { grid-area: badges; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-3xs) var(--space-2xs); margin-block-start: var(--space-3xs); }
+.result-note-badge { min-width: 0; min-height: 0; border: var(--rule-thin) solid; border-radius: 999px; padding: 0.1em 0.6em; font-size: 0.75rem; font-weight: 700; line-height: 1.5; white-space: nowrap; }
+.result-note-badge--daily-cap { border-color: var(--mastery-blue); background: oklch(91% 0.055 250); color: oklch(38% 0.11 250); }
+.result-note-badge--author { border-color: var(--sync-accent); background: var(--sync-soft); color: var(--sync-accent-hover); }
+/* 押せる範囲は見た目より広く取る（タップ領域 44px）。並ぶバッジ同士は重ならない程度に。 */
+.result-note-badge { position: relative; }
+.result-note-badge::before { content: ""; position: absolute; inset: -0.75rem -0.15rem; }
+@media (hover: hover) and (pointer: fine) { .result-note-badge:not(:disabled):hover { background: var(--color-surface); } }
+.result-note-badge[aria-expanded="true"] { box-shadow: 0 0 0 2px var(--color-focus); }
+.result-change__note { grid-area: note; margin: var(--space-xs) 0 0; border-radius: var(--radius-sm); padding: var(--space-2xs) var(--space-xs); background: var(--color-surface-soft); color: var(--color-ink); font-size: var(--text-sm); }
+.result-change__note[hidden] { display: none; }
+/*
+ * 増えた分・減った分を光らせる（依頼者・2026-10-01、比較モックの G1）。帯が伸び終わった後に、
+ * 白い光が 2 回なぞり、増えた分は一瞬明るくなる。光は紙の色（`--color-surface`）で、新しい色を作らない。
+ */
+.result-change__gain, .result-change__loss { overflow: hidden; }
+.result-changes.is-lit .result-change__gain::after, .result-changes.is-lit .result-change__loss::after {
+  content: ""; position: absolute; inset: 0; transform: translateX(-120%);
+  background: linear-gradient(100deg, transparent 20%, color-mix(in oklab, var(--color-surface) 85%, transparent) 50%, transparent 80%);
+  animation: result-sheen 1.1s ease-in-out calc(0.9s + var(--i, 0) * 35ms) 2 both;
+}
+.result-changes.is-lit .result-change__gain { animation: result-glow 2.6s ease-in-out calc(0.8s + var(--i, 0) * 35ms) both; }
+@keyframes result-sheen { to { transform: translateX(120%); } }
+@keyframes result-glow { 0%, 100% { filter: none; } 35% { filter: brightness(1.18) saturate(1.25); } }
+@media (prefers-reduced-motion: reduce) {
+  .result-changes.is-lit .result-change__gain, .result-changes.is-lit .result-change__gain::after, .result-changes.is-lit .result-change__loss::after { animation: none; }
+  .result-changes.is-lit .result-change__gain::after, .result-changes.is-lit .result-change__loss::after { content: none; }
+}
 .result-poems { display: grid; gap: var(--space-sm); margin: var(--space-md) 0 0; padding: 0; list-style: none; }
 .result-poem { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); border-inline-start: 4px solid var(--color-rule); padding-inline-start: var(--space-sm); }
 .result-poem--gray { border-color: var(--mastery-gray); }
