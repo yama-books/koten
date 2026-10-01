@@ -321,7 +321,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 19: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 20: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -407,7 +407,7 @@
         <label><input type="radio" name="stampDirection" value="horizontal" checked> 横</label>
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
       </div>
-      <div class="hint">※ 演出検証用。後半も連続変形としてつなぎ、文字数に応じて刻印レイアウトを自動調整します。</div>
+      <div class="hint">※ 演出検証用。平面剥離→浮遊、閃光の中で花火状に誕生→ひらひら自由落下→漂いながら徐々に集合。全区間を滑らかにつなぎます。</div>
     </section>
   </main>
   <footer>prototype / cinematic conversion motion</footer>
@@ -702,31 +702,28 @@ async function play(){
       const peelDelay=150+i*peelStagger+s.peelJitter;
       const peelT=easeInOut(clamp((elapsed-peelDelay)/520));
       const localRise=easeSoft(clamp((elapsed-(peelDelay+120))/3000));
-      const localFloat=easeInOut(clamp((elapsed-(peelDelay+220))/1250));
-      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+700+s.orbitLag))/3100));
+      // Keep the glyph face completely flat through the peel and first lift.
+      // 3D floating begins only after the planar character has visibly risen away from the source.
+      const localFloat=easeInOut(clamp((elapsed-(peelDelay+760))/1120));
+      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+1260+s.orbitLag))/2700));
 
       const lift=s.liftAmp*localRise;
 
-      // "Paper" peel around the lower hinge.
+      // Peel and first ascent remain a flat sheet: translate only, no 3D tilt or depth.
       const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-charOrbit);
       const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-charOrbit);
       const peelSkew=(i-(n-1)/2)*1.4;
-      const peelX=s.sway*.36*peelT+peelSkew*peelT*.36;
+      const peelX=s.sway*.18*peelT+peelSkew*peelT*.24;
       const peelY=-13*peelT;
-      const peelZ=19*peelT;
-      const peelRX=-34*peelT;
-      const peelRY=s.sway*7.5*peelT;
-      const peelRZ=s.tilt*1.7*peelT;
 
-      // The peeled glyph immediately begins to float.
+      // After the flat glyph has risen, it gradually acquires leaf-like 3D floating.
       const floatEnvelope=.20+.80*Math.sin(Math.min(localRise,.985)*Math.PI);
       const floatStrength=floatEnvelope*localFloat;
       const freeX=s.x+planarDriftX+peelX
         +Math.sin(tSec*2.18*s.floatFreqX+s.phase)*s.sway*s.floatAmpX*floatStrength;
       const freeY=s.y-lift+planarDriftY+peelY
         +Math.sin(tSec*3.05*s.floatFreqY+s.phase)*6.4*s.floatAmpY*floatStrength;
-      const freeZ=peelZ
-        +Math.sin(tSec*2.55*s.floatFreqZ+s.phase)*26*s.floatAmpZ*floatStrength;
+      const freeZ=Math.sin(tSec*2.55*s.floatFreqZ+s.phase)*26*s.floatAmpZ*floatStrength;
 
       // The imperfect ring is already rotating while glyphs are still being attracted.
       const angle=base+spinBase;
@@ -749,12 +746,12 @@ async function play(){
       const scale=lerp(freeScale,orbitScale,charOrbit);
 
       const flutterRZ=Math.sin(tSec*1.55+s.phase)*s.tilt*(1-p*.18);
-      const freeRZ=peelRZ+flutterRZ;
+      const freeRZ=flutterRZ*localFloat;
       const orbitRZ=(spinBase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
       const rotZ=lerp(freeRZ,orbitRZ,charOrbit);
 
-      const freeRX=lerp(peelRX,Math.sin(tSec*2.45+s.phase)*34*floatStrength,localFloat);
-      const freeRY=lerp(peelRY,Math.cos(tSec*2.25+s.phase)*38*floatStrength,localFloat);
+      const freeRX=Math.sin(tSec*2.45+s.phase)*34*floatStrength;
+      const freeRY=Math.cos(tSec*2.25+s.phase)*38*floatStrength;
       const orbitRX=-12+Math.cos(angle)*10;
       const orbitRY=10+Math.sin(angle)*12;
       const rotX=lerp(freeRX,orbitRX,charOrbit);
@@ -907,10 +904,10 @@ async function play(){
     sparkleSeeds.forEach((s,i)=>{
       const tt=elapsed/1000;
       const ang=s.angle+tt*s.speed;
-      const r=lerp(12,s.radius,sparkBirth);
+      const r=lerp(6,18,sparkBirth);
       const x=Math.cos(ang)*r;
-      const y=lerp(-28,s.y,sparkBirth)+Math.sin(tt*1.6+s.phase)*5*sparkBirth;
-      const z=lerp(20,s.z,sparkBirth);
+      const y=lerp(-18,s.y*.18,sparkBirth)+Math.sin(tt*1.6+s.phase)*3*sparkBirth;
+      const z=lerp(12,s.z*.24,sparkBirth);
       const pulse=.45+.55*Math.sin(tt*5.2*s.pulse+s.phase)**2;
       setT(s.el,x,y,s.size*(.45+.55*sparkBirth)*pulse,0,0,0,z);
       s.el.style.opacity=String(sparkBirth*(.45+.55*pulse));
@@ -921,71 +918,74 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光中に旧回転姿勢を完全に消し、開けた瞬間から花びらの自由落下だけを見せる。
-  //    個々の文字はフル回転させない。横揺れ・前後揺れ・わずかな傾き + 下方向の自由落下で phase7 の漂いへ着地する。
-  const phase6Duration=2050;
-  const hiddenPoseMs=130;
-  const flashOpenMs=230;
+  // 6) 閃光が明ける瞬間そのものを「誕生の破裂光」にする。
+  //    強い白光の中で花火のようにぱっと散り、その勢いを失いながら、ひらひら自由落下へ連続移行。
+  const phase6Duration=2200;
+  const hiddenPoseMs=110;
+  const birthBurstMs=210;
+  const flashOpenDelayMs=70;
+  const flashOpenMs=460;
 
   const petalState=(i,timeMs)=>{
     const s=seeds[i];
     const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
     const tt=timeMs/1000;
     const anchorAngle=baseAngles[i]+s.phase*.13;
-    const anchorR=72+(i%4)*7;
-    const fall=Math.min(tt,4.6)*(7.5+s.floatAmpY*2.2);
-    const anchorX=Math.cos(anchorAngle)*anchorR+layer*10;
-    const anchorY=-34+Math.sin(anchorAngle*.78)*16+layer*18+fall;
-    const anchorZ=Math.sin(anchorAngle*1.24+s.phase)*25;
 
-    const swayX=Math.sin(tt*(.92+s.floatFreqX*.22)+s.phase*1.35)*(24*s.floatAmpX)
-      +Math.sin(tt*.44+s.phase*.62)*8;
-    const swayY=Math.cos(tt*(.82+s.floatFreqY*.18)+s.phase*1.12)*(13*s.floatAmpY)
-      +Math.sin(tt*.39+s.phase)*6;
-    const swayZ=Math.sin(tt*(1.02+s.floatFreqZ*.20)+s.phase)*(14*s.floatAmpZ)
-      +Math.cos(tt*.50+s.phase*.74)*7;
+    // Wide birth spread, then a soft downward fall that gradually becomes floating.
+    const anchorR=78+(i%4)*8+Math.abs(layer)*10;
+    const fall=20*tt+27*(1-Math.exp(-tt*1.35));
+    const anchorX=Math.cos(anchorAngle)*anchorR+layer*10;
+    const anchorY=-42+Math.sin(anchorAngle*.78)*18+layer*17+fall;
+    const anchorZ=Math.sin(anchorAngle*1.24+s.phase)*28;
+
+    const swayX=Math.sin(tt*(1.02+s.floatFreqX*.22)+s.phase*1.35)*(27*s.floatAmpX)
+      +Math.sin(tt*.47+s.phase*.62)*9;
+    const swayY=Math.cos(tt*(.92+s.floatFreqY*.18)+s.phase*1.12)*(14*s.floatAmpY)
+      +Math.sin(tt*.43+s.phase)*7;
+    const swayZ=Math.sin(tt*(1.08+s.floatFreqZ*.20)+s.phase)*(16*s.floatAmpZ)
+      +Math.cos(tt*.52+s.phase*.74)*8;
 
     return {
       x:anchorX+swayX,
       y:anchorY+swayY,
       z:anchorZ+swayZ,
-      rot:Math.sin(tt*1.10+s.phase)*4.2,
-      rx:-4+Math.sin(tt*1.30+s.phase)*9,
-      ry:Math.cos(tt*1.18+s.phase)*10
+      // Flutter, not tumbling: the face rocks like a falling petal but never performs a full spin.
+      rot:Math.sin(tt*1.22+s.phase)*5.6,
+      rx:-3+Math.sin(tt*1.42+s.phase)*14,
+      ry:Math.cos(tt*1.30+s.phase)*16
     };
   };
 
   const sparkPetalState=(s,timeMs)=>{
     const tt=timeMs/1000;
-    const fall=Math.min(tt,4.6)*6.5;
-    const ang=s.angle+Math.sin(tt*.24+s.phase)*.14;
+    const fall=17*tt+22*(1-Math.exp(-tt*1.30));
+    const ang=s.angle+Math.sin(tt*.27+s.phase)*.16;
     return {
-      x:Math.cos(ang)*s.radius+Math.sin(tt*.92+s.phase)*18,
-      y:s.y+fall+Math.sin(tt*1.08+s.phase)*10+Math.cos(tt*.46+s.phase)*6,
-      z:s.z+Math.cos(tt*.84+s.phase)*18,
+      x:Math.cos(ang)*s.radius+Math.sin(tt*.98+s.phase)*20,
+      y:s.y+fall+Math.sin(tt*1.14+s.phase)*11+Math.cos(tt*.50+s.phase)*7,
+      z:s.z+Math.cos(tt*.91+s.phase)*20,
       pulse:.45+.55*Math.sin(tt*5.0*s.pulse+s.phase)**2
     };
   };
 
   await frameTween(phase6Duration,(p,elapsed)=>{
-    // First 130ms stays white: use it to change pose invisibly.
-    const poseReady=easeOut(clamp(elapsed/hiddenPoseMs));
-    const flashOpen=easeOut(clamp((elapsed-hiddenPoseMs)/flashOpenMs));
     const visibleTime=Math.max(0,elapsed-hiddenPoseMs);
-    const burst=easeOut(clamp(visibleTime/flashOpenMs));
-    const fallBlend=easeInOut(clamp((visibleTime-20)/1350));
-    const soften=easeInOut(clamp((visibleTime-40)/1650));
+    const burst=easeOut(clamp(visibleTime/birthBurstMs));
+    // The burst happens while the screen is still dazzlingly white.
+    const flashOpen=easeInOut(clamp((visibleTime-flashOpenDelayMs)/flashOpenMs));
+    const soften=easeInOut(clamp((visibleTime-60)/1750));
 
-    flash.style.opacity=String(elapsed<hiddenPoseMs ? .98 : (1-flashOpen)*.98);
-    whiteRoom.style.opacity=String(lerp(1,.84,soften));
-    portalGlow.style.opacity=String(lerp(.90,.16,soften));
-    rushLines.style.opacity=String(lerp(1,.10,soften));
+    flash.style.opacity=String(elapsed<hiddenPoseMs ? .99 : lerp(.99,0,flashOpen));
+    whiteRoom.style.opacity=String(lerp(1,.85,soften));
+    portalGlow.style.opacity=String(lerp(.98,.16,soften));
+    rushLines.style.opacity=String(lerp(.92,.10,soften));
 
     g.forEach((el,i)=>{
       const s=seeds[i];
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
 
-      // Exact hidden phase-5 position, used only as the origin of the burst.
+      // Exact phase-5 endpoint, hidden inside the birth flash.
       const endAngle=baseAngles[i]+spinFlashEnd;
       const endDepth=(Math.sin(endAngle)+1)/2;
       const endAxisX=Math.sin(layer*1.8+spinFlashEnd*.22)*6;
@@ -995,66 +995,53 @@ async function play(){
       const startZ=(endDepth-.5)*48;
       const startScale=(.56+endDepth*.40)*densityScale;
 
-      // Flower-petal birth impulse. Once the flash opens, no group/individual spin remains.
-      const birthAngle=baseAngles[i]+s.phase*.18+(i%2?-.12:.12);
-      const birthR=72+(i%4)*10+Math.abs(layer)*20;
-      const impulseX=Math.cos(birthAngle)*birthR;
-      const impulseY=Math.sin(birthAngle)*birthR*.42+layer*18;
-      const impulseZ=Math.sin(birthAngle*1.7+s.phase)*(34+Math.abs(layer)*10);
-
-      // Gravity-like downward displacement after the burst.
-      const t=visibleTime/1000;
-      const gravityY=34*t+24*t*t;
-      const sideDrift=Math.sin(t*2.0+s.phase)*10*s.floatAmpX;
-
-      const fallX=startX+impulseX*burst+sideDrift*burst;
-      const fallY=startY+impulseY*burst+gravityY;
-      const fallZ=startZ+impulseZ*burst+Math.sin(t*1.6+s.phase)*8;
-
       const petal=petalState(i,visibleTime);
-      const x=lerp(fallX,petal.x,fallBlend);
-      const y=lerp(fallY,petal.y,fallBlend);
-      const z=lerp(fallZ,petal.z,fallBlend);
+
+      // Firework birth: reach the already-moving petal trajectory very quickly,
+      // so the visible motion is "burst -> flutter/fall", not "orbit -> burst".
+      const x=lerp(startX,petal.x,burst);
+      const y=lerp(startY,petal.y,burst);
+      const z=lerp(startZ,petal.z,burst);
 
       const targetDepth=.5+.5*Math.sin(s.phase+visibleTime*.0009);
       const targetScale=(.55+targetDepth*.15)*densityScale;
       const scale=lerp(startScale,targetScale,soften);
 
-      // Crucial: old rotational pose is gone before the flash opens.
-      const rot=petal.rot*poseReady;
-      const rx=petal.rx*poseReady;
-      const ry=petal.ry*poseReady;
-
-      setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.76,.91,soften));
+      setT(
+        el,x,y,scale,
+        petal.rot*burst,
+        petal.rx*burst,
+        petal.ry*burst,
+        z
+      );
+      el.style.opacity=String(lerp(.78,.92,soften));
       el.style.filter="none";
     });
 
     sparkleSeeds.forEach(s=>{
       const petal=sparkPetalState(s,visibleTime);
-      const birthR=(46+s.radius*.48)*burst;
-      const t=visibleTime/1000;
-      const x=Math.cos(s.angle)*birthR+Math.sin(t*1.8+s.phase)*8;
-      const y=Math.sin(s.angle)*birthR*.50+30*t+20*t*t;
-      const z=Math.sin(s.angle*1.6+s.phase)*birthR*.62;
+      const startR=7;
+      const startX=Math.cos(s.angle)*startR;
+      const startY=-10+Math.sin(s.angle)*startR*.35;
+      const startZ=8;
 
       setT(
         s.el,
-        lerp(x,petal.x,fallBlend),
-        lerp(y,petal.y,fallBlend),
+        lerp(startX,petal.x,burst),
+        lerp(startY,petal.y,burst),
         s.size*(.72+.58*petal.pulse),
         0,0,0,
-        lerp(z,petal.z,fallBlend)
+        lerp(startZ,petal.z,burst)
       );
-      s.el.style.opacity=String(.48+.48*petal.pulse);
+      s.el.style.opacity=String(burst*(.48+.48*petal.pulse));
       s.el.style.filter=`blur(${(1-petal.pulse)*.7}px)`;
     });
   },token);
   if(token!==playToken)return;
   flash.style.opacity="0";
 
-  // 7) 自由落下の余韻。まだ集団回転には戻さず、花びらの独立運動を見せる。
-  const phase7Duration=1700;
+  // 7) ひらひら自由落下の余韻。そのまま無重力寄りの漂いへ移り、まだ集団運動には戻さない。
+  const phase7Duration=1900;
 
   await frameTween(phase7Duration,(p,elapsed)=>{
     const petalTime=phase6Duration+elapsed;
@@ -1065,7 +1052,7 @@ async function play(){
       const depth=.5+.5*Math.sin(s.phase+petalTime*.0009);
       const scale=(.55+depth*.15)*densityScale;
       setT(el,pos.x,pos.y,scale,pos.rot,pos.rx,pos.ry,pos.z);
-      el.style.opacity=".91";
+      el.style.opacity=".92";
     });
 
     sparkleSeeds.forEach(s=>{
@@ -1075,30 +1062,34 @@ async function play(){
       s.el.style.filter=`blur(${(1-pos.pulse)*.7}px)`;
     });
 
-    whiteRoom.style.opacity=String(lerp(.84,.81,easeInOut(p)));
-    portalGlow.style.opacity=String(lerp(.16,.12,easeInOut(p)));
-    rushLines.style.opacity=String(lerp(.10,.08,easeInOut(p)));
+    whiteRoom.style.opacity=String(lerp(.85,.81,easeInOut(p)));
+    portalGlow.style.opacity=String(lerp(.16,.11,easeInOut(p)));
+    rushLines.style.opacity=String(lerp(.10,.07,easeInOut(p)));
   },token);
   if(token!==playToken)return;
 
-  // 8) 花びらの散開から集団回転へ自然復帰。
-  //    petalState を moving source として残し、共有角度の円環へ徐々に吸着させる。
-  const phase8Duration=2450;
+  // 8) 「漂いながら少しずつ集まる」区間。
+  //    petalState を最後まで moving source として残し、低速のゆるい集合形へ全区間を使って吸着させる。
+  const phase8Duration=3100;
   const petalBaseTime=phase6Duration+phase7Duration;
-  const groupOmegaStart=Math.PI*2*.20;
-  const groupOmegaEnd=Math.PI*2*1.18;
+  const groupOmegaStart=Math.PI*2*.035;
+  const groupOmegaEnd=Math.PI*2*.32;
   const groupAccel=(groupOmegaEnd-groupOmegaStart)/(phase8Duration/1000);
-  const groupR=84;
-  const groupRY=28;
+  const groupR=72;
+  const groupRY=23;
+  const groupVertical=28;
+  const groupCenterAmpX=7;
+  const groupCenterAmpY=6;
   let groupTheta=0;
 
   await frameTween(phase8Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
     groupTheta=groupOmegaStart*tSec+.5*groupAccel*tSec*tSec;
-    const groupBlend=easeInOut(clamp((p-.04)/.82));
+    // Almost the whole phase is spent gathering, avoiding a sudden switch into a clean orbit.
+    const groupBlend=easeInOut(clamp((p-.02)/.98));
     const time=petalBaseTime+elapsed;
-    const centerX=Math.sin(groupTheta*.34)*9*groupBlend;
-    const centerY=-12+Math.cos(groupTheta*.29)*7*groupBlend;
+    const centerX=Math.sin(groupTheta*.34)*groupCenterAmpX*groupBlend;
+    const centerY=-12+Math.cos(groupTheta*.29)*groupCenterAmpY*groupBlend;
 
     g.forEach((el,i)=>{
       const s=seeds[i];
@@ -1107,8 +1098,9 @@ async function play(){
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
 
+      // A loose gathered cloud/ellipse, rotating so slowly that the continuing drift remains dominant.
       const orbitX=centerX+Math.cos(angle)*groupR;
-      const orbitY=centerY+Math.sin(angle)*groupRY+layer*34;
+      const orbitY=centerY+Math.sin(angle)*groupRY+layer*groupVertical;
       const orbitZ=(depth-.5)*50;
 
       const x=lerp(petal.x,orbitX,groupBlend);
@@ -1117,28 +1109,27 @@ async function play(){
 
       const petalDepth=.5+.5*Math.sin(s.phase+time*.0009);
       const petalScale=(.55+petalDepth*.15)*densityScale;
-      const orbitScale=(.56+depth*.24)*densityScale;
+      const orbitScale=(.56+depth*.22)*densityScale;
       const scale=lerp(petalScale,orbitScale,groupBlend);
 
-      // Individual tumbling stays restrained. The visible rotation is the group orbit itself.
-      const orbitRot=Math.sin(angle)*7;
-      const orbitRx=-7+Math.cos(angle)*12;
-      const orbitRy=Math.sin(angle)*15;
+      const orbitRot=Math.sin(angle)*6;
+      const orbitRx=-6+Math.cos(angle)*10;
+      const orbitRy=Math.sin(angle)*12;
       const rot=lerp(petal.rot,orbitRot,groupBlend);
       const rx=lerp(petal.rx,orbitRx,groupBlend);
       const ry=lerp(petal.ry,orbitRy,groupBlend);
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.91,.97,groupBlend));
+      el.style.opacity=String(lerp(.92,.97,groupBlend));
     });
 
     sparkleSeeds.forEach((s,i)=>{
       const petal=sparkPetalState(s,time);
       const angle=(i/sparkleCount)*Math.PI*2+groupTheta;
       const depth=(Math.sin(angle)+1)/2;
-      const orbitX=centerX+Math.cos(angle)*(groupR+20);
-      const orbitY=centerY+Math.sin(angle)*(groupRY+10);
-      const orbitZ=(depth-.5)*64;
+      const orbitX=centerX+Math.cos(angle)*(groupR+18);
+      const orbitY=centerY+Math.sin(angle)*(groupRY+9);
+      const orbitZ=(depth-.5)*62;
       setT(
         s.el,
         lerp(petal.x,orbitX,groupBlend),
@@ -1151,8 +1142,8 @@ async function play(){
     });
 
     whiteRoom.style.opacity=String(lerp(.81,.86,groupBlend));
-    portalGlow.style.opacity=String(lerp(.12,.24,groupBlend));
-    rushLines.style.opacity=String(lerp(.08,.20,groupBlend));
+    portalGlow.style.opacity=String(lerp(.11,.24,groupBlend));
+    rushLines.style.opacity=String(lerp(.07,.20,groupBlend));
   },token);
   if(token!==playToken)return;
 
@@ -1167,9 +1158,9 @@ async function play(){
     const collapse=easeInOut(clamp(p/.70));
     const radius=lerp(groupR,10,collapse);
     const ellipse=lerp(groupRY,4,collapse);
-    const vertical=lerp(34,4,collapse);
-    const centerX=Math.sin(theta*.34)*9*(1-collapse);
-    const centerY=lerp(-12,-4,collapse)+Math.cos(theta*.29)*7*(1-collapse);
+    const vertical=lerp(groupVertical,4,collapse);
+    const centerX=Math.sin(theta*.34)*groupCenterAmpX*(1-collapse);
+    const centerY=lerp(-12,-4,collapse)+Math.cos(theta*.29)*groupCenterAmpY*(1-collapse);
 
     g.forEach((el,i)=>{
       const angle=baseAngles[i]+theta;
@@ -1187,12 +1178,12 @@ async function play(){
       const x=lerp(orbitX,0,rush);
       const y=lerp(orbitY,0,rush);
       const z=lerp(orbitZ,400,rush);
-      const scale=lerp((.56+depth*.24)*densityScale,3.38,rush);
+      const scale=lerp((.56+depth*.22)*densityScale,3.38,rush);
 
-      const orbitRot=Math.sin(angle)*7;
+      const orbitRot=Math.sin(angle)*6;
       const rot=lerp(orbitRot,(i%2?-1:1)*50*rush,rush);
-      const rx=lerp(-7+Math.cos(angle)*12,0,rush);
-      const ry=lerp(Math.sin(angle)*15,0,rush);
+      const rx=lerp(-6+Math.cos(angle)*10,0,rush);
+      const ry=lerp(Math.sin(angle)*12,0,rush);
 
       setT(el,x,y,scale,rot,rx,ry,z);
 
