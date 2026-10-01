@@ -84,19 +84,52 @@ test('session: all four entries show question progress only in the meter', async
     expect(progress.compareDocumentPosition(controls) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   }
 });
-test('session: completing the last question shows 100 percent progress', async () => {
+test('session: answering the last question fills the progress to 100 percent', async () => {
   await mount();
   await answer('白妙の');
+  // 答え合わせを終えた問は数える（2026-10-02）。
+  expect(root!.textContent).toContain('1問/2問');
   await act(() => { root!.querySelector('button.primary')!.click(); });
+  expect(root!.textContent).toContain('1問/2問');
   await answer('衣干す');
-  await act(() => { root!.querySelector('button.primary')!.click(); });
   const meter = root!.querySelector('[role="meter"]');
   expect(meter?.getAttribute('aria-valuenow')).toBe('100');
   expect(root!.textContent).toContain('2問/2問');
 });
 test('session: writing setting is saved', async () => { const p = port(); await mount(p); await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '横書きにする')!.click(); }); expect((await p.loadSettings())?.writing).toBe('horizontal'); });
 test('session: local-only report action stays hidden', async () => { await mount(); await answer('白妙の'); expect(root!.textContent).not.toContain('問題を報告'); });
-test('session: completing the last question shows completion', async () => { await mount(); await answer('白妙の'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); await answer('衣干す'); await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); expect(root!.textContent).toContain('今回の範囲を確認しました'); });
+/*
+ * 練習を終えた直後の画面は外した（依頼者裁定・2026-10-02）。「今回の範囲を確認しました」と
+ * 「結果を見る」だけの画面で、結果画面と役目が重なり、押す手間が 1 回増えるだけだった。
+ * **最後の問題のボタンが「結果を見る」になり、押すとそのまま結果へ渡す。**
+ */
+test('session: the last question leads straight to the result', async () => {
+  const completed: unknown[] = [];
+  root = document.createElement('div'); document.body.append(root);
+  await act(async () => { render(<Session questions={fixture} sessionId="s" port={port()} settings={settings} onSettings={() => {}} onComplete={(outcomes) => { completed.push(outcomes); }} />, root!); });
+  await answer('白妙の');
+  expect(root.querySelector('button.primary')!.textContent).toBe('次へ');
+  await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+  await answer('衣干す');
+  const last = root.querySelector('button.primary')!;
+  expect(last.textContent).toBe('結果を見る');
+  expect(completed).toEqual([]);
+  await act(() => { last.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+  expect(completed).toEqual([[
+    { questionId: fixture[0]!.questionId, poemId: fixture[0]!.poemId, kind: 'correct' },
+    { questionId: fixture[1]!.questionId, poemId: fixture[1]!.poemId, kind: 'correct' },
+  ]]);
+  expect(root.textContent).not.toContain('今回の範囲を確認しました');
+});
+test('session: pressing Enter and clicking 結果を見る hands over the result once', async () => {
+  let calls = 0;
+  root = document.createElement('div'); document.body.append(root);
+  await act(async () => { render(<Session questions={fixture.slice(0, 1)} sessionId="s" port={port()} settings={settings} onSettings={() => {}} onComplete={() => { calls += 1; }} />, root!); });
+  await answer('白妙の');
+  await act(() => { root!.querySelector('main')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); });
+  await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+  expect(calls).toBe(1);
+});
 test('session: feedback waits for an explicit action', async () => { await mount(); expect(root!.textContent).not.toContain('正解'); });
 test('session: answer field has a label and example', async () => { await mount(); expect(root!.textContent).toContain('答え'); expect(root!.textContent).toContain('歴史的仮名遣いで答えてください（ひらがな可）'); });
 
@@ -264,7 +297,7 @@ async function finishExamOnScreen(first: string, second: string) {
   return Array.from(root!.querySelectorAll('.grade-list > li'));
 }
 
-// 100% の端は入口ごとに別の画面で出る。練習は「確認しました」、本番は「採点する」である。
+// 100% の端は入口ごとに別の画面で出る。練習は最後の答え合わせ、本番は「採点する」である。
 test('session: 本番も最後の問を終えたところで100%になる', async () => {
   await finishExamOnScreen('白妙の', '衣干す');
   const meter = root!.querySelector('[role="meter"]');

@@ -140,8 +140,10 @@ async function finish() {
   const input = root!.querySelector('input[placeholder]') as HTMLInputElement;
   await act(() => { input.value = '白妙の'; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: '白妙の', inputType: 'insertText' })); });
   await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
-  await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-  await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '結果を見る')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); await Promise.resolve(); });
+  // 最後の問題のボタンは「結果を見る」で、押すとそのまま結果へ進む（2026-10-02 に完了の画面を外した）。
+  const toResult = root!.querySelector('button.primary')!;
+  expect(toResult.textContent).toBe('結果を見る');
+  await act(async () => { toResult.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); await Promise.resolve(); });
 }
 
 test('main: 学習を終えると completed: true で保存される', async () => {
@@ -175,9 +177,8 @@ test('main: 再確認はまちがえた歌だけを出す', async () => {
     const answer = index === 0 ? 'ちがう答え' : '白妙の';
     await act(() => { input.value = answer; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: answer, inputType: 'insertText' })); });
     await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
-    await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
+    await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); await Promise.resolve(); });
   }
-  await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '結果を見る')!.click(); await Promise.resolve(); await Promise.resolve(); });
   await act(() => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'まちがえた歌だけをもう一度')!.click(); });
   expect(currentNumber()).toBe('10');
   expect(root!.querySelector('.session .nav-edge .progress')?.textContent).toBe('10番');
@@ -203,9 +204,8 @@ test('main: 結果の読み込み中は完了前に文言を表示する', async
   const input = root!.querySelector('input[placeholder]') as HTMLInputElement;
   await act(() => { input.value = '白妙の'; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: '白妙の', inputType: 'insertText' })); });
   await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
-  await act(() => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
   gate = true;
-  await act(async () => { Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === '結果を見る')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
+  await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); });
   expect(root!.textContent).toContain('結果を読み込んでいます。');
   await act(async () => { resolveEvents!([]); await Promise.resolve(); });
   expect(root!.textContent).toContain('今回の結果');

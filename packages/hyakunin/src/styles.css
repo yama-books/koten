@@ -273,7 +273,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .range-picker h1,
 .session h1 { overflow-wrap: anywhere; }
 /* 1 文字だけ落ちる折り返しを避ける（依頼者・2026-09-16）。 */
-.session h1.session-complete { font-size: var(--text-md); }
 .session-controls,
 .answer-controls { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end; }
 /* 罫線と切替ボタンを接触させない。原文表示では状態行が無く、gap が 0 になっていた（発注076 §3）。 */
