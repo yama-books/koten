@@ -2,6 +2,7 @@ import { appConfig } from "@koten/shared/app-config";
 import type { UserSettings } from "@koten/shared/domain/event";
 import { MasteryMeter } from "@koten/shared/mastery-meter";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
+import { springIncrease } from "../list-motion.ts";
 import {
   buildFeedback,
   beginQuestion,
@@ -199,6 +200,17 @@ export function Session({
   const progressPercent = flow.questionCount === 0
     ? 0
     : Math.round((completedQuestionCount / flow.questionCount) * 100);
+  /*
+   * **進み具合の帯は、増えた分だけを「びよーん」と伸ばす**（依頼者・2026-10-01）。
+   * 帯は回答の段ごとに別の場所へ描き直されるので、画面の中から読み上げ名で探す。
+   * 動かせない環境と動きを減らす設定では何もしない（`springIncrease` が判断する）。
+   */
+  const shownProgress = useRef(progressPercent);
+  useLayoutEffect(() => {
+    const from = shownProgress.current;
+    shownProgress.current = progressPercent;
+    springIncrease(document.querySelector('[role="meter"][aria-label="セッションの進捗"] .mastery-meter__fill'), from, progressPercent);
+  }, [progressPercent]);
   const progressMeter = (
     <MasteryMeter
       label="セッション"

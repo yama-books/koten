@@ -1,7 +1,7 @@
 /**
  * 一覧の行の出し入れ（依頼者・2026-10-01）。**見せ方だけを変える。**
  *
- * - 行は上から順に、右から少し滑り込みながら出る（35ms 刻み）。各歌の帯は左から伸びる。
+ * - 行は上から順に、右から少し滑り込みながら出る（35ms 刻み）。各歌の帯は左から「びよーん」と伸びる。
  * - しまう時は逆。下の行から順に右へ抜けてから閉じる。
  * - まとまりを開け閉めして並びの段が変わる時は、ほかの箱を元の位置から新しい位置へ滑らせる。
  *
@@ -11,11 +11,49 @@
  */
 const ROW_STEP = 35;
 const SLIDE = 'cubic-bezier(0.16, 0.82, 0.2, 1)';
-const DRAW = 'cubic-bezier(0.22, 0.72, 0.18, 1)';
 
 export function motionAllowed(el: Element | null | undefined): el is HTMLElement {
   return el instanceof HTMLElement && typeof el.animate === 'function'
     && typeof window.matchMedia === 'function' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/**
+ * 棒を「びよーん」と伸ばす（依頼者・2026-10-01）。0 から伸びて終点を少し行き過ぎ、バネのように揺れて止まる。
+ *
+ * **行き過ぎの量は溝の幅で決める。** 棒自身の幅の割合で決めると、7% の棒は 0.5% しか行き過ぎず、
+ * 揺れが見えない。溝の 4% 分（棒自身の 6〜35%）を行き過ぎる。幅は `offsetWidth`
+ * （変形を無視した幅）で測る——待機中の `scaleX(0)` に引きずられない。
+ */
+export function springGrow(bar: Element, delay = 0): Animation | null {
+  if (!motionAllowed(bar)) return null;
+  const own = bar.offsetWidth;
+  const track = bar.parentElement?.clientWidth ?? own;
+  if (own <= 0) return null;
+  const over = Math.min(0.35, Math.max(0.06, (0.04 * track) / own));
+  return bar.animate([
+    { transform: 'scaleX(0)', easing: 'cubic-bezier(0.3, 0.9, 0.4, 1)' },
+    { transform: `scaleX(${1 + over})`, offset: 0.5, easing: 'ease-in-out' },
+    { transform: `scaleX(${1 - over * 0.4})`, offset: 0.72, easing: 'ease-in-out' },
+    { transform: `scaleX(${1 + over * 0.15})`, offset: 0.88, easing: 'ease-in-out' },
+    { transform: 'none' },
+  ], { duration: 900, delay, fill: 'backwards' });
+}
+
+/**
+ * 増えた分だけを「びよーん」と伸ばす（依頼者・2026-10-01、出題中の進み具合の帯）。
+ * 前の幅から新しい幅へ、少し行き過ぎてから戻る。**減った時と同じ時は動かさない。**
+ */
+export function springIncrease(bar: Element | null | undefined, from: number, to: number): void {
+  if (!motionAllowed(bar) || to <= from) return;
+  const over = Math.max(1.5, (to - from) * 0.25);
+  const at = (value: number) => `${Math.max(0, Math.min(100, value))}%`;
+  bar.animate([
+    { width: at(from), easing: 'cubic-bezier(0.3, 0.9, 0.4, 1)' },
+    { width: at(to + over), offset: 0.5, easing: 'ease-in-out' },
+    { width: at(to - over * 0.4), offset: 0.72, easing: 'ease-in-out' },
+    { width: at(to + over * 0.15), offset: 0.88, easing: 'ease-in-out' },
+    { width: at(to) },
+  ], { duration: 800 });
 }
 
 /** 行を上から順に出す。中の帯（`.mastery-meter__fill` と `[data-list-bar]`）は左から伸ばす。 */
@@ -24,9 +62,7 @@ export function slideRowsIn(list: Element | null | undefined): void {
   Array.from(list.children).forEach((row, index) => {
     const delay = index * ROW_STEP;
     row.animate([{ opacity: 0, transform: 'translate3d(2.5rem, 0, 0)' }, { opacity: 1, transform: 'none' }], { duration: 420, delay, easing: SLIDE, fill: 'backwards' });
-    for (const bar of row.querySelectorAll('.mastery-meter__fill, [data-list-bar]')) {
-      bar.animate([{ transform: 'scaleX(0)' }, { transform: 'none' }], { duration: 620, delay: delay + 120, easing: DRAW, fill: 'backwards' });
-    }
+    for (const bar of row.querySelectorAll('.mastery-meter__fill, [data-list-bar]')) springGrow(bar, delay + 120);
   });
 }
 

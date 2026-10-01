@@ -686,18 +686,16 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
     history-draw 0.82s cubic-bezier(0.22, 0.72, 0.18, 1) calc(var(--history-glide-delay, 0ms) + 80ms) both;
 }
 .history-overall.is-waiting .history-overall__fill { transform: scaleX(0); }
-.history-overall.is-in .history-overall__fill { animation: history-bar-grow 0.82s cubic-bezier(0.22, 0.72, 0.18, 1) 80ms both; }
 @keyframes history-glide {
   0% { opacity: 0.04; transform: translate3d(var(--history-glide-x), 0, 0) scale(0.988); }
   72% { opacity: 1; transform: translate3d(-2px, 0, 0) scale(1.001); }
   100% { opacity: 1; transform: none; }
 }
 @keyframes history-draw { from { --history-draw: 0; } to { --history-draw: 1; } }
-@keyframes history-bar-grow { from { transform: scaleX(0); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) {
   .history-group-item.is-waiting { --history-draw: 1; opacity: 1; }
   .history-overall.is-waiting .history-overall__fill { transform: none; }
-  .history-group-item.is-in, .history-overall.is-in .history-overall__fill { animation: none; }
+  .history-group-item.is-in { animation: none; }
 }
 /* **列は親で決める**（依頼者・2026-09-21「バーの長さ、位置を必ず揃える」）。
    行ごとの flex だと、作者の印が無い首（94番・97番など）で帯の位置と長さがずれた。
