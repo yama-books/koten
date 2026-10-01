@@ -338,7 +338,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 27: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 28: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -408,7 +408,7 @@
 <div class="app" id="app">
   <header>
     <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 27</div>
+    <div class="mode">MOTION STUDY 28</div>
   </header>
   <main>
     <section class="panel">
@@ -430,7 +430,7 @@
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
         <span class="optLabel">改行可 / 80文字まで / Ctrl・⌘+Enterで変換</span>
       </div>
-      <div class="hint">※ 演出検証用。表示領域を毎回測り、スマホでもPCでも画面端まで使うよう軌道を自動調整します。白化は後戻りせず、運動も閃光中まで継続します。</div>
+      <div class="hint">※ 演出検証用。縦ぴょこは白化を遅らせ、十分に加速して「ドドドドド」と最高潮になってから閃光へ突入します。表示領域に応じて軌道も自動調整します。</div>
       <div class="debug-tools" aria-label="演出デバッグ">
         <span class="debug-label">DEBUG</span>
         <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
@@ -889,6 +889,8 @@ async function play(){
     `FRONT:${frontMode.toUpperCase()} / FLASH:${flashExitMode.toUpperCase()} / BACK:${ensembleMode.toUpperCase()} / EXIT:${exitMode.toUpperCase()} / ROGUE:${rogueIndex>=0?rogueType.toUpperCase():"NONE"} / VIEW:${Math.round(viewportW)}×${Math.round(viewportH)}`;
   console.debug("[hentaigana-motion]",motionPlan);
 
+  const verticalFront=frontMode==="chick-column-sync"||frontMode==="chick-column-random";
+
   const seeds=g.map((el,i)=>{
     el.style.color=ink;
     el.style.fontFamily=metrics.fontFamily;
@@ -1064,15 +1066,20 @@ async function play(){
       ?omega2Start*spinSec+.5*spinAccel*spinSec*spinSec
       :0;
 
-    setWhiteLevel(clamp(.08*globalCapture+whiteBlend*.70));
-    portalGlow.style.opacity=String(clamp((whiteBlend-.05)*1.22));
-    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(whiteBlend))})`;
-    rushLines.style.opacity=String(clamp((whiteBlend-.04)*1.30));
+    const preWhiteBlend=verticalFront?whiteBlend*.20:whiteBlend;
+    if(verticalFront){
+      setWhiteLevel(clamp(.025*globalCapture+whiteBlend*.16));
+    }else{
+      setWhiteLevel(clamp(.08*globalCapture+whiteBlend*.70));
+    }
+    portalGlow.style.opacity=String(clamp((preWhiteBlend-.05)*1.22));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(preWhiteBlend))})`;
+    rushLines.style.opacity=String(clamp((preWhiteBlend-.04)*1.30));
 
     [...rushLines.children].forEach(line=>{
       const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
-      const travel=((whiteBlend*speed+phase)%1)*165-45;
-      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1+whiteBlend*1.95})`;
+      const travel=((preWhiteBlend*speed+phase)%1)*165-45;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1+preWhiteBlend*1.95})`;
     });
 
     g.forEach((el,i)=>{
@@ -1142,7 +1149,7 @@ async function play(){
   // 4) 前半の第二幕。通常系は竜巻へ、ぴょこ系は可愛い整列からピンボール暴走へ。
   const omega4Start=omega2End;
   const omega4End=Math.PI*2*31.15;
-  const phase4Duration=3100;
+  const phase4Duration=verticalFront?4800:3100;
   let spin=spinBase;
   const phase12EndSec=phase12Duration/1000;
 
@@ -1168,19 +1175,31 @@ async function play(){
     const s=seeds[i];
     const phase=independent?s.verticalPhase:0;
     const baseFreq=independent?s.verticalFreq:5.15;
-    const frequency=lerp(baseFreq,independent?baseFreq*2.20:15.2,intensity);
-    const baseAmp=Math.min(stageUsage.y*.18,48);
-    const maxAmp=stageUsage.y*(independent?.68:.62)*s.verticalAmpMul;
-    const amp=lerp(baseAmp,maxAmp,intensity);
-    const wave=Math.sin(timeSec*frequency+phase);
+    const fury=easeInOut(clamp(intensity));
+    const finalFreq=independent
+      ?34+s.verticalFreq*1.65
+      :45.5;
+    const frequency=lerp(baseFreq,finalFreq,Math.pow(fury,1.18));
+
+    const baseAmp=Math.min(stageUsage.y*.16,44);
+    const ampPersonality=independent?clamp(s.verticalAmpMul,.82,1.12):1;
+    const maxAmp=stageUsage.y*(independent?.78:.72)*ampPersonality;
+    const amp=lerp(baseAmp,maxAmp,Math.pow(fury,.88));
+
+    // At high intensity the motion becomes a rapid vertical pounding rather than a gentle bob.
+    const raw=Math.sin(timeSec*frequency+phase);
+    const wave=lerp(raw,Math.sign(raw)*Math.pow(Math.abs(raw),.76),fury*.72);
+    const impact=Math.pow(Math.abs(wave),7)*fury;
+
     return {
       x:(i-(n-1)/2)*frontSpacing,
       y:-stageUsage.y*.13+wave*amp,
-      z:Math.sin(timeSec*frequency*.39+phase)*Math.min(34,stageUsage.y*.08)*intensity,
-      scale:.72*densityScale*(1+Math.abs(wave)*.06*intensity),
-      rot:wave*lerp(2.4,independent?10:8,intensity),
-      rx:-Math.abs(wave)*lerp(2,20,intensity),
-      ry:Math.sin(timeSec*frequency*.29+phase)*6*intensity
+      z:Math.sin(timeSec*frequency*.31+phase)*Math.min(42,stageUsage.y*.10)*fury,
+      scale:.72*densityScale*(1+impact*.065),
+      rot:wave*lerp(2.4,independent?12:9.5,fury),
+      rx:-impact*lerp(4,24,fury),
+      ry:Math.sin(timeSec*frequency*.23+phase)*7*fury,
+      impact
     };
   };
 
@@ -1229,17 +1248,32 @@ async function play(){
 
     if(frontMode==="chick-column-sync"||frontMode==="chick-column-random"){
       const independent=frontMode==="chick-column-random";
-      const intensity=easeInOut(clamp((p-.04)/.96));
-      const light=easeInOut(clamp((p-.30)/.70));
+
+      // Spend most of this phase becoming faster and more violent.
+      // White-out is intentionally held back until the final quarter.
+      const intensity=easeInOut(clamp((p-.02)/.60));
+      const overdrive=easeInOut(clamp((p-.50)/.30));
+      const light=easeInOut(clamp((p-.76)/.24));
+      const drive=clamp(intensity+overdrive*.22);
+
       g.forEach((el,i)=>{
-        const pose=columnBouncePose(i,tSec,intensity,independent);
+        const pose=columnBouncePose(i,tSec,drive,independent);
         setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
         el.style.opacity="1";
-        el.style.filter=`brightness(${1+light*.44})`;
+        el.style.filter=`brightness(${1+pose.impact*.34+light*.30})`;
       });
-      setWhiteLevel(lerp(.70,.90,light));
-      portalGlow.style.opacity=String(lerp(.18,.74,light));
-      rushLines.style.opacity=String(lerp(.08,.60,intensity));
+
+      // Stay visibly in the pre-white world for the long "ドドドドド" passage.
+      setWhiteLevel(lerp(.18,.84,light));
+      portalGlow.style.opacity=String(lerp(.06,.78,light));
+      portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.58,.24,light)})`;
+      rushLines.style.opacity=String(lerp(.10,.74,Math.max(overdrive,light)));
+
+      [...rushLines.children].forEach(line=>{
+        const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
+        const travel=((drive*speed*8.5+phase)%1)*176-50;
+        line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1.35+drive*3.0})`;
+      });
       return;
     }
 
@@ -1348,21 +1382,43 @@ async function play(){
     const prog=spinProgress(spinVortexEnd,omega5Start,omega5End,elapsed,phase5Duration);
     if(frontMode==="orbit"||frontMode==="formation")spin=prog.spin;
 
-    const squeeze=easeInOut(clamp((p-.12)/.62));
-    const coreHold=easeInOut(clamp((p-.72)/.18));
-    const flashRise=easeOut(clamp((p-.20)/.28));
+    const squeeze=easeInOut(clamp(
+      verticalFront
+        ?(p-.34)/.50
+        :(p-.12)/.62
+    ));
+    const coreHold=easeInOut(clamp(
+      verticalFront
+        ?(p-.78)/.14
+        :(p-.72)/.18
+    ));
+    const flashRise=easeOut(clamp(
+      verticalFront
+        ?(p-.48)/.24
+        :(p-.20)/.28
+    ));
     const flashHold=1-.02*easeInOut(clamp((p-.92)/.08));
     const peak=flashRise*flashHold;
 
-    // Common flash ritual: the whole scene chatters harder as it whites out.
-    // It never parks on a motionless pure-white frame.
-    const quakeRise=easeInOut(clamp((p-.06)/.78));
+    // Common flash ritual. Vertical-pogo modes are allowed to pound at full force
+    // for a while before the white world finally overtakes them.
+    const quakeRise=easeInOut(clamp(
+      verticalFront
+        ?(p-.30)/.58
+        :(p-.06)/.78
+    ));
     const quakeAmp=lerp(0,11.5,quakeRise);
     const qx=(Math.sin(elapsed*.145)+Math.sin(elapsed*.317)*.55)*quakeAmp;
     const qy=(Math.cos(elapsed*.181)+Math.sin(elapsed*.271)*.48)*quakeAmp*.78;
     stage.style.transform=`translate3d(${qx}px,${qy}px,0) scale(${1+.010*quakeRise})`;
-    setWhiteLevel(lerp(.90,1,easeInOut(clamp((p-.05)/.82))));
-    rushLines.style.opacity=String(lerp(.62,.96,quakeRise));
+
+    const whiteRamp=easeInOut(clamp(
+      verticalFront
+        ?(p-.38)/.54
+        :(p-.05)/.82
+    ));
+    setWhiteLevel(lerp(verticalFront?.84:.90,1,whiteRamp));
+    rushLines.style.opacity=String(lerp(verticalFront?.54:.62,.96,quakeRise));
 
     flash.style.opacity=String(Math.min(.985,peak*.985));
     portalGlow.style.opacity=String(.86+peak*.14);
