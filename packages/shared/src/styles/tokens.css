@@ -19,11 +19,14 @@
   --color-danger: oklch(52% 0.15 28);
   --color-overlay: oklch(22% 0.018 55 / 0.32);
   --color-coral: oklch(66% 0.16 32);
-  --mastery-gray:   oklch(54% 0.012 75);
-  --mastery-red:    oklch(56% 0.16 28);
-  --mastery-yellow: oklch(78% 0.15 86);
-  --mastery-blue:   oklch(56% 0.14 250);
-  --mastery-green:  oklch(56% 0.14 145);
+  /* 習熟度の5色（依頼者・2026-10-01、比較モックの配色1「整調」）。灰・赤・黄・青・緑の割り当てと境目はそのまま。
+     明度と彩度を揃え、色相は小さく寄せた（緑は 145→162 で青緑寄り）。黄は帯の地との対比を 1.69:1 から 2.10:1 へ上げ、
+     緑を深くして赤と緑を明度でも分ける（2型色覚の見え方で、赤と緑の差が ΔE 2 から 16 に広がる）。 */
+  --mastery-gray:   oklch(62% 0.010 75);
+  --mastery-red:    oklch(61% 0.13 34);
+  --mastery-yellow: oklch(72% 0.12 82);
+  --mastery-blue:   oklch(54% 0.11 252);
+  --mastery-green:  oklch(47% 0.095 162);
 
   --font-ui: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
   --font-poem: "Klee One", "Yu Mincho", serif;

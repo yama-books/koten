@@ -585,6 +585,64 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .ring-meter--yellow { color: var(--mastery-yellow); }
 .ring-meter--blue { color: var(--mastery-blue); }
 .ring-meter--green { color: var(--mastery-green); }
+/* 未着手のまとまりは破線の空の輪に「未」（依頼者・2026-10-01）。0% の灰と見分ける。 */
+.ring-meter--untouched .ring-meter__track { stroke: var(--color-ink-muted); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.ring-meter--untouched .ring-meter__fill { display: none; }
+.ring-meter--untouched .ring-meter__value { color: var(--color-ink-muted); }
+
+/*
+ * 全体の習熟度（依頼者・2026-10-01）。全首の平均を 1 本のバーと％で出す。
+ * **帯（1 首）・輪（10 首）と形を分ける**：全幅・太め・丸い端。4 分の 1 ごとの目盛りは塗りの下に敷く。
+ */
+.history-overall { display: grid; gap: var(--space-2xs); margin-block: var(--space-xs) var(--space-sm); }
+.history-overall__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-xs); color: var(--color-ink); }
+.history-overall__label { color: var(--color-ink-muted); font-size: var(--text-sm); }
+.history-overall__value { font-size: var(--text-lg); line-height: 1; font-variant-numeric: tabular-nums; }
+.history-overall__value small { margin-inline-start: 1px; color: var(--color-ink-muted); font-size: var(--text-sm); }
+.history-overall__track {
+  display: block; box-sizing: border-box; height: 0.875rem; overflow: hidden;
+  border: var(--rule-thin) solid var(--color-rule); border-radius: 999px;
+  background:
+    linear-gradient(90deg, transparent calc(25% - 0.5px), var(--color-rule) 0 calc(25% + 0.5px), transparent 0 calc(50% - 0.5px), var(--color-rule) 0 calc(50% + 0.5px), transparent 0 calc(75% - 0.5px), var(--color-rule) 0 calc(75% + 0.5px), transparent 0),
+    var(--color-surface-soft);
+}
+.history-overall__fill { display: block; width: calc(var(--p, 0) * 1%); height: 100%; border-radius: inherit; background: currentColor; transform-origin: left center; }
+.history-overall--gray { color: var(--mastery-gray); }
+.history-overall--red { color: var(--mastery-red); }
+.history-overall--yellow { color: var(--mastery-yellow); }
+.history-overall--blue { color: var(--mastery-blue); }
+.history-overall--green { color: var(--mastery-green); }
+.history-touched { margin-block: 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
+
+/*
+ * 記録画面を開いた時の登場（依頼者・2026-10-01、活用ノートの記録画面と同じ規則）。動かすのは transform と opacity と
+ * 輪の長さだけ。印（`is-waiting` / `is-in`）は `history-motion.ts` が付け外しする。
+ * `--history-draw`（0→1）を輪の実線の長さに掛ける。**既定値は 1**——動かない環境や
+ * `@property` を持たない環境でも、輪は完成形で出る。
+ */
+@property --history-draw { syntax: "<number>"; inherits: true; initial-value: 1; }
+.ring-meter__fill { stroke-dasharray: calc(var(--ring-len, 0) * var(--history-draw, 1) * 1px) 200px; }
+.history-screen { --history-glide-x: 78vw; }
+.history-group-item.is-waiting { --history-draw: 0; opacity: 0; }
+.history-group-item.is-in {
+  animation:
+    history-glide 0.86s cubic-bezier(0.16, 0.82, 0.2, 1) var(--history-glide-delay, 0ms) both,
+    history-draw 0.82s cubic-bezier(0.22, 0.72, 0.18, 1) calc(var(--history-glide-delay, 0ms) + 80ms) both;
+}
+.history-overall.is-waiting .history-overall__fill { transform: scaleX(0); }
+.history-overall.is-in .history-overall__fill { animation: history-bar-grow 0.82s cubic-bezier(0.22, 0.72, 0.18, 1) 80ms both; }
+@keyframes history-glide {
+  0% { opacity: 0.04; transform: translate3d(var(--history-glide-x), 0, 0) scale(0.988); }
+  72% { opacity: 1; transform: translate3d(-2px, 0, 0) scale(1.001); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes history-draw { from { --history-draw: 0; } to { --history-draw: 1; } }
+@keyframes history-bar-grow { from { transform: scaleX(0); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .history-group-item.is-waiting { --history-draw: 1; opacity: 1; }
+  .history-overall.is-waiting .history-overall__fill { transform: none; }
+  .history-group-item.is-in, .history-overall.is-in .history-overall__fill { animation: none; }
+}
 /* **列は親で決める**（依頼者・2026-09-21「バーの長さ、位置を必ず揃える」）。
    行ごとの flex だと、作者の印が無い首（94番・97番など）で帯の位置と長さがずれた。
    `subgrid` で全行が同じ升目を共有するので、帯は必ず同じ長さ・同じ位置に並ぶ。

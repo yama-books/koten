@@ -84,16 +84,16 @@
   }
   .lead{color:var(--muted);font-size:14px;line-height:1.8;margin-bottom:28px}
   .composer{
-    display:grid;grid-template-columns:1fr auto;gap:12px;
+    display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch;
     background:rgba(255,255,255,.48);
     border:1px solid rgba(52,42,32,.12);
     border-radius:20px;padding:10px;
   }
-  input{
-    min-width:0;border:0;background:transparent;outline:none;
+  textarea#input{
+    min-width:0;min-height:82px;border:0;background:transparent;outline:none;resize:vertical;
     font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
-    font-size:clamp(22px,4vw,34px);padding:12px 14px;color:var(--ink);
-    letter-spacing:.12em;
+    font-size:clamp(22px,4vw,34px);padding:10px 14px;color:var(--ink);
+    letter-spacing:.12em;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;
   }
   button{
     -webkit-tap-highlight-color:transparent;
@@ -114,6 +114,22 @@
   .options input{accent-color:var(--ink)}
   .optLabel{font-size:12px;letter-spacing:.08em;color:rgba(65,56,48,.76)}
   .hint{margin-top:14px;font-size:12px;color:var(--muted)}
+  .debug-tools{
+    display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+    margin-top:12px;padding-top:10px;border-top:1px solid rgba(65,56,48,.10);
+  }
+  .debug-label{font-size:10px;letter-spacing:.12em;color:rgba(65,56,48,.50);margin-right:2px}
+  .debug-btn{
+    min-height:30px;width:auto;padding:5px 9px;border-radius:999px;
+    font-size:10px;font-weight:600;letter-spacing:.03em;
+    color:rgba(29,26,23,.78);background:rgba(255,255,255,.62);
+    border:1px solid rgba(65,56,48,.13);box-shadow:none;
+  }
+  .debug-btn:hover{transform:none;box-shadow:none;background:rgba(255,255,255,.88)}
+  .debug-plan{
+    width:100%;min-height:15px;font:10px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:rgba(65,56,48,.48);letter-spacing:.015em;
+  }
   footer{font-size:11px;color:rgba(65,56,48,.55);text-align:center}
   #stage{
     position:fixed;inset:0;z-index:20;pointer-events:none;
@@ -209,20 +225,21 @@
   }
   .stampboard{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    gap:var(--stamp-gap,clamp(2px,1.2vw,12px));padding:20px;
+    row-gap:var(--stamp-row-gap,clamp(2px,1vw,10px));
+    column-gap:var(--stamp-col-gap,clamp(2px,1.2vw,12px));
+    padding:20px;
     opacity:0;transform:translateZ(80px);
     --stamp-size:clamp(46px,8.8vw,90px);
-    --stamp-gap:clamp(2px,1.2vw,12px);
+    --stamp-row-gap:clamp(2px,1vw,10px);
+    --stamp-col-gap:clamp(2px,1.2vw,12px);
   }
   .stampboard.horizontal{
-    flex-direction:row;flex-wrap:wrap;align-content:center;
-    max-width:min(90vw,780px);margin-inline:auto;
+    display:grid;place-content:center;place-items:center;
+    max-width:min(92vw,820px);max-height:min(82vh,720px);margin-inline:auto;
   }
   .stampboard.vertical{
-    display:grid;grid-auto-flow:column;
-    grid-template-rows:repeat(var(--stamp-rows,8),auto);
-    justify-content:center;align-content:center;justify-items:center;
-    max-height:min(82vh,720px);direction:rtl;
+    display:grid;place-content:center;place-items:center;
+    max-width:min(92vw,820px);max-height:min(84vh,740px);
   }
   .stamp{
     font-family:"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif;
@@ -321,7 +338,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 20: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 29: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -391,7 +408,7 @@
 <div class="app" id="app">
   <header>
     <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 05</div>
+    <div class="mode">MOTION STUDY 29</div>
   </header>
   <main>
     <section class="panel">
@@ -399,15 +416,34 @@
       <h1>文字を、ほどく。</h1>
       <div class="lead">変換そのものは一瞬。そこへ、必要以上の儀式を足した実験版です。</div>
       <div class="composer">
-        <input id="input" maxlength="20" value="あさきゆめみし" aria-label="変換するひらがな">
+        <textarea id="input" maxlength="80" rows="2" aria-label="変換する文字列">あさきゆめみし</textarea>
         <button id="convert">変換する</button>
+      </div>
+      <div class="options" role="group" aria-label="変換方向の選択">
+        <span class="optLabel">変換</span>
+        <label><input type="radio" name="conversionMode" value="forward" checked> 変体仮名にする</label>
+        <label><input type="radio" name="conversionMode" value="reverse"> ひらがなに戻す</label>
       </div>
       <div class="options" role="group" aria-label="刻印方向の選択">
         <span class="optLabel">刻印方向</span>
         <label><input type="radio" name="stampDirection" value="horizontal" checked> 横</label>
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
+        <span class="optLabel">改行可 / 80文字まで / Ctrl・⌘+Enterで変換</span>
       </div>
-      <div class="hint">※ 演出検証用。平面剥離→浮遊、閃光の中で花火状に誕生→ひらひら自由落下→漂いながら徐々に集合。全区間を滑らかにつなぎます。</div>
+      <div class="hint">※ 演出検証用。縦ぴょこは十分に加速してから閃光へ。放射線系を含む全分岐で、白化後も演出が継続することを確認する版です。</div>
+      <div class="debug-tools" aria-label="演出デバッグ">
+        <span class="debug-label">DEBUG</span>
+        <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
+        <button class="debug-btn" type="button" data-preset="radial">放射線</button>
+        <button class="debug-btn" type="button" data-preset="radial-extreme">放射線・極</button>
+        <button class="debug-btn" type="button" data-preset="rain">上から</button>
+        <button class="debug-btn" type="button" data-preset="peek">かくれんぼ</button>
+        <button class="debug-btn" type="button" data-preset="front-chick">前半ぴょこ</button>
+        <button class="debug-btn" type="button" data-preset="front-column">前半縦同期</button>
+        <button class="debug-btn" type="button" data-preset="front-column-random">前半バラバラ上下</button>
+        <button class="debug-btn" type="button" data-preset="front-pinball">前半ばらピン</button>
+        <div class="debug-plan" id="debugPlan">通常ランダム</div>
+      </div>
     </section>
   </main>
   <footer>prototype / cinematic conversion motion</footer>
@@ -439,6 +475,9 @@ const firstVariant = {
   "ら":"𛃭","り":"𛃱","る":"𛃸","れ":"𛃾","ろ":"𛄂",
   "わ":"𛄈","ゐ":"𛄍","ゑ":"𛄒","を":"𛄖","ん":"𛄝"
 };
+const reverseVariant=Object.fromEntries(
+  Object.entries(firstVariant).map(([hiragana,hentaigana])=>[hentaigana,hiragana])
+);
 const stage=document.getElementById("stage"),
 core=document.getElementById("core"),
 flash=document.getElementById("flash"),
@@ -450,10 +489,13 @@ input=document.getElementById("input"),
 skip=document.getElementById("skip"),
 whiteRoom=document.getElementById("whiteRoom"),
 rushLines=document.getElementById("rushLines"),
-portalGlow=document.getElementById("portalGlow");
+portalGlow=document.getElementById("portalGlow"),
+debugPlan=document.getElementById("debugPlan");
 const stampDirectionInputs=[...document.querySelectorAll('input[name="stampDirection"]')];
+const conversionModeInputs=[...document.querySelectorAll('input[name="conversionMode"]')];
+const debugButtons=[...document.querySelectorAll(".debug-btn")];
 
-let running=false,timers=[],playToken=0;
+let running=false,timers=[],playToken=0,nextPreset=null;
 const sleep=ms=>new Promise(r=>{const t=setTimeout(r,ms);timers.push(t)});
 const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 const lerp=(a,b,t)=>a+(b-a)*t;
@@ -461,6 +503,18 @@ const easeInOut=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 const easeOut=t=>1-Math.pow(1-t,3);
 const easeIn=t=>t*t*t;
 const easeSoft=t=>t*t*(3-2*t);
+const pick=list=>list[Math.floor(Math.random()*list.length)];
+const pickWeighted=items=>{
+  const total=items.reduce((sum,item)=>sum+item[1],0);
+  let r=Math.random()*total;
+  for(const [value,weight] of items){
+    r-=weight;
+    if(r<=0)return value;
+  }
+  return items[items.length-1][0];
+};
+const randomIndex=n=>n>0?Math.floor(Math.random()*n):-1;
+const triWave=x=>(2/Math.PI)*Math.asin(Math.sin(x));
 
 function spinProgress(spin0,omega0,omega1,elapsedMs,durationMs){
   const t=elapsedMs/1000;
@@ -487,38 +541,120 @@ function frameTween(duration,onFrame,token){
 function setT(el,x,y,scale=1,rot=0,rx=0,ry=0,z=0){
   el.style.transform=`translate3d(${x}px,${y}px,${z}px) scale(${scale}) rotateZ(${rot}deg) rotateX(${rx}deg) rotateY(${ry}deg)`;
 }
+function getConversionMode(){
+  const checked=conversionModeInputs.find(el=>el.checked);
+  return checked?checked.value:"forward";
+}
+function transformText(text,mode=getConversionMode()){
+  const table=mode==="reverse"?reverseVariant:firstVariant;
+  return [...text].map(ch=>ch==="\n"?"\n":(table[ch]||ch)).join("");
+}
+function targetFontFor(mode){
+  return mode==="reverse"
+    ?'"Yu Mincho","Hiragino Mincho ProN",serif'
+    :'"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
+}
+function updateConversionUi(){
+  const mode=getConversionMode();
+  btn.textContent=mode==="reverse"?"ひらがなに戻す":"変換する";
+  label.textContent=mode==="reverse"?"HIRAGANA":"HENTAIGANA";
+}
 function getStampDirection(){
   const checked=stampDirectionInputs.find(el=>el.checked);
   return checked?checked.value:"horizontal";
 }
+function getLayoutLines(text,direction=getStampDirection()){
+  const wrapAt=direction==="vertical"?10:18;
+  const source=String(text).replace(/\r\n?/g,"\n").split("\n");
+  const lines=[];
+  source.forEach(line=>{
+    const chars=[...line];
+    if(!chars.length){
+      lines.push([]);
+      return;
+    }
+    for(let i=0;i<chars.length;i+=wrapAt)lines.push(chars.slice(i,i+wrapAt));
+  });
+  return lines.length?lines:[[]];
+}
 function setupStampBoard(text){
-  const len=[...text].length;
   const direction=getStampDirection();
+  const lines=getLayoutLines(text,direction);
+  const maxLen=Math.max(1,...lines.map(line=>line.length));
+  const lineCount=Math.max(1,lines.length);
+  const glyphCount=lines.reduce((sum,line)=>sum+line.length,0);
+
   board.className="stampboard "+direction;
   board.style.removeProperty("--stamp-rows");
-  let size="clamp(46px,8.8vw,90px)";
-  let gap="clamp(2px,1.2vw,12px)";
+  board.style.gridTemplateRows="";
+  board.style.gridTemplateColumns="";
+
+  let size,rowGap,colGap;
   if(direction==="horizontal"){
-    if(len<=8){
+    if(maxLen<=8&&lineCount<=2){
       size="clamp(46px,8.8vw,90px)";
-      gap="clamp(2px,1.2vw,12px)";
-    }else if(len<=14){
-      size="clamp(40px,7.2vw,74px)";
-      gap="clamp(2px,1vw,10px)";
+      rowGap="clamp(5px,1.4vw,14px)";
+      colGap="clamp(2px,1.1vw,11px)";
+    }else if(maxLen<=14&&lineCount<=3){
+      size="clamp(38px,6.8vw,70px)";
+      rowGap="clamp(3px,.9vw,9px)";
+      colGap="clamp(2px,.75vw,7px)";
+    }else if(maxLen<=18&&lineCount<=4){
+      size="clamp(29px,5.1vw,52px)";
+      rowGap="clamp(2px,.55vw,6px)";
+      colGap="clamp(1px,.45vw,5px)";
     }else{
-      size="clamp(32px,5.8vw,58px)";
-      gap="clamp(1px,.8vw,8px)";
+      size="clamp(22px,3.9vw,40px)";
+      rowGap="clamp(1px,.36vw,4px)";
+      colGap="clamp(0px,.28vw,3px)";
     }
+    board.style.gridTemplateRows=`repeat(${lineCount},auto)`;
+    board.style.gridTemplateColumns=`repeat(${maxLen},auto)`;
   }else{
-    const rows=len<=8?len:(len<=14?Math.ceil(len/2):Math.min(10,Math.ceil(len/2)));
-    size=len<=8
-      ?"clamp(46px,8.4vw,86px)"
-      :(len<=14?"clamp(38px,6.8vw,66px)":"clamp(30px,5.2vw,52px)");
-    gap=len<=8?"clamp(2px,1.1vw,10px)":"clamp(1px,.7vw,8px)";
-    board.style.setProperty("--stamp-rows",String(rows));
+    if(maxLen<=8&&lineCount<=2){
+      size="clamp(44px,8vw,82px)";
+      rowGap="clamp(1px,.45vw,5px)";
+      colGap="clamp(4px,1.2vw,12px)";
+    }else if(maxLen<=10&&lineCount<=4){
+      size="clamp(34px,6vw,60px)";
+      rowGap="clamp(0px,.28vw,3px)";
+      colGap="clamp(3px,.72vw,7px)";
+    }else{
+      size="clamp(25px,4.4vw,44px)";
+      rowGap="clamp(0px,.16vw,2px)";
+      colGap="clamp(1px,.42vw,4px)";
+    }
+    board.style.gridTemplateRows=`repeat(${maxLen},auto)`;
+    board.style.gridTemplateColumns=`repeat(${lineCount},auto)`;
   }
+
   board.style.setProperty("--stamp-size",size);
-  board.style.setProperty("--stamp-gap",gap);
+  board.style.setProperty("--stamp-row-gap",rowGap);
+  board.style.setProperty("--stamp-col-gap",colGap);
+  board.dataset.glyphCount=String(glyphCount);
+  return {direction,lines,maxLen,lineCount,glyphCount};
+}
+function populateStampBoard(text,hit=false){
+  board.innerHTML="";
+  const layout=setupStampBoard(text);
+  const stamps=[];
+  layout.lines.forEach((line,lineIndex)=>{
+    line.forEach((ch,charIndex)=>{
+      const s=document.createElement("div");
+      s.className="stamp"+(hit?" hit":"");
+      s.textContent=ch;
+      if(layout.direction==="horizontal"){
+        s.style.gridRow=String(lineIndex+1);
+        s.style.gridColumn=String(charIndex+1);
+      }else{
+        s.style.gridRow=String(charIndex+1);
+        s.style.gridColumn=String(layout.lineCount-lineIndex);
+      }
+      board.appendChild(s);
+      stamps.push(s);
+    });
+  });
+  return stamps;
 }
 function ensureRushLines(){
   if(rushLines.children.length)return;
@@ -540,15 +676,20 @@ function measureOrigins(text){
   const wrap=document.createElement("div");
   Object.assign(wrap.style,{
     position:"fixed",left:ir.left+"px",top:ir.top+"px",width:ir.width+"px",height:ir.height+"px",
-    padding:cs.padding,display:"flex",alignItems:"center",whiteSpace:"pre",visibility:"hidden",
-    pointerEvents:"none",fontFamily:cs.fontFamily,fontSize:cs.fontSize,fontWeight:cs.fontWeight,
-    letterSpacing:cs.letterSpacing,lineHeight:cs.lineHeight
+    boxSizing:"border-box",padding:cs.padding,whiteSpace:"pre-wrap",overflowWrap:"anywhere",
+    visibility:"hidden",pointerEvents:"none",fontFamily:cs.fontFamily,fontSize:cs.fontSize,
+    fontWeight:cs.fontWeight,letterSpacing:cs.letterSpacing,lineHeight:cs.lineHeight
   });
-  const spans=[...text].map(ch=>{
-    const s=document.createElement("span");
-    s.textContent=ch;
-    wrap.appendChild(s);
-    return s;
+  const spans=[];
+  [...text].forEach(ch=>{
+    if(ch==="\n"){
+      wrap.appendChild(document.createElement("br"));
+    }else{
+      const s=document.createElement("span");
+      s.textContent=ch;
+      wrap.appendChild(s);
+      spans.push(s);
+    }
   });
   document.body.appendChild(wrap);
   const pts=spans.map(s=>{
@@ -582,6 +723,7 @@ function resetVisuals(){
   rushLines.style.opacity=0;
   portalGlow.style.opacity=0;
   portalGlow.style.transform="translate(-50%,-50%) scale(.4)";
+  stage.style.transform="none";
   [...rushLines.children].forEach(l=>l.style.transform="translate3d(0,-40vh,0)");
 }
 function clearStage(cancel=true){
@@ -594,46 +736,171 @@ function clearStage(cancel=true){
   running=false;
   btn.disabled=false;
 }
-function finishInstant(text){
+function finishInstant(text,mode=getConversionMode()){
   resetVisuals();
-  board.innerHTML="";
-  setupStampBoard(text);
-  [...text].forEach(ch=>{
-    const s=document.createElement("div");
-    s.className="stamp hit";
-    s.textContent=ch;
-    board.appendChild(s);
-  });
+  populateStampBoard(text,true);
   board.style.opacity=1;
+  label.textContent=mode==="reverse"?"HIRAGANA":"HENTAIGANA";
   label.style.opacity=1;
   glow.style.opacity=.8;
-  input.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
+  input.style.fontFamily=targetFontFor(mode);
 }
 async function play(){
   if(running)return;
   running=true;
   btn.disabled=true;
   const token=++playToken;
-  const src=input.value.trim()||"あさきゆめみし";
-  const out=[...src].map(c=>firstVariant[c]||c).join("");
+  try{
+  const mode=getConversionMode();
+  const src=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
+  const motionSrc=src.replace(/\n/g,"");
+  const out=transformText(src,mode);
+  const motionOut=out.replace(/\n/g,"");
+  const targetFontFamily=targetFontFor(mode);
+  label.textContent=mode==="reverse"?"HIRAGANA":"HENTAIGANA";
 
   stage.classList.add("active");
   ensureRushLines();
   resetVisuals();
 
   const metrics=measureOrigins(src);
-  const g=makeGlyphs(src);
+  const g=makeGlyphs(motionSrc);
   const n=g.length;
-  const densityScale=n>16?.72:n>12?.80:n>9?.90:1;
+  const densityScale=n>60?.27:n>48?.33:n>36?.40:n>28?.48:n>20?.58:n>16?.70:n>12?.79:n>9?.90:1;
   const baseScale=clamp(metrics.fontSize/58,.42,.78);
   const ink=metrics.color||"#1d1a17";
+
+  // Motion geometry is based on the actually visible viewport, not fixed desktop/mobile constants.
+  // Every major trajectory targets a percentage of these safe extents so phones do not lose glyphs
+  // offscreen and wide desktop displays do not leave the action cramped in the middle.
+  const vv=window.visualViewport;
+  const viewportW=Math.max(320,vv?vv.width:innerWidth);
+  const viewportH=Math.max(480,vv?vv.height:innerHeight);
+  const viewportAreaScale=clamp(Math.sqrt((viewportW*viewportH)/(390*844)),1,1.34);
+  const motionGlyphPx=clamp(54*viewportAreaScale,48,76);
+  const edgePadX=Math.max(26,motionGlyphPx*.62);
+  const edgePadY=Math.max(38,motionGlyphPx*.82);
+  const motionX=Math.max(118,viewportW*.5-edgePadX);
+  const motionY=Math.max(150,viewportH*.5-edgePadY);
+  const stageUsage={
+    x:motionX,
+    y:motionY,
+    orbitX:motionX*.48,
+    orbitY:motionY*.32,
+    pinballX:motionX*.94,
+    pinballY:motionY*.88,
+    dragonX:motionX*.91,
+    dragonY:motionY*.82,
+    radialX:motionX*.72,
+    radialY:motionY*.66,
+    radialExtremeX:motionX*.985,
+    radialExtremeY:motionY*.965
+  };
+
+  // White-world progression is monotonic for the entire play.
+  let whiteLevel=0;
+  const setWhiteLevel=(value)=>{
+    whiteLevel=Math.max(whiteLevel,clamp(value));
+    whiteRoom.style.opacity=String(whiteLevel);
+    whiteRoom.style.transform=`scale(${1+whiteLevel*.16})`;
+  };
+
+  // One stable random plan per play. Randomness is never re-rolled per frame.
+  const forcedPreset=nextPreset;
+  nextPreset=null;
+  const forceRare=forcedPreset==="rare";
+
+  let frontMode;
+  if(forcedPreset==="front-chick")frontMode="chick";
+  else if(forcedPreset==="front-column")frontMode="chick-column-sync";
+  else if(forcedPreset==="front-column-random")frontMode="chick-column-random";
+  else if(forcedPreset==="front-pinball")frontMode="float-pinball";
+  else frontMode=pickWeighted([
+    ["orbit",.31],
+    ["chick",.16],
+    ["chick-column-sync",.11],
+    ["chick-column-random",.13],
+    ["float-pinball",.19],
+    ["formation",.10]
+  ]);
+
+  let flashExitMode;
+  if(forcedPreset==="radial")flashExitMode="radial";
+  else if(forcedPreset==="radial-extreme")flashExitMode="radial-extreme";
+  else if(forcedPreset==="rain")flashExitMode="rain";
+  else if(forcedPreset==="peek")flashExitMode="peek";
+  else flashExitMode=pickWeighted([
+    ["ash",.28],
+    ["radial",.24],
+    ["radial-extreme",.15],
+    ["rain",.16],
+    ["peek",.17]
+  ]);
+
+  const frontUsesChick=frontMode==="chick"||frontMode==="chick-column-sync"||frontMode==="chick-column-random";
+  const backChoices=frontUsesChick
+    ?["circle","ring","dragon"]
+    :["circle","ring","dragon","chick"];
+  const ensembleMode=pick(backChoices);
+
+  // Rare-debug mode deliberately chooses a route where the special event can be seen.
+  const exitMode=forceRare
+    ?pick(["camera","far"])
+    :pick(["up","far","burst","camera","down","diagonal"]);
+
+  // Roughly three plays in ten contain a visible troublemaker.
+  const rogueIndex=n>2&&(forceRare||Math.random()<.30)?randomIndex(n):-1;
+  const rogueType=rogueIndex>=0?pick(["reverse","drop","wander","early"]):"none";
+
+  const stickyIndex=n>2&&(forceRare?Math.random()<.55:Math.random()<.12)
+    ?randomIndex(n)
+    :-1;
+
+  const lateChaserIndex=exitMode==="far"&&n>2&&(forceRare||Math.random()<.30)
+    ?randomIndex(n)
+    :-1;
+
+  let slapCount=0;
+  if(exitMode==="camera"&&n>1){
+    if(forceRare){
+      slapCount=Math.random()<.18?2:1;
+    }else{
+      const slapRoll=Math.random();
+      slapCount=slapRoll<.04?2:(slapRoll<.28?1:0);
+    }
+  }
+  const slapIndices=[];
+  while(slapIndices.length<slapCount){
+    const idx=randomIndex(n);
+    if(!slapIndices.includes(idx))slapIndices.push(idx);
+  }
+  const slapDropIndex=slapCount===2&&Math.random()<.72
+    ?slapIndices[1]
+    :(slapCount===1&&Math.random()<.20?slapIndices[0]:-1);
+
+  const diagonalSign=Math.random()<.5?-1:1;
+  const motionPlan={
+    forcedPreset:forcedPreset||"random",
+    frontMode,flashExitMode,ensembleMode,exitMode,
+    rogueIndex,rogueType,stickyIndex,lateChaserIndex,
+    slapIndices:[...slapIndices],slapDropIndex,diagonalSign
+  };
+  stage.dataset.motionPlan=JSON.stringify(motionPlan);
+  debugPlan.textContent=
+    `FRONT:${frontMode.toUpperCase()} / FLASH:${flashExitMode.toUpperCase()} / BACK:${ensembleMode.toUpperCase()} / EXIT:${exitMode.toUpperCase()} / ROGUE:${rogueIndex>=0?rogueType.toUpperCase():"NONE"} / VIEW:${Math.round(viewportW)}×${Math.round(viewportH)}`;
+  console.debug("[hentaigana-motion]",motionPlan);
+
+  const verticalFront=frontMode==="chick-column-sync"||frontMode==="chick-column-random";
+
   const seeds=g.map((el,i)=>{
     el.style.color=ink;
     el.style.fontFamily=metrics.fontFamily;
+    el.style.fontSize=motionGlyphPx+"px";
     el.style.opacity="1";
     el.style.filter="none";
     const p=metrics.pts[i]||{x:(i-(n-1)/2)*40,y:95};
     setT(el,p.x,p.y,baseScale,0,0);
+    const whimsical=Math.random()<.14;
     return {
       x:p.x,y:p.y,
       sway:(Math.random()<.5?-1:1)*(8+Math.random()*12),
@@ -651,7 +918,31 @@ async function play(){
       floatFreqX:.90+Math.random()*.38,
       floatFreqY:.88+Math.random()*.42,
       floatFreqZ:.92+Math.random()*.36,
-      orbitLag:Math.random()*260
+      orbitLag:Math.random()*260,
+
+      // Per-play individuality for the ash/petal phases.
+      scatterAngleJitter:(Math.random()-.5)*.46,
+      scatterRadiusMul:.86+Math.random()*.34,
+      fallSpeedMul:.72+Math.random()*.62,
+      ashDriftX:(Math.random()-.5)*18,
+      ashDriftZ:(Math.random()-.5)*22,
+      gatherLag:Math.random()*.09+(whimsical?(.13+Math.random()*.14):0),
+      rushLag:Math.random()*.06,
+      whimsical,
+      whimSign:Math.random()<.5?-1:1,
+      whimAmp:whimsical?(22+Math.random()*34):0,
+      whimPhase:Math.random()*Math.PI*2,
+
+      // Persistent motion personality. These remain fixed for this play.
+      verticalAmpMul:.62+Math.random()*.72,
+      verticalFreq:4.2+Math.random()*5.4,
+      verticalPhase:Math.random()*Math.PI*2,
+      pinFreqX:.74+Math.random()*.52,
+      pinFreqY:.80+Math.random()*.58,
+      pinFreqZ:.66+Math.random()*.48,
+      pinPhaseX:Math.random()*Math.PI*2,
+      pinPhaseY:Math.random()*Math.PI*2,
+      pinPhaseZ:Math.random()*Math.PI*2
     };
   });
 
@@ -659,123 +950,356 @@ async function play(){
   input.style.color="transparent";
   input.style.caretColor="transparent";
 
-  // 1-2) 一文字ずつ「ぺり、ぺり、ぺり」と剥離し、そのまま浮遊→崩れた円環→回転へ連続接続。
-  //      各文字が個別の時計を持つので、剥がれる前の文字が先に浮いたり整列したりしない。
-  const ringR=Math.min(170,Math.max(118,innerWidth*.30));
-  const ringRY=Math.min(54,ringR*.32);
+  // 1-2) 平面剥離のあと、今回の前半パターンへ滑らかに捕捉する。
+  const ringR=stageUsage.orbitX;
+  const ringRY=stageUsage.orbitY;
   const phase12Duration=8900;
   const spinStartMs=3300;
   const spinDurationMs=phase12Duration-spinStartMs;
   const omega2Start=Math.PI*2*.38;
   const omega2End=Math.PI*2*3.55;
   const spinAccel=(omega2End-omega2Start)/(spinDurationMs/1000);
+  const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
+  const frontSpacing=Math.min(82,Math.max(9,(stageUsage.x*1.46)/Math.max(1,n-1)));
   let spinBase=0;
+
+  const orbitFrontPose=(i,spinValue,timeSec)=>{
+    const s=seeds[i];
+    const angle=baseAngles[i]+spinValue;
+    const depth=(Math.sin(angle)+1)/2;
+    return {
+      x:Math.cos(angle)*ringR,
+      y:-104+Math.sin(angle)*ringRY,
+      z:10+depth*34,
+      scale:(.72+depth*.50)*densityScale,
+      rot:(spinValue*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8,
+      rx:-12+Math.cos(angle)*10,
+      ry:10+Math.sin(angle)*12
+    };
+  };
+
+  const formationFrontPose=(i,timeSec)=>{
+    const s=seeds[i];
+    const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+    return {
+      x:(i-(n-1)/2)*frontSpacing+Math.sin(timeSec*.92+s.phase)*5,
+      y:-74+Math.sin(layer*Math.PI)*18+Math.cos(timeSec*1.18+s.phase)*6,
+      z:Math.sin(timeSec*.76+s.phase)*14,
+      scale:.72*densityScale,
+      rot:Math.sin(timeSec*1.05+s.phase)*4.5,
+      rx:Math.sin(timeSec*.88+s.phase)*5,
+      ry:Math.cos(timeSec*.80+s.phase)*6
+    };
+  };
+
+  const chickFrontPose=(i,timeSec)=>{
+    const s=seeds[i];
+    const hopPhase=timeSec*7.8-i*.58+s.phase*.08;
+    const hop=Math.pow(Math.max(0,Math.sin(hopPhase)),1.70);
+    return {
+      x:(i-(n-1)/2)*frontSpacing,
+      y:-56-hop*30+Math.sin(timeSec*1.08+s.phase)*2,
+      z:Math.sin(hopPhase*.42)*6,
+      scale:.72*densityScale*(1+hop*.035),
+      rot:Math.sin(hopPhase)*4,
+      rx:-hop*6,
+      ry:Math.cos(hopPhase*.54)*4
+    };
+  };
+
+  const columnFrontPose=(i,timeSec,independent=false)=>{
+    const s=seeds[i];
+    const x=(i-(n-1)/2)*frontSpacing;
+    const phase=independent?s.verticalPhase:0;
+    const freq=independent?s.verticalFreq:5.15;
+    const amp=independent
+      ?Math.min(stageUsage.y*.20,52)*s.verticalAmpMul
+      :Math.min(stageUsage.y*.16,42);
+    const bob=Math.sin(timeSec*freq+phase)*amp;
+    return {
+      x,
+      y:-stageUsage.y*.13+bob,
+      z:Math.sin(timeSec*(independent?.78:.68)+phase)*Math.min(10,stageUsage.y*.025),
+      scale:.72*densityScale,
+      rot:Math.sin(timeSec*(independent?1.75:1.55)+phase)*2.6,
+      rx:-Math.abs(bob)*.065,
+      ry:Math.cos(timeSec*.72+phase)*3
+    };
+  };
+
+  const scatterFrontPose=(i,timeSec)=>{
+    const s=seeds[i];
+    const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+    const xAmp=stageUsage.x*.58*(.86+s.scatterRadiusMul*.12);
+    const yAmp=stageUsage.y*.46*(.86+s.scatterRadiusMul*.12);
+    return {
+      x:Math.sin(timeSec*s.pinFreqX+s.pinPhaseX)*xAmp
+        +Math.sin(timeSec*.51+s.phase)*stageUsage.x*.08
+        +s.ashDriftX,
+      y:-stageUsage.y*.10
+        +Math.sin(timeSec*s.pinFreqY+s.pinPhaseY)*yAmp
+        +Math.cos(timeSec*.43+s.phase)*stageUsage.y*.07
+        +layer*12,
+      z:Math.sin(timeSec*s.pinFreqZ+s.pinPhaseZ)*Math.min(106,stageUsage.x*.20),
+      scale:(.62+.08*Math.sin(timeSec*.66+s.phase))*densityScale,
+      rot:Math.sin(timeSec*.98+s.phase)*8,
+      rx:Math.sin(timeSec*1.13+s.phase)*18,
+      ry:Math.cos(timeSec*1.04+s.phase)*20
+    };
+  };
+  const frontTargetPose=(i,spinValue,timeSec)=>{
+    if(frontMode==="chick")return chickFrontPose(i,timeSec);
+    if(frontMode==="chick-column-sync")return columnFrontPose(i,timeSec,false);
+    if(frontMode==="chick-column-random")return columnFrontPose(i,timeSec,true);
+    if(frontMode==="float-pinball")return scatterFrontPose(i,timeSec);
+    if(frontMode==="formation")return formationFrontPose(i,timeSec);
+    return orbitFrontPose(i,spinValue,timeSec);
+  };
 
   await frameTween(phase12Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
-    const globalOrbit=easeInOut(clamp((elapsed-2500)/6400));
+    const globalCapture=easeInOut(clamp((elapsed-2500)/6400));
     const whiteBlend=easeInOut(clamp((elapsed-3400)/3800));
 
     const spinElapsed=Math.max(0,elapsed-spinStartMs);
     const spinSec=spinElapsed/1000;
     spinBase=spinElapsed>0
-      ? omega2Start*spinSec+.5*spinAccel*spinSec*spinSec
-      : 0;
+      ?omega2Start*spinSec+.5*spinAccel*spinSec*spinSec
+      :0;
 
-    whiteRoom.style.opacity=String(clamp(.10*globalOrbit+whiteBlend*.90));
-    whiteRoom.style.transform=`scale(${lerp(1,1.15,whiteBlend)})`;
-    portalGlow.style.opacity=String(clamp((whiteBlend-.05)*1.22));
-    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(whiteBlend))})`;
-    rushLines.style.opacity=String(clamp((whiteBlend-.04)*1.30));
+    const preWhiteBlend=verticalFront?whiteBlend*.20:whiteBlend;
+    if(verticalFront){
+      setWhiteLevel(clamp(.025*globalCapture+whiteBlend*.16));
+    }else{
+      setWhiteLevel(clamp(.08*globalCapture+whiteBlend*.70));
+    }
+    portalGlow.style.opacity=String(clamp((preWhiteBlend-.05)*1.22));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(preWhiteBlend))})`;
+    rushLines.style.opacity=String(clamp((preWhiteBlend-.04)*1.30));
 
     [...rushLines.children].forEach(line=>{
       const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
-      const travel=((whiteBlend*speed+phase)%1)*165-45;
-      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1+whiteBlend*1.95})`;
+      const travel=((preWhiteBlend*speed+phase)%1)*165-45;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1+preWhiteBlend*1.95})`;
     });
 
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const base=(i/n)*Math.PI*2;
-
       const peelStagger=n>16?88:n>12?108:n>8?130:158;
-      const peelDelay=150+i*peelStagger+s.peelJitter;
-      const peelT=easeInOut(clamp((elapsed-peelDelay)/520));
-      const localRise=easeSoft(clamp((elapsed-(peelDelay+120))/3000));
-      // Keep the glyph face completely flat through the peel and first lift.
-      // 3D floating begins only after the planar character has visibly risen away from the source.
-      const localFloat=easeInOut(clamp((elapsed-(peelDelay+760))/1120));
-      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+1260+s.orbitLag))/2700));
+      const sticky=i===stickyIndex;
+      const peelDelay=150+i*peelStagger+s.peelJitter+(sticky?980:0);
+      const peelT=easeInOut(clamp((elapsed-peelDelay)/(sticky?390:520)));
+      const localRise=easeSoft(clamp((elapsed-(peelDelay+120))/(sticky?1800:3000)));
+      const localFloat=easeInOut(clamp((elapsed-(peelDelay+(sticky?520:720)))/(sticky?680:1080)));
+      const captureStart=sticky?1120:1900;
+      const captureDuration=sticky?1050:2400;
+      const charCapture=globalCapture*easeInOut(clamp((elapsed-(peelDelay+captureStart+s.orbitLag*.45))/captureDuration));
 
       const lift=s.liftAmp*localRise;
-
-      // Peel and first ascent remain a flat sheet: translate only, no 3D tilt or depth.
-      const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-charOrbit);
-      const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-charOrbit);
+      const planarDriftX=Math.sin(tSec*.88+s.phase)*2.2*(1-charCapture);
+      const planarDriftY=Math.cos(tSec*1.02+s.phase)*1.1*(1-charCapture);
       const peelSkew=(i-(n-1)/2)*1.4;
       const peelX=s.sway*.18*peelT+peelSkew*peelT*.24;
       const peelY=-13*peelT;
 
-      // After the flat glyph has risen, it gradually acquires leaf-like 3D floating.
       const floatEnvelope=.20+.80*Math.sin(Math.min(localRise,.985)*Math.PI);
       const floatStrength=floatEnvelope*localFloat;
       const freeX=s.x+planarDriftX+peelX
-        +Math.sin(tSec*2.18*s.floatFreqX+s.phase)*s.sway*s.floatAmpX*floatStrength;
+        +Math.sin(tSec*2.18*s.floatFreqX+s.phase)*s.sway*s.floatAmpX*1.34*floatStrength
+        +Math.cos(tSec*.84+s.phase*.63)*10*s.floatAmpX*floatStrength;
       const freeY=s.y-lift+planarDriftY+peelY
-        +Math.sin(tSec*3.05*s.floatFreqY+s.phase)*6.4*s.floatAmpY*floatStrength;
-      const freeZ=Math.sin(tSec*2.55*s.floatFreqZ+s.phase)*26*s.floatAmpZ*floatStrength;
+        +Math.sin(tSec*3.05*s.floatFreqY+s.phase)*8.8*s.floatAmpY*floatStrength
+        +Math.cos(tSec*.76+s.phase*.82)*7*s.floatAmpY*floatStrength;
+      const freeZ=(
+        Math.sin(tSec*2.55*s.floatFreqZ+s.phase)*34
+        +Math.cos(tSec*.92+s.phase*.71)*12
+      )*s.floatAmpZ*floatStrength;
 
-      // The imperfect ring is already rotating while glyphs are still being attracted.
-      const angle=base+spinBase;
-      const depth=(Math.sin(angle)+1)/2;
-      const residual=1-charOrbit;
-      const wobbleX=Math.sin(tSec*1.75+s.phase)*20*residual;
-      const wobbleY=Math.cos(tSec*1.42+s.phase)*10*residual;
-      const wobbleZ=Math.sin(tSec*1.88+s.phase)*12*residual;
-
-      const orbitX=Math.cos(angle)*ringR+wobbleX;
-      const orbitY=-104+Math.sin(angle)*ringRY+wobbleY;
-      const orbitZ=10+depth*34+wobbleZ;
-
-      const x=lerp(freeX,orbitX,charOrbit);
-      const y=lerp(freeY,orbitY,charOrbit);
-      const z=lerp(freeZ,orbitZ,charOrbit);
+      const target=frontTargetPose(i,spinBase,tSec);
+      const x=lerp(freeX,target.x,charCapture);
+      const y=lerp(freeY,target.y,charCapture);
+      const z=lerp(freeZ,target.z,charCapture);
 
       const freeScale=lerp(baseScale,.92,localRise);
-      const orbitScale=(.72+depth*.50)*densityScale;
-      const scale=lerp(freeScale,orbitScale,charOrbit);
+      const scale=lerp(freeScale,target.scale,charCapture);
 
       const flutterRZ=Math.sin(tSec*1.55+s.phase)*s.tilt*(1-p*.18);
       const freeRZ=flutterRZ*localFloat;
-      const orbitRZ=(spinBase*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
-      const rotZ=lerp(freeRZ,orbitRZ,charOrbit);
+      const freeRX=(
+        Math.sin(tSec*2.45+s.phase)*38
+        +Math.cos(tSec*.86+s.phase*.54)*11
+      )*floatStrength;
+      const freeRY=(
+        Math.cos(tSec*2.25+s.phase)*43
+        +Math.sin(tSec*.79+s.phase*.68)*12
+      )*floatStrength;
 
-      const freeRX=Math.sin(tSec*2.45+s.phase)*34*floatStrength;
-      const freeRY=Math.cos(tSec*2.25+s.phase)*38*floatStrength;
-      const orbitRX=-12+Math.cos(angle)*10;
-      const orbitRY=10+Math.sin(angle)*12;
-      const rotX=lerp(freeRX,orbitRX,charOrbit);
-      const rotY=lerp(freeRY,orbitRY,charOrbit);
-
-      setT(el,x,y,scale,rotZ,rotX,rotY,z);
-      el.style.opacity=String(clamp((elapsed-peelDelay+160)/430));
-      el.style.textShadow=`0 0 ${8+depth*14*charOrbit}px rgba(139,125,101,${.08+depth*.16*charOrbit})`;
+      setT(
+        el,x,y,scale,
+        lerp(freeRZ,target.rot,charCapture),
+        lerp(freeRX,target.rx,charCapture),
+        lerp(freeRY,target.ry,charCapture),
+        z
+      );
+      el.style.opacity="1";
+      el.style.textShadow=`0 0 ${8+12*charCapture}px rgba(139,125,101,${.08+.14*charCapture})`;
     });
   },token);
   if(token!==playToken)return;
 
-  // 4) 崩れた円環から竜巻へ。phase12終端の位置・姿勢・角速度をそのまま引き継ぐ。
-  const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
+  // 4) 前半の第二幕。通常系は竜巻へ、ぴょこ系は可愛い整列からピンボール暴走へ。
   const omega4Start=omega2End;
-  const omega4End=Math.PI*2*4.45;
-  const phase4Duration=3100;
+  const omega4End=Math.PI*2*31.15;
+  const phase4Duration=verticalFront?4800:3100;
   let spin=spinBase;
+  const phase12EndSec=phase12Duration/1000;
+
+  const pinballPose=(i,timeSec,intensity)=>{
+    const s=seeds[i];
+    const start=chickFrontPose(i,timeSec);
+    const speed=lerp(1.0,8.8,intensity);
+    const px=triWave(timeSec*speed*s.pinFreqX+s.pinPhaseX)*stageUsage.pinballX;
+    const py=triWave(timeSec*speed*1.17*s.pinFreqY+s.pinPhaseY)*stageUsage.pinballY-stageUsage.y*.02;
+    const pz=triWave(timeSec*speed*.67*s.pinFreqZ+s.pinPhaseZ)*Math.min(138,stageUsage.x*.23);
+    return {
+      x:lerp(start.x,px,intensity),
+      y:lerp(start.y,py,intensity),
+      z:lerp(start.z,pz,intensity),
+      scale:lerp(start.scale,(.56+Math.abs(triWave(timeSec*.9+s.phase))*.16)*densityScale,intensity),
+      rot:lerp(start.rot,triWave(timeSec*speed*.61+s.pinPhaseX)*34,intensity),
+      rx:lerp(start.rx,triWave(timeSec*speed*.83+s.pinPhaseY)*38,intensity),
+      ry:lerp(start.ry,triWave(timeSec*speed*.77+s.pinPhaseZ)*46,intensity)
+    };
+  };
+
+  const columnBouncePose=(i,timeSec,intensity,independent=false)=>{
+    const s=seeds[i];
+    const phase=independent?s.verticalPhase:0;
+    const baseFreq=independent?s.verticalFreq:5.15;
+    const fury=easeInOut(clamp(intensity));
+    const finalFreq=independent
+      ?34+s.verticalFreq*1.65
+      :45.5;
+    const frequency=lerp(baseFreq,finalFreq,Math.pow(fury,1.18));
+
+    const baseAmp=Math.min(stageUsage.y*.16,44);
+    const ampPersonality=independent?clamp(s.verticalAmpMul,.82,1.12):1;
+    const maxAmp=stageUsage.y*(independent?.78:.72)*ampPersonality;
+    const amp=lerp(baseAmp,maxAmp,Math.pow(fury,.88));
+
+    // At high intensity the motion becomes a rapid vertical pounding rather than a gentle bob.
+    const raw=Math.sin(timeSec*frequency+phase);
+    const wave=lerp(raw,Math.sign(raw)*Math.pow(Math.abs(raw),.76),fury*.72);
+    const impact=Math.pow(Math.abs(wave),7)*fury;
+
+    return {
+      x:(i-(n-1)/2)*frontSpacing,
+      y:-stageUsage.y*.13+wave*amp,
+      z:Math.sin(timeSec*frequency*.31+phase)*Math.min(42,stageUsage.y*.10)*fury,
+      scale:.72*densityScale*(1+impact*.065),
+      rot:wave*lerp(2.4,independent?12:9.5,fury),
+      rx:-impact*lerp(4,24,fury),
+      ry:Math.sin(timeSec*frequency*.23+phase)*7*fury,
+      impact
+    };
+  };
+
+  const scatterPinballPose=(i,timeSec,intensity)=>{
+    const s=seeds[i];
+    const start=scatterFrontPose(i,timeSec);
+    const speed=lerp(.78,10.4,intensity);
+    const px=triWave(timeSec*speed*s.pinFreqX+s.pinPhaseX)*stageUsage.pinballX;
+    const py=triWave(timeSec*speed*1.13*s.pinFreqY+s.pinPhaseY)*stageUsage.pinballY-stageUsage.y*.02;
+    const pz=triWave(timeSec*speed*.63*s.pinFreqZ+s.pinPhaseZ)*Math.min(148,stageUsage.x*.25);
+    return {
+      x:lerp(start.x,px,intensity),
+      y:lerp(start.y,py,intensity),
+      z:lerp(start.z,pz,intensity),
+      scale:lerp(start.scale,(.53+Math.abs(triWave(timeSec*.82+s.phase))*.17)*densityScale,intensity),
+      rot:lerp(start.rot,triWave(timeSec*speed*.57+s.pinPhaseX)*42,intensity),
+      rx:lerp(start.rx,triWave(timeSec*speed*.78+s.pinPhaseY)*46,intensity),
+      ry:lerp(start.ry,triWave(timeSec*speed*.74+s.pinPhaseZ)*52,intensity)
+    };
+  };
 
   await frameTween(phase4Duration,(p,elapsed)=>{
     const e=easeInOut(p);
+    const tSec=phase12EndSec+elapsed/1000;
+
+    if(frontMode==="chick"){
+      const violence=easeInOut(clamp((p-.06)/.94));
+      const light=easeInOut(clamp((p-.28)/.72));
+      g.forEach((el,i)=>{
+        const pose=pinballPose(i,tSec,violence);
+        setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
+        el.style.opacity="1";
+        el.style.filter=`brightness(${1+light*.45})`;
+      });
+      setWhiteLevel(lerp(.70,.90,light));
+      portalGlow.style.opacity=String(lerp(.20,.78,light));
+      portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.92,.58,light)})`;
+      rushLines.style.opacity=String(lerp(.10,.64,violence));
+      [...rushLines.children].forEach(line=>{
+        const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
+        const travel=((violence*speed*5.4+phase)%1)*170-46;
+        line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1.4+violence*2.2})`;
+      });
+      return;
+    }
+
+    if(frontMode==="chick-column-sync"||frontMode==="chick-column-random"){
+      const independent=frontMode==="chick-column-random";
+
+      // Spend most of this phase becoming faster and more violent.
+      // White-out is intentionally held back until the final quarter.
+      const intensity=easeInOut(clamp((p-.02)/.60));
+      const overdrive=easeInOut(clamp((p-.50)/.30));
+      const light=easeInOut(clamp((p-.76)/.24));
+      const drive=clamp(intensity+overdrive*.22);
+
+      g.forEach((el,i)=>{
+        const pose=columnBouncePose(i,tSec,drive,independent);
+        setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
+        el.style.opacity="1";
+        el.style.filter=`brightness(${1+pose.impact*.34+light*.30})`;
+      });
+
+      // Stay visibly in the pre-white world for the long "ドドドドド" passage.
+      setWhiteLevel(lerp(.18,.84,light));
+      portalGlow.style.opacity=String(lerp(.06,.78,light));
+      portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.58,.24,light)})`;
+      rushLines.style.opacity=String(lerp(.10,.74,Math.max(overdrive,light)));
+
+      [...rushLines.children].forEach(line=>{
+        const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
+        const travel=((drive*speed*8.5+phase)%1)*176-50;
+        line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1.35+drive*3.0})`;
+      });
+      return;
+    }
+
+    if(frontMode==="float-pinball"){
+      const intensity=easeInOut(clamp((p-.10)/.90));
+      const light=easeInOut(clamp((p-.32)/.68));
+      g.forEach((el,i)=>{
+        const pose=scatterPinballPose(i,tSec,intensity);
+        setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
+        el.style.opacity="1";
+        el.style.filter=`brightness(${1+light*.42})`;
+      });
+      setWhiteLevel(lerp(.70,.90,light));
+      portalGlow.style.opacity=String(lerp(.14,.72,light));
+      rushLines.style.opacity=String(lerp(.08,.66,intensity));
+      [...rushLines.children].forEach(line=>{
+        const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
+        const travel=((intensity*speed*6.8+phase)%1)*174-48;
+        line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1.4+intensity*2.6})`;
+      });
+      return;
+    }
+
     const prog=spinProgress(spinBase,omega4Start,omega4End,elapsed,phase4Duration);
     spin=prog.spin;
-
     const radius=lerp(ringR,24,e);
     const ellipse=lerp(ringRY,10,e);
     const baseY=lerp(-104,-86,e);
@@ -783,60 +1307,66 @@ async function play(){
     const axisAmp=lerp(0,16,e);
     const axisTwist=Math.sin(spin*.18)*axisAmp;
 
+    setWhiteLevel(lerp(.70,.90,e));
     portalGlow.style.opacity=String(lerp(.98,.92,e));
     portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.18,.82,e)})`;
     rushLines.style.opacity=String(lerp(.92,1,e));
 
     [...rushLines.children].forEach(line=>{
       const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
-      const travel=((e*speed*1.85+phase)%1)*172-48;
-      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.15+e*.55})`;
+      const travel=((e*speed*7.8+phase)%1)*172-48;
+      line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${2.15+e*1.55})`;
     });
 
     g.forEach((el,i)=>{
       const angle=baseAngles[i]+spin;
       const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const start=frontMode==="formation"
+        ?formationFrontPose(i,tSec)
+        :orbitFrontPose(i,spin,tSec);
 
       const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp+axisTwist*.12;
       const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.16;
-      const x=axisX+Math.cos(angle)*radius;
-      const y=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const targetX=axisX+Math.cos(angle)*radius;
+      const targetY=baseY+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const targetZ=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
+      const targetScale=(.58+depth*.42)*densityScale;
+      const targetRot=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
+      const targetRx=-14+Math.cos(angle+layer*.4)*17;
+      const targetRy=11+Math.sin(angle-layer*.3)*20;
 
-      const zStart=10+depth*34;
-      const zEnd=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
-      const z=lerp(zStart,zEnd,e);
-
-      const scaleStart=(.72+depth*.50)*densityScale;
-      const scaleEnd=(.58+depth*.42)*densityScale;
-      const scale=lerp(scaleStart,scaleEnd,e);
-
-      const rotStart=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*8;
-      const rotEnd=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
-      const rot=lerp(rotStart,rotEnd,e);
-      const rx=lerp(-12+Math.cos(angle)*10,-14+Math.cos(angle+layer*.4)*17,e);
-      const ry=lerp(10+Math.sin(angle)*12,11+Math.sin(angle-layer*.3)*20,e);
-
-      setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(.64+depth*.36);
+      const blend=frontMode==="formation"?e:1;
+      setT(
+        el,
+        lerp(start.x,targetX,blend),
+        lerp(start.y,targetY,blend),
+        lerp(start.scale,targetScale,blend),
+        lerp(start.rot,targetRot,blend),
+        lerp(start.rx,targetRx,blend),
+        lerp(start.ry,targetRy,blend),
+        lerp(start.z,targetZ,blend)
+      );
+      el.style.opacity=String(.68+depth*.32);
+      el.style.filter="none";
     });
   },token);
   if(token!==playToken)return;
 
   const spinVortexEnd=spin;
 
-  // 5) 圧縮と閃光。変身の瞬間からキラキラを発生させる。
+  // 5) どの前半からでも、動きを止めずに中心核へ圧縮して「誕生の閃光」を作る。
   const omega5Start=omega4End;
-  const omega5End=Math.PI*2*5.02;
-  const phase5Duration=1450;
+  const omega5End=Math.PI*2*34.0;
+  const phase5Duration=1540;
 
   const sparkleCount=Math.min(38,Math.max(20,n*3));
   const sparkleSeeds=Array.from({length:sparkleCount},(_,i)=>({
     el:(()=>{
-      const s=document.createElement("div");
-      s.className="spark";
-      core.appendChild(s);
-      return s;
+      const spark=document.createElement("div");
+      spark.className="spark";
+      core.appendChild(spark);
+      return spark;
     })(),
     angle:(i/sparkleCount)*Math.PI*2+Math.random()*.45,
     radius:34+Math.random()*92,
@@ -851,65 +1381,117 @@ async function play(){
   await frameTween(phase5Duration,(p,elapsed)=>{
     const e=easeInOut(p);
     const prog=spinProgress(spinVortexEnd,omega5Start,omega5End,elapsed,phase5Duration);
-    spin=prog.spin;
-    const flashRise=easeOut(clamp(p/.42));
-    const flashHold=1-.08*easeInOut(clamp((p-.76)/.24));
+    if(frontMode==="orbit"||frontMode==="formation")spin=prog.spin;
+
+    const squeeze=easeInOut(clamp(
+      verticalFront
+        ?(p-.34)/.50
+        :(p-.12)/.62
+    ));
+    const coreHold=easeInOut(clamp(
+      verticalFront
+        ?(p-.78)/.14
+        :(p-.72)/.18
+    ));
+    const flashRise=easeOut(clamp(
+      verticalFront
+        ?(p-.48)/.24
+        :(p-.20)/.28
+    ));
+    const flashHold=1-.02*easeInOut(clamp((p-.92)/.08));
     const peak=flashRise*flashHold;
 
-    const radius=lerp(24,11,e);
-    const ellipse=lerp(10,5,e);
-    const vertical=lerp(196,170,e);
-    const axisAmp=lerp(16,6,e);
+    // Common flash ritual. Vertical-pogo modes are allowed to pound at full force
+    // for a while before the white world finally overtakes them.
+    const quakeRise=easeInOut(clamp(
+      verticalFront
+        ?(p-.30)/.58
+        :(p-.06)/.78
+    ));
+    const quakeAmp=lerp(0,11.5,quakeRise);
+    const qx=(Math.sin(elapsed*.145)+Math.sin(elapsed*.317)*.55)*quakeAmp;
+    const qy=(Math.cos(elapsed*.181)+Math.sin(elapsed*.271)*.48)*quakeAmp*.78;
+    stage.style.transform=`translate3d(${qx}px,${qy}px,0) scale(${1+.010*quakeRise})`;
 
-    flash.style.opacity=String(peak*.98);
-    portalGlow.style.opacity=String(.90+peak*.10);
-    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.82,.92,peak)})`;
+    const whiteRamp=easeInOut(clamp(
+      verticalFront
+        ?(p-.38)/.54
+        :(p-.05)/.82
+    ));
+    setWhiteLevel(lerp(verticalFront?.84:.90,1,whiteRamp));
+    rushLines.style.opacity=String(lerp(verticalFront?.54:.62,.96,quakeRise));
+
+    flash.style.opacity=String(Math.min(.985,peak*.985));
+    portalGlow.style.opacity=String(.86+peak*.14);
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.02,.12,squeeze)})`;
+    whiteRoom.style.transform=`scale(${lerp(1.10,1.22,squeeze)})`;
 
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+spin;
-      const depth=(Math.sin(angle)+1)/2;
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      let start;
 
-      const axisX=Math.sin(layer*1.8+spin*.22)*axisAmp;
-      const axisY=Math.cos(layer*1.25+spin*.18)*axisAmp*.14;
-      const x=axisX+Math.cos(angle)*radius;
-      const y=-86+axisY+Math.sin(angle)*ellipse+layer*vertical;
+      const continuationTime=phase12EndSec+phase4Duration/1000+elapsed/1000;
+      if(frontMode==="chick"){
+        start=pinballPose(i,continuationTime,1);
+      }else if(frontMode==="chick-column-sync"){
+        start=columnBouncePose(i,continuationTime,1,false);
+      }else if(frontMode==="chick-column-random"){
+        start=columnBouncePose(i,continuationTime,1,true);
+      }else if(frontMode==="float-pinball"){
+        start=scatterPinballPose(i,continuationTime,1);
+      }else{
+        const angle=baseAngles[i]+spin;
+        const depth=(Math.sin(angle)+1)/2;
+        start={
+          x:Math.sin(layer*1.8+spin*.22)*16+Math.sin(spin*.18)*16*.12+Math.cos(angle)*24,
+          y:-86+Math.cos(layer*1.25+spin*.18)*16*.16+Math.sin(angle)*10+layer*196,
+          z:(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8,
+          scale:(.58+depth*.42)*densityScale,
+          rot:(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9,
+          rx:-14+Math.cos(angle+layer*.4)*17,
+          ry:11+Math.sin(angle-layer*.3)*20
+        };
+      }
 
-      const zStart=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
-      const zEnd=(depth-.5)*48;
-      const z=lerp(zStart,zEnd,e);
+      const nucleusX=(i-(n-1)/2)*.08;
+      const nucleusY=-8+layer*.25;
+      const nucleusZ=(i%2?-.5:.5)*.8;
+      const nucleusScale=.20*densityScale;
 
-      const scaleStart=(.58+depth*.42)*densityScale;
-      const scaleEnd=(.56+depth*.40)*densityScale;
-      const scale=lerp(scaleStart,scaleEnd,e);
-
-      const rotStart=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
-      const rotEnd=(spin*180/Math.PI)*(i%2?-.26:.26)+Math.sin(angle)*9;
-      const rot=lerp(rotStart,rotEnd,e);
-      const rx=lerp(-14+Math.cos(angle+layer*.4)*17,-16+Math.cos(angle+layer*.35)*15,e);
-      const ry=lerp(11+Math.sin(angle-layer*.3)*20,12+Math.sin(angle-layer*.25)*18,e);
-
-      setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(.72+depth*.28);
-      el.style.filter=`brightness(${1+peak*2.7}) blur(${peak*1.8}px)`;
+      setT(
+        el,
+        lerp(start.x,nucleusX,squeeze),
+        lerp(start.y,nucleusY,squeeze),
+        lerp(start.scale,nucleusScale,squeeze),
+        lerp(start.rot,0,squeeze),
+        lerp(start.rx,0,squeeze),
+        lerp(start.ry,0,squeeze),
+        lerp(start.z,nucleusZ,squeeze)
+      );
+      el.style.opacity=String(lerp(.88,.98,coreHold));
+      el.style.filter=`brightness(${1+peak*4.4+coreHold*2.2}) blur(${peak*1.6+coreHold*1.6}px)`;
 
       if(p>.43&&!el.dataset.converted){
-        el.textContent=[...out][i]||el.textContent;
-        el.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
+        el.textContent=[...motionOut][i]||el.textContent;
+        el.style.fontFamily=targetFontFamily;
         el.dataset.converted="1";
       }
     });
 
     const sparkBirth=easeOut(clamp((p-.58)/.42));
-    sparkleSeeds.forEach((s,i)=>{
+    sparkleSeeds.forEach(s=>{
       const tt=elapsed/1000;
       const ang=s.angle+tt*s.speed;
-      const r=lerp(6,18,sparkBirth);
-      const x=Math.cos(ang)*r;
-      const y=lerp(-18,s.y*.18,sparkBirth)+Math.sin(tt*1.6+s.phase)*3*sparkBirth;
-      const z=lerp(12,s.z*.24,sparkBirth);
+      const r=lerp(5,7,sparkBirth)*(1-squeeze*.72);
       const pulse=.45+.55*Math.sin(tt*5.2*s.pulse+s.phase)**2;
-      setT(s.el,x,y,s.size*(.45+.55*sparkBirth)*pulse,0,0,0,z);
+      setT(
+        s.el,
+        Math.cos(ang)*r,
+        -8+Math.sin(tt*1.6+s.phase)*2*(1-squeeze),
+        s.size*(.45+.55*sparkBirth)*pulse,
+        0,0,0,
+        lerp(8,s.z*.08,sparkBirth)*(1-squeeze*.70)
+      );
       s.el.style.opacity=String(sparkBirth*(.45+.55*pulse));
       s.el.style.filter=`blur(${(1-pulse)*.6}px)`;
     });
@@ -918,294 +1500,554 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光が明ける瞬間そのものを「誕生の破裂光」にする。
-  //    強い白光の中で花火のようにぱっと散り、その勢いを失いながら、ひらひら自由落下へ連続移行。
-  const phase6Duration=2200;
-  const hiddenPoseMs=110;
-  const birthBurstMs=210;
-  const flashOpenDelayMs=70;
-  const flashOpenMs=460;
+  // 6) 閃光そのものから次の運動を生む。白の中ですでに移動を開始する。
+  const phase6Duration=flashExitMode==="peek"?3600:(flashExitMode==="rain"?2550:(flashExitMode==="radial-extreme"?2450:2350));
+  const hiddenPoseMs=70;
+  const flashOpenDelayMs=flashExitMode==="rain"||flashExitMode==="peek"?210:105;
+  const flashOpenMs=flashExitMode==="radial-extreme"?390:(flashExitMode==="radial"?460:620);
+  const phase7Duration=flashExitMode==="peek"?2100:1850;
 
-  const petalState=(i,timeMs)=>{
+  const ashPose=(i,timeMs)=>{
     const s=seeds[i];
     const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
     const tt=timeMs/1000;
-    const anchorAngle=baseAngles[i]+s.phase*.13;
-
-    // Wide birth spread, then a soft downward fall that gradually becomes floating.
-    const anchorR=78+(i%4)*8+Math.abs(layer)*10;
-    const fall=20*tt+27*(1-Math.exp(-tt*1.35));
-    const anchorX=Math.cos(anchorAngle)*anchorR+layer*10;
-    const anchorY=-42+Math.sin(anchorAngle*.78)*18+layer*17+fall;
-    const anchorZ=Math.sin(anchorAngle*1.24+s.phase)*28;
-
-    const swayX=Math.sin(tt*(1.02+s.floatFreqX*.22)+s.phase*1.35)*(27*s.floatAmpX)
-      +Math.sin(tt*.47+s.phase*.62)*9;
-    const swayY=Math.cos(tt*(.92+s.floatFreqY*.18)+s.phase*1.12)*(14*s.floatAmpY)
-      +Math.sin(tt*.43+s.phase)*7;
-    const swayZ=Math.sin(tt*(1.08+s.floatFreqZ*.20)+s.phase)*(16*s.floatAmpZ)
-      +Math.cos(tt*.52+s.phase*.74)*8;
-
+    const scatterBase=stageUsage.x*.67;
+    const anchorAngle=baseAngles[i]+s.phase*.18+s.scatterAngleJitter;
+    const anchorR=scatterBase*s.scatterRadiusMul+Math.abs(layer)*20;
+    const fall=(16*s.fallSpeedMul)*tt+24*s.fallSpeedMul*(1-Math.exp(-tt*1.15));
     return {
-      x:anchorX+swayX,
-      y:anchorY+swayY,
-      z:anchorZ+swayZ,
-      // Flutter, not tumbling: the face rocks like a falling petal but never performs a full spin.
-      rot:Math.sin(tt*1.22+s.phase)*5.6,
-      rx:-3+Math.sin(tt*1.42+s.phase)*14,
-      ry:Math.cos(tt*1.30+s.phase)*16
+      x:Math.cos(anchorAngle)*anchorR+layer*12+s.ashDriftX
+        +Math.sin(tt*(.88+s.floatFreqX*.24)+s.phase*1.35)*(29*s.floatAmpX)
+        +Math.sin(tt*.43+s.phase*.62)*11,
+      y:-30+Math.sin(anchorAngle)*anchorR*.50+layer*22+fall
+        +Math.cos(tt*(.78+s.floatFreqY*.20)+s.phase*1.12)*(15*s.floatAmpY)
+        +Math.sin(tt*.37+s.phase)*8,
+      z:Math.sin(anchorAngle*1.31+s.phase)*Math.min(112,anchorR*.46)+s.ashDriftZ
+        +Math.sin(tt*(.96+s.floatFreqZ*.22)+s.phase)*(18*s.floatAmpZ)
+        +Math.cos(tt*.47+s.phase*.74)*9,
+      rot:Math.sin(tt*1.18+s.phase)*6.4,
+      rx:-3+Math.sin(tt*1.34+s.phase)*15,
+      ry:Math.cos(tt*1.24+s.phase)*17,
+      opacity:.92
     };
   };
 
-  const sparkPetalState=(s,timeMs)=>{
-    const tt=timeMs/1000;
-    const fall=17*tt+22*(1-Math.exp(-tt*1.30));
-    const ang=s.angle+Math.sin(tt*.27+s.phase)*.16;
+  const radialPose=(i,timeMs)=>{
+    const s=seeds[i];
+    const tt=Math.max(0,timeMs)/1000;
+    const extreme=flashExitMode==="radial-extreme";
+    const angle=baseAngles[i]+s.scatterAngleJitter+s.phase*.08;
+    const extent=.88+Math.min(.14,Math.max(-.08,(s.scatterRadiusMul-1)*.34));
+    const targetX=(extreme?stageUsage.radialExtremeX:stageUsage.radialX)*extent;
+    const targetY=(extreme?stageUsage.radialExtremeY:stageUsage.radialY)*extent;
+    const launch=1-Math.exp(-tt*(extreme?8.8:5.8));
+    const fall=(extreme?5:10)*s.fallSpeedMul*tt;
     return {
-      x:Math.cos(ang)*s.radius+Math.sin(tt*.98+s.phase)*20,
-      y:s.y+fall+Math.sin(tt*1.14+s.phase)*11+Math.cos(tt*.50+s.phase)*7,
-      z:s.z+Math.cos(tt*.91+s.phase)*20,
-      pulse:.45+.55*Math.sin(tt*5.0*s.pulse+s.phase)**2
+      x:Math.cos(angle)*targetX*launch
+        +Math.sin(tt*.82+s.phase)*(extreme?8:16)
+        +s.ashDriftX*.55,
+      y:-8+Math.sin(angle)*targetY*launch
+        +fall
+        +Math.cos(tt*.74+s.phase)*(extreme?6:11),
+      z:Math.sin(angle*1.43+s.phase)*Math.min(150,stageUsage.x*.27)*launch
+        +Math.sin(tt*.91+s.phase)*16,
+      rot:Math.sin(tt*1.05+s.phase)*(extreme?10:7),
+      rx:Math.sin(tt*1.22+s.phase)*(extreme?21:15),
+      ry:Math.cos(tt*1.16+s.phase)*(extreme?24:18),
+      opacity:.95
     };
+  };
+  const rainPose=(i,timeMs)=>{
+    const s=seeds[i];
+    const delay=130+(i%5)*115+(s.phase/(Math.PI*2))*170;
+    const local=Math.max(0,timeMs-delay);
+    const tt=local/1000;
+    const appear=easeOut(clamp(local/260));
+    const xBase=(i/(Math.max(1,n-1))-.5)*Math.min(innerWidth*.78,620)
+      +s.ashDriftX*2.2;
+    const fall=Math.min(innerHeight*.88,520)*(1-Math.exp(-tt*.72));
+    return {
+      x:xBase+Math.sin(tt*1.18+s.phase)*26,
+      y:-Math.min(innerHeight*.55,360)+fall,
+      z:s.ashDriftZ*2+Math.sin(tt*.86+s.phase)*34,
+      rot:Math.sin(tt*1.6+s.phase)*10,
+      rx:Math.sin(tt*1.34+s.phase)*22,
+      ry:Math.cos(tt*1.22+s.phase)*20,
+      opacity:appear*.94
+    };
+  };
+
+  const peekPose=(i,timeMs)=>{
+    const s=seeds[i];
+    const delay=240+(i%6)*210+(s.phase/(Math.PI*2))*280;
+    const local=Math.max(0,timeMs-delay);
+    const tt=local/1000;
+    const appear=easeInOut(clamp(local/520));
+    const enterBase=easeInOut(clamp(local/1750));
+    const side=i%4;
+
+    const edgeX=side===0
+      ?-Math.min(innerWidth*.51,440)
+      :side===1
+        ?Math.min(innerWidth*.51,440)
+        :(i/(Math.max(1,n-1))-.5)*innerWidth*.72;
+    const edgeY=side===2
+      ?-Math.min(innerHeight*.44,300)
+      :side===3
+        ?Math.min(innerHeight*.44,300)
+        :(i%5-2)*48;
+
+    const targetX=(i-(n-1)/2)*Math.min(42,Math.max(10,innerWidth*.68/Math.max(1,n)))+Math.sin(s.phase)*15;
+    const targetY=-8+Math.cos(s.phase)*38;
+
+    // A small shy retreat before committing to the entrance.
+    const shyEnvelope=(1-enterBase)*Math.sin(clamp(local/1500)*Math.PI*3);
+    const shy=shyEnvelope*18;
+    let x=lerp(edgeX,targetX,enterBase);
+    let y=lerp(edgeY,targetY,enterBase);
+    if(side===0)x-=shy;
+    else if(side===1)x+=shy;
+    else if(side===2)y-=shy;
+    else y+=shy;
+
+    return {
+      x,y,
+      z:lerp(-42,Math.sin(s.phase)*38,enterBase),
+      rot:Math.sin(tt*1.55+s.phase)*3.2,
+      rx:Math.sin(tt*1.12+s.phase)*6,
+      ry:Math.cos(tt*1.06+s.phase)*8,
+      opacity:appear*.96
+    };
+  };
+  const postFlashPose=(i,timeMs)=>{
+    if(flashExitMode==="radial"||flashExitMode==="radial-extreme")return radialPose(i,timeMs);
+    if(flashExitMode==="rain")return rainPose(i,timeMs);
+    if(flashExitMode==="peek")return peekPose(i,timeMs);
+    return ashPose(i,timeMs);
+  };
+
+  const postFlashSparkPose=(s,timeMs)=>{
+    const tt=Math.max(0,timeMs)/1000;
+    const pulse=.45+.55*Math.sin(tt*5.0*s.pulse+s.phase)**2;
+    const r=stageUsage.x*(.58+Math.min(.28,s.radius/420));
+    let x=Math.cos(s.angle)*r+Math.sin(tt*.91+s.phase)*22;
+    let y=-18+Math.sin(s.angle)*r*.56+14*tt+Math.sin(tt*1.03+s.phase)*12;
+    let z=Math.sin(s.angle*1.47+s.phase)*Math.min(138,r*.50)+Math.cos(tt*.83+s.phase)*22;
+    if(flashExitMode==="radial"||flashExitMode==="radial-extreme"){
+      const extreme=flashExitMode==="radial-extreme";
+      const launch=1-Math.exp(-tt*(extreme?8.4:5.5));
+      x=Math.cos(s.angle)*(extreme?stageUsage.radialExtremeX:stageUsage.radialX)*launch;
+      y=-8+Math.sin(s.angle)*(extreme?stageUsage.radialExtremeY:stageUsage.radialY)*launch+8*tt;
+      const radialZ=(extreme?Math.min(150,stageUsage.x*.27):Math.min(120,stageUsage.x*.22))*launch;
+      z=Math.sin(s.angle*1.3+s.phase)*radialZ;
+    }
+    return {x,y,z,pulse};
   };
 
   await frameTween(phase6Duration,(p,elapsed)=>{
     const visibleTime=Math.max(0,elapsed-hiddenPoseMs);
-    const burst=easeOut(clamp(visibleTime/birthBurstMs));
-    // The burst happens while the screen is still dazzlingly white.
     const flashOpen=easeInOut(clamp((visibleTime-flashOpenDelayMs)/flashOpenMs));
-    const soften=easeInOut(clamp((visibleTime-60)/1750));
+    const soften=easeInOut(clamp((visibleTime-100)/1850));
+    const blastGlow=1-easeInOut(clamp((visibleTime-70)/520));
+    const quakeFade=1-easeOut(clamp(visibleTime/760));
+    const qAmp=11.5*quakeFade;
+    const qx=(Math.sin(elapsed*.155)+Math.sin(elapsed*.337)*.52)*qAmp;
+    const qy=(Math.cos(elapsed*.193)+Math.sin(elapsed*.283)*.45)*qAmp*.78;
+    stage.style.transform=quakeFade>.001
+      ?`translate3d(${qx}px,${qy}px,0) scale(${1+.010*quakeFade})`
+      :"none";
 
-    flash.style.opacity=String(elapsed<hiddenPoseMs ? .99 : lerp(.99,0,flashOpen));
-    whiteRoom.style.opacity=String(lerp(1,.85,soften));
-    portalGlow.style.opacity=String(lerp(.98,.16,soften));
-    rushLines.style.opacity=String(lerp(.92,.10,soften));
+    flash.style.opacity=String(
+      elapsed<hiddenPoseMs
+        ?.985
+        :Math.min(.985,Math.max((1-flashOpen)*.985,blastGlow*.76))
+    );
+    setWhiteLevel(1);
+    portalGlow.style.opacity=String(lerp(1,.16,soften));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.10,1.52,easeOut(clamp(visibleTime/260)))})`;
+    rushLines.style.opacity=String(lerp(.98,.10,soften));
 
     g.forEach((el,i)=>{
-      const s=seeds[i];
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const startX=(i-(n-1)/2)*.08;
+      const startY=-8+layer*.25;
+      const startZ=(i%2?-.5:.5)*.8;
+      const startScale=.20*densityScale;
+      const pose=postFlashPose(i,visibleTime);
 
-      // Exact phase-5 endpoint, hidden inside the birth flash.
-      const endAngle=baseAngles[i]+spinFlashEnd;
-      const endDepth=(Math.sin(endAngle)+1)/2;
-      const endAxisX=Math.sin(layer*1.8+spinFlashEnd*.22)*6;
-      const endAxisY=Math.cos(layer*1.25+spinFlashEnd*.18)*6*.14;
-      const startX=endAxisX+Math.cos(endAngle)*11;
-      const startY=-86+endAxisY+Math.sin(endAngle)*5+layer*170;
-      const startZ=(endDepth-.5)*48;
-      const startScale=(.56+endDepth*.40)*densityScale;
-
-      const petal=petalState(i,visibleTime);
-
-      // Firework birth: reach the already-moving petal trajectory very quickly,
-      // so the visible motion is "burst -> flutter/fall", not "orbit -> burst".
-      const x=lerp(startX,petal.x,burst);
-      const y=lerp(startY,petal.y,burst);
-      const z=lerp(startZ,petal.z,burst);
-
-      const targetDepth=.5+.5*Math.sin(s.phase+visibleTime*.0009);
-      const targetScale=(.55+targetDepth*.15)*densityScale;
-      const scale=lerp(startScale,targetScale,soften);
+      // Ash/radial visibly burst out of the light. Rain/peek relocate while the glare still hides them.
+      const burst=flashExitMode==="ash"
+        ?easeOut(clamp(visibleTime/190))
+        :(flashExitMode==="radial"||flashExitMode==="radial-extreme")
+          ?easeOut(clamp(visibleTime/(flashExitMode==="radial-extreme"?105:150)))
+          :easeOut(clamp((visibleTime-80)/210));
+      const hiddenTeleport=flashExitMode==="rain"||flashExitMode==="peek";
+      const mix=hiddenTeleport?easeOut(clamp((visibleTime-40)/150)):burst;
+      const depth=.5+.5*Math.sin(seeds[i].phase+visibleTime*.0009);
+      const targetScale=(.55+depth*.15)*densityScale;
 
       setT(
-        el,x,y,scale,
-        petal.rot*burst,
-        petal.rx*burst,
-        petal.ry*burst,
-        z
+        el,
+        lerp(startX,pose.x,mix),
+        lerp(startY,pose.y,mix),
+        lerp(startScale,targetScale,mix),
+        pose.rot*mix,
+        pose.rx*mix,
+        pose.ry*mix,
+        lerp(startZ,pose.z,mix)
       );
-      el.style.opacity=String(lerp(.78,.92,soften));
-      el.style.filter="none";
+      el.style.opacity=String(clamp(pose.opacity*mix));
+      const radialStreak=flashExitMode==="radial-extreme"
+        ?1-easeOut(clamp(visibleTime/430))
+        :0;
+      el.style.filter=radialStreak>0
+        ?`brightness(${1+radialStreak*1.4}) blur(${radialStreak*1.3}px)`
+        :"none";
     });
 
     sparkleSeeds.forEach(s=>{
-      const petal=sparkPetalState(s,visibleTime);
-      const startR=7;
-      const startX=Math.cos(s.angle)*startR;
-      const startY=-10+Math.sin(s.angle)*startR*.35;
-      const startZ=8;
-
-      setT(
-        s.el,
-        lerp(startX,petal.x,burst),
-        lerp(startY,petal.y,burst),
-        s.size*(.72+.58*petal.pulse),
-        0,0,0,
-        lerp(startZ,petal.z,burst)
-      );
-      s.el.style.opacity=String(burst*(.48+.48*petal.pulse));
-      s.el.style.filter=`blur(${(1-petal.pulse)*.7}px)`;
+      const pose=postFlashSparkPose(s,visibleTime);
+      const mix=easeOut(clamp(visibleTime/180));
+      setT(s.el,pose.x*mix,lerp(-8,pose.y,mix),s.size*(.78+.70*pose.pulse),0,0,0,pose.z*mix);
+      s.el.style.opacity=String(mix*(.50+.46*pose.pulse));
+      s.el.style.filter=`blur(${(1-pose.pulse)*.6}px)`;
     });
   },token);
   if(token!==playToken)return;
   flash.style.opacity="0";
+  stage.style.transform="none";
 
-  // 7) ひらひら自由落下の余韻。そのまま無重力寄りの漂いへ移り、まだ集団運動には戻さない。
-  const phase7Duration=1900;
-
+  // 7) 閃光後の固有運動をそのまま継続。ここではまだ無理に中心へ集めない。
   await frameTween(phase7Duration,(p,elapsed)=>{
-    const petalTime=phase6Duration+elapsed;
-
+    const postTime=phase6Duration+elapsed;
     g.forEach((el,i)=>{
-      const s=seeds[i];
-      const pos=petalState(i,petalTime);
-      const depth=.5+.5*Math.sin(s.phase+petalTime*.0009);
+      const pose=postFlashPose(i,postTime);
+      const depth=.5+.5*Math.sin(seeds[i].phase+postTime*.0009);
       const scale=(.55+depth*.15)*densityScale;
-      setT(el,pos.x,pos.y,scale,pos.rot,pos.rx,pos.ry,pos.z);
-      el.style.opacity=".92";
+      setT(el,pose.x,pose.y,scale,pose.rot,pose.rx,pose.ry,pose.z);
+      el.style.opacity=String(clamp(pose.opacity));
+      el.style.filter="none";
     });
 
     sparkleSeeds.forEach(s=>{
-      const pos=sparkPetalState(s,petalTime);
-      setT(s.el,pos.x,pos.y,s.size*(.72+.58*pos.pulse),0,0,0,pos.z);
-      s.el.style.opacity=String(.48+.48*pos.pulse);
-      s.el.style.filter=`blur(${(1-pos.pulse)*.7}px)`;
+      const pose=postFlashSparkPose(s,postTime);
+      setT(s.el,pose.x,pose.y,s.size*(.70+.58*pose.pulse),0,0,0,pose.z);
+      s.el.style.opacity=String(.44+.48*pose.pulse);
+      s.el.style.filter=`blur(${(1-pose.pulse)*.7}px)`;
     });
 
-    whiteRoom.style.opacity=String(lerp(.85,.81,easeInOut(p)));
+    setWhiteLevel(1);
     portalGlow.style.opacity=String(lerp(.16,.11,easeInOut(p)));
     rushLines.style.opacity=String(lerp(.10,.07,easeInOut(p)));
   },token);
   if(token!==playToken)return;
 
-  // 8) 「漂いながら少しずつ集まる」区間。
-  //    petalState を最後まで moving source として残し、低速のゆるい集合形へ全区間を使って吸着させる。
-  const phase8Duration=3100;
+  // 8) 漂流から今回の「集団演技」へ。円・円環・龍・ぴょこぴょこ整列を毎回ひとつ選ぶ。
+  const phase8Duration=3300;
   const petalBaseTime=phase6Duration+phase7Duration;
   const groupOmegaStart=Math.PI*2*.035;
-  const groupOmegaEnd=Math.PI*2*.32;
+  const groupOmegaEnd=ensembleMode==="chick"
+    ? Math.PI*2*.13
+    : Math.PI*2*(ensembleMode==="dragon"?1.10:.48);
   const groupAccel=(groupOmegaEnd-groupOmegaStart)/(phase8Duration/1000);
-  const groupR=72;
-  const groupRY=23;
+  const groupR=stageUsage.x*.46;
+  const groupRY=stageUsage.y*.35;
   const groupVertical=28;
   const groupCenterAmpX=7;
   const groupCenterAmpY=6;
+  const chickSpacing=Math.min(80,Math.max(9,(stageUsage.x*1.45)/Math.max(1,n-1)));
   let groupTheta=0;
+
+  const ensemblePose=(i,theta,timeSec)=>{
+    const s=seeds[i];
+    const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+    const angle=baseAngles[i]+theta;
+    const depth=(Math.sin(angle)+1)/2;
+
+    if(ensembleMode==="circle"){
+      return {
+        x:Math.cos(angle)*groupR,
+        y:-10+Math.sin(angle)*groupR*.72,
+        z:Math.sin(timeSec*.83+s.phase)*8,
+        scale:(.58+depth*.08)*densityScale,
+        rot:Math.sin(angle)*5,
+        rx:Math.sin(timeSec*.91+s.phase)*5,
+        ry:Math.cos(timeSec*.88+s.phase)*7
+      };
+    }
+
+    if(ensembleMode==="ring"){
+      return {
+        x:Math.cos(angle)*groupR,
+        y:-12+Math.sin(angle)*groupRY,
+        z:Math.sin(angle)*92,
+        scale:(.55+depth*.28)*densityScale,
+        rot:Math.sin(angle)*7,
+        rx:-8+Math.cos(angle)*14,
+        ry:Math.sin(angle)*18
+      };
+    }
+
+    if(ensembleMode==="dragon"){
+      const trail=layer*.78;
+      const t=theta-trail;
+      const ampX=stageUsage.dragonX;
+      const ampY=stageUsage.dragonY;
+      return {
+        x:Math.sin(t)*ampX
+          +Math.sin(t*3.4+s.phase)*Math.min(34,stageUsage.x*.07)
+          +Math.cos(t*5.2+s.phase*.7)*Math.min(16,stageUsage.x*.035),
+        y:-6+Math.sin(t*2.22+.52)*ampY
+          +Math.cos(t*4.05+s.phase)*Math.min(28,stageUsage.y*.08),
+        z:Math.cos(t*1.31)*108+Math.sin(t*3.0+s.phase)*28,
+        scale:(.54+(.5+.5*Math.sin(t))*.30)*densityScale,
+        rot:Math.cos(t*1.4)*16,
+        rx:-12+Math.cos(t*1.7)*30,
+        ry:Math.sin(t*1.35)*38
+      };
+    }
+
+    // "Chick" mode: no grand orbit. Characters hop one after another into a neat row.
+    const hopPhase=timeSec*8.8-i*.62;
+    const hop=Math.pow(Math.max(0,Math.sin(hopPhase)),1.72);
+    return {
+      x:(i-(n-1)/2)*chickSpacing,
+      y:26-hop*42+Math.sin(timeSec*1.2+s.phase)*2.5,
+      z:Math.sin(hopPhase*.45)*8,
+      scale:.68*densityScale*(1+hop*.05),
+      rot:Math.sin(hopPhase)*4.5,
+      rx:-hop*8,
+      ry:Math.cos(hopPhase*.55)*5
+    };
+  };
 
   await frameTween(phase8Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
     groupTheta=groupOmegaStart*tSec+.5*groupAccel*tSec*tSec;
-    // Almost the whole phase is spent gathering, avoiding a sudden switch into a clean orbit.
     const groupBlend=easeInOut(clamp((p-.02)/.98));
     const time=petalBaseTime+elapsed;
-    const centerX=Math.sin(groupTheta*.34)*groupCenterAmpX*groupBlend;
-    const centerY=-12+Math.cos(groupTheta*.29)*groupCenterAmpY*groupBlend;
 
     g.forEach((el,i)=>{
       const s=seeds[i];
-      const petal=petalState(i,time);
-      const angle=baseAngles[i]+groupTheta;
-      const depth=(Math.sin(angle)+1)/2;
-      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const petal=postFlashPose(i,time);
+      let gatherStart=.02+s.gatherLag;
+      if(i===rogueIndex&&rogueType==="early")gatherStart=Math.max(0,gatherStart-.20);
+      const charBlend=easeInOut(clamp((p-gatherStart)/Math.max(.001,1-gatherStart)));
+      const pose=ensemblePose(i,groupTheta,tSec);
 
-      // A loose gathered cloud/ellipse, rotating so slowly that the continuing drift remains dominant.
-      const orbitX=centerX+Math.cos(angle)*groupR;
-      const orbitY=centerY+Math.sin(angle)*groupRY+layer*groupVertical;
-      const orbitZ=(depth-.5)*50;
+      let extraX=0,extraY=0,extraZ=0;
+      const rogueBeat=Math.sin(Math.PI*clamp((p-.28)/.50));
+      if(i===rogueIndex){
+        if(rogueType==="reverse"){
+          extraX=-Math.sin(groupTheta*1.7+s.whimPhase)*110*rogueBeat;
+          extraY=Math.cos(groupTheta*1.2+s.whimPhase)*26*rogueBeat;
+        }else if(rogueType==="drop"){
+          extraY=126*rogueBeat;
+          extraX=s.whimSign*20*rogueBeat;
+        }else if(rogueType==="wander"){
+          extraX=s.whimSign*120*rogueBeat;
+          extraZ=80*Math.sin(p*Math.PI*2)*rogueBeat;
+        }
+      }
 
-      const x=lerp(petal.x,orbitX,groupBlend);
-      const y=lerp(petal.y,orbitY,groupBlend);
-      const z=lerp(petal.z,orbitZ,groupBlend);
+      const x=lerp(petal.x,pose.x+extraX,charBlend);
+      const y=lerp(petal.y,pose.y+extraY,charBlend);
+      const z=lerp(petal.z,pose.z+extraZ,charBlend);
 
       const petalDepth=.5+.5*Math.sin(s.phase+time*.0009);
       const petalScale=(.55+petalDepth*.15)*densityScale;
-      const orbitScale=(.56+depth*.22)*densityScale;
-      const scale=lerp(petalScale,orbitScale,groupBlend);
-
-      const orbitRot=Math.sin(angle)*6;
-      const orbitRx=-6+Math.cos(angle)*10;
-      const orbitRy=Math.sin(angle)*12;
-      const rot=lerp(petal.rot,orbitRot,groupBlend);
-      const rx=lerp(petal.rx,orbitRx,groupBlend);
-      const ry=lerp(petal.ry,orbitRy,groupBlend);
+      const scale=lerp(petalScale,pose.scale,charBlend);
+      const rot=lerp(petal.rot,pose.rot,charBlend);
+      const rx=lerp(petal.rx,pose.rx,charBlend);
+      const ry=lerp(petal.ry,pose.ry,charBlend);
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.92,.97,groupBlend));
+      el.style.opacity=String(lerp(.92,.98,charBlend));
+      el.style.filter="none";
     });
 
     sparkleSeeds.forEach((s,i)=>{
-      const petal=sparkPetalState(s,time);
-      const angle=(i/sparkleCount)*Math.PI*2+groupTheta;
-      const depth=(Math.sin(angle)+1)/2;
-      const orbitX=centerX+Math.cos(angle)*(groupR+18);
-      const orbitY=centerY+Math.sin(angle)*(groupRY+9);
-      const orbitZ=(depth-.5)*62;
-      setT(
-        s.el,
-        lerp(petal.x,orbitX,groupBlend),
-        lerp(petal.y,orbitY,groupBlend),
-        s.size*(.70+.56*petal.pulse),
-        0,0,0,
-        lerp(petal.z,orbitZ,groupBlend)
-      );
-      s.el.style.opacity=String((.44+.48*petal.pulse)*lerp(1,.86,groupBlend));
+      const petal=postFlashSparkPose(s,time);
+      const fakeIndex=Math.min(n-1,Math.floor((i/sparkleCount)*Math.max(1,n)));
+      const pose=ensemblePose(fakeIndex,groupTheta,tSec);
+      const spread=18+(i%5)*4;
+      const x=lerp(petal.x,pose.x+Math.sin(s.angle)*spread,groupBlend);
+      const y=lerp(petal.y,pose.y+Math.cos(s.angle)*spread*.55,groupBlend);
+      const z=lerp(petal.z,pose.z+Math.sin(s.phase)*28,groupBlend);
+      setT(s.el,x,y,s.size*(.66+.54*petal.pulse),0,0,0,z);
+      s.el.style.opacity=String((.42+.48*petal.pulse)*lerp(1,.82,groupBlend));
     });
 
-    whiteRoom.style.opacity=String(lerp(.81,.86,groupBlend));
+    setWhiteLevel(1);
     portalGlow.style.opacity=String(lerp(.11,.24,groupBlend));
     rushLines.style.opacity=String(lerp(.07,.20,groupBlend));
   },token);
   if(token!==playToken)return;
 
-  // 9) 集団回転の角速度をそのまま引き継ぎ、加速しながら円環を締めて前方へ突き抜ける。
-  const phase9Duration=1750;
-  const groupOmegaRushEnd=Math.PI*2*4.10;
-  const groupRushAccel=(groupOmegaRushEnd-groupOmegaEnd)/(phase9Duration/1000);
+  // 9) 今回の退場パターン。集団演技の終端からそのまま連続し、最後だけ大きく加速する。
+  const phase9Duration=exitMode==="camera"?2500:(exitMode==="far"?2250:2050);
+  const finalOmegaStart=groupOmegaEnd;
+  const finalOmegaEnd=ensembleMode==="chick"
+    ? Math.PI*2*.85
+    : Math.PI*2*(ensembleMode==="dragon"?9.0:10.2);
+  const finalAccel=(finalOmegaEnd-finalOmegaStart)/(phase9Duration/1000);
 
   await frameTween(phase9Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
-    const theta=groupTheta+groupOmegaEnd*tSec+.5*groupRushAccel*tSec*tSec;
-    const collapse=easeInOut(clamp(p/.70));
-    const radius=lerp(groupR,10,collapse);
-    const ellipse=lerp(groupRY,4,collapse);
-    const vertical=lerp(groupVertical,4,collapse);
-    const centerX=Math.sin(theta*.34)*groupCenterAmpX*(1-collapse);
-    const centerY=lerp(-12,-4,collapse)+Math.cos(theta*.29)*groupCenterAmpY*(1-collapse);
+    const theta=groupTheta+finalOmegaStart*tSec+.5*finalAccel*tSec*tSec;
+    const sceneTime=phase8Duration/1000+tSec*1.35;
 
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+theta;
-      const depth=(Math.sin(angle)+1)/2;
-      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const s=seeds[i];
+      const pose=ensemblePose(i,theta,sceneTime);
+      const order=n<=1?0:i/(n-1);
 
-      const orbitX=centerX+Math.cos(angle)*radius;
-      const orbitY=centerY+Math.sin(angle)*ellipse+layer*vertical;
-      const orbitZ=(depth-.5)*50*(1-collapse*.45);
+      // Small stagger keeps the group organic. The far-away late chaser intentionally waits much longer.
+      let start=.20+order*.10+s.rushLag*.18;
+      if(i===lateChaserIndex)start=.64;
+      const depart=easeIn(clamp((p-start)/Math.max(.001,1-start)));
 
-      const stagger=Math.min(.050,.56/Math.max(1,n));
-      const local=clamp((p-.43-i*stagger)/.57);
-      const rush=easeIn(local);
+      let tx=pose.x,ty=pose.y,tz=pose.z,targetScale=pose.scale,targetOpacity=1;
+      const dirAngle=baseAngles[i]+s.scatterAngleJitter;
 
-      const x=lerp(orbitX,0,rush);
-      const y=lerp(orbitY,0,rush);
-      const z=lerp(orbitZ,400,rush);
-      const scale=lerp((.56+depth*.22)*densityScale,3.38,rush);
+      if(exitMode==="up"){
+        tx=pose.x*.70+s.ashDriftX*2;
+        ty=-innerHeight*.72-(i%4)*28;
+        tz=120+s.ashDriftZ*2;
+        targetScale=.36*densityScale;
+        targetOpacity=0;
+      }else if(exitMode==="down"){
+        tx=pose.x*.68+s.ashDriftX*2;
+        ty=innerHeight*.74+(i%4)*26;
+        tz=80+s.ashDriftZ*2;
+        targetScale=.38*densityScale;
+        targetOpacity=0;
+      }else if(exitMode==="far"){
+        tx=pose.x*.16;
+        ty=pose.y*.16-16;
+        tz=-1250;
+        targetScale=.07*densityScale;
+        targetOpacity=0;
+      }else if(exitMode==="burst"){
+        tx=Math.cos(dirAngle)*innerWidth*.82;
+        ty=Math.sin(dirAngle)*innerHeight*.70;
+        tz=s.ashDriftZ*4+Math.sin(dirAngle*1.7)*180;
+        targetScale=.42*densityScale;
+        targetOpacity=0;
+      }else if(exitMode==="diagonal"){
+        tx=diagonalSign*innerWidth*.82+(i-(n-1)/2)*22;
+        ty=-innerHeight*.42+(i%3)*54;
+        tz=180+(i%4)*42;
+        targetScale=.34*densityScale;
+        targetOpacity=0;
+      }else{
+        // Camera: preserve glyph form much longer than before.
+        tx=(i-(n-1)/2)*3+s.ashDriftX*.22;
+        ty=-4+(i%3-1)*5;
+        tz=780;
+        targetScale=6.45;
+        targetOpacity=0;
+      }
 
-      const orbitRot=Math.sin(angle)*6;
-      const rot=lerp(orbitRot,(i%2?-1:1)*50*rush,rush);
-      const rx=lerp(-6+Math.cos(angle)*10,0,rush);
-      const ry=lerp(Math.sin(angle)*12,0,rush);
+      let x=lerp(pose.x,tx,depart);
+      let y=lerp(pose.y,ty,depart);
+      let z=lerp(pose.z,tz,depart);
+      let scale=lerp(pose.scale,targetScale,depart);
+      let rot=lerp(pose.rot,(i%2?-1:1)*28,depart);
+      let rx=lerp(pose.rx,0,depart);
+      let ry=lerp(pose.ry,0,depart);
+      let opacity=lerp(.98,targetOpacity,easeIn(clamp((depart-.72)/.28)));
+      let blur=exitMode==="camera"?depart*2.1:depart*5.5;
+
+      // Rare camera splat: one or two glyphs hit the "glass", panic, then scramble after the group.
+      const slapSlot=slapIndices.indexOf(i);
+      if(exitMode==="camera"&&slapSlot>=0){
+        const approach=easeIn(clamp((p-.22-slapSlot*.035)/.34));
+        const hitStart=.54+slapSlot*.035;
+        const panic=easeInOut(clamp((p-hitStart)/.19));
+        const escape=easeIn(clamp((p-(hitStart+.18))/.28));
+        const slapX=(slapSlot===0?-1:1)*(28+slapSlot*16);
+        const slapY=-8+slapSlot*30;
+
+        x=lerp(pose.x,slapX,approach);
+        y=lerp(pose.y,slapY,approach);
+        z=lerp(pose.z,900,approach);
+        scale=lerp(pose.scale,8.25,approach);
+        rot=lerp(pose.rot,(slapSlot===0?-7:8),approach);
+        rx=lerp(pose.rx,0,approach);
+        ry=lerp(pose.ry,0,approach);
+        opacity=1;
+        blur=approach*1.1;
+
+        // Nervous little shiver after impact.
+        x+=Math.sin(p*150+s.whimPhase)*8*panic*(1-escape);
+        y+=Math.cos(p*128+s.whimPhase)*5*panic*(1-escape);
+
+        if(i===slapDropIndex){
+          // One rare splat peels downward first, then realizes the group has left and bolts after it.
+          const peelDrop=easeInOut(clamp((p-(hitStart+.07))/.18));
+          y+=peelDrop*116*(1-escape);
+          rot+=peelDrop*18*s.whimSign;
+        }
+
+        // Panic chase through/away from the camera.
+        x=lerp(x,0,escape);
+        y=lerp(y,0,escape);
+        z=lerp(z,1120,escape);
+        scale=lerp(scale,10.2,escape);
+        opacity=1-easeIn(clamp((escape-.68)/.32));
+        blur=lerp(1.1,2.8,escape);
+      }
+
+      // Left-behind glyph hovers while everyone else disappears, then sprints after them.
+      if(exitMode==="far"&&i===lateChaserIndex){
+        const waiting=clamp((p-.18)/.44);
+        const chase=easeIn(clamp((p-.64)/.36));
+        if(p<.64){
+          x=pose.x+Math.sin(p*34+s.whimPhase)*8*waiting;
+          y=pose.y+Math.cos(p*27+s.whimPhase)*5*waiting;
+          z=pose.z;
+          scale=pose.scale;
+          opacity=.98;
+          blur=0;
+        }else{
+          x=lerp(pose.x,0,chase);
+          y=lerp(pose.y,-18,chase);
+          z=lerp(pose.z,-1650,chase);
+          scale=lerp(pose.scale,.035,chase);
+          opacity=1-easeIn(clamp((chase-.74)/.26));
+          blur=chase*4.2;
+          rot+=Math.sin(p*90)*11*(1-chase);
+        }
+      }
 
       setT(el,x,y,scale,rot,rx,ry,z);
-
-      const fade=rush<.72?1:1-clamp((rush-.72)/.28);
-      el.style.opacity=String(fade);
-      el.style.filter=`blur(${rush*7.5}px) brightness(${1+rush*1.48})`;
+      el.style.opacity=String(clamp(opacity));
+      el.style.filter=`blur(${blur}px) brightness(${1+(exitMode==="camera"?depart*.65:depart*.22)})`;
     });
 
     sparkleSeeds.forEach((s,i)=>{
-      const angle=(i/sparkleCount)*Math.PI*2+theta;
-      const depth=(Math.sin(angle)+1)/2;
-      const x=(centerX+Math.cos(angle)*(radius+18))*(1-collapse*.22);
-      const y=centerY+Math.sin(angle)*(ellipse+8);
-      const z=(depth-.5)*62*(1-collapse*.60);
+      const fakeIndex=Math.min(n-1,Math.floor((i/sparkleCount)*Math.max(1,n)));
+      const pose=ensemblePose(fakeIndex,theta,sceneTime);
+      const fade=1-easeIn(clamp((p-.38)/.62));
+      let sx=pose.x+Math.sin(s.angle)*24;
+      let sy=pose.y+Math.cos(s.angle)*14;
+      let sz=pose.z+Math.sin(s.phase)*32;
+      if(exitMode==="camera"){
+        const q=easeIn(clamp((p-.25)/.75));
+        sx=lerp(sx,0,q); sy=lerp(sy,0,q); sz=lerp(sz,720,q);
+      }else if(exitMode==="far"){
+        const q=easeIn(clamp((p-.25)/.75));
+        sx*=1-q*.85; sy*=1-q*.85; sz=lerp(sz,-950,q);
+      }
       const pulse=.45+.55*Math.sin((petalBaseTime+phase8Duration+elapsed)*.005*s.pulse+s.phase)**2;
-      setT(s.el,x,y,s.size*(.68+.54*pulse)*(1-collapse*.32),0,0,0,z);
-      s.el.style.opacity=String((.40+.48*pulse)*(1-p*.94));
+      setT(s.el,sx,sy,s.size*(.65+.52*pulse),0,0,0,sz);
+      s.el.style.opacity=String((.35+.48*pulse)*fade);
     });
 
-    whiteRoom.style.opacity=String(lerp(.86,1,p));
-    rushLines.style.opacity=String(lerp(.20,0,p));
-    portalGlow.style.opacity=String(lerp(.24,0,p));
+    setWhiteLevel(1);
+    rushLines.style.opacity=String(lerp(exitMode==="camera"?.44:.28,0,p));
+    portalGlow.style.opacity=String(lerp(exitMode==="camera"?.34:.22,0,p));
   },token);
   if(token!==playToken)return;
 
@@ -1221,20 +2063,15 @@ async function play(){
   flash.style.opacity="0";
   await sleep(420);
   if(token!==playToken)return;
-  board.innerHTML="";
-  setupStampBoard(out);
-  [...out].forEach(ch=>{
-    const s=document.createElement("div");
-    s.className="stamp";
-    s.textContent=ch;
-    board.appendChild(s);
-  });
+  const stamps=populateStampBoard(out,false);
   board.style.opacity=1;
   label.style.opacity=0;
   await sleep(90);
   if(token!==playToken)return;
 
-  const stamps=[...board.children];
+  const stampCount=stamps.length;
+  const shakeStrength=stampCount<=3?1:(stampCount<=8?.72:(stampCount<=14?.46:.25));
+  const stampBeat=stampCount<=3?520:(stampCount<=8?450:(stampCount<=14?340:250));
   for(let i=0;i<stamps.length;i++){
     if(token!==playToken)return;
     const stamp=stamps[i];
@@ -1259,27 +2096,24 @@ async function play(){
 
     stamp.classList.add("hit");
 
-    core.classList.remove("shake");
-    void core.offsetWidth;
-    core.classList.add("shake");
-
+    const sx=shakeStrength;
     stage.animate([
       {transform:"translate3d(0,0,0) scale(1)"},
-      {offset:.10,transform:"translate3d(0,24px,0) scale(.974)"},
-      {offset:.24,transform:"translate3d(-4px,-11px,0) scale(1.014)"},
-      {offset:.42,transform:"translate3d(3px,8px,0) scale(.989)"},
-      {offset:.62,transform:"translate3d(-2px,-4px,0) scale(1.006)"},
-      {offset:.80,transform:"translate3d(1px,2px,0) scale(.998)"},
+      {offset:.12,transform:`translate3d(0,${(20*sx).toFixed(2)}px,0) scale(${(1-.020*sx).toFixed(4)})`},
+      {offset:.30,transform:`translate3d(${(-3*sx).toFixed(2)}px,${(-8*sx).toFixed(2)}px,0) scale(${(1+.012*sx).toFixed(4)})`},
+      {offset:.52,transform:`translate3d(${(2*sx).toFixed(2)}px,${(4*sx).toFixed(2)}px,0) scale(${(1-.007*sx).toFixed(4)})`},
+      {offset:.74,transform:`translate3d(${(-1*sx).toFixed(2)}px,${(-2*sx).toFixed(2)}px,0) scale(${(1+.003*sx).toFixed(4)})`},
       {transform:"translate3d(0,0,0) scale(1)"}
-    ],{duration:660,easing:"cubic-bezier(.06,.70,.08,1)"});
+    ],{duration:500,easing:"cubic-bezier(.06,.70,.08,1)"});
 
     flash.animate(
       [{opacity:0},{opacity:.42,offset:.10},{opacity:.14,offset:.34},{opacity:0}],
       {duration:460,fill:"forwards",easing:"ease-out"}
     );
 
-    if(navigator.vibrate)navigator.vibrate([65,28,110]);
-    const stampBeat=n<=8?480:(n<=14?390:310);
+    if(navigator.vibrate){
+      navigator.vibrate(stampCount<=3?[65,28,110]:(stampCount<=8?[48,22,78]:(stampCount<=14?[34,16,52]:[24])));
+    }
     await sleep(stampBeat);
   }
 
@@ -1295,21 +2129,57 @@ async function play(){
   await sleep(1050);
   if(token!==playToken)return;
   input.value=out;
-  input.style.fontFamily='"Noto Serif Hentaigana","Yu Mincho","Hiragino Mincho ProN",serif';
+  input.style.fontFamily=targetFontFamily;
   input.style.color="";
   input.style.caretColor="";
   clearStage(false);
+  }catch(err){
+    console.error("[hentaigana-motion] playback error",err);
+    // Never strand the user behind an opaque white stage.
+    const fallbackMode=getConversionMode();
+    const fallbackSrc=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
+    const fallbackOut=transformText(fallbackSrc,fallbackMode);
+    playToken++;
+    resetVisuals();
+    input.value=fallbackOut;
+    input.style.fontFamily=targetFontFor(fallbackMode);
+    input.style.color="";
+    input.style.caretColor="";
+    stage.classList.remove("active");
+    running=false;
+    btn.disabled=false;
+  }
 }
-btn.addEventListener("click",play);
-input.addEventListener("keydown",e=>{if(e.key==="Enter")play()});
+btn.addEventListener("click",()=>{nextPreset=null;play()});
+debugButtons.forEach(debugButton=>{
+  debugButton.addEventListener("click",()=>{
+    if(running)return;
+    nextPreset=debugButton.dataset.preset||null;
+    play();
+  });
+});
+conversionModeInputs.forEach(el=>el.addEventListener("change",updateConversionUi));
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){
+    e.preventDefault();
+    nextPreset=null;
+    play();
+  }
+});
+updateConversionUi();
 skip.addEventListener("click",()=>{
-  const src=input.value.trim()||"あさきゆめみし";
-  const out=[...src].map(c=>firstVariant[c]||c).join("");
+  const mode=getConversionMode();
+  const src=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
+  const out=transformText(src,mode);
   playToken++;
   input.style.color="";
   input.style.caretColor="";
-  finishInstant(out);
-  setTimeout(()=>{input.value=out;clearStage(false)},700);
+  finishInstant(out,mode);
+  setTimeout(()=>{
+    input.value=out;
+    input.style.fontFamily=targetFontFor(mode);
+    clearStage(false);
+  },700);
 });
 </script>
 </body>
