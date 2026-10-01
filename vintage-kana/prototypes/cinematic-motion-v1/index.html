@@ -321,7 +321,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 23: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 24: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -391,7 +391,7 @@
 <div class="app" id="app">
   <header>
     <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 05</div>
+    <div class="mode">MOTION STUDY 24</div>
   </header>
   <main>
     <section class="panel">
@@ -407,7 +407,7 @@
         <label><input type="radio" name="stampDirection" value="horizontal" checked> 横</label>
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
       </div>
-      <div class="hint">※ 演出検証用。爆発後は引き戻さず、散ったまま灰のように自由落下・漂流。低確率で気まぐれ個体も出現し、最後は激しく回転しながらカメラへ突進します。</div>
+      <div class="hint">※ 演出検証用。灰の漂流後は「円・円環・龍・ぴょこぴょこ整列」×「上・奥・爆散・正面・下・斜め」を毎回組み替え。低確率ではぐれ者やビターン演出も発生します。</div>
     </section>
   </main>
   <footer>prototype / cinematic conversion motion</footer>
@@ -461,6 +461,8 @@ const easeInOut=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 const easeOut=t=>1-Math.pow(1-t,3);
 const easeIn=t=>t*t*t;
 const easeSoft=t=>t*t*(3-2*t);
+const pick=list=>list[Math.floor(Math.random()*list.length)];
+const randomIndex=n=>n>0?Math.floor(Math.random()*n):-1;
 
 function spinProgress(spin0,omega0,omega1,elapsedMs,durationMs){
   const t=elapsedMs/1000;
@@ -627,6 +629,46 @@ async function play(){
   const densityScale=n>16?.72:n>12?.80:n>9?.90:1;
   const baseScale=clamp(metrics.fontSize/58,.42,.78);
   const ink=metrics.color||"#1d1a17";
+
+  // One stable random plan per play. Randomness is never re-rolled per frame.
+  const ensembleMode=pick(["circle","ring","dragon","chick"]);
+  const exitMode=pick(["up","far","burst","camera","down","diagonal"]);
+
+  // Most plays have no special troublemaker. When one appears, it keeps the same role for the whole play.
+  const rogueIndex=n>2&&Math.random()<.38?randomIndex(n):-1;
+  const rogueType=rogueIndex>=0?pick(["reverse","drop","wander","early"]):"none";
+
+  // Sometimes one glyph refuses to peel until the others have already started moving.
+  const stickyIndex=n>2&&Math.random()<.16?randomIndex(n):-1;
+
+  // "Left behind, then panic chase" is meaningful only when the group flies away into the distance.
+  const lateChaserIndex=exitMode==="far"&&n>2&&Math.random()<.28
+    ? randomIndex(n)
+    : -1;
+
+  // Camera splats are intentionally rare. Two simultaneous splats are very rare.
+  let slapCount=0;
+  if(exitMode==="camera"&&n>1){
+    const slapRoll=Math.random();
+    slapCount=slapRoll<.045?2:(slapRoll<.32?1:0);
+  }
+  const slapIndices=[];
+  while(slapIndices.length<slapCount){
+    const idx=randomIndex(n);
+    if(!slapIndices.includes(idx))slapIndices.push(idx);
+  }
+  const slapDropIndex=slapCount===2&&Math.random()<.70
+    ? slapIndices[1]
+    :(slapCount===1&&Math.random()<.18?slapIndices[0]:-1);
+
+  const diagonalSign=Math.random()<.5?-1:1;
+  const motionPlan={
+    ensembleMode,exitMode,rogueIndex,rogueType,stickyIndex,
+    lateChaserIndex,slapIndices:[...slapIndices],slapDropIndex,diagonalSign
+  };
+  stage.dataset.motionPlan=JSON.stringify(motionPlan);
+  console.debug("[hentaigana-motion]",motionPlan);
+
   const seeds=g.map((el,i)=>{
     el.style.color=ink;
     el.style.fontFamily=metrics.fontFamily;
@@ -713,14 +755,16 @@ async function play(){
       const base=(i/n)*Math.PI*2;
 
       const peelStagger=n>16?88:n>12?108:n>8?130:158;
-      const peelDelay=150+i*peelStagger+s.peelJitter;
-      const peelT=easeInOut(clamp((elapsed-peelDelay)/520));
-      const localRise=easeSoft(clamp((elapsed-(peelDelay+120))/3000));
+      const sticky=i===stickyIndex;
+      const peelDelay=150+i*peelStagger+s.peelJitter+(sticky?980:0);
+      const peelT=easeInOut(clamp((elapsed-peelDelay)/(sticky?390:520)));
+      const localRise=easeSoft(clamp((elapsed-(peelDelay+120))/(sticky?1800:3000)));
       // Keep the glyph face completely flat through the peel and first lift.
-      // 3D floating begins only after the planar character has visibly risen away from the source.
-      const localFloat=easeInOut(clamp((elapsed-(peelDelay+720))/1080));
-      // Let each peeled glyph wander in all directions for longer before the orbit captures it.
-      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+1900+s.orbitLag))/2400));
+      // A rare sticky glyph waits behind, then springs out and catches the flock.
+      const localFloat=easeInOut(clamp((elapsed-(peelDelay+(sticky?520:720)))/(sticky?680:1080)));
+      const orbitStart=sticky?1120:1900;
+      const orbitDuration=sticky?1050:2400;
+      const charOrbit=globalOrbit*easeInOut(clamp((elapsed-(peelDelay+orbitStart+s.orbitLag*.45))/orbitDuration));
 
       const lift=s.liftAmp*localRise;
 
@@ -1120,79 +1164,140 @@ async function play(){
   },token);
   if(token!==playToken)return;
 
-  // 8) 「漂いながら少しずつ集まる」区間。
-  //    petalState を最後まで moving source として残し、低速のゆるい集合形へ全区間を使って吸着させる。
-  const phase8Duration=3100;
+  // 8) 漂流から今回の「集団演技」へ。円・円環・龍・ぴょこぴょこ整列を毎回ひとつ選ぶ。
+  const phase8Duration=3300;
   const petalBaseTime=phase6Duration+phase7Duration;
   const groupOmegaStart=Math.PI*2*.035;
-  const groupOmegaEnd=Math.PI*2*.32;
+  const groupOmegaEnd=ensembleMode==="chick"
+    ? Math.PI*2*.13
+    : Math.PI*2*(ensembleMode==="dragon"?1.10:.48);
   const groupAccel=(groupOmegaEnd-groupOmegaStart)/(phase8Duration/1000);
-  const groupR=72;
-  const groupRY=23;
+  const groupR=Math.min(156,Math.max(96,innerWidth*.24));
+  const groupRY=Math.min(74,groupR*.50);
   const groupVertical=28;
   const groupCenterAmpX=7;
   const groupCenterAmpY=6;
+  const chickSpacing=Math.min(72,Math.max(34,(innerWidth*.72)/Math.max(1,n-1)));
   let groupTheta=0;
+
+  const ensemblePose=(i,theta,timeSec)=>{
+    const s=seeds[i];
+    const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+    const angle=baseAngles[i]+theta;
+    const depth=(Math.sin(angle)+1)/2;
+
+    if(ensembleMode==="circle"){
+      return {
+        x:Math.cos(angle)*groupR,
+        y:-10+Math.sin(angle)*groupR*.72,
+        z:Math.sin(timeSec*.83+s.phase)*8,
+        scale:(.58+depth*.08)*densityScale,
+        rot:Math.sin(angle)*5,
+        rx:Math.sin(timeSec*.91+s.phase)*5,
+        ry:Math.cos(timeSec*.88+s.phase)*7
+      };
+    }
+
+    if(ensembleMode==="ring"){
+      return {
+        x:Math.cos(angle)*groupR,
+        y:-12+Math.sin(angle)*groupRY,
+        z:Math.sin(angle)*92,
+        scale:(.55+depth*.28)*densityScale,
+        rot:Math.sin(angle)*7,
+        rx:-8+Math.cos(angle)*14,
+        ry:Math.sin(angle)*18
+      };
+    }
+
+    if(ensembleMode==="dragon"){
+      const trail=layer*.78;
+      const t=theta-trail;
+      const ampX=Math.min(270,innerWidth*.46);
+      const ampY=Math.min(168,innerHeight*.24);
+      return {
+        x:Math.sin(t)*ampX
+          +Math.sin(t*3.4+s.phase)*24
+          +Math.cos(t*5.2+s.phase*.7)*10,
+        y:-6+Math.sin(t*2.22+.52)*ampY
+          +Math.cos(t*4.05+s.phase)*18,
+        z:Math.cos(t*1.31)*108+Math.sin(t*3.0+s.phase)*28,
+        scale:(.54+(.5+.5*Math.sin(t))*.30)*densityScale,
+        rot:Math.cos(t*1.4)*16,
+        rx:-12+Math.cos(t*1.7)*30,
+        ry:Math.sin(t*1.35)*38
+      };
+    }
+
+    // "Chick" mode: no grand orbit. Characters hop one after another into a neat row.
+    const hopPhase=timeSec*8.8-i*.62;
+    const hop=Math.pow(Math.max(0,Math.sin(hopPhase)),1.72);
+    return {
+      x:(i-(n-1)/2)*chickSpacing,
+      y:26-hop*42+Math.sin(timeSec*1.2+s.phase)*2.5,
+      z:Math.sin(hopPhase*.45)*8,
+      scale:.68*densityScale*(1+hop*.05),
+      rot:Math.sin(hopPhase)*4.5,
+      rx:-hop*8,
+      ry:Math.cos(hopPhase*.55)*5
+    };
+  };
 
   await frameTween(phase8Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
     groupTheta=groupOmegaStart*tSec+.5*groupAccel*tSec*tSec;
-    // Almost the whole phase is spent gathering, avoiding a sudden switch into a clean orbit.
     const groupBlend=easeInOut(clamp((p-.02)/.98));
     const time=petalBaseTime+elapsed;
-    const centerX=Math.sin(groupTheta*.34)*groupCenterAmpX*groupBlend;
-    const centerY=-12+Math.cos(groupTheta*.29)*groupCenterAmpY*groupBlend;
 
     g.forEach((el,i)=>{
       const s=seeds[i];
       const petal=petalState(i,time);
-      const gatherStart=.02+s.gatherLag;
+      let gatherStart=.02+s.gatherLag;
+      if(i===rogueIndex&&rogueType==="early")gatherStart=Math.max(0,gatherStart-.20);
       const charBlend=easeInOut(clamp((p-gatherStart)/Math.max(.001,1-gatherStart)));
-      const angle=baseAngles[i]+groupTheta;
-      const depth=(Math.sin(angle)+1)/2;
-      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+      const pose=ensemblePose(i,groupTheta,tSec);
 
-      // A loose gathered cloud/ellipse, rotating so slowly that the continuing drift remains dominant.
-      const orbitX=centerX+Math.cos(angle)*groupR;
-      const orbitY=centerY+Math.sin(angle)*groupRY+layer*groupVertical;
-      const orbitZ=(depth-.5)*50;
+      let extraX=0,extraY=0,extraZ=0;
+      const rogueBeat=Math.sin(Math.PI*clamp((p-.28)/.50));
+      if(i===rogueIndex){
+        if(rogueType==="reverse"){
+          extraX=-Math.sin(groupTheta*1.7+s.whimPhase)*110*rogueBeat;
+          extraY=Math.cos(groupTheta*1.2+s.whimPhase)*26*rogueBeat;
+        }else if(rogueType==="drop"){
+          extraY=126*rogueBeat;
+          extraX=s.whimSign*20*rogueBeat;
+        }else if(rogueType==="wander"){
+          extraX=s.whimSign*120*rogueBeat;
+          extraZ=80*Math.sin(p*Math.PI*2)*rogueBeat;
+        }
+      }
 
-      const x=lerp(petal.x,orbitX,charBlend);
-      const y=lerp(petal.y,orbitY,charBlend);
-      const z=lerp(petal.z,orbitZ,charBlend);
+      const x=lerp(petal.x,pose.x+extraX,charBlend);
+      const y=lerp(petal.y,pose.y+extraY,charBlend);
+      const z=lerp(petal.z,pose.z+extraZ,charBlend);
 
       const petalDepth=.5+.5*Math.sin(s.phase+time*.0009);
       const petalScale=(.55+petalDepth*.15)*densityScale;
-      const orbitScale=(.56+depth*.22)*densityScale;
-      const scale=lerp(petalScale,orbitScale,charBlend);
-
-      const orbitRot=Math.sin(angle)*6;
-      const orbitRx=-6+Math.cos(angle)*10;
-      const orbitRy=Math.sin(angle)*12;
-      const rot=lerp(petal.rot,orbitRot,charBlend);
-      const rx=lerp(petal.rx,orbitRx,charBlend);
-      const ry=lerp(petal.ry,orbitRy,charBlend);
+      const scale=lerp(petalScale,pose.scale,charBlend);
+      const rot=lerp(petal.rot,pose.rot,charBlend);
+      const rx=lerp(petal.rx,pose.rx,charBlend);
+      const ry=lerp(petal.ry,pose.ry,charBlend);
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(lerp(.92,.97,charBlend));
+      el.style.opacity=String(lerp(.92,.98,charBlend));
+      el.style.filter="none";
     });
 
     sparkleSeeds.forEach((s,i)=>{
       const petal=sparkPetalState(s,time);
-      const angle=(i/sparkleCount)*Math.PI*2+groupTheta;
-      const depth=(Math.sin(angle)+1)/2;
-      const orbitX=centerX+Math.cos(angle)*(groupR+18);
-      const orbitY=centerY+Math.sin(angle)*(groupRY+9);
-      const orbitZ=(depth-.5)*62;
-      setT(
-        s.el,
-        lerp(petal.x,orbitX,groupBlend),
-        lerp(petal.y,orbitY,groupBlend),
-        s.size*(.70+.56*petal.pulse),
-        0,0,0,
-        lerp(petal.z,orbitZ,groupBlend)
-      );
-      s.el.style.opacity=String((.44+.48*petal.pulse)*lerp(1,.86,groupBlend));
+      const fakeIndex=Math.min(n-1,Math.floor((i/sparkleCount)*Math.max(1,n)));
+      const pose=ensemblePose(fakeIndex,groupTheta,tSec);
+      const spread=18+(i%5)*4;
+      const x=lerp(petal.x,pose.x+Math.sin(s.angle)*spread,groupBlend);
+      const y=lerp(petal.y,pose.y+Math.cos(s.angle)*spread*.55,groupBlend);
+      const z=lerp(petal.z,pose.z+Math.sin(s.phase)*28,groupBlend);
+      setT(s.el,x,y,s.size*(.66+.54*petal.pulse),0,0,0,z);
+      s.el.style.opacity=String((.42+.48*petal.pulse)*lerp(1,.82,groupBlend));
     });
 
     whiteRoom.style.opacity=String(lerp(.81,.86,groupBlend));
@@ -1201,66 +1306,170 @@ async function play(){
   },token);
   if(token!==playToken)return;
 
-  // 9) 集団回転の角速度をそのまま引き継ぎ、加速しながら円環を締めて前方へ突き抜ける。
-  const phase9Duration=2050;
-  const groupOmegaRushEnd=Math.PI*2*7.40;
-  const groupRushAccel=(groupOmegaRushEnd-groupOmegaEnd)/(phase9Duration/1000);
+  // 9) 今回の退場パターン。集団演技の終端からそのまま連続し、最後だけ大きく加速する。
+  const phase9Duration=exitMode==="camera"?2500:(exitMode==="far"?2250:2050);
+  const finalOmegaStart=groupOmegaEnd;
+  const finalOmegaEnd=ensembleMode==="chick"
+    ? Math.PI*2*.85
+    : Math.PI*2*(ensembleMode==="dragon"?9.0:10.2);
+  const finalAccel=(finalOmegaEnd-finalOmegaStart)/(phase9Duration/1000);
 
   await frameTween(phase9Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
-    const theta=groupTheta+groupOmegaEnd*tSec+.5*groupRushAccel*tSec*tSec;
-    const collapse=easeInOut(clamp(p/.70));
-    const radius=lerp(groupR,10,collapse);
-    const ellipse=lerp(groupRY,4,collapse);
-    const vertical=lerp(groupVertical,4,collapse);
-    const centerX=Math.sin(theta*.34)*groupCenterAmpX*(1-collapse);
-    const centerY=lerp(-12,-4,collapse)+Math.cos(theta*.29)*groupCenterAmpY*(1-collapse);
+    const theta=groupTheta+finalOmegaStart*tSec+.5*finalAccel*tSec*tSec;
+    const sceneTime=phase8Duration/1000+tSec*1.35;
 
     g.forEach((el,i)=>{
-      const angle=baseAngles[i]+theta;
-      const depth=(Math.sin(angle)+1)/2;
-      const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-
-      const orbitX=centerX+Math.cos(angle)*radius;
-      const orbitY=centerY+Math.sin(angle)*ellipse+layer*vertical;
-      const orbitZ=(depth-.5)*50*(1-collapse*.45);
-
+      const s=seeds[i];
+      const pose=ensemblePose(i,theta,sceneTime);
       const order=n<=1?0:i/(n-1);
-      const rushWindow=.30;
-      const start=.30+order*rushWindow*.62+seeds[i].rushLag*.18;
-      const rush=easeIn(clamp((p-start)/Math.max(.001,1-start)));
 
-      const x=lerp(orbitX,0,rush);
-      const y=lerp(orbitY,0,rush);
-      const z=lerp(orbitZ,610,rush);
-      const scale=lerp((.56+depth*.22)*densityScale,5.55,rush);
+      // Small stagger keeps the group organic. The far-away late chaser intentionally waits much longer.
+      let start=.20+order*.10+s.rushLag*.18;
+      if(i===lateChaserIndex)start=.64;
+      const depart=easeIn(clamp((p-start)/Math.max(.001,1-start)));
 
-      const orbitRot=Math.sin(angle)*6;
-      const rot=lerp(orbitRot,(i%2?-1:1)*50*rush,rush);
-      const rx=lerp(-6+Math.cos(angle)*10,0,rush);
-      const ry=lerp(Math.sin(angle)*12,0,rush);
+      let tx=pose.x,ty=pose.y,tz=pose.z,targetScale=pose.scale,targetOpacity=1;
+      const dirAngle=baseAngles[i]+s.scatterAngleJitter;
+
+      if(exitMode==="up"){
+        tx=pose.x*.70+s.ashDriftX*2;
+        ty=-innerHeight*.72-(i%4)*28;
+        tz=120+s.ashDriftZ*2;
+        targetScale=.36*densityScale;
+        targetOpacity=0;
+      }else if(exitMode==="down"){
+        tx=pose.x*.68+s.ashDriftX*2;
+        ty=innerHeight*.74+(i%4)*26;
+        tz=80+s.ashDriftZ*2;
+        targetScale=.38*densityScale;
+        targetOpacity=0;
+      }else if(exitMode==="far"){
+        tx=pose.x*.16;
+        ty=pose.y*.16-16;
+        tz=-1250;
+        targetScale=.07*densityScale;
+        targetOpacity=0;
+      }else if(exitMode==="burst"){
+        tx=Math.cos(dirAngle)*innerWidth*.82;
+        ty=Math.sin(dirAngle)*innerHeight*.70;
+        tz=s.ashDriftZ*4+Math.sin(dirAngle*1.7)*180;
+        targetScale=.42*densityScale;
+        targetOpacity=0;
+      }else if(exitMode==="diagonal"){
+        tx=diagonalSign*innerWidth*.82+(i-(n-1)/2)*22;
+        ty=-innerHeight*.42+(i%3)*54;
+        tz=180+(i%4)*42;
+        targetScale=.34*densityScale;
+        targetOpacity=0;
+      }else{
+        // Camera: preserve glyph form much longer than before.
+        tx=(i-(n-1)/2)*3+s.ashDriftX*.22;
+        ty=-4+(i%3-1)*5;
+        tz=780;
+        targetScale=6.45;
+        targetOpacity=0;
+      }
+
+      let x=lerp(pose.x,tx,depart);
+      let y=lerp(pose.y,ty,depart);
+      let z=lerp(pose.z,tz,depart);
+      let scale=lerp(pose.scale,targetScale,depart);
+      let rot=lerp(pose.rot,(i%2?-1:1)*28,depart);
+      let rx=lerp(pose.rx,0,depart);
+      let ry=lerp(pose.ry,0,depart);
+      let opacity=lerp(.98,targetOpacity,easeIn(clamp((depart-.72)/.28)));
+      let blur=exitMode==="camera"?depart*2.1:depart*5.5;
+
+      // Rare camera splat: one or two glyphs hit the "glass", panic, then scramble after the group.
+      const slapSlot=slapIndices.indexOf(i);
+      if(exitMode==="camera"&&slapSlot>=0){
+        const approach=easeIn(clamp((p-.22-slapSlot*.035)/.34));
+        const hitStart=.54+slapSlot*.035;
+        const panic=easeInOut(clamp((p-hitStart)/.19));
+        const escape=easeIn(clamp((p-(hitStart+.18))/.28));
+        const slapX=(slapSlot===0?-1:1)*(28+slapSlot*16);
+        const slapY=-8+slapSlot*30;
+
+        x=lerp(pose.x,slapX,approach);
+        y=lerp(pose.y,slapY,approach);
+        z=lerp(pose.z,900,approach);
+        scale=lerp(pose.scale,8.25,approach);
+        rot=lerp(pose.rot,(slapSlot===0?-7:8),approach);
+        rx=lerp(pose.rx,0,approach);
+        ry=lerp(pose.ry,0,approach);
+        opacity=1;
+        blur=approach*1.1;
+
+        // Nervous little shiver after impact.
+        x+=Math.sin(p*150+s.whimPhase)*8*panic*(1-escape);
+        y+=Math.cos(p*128+s.whimPhase)*5*panic*(1-escape);
+
+        if(i===slapDropIndex){
+          // One rare splat peels downward first, then realizes the group has left and bolts after it.
+          const peelDrop=easeInOut(clamp((p-(hitStart+.07))/.18));
+          y+=peelDrop*116*(1-escape);
+          rot+=peelDrop*18*s.whimSign;
+        }
+
+        // Panic chase through/away from the camera.
+        x=lerp(x,0,escape);
+        y=lerp(y,0,escape);
+        z=lerp(z,1120,escape);
+        scale=lerp(scale,10.2,escape);
+        opacity=1-easeIn(clamp((escape-.68)/.32));
+        blur=lerp(1.1,2.8,escape);
+      }
+
+      // Left-behind glyph hovers while everyone else disappears, then sprints after them.
+      if(exitMode==="far"&&i===lateChaserIndex){
+        const waiting=clamp((p-.18)/.44);
+        const chase=easeIn(clamp((p-.64)/.36));
+        if(p<.64){
+          x=pose.x+Math.sin(p*34+s.whimPhase)*8*waiting;
+          y=pose.y+Math.cos(p*27+s.whimPhase)*5*waiting;
+          z=pose.z;
+          scale=pose.scale;
+          opacity=.98;
+          blur=0;
+        }else{
+          x=lerp(pose.x,0,chase);
+          y=lerp(pose.y,-18,chase);
+          z=lerp(pose.z,-1650,chase);
+          scale=lerp(pose.scale,.035,chase);
+          opacity=1-easeIn(clamp((chase-.74)/.26));
+          blur=chase*4.2;
+          rot+=Math.sin(p*90)*11*(1-chase);
+        }
+      }
 
       setT(el,x,y,scale,rot,rx,ry,z);
-
-      const fade=rush<.72?1:1-clamp((rush-.72)/.28);
-      el.style.opacity=String(fade);
-      el.style.filter=`blur(${rush*9}px) brightness(${1+rush*1.72})`;
+      el.style.opacity=String(clamp(opacity));
+      el.style.filter=`blur(${blur}px) brightness(${1+(exitMode==="camera"?depart*.65:depart*.22)})`;
     });
 
     sparkleSeeds.forEach((s,i)=>{
-      const angle=(i/sparkleCount)*Math.PI*2+theta;
-      const depth=(Math.sin(angle)+1)/2;
-      const x=(centerX+Math.cos(angle)*(radius+18))*(1-collapse*.22);
-      const y=centerY+Math.sin(angle)*(ellipse+8);
-      const z=(depth-.5)*62*(1-collapse*.60);
+      const fakeIndex=Math.min(n-1,Math.floor((i/sparkleCount)*Math.max(1,n)));
+      const pose=ensemblePose(fakeIndex,theta,sceneTime);
+      const fade=1-easeIn(clamp((p-.38)/.62));
+      let sx=pose.x+Math.sin(s.angle)*24;
+      let sy=pose.y+Math.cos(s.angle)*14;
+      let sz=pose.z+Math.sin(s.phase)*32;
+      if(exitMode==="camera"){
+        const q=easeIn(clamp((p-.25)/.75));
+        sx=lerp(sx,0,q); sy=lerp(sy,0,q); sz=lerp(sz,720,q);
+      }else if(exitMode==="far"){
+        const q=easeIn(clamp((p-.25)/.75));
+        sx*=1-q*.85; sy*=1-q*.85; sz=lerp(sz,-950,q);
+      }
       const pulse=.45+.55*Math.sin((petalBaseTime+phase8Duration+elapsed)*.005*s.pulse+s.phase)**2;
-      setT(s.el,x,y,s.size*(.68+.54*pulse)*(1-collapse*.32),0,0,0,z);
-      s.el.style.opacity=String((.40+.48*pulse)*(1-p*.94));
+      setT(s.el,sx,sy,s.size*(.65+.52*pulse),0,0,0,sz);
+      s.el.style.opacity=String((.35+.48*pulse)*fade);
     });
 
     whiteRoom.style.opacity=String(lerp(.86,1,p));
-    rushLines.style.opacity=String(lerp(.34,0,p));
-    portalGlow.style.opacity=String(lerp(.30,0,p));
+    rushLines.style.opacity=String(lerp(exitMode==="camera"?.44:.28,0,p));
+    portalGlow.style.opacity=String(lerp(exitMode==="camera"?.34:.22,0,p));
   },token);
   if(token!==playToken)return;
 
