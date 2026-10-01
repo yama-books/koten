@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { summarizeHistory } from '../../packages/hyakunin/src/domain/history.ts';
+import { overallMastery, summarizeHistory } from '../../packages/hyakunin/src/domain/history.ts';
 import type { Event } from '../../packages/shared/src/domain/event.ts';
 
 /**
@@ -48,4 +48,18 @@ test('まとまり: 首数が 10 で割り切れなくても、余りを落と�
   const summary = summarizeHistory({ events: [], poemIds: poemIds.slice(0, 25) });
   assert.deepEqual(summary.groups.map((group) => group.entries.length), [10, 10, 5]);
   assert.deepEqual(summary.groups.at(-1)?.entries.map((entry) => entry.cardNo), [21, 22, 23, 24, 25]);
+});
+
+test('全体の習熟度: 全首の平均で、未着手の歌は 0 として数える（依頼者・2026-10-01）', () => {
+  // 1番だけを解く（72%）。100 首の平均は 0.72 で、切り捨てて 0% の灰になる。
+  const one = summarizeHistory({ events: Array.from({ length: 10 }, (_, index) => correct('p001', index)), poemIds });
+  assert.deepEqual(overallMastery(one.entries), { percent: 0, color: 'gray' });
+  // 1〜10番を解く（各 72%）。100 首の平均は 7.2 → 7% の赤。輪の平均とも一致する。
+  const ten = summarizeHistory({ events: poemIds.slice(0, 10).flatMap((poemId) => Array.from({ length: 10 }, (_, index) => correct(poemId, index))), poemIds });
+  assert.deepEqual(overallMastery(ten.entries), { percent: 7, color: 'red' });
+  assert.equal(overallMastery(ten.entries).percent, Math.trunc(ten.groups.reduce((total, group) => total + group.percent, 0) / ten.groups.length));
+});
+
+test('全体の習熟度: 歌が 1 首も無いときは 0', () => {
+  assert.deepEqual(overallMastery([]), { percent: 0, color: 'gray' });
 });

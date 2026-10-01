@@ -66,6 +66,17 @@ function groupEntries(entries: readonly HistoryEntry[]): HistoryGroup[] {
 }
 
 /**
+ * 全体の習熟度（依頼者・2026-10-01）。**全首の平均であり、新しい指標を作らない。**
+ * 輪と同じく 1 首ぶんの表示上の割合（`entry.percent`）を足し、未着手の歌は 0 として数える。
+ * 一覧に 1 首も無いときは 0 を返す。
+ */
+export function overallMastery(entries: readonly HistoryEntry[]): Readonly<{ percent: number; color: MasteryColor }> {
+  const average = entries.length === 0 ? 0 : entries.reduce((total, entry) => total + entry.percent, 0) / entries.length;
+  const display = masteryDisplay(average);
+  return { percent: display.percent, color: display.color };
+}
+
+/**
  * **完全制覇は点ではなく印である**（依頼者裁定・2026-09-15）。
  * `clamp` を 100 で止めたまま、段8（番号だけ見て全部書く）を制覇した歌に印を立てる。
  * 点の計算・5色の表示・メーターに一切触らない。
