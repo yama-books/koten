@@ -338,7 +338,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 26: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 27: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -408,7 +408,7 @@
 <div class="app" id="app">
   <header>
     <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 26</div>
+    <div class="mode">MOTION STUDY 27</div>
   </header>
   <main>
     <section class="panel">
@@ -430,7 +430,7 @@
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
         <span class="optLabel">改行可 / 80文字まで / Ctrl・⌘+Enterで変換</span>
       </div>
-      <div class="hint">※ 演出検証用。前半5系統・閃光後5系統・後半・退場を毎回組み替えます。閃光中も停止せず、光の中から次の動きが始まります。</div>
+      <div class="hint">※ 演出検証用。表示領域を毎回測り、スマホでもPCでも画面端まで使うよう軌道を自動調整します。白化は後戻りせず、運動も閃光中まで継続します。</div>
       <div class="debug-tools" aria-label="演出デバッグ">
         <span class="debug-label">DEBUG</span>
         <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
@@ -439,7 +439,8 @@
         <button class="debug-btn" type="button" data-preset="rain">上から</button>
         <button class="debug-btn" type="button" data-preset="peek">かくれんぼ</button>
         <button class="debug-btn" type="button" data-preset="front-chick">前半ぴょこ</button>
-        <button class="debug-btn" type="button" data-preset="front-column">前半縦ぴょこ</button>
+        <button class="debug-btn" type="button" data-preset="front-column">前半縦同期</button>
+        <button class="debug-btn" type="button" data-preset="front-column-random">前半バラバラ上下</button>
         <button class="debug-btn" type="button" data-preset="front-pinball">前半ばらピン</button>
         <div class="debug-plan" id="debugPlan">通常ランダム</div>
       </div>
@@ -768,6 +769,41 @@ async function play(){
   const baseScale=clamp(metrics.fontSize/58,.42,.78);
   const ink=metrics.color||"#1d1a17";
 
+  // Motion geometry is based on the actually visible viewport, not fixed desktop/mobile constants.
+  // Every major trajectory targets a percentage of these safe extents so phones do not lose glyphs
+  // offscreen and wide desktop displays do not leave the action cramped in the middle.
+  const vv=window.visualViewport;
+  const viewportW=Math.max(320,vv?vv.width:innerWidth);
+  const viewportH=Math.max(480,vv?vv.height:innerHeight);
+  const viewportAreaScale=clamp(Math.sqrt((viewportW*viewportH)/(390*844)),1,1.34);
+  const motionGlyphPx=clamp(54*viewportAreaScale,48,76);
+  const edgePadX=Math.max(26,motionGlyphPx*.62);
+  const edgePadY=Math.max(38,motionGlyphPx*.82);
+  const motionX=Math.max(118,viewportW*.5-edgePadX);
+  const motionY=Math.max(150,viewportH*.5-edgePadY);
+  const stageUsage={
+    x:motionX,
+    y:motionY,
+    orbitX:motionX*.48,
+    orbitY:motionY*.32,
+    pinballX:motionX*.94,
+    pinballY:motionY*.88,
+    dragonX:motionX*.91,
+    dragonY:motionY*.82,
+    radialX:motionX*.72,
+    radialY:motionY*.66,
+    radialExtremeX:motionX*.985,
+    radialExtremeY:motionY*.965
+  };
+
+  // White-world progression is monotonic for the entire play.
+  let whiteLevel=0;
+  const setWhiteLevel=(value)=>{
+    whiteLevel=Math.max(whiteLevel,clamp(value));
+    whiteRoom.style.opacity=String(whiteLevel);
+    whiteRoom.style.transform=`scale(${1+whiteLevel*.16})`;
+  };
+
   // One stable random plan per play. Randomness is never re-rolled per frame.
   const forcedPreset=nextPreset;
   nextPreset=null;
@@ -775,14 +811,16 @@ async function play(){
 
   let frontMode;
   if(forcedPreset==="front-chick")frontMode="chick";
-  else if(forcedPreset==="front-column")frontMode="chick-column";
+  else if(forcedPreset==="front-column")frontMode="chick-column-sync";
+  else if(forcedPreset==="front-column-random")frontMode="chick-column-random";
   else if(forcedPreset==="front-pinball")frontMode="float-pinball";
   else frontMode=pickWeighted([
-    ["orbit",.38],
-    ["chick",.18],
-    ["chick-column",.14],
-    ["float-pinball",.18],
-    ["formation",.12]
+    ["orbit",.31],
+    ["chick",.16],
+    ["chick-column-sync",.11],
+    ["chick-column-random",.13],
+    ["float-pinball",.19],
+    ["formation",.10]
   ]);
 
   let flashExitMode;
@@ -798,7 +836,7 @@ async function play(){
     ["peek",.17]
   ]);
 
-  const frontUsesChick=frontMode==="chick"||frontMode==="chick-column";
+  const frontUsesChick=frontMode==="chick"||frontMode==="chick-column-sync"||frontMode==="chick-column-random";
   const backChoices=frontUsesChick
     ?["circle","ring","dragon"]
     :["circle","ring","dragon","chick"];
@@ -848,12 +886,13 @@ async function play(){
   };
   stage.dataset.motionPlan=JSON.stringify(motionPlan);
   debugPlan.textContent=
-    `FRONT:${frontMode.toUpperCase()} / FLASH:${flashExitMode.toUpperCase()} / BACK:${ensembleMode.toUpperCase()} / EXIT:${exitMode.toUpperCase()} / ROGUE:${rogueIndex>=0?rogueType.toUpperCase():"NONE"}`;
+    `FRONT:${frontMode.toUpperCase()} / FLASH:${flashExitMode.toUpperCase()} / BACK:${ensembleMode.toUpperCase()} / EXIT:${exitMode.toUpperCase()} / ROGUE:${rogueIndex>=0?rogueType.toUpperCase():"NONE"} / VIEW:${Math.round(viewportW)}×${Math.round(viewportH)}`;
   console.debug("[hentaigana-motion]",motionPlan);
 
   const seeds=g.map((el,i)=>{
     el.style.color=ink;
     el.style.fontFamily=metrics.fontFamily;
+    el.style.fontSize=motionGlyphPx+"px";
     el.style.opacity="1";
     el.style.filter="none";
     const p=metrics.pts[i]||{x:(i-(n-1)/2)*40,y:95};
@@ -889,7 +928,18 @@ async function play(){
       whimsical,
       whimSign:Math.random()<.5?-1:1,
       whimAmp:whimsical?(22+Math.random()*34):0,
-      whimPhase:Math.random()*Math.PI*2
+      whimPhase:Math.random()*Math.PI*2,
+
+      // Persistent motion personality. These remain fixed for this play.
+      verticalAmpMul:.62+Math.random()*.72,
+      verticalFreq:4.2+Math.random()*5.4,
+      verticalPhase:Math.random()*Math.PI*2,
+      pinFreqX:.74+Math.random()*.52,
+      pinFreqY:.80+Math.random()*.58,
+      pinFreqZ:.66+Math.random()*.48,
+      pinPhaseX:Math.random()*Math.PI*2,
+      pinPhaseY:Math.random()*Math.PI*2,
+      pinPhaseZ:Math.random()*Math.PI*2
     };
   });
 
@@ -898,8 +948,8 @@ async function play(){
   input.style.caretColor="transparent";
 
   // 1-2) 平面剥離のあと、今回の前半パターンへ滑らかに捕捉する。
-  const ringR=Math.min(170,Math.max(118,innerWidth*.30));
-  const ringRY=Math.min(54,ringR*.32);
+  const ringR=stageUsage.orbitX;
+  const ringRY=stageUsage.orbitY;
   const phase12Duration=8900;
   const spinStartMs=3300;
   const spinDurationMs=phase12Duration-spinStartMs;
@@ -907,7 +957,7 @@ async function play(){
   const omega2End=Math.PI*2*3.55;
   const spinAccel=(omega2End-omega2Start)/(spinDurationMs/1000);
   const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
-  const frontSpacing=Math.min(74,Math.max(10,(innerWidth*.72)/Math.max(1,n-1)));
+  const frontSpacing=Math.min(82,Math.max(9,(stageUsage.x*1.46)/Math.max(1,n-1)));
   let spinBase=0;
 
   const orbitFrontPose=(i,spinValue,timeSec)=>{
@@ -954,40 +1004,50 @@ async function play(){
     };
   };
 
-  const columnFrontPose=(i,timeSec)=>{
+  const columnFrontPose=(i,timeSec,independent=false)=>{
     const s=seeds[i];
     const x=(i-(n-1)/2)*frontSpacing;
-    const bob=Math.sin(timeSec*5.2+s.phase*.10)*14;
+    const phase=independent?s.verticalPhase:0;
+    const freq=independent?s.verticalFreq:5.15;
+    const amp=independent
+      ?Math.min(stageUsage.y*.20,52)*s.verticalAmpMul
+      :Math.min(stageUsage.y*.16,42);
+    const bob=Math.sin(timeSec*freq+phase)*amp;
     return {
       x,
-      y:-58+bob,
-      z:Math.sin(timeSec*.72+s.phase)*3,
+      y:-stageUsage.y*.13+bob,
+      z:Math.sin(timeSec*(independent?.78:.68)+phase)*Math.min(10,stageUsage.y*.025),
       scale:.72*densityScale,
-      rot:Math.sin(timeSec*2.1+s.phase)*2.2,
-      rx:-Math.abs(bob)*.08,
-      ry:0
+      rot:Math.sin(timeSec*(independent?1.75:1.55)+phase)*2.6,
+      rx:-Math.abs(bob)*.065,
+      ry:Math.cos(timeSec*.72+phase)*3
     };
   };
 
   const scatterFrontPose=(i,timeSec)=>{
     const s=seeds[i];
     const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
-    const anchorAngle=s.phase+s.scatterAngleJitter+i*.37;
-    const spread=Math.min(250,Math.max(125,innerWidth*.30))*(.82+s.scatterRadiusMul*.22);
+    const xAmp=stageUsage.x*.58*(.86+s.scatterRadiusMul*.12);
+    const yAmp=stageUsage.y*.46*(.86+s.scatterRadiusMul*.12);
     return {
-      x:Math.cos(anchorAngle)*spread+Math.sin(timeSec*.82+s.phase)*24+s.ashDriftX,
-      y:-54+Math.sin(anchorAngle)*spread*.48+Math.cos(timeSec*.74+s.phase)*18+layer*18,
-      z:Math.sin(anchorAngle*1.43+s.phase)*78+Math.sin(timeSec*.91+s.phase)*22,
+      x:Math.sin(timeSec*s.pinFreqX+s.pinPhaseX)*xAmp
+        +Math.sin(timeSec*.51+s.phase)*stageUsage.x*.08
+        +s.ashDriftX,
+      y:-stageUsage.y*.10
+        +Math.sin(timeSec*s.pinFreqY+s.pinPhaseY)*yAmp
+        +Math.cos(timeSec*.43+s.phase)*stageUsage.y*.07
+        +layer*12,
+      z:Math.sin(timeSec*s.pinFreqZ+s.pinPhaseZ)*Math.min(106,stageUsage.x*.20),
       scale:(.62+.08*Math.sin(timeSec*.66+s.phase))*densityScale,
-      rot:Math.sin(timeSec*.98+s.phase)*7,
-      rx:Math.sin(timeSec*1.13+s.phase)*16,
-      ry:Math.cos(timeSec*1.04+s.phase)*18
+      rot:Math.sin(timeSec*.98+s.phase)*8,
+      rx:Math.sin(timeSec*1.13+s.phase)*18,
+      ry:Math.cos(timeSec*1.04+s.phase)*20
     };
   };
-
   const frontTargetPose=(i,spinValue,timeSec)=>{
     if(frontMode==="chick")return chickFrontPose(i,timeSec);
-    if(frontMode==="chick-column")return columnFrontPose(i,timeSec);
+    if(frontMode==="chick-column-sync")return columnFrontPose(i,timeSec,false);
+    if(frontMode==="chick-column-random")return columnFrontPose(i,timeSec,true);
     if(frontMode==="float-pinball")return scatterFrontPose(i,timeSec);
     if(frontMode==="formation")return formationFrontPose(i,timeSec);
     return orbitFrontPose(i,spinValue,timeSec);
@@ -1004,8 +1064,7 @@ async function play(){
       ?omega2Start*spinSec+.5*spinAccel*spinSec*spinSec
       :0;
 
-    whiteRoom.style.opacity=String(clamp(.10*globalCapture+whiteBlend*.90));
-    whiteRoom.style.transform=`scale(${lerp(1,1.15,whiteBlend)})`;
+    setWhiteLevel(clamp(.08*globalCapture+whiteBlend*.70));
     portalGlow.style.opacity=String(clamp((whiteBlend-.05)*1.22));
     portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.42,1.25,easeOut(whiteBlend))})`;
     rushLines.style.opacity=String(clamp((whiteBlend-.04)*1.30));
@@ -1090,57 +1149,56 @@ async function play(){
   const pinballPose=(i,timeSec,intensity)=>{
     const s=seeds[i];
     const start=chickFrontPose(i,timeSec);
-    const boundsX=Math.min(330,innerWidth*.43);
-    const boundsY=Math.min(218,innerHeight*.34);
-    const speed=lerp(1.0,8.4,intensity);
-    const px=triWave(timeSec*speed+s.phase*.72+i*.43)*boundsX;
-    const py=triWave(timeSec*speed*1.27+s.phase*1.13+i*.61)*boundsY-12;
-    const pz=triWave(timeSec*speed*.73+s.phase*.91)*118;
+    const speed=lerp(1.0,8.8,intensity);
+    const px=triWave(timeSec*speed*s.pinFreqX+s.pinPhaseX)*stageUsage.pinballX;
+    const py=triWave(timeSec*speed*1.17*s.pinFreqY+s.pinPhaseY)*stageUsage.pinballY-stageUsage.y*.02;
+    const pz=triWave(timeSec*speed*.67*s.pinFreqZ+s.pinPhaseZ)*Math.min(138,stageUsage.x*.23);
     return {
       x:lerp(start.x,px,intensity),
       y:lerp(start.y,py,intensity),
       z:lerp(start.z,pz,intensity),
       scale:lerp(start.scale,(.56+Math.abs(triWave(timeSec*.9+s.phase))*.16)*densityScale,intensity),
-      rot:lerp(start.rot,triWave(timeSec*speed*.61+s.phase)*34,intensity),
-      rx:lerp(start.rx,triWave(timeSec*speed*.83+s.phase)*38,intensity),
-      ry:lerp(start.ry,triWave(timeSec*speed*.77+s.phase)*46,intensity)
+      rot:lerp(start.rot,triWave(timeSec*speed*.61+s.pinPhaseX)*34,intensity),
+      rx:lerp(start.rx,triWave(timeSec*speed*.83+s.pinPhaseY)*38,intensity),
+      ry:lerp(start.ry,triWave(timeSec*speed*.77+s.pinPhaseZ)*46,intensity)
     };
   };
 
-  const columnBouncePose=(i,timeSec,intensity)=>{
+  const columnBouncePose=(i,timeSec,intensity,independent=false)=>{
     const s=seeds[i];
-    const start=columnFrontPose(i,timeSec);
-    const frequency=lerp(5.2,15.5,intensity);
-    const amp=lerp(14,Math.min(210,innerHeight*.31),intensity);
-    const wave=Math.sin(timeSec*frequency+s.phase*.10+i*.025);
+    const phase=independent?s.verticalPhase:0;
+    const baseFreq=independent?s.verticalFreq:5.15;
+    const frequency=lerp(baseFreq,independent?baseFreq*2.20:15.2,intensity);
+    const baseAmp=Math.min(stageUsage.y*.18,48);
+    const maxAmp=stageUsage.y*(independent?.68:.62)*s.verticalAmpMul;
+    const amp=lerp(baseAmp,maxAmp,intensity);
+    const wave=Math.sin(timeSec*frequency+phase);
     return {
-      x:start.x,
-      y:-58+wave*amp,
-      z:lerp(start.z,Math.sin(timeSec*frequency*.42+s.phase)*24,intensity),
-      scale:start.scale*(1+Math.abs(wave)*.055*intensity),
-      rot:wave*lerp(2.2,8.5,intensity),
-      rx:-Math.abs(wave)*lerp(2,18,intensity),
-      ry:Math.sin(timeSec*frequency*.31+s.phase)*5*intensity
+      x:(i-(n-1)/2)*frontSpacing,
+      y:-stageUsage.y*.13+wave*amp,
+      z:Math.sin(timeSec*frequency*.39+phase)*Math.min(34,stageUsage.y*.08)*intensity,
+      scale:.72*densityScale*(1+Math.abs(wave)*.06*intensity),
+      rot:wave*lerp(2.4,independent?10:8,intensity),
+      rx:-Math.abs(wave)*lerp(2,20,intensity),
+      ry:Math.sin(timeSec*frequency*.29+phase)*6*intensity
     };
   };
 
   const scatterPinballPose=(i,timeSec,intensity)=>{
     const s=seeds[i];
     const start=scatterFrontPose(i,timeSec);
-    const boundsX=Math.min(390,innerWidth*.47);
-    const boundsY=Math.min(245,innerHeight*.37);
-    const speed=lerp(.72,9.6,intensity);
-    const px=triWave(timeSec*speed+s.phase*.83+i*.29)*boundsX;
-    const py=triWave(timeSec*speed*1.19+s.phase*1.07+i*.47)*boundsY-8;
-    const pz=triWave(timeSec*speed*.69+s.phase*.93+i*.19)*132;
+    const speed=lerp(.78,10.4,intensity);
+    const px=triWave(timeSec*speed*s.pinFreqX+s.pinPhaseX)*stageUsage.pinballX;
+    const py=triWave(timeSec*speed*1.13*s.pinFreqY+s.pinPhaseY)*stageUsage.pinballY-stageUsage.y*.02;
+    const pz=triWave(timeSec*speed*.63*s.pinFreqZ+s.pinPhaseZ)*Math.min(148,stageUsage.x*.25);
     return {
       x:lerp(start.x,px,intensity),
       y:lerp(start.y,py,intensity),
       z:lerp(start.z,pz,intensity),
-      scale:lerp(start.scale,(.53+Math.abs(triWave(timeSec*.82+s.phase))*.16)*densityScale,intensity),
-      rot:lerp(start.rot,triWave(timeSec*speed*.57+s.phase)*40,intensity),
-      rx:lerp(start.rx,triWave(timeSec*speed*.78+s.phase)*44,intensity),
-      ry:lerp(start.ry,triWave(timeSec*speed*.74+s.phase)*50,intensity)
+      scale:lerp(start.scale,(.53+Math.abs(triWave(timeSec*.82+s.phase))*.17)*densityScale,intensity),
+      rot:lerp(start.rot,triWave(timeSec*speed*.57+s.pinPhaseX)*42,intensity),
+      rx:lerp(start.rx,triWave(timeSec*speed*.78+s.pinPhaseY)*46,intensity),
+      ry:lerp(start.ry,triWave(timeSec*speed*.74+s.pinPhaseZ)*52,intensity)
     };
   };
 
@@ -1157,8 +1215,7 @@ async function play(){
         el.style.opacity="1";
         el.style.filter=`brightness(${1+light*.45})`;
       });
-      whiteRoom.style.opacity=String(lerp(.84,1,light));
-      whiteRoom.style.transform=`scale(${lerp(1.08,1.18,light)})`;
+      setWhiteLevel(lerp(.70,.90,light));
       portalGlow.style.opacity=String(lerp(.20,.78,light));
       portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.92,.58,light)})`;
       rushLines.style.opacity=String(lerp(.10,.64,violence));
@@ -1170,19 +1227,19 @@ async function play(){
       return;
     }
 
-    if(frontMode==="chick-column"){
+    if(frontMode==="chick-column-sync"||frontMode==="chick-column-random"){
+      const independent=frontMode==="chick-column-random";
       const intensity=easeInOut(clamp((p-.04)/.96));
-      const light=easeInOut(clamp((p-.34)/.66));
+      const light=easeInOut(clamp((p-.30)/.70));
       g.forEach((el,i)=>{
-        const pose=columnBouncePose(i,tSec,intensity);
+        const pose=columnBouncePose(i,tSec,intensity,independent);
         setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
         el.style.opacity="1";
         el.style.filter=`brightness(${1+light*.44})`;
       });
-      whiteRoom.style.opacity=String(lerp(.82,1,light));
-      whiteRoom.style.transform=`scale(${lerp(1.06,1.18,light)})`;
+      setWhiteLevel(lerp(.70,.90,light));
       portalGlow.style.opacity=String(lerp(.18,.74,light));
-      rushLines.style.opacity=String(lerp(.08,.58,intensity));
+      rushLines.style.opacity=String(lerp(.08,.60,intensity));
       return;
     }
 
@@ -1195,8 +1252,7 @@ async function play(){
         el.style.opacity="1";
         el.style.filter=`brightness(${1+light*.42})`;
       });
-      whiteRoom.style.opacity=String(lerp(.80,1,light));
-      whiteRoom.style.transform=`scale(${lerp(1.05,1.18,light)})`;
+      setWhiteLevel(lerp(.70,.90,light));
       portalGlow.style.opacity=String(lerp(.14,.72,light));
       rushLines.style.opacity=String(lerp(.08,.66,intensity));
       [...rushLines.children].forEach(line=>{
@@ -1216,6 +1272,7 @@ async function play(){
     const axisAmp=lerp(0,16,e);
     const axisTwist=Math.sin(spin*.18)*axisAmp;
 
+    setWhiteLevel(lerp(.70,.90,e));
     portalGlow.style.opacity=String(lerp(.98,.92,e));
     portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.18,.82,e)})`;
     rushLines.style.opacity=String(lerp(.92,1,e));
@@ -1304,7 +1361,7 @@ async function play(){
     const qx=(Math.sin(elapsed*.145)+Math.sin(elapsed*.317)*.55)*quakeAmp;
     const qy=(Math.cos(elapsed*.181)+Math.sin(elapsed*.271)*.48)*quakeAmp*.78;
     stage.style.transform=`translate3d(${qx}px,${qy}px,0) scale(${1+.010*quakeRise})`;
-    whiteRoom.style.opacity=String(lerp(.66,1,easeInOut(clamp((p-.05)/.82))));
+    setWhiteLevel(lerp(.90,1,easeInOut(clamp((p-.05)/.82))));
     rushLines.style.opacity=String(lerp(.62,.96,quakeRise));
 
     flash.style.opacity=String(Math.min(.985,peak*.985));
@@ -1316,12 +1373,15 @@ async function play(){
       const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
       let start;
 
+      const continuationTime=phase12EndSec+phase4Duration/1000+elapsed/1000;
       if(frontMode==="chick"){
-        start=pinballPose(i,phase12EndSec+phase4Duration/1000,1);
-      }else if(frontMode==="chick-column"){
-        start=columnBouncePose(i,phase12EndSec+phase4Duration/1000,1);
+        start=pinballPose(i,continuationTime,1);
+      }else if(frontMode==="chick-column-sync"){
+        start=columnBouncePose(i,continuationTime,1,false);
+      }else if(frontMode==="chick-column-random"){
+        start=columnBouncePose(i,continuationTime,1,true);
       }else if(frontMode==="float-pinball"){
-        start=scatterPinballPose(i,phase12EndSec+phase4Duration/1000,1);
+        start=scatterPinballPose(i,continuationTime,1);
       }else{
         const angle=baseAngles[i]+spin;
         const depth=(Math.sin(angle)+1)/2;
@@ -1394,7 +1454,7 @@ async function play(){
     const s=seeds[i];
     const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
     const tt=timeMs/1000;
-    const scatterBase=Math.min(246,Math.max(158,innerWidth*.35));
+    const scatterBase=stageUsage.x*.67;
     const anchorAngle=baseAngles[i]+s.phase*.18+s.scatterAngleJitter;
     const anchorR=scatterBase*s.scatterRadiusMul+Math.abs(layer)*20;
     const fall=(16*s.fallSpeedMul)*tt+24*s.fallSpeedMul*(1-Math.exp(-tt*1.15));
@@ -1420,22 +1480,26 @@ async function play(){
     const tt=Math.max(0,timeMs)/1000;
     const extreme=flashExitMode==="radial-extreme";
     const angle=baseAngles[i]+s.scatterAngleJitter+s.phase*.08;
-    const normalR=Math.min(310,Math.max(190,innerWidth*.41));
-    const extremeR=Math.max(innerWidth*.53,innerHeight*.62,430);
-    const maxR=(extreme?extremeR:normalR)*s.scatterRadiusMul;
-    const shot=maxR*(1-Math.exp(-tt*(extreme?8.6:5.8)));
-    const fall=(extreme?7:12)*s.fallSpeedMul*tt;
+    const extent=.88+Math.min(.14,Math.max(-.08,(s.scatterRadiusMul-1)*.34));
+    const targetX=(extreme?stageUsage.radialExtremeX:stageUsage.radialX)*extent;
+    const targetY=(extreme?stageUsage.radialExtremeY:stageUsage.radialY)*extent;
+    const launch=1-Math.exp(-tt*(extreme?8.8:5.8));
+    const fall=(extreme?5:10)*s.fallSpeedMul*tt;
     return {
-      x:Math.cos(angle)*shot+Math.sin(tt*.82+s.phase)*(extreme?10:18)+s.ashDriftX,
-      y:-8+Math.sin(angle)*shot*(extreme?.84:.72)+fall+Math.cos(tt*.74+s.phase)*(extreme?8:12),
-      z:Math.sin(angle*1.43+s.phase)*shot*(extreme?.42:.35)+Math.sin(tt*.91+s.phase)*18,
+      x:Math.cos(angle)*targetX*launch
+        +Math.sin(tt*.82+s.phase)*(extreme?8:16)
+        +s.ashDriftX*.55,
+      y:-8+Math.sin(angle)*targetY*launch
+        +fall
+        +Math.cos(tt*.74+s.phase)*(extreme?6:11),
+      z:Math.sin(angle*1.43+s.phase)*Math.min(150,stageUsage.x*.27)*launch
+        +Math.sin(tt*.91+s.phase)*16,
       rot:Math.sin(tt*1.05+s.phase)*(extreme?10:7),
       rx:Math.sin(tt*1.22+s.phase)*(extreme?21:15),
       ry:Math.cos(tt*1.16+s.phase)*(extreme?24:18),
       opacity:.95
     };
   };
-
   const rainPose=(i,timeMs)=>{
     const s=seeds[i];
     const delay=130+(i%5)*115+(s.phase/(Math.PI*2))*170;
@@ -1508,14 +1572,15 @@ async function play(){
   const postFlashSparkPose=(s,timeMs)=>{
     const tt=Math.max(0,timeMs)/1000;
     const pulse=.45+.55*Math.sin(tt*5.0*s.pulse+s.phase)**2;
-    const r=Math.min(300,Math.max(190,innerWidth*.40))*(.74+s.radius/280);
+    const r=stageUsage.x*(.58+Math.min(.28,s.radius/420));
     let x=Math.cos(s.angle)*r+Math.sin(tt*.91+s.phase)*22;
     let y=-18+Math.sin(s.angle)*r*.56+14*tt+Math.sin(tt*1.03+s.phase)*12;
     let z=Math.sin(s.angle*1.47+s.phase)*Math.min(138,r*.50)+Math.cos(tt*.83+s.phase)*22;
     if(flashExitMode==="radial"||flashExitMode==="radial-extreme"){
-      const shot=r*(1-Math.exp(-tt*5.5));
-      x=Math.cos(s.angle)*shot;
-      y=-8+Math.sin(s.angle)*shot*.70+10*tt;
+      const extreme=flashExitMode==="radial-extreme";
+      const launch=1-Math.exp(-tt*(extreme?8.4:5.5));
+      x=Math.cos(s.angle)*(extreme?stageUsage.radialExtremeX:stageUsage.radialX)*launch;
+      y=-8+Math.sin(s.angle)*(extreme?stageUsage.radialExtremeY:stageUsage.radialY)*launch+8*tt;
       z=Math.sin(s.angle*1.3+s.phase)*shot*.33;
     }
     return {x,y,z,pulse};
@@ -1539,7 +1604,7 @@ async function play(){
         ?.985
         :Math.min(.985,Math.max((1-flashOpen)*.985,blastGlow*.76))
     );
-    whiteRoom.style.opacity=String(lerp(.995,.85,soften));
+    setWhiteLevel(1);
     portalGlow.style.opacity=String(lerp(1,.16,soften));
     portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.10,1.52,easeOut(clamp(visibleTime/260)))})`;
     rushLines.style.opacity=String(lerp(.98,.10,soften));
@@ -1613,7 +1678,7 @@ async function play(){
       s.el.style.filter=`blur(${(1-pose.pulse)*.7}px)`;
     });
 
-    whiteRoom.style.opacity=String(lerp(.85,.81,easeInOut(p)));
+    setWhiteLevel(1);
     portalGlow.style.opacity=String(lerp(.16,.11,easeInOut(p)));
     rushLines.style.opacity=String(lerp(.10,.07,easeInOut(p)));
   },token);
@@ -1627,12 +1692,12 @@ async function play(){
     ? Math.PI*2*.13
     : Math.PI*2*(ensembleMode==="dragon"?1.10:.48);
   const groupAccel=(groupOmegaEnd-groupOmegaStart)/(phase8Duration/1000);
-  const groupR=Math.min(156,Math.max(96,innerWidth*.24));
-  const groupRY=Math.min(74,groupR*.50);
+  const groupR=stageUsage.x*.46;
+  const groupRY=stageUsage.y*.35;
   const groupVertical=28;
   const groupCenterAmpX=7;
   const groupCenterAmpY=6;
-  const chickSpacing=Math.min(72,Math.max(10,(innerWidth*.72)/Math.max(1,n-1)));
+  const chickSpacing=Math.min(80,Math.max(9,(stageUsage.x*1.45)/Math.max(1,n-1)));
   let groupTheta=0;
 
   const ensemblePose=(i,theta,timeSec)=>{
@@ -1668,14 +1733,14 @@ async function play(){
     if(ensembleMode==="dragon"){
       const trail=layer*.78;
       const t=theta-trail;
-      const ampX=Math.min(270,innerWidth*.46);
-      const ampY=Math.min(168,innerHeight*.24);
+      const ampX=stageUsage.dragonX;
+      const ampY=stageUsage.dragonY;
       return {
         x:Math.sin(t)*ampX
-          +Math.sin(t*3.4+s.phase)*24
-          +Math.cos(t*5.2+s.phase*.7)*10,
+          +Math.sin(t*3.4+s.phase)*Math.min(34,stageUsage.x*.07)
+          +Math.cos(t*5.2+s.phase*.7)*Math.min(16,stageUsage.x*.035),
         y:-6+Math.sin(t*2.22+.52)*ampY
-          +Math.cos(t*4.05+s.phase)*18,
+          +Math.cos(t*4.05+s.phase)*Math.min(28,stageUsage.y*.08),
         z:Math.cos(t*1.31)*108+Math.sin(t*3.0+s.phase)*28,
         scale:(.54+(.5+.5*Math.sin(t))*.30)*densityScale,
         rot:Math.cos(t*1.4)*16,
@@ -1755,7 +1820,7 @@ async function play(){
       s.el.style.opacity=String((.42+.48*petal.pulse)*lerp(1,.82,groupBlend));
     });
 
-    whiteRoom.style.opacity=String(lerp(.81,.86,groupBlend));
+    setWhiteLevel(1);
     portalGlow.style.opacity=String(lerp(.11,.24,groupBlend));
     rushLines.style.opacity=String(lerp(.07,.20,groupBlend));
   },token);
@@ -1922,7 +1987,7 @@ async function play(){
       s.el.style.opacity=String((.35+.48*pulse)*fade);
     });
 
-    whiteRoom.style.opacity=String(lerp(.86,1,p));
+    setWhiteLevel(1);
     rushLines.style.opacity=String(lerp(exitMode==="camera"?.44:.28,0,p));
     portalGlow.style.opacity=String(lerp(exitMode==="camera"?.34:.22,0,p));
   },token);
