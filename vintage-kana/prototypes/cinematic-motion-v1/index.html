@@ -288,6 +288,37 @@
       text-shadow:0 1px 0 rgba(255,255,255,.7)
     }
   }
+  .stamp.hit-heavy{animation:stampHitHeavy .68s cubic-bezier(.04,.74,.08,1) forwards}
+  @keyframes stampHitHeavy{
+    0%{opacity:0;transform:translateY(-250px) scale(2.45);filter:blur(17px);text-shadow:0 30px 44px rgba(29,26,23,.05)}
+    35%{opacity:1;transform:translateY(18px) scale(.88,.68);filter:blur(0);text-shadow:0 18px 28px rgba(29,26,23,.46)}
+    58%{transform:translateY(-4px) scale(1.035,1.05);text-shadow:0 5px 9px rgba(29,26,23,.25)}
+    76%{transform:translateY(2px) scale(.99,.965)}
+    100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0);text-shadow:0 1px 0 rgba(255,255,255,.7)}
+  }
+  .stamp.hit.stamp-gag-flip,
+  .stamp.hit-heavy.stamp-gag-flip{animation:stampHitFlip .82s cubic-bezier(.035,.78,.07,1) forwards}
+  @keyframes stampHitFlip{
+    0%{opacity:0;transform:translateY(-228px) scale(2.6) rotate(0deg);filter:blur(18px)}
+    28%{opacity:1;transform:translateY(24px) scale(.70,.54) rotate(166deg);filter:blur(0)}
+    52%{transform:translateY(-7px) scale(1.08) rotate(186deg)}
+    100%{opacity:1;transform:translateY(0) scale(1) rotate(180deg);filter:blur(0)}
+  }
+  .stamp.hit.stamp-gag-offset,
+  .stamp.hit-heavy.stamp-gag-offset{animation:stampHitOffset .78s cubic-bezier(.035,.78,.07,1) forwards}
+  @keyframes stampHitOffset{
+    0%{opacity:0;transform:translateY(-228px) scale(2.55);filter:blur(18px)}
+    32%{opacity:1;transform:translate(30px,22px) scale(.70,.54);filter:blur(0)}
+    100%{opacity:1;transform:translate(24px,-9px) scale(1);filter:blur(0)}
+  }
+  .stamp.hit.stamp-gag-overshoot,
+  .stamp.hit-heavy.stamp-gag-overshoot{animation:stampHitOvershoot .76s cubic-bezier(.035,.78,.07,1) forwards}
+  @keyframes stampHitOvershoot{
+    0%{opacity:0;transform:translateY(-228px) scale(2.55);filter:blur(18px)}
+    34%{opacity:1;transform:translate(64px,18px) scale(.70,.54);filter:blur(0)}
+    70%{transform:translate(48px,-3px) scale(1.02)}
+    100%{opacity:1;transform:translate(42px,0) scale(1);filter:blur(0)}
+  }
   .impactWave{
     position:absolute;width:132px;height:132px;margin:-66px 0 0 -66px;
     border-radius:50%;pointer-events:none;z-index:1;
@@ -338,7 +369,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 29: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 30: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -408,7 +439,7 @@
 <div class="app" id="app">
   <header>
     <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 29</div>
+    <div class="mode">MOTION STUDY 30</div>
   </header>
   <main>
     <section class="panel">
@@ -430,7 +461,7 @@
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
         <span class="optLabel">改行可 / 80文字まで / Ctrl・⌘+Enterで変換</span>
       </div>
-      <div class="hint">※ 演出検証用。縦ぴょこは十分に加速してから閃光へ。放射線系を含む全分岐で、白化後も演出が継続することを確認する版です。</div>
+      <div class="hint">※ 演出検証用。閃光では文字が光に溶け、かくれんぼは「ちら見→先導→追従」へ。サイズ呼吸・重厚刻印・刻印レアも抽選されます。</div>
       <div class="debug-tools" aria-label="演出デバッグ">
         <span class="debug-label">DEBUG</span>
         <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
@@ -442,6 +473,10 @@
         <button class="debug-btn" type="button" data-preset="front-column">前半縦同期</button>
         <button class="debug-btn" type="button" data-preset="front-column-random">前半バラバラ上下</button>
         <button class="debug-btn" type="button" data-preset="front-pinball">前半ばらピン</button>
+        <button class="debug-btn" type="button" data-preset="scale-breath">サイズ呼吸</button>
+        <button class="debug-btn" type="button" data-preset="scale-pulse">サイズ脈動</button>
+        <button class="debug-btn" type="button" data-preset="stamp-heavy">重厚刻印</button>
+        <button class="debug-btn" type="button" data-preset="stamp-gag">刻印レア</button>
         <div class="debug-plan" id="debugPlan">通常ランダム</div>
       </div>
     </section>
@@ -650,6 +685,8 @@ function populateStampBoard(text,hit=false){
         s.style.gridRow=String(charIndex+1);
         s.style.gridColumn=String(layout.lineCount-lineIndex);
       }
+      s.dataset.homeRow=s.style.gridRow;
+      s.dataset.homeColumn=s.style.gridColumn;
       board.appendChild(s);
       stamps.push(s);
     });
@@ -850,7 +887,7 @@ async function play(){
 
   // Roughly three plays in ten contain a visible troublemaker.
   const rogueIndex=n>2&&(forceRare||Math.random()<.30)?randomIndex(n):-1;
-  const rogueType=rogueIndex>=0?pick(["reverse","drop","wander","early"]):"none";
+  const rogueType=rogueIndex>=0?pick(["reverse","drop","wander","early","overshoot"]):"none";
 
   const stickyIndex=n>2&&(forceRare?Math.random()<.55:Math.random()<.12)
     ?randomIndex(n)
@@ -879,18 +916,46 @@ async function play(){
     :(slapCount===1&&Math.random()<.20?slapIndices[0]:-1);
 
   const diagonalSign=Math.random()<.5?-1:1;
+
+  const scaleMode=forcedPreset==="scale-breath"
+    ?"breath"
+    :forcedPreset==="scale-pulse"
+      ?"pulse"
+      :pickWeighted([["steady",.52],["breath",.30],["pulse",.18]]);
+
+  const stampStyle=forcedPreset==="stamp-heavy"
+    ?"heavy"
+    :pickWeighted([["bouncy",.60],["heavy",.40]]);
+
+  const stampGag=forcedPreset==="stamp-gag"
+    ?pick(["late","flip","swap","offset","overshoot"])
+    :pickWeighted([
+      ["none",.70],
+      ["offset",.10],
+      ["overshoot",.08],
+      ["late",.05],
+      ["flip",.04],
+      ["swap",.03]
+    ]);
+
+  const peekLeaderIndex=n>0?randomIndex(n):-1;
+  const peekSide=Math.random()<.5?-1:1;
+
   const motionPlan={
     forcedPreset:forcedPreset||"random",
-    frontMode,flashExitMode,ensembleMode,exitMode,
+    frontMode,flashExitMode,ensembleMode,exitMode,scaleMode,stampStyle,stampGag,
     rogueIndex,rogueType,stickyIndex,lateChaserIndex,
-    slapIndices:[...slapIndices],slapDropIndex,diagonalSign
+    slapIndices:[...slapIndices],slapDropIndex,diagonalSign,
+    peekLeaderIndex,peekSide
   };
   stage.dataset.motionPlan=JSON.stringify(motionPlan);
   debugPlan.textContent=
-    `FRONT:${frontMode.toUpperCase()} / FLASH:${flashExitMode.toUpperCase()} / BACK:${ensembleMode.toUpperCase()} / EXIT:${exitMode.toUpperCase()} / ROGUE:${rogueIndex>=0?rogueType.toUpperCase():"NONE"} / VIEW:${Math.round(viewportW)}×${Math.round(viewportH)}`;
+    `FRONT:${frontMode.toUpperCase()} / FLASH:${flashExitMode.toUpperCase()} / BACK:${ensembleMode.toUpperCase()} / EXIT:${exitMode.toUpperCase()} / SCALE:${scaleMode.toUpperCase()} / STAMP:${stampStyle.toUpperCase()}+${stampGag.toUpperCase()} / ROGUE:${rogueIndex>=0?rogueType.toUpperCase():"NONE"} / VIEW:${Math.round(viewportW)}×${Math.round(viewportH)}`;
   console.debug("[hentaigana-motion]",motionPlan);
 
   const verticalFront=frontMode==="chick-column-sync"||frontMode==="chick-column-random";
+  const tornadoFront=frontMode==="orbit"||frontMode==="formation";
+  const nonTornadoFront=!tornadoFront;
 
   const seeds=g.map((el,i)=>{
     el.style.color=ink;
@@ -945,6 +1010,17 @@ async function play(){
       pinPhaseZ:Math.random()*Math.PI*2
     };
   });
+
+  const livingScale=(i,timeSec,intensity=1)=>{
+    if(scaleMode==="steady")return 1;
+    const s=seeds[i];
+    if(scaleMode==="breath"){
+      return 1+Math.sin(timeSec*2.05+s.phase)*.13*intensity;
+    }
+    const wave=(Math.sin(timeSec*3.15+s.phase)+1)/2;
+    const pulse=Math.pow(wave,2.35);
+    return lerp(.80,1.24,pulse*intensity+(1-intensity)*.5);
+  };
 
   // 元の入力文字を透明にし、同じ位置の複製だけが剥がれて見えるようにする。
   input.style.color="transparent";
@@ -1121,7 +1197,7 @@ async function play(){
       const z=lerp(freeZ,target.z,charCapture);
 
       const freeScale=lerp(baseScale,.92,localRise);
-      const scale=lerp(freeScale,target.scale,charCapture);
+      const scale=lerp(freeScale,target.scale,charCapture)*livingScale(i,tSec,.82);
 
       const flutterRZ=Math.sin(tSec*1.55+s.phase)*s.tilt*(1-p*.18);
       const freeRZ=flutterRZ*localFloat;
@@ -1231,11 +1307,11 @@ async function play(){
       const light=easeInOut(clamp((p-.28)/.72));
       g.forEach((el,i)=>{
         const pose=pinballPose(i,tSec,violence);
-        setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
+        setT(el,pose.x,pose.y,pose.scale*livingScale(i,tSec,1),pose.rot,pose.rx,pose.ry,pose.z);
         el.style.opacity="1";
         el.style.filter=`brightness(${1+light*.45})`;
       });
-      setWhiteLevel(lerp(.70,.90,light));
+      setWhiteLevel(lerp(.38,.68,light));
       portalGlow.style.opacity=String(lerp(.20,.78,light));
       portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.92,.58,light)})`;
       rushLines.style.opacity=String(lerp(.10,.64,violence));
@@ -1259,13 +1335,13 @@ async function play(){
 
       g.forEach((el,i)=>{
         const pose=columnBouncePose(i,tSec,drive,independent);
-        setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
+        setT(el,pose.x,pose.y,pose.scale*livingScale(i,tSec,1),pose.rot,pose.rx,pose.ry,pose.z);
         el.style.opacity="1";
         el.style.filter=`brightness(${1+pose.impact*.34+light*.30})`;
       });
 
       // Stay visibly in the pre-white world for the long "ドドドドド" passage.
-      setWhiteLevel(lerp(.18,.84,light));
+      setWhiteLevel(lerp(.18,.66,light));
       portalGlow.style.opacity=String(lerp(.06,.78,light));
       portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.58,.24,light)})`;
       rushLines.style.opacity=String(lerp(.10,.74,Math.max(overdrive,light)));
@@ -1283,11 +1359,11 @@ async function play(){
       const light=easeInOut(clamp((p-.32)/.68));
       g.forEach((el,i)=>{
         const pose=scatterPinballPose(i,tSec,intensity);
-        setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
+        setT(el,pose.x,pose.y,pose.scale*livingScale(i,tSec,1),pose.rot,pose.rx,pose.ry,pose.z);
         el.style.opacity="1";
         el.style.filter=`brightness(${1+light*.42})`;
       });
-      setWhiteLevel(lerp(.70,.90,light));
+      setWhiteLevel(lerp(.38,.68,light));
       portalGlow.style.opacity=String(lerp(.14,.72,light));
       rushLines.style.opacity=String(lerp(.08,.66,intensity));
       [...rushLines.children].forEach(line=>{
@@ -1384,19 +1460,25 @@ async function play(){
     if(frontMode==="orbit"||frontMode==="formation")spin=prog.spin;
 
     const squeeze=easeInOut(clamp(
-      verticalFront
-        ?(p-.34)/.50
-        :(p-.12)/.62
+      tornadoFront
+        ?(p-.12)/.62
+        :verticalFront
+          ?(p-.52)/.34
+          :(p-.44)/.38
     ));
     const coreHold=easeInOut(clamp(
-      verticalFront
-        ?(p-.78)/.14
-        :(p-.72)/.18
+      tornadoFront
+        ?(p-.72)/.18
+        :verticalFront
+          ?(p-.82)/.12
+          :(p-.78)/.15
     ));
     const flashRise=easeOut(clamp(
-      verticalFront
-        ?(p-.48)/.24
-        :(p-.20)/.28
+      tornadoFront
+        ?(p-.20)/.28
+        :verticalFront
+          ?(p-.54)/.22
+          :(p-.48)/.24
     ));
     const flashHold=1-.02*easeInOut(clamp((p-.92)/.08));
     const peak=flashRise*flashHold;
@@ -1414,11 +1496,13 @@ async function play(){
     stage.style.transform=`translate3d(${qx}px,${qy}px,0) scale(${1+.010*quakeRise})`;
 
     const whiteRamp=easeInOut(clamp(
-      verticalFront
-        ?(p-.38)/.54
-        :(p-.05)/.82
+      tornadoFront
+        ?(p-.05)/.82
+        :verticalFront
+          ?(p-.50)/.46
+          :(p-.44)/.50
     ));
-    setWhiteLevel(lerp(verticalFront?.84:.90,1,whiteRamp));
+    setWhiteLevel(lerp(tornadoFront?.90:(verticalFront?.66:.68),1,whiteRamp));
     rushLines.style.opacity=String(lerp(verticalFront?.54:.62,.96,quakeRise));
 
     flash.style.opacity=String(Math.min(.985,peak*.985));
@@ -1468,8 +1552,13 @@ async function play(){
         lerp(start.ry,0,squeeze),
         lerp(start.z,nucleusZ,squeeze)
       );
-      el.style.opacity=String(lerp(.88,.98,coreHold));
-      el.style.filter=`brightness(${1+peak*4.4+coreHold*2.2}) blur(${peak*1.6+coreHold*1.6}px)`;
+      const lightVanish=nonTornadoFront
+        ?easeInOut(clamp((p-(verticalFront?.56:.50))/(verticalFront?.30:.32)))
+        :0;
+      el.style.opacity=String(nonTornadoFront?lerp(1,.04,lightVanish):lerp(.88,.98,coreHold));
+      el.style.filter=nonTornadoFront
+        ?`brightness(${1+lightVanish*6.2+peak*2.2}) blur(${lightVanish*3.6+peak*.9}px)`
+        :`brightness(${1+peak*4.4+coreHold*2.2}) blur(${peak*1.6+coreHold*1.6}px)`;
 
       if(p>.43&&!el.dataset.converted){
         el.textContent=[...motionOut][i]||el.textContent;
@@ -1501,11 +1590,11 @@ async function play(){
   const spinFlashEnd=spin;
 
   // 6) 閃光そのものから次の運動を生む。白の中ですでに移動を開始する。
-  const phase6Duration=flashExitMode==="peek"?3600:(flashExitMode==="rain"?2550:(flashExitMode==="radial-extreme"?2450:2350));
+  const phase6Duration=flashExitMode==="peek"?4800:(flashExitMode==="rain"?2550:(flashExitMode==="radial-extreme"?2450:2350));
   const hiddenPoseMs=70;
   const flashOpenDelayMs=flashExitMode==="rain"||flashExitMode==="peek"?210:105;
   const flashOpenMs=flashExitMode==="radial-extreme"?390:(flashExitMode==="radial"?460:620);
-  const phase7Duration=flashExitMode==="peek"?2100:1850;
+  const phase7Duration=flashExitMode==="peek"?2500:1850;
 
   const ashPose=(i,timeMs)=>{
     const s=seeds[i];
@@ -1579,44 +1668,46 @@ async function play(){
 
   const peekPose=(i,timeMs)=>{
     const s=seeds[i];
-    const delay=240+(i%6)*210+(s.phase/(Math.PI*2))*280;
-    const local=Math.max(0,timeMs-delay);
-    const tt=local/1000;
-    const appear=easeInOut(clamp(local/520));
-    const enterBase=easeInOut(clamp(local/1750));
-    const side=i%4;
+    const isLeader=i===peekLeaderIndex;
+    const rank=isLeader?0:1+((i-peekLeaderIndex+n)%Math.max(1,n));
+    const edgeX=peekSide*stageUsage.x*1.04;
+    const edgeY=(i-(n-1)/2)*Math.min(42,stageUsage.y*.11);
+    const targetSpacing=Math.min(52,Math.max(12,(stageUsage.x*1.32)/Math.max(1,n-1)));
+    const targetX=(i-(n-1)/2)*targetSpacing;
+    const targetY=10+Math.sin(s.phase)*28;
 
-    const edgeX=side===0
-      ?-Math.min(innerWidth*.51,440)
-      :side===1
-        ?Math.min(innerWidth*.51,440)
-        :(i/(Math.max(1,n-1))-.5)*innerWidth*.72;
-    const edgeY=side===2
-      ?-Math.min(innerHeight*.44,300)
-      :side===3
-        ?Math.min(innerHeight*.44,300)
-        :(i%5-2)*48;
+    const t=Math.max(0,timeMs);
+    const peek1=easeInOut(clamp(t/420));
+    const retreat=easeInOut(clamp((t-420)/280));
+    const peek2=easeInOut(clamp((t-700)/430));
+    const basePeek=clamp(lerp(0,.19,peek1)-lerp(0,.15,retreat)+lerp(0,.27,peek2));
 
-    const targetX=(i-(n-1)/2)*Math.min(42,Math.max(10,innerWidth*.68/Math.max(1,n)))+Math.sin(s.phase)*15;
-    const targetY=-8+Math.cos(s.phase)*38;
+    const leaderWalkStart=1250;
+    const followerWalkStart=2250+rank*165;
+    const walkStart=isLeader?leaderWalkStart:followerWalkStart;
+    const walk=easeInOut(clamp((t-walkStart)/(isLeader?1650:1500)));
 
-    // A small shy retreat before committing to the entrance.
-    const shyEnvelope=(1-enterBase)*Math.sin(clamp(local/1500)*Math.PI*3);
-    const shy=shyEnvelope*18;
-    let x=lerp(edgeX,targetX,enterBase);
-    let y=lerp(edgeY,targetY,enterBase);
-    if(side===0)x-=shy;
-    else if(side===1)x+=shy;
-    else if(side===2)y-=shy;
-    else y+=shy;
+    const watchWiggle=!isLeader&&t>1050&&t<walkStart
+      ?Math.sin((t-1050)*.010+s.phase)*.025
+      :0;
+    const enter=clamp(Math.max(basePeek+watchWiggle,.04)+walk*(1-(basePeek+watchWiggle)));
+
+    const stepPhase=Math.max(0,t-walkStart)*.018+s.phase;
+    const step=Math.abs(Math.sin(stepPhase))*walk;
+    const hesitation=!isLeader&&walk>.28&&walk<.58
+      ?Math.sin((walk-.28)/.30*Math.PI)*(.04+((i%3)===0?.05:0))
+      :0;
+    const effectiveEnter=clamp(enter-hesitation);
 
     return {
-      x,y,
-      z:lerp(-42,Math.sin(s.phase)*38,enterBase),
-      rot:Math.sin(tt*1.55+s.phase)*3.2,
-      rx:Math.sin(tt*1.12+s.phase)*6,
-      ry:Math.cos(tt*1.06+s.phase)*8,
-      opacity:appear*.96
+      x:lerp(edgeX,targetX,effectiveEnter),
+      y:lerp(edgeY,targetY,effectiveEnter)-step*10,
+      z:lerp(-46,Math.sin(s.phase)*34,effectiveEnter),
+      scale:(.60+step*.05)*livingScale(i,t/1000,1),
+      rot:(peekSide*-1)*Math.sin(stepPhase)*5*walk+Math.sin(t*.004+s.phase)*2*(1-walk),
+      rx:-step*8,
+      ry:peekSide*lerp(10,0,effectiveEnter),
+      opacity:clamp((peek1*.88+.10)+walk*.08)
     };
   };
   const postFlashPose=(i,timeMs)=>{
@@ -1690,7 +1781,7 @@ async function play(){
         el,
         lerp(startX,pose.x,mix),
         lerp(startY,pose.y,mix),
-        lerp(startScale,targetScale,mix),
+        lerp(startScale,targetScale,mix)*livingScale(i,visibleTime/1000,.90),
         pose.rot*mix,
         pose.rx*mix,
         pose.ry*mix,
@@ -1723,7 +1814,7 @@ async function play(){
     g.forEach((el,i)=>{
       const pose=postFlashPose(i,postTime);
       const depth=.5+.5*Math.sin(seeds[i].phase+postTime*.0009);
-      const scale=(.55+depth*.15)*densityScale;
+      const scale=(.55+depth*.15)*densityScale*livingScale(i,postTime/1000,.92);
       setT(el,pose.x,pose.y,scale,pose.rot,pose.rx,pose.ry,pose.z);
       el.style.opacity=String(clamp(pose.opacity));
       el.style.filter="none";
@@ -1836,17 +1927,34 @@ async function play(){
       const pose=ensemblePose(i,groupTheta,tSec);
 
       let extraX=0,extraY=0,extraZ=0;
-      const rogueBeat=Math.sin(Math.PI*clamp((p-.28)/.50));
       if(i===rogueIndex){
         if(rogueType==="reverse"){
-          extraX=-Math.sin(groupTheta*1.7+s.whimPhase)*110*rogueBeat;
-          extraY=Math.cos(groupTheta*1.2+s.whimPhase)*26*rogueBeat;
+          const wrong=easeInOut(clamp((p-.18)/.14))*(1-easeInOut(clamp((p-.42)/.12)));
+          const catchup=easeInOut(clamp((p-.48)/.24))*(1-easeInOut(clamp((p-.78)/.16)));
+          extraX=s.whimSign*stageUsage.x*.44*wrong-s.whimSign*stageUsage.x*.16*catchup;
+          extraY=Math.sin(p*55+s.whimPhase)*10*(wrong+catchup);
         }else if(rogueType==="drop"){
-          extraY=126*rogueBeat;
-          extraX=s.whimSign*20*rogueBeat;
+          const fall=easeIn(clamp((p-.24)/.14));
+          const recover=easeInOut(clamp((p-.50)/.24));
+          extraY=stageUsage.y*.56*fall*(1-recover);
+          extraX=s.whimSign*22*Math.sin(p*70)*(fall*(1-recover));
+          extraZ=Math.sin(p*84+s.whimPhase)*38*fall*(1-recover);
         }else if(rogueType==="wander"){
-          extraX=s.whimSign*120*rogueBeat;
-          extraZ=80*Math.sin(p*Math.PI*2)*rogueBeat;
+          const leave=easeInOut(clamp((p-.20)/.20));
+          const returnHome=easeInOut(clamp((p-.58)/.24));
+          const hold=leave*(1-returnHome);
+          extraX=s.whimSign*stageUsage.x*.46*hold;
+          extraY=-stageUsage.y*.12*Math.sin(hold*Math.PI);
+          extraZ=90*Math.sin(p*Math.PI*3)*hold;
+        }else if(rogueType==="overshoot"){
+          const dash=easeIn(clamp((p-.48)/.16));
+          const correct=easeInOut(clamp((p-.78)/.18));
+          extraX=s.whimSign*stageUsage.x*.30*dash*(1-correct);
+          extraY=-18*easeInOut(clamp((p-.68)/.12))*(1-correct);
+        }else if(rogueType==="early"){
+          const proud=easeInOut(clamp((p-.10)/.16))*(1-easeInOut(clamp((p-.40)/.18)));
+          extraY=-stageUsage.y*.18*proud;
+          extraX=s.whimSign*18*proud;
         }
       }
 
@@ -1856,7 +1964,7 @@ async function play(){
 
       const petalDepth=.5+.5*Math.sin(s.phase+time*.0009);
       const petalScale=(.55+petalDepth*.15)*densityScale;
-      const scale=lerp(petalScale,pose.scale,charBlend);
+      const scale=lerp(petalScale,pose.scale,charBlend)*livingScale(i,tSec,.95);
       const rot=lerp(petal.rot,pose.rot,charBlend);
       const rx=lerp(petal.rx,pose.rx,charBlend);
       const ry=lerp(petal.ry,pose.ry,charBlend);
