@@ -712,3 +712,41 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - publication approved 4件のみ読解教材に表示
 
 今後の書込み先は必ず `vintage-kana-main`。
+
+
+## 24. 2026-10-01 記録画面のグラフ表示・登場アニメーション（Claude Code）
+
+この節は origin/main 上の作業記録。§25〜§69 の詳しい記録は `vintage-kana-main` ブランチの HANDOFF にある
+（記録画面の現行版は main 側が新しいため、origin/main `583780a` から作業した。ブランチ `vintage-kana-record-graph-20261001`）。
+活用ノート（conj）の記録画面（conj/HANDOFF.md §45、PR #69）のグラフ表示と登場アニメーションを当てはめた。
+`prototypes/cinematic-motion-v1/` は文字作成画面用の別の試作で、今回は対象外（ユーザー確認済み）。
+
+### ユーザー裁定（比較モックで決定）
+- 全体の習熟度バーを追加。値は「正答率×取り組み範囲」で、正答率は**字形ごとの直近5回**。分母は出題され得る全字形（266）、未着手の字形は0、表示は切り捨て。
+  100%は「全字形を解き、どの字形も直近5回がすべて正解」のときだけ。累計の正答率は、誤答が1つでもあると100%に届かないため不採用。
+  行の輪と同じ考え方（全字形の習熟度の平均）は、伸びにくいため不採用。
+- 行ごとの「要確認」の文字列は廃止し、弱い行・弱い字形を枠と地色で強調する（conj と同じ規則：3問以上解いたもののうち習熟度の低いものを、3つに1つの割合で最大3つ。並び順は固定）。
+- 未着手（0問）は、行・字形とも破線の空の輪に「未」。
+- 行を開いたときに、その行の字形の輪も描く。
+- 既存の不具合（375〜430px で行を開くと、字形カードが最小幅約96pxのまま列に入りきらず重なり、右端が切れる）も直す。
+- 比較モックは `D:\dev\vintage-kana-record-graph-compare-20261001.html` に退避（リポジトリ外。`vintage-kana/prototypes/` に置けば `../index.html` を iframe で読んで動く）。
+
+### 実装（`vintage-kana/index.html`、表示とアニメーションのみ）
+- 全体の習熟度：`overallMasteryPercent()`。直近の回数は1〜5回なので60を掛けて整数で足し、浮動小数の誤差で100%を割らないようにした。バー（`.recordMastery`）は1本のバーと％だけ。4分の1ごとの目盛りは塗りの下。
+- 弱い項目：`weakRecordItems()`。行は `rowMastery` の％、字形は `computeGlyphMastery` の値で比べ、同値は正答率の低い順。`rowReviewKanas` と `.recordReview` は削除。
+- 未着手：行は行内の字形の解答0件、字形は解答0件で判定。`aria-label` は「未着手」。
+- 登場アニメーション：`playRecordMotion` ほか（conj と同じ時間・曲線）。動くカードは全体のバー・行（10枚）・字のならび（2本、横スクロールの枠ごと）。行の輪と全体のバーは、カードと同じ遅れで描き始める。数字（ポイント・セット数・解答数・正解数・全体の習熟度）は 0 から数える。PC・iPad（768px以上）は開いた時点で70ms刻み、スマホは IntersectionObserver で見えたものだけ75ms刻み。滑走中のカードは記録の枠（`.quizBox`）の内側で切る（`overflow-x:clip`）。
+- 輪は `@property --record-draw`（既定1）を `.ringMeter`／`.glyphMasteryRing` の conic-gradient に掛けた。非対応環境・reduced motion では完成形。
+- 字形カード：`.glyphMasteryCard` に `width:100%` を足し、列幅に収めた（列が96px以上の幅では見た目は変わらない）。
+- 学習記録の保存形式・集計・書き出しと読み込みは変えていない。新しい色は使っていない（`--accent`・`--ring-track`・`--danger`・`--paper2`・`--accent-border`・`--line` と既存の白）。
+
+### 検査
+- `tools/vintage-kana-record-check`（`npm run check:vintage-kana-record`、`--webkit` で WebKit）を追加し、CI と公開許可リストにも載せた。
+  見る点：全体の習熟度（確認用記録で7%、全字形が直近5回正解で100%、最後の1回だけ誤答で99%、記録なしで0%）、
+  320/340/360/375/390/820/1180/1440px で横スクロールなし（滑走中も）、輪の数と％・ラベルが描画前後で一致、
+  未着手（や行・わ行）と弱い行、行を開くと字形の輪を描き、カードが重ならず枠に収まる、字形カードを押すと情報が出る、
+  360×640 で画面外のカードは待機しスクロールで出る、reduced motion で開いた時点から最終状態。
+  修正前のカード幅に戻すと 375px で失敗することを確認した。
+- Chromium・WebKit とも通過。npm test（Node 929/929、Vitest 398/398）、lint、typecheck、build 後の scan:publish（767件・違反0）、check:eol（違反0）、git diff --check。
+- Jev：jev_verify で完了主張9件すべて verified（contradicted 0・unsupported 0）。ファイル探索は決定的検索で足りたため jev_find は使っていない。
+- 実機の iPhone・iPad・Safari は未確認（WebKit ヘッドレスで代替）。

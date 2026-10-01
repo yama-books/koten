@@ -144,18 +144,17 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .recordRowGroup[open] summary{min-height:72px}
 .recordRow__label{font-weight:700;font-size:13px}
 .recordRow__head{display:flex;align-items:center;gap:8px;min-width:0}
-.recordReview{color:var(--danger);font-size:9px;font-weight:700;line-height:1.35}
 .rowGlyphMastery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-top:1px solid var(--line);padding:10px}
-.ringMeter{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),var(--ring-track) 0)}
+.ringMeter{--p:0;--meter-color:var(--accent);--record-draw:1;position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*var(--record-draw)*1%),var(--ring-track) 0)}
 .ringMeter::after{content:"";width:54px;height:54px;border-radius:50%;background:#fff}
 .ringMeter span{position:absolute;z-index:1;font-size:12px;font-variant-numeric:tabular-nums}
 .glyphStrip{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px}
 .recordGlyph{flex:0 0 auto;min-width:76px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:8px;text-align:center;cursor:pointer}
 .recordGlyph__char{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:34px;line-height:1.15}
-.glyphMasteryCard{position:relative;aspect-ratio:1/1.12;min-width:0;min-height:108px;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;border:1px solid var(--line);border-radius:12px;background:#fff;padding:22px 4px 6px;font:inherit;color:var(--ink);cursor:pointer}
+.glyphMasteryCard{position:relative;aspect-ratio:1/1.12;min-width:0;width:100%;min-height:108px;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;border:1px solid var(--line);border-radius:12px;background:#fff;padding:22px 4px 6px;font:inherit;color:var(--ink);cursor:pointer}
 .glyphMasteryReading{position:absolute;top:5px;left:4px;z-index:2;font-family:var(--font-poem);font-size:10px;font-weight:700;line-height:1;color:var(--ink);background:rgba(255,255,255,.94);border-radius:999px;padding:0 1px}
 .glyphMasteryCore{display:flex;flex-direction:column;align-items:center;gap:3px;transform:translateX(4px)}
-.glyphMasteryRing{--p:0;--meter-color:var(--accent);position:relative;display:grid;place-items:center;width:56px;height:56px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*1%),var(--ring-track) 0)}
+.glyphMasteryRing{--p:0;--meter-color:var(--accent);--record-draw:1;position:relative;display:grid;place-items:center;width:56px;height:56px;max-width:100%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(var(--meter-color) calc(var(--p)*var(--record-draw)*1%),var(--ring-track) 0)}
 .glyphMasteryRing::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff}
 .glyphMasteryRing__center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
 .glyphMasteryGlyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:28px;line-height:1}
@@ -256,7 +255,6 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   .recordStats{font-size:13px}
   .recordSection h3{font-size:16px}
   .recordRow__label{font-size:16px}
-  .recordReview{font-size:11px}
   .ringMeter{width:84px;height:84px}
   .ringMeter::after{width:64px;height:64px}
   .ringMeter span{font-size:14px}
@@ -273,6 +271,56 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   /* 行ごとのカードは 5列×2段（あ〜わ行の10行）の正方形で並べる。2列だとカードが横長になり余白が大きすぎた。 */
   .recordRows{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
   .recordRowGroup:not([open]) summary{aspect-ratio:1/1;min-height:0;gap:8px}
+}
+/* 全体の習熟度のバー。1本のバーと％だけで、言葉による評価は付けない。
+   4分の1ごとの目盛りは、まだ満ちていない部分にだけ見せる（塗りの下に敷く）。 */
+.recordMastery{display:grid;gap:7px;min-width:0;margin:0 0 15px;padding:10px 12px 11px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.recordMastery__head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.recordMastery__head>span{color:var(--muted);font-size:11px;font-weight:700}
+.recordMastery__head strong{font-size:24px;line-height:1;font-variant-numeric:tabular-nums}
+.recordMastery__head small{margin-left:1px;font-size:12px;color:var(--muted)}
+.recordMastery__track{position:relative;height:10px;border-radius:999px;overflow:hidden;background:linear-gradient(90deg,transparent calc(25% - .5px),#fff 0 calc(25% + .5px),transparent 0 calc(50% - .5px),#fff 0 calc(50% + .5px),transparent 0 calc(75% - .5px),#fff 0 calc(75% + .5px),transparent 0),var(--ring-track)}
+.recordMastery__fill{display:block;height:100%;width:calc(var(--p,0)*1%);border-radius:inherit;background:var(--accent);transform-origin:left center}
+/* 未着手（0問）は破線の空の輪に「未」。解いたが0%のものと区別する。 */
+.recordRowGroup.isUntouched .ringMeter,.glyphMasteryCard.isUntouched .glyphMasteryRing{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line)}
+.recordRowGroup.isUntouched .ringMeter::after{box-sizing:border-box;border:1.5px dashed var(--accent-border);background:transparent}
+.glyphMasteryCard.isUntouched .glyphMasteryRing::after{border:1.5px dashed var(--accent-border);background:transparent}
+.recordRowGroup.isUntouched .ringMeter span,.glyphMasteryCard.isUntouched .glyphMasteryPercent{color:var(--muted)}
+/* 弱い行・字形（旧「要確認」）は枠と地色で示す。並び順は変えない。 */
+.recordRowGroup.isWeak,.glyphMasteryCard.isWeak{border-color:var(--danger);background:var(--paper2)}
+.recordRowGroup.isWeak .recordRow__label,.glyphMasteryCard.isWeak .glyphMasteryPercent{color:var(--danger)}
+@media(min-width:721px){
+  .recordMastery{margin-bottom:18px;padding:12px 16px 14px}
+  .recordMastery__head>span{font-size:13px}
+  .recordMastery__head strong{font-size:30px}
+  .recordMastery__head small{font-size:14px}
+}
+/* ===== 記録画面の登場アニメーション（conj の記録画面と同じ動き） =====
+   カードは右の遠くから長く滑って定位置で止まる。動かすのは transform と opacity だけ。
+   待機中は opacity だけを 0 にして定位置に置いたままにするので、スマホで IntersectionObserver が見る箱は動かない。
+   滑走中のカードは記録の枠の内側で切り、ページに横スクロールを出さない。 */
+.quizBox:has(#quizRecord:not([hidden])){overflow-x:clip}
+@supports not (overflow:clip){.quizBox:has(#quizRecord:not([hidden])){overflow-x:hidden}}
+.recordGlide{opacity:0}
+.recordGlide.isIn{animation:recordGlide .86s cubic-bezier(.16,.82,.20,1) var(--record-glide-delay,0ms) both}
+@keyframes recordGlide{
+  0%{opacity:.04;transform:translate3d(78vw,0,0) scale(.988)}
+  72%{opacity:1;transform:translate3d(-2px,0,0) scale(1.001)}
+  100%{opacity:1;transform:none}
+}
+/* 輪は --record-draw（0→1）を conic-gradient の終端に掛けて時計回りに伸ばし、バーは左から伸ばす。
+   既定値は 1（完成形）なので、アニメーションしない環境や @property 非対応の環境でも最終の見た目になる。 */
+@property --record-draw{syntax:"<number>";inherits:false;initial-value:1}
+.recordRowGroup.isWaiting .ringMeter{--record-draw:0}
+.recordMastery.isWaiting .recordMastery__fill{transform:scaleX(0)}
+.recordRowGroup.isDrawing .ringMeter{animation:recordDraw .82s cubic-bezier(.22,.72,.18,1) calc(var(--record-glide-delay,0ms) + 80ms) both}
+.recordMastery.isDrawing .recordMastery__fill{animation:recordBarGrow .82s cubic-bezier(.22,.72,.18,1) calc(var(--record-glide-delay,0ms) + 80ms) both}
+.rowGlyphMastery.isDrawing .glyphMasteryRing{animation:recordDraw .82s cubic-bezier(.22,.72,.18,1) calc(40ms + var(--i,0) * 24ms) both}
+@keyframes recordDraw{from{--record-draw:0}to{--record-draw:1}}
+@keyframes recordBarGrow{from{transform:scaleX(0)}to{transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .recordGlide{opacity:1}
+  .recordGlide.isIn,.recordRowGroup.isDrawing .ringMeter,.recordMastery.isDrawing .recordMastery__fill,.rowGlyphMastery.isDrawing .glyphMasteryRing{animation:none}
 }
 @media(max-width:340px){.recordRowGroup:not([open]) summary{min-height:94px;padding:5px 5px}.recordRow__label{font-size:12px}.ringMeter{width:66px;height:66px}.ringMeter::after{width:50px;height:50px}.ringMeter span{font-size:11px}}
 </style>
@@ -410,6 +458,10 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
           <span>5問セット <strong id="recordSets">0</strong>回</span>
           <span>取り組んだ問題 <strong id="recordAttempts">0</strong>問</span>
           <span>正解 <strong id="recordCorrect">0</strong>問</span>
+        </div>
+        <div id="recordMastery" class="recordMastery">
+          <div class="recordMastery__head"><span>全体の習熟度</span><strong><span id="recordMasteryValue">0</span><small>%</small></strong></div>
+          <div class="recordMastery__track" role="meter" aria-label="全体の習熟度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="recordMasteryFill" class="recordMastery__fill"></i></div>
         </div>
 
         <section class="recordSection">
@@ -762,9 +814,38 @@ function rowMastery(label,kanas){
  const percent=Math.round(total/relevant.length);
  return {label,percent,display:masteryDisplayLocal(percent)};
 }
-function rowReviewKanas(kanas,rowPercent){
- if(rowPercent<60)return [];
- return kanas.filter(k=>GLYPHS.some(g=>g.kana===k) && kanaMastery(k)<60);
+// 全体の習熟度＝正答率×取り組み範囲。正答率は字形ごとの直近5回で数え、分母は出題され得る全字形。
+// 未着手の字形は0なので、100%は「全字形を解き、どの字形も直近5回がすべて正解」のときだけになる。
+// 端数は切り捨て（99.6%は99%）。直近の回数は1〜5回なので、60を掛けて整数で足し合わせる。
+const OVERALL_RECENT_ATTEMPTS=5;
+function overallMasteryPercent(){
+ if(!GLYPHS.length)return 0;
+ const known=new Set(GLYPHS.map(g=>g.character));
+ const byGlyph=new Map();
+ learningEvents.forEach(e=>{
+   if(!known.has(e.glyph))return;
+   if(!byGlyph.has(e.glyph))byGlyph.set(e.glyph,[]);
+   byGlyph.get(e.glyph).push(e);
+ });
+ let sum=0;
+ byGlyph.forEach(events=>{
+   const recent=events
+     .slice()
+     .sort((a,b)=>String(a.at||"").localeCompare(String(b.at||"")) || String(a.id||"").localeCompare(String(b.id||"")))
+     .slice(-OVERALL_RECENT_ATTEMPTS);
+   sum+=recent.filter(e=>e.outcome==="correct").length*(60/recent.length);
+ });
+ return Math.floor(sum*100/(60*GLYPHS.length));
+}
+// 弱い行・字形の強調（旧「要確認」）。conj と同じく、3問以上解いたもののうち習熟度の低いものを、
+// 3つに1つの割合で最大3つまで選ぶ。並び順は変えず、最も高いものと同じ値のものは選ばない。
+const RECORD_WEAK_MIN_ATTEMPTS=3;
+function weakRecordItems(items){
+ const measured=items.filter(x=>x.n>=RECORD_WEAK_MIN_ATTEMPTS);
+ const count=measured.length>=2?Math.min(3,Math.max(1,Math.floor(measured.length/3))):0;
+ if(!count)return new Set();
+ const top=Math.max(...measured.map(x=>x.value));
+ return new Set(measured.slice().sort((a,b)=>a.value-b.value || a.correct/a.n-b.correct/b.n).slice(0,count).filter(x=>x.value<top));
 }
 function recentGlyphStats(){
  const stats=new Map(glyphLearningStats().map(s=>[s.character,s]));
@@ -824,19 +905,25 @@ function showGlyphInfo(character,kana,jibo){
  }
  if(dialog?.showModal)dialog.showModal();else dialog?.setAttribute("open","");
 }
-function rowGlyphMasteryHtml(kanas){
- const statsByGlyph=new Map(glyphLearningStats().map(s=>[s.character,s]));
+function rowGlyphMasteryHtml(kanas,statsByGlyph=new Map(glyphLearningStats().map(s=>[s.character,s]))){
  const glyphs=[];
  kanas.forEach(k=>{
    GLYPHS.filter(g=>g.kana===k).sort(compareGlyphBrowseOrder).forEach(g=>glyphs.push(g));
  });
- return glyphs.map(g=>{
+ const items=glyphs.map(g=>{
    const s=statsByGlyph.get(g.character);
-   const mastery=s?.mastery||0;
+   return {g,n:s?.attempts||0,correct:s?.correct||0,value:s?.mastery||0};
+ });
+ const weak=weakRecordItems(items);
+ return items.map((item,i)=>{
+   const {g,n}=item;
+   const mastery=item.value;
    const display=masteryDisplayLocal(mastery);
-   return '<button type="button" class="glyphMasteryCard" data-glyph-info data-character="'+escapeHtml(g.character)+'" data-kana="'+escapeHtml(g.kana)+'" data-jibo="'+escapeHtml(g.jibo||"")+'" data-glyph-id="'+escapeHtml(g.glyph_id||"")+'" aria-label="'+escapeHtml(g.character)+' の読み・字母・注記を見る"><div class="glyphMasteryReading">'+escapeHtml(g.kana)+'</div><div class="glyphMasteryCore"><div class="glyphMasteryRing" style="--p:'+mastery+';--meter-color:'+display.css+'" role="meter" aria-label="変体仮名 '+escapeHtml(g.character)+'、読み '+escapeHtml(g.kana)+'、字母 '+escapeHtml(g.jibo)+'、習熟度 '+mastery+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'">'+
+   const state=n?(weak.has(item)?" isWeak":""):" isUntouched";
+   const label=n?"習熟度 "+mastery+"%":"未着手";
+   return '<button type="button" class="glyphMasteryCard'+state+'" style="--i:'+i+'" data-glyph-info data-character="'+escapeHtml(g.character)+'" data-kana="'+escapeHtml(g.kana)+'" data-jibo="'+escapeHtml(g.jibo||"")+'" data-glyph-id="'+escapeHtml(g.glyph_id||"")+'" aria-label="'+escapeHtml(g.character)+' の読み・字母・注記を見る"><div class="glyphMasteryReading">'+escapeHtml(g.kana)+'</div><div class="glyphMasteryCore"><div class="glyphMasteryRing" style="--p:'+mastery+';--meter-color:'+display.css+'" role="meter" aria-label="変体仮名 '+escapeHtml(g.character)+'、読み '+escapeHtml(g.kana)+'、字母 '+escapeHtml(g.jibo)+'、'+label+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+mastery+'">'+
      '<span class="glyphMasteryRing__center"><span class="glyphMasteryGlyph">'+escapeHtml(g.character)+'</span><span class="glyphMasteryJibo">'+escapeHtml(g.jibo)+'</span></span></div>'+
-     '<div class="glyphMasteryPercent">'+mastery+'%</div></div></button>';
+     '<div class="glyphMasteryPercent">'+(n?mastery+'%':'未')+'</div></div></button>';
  }).join("");
 }
 function renderRecordScreen(){
@@ -846,19 +933,38 @@ function renderRecordScreen(){
  set("recordSets",completedSetCount());
  set("recordAttempts",summary.attempts);
  set("recordCorrect",summary.correct);
+ const overall=overallMasteryPercent();
+ set("recordMasteryValue",overall);
+ const overallFill=document.getElementById("recordMasteryFill");
+ if(overallFill){
+   overallFill.style.setProperty("--p",overall);
+   overallFill.parentElement.setAttribute("aria-valuenow",overall);
+   overallFill.parentElement.setAttribute("aria-label","全体の習熟度 "+overall+"%");
+ }
 
  const rows=document.getElementById("rowMastery");
  if(rows){
    rows.innerHTML="";
-   KANA_ROWS.forEach(([label,kanas])=>{
-     const row=rowMastery(label,kanas);
-     const review=rowReviewKanas(kanas,row.percent);
+   const glyphStats=glyphLearningStats();
+   const statsByGlyph=new Map(glyphStats.map(s=>[s.character,s]));
+   const items=KANA_ROWS.map(([label,kanas])=>{
+     const inRow=glyphStats.filter(s=>kanas.includes(s.kana));
+     return {
+       label,kanas,row:rowMastery(label,kanas),
+       n:inRow.reduce((sum,s)=>sum+s.attempts,0),
+       correct:inRow.reduce((sum,s)=>sum+s.correct,0)
+     };
+   });
+   items.forEach(item=>{item.value=item.row.percent});
+   const weak=weakRecordItems(items);
+   items.forEach(item=>{
+     const {row,kanas,n}=item;
      const d=document.createElement("details");
-     d.className="recordRowGroup";
+     d.className="recordRowGroup"+(n?(weak.has(item)?" isWeak":""):" isUntouched");
      d.innerHTML='<summary><span class="recordRow__head"><span class="recordRow__label">'+escapeHtml(row.label)+'</span>'+
-       (review.length?'<span class="recordReview">要確認　'+escapeHtml(review.join("・"))+'</span>':"")+
-       '</span><span class="ringMeter" style="--p:'+row.percent+';--meter-color:'+row.display.css+'" role="meter" aria-label="'+escapeHtml(row.label)+' 習熟度 '+row.percent+'%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+row.percent+'"><span>'+row.percent+'%</span></span></summary>'+
-       '<div class="rowGlyphMastery">'+rowGlyphMasteryHtml(kanas)+'</div>';
+       '</span><span class="ringMeter" style="--p:'+row.percent+';--meter-color:'+row.display.css+'" role="meter" aria-label="'+escapeHtml(row.label)+' '+(n?'習熟度 '+row.percent+'%':'未着手')+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+row.percent+'"><span>'+(n?row.percent+'%':'未')+'</span></span></summary>'+
+       '<div class="rowGlyphMastery">'+rowGlyphMasteryHtml(kanas,statsByGlyph)+'</div>';
+     d.addEventListener("toggle",()=>{if(d.open)drawRowGlyphRings(d)});
      rows.appendChild(d);
    });
    bindGlyphInfoCards(rows);
@@ -877,6 +983,124 @@ function renderRecordScreen(){
     bindGlyphInfoCards(weak);
  }
 }
+// 記録画面を開いたときの登場アニメーション（conj の記録画面と同じ動き）。
+// 表示内容は renderRecordScreen() が書いた最終値のままで、ここでは見せ方だけを変える。
+// カード（全体のバー・行・字のならび）は右の遠くから滑って止まり、行の輪と全体のバーはそれに合わせて描く。
+let recordMotion=null;
+function prefersReducedMotion(){
+ return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
+}
+function stopRecordMotion(){
+ if(!recordMotion)return;
+ recordMotion.observers.forEach(observer=>observer.disconnect());
+ recordMotion.frames.forEach(frame=>cancelAnimationFrame(frame));
+ recordMotion.counters.forEach(counter=>{
+   if(counter.el.textContent===counter.written)counter.el.textContent=counter.text;
+ });
+ document.querySelectorAll("#quizRecord .recordGlide").forEach(el=>el.classList.add("isIn"));
+ document.querySelectorAll("#quizRecord .isWaiting").forEach(el=>el.classList.remove("isWaiting"));
+ recordMotion=null;
+}
+// 数字は 0 から最終値まで、終盤で緩やかに減速しながら数え上げる。最終フレームは描画済みの文字列そのもの。
+function prepareRecordNumbers(motion){
+ ["recordPoints","recordSets","recordAttempts","recordCorrect","recordMasteryValue"].forEach(id=>{
+   const el=document.getElementById(id);
+   if(!el)return;
+   const text=el.textContent;
+   const match=text.match(/^([\d,]+)$/);
+   if(!match)return;
+   const target=Number(match[1].replace(/,/g,""));
+   const format=value=>match[1].includes(",")?formatPoints(value):String(value);
+   const counter={el,text,target,format,written:format(0)};
+   motion.counters.push(counter);
+   el.textContent=counter.written;
+ });
+}
+function countRecordNumbers(motion){
+ if(motion.counted)return;
+ motion.counted=true;
+ motion.counters.forEach((counter,i)=>{
+   const {el,text,target,format}=counter;
+   const startTime=performance.now()+180+i*28;
+   const tick=now=>{
+     if(recordMotion!==motion || el.textContent!==counter.written)return;
+     const p=Math.max(0,Math.min(1,(now-startTime)/780));
+     counter.written=p<1?format(Math.round(target*(1-Math.pow(1-p,4)))):text;
+     el.textContent=counter.written;
+     if(p<1)motion.frames.push(requestAnimationFrame(tick));
+   };
+   motion.frames.push(requestAnimationFrame(tick));
+ });
+}
+// 上から下へ、同じ高さなら左から右へ並べて、短い時間差を付ける。輪とバーはカードと同じ遅れで描き始める。
+function staggerRecordGlide(targets,step){
+ const rects=new Map(targets.map(el=>[el,el.getBoundingClientRect()]));
+ targets.slice().sort((a,b)=>{
+   const ar=rects.get(a),br=rects.get(b);
+   return Math.abs(ar.top-br.top)>3?ar.top-br.top:ar.left-br.left;
+ }).forEach((el,i)=>{
+   el.style.setProperty("--record-glide-delay",(i*step)+"ms");
+   el.classList.remove("isWaiting");
+   el.classList.add("isIn","isDrawing");
+ });
+}
+// 行を開いたときは、その行の字形の輪を描く。
+function drawRowGlyphRings(row){
+ const grid=row.querySelector(".rowGlyphMastery");
+ if(!grid)return;
+ grid.classList.remove("isDrawing");
+ if(prefersReducedMotion())return;
+ void grid.offsetWidth;
+ grid.classList.add("isDrawing");
+}
+function playRecordMotion(){
+ stopRecordMotion();
+ const screen=document.getElementById("quizRecord");
+ if(!screen || screen.hidden)return;
+ const cards=[...screen.querySelectorAll(".recordMastery,.recordRowGroup,.glyphStrip")];
+ cards.forEach(card=>{
+   card.classList.remove("isIn","isDrawing","isWaiting");
+   card.style.removeProperty("--record-glide-delay");
+   card.classList.add("recordGlide");
+ });
+ const motion={observers:[],frames:[],counters:[],counted:false};
+ recordMotion=motion;
+ if(prefersReducedMotion() || !("IntersectionObserver" in window)){
+   cards.forEach(card=>card.classList.add("isIn"));
+   return;
+ }
+ // 描き始めるまでは、輪とバーを空、数字を 0 にしておく。
+ cards.forEach(card=>card.classList.add("isWaiting"));
+ prepareRecordNumbers(motion);
+ if(window.matchMedia("(min-width: 768px)").matches){
+   // PC・iPad: 待機状態を1フレーム確実に描いてから、全カードを上から順に流し込む。
+   void screen.offsetWidth;
+   motion.frames.push(requestAnimationFrame(()=>{
+     motion.frames.push(requestAnimationFrame(()=>{
+       if(recordMotion!==motion)return;
+       staggerRecordGlide(cards,70);
+       countRecordNumbers(motion);
+     }));
+   }));
+   return;
+ }
+ // スマホ: 画面に入ったカードだけを一度だけ流し込む。待機中のカードは opacity だけを 0 にして
+ // 定位置に置いてあるので、監視している箱は動かず、そのまま固定の枠として判定できる。
+ const options={threshold:.05,rootMargin:"0px 0px -3% 0px"};
+ const cardObserver=new IntersectionObserver((entries,observer)=>{
+   const visible=entries.filter(entry=>entry.isIntersecting).map(entry=>entry.target);
+   visible.forEach(card=>observer.unobserve(card));
+   staggerRecordGlide(visible,75);
+ },options);
+ cards.forEach(card=>cardObserver.observe(card));
+ const numberObserver=new IntersectionObserver((entries,observer)=>{
+   if(!entries.some(entry=>entry.isIntersecting))return;
+   observer.disconnect();
+   countRecordNumbers(motion);
+ },options);
+ numberObserver.observe(screen.querySelector(".recordSummary"));
+ motion.observers.push(cardObserver,numberObserver);
+}
 function showQuizScreen(screen){
  const practice=document.getElementById("quizPractice");
  const result=document.getElementById("quizResult");
@@ -889,7 +1113,9 @@ function showQuizScreen(screen){
    const back=document.getElementById("backToPractice");
    if(back)back.textContent=recordReturnScreen==="result"?"結果に戻る":"練習に戻る";
    renderRecordScreen();
+   playRecordMotion();
  }else{
+   stopRecordMotion();
    record.hidden=true;
    if(quizSet.answered>=QUIZ_SET_SIZE){practice.hidden=true;result.hidden=false;renderQuizResult();}
    else{result.hidden=true;practice.hidden=false;}
