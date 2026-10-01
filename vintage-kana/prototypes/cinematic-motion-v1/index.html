@@ -940,13 +940,15 @@ async function play(){
 
   const peekLeaderIndex=n>0?randomIndex(n):-1;
   const peekSide=Math.random()<.5?-1:1;
+  const stampGagIndex=n>0?randomIndex(n):-1;
+  const stampSwapA=n>1?randomIndex(n-1):-1;
 
   const motionPlan={
     forcedPreset:forcedPreset||"random",
     frontMode,flashExitMode,ensembleMode,exitMode,scaleMode,stampStyle,stampGag,
     rogueIndex,rogueType,stickyIndex,lateChaserIndex,
     slapIndices:[...slapIndices],slapDropIndex,diagonalSign,
-    peekLeaderIndex,peekSide
+    peekLeaderIndex,peekSide,stampGagIndex,stampSwapA
   };
   stage.dataset.motionPlan=JSON.stringify(motionPlan);
   debugPlan.textContent=
@@ -1143,9 +1145,9 @@ async function play(){
       ?omega2Start*spinSec+.5*spinAccel*spinSec*spinSec
       :0;
 
-    const preWhiteBlend=verticalFront?whiteBlend*.20:whiteBlend;
-    if(verticalFront){
-      setWhiteLevel(clamp(.025*globalCapture+whiteBlend*.16));
+    const preWhiteBlend=nonTornadoFront?whiteBlend*.28:whiteBlend;
+    if(nonTornadoFront){
+      setWhiteLevel(clamp(.025*globalCapture+whiteBlend*.22));
     }else{
       setWhiteLevel(clamp(.08*globalCapture+whiteBlend*.70));
     }
@@ -1775,7 +1777,9 @@ async function play(){
       const hiddenTeleport=flashExitMode==="rain"||flashExitMode==="peek";
       const mix=hiddenTeleport?easeOut(clamp((visibleTime-40)/150)):burst;
       const depth=.5+.5*Math.sin(seeds[i].phase+visibleTime*.0009);
-      const targetScale=(.55+depth*.15)*densityScale;
+      const targetScale=flashExitMode==="peek"
+        ?pose.scale
+        :(.55+depth*.15)*densityScale;
 
       setT(
         el,
@@ -1814,7 +1818,9 @@ async function play(){
     g.forEach((el,i)=>{
       const pose=postFlashPose(i,postTime);
       const depth=.5+.5*Math.sin(seeds[i].phase+postTime*.0009);
-      const scale=(.55+depth*.15)*densityScale*livingScale(i,postTime/1000,.92);
+      const scale=flashExitMode==="peek"
+        ?pose.scale
+        :(.55+depth*.15)*densityScale*livingScale(i,postTime/1000,.92);
       setT(el,pose.x,pose.y,scale,pose.rot,pose.rx,pose.ry,pose.z);
       el.style.opacity=String(clamp(pose.opacity));
       el.style.filter="none";
@@ -2180,8 +2186,8 @@ async function play(){
 
   const stampCount=stamps.length;
   const effectiveStampGag=(stampGag==="swap"&&stampCount<2)?"offset":stampGag;
-  const gagIndex=stampCount?randomIndex(stampCount):-1;
-  const swapA=effectiveStampGag==="swap"?Math.max(0,Math.min(stampCount-2,gagIndex)): -1;
+  const gagIndex=stampCount?Math.min(stampCount-1,Math.max(0,stampGagIndex)):-1;
+  const swapA=effectiveStampGag==="swap"?Math.max(0,Math.min(stampCount-2,stampSwapA)): -1;
   const swapB=swapA>=0?swapA+1:-1;
 
   if(swapA>=0){
@@ -2278,7 +2284,7 @@ async function play(){
   }
 
   // Let the last physical hit finish before the character notices its mistake.
-  await sleep(stampStyle==="heavy"?430:600);
+  await sleep(650);
   if(token!==playToken)return;
 
   if(effectiveStampGag==="late"&&gagIndex>=0){
