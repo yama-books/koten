@@ -338,7 +338,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 28: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 29: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -408,7 +408,7 @@
 <div class="app" id="app">
   <header>
     <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 28</div>
+    <div class="mode">MOTION STUDY 29</div>
   </header>
   <main>
     <section class="panel">
@@ -430,7 +430,7 @@
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
         <span class="optLabel">改行可 / 80文字まで / Ctrl・⌘+Enterで変換</span>
       </div>
-      <div class="hint">※ 演出検証用。縦ぴょこは白化を遅らせ、十分に加速して「ドドドドド」と最高潮になってから閃光へ突入します。表示領域に応じて軌道も自動調整します。</div>
+      <div class="hint">※ 演出検証用。縦ぴょこは十分に加速してから閃光へ。放射線系を含む全分岐で、白化後も演出が継続することを確認する版です。</div>
       <div class="debug-tools" aria-label="演出デバッグ">
         <span class="debug-label">DEBUG</span>
         <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
@@ -750,6 +750,7 @@ async function play(){
   running=true;
   btn.disabled=true;
   const token=++playToken;
+  try{
   const mode=getConversionMode();
   const src=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
   const motionSrc=src.replace(/\n/g,"");
@@ -1637,7 +1638,8 @@ async function play(){
       const launch=1-Math.exp(-tt*(extreme?8.4:5.5));
       x=Math.cos(s.angle)*(extreme?stageUsage.radialExtremeX:stageUsage.radialX)*launch;
       y=-8+Math.sin(s.angle)*(extreme?stageUsage.radialExtremeY:stageUsage.radialY)*launch+8*tt;
-      z=Math.sin(s.angle*1.3+s.phase)*shot*.33;
+      const radialZ=(extreme?Math.min(150,stageUsage.x*.27):Math.min(120,stageUsage.x*.22))*launch;
+      z=Math.sin(s.angle*1.3+s.phase)*radialZ;
     }
     return {x,y,z,pulse};
   };
@@ -2131,6 +2133,22 @@ async function play(){
   input.style.color="";
   input.style.caretColor="";
   clearStage(false);
+  }catch(err){
+    console.error("[hentaigana-motion] playback error",err);
+    // Never strand the user behind an opaque white stage.
+    const fallbackMode=getConversionMode();
+    const fallbackSrc=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
+    const fallbackOut=transformText(fallbackSrc,fallbackMode);
+    playToken++;
+    resetVisuals();
+    input.value=fallbackOut;
+    input.style.fontFamily=targetFontFor(fallbackMode);
+    input.style.color="";
+    input.style.caretColor="";
+    stage.classList.remove("active");
+    running=false;
+    btn.disabled=false;
+  }
 }
 btn.addEventListener("click",()=>{nextPreset=null;play()});
 debugButtons.forEach(debugButton=>{
