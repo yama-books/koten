@@ -2162,7 +2162,7 @@ async function play(){
   sparkleSeeds.forEach(s=>s.el.remove());
   g.forEach(el=>el.remove());
 
-  // 10) 重量級刻印。突進後は白背景で一拍置き、それから「ダン、ダン、ダン！」へ。
+  // 10) 最終刻印。かわいい反発 / 重厚な一撃に、低確率で「失敗→気づき→修正」の寸劇を重ねる。
   whiteRoom.style.opacity="1";
   whiteRoom.style.transform="none";
   whiteRoom.style.background="#fff";
@@ -2171,6 +2171,7 @@ async function play(){
   flash.style.opacity="0";
   await sleep(420);
   if(token!==playToken)return;
+
   const stamps=populateStampBoard(out,false);
   board.style.opacity=1;
   label.style.opacity=0;
@@ -2178,45 +2179,96 @@ async function play(){
   if(token!==playToken)return;
 
   const stampCount=stamps.length;
+  const effectiveStampGag=(stampGag==="swap"&&stampCount<2)?"offset":stampGag;
+  const gagIndex=stampCount?randomIndex(stampCount):-1;
+  const swapA=effectiveStampGag==="swap"?Math.max(0,Math.min(stampCount-2,gagIndex)): -1;
+  const swapB=swapA>=0?swapA+1:-1;
+
+  if(swapA>=0){
+    const a=stamps[swapA],b=stamps[swapB];
+    const ar=a.style.gridRow,ac=a.style.gridColumn;
+    a.style.gridRow=b.style.gridRow;
+    a.style.gridColumn=b.style.gridColumn;
+    b.style.gridRow=ar;
+    b.style.gridColumn=ac;
+  }
+
+  const stampOrder=[...Array(stampCount).keys()];
+  if(effectiveStampGag==="late"&&gagIndex>=0){
+    stampOrder.splice(stampOrder.indexOf(gagIndex),1);
+    stampOrder.push(gagIndex);
+  }
+
   const shakeStrength=stampCount<=3?1:(stampCount<=8?.72:(stampCount<=14?.46:.25));
-  const stampBeat=stampCount<=3?520:(stampCount<=8?450:(stampCount<=14?340:250));
-  for(let i=0;i<stamps.length;i++){
+  const baseStampBeat=stampCount<=3?520:(stampCount<=8?450:(stampCount<=14?340:250));
+  const stampBeat=Math.max(210,stampStyle==="heavy"?baseStampBeat*.88:baseStampBeat);
+
+  const normalizeStamp=(stamp,transform="none")=>{
+    stamp.getAnimations().forEach(a=>a.cancel());
+    stamp.classList.remove("hit","hit-heavy","stamp-gag-flip","stamp-gag-offset","stamp-gag-overshoot");
+    stamp.style.opacity="1";
+    stamp.style.filter="none";
+    stamp.style.textShadow="0 1px 0 rgba(255,255,255,.7)";
+    stamp.style.transform=transform;
+  };
+
+  for(let orderIndex=0;orderIndex<stampOrder.length;orderIndex++){
     if(token!==playToken)return;
+    const i=stampOrder[orderIndex];
     const stamp=stamps[i];
+
+    if(effectiveStampGag==="late"&&i===gagIndex){
+      // Everyone is already in place. A beat of empty silence makes the late arrival readable.
+      await sleep(620);
+      if(token!==playToken)return;
+    }
+
     const wave=document.createElement("div");
     wave.className="impactWave";
 
-    // offsetLeft/offsetTop are the untransformed final layout box.
-    // getBoundingClientRect() was wrong here because .stamp starts translated/scaled.
     const cx=stamp.offsetLeft+stamp.offsetWidth/2;
     const cy=stamp.offsetTop+stamp.offsetHeight/2;
     wave.style.left=`${cx}px`;
     wave.style.top=`${cy}px`;
 
-    const waveSize=Math.max(104,Math.min(154,stamp.offsetHeight*1.55));
+    const heavyFactor=stampStyle==="heavy"?1.13:1;
+    const waveSize=Math.max(104,Math.min(174,stamp.offsetHeight*1.55*heavyFactor));
     wave.style.width=`${waveSize}px`;
     wave.style.height=`${waveSize}px`;
     wave.style.marginLeft=`${-waveSize/2}px`;
     wave.style.marginTop=`${-waveSize/2}px`;
-
     board.appendChild(wave);
     setTimeout(()=>wave.remove(),820);
 
-    stamp.classList.add("hit");
+    if(i===gagIndex){
+      if(effectiveStampGag==="flip")stamp.classList.add("stamp-gag-flip");
+      if(effectiveStampGag==="offset")stamp.classList.add("stamp-gag-offset");
+      if(effectiveStampGag==="overshoot")stamp.classList.add("stamp-gag-overshoot");
+    }
+    stamp.classList.add(stampStyle==="heavy"?"hit-heavy":"hit");
 
     const sx=shakeStrength;
-    stage.animate([
-      {transform:"translate3d(0,0,0) scale(1)"},
-      {offset:.12,transform:`translate3d(0,${(20*sx).toFixed(2)}px,0) scale(${(1-.020*sx).toFixed(4)})`},
-      {offset:.30,transform:`translate3d(${(-3*sx).toFixed(2)}px,${(-8*sx).toFixed(2)}px,0) scale(${(1+.012*sx).toFixed(4)})`},
-      {offset:.52,transform:`translate3d(${(2*sx).toFixed(2)}px,${(4*sx).toFixed(2)}px,0) scale(${(1-.007*sx).toFixed(4)})`},
-      {offset:.74,transform:`translate3d(${(-1*sx).toFixed(2)}px,${(-2*sx).toFixed(2)}px,0) scale(${(1+.003*sx).toFixed(4)})`},
-      {transform:"translate3d(0,0,0) scale(1)"}
-    ],{duration:500,easing:"cubic-bezier(.06,.70,.08,1)"});
+    if(stampStyle==="heavy"){
+      stage.animate([
+        {transform:"translate3d(0,0,0) scale(1)"},
+        {offset:.16,transform:`translate3d(0,${(17*sx).toFixed(2)}px,0) scale(${(1-.016*sx).toFixed(4)})`},
+        {offset:.42,transform:`translate3d(0,${(-4*sx).toFixed(2)}px,0) scale(${(1+.005*sx).toFixed(4)})`},
+        {transform:"translate3d(0,0,0) scale(1)"}
+      ],{duration:360,easing:"cubic-bezier(.05,.72,.08,1)"});
+    }else{
+      stage.animate([
+        {transform:"translate3d(0,0,0) scale(1)"},
+        {offset:.12,transform:`translate3d(0,${(20*sx).toFixed(2)}px,0) scale(${(1-.020*sx).toFixed(4)})`},
+        {offset:.30,transform:`translate3d(${(-3*sx).toFixed(2)}px,${(-8*sx).toFixed(2)}px,0) scale(${(1+.012*sx).toFixed(4)})`},
+        {offset:.52,transform:`translate3d(${(2*sx).toFixed(2)}px,${(4*sx).toFixed(2)}px,0) scale(${(1-.007*sx).toFixed(4)})`},
+        {offset:.74,transform:`translate3d(${(-1*sx).toFixed(2)}px,${(-2*sx).toFixed(2)}px,0) scale(${(1+.003*sx).toFixed(4)})`},
+        {transform:"translate3d(0,0,0) scale(1)"}
+      ],{duration:500,easing:"cubic-bezier(.06,.70,.08,1)"});
+    }
 
     flash.animate(
-      [{opacity:0},{opacity:.42,offset:.10},{opacity:.14,offset:.34},{opacity:0}],
-      {duration:460,fill:"forwards",easing:"ease-out"}
+      [{opacity:0},{opacity:stampStyle==="heavy"?.34:.42,offset:.10},{opacity:.12,offset:.34},{opacity:0}],
+      {duration:stampStyle==="heavy"?390:460,fill:"forwards",easing:"ease-out"}
     );
 
     if(navigator.vibrate){
@@ -2224,6 +2276,103 @@ async function play(){
     }
     await sleep(stampBeat);
   }
+
+  // Let the last physical hit finish before the character notices its mistake.
+  await sleep(stampStyle==="heavy"?430:600);
+  if(token!==playToken)return;
+
+  if(effectiveStampGag==="late"&&gagIndex>=0){
+    const s=stamps[gagIndex];
+    normalizeStamp(s);
+    const a=s.animate([
+      {transform:"translate3d(0,0,0) rotate(0deg)"},
+      {offset:.22,transform:"translate3d(-5px,0,0) rotate(-5deg)"},
+      {offset:.44,transform:"translate3d(5px,0,0) rotate(5deg)"},
+      {offset:.64,transform:"translate3d(-2px,0,0) rotate(-2deg)"},
+      {transform:"translate3d(0,0,0) rotate(0deg)"}
+    ],{duration:420,easing:"ease-out"});
+    await a.finished.catch(()=>{});
+    normalizeStamp(s);
+  }else if(effectiveStampGag==="flip"&&gagIndex>=0){
+    const s=stamps[gagIndex];
+    normalizeStamp(s,"rotate(180deg)");
+    await sleep(210);
+    const a=s.animate([
+      {transform:"rotate(180deg) translateX(0)"},
+      {offset:.18,transform:"rotate(162deg) translateX(-5px)"},
+      {offset:.36,transform:"rotate(202deg) translateX(5px)"},
+      {offset:.58,transform:"rotate(172deg) translateX(-2px)"},
+      {transform:"rotate(0deg) translateX(0)"}
+    ],{duration:690,easing:"cubic-bezier(.20,.74,.18,1)"});
+    await a.finished.catch(()=>{});
+    normalizeStamp(s);
+  }else if(effectiveStampGag==="offset"&&gagIndex>=0){
+    const s=stamps[gagIndex];
+    normalizeStamp(s,"translate(24px,-9px)");
+    await sleep(240);
+    const a=s.animate([
+      {transform:"translate(24px,-9px)"},
+      {offset:.20,transform:"translate(30px,-9px) rotate(3deg)"},
+      {offset:.38,transform:"translate(19px,-9px) rotate(-3deg)"},
+      {offset:.58,transform:"translate(25px,-9px) rotate(1deg)"},
+      {transform:"translate(0,0) rotate(0deg)"}
+    ],{duration:610,easing:"cubic-bezier(.20,.76,.18,1)"});
+    await a.finished.catch(()=>{});
+    normalizeStamp(s);
+  }else if(effectiveStampGag==="overshoot"&&gagIndex>=0){
+    const s=stamps[gagIndex];
+    normalizeStamp(s,"translateX(42px)");
+    await sleep(190);
+    const a=s.animate([
+      {transform:"translateX(42px)"},
+      {offset:.22,transform:"translateX(54px) rotate(3deg)"},
+      {offset:.56,transform:"translateX(-10px) rotate(-2deg)"},
+      {offset:.78,transform:"translateX(4px) rotate(1deg)"},
+      {transform:"translateX(0) rotate(0deg)"}
+    ],{duration:650,easing:"cubic-bezier(.18,.72,.18,1)"});
+    await a.finished.catch(()=>{});
+    normalizeStamp(s);
+  }else if(effectiveStampGag==="swap"&&swapA>=0){
+    const a=stamps[swapA],b=stamps[swapB];
+    normalizeStamp(a);
+    normalizeStamp(b);
+    await sleep(250);
+
+    const beforeA=a.getBoundingClientRect();
+    const beforeB=b.getBoundingClientRect();
+
+    a.style.gridRow=a.dataset.homeRow;
+    a.style.gridColumn=a.dataset.homeColumn;
+    b.style.gridRow=b.dataset.homeRow;
+    b.style.gridColumn=b.dataset.homeColumn;
+
+    const afterA=a.getBoundingClientRect();
+    const afterB=b.getBoundingClientRect();
+    const dax=beforeA.left-afterA.left, day=beforeA.top-afterA.top;
+    const dbx=beforeB.left-afterB.left, dby=beforeB.top-afterB.top;
+
+    const aa=a.animate([
+      {transform:`translate(${dax}px,${day}px) rotate(-3deg)`},
+      {offset:.18,transform:`translate(${dax}px,${day}px) rotate(4deg)`},
+      {transform:"translate(0,0) rotate(0deg)"}
+    ],{duration:720,easing:"cubic-bezier(.16,.78,.18,1)"});
+    const bb=b.animate([
+      {transform:`translate(${dbx}px,${dby}px) rotate(3deg)`},
+      {offset:.18,transform:`translate(${dbx}px,${dby}px) rotate(-4deg)`},
+      {transform:"translate(0,0) rotate(0deg)"}
+    ],{duration:720,easing:"cubic-bezier(.16,.78,.18,1)"});
+    await Promise.all([aa.finished.catch(()=>{}),bb.finished.catch(()=>{})]);
+    normalizeStamp(a);
+    normalizeStamp(b);
+  }
+
+  // Every gag must resolve to the correct final layout.
+  stamps.forEach(s=>{
+    if(effectiveStampGag!=="swap"){
+      s.style.gridRow=s.dataset.homeRow;
+      s.style.gridColumn=s.dataset.homeColumn;
+    }
+  });
 
   label.animate(
     [{opacity:0,transform:"translate(-50%,8px)"},{opacity:1,transform:"translate(-50%,0)"}],
