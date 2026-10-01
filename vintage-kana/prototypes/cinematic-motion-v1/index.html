@@ -321,7 +321,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 21: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 22: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -407,7 +407,7 @@
         <label><input type="radio" name="stampDirection" value="horizontal" checked> 横</label>
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
       </div>
-      <div class="hint">※ 演出検証用。平面剥離→全方位ゆらゆら浮遊→超高速竜巻→中心へギュッと圧縮→閃光の中で花火状に破裂→ひらひら自由落下。全区間を滑らかにつなぎます。</div>
+      <div class="hint">※ 演出検証用。平面剥離→全方位浮遊→超高速竜巻→一点の光核まで大収縮→閃光の中で大きく爆発散開→ひらひら自由落下。収縮と拡散を明確に見せます。</div>
     </section>
   </main>
   <footer>prototype / cinematic conversion motion</footer>
@@ -840,7 +840,7 @@ async function play(){
   // 5) 超高速竜巻の勢いを保ったまま中心へギュッと圧縮し、その圧縮エネルギーを閃光として見せる。
   const omega5Start=omega4End;
   const omega5End=Math.PI*2*34.0;
-  const phase5Duration=1320;
+  const phase5Duration=1540;
 
   const sparkleCount=Math.min(38,Math.max(20,n*3));
   const sparkleSeeds=Array.from({length:sparkleCount},(_,i)=>({
@@ -866,20 +866,23 @@ async function play(){
     spin=prog.spin;
 
     // The flash and the squeeze are the same event: light is born from the compression.
-    const squeeze=easeInOut(clamp((p-.10)/.58));
-    const flashRise=easeOut(clamp((p-.16)/.34));
-    const flashHold=1-.04*easeInOut(clamp((p-.84)/.16));
+    const squeeze=easeInOut(clamp((p-.12)/.62));
+    const coreHold=easeInOut(clamp((p-.72)/.18));
+    const flashRise=easeOut(clamp((p-.20)/.28));
+    const flashHold=1-.02*easeInOut(clamp((p-.92)/.08));
     const peak=flashRise*flashHold;
 
-    const radius=lerp(24,3.5,squeeze);
-    const ellipse=lerp(10,1.8,squeeze);
-    const vertical=lerp(196,8,squeeze);
-    const axisAmp=lerp(16,1.5,squeeze);
-    const baseY5=lerp(-86,-16,squeeze);
+    // Collapse the whole vortex to an unmistakably tiny luminous nucleus.
+    const radius=lerp(24,.65,squeeze);
+    const ellipse=lerp(10,.34,squeeze);
+    const vertical=lerp(196,1.2,squeeze);
+    const axisAmp=lerp(16,.22,squeeze);
+    const baseY5=lerp(-86,-8,squeeze);
 
-    flash.style.opacity=String(peak*.98);
-    portalGlow.style.opacity=String(.90+peak*.10);
-    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.82,.92,peak)})`;
+    flash.style.opacity=String(peak*.99);
+    portalGlow.style.opacity=String(.86+peak*.14);
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.02,.12,squeeze)})`;
+    whiteRoom.style.transform=`scale(${lerp(1.10,1.22,squeeze)})`;
 
     g.forEach((el,i)=>{
       const angle=baseAngles[i]+spin;
@@ -892,11 +895,11 @@ async function play(){
       const y=baseY5+axisY+Math.sin(angle)*ellipse+layer*vertical;
 
       const zStart=(depth-.5)*54+Math.sin(layer*2.2+spin*.16)*8;
-      const zEnd=(depth-.5)*12;
+      const zEnd=(depth-.5)*2.4;
       const z=lerp(zStart,zEnd,squeeze);
 
       const scaleStart=(.58+depth*.42)*densityScale;
-      const scaleEnd=(.46+depth*.16)*densityScale;
+      const scaleEnd=(.18+depth*.05)*densityScale;
       const scale=lerp(scaleStart,scaleEnd,squeeze);
 
       const rotStart=(spin*180/Math.PI)*(i%2?-.24:.24)+Math.sin(angle)*9;
@@ -906,8 +909,8 @@ async function play(){
       const ry=lerp(11+Math.sin(angle-layer*.3)*20,12+Math.sin(angle-layer*.25)*18,e);
 
       setT(el,x,y,scale,rot,rx,ry,z);
-      el.style.opacity=String(.72+depth*.28);
-      el.style.filter=`brightness(${1+peak*2.7}) blur(${peak*1.8}px)`;
+      el.style.opacity=String(lerp(.72+depth*.28,.96,coreHold));
+      el.style.filter=`brightness(${1+peak*4.2+coreHold*2.1}) blur(${peak*1.6+coreHold*1.8}px)`;
 
       if(p>.43&&!el.dataset.converted){
         el.textContent=[...out][i]||el.textContent;
@@ -920,10 +923,10 @@ async function play(){
     sparkleSeeds.forEach((s,i)=>{
       const tt=elapsed/1000;
       const ang=s.angle+tt*s.speed;
-      const r=lerp(6,18,sparkBirth);
+      const r=lerp(5,7,sparkBirth)*(1-squeeze*.72);
       const x=Math.cos(ang)*r;
-      const y=lerp(-18,s.y*.18,sparkBirth)+Math.sin(tt*1.6+s.phase)*3*sparkBirth;
-      const z=lerp(12,s.z*.24,sparkBirth);
+      const y=lerp(-10,-7,squeeze)+Math.sin(tt*1.6+s.phase)*2*(1-squeeze);
+      const z=lerp(8,s.z*.08,sparkBirth)*(1-squeeze*.70);
       const pulse=.45+.55*Math.sin(tt*5.2*s.pulse+s.phase)**2;
       setT(s.el,x,y,s.size*(.45+.55*sparkBirth)*pulse,0,0,0,z);
       s.el.style.opacity=String(sparkBirth*(.45+.55*pulse));
@@ -936,11 +939,12 @@ async function play(){
 
   // 6) 閃光が明ける瞬間そのものを「誕生の破裂光」にする。
   //    強い白光の中で花火のようにぱっと散り、その勢いを失いながら、ひらひら自由落下へ連続移行。
-  const phase6Duration=2200;
-  const hiddenPoseMs=110;
-  const birthBurstMs=175;
-  const flashOpenDelayMs=105;
-  const flashOpenMs=500;
+  const phase6Duration=2350;
+  const hiddenPoseMs=95;
+  const birthBurstMs=185;
+  const burstSettleMs=720;
+  const flashOpenDelayMs=165;
+  const flashOpenMs=620;
 
   const petalState=(i,timeMs)=>{
     const s=seeds[i];
@@ -988,14 +992,17 @@ async function play(){
   await frameTween(phase6Duration,(p,elapsed)=>{
     const visibleTime=Math.max(0,elapsed-hiddenPoseMs);
     const burst=easeOut(clamp(visibleTime/birthBurstMs));
-    // The burst happens while the screen is still dazzlingly white.
+    const settle=easeInOut(clamp((visibleTime-birthBurstMs)/burstSettleMs));
+    // Keep the first expansion hidden inside the glare, then reveal the overshoot as the light opens.
     const flashOpen=easeInOut(clamp((visibleTime-flashOpenDelayMs)/flashOpenMs));
-    const soften=easeInOut(clamp((visibleTime-60)/1750));
+    const soften=easeInOut(clamp((visibleTime-120)/1850));
 
-    flash.style.opacity=String(elapsed<hiddenPoseMs ? .99 : lerp(.99,0,flashOpen));
+    const blastGlow=1-easeInOut(clamp((visibleTime-80)/520));
+    flash.style.opacity=String(elapsed<hiddenPoseMs ? .995 : Math.max((1-flashOpen)*.995,blastGlow*.72));
     whiteRoom.style.opacity=String(lerp(1,.85,soften));
-    portalGlow.style.opacity=String(lerp(.98,.16,soften));
-    rushLines.style.opacity=String(lerp(.92,.10,soften));
+    portalGlow.style.opacity=String(lerp(1,.16,soften));
+    portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.12,1.48,easeOut(clamp(visibleTime/260)))})`;
+    rushLines.style.opacity=String(lerp(.98,.10,soften));
 
     g.forEach((el,i)=>{
       const s=seeds[i];
@@ -1004,24 +1011,34 @@ async function play(){
       // Exact phase-5 endpoint, hidden inside the birth flash.
       const endAngle=baseAngles[i]+spinFlashEnd;
       const endDepth=(Math.sin(endAngle)+1)/2;
-      const endAxisX=Math.sin(layer*1.8+spinFlashEnd*.22)*1.5;
-      const endAxisY=Math.cos(layer*1.25+spinFlashEnd*.18)*1.5*.14;
-      const startX=endAxisX+Math.cos(endAngle)*3.5;
-      const startY=-16+endAxisY+Math.sin(endAngle)*1.8+layer*8;
-      const startZ=(endDepth-.5)*12;
-      const startScale=(.46+endDepth*.16)*densityScale;
+      const endAxisX=Math.sin(layer*1.8+spinFlashEnd*.22)*.22;
+      const endAxisY=Math.cos(layer*1.25+spinFlashEnd*.18)*.22*.14;
+      const startX=endAxisX+Math.cos(endAngle)*.65;
+      const startY=-8+endAxisY+Math.sin(endAngle)*.34+layer*1.2;
+      const startZ=(endDepth-.5)*2.4;
+      const startScale=(.18+endDepth*.05)*densityScale;
 
       const petal=petalState(i,visibleTime);
 
-      // Firework birth: reach the already-moving petal trajectory very quickly,
-      // so the visible motion is "burst -> flutter/fall", not "orbit -> burst".
-      const x=lerp(startX,petal.x,burst);
-      const y=lerp(startY,petal.y,burst);
-      const z=lerp(startZ,petal.z,burst);
+      // Unmistakable firework overshoot: tiny nucleus -> very wide radial explosion -> petal drift.
+      const birthAngle=baseAngles[i]+s.phase*.21+(i%2?-.10:.10);
+      const blastR=Math.min(236,Math.max(150,innerWidth*.34))+(i%4)*12+Math.abs(layer)*24;
+      const blastX=Math.cos(birthAngle)*blastR;
+      const blastY=-16+Math.sin(birthAngle)*blastR*.56+layer*28;
+      const blastZ=Math.sin(birthAngle*1.7+s.phase)*Math.min(110,blastR*.48);
+
+      const burstX=lerp(startX,blastX,burst);
+      const burstY=lerp(startY,blastY,burst);
+      const burstZ=lerp(startZ,blastZ,burst);
+
+      const x=lerp(burstX,petal.x,settle);
+      const y=lerp(burstY,petal.y,settle);
+      const z=lerp(burstZ,petal.z,settle);
 
       const targetDepth=.5+.5*Math.sin(s.phase+visibleTime*.0009);
       const targetScale=(.55+targetDepth*.15)*densityScale;
-      const scale=lerp(startScale,targetScale,soften);
+      const blastScale=lerp(startScale,targetScale*1.18,burst);
+      const scale=lerp(blastScale,targetScale,settle);
 
       setT(
         el,x,y,scale,
@@ -1034,23 +1051,32 @@ async function play(){
       el.style.filter="none";
     });
 
-    sparkleSeeds.forEach(s=>{
+    sparkleSeeds.forEach((s,i)=>{
       const petal=sparkPetalState(s,visibleTime);
-      const startR=7;
+      const startR=3.5;
       const startX=Math.cos(s.angle)*startR;
-      const startY=-10+Math.sin(s.angle)*startR*.35;
-      const startZ=8;
+      const startY=-8+Math.sin(s.angle)*startR*.25;
+      const startZ=2;
+
+      const sparkBlastR=Math.min(280,Math.max(176,innerWidth*.40))+(i%6)*9;
+      const blastX=Math.cos(s.angle)*sparkBlastR;
+      const blastY=-10+Math.sin(s.angle)*sparkBlastR*.62;
+      const blastZ=Math.sin(s.angle*1.55+s.phase)*Math.min(132,sparkBlastR*.52);
+
+      const bx=lerp(startX,blastX,burst);
+      const by=lerp(startY,blastY,burst);
+      const bz=lerp(startZ,blastZ,burst);
 
       setT(
         s.el,
-        lerp(startX,petal.x,burst),
-        lerp(startY,petal.y,burst),
-        s.size*(.72+.58*petal.pulse),
+        lerp(bx,petal.x,settle),
+        lerp(by,petal.y,settle),
+        s.size*(.84+.72*petal.pulse)*(1-.18*settle),
         0,0,0,
-        lerp(startZ,petal.z,burst)
+        lerp(bz,petal.z,settle)
       );
-      s.el.style.opacity=String(burst*(.48+.48*petal.pulse));
-      s.el.style.filter=`blur(${(1-petal.pulse)*.7}px)`;
+      s.el.style.opacity=String(burst*(.56+.44*petal.pulse));
+      s.el.style.filter=`blur(${(1-petal.pulse)*.6}px)`;
     });
   },token);
   if(token!==playToken)return;
