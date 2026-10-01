@@ -962,6 +962,9 @@ async function play(){
   let postOrder=[...Array(n).keys()];
   if(postOrderStyle==="shuffle"){
     postOrder=shuffledIndices(n);
+    if(n>2&&postOrder.every((v,i)=>v===i)){
+      [postOrder[0],postOrder[1]]=[postOrder[1],postOrder[0]];
+    }
   }else if(postOrderStyle==="reverse"){
     postOrder.reverse();
   }else if(postOrderStyle==="partial"){
@@ -1394,7 +1397,7 @@ async function play(){
       // White-out is intentionally held back until the final quarter.
       const intensity=easeInOut(clamp((p-.02)/.60));
       const overdrive=easeInOut(clamp((p-.50)/.30));
-      const light=easeInOut(clamp((p-.76)/.24));
+      const light=easeInOut(clamp((p-.42)/.48));
       const drive=clamp(intensity+overdrive*.22);
 
       g.forEach((el,i)=>{
@@ -1405,7 +1408,7 @@ async function play(){
       });
 
       // Stay visibly in the pre-white world for the long "ドドドドド" passage.
-      setWhiteLevel(lerp(.18,.66,light));
+      setWhiteLevel(lerp(.22,.80,light));
       portalGlow.style.opacity=String(lerp(.06,.78,light));
       portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.58,.24,light)})`;
       rushLines.style.opacity=String(lerp(.10,.74,Math.max(overdrive,light)));
