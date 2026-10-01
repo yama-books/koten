@@ -430,7 +430,7 @@
         <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
         <span class="optLabel">改行可 / 80文字まで / Ctrl・⌘+Enterで変換</span>
       </div>
-      <div class="hint">※ 演出検証用。前半・閃光直後・後半・退場を毎回組み替え。3〜5回に1回程度ではぐれ者が混ざります。下のデバッグボタンでレア演出を直接確認できます。</div>
+      <div class="hint">※ 演出検証用。前半5系統・閃光後5系統・後半・退場を毎回組み替えます。閃光中も停止せず、光の中から次の動きが始まります。</div>
       <div class="debug-tools" aria-label="演出デバッグ">
         <span class="debug-label">DEBUG</span>
         <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
@@ -773,19 +773,33 @@ async function play(){
   nextPreset=null;
   const forceRare=forcedPreset==="rare";
 
-  const frontMode=forcedPreset==="front-chick"
-    ?"chick"
-    :pickWeighted([["orbit",.62],["chick",.25],["formation",.13]]);
+  let frontMode;
+  if(forcedPreset==="front-chick")frontMode="chick";
+  else if(forcedPreset==="front-column")frontMode="chick-column";
+  else if(forcedPreset==="front-pinball")frontMode="float-pinball";
+  else frontMode=pickWeighted([
+    ["orbit",.38],
+    ["chick",.18],
+    ["chick-column",.14],
+    ["float-pinball",.18],
+    ["formation",.12]
+  ]);
 
-  const flashExitMode=forcedPreset==="radial"
-    ?"radial"
-    :forcedPreset==="rain"
-      ?"rain"
-      :forcedPreset==="peek"
-        ?"peek"
-        :pickWeighted([["ash",.35],["radial",.30],["rain",.20],["peek",.15]]);
+  let flashExitMode;
+  if(forcedPreset==="radial")flashExitMode="radial";
+  else if(forcedPreset==="radial-extreme")flashExitMode="radial-extreme";
+  else if(forcedPreset==="rain")flashExitMode="rain";
+  else if(forcedPreset==="peek")flashExitMode="peek";
+  else flashExitMode=pickWeighted([
+    ["ash",.28],
+    ["radial",.24],
+    ["radial-extreme",.15],
+    ["rain",.16],
+    ["peek",.17]
+  ]);
 
-  const backChoices=frontMode==="chick"
+  const frontUsesChick=frontMode==="chick"||frontMode==="chick-column";
+  const backChoices=frontUsesChick
     ?["circle","ring","dragon"]
     :["circle","ring","dragon","chick"];
   const ensembleMode=pick(backChoices);
@@ -795,11 +809,10 @@ async function play(){
     ?pick(["camera","far"])
     :pick(["up","far","burst","camera","down","diagonal"]);
 
-  // About three plays in ten contain a visible troublemaker.
+  // Roughly three plays in ten contain a visible troublemaker.
   const rogueIndex=n>2&&(forceRare||Math.random()<.30)?randomIndex(n):-1;
   const rogueType=rogueIndex>=0?pick(["reverse","drop","wander","early"]):"none";
 
-  // Sticky peel counts as a separate small gag and stays uncommon.
   const stickyIndex=n>2&&(forceRare?Math.random()<.55:Math.random()<.12)
     ?randomIndex(n)
     :-1;
@@ -894,7 +907,7 @@ async function play(){
   const omega2End=Math.PI*2*3.55;
   const spinAccel=(omega2End-omega2Start)/(spinDurationMs/1000);
   const baseAngles=[...Array(n)].map((_,i)=>(i/n)*Math.PI*2);
-  const frontSpacing=Math.min(74,Math.max(34,(innerWidth*.72)/Math.max(1,n-1)));
+  const frontSpacing=Math.min(74,Math.max(10,(innerWidth*.72)/Math.max(1,n-1)));
   let spinBase=0;
 
   const orbitFrontPose=(i,spinValue,timeSec)=>{
@@ -941,8 +954,41 @@ async function play(){
     };
   };
 
+  const columnFrontPose=(i,timeSec)=>{
+    const s=seeds[i];
+    const x=(i-(n-1)/2)*frontSpacing;
+    const bob=Math.sin(timeSec*5.2+s.phase*.10)*14;
+    return {
+      x,
+      y:-58+bob,
+      z:Math.sin(timeSec*.72+s.phase)*3,
+      scale:.72*densityScale,
+      rot:Math.sin(timeSec*2.1+s.phase)*2.2,
+      rx:-Math.abs(bob)*.08,
+      ry:0
+    };
+  };
+
+  const scatterFrontPose=(i,timeSec)=>{
+    const s=seeds[i];
+    const layer=(i-(n-1)/2)/(Math.max(1,n-1)/2);
+    const anchorAngle=s.phase+s.scatterAngleJitter+i*.37;
+    const spread=Math.min(250,Math.max(125,innerWidth*.30))*(.82+s.scatterRadiusMul*.22);
+    return {
+      x:Math.cos(anchorAngle)*spread+Math.sin(timeSec*.82+s.phase)*24+s.ashDriftX,
+      y:-54+Math.sin(anchorAngle)*spread*.48+Math.cos(timeSec*.74+s.phase)*18+layer*18,
+      z:Math.sin(anchorAngle*1.43+s.phase)*78+Math.sin(timeSec*.91+s.phase)*22,
+      scale:(.62+.08*Math.sin(timeSec*.66+s.phase))*densityScale,
+      rot:Math.sin(timeSec*.98+s.phase)*7,
+      rx:Math.sin(timeSec*1.13+s.phase)*16,
+      ry:Math.cos(timeSec*1.04+s.phase)*18
+    };
+  };
+
   const frontTargetPose=(i,spinValue,timeSec)=>{
     if(frontMode==="chick")return chickFrontPose(i,timeSec);
+    if(frontMode==="chick-column")return columnFrontPose(i,timeSec);
+    if(frontMode==="float-pinball")return scatterFrontPose(i,timeSec);
     if(frontMode==="formation")return formationFrontPose(i,timeSec);
     return orbitFrontPose(i,spinValue,timeSec);
   };
@@ -1061,6 +1107,43 @@ async function play(){
     };
   };
 
+  const columnBouncePose=(i,timeSec,intensity)=>{
+    const s=seeds[i];
+    const start=columnFrontPose(i,timeSec);
+    const frequency=lerp(5.2,15.5,intensity);
+    const amp=lerp(14,Math.min(210,innerHeight*.31),intensity);
+    const wave=Math.sin(timeSec*frequency+s.phase*.10+i*.025);
+    return {
+      x:start.x,
+      y:-58+wave*amp,
+      z:lerp(start.z,Math.sin(timeSec*frequency*.42+s.phase)*24,intensity),
+      scale:start.scale*(1+Math.abs(wave)*.055*intensity),
+      rot:wave*lerp(2.2,8.5,intensity),
+      rx:-Math.abs(wave)*lerp(2,18,intensity),
+      ry:Math.sin(timeSec*frequency*.31+s.phase)*5*intensity
+    };
+  };
+
+  const scatterPinballPose=(i,timeSec,intensity)=>{
+    const s=seeds[i];
+    const start=scatterFrontPose(i,timeSec);
+    const boundsX=Math.min(390,innerWidth*.47);
+    const boundsY=Math.min(245,innerHeight*.37);
+    const speed=lerp(.72,9.6,intensity);
+    const px=triWave(timeSec*speed+s.phase*.83+i*.29)*boundsX;
+    const py=triWave(timeSec*speed*1.19+s.phase*1.07+i*.47)*boundsY-8;
+    const pz=triWave(timeSec*speed*.69+s.phase*.93+i*.19)*132;
+    return {
+      x:lerp(start.x,px,intensity),
+      y:lerp(start.y,py,intensity),
+      z:lerp(start.z,pz,intensity),
+      scale:lerp(start.scale,(.53+Math.abs(triWave(timeSec*.82+s.phase))*.16)*densityScale,intensity),
+      rot:lerp(start.rot,triWave(timeSec*speed*.57+s.phase)*40,intensity),
+      rx:lerp(start.rx,triWave(timeSec*speed*.78+s.phase)*44,intensity),
+      ry:lerp(start.ry,triWave(timeSec*speed*.74+s.phase)*50,intensity)
+    };
+  };
+
   await frameTween(phase4Duration,(p,elapsed)=>{
     const e=easeInOut(p);
     const tSec=phase12EndSec+elapsed/1000;
@@ -1083,6 +1166,43 @@ async function play(){
         const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
         const travel=((violence*speed*5.4+phase)%1)*170-46;
         line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1.4+violence*2.2})`;
+      });
+      return;
+    }
+
+    if(frontMode==="chick-column"){
+      const intensity=easeInOut(clamp((p-.04)/.96));
+      const light=easeInOut(clamp((p-.34)/.66));
+      g.forEach((el,i)=>{
+        const pose=columnBouncePose(i,tSec,intensity);
+        setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
+        el.style.opacity="1";
+        el.style.filter=`brightness(${1+light*.44})`;
+      });
+      whiteRoom.style.opacity=String(lerp(.82,1,light));
+      whiteRoom.style.transform=`scale(${lerp(1.06,1.18,light)})`;
+      portalGlow.style.opacity=String(lerp(.18,.74,light));
+      rushLines.style.opacity=String(lerp(.08,.58,intensity));
+      return;
+    }
+
+    if(frontMode==="float-pinball"){
+      const intensity=easeInOut(clamp((p-.10)/.90));
+      const light=easeInOut(clamp((p-.32)/.68));
+      g.forEach((el,i)=>{
+        const pose=scatterPinballPose(i,tSec,intensity);
+        setT(el,pose.x,pose.y,pose.scale,pose.rot,pose.rx,pose.ry,pose.z);
+        el.style.opacity="1";
+        el.style.filter=`brightness(${1+light*.42})`;
+      });
+      whiteRoom.style.opacity=String(lerp(.80,1,light));
+      whiteRoom.style.transform=`scale(${lerp(1.05,1.18,light)})`;
+      portalGlow.style.opacity=String(lerp(.14,.72,light));
+      rushLines.style.opacity=String(lerp(.08,.66,intensity));
+      [...rushLines.children].forEach(line=>{
+        const speed=parseFloat(line.dataset.speed),phase=parseFloat(line.dataset.phase);
+        const travel=((intensity*speed*6.8+phase)%1)*174-48;
+        line.style.transform=`translate3d(0,${travel}vh,0) scaleY(${1.4+intensity*2.6})`;
       });
       return;
     }
@@ -1169,7 +1289,7 @@ async function play(){
   await frameTween(phase5Duration,(p,elapsed)=>{
     const e=easeInOut(p);
     const prog=spinProgress(spinVortexEnd,omega5Start,omega5End,elapsed,phase5Duration);
-    if(frontMode!=="chick")spin=prog.spin;
+    if(frontMode==="orbit"||frontMode==="formation")spin=prog.spin;
 
     const squeeze=easeInOut(clamp((p-.12)/.62));
     const coreHold=easeInOut(clamp((p-.72)/.18));
@@ -1177,7 +1297,17 @@ async function play(){
     const flashHold=1-.02*easeInOut(clamp((p-.92)/.08));
     const peak=flashRise*flashHold;
 
-    flash.style.opacity=String(peak*.99);
+    // Common flash ritual: the whole scene chatters harder as it whites out.
+    // It never parks on a motionless pure-white frame.
+    const quakeRise=easeInOut(clamp((p-.06)/.78));
+    const quakeAmp=lerp(0,11.5,quakeRise);
+    const qx=(Math.sin(elapsed*.145)+Math.sin(elapsed*.317)*.55)*quakeAmp;
+    const qy=(Math.cos(elapsed*.181)+Math.sin(elapsed*.271)*.48)*quakeAmp*.78;
+    stage.style.transform=`translate3d(${qx}px,${qy}px,0) scale(${1+.010*quakeRise})`;
+    whiteRoom.style.opacity=String(lerp(.66,1,easeInOut(clamp((p-.05)/.82))));
+    rushLines.style.opacity=String(lerp(.62,.96,quakeRise));
+
+    flash.style.opacity=String(Math.min(.985,peak*.985));
     portalGlow.style.opacity=String(.86+peak*.14);
     portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(1.02,.12,squeeze)})`;
     whiteRoom.style.transform=`scale(${lerp(1.10,1.22,squeeze)})`;
@@ -1188,6 +1318,10 @@ async function play(){
 
       if(frontMode==="chick"){
         start=pinballPose(i,phase12EndSec+phase4Duration/1000,1);
+      }else if(frontMode==="chick-column"){
+        start=columnBouncePose(i,phase12EndSec+phase4Duration/1000,1);
+      }else if(frontMode==="float-pinball"){
+        start=scatterPinballPose(i,phase12EndSec+phase4Duration/1000,1);
       }else{
         const angle=baseAngles[i]+spin;
         const depth=(Math.sin(angle)+1)/2;
@@ -1249,12 +1383,12 @@ async function play(){
 
   const spinFlashEnd=spin;
 
-  // 6) 閃光そのものから次の運動を生む。灰・放射線・上空落下・かくれんぼの4系統。
-  const phase6Duration=flashExitMode==="peek"?2700:(flashExitMode==="rain"?2550:2350);
-  const hiddenPoseMs=90;
-  const flashOpenDelayMs=flashExitMode==="rain"||flashExitMode==="peek"?230:135;
-  const flashOpenMs=flashExitMode==="radial"?470:620;
-  const phase7Duration=1850;
+  // 6) 閃光そのものから次の運動を生む。白の中ですでに移動を開始する。
+  const phase6Duration=flashExitMode==="peek"?3600:(flashExitMode==="rain"?2550:(flashExitMode==="radial-extreme"?2450:2350));
+  const hiddenPoseMs=70;
+  const flashOpenDelayMs=flashExitMode==="rain"||flashExitMode==="peek"?210:105;
+  const flashOpenMs=flashExitMode==="radial-extreme"?390:(flashExitMode==="radial"?460:620);
+  const phase7Duration=flashExitMode==="peek"?2100:1850;
 
   const ashPose=(i,timeMs)=>{
     const s=seeds[i];
@@ -1284,18 +1418,21 @@ async function play(){
   const radialPose=(i,timeMs)=>{
     const s=seeds[i];
     const tt=Math.max(0,timeMs)/1000;
+    const extreme=flashExitMode==="radial-extreme";
     const angle=baseAngles[i]+s.scatterAngleJitter+s.phase*.08;
-    const maxR=Math.min(310,Math.max(190,innerWidth*.41))*s.scatterRadiusMul;
-    const shot=maxR*(1-Math.exp(-tt*5.8));
-    const fall=12*s.fallSpeedMul*tt;
+    const normalR=Math.min(310,Math.max(190,innerWidth*.41));
+    const extremeR=Math.max(innerWidth*.53,innerHeight*.62,430);
+    const maxR=(extreme?extremeR:normalR)*s.scatterRadiusMul;
+    const shot=maxR*(1-Math.exp(-tt*(extreme?8.6:5.8)));
+    const fall=(extreme?7:12)*s.fallSpeedMul*tt;
     return {
-      x:Math.cos(angle)*shot+Math.sin(tt*.82+s.phase)*18+s.ashDriftX,
-      y:-8+Math.sin(angle)*shot*.72+fall+Math.cos(tt*.74+s.phase)*12,
-      z:Math.sin(angle*1.43+s.phase)*shot*.35+Math.sin(tt*.91+s.phase)*18,
-      rot:Math.sin(tt*1.05+s.phase)*7,
-      rx:Math.sin(tt*1.22+s.phase)*15,
-      ry:Math.cos(tt*1.16+s.phase)*18,
-      opacity:.94
+      x:Math.cos(angle)*shot+Math.sin(tt*.82+s.phase)*(extreme?10:18)+s.ashDriftX,
+      y:-8+Math.sin(angle)*shot*(extreme?.84:.72)+fall+Math.cos(tt*.74+s.phase)*(extreme?8:12),
+      z:Math.sin(angle*1.43+s.phase)*shot*(extreme?.42:.35)+Math.sin(tt*.91+s.phase)*18,
+      rot:Math.sin(tt*1.05+s.phase)*(extreme?10:7),
+      rx:Math.sin(tt*1.22+s.phase)*(extreme?21:15),
+      ry:Math.cos(tt*1.16+s.phase)*(extreme?24:18),
+      opacity:.95
     };
   };
 
@@ -1321,30 +1458,48 @@ async function play(){
 
   const peekPose=(i,timeMs)=>{
     const s=seeds[i];
-    const delay=120+(i%6)*135+(s.phase/(Math.PI*2))*160;
+    const delay=240+(i%6)*210+(s.phase/(Math.PI*2))*280;
     const local=Math.max(0,timeMs-delay);
     const tt=local/1000;
-    const appear=easeOut(clamp(local/230));
-    const enter=easeInOut(clamp(local/720));
+    const appear=easeInOut(clamp(local/520));
+    const enterBase=easeInOut(clamp(local/1750));
     const side=i%4;
-    const edgeX=side===0?-Math.min(innerWidth*.50,420):side===1?Math.min(innerWidth*.50,420):(i/(Math.max(1,n-1))-.5)*innerWidth*.70;
-    const edgeY=side===2?-Math.min(innerHeight*.42,280):side===3?Math.min(innerHeight*.42,280):(i%5-2)*46;
-    const targetX=(i-(n-1)/2)*Math.min(46,innerWidth*.055)+Math.sin(s.phase)*18;
-    const targetY=-8+Math.cos(s.phase)*42;
-    const peekBack=Math.sin(Math.min(1,tt*1.8)*Math.PI)*10;
+
+    const edgeX=side===0
+      ?-Math.min(innerWidth*.51,440)
+      :side===1
+        ?Math.min(innerWidth*.51,440)
+        :(i/(Math.max(1,n-1))-.5)*innerWidth*.72;
+    const edgeY=side===2
+      ?-Math.min(innerHeight*.44,300)
+      :side===3
+        ?Math.min(innerHeight*.44,300)
+        :(i%5-2)*48;
+
+    const targetX=(i-(n-1)/2)*Math.min(42,Math.max(10,innerWidth*.68/Math.max(1,n)))+Math.sin(s.phase)*15;
+    const targetY=-8+Math.cos(s.phase)*38;
+
+    // A small shy retreat before committing to the entrance.
+    const shyEnvelope=(1-enterBase)*Math.sin(clamp(local/1500)*Math.PI*3);
+    const shy=shyEnvelope*18;
+    let x=lerp(edgeX,targetX,enterBase);
+    let y=lerp(edgeY,targetY,enterBase);
+    if(side===0)x-=shy;
+    else if(side===1)x+=shy;
+    else if(side===2)y-=shy;
+    else y+=shy;
+
     return {
-      x:lerp(edgeX,targetX,enter)+(side===0?-peekBack:side===1?peekBack:0),
-      y:lerp(edgeY,targetY,enter)+(side===2?-peekBack:side===3?peekBack:0),
-      z:lerp(-36,Math.sin(s.phase)*42,enter),
-      rot:Math.sin(tt*2.1+s.phase)*5,
-      rx:Math.sin(tt*1.5+s.phase)*9,
-      ry:Math.cos(tt*1.4+s.phase)*11,
+      x,y,
+      z:lerp(-42,Math.sin(s.phase)*38,enterBase),
+      rot:Math.sin(tt*1.55+s.phase)*3.2,
+      rx:Math.sin(tt*1.12+s.phase)*6,
+      ry:Math.cos(tt*1.06+s.phase)*8,
       opacity:appear*.96
     };
   };
-
   const postFlashPose=(i,timeMs)=>{
-    if(flashExitMode==="radial")return radialPose(i,timeMs);
+    if(flashExitMode==="radial"||flashExitMode==="radial-extreme")return radialPose(i,timeMs);
     if(flashExitMode==="rain")return rainPose(i,timeMs);
     if(flashExitMode==="peek")return peekPose(i,timeMs);
     return ashPose(i,timeMs);
@@ -1357,7 +1512,7 @@ async function play(){
     let x=Math.cos(s.angle)*r+Math.sin(tt*.91+s.phase)*22;
     let y=-18+Math.sin(s.angle)*r*.56+14*tt+Math.sin(tt*1.03+s.phase)*12;
     let z=Math.sin(s.angle*1.47+s.phase)*Math.min(138,r*.50)+Math.cos(tt*.83+s.phase)*22;
-    if(flashExitMode==="radial"){
+    if(flashExitMode==="radial"||flashExitMode==="radial-extreme"){
       const shot=r*(1-Math.exp(-tt*5.5));
       x=Math.cos(s.angle)*shot;
       y=-8+Math.sin(s.angle)*shot*.70+10*tt;
@@ -1371,12 +1526,20 @@ async function play(){
     const flashOpen=easeInOut(clamp((visibleTime-flashOpenDelayMs)/flashOpenMs));
     const soften=easeInOut(clamp((visibleTime-100)/1850));
     const blastGlow=1-easeInOut(clamp((visibleTime-70)/520));
+    const quakeFade=1-easeOut(clamp(visibleTime/760));
+    const qAmp=11.5*quakeFade;
+    const qx=(Math.sin(elapsed*.155)+Math.sin(elapsed*.337)*.52)*qAmp;
+    const qy=(Math.cos(elapsed*.193)+Math.sin(elapsed*.283)*.45)*qAmp*.78;
+    stage.style.transform=quakeFade>.001
+      ?`translate3d(${qx}px,${qy}px,0) scale(${1+.010*quakeFade})`
+      :"none";
+
     flash.style.opacity=String(
       elapsed<hiddenPoseMs
-        ?.998
-        :Math.max((1-flashOpen)*.998,blastGlow*.78)
+        ?.985
+        :Math.min(.985,Math.max((1-flashOpen)*.985,blastGlow*.76))
     );
-    whiteRoom.style.opacity=String(lerp(1,.85,soften));
+    whiteRoom.style.opacity=String(lerp(.995,.85,soften));
     portalGlow.style.opacity=String(lerp(1,.16,soften));
     portalGlow.style.transform=`translate(-50%,-50%) scale(${lerp(.10,1.52,easeOut(clamp(visibleTime/260)))})`;
     rushLines.style.opacity=String(lerp(.98,.10,soften));
@@ -1392,8 +1555,8 @@ async function play(){
       // Ash/radial visibly burst out of the light. Rain/peek relocate while the glare still hides them.
       const burst=flashExitMode==="ash"
         ?easeOut(clamp(visibleTime/190))
-        :flashExitMode==="radial"
-          ?easeOut(clamp(visibleTime/150))
+        :(flashExitMode==="radial"||flashExitMode==="radial-extreme")
+          ?easeOut(clamp(visibleTime/(flashExitMode==="radial-extreme"?105:150)))
           :easeOut(clamp((visibleTime-80)/210));
       const hiddenTeleport=flashExitMode==="rain"||flashExitMode==="peek";
       const mix=hiddenTeleport?easeOut(clamp((visibleTime-40)/150)):burst;
@@ -1411,7 +1574,12 @@ async function play(){
         lerp(startZ,pose.z,mix)
       );
       el.style.opacity=String(clamp(pose.opacity*mix));
-      el.style.filter="none";
+      const radialStreak=flashExitMode==="radial-extreme"
+        ?1-easeOut(clamp(visibleTime/430))
+        :0;
+      el.style.filter=radialStreak>0
+        ?`brightness(${1+radialStreak*1.4}) blur(${radialStreak*1.3}px)`
+        :"none";
     });
 
     sparkleSeeds.forEach(s=>{
@@ -1424,6 +1592,7 @@ async function play(){
   },token);
   if(token!==playToken)return;
   flash.style.opacity="0";
+  stage.style.transform="none";
 
   // 7) 閃光後の固有運動をそのまま継続。ここではまだ無理に中心へ集めない。
   await frameTween(phase7Duration,(p,elapsed)=>{
@@ -1463,7 +1632,7 @@ async function play(){
   const groupVertical=28;
   const groupCenterAmpX=7;
   const groupCenterAmpY=6;
-  const chickSpacing=Math.min(72,Math.max(34,(innerWidth*.72)/Math.max(1,n-1)));
+  const chickSpacing=Math.min(72,Math.max(10,(innerWidth*.72)/Math.max(1,n-1)));
   let groupTheta=0;
 
   const ensemblePose=(i,theta,timeSec)=>{
