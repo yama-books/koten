@@ -34,6 +34,7 @@ tools/build-data/**
 tools/check-storage/**
 tools/conj-layout-check/**
 tools/conj-quiz-check/**
+tools/vintage-kana-record-check/**
 tools/eol-check/**
 tools/font-assets-check/**
 tools/font-check/**
