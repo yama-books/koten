@@ -148,9 +148,19 @@ function stubAnimate() {
   return { calls, restore: () => { Element.prototype.animate = original; } };
 }
 
+/** jsdom は寸法を持たない。帯は 72%（溝 100px のうち 72px）として測らせる。 */
+function stubWidths() {
+  const own = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetWidth')!;
+  const track = Object.getOwnPropertyDescriptor(Element.prototype, 'clientWidth')!;
+  Object.defineProperty(HTMLElement.prototype, 'offsetWidth', { configurable: true, get() { return 72; } });
+  Object.defineProperty(Element.prototype, 'clientWidth', { configurable: true, get() { return 100; } });
+  return () => { Object.defineProperty(HTMLElement.prototype, 'offsetWidth', own); Object.defineProperty(Element.prototype, 'clientWidth', track); };
+}
+
 test('開閉: 開くと行が上から順に滑り込み、各歌の帯が左から伸びる', async () => {
   media(false, false);
   const { calls, restore } = stubAnimate();
+  const restoreWidths = stubWidths();
   try {
     const view = mount();
     calls.length = 0;
@@ -162,8 +172,9 @@ test('開閉: 開くと行が上から順に滑り込み、各歌の帯が左か
     expect(rowCalls[0]!.keyframes[0]).toMatchObject({ opacity: 0 });
     const bars = calls.filter((call) => (call.el as HTMLElement).classList?.contains('mastery-meter__fill'));
     expect(bars).toHaveLength(10);
-    expect(bars[0]!.keyframes[0]).toEqual({ transform: 'scaleX(0)' });
-  } finally { restore(); }
+    // 「びよーん」：0 から伸び、終点を行き過ぎてから戻る（依頼者・2026-10-01）。
+    expect(bars[0]!.keyframes.map((frame) => frame.transform)).toEqual(['scaleX(0)', 'scaleX(1.06)', 'scaleX(0.976)', 'scaleX(1.009)', 'none']);
+  } finally { restore(); restoreWidths(); }
 });
 
 test('開閉: しまう時は下の行から順に抜いてから閉じる', async () => {
@@ -202,4 +213,47 @@ test('全体のバー: 4 分の 1 の区切りは塗りの上でも消えない�
   const track = styles.match(/\.history-overall__track \{([\s\S]*?)\n\}/)?.[1] ?? '';
   expect(track).toContain('mask-image: var(--history-ticks)');
   for (const at of ['25%', '50%', '75%']) expect(track).toContain(`transparent 0 calc(${at} + 1px)`);
+});
+
+// --- 2026-10-01・依頼者：棒は「びよーん」と伸ばす。行き過ぎの量は溝の幅で決める ---
+test('びよーん: 短い棒ほど自分の幅に対して大きく行き過ぎる（溝の 4% 分、上限 35%）', async () => {
+  media(false);
+  const { calls, restore } = stubAnimate();
+  try {
+    const { springGrow } = await import('../../packages/hyakunin/src/ui/list-motion.ts');
+    const track = document.createElement('span');
+    const bar = document.createElement('span');
+    track.append(bar);
+    Object.defineProperty(track, 'clientWidth', { value: 300 });
+    Object.defineProperty(bar, 'offsetWidth', { value: 30, configurable: true });
+    springGrow(bar);
+    expect(calls[0]!.keyframes[1]!.transform).toBe('scaleX(1.35)');
+    Object.defineProperty(bar, 'offsetWidth', { value: 240 });
+    springGrow(bar);
+    expect(calls[1]!.keyframes[1]!.transform).toBe('scaleX(1.06)');
+  } finally { restore(); }
+});
+
+test('びよーん: 進み具合の帯は増えた時だけ、前の幅から伸ばす', async () => {
+  media(false);
+  const { calls, restore } = stubAnimate();
+  try {
+    const { springIncrease } = await import('../../packages/hyakunin/src/ui/list-motion.ts');
+    const bar = document.createElement('span');
+    springIncrease(bar, 40, 40);
+    springIncrease(bar, 60, 40);
+    expect(calls).toHaveLength(0);
+    springIncrease(bar, 40, 60);
+    expect(calls[0]!.keyframes.map((frame) => frame.width)).toEqual(['40%', '65%', '58%', '60.75%', '60%']);
+  } finally { restore(); }
+});
+
+test('びよーん: 動きを減らす設定では伸ばさない', async () => {
+  media(true);
+  const { calls, restore } = stubAnimate();
+  try {
+    const { springIncrease } = await import('../../packages/hyakunin/src/ui/list-motion.ts');
+    springIncrease(document.createElement('span'), 0, 50);
+    expect(calls).toHaveLength(0);
+  } finally { restore(); }
 });

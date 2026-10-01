@@ -1,3 +1,5 @@
+import { springGrow } from './list-motion.ts';
+
 /**
  * 記録画面を開いた時の登場の動き（依頼者・2026-10-01、活用ノートの記録画面と同じ規則）。
  *
@@ -8,7 +10,7 @@
  * - まとまりの箱（`[data-history-glide]`）：右の遠くから滑って止まり、中の輪が時計回りに伸びる。
  *   PC・iPad（768px 以上）は開いた時点で上から下・左から右へ 70ms 刻み。
  *   スマホは画面に入ったものだけを一度、75ms 刻みで。待機中は opacity だけを 0 にして定位置に置く。
- * - 全体のバー（`[data-history-draw]`）：左から伸びる。スマホは見えた時に一度。
+ * - 全体のバー（`[data-history-draw]`）：左から「びよーん」と伸びる（`springGrow`）。スマホは見えた時に一度。
  * - 数字（`[data-history-count]`）：0 から ease-out(quart) 780ms、180ms＋28ms×i の遅延。
  *   最終フレームは描画済みの文字列そのもの。数字でないもの（「—」など）は数えない。
  *
@@ -115,13 +117,20 @@ function stagger(targets: readonly HTMLElement[], step: number): void {
 /**
  * 待機を解いて動かす。**動き終えたら印を外す**——残すと、押した時の沈み込み（`:active`）を
  * アニメーションの最終値が上書きし続ける。描画（`history-draw`）が最後に終わるので、それを待つ。
+ * 全体のバーは Web Animations で伸ばすので、その `finished` を待つ。
  */
 function start(el: HTMLElement): void {
   el.classList.remove('is-waiting');
   el.classList.add('is-in');
-  const last = el.hasAttribute('data-history-glide') ? 'history-draw' : 'history-bar-grow';
+  if (!el.hasAttribute('data-history-glide')) {
+    const fill = el.querySelector('.history-overall__fill');
+    const growing = fill ? springGrow(fill, 80) : null;
+    if (growing) void growing.finished.then(() => finish(el), () => finish(el));
+    else finish(el);
+    return;
+  }
   const done = (event: AnimationEvent) => {
-    if (event.animationName !== last) return;
+    if (event.animationName !== 'history-draw') return;
     el.removeEventListener('animationend', done);
     finish(el);
   };
