@@ -82,6 +82,10 @@ blob-report/
 .playwright/
 tools/overflow-check/output/
 
+# ---- Hentaigana Life 長時間観察run ----
+# 追記型events.jsonl・snapshot等は実験データ。大容量化するためGitへ入れない。
+vintage-kana/hentaigana-life/poc-v3/runs/
+
 # ---- ログ ----
 *.log
 npm-debug.log*
