@@ -6,7 +6,7 @@ const {spawnSync,execFileSync}=require("node:child_process");
 const base=fs.mkdtempSync(path.join(os.tmpdir(),"hklife-resume-health-"));
 const runner=path.join(__dirname,"runner.cjs");
 const sourceRoot=path.resolve(__dirname,"../../../..");
-const commit=execFileSync("git",["rev-parse","HEAD"],{cwd:sourceRoot,encoding:"utf8"}).trim();
+const commit=execFileSync("git",["-c",`safe.directory=${sourceRoot}`,"rev-parse","HEAD"],{cwd:sourceRoot,encoding:"utf8"}).trim();
 const seed="20261002";
 function run(args){const r=spawnSync(process.execPath,[runner,...args],{encoding:"utf8"});if(r.status!==0)throw new Error(`runner failed (${r.status})\n${r.stdout}\n${r.stderr}`);return JSON.parse(r.stdout.slice(r.stdout.indexOf("{")));}
 function invoke(args){return spawnSync(process.execPath,[runner,...args],{encoding:"utf8"});}
