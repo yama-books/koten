@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>変体仮名を飼う｜生成ムービー PoC</title>
+<style>
+:root{
+  --paper:#f5f0e7; --ink:#2f302f; --muted:#777269; --line:#d7cec1;
+  --panel:#fffdf8; --stage:#e8efe2; --stage2:#dde7d9; --shadow:rgba(51,48,44,.13);
+  --accent:#6f7f6a; --danger:#9b6659;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family: "Yu Gothic UI","Yu Gothic","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{min-height:100%; display:grid; grid-template-rows:auto 1fr; gap:12px; padding:14px}
+.topbar{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  background:rgba(255,253,248,.86); border:1px solid var(--line); border-radius:18px;
+  padding:12px 14px; box-shadow:0 10px 30px var(--shadow); backdrop-filter: blur(8px);
+}
+.brand{display:flex; align-items:center; gap:12px; min-width:0}
+.brand-mark{
+  width:42px;height:42px;border-radius:14px;background:#2f342f;color:white;
+  display:grid;place-items:center;font-family:serif;font-size:24px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)
+}
+.title{font-weight:750; letter-spacing:.02em}
+.subtitle{font-size:12px;color:var(--muted);margin-top:2px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.btn{
+  border:1px solid var(--line); background:#fffdf8; color:var(--ink); border-radius:12px;
+  padding:8px 11px; transition:.16s ease; box-shadow:0 2px 7px rgba(0,0,0,.04)
+}
+.btn:hover{transform:translateY(-1px);border-color:#b7ad9f}
+.btn.primary{background:#313832;color:white;border-color:#313832}
+.btn.active{box-shadow:0 0 0 3px rgba(76,105,79,.14)}
+.speed{display:flex;align-items:center;gap:6px;padding:0 4px;color:var(--muted);font-size:12px}
+.speed input{width:100px}
+
+.layout{
+  min-height:0; display:grid; grid-template-columns:minmax(620px,1fr) 330px; gap:12px;
+}
+.stage-shell{
+  min-height:680px; background:var(--panel); border:1px solid var(--line); border-radius:24px;
+  padding:10px; box-shadow:0 16px 40px var(--shadow); display:grid; grid-template-rows:auto 1fr auto; gap:8px;
+}
+.scene-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 8px 4px}
+.scene-kicker{font-size:11px;color:var(--muted);letter-spacing:.12em}
+.scene-title{font-weight:700;margin-top:2px}
+.phase-track{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.phase{
+  font-size:10px;color:#80786e;background:#f1ece4;border:1px solid #e4dbcf;border-radius:999px;padding:4px 6px
+}
+.phase.on{background:#38443a;color:white;border-color:#38443a}
+.stage{
+  position:relative; overflow:hidden; border-radius:20px; min-height:560px;
+  background:
+    radial-gradient(circle at 15% 16%, rgba(255,255,255,.68) 0 2%, transparent 2.2%),
+    linear-gradient(180deg,var(--stage),var(--stage2));
+  border:1px solid #cad5c4;
+}
+.stage:after{
+  content:""; position:absolute; inset:auto 0 0 0; height:27%;
+  background:linear-gradient(180deg,transparent,rgba(79,94,70,.08)); pointer-events:none
+}
+.path{
+  position:absolute;left:5%;right:8%;top:53%;height:18%;
+  background:#d8cbb6;opacity:.7;border-radius:48% 42% 50% 44%;
+  transform:rotate(-4deg);filter:blur(.2px)
+}
+.pond{
+  position:absolute;left:66%;top:10%;width:25%;height:18%;
+  border-radius:48% 52% 43% 57%;background:#bdd6d3;box-shadow:inset 0 0 0 3px rgba(255,255,255,.4)
+}
+.rock{
+  position:absolute;left:12%;top:60%;width:76px;height:48px;border-radius:55% 45% 40% 50%;
+  background:#9d9b91;box-shadow:inset -12px -8px 0 rgba(0,0,0,.07)
+}
+.gapbox{
+  position:absolute;left:11%;top:47%;width:120px;height:70px;
+  border:3px solid #927d64;border-bottom-width:10px;border-radius:12px;background:#cdbda8;
+}
+.gapbox:after{
+  content:"";position:absolute;right:18px;bottom:-10px;width:23px;height:14px;background:var(--stage2);
+  border-left:3px solid #927d64;border-right:3px solid #927d64;
+}
+.tree{
+  position:absolute;right:4%;bottom:8%;width:125px;height:200px;pointer-events:none
+}
+.tree .trunk{position:absolute;left:53px;bottom:0;width:24px;height:104px;background:#8d7356;border-radius:14px 14px 4px 4px}
+.tree .crown{
+  position:absolute;left:10px;top:8px;width:110px;height:110px;background:#91aa83;border-radius:53% 47% 55% 45%;
+  box-shadow:-34px 32px 0 #9ab18e,34px 28px 0 #879f7a
+}
+.object{
+  position:absolute; width:24px;height:24px;border-radius:50%;background:#d9b15c;border:2px solid #8c6c2c;
+  box-shadow:0 4px 8px rgba(0,0,0,.17);transition:left .55s ease, top .55s ease, transform .3s ease, opacity .25s ease;
+  display:grid;place-items:center;font-size:10px;font-weight:800;color:#5f481f;z-index:7
+}
+.object.hidden{opacity:.25;transform:scale(.72)}
+.object.flash{animation:objectFlash .7s ease 2}
+@keyframes objectFlash{50%{box-shadow:0 0 0 12px rgba(217,177,92,.18)}}
+
+.char{
+  position:absolute; width:74px;height:88px; z-index:12; transform:translate(-50%,-50%);
+  transition:left .85s cubic-bezier(.2,.75,.25,1), top .85s cubic-bezier(.2,.75,.25,1), opacity .3s, filter .3s;
+  user-select:none; cursor:pointer;
+}
+.char .body{
+  position:absolute;inset:9px 8px 13px;border-radius:46% 54% 48% 52%;
+  background:var(--body);border:2px solid var(--accent);
+  box-shadow:0 8px 14px rgba(48,51,45,.13), inset 0 0 0 3px rgba(255,255,255,.32);
+  display:grid;place-items:center;transition:.28s ease;
+}
+.char[data-shape="thin"] .body{left:22px;right:22px;border-radius:44%}
+.char[data-shape="tall"] .body{top:2px;bottom:7px;left:14px;right:14px}
+.char[data-shape="runner"] .body{transform:skewX(-5deg) rotate(-3deg)}
+.char[data-shape="spiky"] .body{border-radius:34% 54% 36% 55%}
+.char[data-shape="shadow"] .body{filter:saturate(.55);opacity:.88}
+.glyph{
+  font-family:"Noto Serif Hentaigana","Noto Serif JP","Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:35px;line-height:1;color:#272a27;transform:translateY(-2px)
+}
+.source-badge{
+  position:absolute;right:-1px;bottom:4px;min-width:28px;height:24px;padding:0 5px;
+  border-radius:9px;background:#fffdf8;border:1px solid var(--line);font-family:serif;font-weight:700;
+  display:grid;place-items:center;font-size:13px;box-shadow:0 3px 8px rgba(0,0,0,.08)
+}
+.face{
+  position:absolute;left:12px;top:8px;width:13px;height:7px;display:flex;justify-content:space-between;z-index:3
+}
+.eye{width:3px;height:5px;border-radius:50%;background:#393b38;transition:transform .2s}
+.char.looking .eye:first-child{transform:translateX(2px)}
+.char.looking .eye:last-child{transform:translateX(2px)}
+.char.thinking .body{animation:thinkPulse .65s ease-in-out infinite alternate}
+@keyframes thinkPulse{to{transform:translateY(-3px)}}
+.char[data-shape="runner"].thinking .body{animation:thinkRunner .65s ease-in-out infinite alternate}
+@keyframes thinkRunner{to{transform:skewX(-5deg) rotate(-3deg) translateY(-3px)}}
+.char.acting .body{box-shadow:0 0 0 8px color-mix(in srgb,var(--accent) 14%, transparent),0 10px 15px rgba(48,51,45,.16)}
+.char.selected .body{box-shadow:0 0 0 4px #fff,0 0 0 7px var(--accent),0 10px 15px rgba(48,51,45,.16)}
+.char.fade{opacity:.28}
+.char.hidden-char{opacity:.15;filter:blur(.5px)}
+.char .state-dot{
+  position:absolute;left:2px;bottom:4px;width:12px;height:12px;border-radius:50%;
+  background:#bdbaae;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15)
+}
+.char.looking .state-dot{background:#67869a}
+.char.thinking .state-dot{background:#b89a55}
+.char.acting .state-dot{background:#647c5d}
+.char.caring .state-dot{background:#ad726f}
+.look-line{
+  position:absolute;height:2px;background:rgba(69,82,76,.32);transform-origin:left center;z-index:8;
+  pointer-events:none;opacity:0;transition:opacity .2s
+}
+.look-line.on{opacity:1}
+.relations-svg{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;opacity:0;transition:.25s}
+.relations-svg.on{opacity:1}
+.relations-svg line{stroke-width:2;stroke-dasharray:7 7;opacity:.45}
+
+.stage-legend{
+  position:absolute;left:14px;top:13px;z-index:20;background:rgba(255,253,248,.75);backdrop-filter:blur(6px);
+  border:1px solid rgba(190,184,174,.7);border-radius:12px;padding:7px 9px;font-size:11px;color:#665f56
+}
+.stage-legend b{color:#333}
+.event-toast{
+  position:absolute;left:50%;top:18px;transform:translateX(-50%) translateY(-10px);z-index:30;
+  background:#2f352f;color:white;border-radius:999px;padding:9px 14px;font-size:12px;
+  opacity:0;transition:.25s;pointer-events:none;box-shadow:0 8px 25px rgba(0,0,0,.18);white-space:nowrap
+}
+.event-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.scene-buttons{display:flex;gap:7px;padding:5px 8px 2px;flex-wrap:wrap}
+.scene-buttons .btn{font-size:12px;padding:7px 10px}
+
+.sidebar{min-height:0;display:grid;grid-template-rows:auto minmax(200px,1fr) minmax(210px,.8fr);gap:12px}
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:13px;
+  box-shadow:0 12px 30px var(--shadow);min-height:0
+}
+.panel h2{font-size:13px;margin:0 0 10px}
+.cast-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.cast-chip{
+  border:1px solid var(--line);border-radius:12px;background:#fbf8f2;padding:6px 4px;text-align:center;cursor:pointer;
+  transition:.15s
+}
+.cast-chip:hover{transform:translateY(-1px)}
+.cast-chip.active{box-shadow:0 0 0 2px var(--chip);border-color:var(--chip)}
+.cast-glyph{font-family:serif;font-size:23px;height:28px}
+.cast-source{font-size:10px;color:var(--muted)}
+.detail{overflow:auto}
+.detail-hero{display:grid;grid-template-columns:68px 1fr;gap:11px;align-items:center;margin-bottom:10px}
+.detail-glyph{
+  width:68px;height:68px;border-radius:20px;background:var(--dbody);border:2px solid var(--daccent);
+  display:grid;place-items:center;font-family:serif;font-size:37px;position:relative
+}
+.detail-source{position:absolute;right:-4px;bottom:-5px;background:white;border:1px solid var(--line);border-radius:8px;padding:2px 5px;font-size:12px}
+.detail-name{font-weight:750}
+.detail-meta{font-size:11px;color:var(--muted);margin-top:3px}
+.ability-card{border:1px solid var(--line);background:#faf6ef;border-radius:14px;padding:10px;margin:10px 0}
+.ability-name{font-size:12px;font-weight:750}
+.ability-desc{font-size:11px;line-height:1.65;color:#5d574f;margin-top:4px}
+.kv{display:grid;grid-template-columns:55px 1fr;gap:6px 8px;font-size:11px;line-height:1.5}
+.kv .k{color:var(--muted)}
+.limit{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:10px;color:#796961}
+
+.log{overflow:auto}
+.log-list{display:flex;flex-direction:column;gap:7px}
+.log-item{display:grid;grid-template-columns:9px 1fr;gap:8px;font-size:11px;line-height:1.45}
+.log-dot{width:7px;height:7px;border-radius:50%;background:#9e9a90;margin-top:5px}
+.log-item.perceive .log-dot{background:#67869a}
+.log-item.pause .log-dot{background:#b89a55}
+.log-item.act .log-dot{background:#647c5d}
+.log-item.result .log-dot{background:#986f68}
+.log-time{color:#aaa198;font-size:9px;margin-left:5px}
+.empty{color:var(--muted);font-size:11px}
+
+@media (max-width:1050px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+  .sidebar .panel:first-child{grid-column:1/-1}
+  .stage-shell{min-height:630px}
+}
+@media (max-width:700px){
+  .app{padding:7px}
+  .topbar{align-items:flex-start;flex-direction:column}
+  .controls{justify-content:flex-start}
+  .layout{display:block}
+  .stage-shell{min-height:600px;margin-bottom:8px}
+  .stage{min-height:480px}
+  .sidebar{display:block}
+  .panel{margin-bottom:8px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">変</div>
+      <div>
+        <div class="title">変体仮名を飼う <span style="font-weight:500;color:#777">／生成ムービー PoC</span></div>
+        <div class="subtitle">説明より先に、仕草で性格が読めるかを試す8体の箱庭</div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn primary" id="toggleRun">一時停止</button>
+      <button class="btn" id="newScene">次の出来事</button>
+      <button class="btn" id="toggleRelations">関係線</button>
+      <label class="speed">速度
+        <input type="range" id="speed" min="0.55" max="1.8" step="0.05" value="1">
+      </label>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="stage-shell">
+      <div class="scene-head">
+        <div>
+          <div class="scene-kicker">LIVE BOX GARDEN</div>
+          <div class="scene-title" id="sceneTitle">平常時間</div>
+        </div>
+        <div class="phase-track">
+          <span class="phase" data-phase="perceive">気づく</span>
+          <span class="phase" data-phase="look">見る</span>
+          <span class="phase" data-phase="pause">一拍</span>
+          <span class="phase" data-phase="decide">判断</span>
+          <span class="phase" data-phase="act">行動</span>
+          <span class="phase" data-phase="result">結果</span>
+          <span class="phase" data-phase="reassess">再判断</span>
+        </div>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="stage-legend"><b>●</b> 状態の色だけ表示。台詞・吹き出しは使わない。</div>
+        <div class="event-toast" id="toast"></div>
+        <div class="path"></div><div class="pond"></div><div class="rock"></div><div class="gapbox"></div>
+        <div class="tree"><div class="trunk"></div><div class="crown"></div></div>
+        <svg class="relations-svg" id="relationsSvg"></svg>
+        <div class="object" id="object">●</div>
+      </div>
+
+      <div class="scene-buttons">
+        <button class="btn" data-scene="distance">愛と惡の距離</button>
+        <button class="btn" data-scene="gap">狭い隙間の落とし物</button>
+        <button class="btn" data-scene="hide">隱のいたずら</button>
+        <button class="btn" data-scene="care">転倒といたわり</button>
+        <button class="btn" data-scene="idle">何も起こさない</button>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2>この箱庭の8体</h2>
+        <div class="cast-grid" id="castGrid"></div>
+      </section>
+
+      <section class="panel detail" id="detailPanel">
+        <h2>個体観察</h2>
+        <div id="detail"></div>
+      </section>
+
+      <section class="panel log">
+        <h2>観察ログ <span style="font-weight:400;color:#999">※ 内部状態の確認用</span></h2>
+        <div class="log-list" id="logList"></div>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<script>
+const CAST = [{"id": "U+1B003", "kana": "あ", "source": "愛", "variant": "", "glyph": "𛀃", "ability": "ひきよせ", "abilityDescription": "《ひきよせ》", "species": "人懐こい毛玉型", "motive": "他者との距離を縮めたい", "temperament": "社交的・好奇心旺盛・距離感が近い", "limitations": ["頼まれていなくても引き寄せる 惡との永続的な追いかけ関係を形成"], "accent": "#c15e79", "body": "#f7d7df", "shape": "round", "emoji": "♥", "x": 18, "y": 28}, {"id": "U+1B005", "kana": "あ", "source": "惡", "variant": "", "glyph": "𛀅", "ability": "はじく", "abilityDescription": "《はじく》", "species": "単独性小獣型", "motive": "適切な距離を確保したい", "temperament": "マイペース・空気は読むが従わない", "limitations": ["押し返した相手が別個体へ衝突する場合がある 愛から逃げるが、危機では助ける関係が望ましい 「あ」と「を」の双方との関係を将来的に利用できる境界個体候補"], "accent": "#5e6676", "body": "#dfe2e8", "shape": "spiky", "emoji": "↔", "x": 31, "y": 65}, {"id": "U+1B008", "kana": "い", "source": "意", "variant": "", "glyph": "𛀈", "ability": "見切る", "abilityDescription": "《見切る》 軌道、転倒、崩落などの次の動きを予測", "species": "観察者型", "motive": "理解してから動きたい", "temperament": "慎重・知的・好奇心旺盛", "limitations": ["観察中に事件が終わることがある 移との代表的補完関係"], "accent": "#6d62a8", "body": "#e5e1f6", "shape": "tall", "emoji": "◉", "x": 50, "y": 25}, {"id": "U+1B009", "kana": "い", "source": "移", "variant": "", "glyph": "𛀉", "ability": "運ぶ", "abilityDescription": "《運ぶ》 一体または小物を高速搬送", "species": "四足高速型", "motive": "何かを動かしたい", "temperament": "せっかち・活動的・働き者", "limitations": ["不要な物まで運ぶ 意が判断し、移が実行するコンビ"], "accent": "#467b8a", "body": "#d6edf1", "shape": "runner", "emoji": "➜", "x": 69, "y": 68}, {"id": "U+1B016", "kana": "お", "source": "隱", "variant": "", "glyph": "𛀖", "ability": "かくれる", "abilityDescription": "《かくれる》 自身と小物一つをほぼ透明化 有の収集物を隠す等の事件源 本当に困る前には返すという一線を持つ 安Ⅰ × 安Ⅱ 同字母。非常に強い協働関係。 愛 × 惡 「接近」と「離隔」の対立。追う／逃げる。ただし危機時には助ける。 意 × 移 観察・判断と実行の補完。 宇Ⅰ × 宇Ⅱ 外から守る／中にしまう兄弟。 安 × 憂 安定させる者が心配性を落ち着かせる。 移 × 江 搬送と流路による高速輸送。 雲 × 憂 空を飛びたい者と事故を心配する者。 有 × 得 「保持したい」と「獲得したい」の競争。 愛 × 縁 他者同士を近づけたい者同士。 惡 × 縁 結びつけたい者と距離を取りたい者。 衣Ⅰ × 衣Ⅱ 保護者的個体と悪戯者。 盈 × 江 流路を盈が塞ぐ等の偶発的対立。 要 × 意 指揮と分析。 阿 × 要 発見と現場指揮。 於Ⅰ × 於Ⅱ 集合地点と案内。 有 × 隱 「無くしたくない」と「隠したい」。 得 × 隱 回収者と隠匿者。", "species": "影生物", "motive": "見つからない状態を楽しむ", "temperament": "いたずら好き・意外と良心的", "limitations": [], "accent": "#60546f", "body": "#e5dfeb", "shape": "shadow", "emoji": "◌", "x": 82, "y": 34}, {"id": "U+1B09C", "kana": "の", "source": "能", "variant": "Ⅱ", "glyph": "𛂜", "ability": "できるよ", "abilityDescription": "《できるよ》 一体の能力が今の事件に適している場合、本人がそれに気づく可能性を上げる", "species": "才能発見型の観察者", "motive": "他者の得意なことを見つけたい", "temperament": "励ますより「気づかせる」タイプ", "limitations": ["適性がない場合は何も起きない"], "accent": "#9b733e", "body": "#f2e7cf", "shape": "observer", "emoji": "✦", "x": 58, "y": 48}, {"id": "U+1B034", "kana": "け", "source": "希", "variant": "", "glyph": "𛀴", "ability": "細る", "abilityDescription": "《細る》 糸ほど細くなり、他個体が入れない隙間を通れる", "species": "非常に細い妖精型", "motive": "少ない場所、小さな可能性を試したい", "temperament": "控えめ・粘り強い", "limitations": ["細くなりすぎて見失われる"], "accent": "#658a6b", "body": "#dcebdc", "shape": "thin", "emoji": "│", "x": 36, "y": 44}, {"id": "U+1B089", "kana": "に", "source": "仁", "variant": "", "glyph": "𛂉", "ability": "いたわる", "abilityDescription": "《いたわる》 怪我・疲労・恐怖状態の一体の動揺を下げ、救助を受け入れやすくする", "species": "看護獣型", "motive": "弱っている相手を優先したい", "temperament": "穏やか・救助対象優先", "limitations": ["元気な相手にはあまり反応しない"], "accent": "#9d6f63", "body": "#f0e1db", "shape": "soft", "emoji": "＋", "x": 75, "y": 52}];
+const stage = document.getElementById('stage');
+const objectEl = document.getElementById('object');
+const castGrid = document.getElementById('castGrid');
+const detail = document.getElementById('detail');
+const logList = document.getElementById('logList');
+const sceneTitle = document.getElementById('sceneTitle');
+const toast = document.getElementById('toast');
+const relationsSvg = document.getElementById('relationsSvg');
+let running = true;
+let speed = 1;
+let relationVisible = false;
+let selectedId = CAST[0].id;
+let timer = null;
+let sceneToken = 0;
+let logStart = Date.now();
+
+const bySource = s => CAST.find(c => c.source === s && (!c.variant || s!=='能')) || CAST.find(c=>c.source===s);
+const C = {};
+CAST.forEach(c => C[c.source + (c.variant||'')] = c);
+C['能'] = CAST.find(c=>c.source==='能' && c.variant==='Ⅱ');
+
+function wait(ms){ return new Promise(r=>setTimeout(r, ms / speed)); }
+function elFor(c){ return document.getElementById('char-' + safeId(c.id)); }
+function safeId(s){ return s.replace(/[^a-zA-Z0-9_-]/g,'_'); }
+function setPos(c,x,y,instant=false){
+  c.x=Math.max(5,Math.min(95,x)); c.y=Math.max(10,Math.min(92,y));
+  const el=elFor(c); if(!el) return;
+  if(instant) el.style.transition='none';
+  el.style.left=c.x+'%'; el.style.top=c.y+'%';
+  if(instant) requestAnimationFrame(()=>el.style.transition='');
+  drawRelations();
+}
+function state(c, kind=''){
+  const el=elFor(c); if(!el)return;
+  el.classList.remove('looking','thinking','acting','caring','fade','hidden-char');
+  if(kind) el.classList.add(kind);
+}
+function clearStates(){ CAST.forEach(c=>state(c)); setPhase(''); }
+function setPhase(p){
+  document.querySelectorAll('.phase').forEach(x=>x.classList.toggle('on',x.dataset.phase===p));
+}
+function addLog(kind,text){
+  const d=document.createElement('div'); d.className='log-item '+kind;
+  const sec=((Date.now()-logStart)/1000).toFixed(1);
+  d.innerHTML=`<div class="log-dot"></div><div>${text}<span class="log-time">+${sec}s</span></div>`;
+  logList.prepend(d);
+  while(logList.children.length>28) logList.lastChild.remove();
+}
+function showToast(t){
+  toast.textContent=t; toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'), Math.max(650,1200/speed));
+}
+function moveNear(a,b,dx=7,dy=2){
+  setPos(a,b.x+dx,b.y+dy);
+}
+async function observe(c,target,text){
+  setPhase('perceive'); state(c,'looking'); addLog('perceive',`${c.source}が${text}`);
+  await wait(450);
+  setPhase('look'); await wait(350);
+  setPhase('pause'); state(c,'thinking'); await wait(650);
+}
+async function act(c,text,fn){
+  setPhase('decide'); state(c,'thinking'); addLog('pause',`${c.source}が一拍おいて判断する`);
+  await wait(330);
+  setPhase('act'); state(c,'acting'); addLog('act',text);
+  if(fn) fn();
+  await wait(700);
+  state(c,'');
+}
+function result(text){setPhase('result');addLog('result',text);showToast(text);}
+async function reassess(chars,text){
+  setPhase('reassess'); chars.forEach(c=>state(c,'looking'));
+  addLog('perceive',text); await wait(650); chars.forEach(c=>state(c,''));
+}
+function placeObject(x=18,y=55,hidden=false){
+  objectEl.style.left=x+'%';objectEl.style.top=y+'%';objectEl.classList.toggle('hidden',hidden);
+}
+function select(c){
+  selectedId=c.id;
+  document.querySelectorAll('.char').forEach(x=>x.classList.toggle('selected',x.dataset.id===c.id));
+  document.querySelectorAll('.cast-chip').forEach(x=>x.classList.toggle('active',x.dataset.id===c.id));
+  detail.style.setProperty('--dbody',c.body); detail.style.setProperty('--daccent',c.accent);
+  detail.innerHTML=`
+    <div class="detail-hero">
+      <div class="detail-glyph" style="--dbody:${c.body};--daccent:${c.accent};background:${c.body};border-color:${c.accent}">
+        ${c.glyph}<span class="detail-source">${c.source}${c.variant||''}</span>
+      </div>
+      <div><div class="detail-name">${c.source}${c.variant||''} ／ ${c.kana}</div>
+      <div class="detail-meta">${c.species}</div><div class="detail-meta">${c.temperament}</div></div>
+    </div>
+    <div class="ability-card"><div class="ability-name">《${c.ability}》</div>
+    <div class="ability-desc">${c.abilityDescription}</div></div>
+    <div class="kv"><div class="k">欲求</div><div>${c.motive}</div>
+    <div class="k">符号</div><div>${c.id}</div></div>
+    <div class="limit">弱点：${(c.limitations&&c.limitations.length)?c.limitations.join('／'):'明示なし'}</div>`;
+}
+function renderCast(){
+  CAST.forEach(c=>{
+    const e=document.createElement('div'); e.className='char';e.id='char-'+safeId(c.id);e.dataset.id=c.id;e.dataset.shape=c.shape;
+    e.style.setProperty('--body',c.body);e.style.setProperty('--accent',c.accent);
+    e.style.left=c.x+'%';e.style.top=c.y+'%';
+    e.innerHTML=`<div class="body"><div class="face"><span class="eye"></span><span class="eye"></span></div>
+      <div class="glyph">${c.glyph}</div></div><div class="source-badge">${c.source}${c.variant||''}</div><div class="state-dot"></div>`;
+    e.addEventListener('click',()=>select(c)); stage.appendChild(e);
+    const chip=document.createElement('button');chip.className='cast-chip';chip.dataset.id=c.id;chip.style.setProperty('--chip',c.accent);
+    chip.innerHTML=`<div class="cast-glyph">${c.glyph}</div><div class="cast-source">${c.source}${c.variant||''}・${c.ability}</div>`;
+    chip.onclick=()=>select(c);castGrid.appendChild(chip);
+  });
+  select(CAST[0]);
+}
+const RELS = [
+ ['愛','惡','#a46c7b'],['能','希','#6d8b6e'],['意','移','#6b6b9a'],
+ ['隱','希','#6d657a'],['仁','惡','#9f766d'],['仁','愛','#9f766d']
+];
+function drawRelations(){
+  relationsSvg.innerHTML='';
+  if(!relationVisible)return;
+  RELS.forEach(([a,b,col])=>{
+    const A=C[a],B=C[b]; if(!A||!B)return;
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',A.x+'%');line.setAttribute('y1',A.y+'%');
+    line.setAttribute('x2',B.x+'%');line.setAttribute('y2',B.y+'%');
+    line.setAttribute('stroke',col);relationsSvg.appendChild(line);
+  });
+}
+function resetPositions(){
+  const positions=[[18,28],[31,65],[50,25],[69,68],[82,34],[58,48],[36,44],[75,52]];
+  CAST.forEach((c,i)=>{state(c);setPos(c,positions[i][0],positions[i][1]);});
+  placeObject(18,55,false); clearStates();
+}
+async function sceneDistance(token){
+  sceneTitle.textContent='愛と惡の距離';
+  const ai=C['愛'], aku=C['惡'], jin=C['仁'];
+  showToast('何も起きていない。愛が惡に気づく。');
+  await observe(ai,aku,'惡を見つける'); if(token!==sceneToken)return;
+  await act(ai,'愛が惡との距離を縮める',()=>moveNear(ai,aku,-5,1)); if(token!==sceneToken)return;
+  await observe(aku,ai,'近づいてきた愛を見る'); if(token!==sceneToken)return;
+  await act(aku,'惡が《はじく》で距離を取り直す',()=>setPos(ai,aku.x-13,aku.y+2)); if(token!==sceneToken)return;
+  result('愛は少し止まり、惡は逃げきらずその場に残る。');
+  await reassess([ai,aku,jin],'仁が二体の距離を見ている'); if(token!==sceneToken)return;
+  await wait(650);
+}
+async function sceneGap(token){
+  sceneTitle.textContent='狭い隙間の落とし物';
+  const no=C['能'], ki=C['希'], i=C['意'], utsu=C['移'];
+  placeObject(15,55,true);showToast('小さな玉が箱の下へ入り込んだ。');
+  await observe(i,ki,'箱の下へ消えた玉の位置を見る');if(token!==sceneToken)return;
+  await act(i,'意がしばらく軌道を見て、落ちた位置へ向く',()=>setPos(i,28,42));if(token!==sceneToken)return;
+  await observe(no,ki,'穴と希を交互に見る');if(token!==sceneToken)return;
+  await act(no,'能Ⅱは指示せず、希が得意だと気づきやすい間を作る',()=>{state(ki,'looking')});if(token!==sceneToken)return;
+  await wait(520); state(ki,'thinking');addLog('pause','希が穴を見る。すぐには入らない。');if(token!==sceneToken)return;
+  await wait(550);
+  await act(ki,'希が自分で《細る》を使い、箱の下へ入る',()=>setPos(ki,17,55));if(token!==sceneToken)return;
+  objectEl.classList.remove('hidden');objectEl.classList.add('flash');result('希が玉を見つけた。');
+  await wait(500);
+  await act(utsu,'移が回収後の玉を運ぶ',()=>{placeObject(55,64,false);setPos(utsu,56,66)});if(token!==sceneToken)return;
+  await reassess([i,no,ki],'意と能Ⅱが希の帰りを見ている');
+}
+async function sceneHide(token){
+  sceneTitle.textContent='隱のいたずら';
+  const on=C['隱'], i=C['意'], ki=C['希'], no=C['能'];
+  placeObject(61,54,false);
+  await observe(on,objectEl,'近くの玉を見つける');if(token!==sceneToken)return;
+  await act(on,'隱が玉を《かくれる》側へ持っていく',()=>{setPos(on,16,51);placeObject(15,55,true);elFor(on).classList.add('hidden-char')});if(token!==sceneToken)return;
+  result('玉も隱も、箱の陰で見えにくくなった。');
+  await wait(450);
+  await observe(i,on,'さっきまでの動きを思い返す');if(token!==sceneToken)return;
+  await act(i,'意が箱の方へ視線を向ける',()=>setPos(i,31,40));if(token!==sceneToken)return;
+  await observe(no,ki,'希と箱の隙間を見る');if(token!==sceneToken)return;
+  await act(ki,'希が細くなって隙間へ近づく',()=>setPos(ki,18,56));if(token!==sceneToken)return;
+  elFor(on).classList.remove('hidden-char');objectEl.classList.remove('hidden');result('隱が先に顔を出し、希と目が合う。');
+  await reassess([on,ki,i],'隱は逃げずに一拍だけ希を見る');
+}
+async function sceneCare(token){
+  sceneTitle.textContent='転倒といたわり';
+  const utsu=C['移'], jin=C['仁'], i=C['意'];
+  showToast('移が少し急ぎすぎた。');
+  await act(utsu,'移が走って運ぼうとする',()=>setPos(utsu,52,51));if(token!==sceneToken)return;
+  await wait(350);elFor(utsu).style.transform='translate(-50%,-50%) rotate(18deg)';addLog('result','移が足を滑らせる');
+  await wait(450);
+  await observe(jin,utsu,'転んだ移を見る');if(token!==sceneToken)return;
+  await act(jin,'仁はすぐ持ち上げず、近くへ行って《いたわる》',()=>moveNear(jin,utsu,7,4));if(token!==sceneToken)return;
+  elFor(utsu).style.transform='';
+  result('移の動揺が落ち着き、自分で起き上がる。');
+  await reassess([i,jin,utsu],'意はその一連を見ている');
+}
+async function sceneIdle(token){
+  sceneTitle.textContent='何も起こさない時間';
+  showToast('事件は起こさない。各個体が好きに過ごす。');
+  setPhase('');
+  for(let k=0;k<7;k++){
+    if(token!==sceneToken)return;
+    const c=CAST[Math.floor(Math.random()*CAST.length)];
+    if(c.source==='隱' && Math.random()<.6){
+      state(c,'looking'); setPos(c,12+Math.random()*15,48+Math.random()*18);
+      addLog('perceive','隱が物陰を気にしている');
+    }else if(c.source==='愛'){
+      const t=CAST.filter(x=>x!==c)[Math.floor(Math.random()*(CAST.length-1))];
+      state(c,'looking');setPos(c,t.x-9,t.y+Math.random()*6-3);addLog('perceive',`愛が${t.source}の近くへ寄る`);
+    }else{
+      setPos(c,c.x+(Math.random()*12-6),c.y+(Math.random()*10-5));
+    }
+    await wait(650);state(c,'');
+  }
+  result('何も解決しなかったが、誰がどこを好むかが少し見えた。');
+}
+const scenes={distance:sceneDistance,gap:sceneGap,hide:sceneHide,care:sceneCare,idle:sceneIdle};
+const sceneOrder=['idle','distance','gap','hide','care'];
+let sceneIndex=0;
+async function runScene(name){
+  sceneToken++; const token=sceneToken; clearTimeout(timer);clearStates();
+  if(name!=='hide') elFor(C['隱']).classList.remove('hidden-char');
+  objectEl.classList.remove('flash');logStart=Date.now();
+  await scenes[name](token);
+  if(token!==sceneToken)return;
+  clearStates();
+  if(running){
+    timer=setTimeout(()=>{sceneIndex=(sceneIndex+1)%sceneOrder.length;runScene(sceneOrder[sceneIndex])},3000/speed);
+  }
+}
+document.getElementById('toggleRun').onclick=()=>{
+  running=!running;document.getElementById('toggleRun').textContent=running?'一時停止':'再開';
+  if(running){runScene(sceneOrder[sceneIndex])}else{sceneToken++;clearTimeout(timer);clearStates();sceneTitle.textContent+='（停止中）'}
+};
+document.getElementById('newScene').onclick=()=>{
+  running=true;document.getElementById('toggleRun').textContent='一時停止';
+  sceneIndex=(sceneIndex+1)%sceneOrder.length;runScene(sceneOrder[sceneIndex]);
+};
+document.getElementById('toggleRelations').onclick=(e)=>{
+  relationVisible=!relationVisible;relationsSvg.classList.toggle('on',relationVisible);e.target.classList.toggle('active',relationVisible);drawRelations();
+};
+document.getElementById('speed').oninput=e=>speed=parseFloat(e.target.value);
+document.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{
+  running=true;document.getElementById('toggleRun').textContent='一時停止';
+  const n=b.dataset.scene;sceneIndex=Math.max(0,sceneOrder.indexOf(n));runScene(n);
+});
+window.addEventListener('resize',drawRelations);
+
+renderCast();resetPositions();placeObject(18,55,false);
+addLog('result','箱庭を開始。まずは何も起こさず観察する。');
+runScene('idle');
+</script>
+</body>
+</html>
