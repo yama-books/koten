@@ -1,0 +1,21 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"run-meta.schema.json",
+  "title":"Hentaigana Life Node Run Metadata",
+  "type":"object",
+  "required":["runId","engineVersion","worldSchemaVersion","characterDataVersion","seed","createdAt","requestedTicks","snapshotEveryTicks","eventLevel","runner"],
+  "properties":{
+    "runId":{"type":"string"},
+    "engineVersion":{"type":"string"},
+    "worldSchemaVersion":{"type":"string"},
+    "characterDataVersion":{"type":"string"},
+    "sourceCommit":{"type":["string","null"]},
+    "seed":{"type":"integer"},
+    "createdAt":{"type":"string"},
+    "requestedTicks":{"type":"integer","minimum":1},
+    "snapshotEveryTicks":{"type":"integer","minimum":1},
+    "eventLevel":{"enum":["all","observation"]},
+    "runner":{"type":"string"}
+  },
+  "additionalProperties":true
+}

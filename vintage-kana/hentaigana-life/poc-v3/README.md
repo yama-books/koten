@@ -27,6 +27,16 @@ GitHub Pagesへ置いた場合も、そのまま動作する構成です。
 - 小雨介入
 - 句点／読点の追加
 
+## Node長時間観察
+
+ブラウザとNodeは `js/sim/step.js` の同じsimulation stepを使います。Node専用の行動ロジックはありません。
+
+```bash
+node node/health-check.cjs
+node node/runner.cjs --ticks 10000 --seed 20261002 --output ./runs --source-commit <commit-sha>
+```
+
+詳細は `node/README.md` と `docs/NODE_RUNNER_DESIGN.md`。
 ## 次の設計・実装優先順位
 
 1. 自動運転ログを数時間分取得

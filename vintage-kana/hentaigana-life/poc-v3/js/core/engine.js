@@ -28,10 +28,8 @@ HKLife.Engine={
   async tick(){
     if(!this.running||this.busy)return;
     this.busy=true;
-    const w=this.world;w.ticks++;w.clockMinutes=(w.clockMinutes+HKLife.WORLD_CONFIG.clock.minutesPerTick)%1440;
-    const actor=HKLife.Utils.pick(w.actors);
-    const choice=HKLife.Scoring.choose(w,actor);
-    await HKLife.Actions.perform(w,actor,choice,this);
+    const w=this.world;
+    await HKLife.Simulation.step(w,{wait:ms=>this.wait(ms)});
     HKLife.Bus.emit("world-change",w);
     if(w.ticks%HKLife.WORLD_CONFIG.engine.snapshotEveryTicks===0)await HKLife.Storage.save(w);
     this.busy=false;if(this.running)this.schedule();
