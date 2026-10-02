@@ -41,7 +41,7 @@ runs/
 - `--resume-from FILE`: `--resume-run`内のsnapshotを明示
 - `--pause-after-segment`: テストや計画停止向けに再開可能なinterrupted状態でsegmentを終了
 
-resume時はrun metadata・snapshot・現在のGit commitのsource/version/seedを照合する。completed run、version不一致、末尾が不完全なevent、snapshotとevent sequenceが一致しないrunは拒否する。`events.jsonl`はappend-only、snapshotは一時ファイルからrenameして新規作成する。`segments/`に各実行区間を記録する。
+resume時はrun metadata・snapshot・現在のGit commitのsource/version/seedを照合する。completed run、version不一致、末尾が不完全なeventは拒否する。snapshotより後ろに完全なeventが残るcrashでは、`event-level=all`のrunだけ共有simulationを同一seed/PRNG stateから再生し、既存eventと一致したtick境界までsnapshotを復元してから再開する。再生不一致や安全なtick境界が見つからない場合は停止する。`events.jsonl`はappend-only、snapshotは一時ファイルからrenameして新規作成する。`segments/`に各実行区間を記録する。
 
 ## Offline analysis
 
