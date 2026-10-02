@@ -18,6 +18,8 @@ jobs:
       - run: npm test
       - run: npm run data:check
       - run: npm run build
+      # Hentaigana Life: browser/Node共有simulation coreと追記型run出力のsmoke test。
+      - run: node vintage-kana/hentaigana-life/poc-v3/node/health-check.cjs
       - run: npx playwright install --with-deps chromium
       # ports: overflow=4173 font-weight=4174,4175 storage=4176 conj-layout=4177
       - run: npm run check:font

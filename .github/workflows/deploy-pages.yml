@@ -27,6 +27,8 @@ jobs:
       - run: npm ci
       # The generated JSON is committed; this proves it still matches the sources.
       - run: npm run data:check
+      - name: Health check Hentaigana Life observation runner
+        run: node vintage-kana/hentaigana-life/poc-v3/node/health-check.cjs
       - name: Build each unit at its own sub-path
         env:
           REPO: ${{ github.event.repository.name }}
