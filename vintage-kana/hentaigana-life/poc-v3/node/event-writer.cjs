@@ -4,12 +4,15 @@ const fs=require("node:fs");
 function uniq(values){return [...new Set(values.filter(Boolean))];}
 
 class EventWriter{
-  constructor({file,world,runMeta,eventLevel="all",append=false,startSequence=0}){
-    this.fd=fs.openSync(file,append?"a":"ax");
+  // sink: optional function receiving each record instead of a file (used by deterministic replay).
+  constructor({file,world,runMeta,eventLevel="all",append=false,startSequence=0,sink=null}){
+    this.sink=sink;
+    this.fd=sink?null:fs.openSync(file,append?"a":"ax");
     this.world=world;
     this.runMeta=runMeta;
     this.eventLevel=eventLevel;
     this.sequence=startSequence;
+    this.bytes=0;
   }
   bind(bus){
     this.offObservation=bus.on("observation",entry=>this.write("observation",entry));
@@ -40,11 +43,15 @@ class EventWriter{
       sequence:++this.sequence,
       payload:entry
     };
-    fs.writeSync(this.fd,JSON.stringify(record)+"\n");
+    if(this.sink){this.sink(record);return;}
+    const line=JSON.stringify(record)+"\n";
+    fs.writeSync(this.fd,line);
+    this.bytes+=Buffer.byteLength(line);
   }
+  sync(){if(this.fd!==null)fs.fsyncSync(this.fd);}
   close(){
-    this.offObservation?.();this.offInternal?.();
-    fs.closeSync(this.fd);
+    this.offObservation?.();this.offInternal?.();this.offObservation=this.offInternal=null;
+    if(this.fd!==null){fs.closeSync(this.fd);this.fd=null;}
   }
 }
 

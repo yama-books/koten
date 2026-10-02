@@ -8,6 +8,8 @@
 node node/health-check.cjs
 node node/runner.cjs --ticks 10000 --seed 20261002 --output ./runs --source-commit <commit-sha>
 node node/resume-health-check.cjs
+node node/compat-health-check.cjs
+node node/snapshot-size-check.cjs
 ```
 
 既存runディレクトリがある場合は上書きを拒否する。毎回新しい `run-id` を使う。
@@ -41,7 +43,7 @@ runs/
 - `--resume-from FILE`: `--resume-run`内のsnapshotを明示
 - `--pause-after-segment`: テストや計画停止向けに再開可能なinterrupted状態でsegmentを終了
 
-resume時はrun metadata・snapshot・現在のGit commitのsource/version/seedを照合する。completed run、version不一致、末尾が不完全なeventは拒否する。snapshotより後ろに完全なeventが残るcrashでは、`event-level=all`のrunだけ共有simulationを同一seed/PRNG stateから再生し、既存eventと一致したtick境界までsnapshotを復元してから再開する。再生不一致や安全なtick境界が見つからない場合は停止する。`events.jsonl`はappend-only、snapshotは一時ファイルからrenameして新規作成する。`segments/`に各実行区間を記録する。
+resume時はrun metadata・snapshot・現在のコードのversion/seedと、simulation compatibility fingerprintを照合する。fingerprintはsimulation結果・PRNG・snapshot/resume stateに影響するファイルだけのhashで、analyzer・README・docs・比較ツールの変更ではresume互換性を失わない。Git SHA (`sourceCommit`) は監査情報として記録する。fingerprintのないlegacy run (2026-10-02まで) は従来どおりcommit完全一致を要求する。仕様と対象ファイル一覧は `docs/NODE_RUNNER_DESIGN.md`。completed run、version不一致、末尾が不完全なeventは拒否する。snapshotより後ろに完全なeventが残るcrashでは、`event-level=all`のrunだけ共有simulationを同一seed/PRNG stateから再生し、既存eventと一致したtick境界までsnapshotを復元してから再開する。再生不一致や安全なtick境界が見つからない場合は停止する。`events.jsonl`はappend-only、snapshotは一時ファイルからrenameして新規作成する。`segments/`に各実行区間を記録する。
 
 ## Offline analysis
 

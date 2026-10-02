@@ -13,8 +13,33 @@ HKLife.Punctuation={
     });
     const chosen=HKLife.Utils.weighted(weighted);
     if(!chosen)return null;
+    this.recordHistory(token,{at:world.clockMinutes,actorId:actor.id,interpretation:chosen.id},token.interpretations[actor.id]);
     token.interpretations[actor.id]=chosen.id;
-    token.history.push({at:world.clockMinutes,actorId:actor.id,interpretation:chosen.id});
     return chosen;
+  },
+  emptyHistorySummary(){return{total:0,dropped:0,reinterpretations:0,byInterpretation:{},byActor:{},firstAt:null,lastAt:null}},
+  // history keeps only the newest entries; historySummary keeps all-time counts (events.jsonl holds the full record).
+  recordHistory(token,entry,previous){
+    if(!token.historySummary){
+      token.historySummary=this.emptyHistorySummary();
+      for(const old of token.history)this.countHistory(token.historySummary,old,undefined);
+    }
+    this.countHistory(token.historySummary,entry,previous);
+    token.history.push(entry);
+    const limit=HKLife.WORLD_CONFIG.punctuationHistory.recentLimit;
+    if(token.history.length>limit){
+      const excess=token.history.length-limit;
+      token.history.splice(0,excess);
+      token.historySummary.dropped+=excess;
+    }
+  },
+  countHistory(summary,entry,previous){
+    summary.total++;
+    if(previous!==undefined&&previous!==entry.interpretation)summary.reinterpretations++;
+    summary.byInterpretation[entry.interpretation]=(summary.byInterpretation[entry.interpretation]||0)+1;
+    const byActor=summary.byActor[entry.actorId]||(summary.byActor[entry.actorId]={});
+    byActor[entry.interpretation]=(byActor[entry.interpretation]||0)+1;
+    if(summary.firstAt===null)summary.firstAt=entry.at;
+    summary.lastAt=entry.at;
   }
 };
