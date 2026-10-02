@@ -31,6 +31,7 @@ import { initialSettings, loadUserSettings } from "../settings.ts";
 import { ReadingToggle } from "../components/ReadingToggle.tsx";
 import { WritingModeToggle } from "../components/WritingModeToggle.tsx";
 import { SyncInstallGuide } from '../components/SyncInstallGuide.tsx';
+import { slideRowsIn } from '../list-motion.ts';
 
 type Props = {
   port?: ApplicationPort;
@@ -203,6 +204,9 @@ export function Home({
   onSettingsRef.current = onSettings;
 
   useEffect(() => { if (syncedSettings) setSettings(syncedSettings); }, [syncedSettings]);
+  // 学習方法を開いた時、3 つの選び方を上から順に滑り込ませる（依頼者・2026-10-02）。
+  const practiceRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { if (practiceOpen) slideRowsIn(practiceRef.current); }, [practiceOpen]);
 
   useEffect(() => {
     const receiveInstallPrompt = (event: Event) => {
@@ -410,8 +414,13 @@ export function Home({
             onChange={(writing) => persist({ ...settings, writing })}
           />
         </section>
+        {/*
+          歌を出す時、句を順にふわっと浮かべる（依頼者・2026-10-02）。歌ごとに作り直して動きを付け直す。
+          動きは CSS だけで、動きを減らす設定では止める。
+        */}
         <article
-          class={`poem-sheet poem-sheet--${settings.writing}`}
+          key={poem.cardNo}
+          class={`poem-sheet poem-sheet--${settings.writing} poem-sheet--enter`}
           aria-labelledby="poem-title"
         >
           <h1 id="poem-title" class="sr-only">
@@ -423,20 +432,21 @@ export function Home({
               class="poem__half"
               aria-label={`上の句 ${ku.slice(0, 3).join(" ")}`}
             >
-              {ku.slice(0, 3).map((line) => (
-                <span key={line}>{line}</span>
+              {ku.slice(0, 3).map((line, index) => (
+                <span key={line} style={{ "--k": index }}>{line}</span>
               ))}
             </div>
             <div
               class="poem__half"
               aria-label={`下の句 ${ku.slice(3).join(" ")}`}
             >
-              {ku.slice(3).map((line) => (
-                <span key={line}>{line}</span>
+              {ku.slice(3).map((line, index) => (
+                <span key={line} style={{ "--k": index + 3 }}>{line}</span>
               ))}
             </div>
           </div>
-          <div class="author">
+          {/* 作者名は句の後に出す。「作者名を見る」で開いた時は、押してすぐ出す。 */}
+          <div class="author" style={{ "--k": authorPractice ? 0 : 5 }}>
             {!authorPractice || authorOpen ? (
               <>
                 <strong>{poem.author.canonical}</strong>
@@ -603,16 +613,21 @@ export function Home({
             とりあえず始める
           </button>
         </div>
+        {/*
+          押せることが分かりにくかった（依頼者・2026-10-02）。結果画面の「学習記録の詳細」と同じ枠のボタンにし、
+          ▼ と中身の予告（`data-hint`）を飾りとして添える。ボタンの文字は「学習方法を選ぶ」のまま。
+        */}
         <button
           class="entry-method-toggle"
           type="button"
+          data-hint="穴埋め・作者・試験から選ぶ"
           aria-expanded={practiceOpen}
           onClick={() => setPracticeOpen((open) => !open)}
         >
           学習方法を選ぶ
         </button>
         {practiceOpen && (
-          <div class="practice-choices" aria-label="学習方法">
+          <div class="practice-choices" aria-label="学習方法" ref={practiceRef}>
             <div class="practice-choice">
               <button type="button" onClick={() => choose("learn")}>
                 {ENTRY_LABELS.learn}

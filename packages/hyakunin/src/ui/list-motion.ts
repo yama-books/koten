@@ -56,11 +56,14 @@ export function springIncrease(bar: Element | null | undefined, from: number, to
   ], { duration: 800 });
 }
 
-/** 行を上から順に出す。中の帯（`.mastery-meter__fill` と `[data-list-bar]`）は左から伸ばす。 */
-export function slideRowsIn(list: Element | null | undefined): void {
+/**
+ * 行を上から順に出す。中の帯（`.mastery-meter__fill` と `[data-list-bar]`）は左から伸ばす。
+ * `after` は最初の行が動き出すまでの間（結果画面で、まとまりの登場を待ってから行を出す時に使う）。
+ */
+export function slideRowsIn(list: Element | null | undefined, after = 0): void {
   if (!motionAllowed(list)) return;
   Array.from(list.children).forEach((row, index) => {
-    const delay = index * ROW_STEP;
+    const delay = after + index * ROW_STEP;
     row.animate([{ opacity: 0, transform: 'translate3d(2.5rem, 0, 0)' }, { opacity: 1, transform: 'none' }], { duration: 420, delay, easing: SLIDE, fill: 'backwards' });
     for (const bar of row.querySelectorAll('.mastery-meter__fill, [data-list-bar]')) springGrow(bar, delay + 120);
   });

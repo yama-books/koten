@@ -36,7 +36,13 @@ function mount(result: SessionResult = base, handlers = { onRetryWeak: (_questio
 
 afterEach(() => { if (root) { render(null, root); root.remove(); root = undefined; } });
 
-test('result: 対象範囲と問題数を表示する', () => { const view = mount(); expect(view.textContent).toContain('対象範囲: 3番〜5番'); expect(view.textContent).toContain('問題数: 4問'); });
+// 2026-10-02（依頼者）：「対象範囲:」「問題数:」の名札をやめ、ポイントの上に 1 行で添える。
+test('result: 対象範囲と問題数をポイントの上に1行で表示する', () => {
+  const view = mount();
+  expect(view.querySelector('.result-meta')?.textContent).toBe('3番〜5番・4問');
+  const [meta, points] = documentOrder(view, [view.querySelector('.result-meta'), view.querySelector('.result-points')]);
+  expect(meta).toBeLessThan(points);
+});
 // 表記は「わからない」（依頼者・2026-09-16）。**保存は閲覧のままだが、押したのは「わからない！」である。**
 test('result: 内訳を表示する', () => { const view = mount(); for (const text of ['わからない1問', '正答1問', '△ 仮名遣い確認1問', '誤答1問']) expect(view.textContent).toContain(text); });
 test('result: 内訳に「閲覧」の語を出さない', () => expect(mount().textContent).not.toContain('閲覧'));
@@ -46,12 +52,15 @@ test('result: 全問正解の回に花丸画像が出る', () => { const view = 
 test('result: 部分正解を含む回に花丸が出ない', () => { const view = mount(); expect(view.textContent).not.toContain('全問花丸'); });
 test('result: 変化がある歌を表に表示する', () => { const view = mount(); expect(view.textContent).toContain('3'); expect(view.textContent).not.toContain('p003'); expect(view.textContent).toContain('12%'); expect(view.textContent).toContain('21%'); });
 test('result: 変化がないとき表の代わりに文言を表示する', () => { const view = mount({ ...base, changes: [] }); expect(view.textContent).toContain('変化はありません'); expect(view.querySelector('.result-changes')).toBeNull(); });
-test('result: 該当なしのとき提案を出さない', () => { const view = mount({ ...base, recommendation: undefined }); expect(view.textContent).not.toContain('次に確認する'); });
+/** 今回まちがえた歌が無い回。「次に確認する」は従来のおすすめ一首になる（2026-10-02）。 */
+const noRetry: SessionResult = { ...base, retryCardNumbers: [], retryQuestionIds: [] };
+test('result: 該当なしのとき提案を出さない', () => { const view = mount({ ...noRetry, recommendation: undefined }); expect(view.textContent).not.toContain('次に確認する'); });
 // 発注075 §3-3: おすすめは歌番号と理由だけにし、習熟度%を併記しない。数値は詳細の中で読む。
-test('result: 次のおすすめ一件を理由とともに表示する', () => { const view = mount(); expect(view.textContent).toContain('4番'); expect(view.textContent).toContain('まだ確認していない歌です'); });
+test('result: まちがえた歌が無い回は、次のおすすめ一件を理由とともに表示する', () => { const view = mount(noRetry); expect(view.textContent).toContain('4番'); expect(view.textContent).toContain('まだ確認していない歌です'); });
 /** 番号の升で行を引く。「番」は見出しへ移ったので、本文の照合では割合の数字と紛れる。 */
 function rowOf(view: HTMLElement, no: string) {
-  return Array.from(view.querySelectorAll('li.history-entry:not(.history-head)'))
+  // 「次に確認する歌」も同じ升を使う（2026-10-02）。歌ごとの状態は詳細の中から引く。
+  return Array.from(detailsOf(view).querySelectorAll('li.history-entry:not(.history-head)'))
     .find((node) => node.querySelector('.history-entry__no')?.textContent === no)!;
 }
 
@@ -76,7 +85,7 @@ test('result: 作者未確認で80%に達した首だけ次の確認先を強調
     { ...base.poems[2]!, percent: 80, color: 'blue' as const, authorUnconfirmed: false },
   ];
   const view = mount({ ...base, poems: cases });
-  const rows = Array.from(view.querySelectorAll('li.history-entry:not(.history-head)'));
+  const rows = Array.from(detailsOf(view).querySelectorAll('li.history-entry:not(.history-head)'));
   // 「作者も確認」の文字は印の強調に替えた（2026-09-22）。意味は読み上げ名が持つ。
   expect(rows[0]?.querySelector('.author-stage')?.getAttribute('aria-label')).toBe('作者も確認しましょう');
   expect(rows[0]?.classList.contains('history-entry--author-cap')).toBe(true);
@@ -212,7 +221,7 @@ test('075: 詳細を閉じたまま、キーボードで両方の再練習へ到
 });
 
 test('075: おすすめは「○番」で示し、習熟度%を併記しない', () => {
-  const view = mount();
+  const view = mount(noRetry);
   const section = view.querySelector('.result-recommend') as HTMLElement;
   expect(section.textContent).toContain('4番');
   expect(section.textContent).toContain('まだ確認していない歌です');
@@ -265,7 +274,7 @@ test('result: ネコは装飾で、読み上げ木に出ない', () => {
 
 test('result: 次に確認する歌は、番号のあとに初句を出す', () => {
   // 番号だけでは、どの歌なのか思い出せない（依頼者・2026-09-16）。
-  const view = mount({ ...base, recommendation: { poemId: 'p001', tier: 1, reason: '前回から間隔が空いたため', percent: 40 } });
+  const view = mount({ ...noRetry, recommendation: { poemId: 'p001', tier: 1, reason: '前回から間隔が空いたため', percent: 40 } });
   expect(view.querySelector('.result-recommend')?.textContent).toContain('1番');
   expect(view.querySelector('.result-recommend')?.textContent).toContain('秋の田の…');
 });
@@ -274,9 +283,9 @@ test('result: 次に確認する歌は、番号のあとに初句を出す', () 
 
 test('result: 歌ごとの状態は記録一覧と同じ升と段階で出す', () => {
   // **同じ部品を使う。** 二度書くと片方だけ直る。
-  const view = mount();
-  expect(view.querySelector('.history-head')?.textContent).toBe('番号うた習熟度作者');
-  const rows = Array.from(view.querySelectorAll('li.history-entry:not(.history-head)'));
+  const details = detailsOf(mount());
+  expect(details.querySelector('.history-head')?.textContent).toBe('番号うた習熟度作者');
+  const rows = Array.from(details.querySelectorAll('li.history-entry:not(.history-head)'));
   expect(rows).toHaveLength(3);
   for (const row of rows) {
     expect(row.querySelector('[role="meter"]'), '帯が無い行がある').not.toBeNull();
@@ -351,4 +360,64 @@ test('result: 補足の無い行にはバッジを出さない', () => {
   const view = mount({ ...base, changes: [{ poemId: 'p003', before: 12, after: 21 }] });
   expect(view.querySelector('.result-note-badge')).toBeNull();
   expect(view.querySelector('.result-change__note')).toBeNull();
+});
+
+// --- 2026-10-02・依頼者：結果画面の組み直し（比較モックの A＋C） ---
+test('result: 内訳は正答・△・誤答・わからないの順に、色帯と凡例で出す', () => {
+  const view = mount({ ...base, breakdown: { viewed: 2, correct: 5, partial: 1, needsReview: 4, incorrect: 0 } });
+  const items = Array.from(view.querySelectorAll('.result-breakdown > div'));
+  expect(items.map((item) => item.textContent)).toEqual(['正答5問', '△ 仮名遣い確認1問', '誤答0問', 'わからない2問']);
+  expect(items.map((item) => item.className.split(' ')[0])).toEqual(['mastery-meter--green', 'mastery-meter--yellow', 'mastery-meter--red', 'mastery-meter--gray']);
+  // 0 問の区分は凡例に淡く残すが、帯には出さない。帯は飾りで、読み上げに出さない。
+  expect(items[2]?.classList.contains('is-zero')).toBe(true);
+  const stack = view.querySelector('.result-stack')!;
+  expect(stack.getAttribute('aria-hidden')).toBe('true');
+  // 「要確認」（読み未確認）は表示しない区分なので、帯の割合にも入れない。
+  expect(Array.from(stack.children).map((part) => (part as HTMLElement).style.flexGrow)).toEqual(['5', '1', '2']);
+});
+
+test('result: 全問正答の回は帯が正答の1色だけになり、わからないの凡例を出さない', () => {
+  const view = mount({ ...noRetry, allCorrect: true, breakdown: { viewed: 0, correct: 4, partial: 0, needsReview: 0, incorrect: 0 } });
+  expect(view.querySelectorAll('.result-stack__part')).toHaveLength(1);
+  expect(view.querySelector('.result-breakdown')?.textContent).not.toContain('わからない');
+});
+
+test('result: 次に確認する歌は、今回まちがえた・答えを見た歌を一覧にし、今回の結果を添える', () => {
+  const outcome = (cardNo: number, kind: SessionResult['poems'][number]['kind']) => ({ ...base.poems[2]!, poemId: `p00${cardNo}`, cardNo, kind });
+  const view = mount({
+    ...base,
+    poems: [outcome(1, 'incorrect'), outcome(2, 'correct'), outcome(3, 'viewed'), outcome(4, 'partial'), outcome(5, null)],
+    retryCardNumbers: [1, 3, 4],
+  });
+  const section = view.querySelector('.result-next')!;
+  expect(section.querySelector('h2')?.textContent).toBe('次に確認する歌3首');
+  const rows = Array.from(section.querySelectorAll('li.history-entry:not(.history-head)'));
+  expect(rows.map((row) => row.querySelector('.history-entry__no')?.textContent)).toEqual(['1', '3', '4']);
+  expect(rows.map((row) => row.querySelector('.result-next__tag')?.textContent)).toEqual(['今回 誤答', '今回 わからない', '今回 △ 仮名遣い']);
+  expect(section.querySelector('.history-head')?.textContent).toBe('番号うた習熟度今回');
+  // 一覧があるときは、おすすめ一首を重ねて出さない。
+  expect(view.querySelector('.result-recommend')).toBeNull();
+});
+
+test('result: 次に確認する歌は、歌を渡せば行を押して歌を開ける', () => {
+  const view = mount({ ...base, poems: [{ ...base.poems[0]!, poemId: 'p004', cardNo: 4, kind: 'incorrect' }], retryCardNumbers: [4] });
+  const open = view.querySelector<HTMLButtonElement>('.result-next .history-entry__open')!;
+  expect(open.getAttribute('aria-label')).toBe('4番「田子の浦に」、今回は誤答、を開く');
+  act(() => { open.click(); });
+  expect(view.querySelector('.poem-overlay .author')?.textContent).toBe('山部赤人');
+});
+
+test('result: 詳細の見出しは開けることを示す予告を持ち、文字は見出しのまま', () => {
+  const summary = detailsOf(mount()).querySelector('summary')!;
+  expect(summary.textContent).toBe('学習記録の詳細');
+  expect(summary.dataset.hint).toBe('習熟度の変化 1首・歌ごとの状態 3首');
+  render(null, root!); root!.remove(); root = undefined;
+  expect(detailsOf(mount({ ...base, changes: [] })).querySelector('summary')?.dataset.hint).toBe('習熟度の変化なし・歌ごとの状態 3首');
+});
+
+test('result: 動かせない環境では、ポイントと内訳の数字は最初から最終の値で出る', () => {
+  // jsdom は matchMedia も Web Animations も持たない。動きを減らす設定の端末と同じ扱いになる。
+  const view = mount();
+  expect(view.querySelector('.result-points__value')?.textContent).toBe('+137');
+  expect(Array.from(view.querySelectorAll('[data-result-count]')).map((node) => node.textContent)).toEqual(['137', '1', '1', '1', '1']);
 });

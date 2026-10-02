@@ -862,7 +862,8 @@ try {
             const valueRect = value?.getBoundingClientRect();
             const markRect = mark?.getBoundingClientRect();
             const next = [...document.querySelectorAll<HTMLButtonElement>('.answer-actions button')]
-              .find((button) => button.textContent?.trim() === '次へ') ?? null;
+              // 最後の問題では「結果を見る」になる（2026-10-02）。どちらも開示のあとに押す同じボタンである。
+              .find((button) => ['次へ', '結果を見る'].includes(button.textContent?.trim() ?? '')) ?? null;
             const valueFontSize = value ? Number.parseFloat(getComputedStyle(value).fontSize) : 0;
             document.documentElement.style.fontSize = '';
             return {
@@ -920,7 +921,8 @@ try {
               .map((element) => element.className || element.tagName);
             const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
             const next = [...document.querySelectorAll<HTMLButtonElement>('.answer-actions button')]
-              .find((button) => button.textContent?.trim() === '次へ') ?? null;
+              // 最後の問題では「結果を見る」になる（2026-10-02）。どちらも開示のあとに押す同じボタンである。
+              .find((button) => ['次へ', '結果を見る'].includes(button.textContent?.trim() ?? '')) ?? null;
             const chosenRect = chosen?.getBoundingClientRect();
             const answerRect = answer?.getBoundingClientRect();
             const smallest = Math.min(...choices.map((choice) => choice.getBoundingClientRect().height));

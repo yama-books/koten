@@ -213,6 +213,19 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .poem-sheet--horizontal .poem__half { flex-wrap: wrap; }
 .author { display: flex; flex-direction: column; flex-wrap: wrap; justify-content: center; gap: var(--space-xs) var(--space-md); min-height: 6rem; padding-inline: var(--space-md); font-family: var(--font-poem); font-weight: 600; writing-mode: vertical-rl; }
 .author strong { font-weight: 600; }
+/*
+ * 「歌を確認する」「作者名を確認する」で歌を出す時（依頼者・2026-10-02）。句を読む順に 50ms ずつ、
+ * 少し上からふわっと降ろす。作者名は句の後。全体で 0.6 秒ほどに収め、煩わしくしない。
+ * **上から**にするのは、下へずらすと動いている間だけ器の下端からはみ出し、歌の器に
+ * スクロールが生じるため（`check:overflow` の noClipping で踏んだ）。上へのはみ出しはスクロールを作らない。
+ */
+.poem-sheet--enter .poem__half > span,
+.poem-sheet--enter .author > * { animation: poem-line-in 320ms var(--ease-out) calc(var(--k, 0) * 50ms) both; }
+@keyframes poem-line-in { from { opacity: 0; transform: translateY(-0.35em); } }
+@media (prefers-reduced-motion: reduce) {
+  .poem-sheet--enter .poem__half > span,
+  .poem-sheet--enter .author > * { animation: none !important; }
+}
 .author span { color: var(--color-ink-muted); }
 .poem-sheet--horizontal .author { flex-direction: row; min-height: auto; writing-mode: horizontal-tb; }
 
@@ -273,7 +286,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .range-picker h1,
 .session h1 { overflow-wrap: anywhere; }
 /* 1 文字だけ落ちる折り返しを避ける（依頼者・2026-09-16）。 */
-.session h1.session-complete { font-size: var(--text-md); }
 .session-controls,
 .answer-controls { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end; }
 /* 罫線と切替ボタンを接触させない。原文表示では状態行が無く、gap が 0 になっていた（発注076 §3）。 */
@@ -282,7 +294,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .entry-actions .entry-start { width: 100%; min-height: 64px; font-size: var(--text-lg); }
 .entry-secondary { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .entry-secondary button { flex: 1 1 12rem; min-width: 0; }
-.entry-method-toggle { display: flex; justify-content: space-between; width: 100%; border-color: var(--color-rule); background: var(--color-surface-soft); font-weight: 700; text-align: start; }
 .session-controls fieldset,
 .range-picker fieldset { display: flex; flex-wrap: wrap; gap: var(--space-sm); border: 0; }
 .session-controls fieldset { box-sizing: border-box; min-width: 0; max-width: 100%; }
@@ -471,15 +482,26 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .grade-choice button[aria-pressed="true"] { border-color: var(--color-focus); background: var(--color-surface-soft); font-weight: 700; }
 
 .result-screen { box-sizing: border-box; width: min(100%, 62rem); margin-inline: auto; padding: var(--space-md); overflow-wrap: anywhere; }
-.result-summary { padding-block: var(--space-xl); }
+/*
+ * 今回の結果（依頼者・2026-10-02、比較モックの A＋C）。中央にまとめ、上にネコとポイント、
+ * その下に内訳の色帯、幅いっぱいの操作へと広がる（おにぎりの形）。
+ */
+.result-summary { display: grid; justify-items: center; gap: var(--space-xs); padding-block: var(--space-lg) var(--space-md); text-align: center; }
 .result-summary h1, .result-summary h2, .result-section h2 { margin: 0; }
-.result-summary p { margin-block: var(--space-xs); }
+.result-summary p { margin: 0; }
+.result-meta { color: var(--color-ink-muted); font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
 .result-hanamaru { color: var(--color-wisteria); font-family: var(--font-poem); font-size: var(--text-lg); font-weight: 600; }
 .result-section { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-lg); }
-.result-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: var(--space-sm); margin: var(--space-md) 0 0; }
-.result-breakdown div { border-inline-start: 3px solid var(--color-rule); padding-inline-start: var(--space-sm); }
-.result-breakdown dt { color: var(--color-ink-muted); font-size: var(--text-sm); }
+/* 内訳の色帯。**飾り**で、数は下の凡例が持つ。色は習熟度の 5 色を借りる。 */
+.result-stack { display: flex; width: min(100%, 36rem); height: 0.9rem; margin-block-start: var(--space-sm); overflow: hidden; border-radius: 999px; background: var(--color-surface-soft); }
+.result-stack__part { flex-basis: 0; min-width: 0; background: currentColor; }
+.result-stack__part + .result-stack__part { box-shadow: inset 2px 0 0 var(--color-paper); }
+.result-breakdown { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2xs) var(--space-md); margin: var(--space-2xs) 0 0; }
+.result-breakdown div { display: flex; align-items: center; gap: 0.3em; }
+.result-breakdown div::before { content: ""; flex: none; width: 0.7em; height: 0.7em; border-radius: 2px; background: currentColor; }
+.result-breakdown dt, .result-breakdown dd { color: var(--color-ink); }
 .result-breakdown dd { margin: 0; font-variant-numeric: tabular-nums; }
+.result-breakdown .is-zero { opacity: 0.55; }
 .result-section table { width: 100%; border-collapse: collapse; margin-block-start: var(--space-md); }
 .result-section th, .result-section td { border-bottom: var(--rule-thin) solid var(--color-rule); padding: var(--space-xs); text-align: start; }
 /*
@@ -541,7 +563,19 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .result-poem--yellow { border-color: var(--mastery-yellow); }
 .result-poem--blue { border-color: var(--mastery-blue); }
 .result-poem--green { border-color: var(--mastery-green); }
-.result-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); padding-block: var(--space-xl); }
+.result-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); padding-block: var(--space-sm) var(--space-lg); }
+/*
+ * 次に確認する歌（依頼者・2026-10-02）。記録一覧と同じ升に、4 つ目の升として今回の結果の札を置く。
+ * 札は「わからない」が入る幅。升の見出しは各升の中央にそろえる（依頼者裁定・2026-10-02）。
+ * 狭い画面と文字拡大では、記録一覧と同じコンテナクエリで升組みをやめて折り返す。
+ */
+.result-next { container-type: inline-size; container-name: history; }
+.result-next h2 small { margin-inline-start: var(--space-xs); color: var(--color-ink-muted); font-size: var(--text-sm); font-weight: 500; }
+.result-next .history-list { grid-template-columns: 2rem 5.5rem 2rem minmax(3rem, 1fr) 4.6rem; margin: var(--space-sm) 0 0; }
+.result-next .history-head > span { text-align: center; }
+.result-next__tag { justify-self: end; border-radius: 999px; padding: 0 0.5em; background: var(--color-surface-soft); color: var(--color-ink-muted); font-size: 0.7rem; line-height: 1.6; white-space: nowrap; }
+.result-next__tag--incorrect, .result-next__tag--viewed { background: color-mix(in oklab, var(--mastery-red) 14%, white); color: var(--color-danger); }
+.result-next__tag--partial, .result-next__tag--needs-review { background: color-mix(in oklab, var(--mastery-yellow) 22%, white); color: var(--color-ink); }
 /*
  * 文字200%では「まちがえた歌だけをもう一度」が1行に収まらず、320px で 66px はみ出していた（基準線も同じ）。
  * 器を守るのは行の折返しであって、書体の縮小ではない。ホームの入口と同じ扱いを結果の操作面へも当てる。
@@ -558,14 +592,33 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
  * 対象範囲が 100 首でも、この器は閉じている間 summary 1 行分の高さしか取らない——
  * これが「首数を増やしても再練習ボタンの上端が押し下がらない」条件の実体である。
  */
-.result-details { border-top: var(--rule-thin) solid var(--color-rule); padding-block: var(--space-md) var(--space-lg); }
-.result-details > summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; font-size: var(--text-md); }
+.result-details { padding-block: var(--space-md) var(--space-lg); }
+/*
+ * 開けることが分かりにくかった（依頼者・2026-10-02）。見出しを枠のボタンの形にし、右に ▼（開くと ▲）、
+ * 下に中身の予告（`data-hint`）を添える。▼ と予告は飾りで、見出しの文字は「学習記録の詳細」のまま。
+ * ホームの「学習方法を選ぶ」も同じ形にそろえる。
+ */
+.result-details > summary,
+.entry-method-toggle { position: relative; display: grid; align-content: center; box-sizing: border-box; width: 100%; min-height: 52px; border: var(--rule-thin) solid var(--color-ink); border-radius: var(--radius-md); padding: var(--space-xs) calc(var(--space-md) + 1.5rem) var(--space-xs) var(--space-md); background: var(--color-surface); cursor: pointer; font-size: var(--text-md); font-weight: 700; line-height: 1.4; text-align: start; list-style: none; }
+.result-details > summary::-webkit-details-marker { display: none; }
+.result-details > summary::after,
+.entry-method-toggle::after { content: attr(data-hint); color: var(--color-ink-muted); font-size: 0.75rem; font-weight: 500; }
+.result-details > summary::before,
+.entry-method-toggle::before { content: ""; position: absolute; inset-inline-end: var(--space-md); top: 50%; width: 0; height: 0; margin-block-start: -0.25rem; border-inline: 0.45rem solid transparent; border-block-start: 0.55rem solid currentColor; transition: transform var(--dur-short) var(--ease-out); }
+.result-details[open] > summary::before,
+.entry-method-toggle[aria-expanded="true"]::before { transform: rotate(180deg); }
+@media (hover: hover) and (pointer: fine) { .result-details > summary:hover { background: var(--color-surface-soft); } }
 .result-details__note { margin-block: var(--space-md) 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
 .result-details .result-section:first-of-type { border-top: 0; }
 /* ポイントは習熟度メーターと役割が違う（飽和しない積算）。メーターの隣に置かず、見た目も揃えない。 */
 .result-points, .history-points { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs) var(--space-sm); }
+.result-points { justify-content: center; }
 .result-points__label, .history-points__label { color: var(--color-ink-muted); font-size: var(--text-sm); }
+.result-points__label { line-height: 1.5; }
 .result-points__value, .history-points__value { font-size: var(--text-lg); font-variant-numeric: tabular-nums; }
+/* ポイントは画面の主役。数え上げで桁が変わっても横に揺れないよう、数字は等幅にしてある。 */
+.result-points__value { font-size: 2.6rem; line-height: 1; letter-spacing: -0.02em; }
+.result-points .cat-mascot--md { width: 3.4rem; }
 .history-points { margin-block: var(--space-md) var(--space-xs); }
 .cat-mascot { flex: none; height: auto; }
 .cat-mascot--sm { width: 2rem; }

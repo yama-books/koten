@@ -169,6 +169,7 @@ export function Session({
   const continueButtonRef = useRef<HTMLButtonElement>(null);
   const exitButtonRef = useRef<HTMLButtonElement>(null);
   const wasConfirmExit = useRef(false);
+  const completing = useRef(false);
   const answerInputRef = useRef<HTMLInputElement>(null);
   /*
    * マウス・トラックパッドで操作する端末（PC）では、出題のたびに回答欄へカーソルを置く。
@@ -196,7 +197,12 @@ export function Session({
   const question =
     questions[Math.min(flow.questionIndex, questions.length - 1)];
   const isExam = entry === "exam";
-  const completedQuestionCount = Math.min(flow.questionIndex, flow.questionCount);
+  // 答え合わせを終えた問も数える。最後の問を答え合わせした時点で 100% になる——
+  // 以前は完了の画面だけが 100% を見せていた（2026-10-02 にその画面を外した）。
+  const completedQuestionCount = Math.min(
+    flow.questionIndex + (flow.phase === "revealed" ? 1 : 0),
+    flow.questionCount,
+  );
   const progressPercent = flow.questionCount === 0
     ? 0
     : Math.round((completedQuestionCount / flow.questionCount) * 100);
@@ -286,17 +292,13 @@ export function Session({
     onComplete(nextOutcomes);
   }
   if (!question || flow.phase === "complete") {
-    if (!isExam)
-      return (
-        <main class="session">
-          {progressMeter}
-          {/* 端末幅によって「た」だけが折り返していた（iPhone 16e・依頼者）。少し小さくする。 */}
-          <h1 class="session-complete">今回の範囲を確認しました</h1>
-          <button type="button" onClick={() => onComplete(outcomes)}>
-            結果を見る
-          </button>
-        </main>
-      );
+    /*
+     * **練習（exam 以外）はここへ来ない。** 最後の問題のボタンが「結果を見る」になり、
+     * 押すとそのまま `onComplete` を呼ぶ（`next`）。以前はここに「今回の範囲を確認しました」と
+     * 「結果を見る」だけの画面を挟んでいたが、結果画面と役目が重なり、押す手間が 1 回増えるだけだった
+     * （依頼者裁定・2026-10-02）。
+     */
+    if (!isExam) return null;
     const rows =
       answerMode === "screen"
         ? examAnswers
@@ -463,6 +465,8 @@ export function Session({
         ? (question.answerModern ?? question.answer)
         : question.answer;
   const revealed = displayFlow.phase === "revealed" || paperOpen;
+  /** 最後の問題。答え合わせのあとのボタンは「次へ」ではなく「結果を見る」になる。 */
+  const isLastQuestion = displayFlow.questionIndex === questions.length - 1;
   async function persistSettings(next: UserSettings) {
     onSettings(next);
     await port.saveSettings(next);
@@ -572,6 +576,13 @@ export function Session({
   }
   function next() {
     const advanced = advance(displayFlow);
+    if (advanced.phase === "complete" && !isExam) {
+      // 「結果を見る」の二度押し（クリックと Enter）で結果の集計を二度走らせない。
+      if (completing.current) return;
+      completing.current = true;
+      onComplete(outcomes);
+      return;
+    }
     const nextQuestion = questions[advanced.questionIndex];
     setFlow(
       advanced.phase === "prompt" && nextQuestion
@@ -903,7 +914,7 @@ export function Session({
               )}
               <div class="answer-actions">
                 <button ref={nextButtonRef} class="primary" type="button" onClick={next}>
-                  次へ
+                  {isLastQuestion ? "結果を見る" : "次へ"}
                 </button>
               </div>
             </>}

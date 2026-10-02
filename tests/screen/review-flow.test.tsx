@@ -95,7 +95,7 @@ function shownQuestion(): string {
 
 const answerFor = (questionId: string) => [...blanks, ...authors].find((question) => question.questionId === questionId)!.answer;
 
-/** 1問だけ答えて「次へ」まで進める。 */
+/** 1問だけ答えて「次へ」まで進める。最後の問題では「結果を見る」を押し、結果へ進む。 */
 async function answerOnce(text: string) {
   const field = answerField();
   expect(field, `入力欄のない画面で解答しようとした: ${root!.textContent?.slice(0, 120)}`).not.toBeNull();
@@ -126,19 +126,19 @@ test('review: 1首5句と作者問題の回から、誤答した1問だけを再
   // 出題は穴埋め5句。作者問題は同じ首の出題可能な問題として読み込まれている。
   expect(round.count).toBe(5);
   expect(authors.some((question) => question.poemId === 'p010')).toBe(true);
-  await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
   expect(progress()).toMatch(/^10番$/);
   expect(shownQuestion()).toBe(round.wrongId);
   expect(shownQuestion()).toMatch(/-ku[1-5]$/);
   expect(answerField()).not.toBeNull();
+  // 最後の問題の「結果を見る」で、そのまま結果へ進む（2026-10-02 に完了の画面を外した）。
   await answerOnce(answerFor(round.wrongId));
-  expect(root!.textContent).toContain('今回の範囲を確認しました');
-  await click('結果を見る');
+  expect(root!.textContent).not.toContain('今回の範囲を確認しました');
   await settle();
   expect(root!.textContent).toContain('今回の結果');
-  expect(root!.textContent).toContain('問題数: 1問');
+  // 範囲と問題数は「10番〜10番・1問」の 1 行にした（2026-10-02）。再出題した 1 問だけの回である。
+  expect(root!.querySelector('.result-meta')?.textContent).toBe('10番〜10番・1問');
 });
 
 test('review: 再確認を繰り返すと、その回で残った問題だけになる', async () => {
@@ -146,12 +146,10 @@ test('review: 再確認を繰り返すと、その回で残った問題だけに
   await click('とりあえず始める');
   const round = await playRound(0);
   expect(round.count).toBeGreaterThan(2);
-  await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
   expect(progress()).toMatch(/^10番$/);
   await answerOnce('またちがう答え');
-  await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
   expect(progress()).toMatch(/^10番$/);
@@ -162,7 +160,6 @@ test('review: 再確認画面は中断ダイアログを開く前から続きを
   await mount('?from=10&to=10');
   await click('とりあえず始める');
   await playRound(0);
-  await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
   expect(root!.querySelector('.interrupt-dialog')).toBeNull();
@@ -178,7 +175,6 @@ test('review: 再確認の途中では復元用のセッションを保存しな
   await mountWith('?from=10&to=10', port);
   await click('とりあえず始める');
   await playRound(0);
-  await click('結果を見る');
   await settle();
   const before = saved.length;
   await click('まちがえた歌だけをもう一度');
@@ -191,12 +187,10 @@ test('review: 再確認の結果から「同じ範囲をもう一度」は元の
   await click('とりあえず始める');
   const first = await playRound(0);
   expect(first.count).toBe(6);
-  await click('結果を見る');
   await settle();
   await click('まちがえた歌だけをもう一度');
   expect(progress()).toMatch(/^10番$/);
   await answerOnce(answerFor(first.wrongId));
-  await click('結果を見る');
   await settle();
   await click('同じ範囲をもう一度');
   await settle();
@@ -210,7 +204,6 @@ test('review: 空欄を作れない問題しか残らない回は、必ず失敗
   await click('とりあえず始める');
   const round = await playRound(0);
   expect(round.count).toBe(1);
-  await click('結果を見る');
   await settle();
   expect(button('まちがえた歌だけをもう一度')).toBeUndefined();
   expect(root!.textContent).not.toContain('この問題は表示できません。ホームに戻ってやり直してください。');

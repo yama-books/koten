@@ -36,3 +36,13 @@ test('entries: practice expands to practice and exam choices', async () => {
   expect(view.textContent).toContain('穴埋めで確認');
   expect(view.textContent).toContain('試験のように解いて採点');
 });
+// 2026-10-02・依頼者：押せることが分かるよう、結果画面の「学習記録の詳細」と同じ枠のボタンにする。
+// ▼ と予告は飾り（CSS の `data-hint`）で、ボタンの文字は「学習方法を選ぶ」のまま。
+test('entries: 学習方法を選ぶは中身の予告を持ち、開閉の状態を伝える', async () => {
+  const view = await mountWithQuestions();
+  const toggle = Array.from(view.querySelectorAll('button')).find((item) => item.textContent === '学習方法を選ぶ')!;
+  expect(toggle.dataset.hint).toBe('穴埋め・作者・試験から選ぶ');
+  expect(toggle.getAttribute('aria-expanded')).toBe('false');
+  await act(() => { toggle.click(); });
+  expect(toggle.getAttribute('aria-expanded')).toBe('true');
+});
