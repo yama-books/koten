@@ -39,7 +39,7 @@ UI (`js/ui/*`, `js/main.js`) とブラウザ保存 (`js/core/storage.js`) はNod
 - `run-meta.json` は新規作成のみ。
 - `events.jsonl` は当該run内で追記のみ。
 - snapshotはPRNG state・last event sequenceを含め、一時ファイルからrenameしてtickごとに新規保存。
-- resumeは同一source/version/seedのrunだけ許可し、event末尾とsnapshot sequenceが一致しない場合は拒否。
+- resumeは同一source/version/seedのrunだけ許可。snapshot後のeventがある場合は共有simulationで再生し、完全一致するtick境界だけ回復。それ以外の不一致は拒否。
 - run区間の開始・終了情報は`segments/segment-NNNN.json`に記録し、`run-meta.json`は作成時のまま保持。
 - v4/v5導入後も旧runをそのまま残す。
 
@@ -55,7 +55,7 @@ schema変更時は `worldSchemaVersion` を変え、旧snapshotを直接上書�
 
 ## Node resume / analysis
 
-`node/runner.cjs --resume-run <run-directory> [--resume-from <snapshot-file>]`でsnapshotから再開する。`--ticks`はそのsegmentで追加実行するtick数。`--pause-after-segment`はresumeを許す計画停止テスト用。PRNG stateとevent sequenceを復元する。`resume-health-check.cjs`は2000連続tickと1000+resume+1000をworld/event単位で比較する。
+`node/runner.cjs --resume-run <run-directory> [--resume-from <snapshot-file>]`でsnapshotから再開する。`--ticks`はそのsegmentで追加実行するtick数。`--pause-after-segment`はresumeを許す計画停止テスト用。PRNG stateとevent sequenceを復元する。`resume-health-check.cjs`は2000連続tickと1000+resume+1000をworld/event単位で比較し、crashでsnapshotより後に残ったeventsのreplayも確認する。
 
 `node/analyze-run.cjs --run <run-directory>`はJSONLとsnapshotを読むoffline analyzerで、JSON/Markdown集計を出す。
 
