@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css?family=Noto+Serif+Hentaigana:400,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#f5f0e8;
@@ -17,12 +18,14 @@
     --gold2:#e6c987;
     --glass:rgba(255,255,255,.58);
     --shadow:0 22px 60px rgba(42,31,20,.16);
+    --font-ui:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
+    --font-poem:"Klee One","Yu Mincho","Hiragino Mincho ProN",serif;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
     margin:0;
-    font-family:"Hiragino Sans","Yu Gothic UI","Noto Sans JP",system-ui,sans-serif;
+    font-family:var(--font-ui);
     color:var(--ink);
     background:
       radial-gradient(circle at 50% 12%, rgba(255,255,255,.9), transparent 34%),
@@ -41,48 +44,96 @@
   .app{
     height:100%;
     display:grid;
-    grid-template-rows:auto 1fr auto;
+    grid-template-rows:auto 1fr;
     padding:max(20px,env(safe-area-inset-top)) clamp(18px,4vw,44px) max(20px,env(safe-area-inset-bottom));
     position:relative;
     z-index:2;
   }
   header{
-    display:flex; align-items:center; justify-content:space-between;
-    max-width:980px; width:100%; margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:14px;max-width:860px;width:100%;margin:0 auto;
   }
-  .brand{display:flex; align-items:center; gap:12px}
-  .seal{
-    width:38px;height:38px;border-radius:12px;border:1px solid rgba(29,26,23,.18);
-    display:grid;place-items:center;font-family:serif;font-size:18px;background:rgba(255,255,255,.34);
+  .brand-title{
+    margin:0;
+    font-family:var(--font-ui);
+    font-size:clamp(27px,4.4vw,42px);
+    line-height:1.18;
+    font-weight:700;
+    letter-spacing:.045em;
   }
-  .brand b{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-weight:600;letter-spacing:.08em}
-  .mode{font-size:12px;color:var(--muted);letter-spacing:.08em}
+  .debug-toggle{
+    min-height:38px;
+    padding:7px 13px;
+    border-radius:999px;
+    color:rgba(47,49,56,.72);
+    background:rgba(255,255,255,.54);
+    border:1px solid rgba(65,56,48,.12);
+    box-shadow:none;
+    font-family:var(--font-ui);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.04em;
+  }
+  .debug-toggle:hover{transform:none;box-shadow:none;background:rgba(255,255,255,.82)}
+  .debug-toggle[aria-expanded="true"]{background:rgba(29,26,23,.88);color:#fff;border-color:transparent}
+
   main{
     display:grid;place-items:center;position:relative;min-height:0;
   }
   .panel{
-    width:min(860px,100%);
-    border:1px solid rgba(70,55,40,.12);
-    background:var(--glass);
+    width:min(760px,100%);
+    border:1px solid rgba(70,55,40,.10);
+    background:rgba(255,255,255,.52);
     backdrop-filter:blur(16px);
     -webkit-backdrop-filter:blur(16px);
-    border-radius:30px;
+    border-radius:26px;
     box-shadow:var(--shadow);
-    padding:clamp(26px,5vw,56px);
+    padding:clamp(20px,4vw,38px);
     position:relative;
-    overflow:hidden;
+    overflow:visible;
   }
   .panel:before{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(120deg,rgba(255,255,255,.32),transparent 28%,transparent 70%,rgba(176,138,74,.05));
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    background:linear-gradient(120deg,rgba(255,255,255,.28),transparent 34%,transparent 72%,rgba(176,138,74,.035));
   }
-  .eyebrow{font-size:12px;letter-spacing:.16em;color:var(--muted);margin-bottom:14px}
-  h1{
-    font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
-    font-size:clamp(28px,5vw,52px);
-    margin:0 0 14px; font-weight:600; letter-spacing:.06em;
+  .conversion-pills{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+    position:relative;
+    z-index:2;
   }
-  .lead{color:var(--muted);font-size:14px;line-height:1.8;margin-bottom:28px}
+  .choice-pill{position:relative;display:inline-flex}
+  .choice-pill input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+  }
+  .choice-pill span{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:36px;
+    padding:7px 13px;
+    border-radius:999px;
+    border:1px solid rgba(65,56,48,.13);
+    background:rgba(255,255,255,.60);
+    color:rgba(47,49,56,.68);
+    font-family:var(--font-ui);
+    font-size:12px;
+    font-weight:700;
+    transition:background .16s ease,color .16s ease,border-color .16s ease,transform .16s ease;
+    cursor:pointer;
+  }
+  .choice-pill:hover span{background:rgba(255,255,255,.88)}
+  .choice-pill input:checked + span{
+    background:rgba(47,49,56,.92);
+    border-color:rgba(47,49,56,.92);
+    color:#fff;
+    box-shadow:0 5px 14px rgba(47,49,56,.12);
+  }
+  .choice-pill:active span{transform:scale(.985)}
   .composer{
     display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch;
     background:rgba(255,255,255,.48);
@@ -91,7 +142,7 @@
   }
   textarea#input{
     min-width:0;min-height:82px;border:0;background:transparent;outline:none;resize:vertical;
-    font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+    font-family:var(--font-poem);
     font-size:clamp(22px,4vw,34px);padding:10px 14px;color:var(--ink);
     letter-spacing:.12em;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;
   }
@@ -106,31 +157,40 @@
   button:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(29,26,23,.25)}
   button:active{transform:translateY(1px) scale(.99)}
   button:disabled{opacity:.45;cursor:default}
-  .options{
-    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
-    margin-top:12px;padding:0 4px;color:var(--muted);font-size:13px;
+  .debug-drawer{
+    margin-top:14px;
+    padding-top:12px;
+    border-top:1px solid rgba(65,56,48,.10);
+    position:relative;
+    z-index:2;
   }
-  .options label{display:flex;align-items:center;gap:6px}
-  .options input{accent-color:var(--ink)}
-  .optLabel{font-size:12px;letter-spacing:.08em;color:rgba(65,56,48,.76)}
-  .hint{margin-top:14px;font-size:12px;color:var(--muted)}
+  .debug-drawer[hidden]{display:none}
+  .debug-settings{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    flex-wrap:wrap;
+    margin-bottom:9px;
+  }
   .debug-tools{
-    display:flex;align-items:center;gap:7px;flex-wrap:wrap;
-    margin-top:12px;padding-top:10px;border-top:1px solid rgba(65,56,48,.10);
+    display:flex;
+    align-items:center;
+    gap:7px;
+    flex-wrap:wrap;
   }
-  .debug-label{font-size:10px;letter-spacing:.12em;color:rgba(65,56,48,.50);margin-right:2px}
   .debug-btn{
     min-height:30px;width:auto;padding:5px 9px;border-radius:999px;
-    font-size:10px;font-weight:600;letter-spacing:.03em;
-    color:rgba(29,26,23,.78);background:rgba(255,255,255,.62);
+    font-family:var(--font-ui);
+    font-size:10px;font-weight:700;letter-spacing:.02em;
+    color:rgba(29,26,23,.76);background:rgba(255,255,255,.62);
     border:1px solid rgba(65,56,48,.13);box-shadow:none;
   }
   .debug-btn:hover{transform:none;box-shadow:none;background:rgba(255,255,255,.88)}
   .debug-plan{
-    width:100%;min-height:15px;font:10px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;
+    width:100%;min-height:15px;margin-top:8px;
+    font:10px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;
     color:rgba(65,56,48,.48);letter-spacing:.015em;
   }
-  footer{font-size:11px;color:rgba(65,56,48,.55);text-align:center}
   #stage{
     position:fixed;inset:0;z-index:20;pointer-events:none;
     display:grid;place-items:center;perspective:1100px;
@@ -369,7 +429,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 32: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 33: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -438,58 +498,63 @@
 <body>
 <div class="app" id="app">
   <header>
-    <div class="brand"><div class="seal">変</div><b>変体仮名メーカー</b></div>
-    <div class="mode">MOTION STUDY 32</div>
+    <h1 class="brand-title">変体仮名メーカー</h1>
+    <button class="debug-toggle" id="debugToggle" type="button" aria-expanded="false" aria-controls="debugDrawer">デバッグ</button>
   </header>
   <main>
     <section class="panel">
-      <div class="eyebrow">HIRAGANA → HENTAIGANA</div>
-      <h1>文字を、ほどく。</h1>
-      <div class="lead">変換そのものは一瞬。そこへ、必要以上の儀式を足した実験版です。</div>
+      <div class="conversion-pills" role="group" aria-label="変換方向の選択">
+        <label class="choice-pill">
+          <input type="radio" name="conversionMode" value="forward" checked>
+          <span>変体仮名にする</span>
+        </label>
+        <label class="choice-pill">
+          <input type="radio" name="conversionMode" value="reverse">
+          <span>ひらがなにする</span>
+        </label>
+      </div>
       <div class="composer">
         <textarea id="input" maxlength="80" rows="2" aria-label="変換する文字列">あさきゆめみし</textarea>
-        <button id="convert">変換する</button>
+        <button id="convert" type="button">変換</button>
       </div>
-      <div class="options" role="group" aria-label="変換方向の選択">
-        <span class="optLabel">変換</span>
-        <label><input type="radio" name="conversionMode" value="forward" checked> 変体仮名にする</label>
-        <label><input type="radio" name="conversionMode" value="reverse"> ひらがなに戻す</label>
-      </div>
-      <div class="options" role="group" aria-label="刻印方向の選択">
-        <span class="optLabel">刻印方向</span>
-        <label><input type="radio" name="stampDirection" value="horizontal" checked> 横</label>
-        <label><input type="radio" name="stampDirection" value="vertical"> 縦</label>
-        <span class="optLabel">改行可 / 80文字まで / Ctrl・⌘+Enterで変換</span>
-      </div>
-      <div class="hint">※ 演出検証用。白背景に入ってからが変身の本番。全前半で白世界内の加速時間を確保し、左右・斜めの脱水運動も追加。乗り遅れは「ぽつーん→あわあわ→急追」が分かるよう大げさにしています。</div>
-      <div class="debug-tools" aria-label="演出デバッグ">
-        <span class="debug-label">DEBUG</span>
-        <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
-        <button class="debug-btn" type="button" data-preset="radial">放射線</button>
-        <button class="debug-btn" type="button" data-preset="radial-extreme">放射線・極</button>
-        <button class="debug-btn" type="button" data-preset="rain">上から</button>
-        <button class="debug-btn" type="button" data-preset="peek">かくれんぼ</button>
-        <button class="debug-btn" type="button" data-preset="front-chick">前半ぴょこ</button>
-        <button class="debug-btn" type="button" data-preset="front-column">前半縦同期</button>
-        <button class="debug-btn" type="button" data-preset="front-column-random">前半バラバラ上下</button>
-        <button class="debug-btn" type="button" data-preset="front-pinball">前半ばらピン</button>
-        <button class="debug-btn" type="button" data-preset="front-side-sync">左右脱水</button>
-        <button class="debug-btn" type="button" data-preset="front-side-random">左右バラ脱水</button>
-        <button class="debug-btn" type="button" data-preset="front-diagonal-sync">斜め脱水</button>
-        <button class="debug-btn" type="button" data-preset="front-diagonal-random">斜めバラ脱水</button>
-        <button class="debug-btn" type="button" data-preset="scale-breath">サイズ呼吸</button>
-        <button class="debug-btn" type="button" data-preset="scale-pulse">サイズ脈動</button>
-        <button class="debug-btn" type="button" data-preset="rogue-slowpoke">のんびりさん</button>
-        <button class="debug-btn" type="button" data-preset="rogue-miss-orbit">円環乗り遅れ</button>
-        <button class="debug-btn" type="button" data-preset="back-squabble">後半押し合い</button>
-        <button class="debug-btn" type="button" data-preset="stamp-heavy">重厚刻印</button>
-        <button class="debug-btn" type="button" data-preset="stamp-gag">刻印レア</button>
-        <button class="debug-btn" type="button" data-preset="stamp-insert">割り込み刻印</button>
-        <div class="debug-plan" id="debugPlan">通常ランダム</div>
+      <div class="debug-drawer" id="debugDrawer" hidden>
+        <div class="debug-settings" role="group" aria-label="刻印方向の選択">
+          <label class="choice-pill">
+            <input type="radio" name="stampDirection" value="horizontal" checked>
+            <span>横刻印</span>
+          </label>
+          <label class="choice-pill">
+            <input type="radio" name="stampDirection" value="vertical">
+            <span>縦刻印</span>
+          </label>
+        </div>
+        <div class="debug-tools" aria-label="演出デバッグ">
+          <button class="debug-btn" type="button" data-preset="rare">レアを出す</button>
+          <button class="debug-btn" type="button" data-preset="radial">放射線</button>
+          <button class="debug-btn" type="button" data-preset="radial-extreme">放射線・極</button>
+          <button class="debug-btn" type="button" data-preset="rain">上から</button>
+          <button class="debug-btn" type="button" data-preset="peek">かくれんぼ</button>
+          <button class="debug-btn" type="button" data-preset="front-chick">前半ぴょこ</button>
+          <button class="debug-btn" type="button" data-preset="front-column">前半縦同期</button>
+          <button class="debug-btn" type="button" data-preset="front-column-random">前半バラバラ上下</button>
+          <button class="debug-btn" type="button" data-preset="front-pinball">前半ばらピン</button>
+          <button class="debug-btn" type="button" data-preset="front-side-sync">左右脱水</button>
+          <button class="debug-btn" type="button" data-preset="front-side-random">左右バラ脱水</button>
+          <button class="debug-btn" type="button" data-preset="front-diagonal-sync">斜め脱水</button>
+          <button class="debug-btn" type="button" data-preset="front-diagonal-random">斜めバラ脱水</button>
+          <button class="debug-btn" type="button" data-preset="scale-breath">サイズ呼吸</button>
+          <button class="debug-btn" type="button" data-preset="scale-pulse">サイズ脈動</button>
+          <button class="debug-btn" type="button" data-preset="rogue-slowpoke">のんびりさん</button>
+          <button class="debug-btn" type="button" data-preset="rogue-miss-orbit">円環乗り遅れ</button>
+          <button class="debug-btn" type="button" data-preset="back-squabble">後半押し合い</button>
+          <button class="debug-btn" type="button" data-preset="stamp-heavy">重厚刻印</button>
+          <button class="debug-btn" type="button" data-preset="stamp-gag">刻印レア</button>
+          <button class="debug-btn" type="button" data-preset="stamp-insert">割り込み刻印</button>
+          <div class="debug-plan" id="debugPlan">MOTION STUDY 33 / 通常ランダム</div>
+        </div>
       </div>
     </section>
   </main>
-  <footer>prototype / cinematic conversion motion</footer>
 </div>
 <div id="stage" aria-hidden="true">
   <div class="veil"></div>
@@ -533,7 +598,9 @@ skip=document.getElementById("skip"),
 whiteRoom=document.getElementById("whiteRoom"),
 rushLines=document.getElementById("rushLines"),
 portalGlow=document.getElementById("portalGlow"),
-debugPlan=document.getElementById("debugPlan");
+debugPlan=document.getElementById("debugPlan"),
+debugToggle=document.getElementById("debugToggle"),
+debugDrawer=document.getElementById("debugDrawer");
 const stampDirectionInputs=[...document.querySelectorAll('input[name="stampDirection"]')];
 const conversionModeInputs=[...document.querySelectorAll('input[name="conversionMode"]')];
 const debugButtons=[...document.querySelectorAll(".debug-btn")];
@@ -607,7 +674,7 @@ function targetFontFor(mode){
 }
 function updateConversionUi(){
   const mode=getConversionMode();
-  btn.textContent=mode==="reverse"?"ひらがなに戻す":"変換する";
+  btn.textContent="変換";
   label.textContent=mode==="reverse"?"HIRAGANA":"HENTAIGANA";
 }
 function getStampDirection(){
@@ -2803,6 +2870,16 @@ async function play(){
   }
 }
 btn.addEventListener("click",()=>{nextPreset=null;play()});
+debugToggle.addEventListener("click",()=>{
+  const willOpen=debugDrawer.hasAttribute("hidden");
+  if(willOpen){
+    debugDrawer.removeAttribute("hidden");
+  }else{
+    debugDrawer.setAttribute("hidden","");
+  }
+  debugToggle.setAttribute("aria-expanded",String(willOpen));
+});
+
 debugButtons.forEach(debugButton=>{
   debugButton.addEventListener("click",()=>{
     if(running)return;
