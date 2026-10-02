@@ -1,7 +1,7 @@
 [
   {
     "path": "README.md",
-    "bytes": 1044
+    "bytes": 1404
   },
   {
     "path": "assets/backgrounds/park-doodle-day.png",
@@ -16,16 +16,20 @@
     "bytes": 1761
   },
   {
+    "path": "docs/NODE_RUNNER_DESIGN.md",
+    "bytes": 2005
+  },
+  {
     "path": "docs/POC_V3_DECISIONS.md",
-    "bytes": 960
+    "bytes": 1266
   },
   {
     "path": "index.html",
-    "bytes": 3996
+    "bytes": 4099
   },
   {
     "path": "js/core/engine.js",
-    "bytes": 2014
+    "bytes": 1839
   },
   {
     "path": "js/core/event-bus.js",
@@ -60,6 +64,10 @@
     "bytes": 2610
   },
   {
+    "path": "js/data/version-info.js",
+    "bytes": 176
+  },
+  {
     "path": "js/data/world-config.js",
     "bytes": 2174
   },
@@ -84,6 +92,10 @@
     "bytes": 1756
   },
   {
+    "path": "js/sim/step.js",
+    "bytes": 450
+  },
+  {
     "path": "js/ui/panels.js",
     "bytes": 2356
   },
@@ -92,8 +104,40 @@
     "bytes": 2075
   },
   {
+    "path": "node/README.md",
+    "bytes": 1914
+  },
+  {
+    "path": "node/event-writer.cjs",
+    "bytes": 1831
+  },
+  {
+    "path": "node/health-check.cjs",
+    "bytes": 1577
+  },
+  {
+    "path": "node/load-simulation.cjs",
+    "bytes": 686
+  },
+  {
+    "path": "node/runner.cjs",
+    "bytes": 6316
+  },
+  {
     "path": "schema/observation-event.schema.json",
     "bytes": 849
+  },
+  {
+    "path": "schema/run-event.schema.json",
+    "bytes": 1218
+  },
+  {
+    "path": "schema/run-meta.schema.json",
+    "bytes": 840
+  },
+  {
+    "path": "schema/run-snapshot.schema.json",
+    "bytes": 685
   },
   {
     "path": "schema/world-snapshot.schema.json",
