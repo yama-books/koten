@@ -57,12 +57,6 @@ function main() {
       increment(characters[actor].actions, action);
       characters[actor].total++;
       if (action === "idle") characters[actor].idle++;
-      if (action === "approach") {
-        increment(approachesByCharacter, actor);
-        const target = payload.targetId || event.actorIds?.find(id => id !== actor) || "unknown";
-        increment(approachPairs, `${actor} -> ${target}`);
-      }
-      if (action === "retreat") retreats++;
       if (action === "dig") digAttempts++;
       const mins = event.worldTime?.minutes;
       if (mins !== undefined) {
@@ -70,14 +64,17 @@ function main() {
         increment(timeOfDayActionCounts, `${period}:${action}`);
       }
     }
+    if (event.eventType === "approach" && payload.targetId) {
+      increment(approachesByCharacter, actor);
+      increment(approachPairs, `${actor} -> ${payload.targetId}`);
+    }
+    if (event.eventType === "retreat") retreats++;
     if (event.eventType === "dig") successfulDigEvents++;
-    if (event.eventType === "touch-punctuation") {
-      punctuationContacts++;
-      if (event.interpretation) {
-        increment(interpretations, event.interpretation);
-        interpretationsByCharacter[actor] ||= {};
-        increment(interpretationsByCharacter[actor], event.interpretation);
-      }
+    if (event.eventType === "touch-punctuation") punctuationContacts++;
+    if (["touch-punctuation", "interpret"].includes(event.eventType) && event.interpretation) {
+      increment(interpretations, event.interpretation);
+      interpretationsByCharacter[actor] ||= {};
+      increment(interpretationsByCharacter[actor], event.interpretation);
     }
   }
   const totalActions = Object.values(actionCounts).reduce((a, b) => a + b, 0);
