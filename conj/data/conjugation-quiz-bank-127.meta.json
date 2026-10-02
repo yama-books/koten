@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "status": "internal-qa-metadata",
+  "status": "public-quiz-metadata",
   "generatedOn": "2026-09-29",
   "source": "活用表アプリ_代表サンプル公開前監査_2026-09-19",
   "sourceOfTruth": {
@@ -10,17 +10,21 @@
     "humanApproval": "Google Drive 人間承認ダッシュボード / 人間承認バッチ (A1/A2/A3/V1/V2/V3 approved)"
   },
   "publicationBoundary": {
-    "quotationExcerpt": "omitted-until-public-approval",
-    "originalTarget": "omitted-until-public-approval",
-    "anchor": "omitted-until-public-approval",
-    "attentionNote": "omitted-until-public-approval",
+    "quotationExcerpt": "conj/data/conjugation-quiz-examples.json（publicEnabled=true の記録のみ）",
+    "originalTarget": "conj/data/conjugation-quiz-examples.json（publicEnabled=true の記録のみ）",
+    "attentionNote": "omitted",
     "targetOccurrenceBase": 0,
     "humanApprovalRequired": true,
     "humanApprovalSatisfied": true,
-    "remainingGates": [
-      "quotation",
-      "final-compliance",
-      "release/integration QA"
+    "publicationApproval": {
+      "decidedBy": "user",
+      "decidedOn": "2026-10-01",
+      "scope": "一次資料AI監査を終えた125件。未確認の aux-289・aux-290 は保留（publicEnabled=false、各ゲート pending）。",
+      "basis": "ユーザーの公開指示（2026-10-01）と、CHJ本文を引用として掲載し出典を一覧に示す裁定（2026-09-23）。AI監査は公開判断を代替しない。"
+    },
+    "heldIds": [
+      "aux-289",
+      "aux-290"
     ]
   },
   "counts": {
@@ -34,7 +38,33 @@
     "classification": {
       "standard": 89,
       "attention": 38
-    }
+    },
+    "publicEnabled": 125
+  },
+  "primarySourceAudit": {
+    "kind": "ai-primary-source-collation",
+    "note": "AIによる一次資料照合の判定案。人間承認・公開承認ではなく、reviewStatus / humanApprovalStatus / publicEnabled / 公開ゲートを変更しない。表記差があってもCHJ原表記は置き換えない。照合本文・別版表記は公開承認まで載せず、監査マニフェストに置く。",
+    "source": "活用表アプリ_代表監査127_実装反映用監査マニフェスト_2026-10-01",
+    "judgments": [
+      "一致",
+      "表記差",
+      "表記差・訓読差",
+      "本文差",
+      "未確認"
+    ],
+    "reportedOn": "2026-10-01",
+    "totals": {
+      "一致": 105,
+      "表記差": 17,
+      "表記差・訓読差": 3,
+      "本文差": 0,
+      "未確認": 2,
+      "total": 127
+    },
+    "pendingIds": [
+      "aux-289",
+      "aux-290"
+    ]
   },
   "records": [
     {
@@ -50,10 +80,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差・訓読差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集51 P.118",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-114",
@@ -68,10 +108,21 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集41 P.434",
+        "note": "旧「本文差」は誤参照のため撤回",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-108",
@@ -86,10 +137,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差・訓読差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集51 P.44",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-001",
@@ -104,10 +165,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-020",
@@ -122,10 +192,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-010",
@@ -140,10 +219,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-012",
@@ -158,10 +246,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-011",
@@ -176,10 +273,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-013",
@@ -194,10 +300,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-029",
@@ -212,10 +327,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集12 P.337",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-053",
@@ -230,10 +355,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集26 P.319",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-061",
@@ -248,10 +383,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-002",
@@ -266,10 +410,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-004",
@@ -284,10 +437,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集41 P.232",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-003",
@@ -302,10 +465,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-005",
@@ -320,10 +492,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-007",
@@ -338,10 +519,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adjv-077",
@@ -356,10 +546,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-032",
@@ -374,10 +573,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-010",
@@ -392,10 +600,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-013",
@@ -410,10 +627,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-011",
@@ -428,10 +654,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集43 P.20",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-009",
@@ -446,10 +682,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-020",
@@ -464,10 +709,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-005",
@@ -482,10 +736,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-006",
@@ -500,10 +763,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-008",
@@ -518,10 +790,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-076",
@@ -536,10 +817,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-036",
@@ -554,10 +844,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集11 P.27",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-057",
@@ -572,10 +872,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-048",
@@ -590,10 +899,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-106",
@@ -608,10 +926,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-089",
@@ -626,10 +953,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-099",
@@ -644,10 +980,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-083",
@@ -662,10 +1007,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-140",
@@ -680,10 +1034,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-115",
@@ -698,10 +1061,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-133",
@@ -716,10 +1088,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "adj-125",
@@ -734,10 +1115,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-010",
@@ -752,10 +1142,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差・訓読差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集38 P.39",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-012",
@@ -770,10 +1170,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "anchor",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-013",
@@ -788,10 +1197,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "anchor",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-002",
@@ -806,10 +1224,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-066",
@@ -824,10 +1251,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-054",
@@ -842,10 +1278,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "anchor",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-055",
@@ -860,10 +1305,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "anchor",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-025",
@@ -878,10 +1332,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-178",
@@ -896,10 +1359,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-289",
@@ -917,7 +1389,17 @@
       "publicEnabled": false,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "未確認",
+        "basis": "保留（CHJ位置のみ確認）",
+        "note": "一次資料の追加確認待ち（保留）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "pending",
+      "finalComplianceStatus": "pending",
+      "releaseQaStatus": "pending"
     },
     {
       "exampleId": "aux-290",
@@ -935,7 +1417,17 @@
       "publicEnabled": false,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "未確認",
+        "basis": "保留（CHJ位置のみ確認）",
+        "note": "一次資料の追加確認待ち（保留）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "pending",
+      "finalComplianceStatus": "pending",
+      "releaseQaStatus": "pending"
     },
     {
       "exampleId": "aux-176",
@@ -950,10 +1442,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-286",
@@ -968,10 +1469,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-287",
@@ -986,10 +1496,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-087",
@@ -1004,10 +1523,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-077",
@@ -1022,10 +1550,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-071",
@@ -1040,10 +1577,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-100",
@@ -1058,10 +1604,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-114",
@@ -1076,10 +1631,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-131",
@@ -1094,10 +1658,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-124",
@@ -1112,10 +1685,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "anchor",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-128",
@@ -1130,10 +1712,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-137",
@@ -1148,10 +1739,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-141",
@@ -1166,10 +1766,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-158",
@@ -1184,10 +1793,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-150",
@@ -1202,10 +1820,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "anchor",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-161",
@@ -1220,10 +1847,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-288",
@@ -1238,10 +1874,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "aux-162",
@@ -1256,10 +1901,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-194",
@@ -1274,10 +1928,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-091",
@@ -1292,10 +1955,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "occurrence",
       "targetOccurrence": 3,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集11 P.26",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-102",
@@ -1310,10 +1983,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-334",
@@ -1328,10 +2010,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-051",
@@ -1346,10 +2037,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-239",
@@ -1364,10 +2064,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-203",
@@ -1382,10 +2091,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-019",
@@ -1400,10 +2118,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集43 P.28",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-322",
@@ -1418,10 +2146,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-345",
@@ -1436,10 +2173,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-346",
@@ -1454,10 +2200,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-338",
@@ -1472,10 +2227,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-341",
@@ -1490,10 +2254,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-044",
@@ -1508,10 +2281,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-263",
@@ -1526,10 +2308,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-320",
@@ -1544,10 +2335,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-241",
@@ -1562,10 +2362,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集43 P.560",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-113",
@@ -1580,10 +2390,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-207",
@@ -1598,10 +2417,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-037",
@@ -1616,10 +2444,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集43 P.511",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-213",
@@ -1634,10 +2472,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-124",
@@ -1652,10 +2499,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集43 P.482",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-146",
@@ -1670,10 +2527,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-100",
@@ -1688,10 +2554,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-351",
@@ -1706,10 +2581,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-344",
@@ -1724,10 +2608,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-267",
@@ -1742,10 +2635,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集11 P.293",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-027",
@@ -1760,10 +2663,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-040",
@@ -1778,10 +2690,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-294",
@@ -1796,10 +2717,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-148",
@@ -1814,10 +2744,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-135",
@@ -1832,10 +2771,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-222",
@@ -1850,10 +2798,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集43 P.411",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-031",
@@ -1868,10 +2826,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-089",
@@ -1886,10 +2853,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-299",
@@ -1904,10 +2880,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-121",
@@ -1922,10 +2907,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集11 P.368",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-147",
@@ -1940,10 +2935,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-240",
@@ -1958,10 +2962,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-082",
@@ -1976,10 +2989,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-086",
@@ -1994,10 +3016,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-053",
@@ -2012,10 +3043,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-012",
@@ -2030,10 +3070,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-038",
@@ -2048,10 +3097,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-286",
@@ -2066,10 +3124,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-144",
@@ -2084,10 +3151,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-333",
@@ -2102,10 +3178,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-007",
@@ -2120,10 +3205,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-206",
@@ -2138,10 +3232,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-273",
@@ -2156,10 +3259,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-035",
@@ -2174,10 +3286,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集11 P.45",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-046",
@@ -2192,10 +3314,20 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "location": "全集11 P.126",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-026",
@@ -2210,10 +3342,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-134",
@@ -2228,10 +3369,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-069",
@@ -2246,10 +3396,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-326",
@@ -2264,10 +3423,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-070",
@@ -2282,10 +3450,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "JapanKnowledge School『新編日本古典文学全集』",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-064",
@@ -2300,10 +3477,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": true
+      "hasAttentionNote": true,
+      "primarySourceAudit": {
+        "judgment": "一致",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     },
     {
       "exampleId": "verb-108",
@@ -2318,10 +3504,19 @@
       "typeQuizEligible": true,
       "reviewStatus": "ai-audited",
       "humanApprovalStatus": "approved",
-      "publicEnabled": false,
+      "publicEnabled": true,
       "positionStrategy": "unique",
       "targetOccurrence": null,
-      "hasAttentionNote": false
+      "hasAttentionNote": false,
+      "primarySourceAudit": {
+        "judgment": "表記差",
+        "basis": "別一次資料（後撰和歌集・拾遺和歌集は全集未収録）",
+        "auditedBy": "ai",
+        "recordedOn": "2026-10-01"
+      },
+      "quotationStatus": "approved",
+      "finalComplianceStatus": "approved",
+      "releaseQaStatus": "approved"
     }
   ]
 }
