@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "observation-event.schema.json",
+  "title": "ObservationEvent",
+  "type": "object",
+  "required": [
+    "id",
+    "worldMinute",
+    "at",
+    "type",
+    "text"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "worldMinute": {
+      "type": "number"
+    },
+    "at": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "actorId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "targetId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tokenId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "interpretation": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

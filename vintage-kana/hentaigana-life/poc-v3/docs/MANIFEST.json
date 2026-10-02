@@ -1,0 +1,102 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 1044
+  },
+  {
+    "path": "assets/backgrounds/park-doodle-day.png",
+    "bytes": 1443850
+  },
+  {
+    "path": "assets/css/app.css",
+    "bytes": 5735
+  },
+  {
+    "path": "docs/IMPLEMENTATION_NOTES.md",
+    "bytes": 1761
+  },
+  {
+    "path": "docs/POC_V3_DECISIONS.md",
+    "bytes": 960
+  },
+  {
+    "path": "index.html",
+    "bytes": 3996
+  },
+  {
+    "path": "js/core/engine.js",
+    "bytes": 2014
+  },
+  {
+    "path": "js/core/event-bus.js",
+    "bytes": 305
+  },
+  {
+    "path": "js/core/logger.js",
+    "bytes": 763
+  },
+  {
+    "path": "js/core/storage.js",
+    "bytes": 1763
+  },
+  {
+    "path": "js/core/utils.js",
+    "bytes": 987
+  },
+  {
+    "path": "js/core/world-state.js",
+    "bytes": 1367
+  },
+  {
+    "path": "js/data/action-catalog.js",
+    "bytes": 1429
+  },
+  {
+    "path": "js/data/poc-cast.js",
+    "bytes": 8180
+  },
+  {
+    "path": "js/data/punctuation-catalog.js",
+    "bytes": 2610
+  },
+  {
+    "path": "js/data/world-config.js",
+    "bytes": 2174
+  },
+  {
+    "path": "js/main.js",
+    "bytes": 2273
+  },
+  {
+    "path": "js/sim/actions.js",
+    "bytes": 4440
+  },
+  {
+    "path": "js/sim/background.js",
+    "bytes": 725
+  },
+  {
+    "path": "js/sim/punctuation.js",
+    "bytes": 772
+  },
+  {
+    "path": "js/sim/scoring.js",
+    "bytes": 1756
+  },
+  {
+    "path": "js/ui/panels.js",
+    "bytes": 2356
+  },
+  {
+    "path": "js/ui/stage.js",
+    "bytes": 2075
+  },
+  {
+    "path": "schema/observation-event.schema.json",
+    "bytes": 849
+  },
+  {
+    "path": "schema/world-snapshot.schema.json",
+    "bytes": 976
+  }
+]

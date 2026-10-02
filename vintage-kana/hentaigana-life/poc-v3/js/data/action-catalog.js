@@ -1,0 +1,95 @@
+window.HKLife=window.HKLife||{};
+HKLife.ACTION_CATALOG=[
+  {
+    "id": "idle",
+    "label": "何もしない",
+    "base": 1.25,
+    "cost": 0,
+    "tags": [
+      "quiet"
+    ]
+  },
+  {
+    "id": "wander",
+    "label": "歩く",
+    "base": 1.0,
+    "cost": 0.1,
+    "tags": [
+      "movement"
+    ]
+  },
+  {
+    "id": "look_actor",
+    "label": "他個体を見る",
+    "base": 0.8,
+    "cost": 0.05,
+    "tags": [
+      "social",
+      "observe"
+    ]
+  },
+  {
+    "id": "approach",
+    "label": "近づく",
+    "base": 0.55,
+    "cost": 0.15,
+    "tags": [
+      "social",
+      "movement"
+    ]
+  },
+  {
+    "id": "retreat",
+    "label": "離れる",
+    "base": 0.35,
+    "cost": 0.1,
+    "tags": [
+      "social",
+      "movement",
+      "safety"
+    ]
+  },
+  {
+    "id": "inspect_punctuation",
+    "label": "記号を見る",
+    "base": 0.45,
+    "cost": 0.05,
+    "tags": [
+      "observe",
+      "punctuation"
+    ]
+  },
+  {
+    "id": "touch_punctuation",
+    "label": "記号に触る",
+    "base": 0.28,
+    "cost": 0.1,
+    "tags": [
+      "punctuation",
+      "object"
+    ]
+  },
+  {
+    "id": "dig",
+    "label": "穴を掘る",
+    "base": 0.14,
+    "cost": 0.45,
+    "tags": [
+      "environment",
+      "persistent"
+    ],
+    "requires": [
+      "diggable"
+    ]
+  },
+  {
+    "id": "rest",
+    "label": "休む",
+    "base": 0.6,
+    "cost": -0.2,
+    "tags": [
+      "quiet",
+      "recovery"
+    ]
+  }
+];

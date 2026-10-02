@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "world-snapshot.schema.json",
+  "title": "WorldSnapshot",
+  "type": "object",
+  "required": [
+    "version",
+    "clockMinutes",
+    "actors",
+    "area",
+    "punctuation",
+    "observationLog",
+    "internalLog"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "clockMinutes": {
+      "type": "number"
+    },
+    "weather": {
+      "type": "string"
+    },
+    "actors": {
+      "type": "array"
+    },
+    "area": {
+      "type": "object"
+    },
+    "punctuation": {
+      "type": "array"
+    },
+    "creatures": {
+      "type": "array"
+    },
+    "plants": {
+      "type": "array"
+    },
+    "craftedObjects": {
+      "type": "array"
+    },
+    "recipes": {
+      "type": "array"
+    },
+    "observationLog": {
+      "type": "array"
+    },
+    "internalLog": {
+      "type": "array"
+    },
+    "savedAt": {
+      "type": [
+        "number",
+        "null"
+      ]
+    }
+  }
+}
