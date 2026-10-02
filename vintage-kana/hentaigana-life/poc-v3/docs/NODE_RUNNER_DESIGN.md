@@ -89,10 +89,21 @@ resume可否は「simulation結果・PRNG・snapshot/resume stateに影響する
 
 `node/analyze-run.cjs --run <run-directory> [--out <output-directory>]`はJSONLとsnapshotを読むoffline analyzerで、JSON/Markdown集計を出す。既存の集計ファイルは上書きしない。`--out`はrunディレクトリ外に限る。
 
+## Continuous observer
+
+`node/observer.cjs` (実時間ペース、checkpoint、chunk化event、STOP/signal/IPC停止、crash回復) と `node/observer-supervisor.cjs` (再起動、hang検出、ALERT) 。詳細と運用コマンドは `node/README.md`。
+
+- 決定論: 待機 (`node/pacer.cjs`) はsimulationの外。壁時計はworld stateにもeventの比較対象にも入らない。停止中の時間は取り戻さない (1 tick以上遅れたら予定を今から引き直す)。
+- 回帰条件: `continuous-health-check.cjs` で、停止・crash・途中tickでの破損・hard kill・supervisor再起動を挟んだ1500 tickが、同seedのbatch runとevent・world・rngStateとも一致すること。
+- append-only: chunkは1プロセスが新規作成し再オープンしない。manifestは追記のみ。crash後のchunkは書き換えずに封印し、`validThroughSequence` より後ろは読まない。checkpoints/ だけが削除対象 (直近K個を残す)。snapshots/ は削除しない。
+- 拒否: version・seed・fingerprint不一致、再生不一致、failed segment、manifestの連続性破れ。終了コード3でsupervisorは再試行しない。
+
 ## 現段階で未実装
 
 - migration runner
 - 自動update/rollback
+- chunkの圧縮・アーカイブ (1日約123 MBのまま保持)
+- 数GB規模のchunkを全件メモリに読まないstreaming analyzer
 - 複数area
 - 濁点・半濁点の実変換
 - 全200見立ての投入

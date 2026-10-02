@@ -10,6 +10,7 @@ node node/runner.cjs --ticks 10000 --seed 20261002 --output ./runs --source-comm
 node node/resume-health-check.cjs
 node node/compat-health-check.cjs
 node node/snapshot-size-check.cjs
+node node/continuous-health-check.cjs
 ```
 
 既存runディレクトリがある場合は上書きを拒否する。毎回新しい `run-id` を使う。
@@ -52,7 +53,42 @@ node node/analyze-run.cjs --run ./runs/<run-id>
 node node/analyze-run.cjs --run ./runs/<run-id> --out ./comparisons/<name>/<run-id>
 ```
 
-既存events/snapshotsを読むだけで`analysis-summary.json`と`analysis-summary.md`を生成する。`--out`なしはrunディレクトリ内に、`--out`ありは指定先に書く。どちらも出力先に同名ファイルがあれば上書きせず停止する。`--out`にrunディレクトリ内のパスは指定できない。分析済みrunを再集計するときやrun間比較では`--out`を使う。
+既存events/snapshotsを読むだけで`analysis-summary.json`と`analysis-summary.md`を生成する。`--out`なしはrunディレクトリ内に、`--out`ありは指定先に書く。どちらも出力先に同名ファイルがあれば上書きせず停止する。`--out`にrunディレクトリ内のパスは指定できない。分析済みrunを再集計するときやrun間比較では`--out`を使う。continuous runの分割eventも読み、crash後に置き換えられたeventは数えない。
+
+## Continuous observer (常時観察運転)
+
+batch runner (`runner.cjs`) とは別に、`observer.cjs` が共有stepを実時間ペース (既定1.3秒/tick) で止まるまで回す。待機はsimulationの外側で行い、停止していた時間は取り戻さない。同じseedなら、何度止めてもcrashしても、batch runの同tick数と同じevent・worldになる (`continuous-health-check.cjs` で確認)。
+
+```powershell
+# 観察フォルダ (hentaigana-life-observer) で
+$node = ".\app\source\vintage-kana\hentaigana-life\poc-v3\node"
+node "$node\observer.cjs" --create --output .\runtime\runs --run-id <run-id> --seed <seed>
+node "$node\observer-supervisor.cjs" --run .\runtime\runs\<run-id> --state-dir .\runtime\current
+# 停止 (STOPを作って最終heartbeatを待つ)
+powershell -File "$node\windows\stop-observer.ps1" -StateDir .\runtime\current
+# 再開: runtime\current\STOP を削除してから supervisor を同じコマンドで起動
+```
+
+run の構成 (`eventLayout: chunked-v1`):
+
+```text
+<run-id>/
+  run-meta.json            mode: continuous, tickMs, compatibility
+  events/seg0001-c000001.jsonl ...   chunk。1プロセスが書き、二度と開かない
+  events/chunks.jsonl      append-only manifest (first/validThrough sequence, bytes, sha256, closeReason)
+  snapshots/               永続: initial、rotate (chunk境界)、stop、recovered。削除しない
+  checkpoints/             定期checkpoint。直近 --keep-checkpoints 個だけ残す
+  segments/                プロセスごとの区間。stopped / crashed / failed
+```
+
+state dir (`runtime/current`): `heartbeat.json` (毎秒とcheckpoint時)、`STOP` (あれば停止、残っている間は起動しない)、`supervisor.lock`、`supervisor.log`、`ALERT.json` (人の確認が必要なとき)。
+
+- checkpoint: 230 tick (約5分) または5分ごと。events を fsync してから snapshot を一時ファイル→renameで書く。
+- chunk切替: 66000 tick (約24時間) または 256 MB。切替直前に永続snapshotを書く。
+- 停止: STOPファイル、SIGINT/SIGTERM/SIGBREAK/SIGHUP、supervisorからのIPC。tickの途中では止めない。
+- crash後: 最新snapshotから共有simulationを再生し、既存eventと完全一致した最後のtick境界まで回復する。途中のtickのeventと壊れた末尾行は元のchunkに残したまま、manifestの `validThroughSequence` で無効扱いにする (`supersededEvents`, `tornTailBytes`)。再生が一致しなければ拒否する。
+- supervisor: 終了コード0で終了、3 (互換性や安全性で拒否) は ALERT.json を書いて終了、それ以外は指数backoffで再起動 (1時間に5回を超えたら ALERT)。heartbeatが古い (既定 max(120秒, 50 tick)) と hang とみなして kill し再起動する。同じstate dirで2つ目のsupervisorは即終了、同じrunで2つ目のobserverは終了コード5。
+- Windows自動起動: `windows/register-observer-task.ps1 -RunDir <run> -StateDir <state>` がログオン時と15分ごとのタスクを登録する (`-WhatIf` で確認可)。常駐設定の変更なので利用者が実行する。解除は `unregister-observer-task.ps1`。ログオン中のみ動作し、node のコンソール窓が出る。窓を閉じると停止する。SIGHUPでの正常停止を試みるが未検証で、間に合わなければcrash扱いになり、次の起動時に回復する。STOPがなければ次の15分トリガーで再開する。
 
 ## 更新時の安全運用
 

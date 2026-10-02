@@ -1,6 +1,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
+const { readValidEvents } = require("./event-chunks.cjs");
 
 const USAGE = "usage: node node/analyze-run.cjs --run <run-directory> [--out <output-directory>]";
 function parseArgs(argv) {
@@ -42,6 +43,15 @@ function readEvents(file) {
   }
   return { events, invalid };
 }
+// Continuous runs keep events in chunks (events/ + chunks.jsonl); readValidEvents enforces sequence continuity
+// and skips events superseded after a crash.
+function readRunEvents(dir) {
+  if (!fs.existsSync(path.join(dir, "events.jsonl")) && fs.existsSync(path.join(dir, "events"))) {
+    const events = readValidEvents(dir);
+    return { events, invalid: events.filter(e => !e.eventType || !e.stream || !Array.isArray(e.actorIds)).length };
+  }
+  return readEvents(path.join(dir, "events.jsonl"));
+}
 function readSnapshots(dir) {
   const snapshotDir = path.join(dir, "snapshots");
   if (!fs.existsSync(snapshotDir)) return { snapshots: [], invalid: 0 };
@@ -58,7 +68,7 @@ function readSnapshots(dir) {
 function countKind(world, kind) { return (world?.area?.modifications || []).filter(x => x.kind === kind).length; }
 function main() {
   const { runDir: dir, outDir } = parseArgs(process.argv.slice(2));
-  const { events, invalid: invalidEvents } = readEvents(path.join(dir, "events.jsonl"));
+  const { events, invalid: invalidEvents } = readRunEvents(dir);
   const { snapshots, invalid: invalidSnapshots } = readSnapshots(dir);
   const eventTypeCounts = {}, actionCounts = {}, characters = {}, interpretations = {}, interpretationsByCharacter = {}, approachesByCharacter = {}, approachPairs = {}, timeOfDayActionCounts = {}, streamCounts = { observation: 0, internal: 0 };
   let punctuationContacts = 0, digAttempts = 0, successfulDigEvents = 0, retreats = 0;
