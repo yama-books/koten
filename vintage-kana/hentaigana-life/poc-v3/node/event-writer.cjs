@@ -4,12 +4,12 @@ const fs=require("node:fs");
 function uniq(values){return [...new Set(values.filter(Boolean))];}
 
 class EventWriter{
-  constructor({file,world,runMeta,eventLevel="all"}){
-    this.fd=fs.openSync(file,"ax");
+  constructor({file,world,runMeta,eventLevel="all",append=false,startSequence=0}){
+    this.fd=fs.openSync(file,append?"a":"ax");
     this.world=world;
     this.runMeta=runMeta;
     this.eventLevel=eventLevel;
-    this.sequence=0;
+    this.sequence=startSequence;
   }
   bind(bus){
     this.offObservation=bus.on("observation",entry=>this.write("observation",entry));

@@ -7,6 +7,7 @@
 ```bash
 node node/health-check.cjs
 node node/runner.cjs --ticks 10000 --seed 20261002 --output ./runs --source-commit <commit-sha>
+node node/resume-health-check.cjs
 ```
 
 既存runディレクトリがある場合は上書きを拒否する。毎回新しい `run-id` を使う。
@@ -36,6 +37,19 @@ runs/
 - `--tick-delay-ms N`: 実時間の間隔を付けたい場合
 - `--run-id ID`: 新規run IDを明示
 - `--source-commit SHA`: 実行対象commit/tagを記録
+- `--resume-run DIR`: 保存済みrunを新しいsegmentとして再開。追加で実行するtick数を`--ticks`に指定
+- `--resume-from FILE`: `--resume-run`内のsnapshotを明示
+- `--pause-after-segment`: テストや計画停止向けに再開可能なinterrupted状態でsegmentを終了
+
+resume時はrun metadata・snapshot・現在のGit commitのsource/version/seedを照合する。completed run、version不一致、末尾が不完全なevent、snapshotとevent sequenceが一致しないrunは拒否する。`events.jsonl`はappend-only、snapshotは一時ファイルからrenameして新規作成する。`segments/`に各実行区間を記録する。
+
+## Offline analysis
+
+```bash
+node node/analyze-run.cjs --run ./runs/<run-id>
+```
+
+既存events/snapshotsを読むだけで`analysis-summary.json`と`analysis-summary.md`を生成する。
 
 ## 更新時の安全運用
 
