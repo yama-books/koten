@@ -137,7 +137,8 @@ test('review: 1首5句と作者問題の回から、誤答した1問だけを再
   expect(root!.textContent).not.toContain('今回の範囲を確認しました');
   await settle();
   expect(root!.textContent).toContain('今回の結果');
-  expect(root!.textContent).toContain('問題数: 1問');
+  // 範囲と問題数は「10番〜10番・1問」の 1 行にした（2026-10-02）。再出題した 1 問だけの回である。
+  expect(root!.querySelector('.result-meta')?.textContent).toBe('10番〜10番・1問');
 });
 
 test('review: 再確認を繰り返すと、その回で残った問題だけになる', async () => {

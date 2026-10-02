@@ -32,17 +32,7 @@ export function playHistoryMotion(root: HTMLElement): () => void {
     if (counter) counters.push(counter);
   }
 
-  const startCounting = () => counters.forEach((counter, index) => {
-    const startTime = performance.now() + 180 + index * 28;
-    const tick = (now: number) => {
-      if (stopped || counter.node.data !== counter.written) return;
-      const progress = Math.max(0, Math.min(1, (now - startTime) / 780));
-      counter.written = progress < 1 ? counter.format(Math.round(counter.target * (1 - (1 - progress) ** 4))) : counter.text;
-      counter.node.data = counter.written;
-      if (progress < 1) frames.push(requestAnimationFrame(tick));
-    };
-    frames.push(requestAnimationFrame(tick));
-  });
+  const startCounting = () => countUp(counters, frames, () => stopped);
 
   if (window.matchMedia('(min-width: 768px)').matches || typeof IntersectionObserver !== 'function') {
     // 待機の見た目を 1 フレーム確実に描いてから、全部を上から順に流し込む。
@@ -77,19 +67,42 @@ export function playHistoryMotion(root: HTMLElement): () => void {
     stopped = true;
     observers.forEach((observer) => observer.disconnect());
     frames.forEach((frame) => cancelAnimationFrame(frame));
-    for (const counter of counters) if (counter.node.data === counter.written) counter.node.data = counter.text;
+    settleCounters(counters);
     for (const el of [...cards, ...draws]) finish(el);
   };
 }
 
-type Counter = { node: Text; text: string; target: number; format: (value: number) => string; written: string };
+export type Counter = { node: Text; text: string; target: number; format: (value: number) => string; written: string };
+
+/**
+ * 数字を 0 から数え上げる。ease-out(quart) 780ms、180ms＋28ms×i の遅延。
+ * **最終フレームは描画済みの文字列そのもの**を書く。結果画面も同じ規則で使う。
+ */
+export function countUp(counters: readonly Counter[], frames: number[], stopped: () => boolean): void {
+  counters.forEach((counter, index) => {
+    const startTime = performance.now() + 180 + index * 28;
+    const tick = (now: number) => {
+      if (stopped() || counter.node.data !== counter.written) return;
+      const progress = Math.max(0, Math.min(1, (now - startTime) / 780));
+      counter.written = progress < 1 ? counter.format(Math.round(counter.target * (1 - (1 - progress) ** 4))) : counter.text;
+      counter.node.data = counter.written;
+      if (progress < 1) frames.push(requestAnimationFrame(tick));
+    };
+    frames.push(requestAnimationFrame(tick));
+  });
+}
+
+/** 途中で止めた時は、画面が書いた最終の文字列へ戻す（画面が書き直した文字には触れない）。 */
+export function settleCounters(counters: readonly Counter[]): void {
+  for (const counter of counters) if (counter.node.data === counter.written) counter.node.data = counter.text;
+}
 
 /**
  * **文字は既存の文字ノードの中身だけを書き換える。** `textContent` で入れ替えると、
  * Preact が持っている文字ノードが外れ、その後の記録の更新が画面に出なくなる。
  * 途中で画面が書き直したら（同期で記録が届いた時など）、その値を優先して止める。
  */
-function prepareCounter(el: HTMLElement): Counter | null {
+export function prepareCounter(el: HTMLElement): Counter | null {
   const node = el.firstChild;
   if (!(node instanceof Text) || node.nextSibling) return null;
   const text = node.data;
