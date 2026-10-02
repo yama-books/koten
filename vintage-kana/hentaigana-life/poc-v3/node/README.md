@@ -61,13 +61,17 @@ batch runner (`runner.cjs`) とは別に、`observer.cjs` が共有stepを実時
 
 ```powershell
 # 観察フォルダ (hentaigana-life-observer) で
-$node = ".\app\source\vintage-kana\hentaigana-life\poc-v3\node"
-node "$node\observer.cjs" --create --output .\runtime\runs --run-id <run-id> --seed <seed>
-node "$node\observer-supervisor.cjs" --run .\runtime\runs\<run-id> --state-dir .\runtime\current
-# 停止 (STOPを作って最終heartbeatを待つ)
-powershell -File "$node\windows\stop-observer.ps1" -StateDir .\runtime\current
-# 再開: runtime\current\STOP を削除してから supervisor を同じコマンドで起動
+$w = ".\app\source\vintage-kana\hentaigana-life\poc-v3\node\windows"
+# 開始: 新規runなら作成、既存runならresume。supervisorを別の非表示コンソールで起動し、tickが進むのを確認して戻る
+powershell -File "$w\start-observer.ps1" -RunId <run-id> -Seed <seed>      # -DryRun で確認だけ
+# 状態 (読み取りのみ。-AppendTo FILE で1行JSONを追記)
+powershell -File "$w\observer-status.ps1" -RunDir .\runtime\runs\<run-id> -StateDir .\runtime\current
+# 停止 (STOPを作って最終heartbeatを待つ。STOPは残る)
+powershell -File "$w\stop-observer.ps1" -StateDir .\runtime\current
+# 再開: runtime\current\STOP を自分で削除してから start-observer.ps1 を再実行 (-Seed は省略可)
 ```
+
+`observer.cjs --create` は run を作るだけで終了し、tick は進めない。常時動くのは supervisor (と、その子の observer) 。start-observer.ps1 は次の場合に起動しない: STOP や ALERT.json がある (どちらも削除しない)、同じ state dir の supervisor や observer が動いている、既存 run の seed が `-Seed` と違う、continuous run ではない。検証は `windows/test-start-observer.ps1` (一時ディレクトリで実際に起動・停止する。Windows PowerShell 5.1 と 7 で確認済み)。
 
 run の構成 (`eventLayout: chunked-v1`):
 
