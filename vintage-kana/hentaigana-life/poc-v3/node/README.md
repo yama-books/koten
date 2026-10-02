@@ -47,9 +47,10 @@ resume時はrun metadata・snapshot・現在のGit commitのsource/version/seed�
 
 ```bash
 node node/analyze-run.cjs --run ./runs/<run-id>
+node node/analyze-run.cjs --run ./runs/<run-id> --out ./comparisons/<name>/<run-id>
 ```
 
-既存events/snapshotsを読むだけで`analysis-summary.json`と`analysis-summary.md`を生成する。
+既存events/snapshotsを読むだけで`analysis-summary.json`と`analysis-summary.md`を生成する。`--out`なしはrunディレクトリ内に、`--out`ありは指定先に書く。どちらも出力先に同名ファイルがあれば上書きせず停止する。`--out`にrunディレクトリ内のパスは指定できない。分析済みrunを再集計するときやrun間比較では`--out`を使う。
 
 ## 更新時の安全運用
 

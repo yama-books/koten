@@ -57,7 +57,7 @@ schema変更時は `worldSchemaVersion` を変え、旧snapshotを直接上書�
 
 `node/runner.cjs --resume-run <run-directory> [--resume-from <snapshot-file>]`でsnapshotから再開する。`--ticks`はそのsegmentで追加実行するtick数。`--pause-after-segment`はresumeを許す計画停止テスト用。PRNG stateとevent sequenceを復元する。`resume-health-check.cjs`は2000連続tickと1000+resume+1000をworld/event単位で比較し、crashでsnapshotより後に残ったeventsのreplayも確認する。
 
-`node/analyze-run.cjs --run <run-directory>`はJSONLとsnapshotを読むoffline analyzerで、JSON/Markdown集計を出す。
+`node/analyze-run.cjs --run <run-directory> [--out <output-directory>]`はJSONLとsnapshotを読むoffline analyzerで、JSON/Markdown集計を出す。既存の集計ファイルは上書きしない。`--out`はrunディレクトリ外に限る。
 
 ## 現段階で未実装
 

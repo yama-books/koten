@@ -2,10 +2,27 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-function getRunDir(argv) {
-  const i = argv.indexOf("--run");
-  if (i < 0 || !argv[i + 1]) throw new Error("usage: node node/analyze-run.cjs --run <run-directory>");
-  return path.resolve(argv[i + 1]);
+const USAGE = "usage: node node/analyze-run.cjs --run <run-directory> [--out <output-directory>]";
+function parseArgs(argv) {
+  let runDir = null, outDir = null;
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === "--run" && argv[i + 1]) runDir = path.resolve(argv[++i]);
+    else if (argv[i] === "--out" && argv[i + 1]) outDir = path.resolve(argv[++i]);
+    else throw new Error(USAGE);
+  }
+  if (!runDir) throw new Error(USAGE);
+  if (outDir) {
+    const rel = path.relative(runDir, outDir);
+    if (!rel.startsWith("..") && !path.isAbsolute(rel)) throw new Error("--out must be outside the run directory; omit --out to write into the run directory");
+  }
+  return { runDir, outDir: outDir || runDir };
+}
+// Never replace an existing summary: checked up front, then created with "wx".
+function writeOutputsExclusive(outDir, files) {
+  const existing = files.map(([name]) => path.join(outDir, name)).filter(f => fs.existsSync(f));
+  if (existing.length) throw new Error(`analysis output already exists; refusing to overwrite: ${existing.join(", ")}`);
+  fs.mkdirSync(outDir, { recursive: true });
+  for (const [name, content] of files) fs.writeFileSync(path.join(outDir, name), content, { encoding: "utf8", flag: "wx" });
 }
 function increment(obj, key) { obj[key] = (obj[key] || 0) + 1; }
 function percent(n, total) { return total ? Number((100 * n / total).toFixed(2)) : 0; }
@@ -40,7 +57,7 @@ function readSnapshots(dir) {
 }
 function countKind(world, kind) { return (world?.area?.modifications || []).filter(x => x.kind === kind).length; }
 function main() {
-  const dir = getRunDir(process.argv.slice(2));
+  const { runDir: dir, outDir } = parseArgs(process.argv.slice(2));
   const { events, invalid: invalidEvents } = readEvents(path.join(dir, "events.jsonl"));
   const { snapshots, invalid: invalidSnapshots } = readSnapshots(dir);
   const eventTypeCounts = {}, actionCounts = {}, characters = {}, interpretations = {}, interpretationsByCharacter = {}, approachesByCharacter = {}, approachPairs = {}, timeOfDayActionCounts = {}, streamCounts = { observation: 0, internal: 0 };
@@ -108,8 +125,7 @@ function main() {
     "", "## Actions", "", "| Action | Count | Share |", "|---|---:|---:|", actionRows || "| (none) | 0 | 0% |",
     "", "## Character activity", "", JSON.stringify(characters, null, 2), "", "## Interpretations", "", JSON.stringify({ counts: interpretations, byCharacter: interpretationsByCharacter }, null, 2), ""
   ].join("\n");
-  fs.writeFileSync(path.join(dir, "analysis-summary.json"), JSON.stringify(summary, null, 2) + "\n");
-  fs.writeFileSync(path.join(dir, "analysis-summary.md"), md);
-  console.log(JSON.stringify({ ok: true, runDir: dir, totalTicks: summary.totalTicks, totalEvents: summary.totalEvents, invalidEvents }, null, 2));
+  writeOutputsExclusive(outDir, [["analysis-summary.json", JSON.stringify(summary, null, 2) + "\n"], ["analysis-summary.md", md]]);
+  console.log(JSON.stringify({ ok: true, runDir: dir, outDir, totalTicks: summary.totalTicks, totalEvents: summary.totalEvents, invalidEvents }, null, 2));
 }
 try { main(); } catch (error) { console.error(error.message || error); process.exitCode = 1; }
