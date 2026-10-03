@@ -434,7 +434,7 @@
     opacity:0;filter:blur(8px);
   }
   .skip{
-    position:fixed;right:20px;bottom:20px;z-index:60;pointer-events:auto;
+    position:fixed;right:max(16px,calc(env(safe-area-inset-right) + 12px));bottom:max(20px,calc(env(safe-area-inset-bottom) + 12px));width:auto;max-width:calc(100vw - 32px);white-space:nowrap;z-index:60;pointer-events:auto;
     border:1px solid rgba(255,255,255,.34);background:rgba(24,20,17,.52);
     color:#fff;min-height:0;padding:9px 12px;font-size:11px;border-radius:999px;
     box-shadow:none;opacity:0;
