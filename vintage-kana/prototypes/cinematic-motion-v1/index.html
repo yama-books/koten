@@ -429,7 +429,7 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* MOTION STUDY 33: source-peel -> white ascent -> orbit -> vortex */
+  /* MOTION STUDY 34: source-peel -> white ascent -> orbit -> vortex */
   .veil{
     background:transparent;
     backdrop-filter:none;
@@ -510,7 +510,7 @@
         </label>
         <label class="choice-pill">
           <input type="radio" name="conversionMode" value="reverse">
-          <span>ひらがなにする</span>
+          <span>平仮名にする</span>
         </label>
       </div>
       <div class="composer">
@@ -550,7 +550,7 @@
           <button class="debug-btn" type="button" data-preset="stamp-heavy">重厚刻印</button>
           <button class="debug-btn" type="button" data-preset="stamp-gag">刻印レア</button>
           <button class="debug-btn" type="button" data-preset="stamp-insert">割り込み刻印</button>
-          <div class="debug-plan" id="debugPlan">MOTION STUDY 33 / 通常ランダム</div>
+          <div class="debug-plan" id="debugPlan">MOTION STUDY 34 / 通常ランダム</div>
         </div>
       </div>
     </section>
@@ -1148,6 +1148,21 @@ async function play(){
       whimPhase:Math.random()*Math.PI*2,
 
       // Persistent motion personality. These remain fixed for this play.
+      // Chick individuality: some barely hop and mostly look around, others hop a little more.
+      chickActivity:Math.random(),
+      chickHopAmpMul:.78+Math.random()*.34,
+      chickHopFreq:4.4+Math.random()*2.7,
+      chickHopPhase:Math.random()*Math.PI*2,
+      chickIdleBobAmp:.55+Math.random()*1.55,
+      chickIdleBobFreq:.72+Math.random()*.72,
+      chickLookFreq:.48+Math.random()*.72,
+      chickLookPhase:Math.random()*Math.PI*2,
+      chickTiltAmp:1.1+Math.random()*2.4,
+      chickSideAmp:.35+Math.random()*2.2,
+      chickPeckFreq:1.15+Math.random()*1.25,
+      chickPeckPhase:Math.random()*Math.PI*2,
+      chickPeckDir:Math.random()<.5?-1:1,
+
       verticalAmpMul:.62+Math.random()*.72,
       verticalFreq:4.2+Math.random()*5.4,
       verticalPhase:Math.random()*Math.PI*2,
@@ -1219,16 +1234,30 @@ async function play(){
 
   const chickFrontPose=(i,timeSec)=>{
     const s=seeds[i];
-    const hopPhase=timeSec*7.8-i*.58+s.phase*.08;
-    const hop=Math.pow(Math.max(0,Math.sin(hopPhase)),1.70);
+    const activity=s.chickActivity;
+
+    // Quiet chicks spend more time standing and looking around.
+    // Active chicks hop more often, but even the largest hop stays intentionally small.
+    const hopPhase=timeSec*s.chickHopFreq+s.chickHopPhase;
+    const hopThreshold=lerp(.62,.10,activity);
+    const hopRaw=clamp((Math.sin(hopPhase)-hopThreshold)/Math.max(.001,1-hopThreshold));
+    const hop=Math.pow(hopRaw,1.95);
+    const hopAmp=lerp(3.5,13.5,activity)*s.chickHopAmpMul;
+
+    const idleBob=Math.sin(timeSec*s.chickIdleBobFreq+s.chickHopPhase*.43)*s.chickIdleBobAmp;
+    const look=Math.sin(timeSec*s.chickLookFreq+s.chickLookPhase);
+    const peckRaw=Math.max(0,Math.sin(timeSec*s.chickPeckFreq+s.chickPeckPhase));
+    const peck=Math.pow(peckRaw,5.2)*(1-hop*.82);
+    const side=Math.sin(timeSec*(.42+s.chickLookFreq*.18)+s.chickLookPhase)*s.chickSideAmp;
+
     return {
-      x:(i-(n-1)/2)*frontSpacing,
-      y:-56-hop*30+Math.sin(timeSec*1.08+s.phase)*2,
-      z:Math.sin(hopPhase*.42)*6,
-      scale:.72*densityScale*(1+hop*.035),
-      rot:Math.sin(hopPhase)*4,
-      rx:-hop*6,
-      ry:Math.cos(hopPhase*.54)*4
+      x:(i-(n-1)/2)*frontSpacing+side+peck*s.chickPeckDir*1.2,
+      y:-56-hop*hopAmp+idleBob+peck*1.6,
+      z:Math.sin(hopPhase*.38)*2.2*hop+look*1.1,
+      scale:.72*densityScale*(1+hop*.018-peck*.005),
+      rot:look*s.chickTiltAmp+peck*s.chickPeckDir*2.4,
+      rx:-hop*3.2+peck*2.0,
+      ry:look*(2.2+activity*2.0)
     };
   };
 
@@ -2175,17 +2204,27 @@ async function play(){
       };
     }
 
-    // "Chick" mode: no grand orbit. Characters hop one after another into a neat row.
-    const hopPhase=timeSec*8.8-i*.62;
-    const hop=Math.pow(Math.max(0,Math.sin(hopPhase)),1.72);
+    // "Chick" mode: a row of small individuals, not a synchronized bouncing machine.
+    const activity=s.chickActivity;
+    const hopPhase=timeSec*(s.chickHopFreq*1.08)+s.chickHopPhase;
+    const hopThreshold=lerp(.64,.12,activity);
+    const hopRaw=clamp((Math.sin(hopPhase)-hopThreshold)/Math.max(.001,1-hopThreshold));
+    const hop=Math.pow(hopRaw,2.0);
+    const hopAmp=lerp(4.0,15.5,activity)*s.chickHopAmpMul;
+    const idleBob=Math.sin(timeSec*s.chickIdleBobFreq+s.chickHopPhase*.51)*s.chickIdleBobAmp;
+    const look=Math.sin(timeSec*s.chickLookFreq+s.chickLookPhase);
+    const peckRaw=Math.max(0,Math.sin(timeSec*s.chickPeckFreq+s.chickPeckPhase));
+    const peck=Math.pow(peckRaw,5.4)*(1-hop*.84);
+    const side=Math.sin(timeSec*(.44+s.chickLookFreq*.16)+s.chickLookPhase)*s.chickSideAmp;
+
     return {
-      x:(i-(n-1)/2)*chickSpacing,
-      y:26-hop*42+Math.sin(timeSec*1.2+s.phase)*2.5,
-      z:Math.sin(hopPhase*.45)*8,
-      scale:.68*densityScale*(1+hop*.05),
-      rot:Math.sin(hopPhase)*4.5,
-      rx:-hop*8,
-      ry:Math.cos(hopPhase*.55)*5
+      x:(i-(n-1)/2)*chickSpacing+side+peck*s.chickPeckDir*1.35,
+      y:26-hop*hopAmp+idleBob+peck*1.7,
+      z:Math.sin(hopPhase*.40)*2.5*hop+look*1.2,
+      scale:.68*densityScale*(1+hop*.020-peck*.005),
+      rot:look*s.chickTiltAmp+peck*s.chickPeckDir*2.7,
+      rx:-hop*3.6+peck*2.1,
+      ry:look*(2.4+activity*2.2)
     };
   };
 
