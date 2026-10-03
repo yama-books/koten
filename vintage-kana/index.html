@@ -887,12 +887,32 @@ function finishInstant(text,mode=getConversionMode()){
   glow.style.opacity=.8;
   input.style.fontFamily=targetFontFor(mode);
 }
+// With the on-screen keyboard open the page is shifted and the viewport is short;
+// close it and wait for the viewport to settle before measuring the source text.
+async function settleKeyboard(){
+  if(document.activeElement!==input)return;
+  input.blur();
+  const vv=window.visualViewport;
+  const start=performance.now();
+  let last="",stable=0;
+  while(performance.now()-start<900){
+    await new Promise(r=>requestAnimationFrame(r));
+    const now=vv?`${Math.round(vv.height)}:${Math.round(vv.offsetTop)}`:String(innerHeight);
+    stable=now===last?stable+1:0;
+    last=now;
+    const open=vv&&(vv.offsetTop>1||innerHeight-vv.height>80);
+    if(stable>=6&&!open)break;
+  }
+  window.scrollTo(0,0);
+}
 async function play(){
   if(running)return;
   running=true;
   btn.disabled=true;
   const token=++playToken;
   try{
+  await settleKeyboard();
+  if(token!==playToken)return;
   const mode=getConversionMode();
   const src=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
   lastSource=src;
