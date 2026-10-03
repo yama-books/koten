@@ -1,6 +1,13 @@
 # HANDOFF — vintage-kana
 
-最終更新: 2026-09-19
+最終更新: 2026-09-19（公開構造のみ 2026-10-03 更新）
+
+## 公開構造（2026-10-03〜）
+
+- `index.html` — 正式入口（`https://yama-books.github.io/koten/vintage-kana/`、QR で配布済み・URL変更禁止）。`prototypes/cinematic-motion-v1/index.html` の派手アニメ版から、デバッグUI・刻印方向UIを外し、上部バー（タイトル＋「詳しい版」）と演出後の「もう一回遊ぶ／変体仮名をもっと見る」を足したもの。演出ロジックは prototype と同じ（違いは結果盤の字の大きさを画面幅に収める上限だけ）。
+- `detail.html` — 2026-10-03 までの `index.html`（詳しい版）。上部に「アニメ版」（`./`）を追加した以外は同一。`check:vintage-kana-record` はこちらを検査する。
+- `prototypes/cinematic-motion-v1/` — 演出の開発・検証用（デバッグUIあり）。演出を直したら `index.html` へも反映する。
+- 以下の本文で「`index.html`」とあるのは、2026-10-03 以前の記述では詳しい版（現 `detail.html`）を指す。
 
 ## 0. 着手前に読む
 

@@ -11,7 +11,7 @@ import { chromium, webkit, type Browser, type Page } from 'playwright';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const appDir = path.join(root, 'vintage-kana');
-const html = readFileSync(path.join(appDir, 'index.html'), 'utf8');
+const html = readFileSync(path.join(appDir, 'detail.html'), 'utf8');
 const KANA_ORDER: string[] = [...html.match(/const KANA_ORDER=\[\.\.\."([^"]+)"\]/)![1]];
 const master = JSON.parse(readFileSync(path.join(appDir, 'data/ui-glyph-master.json'), 'utf8'));
 type Glyph = { kana: string; glyph_id: string; character: string; jibo: string };
@@ -84,7 +84,7 @@ async function openRecord(page: Page, events: LearningEvent[]) {
   await page.addInitScript(([key, value]) => { localStorage.setItem(key, value); }, ['vintage-kana:learning-events:v1', JSON.stringify(events)]);
   // 外部の Web フォントは検査に使わない（オフラインでも同じ結果になるように）。
   await page.route(/fonts\.(googleapis|gstatic)\.com/, route => route.abort());
-  await page.goto(base);
+  await page.goto(base + 'detail.html');
   await page.waitForFunction('GLYPHS.length>0');
   await page.evaluate(() => {
     [...document.querySelectorAll<HTMLElement>('.tab')].find(b => b.textContent!.trim() === '習得する')!.click();
