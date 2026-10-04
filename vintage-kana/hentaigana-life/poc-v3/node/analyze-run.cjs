@@ -127,7 +127,7 @@ function main() {
   const md = [
     `# Run analysis: ${summary.runId}`, "", `- Ticks: ${summary.totalTicks ?? "unknown"}`, `- Events: ${summary.totalEvents}`,
     `- Invalid or missing events: ${invalidEvents}`, `- Snapshots read: ${snapshots.length}`, `- Invalid snapshots: ${invalidSnapshots}`,
-    `- Observation / internal events: ${streamCounts.observation} / ${streamCounts.internal}`, `- Punctuation contacts: ${punctuationContacts}`,
+    `- Observation / internal events: ${streamCounts.observation} / ${streamCounts.internal}`, `- World-state-change ticks: ${stateChangeTicks.size} / ${totalTicks ?? "unknown"} (${summary.worldStateChanges.changedTickPercent}%)`, `- Observation events / tick: ${summary.worldStateChanges.observationEventsPerTick}`, `- Punctuation contacts: ${punctuationContacts}`,
     `- Approach / retreat actions: ${Object.values(approachesByCharacter).reduce((a, b) => a + b, 0)} / ${retreats}`,
     `- Dig attempts / successful dig events: ${digAttempts} / ${successfulDigEvents}`,
     `- Holes added / soil piles added: ${summary.background.holesAdded} / ${summary.background.soilPilesAdded}`,

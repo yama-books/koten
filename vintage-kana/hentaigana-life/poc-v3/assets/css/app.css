@@ -59,3 +59,6 @@ h1{font-size:22px;margin:4px 0 0} h1 span{font-size:13px;font-weight:500;color:v
 .experiment-panel p{font-size:10px;color:var(--muted)}.experiment-buttons{display:flex;flex-wrap:wrap;gap:6px}
 details{margin-top:12px;font-size:10px}pre{max-height:180px;overflow:auto;background:#f0ece4;padding:8px;border-radius:8px;white-space:pre-wrap}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.side{grid-row:2}.log-panel,.experiment-panel{grid-column:1}.stage-card{min-height:560px}}
+
+.punct.held{font-size:22px;opacity:.82;filter:drop-shadow(0 2px 2px rgba(50,45,39,.18))}
+.actor.carrying .glyph{filter:drop-shadow(0 2px 0 #fff) drop-shadow(0 5px 6px rgba(50,45,39,.12))}
