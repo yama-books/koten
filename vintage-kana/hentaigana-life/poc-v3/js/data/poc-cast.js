@@ -285,5 +285,42 @@ HKLife.POC_CAST=[
       "reading": true,
       "source": true
     }
+  },
+  {
+    "id":"U+1B077","glyph":"𛁷","kana":"と","source":"土","variant":"",
+    "species":"地面観察型","ability":"ならす","abilityDescription":"《ならす》 地面の小さな変化に気づき、手を入れやすい",
+    "limitations":["PoC仮設定。能力は結果を保証しない"],
+    "hiddenPersonality":{"approach":0.32,"curiosity":0.64,"caution":0.52,"rejectionTolerance":0.6,"persistence":0.78,"playfulness":0.32,"empathy":0.42,"environmentInterest":0.96,"craftingInterest":0.66,"settling":0.78,"mobility":0.42,"colorSensitivity":0.3},
+    "home":{"x":8,"y":78},"residence":"fluid","initialPresence":false,"profileStatus":"poc-provisional",
+    "arrivalAffinity":{"base":0.85,"holes":0.7,"soilPiles":0.35},
+    "known":{"reading":true,"source":true}
+  },
+  {
+    "id":"U+1B0DB","glyph":"𛃛","kana":"も","source":"茂","variant":"",
+    "species":"育成観察型","ability":"育ちを見守る","abilityDescription":"《育ちを見守る》 芽や植物の変化へ気づきやすい",
+    "limitations":["PoC仮設定。植物を必ず成長させる能力ではない"],
+    "hiddenPersonality":{"approach":0.48,"curiosity":0.7,"caution":0.44,"rejectionTolerance":0.58,"persistence":0.7,"playfulness":0.48,"empathy":0.6,"environmentInterest":0.92,"craftingInterest":0.5,"settling":0.7,"mobility":0.4,"colorSensitivity":0.62},
+    "home":{"x":92,"y":42},"residence":"fluid","initialPresence":false,"profileStatus":"poc-provisional",
+    "arrivalAffinity":{"base":0.65,"sprouts":0.9,"rain":0.35},
+    "known":{"reading":true,"source":true}
+  },
+  {
+    "id":"U+1B070","glyph":"𛁰","kana":"て","source":"傳","variant":"",
+    "species":"搬送型","ability":"届ける","abilityDescription":"《届ける》 小物の移動や受け渡しに関心を持ちやすい",
+    "limitations":["PoC仮設定。頼まれた物を必ず届けるわけではない"],
+    "hiddenPersonality":{"approach":0.62,"curiosity":0.64,"caution":0.36,"rejectionTolerance":0.68,"persistence":0.74,"playfulness":0.5,"empathy":0.54,"environmentInterest":0.5,"craftingInterest":0.82,"settling":0.34,"mobility":0.88,"colorSensitivity":0.35},
+    "home":{"x":6,"y":34},"residence":"fluid","initialPresence":false,"profileStatus":"poc-provisional",
+    "arrivalAffinity":{"base":0.75,"movedTokens":0.7,"carrying":0.35},
+    "known":{"reading":true,"source":true}
+  },
+  {
+    "id":"U+1B0BE","glyph":"𛂾","kana":"ほ","source":"寶","variant":"",
+    "species":"収集観察型","ability":"しまう","abilityDescription":"《しまう》 集められた小物や置場へ関心を持ちやすい",
+    "limitations":["PoC仮設定。所有権を固定する能力ではない"],
+    "hiddenPersonality":{"approach":0.42,"curiosity":0.86,"caution":0.62,"rejectionTolerance":0.5,"persistence":0.8,"playfulness":0.4,"empathy":0.44,"environmentInterest":0.68,"craftingInterest":0.7,"settling":0.76,"mobility":0.36,"colorSensitivity":0.72},
+    "home":{"x":94,"y":78},"residence":"fluid","initialPresence":false,"profileStatus":"poc-provisional",
+    "arrivalAffinity":{"base":0.75,"punctuation":0.03,"caches":0.9},
+    "known":{"reading":true,"source":true}
   }
 ];
+
