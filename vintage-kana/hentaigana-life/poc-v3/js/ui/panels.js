@@ -17,6 +17,7 @@ HKLife.Panels={
       <div class="big">${a.glyph}</div>
       <div class="known"><strong>読み:</strong> ${a.kana}<br><strong>字母:</strong> ${a.source}</div>
       <div class="hint">
+        ${a.presence==="away"?"現在: 外出中<br>":"現在: この場所にいます<br>"}
         性格値は表示しません。<br>
         観察: ${obs.events}件 / 接近 ${obs.approaches} / 記号接触 ${obs.punctuationTouches} / 拾う ${obs.punctuationPicks||0} / 置く ${obs.punctuationPlaces||0} / 掘削 ${obs.digs}<br>
         ${carried?`いま運んでいるもの: ${carried.glyph}`:"いま運んでいるもの: なし"}
@@ -28,7 +29,7 @@ HKLife.Panels={
     document.getElementById("weather").textContent=world.weather==="light-rain"?"小雨":"晴";
     const activePunctuation=world.punctuation.filter(x=>x.state!=="merged").length;
     document.getElementById("world-summary").innerHTML=`
-      <span class="k">個体</span><span>${world.actors.length}</span>
+      <span class="k">個体</span><span>${world.actors.filter(a=>a.presence!=="away").length}</span>
       <span class="k">記号</span><span>${activePunctuation}</span>
       <span class="k">穴</span><span>${world.area.modifications.filter(x=>x.kind==="hole").length}</span>
       <span class="k">世界時刻</span><span>${HKLife.Utils.formatClock(world.clockMinutes)}</span>`;
