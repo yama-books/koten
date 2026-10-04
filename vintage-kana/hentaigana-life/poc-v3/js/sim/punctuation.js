@@ -2,8 +2,7 @@ window.HKLife=window.HKLife||{};
 HKLife.Punctuation={
   interpret(world,actor,token){
     const options=HKLife.PUNCTUATION_CATALOG.pocInterpretations[token.kind]||[];
-    const zone=HKLife.WorldState.zoneAt(token.x,token.y);
-    const tags=new Set(zone?.tags||[]);
+    const tags=HKLife.WorldState.zoneTagsAt(token.x,token.y);
     const weighted=options.map(o=>{
       let weight=.25+(o.actorBias?.[actor.source]||0);
       if(o.contexts.some(c=>tags.has(c)))weight+=.35;
@@ -88,9 +87,8 @@ HKLife.Punctuation={
     const target=this.preferredPlace(world,actor,token);
     const changes=this.dropAt(world,actor,token,target.x,target.y,"place");
     if(target.interpretation==="seed"){
-      const zone=HKLife.WorldState.zoneAt(token.x,token.y);
       const nearHole=world.area.modifications.some(m=>m.kind==="hole"&&HKLife.Utils.distance(m,token)<7);
-      if(zone?.tags.includes("diggable")||nearHole){
+      if(HKLife.WorldState.hasZoneTag(token.x,token.y,"diggable")||nearHole){
         const before=token.planted;
         token.planted=true;token.plantedAtTick=world.ticks;token.sproutDueTick=world.ticks+HKLife.WORLD_CONFIG.usage.sproutDelayTicks;
         changes.push({kind:"punctuation-planted",id:token.id,before,after:true});
@@ -117,8 +115,7 @@ HKLife.Punctuation={
     const candidates=world.punctuation.filter(p=>p.state==="resting"&&(p.kind==="period"||p.kind==="handakuten"));
     if(!candidates.length)return;
     const token=HKLife.Utils.pick(candidates);
-    const zone=HKLife.WorldState.zoneAt(token.x,token.y);
-    const wet=!!zone?.tags.includes("wet")||world.weather==="light-rain";
+    const wet=HKLife.WorldState.hasZoneTag(token.x,token.y,"wet")||world.weather==="light-rain";
     if(token.kind==="period"&&wet&&Math.random()<cfg.wetPeriodToHandakutenChance)this.setKind(world,token,"handakuten","wet-weighted");
     else if(token.kind==="handakuten"&&!wet&&Math.random()<cfg.dryHandakutenToPeriodChance)this.setKind(world,token,"period","dry-weighted");
   }

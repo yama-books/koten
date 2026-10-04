@@ -47,7 +47,10 @@ HKLife.WorldState={
   },
   findActor(world,id){return world.actors.find(a=>a.id===id)},
   presentActors(world){return world.actors.filter(a=>a.presence?.state!=="away")},
-  zoneAt(x,y){
-    return HKLife.WORLD_CONFIG.area.zones.find(z=>x>=z.x1&&x<=z.x2&&y>=z.y1&&y<=z.y2)||null;
-  }
+  zonesAt(x,y){
+    return HKLife.WORLD_CONFIG.area.zones.filter(z=>x>=z.x1&&x<=z.x2&&y>=z.y1&&y<=z.y2);
+  },
+  zoneAt(x,y){return this.zonesAt(x,y)[0]||null},
+  zoneTagsAt(x,y){return new Set(this.zonesAt(x,y).flatMap(z=>z.tags||[]))},
+  hasZoneTag(x,y,tag){return this.zoneTagsAt(x,y).has(tag)}
 };

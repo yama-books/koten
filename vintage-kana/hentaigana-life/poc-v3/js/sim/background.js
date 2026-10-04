@@ -1,6 +1,6 @@
 window.HKLife=window.HKLife||{};
 HKLife.Background={
-  canDig(world,actor){const z=HKLife.WorldState.zoneAt(actor.x,actor.y);return!!z?.tags.includes("diggable")},
+  canDig(world,actor){return HKLife.WorldState.hasZoneTag(actor.x,actor.y,"diggable")},
   addHole(world,actor){
     const nearby=world.area.modifications.some(m=>m.kind==="hole"&&HKLife.Utils.distance(m,actor)<7);
     if(nearby)return false;
@@ -20,7 +20,7 @@ HKLife.Background={
   },
   hasNear(world,kind,x,y,dist=5){return world.area.modifications.some(m=>m.kind===kind&&Math.hypot(m.x-x,m.y-y)<=dist)},
   recordMovement(world,actor){
-    const z=HKLife.WorldState.zoneAt(actor.x,actor.y);if(!z?.tags.includes("walkable"))return[];
+    if(!HKLife.WorldState.hasZoneTag(actor.x,actor.y,"walkable"))return[];
     const {c,x,y}=this.cell(world,actor.x,actor.y);c.walk++;c.lastTick=world.ticks;
     const changes=[];
     if(c.walk>=HKLife.WORLD_CONFIG.usage.pathThreshold&&!this.hasNear(world,"path",x,y,4)){

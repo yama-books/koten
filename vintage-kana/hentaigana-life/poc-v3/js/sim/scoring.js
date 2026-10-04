@@ -5,7 +5,7 @@ HKLife.Scoring={
     const present=HKLife.WorldState.presentActors(world);
     const nearActor=present.filter(a=>a.id!==actor.id).sort((a,b)=>HKLife.Utils.distance(actor,a)-HKLife.Utils.distance(actor,b))[0];
     const nearPunct=world.punctuation.filter(x=>x.state==="resting"&&!x.holder).sort((a,b)=>HKLife.Utils.distance(actor,a)-HKLife.Utils.distance(actor,b))[0];
-    const zone=HKLife.WorldState.zoneAt(actor.x,actor.y),out=[];
+    const out=[];
     const add=(id,weight,ctx={})=>out.push({value:{id,...ctx},weight:Math.max(.01,weight)});
     add("idle",1.1+(p.caution*.35)+(1-p.playfulness)*.2);
     add("wander",.65+p.mobility*.75+t.boredom*.25);
@@ -23,7 +23,7 @@ HKLife.Scoring={
       add("touch_punctuation",.06+p.playfulness*.28+p.environmentInterest*.2+(d<10?.18:0),{tokenId:nearPunct.id});
       if(d<=HKLife.WORLD_CONFIG.carry.pickDistance)add("pick_punctuation",.10+p.playfulness*.24+p.environmentInterest*.25+p.craftingInterest*.24,{tokenId:nearPunct.id});
     }
-    if(zone?.tags.includes("diggable")){
+    if(HKLife.WorldState.hasZoneTag(actor.x,actor.y,"diggable")){
       const digBias=(actor.source==="希"?.18:0)+(actor.source==="隱"?.12:0)+(actor.source==="土"?.28:0);
       add("dig",.03+p.environmentInterest*.18+p.playfulness*.09+digBias);
     }
