@@ -91,6 +91,7 @@ HKLife.Punctuation={
     const changes=[{kind:"punctuation-holder",scope:"world",physical:true,id:token.id,before,after:{holder:null,state:"resting"},by:actor.id,how}];
     const moved=this.moveToken(world,token,target.x,target.y,actor.id,how);
     if(moved)changes.push(moved);
+    if(token.kind==="period")HKLife.Background.recordUsage(world,token.x,token.y,"period-place",actor.id);
     if(token.kind==="period"&&interpretation==="seed"){
       const zone=HKLife.WorldState.zoneAt(token.x,token.y);
       const nearHole=world.area.modifications.some(m=>m.kind==="hole"&&HKLife.Utils.distance(m,token)<7);
