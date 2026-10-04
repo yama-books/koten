@@ -3,25 +3,15 @@
   "$id":"run-event.schema.json",
   "title":"Hentaigana Life Node Run Event",
   "type":"object",
-  "required":["runId","engineVersion","worldSchemaVersion","characterDataVersion","timestamp","worldTime","eventType","stream","actorIds","objectIds","area","seed","sequence"],
+  "required":["runId","engineVersion","worldSchemaVersion","characterDataVersion","timestamp","tick","worldTime","eventType","stream","actorIds","objectIds","area","seed","sequence"],
   "properties":{
-    "runId":{"type":"string"},
-    "engineVersion":{"type":"string"},
-    "worldSchemaVersion":{"type":"string"},
-    "characterDataVersion":{"type":"string"},
-    "timestamp":{"type":"string"},
+    "runId":{"type":"string"},"engineVersion":{"type":"string"},"worldSchemaVersion":{"type":"string"},"characterDataVersion":{"type":"string"},
+    "timestamp":{"type":"string"},"tick":{"type":"integer","minimum":0},
     "worldTime":{"type":"object","required":["minutes","display"],"properties":{"minutes":{"type":"number"},"display":{"type":"string"}}},
-    "eventType":{"type":"string"},
-    "stream":{"enum":["observation","internal"]},
-    "actorIds":{"type":"array","items":{"type":"string"}},
-    "objectIds":{"type":"array","items":{"type":"string"}},
-    "area":{"type":["string","null"]},
-    "action":{"type":["string","null"]},
-    "interpretation":{"type":["string","null"]},
-    "environmentChanges":{"type":["array","null"]},
-    "seed":{"type":"integer"},
-    "sequence":{"type":"integer","minimum":1},
-    "payload":{"type":"object"}
-  },
-  "additionalProperties":true
+    "eventType":{"type":"string"},"stream":{"enum":["observation","internal"]},
+    "actorIds":{"type":"array","items":{"type":"string"}},"objectIds":{"type":"array","items":{"type":"string"}},"area":{"type":["string","null"]},
+    "action":{"type":["string","null"]},"interpretation":{"type":["string","null"]},
+    "stateChanges":{"type":["array","null"],"items":{"type":"object"}},"environmentChanges":{"type":["array","null"]},
+    "seed":{"type":"integer"},"sequence":{"type":"integer","minimum":1},"payload":{"type":"object"}
+  },"additionalProperties":true
 }

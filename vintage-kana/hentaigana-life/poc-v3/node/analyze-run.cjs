@@ -72,10 +72,13 @@ function main() {
   const { snapshots, invalid: invalidSnapshots } = readSnapshots(dir);
   const eventTypeCounts = {}, actionCounts = {}, characters = {}, interpretations = {}, interpretationsByCharacter = {}, approachesByCharacter = {}, approachPairs = {}, timeOfDayActionCounts = {}, streamCounts = { observation: 0, internal: 0 };
   let punctuationContacts = 0, digAttempts = 0, successfulDigEvents = 0, retreats = 0;
+  const stateChangeKinds = {}, changedTicks = new Set(); let stateChangeEvents = 0;
   for (const event of events) {
     increment(eventTypeCounts, event.eventType);
     increment(streamCounts, event.stream);
     const payload = event.payload || {};
+    const changes = Array.isArray(event.stateChanges) ? event.stateChanges : (Array.isArray(payload.stateChanges) ? payload.stateChanges : []);
+    if (changes.length) { stateChangeEvents++; if (Number.isInteger(event.tick)) changedTicks.add(event.tick); for (const change of changes) increment(stateChangeKinds, change.kind || change.type || "unknown"); }
     const actor = payload.actorId || event.actorIds?.[0] || "unknown";
     if (event.eventType === "action-start") {
       const action = event.action || payload.action || "unknown";
@@ -120,6 +123,7 @@ function main() {
       soilPilesInitial: countKind(firstWorld, "soil-pile"), soilPilesFinal: countKind(lastWorld, "soil-pile"), soilPilesAdded: countKind(lastWorld, "soil-pile") - countKind(firstWorld, "soil-pile")
     },
     timeOfDayActionCounts, streamCounts,
+    worldStateChanges: { changedTicks: changedTicks.size, changedTickRatePercent: percent(changedTicks.size, lastWorld?.ticks || 0), stateChangeEvents, byKind: stateChangeKinds, observationEventsPerTick: lastWorld?.ticks ? Number((streamCounts.observation / lastWorld.ticks).toFixed(4)) : 0 },
     integrity: { invalidOrMissingEvents: invalidEvents, sequenceEnd: events.at(-1)?.sequence ?? 0, sequenceContinuous: invalidEvents === 0, snapshotsRead: snapshots.length, invalidSnapshots: invalidSnapshots > 0 }
   };
   const typeRows = Object.entries(eventTypeCounts).sort((a, b) => b[1] - a[1]).map(([k, v]) => `| ${k} | ${v} |`).join("\n");
@@ -131,6 +135,8 @@ function main() {
     `- Approach / retreat actions: ${Object.values(approachesByCharacter).reduce((a, b) => a + b, 0)} / ${retreats}`,
     `- Dig attempts / successful dig events: ${digAttempts} / ${successfulDigEvents}`,
     `- Holes added / soil piles added: ${summary.background.holesAdded} / ${summary.background.soilPilesAdded}`,
+    `- World-state changed ticks: ${summary.worldStateChanges.changedTicks} (${summary.worldStateChanges.changedTickRatePercent}%)`,
+    `- Observation events / tick: ${summary.worldStateChanges.observationEventsPerTick}`,
     "", "## Event types", "", "| Type | Count |", "|---|---:|", typeRows || "| (none) | 0 |",
     "", "## Actions", "", "| Action | Count | Share |", "|---|---:|---:|", actionRows || "| (none) | 0 | 0% |",
     "", "## Character activity", "", JSON.stringify(characters, null, 2), "", "## Interpretations", "", JSON.stringify({ counts: interpretations, byCharacter: interpretationsByCharacter }, null, 2), ""

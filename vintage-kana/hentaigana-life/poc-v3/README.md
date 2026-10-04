@@ -1,51 +1,31 @@
-# 変体仮名を飼う PoC v3 starter
+# 変体仮名を飼う PoC v3
 
-PoC v2以降の統合設計を、長時間自律生活向けの分割コードへ落とした最初の実装基盤です。
+文字を操作するゲームではなく、少人数の変体仮名が暮らす世界を観察するPoCです。Browser と Node は同じ shared simulation core を使います。
 
-## 起動
+## 現在のPoC
 
-最も簡単:
-`index.html` をブラウザで開く。
+- 常住6体 + 流動2枠。流動候補は 隱・希・土・茂・傳・寶
+- 流動個体は自分で来訪・滞在・離脱し、去っても履歴を保持
+- 句読点を個体ごとに別のものとして見立てる
+- 。と、に加えて、゛・゜の見立てを少数ずつ実装
+- 記号を拾う・運ぶ・置く
+- 水辺や雨では 。→゜ が起こりやすく、乾いた場所では ゜→。 が起こりやすい。必ず変わる固定レシピではない
+- 穴・土山に加えて、繰り返しから道・句点置場・芽が残る
+- stateChanges をイベントへ記録し、analyzer が「永続世界が変わったtick」の割合を集計
+- IndexedDB保存、Node snapshot/resume、continuous observer
 
-GitHub Pagesへ置いた場合も、そのまま動作する構成です。
+ブラウザ保存は world schema 3 から新しい世界として始まります。既存の schema 2 の長時間runは compatibility fingerprint が異なるため、新コードではresumeできません。
 
-## 現在動くもの
+## Node
 
-- 代表8体の自律行動
-- 性格非公開
-- 読み／字母のみ確定情報として表示
-- idle / wander / look / approach / retreat / rest
-- 句点・読点への異なる見立て
-- 穴掘り
-- 穴と土山の背景への永続追記
-- 観察ログ
-- 開発用内部ログ
-- IndexedDB保存
-- 再読み込み復元
-- 簡易オフライン論理時間
-- 世界時計・朝昼夕夜
-- 小雨介入
-- 句点／読点の追加
-
-## Node長時間観察
-
-ブラウザとNodeは `js/sim/step.js` の同じsimulation stepを使います。Node専用の行動ロジックはありません。
-
-```bash
+\`\`\`bash
 node node/health-check.cjs
-node node/runner.cjs --ticks 10000 --seed 20261002 --output ./runs --source-commit <commit-sha>
-```
+node node/runner.cjs --ticks 10000 --seed 20261004 --output ./runs --source-commit <commit-sha>
+node node/analyze-run.cjs --run <run-directory> --out <new-output-directory>
+\`\`\`
 
-詳細は `node/README.md` と `docs/NODE_RUNNER_DESIGN.md`。
+health-check は Browser/Node の simulation file contract と同一seed再現性も確認します。
 
-## 次の設計・実装優先順位
+## 評価
 
-1. 自動運転ログを数時間分取得
-2. 行動頻度と個体差を監査
-3. 濁点・半濁点
-4. `、+、⇄゛`
-5. 背景改変（巣・芽・句点置場）
-6. 流動個体
-7. 色
-8. 複数エリア
-9. 育成・工房・レシピ
+世界状態変化率は固定ノルマにしません。stateChanges で再計測し、まず15〜20%程度を観察上の初期目安として、何も起きない時間を残しながら調整します。観察イベントは1 tickあたり1.0以下を歯止めにします。

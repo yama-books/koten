@@ -41,8 +41,15 @@ h1{font-size:22px;margin:4px 0 0} h1 span{font-size:13px;font-weight:500;color:v
 .actor.acting .glyph{animation:act .45s ease-in-out infinite alternate}
 @keyframes look{50%{transform:translateX(5px) rotate(2deg)}}@keyframes think{to{transform:translateY(-3px) rotate(-2deg)}}@keyframes act{to{transform:translateY(-7px) scale(1.05)}}
 .punct{position:absolute;transform:translate(-50%,-50%);font-family:"HentaiganaWeb","Yu Mincho",serif;font-size:28px;cursor:pointer;transition:left .5s,top .5s,transform .25s}
+.punct.held{transform:translate(-50%,-50%) scale(.78);filter:drop-shadow(0 2px 2px rgba(40,30,20,.22))}
 .hole{position:absolute;width:44px;height:17px;border:2px solid #716a62;border-radius:50%;background:rgba(80,72,62,.08);transform:translate(-50%,-50%);box-shadow:inset 0 4px 8px rgba(40,30,20,.12)}
 .soil-pile{position:absolute;width:50px;height:18px;border-bottom:3px solid #81796f;border-radius:50%;transform:translate(-50%,-50%)}
+.world-mark{position:absolute;transform:translate(-50%,-50%);pointer-events:none}
+.world-mark.hole{width:44px;height:17px;border:2px solid #716a62;border-radius:50%;background:rgba(80,72,62,.08);box-shadow:inset 0 4px 8px rgba(40,30,20,.12)}
+.world-mark.soil-pile{width:50px;height:18px;border-bottom:3px solid #81796f;border-radius:50%}
+.world-mark.path{width:58px;height:12px;border-bottom:3px dashed rgba(112,101,86,.48);border-radius:50%;transform:translate(-50%,-50%) rotate(-7deg)}
+.world-mark.period-cache{font-family:"Yu Mincho",serif;font-size:20px;letter-spacing:-5px;color:#6f685f;background:rgba(244,240,232,.7);padding:1px 7px;border:1px dotted rgba(110,100,85,.45);border-radius:999px}
+.world-mark.sprout{font-family:"Yu Mincho",serif;font-size:24px;color:#536d4f;transform:translate(-50%,-60%) rotate(-10deg)}
 .toast{position:absolute;z-index:60;left:50%;top:54px;transform:translateX(-50%) translateY(-8px);opacity:0;background:rgba(46,45,42,.9);color:white;border-radius:999px;padding:8px 12px;font-size:11px;transition:.25s;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .side{display:grid;gap:10px;align-content:start}
