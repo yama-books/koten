@@ -23,7 +23,9 @@ HKLife.WorldState={
       area:{
         id:HKLife.WORLD_CONFIG.area.id,
         modifications:[],
-        traces:[]
+        traces:[],
+        usage:{},
+        usageLastDecayDay:0
       },
       punctuation:[
         this.makePunctuation("period",23,66),
