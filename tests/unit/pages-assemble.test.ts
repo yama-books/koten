@@ -51,7 +51,7 @@ function runtimeReferences(dir: string): Set<string> {
       const relative = path.posix.normalize(path.posix.join(path.posix.dirname(file), clean));
       if (relative.startsWith('../')) continue; // 他のアプリ（/100/ の Web フォント）
       refs.add(relative);
-      if (/\.(?:js|webmanifest)$/.test(relative) && existsSync(path.join(appDir, relative))) pending.push(relative);
+      if (/\.(?:js|webmanifest|html)$/.test(relative) && existsSync(path.join(appDir, relative))) pending.push(relative);
     }
   }
   return refs;
