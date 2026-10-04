@@ -27,6 +27,7 @@ HKLife.Actions={
     if(choice.id==="wander"){
       actor.x=HKLife.Utils.clamp(actor.x+(Math.random()-.5)*18,7,93);
       actor.y=HKLife.Utils.clamp(actor.y+(Math.random()-.5)*12,18,90);
+      HKLife.Background.recordUsage(world,actor.x,actor.y,"walk",actor.id);
       recordCarry("carry-wander");
       actor.transient.boredom=HKLife.Utils.clamp(actor.transient.boredom-.1,0,1);
       if(Math.random()<.32)HKLife.Logger.observation(world,"wander",`${actor.source}がふらりと場所を変えた。`,{actorId:actor.id});
@@ -40,6 +41,7 @@ HKLife.Actions={
       const dx=target.x-actor.x,dy=target.y-actor.y;
       actor.x=HKLife.Utils.clamp(target.x-dx/(Math.hypot(dx,dy)||1)*7,6,94);
       actor.y=HKLife.Utils.clamp(target.y-dy/(Math.hypot(dx,dy)||1)*7,15,92);
+      HKLife.Background.recordUsage(world,actor.x,actor.y,"walk",actor.id);
       recordCarry("carry-approach");
       actor.observationStats.approaches++;
       actor.relationships[target.id]=actor.relationships[target.id]||{familiarity:0,trust:0,caution:0};
@@ -51,6 +53,7 @@ HKLife.Actions={
       const dx=actor.x-target.x,dy=actor.y-target.y,mag=Math.hypot(dx,dy)||1;
       actor.x=HKLife.Utils.clamp(actor.x+dx/mag*9,6,94);
       actor.y=HKLife.Utils.clamp(actor.y+dy/mag*9,15,92);
+      HKLife.Background.recordUsage(world,actor.x,actor.y,"walk",actor.id);
       recordCarry("carry-retreat");
       HKLife.Logger.observation(world,"retreat",`${actor.source}が${target.source}から少し距離を取った。`,{actorId:actor.id,targetId:target.id});
     }
@@ -91,6 +94,7 @@ HKLife.Actions={
       const hole=HKLife.Background.addHole(world,actor);
       if(hole){
         actor.observationStats.digs++;
+        HKLife.Background.recordUsage(world,hole.x,hole.y,"dig",actor.id);
         const changes=[
           {kind:"persistent-modification-created",scope:"world",physical:true,id:hole.id,before:null,after:{kind:"hole",x:hole.x,y:hole.y},by:actor.id},
           {kind:"persistent-modification-created",scope:"world",physical:true,id:hole.soilPileId,before:null,after:{kind:"soil-pile"},by:actor.id}
