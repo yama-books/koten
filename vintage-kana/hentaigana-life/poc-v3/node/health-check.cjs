@@ -18,5 +18,6 @@ try{
   for(const key of ["runId","engineVersion","worldSchemaVersion","characterDataVersion","timestamp","worldTime","eventType","actorIds","objectIds","area","seed"]){if(!(key in event))throw new Error(`event missing ${key}`);}
   const parity=spawnSync(process.execPath,[path.join(__dirname,"parity-health-check.cjs")],{encoding:"utf8"});if(parity.status!==0)throw new Error(`parity check failed (${parity.status})\n${parity.stdout}\n${parity.stderr}`);
   const features=spawnSync(process.execPath,[path.join(__dirname,"world-change-health-check.cjs")],{encoding:"utf8"});if(features.status!==0)throw new Error(`world-change feature check failed (${features.status})\n${features.stdout}\n${features.stderr}`);
-  console.log(JSON.stringify({ok:true,ticks:result.ticksCompleted,events:lines.length,snapshots:fs.readdirSync(path.join(dir,"snapshots")).length,parity:true,worldChangeFeatures:true},null,2));
+  const metrics=spawnSync(process.execPath,[path.join(__dirname,"world-change-metrics-check.cjs")],{encoding:"utf8"});if(metrics.status!==0)throw new Error(`world-change metrics check failed (${metrics.status})\n${metrics.stdout}\n${metrics.stderr}`);const metricSummary=JSON.parse(metrics.stdout);
+  console.log(JSON.stringify({ok:true,ticks:result.ticksCompleted,events:lines.length,snapshots:fs.readdirSync(path.join(dir,"snapshots")).length,parity:true,worldChangeFeatures:true,metrics:metricSummary},null,2));
 }finally{fs.rmSync(base,{recursive:true,force:true});}
