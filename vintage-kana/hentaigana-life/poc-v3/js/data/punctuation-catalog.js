@@ -1,147 +1,41 @@
 window.HKLife=window.HKLife||{};
 HKLife.PUNCTUATION_CATALOG={
-  "tokenKinds": {
-    "period": {
-      "glyph": "。",
-      "label": "句点",
-      "physical": {
-        "weight": 0.35,
-        "elasticity": 0.6,
-        "buoyancy": 0.55
-      }
-    },
-    "comma": {
-      "glyph": "、",
-      "label": "読点",
-      "physical": {
-        "weight": 0.18,
-        "elasticity": 0.25,
-        "buoyancy": 0.65
-      }
-    },
-    "dakuten": {
-      "glyph": "゛",
-      "label": "濁点",
-      "physical": {
-        "weight": 0.22,
-        "elasticity": 0.4,
-        "buoyancy": 0.5
-      }
-    },
-    "handakuten": {
-      "glyph": "゜",
-      "label": "半濁点",
-      "physical": {
-        "weight": 0.25,
-        "elasticity": 0.75,
-        "buoyancy": 0.8
-      }
-    }
+  tokenKinds:{
+    period:{glyph:"。",label:"句点",physical:{weight:.35,elasticity:.6,buoyancy:.55}},
+    comma:{glyph:"、",label:"読点",physical:{weight:.18,elasticity:.25,buoyancy:.65}},
+    dakuten:{glyph:"゛",label:"濁点",physical:{weight:.22,elasticity:.4,buoyancy:.5}},
+    handakuten:{glyph:"゜",label:"半濁点",physical:{weight:.25,elasticity:.75,buoyancy:.8}}
   },
-  "pocInterpretations": {
-    "period": [
-      {
-        "id": "ball",
-        "label": "ボール",
-        "contexts": [
-          "playable"
-        ],
-        "actorBias": {
-          "愛": 0.5,
-          "移": 0.4
-        }
-      },
-      {
-        "id": "egg",
-        "label": "卵",
-        "contexts": [
-          "quiet"
-        ],
-        "actorBias": {
-          "仁": 0.3
-        }
-      },
-      {
-        "id": "seed",
-        "label": "種",
-        "contexts": [
-          "diggable"
-        ],
-        "actorBias": {
-          "意": 0.15
-        }
-      },
-      {
-        "id": "stone",
-        "label": "石ころ",
-        "contexts": [
-          "walkable"
-        ],
-        "actorBias": {
-          "惡": 0.2
-        }
-      }
+  pocInterpretations:{
+    period:[
+      {id:"ball",label:"ボール",contexts:["playable"],actorBias:{"愛":.5,"移":.4}},
+      {id:"egg",label:"卵",contexts:["shade"],actorBias:{"仁":.3}},
+      {id:"seed",label:"種",contexts:["diggable"],actorBias:{"意":.15}},
+      {id:"stone",label:"石ころ",contexts:["walkable"],actorBias:{"惡":.2}}
     ],
-    "comma": [
-      {
-        "id": "leaf",
-        "label": "葉っぱ",
-        "contexts": [
-          "walkable"
-        ],
-        "actorBias": {
-          "隱": 0.25
-        }
-      },
-      {
-        "id": "tear",
-        "label": "涙",
-        "contexts": [
-          "social"
-        ],
-        "actorBias": {
-          "仁": 0.45
-        }
-      },
-      {
-        "id": "tail",
-        "label": "しっぽ",
-        "contexts": [
-          "playable"
-        ],
-        "actorBias": {
-          "希": 0.2
-        }
-      },
-      {
-        "id": "hook",
-        "label": "針／鉤",
-        "contexts": [
-          "object"
-        ],
-        "actorBias": {
-          "能": 0.2
-        }
-      }
+    comma:[
+      {id:"leaf",label:"葉っぱ",contexts:["walkable"],actorBias:{"隱":.25}},
+      {id:"tear",label:"涙",contexts:["shade"],actorBias:{"仁":.45}},
+      {id:"tail",label:"しっぽ",contexts:["playable"],actorBias:{"希":.2}},
+      {id:"hook",label:"針／鉤",contexts:["collectable"],actorBias:{"能":.2}}
+    ],
+    dakuten:[
+      {id:"footprints",label:"足跡",contexts:["walkable"],actorBias:{"地":.25}},
+      {id:"twin-seeds",label:"双子の種",contexts:["diggable"],actorBias:{"茂":.3}},
+      {id:"two-stones",label:"二つの小石",contexts:["walkable"],actorBias:{"惡":.15}},
+      {id:"first-raindrops",label:"最初の二滴",contexts:["wet"],actorBias:{"江":.35}}
+    ],
+    handakuten:[
+      {id:"ring",label:"輪っか",contexts:["playable"],actorBias:{"愛":.2}},
+      {id:"nest-ring",label:"鳥の巣",contexts:["shade"],actorBias:{"仁":.2}},
+      {id:"bubble-ring",label:"泡の輪",contexts:["wet"],actorBias:{"江":.4}},
+      {id:"magnifier",label:"虫眼鏡",contexts:["collectable"],actorBias:{"意":.3}}
     ]
   },
-  "transformRules": [
-    {
-      "inputs": [
-        "comma",
-        "comma"
-      ],
-      "output": "dakuten",
-      "id": "two-commas-to-dakuten",
-      "enabled": false
-    },
-    {
-      "inputs": [
-        "period"
-      ],
-      "output": "handakuten",
-      "id": "period-to-handakuten",
-      "enabled": false
-    }
+  transformRules:[
+    {inputs:["comma","comma"],output:"dakuten",id:"two-commas-to-dakuten",enabled:true},
+    {inputs:["period"],output:"handakuten",id:"period-to-handakuten",enabled:true},
+    {inputs:["handakuten"],output:"period",id:"handakuten-to-period",enabled:true},
+    {inputs:["dakuten"],output:["comma","comma"],id:"dakuten-to-two-commas",enabled:true}
   ]
 };
