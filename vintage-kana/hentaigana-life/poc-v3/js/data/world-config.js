@@ -114,6 +114,9 @@ HKLife.WORLD_CONFIG={
       "label": "夜"
     }
   ],
+  "punctuationHistory": {
+    "recentLimit": 200
+  },
   "engine": {
     "tickMs": 1300,
     "snapshotEveryTicks": 12,

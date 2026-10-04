@@ -30,7 +30,7 @@ HKLife.WorldState={
   },
   makePunctuation(kind,x,y){
     const def=HKLife.PUNCTUATION_CATALOG.tokenKinds[kind];
-    return{id:HKLife.Utils.uid(kind),kind,glyph:def.glyph,x,y,holder:null,links:[],history:[],interpretations:{}};
+    return{id:HKLife.Utils.uid(kind),kind,glyph:def.glyph,x,y,holder:null,links:[],history:[],historySummary:HKLife.Punctuation.emptyHistorySummary(),interpretations:{}};
   },
   findActor(world,id){return world.actors.find(a=>a.id===id)},
   zoneAt(x,y){

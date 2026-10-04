@@ -1,19 +1,62 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"run-snapshot.schema.json",
-  "title":"Hentaigana Life Node Run Snapshot",
-  "type":"object",
-  "required":["runId","engineVersion","worldSchemaVersion","characterDataVersion","seed","capturedAt","tick","world"],
-  "properties":{
-    "runId":{"type":"string"},
-    "engineVersion":{"type":"string"},
-    "worldSchemaVersion":{"type":"string"},
-    "characterDataVersion":{"type":"string"},
-    "sourceCommit":{"type":["string","null"]},
-    "seed":{"type":"integer"},
-    "capturedAt":{"type":"string"},
-    "tick":{"type":"integer","minimum":0},
-    "world":{"type":"object"}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "run-snapshot.schema.json",
+  "title": "Hentaigana Life Node Run Snapshot",
+  "type": "object",
+  "required": [
+    "runId",
+    "engineVersion",
+    "worldSchemaVersion",
+    "characterDataVersion",
+    "seed",
+    "capturedAt",
+    "tick",
+    "world"
+  ],
+  "properties": {
+    "runId": {
+      "type": "string"
+    },
+    "engineVersion": {
+      "type": "string"
+    },
+    "worldSchemaVersion": {
+      "type": "string"
+    },
+    "characterDataVersion": {
+      "type": "string"
+    },
+    "sourceCommit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "capturedAt": {
+      "type": "string"
+    },
+    "tick": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "world": {
+      "type": "object"
+    },
+    "rngState": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "lastSequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "compatibilityFingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
   },
-  "additionalProperties":false
+  "additionalProperties": false
 }
