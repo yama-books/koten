@@ -40,7 +40,7 @@ HKLife.Stage={
     }
     this.worldLayer.innerHTML="";
     for(const m of world.area.modifications){
-      const el=document.createElement("div");el.className=m.kind==="hole"?"hole":"soil-pile";el.style.left=m.x+"%";el.style.top=m.y+"%";this.worldLayer.appendChild(el);
+      const el=document.createElement("div");el.className=["hole","soil-pile","path","period-cache","sprout"].includes(m.kind)?m.kind:"world-mark";el.style.left=m.x+"%";el.style.top=m.y+"%";this.worldLayer.appendChild(el);
     }
   },
   setActorState(id,state){
