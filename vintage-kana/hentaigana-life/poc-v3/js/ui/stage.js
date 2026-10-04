@@ -11,7 +11,18 @@ HKLife.Stage={
   },
   renderActors(world){
     this.actorLayer.innerHTML="";this.actorEls.clear();
-    for(const a of world.actors){
+    for(const a of world.actors.filter(x=>x.presence!=="away")){
+      const el=document.createElement("div");el.className="actor";el.dataset.id=a.id;
+      el.innerHTML=`<div class="label">${a.source}${a.variant||""}</div><div class="glyph">${a.glyph}</div>`;
+      el.onclick=()=>HKLife.Bus.emit("select-actor",a.id);
+      this.actorLayer.appendChild(el);this.actorEls.set(a.id,el);
+    }
+  },
+  syncActors(world){
+    const present=new Set(world.actors.filter(a=>a.presence!=="away").map(a=>a.id));
+    for(const [id,el] of this.actorEls){if(!present.has(id)){el.remove();this.actorEls.delete(id)}}
+    for(const a of world.actors.filter(x=>x.presence!=="away")){
+      if(this.actorEls.has(a.id))continue;
       const el=document.createElement("div");el.className="actor";el.dataset.id=a.id;
       el.innerHTML=`<div class="label">${a.source}${a.variant||""}</div><div class="glyph">${a.glyph}</div>`;
       el.onclick=()=>HKLife.Bus.emit("select-actor",a.id);
@@ -19,7 +30,8 @@ HKLife.Stage={
     }
   },
   render(world){
-    for(const a of world.actors){const el=this.actorEls.get(a.id);if(el){el.style.left=a.x+"%";el.style.top=a.y+"%";el.classList.toggle("carrying",!!a.carrying)}}
+    this.syncActors(world);
+    for(const a of world.actors.filter(x=>x.presence!=="away")){const el=this.actorEls.get(a.id);if(el){el.style.left=a.x+"%";el.style.top=a.y+"%";el.classList.toggle("carrying",!!a.carrying)}}
     this.punctLayer.innerHTML="";
     for(const p of world.punctuation){
       if(p.state==="merged")continue;
