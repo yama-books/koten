@@ -71,6 +71,15 @@ HKLife.WORLD_CONFIG={
     "kindRecentLimit": 80,
     "maxHeldTicks": 30
   },
+  "punctuationTransforms": {
+    "periodToHandakutenWetChance": 0.006,
+    "periodToHandakutenDryChance": 0.00015,
+    "rainBonusChance": 0.003,
+    "handakutenToPeriodWetChance": 0.0003,
+    "handakutenToPeriodDryChance": 0.0025,
+    "commaMergeChance": 0.018,
+    "dakutenSplitChance": 0.001
+  },
   "engine": {
     "tickMs": 1300,
     "snapshotEveryTicks": 12,
