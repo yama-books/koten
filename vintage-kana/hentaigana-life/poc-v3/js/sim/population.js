@@ -20,7 +20,7 @@ HKLife.Population={
         actor.visit.leaveAtTick=world.ticks+this.range(HKLife.WORLD_CONFIG.population.stayTicks,rng);
       }
     }
-    if(!Number.isInteger(world.population.nextCheckTick)||world.population.nextCheckTick<=world.ticks){
+    if(!Number.isInteger(world.population.nextCheckTick)){
       world.population.nextCheckTick=world.ticks+this.range(HKLife.WORLD_CONFIG.population.visitCheckTicks,rng);
     }
   },
