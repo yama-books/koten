@@ -9,6 +9,9 @@ HKLife.WorldState={
       memories:[],
       observationStats:{events:0,approaches:0,punctuationTouches:0,punctuationPicks:0,punctuationPlaces:0,digs:0},
       color:{kind:"black",source:"default"},
+      presence:c.initialPresence==="away"?"away":"present",
+      presenceHistory:[],
+      visit:{arrivedAtTick:c.initialPresence==="away"?null:0,leaveAtTick:null,lastReason:null},
       carrying:null,
       carryingSinceTick:null
     }));
@@ -16,6 +19,7 @@ HKLife.WorldState={
       version:3,seed:Math.floor(Math.random()*1e9),clockMinutes:HKLife.WORLD_CONFIG.clock.startMinutes,
       weather:"clear",ticks:0,createdAt:Date.now(),savedAt:null,lastRealTime:Date.now(),
       actors,
+      population:{nextCheckTick:0,lastCheckTick:null},
       area:{
         id:HKLife.WORLD_CONFIG.area.id,
         modifications:[],
