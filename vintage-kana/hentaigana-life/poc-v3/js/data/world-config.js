@@ -80,6 +80,15 @@ HKLife.WORLD_CONFIG={
     "commaMergeChance": 0.018,
     "dakutenSplitChance": 0.001
   },
+  "placeMeaning": {
+    "gridPercent": 5,
+    "pathWalkThreshold": 8,
+    "periodCacheThreshold": 4,
+    "dailyDecay": 0.8,
+    "sproutBaseChance": 0.07,
+    "sproutWetChance": 0.25,
+    "sproutRainBonus": 0.11
+  },
   "engine": {
     "tickMs": 1300,
     "snapshotEveryTicks": 12,
