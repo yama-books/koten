@@ -2,7 +2,7 @@ window.HKLife=window.HKLife||{};
 HKLife.Scoring={
   candidates(world,actor){
     const p=actor.hiddenPersonality,t=actor.transient;
-    const nearActor=world.actors.filter(a=>a.id!==actor.id).sort((a,b)=>HKLife.Utils.distance(actor,a)-HKLife.Utils.distance(actor,b))[0];
+    const nearActor=world.actors.filter(a=>a.id!==actor.id&&a.presence!=="away").sort((a,b)=>HKLife.Utils.distance(actor,a)-HKLife.Utils.distance(actor,b))[0];
     const nearPunct=world.punctuation.filter(x=>(x.state||"resting")==="resting"&&!x.holder).sort((a,b)=>HKLife.Utils.distance(actor,a)-HKLife.Utils.distance(actor,b))[0];
     const zone=HKLife.WorldState.zoneAt(actor.x,actor.y);
     const out=[];
