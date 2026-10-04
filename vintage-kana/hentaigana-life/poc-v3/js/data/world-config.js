@@ -4,7 +4,10 @@ HKLife.WORLD_CONFIG={
   "population": {
     "residentSlots": 6,
     "fluidSlots": 2,
-    "visitorSlots": 2
+    "visitorSlots": 2,
+    "visitCheckTicks": [90,180],
+    "stayTicks": [180,540],
+    "presenceHistoryLimit": 60
   },
   "clock": {
     "startMinutes": 720,
