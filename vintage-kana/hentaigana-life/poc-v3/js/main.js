@@ -1,6 +1,6 @@
 window.addEventListener("DOMContentLoaded",async()=>{
   const saved=await HKLife.Storage.load();
-  const world=saved&&saved.version===1?saved:HKLife.WorldState.create();
+  const world=saved&&saved.version===3?saved:HKLife.WorldState.create();
   await HKLife.Engine.init(world);
   HKLife.Stage.init(world);
   HKLife.Panels.init(world);
@@ -26,7 +26,7 @@ window.addEventListener("DOMContentLoaded",async()=>{
     const kind=btn.dataset.intervention;
     if(kind==="period"||kind==="comma"){
       const p=HKLife.WorldState.makePunctuation(kind,20+Math.random()*60,48+Math.random()*32);
-      world.punctuation.push(p);HKLife.Logger.observation(world,"intervention",`${p.glyph}がひとつ置かれた。`,{tokenId:p.id});
+      world.punctuation.push(p);HKLife.Logger.observation(world,"intervention",`${p.glyph}がひとつ置かれた。`,{tokenId:p.id,stateChanges:[{kind:"punctuation-created",scope:"world",physical:true,id:p.id,before:null,after:{kind:p.kind,x:p.x,y:p.y}}]});
     }
     if(kind==="rain"){
       world.weather="light-rain";HKLife.Logger.observation(world,"weather","小さな雨が降り始めた。");

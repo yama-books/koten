@@ -19,10 +19,12 @@ class EventWriter{
     if(this.eventLevel==="all") this.offInternal=bus.on("internal",entry=>this.write("internal",entry));
   }
   write(stream,entry){
+    const stateChanges=Array.isArray(entry.stateChanges)?entry.stateChanges:[];
     const actorIds=uniq([entry.actorId,entry.targetId]);
-    const objectIds=uniq([entry.tokenId,entry.modificationId]);
+    const objectIds=uniq([entry.tokenId,entry.modificationId,...stateChanges.map(x=>x.id)]);
     let environmentChanges=null;
-    if(entry.modificationId) environmentChanges=[{type:"persistent-modification",id:entry.modificationId}];
+    if(stateChanges.length) environmentChanges=stateChanges.map(x=>({type:x.kind,id:x.id||null,before:x.before??null,after:x.after??null}));
+    else if(entry.modificationId) environmentChanges=[{type:"persistent-modification",id:entry.modificationId}];
     else if(entry.type==="touch-punctuation"&&entry.tokenId) environmentChanges=[{type:"punctuation-position-updated",id:entry.tokenId}];
     const record={
       runId:this.runMeta.runId,
@@ -30,6 +32,7 @@ class EventWriter{
       worldSchemaVersion:this.runMeta.worldSchemaVersion,
       characterDataVersion:this.runMeta.characterDataVersion,
       timestamp:entry.at||new Date().toISOString(),
+      tick:this.world.ticks,
       worldTime:{minutes:entry.worldMinute,display:globalThis.HKLife.Utils.formatClock(entry.worldMinute)},
       eventType:entry.type,
       stream,
@@ -38,6 +41,7 @@ class EventWriter{
       area:this.world.area?.id||null,
       action:entry.action||null,
       interpretation:entry.interpretation||null,
+      stateChanges,
       environmentChanges,
       seed:this.runMeta.seed,
       sequence:++this.sequence,

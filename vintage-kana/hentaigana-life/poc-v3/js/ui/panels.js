@@ -12,21 +12,24 @@ HKLife.Panels={
   renderActor(world){
     const a=world.actors.find(x=>x.id===this.selectedId)||world.actors[0];if(!a)return;
     const obs=a.observationStats;
+    const carried=a.carrying&&world.punctuation.find(p=>p.id===a.carrying);
     document.getElementById("actor-detail").innerHTML=`
       <div class="big">${a.glyph}</div>
       <div class="known"><strong>読み:</strong> ${a.kana}<br><strong>字母:</strong> ${a.source}</div>
       <div class="hint">
         性格値は表示しません。<br>
-        観察: ${obs.events}件 / 接近 ${obs.approaches} / 記号接触 ${obs.punctuationTouches} / 掘削 ${obs.digs}
+        観察: ${obs.events}件 / 接近 ${obs.approaches} / 記号接触 ${obs.punctuationTouches} / 拾う ${obs.punctuationPicks||0} / 置く ${obs.punctuationPlaces||0} / 掘削 ${obs.digs}<br>
+        ${carried?`いま運んでいるもの: ${carried.glyph}`:"いま運んでいるもの: なし"}
       </div>`;
   },
   renderWorld(world){
     document.getElementById("world-clock").textContent=HKLife.Utils.formatClock(world.clockMinutes);
     document.getElementById("time-phase").textContent=HKLife.Utils.timePhase(world.clockMinutes);
     document.getElementById("weather").textContent=world.weather==="light-rain"?"小雨":"晴";
+    const activePunctuation=world.punctuation.filter(x=>x.state!=="merged").length;
     document.getElementById("world-summary").innerHTML=`
       <span class="k">個体</span><span>${world.actors.length}</span>
-      <span class="k">記号</span><span>${world.punctuation.length}</span>
+      <span class="k">記号</span><span>${activePunctuation}</span>
       <span class="k">穴</span><span>${world.area.modifications.filter(x=>x.kind==="hole").length}</span>
       <span class="k">世界時刻</span><span>${HKLife.Utils.formatClock(world.clockMinutes)}</span>`;
   },

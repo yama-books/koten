@@ -7,11 +7,13 @@ HKLife.WorldState={
       transient:{fatigue:.15,boredom:.25,alert:.1,mood:.6},
       relationships:{},
       memories:[],
-      observationStats:{events:0,approaches:0,punctuationTouches:0,digs:0},
-      color:{kind:"black",source:"default"}
+      observationStats:{events:0,approaches:0,punctuationTouches:0,punctuationPicks:0,punctuationPlaces:0,digs:0},
+      color:{kind:"black",source:"default"},
+      carrying:null,
+      carryingSinceTick:null
     }));
     return{
-      version:1,seed:Math.floor(Math.random()*1e9),clockMinutes:HKLife.WORLD_CONFIG.clock.startMinutes,
+      version:3,seed:Math.floor(Math.random()*1e9),clockMinutes:HKLife.WORLD_CONFIG.clock.startMinutes,
       weather:"clear",ticks:0,createdAt:Date.now(),savedAt:null,lastRealTime:Date.now(),
       actors,
       area:{
@@ -30,7 +32,15 @@ HKLife.WorldState={
   },
   makePunctuation(kind,x,y){
     const def=HKLife.PUNCTUATION_CATALOG.tokenKinds[kind];
-    return{id:HKLife.Utils.uid(kind),kind,glyph:def.glyph,x,y,holder:null,links:[],history:[],historySummary:HKLife.Punctuation.emptyHistorySummary(),interpretations:{}};
+    return{
+      id:HKLife.Utils.uid(kind),kind,glyph:def.glyph,x,y,
+      state:"resting",holder:null,links:[],parts:[],mergedInto:null,
+      restingSinceTick:0,lastPlacedBy:null,
+      moveHistory:[],moveSummary:HKLife.Punctuation.emptyMoveSummary(),
+      kindHistory:[],
+      history:[],historySummary:HKLife.Punctuation.emptyHistorySummary(),
+      interpretations:{}
+    };
   },
   findActor(world,id){return world.actors.find(a=>a.id===id)},
   zoneAt(x,y){

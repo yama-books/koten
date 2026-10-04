@@ -19,10 +19,11 @@ HKLife.Stage={
     }
   },
   render(world){
-    for(const a of world.actors){const el=this.actorEls.get(a.id);if(el){el.style.left=a.x+"%";el.style.top=a.y+"%"}}
+    for(const a of world.actors){const el=this.actorEls.get(a.id);if(el){el.style.left=a.x+"%";el.style.top=a.y+"%";el.classList.toggle("carrying",!!a.carrying)}}
     this.punctLayer.innerHTML="";
     for(const p of world.punctuation){
-      const el=document.createElement("div");el.className="punct";el.style.left=p.x+"%";el.style.top=p.y+"%";el.textContent=p.glyph;
+      if(p.state==="merged")continue;
+      const el=document.createElement("div");el.className="punct"+(p.holder?" held":"");el.style.left=p.x+"%";el.style.top=p.y+"%";el.textContent=p.glyph;el.dataset.id=p.id;
       this.punctLayer.appendChild(el);
     }
     this.worldLayer.innerHTML="";
