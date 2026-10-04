@@ -4,6 +4,8 @@ HKLife.Simulation={
     world.ticks++;
     world.clockMinutes=(world.clockMinutes+HKLife.WORLD_CONFIG.clock.minutesPerTick)%1440;
     HKLife.Population.step(world,rng);
+    HKLife.Punctuation.tickTransforms(world,rng);
+    HKLife.Background.tick(world,rng);
     const present=HKLife.Population.present(world);
     if(!present.length)return{actorId:null,action:"world-only",choice:null};
     const actor=HKLife.Utils.pick(present,rng);
