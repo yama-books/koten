@@ -12,7 +12,8 @@ HKLife.Engine={
     if(count<=0)return;
     w.clockMinutes=(w.clockMinutes+Math.floor(hours*60))%1440;
     for(let i=0;i<count;i++){
-      const a=HKLife.Utils.pick(w.actors);
+      const present=w.actors.filter(a=>a.presence!=="away");
+      const a=HKLife.Utils.pick(present.length?present:w.actors);
       if(Math.random()<.18&&HKLife.Background.canDig(w,a))HKLife.Background.addHole(w,a);
       else{
         a.x=HKLife.Utils.clamp(a.x+(Math.random()-.5)*10,7,93);

@@ -1,10 +1,13 @@
 window.HKLife=window.HKLife||{};
 HKLife.WORLD_CONFIG={
-  "version": 1,
+  "version": 2,
   "population": {
     "residentSlots": 6,
     "fluidSlots": 2,
-    "visitorSlots": 2
+    "visitorSlots": 2,
+    "visitCheckTicks": [90,180],
+    "stayTicks": [180,540],
+    "presenceHistoryLimit": 60
   },
   "clock": {
     "startMinutes": 720,
@@ -22,11 +25,7 @@ HKLife.WORLD_CONFIG={
         "y1": 42,
         "x2": 75,
         "y2": 90,
-        "tags": [
-          "walkable",
-          "diggable",
-          "playable"
-        ]
+        "tags": ["walkable","diggable","playable"]
       },
       {
         "id": "pond-edge",
@@ -35,12 +34,7 @@ HKLife.WORLD_CONFIG={
         "y1": 55,
         "x2": 28,
         "y2": 94,
-        "tags": [
-          "walkable",
-          "water-edge",
-          "wet",
-          "collectable"
-        ]
+        "tags": ["walkable","water-edge","wet","collectable"]
       },
       {
         "id": "tree-shade",
@@ -49,11 +43,7 @@ HKLife.WORLD_CONFIG={
         "y1": 28,
         "x2": 96,
         "y2": 72,
-        "tags": [
-          "walkable",
-          "shade",
-          "hideable"
-        ]
+        "tags": ["walkable","shade","hideable"]
       },
       {
         "id": "bridge",
@@ -62,60 +52,42 @@ HKLife.WORLD_CONFIG={
         "y1": 52,
         "x2": 91,
         "y2": 78,
-        "tags": [
-          "walkable",
-          "narrow",
-          "edge"
-        ]
+        "tags": ["walkable","narrow","edge"]
       }
     ],
-    "persistentModificationKinds": [
-      "hole",
-      "soil-pile",
-      "nest",
-      "sprout",
-      "period-cache",
-      "workbench"
-    ],
-    "traceKinds": [
-      "footprint",
-      "ripple",
-      "leaf",
-      "color-stain"
-    ]
+    "persistentModificationKinds": ["hole","soil-pile","nest","sprout","period-cache","path","workbench"],
+    "traceKinds": ["footprint","ripple","leaf","color-stain"]
   },
-  "weather": [
-    "clear",
-    "light-rain"
-  ],
+  "weather": ["clear","light-rain"],
   "timePhases": [
-    {
-      "id": "morning",
-      "start": 300,
-      "end": 660,
-      "label": "朝"
-    },
-    {
-      "id": "day",
-      "start": 660,
-      "end": 1020,
-      "label": "昼"
-    },
-    {
-      "id": "evening",
-      "start": 1020,
-      "end": 1200,
-      "label": "夕"
-    },
-    {
-      "id": "night",
-      "start": 1200,
-      "end": 300,
-      "label": "夜"
-    }
+    {"id":"morning","start":300,"end":660,"label":"朝"},
+    {"id":"day","start":660,"end":1020,"label":"昼"},
+    {"id":"evening","start":1020,"end":1200,"label":"夕"},
+    {"id":"night","start":1200,"end":300,"label":"夜"}
   ],
   "punctuationHistory": {
-    "recentLimit": 200
+    "recentLimit": 200,
+    "moveRecentLimit": 80,
+    "kindRecentLimit": 80,
+    "maxHeldTicks": 30
+  },
+  "punctuationTransforms": {
+    "periodToHandakutenWetChance": 0.006,
+    "periodToHandakutenDryChance": 0.00015,
+    "rainBonusChance": 0.003,
+    "handakutenToPeriodWetChance": 0.0003,
+    "handakutenToPeriodDryChance": 0.0025,
+    "commaMergeChance": 0.018,
+    "dakutenSplitChance": 0.001
+  },
+  "placeMeaning": {
+    "gridPercent": 5,
+    "pathWalkThreshold": 8,
+    "periodCacheThreshold": 4,
+    "dailyDecay": 0.8,
+    "sproutBaseChance": 0.07,
+    "sproutWetChance": 0.25,
+    "sproutRainBonus": 0.11
   },
   "engine": {
     "tickMs": 1300,

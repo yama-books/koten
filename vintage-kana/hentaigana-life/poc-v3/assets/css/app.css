@@ -59,3 +59,15 @@ h1{font-size:22px;margin:4px 0 0} h1 span{font-size:13px;font-weight:500;color:v
 .experiment-panel p{font-size:10px;color:var(--muted)}.experiment-buttons{display:flex;flex-wrap:wrap;gap:6px}
 details{margin-top:12px;font-size:10px}pre{max-height:180px;overflow:auto;background:#f0ece4;padding:8px;border-radius:8px;white-space:pre-wrap}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.side{grid-row:2}.log-panel,.experiment-panel{grid-column:1}.stage-card{min-height:560px}}
+
+.punct.held{font-size:22px;opacity:.82;filter:drop-shadow(0 2px 2px rgba(50,45,39,.18))}
+.actor.carrying .glyph{filter:drop-shadow(0 2px 0 #fff) drop-shadow(0 5px 6px rgba(50,45,39,.12))}
+
+.path{position:absolute;width:64px;height:13px;transform:translate(-50%,-50%) rotate(-4deg);border-radius:50%;border-bottom:2px dashed rgba(112,101,84,.55);opacity:.72}
+.period-cache{position:absolute;width:44px;height:28px;transform:translate(-50%,-50%);border:1px dashed rgba(92,82,69,.55);border-radius:45% 55% 48% 52%;background:rgba(239,232,219,.38)}
+.period-cache::after{content:"。";position:absolute;inset:0;display:grid;place-items:center;font-family:"Yu Mincho",serif;font-size:16px;color:#71685c;opacity:.75}
+.sprout{position:absolute;width:26px;height:28px;transform:translate(-50%,-70%)}
+.sprout::before,.sprout::after{content:"";position:absolute;bottom:2px;width:12px;height:8px;border:1.5px solid #6f7c60;border-radius:70% 20% 70% 20%;background:rgba(244,240,232,.7)}
+.sprout::before{left:2px;transform:rotate(25deg)}.sprout::after{right:2px;transform:scaleX(-1) rotate(25deg)}
+.sprout{border-left:1.5px solid #6f7c60;margin-left:12px}
+.world-mark{position:absolute;width:12px;height:12px;transform:translate(-50%,-50%);border:1px dotted #8b8175;border-radius:50%}

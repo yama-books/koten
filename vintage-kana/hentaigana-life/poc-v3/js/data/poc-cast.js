@@ -285,5 +285,33 @@ HKLife.POC_CAST=[
       "reading": true,
       "source": true
     }
+  },
+  {
+    "id":"U+1B001","glyph":"𛀁","kana":"え","source":"江","variant":"",
+    "species":"水辺遊動型","ability":"ながれをみる","abilityDescription":"水辺や湿り気の変化へ気づきやすい（PoC仮設定）","limitations":[],
+    "hiddenPersonality":{"approach":0.46,"curiosity":0.78,"caution":0.44,"rejectionTolerance":0.58,"persistence":0.48,"playfulness":0.62,"empathy":0.48,"environmentInterest":0.9,"craftingInterest":0.38,"settling":0.28,"mobility":0.78,"colorSensitivity":0.5},
+    "home":{"x":8,"y":72},"residence":"fluid","initialPresence":"away","profileStatus":"poc-provisional",
+    "visitAffinity":{"type":"wet","base":0.38,"phases":["朝","昼","夕"]},"known":{"reading":true,"source":true}
+  },
+  {
+    "id":"U+1B063","glyph":"𛁣","kana":"ち","source":"地","variant":"",
+    "species":"地面観察型","ability":"地ならし","abilityDescription":"穴や土の変化へ気づきやすい（PoC仮設定）","limitations":[],
+    "hiddenPersonality":{"approach":0.34,"curiosity":0.6,"caution":0.56,"rejectionTolerance":0.62,"persistence":0.76,"playfulness":0.34,"empathy":0.44,"environmentInterest":0.94,"craftingInterest":0.7,"settling":0.7,"mobility":0.32,"colorSensitivity":0.3},
+    "home":{"x":52,"y":84},"residence":"fluid","initialPresence":"away","profileStatus":"poc-provisional",
+    "visitAffinity":{"type":"earth","base":0.34,"phases":["朝","昼"]},"known":{"reading":true,"source":true}
+  },
+  {
+    "id":"U+1B070","glyph":"𛁰","kana":"て","source":"傳","variant":"",
+    "species":"搬送追従型","ability":"手渡す","abilityDescription":"物が運ばれている場所へ関心を持ちやすい（PoC仮設定）","limitations":[],
+    "hiddenPersonality":{"approach":0.64,"curiosity":0.68,"caution":0.38,"rejectionTolerance":0.7,"persistence":0.72,"playfulness":0.46,"empathy":0.62,"environmentInterest":0.58,"craftingInterest":0.82,"settling":0.36,"mobility":0.74,"colorSensitivity":0.38},
+    "home":{"x":92,"y":62},"residence":"fluid","initialPresence":"away","profileStatus":"poc-provisional",
+    "visitAffinity":{"type":"movement","base":0.32,"phases":["朝","昼","夕"]},"known":{"reading":true,"source":true}
+  },
+  {
+    "id":"U+1B0DB","glyph":"𛃛","kana":"も","source":"茂","variant":"",
+    "species":"芽吹き観察型","ability":"しげりを待つ","abilityDescription":"芽や植物の兆しへ引かれやすい（PoC仮設定）","limitations":[],
+    "hiddenPersonality":{"approach":0.4,"curiosity":0.7,"caution":0.5,"rejectionTolerance":0.54,"persistence":0.78,"playfulness":0.42,"empathy":0.56,"environmentInterest":0.96,"craftingInterest":0.56,"settling":0.74,"mobility":0.38,"colorSensitivity":0.72},
+    "home":{"x":82,"y":40},"residence":"fluid","initialPresence":"away","profileStatus":"poc-provisional",
+    "visitAffinity":{"type":"plant","base":0.26,"phases":["朝","昼"]},"known":{"reading":true,"source":true}
   }
 ];
