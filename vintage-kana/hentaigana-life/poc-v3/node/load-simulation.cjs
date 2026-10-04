@@ -14,6 +14,7 @@ const SIMULATION_FILES=Object.freeze([
   "js/core/world-state.js",
   "js/sim/punctuation.js",
   "js/sim/background.js",
+  "js/sim/population.js",
   "js/sim/scoring.js",
   "js/sim/actions.js",
   "js/sim/step.js"
