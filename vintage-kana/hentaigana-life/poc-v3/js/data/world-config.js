@@ -1,127 +1,45 @@
 window.HKLife=window.HKLife||{};
 HKLife.WORLD_CONFIG={
-  "version": 1,
-  "population": {
-    "residentSlots": 6,
-    "fluidSlots": 2,
-    "visitorSlots": 2
+  "version":2,
+  "population":{
+    "residentSlots":6,
+    "fluidSlots":2,
+    "visitorSlots":2,
+    "presentLimit":10,
+    "checkMinTicks":90,
+    "checkMaxTicks":180,
+    "stayMinTicks":180,
+    "stayMaxTicks":540
   },
-  "clock": {
-    "startMinutes": 720,
-    "minutesPerTick": 2,
-    "dayLengthMinutes": 1440
-  },
-  "area": {
-    "id": "park-main",
-    "name": "公園・基準生活エリア",
-    "zones": [
-      {
-        "id": "open-ground",
-        "label": "広場",
-        "x1": 10,
-        "y1": 42,
-        "x2": 75,
-        "y2": 90,
-        "tags": [
-          "walkable",
-          "diggable",
-          "playable"
-        ]
-      },
-      {
-        "id": "pond-edge",
-        "label": "池のほとり",
-        "x1": 3,
-        "y1": 55,
-        "x2": 28,
-        "y2": 94,
-        "tags": [
-          "walkable",
-          "water-edge",
-          "wet",
-          "collectable"
-        ]
-      },
-      {
-        "id": "tree-shade",
-        "label": "木陰",
-        "x1": 76,
-        "y1": 28,
-        "x2": 96,
-        "y2": 72,
-        "tags": [
-          "walkable",
-          "shade",
-          "hideable"
-        ]
-      },
-      {
-        "id": "bridge",
-        "label": "橋",
-        "x1": 70,
-        "y1": 52,
-        "x2": 91,
-        "y2": 78,
-        "tags": [
-          "walkable",
-          "narrow",
-          "edge"
-        ]
-      }
+  "clock":{"startMinutes":720,"minutesPerTick":2,"dayLengthMinutes":1440},
+  "area":{
+    "id":"park-main","name":"公園・基準生活エリア",
+    "zones":[
+      {"id":"open-ground","label":"広場","x1":10,"y1":42,"x2":75,"y2":90,"tags":["walkable","diggable","playable"]},
+      {"id":"pond-edge","label":"池のほとり","x1":3,"y1":55,"x2":28,"y2":94,"tags":["walkable","water-edge","wet","collectable"]},
+      {"id":"tree-shade","label":"木陰","x1":76,"y1":28,"x2":96,"y2":72,"tags":["walkable","shade","hideable"]},
+      {"id":"bridge","label":"橋","x1":70,"y1":52,"x2":91,"y2":78,"tags":["walkable","narrow","edge"]}
     ],
-    "persistentModificationKinds": [
-      "hole",
-      "soil-pile",
-      "nest",
-      "sprout",
-      "period-cache",
-      "workbench"
-    ],
-    "traceKinds": [
-      "footprint",
-      "ripple",
-      "leaf",
-      "color-stain"
-    ]
+    "persistentModificationKinds":["hole","soil-pile","path","sprout","period-cache","nest","workbench"],
+    "traceKinds":["footprint","ripple","leaf","color-stain"]
   },
-  "weather": [
-    "clear",
-    "light-rain"
+  "weather":["clear","light-rain"],
+  "timePhases":[
+    {"id":"morning","start":300,"end":660,"label":"朝"},
+    {"id":"day","start":660,"end":1020,"label":"昼"},
+    {"id":"evening","start":1020,"end":1200,"label":"夕"},
+    {"id":"night","start":1200,"end":300,"label":"夜"}
   ],
-  "timePhases": [
-    {
-      "id": "morning",
-      "start": 300,
-      "end": 660,
-      "label": "朝"
-    },
-    {
-      "id": "day",
-      "start": 660,
-      "end": 1020,
-      "label": "昼"
-    },
-    {
-      "id": "evening",
-      "start": 1020,
-      "end": 1200,
-      "label": "夕"
-    },
-    {
-      "id": "night",
-      "start": 1200,
-      "end": 300,
-      "label": "夜"
-    }
-  ],
-  "punctuationHistory": {
-    "recentLimit": 200
+  "punctuationHistory":{"recentLimit":200,"moveRecentLimit":120,"kindRecentLimit":80},
+  "carry":{"maxCarryTicks":30,"pickDistance":18,"placeRadius":12},
+  "transforms":{"wetPeriodToHandakutenChance":0.02,"dryHandakutenToPeriodChance":0.008},
+  "usage":{
+    "gridPct":5,
+    "pathThreshold":16,
+    "periodCacheThreshold":6,
+    "sproutDelayTicks":90,
+    "decayEveryTicks":720,
+    "decayFactor":0.9
   },
-  "engine": {
-    "tickMs": 1300,
-    "snapshotEveryTicks": 12,
-    "maxOfflineEvents": 18,
-    "visibleLogLimit": 120,
-    "internalLogLimit": 600
-  }
+  "engine":{"tickMs":1300,"snapshotEveryTicks":12,"maxOfflineEvents":18,"visibleLogLimit":120,"internalLogLimit":600}
 };
