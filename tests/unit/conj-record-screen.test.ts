@@ -847,8 +847,9 @@ test('conj: settings are tabbed and stage UI is added without replacing the curr
   assert.match(dialog, /data-settings-panel="difficulty"/);
   assert.match(dialog, /data-settings-panel="display"/);
   assert.match(dialog, /data-settings-panel="record"/);
-  assert.match(dialog, /id="rowMode"[\s\S]*?<option value="auto">学習に合わせる<\/option>/);
-  assert.match(dialog, /id="choiceScope"[\s\S]*?<option value="auto">学習に合わせる<\/option>/);
+  assert.match(dialog, /id="rowMode"[\s\S]*?<option value="auto">習熟度に合わせる<\/option>/);
+  assert.match(dialog, /id="choiceScope"[\s\S]*?<option value="auto">習熟度に合わせる<\/option>/);
+  assert.doesNotMatch(dialog, /id="rowMode"[^<]*(?:<option[^>]*>[^<]*<\/option>)*<option value="input"/,'the row text-input mode is retired');
   assert.match(dialog, /id="supportLevel"[\s\S]*?<option value="0">ヒントで表示<\/option>/);
   assert.match(html, /<label class="pos-control" hidden>品詞[\s\S]*?<select id="pos"/,'the old 品詞 select stays hidden as a compatibility bridge');
   assert.match(html, /id="rangeChip"/,'the range chip replaces the visible 品詞 select');

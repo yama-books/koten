@@ -7,7 +7,7 @@ function isIdentificationMode(){return document.getElementById('quizMode').value
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261006-19'),import('./conj-quiz-adapter.mjs?v=20261006-19')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261007-20'),import('./conj-quiz-adapter.mjs?v=20261007-20')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
@@ -30,7 +30,8 @@ async function initQuizUI(){
       const saved=JSON.parse(localStorage.getItem('conjQuizPreferences')||'{}');
       if(['auto','near','part_of_speech','cross_pos','all'].includes(saved.choiceScope)) quizSettings.choiceScope=saved.choiceScope;
       if([0,1,2].includes(saved.supportLevel)) quizSettings.supportLevel=saved.supportLevel===2?2:0;
-      if(['auto','omitted','select','input'].includes(saved.rowMode)) quizSettings.rowMode=saved.rowMode;
+      // 行の「入力」は廃止した。以前に保存した「入力」は「選んで答える」として扱う。
+      if(['auto','omitted','select','input'].includes(saved.rowMode)) quizSettings.rowMode=saved.rowMode==='input'?'select':saved.rowMode;
     }catch(_error){}
   }catch(_error){quizLoadFailed=true;}
   for(const [id,value] of Object.entries(quizSettings)) document.getElementById(id).value=value;
@@ -136,7 +137,7 @@ function updateQuizStageUI(){
     '最高段階です。'
   ][stage]||'';
   document.getElementById('quizStageNext').textContent=manual
-    ? '「難しさ」で学習に合わせる設定へ戻すと、段階に応じた自動調整を再開します。'
+    ? '「難しさ」で習熟度に合わせる設定へ戻すと、段階に応じた自動調整を再開します。'
     : next;
 }
 
@@ -170,10 +171,6 @@ function renderQuizUI(){
   // centred, wrapped panel while the table is hidden; the drill's narrow column cannot hold prose.
   card.classList.toggle('quiz-example-layout',active && !!quizState);
   document.getElementById('levelMeters').hidden=active;
-  const formMode=document.getElementById('quizMode').value==='form';
-  document.getElementById('choiceScope').disabled=formMode;
-  document.getElementById('rowMode').disabled=formMode;
-  for(const id of ['choiceScope','rowMode'])document.getElementById(id).closest('label').hidden=formMode;
   document.getElementById('showExample').closest('.example-toggle').hidden=active;
   updateQuizStageUI();
   document.getElementById('quizPrompt').hidden=!active || !quizState;

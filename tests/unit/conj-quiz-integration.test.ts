@@ -96,7 +96,7 @@ test('quiz: adaptive stage is sticky and auto verb rows start at stage 3/4',()=>
   assert.equal(engine.rowModeForMasteryStage(1,'auto'),'omitted');
   assert.equal(engine.rowModeForMasteryStage(2,'auto'),'select');
   assert.equal(engine.rowModeForMasteryStage(3,'auto'),'select');
-  assert.equal(engine.rowModeForMasteryStage(3,'input'),'input','manual input is never selected by auto mode');
+  assert.equal(engine.rowModeForMasteryStage(3,'input'),'select','the retired text-input row mode falls back to choosing the row');
   const good=()=>({quizMode:'type',partOfSpeech:'動詞',correct:true,maxHintLevel:0,rowCorrect:true});
   const badRow=()=>({quizMode:'type',partOfSpeech:'動詞',correct:false,maxHintLevel:0,typeCorrect:true,rowCorrect:false});
   const earned={events:Array.from({length:10},good)};

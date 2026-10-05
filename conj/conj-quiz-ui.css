@@ -163,3 +163,7 @@
 .quiz-table-dialog-body{display:flex;justify-content:center}
 .quiz-table-dialog-body .table-panel{visibility:visible!important;pointer-events:auto!important;height:auto!important;overflow:visible!important;display:block!important}
 .quiz-table-dialog #closeQuizTable{display:block;margin:10px auto 0;min-height:44px;min-width:120px}
+/* 範囲の「詳しく選ぶ」：すべて選ぶ／すべて外す */
+.range-bulk{display:flex;gap:6px;margin:6px 0}
+.range-bulk button{min-height:32px;padding:0 10px;font-size:12px}
+#tableManualLevelWrap[hidden]{display:none!important}

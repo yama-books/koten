@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261006-19">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261007-20">
 </head>
 <body>
 <div class="wrap">
@@ -3281,6 +3281,7 @@ body.review-modal-open{overflow:hidden}
         </div>
         <details class="range-details" id="rangeDetails">
           <summary>詳しく選ぶ</summary>
+          <div class="range-bulk"><button class="ghost" type="button" id="rangeCheckAll">すべて選ぶ</button><button class="ghost" type="button" id="rangeUncheckAll">すべて外す</button></div>
           <fieldset class="range-group"><legend>動詞</legend><div id="rangeVerbList" class="range-list"></div></fieldset>
           <fieldset class="range-group"><legend>形容詞・形容動詞</legend><div id="rangeAdjList" class="range-list"></div></fieldset>
           <fieldset class="range-group"><legend>助動詞</legend><div id="rangeAuxList" class="range-list"></div></fieldset>
@@ -3302,25 +3303,31 @@ body.review-modal-open{overflow:hidden}
         <p class="settings-note" id="tableLevelNote"></p>
       </div>
       <div class="settings-section">
-        <h3>判別の難しさ</h3>
+        <h3>判別（活用形・活用の種類）</h3>
         <div class="settings-difficulty-grid">
-          <label>選択肢
-            <select id="choiceScope"><option value="auto">学習に合わせる</option><option value="near">近い型</option><option value="part_of_speech">同じ品詞</option><option value="cross_pos">品詞をまたぐ</option><option value="all">全候補</option></select>
-          </label>
           <label>活用表
             <select id="supportLevel"><option value="0">ヒントで表示</option><option value="2">常に表示</option></select>
           </label>
+        </div>
+        <p class="settings-note">「ヒントで表示」は、ヒントを押すまで活用表を隠します。「常に表示」は最初から例文の横に出します。</p>
+      </div>
+      <div class="settings-section">
+        <h3>活用の種類の判別</h3>
+        <div class="settings-difficulty-grid">
+          <label>選択肢
+            <select id="choiceScope"><option value="auto">習熟度に合わせる</option><option value="near">近い型</option><option value="part_of_speech">同じ品詞</option><option value="cross_pos">品詞をまたぐ</option><option value="all">全候補</option></select>
+          </label>
           <label>動詞の行
-            <select id="rowMode"><option value="auto">学習に合わせる</option><option value="omitted">省略</option><option value="select">選択</option><option value="input">入力</option></select>
+            <select id="rowMode"><option value="auto">習熟度に合わせる</option><option value="omitted">答えない</option><option value="select">選んで答える</option></select>
           </label>
         </div>
+        <p class="settings-note">「選択肢」は並べる活用の種類の数、「動詞の行」は種類と一緒に行（カ行など）も答えるかどうかです。「習熟度に合わせる」では、次の段階に沿って自動で変わります。</p>
         <ol class="settings-stage-list">
           <li>段階 1/4：近い型・正式名・行は答えない</li>
           <li>段階 2/4：同じ品詞・正式名・行は答えない</li>
           <li>段階 3/4：品詞をまたぐ・略称・動詞の行を選ぶ</li>
           <li>段階 4/4：全候補・略称・動詞の行を選ぶ</li>
         </ol>
-        <p class="settings-note">「入力」は手動で選んだときだけ使います。</p>
       </div>
     </section>
     <section class="settings-panel" id="settingsPanelDisplay" role="tabpanel" aria-labelledby="settingsTabDisplay" data-settings-panel="display" hidden>
@@ -3469,7 +3476,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
-<script src="./conj-quiz-ui.js?v=20261006-19"></script>
+<script src="./conj-quiz-ui.js?v=20261007-20"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -6299,13 +6306,21 @@ document.getElementById("rangeDetails").addEventListener("change",event=>{
   if(!event.target.matches("input[data-range-group]")) return;
   const pick=group=>[...document.querySelectorAll(`input[data-range-group="${group}"]:checked`)].map(c=>c.value);
   const next={preset:"custom",verbFamilies:pick("verb"),adjectiveFamilies:pick("adj"),auxiliaryItemIds:pick("aux")};
+  // 全部外した状態は保存せず（直前の範囲で出題を続け）、1つ以上選んだ時点で反映する。
   if(!next.verbFamilies.length && !next.adjectiveFamilies.length && !next.auxiliaryItemIds.length){
-    syncRangeUI();
-    setRangeMessage("範囲を1つ以上選んでください");
+    setRangeMessage("範囲を1つ以上選ぶと反映されます");
     return;
   }
   applyRangeFromUI(next);
 });
+// 「すべて選ぶ／すべて外す」は詳しく選ぶの全チェックをまとめて切り替え、通常の変更と同じ処理に通す。
+for(const [id,checked] of [["rangeCheckAll",true],["rangeUncheckAll",false]]){
+  document.getElementById(id).addEventListener("click",()=>{
+    const boxes=[...document.querySelectorAll("input[data-range-group]")];
+    boxes.forEach(c=>{c.checked=checked;});
+    boxes[0]?.dispatchEvent(new Event("change",{bubbles:true}));
+  });
+}
 document.getElementById("rangeChip").addEventListener("click",()=>{
   document.getElementById("openSettings").click();
 });
