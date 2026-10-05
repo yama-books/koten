@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import {
   QUIZ_MODE, CHOICE_SCOPE, ROW_MODE, SUPPORT_LEVEL,
   shortTypeLabel, splitVerbType, buildTypeChoices, buildFormChoices, buildRowChoices, evaluateAnswer,
-  buildHintMask, evidenceWeight, isPublicQuizEligible
+  buildHintMask, evidenceWeight, isPublicQuizEligible, formalTypeLabel
 } from "./conj-quiz-engine.mjs";
 
 assert.equal(shortTypeLabel("カ行上二段活用"), "上二");
@@ -43,6 +43,18 @@ const auxMaster=["特殊型","形容詞（ク活用）型","ラ変型","四段�
   .map(t=>({conjugationType:t,partOfSpeech:"助動詞"}));
 const auxOrdered=buildTypeChoices({example:{...ex,partOfSpeech:"助動詞",conjugationType:"特殊型"},masterEntries:auxMaster,scope:CHOICE_SCOPE.ALL,rng:()=>0});
 assert.deepEqual(auxOrdered.map(x=>x.canonical),["四段型","下二段型","ラ変型","形容詞（ク活用）型","形容動詞（ナリ活用）型","特殊型","無変化型"]);
+// 助動詞は括弧の注記を外した名前で1枚にまとめ、まとめた型のどれが正答でも正解にする。
+const auxMergeMaster=["ラ変型","ラ変型（伝聞・推定）","形容詞（ク活用）型","形容詞（シク活用）型","形容動詞（ナリ活用）型","形容動詞（タリ活用）型","特殊型"]
+  .map(t=>({conjugationType:t,partOfSpeech:"助動詞"}));
+const shiku={...ex,partOfSpeech:"助動詞",conjugationType:"形容詞（シク活用）型"};
+const auxMerged=buildTypeChoices({example:shiku,masterEntries:auxMergeMaster,scope:CHOICE_SCOPE.ALL,rng:()=>0});
+assert.deepEqual(auxMerged.map(x=>formalTypeLabel(x)),["ラ変型","形容詞型","形容動詞型","特殊型"]);
+const adjType=auxMerged.find(x=>x.isCorrect);
+assert.equal(adjType.canonical,"形容詞（シク活用）型");
+assert.deepEqual(adjType.canonicals,["形容詞（ク活用）型","形容詞（シク活用）型"]);
+assert.equal(evaluateAnswer({quizMode:QUIZ_MODE.TYPE,example:shiku,selectedType:"形容詞（ク活用）型"}).correct,true);
+assert.equal(evaluateAnswer({quizMode:QUIZ_MODE.TYPE,example:{...shiku,conjugationType:"ラ変型（伝聞・推定）"},selectedType:"ラ変型"}).correct,true);
+assert.equal(evaluateAnswer({quizMode:QUIZ_MODE.TYPE,example:shiku,selectedType:"ラ変型"}).correct,false);
 assert.deepEqual(buildFormChoices().map(x=>x.canonical),["未然形","連用形","終止形","連体形","已然形","命令形"]);
 assert.deepEqual(buildRowChoices([{conjugationType:"ラ行四段活用",partOfSpeech:"動詞"},{conjugationType:"カ行四段活用",partOfSpeech:"動詞"},{conjugationType:"ハ行四段活用",partOfSpeech:"動詞"}],{rowRequired:true,family:"四"}).map(x=>x.canonical),["カ","ハ","ラ"]);
 

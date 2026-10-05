@@ -87,3 +87,44 @@
   .quiz-controls select{max-width:140px;font-size:11px}
   .card.is-quiz .actions{padding:4px 0}
 }
+/* 選択肢は例文の左に置く（表を出したあとも 選択肢｜例文｜表）。縦書きの細いボタンで、
+   活用の種類は右上から左へ並べ、活用形は上から未然→命令の1列にして表の1行と同じ高さにする。 */
+.card.is-quiz.quiz-example-layout .study-layout:not(.review-modal-study-layout){
+  grid-template-columns:max-content minmax(0,max-content) max-content;grid-template-areas:"quiz example table";
+  justify-content:center;align-items:start;column-gap:10px;row-gap:0
+}
+.card.is-quiz.quiz-example-layout:has(#tablePanel[data-support="hidden"]) .study-layout:not(.review-modal-study-layout){
+  grid-template-columns:max-content minmax(0,max-content);grid-template-areas:"quiz example"
+}
+.card.is-quiz.quiz-example-layout #tablePanel[data-support="hidden"]{display:none}
+.card.is-quiz.quiz-example-layout #quizAnswerPanel{
+  grid-area:quiz!important;align-self:start!important;justify-self:end!important;width:auto!important;max-width:none!important;margin:0!important
+}
+.card.is-quiz.quiz-example-layout .example-panel{grid-area:example;justify-self:start!important;min-width:0!important;max-width:100%!important}
+/* 長い散文でも例文の列は残りの幅に収め、入りきらない分は fitExampleText が文字を縮める。 */
+.card.is-quiz.quiz-example-layout .example-body,.card.is-quiz.quiz-example-layout .example-text{min-width:0;max-width:100%!important}
+.card.is-quiz.quiz-example-layout #tablePanel{grid-area:table}
+.card.is-quiz.quiz-example-layout .quiz-choices{
+  direction:rtl;grid-template-columns:repeat(3,auto)!important;justify-content:end;gap:5px;
+  max-height:none;overflow:visible;padding:2px
+}
+.card.is-quiz.quiz-example-layout .quiz-choices[data-columns="2"]{grid-template-columns:repeat(2,auto)!important}
+.card.is-quiz.quiz-example-layout .quiz-choices[data-columns="1"]{grid-template-columns:auto!important}
+.card.is-quiz.quiz-example-layout .quiz-choice{
+  direction:ltr;min-width:0;min-height:0;width:auto;padding:7px 5px;font-size:14px;border-radius:8px
+}
+.card.is-quiz.quiz-example-layout .quiz-choices[data-columns="1"]{gap:4px;padding:2px 2px 0}
+.card.is-quiz.quiz-example-layout .quiz-choices[data-mode="form"] .quiz-choice{
+  height:calc(var(--quiz-form-h,var(--mobile-form-row-h,56px)) - 4px);padding:0 5px
+}
+.card.is-quiz.quiz-example-layout .quiz-correct-mark{width:40px;height:40px}
+.card.is-quiz.quiz-example-layout .quiz-row-answer{max-width:150px}
+/* 判別の例文は活用表ドリルより少し大きく（入りきらなければ fitExampleText が縮める）。
+   出典は選択肢と接するので括弧で包み、下に揃える。 */
+.card.is-quiz.quiz-example-layout .study-layout:not(.review-modal-study-layout) .example-text{font-size:17.5px}
+.card.is-quiz.quiz-example-layout .example-foot{align-self:flex-end!important}
+.card.is-quiz.quiz-example-layout .example-foot:not(:empty)::before{content:"（"}
+.card.is-quiz.quiz-example-layout .example-foot:not(:empty)::after{content:"）"}
+@media(max-width:700px){
+  .card.is-quiz.quiz-example-layout .study-layout:not(.review-modal-study-layout) .example-text{font-size:15px}
+}

@@ -69,7 +69,21 @@ const VARIANT_LABELS = new Map([
   ["形容動詞（ナリ活用）型", "ナリ型"],
   ["形容動詞（タリ活用）型", "タリ型"],
   ["形容動詞型", "形動型"],
+  ["形容詞型", "形容詞型"],
 ]);
+
+// 助動詞の活用型は、括弧の注記を外した名前でひとつの選択肢にまとめる。
+const AUX_FAMILIES = new Map([
+  ["ラ変型（伝聞・推定）", "ラ変型"],
+  ["形容詞（ク活用）型", "形容詞型"],
+  ["形容詞（シク活用）型", "形容詞型"],
+  ["形容動詞（ナリ活用）型", "形容動詞型"],
+  ["形容動詞（タリ活用）型", "形容動詞型"],
+]);
+export function auxTypeFamily(canonical) {
+  const value = String(canonical || "").trim();
+  return AUX_FAMILIES.get(value) ?? value;
+}
 
 export function canonicalTypeLabel(entryOrType) {
   if (!entryOrType) return "";
@@ -228,15 +242,14 @@ const TYPE_ORDER = [
   "形容詞:ク活用", "形容詞:シク活用",
   "形容動詞:ナリ活用", "形容動詞:タリ活用",
   "助動詞:四段型", "助動詞:下二段型", "助動詞:サ変型", "助動詞:ナ変型",
-  "助動詞:ラ変型", "助動詞:ラ変型（伝聞・推定）",
-  "助動詞:形容詞（ク活用）型", "助動詞:形容詞（シク活用）型",
-  "助動詞:形容動詞（ナリ活用）型", "助動詞:形容動詞（タリ活用）型", "助動詞:形容動詞型",
+  "助動詞:ラ変型", "助動詞:形容詞型", "助動詞:形容動詞型",
   "助動詞:特殊型", "助動詞:無変化型",
 ];
 const ROW_ORDER = "アカガサザタダナハバパマヤラワ";
 
 function typeOrderIndex(choice) {
-  const key = choice.partOfSpeech + ":" + (choice.partOfSpeech === "動詞" ? choice.family : choice.canonical);
+  const key = choice.partOfSpeech + ":" + (choice.partOfSpeech === "動詞" ? choice.family
+    : choice.partOfSpeech === "助動詞" ? auxTypeFamily(choice.canonical) : choice.canonical);
   const i = TYPE_ORDER.indexOf(key);
   return i < 0 ? TYPE_ORDER.length : i;
 }
@@ -249,6 +262,7 @@ function sortTypeChoices(choices) {
 const VERB_FORMAL_FAMILIES = {四:'四段活用',上二:'上二段活用',下二:'下二段活用',上一:'上一段活用',下一:'下一段活用'};
 export function formalTypeLabel(choice) {
   if(!choice)return '';
+  if(choice.partOfSpeech==='助動詞')return auxTypeFamily(choice.canonical);
   return choice.partOfSpeech==='動詞' && choice.rowRequired
     ? VERB_FORMAL_FAMILIES[choice.family] ?? choice.canonical
     : choice.canonical;
@@ -286,11 +300,14 @@ export function buildTypeChoices({ example, masterEntries, scope = CHOICE_SCOPE.
   const correctEntry = catalog.find(x => x.canonical === example.conjugationType && x.partOfSpeech === pos);
   if (!correctEntry) return []; // Never invent a type absent from the current master.
   // Ordinary verbs share one type card; all official row-specific values remain attached.
-  const groupKey = x => x.partOfSpeech + ':' + (x.partOfSpeech === '動詞' && x.rowRequired ? x.family : x.canonical);
+  // Auxiliary types sharing a family without the bracketed note (ラ変型・形容詞型・形容動詞型) share one card too.
+  const groupKey = x => x.partOfSpeech + ':' + (x.partOfSpeech === '動詞' && x.rowRequired ? x.family
+    : x.partOfSpeech === '助動詞' ? auxTypeFamily(x.canonical) : x.canonical);
   const groups = new Map();
   for (const entry of catalog) {
     const id = groupKey(entry);
-    if (!groups.has(id)) groups.set(id, { ...entry, id, canonicals: [] });
+    const auxLabel = entry.partOfSpeech === '助動詞' ? { label: shortTypeLabel(auxTypeFamily(entry.canonical)) } : {};
+    if (!groups.has(id)) groups.set(id, { ...entry, ...auxLabel, id, canonicals: [] });
     groups.get(id).canonicals.push(entry.canonical);
   }
   const correct = { ...groups.get(groupKey(correctEntry)), canonical: correctEntry.canonical };
@@ -367,7 +384,9 @@ export function evaluateAnswer({
 
   const expected = splitVerbType(example.conjugationType);
   const chosen = splitVerbType(selectedType);
+  const auxiliary = normalizePartOfSpeech(example.partOfSpeech) === "助動詞";
   const typeCorrect = selectedType === example.conjugationType ||
+    (auxiliary && auxTypeFamily(selectedType) === auxTypeFamily(example.conjugationType)) ||
     (normalizePartOfSpeech(example.partOfSpeech) === "動詞" && expected.rowRequired && chosen.rowRequired && expected.family === chosen.family);
   const requiredRow = rowForType(example.conjugationType);
 
