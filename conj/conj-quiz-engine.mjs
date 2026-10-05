@@ -275,22 +275,41 @@ export function quizMasteryStage(history, partOfSpeech, quizMode='type') {
   const auxiliary=normalizePartOfSpeech(partOfSpeech)==='助動詞';
   const historyForDomain=(history?.events || []).filter(e=>e.quizMode===quizMode &&
     (normalizePartOfSpeech(e.partOfSpeech)==='助動詞')===auxiliary);
-  const passes=(count,minIndependent,maxWrong,minSamples)=>{
-    const recent=historyForDomain.slice(-count);
-    return recent.length>=minSamples &&
-      recent.filter(e=>e.correct===true && Number(e.maxHintLevel)===0).length>=minIndependent &&
-      recent.filter(e=>e.correct!==true).length<=maxWrong;
+  const stageAt=(events)=>{
+    const passes=(count,minIndependent,maxWrong,minSamples)=>{
+      const recent=events.slice(-count);
+      return recent.length>=minSamples &&
+        recent.filter(e=>e.correct===true && Number(e.maxHintLevel)===0).length>=minIndependent &&
+        recent.filter(e=>e.correct!==true).length<=maxWrong;
+    };
+    if(passes(20,16,2,18))return 3;
+    if(passes(12,9,1,10))return 2;
+    if(passes(8,3,1,5))return 1;
+    return 0;
   };
-  if(passes(20,16,2,18))return 3;
-  if(passes(12,9,1,10))return 2;
-  if(passes(8,3,1,5))return 1;
-  return 0;
+  const current=stageAt(historyForDomain);
+  // Once a learner has earned a stage, do not bounce down on one or two misses.
+  // A demotion needs a clearly bad recent run: 4/8 wrong lowers one stage,
+  // 6/8 wrong lowers at most two. Row mistakes are included because a row miss
+  // makes the type-question event's `correct` false.
+  let peak=0;
+  for(let end=1;end<=historyForDomain.length;end++)peak=Math.max(peak,stageAt(historyForDomain.slice(0,end)));
+  const recent8=historyForDomain.slice(-8);
+  const recentWrong=recent8.filter(e=>e.correct!==true).length;
+  if(recent8.length>=8 && recentWrong>=6)return Math.max(0,peak-2);
+  if(recent8.length>=8 && recentWrong>=4)return Math.max(0,peak-1);
+  return Math.max(current,peak);
 }
 export function shouldUseShortTypeLabels(history, partOfSpeech) {
   return quizMasteryStage(history,partOfSpeech,'type')>=2;
 }
 export function scopeForMasteryStage(stage) {
   return [CHOICE_SCOPE.NEAR,CHOICE_SCOPE.PART_OF_SPEECH,CHOICE_SCOPE.CROSS_POS,CHOICE_SCOPE.ALL][Math.max(0,Math.min(3,Number(stage)||0))];
+}
+
+export function rowModeForMasteryStage(stage, requested='auto') {
+  if(requested!=='auto')return requested;
+  return Math.max(0,Math.min(3,Number(stage)||0))>=2 ? ROW_MODE.SELECT : ROW_MODE.OMITTED;
 }
 
 export function buildTypeChoices({ example, masterEntries, scope = CHOICE_SCOPE.NEAR, nearCount = 4, rng = Math.random }) {
