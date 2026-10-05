@@ -114,10 +114,10 @@ async function chooseMode(page:any,mode:string){
   if(await page.locator('#openQuizModes').isVisible())assert.match(await page.locator('#openQuizModes').innerText(),{table:/活用表/,form:/活用形/,type:/活用種類/}[mode]);
 }
 async function setAdvanced(page:any,id:string,value:string){
-  const details=page.locator('.quiz-advanced');
-  if(!await details.evaluate((node:HTMLDetailsElement)=>node.open))await details.locator('summary').click();
+  await page.locator('#openSettings').click();
+  await page.locator('[data-settings-tab="difficulty"]').click();
   await page.selectOption('#'+id,value);
-  await details.locator('summary').click();
+  await page.locator('#closeSettings').click();
 }
 try{
   // The 125 published representative examples: every one links to the renderer, highlights its
@@ -212,6 +212,11 @@ try{
   await empty.evaluate(()=>{stats.quiz.events=Array.from({length:20},(_,i)=>({exampleId:'mastery-'+i,quizMode:'type',partOfSpeech:'動詞',correct:true,maxHintLevel:0}));nextQuestion();});
   assert.equal(await empty.evaluate('quizState.choiceScope'),'all');
   assert.equal(await empty.evaluate('quizState.shortLabels'),true);
+  assert.equal(await empty.evaluate('quizState.rowMode'),'select','stage 4/4 auto difficulty asks the verb row');
+  assert.equal(await empty.locator('#quizStageBadge').innerText(),'段階 4/4');
+  await empty.locator('#openQuizStageHelp').click();
+  assert.match(await empty.locator('#quizStageCurrent').innerText(),/段階 4\/4/);
+  await empty.locator('#closeQuizStage').click();
   assert.equal(await empty.evaluate('document.querySelector("#quizChoices .quiz-choice-label").textContent===quizChoices[0].label'),true);
   await empty.close();
   for(const viewport of selectedViewports){
@@ -341,7 +346,7 @@ try{
         const tag=`${viewport.width}x${viewport.height} ${theme} ${mode} ${pos}`;
         try{
           await chooseMode(page,mode);await page.selectOption('#pos',pos);
-          await page.selectOption('#supportLevel','0');if(mode==='type') {await setAdvanced(page,'rowMode','omitted');await setAdvanced(page,'choiceScope','near');}
+          await setAdvanced(page,'supportLevel','0');if(mode==='type') {await setAdvanced(page,'rowMode','omitted');await setAdvanced(page,'choiceScope','near');}
           await page.waitForTimeout(60);
           assert.equal(await page.locator('#formBody > tr').count(),6,tag);
           assert.equal(await page.locator('.editable-answer').count(),0,tag);
@@ -391,7 +396,7 @@ try{
       }
     }
     // Independent response does not count the answer-feedback table as a hint.
-    await chooseMode(page,'form');await page.selectOption('#pos','verb');await page.selectOption('#supportLevel','0');
+    await chooseMode(page,'form');await page.selectOption('#pos','verb');await setAdvanced(page,'supportLevel','0');
     await page.locator('#quizChoices button').evaluateAll((buttons)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical==='終止形') as HTMLButtonElement).click();});
     assert.equal(await page.evaluate('stats.quiz.events.at(-1).maxHintLevel'),0);
     // Type/row correctness, text input and stable row-button order.
