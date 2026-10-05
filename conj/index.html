@@ -6200,6 +6200,7 @@ document.addEventListener("keydown",e=>{
   if(!document.getElementById("reviewModal").hidden) return;
   if(document.getElementById("sourceCredits").open) return;
   if(document.getElementById("settingsDialog").open) return;
+  if(document.getElementById("quizStageDialog").open) return;
   // Native select/button activation must not also grade or draw a new quiz.
   if(isIdentificationMode() && e.key==="Enter"){
     if(e.target.closest('.toolbar,.quiz-controls') || e.target.tagName==='BUTTON') return;
