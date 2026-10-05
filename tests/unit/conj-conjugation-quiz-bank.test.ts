@@ -92,6 +92,40 @@ test('conj identification bank: the quotation payload holds exactly the publishe
   assert.equal(examples.sources.chj.url, 'https://clrd.ninjal.ac.jp/chj/');
 });
 
+test('conj identification bank: revised display orthography differs from CHJ only in reviewed ways', () => {
+  const payload = readJson('conjugation-quiz-examples.json').records as Array<Record<string, any>>;
+  // Beyond dakuten and expanded odoriji, only these display→CHJ substitutions are allowed.
+  const substitutions: Record<string, Array<[string, string]>> = {
+    'verb-026': [['折', 'お']], 'verb-035': [['折', 'お']], 'verb-046': [['折', 'お']],
+    'verb-108': [['ゑ', 'へ']],
+    'adj-005': [['ゑ', 'へ'], ['お', 'を']],
+  };
+  const stripDakuten = (s: string) => s.normalize('NFD').replace(/[゙゚]/g, '').normalize('NFC');
+  const expandOdoriji = (s: string) => s.replace(/(.)ゝ/gu, '$1$1');
+  const comparable = (s: string, id: string) => {
+    let out = s;
+    for (const [from, to] of substitutions[id] ?? []) out = out.split(from).join(to);
+    return stripDakuten(out);
+  };
+  const revised = payload.filter((r) => r.display);
+  assert.deepEqual(revised.map((r) => r.exampleId).sort(), [
+    'adj-005', 'adj-011', 'adj-036', 'adj-083', 'adj-140',
+    'verb-026', 'verb-035', 'verb-046', 'verb-064', 'verb-091', 'verb-108', 'verb-121',
+    'verb-124', 'verb-222', 'verb-241', 'verb-267', 'verb-299', 'verb-333',
+  ]);
+  for (const r of revised) {
+    const id = String(r.exampleId);
+    const { excerpt, target, orthography } = r.display;
+    assert.ok(String(orthography).includes('校訂表記'), id);
+    assert.ok(excerpt.includes(target), `${id}: display target not in display excerpt`);
+    assert.equal(comparable(excerpt, id), stripDakuten(expandOdoriji(String(r.quotationExcerpt))), `${id}: excerpt`);
+    assert.equal(comparable(target, id), stripDakuten(String(r.originalTarget)), `${id}: target`);
+    // The same number of target matches keeps the reviewed occurrence valid.
+    assert.equal(excerpt.split(target).length, String(r.quotationExcerpt).split(String(r.originalTarget)).length, `${id}: occurrences`);
+  }
+  assert.equal(revised.find((r) => r.exampleId === 'verb-026')?.display.excerpt.startsWith('いな折らじ'), true);
+});
+
 test('conj identification bank: reviewed duplicate-target positions stay explicit', () => {
   const byId = new Map(records.map((r) => [String(r.exampleId), r]));
   for (const id of ['aux-012','aux-013','aux-054','aux-055','aux-124','aux-150']) {
