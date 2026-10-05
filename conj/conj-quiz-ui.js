@@ -72,15 +72,18 @@ async function initQuizUI(){
   document.getElementById('quizStageDialog').addEventListener('click',event=>{if(event.target===event.currentTarget)event.currentTarget.close();});
 }
 
+function quizEntryMatchesRange(entry){
+  const item=items.find(candidate=>candidate.id===entry?.itemId) || entry?.tableItem || null;
+  return typeof window.conjRangeAllowsItem==="function" ? window.conjRangeAllowsItem(item) : true;
+}
+
 function nextQuizQuestion(){
   const mode=document.getElementById('quizMode').value;
-  const pos=document.getElementById('pos').value;
-  const labels={verb:'動詞',adj:'形容詞',adjv:'形容動詞',aux:'助動詞'};
-  const eligible=quizRecords.filter(e=>quizEngine?.isPublicQuizEligible(e,mode) && (pos==='all'||e.partOfSpeech===labels[pos]));
+  const eligible=quizRecords.filter(e=>quizEngine?.isPublicQuizEligible(e,mode) && quizEntryMatchesRange(e));
   const previous=quizState?.example;
   const ex=eligible.length
     ? quizEngine.pickQuestion(eligible,{quizMode:mode,attentionWeight:.65,lastExampleId:previous?.exampleId})
-    : quizAdapter?.pickMasterPractice(quizMasterPractice[mode].filter(e=>pos==='all'||e.partOfSpeech===labels[pos]),previous?.origin==='master'?previous.itemId:null);
+    : quizAdapter?.pickMasterPractice(quizMasterPractice[mode].filter(quizEntryMatchesRange),previous?.origin==='master'?previous.itemId:null);
   if(!ex){
     current=null;quizState=null;answered=false;answers={};blankSlots=new Set();
     renderQuizUI();return;
