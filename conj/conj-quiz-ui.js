@@ -211,7 +211,7 @@ function renderQuizUI(){
   }
   document.getElementById('check').style.display='none';
   document.getElementById('next').style.display=quizState.answered?'inline-block':'none';
-  requestAnimationFrame(()=>{syncQuizFormChoiceHeight();syncStudyHeights();});
+  requestAnimationFrame(()=>{syncQuizFormChoiceHeight();syncStudyHeights();requestAnimationFrame(syncStudyHeightsAtCurrentZoom);});
 }
 // スマホで表を隠している間に、活用形の6段のせいでカードが画面の下へはみ出すときは、
 // 表の行と同じ変数（--mobile-form-row-h）を詰めて、操作ボタンを画面内に残す。押しやすさのため 48px より低くしない。
