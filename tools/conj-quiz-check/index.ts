@@ -108,16 +108,18 @@ async function chooseMode(page:any,mode:string){
   if(await page.locator('.quiz-mode-tabs').isVisible())await page.locator(`[data-quiz-mode="${mode}"]`).click();
   else{
     await page.locator('#openQuizModes').click();
+    assert.equal(await page.locator('#quizMode').isVisible(),true,'mobile mode shortcut must reveal the mode select');
+    assert.equal(await page.locator('[data-settings-tab="range"]').getAttribute('aria-selected'),'true');
     await page.selectOption('#quizMode',mode);
   }
   assert.equal(await page.locator(`[data-quiz-mode="${mode}"]`).getAttribute('aria-pressed'),'true');
   if(await page.locator('#openQuizModes').isVisible())assert.match(await page.locator('#openQuizModes').innerText(),{table:/活用表/,form:/活用形/,type:/活用種類/}[mode]);
 }
 async function setAdvanced(page:any,id:string,value:string){
-  const details=page.locator('.quiz-advanced');
-  if(!await details.evaluate((node:HTMLDetailsElement)=>node.open))await details.locator('summary').click();
+  await page.locator('#openSettings').click();
+  await page.locator('[data-settings-tab="difficulty"]').click();
   await page.selectOption('#'+id,value);
-  await details.locator('summary').click();
+  await page.locator('#closeSettings').click();
 }
 try{
   // The 125 published representative examples: every one links to the renderer, highlights its
@@ -212,6 +214,11 @@ try{
   await empty.evaluate(()=>{stats.quiz.events=Array.from({length:20},(_,i)=>({exampleId:'mastery-'+i,quizMode:'type',partOfSpeech:'動詞',correct:true,maxHintLevel:0}));nextQuestion();});
   assert.equal(await empty.evaluate('quizState.choiceScope'),'all');
   assert.equal(await empty.evaluate('quizState.shortLabels'),true);
+  assert.equal(await empty.evaluate('quizState.rowMode'),'select','stage 4/4 auto difficulty asks the verb row');
+  assert.equal(await empty.locator('#quizStageBadge').innerText(),'段階 4/4');
+  await empty.locator('#openQuizStageHelp').click();
+  assert.match(await empty.locator('#quizStageCurrent').innerText(),/段階 4\/4/);
+  await empty.locator('#closeQuizStage').click();
   assert.equal(await empty.evaluate('document.querySelector("#quizChoices .quiz-choice-label").textContent===quizChoices[0].label'),true);
   await empty.close();
   for(const viewport of selectedViewports){
@@ -300,10 +307,15 @@ try{
           const box=text.getBoundingClientRect();
           const buttons=[...document.querySelectorAll('#quizAnswerPanel button,.card .actions button')]
             .filter(e=>(e as HTMLElement).offsetParent).map(e=>e.getBoundingClientRect());
-          for(const r of [...range.getClientRects()].filter(r=>r.width&&r.height)){
-            if(buttons.some(b=>overlap(r,b)))problems.push(tag+': sentence under a button');
-            if(r.top<box.top-2||r.bottom>box.bottom+2)problems.push(tag+': sentence outside its box');
-          }
+          const rects=[...range.getClientRects()].filter(r=>r.width&&r.height);
+          const detail=(r:DOMRect)=>{
+            const style=getComputedStyle(text);
+            return ` [font=${style.fontSize}; inline=${text.style.fontSize||'auto'}; box=${box.top.toFixed(1)}..${box.bottom.toFixed(1)}; rect=${r.top.toFixed(1)}..${r.bottom.toFixed(1)}; client/scroll=${text.clientHeight}/${text.scrollHeight}; wrap=${style.whiteSpace}; class=${text.className}]`;
+          };
+          const under=rects.find(r=>buttons.some(b=>overlap(r,b)));
+          const outside=rects.find(r=>r.top<box.top-2||r.bottom>box.bottom+2);
+          if(under)problems.push(tag+': sentence under a button'+detail(under));
+          if(outside)problems.push(tag+': sentence outside its box'+detail(outside));
           if(mode==='form' && (0,eval)('quizChoices').map((c:any)=>c.canonical).join()!=='未然形,連用形,終止形,連体形,已然形,命令形')problems.push(tag+': form choices out of order');
           w.hintQuiz();
           if(!await onScreen('reveal'))problems.push(tag+': hint button below the screen');
@@ -341,7 +353,7 @@ try{
         const tag=`${viewport.width}x${viewport.height} ${theme} ${mode} ${pos}`;
         try{
           await chooseMode(page,mode);await page.selectOption('#pos',pos);
-          await page.selectOption('#supportLevel','0');if(mode==='type') {await setAdvanced(page,'rowMode','omitted');await setAdvanced(page,'choiceScope','near');}
+          await setAdvanced(page,'supportLevel','0');if(mode==='type') {await setAdvanced(page,'rowMode','omitted');await setAdvanced(page,'choiceScope','near');}
           await page.waitForTimeout(60);
           assert.equal(await page.locator('#formBody > tr').count(),6,tag);
           assert.equal(await page.locator('.editable-answer').count(),0,tag);
@@ -391,7 +403,7 @@ try{
       }
     }
     // Independent response does not count the answer-feedback table as a hint.
-    await chooseMode(page,'form');await page.selectOption('#pos','verb');await page.selectOption('#supportLevel','0');
+    await chooseMode(page,'form');await page.selectOption('#pos','verb');await setAdvanced(page,'supportLevel','0');
     await page.locator('#quizChoices button').evaluateAll((buttons)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical==='終止形') as HTMLButtonElement).click();});
     assert.equal(await page.evaluate('stats.quiz.events.at(-1).maxHintLevel'),0);
     // Type/row correctness, text input and stable row-button order.

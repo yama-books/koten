@@ -835,3 +835,26 @@ test('conj: record screen entrance motion follows the final prototype without ch
   // Counting ends on exactly the text renderRecord() wrote.
   assert.match(script, /counter\.written=p<1 \? format\(Math\.round\(target\*\(1-Math\.pow\(1-p,4\)\)\)\) : text;/);
 });
+
+
+test('conj: settings are tabbed and stage UI is added without replacing the current part-of-speech range', () => {
+  const dialog=html.match(/<dialog class="settings-dialog" id="settingsDialog"[\s\S]*?<\/dialog>/)?.[0] ?? '';
+  assert.match(dialog, /data-settings-tab="range"[^>]*>範囲<\/button>/);
+  assert.match(dialog, /data-settings-tab="difficulty"[^>]*>難しさ<\/button>/);
+  assert.match(dialog, /data-settings-tab="display"[^>]*>表示<\/button>/);
+  assert.match(dialog, /data-settings-tab="record"[^>]*>記録<\/button>/);
+  assert.match(dialog, /data-settings-panel="range"/);
+  assert.match(dialog, /data-settings-panel="difficulty"/);
+  assert.match(dialog, /data-settings-panel="display"/);
+  assert.match(dialog, /data-settings-panel="record"/);
+  assert.match(dialog, /id="rowMode"[\s\S]*?<option value="auto">学習に合わせる<\/option>/);
+  assert.match(dialog, /id="choiceScope"[\s\S]*?<option value="auto">学習に合わせる<\/option>/);
+  assert.match(dialog, /id="supportLevel"[\s\S]*?<option value="0">ヒントで表示<\/option>/);
+  assert.match(html, /<label class="pos-control">品詞[\s\S]*?<select id="pos">/,'PR 1 keeps the existing 品詞 range control');
+  assert.doesNotMatch(html, /id="rangeChip"/,'range chip belongs to PR 2');
+  assert.doesNotMatch(html, /id="quizControls"/,'card-local detailed controls moved into settings');
+  assert.match(html, /id="quizStageBadge">段階 1\/4<\/span>/);
+  assert.match(html, /id="openQuizStageHelp"[^>]*>？<\/button>/);
+  assert.match(html, /id="quizStageDialog"[\s\S]*?学習の段階/);
+  assert.match(html, /function activateSettingsTab\(name\)/);
+});

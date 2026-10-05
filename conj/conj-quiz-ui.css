@@ -7,7 +7,19 @@
 .quiz-mode-tabs button[aria-pressed="true"]{border-color:var(--accent-strong);background:var(--good);font-weight:700}
 .quiz-mode-tabs button:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
 .quiz-mode-tabs button:disabled{opacity:.6;cursor:default}
+.quiz-stage-status{display:inline-flex;align-items:center;gap:4px;margin-left:2px}
+.quiz-stage-status[hidden]{display:none!important}
+.quiz-stage-badge{display:inline-flex;align-items:center;min-height:30px;padding:3px 9px;border:1px solid var(--line);border-radius:999px;background:var(--accent-soft);color:var(--accent-strong);font-size:11px;font-weight:700;white-space:nowrap}
+.quiz-stage-badge[data-manual="true"]{background:var(--toolbar-bg);color:var(--ink)}
+.quiz-stage-help{display:grid;place-items:center;width:28px;height:28px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--ink);font-weight:700;font-size:13px;line-height:1;cursor:pointer}
+.quiz-stage-help:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
 .quiz-mode-shortcut{display:none}
+@media(max-width:700px){
+  /* Keep the new stage control inside the toolbar's pre-existing compact row.
+     Its outer height must not make the short-phone quiz canvas shorter. */
+  .quiz-stage-badge{min-height:24px;padding:1px 7px;font-size:10px}
+  .quiz-stage-help{width:26px;height:26px;font-size:12px}
+}
 @media(max-width:700px) and (max-height:700px){
   .quiz-mode-tabs{display:none}
   .quiz-mode-shortcut:not([hidden]){display:inline-flex;align-items:center;min-height:28px;padding:3px 4px;font-size:9px;white-space:nowrap}

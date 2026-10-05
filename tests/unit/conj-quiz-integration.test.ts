@@ -91,6 +91,20 @@ test('quiz: formal labels fade only after independent practice within the same d
   assert.equal(engine.quizMasteryStage({events:[...history.events.slice(0,5),...Array.from({length:5},()=>event('動詞',true,1))]},'動詞'),1);
   assert.equal(engine.formalTypeLabel({partOfSpeech:'動詞',rowRequired:true,family:'上二',canonical:'カ行上二段活用'}),'上二段活用');
 });
+test('quiz: adaptive stage is sticky and auto verb rows start at stage 3/4',()=>{
+  assert.equal(engine.rowModeForMasteryStage(0,'auto'),'omitted');
+  assert.equal(engine.rowModeForMasteryStage(1,'auto'),'omitted');
+  assert.equal(engine.rowModeForMasteryStage(2,'auto'),'select');
+  assert.equal(engine.rowModeForMasteryStage(3,'auto'),'select');
+  assert.equal(engine.rowModeForMasteryStage(3,'input'),'input','manual input is never selected by auto mode');
+  const good=()=>({quizMode:'type',partOfSpeech:'動詞',correct:true,maxHintLevel:0,rowCorrect:true});
+  const badRow=()=>({quizMode:'type',partOfSpeech:'動詞',correct:false,maxHintLevel:0,typeCorrect:true,rowCorrect:false});
+  const earned={events:Array.from({length:10},good)};
+  assert.equal(engine.quizMasteryStage(earned,'動詞'),2,'ten independent successes earn stage 3/4');
+  assert.equal(engine.quizMasteryStage({events:[...earned.events,badRow()]},'動詞'),2,'one row miss does not bounce the stage down');
+  assert.equal(engine.quizMasteryStage({events:[...earned.events,...Array.from({length:4},badRow)]},'動詞'),1,'four wrong answers in the recent eight lower one stage');
+  assert.equal(engine.quizMasteryStage({events:[...earned.events,...Array.from({length:6},badRow)]},'動詞'),0,'six wrong answers in the recent eight can lower two stages');
+});
 test('quiz: row errors do not turn a correct verb type into a type error; input accepts kana and 行',()=>{
   assert.equal(engine.rowForType('ア行下二段活用'),'ア');
   assert.equal(engine.shortTypeLabel('ア行下二段活用'),'下二');

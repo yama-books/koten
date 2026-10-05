@@ -445,8 +445,22 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .settings-dialog{width:min(420px,calc(100vw - 32px));padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink,inherit);font-size:12px;line-height:1.6}
 .settings-dialog::backdrop{background:var(--source-backdrop)}
 .settings-dialog h2{margin:0 0 12px;font-size:15px}
+.settings-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:0 0 14px}
+.settings-tab{min-height:34px;padding:5px 3px;border:1px solid var(--line);border-radius:9px;background:var(--toolbar-bg);color:var(--ink);font:inherit;font-size:11px;cursor:pointer}
+.settings-tab[aria-selected="true"]{border-color:var(--accent-strong);background:var(--accent-soft);font-weight:700}
+.settings-tab:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+.settings-panel[hidden]{display:none}
 .settings-section{margin:0 0 16px}
 .settings-section h3{margin:0 0 8px;font-size:12px;color:var(--muted)}
+.settings-note{margin:6px 0 0;color:var(--muted);font-size:11px}
+.settings-difficulty-grid{display:grid;gap:9px}
+.settings-difficulty-grid label{display:grid;grid-template-columns:7.5em minmax(0,1fr);align-items:center;gap:8px}
+.settings-difficulty-grid select{min-height:34px;min-width:0}
+.settings-stage-list{margin:10px 0 0;padding-left:1.5em;color:var(--muted);font-size:11px}
+.quiz-stage-dialog{width:min(390px,calc(100vw - 32px))}
+.quiz-stage-dialog p{margin:7px 0}
+.quiz-stage-dialog ul{margin:10px 0 14px;padding-left:1.5em;color:var(--muted)}
+.quiz-stage-dialog #closeQuizStage{display:block;margin:0 auto}
 /* 横スクロール枠の内側に、フォーカス枠（outline 3px + offset 2px）が収まる余白を取る。無いと選択中の枠の周りが切れて見える。 */
 .theme-picker{display:flex;flex-wrap:nowrap;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px;margin:-6px}
 .theme-swatch{display:inline-flex;align-items:center;flex:none;gap:4px;padding:5px 7px;border:1px solid var(--line-strong);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:11px;white-space:nowrap;cursor:pointer}
@@ -3081,7 +3095,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261006-18">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261006-19">
 </head>
 <body>
 <div class="wrap">
@@ -3110,6 +3124,10 @@ body.review-modal-open{overflow:hidden}
         <option value="aux">助動詞</option>
       </select>
     </label>
+    <div class="quiz-stage-status" id="quizStageStatus" hidden>
+      <span class="quiz-stage-badge" id="quizStageBadge">段階 1/4</span>
+      <button class="quiz-stage-help" id="openQuizStageHelp" type="button" aria-label="学習段階の説明">？</button>
+    </div>
     <div class="level-meters" id="levelMeters">
       <div class="level-meter" id="allMeterWrap" hidden>
         <strong class="level-number" id="allLevelValue">Lv4</strong>
@@ -3150,13 +3168,6 @@ body.review-modal-open{overflow:hidden}
       <button type="button" data-quiz-mode="table" aria-pressed="true" disabled>活用表</button>
       <button type="button" data-quiz-mode="form" aria-pressed="false" disabled>活用形を判別</button>
       <button type="button" data-quiz-mode="type" aria-pressed="false" disabled>活用の種類を判別</button>
-    </div>
-    <div class="quiz-controls" id="quizControls" hidden>
-      <label>活用表 <select id="supportLevel"><option value="0">ヒントで表示</option><option value="2">常に表示</option></select></label>
-      <details class="quiz-advanced"><summary>詳しい設定</summary>
-        <label>選択肢 <select id="choiceScope"><option value="auto">学習に合わせる</option><option value="near">近い型</option><option value="part_of_speech">同じ品詞</option><option value="cross_pos">さらに広く</option><option value="all">全候補</option></select></label>
-        <label>動詞の行 <select id="rowMode"><option value="omitted">省略</option><option value="select">選択</option><option value="input">入力</option></select></label>
-      </details>
     </div>
     <p id="quizPrompt" hidden></p>
     <p id="quizEmpty" role="status" hidden></p>
@@ -3230,42 +3241,90 @@ body.review-modal-open{overflow:hidden}
   </dialog>
   <dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
     <h2 id="settingsTitle">設定</h2>
-    <section class="settings-section">
-      <h3>学習モード</h3>
-      <label class="mode-control">学習
-        <select id="quizMode" disabled>
-          <option value="table">活用表ドリル</option>
-          <option value="form">活用形を判別</option>
-          <option value="type">活用の種類を判別</option>
-        </select>
-      </label>
-    </section>
-    <section class="settings-section">
-      <h3>配色</h3>
-      <div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">
-        <button class="theme-swatch" type="button" data-theme="coffee" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>珈琲</button>
-        <button class="theme-swatch" type="button" data-theme="matcha" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>抹茶</button>
-        <button class="theme-swatch" type="button" data-theme="indigo" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>藍</button>
-        <button class="theme-swatch" type="button" data-theme="sumi" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>墨</button>
-        <button class="theme-swatch" type="button" data-theme="sakura" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>桜</button>
+    <div class="settings-tabs" role="tablist" aria-label="設定の項目">
+      <button class="settings-tab" type="button" role="tab" id="settingsTabRange" data-settings-tab="range" aria-controls="settingsPanelRange" aria-selected="true">範囲</button>
+      <button class="settings-tab" type="button" role="tab" id="settingsTabDifficulty" data-settings-tab="difficulty" aria-controls="settingsPanelDifficulty" aria-selected="false">難しさ</button>
+      <button class="settings-tab" type="button" role="tab" id="settingsTabDisplay" data-settings-tab="display" aria-controls="settingsPanelDisplay" aria-selected="false">表示</button>
+      <button class="settings-tab" type="button" role="tab" id="settingsTabRecord" data-settings-tab="record" aria-controls="settingsPanelRecord" aria-selected="false">記録</button>
+    </div>
+    <section class="settings-panel" id="settingsPanelRange" role="tabpanel" aria-labelledby="settingsTabRange" data-settings-panel="range">
+      <div class="settings-section">
+        <h3>学習モード</h3>
+        <label class="mode-control">学習
+          <select id="quizMode" disabled>
+            <option value="table">活用表ドリル</option>
+            <option value="form">活用形を判別</option>
+            <option value="type">活用の種類を判別</option>
+          </select>
+        </label>
+        <p class="settings-note">範囲は、今回は画面上の「品詞」で選びます。詳しい範囲指定は次の更新で追加します。</p>
       </div>
     </section>
-    <section class="settings-section">
-      <h3>記録</h3>
-      <div class="settings-record-actions">
-        <button class="ghost" id="exportRecord" type="button">記録を書き出す</button>
-        <button class="ghost" id="importRecordTrigger" type="button">記録を読み込む</button>
-        <input type="file" id="importRecordFile" accept="application/json,.json" hidden>
-        <button class="ghost settings-danger" id="eraseRecord" type="button">記録を消去する</button>
+    <section class="settings-panel" id="settingsPanelDifficulty" role="tabpanel" aria-labelledby="settingsTabDifficulty" data-settings-panel="difficulty" hidden>
+      <div class="settings-section">
+        <h3>判別の難しさ</h3>
+        <div class="settings-difficulty-grid">
+          <label>選択肢
+            <select id="choiceScope"><option value="auto">学習に合わせる</option><option value="near">近い型</option><option value="part_of_speech">同じ品詞</option><option value="cross_pos">品詞をまたぐ</option><option value="all">全候補</option></select>
+          </label>
+          <label>活用表
+            <select id="supportLevel"><option value="0">ヒントで表示</option><option value="2">常に表示</option></select>
+          </label>
+          <label>動詞の行
+            <select id="rowMode"><option value="auto">学習に合わせる</option><option value="omitted">省略</option><option value="select">選択</option><option value="input">入力</option></select>
+          </label>
+        </div>
+        <ol class="settings-stage-list">
+          <li>段階 1/4：近い型・正式名・行は答えない</li>
+          <li>段階 2/4：同じ品詞・正式名・行は答えない</li>
+          <li>段階 3/4：品詞をまたぐ・略称・動詞の行を選ぶ</li>
+          <li>段階 4/4：全候補・略称・動詞の行を選ぶ</li>
+        </ol>
+        <p class="settings-note">「入力」は手動で選んだときだけ使います。</p>
       </div>
-      <div class="settings-erase-confirm" id="eraseConfirm" hidden>
-        <p class="settings-erase-confirm__text">本当に消去しますか？もとには戻せません。</p>
-        <button class="ghost settings-danger" id="eraseConfirmYes" type="button">消去する</button>
-        <button class="ghost" id="eraseConfirmCancel" type="button">キャンセル</button>
+    </section>
+    <section class="settings-panel" id="settingsPanelDisplay" role="tabpanel" aria-labelledby="settingsTabDisplay" data-settings-panel="display" hidden>
+      <div class="settings-section">
+        <h3>配色</h3>
+        <div class="theme-picker" id="themePicker" role="group" aria-label="配色テーマ">
+          <button class="theme-swatch" type="button" data-theme="coffee" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>珈琲</button>
+          <button class="theme-swatch" type="button" data-theme="matcha" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>抹茶</button>
+          <button class="theme-swatch" type="button" data-theme="indigo" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>藍</button>
+          <button class="theme-swatch" type="button" data-theme="sumi" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>墨</button>
+          <button class="theme-swatch" type="button" data-theme="sakura" aria-pressed="false"><span class="theme-swatch__dot" aria-hidden="true"></span>桜</button>
+        </div>
       </div>
-      <p class="settings-record-status" id="settingsRecordStatus" role="status"></p>
+    </section>
+    <section class="settings-panel" id="settingsPanelRecord" role="tabpanel" aria-labelledby="settingsTabRecord" data-settings-panel="record" hidden>
+      <div class="settings-section">
+        <h3>記録</h3>
+        <div class="settings-record-actions">
+          <button class="ghost" id="exportRecord" type="button">記録を書き出す</button>
+          <button class="ghost" id="importRecordTrigger" type="button">記録を読み込む</button>
+          <input type="file" id="importRecordFile" accept="application/json,.json" hidden>
+          <button class="ghost settings-danger" id="eraseRecord" type="button">記録を消去する</button>
+        </div>
+        <div class="settings-erase-confirm" id="eraseConfirm" hidden>
+          <p class="settings-erase-confirm__text">本当に消去しますか？もとには戻せません。</p>
+          <button class="ghost settings-danger" id="eraseConfirmYes" type="button">消去する</button>
+          <button class="ghost" id="eraseConfirmCancel" type="button">キャンセル</button>
+        </div>
+        <p class="settings-record-status" id="settingsRecordStatus" role="status"></p>
+      </div>
     </section>
     <button class="ghost" id="closeSettings" type="button">閉じる</button>
+  </dialog>
+  <dialog class="settings-dialog quiz-stage-dialog" id="quizStageDialog" aria-labelledby="quizStageTitle">
+    <h2 id="quizStageTitle">学習の段階</h2>
+    <p id="quizStageCurrent">学習段階に応じた難易度で出題されます。</p>
+    <p id="quizStageNext"></p>
+    <ul>
+      <li>段階 1/4：近い型から選ぶ</li>
+      <li>段階 2/4：同じ品詞から選ぶ</li>
+      <li>段階 3/4：品詞をまたぎ、動詞は行も選ぶ</li>
+      <li>段階 4/4：全候補から選び、動詞は行も選ぶ</li>
+    </ul>
+    <button class="ghost" id="closeQuizStage" type="button">閉じる</button>
   </dialog>
 </div>
 
@@ -3369,7 +3428,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
-<script src="./conj-quiz-ui.js?v=20261006-18"></script>
+<script src="./conj-quiz-ui.js?v=20261006-19"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4761,7 +4820,13 @@ const QUIZ_POEM_WRAP_BELOW_PX=11;
 function fitExampleText(text){
   text.style.fontSize="";
   let size=parseFloat(getComputedStyle(text).fontSize);
-  const overflowing=()=>text.scrollHeight>text.clientHeight+1 || text.scrollWidth>text.clientWidth+1;
+  const overflowing=()=>{
+    const box=text.getBoundingClientRect();
+    const range=document.createRange();
+    range.selectNodeContents(text);
+    const inkOutside=[...range.getClientRects()].some(r=>r.width&&r.height&&(r.top<box.top-1||r.bottom>box.bottom+1));
+    return inkOutside || text.scrollHeight>text.clientHeight+1 || text.scrollWidth>text.clientWidth+1;
+  };
   while(overflowing() && size>MIN_EXAMPLE_FONT_PX){
     size=Math.max(MIN_EXAMPLE_FONT_PX,size-0.5);
     text.style.fontSize=size+"px";
@@ -5684,10 +5749,24 @@ function confirmEraseRecord(){
   refreshAfterRecordChange();
   setSettingsRecordStatus("記録を消去しました。");
 }
+function activateSettingsTab(name){
+  const tabs=[...document.querySelectorAll("[data-settings-tab]")];
+  const panels=[...document.querySelectorAll("[data-settings-panel]")];
+  const target=tabs.some(tab=>tab.dataset.settingsTab===name)?name:"range";
+  tabs.forEach(tab=>{
+    const active=tab.dataset.settingsTab===target;
+    tab.setAttribute("aria-selected",String(active));
+    tab.tabIndex=active?0:-1;
+  });
+  panels.forEach(panel=>panel.hidden=panel.dataset.settingsPanel!==target);
+}
+window.activateSettingsTab=activateSettingsTab;
+document.querySelectorAll("[data-settings-tab]").forEach(tab=>tab.addEventListener("click",()=>activateSettingsTab(tab.dataset.settingsTab)));
 document.getElementById("openSettings").addEventListener("click",()=>{
   setSettingsRecordStatus("");
   resetEraseRecordArm();
   document.getElementById("settingsDialog").showModal();
+  activateSettingsTab("range");
 });
 document.getElementById("closeSettings").addEventListener("click",()=>{
   document.getElementById("settingsDialog").close();
@@ -6127,6 +6206,7 @@ document.addEventListener("keydown",e=>{
   if(!document.getElementById("reviewModal").hidden) return;
   if(document.getElementById("sourceCredits").open) return;
   if(document.getElementById("settingsDialog").open) return;
+  if(document.getElementById("quizStageDialog").open) return;
   // Native select/button activation must not also grade or draw a new quiz.
   if(isIdentificationMode() && e.key==="Enter"){
     if(e.target.closest('.toolbar,.quiz-controls') || e.target.tagName==='BUTTON') return;
