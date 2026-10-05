@@ -2,12 +2,12 @@
 let quizEngine=null, quizAdapter=null, quizState=null, quizRecords=[], quizMaster=[], quizChoices=[];
 let quizLoadFailed=false, quizRowChoices=[], quizPreviousMode='table', quizExamplePreference=true;
 let quizMasterPractice={form:[],type:[]}, quizAutoScrolled=false, quizResolveItemId=null;
-const quizSettings={choiceScope:'auto',supportLevel:0,rowMode:'omitted'};
+const quizSettings={choiceScope:'auto',supportLevel:0,rowMode:'auto'};
 function isIdentificationMode(){return document.getElementById('quizMode').value!=='table';}
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261006-18'),import('./conj-quiz-adapter.mjs?v=20261006-18')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261006-19'),import('./conj-quiz-adapter.mjs?v=20261006-19')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
@@ -30,7 +30,7 @@ async function initQuizUI(){
       const saved=JSON.parse(localStorage.getItem('conjQuizPreferences')||'{}');
       if(['auto','near','part_of_speech','cross_pos','all'].includes(saved.choiceScope)) quizSettings.choiceScope=saved.choiceScope==='near'?'auto':saved.choiceScope;
       if([0,1,2].includes(saved.supportLevel)) quizSettings.supportLevel=saved.supportLevel===2?2:0;
-      if(['omitted','select','input'].includes(saved.rowMode)) quizSettings.rowMode=saved.rowMode;
+      if(['auto','omitted','select','input'].includes(saved.rowMode)) quizSettings.rowMode=saved.rowMode;
     }catch(_error){}
   }catch(_error){quizLoadFailed=true;}
   for(const [id,value] of Object.entries(quizSettings)) document.getElementById(id).value=value;
@@ -38,7 +38,7 @@ async function initQuizUI(){
   document.getElementById('closeQuizTable').addEventListener('click',()=>document.getElementById('quizTableDialog').close());
   const shortcut=document.getElementById('openQuizModes');shortcut.hidden=false;
   shortcut.addEventListener('click',()=>{
-    const dialog=document.getElementById('settingsDialog');dialog.showModal();document.getElementById('quizMode').focus();
+    const dialog=document.getElementById('settingsDialog');window.activateSettingsTab?.('difficulty');dialog.showModal();document.getElementById('quizMode').focus();
   });
   document.querySelectorAll('[data-quiz-mode]').forEach(button=>{
     button.disabled=false;
@@ -62,8 +62,14 @@ async function initQuizUI(){
   for(const id of ['choiceScope','supportLevel','rowMode']) document.getElementById(id).addEventListener('change',()=>{
     quizSettings[id]=id==='supportLevel'?Number(document.getElementById(id).value):document.getElementById(id).value;
     try{localStorage.setItem('conjQuizPreferences',JSON.stringify(quizSettings));}catch(_error){}
-    if(isIdentificationMode()) nextQuestion();
+    if(isIdentificationMode()) nextQuestion(); else updateQuizStageUI();
   });
+  document.getElementById('openQuizStageHelp').addEventListener('click',()=>{
+    updateQuizStageUI();
+    const dialog=document.getElementById('quizStageDialog');if(!dialog.open)dialog.showModal();
+  });
+  document.getElementById('closeQuizStage').addEventListener('click',()=>document.getElementById('quizStageDialog').close());
+  document.getElementById('quizStageDialog').addEventListener('click',event=>{if(event.target===event.currentTarget)event.currentTarget.close();});
 }
 
 function nextQuizQuestion(){
@@ -84,7 +90,10 @@ function nextQuizQuestion(){
   const resolvedScope=quizSettings.choiceScope==='auto'
     ? (quizEngine.scopeForMasteryStage?.(masteryStage)??['near','part_of_speech','cross_pos','all'][Math.min(3,masteryStage)])
     : quizSettings.choiceScope;
-  quizState=quizEngine.createQuizState({example:ex,quizMode:mode,...quizSettings,choiceScope:resolvedScope});
+  const resolvedRowMode=quizEngine.rowModeForMasteryStage?.(masteryStage,quizSettings.rowMode)
+    ?? (quizSettings.rowMode==='auto'?(masteryStage>=2?'select':'omitted'):quizSettings.rowMode);
+  quizState=quizEngine.createQuizState({example:ex,quizMode:mode,...quizSettings,choiceScope:resolvedScope,rowMode:resolvedRowMode});
+  quizState.rowSetting=quizSettings.rowMode;
   quizState.shortLabels=mode==='type' && (quizEngine.shouldUseShortTypeLabels?.(stats.quiz,ex.partOfSpeech)??false);
   quizState.masteryStage=masteryStage;
   quizRowChoices=[];
@@ -94,6 +103,38 @@ function nextQuizQuestion(){
   quizChoices=mode==='form'?quizEngine.buildFormChoices():quizEngine.buildTypeChoices({example:ex,masterEntries:quizMaster,scope:quizState.choiceScope});
   quizRowChoices=mode==='type'?quizEngine.buildRowChoicesForTypes(quizMaster,quizChoices):[];
   render();
+}
+
+function quizDifficultyIsAutomatic(mode=document.getElementById('quizMode').value){
+  if(mode==='table')return true;
+  if(Number(quizSettings.supportLevel)!==0)return false;
+  if(mode==='form')return true;
+  return quizSettings.choiceScope==='auto'&&quizSettings.rowMode==='auto';
+}
+function updateQuizStageUI(){
+  const status=document.getElementById('quizStageStatus');
+  if(!status)return;
+  const mode=document.getElementById('quizMode').value;
+  const active=mode!=='table'&&!!quizState;
+  status.hidden=!active;
+  if(!active)return;
+  const manual=!quizDifficultyIsAutomatic(mode);
+  const stage=quizEngine?.quizMasteryStage?.(stats.quiz,quizState.example.partOfSpeech,mode)??quizState.masteryStage??0;
+  const badge=document.getElementById('quizStageBadge');
+  badge.textContent=manual?'手動':`段階 ${stage+1}/4`;
+  badge.dataset.manual=String(manual);
+  document.getElementById('quizStageCurrent').textContent=manual
+    ? '現在は設定した難しさで出題しています。'
+    : `現在は段階 ${stage+1}/4 です。学習段階に応じた難易度で出題されます。`;
+  const next=[
+    '次の段階：直近8問のうち5問以上に取り組み、ヒントなし正解3問以上・誤答1問以下。',
+    '次の段階：直近12問のうち10問以上に取り組み、ヒントなし正解9問以上・誤答1問以下。',
+    '次の段階：直近20問のうち18問以上に取り組み、ヒントなし正解16問以上・誤答2問以下。',
+    '最高段階です。'
+  ][stage]||'';
+  document.getElementById('quizStageNext').textContent=manual
+    ? '「難しさ」で学習に合わせる設定へ戻すと、段階に応じた自動調整を再開します。'
+    : next;
 }
 
 function applyQuizTableMask(){
@@ -126,10 +167,12 @@ function renderQuizUI(){
   // centred, wrapped panel while the table is hidden; the drill's narrow column cannot hold prose.
   card.classList.toggle('quiz-example-layout',active && !!quizState);
   document.getElementById('levelMeters').hidden=active;
-  document.getElementById('quizControls').hidden=!active;
-  document.getElementById('choiceScope').disabled=document.getElementById('quizMode').value==='form';
-  document.getElementById('rowMode').disabled=document.getElementById('quizMode').value==='form';
-  for(const id of ['choiceScope','rowMode'])document.getElementById(id).closest('label').hidden=document.getElementById('quizMode').value==='form';
+  const formMode=document.getElementById('quizMode').value==='form';
+  document.getElementById('choiceScope').disabled=formMode;
+  document.getElementById('rowMode').disabled=formMode;
+  for(const id of ['choiceScope','rowMode'])document.getElementById(id).closest('label').hidden=formMode;
+  document.getElementById('showExample').closest('.example-toggle').hidden=active;
+  updateQuizStageUI();
   document.getElementById('quizPrompt').hidden=!active || !quizState;
   document.getElementById('quizAnswerPanel').hidden=!active || !quizState;
   document.getElementById('quizEmpty').hidden=!active || !!quizState;
@@ -138,6 +181,7 @@ function renderQuizUI(){
   placeQuizTable();
   if(!active){
     document.getElementById('showExample').disabled=false;
+    document.getElementById('showExample').closest('.example-toggle').hidden=false;
     document.getElementById('reveal').textContent='答えを見る';
     document.getElementById('check').textContent='採点';document.getElementById('check').disabled=false;
     applyQuizTableMask();return;
