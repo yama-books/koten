@@ -219,9 +219,9 @@ try{
   assert.equal(await empty.evaluate('quizState.choiceScope'),'all');
   assert.equal(await empty.evaluate('quizState.shortLabels'),true);
   assert.equal(await empty.evaluate('quizState.rowMode'),'select','stage 4/4 auto difficulty asks the verb row');
-  assert.equal(await empty.locator('#quizStageBadge').innerText(),'段階 4/4');
+  assert.equal(await empty.locator('#quizStageBadge').innerText(),'ステージ 4/4');
   await empty.locator('#openQuizStageHelp').click();
-  assert.match(await empty.locator('#quizStageCurrent').innerText(),/段階 4\/4/);
+  assert.match(await empty.locator('#quizStageCurrent').innerText(),/ステージ 4\/4/);
   await empty.locator('#closeQuizStage').click();
   assert.equal(await empty.evaluate('document.querySelector("#quizChoices .quiz-choice-label").textContent===quizChoices[0].label'),true);
   await empty.close();

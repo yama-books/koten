@@ -7,7 +7,7 @@ function isIdentificationMode(){return document.getElementById('quizMode').value
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261007-20'),import('./conj-quiz-adapter.mjs?v=20261007-20')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261007-21'),import('./conj-quiz-adapter.mjs?v=20261007-21')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
@@ -125,19 +125,20 @@ function updateQuizStageUI(){
   const manual=!quizDifficultyIsAutomatic(mode);
   const stage=quizEngine?.quizMasteryStage?.(stats.quiz,quizState.example.partOfSpeech,mode)??quizState.masteryStage??0;
   const badge=document.getElementById('quizStageBadge');
-  badge.textContent=manual?'手動':`段階 ${stage+1}/4`;
+  badge.textContent=manual?'手動':`ステージ ${stage+1}/4`;
+  badge.dataset.stage=String(stage+1);
   badge.dataset.manual=String(manual);
   document.getElementById('quizStageCurrent').textContent=manual
     ? '現在は設定した難しさで出題しています。'
-    : `現在は段階 ${stage+1}/4 です。学習段階に応じた難易度で出題されます。`;
+    : `現在はステージ ${stage+1}/4 です。学習のステージに応じた難易度で出題されます。`;
   const next=[
-    '次の段階：直近8問のうち5問以上に取り組み、ヒントなし正解3問以上・誤答1問以下。',
-    '次の段階：直近12問のうち10問以上に取り組み、ヒントなし正解9問以上・誤答1問以下。',
-    '次の段階：直近20問のうち18問以上に取り組み、ヒントなし正解16問以上・誤答2問以下。',
-    '最高段階です。'
+    '次のステージ：直近8問のうち5問以上に取り組み、ヒントなし正解3問以上・誤答1問以下。',
+    '次のステージ：直近12問のうち10問以上に取り組み、ヒントなし正解9問以上・誤答1問以下。',
+    '次のステージ：直近20問のうち18問以上に取り組み、ヒントなし正解16問以上・誤答2問以下。',
+    '最高のステージです。'
   ][stage]||'';
   document.getElementById('quizStageNext').textContent=manual
-    ? '「難しさ」で習熟度に合わせる設定へ戻すと、段階に応じた自動調整を再開します。'
+    ? '「難しさ」で習熟度に合わせる設定へ戻すと、ステージに応じた自動調整を再開します。'
     : next;
 }
 

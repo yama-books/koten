@@ -167,3 +167,19 @@
 .range-bulk{display:flex;gap:6px;margin:6px 0}
 .range-bulk button{min-height:32px;padding:0 10px;font-size:12px}
 #tableManualLevelWrap[hidden]{display:none!important}
+/* ステージ（4段階）とドリルのレベル（7段階）の色。レベルはステージの4色の間に中間色を挟む
+   （Lv1=ステージ1、Lv2=1と2の中間、Lv3=ステージ2 … Lv7=ステージ4）。文字色は全テーマ共通の濃い茶。 */
+:root{--stage-c1:#f2e2b8;--stage-c2:#d3e7c5;--stage-c3:#c4dcef;--stage-c4:#dccbee;--stage-ink:#3a2f25}
+[data-stage="1"],[data-level="1"]{--stage-bg:var(--stage-c1)}
+[data-level="2"]{--stage-bg:color-mix(in oklab,var(--stage-c1),var(--stage-c2))}
+[data-stage="2"],[data-level="3"]{--stage-bg:var(--stage-c2)}
+[data-level="4"]{--stage-bg:color-mix(in oklab,var(--stage-c2),var(--stage-c3))}
+[data-stage="3"],[data-level="5"]{--stage-bg:var(--stage-c3)}
+[data-level="6"]{--stage-bg:color-mix(in oklab,var(--stage-c3),var(--stage-c4))}
+[data-stage="4"],[data-level="7"]{--stage-bg:var(--stage-c4)}
+.stage-badge,.quiz-stage-badge[data-stage],.level-badge[data-level]{background:var(--stage-bg);color:var(--stage-ink);border:1px solid color-mix(in oklab,var(--stage-bg),#000 18%)}
+.quiz-stage-badge[data-manual="true"]{background:var(--toolbar-bg);color:var(--ink);border-color:var(--line)}
+.stage-badge{display:inline-flex;align-items:center;flex:none;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
+.stage-list{list-style:none;margin:10px 0 0;padding-left:0}
+.stage-list li{display:flex;align-items:center;gap:6px;margin:5px 0}
+.table-level-badge.level-badge{min-height:0;padding:2px 9px;border-radius:999px;font-size:11px}
