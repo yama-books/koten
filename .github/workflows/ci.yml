@@ -20,7 +20,7 @@ jobs:
       - run: npm run build
       # Hentaigana Life: browser/Node共有simulation coreと追記型run出力のsmoke test。
       - run: node vintage-kana/hentaigana-life/poc-v3/node/health-check.cjs
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit
       # ports: overflow=4173 font-weight=4174,4175 storage=4176 conj-layout=4177
       - run: npm run check:font
       - run: npm run check:font-assets
@@ -30,6 +30,7 @@ jobs:
       - run: npm run check:conj-layout
       # 活用判別の段階ヒント・型/行・保存・5テーマ。検査サーバ内だけのsynthetic fixturesを使う。
       - run: npm run check:conj-quiz
+      - run: npm run check:conj-quiz -- --webkit
       # 変体仮名の記録画面：全体の習熟度の値、描画前後の一致、横スクロールなし、reduced motion。
       - run: npm run check:vintage-kana-record
       # H-21: check:storage は「未知 product の拒否」シナリオで止まる（2026-09-04 に特定）。
