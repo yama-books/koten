@@ -2247,3 +2247,214 @@ head `85f9ad47f75a062e1aa54417ef4e80aab5ef8571` に対する GitHub Actions:
 4. 問題がなければ PR #84 を完成・mergeする。
 5. merge後に main / CI / HANDOFF を記録してから、別PRとして §39「実装の順番」2へ進む。
 
+## 41. PR #84 merge後確認と §39「実装の順番」2 着手前の停止記録（2026-10-06・ChatGPT）
+
+ユーザー指示により、ここで一時停止する。正本は GitHub `yama-books/koten` の `main`。ローカルは参照していない。
+
+### 1. PR #84 の merge 完了を確認
+
+PR #84 `conj: 設定タブと学習段階の自動調整を追加` は merge 済み。
+
+- merge commit: `d600d08d73920521ccb8facff268855482b3fb71`
+- 現在の `main` HEAD: `d600d08d73920521ccb8facff268855482b3fb71`
+- PR #84 最終 head: `51986b555233be06a7ed985fd0f57c6d9376ddcc`
+
+GitHub 上の最近の commit 一覧でも、`d600d08...` が最新であることを確認した。
+
+### 2. merge後 CI / Pages の確認
+
+引継ぎで指定されていた run を確認した。
+
+#### Deploy Pages
+
+- run: `37355644668`
+- build job: **success**
+- deploy job: **success**
+
+したがって PR #84 merge 後の Pages 配備は完了している。
+
+#### main CI
+
+- run: `37355644741`
+- GitHub connector で確認した時点では verify job はまだ `in_progress` を返した。
+- その時点までの成功:
+  - `check:eol`
+  - `npm ci`
+  - `typecheck`
+  - `lint`
+  - `npm test`
+  - `data:check`
+  - `build`
+  - vintage-kana health check
+  - Playwright Chromium / WebKit install
+  - `check:font`
+  - `check:font-assets`
+  - `check:font-weight`
+- 取得時点では `check:overflow` が `in_progress`、それ以降は pending だった。
+
+この run は connector 側が途中状態を返しているため、次回開始時に **run 37355644741 の最終結果だけ再確認する**。PR head `85f9ad...` に対する CI run `37351083529` は既に全項目 success 済みで、Chromium / WebKit の `check:conj-quiz` も成功していることは §40 に記録済み。
+
+### 3. §39「実装の順番」2のために読み取った現行依存
+
+コード変更はしていない。`#pos` の参照と、範囲・保存・記録・判別モードへの依存だけを GitHub `main` 上で調査した。
+
+#### `#pos` の直接参照
+
+`conj/index.html`
+
+- `pool()`
+  - `#pos` の値で table drill の `items` を `all / verb / adj / adjv / aux` に絞る。
+- `usingCommonLevel()`
+  - `#pos === "all"` かどうかで共通 Lv を使う。
+- `currentNonAuxLevel()`
+  - current が無いとき `#pos` を fallback に使う。
+- `#pos.onchange`
+  - `updateLevelUI()` と `nextQuestion()` を呼ぶ。
+- `updateLevelUI()`
+  - `#pos` に対応する Lv1〜7 のメーターだけ表示する。
+
+`conj/conj-quiz-ui.js`
+
+- `nextQuizQuestion()`
+  - `#pos` を読み、
+    - 公開済み判別用例 `quizRecords`
+    - master 由来の練習問題 `quizMasterPractice`
+    の両方を品詞で絞る。
+- 判別モードの習熟段階は、実際に選ばれた問題の `partOfSpeech` を使って算出する。
+
+したがって、`#pos` は現在 **table drill と判別2モードの共通フィルタの実体**になっている。
+
+### 4. 保存・記録との関係
+
+#### 学習記録
+
+学習記録本体の保存キーは `katsuyoProtoV37`。
+
+- table drill:
+  - `stats.byPos`
+  - `stats.byForm`
+  - `stats.slots`
+- 判別:
+  - `stats.quiz.events`
+  - `stats.quiz.totals.byPos`
+  - `stats.quiz.totals.byItem`
+  - `stats.quiz.totals.byCell`
+
+これらは **出題範囲そのものを保存していない**。範囲を細分化しても、既存の回答履歴・itemId・cell 集計を壊す必要はない。
+
+#### 判別の設定
+
+`conjQuizPreferences` に保存しているのは現在、
+
+- `choiceScope`
+- `supportLevel`
+- `rowMode`
+
+のみ。
+
+`#pos` は localStorage に保存されていない。
+
+#### 活用表ドリルの Lv1〜7
+
+`allLevel / verbLevel / adjLevel / adjvLevel / auxLevel` は現状 JS の変数で、初期値はすべて Lv4。localStorage には保存していない。
+
+このため、§39 作業2で「ドリル 自動／手動」を追加するときは、既存記録データ `katsuyoProtoV37` の形式を変更せず、**難しさの設定は別の preference として持つ方が安全**。
+
+### 5. URL / 初期化処理
+
+現行 `conj/index.html` には、範囲を `URLSearchParams` や `location.search` から読み込む処理は確認できなかった。
+
+先生の範囲 URL / code は §39「実装の順番」3 の領域なので、作業2では入れない。
+
+### 6. 現行データから確認した範囲候補
+
+`conj/index.html` の `items` は 130件。
+
+- 動詞: 90
+- 形容詞: 11
+- 形容動詞: 1
+- 助動詞: 28
+
+現行 master に存在する主な活用種類:
+
+- 動詞:
+  - 四段
+  - 上一段
+  - 上二段
+  - 下一段
+  - 下二段
+  - カ変
+  - サ変
+  - ナ変
+  - ラ変
+  - 実データ上は各行別 canonical type を持つ
+- 形容詞:
+  - ク活用
+  - シク活用
+- 形容動詞:
+  - ナリ活用
+- 助動詞:
+  - 28語
+  - `る / らる / す / さす / しむ / ず / む / むず / じ / まし / まほし / き / けり / つ / ぬ / たり / り / けむ / らむ / べし / まじ / らし / めり / なり（伝聞・推定） / なり（断定） / たり（断定） / たし / ごとし`
+
+注意: `なり` と `たり` は同一表記でも itemId / 用法が別なので、範囲モデルで単純に lemma 文字列だけをキーにすると衝突する。**個々の助動詞選択は itemId を正本キーにする必要がある。**
+
+### 7. 範囲データモデルについて、ここまでで固まった方針
+
+まだ実装しない。次回、最終設計を確定してから UI に進む。
+
+現時点で安全と判断できる方針:
+
+- `#pos` の DOM 値を正本にし続けず、独立した `rangeSelection` を1つ持つ。
+- 全モードが同じ `rangeSelection` を参照する。
+- プリセットはデータの省略形として扱い、内部では最終的に同じ選択集合へ展開する。
+- 個々の助動詞は lemma ではなく既存の `item.id` で識別する。
+- 活用種類は canonical kind を直接保存するより、
+  - UI上の「四段」「上二段」等の family 選択
+  - 実データ上の row 付き canonical kind
+  を分離する必要がある。
+  例: 「四段」を選んだら `カ行四段活用 / ハ行四段活用 / ...` をまとめて対象にする。
+- 既存の `stats` / `stats.quiz` は変更しない。
+- 範囲 preference は学習記録とは別保存にする。
+- 未知の id / kind が保存されていても読み込み時に無視せず、警告可能な形にする余地を残す（§39 作業3の versioned code と整合させる）。
+
+### 8. まだ未決の点
+
+次回、実装前にここだけ決める。
+
+1. `rangeSelection` の保存 schema
+   - version
+   - preset
+   - verb families / adjective families
+   - auxiliary item IDs
+   の最小構成。
+2. 「形容詞・形容動詞」プリセットを1つのプリセットとして持つ一方、詳細チェックでは `ク / シク / ナリ / タリ` をどの粒度で見せるか。
+3. 助動詞の「たり」が
+   - 完了・存続 `tari_comp_aux`
+   - 断定 `tari_assert_aux`
+   の2つあるため、表示名に識別情報を付けるか。
+   `なり` も同様。
+4. 活用表ドリルの「自動」の段階判定を、
+   - 既存の table drill 履歴から新しく算出するか
+   - 既存 Lv を初期手動値として扱い、自動は別ロジックにするか。
+5. `#pos` を即削除せず、一時的な互換レイヤーとして hidden select で残すかどうか。
+
+### 9. 触っていないもの
+
+- 範囲 UI
+- 範囲 preference の保存
+- 出題フィルタ
+- 活用表ドリルの自動／手動
+- 先生の範囲 code / URL / QR
+- `fitExampleText()`
+- 6段活用表 renderer
+- 5テーマ
+- 丸画像
+- 判別の選択肢配置
+- 行の配置
+- 記録画面
+
+### 次回開始用
+
+> GitHub `yama-books/koten` の `main` を正本として、`conj/HANDOFF.md` §39〜§41 を読む。まず main CI run `37355644741` の最終結果だけ再確認する。Pages run `37355644668` は build/deploy とも success 確認済み。PR #84 は merge 済みで main HEAD は `d600d08d73920521ccb8facff268855482b3fb71`。§39「実装の順番」2はまだコード変更していない。§41 の依存調査を再実施せず、未決5点だけ詰めて `rangeSelection` の versioned 保存 schema を先に確定する。その後、保存 → フィルタ → UI の順に小さく実装する。§39 の3（先生用 code / URL / QR）には進まない。
+
