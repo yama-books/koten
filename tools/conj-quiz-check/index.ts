@@ -108,6 +108,8 @@ async function chooseMode(page:any,mode:string){
   if(await page.locator('.quiz-mode-tabs').isVisible())await page.locator(`[data-quiz-mode="${mode}"]`).click();
   else{
     await page.locator('#openQuizModes').click();
+    assert.equal(await page.locator('#quizMode').isVisible(),true,'mobile mode shortcut must reveal the mode select');
+    assert.equal(await page.locator('[data-settings-tab="range"]').getAttribute('aria-selected'),'true');
     await page.selectOption('#quizMode',mode);
   }
   assert.equal(await page.locator(`[data-quiz-mode="${mode}"]`).getAttribute('aria-pressed'),'true');
