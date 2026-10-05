@@ -2114,3 +2114,65 @@ PR差分は現時点で8ファイルだけ。
 ### 再開用の一文
 
 > GitHub `yama-books/koten` の PR #84（branch `codex/conj-settings-stage-20261006`）から再開。まず `conj/HANDOFF.md` §40 を読み、最新CI run `37344028280` の結果を確認する。今回の範囲は §39「実装の順番」1だけで、範囲チップ等の2番目のPRは混ぜない。Chromium / WebKit の `check:conj-quiz` と §36 の検査がすべて緑になってから、HANDOFF に最終結果を追記してPR #84 を完成させる。
+
+
+### 2026-10-06 再開後の追加記録（ChatGPT）
+
+ユーザー指示の作業単位1から再開し、ここで一度区切る。
+
+#### 作業単位1: 状態確認
+
+- PR #84 は open / mergeable。
+- base: `main`
+- branch: `codex/conj-settings-stage-20261006`
+- 再開時の PR head: `e3c41bdae3b05643d7f332972e162350b21fcede`
+  - `docs(conj): record PR 84 pause point`
+- `main...PR #84` は再開時点で 15 commits ahead / 0 behind。
+- PR差分は9ファイル。
+  - `.github/workflows/ci.yml`
+  - `conj/HANDOFF.md`
+  - `conj/conj-quiz-engine.mjs`
+  - `conj/conj-quiz-ui.css`
+  - `conj/conj-quiz-ui.js`
+  - `conj/index.html`
+  - `tests/unit/conj-quiz-integration.test.ts`
+  - `tests/unit/conj-record-screen.test.ts`
+  - `tools/conj-quiz-check/index.ts`
+- §39「実装の順番」2以降の範囲UI変更は、この再開作業では追加していない。
+
+#### 作業単位2: Chromium `check:conj-quiz`
+
+停止記録にあった CI run `37344028280`（commit `7190805d6b798a1e553fb7064df4963a51f0815e`）は、その後完了し Chromium で失敗していた。
+
+失敗は 360×640 の master sentence/action sweep の2件だけ。
+
+- `form 心あてに折らばや: sentence outside its box`
+- `type わが袖は潮干にみ: sentence outside its box`
+
+以前の `sentence under a button` は消えており、残っていたのは縦書き文字の実描画領域が `#exampleText` の矩形から出る判定だけだった。
+
+原因を `fitExampleText()` の収まり判定に絞った。従来は `scrollHeight / scrollWidth` だけを見ていたため、縦書きフォントの実際の文字矩形が上下にはみ出しても縮小が止まることがあった。
+
+最小修正として、`Range#getClientRects()` で文字の実描画矩形も確認し、矩形が枠外なら従来と同じ0.5px刻みの縮小を続けるようにした。
+
+- 修正 commit: `18b3b0dc14b321907e6a9f8dbdd8eb5857a8b0ae`
+- message: `fix(conj): fit vertical quiz text by rendered bounds`
+- 変更ファイル: `conj/index.html` の `fitExampleText()` のみ
+- 6段活用表、選択肢配置、行の配置、スマホの表ダイアログは変更していない。
+
+この修正 commit の CI:
+
+- run: `37345799884`
+- 記録時点では `check:overflow` 実行中。
+- `check:eol` / `npm ci` / `typecheck` / `lint` / `npm test` / `data:check` / `build` / vintage-kana health check / Playwright install / `check:font` / `check:font-assets` / `check:font-weight` は成功済み。
+- Chromium `check:conj-quiz` はまだ未実行。
+- WebKit `check:conj-quiz -- --webkit` もまだ未実行。
+
+#### 次回の開始点
+
+1. PR #84 の最新headを確認する。
+2. code commit `18b3b0dc14b321907e6a9f8dbdd8eb5857a8b0ae` に対する CI run `37345799884` の Chromium `check:conj-quiz` 結果を最初に確認する。
+3. Chromium成功なら、コードを変えず作業単位3の WebKit へ進む。
+4. Chromium失敗なら、その失敗だけを切り分ける。複数の推測修正をまとめて入れない。
+5. §39「実装の順番」2以降には進まない。
+
