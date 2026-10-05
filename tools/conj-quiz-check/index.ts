@@ -307,10 +307,15 @@ try{
           const box=text.getBoundingClientRect();
           const buttons=[...document.querySelectorAll('#quizAnswerPanel button,.card .actions button')]
             .filter(e=>(e as HTMLElement).offsetParent).map(e=>e.getBoundingClientRect());
-          for(const r of [...range.getClientRects()].filter(r=>r.width&&r.height)){
-            if(buttons.some(b=>overlap(r,b)))problems.push(tag+': sentence under a button');
-            if(r.top<box.top-2||r.bottom>box.bottom+2)problems.push(tag+': sentence outside its box');
-          }
+          const rects=[...range.getClientRects()].filter(r=>r.width&&r.height);
+          const detail=(r:DOMRect)=>{
+            const style=getComputedStyle(text);
+            return ` [font=${style.fontSize}; inline=${text.style.fontSize||'auto'}; box=${box.top.toFixed(1)}..${box.bottom.toFixed(1)}; rect=${r.top.toFixed(1)}..${r.bottom.toFixed(1)}; client/scroll=${text.clientHeight}/${text.scrollHeight}; wrap=${style.whiteSpace}; class=${text.className}]`;
+          };
+          const under=rects.find(r=>buttons.some(b=>overlap(r,b)));
+          const outside=rects.find(r=>r.top<box.top-2||r.bottom>box.bottom+2);
+          if(under)problems.push(tag+': sentence under a button'+detail(under));
+          if(outside)problems.push(tag+': sentence outside its box'+detail(outside));
           if(mode==='form' && (0,eval)('quizChoices').map((c:any)=>c.canonical).join()!=='未然形,連用形,終止形,連体形,已然形,命令形')problems.push(tag+': form choices out of order');
           w.hintQuiz();
           if(!await onScreen('reveal'))problems.push(tag+': hint button below the screen');
