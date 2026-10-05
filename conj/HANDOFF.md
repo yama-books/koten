@@ -2458,3 +2458,186 @@ GitHub 上の最近の commit 一覧でも、`d600d08...` が最新であるこ�
 
 > GitHub `yama-books/koten` の `main` を正本として、`conj/HANDOFF.md` §39〜§41 を読む。まず main CI run `37355644741` の最終結果だけ再確認する。Pages run `37355644668` は build/deploy とも success 確認済み。PR #84 は merge 済みで main HEAD は `d600d08d73920521ccb8facff268855482b3fb71`。§39「実装の順番」2はまだコード変更していない。§41 の依存調査を再実施せず、未決5点だけ詰めて `rangeSelection` の versioned 保存 schema を先に確定する。その後、保存 → フィルタ → UI の順に小さく実装する。§39 の3（先生用 code / URL / QR）には進まない。
 
+
+
+## 42. §39 作業2「範囲」未決5点の確定・実装前停止記録（2026-10-06・ChatGPT）
+
+ユーザー指示により、§41 の未決5点をここで確定し、**コード実装へ入る前に停止する**。正本は GitHub `yama-books/koten` の `main`。ローカルは参照していない。
+
+### 0. main / CI の再確認
+
+§41 で途中確認だった main CI run `37355644741` は最終的に **completed / success**。
+
+- 対象 commit: `d600d08d73920521ccb8facff268855482b3fb71`
+- workflow: `CI`
+- conclusion: `success`
+
+現在の `main` HEAD は本節追記前 `1337c4fdf0fac077b08199eb57e4fd7a16b66c64` で、§41 以後にコード変更は入っていなかった。
+
+### 1. `rangeSelection` の保存 schema を確定
+
+範囲 preference は学習記録 `katsuyoProtoV37` と分離し、独立した versioned preference とする。
+
+保存キーの予定:
+- `conjRangePreferences`
+
+schema v1:
+
+```json
+{
+  "version": 1,
+  "preset": "all",
+  "verbFamilies": [],
+  "adjectiveFamilies": [],
+  "auxiliaryItemIds": []
+}
+```
+
+`preset`:
+- `all`
+- `verb`
+- `adjective`（形容詞＋形容動詞）
+- `aux`
+- `custom`
+
+プリセットはUI上の省略形で、読み込み後は必ず次の選択集合へ展開して同じフィルタ関数を通す。
+
+`verbFamilies` の canonical family:
+- `yodan`
+- `kami_ichidan`
+- `kami_nidan`
+- `shimo_ichidan`
+- `shimo_nidan`
+- `ka_hen`
+- `sa_hen`
+- `na_hen`
+- `ra_hen`
+
+行（カ行・ハ行等）は範囲指定には含めない。「四段」を選べば各行の四段活用をまとめて対象にする。
+
+`adjectiveFamilies`:
+- `ku`
+- `shiku`
+- `nari`
+- `tari`
+
+`auxiliaryItemIds`:
+- 既存 `item.id` を正本キーにする。
+- lemma文字列はキーにしない。
+- 将来未知IDが混じった場合に検出できる形を維持する。
+
+preset 選択時も内部ではこの3配列へ展開し、出題側は `preset` ではなく展開済み集合だけを見る。custom のときだけユーザーのチェック状態をそのまま3配列へ保存する。
+
+### 2. 「形容詞・形容動詞」の詳細粒度を確定
+
+プリセットは **「形容詞・形容動詞」1つ**のまま。
+
+「詳しく選ぶ」では4チェックに分ける。
+
+- ク活用
+- シク活用
+- ナリ活用
+- タリ活用
+
+形容詞と形容動詞をUI上で別プリセットへ増やさない。詳細選択だけで4系列を個別に絞れるようにする。
+
+現行の埋め込み形容動詞はナリ活用1件だが、起動後に `adjv-runtime-adapter.js` からナリ／タリ両系列の table item が追加されるため、この4系列を範囲モデルの正規形とする。
+
+### 3. 同形の助動詞表示名を確定
+
+個別助動詞の選択UIでは同形衝突を必ず表示上で区別する。
+
+- `nari_hearsay_aux` → **なり（伝聞・推定）**
+- `nari_assert_aux` → **なり（断定）**
+- `tari_comp_aux` → **たり（完了・存続）**
+- `tari_assert_aux` → **たり（断定）**
+
+内部キーは上記の既存 `item.id`。表示名を保存キーには使わない。
+
+### 4. 活用表ドリルの「自動」難易度を確定
+
+**既存の table drill 履歴から新しく算出する方式**を採用する。
+
+- 既存の `allLevel / verbLevel / adjLevel / adjvLevel / auxLevel` を「自動の初期値」として流用しない。
+- 自動時は `katsuyoProtoV37.stats.slots` 相当の既存マス別履歴だけを使う。
+- 判別モードの `stats.quiz` は、活用表ドリルの自動Lvには混ぜない。
+- 現在の `rangeSelection` に含まれる item の slot だけを集計する。
+- 学習記録 schema 自体は変更しない。
+
+実装時の算出契約:
+
+1. 選択範囲の各 slot について `c + w > 0` のものを既習slotとする。
+2. `accuracy = correct / attempts`。
+3. `coverage = min(1, triedDistinctSlots / min(totalSelectableSlots, 24))`。
+4. `mastery = accuracy * coverage`。
+5. `mastery` を次で Lv1〜7 へ写像する。
+
+- Lv1: 0.18 未満
+- Lv2: 0.18 以上 0.32 未満
+- Lv3: 0.32 以上 0.48 未満
+- Lv4: 0.48 以上 0.64 未満
+- Lv5: 0.64 以上 0.78 未満
+- Lv6: 0.78 以上 0.90 未満
+- Lv7: 0.90 以上
+
+履歴0件は Lv1。
+
+狭い範囲ではその範囲の全slotを学べば coverage=1 まで上がる。広い範囲では24個の異なるslotを一つの「十分な観測量」の上限として扱い、全130項目を一巡しないと難易度が上がらない設計にはしない。
+
+手動時の Lv1〜7 は別 preference とし、学習記録には入れない。保存キーは `conjTablePreferences` を予定し、少なくとも `mode: "auto" | "manual"` と `manualLevel` を持たせる。
+
+### 5. `#pos` の扱いを確定
+
+作業2では **即削除しない**。一時的な互換レイヤーとして hidden で残す。
+
+ただし、実装後の正本は `rangeSelection`。
+
+- table drill の `pool()`
+- 判別2モードの eligible filtering
+- 難易度表示
+- 範囲チップ表示
+
+はすべて `rangeSelection` から判定する。
+
+`#pos` は旧DOM依存・旧テストの移行を安全にするためだけに残し、出題範囲の正本としては使わない。
+
+同期規則:
+- `all / verb / adjective / aux` の単純プリセットに一致するときだけ、対応する旧値へ同期する。
+- `adjective` は旧selectに単一対応値がないため、互換値は `all` とする。
+- `custom` も互換値は `all`。
+- 新コードで `#pos` を読んで範囲判定する処理は残さない。
+
+旧 `#pos` は、作業2のテストと次段階の先生用範囲コードまで安定した後に削除候補とする。
+
+### 6. 次セッションの実装順
+
+設計の再検討はしない。次は小さく以下の順で進める。
+
+1. `rangeSelection` の normalize / load / save と family 判定関数を追加。
+2. table drill の `pool()` を共通 range filter へ切り替える。
+3. 判別2モードも同じ range filter へ切り替える。
+4. 設定「範囲」タブへプリセット＋詳細チェックを追加。
+5. 画面上の「品詞」selectを範囲チップへ置換し、`#pos` は hidden compatibility にする。
+6. 活用表ドリルの自動／手動 preference と上記自動Lv算出を接続。
+7. unit / Chromium / WebKit / §36 の回帰検査。
+8. HANDOFFへ結果を記録して停止。
+
+§39 作業3（先生用 code / URL / QR）へは進まない。
+
+### 7. 今回触っていないもの
+
+- `conj/index.html` のコード
+- `conj/conj-quiz-ui.js`
+- テスト
+- 範囲UI
+- localStorage の新キー
+- 出題フィルタ
+- 活用表ドリルの自動Lv
+- 先生用 code / URL / QR
+- Pages
+
+**今回の変更は本HANDOFFへの設計記録だけ。**
+
+### 再開用の一文
+
+> GitHub `yama-books/koten` の `main` を正本とし、`conj/HANDOFF.md` §41〜§42 から再開する。§41の調査をやり直さず、§42で確定した rangeSelection schema、4系列、なり／たり表示名、table drill自動Lv算出、hidden #pos互換方針をそのまま実装する。最初は normalize/load/save と共通 range filter だけを実装・検証し、区切りごとにHANDOFFへ記録する。§39作業3には進まない。
