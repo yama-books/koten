@@ -138,7 +138,7 @@
 .card.is-quiz.quiz-example-layout .example-foot:not(:empty)::before{content:"（"}
 .card.is-quiz.quiz-example-layout .example-foot:not(:empty)::after{content:"）"}
 @media(max-width:700px){
-  .card.is-quiz.quiz-example-layout .study-layout:not(.review-modal-study-layout) .example-text{font-size:15px;box-sizing:border-box;padding-inline:2px}
+  .card.is-quiz.quiz-example-layout .study-layout:not(.review-modal-study-layout) .example-text{font-size:15px}
 }
 /* 行も答えるとき：行の欄を活用の種類の右に置く（縦書きの読む順で 例文→行→種類）。 */
 .card.is-quiz.quiz-example-layout #quizAnswerPanel:has(#quizRowAnswer:not([hidden])){display:flex;align-items:flex-start;gap:8px}
