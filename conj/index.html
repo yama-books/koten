@@ -3428,6 +3428,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
+<script src="./conj-range.js?v=20261006-1"></script>
 <script src="./conj-quiz-ui.js?v=20261006-19"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
@@ -3855,7 +3856,26 @@ const items=[
 {id:"gotoshi_aux",pos:"aux",label:"助動詞",lemma:"ごとし",kind:"形容詞（ク活用）型",
  forms:[F([]),F(["ごとく"]),F(["ごとし"]),F(["ごとき"]),F([]),F([])],
  meaning:"比況・例示",connection:"体言＋の・連体形",connectionShort:"体言＋の・連体形"}
+
 ];
+let rangeSelection=window.ConjRange.load(localStorage,items);
+window.__conjRangeSelection=rangeSelection;
+function setRangeSelection(next,{persist=true,syncLegacy=true}={}){
+  rangeSelection=window.ConjRange.normalize(next,items);
+  if(persist) rangeSelection=window.ConjRange.save(localStorage,rangeSelection,items);
+  window.__conjRangeSelection=rangeSelection;
+  if(syncLegacy){
+    const legacy=document.getElementById("pos");
+    if(legacy) legacy.value=window.ConjRange.legacyPosForSelection(rangeSelection);
+  }
+  return rangeSelection;
+}
+function getRangeSelection(){ return rangeSelection; }
+function rangeAllowsItem(item){ return window.ConjRange.matchesItem(rangeSelection,item); }
+window.getConjRangeSelection=getRangeSelection;
+window.conjRangeAllowsItem=rangeAllowsItem;
+const initialLegacyPos=document.getElementById("pos");
+if(initialLegacyPos) initialLegacyPos.value=window.ConjRange.legacyPosForSelection(rangeSelection);
 const poemAuthors={
   1:"天智天皇",
   2:"持統天皇",
@@ -4090,8 +4110,7 @@ function cellCorrect(v,accepted){
   return a.length===b.length && a.every((x,i)=>x===b[i]);
 }
 function pool(){
-  const p=document.getElementById("pos").value;
-  return items.filter(x=>p==="all"||x.pos===p);
+  return window.ConjRange.filterItems(rangeSelection,items);
 }
 const auxLevelPresets={
   1:{ratio:.28, includeZero:false, hideKind:false, label:"3割ほど空欄・〇以外・活用型あり"},
@@ -6143,6 +6162,7 @@ document.getElementById("check").onclick=()=>grade(false);
 document.getElementById("reveal").onclick=()=>grade(true);
 document.getElementById("next").onclick=nextQuestion;
 document.getElementById("pos").onchange=()=>{
+  setRangeSelection(window.ConjRange.fromLegacyPos(document.getElementById("pos").value,items),{syncLegacy:false});
   updateLevelUI();
   nextQuestion();
 };
