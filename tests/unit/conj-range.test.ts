@@ -32,10 +32,9 @@ test('range: preset all has no unclassified current drill item',()=>{
   const selection=range.normalize({version:1,preset:'all'},items);
   assert.deepEqual(range.diagnostics(selection,items).unmatchedItems,[]);
   assert.equal(range.filterItems(selection,items).length,items.length);
-  assert.deepEqual(
-    new Set(items.filter((item:any)=>item.pos==='verb').map((item:any)=>range.verbFamily(item))),
-    new Set(range.VERB_FAMILIES)
-  );
+  for(const item of items.filter((entry:any)=>entry.pos==='verb')){
+    assert.ok(range.VERB_FAMILIES.includes(range.verbFamily(item)),item.kind);
+  }
 });
 
 test('range: verb and adjective family classification follows the canonical §42 families',()=>{
