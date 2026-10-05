@@ -453,6 +453,17 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .settings-section{margin:0 0 16px}
 .settings-section h3{margin:0 0 8px;font-size:12px;color:var(--muted)}
 .settings-note{margin:6px 0 0;color:var(--muted);font-size:11px}
+.pos-control[hidden]{display:none !important}
+.range-chip{white-space:nowrap;min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;min-height:34px;padding:4px 10px;font-size:12px}
+@media(max-width:700px){.range-chip{padding:4px 6px;font-size:11px}.table-level-badge{font-size:11px;padding:0 2px;min-height:34px}}
+.table-level-badge{display:inline-flex;align-items:center;min-height:34px;padding:0 6px;font-size:12px;font-weight:700;white-space:nowrap;color:var(--muted)}
+.range-presets{display:flex;flex-wrap:wrap;gap:6px 14px}
+.range-presets label,.range-list label{display:inline-flex;align-items:center;gap:4px;font-size:13px}
+.range-details{margin-top:10px}
+.range-details summary{cursor:pointer;font-size:13px;padding:4px 0}
+.range-group{border:1px solid var(--line-strong);border-radius:6px;margin:8px 0 0;padding:6px 8px;min-width:0}
+.range-group legend{font-size:11px;color:var(--muted);padding:0 4px}
+.range-list{display:flex;flex-wrap:wrap;gap:4px 12px}
 .settings-difficulty-grid{display:grid;gap:9px}
 .settings-difficulty-grid label{display:grid;grid-template-columns:7.5em minmax(0,1fr);align-items:center;gap:8px}
 .settings-difficulty-grid select{min-height:34px;min-width:0}
@@ -3115,8 +3126,9 @@ body.review-modal-open{overflow:hidden}
   </header>
 
   <div class="toolbar">
-    <label class="pos-control">品詞
-      <select id="pos">
+    <button class="ghost range-chip" id="rangeChip" type="button" aria-haspopup="dialog">範囲：すべて</button>
+    <label class="pos-control" hidden>品詞
+      <select id="pos" tabindex="-1" aria-hidden="true">
         <option value="all">すべて</option>
         <option value="verb">動詞</option>
         <option value="adj">形容詞</option>
@@ -3129,6 +3141,7 @@ body.review-modal-open{overflow:hidden}
       <button class="quiz-stage-help" id="openQuizStageHelp" type="button" aria-label="学習段階の説明">？</button>
     </div>
     <div class="level-meters" id="levelMeters">
+      <span class="table-level-badge" id="tableLevelBadge" role="status">Lv1（自動）</span>
       <div class="level-meter" id="allMeterWrap" hidden>
         <strong class="level-number" id="allLevelValue">Lv4</strong>
         <input class="level-range" id="allLevel" type="range" min="1" max="7" step="1" value="4" aria-label="レベル">
@@ -3257,10 +3270,37 @@ body.review-modal-open{overflow:hidden}
             <option value="type">活用の種類を判別</option>
           </select>
         </label>
-        <p class="settings-note">範囲は、今回は画面上の「品詞」で選びます。詳しい範囲指定は次の更新で追加します。</p>
+      </div>
+      <div class="settings-section">
+        <h3>出題する範囲</h3>
+        <div class="range-presets" id="rangePresets" role="radiogroup" aria-label="出題する範囲">
+          <label><input type="radio" name="rangePreset" value="all"> すべて</label>
+          <label><input type="radio" name="rangePreset" value="verb"> 動詞</label>
+          <label><input type="radio" name="rangePreset" value="adjective"> 形容詞・形容動詞</label>
+          <label><input type="radio" name="rangePreset" value="aux"> 助動詞</label>
+        </div>
+        <details class="range-details" id="rangeDetails">
+          <summary>詳しく選ぶ</summary>
+          <fieldset class="range-group"><legend>動詞</legend><div id="rangeVerbList" class="range-list"></div></fieldset>
+          <fieldset class="range-group"><legend>形容詞・形容動詞</legend><div id="rangeAdjList" class="range-list"></div></fieldset>
+          <fieldset class="range-group"><legend>助動詞</legend><div id="rangeAuxList" class="range-list"></div></fieldset>
+        </details>
+        <p class="settings-note" id="rangeMessage" role="status"></p>
       </div>
     </section>
     <section class="settings-panel" id="settingsPanelDifficulty" role="tabpanel" aria-labelledby="settingsTabDifficulty" data-settings-panel="difficulty" hidden>
+      <div class="settings-section">
+        <h3>活用表ドリルの難しさ</h3>
+        <div class="settings-difficulty-grid">
+          <label>決め方
+            <select id="tableLevelMode"><option value="auto">自動（既定）</option><option value="manual">手動</option></select>
+          </label>
+          <label id="tableManualLevelWrap" hidden>レベル
+            <select id="tableManualLevel"><option value="1">Lv1</option><option value="2">Lv2</option><option value="3">Lv3</option><option value="4">Lv4</option><option value="5">Lv5</option><option value="6">Lv6</option><option value="7">Lv7</option></select>
+          </label>
+        </div>
+        <p class="settings-note" id="tableLevelNote"></p>
+      </div>
       <div class="settings-section">
         <h3>判別の難しさ</h3>
         <div class="settings-difficulty-grid">
@@ -3428,6 +3468,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
+<script src="./conj-range.js?v=20261006-1"></script>
 <script src="./conj-quiz-ui.js?v=20261006-19"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
@@ -3855,7 +3896,27 @@ const items=[
 {id:"gotoshi_aux",pos:"aux",label:"助動詞",lemma:"ごとし",kind:"形容詞（ク活用）型",
  forms:[F([]),F(["ごとく"]),F(["ごとし"]),F(["ごとき"]),F([]),F([])],
  meaning:"比況・例示",connection:"体言＋の・連体形",connectionShort:"体言＋の・連体形"}
+
 ];
+let rangeSelection=window.ConjRange.load(localStorage,items);
+window.__conjRangeSelection=rangeSelection;
+function setRangeSelection(next,{persist=true,syncLegacy=true}={}){
+  rangeSelection=window.ConjRange.normalize(next,items);
+  if(persist) rangeSelection=window.ConjRange.save(localStorage,rangeSelection,items);
+  window.__conjRangeSelection=rangeSelection;
+  if(syncLegacy){
+    const legacy=document.getElementById("pos");
+    if(legacy) legacy.value=window.ConjRange.legacyPosForSelection(rangeSelection);
+  }
+  syncRangeUI();
+  return rangeSelection;
+}
+function getRangeSelection(){ return rangeSelection; }
+function rangeAllowsItem(item){ return window.ConjRange.matchesItem(rangeSelection,item); }
+window.getConjRangeSelection=getRangeSelection;
+window.conjRangeAllowsItem=rangeAllowsItem;
+const initialLegacyPos=document.getElementById("pos");
+if(initialLegacyPos) initialLegacyPos.value=window.ConjRange.legacyPosForSelection(rangeSelection);
 const poemAuthors={
   1:"天智天皇",
   2:"持統天皇",
@@ -4090,8 +4151,7 @@ function cellCorrect(v,accepted){
   return a.length===b.length && a.every((x,i)=>x===b[i]);
 }
 function pool(){
-  const p=document.getElementById("pos").value;
-  return items.filter(x=>p==="all"||x.pos===p);
+  return window.ConjRange.filterItems(rangeSelection,items);
 }
 const auxLevelPresets={
   1:{ratio:.28, includeZero:false, hideKind:false, label:"3割ほど空欄・〇以外・活用型あり"},
@@ -4103,19 +4163,29 @@ const auxLevelPresets={
   7:{ratio:1.00,includeZero:true,  hideKind:true,  label:"全部空欄・〇も出題・活用型・接続なし"}
 };
 
-function usingCommonLevel(){
-  return document.getElementById("pos").value==="all";
+// 活用表ドリルの難しさ。手動なら保存したLv、自動なら範囲内のマス別履歴から算出したLv。
+// 有効なLvは levelForPos() 一箇所から取り出す（品詞ごとのスライダーは使わない）。
+let tablePrefs=window.ConjRange.loadTablePrefs(localStorage);
+let autoLevelCache=1;
+function selectableSlotKeys(){
+  const saved=current, keys=[];
+  try{
+    for(const item of pool()){
+      current=item;
+      for(const s of allAnswerSlots()) keys.push(`${item.id}:${s.row}:${s.i}`);
+    }
+  }finally{ current=saved; }
+  return keys;
 }
-function levelForPos(pos){
-  if(usingCommonLevel()) return allLevel;
-  if(pos==="verb") return verbLevel;
-  if(pos==="adj") return adjLevel;
-  if(pos==="adjv") return adjvLevel;
-  if(pos==="aux") return auxLevel;
-  return allLevel;
+function refreshTableLevel(){
+  if(tablePrefs.mode==="auto") autoLevelCache=window.ConjRange.autoTableLevel(stats.slots,selectableSlotKeys());
+  updateLevelUI();
+}
+function levelForPos(){
+  return tablePrefs.mode==="manual" ? tablePrefs.manualLevel : autoLevelCache;
 }
 function currentNonAuxLevel(){
-  return levelForPos(current ? current.pos : document.getElementById("pos").value);
+  return levelForPos();
 }
 
 const generalLevelPresets={
@@ -5697,6 +5767,7 @@ document.getElementById("sourceCredits").addEventListener("click",event=>{
 
 const RECORD_STORAGE_KEY="katsuyoProtoV37";
 function refreshAfterRecordChange(){
+  refreshTableLevel();
   updateScore();
   if(!document.getElementById("recordScreen").hidden) renderRecord();
 }
@@ -6127,6 +6198,7 @@ function pickWeightedQuestion(list){
   return weighted[weighted.length-1].item;
 }
 function nextQuestion(){
+  refreshTableLevel();
   closeEditor(false);
   if(isIdentificationMode()){nextQuizQuestion();return;}
   quizState=null;
@@ -6143,6 +6215,7 @@ document.getElementById("check").onclick=()=>grade(false);
 document.getElementById("reveal").onclick=()=>grade(true);
 document.getElementById("next").onclick=nextQuestion;
 document.getElementById("pos").onchange=()=>{
+  setRangeSelection(window.ConjRange.fromLegacyPos(document.getElementById("pos").value,items),{syncLegacy:false});
   updateLevelUI();
   nextQuestion();
 };
@@ -6159,26 +6232,92 @@ document.querySelectorAll("[data-review-pos]").forEach(button=>{
 });
 
 function updateLevelUI(){
-  const p=document.getElementById("pos").value;
-  const levels={
-    all:allLevel,
-    verb:verbLevel,
-    adj:adjLevel,
-    adjv:adjvLevel,
-    aux:auxLevel
-  };
-
+  // 品詞ごとのスライダーは使わず、有効なLvを読み取り専用で表示する。
   for(const name of ["all","verb","adj","adjv","aux"]){
     const wrap=document.getElementById(name+"MeterWrap");
-    if(wrap) wrap.hidden=(p!==name);
-
-    const value=document.getElementById(name+"LevelValue");
-    if(value) value.textContent="Lv"+levels[name];
-
-    const input=document.getElementById(name+"Level");
-    if(input && Number(input.value)!==levels[name]) input.value=levels[name];
+    if(wrap) wrap.hidden=true;
   }
+  const manual=tablePrefs.mode==="manual";
+  const level=levelForPos();
+  const badge=document.getElementById("tableLevelBadge");
+  if(badge) badge.textContent="Lv"+level+(manual?"（手動）":"（自動）");
+  const modeSelect=document.getElementById("tableLevelMode");
+  if(modeSelect) modeSelect.value=tablePrefs.mode;
+  const manualSelect=document.getElementById("tableManualLevel");
+  if(manualSelect) manualSelect.value=String(tablePrefs.manualLevel);
+  const manualWrap=document.getElementById("tableManualLevelWrap");
+  if(manualWrap) manualWrap.hidden=!manual;
+  const note=document.getElementById("tableLevelNote");
+  if(note) note.textContent=manual
+    ? "Lv"+level+"で固定します。判別モードには影響しません。"
+    : "選んだ範囲の正答履歴から決まります。いまは Lv"+level+"。判別モードには影響しません。";
 }
+
+// ===== 範囲（設定タブ・範囲チップ） =====
+const RANGE_VERB_NAMES={yodan:"四段",kami_ichidan:"上一段",kami_nidan:"上二段",shimo_ichidan:"下一段",shimo_nidan:"下二段",ka_hen:"カ変",sa_hen:"サ変",na_hen:"ナ変",ra_hen:"ラ変"};
+const RANGE_ADJ_NAMES={ku:"ク活用",shiku:"シク活用",nari:"ナリ活用",tari:"タリ活用"};
+function buildRangeChecks(){
+  const fill=(id,group,entries)=>{
+    const box=document.getElementById(id);
+    box.textContent="";
+    for(const [value,label] of entries){
+      const wrap=document.createElement("label");
+      const input=document.createElement("input");
+      input.type="checkbox"; input.dataset.rangeGroup=group; input.value=value;
+      wrap.append(input," ",label);
+      box.appendChild(wrap);
+    }
+  };
+  fill("rangeVerbList","verb",window.ConjRange.VERB_FAMILIES.map(v=>[v,RANGE_VERB_NAMES[v]]));
+  fill("rangeAdjList","adj",window.ConjRange.ADJECTIVE_FAMILIES.map(v=>[v,RANGE_ADJ_NAMES[v]]));
+  fill("rangeAuxList","aux",items.filter(x=>x.pos==="aux").map(x=>[x.id,window.ConjRange.auxLabel(x)]));
+}
+function syncRangeUI(){
+  const sel=rangeSelection;
+  const chip=document.getElementById("rangeChip");
+  if(chip) chip.textContent="範囲："+window.ConjRange.presetLabel(sel);
+  document.querySelectorAll('input[name="rangePreset"]').forEach(r=>{ r.checked=r.value===sel.preset; });
+  const groups={verb:sel.verbFamilies,adj:sel.adjectiveFamilies,aux:sel.auxiliaryItemIds};
+  document.querySelectorAll("input[data-range-group]").forEach(c=>{
+    c.checked=groups[c.dataset.rangeGroup].includes(c.value);
+  });
+}
+function setRangeMessage(text){
+  const el=document.getElementById("rangeMessage");
+  if(el) el.textContent=text||"";
+}
+function applyRangeFromUI(next){
+  setRangeSelection(next);
+  setRangeMessage("");
+  nextQuestion();
+}
+buildRangeChecks();
+document.querySelectorAll('input[name="rangePreset"]').forEach(r=>{
+  r.addEventListener("change",()=>{ if(r.checked) applyRangeFromUI({preset:r.value}); });
+});
+document.getElementById("rangeDetails").addEventListener("change",event=>{
+  if(!event.target.matches("input[data-range-group]")) return;
+  const pick=group=>[...document.querySelectorAll(`input[data-range-group="${group}"]:checked`)].map(c=>c.value);
+  const next={preset:"custom",verbFamilies:pick("verb"),adjectiveFamilies:pick("adj"),auxiliaryItemIds:pick("aux")};
+  if(!next.verbFamilies.length && !next.adjectiveFamilies.length && !next.auxiliaryItemIds.length){
+    syncRangeUI();
+    setRangeMessage("範囲を1つ以上選んでください");
+    return;
+  }
+  applyRangeFromUI(next);
+});
+document.getElementById("rangeChip").addEventListener("click",()=>{
+  document.getElementById("openSettings").click();
+});
+document.getElementById("tableLevelMode").addEventListener("change",event=>{
+  tablePrefs=window.ConjRange.saveTablePrefs(localStorage,{...tablePrefs,mode:event.target.value});
+  nextQuestion();
+});
+document.getElementById("tableManualLevel").addEventListener("change",event=>{
+  tablePrefs=window.ConjRange.saveTablePrefs(localStorage,{...tablePrefs,manualLevel:Number(event.target.value)});
+  nextQuestion();
+});
+syncRangeUI();
 
 function bindLevelMeter(name, setter){
   const input=document.getElementById(name+"Level");

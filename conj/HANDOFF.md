@@ -2641,3 +2641,220 @@ preset 選択時も内部ではこの3配列へ展開し、出題側は `preset`
 ### 再開用の一文
 
 > GitHub `yama-books/koten` の `main` を正本とし、`conj/HANDOFF.md` §41〜§42 から再開する。§41の調査をやり直さず、§42で確定した rangeSelection schema、4系列、なり／たり表示名、table drill自動Lv算出、hidden #pos互換方針をそのまま実装する。最初は normalize/load/save と共通 range filter だけを実装・検証し、区切りごとにHANDOFFへ記録する。§39作業3には進まない。
+
+
+## 43. §42 range core 実装チェックポイント・停止記録（2026-10-06・ChatGPT）
+
+ユーザー指示により、ここで新規実装を停止する。正本は GitHub `yama-books/koten`。ローカルは参照していない。
+
+### 1. 現在の branch / PR
+
+- branch: `codex/conj-range-core-20261006`
+- draft PR: **#85 `conj: 共通範囲フィルタの基盤を追加`**
+- base: `main`
+- 実装停止直前の code/test head:
+  - `799c1411dcfe9164a1b226248911b09f61dce541`
+  - `test(conj): allow unused canonical range families`
+- `main` との差分は4ファイルのみ。
+  - `conj/conj-range.js` 新規
+  - `conj/index.html`
+  - `conj/conj-quiz-ui.js`
+  - `tests/unit/conj-range.test.ts`
+- UI本体・自動Lv・先生用URL/QR・Pagesには進んでいない。
+- PRは **draft / not merged** のまま。
+
+### 2. 今回実装したもの
+
+§42「次セッションの実装順」のうち、基盤1〜3を実装した。
+
+#### 2-1. rangeSelection normalize / load / save
+
+新規 `conj/conj-range.js` に以下を実装。
+
+- 保存キー: `conjRangePreferences`
+- schema version: 1
+- preset:
+  - `all`
+  - `verb`
+  - `adjective`
+  - `aux`
+  - `custom`
+- verb family:
+  - `yodan`
+  - `kami_ichidan`
+  - `kami_nidan`
+  - `shimo_ichidan`
+  - `shimo_nidan`
+  - `ka_hen`
+  - `sa_hen`
+  - `na_hen`
+  - `ra_hen`
+- adjective family:
+  - `ku`
+  - `shiku`
+  - `nari`
+  - `tari`
+- 助動詞は既存 `item.id` を正本キーにする。
+- custom に未知の助動詞IDが入っていても normalize 時に勝手に消さず、diagnostics で検出可能にした。
+- `なり／たり` の同形語も item.id 単位で独立してフィルタできる。
+- 旧 `#pos` から rangeSelection を作る互換 bridge を追加。
+- 新しい出題フィルタの正本は rangeSelection。
+
+#### 2-2. table drill の共通 range filter 化
+
+`conj/index.html` の `pool()` を、旧 `#pos` 値による直接判定から
+
+- `ConjRange.filterItems(rangeSelection, items)`
+
+へ切り替えた。
+
+旧 `#pos` の onchange は暫定互換として残し、変更時に rangeSelection を更新する。したがって、現UIはまだ旧selectだが、**出題範囲判定そのものは #pos を正本にしていない**。
+
+#### 2-3. 判別2モードの共通 range filter 化
+
+`conj/conj-quiz-ui.js` の
+
+- 活用形
+- 活用種類
+
+の eligible filtering を、旧 `#pos` / 品詞ラベル比較から同じ rangeSelection 判定へ切り替えた。
+
+公開済み `quizRecords` と master practice の両方が同じ `quizEntryMatchesRange()` を通る。
+
+### 3. テスト
+
+新規 `tests/unit/conj-range.test.ts` を追加。
+
+確認対象:
+
+- preset all の展開
+- 動詞 family 判定
+- ク／シク／ナリ／タリ判定
+- custom range の共通フィルタ
+- `なり（伝聞・推定）／なり（断定）`
+- `たり（完了・存続）／たり（断定）`
+  の item.id 分離
+- malformed storage の normalize
+- 未知 auxiliary item id の保持・diagnostics
+- load/save round trip
+- legacy `#pos` bridge
+- 現在の埋め込み drill item が preset all で全件分類・通過すること
+
+途中 commit `237500bd0996ea1e03d6a690ac3b3895cdb427aa` では、テスト側が「canonical 9 family 全てが現データに必ず存在する」と過剰に要求し、現埋め込みデータに下一段項目がないため1件失敗した。
+
+これは実装不具合ではない。テストを
+
+- 「現データに存在する全動詞が canonical family のいずれかに分類できる」
+- 「preset all で現 item 全件が通る」
+
+という正しい条件へ修正した。最終 head `799c1411...` では `npm test` は success。
+
+### 4. CI 停止時点
+
+最終 head `799c1411dcfe9164a1b226248911b09f61dce541`:
+
+#### push run `37362939961`
+
+停止時点:
+- `check:eol` success
+- `npm ci` success
+- `typecheck` success
+- `lint` success
+- `npm test` success
+- `data:check` success
+- `build` success
+- vintage-kana health check success
+- Playwright Chromium / WebKit install success
+- `check:font` success
+- `check:font-assets` success
+- `check:font-weight` success
+- `check:overflow` success
+- `check:conj-layout` success
+- Chromium `check:conj-quiz` は **実行中**
+- WebKit はその後に pending
+
+#### PR run `37362945712`
+
+停止時点:
+- `npm test` を含む build 前半は success
+- `check:overflow` 実行中
+
+参考として、同じ実装コードを含む一つ前の head `b9ea876571796493bb82682da0a5541ec6255f13` の push run `37362401901` では、
+
+- `check:overflow` success
+- `check:conj-layout` success
+- Chromium `check:conj-quiz` success
+- WebKit `check:conj-quiz -- --webkit` は停止時点で実行中
+
+まで確認済み。
+
+`b9ea8765...` から最終 `799c1411...` までの変更は **`tests/unit/conj-range.test.ts` のテスト追加・修正だけ**で、実装コードは変更していない。
+
+### 5. 進捗率
+
+§42 の「作業2」全体を100%とした現在の実装進捗は、**約45%** と見積もる。
+
+完了:
+1. rangeSelection normalize / load / save + family 判定
+2. table drill 共通 range filter
+3. 判別2モード共通 range filter
+8. HANDOFF 停止記録
+
+部分完了:
+7. unit / Chromium / WebKit / 回帰検査
+   - unit は緑
+   - Chromium は一つ前の同一実装コード head で緑
+   - 最終headのフルCIは実行途中
+   - WebKit 最終確認は未完
+
+未着手:
+4. 設定「範囲」タブのプリセット＋詳細チェックUI
+5. 画面の品詞select → 範囲チップ、`#pos` hidden compatibility 化
+6. 活用表ドリル自動／手動 preference と自動Lv算出
+
+UI・自動Lvが残っており、ここからが利用者に見える実装の後半なので、単純な「3/8=37.5%」よりは基盤実装分を重く評価しつつ、過大評価しない **45%** を採用する。
+
+### 6. 次回の最小開始点
+
+設計の再検討はしない。
+
+1. PR #85 / branch `codex/conj-range-core-20261006` の head を確認。
+2. 最終 head `799c1411...` の CI run
+   - push `37362939961`
+   - PR `37362945712`
+   の最終結果を確認。
+3. Chromium / WebKit が緑なら、基盤1〜3は固定して触り直さない。
+4. CI失敗なら、その失敗だけを切り分ける。
+5. 次の新規実装は §42 の4:
+   - 設定「範囲」タブへプリセット＋詳細チェック
+   から開始する。
+6. §39 作業3（先生用 code / URL / QR）には進まない。
+7. PR #85 は draft のまま。今回の停止時点では merge / Pages反映をしない。
+
+### 再開用の一文
+
+> GitHub `yama-books/koten` の draft PR #85、branch `codex/conj-range-core-20261006`、`conj/HANDOFF.md` §43 から再開する。設計やrange coreをやり直さず、まず最終headのCIを確認する。緑なら §42実装順4「設定『範囲』タブのプリセット＋詳細チェックUI」へ進む。現在の§42作業2全体進捗は約45%。§39作業3には進まない。
+
+
+## 44. §42 作業2 完了（範囲UI・範囲チップ・ドリル自動／手動）（2026-10-07・Claude Code）
+
+§42 実装順 4〜6 を PR #85（draft のまま）に実装した。設計は §42 のまま、再設計していない。
+
+### 実装
+- 範囲タブ（`conj/index.html`）：プリセット radio（すべて／動詞／形容詞・形容動詞／助動詞）と「詳しく選ぶ」（動詞9系列・ク/シク/ナリ/タリ・助動詞は item.id ごと）。助動詞は静的データなので起動時に一覧を作る。同形4語は §42-3 の表示名。プリセット選択でチェックを展開、チェック編集で custom。保存後に現在のモードで新しい問題を出す。全部外す操作は直前の範囲を保ち「範囲を1つ以上選んでください」と表示。
+- 範囲チップ：`#rangeChip`（「範囲：すべて」等）が品詞 select の位置に入り、押すと設定の範囲タブを開く。`.pos-control` と `#pos` は hidden のまま互換ブリッジとして残す（§42-5 の同期規則どおり）。用例チェックは据え置き。
+- 難しさタブ：活用表ドリル「自動（既定）／手動」と手動 Lv1〜7。有効Lvは `levelForPos()` 一箇所から取り出す。自動は `ConjRange.autoTableLevel(slotStats, keys)`（§42-4 の式そのまま・純関数）。ツールバーのスライダーは廃止し、`Lv3（自動）`／`Lv3（手動）` を読み取り専用で表示（判別モードでは `#levelMeters` ごと非表示）。
+- `conj/conj-range.js` に autoTableLevel / 表示設定の load・save / presetLabel / auxLabel を追加。
+- 保存キー：`conjRangePreferences`（既存）、`conjTablePreferences` = `{version:1, mode, manualLevel}`（新規）。`katsuyoProtoV37` は変更なし。
+- テスト：`tests/unit/conj-range.test.ts` に自動Lvの単体を追加。`conj-record-screen.test.ts` の2か所（hidden の品詞 label／rangeChip／refreshAfterRecordChange の正規表現）を最小更新。`tools/conj-quiz-check/index.ts` は `selectOption('#pos',…)` を hidden ブリッジの change を起こす `setPos()` に置換。
+
+### ローカル確認
+- `npm test` 36 files / 431 tests pass、`npm run lint`・`typecheck`・`build`・`check:eol`（違反0）・`scan:publish`（違反0）すべて exit 0。
+- `npm run check:conj-quiz -- --smoke`（Chromium）exit 0。
+- 一時スクリプトで 360px・珈琲／墨テーマを確認：横スクロールなし（scrollWidth 360）、チップ表示・プリセット→custom・空選択メッセージ・手動Lv保存を確認。スクリプトは削除済み。
+
+### CI に任せるもの
+- フル `check:conj-quiz`（Chromium／WebKit）、`check:conj-layout`。ローカルでは実行していない。
+
+### 未着手
+- §39 作業3（先生用 code／URL／QR）。`#pos` の削除は先生用範囲コードが安定した後。
