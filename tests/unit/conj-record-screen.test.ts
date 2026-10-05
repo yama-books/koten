@@ -854,8 +854,8 @@ test('conj: settings are tabbed and stage UI is added without replacing the curr
   assert.match(html, /<label class="pos-control" hidden>品詞[\s\S]*?<select id="pos"/,'the old 品詞 select stays hidden as a compatibility bridge');
   assert.match(html, /id="rangeChip"/,'the range chip replaces the visible 品詞 select');
   assert.doesNotMatch(html, /id="quizControls"/,'card-local detailed controls moved into settings');
-  assert.match(html, /id="quizStageBadge">段階 1\/4<\/span>/);
+  assert.match(html, /id="quizStageBadge" data-stage="1">ステージ 1\/4<\/span>/);
   assert.match(html, /id="openQuizStageHelp"[^>]*>？<\/button>/);
-  assert.match(html, /id="quizStageDialog"[\s\S]*?学習の段階/);
+  assert.match(html, /id="quizStageDialog"[\s\S]*?学習のステージ/);
   assert.match(html, /function activateSettingsTab\(name\)/);
 });

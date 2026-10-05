@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261007-20">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261007-21">
 </head>
 <body>
 <div class="wrap">
@@ -3137,11 +3137,11 @@ body.review-modal-open{overflow:hidden}
       </select>
     </label>
     <div class="quiz-stage-status" id="quizStageStatus" hidden>
-      <span class="quiz-stage-badge" id="quizStageBadge">段階 1/4</span>
-      <button class="quiz-stage-help" id="openQuizStageHelp" type="button" aria-label="学習段階の説明">？</button>
+      <span class="quiz-stage-badge" id="quizStageBadge" data-stage="1">ステージ 1/4</span>
+      <button class="quiz-stage-help" id="openQuizStageHelp" type="button" aria-label="学習のステージの説明">？</button>
     </div>
     <div class="level-meters" id="levelMeters">
-      <span class="table-level-badge" id="tableLevelBadge" role="status">Lv1（自動）</span>
+      <span class="table-level-badge level-badge" id="tableLevelBadge" role="status" data-level="1">Lv1（自動）</span>
       <div class="level-meter" id="allMeterWrap" hidden>
         <strong class="level-number" id="allLevelValue">Lv4</strong>
         <input class="level-range" id="allLevel" type="range" min="1" max="7" step="1" value="4" aria-label="レベル">
@@ -3321,13 +3321,13 @@ body.review-modal-open{overflow:hidden}
             <select id="rowMode"><option value="auto">習熟度に合わせる</option><option value="omitted">答えない</option><option value="select">選んで答える</option></select>
           </label>
         </div>
-        <p class="settings-note">「選択肢」は並べる活用の種類の数、「動詞の行」は種類と一緒に行（カ行など）も答えるかどうかです。「習熟度に合わせる」では、次の段階に沿って自動で変わります。</p>
-        <ol class="settings-stage-list">
-          <li>段階 1/4：近い型・正式名・行は答えない</li>
-          <li>段階 2/4：同じ品詞・正式名・行は答えない</li>
-          <li>段階 3/4：品詞をまたぐ・略称・動詞の行を選ぶ</li>
-          <li>段階 4/4：全候補・略称・動詞の行を選ぶ</li>
-        </ol>
+        <p class="settings-note">「選択肢」は並べる活用の種類の数、「動詞の行」は種類と一緒に行（カ行など）も答えるかどうかです。「習熟度に合わせる」では、次のステージに沿って自動で変わります。</p>
+        <ul class="settings-stage-list stage-list">
+          <li><span class="stage-badge" data-stage="1">ステージ1</span>近い型・正式名・行は答えない</li>
+          <li><span class="stage-badge" data-stage="2">ステージ2</span>同じ品詞・正式名・行は答えない</li>
+          <li><span class="stage-badge" data-stage="3">ステージ3</span>品詞をまたぐ・略称・動詞の行を選ぶ</li>
+          <li><span class="stage-badge" data-stage="4">ステージ4</span>全候補・略称・動詞の行を選ぶ</li>
+        </ul>
       </div>
     </section>
     <section class="settings-panel" id="settingsPanelDisplay" role="tabpanel" aria-labelledby="settingsTabDisplay" data-settings-panel="display" hidden>
@@ -3362,14 +3362,14 @@ body.review-modal-open{overflow:hidden}
     <button class="ghost" id="closeSettings" type="button">閉じる</button>
   </dialog>
   <dialog class="settings-dialog quiz-stage-dialog" id="quizStageDialog" aria-labelledby="quizStageTitle">
-    <h2 id="quizStageTitle">学習の段階</h2>
-    <p id="quizStageCurrent">学習段階に応じた難易度で出題されます。</p>
+    <h2 id="quizStageTitle">学習のステージ</h2>
+    <p id="quizStageCurrent">学習のステージに応じた難易度で出題されます。</p>
     <p id="quizStageNext"></p>
-    <ul>
-      <li>段階 1/4：近い型から選ぶ</li>
-      <li>段階 2/4：同じ品詞から選ぶ</li>
-      <li>段階 3/4：品詞をまたぎ、動詞は行も選ぶ</li>
-      <li>段階 4/4：全候補から選び、動詞は行も選ぶ</li>
+    <ul class="stage-list">
+      <li><span class="stage-badge" data-stage="1">ステージ1</span>近い型から選ぶ</li>
+      <li><span class="stage-badge" data-stage="2">ステージ2</span>同じ品詞から選ぶ</li>
+      <li><span class="stage-badge" data-stage="3">ステージ3</span>品詞をまたぎ、動詞は行も選ぶ</li>
+      <li><span class="stage-badge" data-stage="4">ステージ4</span>全候補から選び、動詞は行も選ぶ</li>
     </ul>
     <button class="ghost" id="closeQuizStage" type="button">閉じる</button>
   </dialog>
@@ -3476,7 +3476,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
-<script src="./conj-quiz-ui.js?v=20261007-20"></script>
+<script src="./conj-quiz-ui.js?v=20261007-21"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -6247,7 +6247,7 @@ function updateLevelUI(){
   const manual=tablePrefs.mode==="manual";
   const level=levelForPos();
   const badge=document.getElementById("tableLevelBadge");
-  if(badge) badge.textContent="Lv"+level+(manual?"（手動）":"（自動）");
+  if(badge){badge.textContent="Lv"+level+(manual?"（手動）":"（自動）");badge.dataset.level=String(level);}
   const modeSelect=document.getElementById("tableLevelMode");
   if(modeSelect) modeSelect.value=tablePrefs.mode;
   const manualSelect=document.getElementById("tableManualLevel");
