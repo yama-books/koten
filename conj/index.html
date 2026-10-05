@@ -3081,7 +3081,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261005-13">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261006-18">
 </head>
 <body>
 <div class="wrap">
@@ -3206,6 +3206,10 @@ body.review-modal-open{overflow:hidden}
       <button class="primary" id="check">採点</button>
       <button class="primary" id="next" style="display:none">次の問題</button>
     </div>
+    <dialog class="quiz-table-dialog" id="quizTableDialog" aria-label="活用表">
+      <div class="quiz-table-dialog-body" id="quizTableDialogBody"></div>
+      <button class="ghost" id="closeQuizTable" type="button">閉じる</button>
+    </dialog>
   </main>
   <button class="source-credits-link" id="openSourceCredits" type="button" hidden>用例の出典</button>
   <section class="install-guide" id="installGuide" hidden aria-label="ホーム画面への追加">
@@ -3365,7 +3369,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
-<script src="./conj-quiz-ui.js?v=20261005-13"></script>
+<script src="./conj-quiz-ui.js?v=20261006-18"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4694,7 +4698,8 @@ function syncStudyHeightsAtCurrentZoom(){
   // sentence readable instead of inheriting a zero height from that table.
   // 百人一首の歌は折り返さない一行書きのため、136px の枠では解答ボタンの下へはみ出す。
   // 表を隠している間だけ二行書きにし、枠の高さを歌の半分の長さに合わせる。
-  const quizHidden=isIdentificationMode() && tablePanel.dataset.support==="hidden";
+  // 行も答える問題のスマホ幅では表をダイアログへ移すので、例文は表を隠しているときと同じに組む。
+  const quizHidden=isIdentificationMode() && (tablePanel.dataset.support==="hidden" || !!tablePanel.closest("#quizTableDialog"));
   text.classList.remove("is-quiz-poem");
   if(quizHidden){
     // 表を隠している間は、例文を左の選択肢の高さいっぱいに伸ばして一行で書く。

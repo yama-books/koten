@@ -398,7 +398,7 @@ try{
     await chooseMode(page,'type');await setAdvanced(page,'rowMode','select');
     await page.locator('#quizChoices button').evaluateAll((buttons)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical==='カ行四段活用') as HTMLButtonElement).click();});
     const order=await page.locator('#quizRowAnswer button').allTextContents();
-    await page.locator('#quizRowAnswer button').filter({hasText:'ガ行'}).click();assert.deepEqual(await page.locator('#quizRowAnswer button').allTextContents(),order);
+    await page.locator('#quizRowAnswer button').filter({hasText:/^ガ$/}).click();assert.deepEqual(await page.locator('#quizRowAnswer button').allTextContents(),order);
     assert.equal(await page.evaluate('stats.quiz.events.at(-1).typeCorrect'),true);assert.equal(await page.evaluate('stats.quiz.events.at(-1).rowCorrect'),false);
     await setAdvanced(page,'rowMode','input');
     await page.locator('#quizChoices button').evaluateAll((buttons)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical==='カ行四段活用') as HTMLButtonElement).click();});
@@ -406,6 +406,21 @@ try{
     const counts=[];
     for(const scope of ['near','part_of_speech','cross_pos','all']){await setAdvanced(page,'choiceScope',scope);counts.push(await page.locator('#quizChoices button').count());}
     assert.ok(counts[0]<=counts[1] && counts[1]<=counts[2] && counts[2]<=counts[3]);
+    // Choices read like vertical text: right column top to bottom, then the next column to the left.
+    // With every predicate type in short labels, the columns are regular verbs, irregular verbs, adjectives.
+    await page.selectOption('#pos','verb');
+    const columns=await page.locator('#quizChoices button').evaluateAll(buttons=>{
+      const cells=buttons.map(b=>{const r=b.getBoundingClientRect();return {t:b.querySelector('.quiz-choice-label')!.textContent,x:Math.round(r.left),y:Math.round(r.top)};});
+      return [...new Set(cells.map(c=>c.x))].sort((a,b)=>b-a).map(x=>cells.filter(c=>c.x===x).sort((a,b)=>a.y-b.y).map(c=>c.t).join('/'));
+    });
+    assert.deepEqual(columns,['四/上一/上二/下一/下二','カ変/サ変/ナ変/ラ変','ク/シク/ナリ/タリ'],'short predicate choices in three vertical columns');
+    await setAdvanced(page,'choiceScope','part_of_speech');
+    const verbColumns=await page.locator('#quizChoices button').evaluateAll(buttons=>{
+      const cells=buttons.map(b=>{const r=b.getBoundingClientRect();return {t:b.dataset.canonical,x:Math.round(r.left),y:Math.round(r.top)};});
+      return [...new Set(cells.map(c=>c.x))].sort((a,b)=>b-a).map(x=>cells.filter(c=>c.x===x).sort((a,b)=>a.y-b.y).length);
+    });
+    assert.deepEqual(verbColumns,[5,4],'regular and irregular verb types in their own columns');
+    await setAdvanced(page,'choiceScope','all');
     await page.selectOption('#pos','aux');
     assert.ok(await page.locator('#quizChoices button').evaluateAll(buttons=>buttons.every(button=>button.textContent?.includes('助動詞') || !button.querySelector('small'))));
     // Saved old data and new event fields survive importing/exporting the existing envelope.

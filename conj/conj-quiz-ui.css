@@ -128,3 +128,26 @@
 @media(max-width:700px){
   .card.is-quiz.quiz-example-layout .study-layout:not(.review-modal-study-layout) .example-text{font-size:15px}
 }
+/* 行も答えるとき：行の欄を活用の種類の右に置く（縦書きの読む順で 例文→行→種類）。 */
+.card.is-quiz.quiz-example-layout #quizAnswerPanel:has(#quizRowAnswer:not([hidden])){display:flex;align-items:flex-start;gap:8px}
+.card.is-quiz.quiz-example-layout .quiz-row-answer{display:flex;flex-direction:column;align-items:center;gap:3px;margin:0;max-width:none;padding:2px}
+.card.is-quiz.quiz-example-layout .quiz-row-head{font-size:11px;color:var(--muted)}
+.card.is-quiz.quiz-example-layout .quiz-row-grid{display:grid;grid-auto-flow:column;direction:rtl;gap:4px}
+.card.is-quiz.quiz-example-layout .quiz-row-choice{direction:ltr;min-width:0;min-height:0;width:calc(1em + 14px);height:40px;padding:0;border-radius:8px;font-size:14px;font-weight:700;background:var(--surface-faint)}
+.card.is-quiz.quiz-example-layout .quiz-row-choice.is-correct{background:var(--good);border-color:var(--accent-strong)}
+.card.is-quiz.quiz-example-layout .quiz-row-choice.is-wrong{background:var(--bad);border-color:var(--danger-ink)}
+.card.is-quiz.quiz-example-layout .quiz-row-input{width:3em;min-height:40px;font-size:16px}
+/* 列の高さを揃える割り付けでは段の間の隙間を0にし、ボタンの下の余白で間を取る。 */
+.card.is-quiz.quiz-example-layout .quiz-choices[data-grouped]{row-gap:0}
+.card.is-quiz.quiz-example-layout .quiz-choices[data-grouped] .quiz-choice{margin-bottom:5px}
+/* 行の欄と種類の欄は頭を揃え、間を少し空ける。見出し「行」は欄の上に重ねて置く。 */
+.card.is-quiz.quiz-example-layout #quizAnswerPanel:has(#quizRowAnswer:not([hidden])){gap:12px;padding-top:14px}
+.card.is-quiz.quiz-example-layout .quiz-row-answer{position:relative;padding-top:2px}
+.card.is-quiz.quiz-example-layout .quiz-row-head{position:absolute;top:-14px;left:0;right:0;text-align:center;line-height:14px}
+/* 行も答える問題のスマホ幅：活用表はダイアログで見せ、カードは 選択肢｜例文 の2列で組む。 */
+.card.is-quiz.quiz-example-layout.quiz-table-dialog-mode .study-layout:not(.review-modal-study-layout){grid-template-columns:max-content minmax(0,max-content);grid-template-areas:"quiz example"}
+.quiz-table-dialog{max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);padding:12px 12px 10px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink)}
+.quiz-table-dialog::backdrop{background:rgba(0,0,0,.35)}
+.quiz-table-dialog-body{display:flex;justify-content:center}
+.quiz-table-dialog-body .table-panel{visibility:visible!important;pointer-events:auto!important;height:auto!important;overflow:visible!important;display:block!important}
+.quiz-table-dialog #closeQuizTable{display:block;margin:10px auto 0;min-height:44px;min-width:120px}
