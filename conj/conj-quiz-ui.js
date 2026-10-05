@@ -28,7 +28,7 @@ async function initQuizUI(){
     updateScore();
     try{
       const saved=JSON.parse(localStorage.getItem('conjQuizPreferences')||'{}');
-      if(['auto','near','part_of_speech','cross_pos','all'].includes(saved.choiceScope)) quizSettings.choiceScope=saved.choiceScope==='near'?'auto':saved.choiceScope;
+      if(['auto','near','part_of_speech','cross_pos','all'].includes(saved.choiceScope)) quizSettings.choiceScope=saved.choiceScope;
       if([0,1,2].includes(saved.supportLevel)) quizSettings.supportLevel=saved.supportLevel===2?2:0;
       if(['auto','omitted','select','input'].includes(saved.rowMode)) quizSettings.rowMode=saved.rowMode;
     }catch(_error){}
