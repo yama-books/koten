@@ -2834,3 +2834,27 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 ### 再開用の一文
 
 > GitHub `yama-books/koten` の draft PR #85、branch `codex/conj-range-core-20261006`、`conj/HANDOFF.md` §43 から再開する。設計やrange coreをやり直さず、まず最終headのCIを確認する。緑なら §42実装順4「設定『範囲』タブのプリセット＋詳細チェックUI」へ進む。現在の§42作業2全体進捗は約45%。§39作業3には進まない。
+
+
+## 44. §42 作業2 完了（範囲UI・範囲チップ・ドリル自動／手動）（2026-10-07・Claude Code）
+
+§42 実装順 4〜6 を PR #85（draft のまま）に実装した。設計は §42 のまま、再設計していない。
+
+### 実装
+- 範囲タブ（`conj/index.html`）：プリセット radio（すべて／動詞／形容詞・形容動詞／助動詞）と「詳しく選ぶ」（動詞9系列・ク/シク/ナリ/タリ・助動詞は item.id ごと）。助動詞は静的データなので起動時に一覧を作る。同形4語は §42-3 の表示名。プリセット選択でチェックを展開、チェック編集で custom。保存後に現在のモードで新しい問題を出す。全部外す操作は直前の範囲を保ち「範囲を1つ以上選んでください」と表示。
+- 範囲チップ：`#rangeChip`（「範囲：すべて」等）が品詞 select の位置に入り、押すと設定の範囲タブを開く。`.pos-control` と `#pos` は hidden のまま互換ブリッジとして残す（§42-5 の同期規則どおり）。用例チェックは据え置き。
+- 難しさタブ：活用表ドリル「自動（既定）／手動」と手動 Lv1〜7。有効Lvは `levelForPos()` 一箇所から取り出す。自動は `ConjRange.autoTableLevel(slotStats, keys)`（§42-4 の式そのまま・純関数）。ツールバーのスライダーは廃止し、`Lv3（自動）`／`Lv3（手動）` を読み取り専用で表示（判別モードでは `#levelMeters` ごと非表示）。
+- `conj/conj-range.js` に autoTableLevel / 表示設定の load・save / presetLabel / auxLabel を追加。
+- 保存キー：`conjRangePreferences`（既存）、`conjTablePreferences` = `{version:1, mode, manualLevel}`（新規）。`katsuyoProtoV37` は変更なし。
+- テスト：`tests/unit/conj-range.test.ts` に自動Lvの単体を追加。`conj-record-screen.test.ts` の2か所（hidden の品詞 label／rangeChip／refreshAfterRecordChange の正規表現）を最小更新。`tools/conj-quiz-check/index.ts` は `selectOption('#pos',…)` を hidden ブリッジの change を起こす `setPos()` に置換。
+
+### ローカル確認
+- `npm test` 36 files / 431 tests pass、`npm run lint`・`typecheck`・`build`・`check:eol`（違反0）・`scan:publish`（違反0）すべて exit 0。
+- `npm run check:conj-quiz -- --smoke`（Chromium）exit 0。
+- 一時スクリプトで 360px・珈琲／墨テーマを確認：横スクロールなし（scrollWidth 360）、チップ表示・プリセット→custom・空選択メッセージ・手動Lv保存を確認。スクリプトは削除済み。
+
+### CI に任せるもの
+- フル `check:conj-quiz`（Chromium／WebKit）、`check:conj-layout`。ローカルでは実行していない。
+
+### 未着手
+- §39 作業3（先生用 code／URL／QR）。`#pos` の削除は先生用範囲コードが安定した後。

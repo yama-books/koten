@@ -117,3 +117,16 @@ test('range: legacy pos bridge writes range state without making the old select 
   assert.equal(range.legacyPosForSelection(range.normalize({preset:'verb'},items)),'verb');
   assert.equal(range.legacyPosForSelection(range.normalize({preset:'aux'},items)),'aux');
 });
+
+test('range: autoTableLevel follows the §42-4 mastery thresholds',()=>{
+  const keys=Array.from({length:30},(_,i)=>`x:main:${i}`);
+  assert.equal(range.autoTableLevel({},keys),1);
+  assert.equal(range.autoTableLevel({'x:main:0':{c:1,w:0}},[]),1);
+  const all=Object.fromEntries(keys.slice(0,24).map(key=>[key,{c:2,w:0}]));
+  assert.equal(range.autoTableLevel(all,keys),7);
+  // 12/24 distinct, all correct: coverage .5 -> mastery .5 -> Lv4
+  const half=Object.fromEntries(keys.slice(0,12).map(key=>[key,{c:1,w:0}]));
+  assert.equal(range.autoTableLevel(half,keys),4);
+  // slots outside the selection are ignored
+  assert.equal(range.autoTableLevel({'y:main:0':{c:5,w:0}},keys),1);
+});

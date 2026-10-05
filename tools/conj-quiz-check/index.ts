@@ -103,6 +103,10 @@ const expectedCases=selectedViewports.length*themes.length*2*4;
 const failures:string[]=[];let cases=0,masterCases=0,realCases=0;
 // Windows WebKit's full-page capture can stall; geometry/interaction checks still run.
 const output=process.argv.includes('--webkit')?undefined:process.env.CONJ_QUIZ_ARTIFACT_DIR;
+// 品詞 select は hidden の互換ブリッジ。画面からは範囲チップ/設定で選ぶため、同じ change 経路を直接起こす。
+async function setPos(page:any,value:string){
+  await page.evaluate((v:string)=>{const el=document.getElementById('pos') as HTMLSelectElement;el.value=v;el.dispatchEvent(new Event('change'));},value);
+}
 async function chooseMode(page:any,mode:string){
   if(await page.locator('#quizMode').inputValue()===mode)return;
   if(await page.locator('.quiz-mode-tabs').isVisible())await page.locator(`[data-quiz-mode="${mode}"]`).click();
@@ -132,7 +136,7 @@ try{
   assert.equal(await real.evaluate("quizRecords.some(r=>r.exampleId==='aux-289'||r.exampleId==='aux-290')"),false,'未確認 examples stay held');
   await chooseMode(real,'form');
   for(const pos of ['verb','adj','adjv','aux']){
-    await real.selectOption('#pos',pos);
+    await setPos(real,pos);
     await real.locator('#quizPrompt').waitFor({state:'visible'});
     assert.notEqual(await real.evaluate('quizState.example.origin'),'master',`published example is used for ${pos}`);
     assert.equal(await real.locator('#exampleText mark').count(),1,`one marked target for ${pos}`);
@@ -192,7 +196,7 @@ try{
   assert.match(await empty.evaluate('stats.quiz.events.at(-1).exampleId'),/^master:type:/);
   if(output)await empty.screenshot({path:path.join(output,'master-type-mobile.png'),fullPage:true,timeout:15000});
   for(const pos of ['verb','adj','adjv','aux']){
-    await empty.selectOption('#pos',pos);
+    await setPos(empty,pos);
     for(const mode of ['form','type']){
       await chooseMode(empty,mode);
       assert.equal(await empty.locator('#quizEmpty').isHidden(),true,`master ${mode} ${pos}`);
@@ -200,7 +204,7 @@ try{
       assert.ok(await empty.locator('#quizChoices button').count()>=2,`master choices ${mode} ${pos}`);
     }
   }
-  await empty.selectOption('#pos','verb');
+  await setPos(empty,'verb');
   await chooseMode(empty,'table');assert.ok(await empty.locator('#formBody > tr').count()===6);
   await empty.locator('#openSettings').click();await empty.selectOption('#quizMode','type');
   assert.equal(await empty.locator('[data-quiz-mode="type"]').getAttribute('aria-pressed'),'true','settings mode stays in sync');
@@ -210,7 +214,7 @@ try{
   assert.equal(await empty.locator('#showExample').isEnabled(),true,'drill example control is restored');
   await empty.locator('#showExample').check();
   assert.equal(await empty.locator('#examplePanel').isVisible(),true,'drill example control still works');
-  await chooseMode(empty,'type');await empty.selectOption('#pos','verb');
+  await chooseMode(empty,'type');await setPos(empty,'verb');
   await empty.evaluate(()=>{stats.quiz.events=Array.from({length:20},(_,i)=>({exampleId:'mastery-'+i,quizMode:'type',partOfSpeech:'動詞',correct:true,maxHintLevel:0}));nextQuestion();});
   assert.equal(await empty.evaluate('quizState.choiceScope'),'all');
   assert.equal(await empty.evaluate('quizState.shortLabels'),true);
@@ -352,7 +356,7 @@ try{
       for(const mode of ['form','type'])for(const pos of ['verb','adj','adjv','aux']){
         const tag=`${viewport.width}x${viewport.height} ${theme} ${mode} ${pos}`;
         try{
-          await chooseMode(page,mode);await page.selectOption('#pos',pos);
+          await chooseMode(page,mode);await setPos(page,pos);
           await setAdvanced(page,'supportLevel','0');if(mode==='type') {await setAdvanced(page,'rowMode','omitted');await setAdvanced(page,'choiceScope','near');}
           await page.waitForTimeout(60);
           assert.equal(await page.locator('#formBody > tr').count(),6,tag);
@@ -403,7 +407,7 @@ try{
       }
     }
     // Independent response does not count the answer-feedback table as a hint.
-    await chooseMode(page,'form');await page.selectOption('#pos','verb');await setAdvanced(page,'supportLevel','0');
+    await chooseMode(page,'form');await setPos(page,'verb');await setAdvanced(page,'supportLevel','0');
     await page.locator('#quizChoices button').evaluateAll((buttons)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical==='終止形') as HTMLButtonElement).click();});
     assert.equal(await page.evaluate('stats.quiz.events.at(-1).maxHintLevel'),0);
     // Type/row correctness, text input and stable row-button order.
@@ -420,7 +424,7 @@ try{
     assert.ok(counts[0]<=counts[1] && counts[1]<=counts[2] && counts[2]<=counts[3]);
     // Choices read like vertical text: right column top to bottom, then the next column to the left.
     // With every predicate type in short labels, the columns are regular verbs, irregular verbs, adjectives.
-    await page.selectOption('#pos','verb');
+    await setPos(page,'verb');
     const columns=await page.locator('#quizChoices button').evaluateAll(buttons=>{
       const cells=buttons.map(b=>{const r=b.getBoundingClientRect();return {t:b.querySelector('.quiz-choice-label')!.textContent,x:Math.round(r.left),y:Math.round(r.top)};});
       return [...new Set(cells.map(c=>c.x))].sort((a,b)=>b-a).map(x=>cells.filter(c=>c.x===x).sort((a,b)=>a.y-b.y).map(c=>c.t).join('/'));
@@ -433,7 +437,7 @@ try{
     });
     assert.deepEqual(verbColumns,[5,4],'regular and irregular verb types in their own columns');
     await setAdvanced(page,'choiceScope','all');
-    await page.selectOption('#pos','aux');
+    await setPos(page,'aux');
     assert.ok(await page.locator('#quizChoices button').evaluateAll(buttons=>buttons.every(button=>button.textContent?.includes('助動詞') || !button.querySelector('small'))));
     // Saved old data and new event fields survive importing/exporting the existing envelope.
     const saved=await page.evaluate('JSON.stringify(stats)');

@@ -169,6 +169,69 @@
     };
   }
 
+  // 活用表ドリルの自動Lv（§42-4）。範囲内のマスの履歴だけから算出する。
+  const TABLE_PREF_KEY="conjTablePreferences";
+  const LEVEL_THRESHOLDS=[.18,.32,.48,.64,.78,.90];
+  const COVERAGE_CAP=24;
+
+  function autoTableLevel(slotStats,selectableSlotKeys){
+    const keys=Array.isArray(selectableSlotKeys) ? selectableSlotKeys : [];
+    const stats=slotStats && typeof slotStats==="object" ? slotStats : {};
+    let tried=0,correct=0,attempts=0;
+    for(const key of keys){
+      const entry=stats[key];
+      const c=Number(entry?.c)||0, w=Number(entry?.w)||0;
+      if(c+w<=0) continue;
+      tried++; correct+=c; attempts+=c+w;
+    }
+    if(!attempts || !keys.length) return 1;
+    const accuracy=correct/attempts;
+    const coverage=Math.min(1,tried/Math.min(keys.length,COVERAGE_CAP));
+    const mastery=accuracy*coverage;
+    let level=1;
+    for(const threshold of LEVEL_THRESHOLDS){
+      if(mastery>=threshold) level++;
+    }
+    return level;
+  }
+
+  function normalizeTablePrefs(raw){
+    const safe=raw && typeof raw==="object" ? raw : {};
+    const level=Math.round(Number(safe.manualLevel));
+    return {
+      version:1,
+      mode:safe.mode==="manual" ? "manual" : "auto",
+      manualLevel:level>=1 && level<=7 ? level : 4
+    };
+  }
+
+  function loadTablePrefs(storage){
+    try{ return normalizeTablePrefs(JSON.parse(storage?.getItem?.(TABLE_PREF_KEY)||"{}")); }
+    catch(_error){ return normalizeTablePrefs({}); }
+  }
+
+  function saveTablePrefs(storage,prefs){
+    const normalized=normalizeTablePrefs(prefs);
+    try{ storage?.setItem?.(TABLE_PREF_KEY,JSON.stringify(normalized)); }catch(_error){}
+    return normalized;
+  }
+
+  const PRESET_LABELS={all:"すべて",verb:"動詞",adjective:"形容詞・形容動詞",aux:"助動詞",custom:"カスタム"};
+  function presetLabel(selection){
+    return PRESET_LABELS[selection?.preset] || PRESET_LABELS.custom;
+  }
+
+  // 同形の助動詞を見分ける表示名（§42-3）。キーには使わない。
+  const AUX_LABELS={
+    nari_hearsay_aux:"なり（伝聞・推定）",
+    nari_assert_aux:"なり（断定）",
+    tari_comp_aux:"たり（完了・存続）",
+    tari_assert_aux:"たり（断定）"
+  };
+  function auxLabel(item){
+    return AUX_LABELS[item?.id] || String(item?.lemma||item?.id||"");
+  }
+
   global.ConjRange={
     STORAGE_KEY,
     VERSION,
@@ -184,6 +247,13 @@
     filterItems,
     fromLegacyPos,
     legacyPosForSelection,
-    diagnostics
+    diagnostics,
+    TABLE_PREF_KEY,
+    autoTableLevel,
+    normalizeTablePrefs,
+    loadTablePrefs,
+    saveTablePrefs,
+    presetLabel,
+    auxLabel
   };
 })(typeof window!=="undefined" ? window : globalThis);

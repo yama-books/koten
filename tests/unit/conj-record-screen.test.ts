@@ -594,7 +594,7 @@ test('conj: work4 settings screen hosts the theme picker plus record export/impo
   assert.match(script, /document\.getElementById\("eraseConfirmCancel"\)\.addEventListener\("click",resetEraseRecordArm\);/);
 
   assert.match(script, /const RECORD_STORAGE_KEY="katsuyoProtoV37";/);
-  assert.match(script, /function refreshAfterRecordChange\(\)\{\s*updateScore\(\);\s*if\(!document\.getElementById\("recordScreen"\)\.hidden\) renderRecord\(\);\s*\}/);
+  assert.match(script, /function refreshAfterRecordChange\(\)\{\s*refreshTableLevel\(\);\s*updateScore\(\);\s*if\(!document\.getElementById\("recordScreen"\)\.hidden\) renderRecord\(\);\s*\}/);
 
   // opening the settings dialog resets any leftover erase confirmation state from a previous visit
   assert.match(script, /document\.getElementById\("openSettings"\)\.addEventListener\("click",\(\)=>\{\s*setSettingsRecordStatus\(""\);\s*resetEraseRecordArm\(\);\s*document\.getElementById\("settingsDialog"\)\.showModal\(\);/);
@@ -850,8 +850,8 @@ test('conj: settings are tabbed and stage UI is added without replacing the curr
   assert.match(dialog, /id="rowMode"[\s\S]*?<option value="auto">学習に合わせる<\/option>/);
   assert.match(dialog, /id="choiceScope"[\s\S]*?<option value="auto">学習に合わせる<\/option>/);
   assert.match(dialog, /id="supportLevel"[\s\S]*?<option value="0">ヒントで表示<\/option>/);
-  assert.match(html, /<label class="pos-control">品詞[\s\S]*?<select id="pos">/,'PR 1 keeps the existing 品詞 range control');
-  assert.doesNotMatch(html, /id="rangeChip"/,'range chip belongs to PR 2');
+  assert.match(html, /<label class="pos-control" hidden>品詞[\s\S]*?<select id="pos"/,'the old 品詞 select stays hidden as a compatibility bridge');
+  assert.match(html, /id="rangeChip"/,'the range chip replaces the visible 品詞 select');
   assert.doesNotMatch(html, /id="quizControls"/,'card-local detailed controls moved into settings');
   assert.match(html, /id="quizStageBadge">段階 1\/4<\/span>/);
   assert.match(html, /id="openQuizStageHelp"[^>]*>？<\/button>/);
