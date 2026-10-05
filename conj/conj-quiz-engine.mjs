@@ -308,6 +308,7 @@ export function scopeForMasteryStage(stage) {
 }
 
 export function rowModeForMasteryStage(stage, requested='auto') {
+  if(requested==='input')return ROW_MODE.SELECT; // 「入力」は廃止
   if(requested!=='auto')return requested;
   return Math.max(0,Math.min(3,Number(stage)||0))>=2 ? ROW_MODE.SELECT : ROW_MODE.OMITTED;
 }

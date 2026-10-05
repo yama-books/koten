@@ -416,9 +416,11 @@ try{
     const order=await page.locator('#quizRowAnswer button').allTextContents();
     await page.locator('#quizRowAnswer button').filter({hasText:/^ガ$/}).click();assert.deepEqual(await page.locator('#quizRowAnswer button').allTextContents(),order);
     assert.equal(await page.evaluate('stats.quiz.events.at(-1).typeCorrect'),true);assert.equal(await page.evaluate('stats.quiz.events.at(-1).rowCorrect'),false);
-    await setAdvanced(page,'rowMode','input');
+    // Row first, then type: either order grades once both are chosen (the text-input row mode is retired).
+    await page.evaluate('nextQuestion()');
+    await page.locator('#quizRowAnswer button').filter({hasText:/^カ$/}).click();
     await page.locator('#quizChoices button').evaluateAll((buttons)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical==='カ行四段活用') as HTMLButtonElement).click();});
-    await page.fill('#quizRowInput','か');await page.press('#quizRowInput','Enter');assert.equal(await page.evaluate('stats.quiz.events.at(-1).correct'),true);
+    assert.equal(await page.evaluate('stats.quiz.events.at(-1).correct'),true);
     const counts=[];
     for(const scope of ['near','part_of_speech','cross_pos','all']){await setAdvanced(page,'choiceScope',scope);counts.push(await page.locator('#quizChoices button').count());}
     assert.ok(counts[0]<=counts[1] && counts[1]<=counts[2] && counts[2]<=counts[3]);
