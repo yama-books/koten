@@ -28,6 +28,16 @@ test('range: preset all expands to every family and current auxiliary item id',(
   );
 });
 
+test('range: preset all has no unclassified current drill item',()=>{
+  const selection=range.normalize({version:1,preset:'all'},items);
+  assert.deepEqual(range.diagnostics(selection,items).unmatchedItems,[]);
+  assert.equal(range.filterItems(selection,items).length,items.length);
+  assert.deepEqual(
+    new Set(items.filter((item:any)=>item.pos==='verb').map((item:any)=>range.verbFamily(item))),
+    new Set(range.VERB_FAMILIES)
+  );
+});
+
 test('range: verb and adjective family classification follows the canonical §42 families',()=>{
   const byId=new Map(items.map((item:any)=>[item.id,item]));
   assert.equal(range.verbFamily(byId.get('naku')),'yodan');
