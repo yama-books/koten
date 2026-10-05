@@ -4820,7 +4820,13 @@ const QUIZ_POEM_WRAP_BELOW_PX=11;
 function fitExampleText(text){
   text.style.fontSize="";
   let size=parseFloat(getComputedStyle(text).fontSize);
-  const overflowing=()=>text.scrollHeight>text.clientHeight+1 || text.scrollWidth>text.clientWidth+1;
+  const overflowing=()=>{
+    const box=text.getBoundingClientRect();
+    const range=document.createRange();
+    range.selectNodeContents(text);
+    const inkOutside=[...range.getClientRects()].some(r=>r.width&&r.height&&(r.top<box.top-1||r.bottom>box.bottom+1));
+    return inkOutside || text.scrollHeight>text.clientHeight+1 || text.scrollWidth>text.clientWidth+1;
+  };
   while(overflowing() && size>MIN_EXAMPLE_FONT_PX){
     size=Math.max(MIN_EXAMPLE_FONT_PX,size-0.5);
     text.style.fontSize=size+"px";
