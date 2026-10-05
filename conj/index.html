@@ -4815,8 +4815,7 @@ function quizTableRowHeight(){
   return h;
 }
 // 用例が表の高さや左の余白に収まらないときだけ、収まるまで文字を小さくする。
-// 9px is the normal floor; Chromium vertical glyph bounds can still protrude by a few pixels on the shortest phone viewport.
-const MIN_EXAMPLE_FONT_PX=8;
+const MIN_EXAMPLE_FONT_PX=9;
 const QUIZ_POEM_WRAP_BELOW_PX=11;
 function fitExampleText(text){
   text.style.fontSize="";
