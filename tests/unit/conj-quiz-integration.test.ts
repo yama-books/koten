@@ -123,6 +123,11 @@ test('quiz: all publication gates must be explicit; the 125 audited records reso
   assert.equal(byId.get('aux-012').targetOccurrence,0);
   assert.equal(byId.get('aux-013').targetOccurrence,1);
   assert.equal(byId.get('aux-055').targetOccurrence,1);
+  // A revised display orthography is what the quiz shows and highlights.
+  assert.equal(byId.get('verb-026').quotationExcerpt.startsWith('いな折らじ'),true);
+  assert.equal(byId.get('verb-026').originalTarget,'折ら');
+  assert.equal(byId.get('verb-026').tableItem.target,'折ら');
+  assert.equal(byId.get('verb-241').quotationExcerpt.includes('見わたせば'),true);
   // A quotation payload cannot open a held record by itself.
   const held=bank.records.find((record:any)=>record.exampleId==='aux-289');
   assert.equal(resolveQuizRecords({records:[held]},{records:[{...gates,exampleId:'aux-289',quotationExcerpt:'検証用：たし',originalTarget:'たし'}]},runtimeItems).length,0);

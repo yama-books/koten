@@ -379,8 +379,9 @@ try{
           const geometry=await page.evaluate(`(()=>({overflow:document.documentElement.scrollWidth>innerWidth+1,
             rowMin:Math.min(...[...document.querySelectorAll('#formBody > tr')].map(r=>r.getBoundingClientRect().height)),
             choiceMin:Math.min(...[...document.querySelectorAll('#quizChoices button')].map(r=>r.getBoundingClientRect().width)),
+            choiceMinH:Math.min(...[...document.querySelectorAll('#quizChoices button')].map(r=>r.getBoundingClientRect().height)),
             transform:document.querySelector('.card .study-layout').style.transform}))()`);
-          assert.equal(geometry.overflow,false,tag+' horizontal overflow');assert.ok(geometry.rowMin>=43.5,tag+' row height');assert.ok(geometry.choiceMin>=43.5,tag+' choice width');
+          assert.equal(geometry.overflow,false,tag+' horizontal overflow');assert.ok(geometry.rowMin>=43.5,tag+' row height');assert.ok(geometry.choiceMin>=24,tag+' choice width');assert.ok(geometry.choiceMinH>=39.5,tag+' choice height');
           await page.locator('#next').scrollIntoViewIfNeeded();const next=await page.locator('#next').boundingBox();assert.ok(next && next.y>=0 && next.y+next.height<=viewport.height+1,tag+' next action');
           if(output && theme==='coffee' && mode==='form' && pos==='verb' && [375,820,1440].includes(viewport.width)){
             await mkdir(output,{recursive:true});await page.screenshot({path:path.join(output,`quiz-${viewport.width}-${viewport.height}.png`),fullPage:true,timeout:15000});

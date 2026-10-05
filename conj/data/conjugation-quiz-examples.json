@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "updated": "2026-10-01",
-  "policy": "活用判別モードの代表用例。CHJの本文を引用として掲載し、出典は用例ごとではなく出典一覧に示す。表記は CHJ の原表記のまま（別版の表記へ置き換えない）。公開の可否は conjugation-quiz-bank-127.meta.json のゲートが決め、このファイルだけでは記録を公開できない。",
+  "updated": "2026-10-05",
+  "policy": "活用判別モードの代表用例。CHJの本文を引用として掲載し、出典は用例ごとではなく出典一覧に示す。`quotationExcerpt` / `originalTarget` は CHJ の原表記のまま保持する（別版の表記へ置き換えない）。学習者に見せる表記を整えた用例だけ `display` を持ち、画面はそれを表示する。整えるのは濁点・踊り字の展開・標準の歴史的仮名遣いへの統一と、語の境界を示す漢字（「折る」）に限り、その範囲はテストで確かめる。公開の可否は conjugation-quiz-bank-127.meta.json のゲートが決め、このファイルだけでは記録を公開できない。",
   "sources": {
     "chj": {
       "name": "国立国語研究所『日本語歴史コーパス』",
@@ -244,6 +244,11 @@
       "exampleId": "adj-011",
       "quotationExcerpt": "時うつり事へたゝりて、いまの人しる事かたし、",
       "originalTarget": "かたし",
+      "display": {
+        "excerpt": "時うつり事へだたりて、いまの人しる事かたし、",
+        "target": "かたし",
+        "orthography": "濁点を補い、踊り字を展開した校訂表記"
+      },
       "source": "新古今和歌集",
       "sampleId": "30W新古1205_00001",
       "start": 13420,
@@ -277,6 +282,11 @@
       "exampleId": "adj-005",
       "quotationExcerpt": "前栽にこうはいをうへて、又の春をそく開けれは",
       "originalTarget": "をそく",
+      "display": {
+        "excerpt": "前栽にこうばいをうゑて、又の春おそく開ければ",
+        "target": "おそく",
+        "orthography": "濁点を補い、仮名遣いを歴史的仮名遣いに揃えた校訂表記"
+      },
       "source": "後撰和歌集",
       "sampleId": "20W後撰0955_01001",
       "start": 9400,
@@ -321,6 +331,11 @@
       "exampleId": "adj-036",
       "quotationExcerpt": "あはれなるやうにてつよからす、",
       "originalTarget": "つよから",
+      "display": {
+        "excerpt": "あはれなるやうにてつよからず、",
+        "target": "つよから",
+        "orthography": "濁点を補った校訂表記"
+      },
       "source": "古今和歌集",
       "sampleId": "20W古今0905_00001",
       "start": 36610,
@@ -387,6 +402,11 @@
       "exampleId": "adj-083",
       "quotationExcerpt": "桜かり雨はふりきぬおなしくはぬるとも花のかけにかくれむ",
       "originalTarget": "おなしく",
+      "display": {
+        "excerpt": "桜がり雨はふりきぬおなじくはぬるとも花のかげにかくれむ",
+        "target": "おなじく",
+        "orthography": "濁点を補った校訂表記"
+      },
       "source": "拾遺和歌集",
       "sampleId": "20W拾遺1005_01001",
       "start": 18670,
@@ -398,6 +418,11 @@
       "exampleId": "adj-140",
       "quotationExcerpt": "久しかれあたにちるなと桜花かめにさせれとうつろひにけり",
       "originalTarget": "久しかれ",
+      "display": {
+        "excerpt": "久しかれあだにちるなと桜花かめにさせれどうつろひにけり",
+        "target": "久しかれ",
+        "orthography": "濁点を補った校訂表記"
+      },
       "source": "拾遺和歌集",
       "sampleId": "20W拾遺1005_18018",
       "start": 26480,
@@ -756,6 +781,11 @@
       "exampleId": "verb-091",
       "quotationExcerpt": "いはゝあき人のよききぬきたらんかことし",
       "originalTarget": "き",
+      "display": {
+        "excerpt": "いはばあき人のよききぬきたらんがごとし",
+        "target": "き",
+        "orthography": "濁点を補い、踊り字を展開した校訂表記"
+      },
       "source": "古今和歌集",
       "sampleId": "20W古今0905_00001",
       "start": 34350,
@@ -921,6 +951,11 @@
       "exampleId": "verb-241",
       "quotationExcerpt": "紫の雲の林を見わたせは法にあふちのはなさきにけり",
       "originalTarget": "見わたせ",
+      "display": {
+        "excerpt": "紫の雲の林を見わたせば法にあふちのはなさきにけり",
+        "target": "見わたせ",
+        "orthography": "濁点を補った校訂表記"
+      },
       "source": "新古今和歌集",
       "sampleId": "30W新古1205_20021",
       "start": 5810,
@@ -976,6 +1011,11 @@
       "exampleId": "verb-124",
       "quotationExcerpt": "いまはわれ松の柱の杉の庵にとつへきものを苔ふかき袖",
       "originalTarget": "とつ",
+      "display": {
+        "excerpt": "いまはわれ松の柱の杉の庵にとづべきものを苔ふかき袖",
+        "target": "とづ",
+        "orthography": "濁点を補った校訂表記"
+      },
       "source": "新古今和歌集",
       "sampleId": "30W新古1205_17018",
       "start": 30610,
@@ -1031,6 +1071,11 @@
       "exampleId": "verb-267",
       "quotationExcerpt": "こふれとも逢夜のなきは忘草夢ちにさへやおひしけるらん",
       "originalTarget": "こふれ",
+      "display": {
+        "excerpt": "こふれども逢夜のなきは忘草夢ぢにさへやおひしげるらん",
+        "target": "こふれ",
+        "orthography": "濁点を補った校訂表記"
+      },
       "source": "古今和歌集",
       "sampleId": "20W古今0905_15016",
       "start": 6580,
@@ -1097,6 +1142,11 @@
       "exampleId": "verb-222",
       "quotationExcerpt": "世のうきも人のつらきも忍ふるに恋しきにこそ思ひ侘ぬれ",
       "originalTarget": "忍ふる",
+      "display": {
+        "excerpt": "世のうきも人のつらきも忍ぶるに恋しきにこそ思ひ侘ぬれ",
+        "target": "忍ぶる",
+        "orthography": "濁点を補った校訂表記"
+      },
       "source": "新古今和歌集",
       "sampleId": "30W新古1205_15016",
       "start": 29820,
@@ -1130,6 +1180,11 @@
       "exampleId": "verb-299",
       "quotationExcerpt": "うらむれとこふれと君か夜とゝもにしらすかほにてつれなかるらん",
       "originalTarget": "うらむれ",
+      "display": {
+        "excerpt": "うらむれどこふれど君が夜とともにしらずがほにてつれなかるらん",
+        "target": "うらむれ",
+        "orthography": "濁点を補い、踊り字を展開した校訂表記"
+      },
       "source": "後撰和歌集",
       "sampleId": "20W後撰0955_14014",
       "start": 1480,
@@ -1141,6 +1196,11 @@
       "exampleId": "verb-121",
       "quotationExcerpt": "なにはかたうらむへきまもおもほえすいつこをみつのあまとかはなる",
       "originalTarget": "うらむ",
+      "display": {
+        "excerpt": "なにはがたうらむべきまもおもほえずいづこをみつのあまとかはなる",
+        "target": "うらむ",
+        "orthography": "濁点を補った校訂表記"
+      },
       "source": "古今和歌集",
       "sampleId": "20W古今0905_18019",
       "start": 18640,
@@ -1251,6 +1311,11 @@
       "exampleId": "verb-333",
       "quotationExcerpt": "ひとりねはくるしき物とこりよとやたひなる夜しも雪のふるらん",
       "originalTarget": "こりよ",
+      "display": {
+        "excerpt": "ひとりねはくるしき物とこりよとやたびなる夜しも雪のふるらん",
+        "target": "こりよ",
+        "orthography": "濁点を補った校訂表記"
+      },
       "source": "拾遺和歌集",
       "sampleId": "20W拾遺1005_19019",
       "start": 32590,
@@ -1295,6 +1360,11 @@
       "exampleId": "verb-035",
       "quotationExcerpt": "春ごとにながるる川を花とみておられぬ水に袖やぬれなむ",
       "originalTarget": "おら",
+      "display": {
+        "excerpt": "春ごとにながるる川を花とみて折られぬ水に袖やぬれなむ",
+        "target": "折ら",
+        "orthography": "「折る」を漢字で示した校訂表記"
+      },
       "source": "古今和歌集",
       "sampleId": "20W古今0905_01002",
       "start": 16510,
@@ -1306,6 +1376,11 @@
       "exampleId": "verb-046",
       "quotationExcerpt": "心あてにおらばや…",
       "originalTarget": "おら",
+      "display": {
+        "excerpt": "心あてに折らばや…",
+        "target": "折ら",
+        "orthography": "「折る」を漢字で示した校訂表記"
+      },
       "source": "古今和歌集",
       "sampleId": "20W古今0905_05006",
       "start": 12940,
@@ -1317,6 +1392,11 @@
       "exampleId": "verb-026",
       "quotationExcerpt": "いなおらじ露にたもとのぬれたらば物おもひけりと人もこそみれ",
       "originalTarget": "おら",
+      "display": {
+        "excerpt": "いな折らじ露にたもとのぬれたらば物おもひけりと人もこそみれ",
+        "target": "折ら",
+        "orthography": "「折る」を漢字で示した校訂表記"
+      },
       "source": "拾遺和歌集",
       "sampleId": "20W拾遺1005_09009",
       "start": 10680,
@@ -1372,6 +1452,11 @@
       "exampleId": "verb-064",
       "quotationExcerpt": "郭公いたくなゝきそひとりゐていのねられぬにきけはくるしも",
       "originalTarget": "ゐ",
+      "display": {
+        "excerpt": "郭公いたくななきそひとりゐていのねられぬにきけばくるしも",
+        "target": "ゐ",
+        "orthography": "濁点を補い、踊り字を展開した校訂表記"
+      },
       "source": "拾遺和歌集",
       "sampleId": "20W拾遺1005_02002",
       "start": 14340,
@@ -1383,6 +1468,11 @@
       "exampleId": "verb-108",
       "quotationExcerpt": "いその神ふるの山への桜花うへけむ時をしる人そなき",
       "originalTarget": "うへ",
+      "display": {
+        "excerpt": "いその神ふるの山べの桜花うゑけむ時をしる人ぞなき",
+        "target": "うゑ",
+        "orthography": "濁点を補い、仮名遣いを歴史的仮名遣いに揃えた校訂表記"
+      },
       "source": "後撰和歌集",
       "sampleId": "20W後撰0955_02002",
       "start": 1260,

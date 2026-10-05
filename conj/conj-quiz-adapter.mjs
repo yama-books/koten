@@ -1,4 +1,4 @@
-import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs?v=20261001-10';
+import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs?v=20261005-13';
 
 const POS = { verb:'動詞', adj:'形容詞', adjv:'形容動詞', aux:'助動詞' };
 const POS_KEYS = { verb:'verb', adjective:'adj', adjectivalVerb:'adjv', adjectival_noun:'adjv', auxiliary:'aux', ...Object.fromEntries(Object.entries(POS).map(([k,v])=>[v,k])), adj:'adj', adjv:'adjv', aux:'aux' };
@@ -130,8 +130,11 @@ export function resolveQuizRecords(metadata, quotations, items) {
     const item = candidates.length === 1 ? candidates[0] : !text.itemId && candidates.length === 0 ? kindItems[0] ?? supplemental : null;
     if(!item)continue;
     if (!Array.isArray(item.forms) || item.forms.length !== 6 || !FORMS.includes(record.form)) continue;
-    const excerpt = text.quotationExcerpt;
-    const target = text.originalTarget;
+    // A reviewed revised orthography (dakuten, historical kana) is what learners see;
+    // the CHJ wording stays in quotationExcerpt / originalTarget.
+    const shown = text.display && typeof text.display === 'object' ? text.display : null;
+    const excerpt = shown ? shown.excerpt : text.quotationExcerpt;
+    const target = shown ? shown.target : text.originalTarget;
     if (typeof excerpt !== 'string' || typeof target !== 'string' || !target || /[<>【】]/u.test(excerpt+target)) continue;
     // Match the same whitespace-compacted text the existing renderer highlights.
     const compact = excerpt.replace(/[　 ]+/g,'');

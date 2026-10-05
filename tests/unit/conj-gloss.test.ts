@@ -278,7 +278,8 @@ test('gloss v54: short phones fit the table rows (≥44px) and iPad narrows only
   // JS: rows are fitted at question time (the strip is already reserved), never below 44px
   assert.match(html, /const MOBILE_ROW_MIN=44;/);
   assert.match(html, /function fitMobileRows\(card\)\{[\s\S]*?Math\.max\(MOBILE_ROW_MIN,[\s\S]*?card\.style\.setProperty\("--mobile-form-row-h",next\+"px"\);/);
-  assert.match(html, /if\(window\.innerWidth<STUDY_ZOOM_MIN_WIDTH\)\{\s*if\(card\) fitMobileRows\(card\);\s*return;\s*\}/);
+  // The identification mode then fits its own form choices while the table is hidden.
+  assert.match(html, /if\(window\.innerWidth<STUDY_ZOOM_MIN_WIDTH\)\{\s*if\(card\) fitMobileRows\(card\);\s*(?:\/\/[^\n]*\n\s*if\(typeof fitQuizFormChoices==="function"\) fitQuizFormChoices\(\);\s*)?return;\s*\}/);
   // iPad/PC: the side gloss is narrowed (not moved under the table) only when it limits the zoom, with a floor
   assert.match(html, /const GLOSS_SIDE_MIN_EM=8;/);
   assert.match(html, /if\(gloss && m\.byWidth<target-0\.005 && target>1\.02\)\{[\s\S]*?gloss\.style\.maxWidth=Math\.max\(minWidth,allowed\)\+"px";/);

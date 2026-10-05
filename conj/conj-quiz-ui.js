@@ -7,7 +7,7 @@ function isIdentificationMode(){return document.getElementById('quizMode').value
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261001-10'),import('./conj-quiz-adapter.mjs?v=20261001-10')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261005-13'),import('./conj-quiz-adapter.mjs?v=20261005-13')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
@@ -157,17 +157,43 @@ function renderQuizUI(){
   document.getElementById('reveal').style.display=quizState.answered||quizState.hintLevel===2?'none':'inline-block';
   document.getElementById('check').style.display='none';
   document.getElementById('next').style.display=quizState.answered?'inline-block':'none';
-  requestAnimationFrame(syncStudyHeights);
+  requestAnimationFrame(()=>{syncQuizFormChoiceHeight();syncStudyHeights();});
+}
+// スマホで表を隠している間に、活用形の6段のせいでカードが画面の下へはみ出すときは、
+// 表の行と同じ変数（--mobile-form-row-h）を詰めて、操作ボタンを画面内に残す。押しやすさのため 48px より低くしない。
+function fitQuizFormChoices(){
+  const card=document.querySelector('main.card');
+  if(window.innerWidth>700||!quizState||quizState.quizMode!=='form'||document.getElementById('tablePanel').dataset.support!=='hidden')return;
+  const button=document.querySelector('#quizChoices .quiz-choice');
+  if(!button)return;
+  const over=card.getBoundingClientRect().bottom+window.scrollY-(window.innerHeight-4);
+  if(over<=0.5)return;
+  const row=button.getBoundingClientRect().height+4;
+  card.style.setProperty('--mobile-form-row-h',Math.max(48,Math.floor((row-over/6)*4)/4)+'px');
+  syncStudyHeightsAtCurrentZoom();
+}
+// 活用形の選択肢は表の1行と同じ高さにする。スマホは表の行の高さ（--mobile-form-row-h）をそのまま使い、
+// 広い画面では表の行を実測する。表を隠している間は直前に測った高さを保つ。
+function syncQuizFormChoiceHeight(){
+  const card=document.querySelector('main.card');
+  if(window.innerWidth<=700){card.style.removeProperty('--quiz-form-h');return;}
+  const row=document.querySelector('#formBody > tr');
+  const h=row?row.offsetHeight:0;
+  if(h>0)card.style.setProperty('--quiz-form-h',h+'px');
 }
 
 function renderQuizChoices(){
   const box=document.getElementById('quizChoices');const scrollTop=box.scrollTop;box.replaceChildren();
   box.dataset.count=String(quizChoices.length);
+  box.dataset.mode=quizState.quizMode;
+  // 活用の種類は右上から左へ並べる：4つまでは2列、それより多ければ3列。3×3を超えるときは略称にする。
+  box.dataset.columns=quizState.quizMode==='form'?'1':quizChoices.length<=4?'2':'3';
+  const short=quizState.shortLabels||quizChoices.length>9;
   quizChoices.forEach(choice=>{
     const button=document.createElement('button');button.type='button';button.className='quiz-choice';
     button.dataset.canonical=choice.canonical;
     button.setAttribute('aria-pressed',String(quizState.selectedAnswer===choice.canonical));
-    const visibleLabel=quizState.shortLabels?choice.label:(choice.formalLabel||choice.label);
+    const visibleLabel=short?choice.label:(choice.formalLabel||choice.label);
     button.setAttribute('aria-label',visibleLabel);
     const label=document.createElement('span');label.className='quiz-choice-label';label.textContent=visibleLabel;
     button.append(label);
@@ -237,7 +263,8 @@ function gradeQuiz(){
   document.getElementById('kind').classList.add('kind-answer-badge');
   applyLemmaReading(document.getElementById('lemma'),current,true);
   renderQuizUI();
-  const detail=quizState.quizMode==='type'?'正答：'+quizState.example.conjugationType:'正答：'+quizState.example.form;
+  const answerType=quizState.example.partOfSpeech==='助動詞'?quizEngine.auxTypeFamily(quizState.example.conjugationType):quizState.example.conjugationType;
+  const detail=quizState.quizMode==='type'?'正答：'+answerType:'正答：'+quizState.example.form;
   document.getElementById('feedback').textContent=(evaluation.correct?'正解。':evaluation.typeCorrect?'型は正解。行の正答を確認しましょう。':'不正解。')+' '+detail;
   document.getElementById('next').focus({preventScroll:true});
   revealQuizActions();
