@@ -38,7 +38,7 @@ async function initQuizUI(){
   document.getElementById('closeQuizTable').addEventListener('click',()=>document.getElementById('quizTableDialog').close());
   const shortcut=document.getElementById('openQuizModes');shortcut.hidden=false;
   shortcut.addEventListener('click',()=>{
-    const dialog=document.getElementById('settingsDialog');window.activateSettingsTab?.('difficulty');dialog.showModal();document.getElementById('quizMode').focus();
+    const dialog=document.getElementById('settingsDialog');window.activateSettingsTab?.('range');dialog.showModal();document.getElementById('quizMode').focus();
   });
   document.querySelectorAll('[data-quiz-mode]').forEach(button=>{
     button.disabled=false;
