@@ -1988,3 +1988,129 @@ UI設計では、問題数増加時にも出題・絞り込み・復習導線が
 ### 次回開始用の一文
 
 > GitHub `yama-books/koten` の main を正本として、`conj/HANDOFF.md` §36〜§39 を読んでから再開する。§39 の「実装の順番」の1から進める。既存の6段表 renderer・5テーマ・既存の丸画像・選択肢の固定順・例文の左に縦書きで並べる配置と行の欄の配置（§38、PR #82）を保ち、`check:conj-quiz`（Chromium・WebKit）と §36 の検査を通して PR にする。
+
+
+## 40. §39「実装の順番」1 作業途中の停止記録（2026-10-06）
+
+ユーザー指示によりここで一時停止する。正本は引き続き GitHub `yama-books/koten`。今回の作業は未マージで、PR #84 のブランチ `codex/conj-settings-stage-20261006` 上にある。
+
+### 今回ここまでに実装したもの
+
+§39「実装の順番」1 のみを対象にし、次を実装した。
+
+- 設定（歯車）を4タブ化
+  - 範囲
+  - 難しさ
+  - 表示
+  - 記録
+- 判別モードに段階バッジを追加
+  - `段階 1/4`〜`段階 4/4`
+  - 手動設定時は `手動`
+- 段階バッジ横の `？` から説明ダイアログを開く
+  - 現在の段階
+  - 次段階へ上がる条件
+  - 4段階の内容
+- 動詞の行に `学習に合わせる` を追加
+  - 段階1/4・2/4：行は答えない
+  - 段階3/4・4/4：行を選んで答える
+  - `入力` は手動設定時のみ
+- `quizMasteryStage` に段階下降のヒステリシスを追加
+  - 一度上がった段階は軽い誤答では下がらない
+  - 直近8問で誤答4以上なら1段階低下
+  - 直近8問で誤答6以上なら最大2段階低下
+  - 行の誤答も `correct=false` として段階判定に含む
+- カード内の「活用表／詳しい設定」の行は設定タブへ移した
+- 判別モードでは使えない「用例」チェックを非表示にした
+- 低いスマホのモード切替は、設定の「範囲」タブを開くよう維持
+- CI で `check:conj-quiz` を Chromium / WebKit の両方走らせるようにした
+
+### 今回入れていないもの（重要）
+
+§39 の2番目にあたる「範囲」の本実装は一切進めていない。
+
+- `#pos` の品詞セレクトはそのまま
+- 品詞を「範囲：〜」チップへ置き換えていない
+- 活用種類の細かいチェック選択を入れていない
+- 助動詞個別選択を入れていない
+- 先生の範囲コードを入れていない
+- 活用表ドリルの自動／手動難易度は入れていない
+
+「範囲」タブは器のみで、現状は画面上の既存 `#pos` を使う旨を表示している。PR #2 相当の変更は次回以降。
+
+### PR・ブランチ
+
+- PR: #84 `conj: 設定タブと学習段階の自動調整を追加`
+- branch: `codex/conj-settings-stage-20261006`
+- base: `main`
+- main 基準: `5e2dad7d832c2ec1457c2b821e520e6aa1fd2092`
+
+PR差分は現時点で8ファイルだけ。
+
+- `.github/workflows/ci.yml`
+- `conj/conj-quiz-engine.mjs`
+- `conj/conj-quiz-ui.css`
+- `conj/conj-quiz-ui.js`
+- `conj/index.html`
+- `tests/unit/conj-quiz-integration.test.ts`
+- `tests/unit/conj-record-screen.test.ts`
+- `tools/conj-quiz-check/index.ts`
+
+### 作業中に判明して直した点
+
+1. 保存済み `choiceScope=near` を自動設定へ勝手に戻してしまう互換処理を修正し、手動 `near` を保持するようにした。
+2. 低いスマホの `#openQuizModes` から設定を開いたとき、タブ化後に `#quizMode` が見えない問題を修正し、「範囲」タブを開くようにした。
+3. Chromium の `check:conj-quiz` で 360×640 にて段階バッジ追加分だけ上部が高くなり、活用形判別の例文がボタンに重なる回帰を検出した。
+   - 失敗内容:
+     - `form 百敷や古き軒端の: sentence under a button`
+     - `form 百敷や古き軒端の: sentence outside its box`
+   - そのためスマホ幅では段階バッジと `？` だけ小型化し、既存ツールバーの高さ内に収める修正を追加した。
+   - 活用表・例文・選択肢の既存レイアウト規則そのものは変更していない。
+
+### 検査の途中経過
+
+§36 の検査一式を GitHub Actions で実行している。
+
+確認済み成功:
+- `check:eol`
+- `npm ci`
+- `typecheck`
+- `lint`
+- `npm test`
+- `data:check`
+- `build`
+- vintage-kana health check
+- Playwright Chromium / WebKit のインストール
+- `check:font`
+- `check:font-assets`
+- `check:font-weight`
+- `check:overflow`
+  - 1800/1800 合格
+- `check:conj-layout`
+  - 違反0、全件合格
+
+途中で一度 `npm test` が百人一首側 `history-motion.ts` の `window is not defined` で失敗したが、同一コミットの再実行では通常テスト群が全件通過したため、今回の conj 差分とは無関係な一時的失敗とみている。
+
+`check:conj-quiz` Chromium は一度 360×640 のレイアウト回帰を検出し、その後バッジ小型化修正を入れた。最新CIで再検査中。
+
+### 停止時点の最新コミット
+
+- `7190805d6b798a1e553fb7064df4963a51f0815e`
+  - `fix(conj): keep stage badge within compact toolbar height`
+
+このコミットに対する最新CI:
+- run: `37344028280`
+- 停止時点では `check:overflow` 実行中
+- Chromium / WebKit の `check:conj-quiz` はまだ最新コミットでは完了していない
+
+### 再開時に最初にすること
+
+1. PR #84 / branch `codex/conj-settings-stage-20261006` の最新CI `37344028280` を確認する。
+2. `check:conj-quiz` Chromium が通っているか確認。
+3. 続く WebKit の `check:conj-quiz -- --webkit` が通っているか確認。
+4. `scan:publish` まで含め CI 全体が緑なら、差分8ファイルに範囲UI変更が混じっていないことを再確認する。
+5. HANDOFF のこの節に最終検査結果・最終コミット・PR状態を追記する。
+6. 今回は §39 の1だけなので、PR #84 を完成させたら次回は §39 の2「範囲を全モード共通にし、品詞を範囲チップへ置換」へ進む。
+
+### 再開用の一文
+
+> GitHub `yama-books/koten` の PR #84（branch `codex/conj-settings-stage-20261006`）から再開。まず `conj/HANDOFF.md` §40 を読み、最新CI run `37344028280` の結果を確認する。今回の範囲は §39「実装の順番」1だけで、範囲チップ等の2番目のPRは混ぜない。Chromium / WebKit の `check:conj-quiz` と §36 の検査がすべて緑になってから、HANDOFF に最終結果を追記してPR #84 を完成させる。
