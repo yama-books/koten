@@ -2176,3 +2176,74 @@ PR差分は現時点で8ファイルだけ。
 4. Chromium失敗なら、その失敗だけを切り分ける。複数の推測修正をまとめて入れない。
 5. §39「実装の順番」2以降には進まない。
 
+
+
+### 2026-10-06 現在地確認・停止記録（ChatGPT）
+
+ユーザー指示により、GitHub 上の最新正本を確認し、ここで停止する。コード変更・§39「実装の順番」2以降への着手は行わない。
+
+#### PR #84 の現在地
+
+- PR: #84 `conj: 設定タブと学習段階の自動調整を追加`
+- 状態: **open / mergeable / not merged**
+- branch: `codex/conj-settings-stage-20261006`
+- base: `main`
+- 確認時 head: `85f9ad47f75a062e1aa54417ef4e80aab5ef8571`
+  - message: `fix(conj): refit quiz text after layout settles`
+
+前回の引継ぎ記録 `2337121f24bcda035ec4b62ede3e52582d602e6d` 以降にも、Chromium 360×640 の縦書き例文 overflow を収束させるための小刻みな修正・revert・診断が行われている。
+
+主な追加コミット:
+- `8f839727e967349c361ce810eeb06239104e931c` — `fix(conj): inset vertical quiz text on phones`
+- `c50620aab7c433f70e5257a7cb13dde731ebe535` — `revert(conj): keep phone quiz text box unchanged`
+- `2f32591f97437cf93a03655e947a3dd4419cd6dc` — `fix(conj): allow final quiz text fit below 9px`
+- `9d1a81cc4801bf4efcffe6ff1b4c9af07b3419f9` — `test(conj): report quiz overflow geometry`
+- `ea097c874e6085641fb525c9a8649bca1a235f42` — `revert(conj): keep established quiz text floor`
+- `85f9ad47f75a062e1aa54417ef4e80aab5ef8571` — `fix(conj): refit quiz text after layout settles`
+
+#### 最新CI
+
+head `85f9ad47f75a062e1aa54417ef4e80aab5ef8571` に対する GitHub Actions:
+
+- run: `37351083529`
+- workflow: `CI`
+- verify job: **success**
+- CI全体: **success**
+
+成功を確認した工程:
+- `check:eol`
+- `npm ci`
+- `typecheck`
+- `lint`
+- `npm test`
+- `data:check`
+- `build`
+- vintage-kana health check
+- Playwright Chromium / WebKit install
+- `check:font`
+- `check:font-assets`
+- `check:font-weight`
+- `check:overflow`
+- `check:conj-layout`
+- Chromium `check:conj-quiz`
+- WebKit `check:conj-quiz -- --webkit`
+- `check:vintage-kana-record`
+- `scan:publish`
+
+したがって、前回未確定だった Chromium / WebKit の `check:conj-quiz` は、最新 head では**両方とも成功**している。
+
+#### 停止位置
+
+- §39「実装の順番」1の実装について、最新CIは全緑。
+- ただし PR #84 はまだ **open / not merged**。
+- この確認ではPR差分9ファイルの最終スコープ監査や merge は行っていない。
+- §39「実装の順番」2「範囲を全モード共通にし、品詞を範囲チップへ置換」には進んでいない。
+
+#### 次回の最小開始点
+
+1. PR #84 の head が本記録以降に動いていないか確認。
+2. 最新CIが引き続き success であることを確認。
+3. PR #84 の差分9ファイルについて、§39「実装の順番」2以降の変更が混入していないことだけ最終監査する。
+4. 問題がなければ PR #84 を完成・mergeする。
+5. merge後に main / CI / HANDOFF を記録してから、別PRとして §39「実装の順番」2へ進む。
+
