@@ -364,6 +364,16 @@ export function buildRowChoices(masterEntries, typeChoice) {
     .map((row) => ({ canonical: row, label: row }));
 }
 
+// 行を先に答えられるよう、並んでいる活用の種類のどれかに実在する行をまとめて五十音順に出す。
+export function buildRowChoicesForTypes(masterEntries, typeChoices) {
+  const rows = new Map();
+  for (const choice of typeChoices || []) {
+    for (const row of buildRowChoices(masterEntries, choice)) rows.set(row.canonical, row);
+  }
+  const rank = (row) => (ROW_ORDER.includes(row) ? ROW_ORDER.indexOf(row) : ROW_ORDER.length);
+  return [...rows.values()].sort((a, b) => rank(a.canonical) - rank(b.canonical) || a.canonical.localeCompare(b.canonical, "ja"));
+}
+
 export function evaluateAnswer({
   quizMode,
   example,

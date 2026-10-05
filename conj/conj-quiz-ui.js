@@ -7,7 +7,7 @@ function isIdentificationMode(){return document.getElementById('quizMode').value
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261005-13'),import('./conj-quiz-adapter.mjs?v=20261005-13')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261006-18'),import('./conj-quiz-adapter.mjs?v=20261006-18')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
@@ -35,6 +35,7 @@ async function initQuizUI(){
   }catch(_error){quizLoadFailed=true;}
   for(const [id,value] of Object.entries(quizSettings)) document.getElementById(id).value=value;
   document.getElementById('quizMode').disabled=false;
+  document.getElementById('closeQuizTable').addEventListener('click',()=>document.getElementById('quizTableDialog').close());
   const shortcut=document.getElementById('openQuizModes');shortcut.hidden=false;
   shortcut.addEventListener('click',()=>{
     const dialog=document.getElementById('settingsDialog');dialog.showModal();document.getElementById('quizMode').focus();
@@ -87,9 +88,11 @@ function nextQuizQuestion(){
   quizState.shortLabels=mode==='type' && (quizEngine.shouldUseShortTypeLabels?.(stats.quiz,ex.partOfSpeech)??false);
   quizState.masteryStage=masteryStage;
   quizRowChoices=[];
+  const tableDialog=document.getElementById('quizTableDialog');if(tableDialog.open)tableDialog.close();
   document.getElementById('quizChoices').scrollTop=0;
   if(quizAutoScrolled){quizAutoScrolled=false;window.scrollTo({top:0});}
   quizChoices=mode==='form'?quizEngine.buildFormChoices():quizEngine.buildTypeChoices({example:ex,masterEntries:quizMaster,scope:quizState.choiceScope});
+  quizRowChoices=mode==='type'?quizEngine.buildRowChoicesForTypes(quizMaster,quizChoices):[];
   render();
 }
 
@@ -132,6 +135,7 @@ function renderQuizUI(){
   document.getElementById('quizEmpty').hidden=!active || !!quizState;
   card.querySelector('.study-layout').style.display=active&&!quizState?'none':'';
   for(const id of ['lemma','lemmaAid','kind','posTag']) document.getElementById(id).style.display=active&&!quizState?'none':'';
+  placeQuizTable();
   if(!active){
     document.getElementById('showExample').disabled=false;
     document.getElementById('reveal').textContent='答えを見る';
@@ -153,8 +157,14 @@ function renderQuizUI(){
   }
   applyQuizTableMask();
   renderQuizChoices();renderQuizRowAnswer();
-  document.getElementById('reveal').textContent=quizState.hintLevel===0?'ヒントを見る':'表全体を見る';
-  document.getElementById('reveal').style.display=quizState.answered||quizState.hintLevel===2?'none':'inline-block';
+  if(quizTableInDialog()){
+    // 表はダイアログで見せるので、ヒントを使い切ったあとや回答後も「表を見る」で開き直せる。
+    document.getElementById('reveal').textContent=quizState.hintLevel===0&&!quizState.answered?'ヒントを見る':'表を見る';
+    document.getElementById('reveal').style.display='inline-block';
+  }else{
+    document.getElementById('reveal').textContent=quizState.hintLevel===0?'ヒントを見る':'表全体を見る';
+    document.getElementById('reveal').style.display=quizState.answered||quizState.hintLevel===2?'none':'inline-block';
+  }
   document.getElementById('check').style.display='none';
   document.getElementById('next').style.display=quizState.answered?'inline-block':'none';
   requestAnimationFrame(()=>{syncQuizFormChoiceHeight();syncStudyHeights();});
@@ -182,15 +192,43 @@ function syncQuizFormChoiceHeight(){
   if(h>0)card.style.setProperty('--quiz-form-h',h+'px');
 }
 
+// 列数・段数。用言は正式名でも略称でも、右から正格活用・変格活用・形容詞と形容動詞の列に分ける（ない列は詰める）。
+function quizChoicePlacement(choices,short,mode){
+  if(mode==='form')return {columns:1,rows:choices.length,cells:null};
+  const group=c=>c.partOfSpeech==='動詞'?(/変$/.test(c.family||'')?1:0):c.partOfSpeech==='助動詞'?-1:2;
+  if(choices.every(c=>group(c)>=0)){
+    // 列ごとの個数が違っても列の高さを揃える：段数を個数の最小公倍数にし、各ボタンに均等に割り付ける
+    // （正格5つ・変格4つなら20段を、4段ずつと5段ずつに分ける）。
+    const present=[...new Set(choices.map(group))].sort();
+    const sizes=new Map();choices.forEach(c=>sizes.set(group(c),(sizes.get(group(c))||0)+1));
+    const gcd=(a,b)=>b?gcd(b,a%b):a;
+    const rows=[...sizes.values()].reduce((a,b)=>a*b/gcd(a,b),1);
+    const seen=new Map();
+    const cells=choices.map(c=>{const g=group(c);const i=seen.get(g)||0;seen.set(g,i+1);const span=rows/sizes.get(g);
+      return {column:present.indexOf(g)+1,row:`${i*span+1} / span ${span}`};});
+    return {columns:present.length,rows,cells,grouped:true};
+  }
+  const columns=choices.length<=4?2:3;
+  return {columns,rows:Math.ceil(choices.length/columns),cells:null};
+}
 function renderQuizChoices(){
   const box=document.getElementById('quizChoices');const scrollTop=box.scrollTop;box.replaceChildren();
   box.dataset.count=String(quizChoices.length);
   box.dataset.mode=quizState.quizMode;
-  // 活用の種類は右上から左へ並べる：4つまでは2列、それより多ければ3列。3×3を超えるときは略称にする。
-  box.dataset.columns=quizState.quizMode==='form'?'1':quizChoices.length<=4?'2':'3';
-  const short=quizState.shortLabels||quizChoices.length>9;
-  quizChoices.forEach(choice=>{
+  // 縦書きの文書と同じ順：右の列の上から下へ、次に左の列へ。4つまでは2列、それより多ければ3列。
+  // 3×3を超えるときは略称にする。用言は正格活用・変格活用・形容詞と形容動詞の列に分ける。
+  // 行も答えるときは種類を略称にする（行の欄と並べても横幅に収めるため）。
+  const asksRow=quizState.quizMode==='type'&&quizState.rowMode!=='omitted'&&quizChoices.some(c=>c.rowRequired);
+  const short=quizState.shortLabels||quizChoices.length>9||asksRow;
+  const placement=quizChoicePlacement(quizChoices,short,quizState.quizMode);
+  box.dataset.columns=String(placement.columns);
+  box.toggleAttribute('data-grouped',!!placement.grouped);
+  box.style.gridTemplateRows=placement.grouped?`repeat(${placement.rows},minmax(0,1fr))`:`repeat(${placement.rows},auto)`;
+  box.style.gridAutoFlow='column';
+  quizChoices.forEach((choice,index)=>{
     const button=document.createElement('button');button.type='button';button.className='quiz-choice';
+    const cell=placement.cells?.[index];
+    if(cell){button.style.gridColumn=String(cell.column);button.style.gridRow=cell.row;}
     button.dataset.canonical=choice.canonical;
     button.setAttribute('aria-pressed',String(quizState.selectedAnswer===choice.canonical));
     const visibleLabel=short?choice.label:(choice.formalLabel||choice.label);
@@ -208,11 +246,11 @@ function renderQuizChoices(){
       }
     }
     button.disabled=quizState.answered;
+    // 行と活用の種類は、どちらを先に答えてもよい。両方そろった時点で採点する。
     button.addEventListener('click',()=>{
       if(quizState.answered)return;
-      if(quizState.selectedAnswer!==choice.canonical){quizState.selectedRow=null;quizRowChoices=quizEngine.buildRowChoices(quizMaster,choice);}
       quizState.selectedAnswer=choice.canonical;
-      if(quizState.quizMode==='type' && quizState.rowMode!=='omitted' && choice.rowRequired){
+      if(quizState.quizMode==='type' && quizState.rowMode!=='omitted' && choice.rowRequired && !String(quizState.selectedRow||'').trim()){
         renderQuizUI();
         (document.getElementById('quizRowInput')||document.querySelector('#quizRowAnswer button'))?.focus({preventScroll:true});
       }else gradeQuiz();
@@ -222,24 +260,42 @@ function renderQuizChoices(){
   box.scrollTop=scrollTop;
 }
 
+// 行の欄は、動詞の問題で行も答える設定のとき、活用の種類の右に先に置く（縦書きの読む順で行→種類）。
+// 候補は並んでいる種類に実在する行で、7つずつの縦の列にする。
 function renderQuizRowAnswer(){
   const box=document.getElementById('quizRowAnswer');box.replaceChildren();
-  const choice=quizChoices.find(c=>c.canonical===quizState.selectedAnswer);
-  box.hidden=quizState.quizMode!=='type'||quizState.rowMode==='omitted'||!choice?.rowRequired;
+  box.hidden=quizState.quizMode!=='type'||quizState.rowMode==='omitted'||!quizChoices.some(c=>c.rowRequired);
   if(box.hidden)return;
-  const label=document.createElement('label');label.textContent='行も答える';box.append(label);
+  const head=document.createElement('label');head.className='quiz-row-head';head.textContent='行';box.append(head);
+  const tryGrade=()=>{if(quizState.selectedAnswer)gradeQuiz();};
   if(quizState.rowMode==='input'){
     const input=document.createElement('input');input.className='quiz-row-input';input.id='quizRowInput';input.maxLength=3;
-    input.setAttribute('aria-label','動詞の行');input.placeholder='例：カ';input.value=quizState.selectedRow||'';input.disabled=quizState.answered;
-    label.htmlFor=input.id;
+    input.setAttribute('aria-label','動詞の行');input.placeholder='カ';input.value=quizState.selectedRow||'';input.disabled=quizState.answered;
+    head.htmlFor=input.id;
     input.addEventListener('input',()=>{quizState.selectedRow=input.value;});
+    input.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.isComposing){event.preventDefault();tryGrade();}});
+    input.addEventListener('change',tryGrade);
     box.append(input);return;
   }
+  const grid=document.createElement('div');grid.className='quiz-row-grid';grid.setAttribute('role','group');grid.setAttribute('aria-label','動詞の行');
+  grid.style.gridTemplateRows=`repeat(${Math.min(7,Math.max(1,quizRowChoices.length))},auto)`;
+  const answerRow=quizState.answered?quizEngine.rowForType(quizState.example.conjugationType):null;
   quizRowChoices.forEach(row=>{
-    const button=document.createElement('button');button.type='button';button.className='quiz-row-choice';button.textContent=row.label+'行';button.dataset.row=row.canonical;
+    const button=document.createElement('button');button.type='button';button.className='quiz-row-choice';button.textContent=row.label;button.dataset.row=row.canonical;
+    button.setAttribute('aria-label',row.label+'行');
     button.setAttribute('aria-pressed',String(quizState.selectedRow===row.canonical));button.disabled=quizState.answered;
-    button.addEventListener('click',()=>{quizState.selectedRow=row.canonical;gradeQuiz();});box.append(button);
+    if(quizState.answered && answerRow){
+      button.classList.toggle('is-correct',row.canonical===answerRow);
+      button.classList.toggle('is-wrong',row.canonical!==answerRow&&quizState.selectedRow===row.canonical);
+    }
+    button.addEventListener('click',()=>{
+      if(quizState.answered)return;
+      quizState.selectedRow=row.canonical;
+      if(quizState.selectedAnswer)gradeQuiz();else renderQuizUI();
+    });
+    grid.append(button);
   });
+  box.append(grid);
 }
 
 function gradeQuiz(){
@@ -271,7 +327,30 @@ function gradeQuiz(){
 }
 function hintQuiz(){
   if(!quizState)return;
+  if(quizTableInDialog()){
+    if(!quizState.answered&&quizState.hintLevel<2){quizState=quizEngine.requestNextHint(quizState);renderQuizUI();}
+    const dialog=document.getElementById('quizTableDialog');
+    if(!dialog.open)dialog.showModal();
+    return;
+  }
   quizState=quizEngine.requestNextHint(quizState);renderQuizUI();revealQuizActions();
+}
+// 行も答える問題では、スマホ幅だと 例文｜行｜種類｜表 が入りきらず例文が読めない大きさまで縮む。
+// そのときだけ活用表をダイアログへ移して見せる（6段表の DOM はそのまま移し、作り直さない）。
+function quizTableInDialog(){
+  return isIdentificationMode()&&!!quizState&&window.innerWidth<=700&&quizState.quizMode==='type'
+    &&quizState.rowMode!=='omitted'&&quizChoices.some(c=>c.rowRequired);
+}
+function placeQuizTable(){
+  const panel=document.getElementById('tablePanel');
+  const body=document.getElementById('quizTableDialogBody');
+  const inDialog=quizTableInDialog();
+  document.querySelector('main.card').classList.toggle('quiz-table-dialog-mode',inDialog);
+  if(inDialog&&panel.parentElement!==body)body.append(panel);
+  if(!inDialog&&panel.parentElement===body){
+    const dialog=document.getElementById('quizTableDialog');if(dialog.open)dialog.close();
+    document.getElementById('quizAnswerPanel').before(panel);
+  }
 }
 // Hints and grading add the table and the answer, which can push the buttons
 // below a short screen. Scroll just enough to keep them reachable, and return

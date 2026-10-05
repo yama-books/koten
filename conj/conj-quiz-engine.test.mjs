@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import {
   QUIZ_MODE, CHOICE_SCOPE, ROW_MODE, SUPPORT_LEVEL,
   shortTypeLabel, splitVerbType, buildTypeChoices, buildFormChoices, buildRowChoices, evaluateAnswer,
-  buildHintMask, evidenceWeight, isPublicQuizEligible, formalTypeLabel
+  buildHintMask, evidenceWeight, isPublicQuizEligible, formalTypeLabel, buildRowChoicesForTypes
 } from "./conj-quiz-engine.mjs";
 
 assert.equal(shortTypeLabel("カ行上二段活用"), "上二");
@@ -58,6 +58,9 @@ assert.equal(evaluateAnswer({quizMode:QUIZ_MODE.TYPE,example:shiku,selectedType:
 assert.deepEqual(buildFormChoices().map(x=>x.canonical),["未然形","連用形","終止形","連体形","已然形","命令形"]);
 assert.deepEqual(buildRowChoices([{conjugationType:"ラ行四段活用",partOfSpeech:"動詞"},{conjugationType:"カ行四段活用",partOfSpeech:"動詞"},{conjugationType:"ハ行四段活用",partOfSpeech:"動詞"}],{rowRequired:true,family:"四"}).map(x=>x.canonical),["カ","ハ","ラ"]);
 
+// 行は活用の種類より先にも答えられるよう、並んだ種類に実在する行をまとめて出す。
+const rowMaster=[{conjugationType:"ラ行四段活用",partOfSpeech:"動詞"},{conjugationType:"カ行上二段活用",partOfSpeech:"動詞"},{conjugationType:"ハ行四段活用",partOfSpeech:"動詞"},{conjugationType:"カ行変格活用",partOfSpeech:"動詞"}];
+assert.deepEqual(buildRowChoicesForTypes(rowMaster,[{rowRequired:true,family:"四"},{rowRequired:true,family:"上二"},{rowRequired:false,family:"カ変"}]).map(x=>x.canonical),["カ","ハ","ラ"]);
 const eval1=evaluateAnswer({
   quizMode:QUIZ_MODE.TYPE,example:ex,selectedType:"カ行上二段活用",
   selectedRow:"カ",rowMode:ROW_MODE.SELECT
