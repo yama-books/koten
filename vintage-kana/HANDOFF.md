@@ -786,4 +786,15 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - 最初に誤って main へ修正コミット `6abdf90c` を入れたが、直後に `ce7775a9` で
   index.html を完全に元の blobへ復帰した。main の機能差分は残っていない。
 - 実修正は `vintage-kana-flash-fix-20261006` に置き直した。
+### 公開完了（2026-10-06）
+
+- 修正PR: #88 `vintage-kana: 閃光中に字形を切り替え、欠字グリフを防ぐ`
+- main マージコミット: `f20edd426ea3ccde45af96bffcca2d909baad897`
+- Deploy Pages: run `37433905081`、build / deploy とも success。
+- Pages artifact `github-pages` は head SHA `f20edd426ea3ccde45af96bffcca2d909baad897` から生成され、deploy済み。
+- `main` の `vintage-kana/index.html` で `p > .43` の早期切替が消え、`p > .88` の閃光内切替、切替フレーム `opacity=0`、対象変体仮名字形の事前 font load を再確認。
+- HTML内JavaScript構文、typecheck、lint、npm test、data:check、build、Hentaigana Life health check、font / font-assets / font-weight は成功。
+- 共通CIの `check:overflow` は今回変更前の main（`07bdb9d9`）でも同じ箇所で失敗している既知ベースライン不具合。今回の修正由来ではない。
+
+これにより、今回の2件（閃光より前に字形が変わる／切替瞬間の欠字グリフ）は公開処理まで完了。
 
