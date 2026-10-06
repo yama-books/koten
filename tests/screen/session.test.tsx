@@ -160,9 +160,11 @@ test('session: pressing Enter and clicking 結果を見る hands over the result
 test('session: feedback waits for an explicit action', async () => { await mount(); expect(root!.textContent).not.toContain('正解'); });
 test('session: answer field has a label and example', async () => { await mount(); expect(root!.textContent).toContain('答え'); expect(root!.textContent).toContain('歴史的仮名遣いで答えてください（ひらがな可）'); });
 
-test('session: 作者問題は固定順の候補を選び、choice と author の記録で即時答え合わせする', async () => {
+test('session: 作者問題は候補をランダム配置し、choice と author の記録で即時答え合わせする', async () => {
   const p = port(); await mountWith({ questions: authorChoice, port: p, poems: [] });
-  expect(Array.from(root!.querySelectorAll('.answer-choices button')).map((button) => button.textContent)).toEqual(['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人']);
+  const displayedCandidates = Array.from(root!.querySelectorAll('.answer-choices button')).map((button) => button.textContent);
+  expect(displayedCandidates).toHaveLength(authorChoice[0].candidates.length);
+  expect([...displayedCandidates].sort()).toEqual([...authorChoice[0].candidates].sort());
   expect(root!.querySelectorAll('.question-poem--author .question-line')).toHaveLength(1);
   expect(root!.querySelector('.question-poem--author')?.textContent).toContain('春すぎて夏来にけらし白妙の衣ほすてふ天の香具山');
   expect(root!.querySelector('input[placeholder]')).toBeNull();
