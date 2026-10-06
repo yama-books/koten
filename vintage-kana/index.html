@@ -905,20 +905,6 @@ async function settleKeyboard(){
   }
   window.scrollTo(0,0);
 }
-async function ensureMotionTargetFont(mode,text){
-  if(mode!=="forward"||!document.fonts?.load)return;
-  const sample=[...text].filter(ch=>ch!=="\n").join("");
-  if(!sample)return;
-  try{
-    // Force the exact Hentaigana glyphs needed for this run into the font cache
-    // before animation starts. This prevents a transient missing-glyph box while
-    // the webfont swaps in at the transformation flash.
-    await document.fonts.load('600 76px "Noto Serif Hentaigana"',sample);
-  }catch(err){
-    console.warn("[hentaigana-font] preload failed",err);
-  }
-}
-
 async function play(){
   if(running)return;
   running=true;
@@ -935,9 +921,6 @@ async function play(){
   const motionOut=out.replace(/\n/g,"");
   const targetFontFamily=targetFontFor(mode);
   label.textContent=mode==="reverse"?"HIRAGANA":"HENTAIGANA";
-
-  await ensureMotionTargetFont(mode,motionOut);
-  if(token!==playToken)return;
 
   stage.classList.add("active");
   ensureRushLines();
@@ -1918,9 +1901,7 @@ async function play(){
       el.style.opacity=String(lerp(1,.04,lightVanish));
       el.style.filter=`brightness(${1+lightVanish*6.5+peak*2.4}) blur(${lightVanish*3.8+peak*.9}px)`;
 
-      // Swap glyphs only at the near-opaque flash peak, after the old glyphs
-      // have almost vanished. The character change is therefore hidden by light.
-      if(p>.88&&!el.dataset.converted){
+      if(p>.43&&!el.dataset.converted){
         el.textContent=[...motionOut][i]||el.textContent;
         el.style.fontFamily=targetFontFamily;
         el.dataset.converted="1";
