@@ -89,6 +89,26 @@ function hasKanaDifference(question: PublishedQuestion): boolean {
   return question.answerHistorical !== question.answerModern;
 }
 
+/**
+ * 作者の選択肢は、生成データの並び順をそのまま見せない。
+ * 生成側は近い歌の作者を候補にするため、中央付近の歌では正解が3番目に固定されやすい。
+ * Fisher-Yates で表示順だけを混ぜ、同じ問題の表示中は useMemo で順序を保持する。
+ */
+export function shuffleCandidates(
+  candidates: readonly string[],
+  random: () => number = Math.random,
+): readonly string[] {
+  const shuffled = [...candidates];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [
+      shuffled[swapIndex]!,
+      shuffled[index]!,
+    ];
+  }
+  return shuffled;
+}
+
 function PromptLine({
   line,
   answer,
@@ -196,6 +216,10 @@ export function Session({
   }, [confirmExit]);
   const question =
     questions[Math.min(flow.questionIndex, questions.length - 1)];
+  const authorCandidates = useMemo(
+    () => shuffleCandidates(question?.candidates ?? []),
+    [question?.questionId, question?.candidates],
+  );
   const isExam = entry === "exam";
   // 答え合わせを終えた問も数える。最後の問を答え合わせした時点で 100% になる——
   // 以前は完了の画面だけが 100% を見せていた（2026-10-02 にその画面を外した）。
@@ -780,7 +804,7 @@ export function Session({
                  */
                 <div class="answer-choices" aria-label="作者を選ぶ">
                   {displayFlow.phase !== "revealed" && <p>作者を選んでください。</p>}
-                  {question.candidates.map((candidate) => {
+                  {authorCandidates.map((candidate) => {
                     const revealedChoice = displayFlow.phase === "revealed";
                     const chosen = revealedChoice && displayFlow.submitted?.input === candidate;
                     const isAnswerChoice = revealedChoice && candidate === question.answer;

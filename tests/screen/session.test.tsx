@@ -6,7 +6,7 @@ import { parseQuestions, type PublishedQuestion } from '../../packages/hyakunin/
 import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
 import { appConfig } from '../../packages/shared/src/app-config.ts';
 import { ReadingToggle } from '../../packages/hyakunin/src/ui/components/ReadingToggle.tsx';
-import { Session } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
+import { Session, shuffleCandidates } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
 
 let root: HTMLDivElement | undefined;
 const settings = { key: 'user' as const, reading: 'no-ruby' as const, writing: 'vertical' as const, order: 'number' as const, soundEnabled: false, noticeConfirmed: false };
@@ -17,6 +17,15 @@ const fixture = parseQuestions([
 const authorChoice = parseQuestions([
   { questionId: 'q10-author-choice', poemId: 'p010', skill: 'author', type: 'author', blankUnit: null, blankedKu: [], rung: null, prompt: '春すぎて夏来にけらし白妙の衣ほすてふ天の香具山', answer: '持統天皇', answerHistorical: '持統天皇', answerModern: '持統天皇', acceptedAnswers: ['持統天皇'], partialAnswers: [], candidates: ['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人'], normalization: 'exact', note: null, sourceRef: 'fixture', reviewStatus: 'human-confirmed', confirmationMode: 'individual', confirmedBy: 'tester', confirmedOn: '2026-09-01', proposedBy: 'tester', batchEvidenceRef: null },
 ] as PublishedQuestion[]);
+
+test('session: 作者選択肢は生成データの固定位置からシャッフルできる', () => {
+  const candidates = ['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人', '猿丸大夫'];
+  const shuffled = shuffleCandidates(candidates, () => 0);
+  expect(shuffled).toEqual(['持統天皇', '柿本人麻呂', '山部赤人', '猿丸大夫', '天智天皇']);
+  expect(shuffled.indexOf('柿本人麻呂')).not.toBe(2);
+  expect(candidates).toEqual(['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人', '猿丸大夫']);
+});
+
 function port() { return { ...createMemoryPort(), saveLocalReport: async () => true }; }
 async function mount(customPort = port()) { root = document.createElement('div'); document.body.append(root); await act(async () => { render(<Session questions={fixture} sessionId="s" port={customPort} settings={settings} onSettings={() => {}} onComplete={() => {}} />, root!); }); return root; }
 async function answer(value: string) { const input = root!.querySelector('input[placeholder]') as HTMLInputElement; await act(() => { input.value = value; input.dispatchEvent(new InputEvent('input', { bubbles: true, data: value, inputType: 'insertText' })); }); await act(async () => { root!.querySelector('button.primary')!.dispatchEvent(new MouseEvent('click', { bubbles: true })); await Promise.resolve(); }); }
@@ -213,6 +222,7 @@ test('077: 作者問題の「わからない！」は閲覧保存の成功後だ
 test('077: 作者問題の「わからない！」は保存失敗時に正解を開示せず再試行できる', async () => {
   const failing = { ...port(), appendEvent: async () => ({ reason: 'write-failed' as const }) };
   await mountWith({ entry: 'author', questions: authorChoice, port: failing, poems: [] });
+  const choicesBefore = Array.from(root!.querySelectorAll('.answer-choices button')).map((button) => button.textContent);
   await act(async () => {
     Array.from(root!.querySelectorAll('button')).find((button) => button.textContent === 'わからない！')!.click();
     await Promise.resolve();
@@ -220,7 +230,9 @@ test('077: 作者問題の「わからない！」は保存失敗時に正解を
   expect(root!.textContent).toContain('保存に失敗しました');
   expect(root!.textContent).not.toContain('要確認！');
   expect(root!.textContent).not.toContain('正解：持統天皇');
-  expect(Array.from(root!.querySelectorAll('.answer-choices button')).map((button) => button.textContent)).toEqual(authorChoice[0].candidates);
+  const choicesAfter = Array.from(root!.querySelectorAll('.answer-choices button')).map((button) => button.textContent);
+  expect(choicesAfter).toEqual(choicesBefore);
+  expect([...choicesAfter].sort()).toEqual([...authorChoice[0].candidates].sort());
   expect(Array.from(root!.querySelectorAll('button')).some((button) => button.textContent === 'わからない！')).toBe(true);
 });
 
