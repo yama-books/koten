@@ -115,16 +115,32 @@ function takeAcrossCards(available: readonly PublishedQuestion[], cardNumbers: r
 /**
  * その首の作者問題を、いまの習熟度に合った 1 問へ絞る。
  *
- * **初回（0）は必ず選択式である。** 候補の順序まで生成データで確定した 4〜5 択を初回に出すのは
- * 裁定であり、これを壊さない。上げるのは**選択式の上限に達した首だけ**——上限とは
- * 「その方式ではもう伸びない点」なので、学習者が進めなくなったその瞬間に方式が上がる。
- * 閾値を上限そのものから引いているので、`rules.v1.ts` を直せばここも一緒に動く。
+ * **初回（0）は必ず5択の選択式である。** 習熟度が上がるにつれて 6→7→8 択へ増え、
+ * 選択式の上限に達した首だけ自由入力へ上がる。上限とは「その方式ではもう伸びない点」なので、
+ * 学習者が進めなくなったその瞬間に方式が上がる。
+ * 最終閾値は `MASTERY_RULES.choice.cap` から取るので、方式の上限と食い違わない。
  *
  * **降格を許す**（依頼者裁定・2026-09-09）。自由入力で誤答して上限を割った首は選択式へ戻る。
  *
  * kana（上限 80）の段は置かない。`kanji-to-kana` を記録する経路が出題画面に無く、
  * 出しても自由入力として記録されるので、段が段として働かないためである。
  */
+export const AUTHOR_CHOICE_STEPS: ReadonlyArray<Readonly<{ below: number; count: number }>> = [
+  { below: 20, count: 5 },
+  { below: 35, count: 6 },
+  { below: 50, count: 7 },
+  { below: MASTERY_RULES.choice.cap, count: 8 },
+];
+
+/**
+ * 作者選択式の候補数（依頼者・2026-10-06）。
+ * 0–19: 5択 / 20–34: 6択 / 35–49: 7択 / 50–64: 8択。
+ * 65以上は通常は自由入力へ上がるが、「やさしくする」で選択式へ戻した場合も最大8択にする。
+ */
+export function authorChoiceCountFor(authorScore: number): number {
+  return AUTHOR_CHOICE_STEPS.find((step) => authorScore < step.below)?.count ?? 8;
+}
+
 function authorQuestionIdFor(poemId: string, authorScore: number, adjust: RungAdjust = 0): string {
   /*
    * **手動の調整は作者にも効く**（依頼者・2026-09-15）。これまでは本文の段にしか効かず、

@@ -16,7 +16,11 @@ import {
 } from "../../domain/flow.ts";
 import type { Judgement } from "../../domain/question.ts";
 import { buildEvent, buildViewEvent } from "../../domain/record.ts";
-import { rungRecordFor, type RungProgress } from "../../domain/entry.ts";
+import {
+  authorChoiceCountFor,
+  rungRecordFor,
+  type RungProgress,
+} from "../../domain/entry.ts";
 import type { OutcomeKind } from "../../domain/result.ts";
 import {
   toQuestion,
@@ -107,6 +111,39 @@ export function shuffleCandidates(
     ];
   }
   return shuffled;
+}
+
+/**
+ * 生成済みデータの5択を壊さず、表示時だけ最大8択まで候補を広げる。
+ * 正解の歌番号に近い作者を優先し、同じ作者名は重複させない。
+ * poems が無い復元・試験経路では既存 candidates の範囲へ安全に退避する。
+ */
+export function authorCandidatePool(
+  question: PublishedQuestion,
+  poems: readonly Poem[],
+): readonly string[] {
+  const cardNo = Number(question.poemId.slice(1));
+  const currentPoem = poems.find((candidate) => candidate.cardNo === cardNo);
+  const correctAuthor = currentPoem?.author?.canonical ?? question.answer;
+  const seen = new Set<string>([correctAuthor]);
+  const distractors: string[] = [];
+  const add = (candidate: string | undefined) => {
+    if (!candidate || seen.has(candidate)) return;
+    seen.add(candidate);
+    distractors.push(candidate);
+  };
+  [...poems]
+    .filter((candidate) => candidate.cardNo !== cardNo)
+    .sort(
+      (left, right) =>
+        Math.abs(left.cardNo - cardNo) - Math.abs(right.cardNo - cardNo) ||
+        left.cardNo - right.cardNo,
+    )
+    .forEach((candidate) => add(candidate.author?.canonical));
+  question.candidates.forEach((candidate) => {
+    if (candidate !== correctAuthor) add(candidate);
+  });
+  return [correctAuthor, ...distractors.slice(0, 7)];
 }
 
 function PromptLine({
@@ -216,9 +253,18 @@ export function Session({
   }, [confirmExit]);
   const question =
     questions[Math.min(flow.questionIndex, questions.length - 1)];
+  const authorScore = question
+    ? (masteryScores[`${question.poemId}:author`] ?? 0)
+    : 0;
+  const authorChoiceCount = authorChoiceCountFor(authorScore);
   const authorCandidates = useMemo(
-    () => shuffleCandidates(question?.candidates ?? []),
-    [question?.questionId, question?.candidates],
+    () =>
+      question?.type === "author" && question.candidates.length > 0
+        ? shuffleCandidates(
+            authorCandidatePool(question, poems).slice(0, authorChoiceCount),
+          )
+        : [],
+    [question?.questionId, question?.candidates, poems, authorChoiceCount],
   );
   const isExam = entry === "exam";
   // 答え合わせを終えた問も数える。最後の問を答え合わせした時点で 100% になる——
@@ -802,7 +848,11 @@ export function Session({
                  * **印は「自分の答え」にだけ付く**——選んでいない「わからない！」では、
                  * 正解に色は付くが印は付かない（依頼者裁定・2026-09-08）。
                  */
-                <div class="answer-choices" aria-label="作者を選ぶ">
+                <div
+                  class={`answer-choices${authorCandidates.length >= 7 ? " answer-choices--dense" : ""}${authorCandidates.length >= 8 ? " answer-choices--very-dense" : ""}`}
+                  aria-label="作者を選ぶ"
+                  style={{ "--author-choice-count": authorCandidates.length }}
+                >
                   {displayFlow.phase !== "revealed" && <p>作者を選んでください。</p>}
                   {authorCandidates.map((candidate) => {
                     const revealedChoice = displayFlow.phase === "revealed";

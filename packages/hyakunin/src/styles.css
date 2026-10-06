@@ -321,10 +321,36 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .answer-choices p { margin: 0; }
 .question-text--vertical + .answer-controls { width: min(100%, 30rem); margin-inline: auto; }
 /* direction: rtl の詰め先は右である。器の中で中央へ寄せないと、歌の中心から候補だけがずれる。 */
-.question-text--vertical + .answer-controls .answer-choices { display: grid; grid-template-columns: repeat(5, max-content); justify-content: center; align-items: start; overflow-x: auto; direction: rtl; }
+.question-text--vertical + .answer-controls .answer-choices {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(var(--author-choice-count, 5), minmax(0, 1fr));
+  gap: clamp(2px, 1vw, var(--space-sm));
+  justify-content: stretch;
+  align-items: start;
+  overflow-x: visible;
+  direction: rtl;
+}
 .question-text--vertical + .answer-controls .answer-choices p { grid-column: 1 / -1; direction: ltr; }
 .question-text--vertical + .answer-controls .answer-choices button { writing-mode: vertical-rl; }
 .answer-choices > :not(p) { box-sizing: border-box; min-width: 44px; min-height: 44px; }
+/*
+ * 7〜8択は横スクロールへ逃がさず、1列を細くして画面幅へ収める（依頼者・2026-10-06）。
+ * 縦書きでは名前の長さは高さ方向へ伸びるため、列幅だけを圧縮しても文字は欠けない。
+ * 44px の高さは残し、押しやすさは縦方向で確保する。
+ */
+.question-text--vertical + .answer-controls .answer-choices > :not(p) {
+  width: 100%;
+  min-width: 0;
+  padding-block: clamp(2px, 0.7vw, var(--space-2xs));
+}
+.question-text--vertical + .answer-controls .answer-choices--dense {
+  font-size: 0.95em;
+}
+.question-text--vertical + .answer-controls .answer-choices--very-dense {
+  gap: 2px;
+  font-size: 0.9em;
+}
 /*
  * 発注079: 開示後の選択肢。**押せなくするが、薄くしない**——既定の `button:disabled` は
  * opacity で全体を薄くするので、そのままでは選んだ答えも正解の色も読みにくくなる。

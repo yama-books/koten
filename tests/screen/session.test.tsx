@@ -6,7 +6,7 @@ import { parseQuestions, type PublishedQuestion } from '../../packages/hyakunin/
 import { createMemoryPort } from '../../packages/hyakunin/src/domain/ports.ts';
 import { appConfig } from '../../packages/shared/src/app-config.ts';
 import { ReadingToggle } from '../../packages/hyakunin/src/ui/components/ReadingToggle.tsx';
-import { Session, shuffleCandidates } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
+import { Session, authorCandidatePool, shuffleCandidates } from '../../packages/hyakunin/src/ui/screens/Session.tsx';
 
 let root: HTMLDivElement | undefined;
 const settings = { key: 'user' as const, reading: 'no-ruby' as const, writing: 'vertical' as const, order: 'number' as const, soundEnabled: false, noticeConfirmed: false };
@@ -24,6 +24,24 @@ test('session: 作者選択肢は生成データの固定位置からシャッ�
   expect(shuffled).toEqual(['持統天皇', '柿本人麻呂', '山部赤人', '猿丸大夫', '天智天皇']);
   expect(shuffled.indexOf('柿本人麻呂')).not.toBe(2);
   expect(candidates).toEqual(['天智天皇', '持統天皇', '柿本人麻呂', '山部赤人', '猿丸大夫']);
+});
+
+test('session: 作者候補プールは正解を残して最大8名まで広げる', () => {
+  const poems = [
+    { cardNo: 10, author: { canonical: '持統天皇' } },
+    { cardNo: 9, author: { canonical: '作者9' } },
+    { cardNo: 11, author: { canonical: '作者11' } },
+    { cardNo: 8, author: { canonical: '作者8' } },
+    { cardNo: 12, author: { canonical: '作者12' } },
+    { cardNo: 7, author: { canonical: '作者7' } },
+    { cardNo: 13, author: { canonical: '作者13' } },
+    { cardNo: 6, author: { canonical: '作者6' } },
+    { cardNo: 14, author: { canonical: '作者14' } },
+  ] as never[];
+  const pool = authorCandidatePool(authorChoice[0], poems);
+  expect(pool).toHaveLength(8);
+  expect(pool[0]).toBe('持統天皇');
+  expect(new Set(pool).size).toBe(8);
 });
 
 function port() { return { ...createMemoryPort(), saveLocalReport: async () => true }; }
@@ -159,6 +177,29 @@ test('session: 作者問題は歌を五つの縦書き列の器へ載せ、候�
   expect(root!.querySelectorAll('.question-poem--author .question-line')).toHaveLength(5);
   expect(root!.querySelectorAll('.answer-choices button.primary')).toHaveLength(0);
   expect(root!.textContent).toContain('わからない！');
+});
+
+test('session: 作者習熟度50以上では8択を1行に収める設定で表示する', async () => {
+  const ku = ['春すぎて', '夏来にけらし', '白妙の', '衣ほすてふ', '天の香具山'];
+  const poems = [
+    { cardNo: 10, author: { canonical: '持統天皇' }, ku, reading: { historical: { ku }, modern: { ku } } },
+    { cardNo: 9, author: { canonical: '作者9' } },
+    { cardNo: 11, author: { canonical: '作者11' } },
+    { cardNo: 8, author: { canonical: '作者8' } },
+    { cardNo: 12, author: { canonical: '作者12' } },
+    { cardNo: 7, author: { canonical: '作者7' } },
+    { cardNo: 13, author: { canonical: '作者13' } },
+    { cardNo: 6, author: { canonical: '作者6' } },
+  ] as never[];
+  await mountWith({
+    questions: authorChoice,
+    poems,
+    masteryScores: { 'p010:author': 50 },
+  });
+  const choices = root!.querySelector('.answer-choices') as HTMLElement;
+  expect(choices.querySelectorAll('button')).toHaveLength(8);
+  expect(choices.classList.contains('answer-choices--very-dense')).toBe(true);
+  expect(choices.style.getPropertyValue('--author-choice-count')).toBe('8');
 });
 
 test('session: 本番の作者選択は途中で正誤を出さない', async () => {

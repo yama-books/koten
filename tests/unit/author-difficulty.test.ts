@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { planQuestions } from '../../packages/hyakunin/src/domain/entry.ts';
+import { authorChoiceCountFor, planQuestions } from '../../packages/hyakunin/src/domain/entry.ts';
 import { MASTERY_RULES } from '../../packages/shared/src/domain/mastery/rules.v1.ts';
 import type { PublishedQuestion } from '../../packages/hyakunin/src/data/question-schema.ts';
 
@@ -50,4 +50,16 @@ test('作者: 漢字候補→ひらがなの段はまだ出さない', () => {
   for (const adjust of [-7, -2, -1, 0, 1, 2, 7]) {
     assert.notEqual(asked(60, adjust), 'p001-author-kana');
   }
+});
+
+test('作者: 習熟度が上がると選択肢が 5→6→7→8 と増える', () => {
+  assert.equal(authorChoiceCountFor(0), 5);
+  assert.equal(authorChoiceCountFor(19), 5);
+  assert.equal(authorChoiceCountFor(20), 6);
+  assert.equal(authorChoiceCountFor(34), 6);
+  assert.equal(authorChoiceCountFor(35), 7);
+  assert.equal(authorChoiceCountFor(49), 7);
+  assert.equal(authorChoiceCountFor(50), 8);
+  assert.equal(authorChoiceCountFor(MASTERY_RULES.choice.cap - 1), 8);
+  assert.equal(authorChoiceCountFor(MASTERY_RULES.choice.cap), 8);
 });
