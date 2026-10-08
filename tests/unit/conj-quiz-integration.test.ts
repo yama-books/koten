@@ -246,3 +246,56 @@ test('quiz: weighted draw preserves attention proportion while avoiding repeats 
   }
   assert.ok(Math.abs(attention/10000-1.3/3.3)<.001);
 });
+
+
+test('quiz: mixed choices never require a row for non-verbs, including a wrong verb selection',()=>{
+  for(const partOfSpeech of ['形容詞','形容動詞','助動詞','adjective','adjectival_noun','auxiliary']){
+    for(const rowMode of ['select','input']){
+      const example={...ex,partOfSpeech,conjugationType:partOfSpeech.includes('aux')||partOfSpeech==='助動詞'?'四段型':'ナリ活用'};
+      const state=engine.createQuizState({example,quizMode:'type',choiceScope:'all',rowMode});
+      assert.equal(state.rowMode,'omitted',partOfSpeech);
+      const evaluation=engine.evaluateAnswer({example,quizMode:'type',selectedType:'カ行四段活用',rowMode:state.rowMode});
+      assert.equal(evaluation.correct,false);
+      assert.equal(evaluation.rowCorrect,null);
+    }
+  }
+  assert.equal(engine.createQuizState({example:ex,quizMode:'type',rowMode:'select'}).rowMode,'select');
+});
+
+test('examples: Konjaku kana displays in hiragana after marking the original occurrence',()=>{
+  const names=['markVerticalEllipsis','highlight','highlightExample'];
+  const code=names.map(name=>html.match(new RegExp('function '+name+'\\([^)]*\\)\\{[\\s\\S]*?\\n\\}'))![0]).join('\n');
+  const show=new Function(code+';return highlightExample;')();
+  const quotation=data('conjugation-quiz-examples.json').records.find((r:any)=>r.source==='今昔物語集');
+  const item={example:quotation.quotationExcerpt,target:quotation.originalTarget,source:quotation.source};
+  assert.equal(show(item),'他の物は露見え<mark>ず</mark>。');
+  assert.equal(item.example,'他ノ物ハ露見エズ。','original data stays intact');
+  assert.equal(show({...item,source:'別作品'}),'他ノ物ハ露見エ<mark>ズ</mark>。');
+  assert.equal(show({source:'今昔物語集',example:'なり、ナリ…ナリ',target:'ナリ',occurrence:1}),
+    'なり、なり<span class="v-ellipsis">…</span><mark>なり</mark>');
+  for(const record of publicAdjvRecords.filter((r:any)=>r.work==='今昔物語集')){
+    const shown=show({source:record.work,example:record.example,target:record.publicTarget});
+    assert.doesNotMatch(shown,/[ァ-ヶヽヾ]/);
+    assert.ok(shown.includes('<mark>'));
+  }
+});
+
+
+test('quiz: ず retains the ザリ活用 heading when the renderer uses a quiz ID',()=>{
+  const source=html.match(/function setPairedTrackLabels\([^)]*\)\{[\s\S]*?\n\}/)![0];
+  const label=new Function(source+';return setPairedTrackLabels;')();
+  const records=resolveQuizRecords(data('conjugation-quiz-bank-127.meta.json'),data('conjugation-quiz-examples.json'),items);
+  const zu=records.filter((r:any)=>r.partOfSpeech==='助動詞' && r.lemma==='ず');
+  assert.ok(zu.length>0);
+  for(const record of zu){
+    assert.match(record.tableItem.id,/^quiz:/);
+    const left={textContent:'',dataset:{}};const right={textContent:'',dataset:{}};
+    label(left,right,record.tableItem);
+    assert.equal(left.dataset.trackNote,'（ザリ活用）');
+  }
+  for(const item of items.filter((i:any)=>i.forms2 && (i.pos==='adj'||i.id==='zu'||i.id==='beshi_aux'))){
+    const left={textContent:'',dataset:{}};const right={textContent:'',dataset:{}};
+    label(left,right,item);
+    assert.equal(left.dataset.trackNote,item.id==='zu'?'（ザリ活用）':'（カリ活用）');
+  }
+});

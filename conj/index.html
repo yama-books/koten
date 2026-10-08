@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261007-21">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261008-01">
 </head>
 <body>
 <div class="wrap">
@@ -3476,7 +3476,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
-<script src="./conj-quiz-ui.js?v=20261007-21"></script>
+<script src="./conj-quiz-ui.js?v=20261008-01"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4502,7 +4502,7 @@ function renderTrackHeads(mode){
 function setPairedTrackLabels(left,right,item){
   if(!left || !right) return;
   left.textContent="補助活用";
-  left.dataset.trackNote=item?.id==="zu" ? "（ザリ活用）" : "（カリ活用）";
+  left.dataset.trackNote=item?.pos==="aux" && item?.lemma==="ず" ? "（ザリ活用）" : "（カリ活用）";
   right.textContent="本活用";
   delete right.dataset.trackNote;
 }
@@ -4687,6 +4687,15 @@ function renderTable(){
 // Wrapping it lets a dedicated rule rotate just this character back onto the vertical axis.
 function markVerticalEllipsis(html){
   return html.replaceAll("…",'<span class="v-ellipsis">…</span>');
+}
+// 原文で強調位置を確定してから、今昔物語集の表示だけをひらがなにする。
+function highlightExample(item){
+  const text=(item.example||"").replace(/[　 ]+/g,"");
+  const target=(item.target||"").replace(/[　 ]+/g,"");
+  const html=highlight(text,target,item.occurrence);
+  return item.source==="今昔物語集"
+    ? html.replace(/[ァ-ヶヽヾ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))
+    : html;
 }
 function highlight(text,target,occurrence){
   if(!target)return markVerticalEllipsis(text);
@@ -5292,8 +5301,7 @@ function render(){
   renderKindInitial();
   document.getElementById("posTag").textContent=current.label;
   const compactExample=(current.example||"").replace(/[　 ]+/g,"");
-  const compactTarget=(current.target||"").replace(/[　 ]+/g,"");
-  document.getElementById("exampleText").innerHTML=highlight(compactExample,compactTarget,current.occurrence);
+  document.getElementById("exampleText").innerHTML=highlightExample(current);
   document.getElementById("exampleText").classList.toggle("is-prose",!current.poem);
   const exampleToggle=document.getElementById("showExample");
   const hasExample=current.exampleAvailable!==false && compactExample.length>0;
@@ -5878,7 +5886,6 @@ function renderReviewExample(item){
   const foot=document.getElementById("reviewExampleFoot");
   const layout=document.getElementById("reviewStudyLayout");
   const compactExample=(item.example||"").replace(/[　 ]+/g,"");
-  const compactTarget=(item.target||"").replace(/[　 ]+/g,"");
   const hasExample=item.exampleAvailable!==false && compactExample.length>0;
   panel.hidden=!hasExample;
   if(!hasExample){
@@ -5888,7 +5895,7 @@ function renderReviewExample(item){
     layout.style.gridTemplateAreas='"table"';
     return;
   }
-  text.innerHTML=highlight(compactExample,compactTarget,item.occurrence);
+  text.innerHTML=highlightExample(item);
   text.classList.toggle("is-prose",!item.poem);
   if(item.poem){
     const author=poemAuthors[item.poem]||"";

@@ -56,7 +56,7 @@
 .quiz-choice:disabled{opacity:1;color:var(--ink);cursor:default}
 .quiz-choice:focus-visible,.quiz-row-choice:focus-visible{outline:2px solid var(--accent-strong);outline-offset:1px}
 .quiz-row-answer{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;margin-top:6px;font-size:12px}
-.quiz-row-answer[hidden]{display:none}
+.quiz-row-answer[hidden]{display:none!important}
 .quiz-row-choice{min-width:44px;min-height:44px;padding:4px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink)}
 .quiz-row-choice[aria-pressed="true"]{border-color:var(--accent-strong);background:var(--accent-soft)}
 .quiz-row-input{width:80px;min-height:44px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);text-align:center;font-size:16px}
