@@ -107,7 +107,7 @@ test('conj: headings use historical kana with kanji as a secondary aid', () => {
 test('conj: paired tables center primary track names independently of supplementary notes', () => {
   assert.match(html, /function setPairedTrackLabels\(left,right,item\)/);
   assert.match(html, /left\.textContent="補助活用"/);
-  assert.match(html, /left\.dataset\.trackNote=item\?\.id==="zu" \? "（ザリ活用）" : "（カリ活用）"/);
+  assert.match(html, /left\.dataset\.trackNote=item\?\.pos==="aux" && item\?\.lemma==="ず" \? "（ザリ活用）" : "（カリ活用）"/);
   assert.match(html, /right\.textContent="本活用"/);
   assert.match(html, /\.table-panel\.paired-mode \.track-heads > span:first-child::after\{[\s\S]*?content:attr\(data-track-note\);[\s\S]*?position:absolute;/);
   assert.match(html, /function syncPairedTrackHeads\(panel,table\)/);
@@ -220,7 +220,7 @@ test('conj: review randomly chooses a word in the selected group and shows its e
   assert.match(html, /function randomReviewItem\(candidates\)/);
   assert.match(html, /Math\.floor\(Math\.random\(\)\*candidates\.length\)/);
   assert.match(html, /openReviewModal\(randomReviewItem\(ring\.exampleItems\)\)/);
-  assert.match(html, /text\.innerHTML=highlight\(compactExample,compactTarget,item\.occurrence\)/);
+  assert.match(html, /text\.innerHTML=highlightExample\(item\)/);
 });
 
 test('conj: kind rings keep textbook order, group auxiliaries by word, and mark weak ones after three answers', () => {

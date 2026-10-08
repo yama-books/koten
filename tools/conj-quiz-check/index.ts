@@ -248,7 +248,11 @@ try{
           const id=record.exampleId+' '+mode;
           if(quizState?.example?.exampleId!==record.exampleId){out.push(id+': not shown');continue;}
           const marks=document.querySelectorAll('#exampleText mark');
-          if(marks.length!==1||marks[0].textContent!==record.originalTarget) out.push(id+': mark');
+          const expectedTarget=record.source==='今昔物語集'
+            ? record.originalTarget.replace(/[ァ-ヶヽヾ]/g,(c:string)=>String.fromCharCode(c.charCodeAt(0)-0x60)) : record.originalTarget;
+          if(marks.length!==1||marks[0].textContent!==expectedTarget) out.push(id+': mark');
+          if(record.source==='今昔物語集' && /[ァ-ヶヽヾ]/.test(document.getElementById('exampleText')!.textContent!)) out.push(id+': katakana remains');
+          if(record.partOfSpeech==='助動詞' && record.lemma==='ず' && document.getElementById('trackLeft')!.dataset.trackNote!=='（ザリ活用）') out.push(id+': incorrect supplementary heading');
           if(document.documentElement.scrollWidth>innerWidth+1) out.push(id+': horizontal overflow');
           const text=document.getElementById('exampleText')!.getBoundingClientRect();
           const choices=document.getElementById('quizChoices')!.getBoundingClientRect();
@@ -441,6 +445,27 @@ try{
     await setAdvanced(page,'choiceScope','all');
     await setPos(page,'aux');
     assert.ok(await page.locator('#quizChoices button').evaluateAll(buttons=>buttons.every(button=>button.textContent?.includes('助動詞') || !button.querySelector('small'))));
+    const beforeRowRegression=await page.evaluate('JSON.stringify(stats)');
+    for(const pos of ['verb','adj','adjv','aux']){
+      await setPos(page,pos);
+      for(const stage of [2,3])for(const requested of ['auto','select']){
+        await page.evaluate(({stage,requested})=>{
+          stats.quiz={events:Array.from({length:stage===2?10:20},()=>({quizMode:'type',partOfSpeech:quizState.example.partOfSpeech,correct:true,maxHintLevel:0}))};
+          quizSettings.choiceScope='auto';quizSettings.rowMode=requested;nextQuizQuestion();
+        },{stage,requested});
+        assert.equal(await page.evaluate('quizState.masteryStage'),stage);
+        assert.equal(await page.locator('#quizRowAnswer').isVisible(),pos==='verb',pos+' stage '+stage+' '+requested);
+        if(pos!=='verb'){
+          assert.equal(await page.locator('main.card').evaluate(el=>el.classList.contains('quiz-table-dialog-mode')),false);
+          // A wrong verb choice must also grade immediately instead of waiting for a hidden row.
+          const answer=await page.evaluate('quizChoices.find(c=>c.rowRequired)?.canonical ?? quizChoices[0].canonical');
+          await page.locator('#quizChoices button').evaluateAll((buttons,value)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical===value) as HTMLButtonElement).click();},answer);
+          assert.equal(await page.evaluate('quizState.answered'),true);
+          assert.equal(await page.evaluate('quizState.evaluation.rowCorrect'),null);
+        }
+      }
+    }
+    await page.evaluate(saved=>{stats=JSON.parse(saved);nextQuizQuestion();},beforeRowRegression);
     // Saved old data and new event fields survive importing/exporting the existing envelope.
     const saved=await page.evaluate('JSON.stringify(stats)');
     await page.evaluate(`importRecordFromText(${JSON.stringify(JSON.stringify({stats:JSON.parse(saved)}))})`);

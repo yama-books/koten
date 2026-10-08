@@ -611,7 +611,9 @@ export function createQuizState({
     example,
     quizMode,
     choiceScope,
-    rowMode,
+    // Row answers belong only to verb-type questions, even with cross-POS choices.
+    rowMode: quizMode === QUIZ_MODE.TYPE && normalizePartOfSpeech(example?.partOfSpeech) === "動詞"
+      ? rowMode : ROW_MODE.OMITTED,
     initialSupportLevel: supportLevel,
     hintLevel: supportLevel,
     maxHintLevel: supportLevel,
