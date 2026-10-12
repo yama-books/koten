@@ -143,6 +143,18 @@
     box-shadow:0 5px 14px rgba(47,49,56,.12);
   }
   .choice-pill:active span{transform:scale(.985)}
+  /* One-tap record access without enlarging the cinematic header. */
+  .record-quick-link{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-height:36px;margin-left:auto;padding:7px 12px;
+    border:1px solid rgba(65,56,48,.13);border-radius:999px;
+    background:rgba(255,255,255,.60);color:rgba(47,49,56,.72);
+    font:700 11px var(--font-ui);text-decoration:none;white-space:nowrap;
+    transition:background .16s ease,transform .12s ease;
+  }
+  .record-quick-link:hover{background:rgba(255,255,255,.88)}
+  .record-quick-link:active{transform:translateY(1px) scale(.985)}
+  .record-quick-link:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .composer{
     display:grid;grid-template-columns:1fr;gap:12px;align-items:stretch;
     background:rgba(255,255,255,.48);
@@ -541,6 +553,7 @@
           <input type="radio" name="conversionMode" value="reverse">
           <span>平仮名にする</span>
         </label>
+        <a class="record-quick-link" href="./detail.html#record" aria-label="学習記録を見る">記録を見る</a>
       </div>
       <div class="composer">
         <textarea id="input" maxlength="80" rows="2" aria-label="変換する文字列">あさきゆめみし</textarea>
