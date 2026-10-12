@@ -40,7 +40,12 @@
        return v;
      });
      const mix=(start,target,speed,elapsed,t)=>{
-       const projected=start+speed*elapsed;
+       // Integrate the outgoing speed with a short exponential decay.
+       // At t=0 the derivative is the original speed (C1 continuity), but
+       // violent pre-flash oscillations cannot carry a long ballistic tail.
+       const inertiaTime=42;
+       const driftTime=inertiaTime*(1-Math.exp(-elapsed/inertiaTime));
+       const projected=start+speed*driftTime;
        return projected+(target-projected)*smooth(t);
      };
      function apply(elapsed){

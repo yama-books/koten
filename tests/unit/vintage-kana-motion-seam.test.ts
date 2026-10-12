@@ -53,6 +53,19 @@ test("ten front-mode characters can safely bridge as a batch",()=>{
  bridge.apply(0);
  glyphs.forEach((el,i)=>assert.ok(el.style.transform.startsWith(`translate3d(${i*21+5}px`)));
 });
+test("violent pre-flash velocities keep C1 but do not launch the next phase",()=>{
+ const {api,el,draw,pose,x}=setup();
+ const trail=api.collect([el],1000);
+ pose(-50);trail.sample(980);
+ pose(-110);trail.sample(1000); // outgoing speed -3px/ms
+ const bridge=trail.bridge(340,draw);
+ pose(100);bridge.apply(1);
+ assert.ok(Math.abs(x()-(-113))<.12,"initial speed preserved "+x());
+ pose(100);bridge.apply(64);
+ assert.ok(Math.abs(x()-(-110))<130,"no ballistic leap in 64ms "+x());
+ pose(100);bridge.apply(340);
+ assert.equal(x(),100);
+});
 test("missing tail samples or invalid transform is a safe no-op",()=>{
  const {api,el,draw,pose,x}=setup();
  const trail=api.collect([el],1000);
