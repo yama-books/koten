@@ -2,6 +2,21 @@
 
 最終更新: 2026-09-19（公開構造のみ 2026-10-03 更新）
 
+## 2026-10-12 中央監査・複数担当実装の引継ぎ（最新）
+
+**最新計画**: [AUDIT_AND_IMPLEMENTATION_PLAN_2026-10-12.md](./AUDIT_AND_IMPLEMENTATION_PLAN_2026-10-12.md)。この節より下の従来履歴は削除・改変せず保持する。
+
+1. ユーザーの現行指示: **GitHubが正本**。ChatGPTセッションを監査拠点にし、できる限りChatGPTが調査・設計・MD更新・低リスク実装を担当する。必要なものだけCodex/Claude Codeへ指示する。
+2. 対象: `yama-books/koten` の `main` を基準にする。開始コミット `01b689f8b64d7378ef48bdf55884748ed32ad560`。作業ブランチ `vintage-kana-audit-20261012` はこのSHAから新設。
+3. **実ファイルの構造に注意**: 正式入口は `vintage-kana/index.html`（cinematic演出版）、詳しい学習・記録画面は `vintage-kana/detail.html`、演出デバッグ版は `vintage-kana/prototypes/cinematic-motion-v1/index.html`。旧ログの「index.html」が今の「detail.html」を指す箇所がある。
+4. 旧ルールの `vintage-kana-main` は残すが、現状のGitHub APIでは `main...vintage-kana-main` 比較が **No common ancestor**。新作業は現行main起点で行い、既存ブランチへ無造作にpushしない。
+5. 現行シンプル版には forward/reverse の方向切替がすでに存在。記録画面は詳しい版の習得タブに内包されており、直通導線の余地がある。
+6. 2026-10-06修正の `p>.88` 閃光内切替・font事前読み込みの条件を保持。前半phase境界のpose不連続疑いは**静的監査の仮説**で、実機再現は未確認。
+7. 例文候補は古典・俳句等の**歴史的仮名遣い**を尊重。2026-10-07の候補として「はるはあけぼの」「あきはゆふぐれ」「ゆくかはのながれはたえずして」「ぎをんしやうじやのかねのこゑ」「ふるいけやかはづとびこむみづのおと」が挙げられている。ただし**約30件の完全な確定リストと原典照合は未回収**。未確認の文面を「承認済み」として登録しない。
+8. 監査対象: VK-00〜VK-07。PR・CI・ブラウザ検査・公開許可は別ゲート。**現時点で公開版は変更していない**。
+
+---
+
 ## 公開構造（2026-10-03〜）
 
 - `index.html` — 正式入口（`https://yama-books.github.io/koten/vintage-kana/`、QR で配布済み・URL変更禁止）。`prototypes/cinematic-motion-v1/index.html` の派手アニメ版から、デバッグUI・刻印方向UIを外し、上部バー（タイトル＋「詳しい版」）と演出後の「もう1回／変体仮名をもっと見る」を足したもの。演出ロジックは prototype と同じ（違いは結果盤の字の大きさを画面幅に収める上限だけ）。
