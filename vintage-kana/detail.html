@@ -2068,7 +2068,26 @@ document.getElementById("sourceText").addEventListener("input",()=>{
  renderCompose();
 });
 checkHentaiganaFont();
-loadData();
+// A direct record link should open the real record view after the glyph data loads.
+// Keep the existing learning-event storage, scoring and record rendering unchanged.
+function openRecordFromUrl(){
+ if(window.location.hash!=="#record")return;
+ const quizTab=document.querySelector('[data-view="quiz"]');
+ const quizView=document.getElementById("quiz");
+ if(!quizTab||!quizView)return;
+ document.querySelectorAll("[data-view]").forEach(tab=>tab.classList.toggle("active",tab===quizTab));
+ document.querySelectorAll(".view").forEach(view=>view.classList.toggle("active",view===quizView));
+ openQuizRecord();
+ requestAnimationFrame(updateStickyState);
+}
+let recordRouteReady=false;
+loadData().then(()=>{
+ recordRouteReady=true;
+ openRecordFromUrl();
+});
+window.addEventListener("hashchange",()=>{
+ if(recordRouteReady)openRecordFromUrl();
+});
 loadConfusionPairs();
 
 // ホーム画面への追加案内。conjアプリと同じ仕組みを、素のJSとDOMで実装する。
