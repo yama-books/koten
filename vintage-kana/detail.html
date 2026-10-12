@@ -57,6 +57,41 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
 .tab{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff;color:var(--muted);font-weight:700;font-size:11px;white-space:nowrap;transition:.15s ease}
 .tab.navPrimary{padding-inline:14px;font-weight:800}
 .tab.active{background:var(--accent2);border-color:var(--accent);color:var(--accent);box-shadow:0 2px 7px rgba(53,107,158,.14)}
+/* Separate keyboard/touch controls, one visually unified "習得する" pill. */
+.quizTabCluster{
+  display:inline-flex;align-items:center;flex:none;min-height:44px;
+  border:1px solid var(--line);border-radius:999px;background:#fff;
+  color:var(--muted);overflow:hidden;
+}
+.quizTabCluster.isActive{
+  background:var(--accent2);border-color:var(--accent);color:var(--accent);
+  box-shadow:0 2px 7px rgba(53,107,158,.14);
+}
+.quizTabCluster .tab,.quizTabCluster .tab.active{
+  min-height:42px;padding:7px 3px 7px 11px;border:0;border-radius:0;
+  box-shadow:none;background:transparent;color:inherit;
+}
+.masteryRingAction{
+  display:grid;place-items:center;flex:none;min-width:38px;min-height:42px;
+  padding:5px 7px 5px 3px;margin:0;border:0;border-radius:0;
+  background:transparent;cursor:pointer;
+}
+.masteryRingAction:hover{background:rgba(53,107,158,.08)}
+.quizTabCluster .tab:focus-visible,.masteryRingAction:focus-visible{
+  outline:2px solid var(--accent);outline-offset:-3px;border-radius:999px;
+}
+.masteryRingAction__ring{
+  --p:0;display:grid;place-items:center;flex:none;position:relative;
+  width:26px;height:26px;border-radius:50%;
+  background:conic-gradient(var(--accent) calc(var(--p) * 1%),var(--ring-track) 0);
+}
+.masteryRingAction__ring::before{
+  content:"";position:absolute;inset:4px;border-radius:50%;background:#fff;
+}
+.masteryRingAction__ring span{
+  position:relative;z-index:1;font-size:9px;font-weight:800;
+  letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums;
+}
 .view{display:none}.view.active{display:block}
 .label{font-weight:700;font-size:13px;margin:0 0 8px}
 .kanaFilters{display:grid;gap:5px;margin-bottom:14px;padding:2px}
@@ -352,7 +387,12 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <nav class="utilityTabs" aria-label="メニュー">
       <button class="tab navPrimary active" data-view="compose">書いてみる</button>
       <button class="tab" data-view="browse">一覧</button>
-      <button class="tab" data-view="quiz">習得する</button>
+      <span class="quizTabCluster" id="quizTabCluster">
+        <button class="tab" data-view="quiz">習得する</button>
+        <button class="masteryRingAction" type="button" id="masteryRingAction" aria-label="習熟度を読み込み中。記録を見る">
+          <span class="masteryRingAction__ring" id="masteryRing" aria-hidden="true"><span id="masteryRingValue">…</span></span>
+        </button>
+      </span>
     </nav>
   </div>
 
@@ -545,6 +585,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 </footer>
 </div>
 
+<script src="./mastery-summary.js"></script>
 <script>
 const KANA_ORDER=[..."あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん"];
 const STANDARD_HIRAGANA_JIBO={
@@ -832,25 +873,25 @@ function rowMastery(label,kanas){
 // 全体の習熟度＝正答率×取り組み範囲。正答率は字形ごとの直近5回で数え、分母は出題され得る全字形。
 // 未着手の字形は0なので、100%は「全字形を解き、どの字形も直近5回がすべて正解」のときだけになる。
 // 端数は切り捨て（99.6%は99%）。直近の回数は1〜5回なので、60を掛けて整数で足し合わせる。
-const OVERALL_RECENT_ATTEMPTS=5;
 function overallMasteryPercent(){
- if(!GLYPHS.length)return 0;
- const known=new Set(GLYPHS.map(g=>g.character));
- const byGlyph=new Map();
- learningEvents.forEach(e=>{
-   if(!known.has(e.glyph))return;
-   if(!byGlyph.has(e.glyph))byGlyph.set(e.glyph,[]);
-   byGlyph.get(e.glyph).push(e);
- });
- let sum=0;
- byGlyph.forEach(events=>{
-   const recent=events
-     .slice()
-     .sort((a,b)=>String(a.at||"").localeCompare(String(b.at||"")) || String(a.id||"").localeCompare(String(b.id||"")))
-     .slice(-OVERALL_RECENT_ATTEMPTS);
-   sum+=recent.filter(e=>e.outcome==="correct").length*(60/recent.length);
- });
- return Math.floor(sum*100/(60*GLYPHS.length));
+ return VintageKanaMastery.overallMasteryPercent(GLYPHS,learningEvents);
+}
+function refreshMasteryTabRing(){
+ const ring=document.getElementById("masteryRing");
+ const label=document.getElementById("masteryRingValue");
+ const action=document.getElementById("masteryRingAction");
+ if(!ring||!label||!action)return;
+ const ready=GLYPHS.length>0;
+ const value=ready?overallMasteryPercent():0;
+ const untouched=ready&&learningEvents.length===0;
+ label.textContent=!ready?"…":untouched?"未":String(value);
+ ring.style.setProperty("--p",value);
+ action.setAttribute("aria-label",!ready?"習熟度を取得できません。記録を見る":
+   untouched?"習熟度 未着手。記録を見る":"習熟度 "+value+"%。記録を見る");
+}
+function syncQuizTabCluster(){
+ document.getElementById("quizTabCluster")?.classList.toggle("isActive",
+   Boolean(document.querySelector('[data-view="quiz"]')?.classList.contains("active")));
 }
 // 弱い行・字形の強調（旧「要確認」）。conj と同じく、3問以上解いたもののうち習熟度の低いものを、
 // 3つに1つの割合で最大3つまで選ぶ。並び順は変えず、最も高いものと同じ値のものは選ばない。
@@ -1216,6 +1257,7 @@ function recordLearningAttempt(mode,correct,masteryMethod,questionType){
  quizSet.answered+=1;
  if(correct)quizSet.correct+=1;
  try{localStorage.setItem(LEARNING_RECORD_KEY,JSON.stringify(learningEvents))}catch(e){console.warn("learning record save failed",e)}
+ refreshMasteryTabRing();
  renderSetProgress();
 }
 
@@ -2012,9 +2054,25 @@ document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",(
  document.querySelectorAll("[data-view]").forEach(x=>x.classList.remove("active"));
  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
  b.classList.add("active");document.getElementById(b.dataset.view).classList.add("active");
- if(b.dataset.view==="quiz")showQuizScreen(activeQuizScreen);
+ syncQuizTabCluster();
+ if(b.dataset.view==="quiz")showQuizScreen("practice");
  requestAnimationFrame(updateStickyState);
 }));
+document.getElementById("masteryRingAction").addEventListener("click",showRecordFromNavigation);
+function reloadMasteryRecord(){
+ learningEvents=VintageKanaMastery.readLearningEvents();
+ refreshMasteryTabRing();
+ if(activeQuizScreen==="record"&&document.getElementById("quizRecord")?.hidden===false){
+   renderRecordScreen();
+ }
+}
+window.addEventListener("pageshow",reloadMasteryRecord);
+window.addEventListener("storage",e=>{
+ if(e.key===VintageKanaMastery.recordKey||e.key===null)reloadMasteryRecord();
+});
+document.addEventListener("visibilitychange",()=>{
+ if(!document.hidden)reloadMasteryRecord();
+});
 document.querySelectorAll(".quizModeBtn").forEach(b=>b.addEventListener("click",()=>{
  quizMode=b.dataset.quizMode;
  document.querySelectorAll(".quizModeBtn").forEach(x=>x.classList.toggle("active",x===b));
@@ -2070,19 +2128,24 @@ document.getElementById("sourceText").addEventListener("input",()=>{
 checkHentaiganaFont();
 // A direct record link should open the real record view after the glyph data loads.
 // Keep the existing learning-event storage, scoring and record rendering unchanged.
-function openRecordFromUrl(){
- if(window.location.hash!=="#record")return;
+function showRecordFromNavigation(){
  const quizTab=document.querySelector('[data-view="quiz"]');
  const quizView=document.getElementById("quiz");
  if(!quizTab||!quizView)return;
  document.querySelectorAll("[data-view]").forEach(tab=>tab.classList.toggle("active",tab===quizTab));
  document.querySelectorAll(".view").forEach(view=>view.classList.toggle("active",view===quizView));
+ syncQuizTabCluster();
  openQuizRecord();
  requestAnimationFrame(updateStickyState);
+}
+function openRecordFromUrl(){
+ if(window.location.hash==="#record")showRecordFromNavigation();
 }
 let recordRouteReady=false;
 loadData().then(()=>{
  recordRouteReady=true;
+ refreshMasteryTabRing();
+ if(activeQuizScreen==="record"&&window.location.hash!=="#record")showQuizScreen("record");
  openRecordFromUrl();
 });
 window.addEventListener("hashchange",()=>{

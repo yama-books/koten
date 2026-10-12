@@ -143,10 +143,10 @@
     box-shadow:0 5px 14px rgba(47,49,56,.12);
   }
   .choice-pill:active span{transform:scale(.985)}
-  /* One-tap record access without enlarging the cinematic header. */
+  /* The approved A design: compact circle with a single short label. */
   .record-quick-link{
-    display:inline-flex;align-items:center;justify-content:center;
-    min-height:36px;margin-left:auto;padding:7px 12px;
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;
+    min-height:36px;margin-left:auto;padding:4px 10px 4px 5px;
     border:1px solid rgba(65,56,48,.13);border-radius:999px;
     background:rgba(255,255,255,.60);color:rgba(47,49,56,.72);
     font:700 11px var(--font-ui);text-decoration:none;white-space:nowrap;
@@ -155,6 +155,16 @@
   .record-quick-link:hover{background:rgba(255,255,255,.88)}
   .record-quick-link:active{transform:translateY(1px) scale(.985)}
   .record-quick-link:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .simpleMastery{
+    --p:0;display:grid;place-items:center;flex:none;position:relative;
+    width:27px;height:27px;border-radius:50%;
+    background:conic-gradient(var(--gold) calc(var(--p) * 1%),rgba(65,56,48,.14) 0);
+  }
+  .simpleMastery::before{content:"";position:absolute;inset:4px;border-radius:50%;background:#fff}
+  .simpleMastery span{
+    position:relative;z-index:1;font-size:9px;font-weight:800;letter-spacing:-.04em;
+    color:var(--ink);font-variant-numeric:tabular-nums;
+  }
   .composer{
     display:grid;grid-template-columns:1fr;gap:12px;align-items:stretch;
     background:rgba(255,255,255,.48);
@@ -553,7 +563,10 @@
           <input type="radio" name="conversionMode" value="reverse">
           <span>平仮名にする</span>
         </label>
-        <a class="record-quick-link" href="./detail.html#record" aria-label="学習記録を見る">記録を見る</a>
+        <a class="record-quick-link" id="masteryShortcut" href="./detail.html#record" aria-label="習熟度を読み込み中。記録を見る">
+          <span class="simpleMastery" id="masteryShortcutRing" aria-hidden="true"><span id="masteryShortcutValue">…</span></span>
+          <span>習熟度</span>
+        </a>
       </div>
       <div class="composer">
         <textarea id="input" maxlength="80" rows="2" aria-label="変換する文字列">あさきゆめみし</textarea>
@@ -582,6 +595,7 @@
     <a class="more" href="./detail.html">変体仮名をもっと見る</a>
   </div>
 </div>
+<script src="./mastery-summary.js"></script>
 <script>
 const firstVariant = {
   "あ":"𛀂","い":"𛀆","う":"𛀊","え":"𛀏","お":"𛀔",
@@ -2995,6 +3009,41 @@ input.addEventListener("keydown",e=>{
   }
 });
 updateConversionUi();
+// Both entries show exactly the same read-only record summary.
+let masteryGlyphs=null;
+const masteryShortcut=document.getElementById("masteryShortcut");
+const masteryShortcutRing=document.getElementById("masteryShortcutRing");
+const masteryShortcutValue=document.getElementById("masteryShortcutValue");
+function refreshMasteryShortcut(){
+ if(!masteryGlyphs){
+   masteryShortcutValue.textContent="…";
+   masteryShortcutRing.style.setProperty("--p",0);
+   masteryShortcut.setAttribute("aria-label","習熟度を取得できません。記録を見る");
+   return;
+ }
+ const events=VintageKanaMastery.readLearningEvents();
+ const value=VintageKanaMastery.overallMasteryPercent(masteryGlyphs,events);
+ const untouched=events.length===0;
+ masteryShortcutValue.textContent=untouched?"未":String(value);
+ masteryShortcutRing.style.setProperty("--p",value);
+ masteryShortcut.setAttribute("aria-label",untouched?"習熟度 未着手。記録を見る":"習熟度 "+value+"%。記録を見る");
+}
+async function loadMasteryShortcut(){
+ try{
+   const response=await fetch("./data/ui-glyph-master.json",{cache:"no-store"});
+   if(!response.ok)throw new Error("glyph catalogue HTTP "+response.status);
+   const data=await response.json();
+   if(!Array.isArray(data.glyphs)||!data.glyphs.length)throw new Error("empty glyph catalogue");
+   masteryGlyphs=data.glyphs;
+ }catch(err){console.warn("mastery summary unavailable",err)}
+ refreshMasteryShortcut();
+}
+loadMasteryShortcut();
+window.addEventListener("pageshow",refreshMasteryShortcut);
+window.addEventListener("storage",e=>{
+ if(e.key===VintageKanaMastery.recordKey||e.key===null)refreshMasteryShortcut();
+});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshMasteryShortcut()});
 skip.addEventListener("click",()=>{
   if(!running||stage.classList.contains("result"))return;
   const mode=getConversionMode();
