@@ -31,7 +31,7 @@ page.on('pageerror',e=>errors.push(e.message));
 try{
  await page.clock.install({time:new Date('2026-10-13T10:00:00Z')});
  await page.route(/fonts\.(googleapis|gstatic)\.com/,route=>route.abort());
- await page.goto(url);
+ await page.goto(url+'index.html');
  await page.evaluate(()=>{
   const original=window.VintageKanaMotionSeam;
   const stats=window.__motionSeamStats=[];
