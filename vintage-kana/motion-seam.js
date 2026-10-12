@@ -16,7 +16,7 @@
    return {x:nums[0],y:nums[1],z:nums[2],scale:nums[3],rot:nums[4],rx:nums[5],ry:nums[6],opacity:nums[7]};
  };
  const clamp=(x,min,max)=>Math.max(min,Math.min(max,x));
- const smooth=t=>t*t*(3-2*t);
+ const smooth=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
  const collect=(elements,duration)=>{
    let prev=null,last=null;
    function sample(elapsed){

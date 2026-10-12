@@ -1865,7 +1865,7 @@ async function play(){
     size:.55+Math.random()*.95
   }));
 
-  const phase5Entry=phase4Trail.bridge(340,setT);
+  const phase5Entry=phase4Trail.bridge(460,setT);
   await frameTween(phase5Duration,(p,elapsed)=>{
     const e=easeInOut(p);
     const prog=spinProgress(spinVortexEnd,omega5Start,omega5End,elapsed,phase5Duration);
