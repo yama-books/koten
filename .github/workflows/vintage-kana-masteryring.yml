@@ -1,0 +1,38 @@
+name: Vintage kana mastery UI QA
+
+on:
+  push:
+    branches:
+      - 'vintage-kana-*'
+    paths:
+      - 'vintage-kana/**'
+      - 'tools/vintage-kana-mastery-ring-check/**'
+      - 'tests/unit/vintage-kana*.test.ts'
+      - '.github/workflows/vintage-kana-masteryring.yml'
+  pull_request:
+    paths:
+      - 'vintage-kana/**'
+      - 'tools/vintage-kana-mastery-ring-check/**'
+      - 'tests/unit/vintage-kana*.test.ts'
+      - '.github/workflows/vintage-kana-masteryring.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  mastery-ring:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node --experimental-strip-types --test tests/unit/vintage-kana*.test.ts
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npm run check:vintage-kana-record
+      - run: npm run check:vintage-kana-record -- --webkit
+      - run: node tools/vintage-kana-mastery-ring-check/index.mjs
+      - run: node tools/vintage-kana-mastery-ring-check/index.mjs --webkit
