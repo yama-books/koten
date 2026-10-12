@@ -7,12 +7,14 @@ on:
     paths:
       - 'vintage-kana/**'
       - 'tools/vintage-kana-mastery-ring-check/**'
+      - 'tools/vintage-kana-record-check/**'
       - 'tests/unit/vintage-kana*.test.ts'
       - '.github/workflows/vintage-kana-masteryring.yml'
   pull_request:
     paths:
       - 'vintage-kana/**'
       - 'tools/vintage-kana-mastery-ring-check/**'
+      - 'tools/vintage-kana-record-check/**'
       - 'tests/unit/vintage-kana*.test.ts'
       - '.github/workflows/vintage-kana-masteryring.yml'
 
