@@ -3021,7 +3021,7 @@ function refreshMasteryShortcut(){
    masteryShortcut.setAttribute("aria-label","習熟度を取得できません。記録を見る");
    return;
  }
- const events=VintageKanaMastery.readLearningEvents();
+ const events=VintageKanaMastery.readMasteryEvents();
  const value=VintageKanaMastery.overallMasteryPercent(masteryGlyphs,events);
  const untouched=events.length===0;
  masteryShortcutValue.textContent=untouched?"未":String(value);
@@ -3041,7 +3041,7 @@ async function loadMasteryShortcut(){
 loadMasteryShortcut();
 window.addEventListener("pageshow",refreshMasteryShortcut);
 window.addEventListener("storage",e=>{
- if(e.key===VintageKanaMastery.recordKey||e.key===null)refreshMasteryShortcut();
+ if(e.key===VintageKanaMastery.recordKey||e.key==="vintage-kana:decipher-history:v1"||e.key===null)refreshMasteryShortcut();
 });
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshMasteryShortcut()});
 skip.addEventListener("click",()=>{

@@ -108,6 +108,46 @@ async function settle(page: Page) {
 }
 const horizontalOverflow = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
 
+// ヘッダー承認案。ヘルプを枠外に移してもスマホで主メニューの押し合いがないことを検査する。
+async function checkApprovedHeader(page: Page, w: number) {
+ const geometry = await page.evaluate(() => {
+   const rect = (selector: string) => document.querySelector<HTMLElement>(selector)!.getBoundingClientRect();
+   const title = rect('.pageHeader h1'), help = rect('#openHelp'), simple = rect('.pageHeader .modeLink');
+   const panel = rect('section.panel'), nav = rect('.panelTop .utilityTabs'), header = rect('.pageHeader');
+   const actions = [...document.querySelectorAll<HTMLElement>('.panelTop .utilityTabs > .tab, .panelTop .utilityTabs > .quizTabCluster')];
+   const cells = actions.map(x => x.getBoundingClientRect());
+   const inner = document.documentElement.clientWidth;
+   return {
+     helpOutside: !document.querySelector('section.panel #openHelp') && help.bottom < panel.top + 1,
+     titleAbove: title.bottom <= help.top + 1,
+     helpRightOfTitle: help.left >= title.right - 1,
+     linksFit: help.right < simple.left + 1 && simple.right <= inner + 1,
+     headerFits: header.left >= -1 && header.right <= inner + 1,
+     navFits: nav.left >= panel.left - 1 && nav.right <= panel.right + 1,
+     menuFits: cells.length === 3 && cells.every(x => x.width >= (inner <= 680 ? 54 : 38) && x.height >= 42
+       && x.left >= nav.left - 1 && x.right <= nav.right + 1)
+       && cells.every((x,i) => !i || cells[i-1].right <= x.left + 1),
+     modeNames: actions.map(x => (x.matches('.quizTabCluster') ? x.querySelector('.tab') : x)?.textContent?.trim()),
+     noOverflow: document.documentElement.scrollWidth <= inner + 1
+   };
+ });
+ assert.ok(geometry.helpOutside, `${w}: help must be outside panel ${JSON.stringify(geometry)}`);
+ assert.ok(geometry.linksFit && geometry.headerFits && geometry.navFits && geometry.menuFits && geometry.noOverflow,
+   `${w}: header/menu geometry ${JSON.stringify(geometry)}`);
+ if (w <= 680) assert.ok(geometry.titleAbove, `${w}: title above header links`);
+ else assert.ok(geometry.helpRightOfTitle, `${w}: desktop inline header links`);
+ assert.deepEqual(geometry.modeNames, ['書いてみる','一覧','習得する'], `${w}: menu order`);
+ const dialogWorks = await page.evaluate(() => {
+   document.getElementById('openHelp')!.click();
+   const dialog = document.getElementById('helpDialog') as HTMLDialogElement;
+   const opened = dialog.open && !!dialog.textContent?.includes('字母');
+   document.getElementById('closeHelp')!.click();
+   return opened && !dialog.open;
+ });
+ assert.equal(dialogWorks,true,`${w}: existing help modal works after moving the trigger`);
+}
+
+
 const results: string[] = [];
 const errors: string[] = [];
 const partial = partialRecord();
@@ -145,6 +185,7 @@ for (const [w, h] of [[320, 640], [340, 700], [360, 640], [375, 812], [390, 844]
   const page = await browser.newPage({ viewport: { width: w, height: h } });
   page.on('pageerror', e => errors.push(`${w}x${h}: ${e.message}`));
   await openRecord(page, partial);
+  await checkApprovedHeader(page, w);
   const early = await snapshot(page);
   // 描き始める前（または途中）は数字が 0 から数え上がる。輪・ラベルの値そのものは最初から最終値。
   assert.deepEqual(early.rings, reference.rings, `${w}: rings before drawing`);
