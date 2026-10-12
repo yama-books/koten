@@ -189,6 +189,8 @@
   button:active{transform:translateY(1px) scale(.99)}
   button:disabled{opacity:.45;cursor:default}
   .convert-row{display:flex;justify-content:center;margin-top:16px;position:relative;z-index:2}
+  .keyboard-notice{margin:9px auto 0;text-align:center;font-size:12px;line-height:1.6;color:#87512d;font-family:var(--font-ui)}
+  .keyboard-notice[hidden]{display:none}
   #convert{min-width:min(220px,100%);font-family:var(--font-ui);font-size:16px}
   .result-actions{
     position:fixed;left:0;right:0;z-index:60;
@@ -574,6 +576,7 @@
       <div class="convert-row">
         <button id="convert" type="button">変換する</button>
       </div>
+      <p class="keyboard-notice" id="keyboardNotice" role="status" aria-live="polite" hidden>キーボードを閉じてから、もう一度「変換する」を押してください。</p>
     </section>
   </main>
 </div>
@@ -631,6 +634,8 @@ const stampDirectionInputs=[...document.querySelectorAll('input[name="stampDirec
 const conversionModeInputs=[...document.querySelectorAll('input[name="conversionMode"]')];
 
 let running=false,timers=[],playToken=0,nextPreset=null,lastSource="";
+let convertPointerFromInput=false,lastInputBlurAt=-Infinity;
+const keyboardNotice=document.getElementById("keyboardNotice");
 const sleep=ms=>new Promise(r=>{const t=setTimeout(r,ms);timers.push(t)});
 const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 const lerp=(a,b,t)=>a+(b-a)*t;
@@ -914,23 +919,40 @@ function finishInstant(text,mode=getConversionMode()){
   glow.style.opacity=.8;
   input.style.fontFamily=targetFontFor(mode);
 }
-// With the on-screen keyboard open the page is shifted and the viewport is short;
-// close it and wait for the viewport to settle before measuring the source text.
+// The keyboard can already be dismissing when the conversion click handler runs:
+// Safari may move focus to the button *before* click, so input focus alone is not
+// a reliable indicator. Always check the visual viewport, then measure origins.
 async function settleKeyboard(){
-  if(document.activeElement!==input)return;
-  input.blur();
-  const vv=window.visualViewport;
-  const start=performance.now();
+  const focused=document.activeElement===input;
+  const recentlyEditing=focused||convertPointerFromInput||performance.now()-lastInputBlurAt<1200;
+  convertPointerFromInput=false;
+  if(focused)input.blur();
+  const started=performance.now();
   let last="",stable=0;
-  while(performance.now()-start<900){
-    await new Promise(r=>requestAnimationFrame(r));
-    const now=vv?`${Math.round(vv.height)}:${Math.round(vv.offsetTop)}`:String(innerHeight);
-    stable=now===last?stable+1:0;
-    last=now;
-    const open=vv&&(vv.offsetTop>1||innerHeight-vv.height>80);
-    if(stable>=6&&!open)break;
+  const sample=()=>{
+    const vv=window.visualViewport;
+    const h=vv?vv.height:innerHeight;
+    const top=vv?vv.offsetTop:0;
+    // Small differences caused by browser chrome are not a keyboard.
+    const keyboardGap=vv?Math.max(0,innerHeight-h-Math.max(0,top)):0;
+    const signature=[Math.round(innerHeight),Math.round(h),Math.round(top),Math.round(window.scrollY||0)].join(":");
+    return {keyboardGap,signature};
+  };
+  while(performance.now()-started<1900){
+    await new Promise(resolve=>requestAnimationFrame(resolve));
+    const state=sample();
+    stable=state.signature===last?stable+1:0;
+    last=state.signature;
+    // Allow a delayed iOS keyboard-close animation to start after focus leaves.
+    if(performance.now()-started<(recentlyEditing?300:90)||stable<6||state.keyboardGap>90)continue;
+    window.scrollTo(0,0);
+    await new Promise(resolve=>requestAnimationFrame(resolve));
+    await new Promise(resolve=>requestAnimationFrame(resolve));
+    if(sample().keyboardGap<=90)return true;
+    stable=0;
   }
-  window.scrollTo(0,0);
+  // Never start a coordinate-sensitive animation while the keyboard is open.
+  return sample().keyboardGap<=90&&stable>=6;
 }
 async function ensureMotionTargetFont(mode,text){
   if(mode!=="forward"||!document.fonts?.load)return;
@@ -954,7 +976,15 @@ async function play(){
   btn.disabled=true;
   const token=++playToken;
   try{
-  await settleKeyboard();
+  keyboardNotice.hidden=true;
+  if(!(await settleKeyboard())){
+    // If iOS refuses to close its keyboard, wait for a deliberate retry instead
+    // of recording wrong starting coordinates or hiding the user's typed text.
+    running=false;
+    btn.disabled=false;
+    keyboardNotice.hidden=false;
+    return;
+  }
   if(token!==playToken)return;
   const mode=getConversionMode();
   const src=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
@@ -2998,6 +3028,10 @@ async function play(){
     btn.disabled=false;
   }
 }
+input.addEventListener("blur",()=>{lastInputBlurAt=performance.now()});
+btn.addEventListener("pointerdown",()=>{convertPointerFromInput=document.activeElement===input});
+btn.addEventListener("pointercancel",()=>{convertPointerFromInput=false});
+input.addEventListener("input",()=>{keyboardNotice.hidden=true});
 btn.addEventListener("click",()=>{nextPreset=null;play()});
 playAgain.addEventListener("click",backToInput);
 conversionModeInputs.forEach(el=>el.addEventListener("change",updateConversionUi));
