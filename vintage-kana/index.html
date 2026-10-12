@@ -599,6 +599,7 @@
   </div>
 </div>
 <script src="./mastery-summary.js"></script>
+<script src="./motion-seam.js"></script>
 <script>
 const firstVariant = {
   "あ":"𛀂","い":"𛀆","う":"𛀊","え":"𛀏","お":"𛀔",
@@ -1050,7 +1051,10 @@ async function play(){
   const forceRare=forcedPreset==="rare";
 
   let frontMode;
-  if(forcedPreset==="front-chick")frontMode="chick";
+  // Internal deterministic presets for the full ten-route motion regression QA.
+  if(forcedPreset==="front-orbit")frontMode="orbit";
+  else if(forcedPreset==="front-formation")frontMode="formation";
+  else if(forcedPreset==="front-chick")frontMode="chick";
   else if(forcedPreset==="front-column")frontMode="chick-column-sync";
   else if(forcedPreset==="front-column-random")frontMode="chick-column-random";
   else if(forcedPreset==="front-pinball")frontMode="float-pinball";
@@ -1466,6 +1470,7 @@ async function play(){
     return orbitFrontPose(i,spinValue,timeSec);
   };
 
+  const phase12Trail=VintageKanaMotionSeam.collect(g,phase12Duration);
   await frameTween(phase12Duration,(p,elapsed)=>{
     const tSec=elapsed/1000;
     const globalCapture=easeInOut(clamp((elapsed-2500)/6400));
@@ -1554,6 +1559,7 @@ async function play(){
       el.style.opacity="1";
       el.style.textShadow=`0 0 ${8+12*charCapture}px rgba(139,125,101,${.08+.14*charCapture})`;
     });
+    phase12Trail.sample(elapsed);
   },token);
   if(token!==playToken)return;
 
@@ -1679,7 +1685,10 @@ async function play(){
     };
   };
 
+  const phase4Entry=phase12Trail.bridge(tornadoFront?260:380,setT);
+  const phase4Trail=VintageKanaMotionSeam.collect(g,phase4Duration);
   await frameTween(phase4Duration,(p,elapsed)=>{
+    try{
     const e=easeInOut(p);
     const tSec=phase12EndSec+elapsed/1000;
     const whiteMain=easeInOut(clamp((p-.10)/.52));
@@ -1854,6 +1863,10 @@ async function play(){
       el.style.opacity=String(.68+depth*.32);
       el.style.filter="none";
     });
+    }finally{
+      phase4Entry.apply(elapsed);
+      phase4Trail.sample(elapsed);
+    }
   },token);
   if(token!==playToken)return;
 
@@ -1882,6 +1895,7 @@ async function play(){
     size:.55+Math.random()*.95
   }));
 
+  const phase5Entry=phase4Trail.bridge(460,setT);
   await frameTween(phase5Duration,(p,elapsed)=>{
     const e=easeInOut(p);
     const prog=spinProgress(spinVortexEnd,omega5Start,omega5End,elapsed,phase5Duration);
@@ -2004,6 +2018,7 @@ async function play(){
       s.el.style.opacity=String(sparkBirth*(.45+.55*pulse));
       s.el.style.filter=`blur(${(1-pulse)*.6}px)`;
     });
+    phase5Entry.apply(elapsed);
   },token);
   if(token!==playToken)return;
 

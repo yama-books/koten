@@ -859,3 +859,34 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - 問題ID、設問、正答、別解・典拠、歴史的仮名遣い／異体字の扱い、IME対応、履歴・習熟度への連動について受入仕様を策定する。
 - **状態：計画への登録のみ、未実装・未公開。** PR #91の機能変更には含めない。
 - 再開指示: **`AUDIT_AND_IMPLEMENTATION_PLAN_2026-10-12.md` §9（VK-08）を確認し、別セッションから問題データの引継ぎを受けて具体化する。**
+
+## 2026-10-13 VK-01 進行中：前半アニメーションの境界補間
+- `main` `9c35434` 起点の作業ブランチ `vintage-kana-motion-continuity-vk01`、未公開。
+- `vintage-kana/motion-seam.js` と本番 `index.html` / 試作 `prototypes/cinematic-motion-v1/index.html` に第1・2相→第4相、第4相→第5相の連続補間を実装中。古い演出と閃光字体差替えは保持。
+- 本タスクの計測・受入条件は [`VK01_MOTION_CONTINUITY_2026-10-13.md`](./VK01_MOTION_CONTINUITY_2026-10-13.md) を参照。**まだマージ・公開しない**。
+
+### 2026-10-13 VK-01 停止チェックポイント
+- ユーザー指示により、これ以上作業を進めず記録して停止。
+- 作業ブランチ `vintage-kana-motion-continuity-vk01` の記録開始HEAD: `c869a66fe284e103f615b58c38ac15df4256165b`。第1・2→4相、第4→5相の連続補間と全10モード検査をコードへ反映済み。
+- 先行専用QA run `38289784395` 成功。最新拡張版 run `38290192240`、共通CI `38290192277` は確認時点で実行中。**最新HEADはまだ最終合格未確定**。
+- 詳細なコード、検証経過、既知の不具合・修正、未完了QA、次回の再開順序は [`VK01_MOTION_CONTINUITY_2026-10-13.md`](./VK01_MOTION_CONTINUITY_2026-10-13.md) 最終節を参照。
+- **mainへのマージ・Pages公開なし**。百人一首の `check:overflow` 修復は別セッション。
+
+## 2026-10-13 VK-01 再開追補（過去の停止指示に対する後続記録）
+- VK-01作業ブランチ `vintage-kana-motion-continuity-vk01` は停止HEAD `c3c4f612` 以降に補間緩和コミット `a7b654d5` が追加済み。第5相460ms補間と3次easeInOut、42ms速度減衰を使用。
+- `a7b654d5` の専用QA [38290594194](https://github.com/yama-books/koten/actions/runs/38290594194) はChromium/WebKitとも10モードPASS。習熟度リング回帰 [38290594216](https://github.com/yama-books/koten/actions/runs/38290594216) もSUCCESS。従前の失敗 [38290192240](https://github.com/yama-books/koten/actions/runs/38290192240) は `front-side-random` / 1280px / forward / 第4→5相64msの移動170.293px。
+- 残る確率依存の問題を捕捉するため `944bb433` でテストをモード別5条件（合計50/ブラウザ）・再現可能なseedへ変更。`9fd07b82` で大振幅の単体回帰ガードを追加。**最新の拡張QA [38312939198](https://github.com/yama-books/koten/actions/runs/38312939198) の最終結果は未確認**。これに合格するまで完了扱いにしない。
+- PRは新規に重複作成せず既存[ドラフト #93](https://github.com/yama-books/koten/pull/93)を継続。mainは別PR #94を含む `ace435ba` へ進んでおり、レビュー時に差分・衝突の確認が必要。
+- 百人一首のoverflow既存6件とVK-08は別担当。閃光字体切替 `p>.88`、フォント事前読み込み、習熟度リング、公開入口URLを維持。**マージ・公開禁止を維持**。
+- 次の担当: 拡張QAの Chromium/WebKit 50ケースのログを確認 → 失敗時は数値・seedで再現して原因修正 → 再検査 → PR #93に受入結果追記。未実施: 実映像・スマホ実機Safari・フレーム落ちの評価。
+
+### 2026-10-13 VK-01 機械QA完了チェックポイント
+- 最新コード `9fd07b82`、再開後の拡張実ブラウザQA [run 38312939198](https://github.com/yama-books/koten/actions/runs/38312939198) が **SUCCESS**。10モード×5条件×Chromium/WebKit=100ケース全PASS、両相境界を検査。X最大112.91px、Y最大112.98px（最初80ms、閾値130px据え置き）。大距離806.25pxのユニットテストもPASS。
+- 習熟度リング [38312939203](https://github.com/yama-books/koten/actions/runs/38312939203) もSUCCESS。実装ファイルおよび字形切替・フォント読み込みの処理は変更なし。
+- PR #93はドラフトのままレビュー可能。mainは独立に進んでいるので統合時の差分確認必須。百人一首overflowとVK-08は別担当。**マージ・公開なし**。
+- 未完了の人確認: iPhone/iPad Safari実機で映像の自然さとfps、スキップ・入力復帰・白背景可読性の目視評価。機械QAと実機受入を混同しない。
+
+### 2026-10-13 VK-01 公開統合前の差分裁定
+- 最新mainはPR #94（解読）・PR #95（iPhoneキーボード修正）まで反映済み。VK-01の正式入口 `index.html` をmain正本へ8箇所の変更を適用する形で統合し、両PRの仕様・データ・演出前処理を維持。
+- このHANDOFFはmainで並行して追記された内容を正として、VK-01の一連の監査・試験結果を末尾へ追補した。過去の「マージ・公開禁止」は公開許可前の履歴記録であり、現在のユーザー公開指示によりゲートが解除された。
+- 実機Safariでの人による映像印象・描画負荷の評価は未実施であり、公開後の確認項目として引き続き保持。

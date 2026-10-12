@@ -1,0 +1,36 @@
+name: Vintage kana motion continuity QA
+
+on:
+  push:
+    branches:
+      - 'vintage-kana-motion-*'
+    paths:
+      - 'vintage-kana/**'
+      - 'tools/vintage-kana-motion-check/**'
+      - 'tests/unit/vintage-kana-motion-seam.test.ts'
+      - '.github/workflows/vintage-kana-motion.yml'
+  pull_request:
+    paths:
+      - 'vintage-kana/**'
+      - 'tools/vintage-kana-motion-check/**'
+      - 'tests/unit/vintage-kana-motion-seam.test.ts'
+      - '.github/workflows/vintage-kana-motion.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  seam:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node --experimental-strip-types --test tests/unit/vintage-kana-motion-seam.test.ts
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node tools/vintage-kana-motion-check/index.mjs
+      - run: node tools/vintage-kana-motion-check/index.mjs --webkit
