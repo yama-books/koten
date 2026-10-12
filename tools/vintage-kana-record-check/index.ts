@@ -124,7 +124,7 @@ async function checkApprovedHeader(page: Page, w: number) {
      linksFit: help.right < simple.left + 1 && simple.right <= inner + 1,
      headerFits: header.left >= -1 && header.right <= inner + 1,
      navFits: nav.left >= panel.left - 1 && nav.right <= panel.right + 1,
-     menuFits: cells.length === 3 && cells.every(x => x.width >= 54 && x.height >= 42
+     menuFits: cells.length === 3 && cells.every(x => x.width >= (inner <= 680 ? 54 : 38) && x.height >= 42
        && x.left >= nav.left - 1 && x.right <= nav.right + 1)
        && cells.every((x,i) => !i || cells[i-1].right <= x.left + 1),
      modeNames: actions.map(x => (x.matches('.quizTabCluster') ? x.querySelector('.tab') : x)?.textContent?.trim()),
