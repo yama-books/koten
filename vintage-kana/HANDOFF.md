@@ -854,3 +854,11 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - 先行専用QA run `38289784395` 成功。最新拡張版 run `38290192240`、共通CI `38290192277` は確認時点で実行中。**最新HEADはまだ最終合格未確定**。
 - 詳細なコード、検証経過、既知の不具合・修正、未完了QA、次回の再開順序は [`VK01_MOTION_CONTINUITY_2026-10-13.md`](./VK01_MOTION_CONTINUITY_2026-10-13.md) 最終節を参照。
 - **mainへのマージ・Pages公開なし**。百人一首の `check:overflow` 修復は別セッション。
+
+## 2026-10-13 VK-01 再開追補（過去の停止指示に対する後続記録）
+- VK-01作業ブランチ `vintage-kana-motion-continuity-vk01` は停止HEAD `c3c4f612` 以降に補間緩和コミット `a7b654d5` が追加済み。第5相460ms補間と3次easeInOut、42ms速度減衰を使用。
+- `a7b654d5` の専用QA [38290594194](https://github.com/yama-books/koten/actions/runs/38290594194) はChromium/WebKitとも10モードPASS。習熟度リング回帰 [38290594216](https://github.com/yama-books/koten/actions/runs/38290594216) もSUCCESS。従前の失敗 [38290192240](https://github.com/yama-books/koten/actions/runs/38290192240) は `front-side-random` / 1280px / forward / 第4→5相64msの移動170.293px。
+- 残る確率依存の問題を捕捉するため `944bb433` でテストをモード別5条件（合計50/ブラウザ）・再現可能なseedへ変更。`9fd07b82` で大振幅の単体回帰ガードを追加。**最新の拡張QA [38312939198](https://github.com/yama-books/koten/actions/runs/38312939198) の最終結果は未確認**。これに合格するまで完了扱いにしない。
+- PRは新規に重複作成せず既存[ドラフト #93](https://github.com/yama-books/koten/pull/93)を継続。mainは別PR #94を含む `ace435ba` へ進んでおり、レビュー時に差分・衝突の確認が必要。
+- 百人一首のoverflow既存6件とVK-08は別担当。閃光字体切替 `p>.88`、フォント事前読み込み、習熟度リング、公開入口URLを維持。**マージ・公開禁止を維持**。
+- 次の担当: 拡張QAの Chromium/WebKit 50ケースのログを確認 → 失敗時は数値・seedで再現して原因修正 → 再検査 → PR #93に受入結果追記。未実施: 実映像・スマホ実機Safari・フレーム落ちの評価。
