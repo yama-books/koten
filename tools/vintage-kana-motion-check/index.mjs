@@ -67,9 +67,12 @@ try{
     };
    }
   };
-  input.value='あいうえお';
+  document.getElementById('input').value='あいうえお';
  });
- await page.evaluate(mode=>{nextPreset=mode;void play()},preset);
+ const boot=await page.evaluate(()=>({play:typeof window.play,preset:typeof window.eval('nextPreset'),errors:window.__motionSeamStats?.length??0}));
+ console.log('motion QA bootstrap '+JSON.stringify(boot));
+ assert.equal(boot.play,'function','cinematic script must be initialized');
+ await page.evaluate(mode=>{window.eval('nextPreset='+JSON.stringify(mode));void window.play()},preset);
  await page.waitForFunction(()=>Boolean(document.getElementById('stage')?.dataset.motionPlan));
  await page.clock.runFor(14800);
  const stats=await page.evaluate(()=>window.__motionSeamStats);
