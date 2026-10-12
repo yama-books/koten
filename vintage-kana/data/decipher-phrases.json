@@ -1,0 +1,1864 @@
+{
+  "schemaVersion": 1,
+  "mode": "decipher",
+  "provenance_type": "modern_composition",
+  "contentStatus": "user-approved-pool; quotation/source attribution pending review",
+  "description": "創作例。現代仮名遣いを出題向けにひらがな化した教材であり、歴史的実例の字形組み合わせを再現しない。",
+  "phrases": [
+    {
+      "id": "dc-0001",
+      "reading": "そら",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0002",
+      "reading": "やま",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0003",
+      "reading": "うみ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0004",
+      "reading": "はな",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0005",
+      "reading": "かぜ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0006",
+      "reading": "あめ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0007",
+      "reading": "ゆき",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0008",
+      "reading": "ほし",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0009",
+      "reading": "つき",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0010",
+      "reading": "くも",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0011",
+      "reading": "いぬ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0012",
+      "reading": "ねこ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0013",
+      "reading": "さる",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0014",
+      "reading": "くま",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0015",
+      "reading": "とり",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0016",
+      "reading": "うし",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0017",
+      "reading": "しか",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0018",
+      "reading": "かに",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0019",
+      "reading": "えび",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0020",
+      "reading": "たい",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0021",
+      "reading": "いか",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0022",
+      "reading": "はる",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0023",
+      "reading": "なつ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0024",
+      "reading": "あき",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0025",
+      "reading": "ふゆ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0026",
+      "reading": "すし",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0027",
+      "reading": "のり",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0028",
+      "reading": "もち",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0029",
+      "reading": "みそ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0030",
+      "reading": "そば",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0031",
+      "reading": "たこ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0032",
+      "reading": "くり",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0033",
+      "reading": "もも",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0034",
+      "reading": "なし",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0035",
+      "reading": "うめ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0036",
+      "reading": "かき",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0037",
+      "reading": "まめ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0038",
+      "reading": "なす",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0039",
+      "reading": "ねぎ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0040",
+      "reading": "かぶ",
+      "category": "自然・身近な語"
+    },
+    {
+      "id": "dc-0041",
+      "reading": "とまと",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0042",
+      "reading": "すいか",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0043",
+      "reading": "いちご",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0044",
+      "reading": "ばなな",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0045",
+      "reading": "みかん",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0046",
+      "reading": "りんご",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0047",
+      "reading": "だいこん",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0048",
+      "reading": "にんじん",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0049",
+      "reading": "はくさい",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0050",
+      "reading": "こまつな",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0051",
+      "reading": "たまねぎ",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0052",
+      "reading": "しいたけ",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0053",
+      "reading": "しめじ",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0054",
+      "reading": "えのき",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0055",
+      "reading": "きのこ",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0056",
+      "reading": "たけのこ",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0057",
+      "reading": "れんこん",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0058",
+      "reading": "えだまめ",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0059",
+      "reading": "おにぎり",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0060",
+      "reading": "たまごやき",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0061",
+      "reading": "やきそば",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0062",
+      "reading": "みそしる",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0063",
+      "reading": "たいやき",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0064",
+      "reading": "やきいも",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0065",
+      "reading": "かきごおり",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0066",
+      "reading": "おこのみやき",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0067",
+      "reading": "おむらいす",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0068",
+      "reading": "きなこもち",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0069",
+      "reading": "さくらもち",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0070",
+      "reading": "わらびもち",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0071",
+      "reading": "くりごはん",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0072",
+      "reading": "ほうれんそう",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0073",
+      "reading": "からあげ",
+      "category": "食べ物・野菜"
+    },
+    {
+      "id": "dc-0074",
+      "reading": "さかな",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0075",
+      "reading": "うさぎ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0076",
+      "reading": "きつね",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0077",
+      "reading": "たぬき",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0078",
+      "reading": "からす",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0079",
+      "reading": "いるか",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0080",
+      "reading": "くじら",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0081",
+      "reading": "こあら",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0082",
+      "reading": "ひつじ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0083",
+      "reading": "かえる",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0084",
+      "reading": "とんぼ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0085",
+      "reading": "すずめ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0086",
+      "reading": "あひる",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0087",
+      "reading": "とかげ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0088",
+      "reading": "かみなり",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0089",
+      "reading": "ゆうやけ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0090",
+      "reading": "あさひ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0091",
+      "reading": "こもれび",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0092",
+      "reading": "ひだまり",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0093",
+      "reading": "まんげつ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0094",
+      "reading": "あまのがわ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0095",
+      "reading": "ほしぞら",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0096",
+      "reading": "ゆきだるま",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0097",
+      "reading": "ひこうき",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0098",
+      "reading": "しんかんせん",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0099",
+      "reading": "たけとんぼ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0100",
+      "reading": "ひこうせん",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0101",
+      "reading": "にじいろ",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0102",
+      "reading": "さんぽみち",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0103",
+      "reading": "はなびたいかい",
+      "category": "動物・自然・風景"
+    },
+    {
+      "id": "dc-0104",
+      "reading": "ひろし",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0105",
+      "reading": "たくや",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0106",
+      "reading": "きむら",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0107",
+      "reading": "いしだ",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0108",
+      "reading": "なかむら",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0109",
+      "reading": "やまだ",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0110",
+      "reading": "たなか",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0111",
+      "reading": "さとう",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0112",
+      "reading": "すずき",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0113",
+      "reading": "こばやし",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0114",
+      "reading": "いとう",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0115",
+      "reading": "はやし",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0116",
+      "reading": "たけし",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0117",
+      "reading": "さくら",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0118",
+      "reading": "かなこ",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0119",
+      "reading": "さとみ",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0120",
+      "reading": "しんのすけ",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0121",
+      "reading": "おおの",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0122",
+      "reading": "とくがわ",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0123",
+      "reading": "おだのぶなが",
+      "category": "人名・名字"
+    },
+    {
+      "id": "dc-0124",
+      "reading": "おはよう",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0125",
+      "reading": "おかえり",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0126",
+      "reading": "ただいま",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0127",
+      "reading": "ありがとう",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0128",
+      "reading": "よろしく",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0129",
+      "reading": "おめでとう",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0130",
+      "reading": "おつかれさま",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0131",
+      "reading": "おひさしぶり",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0132",
+      "reading": "またあした",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0133",
+      "reading": "おやすみなさい",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0134",
+      "reading": "かえりみち",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0135",
+      "reading": "あしたははれる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0136",
+      "reading": "あさごはんはなに",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0137",
+      "reading": "よるごはんはなに",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0138",
+      "reading": "おなかがすいた",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0139",
+      "reading": "とけいのはり",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0140",
+      "reading": "ほんをよむ",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0141",
+      "reading": "たびにでる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0142",
+      "reading": "ひみつのはこ",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0143",
+      "reading": "まほうのことば",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0144",
+      "reading": "ひかりのなかへ",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0145",
+      "reading": "かくれんぼ",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0146",
+      "reading": "とりがなく",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0147",
+      "reading": "あめがふる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0148",
+      "reading": "ゆきがふる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0149",
+      "reading": "かぜがふく",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0150",
+      "reading": "ねこがねる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0151",
+      "reading": "ねこがなく",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0152",
+      "reading": "ねこがのびる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0153",
+      "reading": "いぬがはしる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0154",
+      "reading": "くまがねむる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0155",
+      "reading": "うみがひかる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0156",
+      "reading": "ほしがきえる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0157",
+      "reading": "やまがわらう",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0158",
+      "reading": "はるがきた",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0159",
+      "reading": "さむいふゆのあさ",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0160",
+      "reading": "なつのおもいで",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0161",
+      "reading": "もうすぐはるがくる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0162",
+      "reading": "これはほんとうか",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0163",
+      "reading": "ここはどこなの",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0164",
+      "reading": "どこまでいくの",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0165",
+      "reading": "なにがでるかな",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0166",
+      "reading": "ほしふるよるに",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0167",
+      "reading": "わすれものはない",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0168",
+      "reading": "すべてはかぜまかせ",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0169",
+      "reading": "ひとはひとわれはわれ",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0170",
+      "reading": "みらいはこれから",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0171",
+      "reading": "わたしはここにいる",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0172",
+      "reading": "かみさまはみている",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0173",
+      "reading": "なまえのないねこ",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0174",
+      "reading": "おむすびころりん",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0175",
+      "reading": "うそからでたまこと",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0176",
+      "reading": "とびだすえほん",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0177",
+      "reading": "せかいのはてまで",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0178",
+      "reading": "ときはかねなり",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0179",
+      "reading": "ゆめはおおきく",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0180",
+      "reading": "ごはんはまだか",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0181",
+      "reading": "からあげはせいぎ",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0182",
+      "reading": "すべてはよていどおり",
+      "category": "日常会話・短文"
+    },
+    {
+      "id": "dc-0183",
+      "reading": "すまほ",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0184",
+      "reading": "あぷり",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0185",
+      "reading": "てれび",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0186",
+      "reading": "りもこん",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0187",
+      "reading": "でんわ",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0188",
+      "reading": "でじたる",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0189",
+      "reading": "かめら",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0190",
+      "reading": "れいぞうこ",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0191",
+      "reading": "せんたくき",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0192",
+      "reading": "じどうはんばいき",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0193",
+      "reading": "けいたいでんわ",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0194",
+      "reading": "てれびのりもこん",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0195",
+      "reading": "すまほのがめん",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0196",
+      "reading": "えあこん",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0197",
+      "reading": "でんしれんじ",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0198",
+      "reading": "でじたるかめら",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0199",
+      "reading": "おんらいん",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0200",
+      "reading": "でんき",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0201",
+      "reading": "でんわばんごう",
+      "category": "現代の道具"
+    },
+    {
+      "id": "dc-0202",
+      "reading": "まるきんまるび",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0203",
+      "reading": "しんじんるい",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0204",
+      "reading": "おばたりあん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0205",
+      "reading": "なうい",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0206",
+      "reading": "きんさんぎんさん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0207",
+      "reading": "じぶんでじぶんをほめたい",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0208",
+      "reading": "なんでだろう",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0209",
+      "reading": "そんなのかんけいねえ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0210",
+      "reading": "どげんかせんといかん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0211",
+      "reading": "はにかみおうじ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0212",
+      "reading": "おもてなし",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0213",
+      "reading": "ばいがえしだ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0214",
+      "reading": "ありのままで",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0215",
+      "reading": "かべどん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0216",
+      "reading": "そだねえ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0217",
+      "reading": "えもい",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0218",
+      "reading": "やばたにえん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0219",
+      "reading": "ぴえん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0220",
+      "reading": "ぱおん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0221",
+      "reading": "おししかかたん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0222",
+      "reading": "たいぱ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0223",
+      "reading": "ふてほど",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0224",
+      "reading": "ととのう",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0225",
+      "reading": "おうちじかん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0226",
+      "reading": "すきすぎてめつ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0227",
+      "reading": "めろい",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0228",
+      "reading": "ばくれつ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0229",
+      "reading": "ほんまやで",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0230",
+      "reading": "なんでやねん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0231",
+      "reading": "しらんけど",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0232",
+      "reading": "いのうただたかかいわい",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0233",
+      "reading": "へいせいれとろ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0234",
+      "reading": "ふれねみい",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0235",
+      "reading": "ぬまる",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0236",
+      "reading": "おしがとうとい",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0237",
+      "reading": "せかいせん",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0238",
+      "reading": "わかりみ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0239",
+      "reading": "それな",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0240",
+      "reading": "げきあつ",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0241",
+      "reading": "はなぢがでる",
+      "category": "流行語・ネット口語"
+    },
+    {
+      "id": "dc-0242",
+      "reading": "ひでぶ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0243",
+      "reading": "あべし",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0244",
+      "reading": "ばるす",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0245",
+      "reading": "ぽけもん",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0246",
+      "reading": "どらえもん",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0247",
+      "reading": "ととろ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0248",
+      "reading": "どこでもどあ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0249",
+      "reading": "かめはめは",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0250",
+      "reading": "のびた",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0251",
+      "reading": "すねお",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0252",
+      "reading": "となりのととろ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0253",
+      "reading": "ぐりとぐら",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0254",
+      "reading": "げんきだま",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0255",
+      "reading": "へんしん",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0256",
+      "reading": "ほねかわすねお",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0257",
+      "reading": "ふしぎだね",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0258",
+      "reading": "あんぱんち",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0259",
+      "reading": "ぼくどらえもん",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0260",
+      "reading": "きみのなは",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0261",
+      "reading": "ひとがごみのようだ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0262",
+      "reading": "おまえはもうしんでいる",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0263",
+      "reading": "これはぺんですか",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0264",
+      "reading": "われおもうゆえにわれあり",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0265",
+      "reading": "にんげんはかんがえるあしである",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0266",
+      "reading": "めいのばか",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0267",
+      "reading": "いきろ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0268",
+      "reading": "しんじつはいつもひとつ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0269",
+      "reading": "かいぞくおうにおれはなる",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0270",
+      "reading": "よもやよもやだ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0271",
+      "reading": "こころをもやせ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0272",
+      "reading": "だがことわる",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0273",
+      "reading": "やれやれだぜ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0274",
+      "reading": "てんさいですから",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0275",
+      "reading": "にんげんをやめるぞ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0276",
+      "reading": "みせてもらおうか",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0277",
+      "reading": "これでいいのだ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0278",
+      "reading": "じつにおもしろい",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0279",
+      "reading": "つづく",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0280",
+      "reading": "おそろしいこ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0281",
+      "reading": "ざわざわ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0282",
+      "reading": "それはちがうよ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0283",
+      "reading": "おまえのつみをかぞえろ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0284",
+      "reading": "わらえばいいとおもうよ",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0285",
+      "reading": "こわくないこわくない",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0286",
+      "reading": "あきらめたらしあいおわり",
+      "category": "アニメ・作品・名言"
+    },
+    {
+      "id": "dc-0287",
+      "reading": "ぬりかべ",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0288",
+      "reading": "おに",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0289",
+      "reading": "てんぐ",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0290",
+      "reading": "やまんば",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0291",
+      "reading": "ゆきおんな",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0292",
+      "reading": "ろくろくび",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0293",
+      "reading": "ひとつめこぞう",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0294",
+      "reading": "あかなめ",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0295",
+      "reading": "あずきあらい",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0296",
+      "reading": "うみぼうず",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0297",
+      "reading": "かまいたち",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0298",
+      "reading": "ぬえ",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0299",
+      "reading": "ねこまた",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0300",
+      "reading": "こだま",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0301",
+      "reading": "やまびこ",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0302",
+      "reading": "ざしきわらし",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0303",
+      "reading": "あまびえ",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0304",
+      "reading": "すねこすり",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0305",
+      "reading": "べとべとさん",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0306",
+      "reading": "きつねび",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0307",
+      "reading": "つちぐも",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0308",
+      "reading": "なまはげ",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0309",
+      "reading": "からかさこぞう",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0310",
+      "reading": "ふたくちおんな",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0311",
+      "reading": "けうけげん",
+      "category": "妖怪"
+    },
+    {
+      "id": "dc-0312",
+      "reading": "はなよりだんご",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0313",
+      "reading": "ねこにこばん",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0314",
+      "reading": "さるもきからおちる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0315",
+      "reading": "いしのうえにもさんねん",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0316",
+      "reading": "わらうかどにはふくきたる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0317",
+      "reading": "はやおきはさんもんのとく",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0318",
+      "reading": "ちしきはちからなり",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0319",
+      "reading": "めにはめをはにははを",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0320",
+      "reading": "つみをにくんでひとをにくまず",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0321",
+      "reading": "ぬすびとにもさんぶのり",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0322",
+      "reading": "いそがばまわれ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0323",
+      "reading": "ころばぬさきのつえ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0324",
+      "reading": "ちりもつもればやまとなる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0325",
+      "reading": "いしばしをたたいてわたる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0326",
+      "reading": "うそもほうべん",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0327",
+      "reading": "おににかなぼう",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0328",
+      "reading": "おにのめにもなみだ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0329",
+      "reading": "えびでたいをつる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0330",
+      "reading": "たなからぼたもち",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0331",
+      "reading": "みざるいわざるきかざる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0332",
+      "reading": "めからうろこ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0333",
+      "reading": "かえるのこはかえる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0334",
+      "reading": "とらぬたぬきのかわざんよう",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0335",
+      "reading": "よわりめにたたりめ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0336",
+      "reading": "めはくちほどにものをいう",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0337",
+      "reading": "くちはわざわいのもと",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0338",
+      "reading": "でるくいはうたれる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0339",
+      "reading": "あんずるよりうむがやすし",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0340",
+      "reading": "うりことばにかいことば",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0341",
+      "reading": "しらぬがほとけ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0342",
+      "reading": "にどあることはさんどある",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0343",
+      "reading": "なさけはひとのためならず",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0344",
+      "reading": "ひとをのろわばあなふたつ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0345",
+      "reading": "くるしいときのかみだのみ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0346",
+      "reading": "ぬかにくぎ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0347",
+      "reading": "のれんにうでおし",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0348",
+      "reading": "ごまめのはぎしり",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0349",
+      "reading": "わたるせけんにおにはなし",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0350",
+      "reading": "てきにしおをおくる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0351",
+      "reading": "やぶからぼう",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0352",
+      "reading": "かえるのつらにみず",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0353",
+      "reading": "うまのみみにねんぶつ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0354",
+      "reading": "のどもとすぎればあつさをわすれる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0355",
+      "reading": "ぬれてであわ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0356",
+      "reading": "へびににらまれたかえる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0357",
+      "reading": "えんのしたのちからもち",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0358",
+      "reading": "てんはにぶつをあたえず",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0359",
+      "reading": "いぬもあるけばぼうにあたる",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0360",
+      "reading": "かせぐにおいつくびんぼうなし",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0361",
+      "reading": "うわさをすればかげ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0362",
+      "reading": "もちはもちや",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0363",
+      "reading": "へたのよこずき",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0364",
+      "reading": "とんびがたかをうむ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0365",
+      "reading": "こうぼうにもふでのあやまり",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0366",
+      "reading": "ほねおりぞんのくたびれもうけ",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0367",
+      "reading": "ほとけのかおもさんど",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0368",
+      "reading": "ふくすいぼんにかえらず",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0369",
+      "reading": "かめのこうよりとしのこう",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0370",
+      "reading": "あぶはちとらず",
+      "category": "ことわざ・格言"
+    },
+    {
+      "id": "dc-0371",
+      "reading": "いのなかのかわずたいかいをしらず",
+      "category": "ことわざ・格言"
+    }
+  ]
+}
