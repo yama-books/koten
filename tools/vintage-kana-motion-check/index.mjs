@@ -31,19 +31,34 @@ const modes=[
  ["front-side-random","side-shake-random"],["front-diagonal-sync","diagonal-sync"],
  ["front-diagonal-random","diagonal-random"]
 ];
-const inputs=[
- "あいうえお","あ","あいうえお\nかきくけこ","あいうえおかきくけこさしすせそたちつてと","𛀂𛀆𛀊𛀏𛀔"
+// Run every front-mode with a width, length, newline and direction matrix.
+// Each case has a reproducible seed. The different seeds still exercise
+// the randomized choreography without making CI results unreproducible.
+const scenarios=[
+ {label:"1-char",width:320,source:"あ",reverse:false},
+ {label:"5-char-reverse",width:390,source:"𛀂𛀆𛀊𛀏𛀔",reverse:true},
+ {label:"10-char-multiline",width:768,source:"あいうえお\nかきくけこ",reverse:false},
+ {label:"20-char",width:1280,source:"あいうえおかきくけこさしすせそたちつてと",reverse:false},
+ {label:"10-char-multiline-reverse",width:1280,source:"𛀂𛀆𛀊𛀏𛀔\n𛀂𛀆𛀊𛀏𛀔",reverse:true}
 ];
 let passed=0;
 try{
  for(let i=0;i<modes.length;i++){
   const [preset,expectedFront]=modes[i];
-  const width=[320,390,768,1280][i%4];
-  const source=inputs[i%inputs.length];
-  const reverse=i%inputs.length===4;
-  const page=await browser.newPage({viewport:{width,height:Math.max(640,Math.round(width*1.3))},reducedMotion:"reduce"});
+  for(const [caseIdx,{label,width,source,reverse}] of scenarios.entries()){
+   const seed=1009+i*101+caseIdx*10007;
+   const page=await browser.newPage({viewport:{width,height:Math.max(640,Math.round(width*1.3))},reducedMotion:"reduce"});
   const errors=[];page.on("pageerror",e=>errors.push(e.message));
   try{
+   await page.addInitScript(({seed})=>{
+    let s=seed>>>0;
+    Math.random=()=>{
+     s=(s+0x6D2B79F5)>>>0;
+     let t=Math.imul(s^(s>>>15),1|s);
+     t=(t+Math.imul(t^(t>>>7),61|t))^t;
+     return ((t^(t>>>14))>>>0)/4294967296;
+    };
+   },{seed});
    await page.clock.install({time:new Date("2026-10-13T10:00:00Z")});
    await page.route(/fonts\.(googleapis|gstatic)\.com/,route=>route.abort());
    await page.goto(url);
@@ -92,18 +107,21 @@ try{
    assert.equal(JSON.parse(plan).frontMode,expectedFront,"mode selection "+preset);
    await page.clock.runFor(14800);
    const stats=await page.evaluate(()=>window.__motionSeamStats);
+   let maxDx=0,maxDy=0;
    for(const seam of [1,2]){
     const entries=stats.filter(row=>row.seam===seam);
     assert.ok(entries.length>0,"seam "+seam+" sampled for "+preset);
     for(const e of entries){
      assert.ok(Number.isFinite(e.dx)&&Number.isFinite(e.dy),"finite phase pose "+JSON.stringify(e));
-     assert.ok(e.dx<130&&e.dy<130,"excessive first 80ms travel "+JSON.stringify({preset,width,reverse,...e}));
+     maxDx=Math.max(maxDx,e.dx);maxDy=Math.max(maxDy,e.dy);
+     assert.ok(e.dx<130&&e.dy<130,"excessive first 80ms travel "+JSON.stringify({preset,label,width,reverse,seed,...e}));
     }
    }
    assert.deepEqual(errors,[],"page script errors "+preset);
    passed++;
-   console.log("motion QA "+engine+" "+preset+" "+width+"px "+(reverse?"reverse":"forward")+" PASS");
+   console.log("motion QA "+engine+" "+preset+" "+label+" "+width+"px "+(reverse?"reverse":"forward")+" seed="+seed+" PASS dx="+maxDx.toFixed(2)+" dy="+maxDy.toFixed(2));
   }finally{await page.close()}
+  }
  }
- console.log("motion QA "+engine+": "+passed+"/"+modes.length+" modes PASS");
+ console.log("motion QA "+engine+": "+passed+"/"+(modes.length*scenarios.length)+" scenarios / "+modes.length+" modes PASS");
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
