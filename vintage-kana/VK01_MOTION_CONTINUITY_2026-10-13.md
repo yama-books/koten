@@ -80,3 +80,10 @@
 - **上記50ケース×2ブラウザの結果は未確定**（新規専用QA [38312939198](https://github.com/yama-books/koten/actions/runs/38312939198)）。終了結果を確認するまでVK-01は最終受入にしない。
 - 同時点の共通CIは百人一首側 `check:overflow` 6件で失敗。別担当のため本ブランチで修正・テスト緩和はしない。現在のmainは他作業PR #94を含む `ace435ba` に更新されており、VK-01のPR #93との統合時差分監査が必要。
 - 実機Safari・実画面での印象評価・フレーム落ちの測定は未実施。**mainへのマージ、公開は行っていない**。
+
+### 2026-10-13 拡張QA完走（再開後の最終機械検査）
+- [専用QA run 38312939198](https://github.com/yama-books/koten/actions/runs/38312939198) **SUCCESS**。最新の実装・テストコミット `9fd07b82` に対し、Chromium **50/50**、WebKit **50/50**、合計100/100ケースPASS。1ケースでphase12→4とphase4→5の両境界を検査。全10モード、代表幅320/390/768/1280px、1/5/10/20文字、改行、順逆変換を含む。テスト乱数seedはログに記録。
+- 最初80ms未満の観測最大差：Chromium `dx=112.91px`（front-side-random / 1280px / 20文字 / forward / seed 31737）、`dy=112.98px`（front-diagonal-random / 1280px / 改行10字 / reverse / seed 41946）。WebKitも `dx=112.91px`, `dy=112.98px`。いずれも元からの閾値130pxを満たす。
+- 同実行で新設の1280px/64ms/79msの大距離単体回帰テストもPASS。ブラウザQAの各条件は位置の有限性を確認し、pageerrorも0件。
+- [習熟度リング専用QA run 38312939203](https://github.com/yama-books/koten/actions/runs/38312939203) はSUCCESS。閃光字体切替 `p>.88` と `ensureMotionTargetFont()` は変更なし。
+- **判定: VK-01の機械検査は受入条件を満たした。** 未検証: 実機Safari/iPhone、実映像の人による自然さ評価、フレーム落ちの定量評価。これらはレビュー時の確認事項。PR #93はドラフトのまま、mainマージ・Pages公開は行わない。
