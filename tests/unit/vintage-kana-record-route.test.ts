@@ -21,7 +21,7 @@ test("detailed view: mastery ring is inside the quiz pill with separate actions"
 });
 test("mastery formula is shared and learning-record deep link still resolves after load",()=>{
  for(const html of [simple,detail])assert.match(html,/<script src="\.\/mastery-summary\.js"><\/script>/);
- assert.match(detail,/return VintageKanaMastery\.overallMasteryPercent\(GLYPHS,learningEvents\)/);
+ assert.match(detail,/return VintageKanaMastery\.overallMasteryPercent\(GLYPHS,allMasteryEvents\(\)\)/);
  assert.match(detail,/function openRecordFromUrl\(\)/);
  assert.match(detail,/window\.location\.hash==="#record"/);
  assert.match(detail,/loadData\(\)\.then\(\(\)\s*=>\s*\{/);
