@@ -44,3 +44,24 @@
 - 前半の **10モード**（orbit, formation, chick, column同期/独立, float-pinball, side同期/独立, diagonal同期/独立）をそれぞれ明示した隠し検査プリセットで再現。
 - 横幅320/390/768/1280px、1/5/10/20文字級、改行・逆変換を代表組合せで検査する。検査条件の追加は演出選択のランダム分布を変更しない。
 - この変更は**検査を拡大した段階**であり、全モードの合否はCI終了まで未確定。
+
+## 2026-10-13 停止チェックポイント（ユーザー指示による作業凍結）
+
+**ここから先は実装・追加試験・マージ・公開を進めずに停止。**
+
+- 正本ブランチ: `vintage-kana-motion-continuity-vk01`、記録開始時の HEAD `c869a66fe284e103f615b58c38ac15df4256165b`。PR #91 のマージ済み main `9c35434da6e53d426bd78ae5a93f24792e4df1a8` から独立。main へは未マージ・Pages未公開。
+- コード: `vintage-kana/motion-seam.js` に末尾ポーズ/速度のサンプリングと、次相への短時間補間を追加。対象: フェーズ1・2 → 4、フェーズ4 → 5。
+- 適用: `vintage-kana/index.html` および `vintage-kana/prototypes/cinematic-motion-v1/index.html`。閃光時の `p>.88` 字形切替と `ensureMotionTargetFont` は維持。
+- 検証: `tests/unit/vintage-kana-motion-seam.test.ts`、`tools/vintage-kana-motion-check/index.mjs`、`.github/workflows/vintage-kana-motion.yml`。直近コード変更は「前半10モードと両相境界」へブラウザ検査を拡張したコミット `c869a66`。
+- 旧版の失敗記録: 当初の実ブラウザ検査では `input is not defined`（テストDOM参照の誤り）を修正。その後 WebKit 第4→5相入口の水平方向約135px差を検出、旧相の速度外挿に42ms指数減衰を導入して修正。**検査を弱めて回避したわけではない**。
+- 旧コミットの検証証跡: [専用QA run 38289784395](https://github.com/yama-books/koten/actions/runs/38289784395) は **success**（単体、Chromium、WebKit）。ただしこの成功は最新 `c869a66` の全10モード拡張版に対する合否ではない。
+- 停止時の最新専用QA: [run 38290192240](https://github.com/yama-books/koten/actions/runs/38290192240) は確認時点で **in_progress**（Chromiumブラウザ検査中）。同一HEADの [run 38290186056](https://github.com/yama-books/koten/actions/runs/38290186056) も in_progress。確認後にCI結果が確定している可能性があるので再開時必ず再取得。
+- 同一HEADの習熟度リング回帰QA: [run 38290192250](https://github.com/yama-books/koten/actions/runs/38290192250) は確認時点で in_progress（既存記録検査中）。共通 [CI run 38290192277](https://github.com/yama-books/koten/actions/runs/38290192277) も in_progress。百人一首の既知 `check:overflow` 6件は別セッション担当、VK-01修正範囲に含めない。
+- 未判定: 全10モード×2境界のChromium/WebKit合否、長文・改行・逆変換・320px等の拡張条件、実映像での質感・フレーム落ち、字形切替・skip・入力復帰、実機Safari、CI全体。テストが通っても映像審査は別途必要。
+
+**再開手順**
+1. 上記ブランチの最新HEADとmainとの差分を取得。並行更新があれば差分を優先して調整し、過去のSHAを上書きしない。
+2. 専用QA（特に `38290192240` と `38290186056`）および回帰QA、共通CIの結論と失敗ログを読み、結果を本節へ追記。
+3. **失敗なら原因を数値とスクリーンショットで再現して修正**。全10モードで第1・2→4、第4→5のポーズ・速度・透明度の境界を監査し、映像演出と文字の読みやすさを維持する。
+4. Chromium/WebKit、短文/長文、スマートフォン相当幅、forward/reverse、閃光中の変体仮名置換を回帰確認し、結果を保存。
+5. 独立PRを作成しレビューを経て統合判断。**この停止指示はマージ・本番公開を許可しない。**

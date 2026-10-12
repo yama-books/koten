@@ -847,3 +847,10 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - `main` `9c35434` 起点の作業ブランチ `vintage-kana-motion-continuity-vk01`、未公開。
 - `vintage-kana/motion-seam.js` と本番 `index.html` / 試作 `prototypes/cinematic-motion-v1/index.html` に第1・2相→第4相、第4相→第5相の連続補間を実装中。古い演出と閃光字体差替えは保持。
 - 本タスクの計測・受入条件は [`VK01_MOTION_CONTINUITY_2026-10-13.md`](./VK01_MOTION_CONTINUITY_2026-10-13.md) を参照。**まだマージ・公開しない**。
+
+### 2026-10-13 VK-01 停止チェックポイント
+- ユーザー指示により、これ以上作業を進めず記録して停止。
+- 作業ブランチ `vintage-kana-motion-continuity-vk01` の記録開始HEAD: `c869a66fe284e103f615b58c38ac15df4256165b`。第1・2→4相、第4→5相の連続補間と全10モード検査をコードへ反映済み。
+- 先行専用QA run `38289784395` 成功。最新拡張版 run `38290192240`、共通CI `38290192277` は確認時点で実行中。**最新HEADはまだ最終合格未確定**。
+- 詳細なコード、検証経過、既知の不具合・修正、未完了QA、次回の再開順序は [`VK01_MOTION_CONTINUITY_2026-10-13.md`](./VK01_MOTION_CONTINUITY_2026-10-13.md) 最終節を参照。
+- **mainへのマージ・Pages公開なし**。百人一首の `check:overflow` 修復は別セッション。
