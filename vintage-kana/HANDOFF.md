@@ -842,3 +842,8 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - 問題ID、設問、正答、別解・典拠、歴史的仮名遣い／異体字の扱い、IME対応、履歴・習熟度への連動について受入仕様を策定する。
 - **状態：計画への登録のみ、未実装・未公開。** PR #91の機能変更には含めない。
 - 再開指示: **`AUDIT_AND_IMPLEMENTATION_PLAN_2026-10-12.md` §9（VK-08）を確認し、別セッションから問題データの引継ぎを受けて具体化する。**
+
+## 2026-10-13 VK-01 進行中：前半アニメーションの境界補間
+- `main` `9c35434` 起点の作業ブランチ `vintage-kana-motion-continuity-vk01`、未公開。
+- `vintage-kana/motion-seam.js` と本番 `index.html` / 試作 `prototypes/cinematic-motion-v1/index.html` に第1・2相→第4相、第4相→第5相の連続補間を実装中。古い演出と閃光字体差替えは保持。
+- 本タスクの計測・受入条件は [`VK01_MOTION_CONTINUITY_2026-10-13.md`](./VK01_MOTION_CONTINUITY_2026-10-13.md) を参照。**まだマージ・公開しない**。
