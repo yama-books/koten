@@ -332,7 +332,15 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
   direction: rtl;
 }
 .question-text--vertical + .answer-controls .answer-choices p { grid-column: 1 / -1; direction: ltr; }
-.question-text--vertical + .answer-controls .answer-choices button { writing-mode: vertical-rl; }
+/*
+ * 作者名の縦書き選択肢は 320px・文字200% で1列が約48pxになる。
+ * 既定の行送り1.6（32px文字→51.2px）は縦書きでは列幅となり、文字が欠ける。
+ * 字の大きさを維持したまま列幅だけに収める。余白・44pxのタップ高さは維持。
+ */
+.question-text--vertical + .answer-controls .answer-choices button {
+  writing-mode: vertical-rl;
+  line-height: 1.2;
+}
 .answer-choices > :not(p) { box-sizing: border-box; min-width: 44px; min-height: 44px; }
 /*
  * 7〜8択は横スクロールへ逃がさず、1列を細くして画面幅へ収める（依頼者・2026-10-06）。
@@ -363,7 +371,12 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
  */
 .answer-choices button { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2xs); }
 .answer-choices button:disabled { cursor: default; opacity: 1; }
-.answer-choices .feedback-mark img { width: 2rem; height: 2rem; }
+/*
+ * 採点後の丸・チェック画像は root 文字200%だと2rem=64pxになり、
+ * 320/375pxの縦書き選択肢1列からはみ出す。ボタンの文字サイズは縮めず、
+ * 選択肢内の判定画像だけ文字に比例した大きさへ揃える。
+ */
+.answer-choices .feedback-mark img { width: 1.2em; height: 1.2em; }
 .answer-choice--chosen { color: var(--color-ink-muted); background: var(--color-surface-soft); }
 .answer-choice--answer { border-color: var(--color-wisteria); background: var(--color-wisteria-soft); color: var(--color-ink); }
 .blank-slot { box-sizing: border-box; display: inline-grid; min-inline-size: 3em; min-block-size: 1.45em; place-items: center; border: var(--rule-thin) solid var(--color-ink-muted); border-radius: var(--radius-md); margin-inline: var(--space-3xs); padding: 0 var(--space-2xs); background: var(--color-surface); vertical-align: middle; }
