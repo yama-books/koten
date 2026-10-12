@@ -41,7 +41,7 @@ test("approved header: help link moved outside the menu panel without losing the
  assert.match(header,/<h1>変体仮名メーカー<\/h1>/);
  assert.match(header,/id="openHelp" class="headerHelp"/);
  assert.match(header,/>変体仮名とは？<\/span>/);
- assert.match(header,/class="modeLink" href="\.\/"[^>]*>シンプル版 ↗<\/a>/);
+ assert.match(header,/class="modeLink" href="\.\/"[^>]*>シンプル？版<\/a>/);
  assert.doesNotMatch(nav,/id="openHelp"/);
  assert.match(nav,/data-view="compose">書いてみる<\/button>/);
  assert.match(nav,/data-view="browse">一覧<\/button>/);
