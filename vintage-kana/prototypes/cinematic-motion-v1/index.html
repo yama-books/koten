@@ -932,7 +932,10 @@ async function play(){
   const forceRare=forcedPreset==="rare";
 
   let frontMode;
-  if(forcedPreset==="front-chick")frontMode="chick";
+  // Internal deterministic presets for the full ten-route motion regression QA.
+  if(forcedPreset==="front-orbit")frontMode="orbit";
+  else if(forcedPreset==="front-formation")frontMode="formation";
+  else if(forcedPreset==="front-chick")frontMode="chick";
   else if(forcedPreset==="front-column")frontMode="chick-column-sync";
   else if(forcedPreset==="front-column-random")frontMode="chick-column-random";
   else if(forcedPreset==="front-pinball")frontMode="float-pinball";
