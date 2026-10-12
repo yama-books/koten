@@ -66,6 +66,24 @@ test("violent pre-flash velocities keep C1 but do not launch the next phase",()=
  pose(100);bridge.apply(340);
  assert.equal(x(),100);
 });
+test("1280px side-random regression: 64ms travel is bounded with the real large pose gap",()=>{
+ const {api,el,draw,pose,x}=setup();
+ const trail=api.collect([el],1000);
+ pose(508.306);trail.sample(980);
+ pose(444.306);trail.sample(1000); // outgoing -3.2px/ms, worst allowed drift
+ const bridge=trail.bridge(460,draw);
+ pose(-361.944);bridge.apply(0);
+ assert.equal(x(),444.306,"C0 position continuity");
+ pose(-361.944);bridge.apply(1);
+ assert.ok(Math.abs(x()-(444.306-3.2))<.1,"C1 outgoing velocity "+x());
+ for(const ms of [64,79]){
+  pose(-361.944);bridge.apply(ms);
+  assert.ok(Math.abs(x()-444.306)<130,"first 80ms travel, t="+ms+", x="+x());
+ }
+ pose(-361.944);bridge.apply(459);
+ assert.ok(Math.abs(x()+361.944)<.01,"converges on new choreography");
+});
+
 test("missing tail samples or invalid transform is a safe no-op",()=>{
  const {api,el,draw,pose,x}=setup();
  const trail=api.collect([el],1000);
