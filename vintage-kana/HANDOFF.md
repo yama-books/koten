@@ -939,3 +939,13 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - 次の段階として現行本番アプリを無変更のiframeで読み込み、そこからDOMの文字ポーズをCanvas2Dに再描画する **低忠実度ミラーPoC** を追加した。 `tools/vintage-kana-video-poc/dom-mirror.js` / `dom-mirror.html` / `check-dom-mirror.mjs` とユニットテストを参照。**3D透視・閃光・刻印の正確な映像化は未実装。**
 - 実DOMミラーのブラウザ検査と画質差の監査は未判定/継続中。詳細は [VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md](./VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md) 最終節。
 - **本番は未変更。** 作業ブランチ `vintage-kana-video-export-vk02-poc-20261013`、[ドラフトPR #98](https://github.com/yama-books/koten/pull/98)。`main`にマージせず公開もしない。次は実DOMミラーのCI結果→画像差分・FPSの実測→レンダラ方式の再判定。
+
+
+### 2026-10-14 VK-02 DOM/Canvas定量検証完走・再開チェックポイント
+- **現在地:** [ドラフトPR #98](https://github.com/yama-books/koten/pull/98) に、隔離の動画録画PoC・実アプリDOMミラー・画素差の自動測定を実装済み。**本番用の動画保存機能は未完成・未公開**。公開済みVK-01とは別タスクであり、前件は再実装しない。
+- **確定QA:** [VK-02 run 38485884694](https://github.com/yama-books/koten/actions/runs/38485884694) **SUCCESS**、Node単体7/7 PASS、ChromiumとWebKitで実DOMミラーと画像比較の検証が通過。Chromiumでは両方向のMP4作成/再生/ダウンロード/キャンセルPASS、WebKit LinuxではMediaRecorder非対応表示PASS。WebKitでのMP4録画成功ではない。
+- **定量比較:** 同一オリジンiframe上の実アプリに「あ」1文字・front-orbitを与え、比較中のみ入力UIとskipを非表示。768×432へ比較用画像を正規化し、0.9秒/5.5秒をChromium・WebKitで比較。暗部IoUは前半 **0.284 / 0.321**、白化移行 **0.292 / 0.222**（順序 Chromium / WebKit）。初期の入力画面透過による汚染とCanvas/iframeの撮影枠差を除外した数値。それでも文字形状の忠実度は不足。画面全体のRGB誤差だけで合格としない。
+- **証跡:** [比較画像とJSON artifact #11860282062](https://github.com/yama-books/koten/actions/runs/38485884694/artifacts/11860282062)（7日保持）。詳細な測定表・処理境界は [VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md](./VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md) 最終節。
+- **暫定裁定:** 現行Canvas2Dミラーは**位置・字形データの転送と録画APIの縦断PoCとしてのみ採用**。3D透視、X/Y/Z回転、発光・白化、WAAPI刻印の映像一致を実証できていないため、録画ボタンを本番へ統合しない。まず文字テクスチャ/4×4透視変換を扱う限定WebGLレンダラ等を現行コードから隔離して比較する。全10モード・後半全相への拡張やプロダクション実装はその後。
+- **差分管理:** 本記録時のmain `cb6a43ac841bbfa64d4e18033473a8dcc9076d6a` は別作業で進行しており、作業枝の基点 `03906323...` と異なる。main/既存別担当の変更を戻さず、PR #98をドラフトのまま保持する。ローカル `C:\Users\user\AI開発\koten` はこのチャットから直接変更していない。
+- **再開順:** PR #98と最新mainの差分確認 → 次の技術的実験（1文字限定の4×4透視・字形ラスタライズ）→ staticでのCanvas/DOM視覚差とfpsの再計測 → 機能採否。WebKitとiPhone Safariを混同せず、実機確認なしに互換性を保証しない。
