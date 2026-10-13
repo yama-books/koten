@@ -99,7 +99,7 @@ test("review collects unique glyphs across wrong and correct phrases without cha
 test("decipher uses a visible untruncated input instruction with small placeholder",()=>{
  assert.match(html,/id="decipherInputLabel"[^>]*>読みをひらがなで入力<\/label>/);
  assert.match(html,/form\.classList\.add\("isDecipherAnswer"\)/);
- assert.match(html,/form\.classList\.remove\("isDecipherAnswer"\)/);
+ assert.match(html,/document\.getElementById\("quizFreeAnswer"\)\.classList\.remove\("isDecipherAnswer"\)/);
  assert.match(html,/input\.placeholder="ひらがな"/);
  assert.match(html,/\.quizFreeAnswer\.isDecipherAnswer\{display:grid;/);
 });
