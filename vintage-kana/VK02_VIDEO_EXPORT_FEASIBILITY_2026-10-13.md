@@ -104,3 +104,30 @@
 - `.github/workflows/vintage-kana-video.yml` を追加。VK-02専用ブランチのPoC/テスト変更でNodeユニットテストとPlaywright Chromium/WebKitテストを実行する。公開ワークフローではない。
 - [PoCブラウザQA run 38379301233](https://github.com/yama-books/koten/actions/runs/38379301233) は本記録時点で**queued（未判定）**。成功扱いにしない。実際の結果・ログを確認し、非対応判定とテストエラーを混同しない。
 - PoCの録画と本番演出の動画化は別問題である。PoCのブラウザQAが成功してもVK-02本機能は完了ではない。
+
+
+## 2026-10-13 ブラウザ実測・録画再生検査の確定結果
+
+- 最初の[専用QA 38379301233](https://github.com/yama-books/koten/actions/runs/38379301233) は **SUCCESS**。Node単体テスト5件PASS。Chromiumでforward MP4 220693bytes、reverse MP4 235296bytesを生成し、preview loaded、録画取消もPASS。
+- 同じジョブで WebKit 26.5（Playwright Linux）では `MediaRecorder` APIが利用できず、**録画が不可能である旨を表示してボタンを無効化する経路を検証**。**WebKit録画成功ではない**。
+- 720×405pxのCanvasはH.264映像データで720×404pxへ端数丸めされたため、**初期画素数を768×432pxへ変更**。サイズ一致を試験で必須とする。
+- [専用QA 38380791924](https://github.com/yama-books/koten/actions/runs/38380791924) は **SUCCESS**。Chromium forward 236231bytes・reverse 250216bytes、**両方768×432px・長さ約2.81秒**。動画を一度デコードして前半/後半の画素標本の変化を確認（1296/1295点）。ブラウザの保存操作（downloadイベント）も通過し、取消もPASS。Node単体5件PASS。
+- このWebKit結果と公式ブラウザ機能のサポート状況は別。WebKit公式はiOS SafariのMediaRecorder対応を説明している（https://webkit.org/blog/11353/mediarecorder-api/）。Playwright Linux WebKitのAPI欠如からiPhone Safariも非対応と断定しない。
+
+## 実アプリDOM→Canvasミラーの第一縦断PoC
+
+- `tools/vintage-kana-video-poc/dom-mirror.js`: **現行の本番HTMLを変更せず**、同一オリジンのライブDOMから `.glyph` の文字、矩形位置、概算サイズ、Z回転、不透明度・CSSフォント、白背景レイヤー透明度を採取し、Canvas2Dに描く実験用の**低忠実度ミラー**。
+- `tools/vintage-kana-video-poc/dom-mirror.html`: `../../vintage-kana/index.html` を同一オリジンiframeで起動し、既存 `front-orbit` 隠し検証プリセットを指定。実DOMを毎フレーム採取してCanvasに反映し、最初の約3.2秒だけ試験録画可能な形にした。
+- `tools/vintage-kana-video-poc/check-dom-mirror.mjs`: テスト用localhostサーバを立てて両ブラウザで**実アプリiframe**を起動し、40フレーム以上のDOM採取、字形1個以上、Canvas描画、試験録画形式の成否を検査する。**画素一致の検査ではない**。
+- `tests/unit/vintage-kana-video-dom-mirror.test.ts`: 実DOMからの座標変換、opacity、文字と回転の読出し、Canvas2Dでの描画処理の独立ユニットテストを追加。
+- **録画一致性の重大な留保**: CSS3D透視（X/Y回転と奥行き）、重ね合わせ順、マスク、フィルター/影、複数背景エフェクト、WAAPIシェイク、閃光後の刻印演出は今の2Dミラーでは再現していない。したがって生成された動画は**本番演出動画として配信できない**。
+- [ミラー専用QA run 38381624946](https://github.com/yama-books/koten/actions/runs/38381624946) は記録開始時点で **queued**。実ブラウザでの成否と出力ログはまだ未確定。最新のコード修正後の別runを再取得する必要がある。
+- ここで重要な評価ポイントは実アプリへの**状態参照経路の可否**とCanvasの処理時間。実映像一致や全10モードの成功を意味しない。比較動画を「完成」と表示しない。
+
+### 次にすること
+1. 上記実アプリDOMミラーの専用QA結果と失敗原因を確認。ブラウザ不具合時は独立PoCのみ修正し、`main`や`index.html`は触らない。
+2. DOMとCanvasの同一タイムスタンプ画像についてスクリーンショット差分・FPS計測を実施し、3D透視/フォント/閃光・刻印のどこが未達かを量的に示す。
+3. DOMの時刻・seed・各相stateの純粋計算を切り出す設計をレビューし、Canvas2Dで不足ならGPU描画またはデスクトップ録画経路と比較する。安易に似た動画で満足しない。
+4. iOS Safari実機でMediaRecorder/Canvas captureStream対応、保存ファイル再生、共有メニュー挙動を確認する。
+
+**このブランチは引き続きドラフト／未公開。全相・全モードの動画保存を満たすまで本番導線を追加しない。**
