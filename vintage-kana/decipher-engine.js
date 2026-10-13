@@ -111,6 +111,26 @@
    const seen=new Set();
    return tokens.filter(t=>t.character&&!seen.has(t.character)&&seen.add(t.character));
  }
+ // Pure review aggregation: shown glyphs do not imply the answer was correct.
+ function collectSetGlyphs(questions){
+   const shapes=new Map();
+   for(const q of questions||[]){
+     if(!Array.isArray(q?.glyphs))continue;
+     for(const g of q.glyphs){
+       if(!g?.character||!g?.glyphId)continue;
+       let item=shapes.get(g.character);
+       if(!item){
+         item={character:g.character,glyphId:g.glyphId,base:g.base||"",jibo:g.jibo||"",
+           readings:[],inCorrectPhrase:false,inWrongPhrase:false};
+         shapes.set(g.character,item);
+       }
+       const kana=g.kana||g.base;
+       if(kana&&!item.readings.includes(kana))item.readings.push(kana);
+       if(q.correct)item.inCorrectPhrase=true;else item.inWrongPhrase=true;
+     }
+   }
+   return [...shapes.values()];
+ }
  function normalizedReading(text){
    return String(text||"").normalize("NFC").trim().replace(/[ァ-ヶ]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-96));
  }
@@ -166,7 +186,7 @@
  }
  root.VintageKanaDecipher=Object.freeze({
    HISTORY_KEY,LEVEL_KEY,LEVELS,kanaInfo,baseKana,validPhrase,countKana,
-   pickPhrase,candidatesFor,generateTokens,uniqueGlyphTokens,normalizedReading,
+   pickPhrase,candidatesFor,generateTokens,uniqueGlyphTokens,collectSetGlyphs,normalizedReading,
    isCorrectAnswer,glyphEvents,nextLevel,safeHistory,readHistory,storeHistory,readLevel,storeLevel
  });
 })(globalThis);

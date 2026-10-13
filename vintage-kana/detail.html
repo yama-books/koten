@@ -414,6 +414,30 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   .quizTabCluster .tab,.quizTabCluster .tab.active{font-size:10px}
   .masteryRingAction{width:30px;padding-right:2px}
 }
+
+/* The full input instruction is a visible label; the placeholder stays short. */
+.quizFreeAnswer.isDecipherAnswer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 8px;align-items:stretch;width:100%;max-width:470px}
+.quizFreeAnswer.isDecipherAnswer[hidden]{display:none}
+.decipherInputLabel{grid-column:1/-1;text-align:left;color:var(--muted);font:700 12px/1.5 var(--font-ui)}
+.decipherInputLabel[hidden]{display:none}
+.quizFreeAnswer.isDecipherAnswer input{width:100%;font-size:18px}
+.quizFreeAnswer.isDecipherAnswer .btn{min-width:78px;white-space:nowrap}
+@media(max-width:390px){.quizFreeAnswer.isDecipherAnswer input{font-size:16px;padding:10px 11px}.quizFreeAnswer.isDecipherAnswer .btn{padding:9px 12px}}
+.decipherBreakdown{display:block;margin-top:12px;text-align:left}
+.decipherBreakdown[hidden]{display:none}
+.decipherBreakdown__title{font-size:12px;font-weight:700;margin:0 0 7px}
+.decipherBreakdown__hint,.decipherResultSummary__note{font-size:11px;line-height:1.55;color:var(--muted);margin:5px 0 9px}
+.decipherBreakdown__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:7px}
+.decipherBreakdown .decipherGlyphCard,.decipherResultSummary__grid .decipherGlyphCard{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 3px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;cursor:pointer;box-shadow:none;overflow:hidden}
+.decipherGlyphCard__glyph{font-family:"Noto Serif Hentaigana","Klee One","Yu Mincho",serif;font-size:29px;line-height:1.3;min-height:37px}
+.decipherGlyphCard__kana{font:700 12px/1.25 var(--font-ui)}
+.decipherGlyphCard__jibo{font:11px/1.3 var(--font-ui);color:var(--muted);overflow-wrap:anywhere}
+.setResultGlyphs.isDecipherSummary{display:block;margin:10px auto}
+.decipherResultSummary__phrases{display:grid;gap:5px;margin-bottom:15px}
+.decipherResultSummary__header{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-size:14px;font-weight:700;text-align:left}
+.decipherResultSummary__header span{font-size:11px;font-weight:500;color:var(--muted)}
+.decipherResultSummary__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;max-height:340px;overflow-y:auto;padding:3px 2px 4px;overscroll-behavior:contain}
+@media(max-width:480px){.decipherResultSummary__grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -537,6 +561,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
         </div>
         <div id="choices" class="choices"></div>
         <form id="quizFreeAnswer" class="quizFreeAnswer" hidden>
+          <label id="decipherInputLabel" class="decipherInputLabel" for="quizFreeInput" hidden>読みをひらがなで入力</label>
           <input id="quizFreeInput" autocomplete="off" autocapitalize="off" spellcheck="false">
           <button class="btn primary" type="submit">答える</button>
         </form>
@@ -1281,10 +1306,20 @@ function renderQuizResult(){
 function renderQuizResultGlyphs(){
  const root=document.getElementById("setResultGlyphs");
  if(!root)return;
+ root.classList.toggle("isDecipherSummary",quizSet.mode==="decipher");
  if(quizSet.mode==="decipher"){
-   root.innerHTML=(quizSet.decipherResults||[]).map(r=>
-     '<div class="decipherResultRow"><strong>'+escapeHtml(r.reading)+'</strong><em>'+ (r.correct?"正解":"要復習")+'</em></div>'
-   ).join("");
+   const questions=quizSet.decipherResults||[];
+   const glyphs=VintageKanaDecipher.collectSetGlyphs(questions);
+   root.innerHTML=
+     '<div class="decipherResultSummary__phrases">'+questions.map(r=>
+       '<div class="decipherResultRow"><strong>'+escapeHtml(r.reading)+'</strong><em>'+(r.correct?"正解":"要復習")+'</em></div>'
+     ).join("")+'</div>'+
+     '<div class="decipherResultSummary__header">今回出会った字形 <span>'+glyphs.length+'字</span></div>'+
+     '<p class="decipherResultSummary__note">正誤を問わず今回登場した字形です。押すと詳細を確認できます。習熟度への加点は正解した問題のみです。</p>'+
+     '<div class="decipherResultSummary__grid">'+glyphs.map(t=>
+       decipherGlyphCardHtml(t.character,t.base,t.readings.join("・"),t.jibo)
+     ).join("")+'</div>';
+   bindGlyphInfoCards(root);
    return;
  }
  const results=quizSet.results||[];
@@ -1631,6 +1666,28 @@ function pickQuizWeighted(list){
  }
  return list[list.length-1];
 }
+function decipherGlyphCardHtml(character,base,kana,jibo){
+ return '<button type="button" class="decipherGlyphCard" data-glyph-info data-character="'+escapeHtml(character)+
+   '" data-kana="'+escapeHtml(base)+'" data-jibo="'+escapeHtml(jibo||"")+
+   '" aria-label="'+escapeHtml("読み "+kana+"、字母 "+jibo+"。詳細を見る")+'">'+
+   '<span class="decipherGlyphCard__glyph">'+escapeHtml(character)+'</span>'+
+   '<span class="decipherGlyphCard__kana">'+escapeHtml(kana)+'</span>'+
+   '<span class="decipherGlyphCard__jibo">字母 '+escapeHtml(jibo||"不明")+'</span></button>';
+}
+function renderDecipherBreakdown(tokens,correct){
+ const root=document.getElementById("decipherBreakdown");
+ const glyphs=VintageKanaDecipher.collectSetGlyphs([{correct,glyphs:tokens.map(t=>({
+   character:t.character,glyphId:t.glyphId,kana:t.kana,base:t.base,jibo:t.jibo
+ }))}]);
+ root.innerHTML=
+   '<div class="decipherBreakdown__title">'+(correct?"この問題で登場した字形":"字形と字母を確認")+'</div>'+
+   (!correct?'<p class="decipherBreakdown__hint">誤答時も字形を復習できます。各字形を一律に誤答扱いしたり、減点したりはしません。</p>':"")+
+   '<div class="decipherBreakdown__grid">'+glyphs.map(t=>
+     decipherGlyphCardHtml(t.character,t.base,t.readings.join("・"),t.jibo)
+   ).join("")+'</div>';
+ root.hidden=!glyphs.length;
+ bindGlyphInfoCards(root);
+}
 // 解読は語句単位で採点。正解時のみ、表示した字形をそれぞれ学習イベント化する。
 function newDecipherQuiz(){
  if(quizSet.answered>=QUIZ_SET_SIZE){showQuizResult();return}
@@ -1643,6 +1700,8 @@ function newDecipherQuiz(){
  const tool=document.getElementById("decipherTools"),note=document.getElementById("decipherNote");
  const breakdown=document.getElementById("decipherBreakdown");
  tool.hidden=false;note.hidden=false;breakdown.hidden=true;breakdown.innerHTML="";
+ form.classList.add("isDecipherAnswer");
+ document.getElementById("decipherInputLabel").hidden=false;
  document.getElementById("decipherLevel").value=String(decipherLevel);
  document.getElementById("quizMethodHint").hidden=true;
  document.getElementById("jiboPrompt").hidden=true;
@@ -1652,7 +1711,7 @@ function newDecipherQuiz(){
  form.hidden=false;
  question.hidden=false;question.textContent="このことばは何と読む？";
  glyph.hidden=false;glyph.classList.add("isDecipher");
- input.value="";input.readOnly=false;input.placeholder="読みをひらがなで入力";
+ input.value="";input.readOnly=false;input.placeholder="ひらがな";
  input.setAttribute("aria-label",input.placeholder);
  input.classList.remove("correct","wrong");
  if(!decipherPhrases.length){
@@ -1676,6 +1735,7 @@ function newDecipherQuiz(){
    const raw=input.value;
    if(!VintageKanaDecipher.normalizedReading(raw))return;
    answered=true;input.readOnly=true;
+   input.blur();
    const correct=VintageKanaDecipher.isCorrectAnswer(raw,phrase.reading);
    input.classList.toggle("correct",correct);
    input.classList.toggle("wrong",!correct);
@@ -1692,19 +1752,11 @@ function newDecipherQuiz(){
    decipherHistory.push(attempt);
    VintageKanaDecipher.storeHistory(decipherHistory);
    quizSet.answered+=1;if(correct)quizSet.correct+=1;
-   quizSet.decipherResults.push({reading:phrase.reading,correct});
-   // 文章を推測で正解しても、出題された各字形に加点。同じ字形は一問一回まで。
-   if(correct){
-     const distinct=VintageKanaDecipher.uniqueGlyphTokens(tokens);
-     breakdown.innerHTML=distinct.map(t=>
-       '<button type="button" data-glyph-info data-character="'+escapeHtml(t.character)+
-       '" data-kana="'+escapeHtml(t.base)+'" data-jibo="'+escapeHtml(t.jibo||"")+
-       '" aria-label="'+escapeHtml(t.base+" の字母 "+t.jibo)+
-       '"><span class="g">'+escapeHtml(t.character)+'</span><small>'+escapeHtml(t.base)+'</small></button>'
-     ).join("");
-     breakdown.hidden=!distinct.length;
-     bindGlyphInfoCards(breakdown);
-   }
+   quizSet.decipherResults.push({reading:phrase.reading,correct,glyphs:attempt.glyphs.map(g=>({
+     ...g,kana:tokens[g.position]?.kana||g.base
+   }))});
+   // Reveal the actual glyphs in both outcomes; only correct answers add mastery.
+   renderDecipherBreakdown(tokens,correct);
    const previous=decipherLevel;
    decipherLevel=VintageKanaDecipher.nextLevel(decipherHistory,decipherLevel);
    VintageKanaDecipher.storeLevel(decipherLevel);
@@ -1721,6 +1773,8 @@ function newQuiz(){
  document.getElementById("decipherTools").hidden=true;
  document.getElementById("decipherNote").hidden=true;
  document.getElementById("decipherBreakdown").hidden=true;
+ document.getElementById("quizFreeAnswer").classList.remove("isDecipherAnswer");
+ document.getElementById("decipherInputLabel").hidden=true;
  document.getElementById("quizGlyph").classList.remove("isDecipher");
  if(quizSet.answered>=QUIZ_SET_SIZE){showQuizResult();return}
  answered=false;

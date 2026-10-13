@@ -277,6 +277,64 @@ for (const [w, h] of [[320, 640], [340, 700], [360, 640], [375, 812], [390, 844]
   await page.close();
 }
 
+
+// 5. 「解読」の入力レイアウト、正誤時の字母カード、セット終了の字形一覧。
+for(const [width,height] of [[320,640],[390,844]]){
+ const page=await browser.newPage({viewport:{width,height}});
+ page.on("pageerror",e=>errors.push("decipher "+width+": "+e.message));
+ await page.route(/fonts\.(googleapis|gstatic)\.com/, route=>route.abort());
+ await page.goto(base+"detail.html");
+ await page.waitForFunction("GLYPHS.length>0 && decipherPhrases.length>0");
+ await page.locator('[data-view="quiz"]').click();
+ await page.locator('[data-quiz-mode="decipher"]').click();
+ await page.locator("#decipherLevel").selectOption("5");
+ const geom=await page.evaluate(()=>{
+   const label=document.querySelector<HTMLElement>("#decipherInputLabel")!;
+   const input=document.querySelector<HTMLElement>("#quizFreeInput")!;
+   const button=document.querySelector<HTMLElement>("#quizFreeAnswer .btn")!;
+   const l=label.getBoundingClientRect(),i=input.getBoundingClientRect(),b=button.getBoundingClientRect();
+   return {
+     labelVisible:!label.hidden,
+     labelFits:label.scrollWidth<=label.clientWidth+1,
+     labelAbove:l.bottom<=i.top+1,
+     inputFits:i.left>=0&&i.right<=document.documentElement.clientWidth+1,
+     buttonFits:b.left>=i.right-1&&b.right<=document.documentElement.clientWidth+1,
+     placeholder:(input as HTMLInputElement).placeholder,
+     hasOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1
+   };
+ });
+ assert.ok(geom.labelVisible&&geom.labelFits&&geom.labelAbove&&geom.inputFits&&geom.buttonFits&&!geom.hasOverflow,
+   "decipher input "+width+": "+JSON.stringify(geom));
+ assert.equal(geom.placeholder,"ひらがな");
+ for(let i=0;i<5;i++){
+   // On the second question, submit its actual reading to check both outcomes.
+   const answer=i===1?await page.evaluate("decipherQuestion.phrase.reading"):"まちがい";
+   await page.locator("#quizFreeInput").fill(answer);
+   await page.locator('#quizFreeAnswer button[type="submit"]').click();
+   const review=page.locator('#decipherBreakdown .decipherGlyphCard');
+   assert.ok(await review.count()>0,"decipher "+width+" question "+i+" review cards");
+   assert.equal(await page.locator("#decipherBreakdown").isVisible(),true);
+   if(i===0)assert.match((await page.locator("#decipherBreakdown").innerText()),/字母/);
+   if(i===0){
+     await review.first().click();
+     assert.equal(await page.locator("#glyphInfoDialog").evaluate((el:any)=>el.open),true);
+     await page.evaluate(()=>((document.getElementById("glyphInfoDialog") as HTMLDialogElement).close()));
+   }
+   await page.locator("#nextQuiz").click();
+ }
+ assert.equal(await page.locator("#quizResult").isVisible(),true);
+ assert.equal(await page.locator("#setResultGlyphs .decipherResultRow").count(),5);
+ assert.match(await page.locator("#setResultGlyphs").innerText(),/今回出会った字形/);
+ const gallery=page.locator("#setResultGlyphs .decipherGlyphCard");
+ assert.ok(await gallery.count()>0);
+ const names=await gallery.evaluateAll(cards=>cards.map(c=>(c as HTMLElement).dataset.character));
+ assert.equal(names.length,new Set(names).size,"set review has no duplicate glyph shapes");
+ await gallery.first().click();
+ assert.equal(await page.locator("#glyphInfoDialog").evaluate((el:any)=>el.open),true);
+ results.push("decipher "+width+"px: label fits, wrong/right glyph reviews and five-question gallery");
+ await page.close();
+}
+
 await browser.close();
 server.close();
 assert.deepEqual(errors, []);
