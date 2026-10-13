@@ -1,0 +1,27 @@
+name: Vintage kana VK-02 video export PoC QA
+on:
+  push:
+    branches:
+      - vintage-kana-video-export-vk02-poc-*
+    paths:
+      - 'tools/vintage-kana-video-poc/**'
+      - 'tests/unit/vintage-kana-video-export.test.ts'
+      - '.github/workflows/vintage-kana-video.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  video-poc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      - run: node --experimental-strip-types --test tests/unit/vintage-kana-video-export.test.ts
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify recording, playback blob, cancellation in browser
+        run: node tools/vintage-kana-video-poc/check.mjs
