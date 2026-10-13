@@ -3,8 +3,8 @@
  "use strict";
  const reduced=()=>!!root.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
  const keyframesIn=(type)=>type==="glyph"
-   ?[{opacity:0,transform:"translateY(23px) rotateX(-55deg) scale(.88)",filter:"blur(1.7px)"},{opacity:1,transform:"translateY(0) rotateX(0) scale(1)",filter:"blur(0)"}]
-   :[{opacity:0,transform:"translateY(13px) scale(.97)"},{opacity:1,transform:"translateY(0) scale(1)"}];
+   ?[{opacity:0,transform:"translateY(32px) rotateX(-58deg) scale(.83)",filter:"blur(2.1px)"},{opacity:1,transform:"translateY(0) rotateX(0) scale(1)",filter:"blur(0)"}]
+   :[{opacity:0,transform:"translateY(19px) scale(.95)"},{opacity:1,transform:"translateY(0) scale(1)"}];
  const play=(node,frames,options)=>{
    if(reduced()||!node||!node.isConnected||typeof node.animate!=="function")return null;
    try{return node.animate(frames,{fill:"both",...options})}catch{return null}
@@ -32,12 +32,12 @@
    });
    element.replaceChildren(frag);
    [...element.children].forEach((node,i)=>play(node,keyframesIn("glyph"),
-     {duration:470,delay:Math.min(i*48,500),easing:"cubic-bezier(.18,.78,.21,1)"}));
+     {duration:720,delay:Math.min(i*62,500),easing:"cubic-bezier(.18,.69,.21,1)"}));
  }
  function appearButtons(container){
    if(!container||container.hidden)return;
    [...container.querySelectorAll(".choice")].forEach((node,i)=>play(node,keyframesIn("button"),
-     {duration:390,delay:i*58,easing:"cubic-bezier(.19,.78,.2,1)"}));
+     {duration:520,delay:i*74,easing:"cubic-bezier(.19,.70,.2,1)"}));
  }
  function answer(element,correct){
    if(!element||element.hidden)return;
