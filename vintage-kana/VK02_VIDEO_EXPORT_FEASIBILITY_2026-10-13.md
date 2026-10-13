@@ -96,3 +96,11 @@
 - WebKit・実機Safari・WebM選択での生成/再生・保存UI・キャンセル動作・実コードPoCのクリック操作はこのスモーク検査ではまだ未検証。
 
 上の結果は「このLinux ChromiumでCanvas録画・再生が成立する」範囲だけを支持する。ユーザーのiOS SafariでMP4保存できる保証ではない。
+
+
+## 独立ブラウザPoCテストを追加（後続の検査ゲート）
+
+- `tools/vintage-kana-video-poc/check.mjs` を追加。Playwrightで隔離PoCのHTMLを開き、Chromium・WebKitに対し、両方向で実録画Blobの生成・MIME/拡張子の照合・プレビュー表示、および録画取り消し後に保存リンクを出さないことを確認する。対応録画APIがない場合は非対応表示を検証する。
+- `.github/workflows/vintage-kana-video.yml` を追加。VK-02専用ブランチのPoC/テスト変更でNodeユニットテストとPlaywright Chromium/WebKitテストを実行する。公開ワークフローではない。
+- [PoCブラウザQA run 38379301233](https://github.com/yama-books/koten/actions/runs/38379301233) は本記録時点で**queued（未判定）**。成功扱いにしない。実際の結果・ログを確認し、非対応判定とテストエラーを混同しない。
+- PoCの録画と本番演出の動画化は別問題である。PoCのブラウザQAが成功してもVK-02本機能は完了ではない。
