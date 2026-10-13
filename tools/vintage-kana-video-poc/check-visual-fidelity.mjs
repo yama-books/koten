@@ -50,8 +50,10 @@ async function capture(browserType,phaseName,elapsedMs){
       // Prevent further updates before sampling both rendering paths.
       child.requestAnimationFrame=()=>0;
       child.document.getAnimations().forEach(animation=>{try{animation.pause()}catch(_){}});
-      // The exported movie intentionally excludes UI controls; compare like-for-like.
-      for(const selector of ["#skip",".result-actions"]){
+      // Playback's transparent stage normally reveals the underlying composer.
+      // A saved movie must have no input fields or controls, so exclude the app
+      // beneath the active stage in addition to stage-owned control buttons.
+      for(const selector of ["#app","#skip",".result-actions"]){
         const element=child.document.querySelector(selector);
         if(element)element.style.setProperty("visibility","hidden","important");
       }
