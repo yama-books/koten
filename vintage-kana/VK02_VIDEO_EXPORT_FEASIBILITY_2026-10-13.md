@@ -81,3 +81,18 @@
 - VK-01は PR #93、mainマージ `a1c031dea8a1393701443522193ef22f0b540cc0`、Pages run 38314811317とCI run 38314811259でsuccess。再実装しない。
 - 現在のmainはPR #97まで進んでいる。PR #94/95/96/97の解読・キーボード・クイズモーションを巻き戻さない。
 - iPhone/iPad Safari実機での自然な動き、fps、skip/入力復帰はVK-01の残る**人による確認**として継続し、VK-02のPoCと混同しない。
+
+
+## 2026-10-13 API単体実ブラウザ・スモーク検査（実行済み）
+
+本番アプリやGitHub上PoCのブラウザ起動とは**別の**最小Canvas録画スクリプトを、隔離されたLinuxのヘッドレスChromium 144で実行した。これはブラウザ録画APIの可否のみを確かめる一次検査。
+
+- 実行環境: Linux、Playwright Python版、/usr/bin/chromium（HeadlessChrome/144.0.0.0）。
+- `canvas.captureStream(30)`: function、`MediaRecorder`: function。
+- `isTypeSupported`: `video/mp4;codecs=avc1.42E01E`、`video/mp4`、`video/webm;codecs=vp9`、`video/webm;codecs=vp8`、`video/webm` は全てtrue（このブラウザに限る）。
+- Canvas 320×180で約1.4秒、文字「あ」から「𛀂」へ変化させた短いテスト映像を録画。得たBlobは **2959 bytes**、Recorderの返すMIMEは `video/mp4;codecs=avc1.420015`（要求した型の文字列とは異なるがMP4/H.264）。
+- 同じブラウザで `video.src=URL.createObjectURL(blob)` に戻し、loadedmetadata **成功**、長さ **1.420233秒**、解像度 **320×180**、`video.play()`成功。
+- 別の短い試験で 3228 bytes / 2 chunks の出力も確認した。**これは本番Webアプリの描画検査ではない**。
+- WebKit・実機Safari・WebM選択での生成/再生・保存UI・キャンセル動作・実コードPoCのクリック操作はこのスモーク検査ではまだ未検証。
+
+上の結果は「このLinux ChromiumでCanvas録画・再生が成立する」範囲だけを支持する。ユーザーのiOS SafariでMP4保存できる保証ではない。
