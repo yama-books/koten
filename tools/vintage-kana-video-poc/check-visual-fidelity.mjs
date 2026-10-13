@@ -50,6 +50,11 @@ async function capture(browserType,phaseName,elapsedMs){
       // Prevent further updates before sampling both rendering paths.
       child.requestAnimationFrame=()=>0;
       child.document.getAnimations().forEach(animation=>{try{animation.pause()}catch(_){}});
+      // The exported movie intentionally excludes UI controls; compare like-for-like.
+      for(const selector of ["#skip",".result-actions"]){
+        const element=child.document.querySelector(selector);
+        if(element)element.style.setProperty("visibility","hidden","important");
+      }
       return window.VintageKanaDomMirror.snapshot(stage,768,432);
     });
     await page.waitForTimeout(120);
