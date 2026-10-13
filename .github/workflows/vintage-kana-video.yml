@@ -25,3 +25,5 @@ jobs:
       - run: npx playwright install --with-deps chromium webkit
       - name: Verify recording, playback blob, cancellation in browser
         run: node tools/vintage-kana-video-poc/check.mjs
+      - name: Verify actual-app DOM-to-Canvas sampling proof in browser
+        run: node tools/vintage-kana-video-poc/check-dom-mirror.mjs
