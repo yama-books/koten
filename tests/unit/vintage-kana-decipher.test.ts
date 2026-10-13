@@ -80,3 +80,34 @@ test("UI exposes three modes; cinematic ring and old record remain compatible",(
  assert.match(index,/VintageKanaMastery\.readMasteryEvents\(\)/);
  assert.match(index,/VintageKanaMastery\.overallMasteryPercent\(masteryGlyphs,events\)/);
 });
+
+test("review collects unique glyphs across wrong and correct phrases without changing grading",()=>{
+ const qs=[
+  {correct:true,glyphs:[{character:"𛁷",glyphId:"x",base:"と",kana:"と",jibo:"止"},{character:"𛁷",glyphId:"x",base:"と",kana:"と",jibo:"止"}]},
+  {correct:false,glyphs:[{character:"𛁷",glyphId:"x",base:"と",kana:"と",jibo:"止"},{character:"𛀚",glyphId:"y",base:"か",kana:"が",jibo:"可"}]},
+  {correct:true,glyphs:[{character:"𛀚",glyphId:"y",base:"か",kana:"か",jibo:"可"}]},
+ ];
+ const list=d.collectSetGlyphs(qs);
+ assert.equal(list.length,2);
+ const g=list.find((x:any)=>x.glyphId==="y");
+ assert.deepEqual(Array.from(g.readings),["が","か"]);
+ assert.equal(g.inWrongPhrase,true);
+ assert.equal(g.inCorrectPhrase,true);
+ const events=d.glyphEvents(qs.map((q:any,i:number)=>({...q,id:"example"+i})));
+ assert.equal(events.length,2);
+});
+test("decipher uses a visible untruncated input instruction with small placeholder",()=>{
+ assert.match(html,/id="decipherInputLabel"[^>]*>読みをひらがなで入力<\/label>/);
+ assert.match(html,/form\.classList\.add\("isDecipherAnswer"\)/);
+ assert.match(html,/form\.classList\.remove\("isDecipherAnswer"\)/);
+ assert.match(html,/input\.placeholder="ひらがな"/);
+ assert.match(html,/\.quizFreeAnswer\.isDecipherAnswer\{display:grid;/);
+});
+test("both outcomes reveal glyph and jibo cards; five-question result includes all distinct shapes",()=>{
+ assert.match(html,/renderDecipherBreakdown\(tokens,correct\)/);
+ assert.match(html,/quizSet\.decipherResults\.push\(\{reading:phrase\.reading,correct,glyphs:/);
+ assert.match(html,/VintageKanaDecipher\.collectSetGlyphs\(questions\)/);
+ assert.match(html,/今回出会った字形/);
+ assert.match(html,/decipherGlyphCardHtml\(t\.character,t\.base,t\.readings\.join\("・"\),t\.jibo\)/);
+ assert.match(html,/bindGlyphInfoCards\(root\)/);
+});
