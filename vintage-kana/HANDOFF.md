@@ -923,3 +923,11 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - **17:58 JST 時点のリポジトリ:** `main` は別作業のPR #96まで進み `7792859cbdab0f5e63da4b5eaabd6bf859c83864`。この最新状態を巻き戻さず、VK-01は完了案件として扱う。ローカルの未コミット変更はこのセッションでは検証していない。
 - **残る実機観察（新規コード変更を意味しない）:** iPhone/iPad Safariでの動きの自然さ、白背景での字形可読性、fps/フレーム落ち、スキップ・文字入力への復帰、iPhoneキーボードの挙動。WebKitヘッドレスの成功は実機保証ではない。
 - **再開時:** まずその時点の `main` と本節以降のHANDOFFを確認する。実機で退行を確認した場合のみ別タスク・別ブランチで修正し、CI/Pagesの証跡を残す。**本セッションではここで停止し、追加の実装・デプロイは行わない。**
+
+## 2026-10-13 VK-02 実装再開（技術検証PoC、未公開）
+- **前件VK-01は完了済み**。2026-10-13 17:58 JSTの停止チェックポイントを踏まえ、新しいユーザー指示「次に進めてください」に従い**計画Step C / VK-02 動画保存**へ進んだ。VK-01再実装は行わない。
+- 正本基点: `main` `039063230233037973f5db5f1cfee43b6d45d1a7`（PR #97まで）。作業ブランチ `vintage-kana-video-export-vk02-poc-20261013`。
+- `vintage-kana/index.html` は DOM要素・CSS/WAAPIで動作し、そのままCanvas/MediaRecorder録画できないことを静的に確認。画面共有はiOS Safari非対応。ブラウザの選択を曖昧にせず、両方向のCanvas録画・拡張子判定・キャンセルを**隔離PoC**として `tools/vintage-kana-video-poc/` に実装。
+- 検査: `tests/unit/vintage-kana-video-export.test.ts` を追加。録画APIの形式判定/非対応/取消・UI非混入等の回帰を登録。**実ブラウザで実動画を生成したという意味ではない**。
+- 設計・検証ゲート・未実施項目: [VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md](./VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md)。本番の10モードに対する動画録画は**未実装**、公開HTML変更なし、`main`への統合・Pages公開なし。
+- 再開時はまずこのブランチと最新 `main` のSHA・競合を確認 → 新設Nodeテストと実ブラウザ PoC（Chromium/WebKit） → DOM/Canvas映像一致を検証してからUI統合。録画失敗時の復帰、実機Safari、動画ファイル本体の再生を優先。
