@@ -28,3 +28,13 @@ jobs:
         run: node tools/vintage-kana-video-poc/check.mjs
       - name: Verify actual-app DOM-to-Canvas sampling proof in browser
         run: node tools/vintage-kana-video-poc/check-dom-mirror.mjs
+      - name: Quantify frozen-frame visual fidelity against production DOM
+        run: node tools/vintage-kana-video-poc/check-visual-fidelity.mjs
+      - name: Keep visual comparison screenshots for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vk02-dom-canvas-comparison
+          path: vk02-fidelity-evidence/
+          if-no-files-found: ignore
+          retention-days: 7
