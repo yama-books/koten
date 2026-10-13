@@ -73,13 +73,15 @@ async function capture(browserType,phaseName,elapsedMs){
         img.src="data:image/png;base64,"+base64;
         await img.decode();
         const c=document.createElement("canvas");
-        c.width=img.naturalWidth;c.height=img.naturalHeight;
+        // iframe/canvas CSS borders alter element screenshots by ~1-2px.
+        // Normalize only for comparison, while preserving exact raw screenshots.
+        c.width=768;c.height=432;
         const ctx=c.getContext("2d",{willReadFrequently:true});
-        ctx.drawImage(img,0,0);
-        return {width:c.width,height:c.height,bytes:ctx.getImageData(0,0,c.width,c.height).data};
+        ctx.drawImage(img,0,0,c.width,c.height);
+        return {width:c.width,height:c.height,rawWidth:img.naturalWidth,rawHeight:img.naturalHeight,
+          bytes:ctx.getImageData(0,0,c.width,c.height).data};
       }
       const d=await decode(a),m=await decode(b);
-      if(d.width!==m.width||d.height!==m.height)throw new Error("capture dimensions differ: "+d.width+"x"+d.height+" vs "+m.width+"x"+m.height);
       let total=0,diff25=0,inkD=0,inkM=0,inkBoth=0,inkUnion=0,sumXD=0,sumYD=0,sumXM=0,sumYM=0;
       const n=d.width*d.height;
       for(let i=0;i<n;i++){
@@ -94,7 +96,9 @@ async function capture(browserType,phaseName,elapsedMs){
         if(aInk&&bInk)inkBoth++;
         if(aInk||bInk)inkUnion++;
       }
-      return {width:d.width,height:d.height,meanAbsRGB:Math.round(100*total/n)/100,
+      return {width:d.width,height:d.height,
+        rawDomSize:[d.rawWidth,d.rawHeight],rawCanvasSize:[m.rawWidth,m.rawHeight],
+        meanAbsRGB:Math.round(100*total/n)/100,
         pixelDiffOver25Percent:Math.round(10000*diff25/n)/100,
         darkInkIoU:inkUnion?Math.round(1000*inkBoth/inkUnion)/1000:null,
         domDarkPixels:inkD,canvasDarkPixels:inkM,
