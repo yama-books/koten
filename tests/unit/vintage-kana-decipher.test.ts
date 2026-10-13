@@ -5,7 +5,6 @@ import {test} from "node:test";
 
 const html=readFileSync(new URL("../../vintage-kana/detail.html",import.meta.url),"utf8");
 const index=readFileSync(new URL("../../vintage-kana/index.html",import.meta.url),"utf8");
-const index=readFileSync(new URL("../../vintage-kana/index.html",import.meta.url),"utf8");
 const engine=readFileSync(new URL("../../vintage-kana/decipher-engine.js",import.meta.url),"utf8");
 const phraseData=JSON.parse(readFileSync(new URL("../../vintage-kana/data/decipher-phrases.json",import.meta.url),"utf8"));
 const master=JSON.parse(readFileSync(new URL("../../vintage-kana/data/ui-glyph-master.json",import.meta.url),"utf8"));
