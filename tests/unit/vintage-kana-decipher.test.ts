@@ -97,10 +97,10 @@ test("review collects unique glyphs across wrong and correct phrases without cha
  assert.equal(events.length,2);
 });
 test("decipher uses a visible untruncated input instruction with small placeholder",()=>{
- assert.match(html,/id="decipherInputLabel"[^>]*>読みをひらがなで入力<\/label>/);
+ assert.doesNotMatch(html,/id="decipherInputLabel"/);
  assert.match(html,/form\.classList\.add\("isDecipherAnswer"\)/);
  assert.match(html,/document\.getElementById\("quizFreeAnswer"\)\.classList\.remove\("isDecipherAnswer"\)/);
- assert.match(html,/input\.placeholder="ひらがな"/);
+ assert.match(html,/input\.placeholder="ひらがなで入力"/);
  assert.match(html,/\.quizFreeAnswer\.isDecipherAnswer\{display:grid;/);
 });
 test("both outcomes reveal glyph and jibo cards; five-question result includes all distinct shapes",()=>{
@@ -110,4 +110,29 @@ test("both outcomes reveal glyph and jibo cards; five-question result includes a
  assert.match(html,/今回出会った字形/);
  assert.match(html,/decipherGlyphCardHtml\(t\.character,t\.base,t\.readings\.join\("・"\),t\.jibo\)/);
  assert.match(html,/bindGlyphInfoCards\(root\)/);
+});
+
+test("motion hooks do not change the one-word scoring rules or existing events",()=>{
+ assert.match(html,/VintageKanaQuizMotion\.appearGlyphs\(glyph\)/);
+ assert.match(html,/VintageKanaQuizMotion\.appearButtons\(root\)/);
+ assert.match(html,/VintageKanaQuizMotion\.answer\(glyph,correct\)/);
+ assert.match(html,/VintageKanaQuizMotion\.wave\(grid\)/);
+ assert.match(html,/VintageKanaQuizMotion\.reflow\(grid,/);
+ assert.match(html,/data-filter=/);
+ assert.match(html,/読めなかった字/);
+ assert.match(html,/ひらがなで入力/);
+ assert.doesNotMatch(html,/誤答時も字形を復習できます。/);
+ assert.match(html,/function recordLearningAttempt\(mode,correct,masteryMethod,questionType\)/);
+});
+test("visual motion module is syntactically valid and splits voiced combining marks correctly",()=>{
+ const motion=readFileSync(new URL("../../vintage-kana/quiz-motion.js",import.meta.url),"utf8");
+ const ctx:any={matchMedia:()=>({matches:true})};
+ runInNewContext(motion,{globalThis:ctx,Math});
+ assert.equal(ctx.VintageKanaQuizMotion.reduced(),true);
+ assert.deepEqual(Array.from(ctx.VintageKanaQuizMotion.splitGlyphs("𛀚\u3099𛁷")),["𛀚\u3099","𛁷"]);
+});
+test("startup rings are indeterminate and have no invented progress percentage",()=>{
+ assert.match(html,/id="vkmBoot"/);
+ assert.match(index,/id="vkmStartup"/);
+ assert.doesNotMatch(html,/変体仮名を準備しています/);
 });

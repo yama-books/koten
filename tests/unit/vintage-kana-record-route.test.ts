@@ -24,7 +24,8 @@ test("mastery formula is shared and learning-record deep link still resolves aft
  assert.match(detail,/return VintageKanaMastery\.overallMasteryPercent\(GLYPHS,allMasteryEvents\(\)\)/);
  assert.match(detail,/function openRecordFromUrl\(\)/);
  assert.match(detail,/window\.location\.hash==="#record"/);
- assert.match(detail,/loadData\(\)\.then\(\(\)\s*=>\s*\{/);
+ assert.match(detail,/const dataReady=loadData\(\);/);
+ assert.match(detail,/dataReady\.then\(\(\)\s*=>\s*\{/);
  assert.match(detail,/recordRouteReady=true;/);
  assert.match(detail,/window\.addEventListener\("hashchange"/);
 });
