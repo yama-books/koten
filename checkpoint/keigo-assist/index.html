@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><title>敬語訳アシスト｜考え方を組み立てる</title>
+<style>
+:root{--paper:#f7f4ed;--card:#fffefb;--text:#33352f;--sub:#747a71;--border:#e3e3da;--earth:#466c60;--earth-soft:#e9f0ec;--chestnut:#a56e56;--line:#d3d9d0;--warn:#fff8ed;--warn-ink:#72522d;--shadow:0 8px 22px rgba(48,59,48,.045)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--text);font-family:'Hiragino Maru Gothic ProN','Zen Maru Gothic','Hiragino Kaku Gothic ProN',-apple-system,BlinkMacSystemFont,'Yu Gothic',sans-serif;font-size:15px;line-height:1.65}button,input,textarea,select{font:inherit}button{cursor:pointer;transition:background .18s,border-color .18s,transform .15s}button:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #bad3c7;outline-offset:2px}button:hover{transform:translateY(-1px)}.page{max-width:1160px;margin:0 auto;padding:30px 22px 50px}.header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:26px}.eyebrow{font-size:12px;color:var(--earth);letter-spacing:.09em;font-weight:700}.header h1{font-family:'Yu Mincho','Hiragino Mincho ProN',serif;letter-spacing:.035em;font-weight:600;font-size:35px;line-height:1.3;margin:5px 0 6px}.title-dot{color:var(--earth)}.subtitle{font-size:13px;margin:0;color:var(--sub)}.status-pill{font-size:11px;border:1px solid #cbd8d0;color:var(--earth);background:var(--earth-soft);padding:7px 13px;border-radius:99px;white-space:nowrap}.card{padding:24px;border-radius:21px;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);min-width:0}.intro{margin-bottom:18px}.layout{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);gap:18px}.maincol,.sidecol{display:flex;flex-direction:column;gap:18px;min-width:0}.card-heading{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:15px}.card h2{font-size:12px;letter-spacing:.11em;color:var(--earth);margin:0;font-weight:700;white-space:nowrap}.card h2 span{color:var(--text);font-size:16px;letter-spacing:0;margin-left:8px}.tiny,.count,.section-note,.tip{color:var(--sub);font-size:12px}.tiny{margin:7px 0 0}.section-note{margin:0 0 16px}.field-label,.field label{display:block;font-weight:700;font-size:13px;margin:0 0 7px}.field{margin-bottom:16px}.field-heading{font-size:13px;font-weight:700;margin:14px 0 12px}input,select,textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text);padding:10px 12px}textarea{resize:vertical;line-height:1.85}#passage{font-size:21px;font-family:'Yu Mincho','Hiragino Mincho ProN',serif;min-height:118px}.tool-row,.examples{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:12px}button{border-radius:11px;border:1px solid var(--line);padding:9px 13px;background:white;color:var(--text);font-size:13px;font-weight:700}.primary{background:var(--earth);color:white;border-color:var(--earth);padding:10px 16px}.primary:hover{background:#355448}.secondary{background:var(--earth-soft);border-color:#cdded3;color:#345749}.plain{border-color:transparent;background:transparent;color:var(--sub)}.sample{border-radius:99px;padding:6px 10px;font-size:11px;font-weight:500}.examples-label{font-size:11px;color:var(--sub);margin-right:2px}.tip{margin:9px 0 0}.annotated{border-radius:15px;min-height:72px;border:1px solid var(--border);background:#fcfbf7;padding:15px;font-size:21px;font-family:'Yu Mincho','Hiragino Mincho ProN',serif;line-height:2.1;white-space:pre-wrap;overflow-wrap:anywhere}.highlight{border:0;border-bottom:2px solid #b6cfc0;border-radius:5px;padding:1px 2px;background:#e5f0e9;color:#2e5547;font-family:inherit;font-size:inherit}.highlight.active{box-shadow:0 0 0 2px #6d9d89;background:#d8e9df}.candidate-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.candidate{font-size:12px;padding:8px 11px}.candidate.active{background:var(--earth);border-color:var(--earth);color:white}.manual-flag{font-size:10px;color:var(--sub)}hr{border:0;border-top:1px solid var(--border);margin:21px 0}.hidden{display:none!important}.hypothesis{font-size:12px;color:var(--warn-ink);background:var(--warn);border:1px solid #eadac4;border-radius:12px;padding:10px 12px}.relation{display:grid;grid-template-columns:minmax(0,1fr) 35px minmax(0,1fr);gap:5px;align-items:center;margin:16px 0}.relation-node{border:1px solid var(--border);background:#fafbf9;border-radius:13px;padding:15px 9px;text-align:center;min-width:0}.relation-node span,.gloss span,.label{font-size:11px;color:var(--sub);display:block}.relation-node strong{font-size:14px;overflow-wrap:anywhere}.relation-arrow{text-align:center;font-size:26px;color:var(--earth)}.kind-row{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--border)}.kind-row strong{color:var(--earth)}.hint-box{background:var(--earth-soft);border-radius:15px;padding:13px 17px;margin-top:14px}.hint-box .field-heading{margin:0 0 6px}.hint-box ol{font-size:13px;margin:5px 0 0;padding-left:20px}.hint-box li{margin:7px 0}details{margin-top:13px;padding:10px 4px}summary{cursor:pointer;font-size:13px;font-weight:700}details p{font-size:13px;color:var(--sub)}.gloss{background:#fafbf8;border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:18px}.gloss strong{display:block;margin-top:5px;font-size:15px}.gloss+label{margin-bottom:7px}#export{margin-top:12px}footer{text-align:center;font-size:11px;color:var(--sub);padding:18px 0}.card p:last-child{margin-bottom:0}@media(max-width:850px){.layout{grid-template-columns:1fr}.header{flex-direction:column;align-items:flex-start}.page{padding:20px 13px 32px}.card{padding:18px;border-radius:17px}.header h1{font-size:29px}.status-pill{font-size:10px}}@media(max-width:440px){.card h2 span{font-size:14px}.card-heading{flex-wrap:wrap}.relation-node strong{font-size:12px}#passage{font-size:18px}}
+
+</style>
+</head><body>
+<main class="page">
+  <header class="header">
+    <div><span class="eyebrow">古文予習ノート 連携候補 · 試作</span><h1>敬語訳アシスト<span class="title-dot">。</span></h1><p class="subtitle">正解を当てる前に、誰が、誰に、どんな敬意を向けているかを考える。</p></div>
+    <span class="status-pill">v0.4 · 未監査の学習支援版</span>
+  </header>
+  <section class="card intro" aria-labelledby="text-title">
+    <div class="card-heading"><h2 id="text-title">01 <span>古文を読み取る</span></h2><span class="tiny">入力データは端末内のみで扱います</span></div>
+    <label for="passage" class="field-label">本文</label>
+    <textarea id="passage" rows="3" spellcheck="false" placeholder="ここに古文を入力してください。">中宮、女房に仰せ給ふ。</textarea>
+    <div class="tool-row"><button id="analyze" class="primary">敬語の候補を探す <span aria-hidden="true">→</span></button><button id="add-selection" class="secondary">選択した部分を追加</button><button id="reset" class="plain">入力を消す</button></div>
+    <p class="tip">辞書に見つからない語も、本文を選択して「選択した部分を追加」すると考え方を整理できます。自動検出は候補提示であり、文法解析の確定ではありません。</p>
+    <div class="examples" aria-label="練習用の例文"><span class="examples-label">試す</span>
+      <button class="sample" data-example="中宮、女房に仰せ給ふ。">仰せ給ふ</button><button class="sample" data-example="宮に参りて、申し給ふ。">参りて、申し給ふ</button>
+      <button class="sample" data-example="帝、御覧じて、いみじうあはれと思し召す。">御覧じて</button><button class="sample" data-example="御前に候ふ。">候ふ</button>
+    </div><p class="tiny">※例文はUI動作確認用の構成文です。古典原典の用例として収録したものではありません。</p>
+  </section>
+  <div class="layout">
+  <div class="maincol">
+    <section class="card" aria-labelledby="occur-title"><div class="card-heading"><h2 id="occur-title">02 <span>考えたい敬語を選ぶ</span></h2><span id="count" class="count"></span></div>
+      <div id="annotated" class="annotated" aria-live="polite"></div>
+      <div id="candidate-list" class="candidate-list"></div>
+    </section>
+    <section class="card" aria-labelledby="questions-title"><div class="card-heading"><h2 id="questions-title">03 <span>人物と場面を整理する</span></h2></div>
+      <p class="section-note">ここで入力する人物は、あなたの仮説です。分からない項目は空欄・未確定で進められます。</p>
+      <div class="field"><label for="layer">地の文？ 誰かの言葉？</label><select id="layer"><option value="unknown">まだ分からない</option><option value="narration">地の文</option><option value="dialogue">会話文</option><option value="quotation">引用・作中の発言</option><option value="letter">手紙・書簡</option></select></div>
+      <div id="speaker-wrap" class="field hidden"><label for="speaker">誰の言葉？（話し手／書き手）</label><input id="speaker" placeholder="例：女房・姫君・書き手"></div>
+      <div class="field"><label for="listener">誰に向けて述べている？（分かる場合）</label><input id="listener" placeholder="例：中宮・聞き手・不明"></div>
+      <hr>
+      <p class="field-heading">選んだ敬語の人物関係</p>
+      <div class="field"><label for="agent">誰の動作？</label><input id="agent" placeholder="例：中宮"></div>
+      <div id="counterpart-wrap" class="field"><label for="counterpart">誰に対して／どこへ向かう動作？</label><input id="counterpart" placeholder="例：女房・宮のもと"></div>
+      <div id="beneficiary-wrap" class="field"><label for="beneficiary">誰のための動作？（受益者、任意）</label><input id="beneficiary" placeholder="例：中宮"></div>
+      <div class="field"><label for="sense">この語の用法は？</label><select id="sense"></select><p class="tip" id="focus-note"></p></div>
+      <div id="manual-kind-wrap" class="field hidden"><label for="manual-kind">辞書未登録語：敬語の種類を仮置き</label><select id="manual-kind"><option value="unknown">保留する</option><option value="respect">尊敬語の可能性</option><option value="humble">謙譲語の可能性</option><option value="polite">丁寧語の可能性</option><option value="nonhonorific">敬語ではない可能性</option></select></div>
+    </section>
+  </div>
+  <aside class="sidecol">
+    <section class="card output" aria-labelledby="result-title"><div class="card-heading"><h2 id="result-title">04 <span>敬意の方向を組み立てる</span></h2></div>
+      <div class="hypothesis">これは <strong>自分の仮説</strong> です。典拠により確認された正解図ではありません。</div>
+      <div class="relation"><div class="relation-node"><span>敬意を示す側</span><strong id="honor-source">未確定</strong></div><div class="relation-arrow" aria-hidden="true">⟶</div><div class="relation-node"><span>敬意の対象候補</span><strong id="honor-target">未確定</strong></div></div>
+      <div class="kind-row"><span class="label">選択中の用法</span><strong id="kind-name">未確定</strong></div>
+      <p id="relation-note" class="section-note"></p>
+      <div class="hint-box"><p class="field-heading">次に考える観点</p><ol id="next-questions"></ol></div>
+      <details><summary>判断の手掛かりをもう少し見る</summary><p id="deeper-hint"></p></details>
+    </section>
+    <section class="card" aria-labelledby="translation-title"><div class="card-heading"><h2 id="translation-title">05 <span>自分の訳を考える</span></h2></div>
+      <p class="section-note">辞書が提示できるのは語句単位の訳候補です。本文全体の模範訳を自動生成しません。</p>
+      <div class="gloss"><span>語句の訳候補（未監査）</span><strong id="gloss">用法を選ぶと表示</strong></div>
+      <label class="field-label" for="my-translation">自分の現代語訳（任意）</label><textarea id="my-translation" rows="3" placeholder="自分で考えた訳をここに書けます"></textarea>
+      <button id="export" class="secondary">考え方をJSONで書き出す</button>
+      <p class="tip">保存は自動では行いません。書き出したデータには本文や入力人物が含まれます。</p>
+    </section>
+  </aside>
+  </div>
+  <footer><p>語義・用法は AI 提案（reviewStatus: proposed）。代表用例・典拠付きの正解データは未収録です。収集・監査後に学習用の根拠表示を拡張します。</p></footer>
+</main>
+<script type="module">
+/**
+ * 15 priority lexeme candidates from v0.3. ALL entries remain AI proposals.
+ * Forms are an exploratory surface matcher, NOT a morphological analyzer.
+ * Glosses are paraphrased teaching prompts, not approved answer keys.
+ */
+const REVIEW_STATUS = 'proposed';
+const LEXEMES = [
+  { id:'tamau', lemma:'給ふ', forms:['給ひ','給へ','給ふ','たまひ','たまへ','たまふ'], senses:[
+    {id:'tamau-respect',kind:'respect',label:'四段活用の尊敬用法（候補）',gloss:'お〜になる／〜なさる',clue:'活用型と、前に置かれた語の接続を調べよう。',focus:'四段／下二段の識別'},
+    {id:'tamau-humble-special',kind:'humble-special',label:'下二段活用の特殊な謙譲用法（候補）',gloss:'文脈から検討する',clue:'活用型、発話者、誰に向けてへりくだる表現かを調べよう。',focus:'通常の謙譲「動作の相手を高める」と同一視しない'}
+  ]},
+  { id:'tatematsuru', lemma:'奉る', forms:['奉り','奉る','たてまつり','たてまつる'], senses:[
+    {id:'tatematsuru-humble',kind:'humble',label:'謙譲用法（候補）',gloss:'差し上げる／お〜申し上げる',clue:'受け取る人、動作の受益者、本動詞か補助動詞かを考えよう。',focus:'本動詞・補助動詞'},
+    {id:'tatematsuru-respect',kind:'respect',label:'尊敬用法（候補）',gloss:'お召しになる／召し上がる など',clue:'何をする動作なのか。衣服・食事などの目的語を確認しよう。',focus:'目的語と多義性'}
+  ]},
+  { id:'mairu', lemma:'参る', forms:['参り','参る','まゐり','まゐる'], senses:[
+    {id:'mairu-humble-move',kind:'humble',label:'謙譲・移動（候補）',gloss:'参上する',clue:'行き先はどこか。そこに誰がいるか。',focus:'行き先と敬意対象'},
+    {id:'mairu-other',kind:'unknown',label:'その他の用法（要文脈）',gloss:'文脈による',clue:'移動・授受など、動作自体の意味を文脈から確かめよう。',focus:'意味の多義性'}
+  ]},
+  { id:'mesu', lemma:'召す', forms:['召し','召す'], senses:[
+    {id:'mesu-respect',kind:'respect',label:'尊敬用法（候補）',gloss:'お呼びになる／召し上がる／お召しになる など',clue:'目的語に何が置かれているかを調べよう。',focus:'目的語と訳語の使い分け'}
+  ]},
+  { id:'haberu', lemma:'侍り', forms:['侍り','侍る','はべり','はべる'], senses:[
+    {id:'haberu-polite',kind:'polite',label:'丁寧用法（候補）',gloss:'おります／ございます',clue:'聞き手へ丁寧に存在・状態を述べているか。',focus:'存在と丁寧'},
+    {id:'haberu-humble',kind:'humble',label:'謙譲・奉仕の用法（候補）',gloss:'お仕えする',clue:'誰かに仕えている場面か、単なる存在の説明か。',focus:'奉仕／存在'}
+  ]},
+  { id:'sourau', lemma:'候ふ', forms:['候ひ','候ふ','さうらひ','さうらふ'], senses:[
+    {id:'sourau-polite',kind:'polite',label:'丁寧用法（候補）',gloss:'おります／ございます',clue:'誰に丁寧に話しているのかを確認しよう。',focus:'発話相手'},
+    {id:'sourau-humble',kind:'humble',label:'謙譲・奉仕の用法（候補）',gloss:'お仕えする',clue:'仕える対象の有無を調べよう。',focus:'奉仕の相手'}
+  ]},
+  { id:'kikoyu', lemma:'聞こゆ', forms:['聞こえ','聞こゆ','きこえ','きこゆ'], senses:[
+    {id:'kikoyu-humble',kind:'humble',label:'謙譲用法（候補）',gloss:'申し上げる',clue:'誰に発話・伝達しているか。',focus:'発話の相手'},
+    {id:'kikoyu-non',kind:'nonhonorific',label:'非敬語用法（候補）',gloss:'聞こえる／評判になる',clue:'音声が聞こえる意味ではないか。',focus:'非敬語との識別'}
+  ]},
+  { id:'kikoe-sasu', lemma:'聞こえさす', forms:['聞こえさせ','聞こえさす','きこえさせ','きこえさす'], senses:[
+    {id:'kikoe-sasu-humble',kind:'humble',label:'謙譲用法（候補）',gloss:'申し上げる',clue:'発話・伝達の相手を確認しよう。',focus:'発話の相手'}
+  ]},
+  { id:'mousu', lemma:'申す', forms:['申し','申す','まうし','まうす'], senses:[
+    {id:'mousu-humble',kind:'humble',label:'謙譲用法（候補）',gloss:'申し上げる',clue:'誰に何を伝えるのか。',focus:'伝達の相手'}
+  ]},
+  { id:'sousu', lemma:'奏す', forms:['奏し','奏す'], senses:[
+    {id:'sousu-humble',kind:'humble',label:'謙譲用法（候補）',gloss:'天皇に申し上げる',clue:'発話の相手とその身分を確認しよう。',focus:'奏上の相手'}
+  ]},
+  { id:'keisu', lemma:'啓す', forms:['啓し','啓す'], senses:[
+    {id:'keisu-humble',kind:'humble',label:'謙譲用法（候補）',gloss:'中宮などに申し上げる',clue:'発話の相手とその身分を確認しよう。',focus:'啓上の相手'}
+  ]},
+  { id:'oosu', lemma:'仰す', forms:['仰せ','仰す','おほせ','おほす'], senses:[
+    {id:'oosu-respect',kind:'respect',label:'尊敬用法（候補）',gloss:'おっしゃる',clue:'言葉を発している動作主は誰か。',focus:'話す人'}
+  ]},
+  { id:'goran', lemma:'御覧ず', forms:['御覧じ','御覧ず','ごらんじ','ごらんず'], senses:[
+    {id:'goran-respect',kind:'respect',label:'尊敬用法（候補）',gloss:'ご覧になる',clue:'見ているのは誰か。',focus:'見る人'}
+  ]},
+  { id:'oboshimesu', lemma:'思し召す', forms:['思し召し','思し召す','おぼしめし','おぼしめす'], senses:[
+    {id:'oboshimesu-respect',kind:'respect',label:'尊敬用法（候補）',gloss:'お思いになる',clue:'考え・感情を抱いているのは誰か。',focus:'思う人'}
+  ]},
+  { id:'tamawaru', lemma:'賜る／給はる', forms:['賜り','賜る','給はり','給はる','たまはり','たまはる'], senses:[
+    {id:'tamawaru-humble',kind:'humble',label:'謙譲用法（候補）',gloss:'いただく',clue:'誰から何を受け取っているか。',focus:'授受の相手'},
+    {id:'tamawaru-respect',kind:'respect',label:'尊敬用法など（要確認）',gloss:'文脈による',clue:'誰の動作で、どの意味で使われているか。',focus:'授受と意味の識別'}
+  ]}
+];
+
+const LEXEME_BY_ID = Object.fromEntries(LEXEMES.map(x=>[x.id,x]));
+const SENSE_BY_ID = Object.fromEntries(LEXEMES.flatMap(x=>x.senses.map(s=>[s.id,s])));
+
+
+
+/** Returns candidates, never certainties. Offsets use JavaScript UTF-16 indices. */
+function detectCandidates(input) {
+  const text=String(input ?? '');
+  const raw=[];
+  for (const lexeme of LEXEMES) {
+    for (const form of lexeme.forms) {
+      let start=text.indexOf(form);
+      while (start!==-1) {
+        raw.push({start,end:start+form.length,form,lexemeId:lexeme.id,manual:false});
+        start=text.indexOf(form,start+Math.max(1,form.length));
+      }
+    }
+  }
+  // Longest first at a given offset, prevent shorter contained forms from masking longer ones.
+  raw.sort((a,b)=>a.start-b.start || (b.end-b.start)-(a.end-a.start) || a.lexemeId.localeCompare(b.lexemeId));
+  const out=[];
+  for (const item of raw) {
+    if (!out.some(prev=>item.start<prev.end && prev.start<item.end)) out.push(item);
+  }
+  return out.map((item,i)=>({...item,id:`auto-${item.start}-${item.end}-${item.lexemeId}-${i}`}));
+}
+
+function addManualCandidate(items, text, start, end) {
+  if (!Number.isInteger(start)||!Number.isInteger(end)||start<0||end>text.length||start>=end) return items;
+  if (items.some(x=>start<x.end && x.start<end)) return items; // no double-count or overwrite
+  const proposed={id:`manual-${start}-${end}`,start,end,form:text.slice(start,end),lexemeId:null,manual:true};
+  return [...items,proposed].sort((a,b)=>a.start-b.start);
+}
+
+function availableSenses(occurrence) {
+  return occurrence?.lexemeId ? LEXEME_BY_ID[occurrence.lexemeId]?.senses ?? [] : [];
+}
+
+const trim=v=>String(v ?? '').trim();
+/**
+ * All arrows are learner hypotheses. Never outputs a 'correct' judgement.
+ * Context: {layer, speaker, listener}. Per occurrence: {agent, counterpart, beneficiary, senseId, manualKind}
+ */
+function deriveHypothesis(occurrence, context={}, response={}) {
+  const sense=SENSE_BY_ID[response.senseId] ?? null;
+  const kind=sense?.kind ?? (occurrence.manual ? response.manualKind || 'unknown':'unknown');
+  const layer=context.layer ?? 'unknown';
+  const source=(layer==='narration' ? '語り手' : layer==='letter' ? trim(context.speaker)||'書き手（未特定）' :
+    (layer==='dialogue'||layer==='quotation') ? trim(context.speaker)||'話し手（未特定）' : '敬意を示す側（未特定）');
+  let target='未確定';
+  let note='用法と人物関係を確認してから方向を考えましょう。';
+  const missing=[];
+  if (layer==='unknown') missing.push('地の文か会話文か');
+  if ((layer==='dialogue'||layer==='quotation')&&!trim(context.speaker)) missing.push('話し手');
+  if (kind==='respect') {
+    target=trim(response.agent)||'動作主（未特定）';
+    note='尊敬語という仮説なら、原則として動作主を高める。';
+    if (!trim(response.agent)) missing.push('動作主');
+  } else if (kind==='humble') {
+    target=trim(response.counterpart)||trim(response.beneficiary)||'動作の相手・受益者など（未特定）';
+    note='謙譲語という仮説なら、受け手・行き先・受益者などを確かめる。動作の相手と敬意対象は同一と断定しない。';
+    if (!trim(response.counterpart)&&!trim(response.beneficiary)) missing.push('動作の相手・受益者・行き先');
+  } else if (kind==='humble-special') {
+    target='用法・聞き手を確認（自動確定しない）';
+    note='下二段「給ふ」の特殊な謙譲用法候補。通常の謙譲語の矢印を当てはめず、活用と話者・聞き手を検討する。';
+    missing.push('活用型と話者・聞き手');
+  } else if (kind==='polite') {
+    target=trim(context.listener)||'聞き手／読み手（未特定）';
+    note='丁寧語は話し手から聞き手への配慮として扱う。尊敬・謙譲の対象図と分ける。';
+    if (!trim(context.listener)) missing.push('聞き手');
+  } else if (kind==='nonhonorific') {
+    target='敬意の矢印なし';
+    note='非敬語用法という仮説です。敬意を表さない可能性を残します。';
+  } else {
+    missing.push('敬語の用法');
+  }
+  return {source,target,kind,note,missing,sense,reviewStatus:'hypothesis-only'};
+}
+
+/** Suggest a small next step, not a quiz verdict. */
+function nextQuestions(occurrence, context={}, response={}) {
+  const rel=deriveHypothesis(occurrence,context,response);
+  const prompts=[];
+  if ((context.layer??'unknown')==='unknown') prompts.push('ここは地の文ですか、会話文ですか。前後の区切りも確認してみましょう。');
+  if (['dialogue','quotation'].includes(context.layer)&&!trim(context.speaker)) prompts.push('この言葉を発しているのは誰でしょうか。');
+  if (!trim(response.agent)) prompts.push('この動作をしているのは誰でしょうか。省略されている可能性もあります。');
+  if (!rel.sense&&!occurrence.manual) prompts.push('候補の用法を比べる前に、活用・接続・動作内容の手掛かりを見てみましょう。');
+  if (occurrence.manual&&(!response.manualKind||response.manualKind==='unknown')) prompts.push('辞書未登録の語です。手動で敬語の種類を仮置きするか、保留できます。');
+  if (rel.kind==='humble'&&!trim(response.counterpart)&&!trim(response.beneficiary)) prompts.push('誰に対して、誰のために、どこへ向かっている動作でしょうか。');
+  if (rel.kind==='humble-special') prompts.push('「給ふ」の活用型を確認し、一般の謙譲用法と区別しましょう。');
+  if (rel.kind==='polite'&&!trim(context.listener)) prompts.push('誰に向けた発言かを確認しましょう。');
+  if (rel.sense) prompts.push(rel.sense.clue);
+  prompts.push('この人物関係だと、どのような現代語訳が自然になるでしょうか。');
+  return [...new Set(prompts)].slice(0,4);
+}
+
+function labelForKind(kind) {
+  return ({respect:'尊敬',humble:'謙譲',polite:'丁寧','humble-special':'特殊な謙譲',nonhonorific:'非敬語',unknown:'未確定'})[kind] || '未確定';
+}
+
+
+
+
+const $=id=>document.getElementById(id);
+const state={passage:'',items:[],activeId:null,answers:{},context:{layer:'unknown',speaker:'',listener:''}};
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pick=()=>state.items.find(o=>o.id===state.activeId)??null;
+const answer=()=>state.answers[state.activeId]??{};
+const labelFor=o=>o?.lexemeId?LEXEME_BY_ID[o.lexemeId]?.lemma??o.form:o?.form??'';
+
+function analyze(){
+  const text=$('passage').value;
+  state.passage=text;
+  state.items=detectCandidates(text);
+  state.answers={};
+  state.activeId=state.items[0]?.id??null;
+  render();
+}
+function loadExample(text){
+  $('passage').value=text;
+  state.context={layer:'unknown',speaker:'',listener:''};
+  $('layer').value='unknown';$('speaker').value='';$('listener').value='';
+  analyze();
+}
+function addSelection(){
+  const text=$('passage').value;
+  const start=$('passage').selectionStart,end=$('passage').selectionEnd;
+  if(text!==state.passage) analyze();
+  if(start===end){alert('本文中の敬語をドラッグして選択してください。');return;}
+  const next=addManualCandidate(state.items,text,start,end);
+  if(next.length===state.items.length){alert('その範囲は、既に登録されている敬語候補と重なっています。');return;}
+  state.items=next;state.activeId=`manual-${start}-${end}`;
+  render();
+}
+function renderAnnotated(){
+  const items=state.items;
+  let html='',cursor=0;
+  for(const o of items){
+    html+=escapeHtml(state.passage.slice(cursor,o.start));
+    html+=`<button type="button" class="highlight ${o.id===state.activeId?'active':''}" data-id="${escapeHtml(o.id)}" aria-label="${escapeHtml(o.form)}を選択">${escapeHtml(state.passage.slice(o.start,o.end))}</button>`;
+    cursor=o.end;
+  }
+  html+=escapeHtml(state.passage.slice(cursor));
+  $('annotated').innerHTML=html||'<span class="tip">入力した本文がここに表示されます。</span>';
+  $('count').textContent=`${items.length}件の候補`;
+  $('candidate-list').innerHTML=items.length?items.map((o,i)=>{
+    const on=o.id===state.activeId;
+    return `<button type="button" class="candidate ${on?'active':''}" data-id="${escapeHtml(o.id)}" aria-pressed="${on}">${i+1}. ${escapeHtml(o.form)}${o.manual?'（手動）':''}</button>`;
+  }).join(''):'<span class="tip">まだ候補がありません。本文を選択して手動追加することもできます。</span>';
+  for(const b of document.querySelectorAll('[data-id]')) b.addEventListener('click',()=>{state.activeId=b.dataset.id;render();});
+}
+function renderContext(){
+  const layer=$('layer').value;
+  $('speaker-wrap').classList.toggle('hidden',!['dialogue','quotation','letter'].includes(layer));
+  const o=pick();
+  const disabled=!o;
+  for(const id of ['agent','counterpart','beneficiary','sense','manual-kind']) $(id).disabled=disabled;
+  $('manual-kind-wrap').classList.toggle('hidden',!(o?.manual));
+  if(!o){
+    $('sense').innerHTML='<option value="">まず敬語を選んでください</option>';
+    $('focus-note').textContent='';
+    for(const id of ['agent','counterpart','beneficiary','my-translation']) $(id).value='';
+    $('counterpart-wrap').classList.remove('hidden');$('beneficiary-wrap').classList.remove('hidden');
+    $('my-translation').disabled=true;
+    return;
+  }
+  const a=answer();
+  $('my-translation').disabled=false;
+  for(const id of ['agent','counterpart','beneficiary']) $(id).value=a[id]??'';
+  $('my-translation').value=a.translation??'';
+  $('manual-kind').value=a.manualKind||'unknown';
+  const senses=availableSenses(o);
+  $('sense').innerHTML='<option value="">まだ決めない（複数候補を保留）</option>'+senses.map(s=>`<option value="${escapeHtml(s.id)}">${escapeHtml(s.label)}</option>`).join('');
+  $('sense').value=a.senseId||'';
+  $('sense').disabled=o.manual;
+  $('focus-note').textContent=o.manual?'辞書登録がありません。語形・活用・前後の文脈から自由に考えましょう。':`この語で見る観点：${senses.map(s=>s.focus).filter((v,i,arr)=>arr.indexOf(v)===i).join('／')}`;
+  const selected=senses.find(s=>s.id===a.senseId);
+  const kind=selected?.kind??a.manualKind??'unknown';
+  // Ask about counterpart only when the hypothesis makes that useful; otherwise keep existing input intact.
+  $('counterpart-wrap').classList.toggle('hidden',['respect','polite','nonhonorific'].includes(kind));
+  $('beneficiary-wrap').classList.toggle('hidden',['respect','polite','nonhonorific'].includes(kind));
+}
+function renderResults(){
+  const o=pick();
+  if(!o){
+    $('honor-source').textContent='未確定';$('honor-target').textContent='未確定';$('kind-name').textContent='未確定';
+    $('relation-note').textContent='まず候補を選択してください。';$('next-questions').innerHTML='<li>文中から考えたい語を選んでください。</li>';
+    $('deeper-hint').textContent='';$('gloss').textContent='用法を選ぶと表示';return;
+  }
+  const r=deriveHypothesis(o,state.context,answer());
+  $('honor-source').textContent=r.source;
+  $('honor-target').textContent=r.target;
+  $('kind-name').textContent=labelForKind(r.kind);
+  $('relation-note').textContent=r.note+(r.missing.length?` 未確認：${r.missing.join('、')}。`:'');
+  $('next-questions').innerHTML=nextQuestions(o,state.context,answer()).map(s=>`<li>${escapeHtml(s)}</li>`).join('');
+  $('deeper-hint').textContent=r.sense?`${r.sense.clue}｜注目点：${r.sense.focus}。語義はAI調査候補で、原典用例による監査はまだありません。`:
+    '活用、前後の助詞、人物の役割、地の文と会話の区別、対照用例が次の判断材料になります。';
+  $('gloss').textContent=r.sense?.gloss??'用法が未確定のため、訳語も保留';
+}
+function render(){renderAnnotated();renderContext();renderResults();}
+function modifyAnswer(key,value){
+  if(!state.activeId)return;
+  if(!state.answers[state.activeId])state.answers[state.activeId]={};
+  state.answers[state.activeId][key]=value;
+  if(['senseId','manualKind'].includes(key)){renderContext();}
+  renderResults();
+}
+function modifyContext(key,value){state.context[key]=value;renderContext();renderResults();}
+for(const id of ['layer','speaker','listener']) $(id).addEventListener(id==='layer'?'change':'input',e=>modifyContext(id==='layer'?'layer':id,e.target.value));
+for(const id of ['agent','counterpart','beneficiary','my-translation']) $(id).addEventListener('input',e=>modifyAnswer(id==='my-translation'?'translation':id,e.target.value));
+$('sense').addEventListener('change',e=>modifyAnswer('senseId',e.target.value));
+$('manual-kind').addEventListener('change',e=>modifyAnswer('manualKind',e.target.value));
+$('analyze').addEventListener('click',analyze);
+$('reset').addEventListener('click',()=>{loadExample('');});
+$('add-selection').addEventListener('click',addSelection);
+for(const b of document.querySelectorAll('.sample')) b.addEventListener('click',()=>loadExample(b.dataset.example));
+
+$('export').addEventListener('click',()=>{
+  const doc={schemaVersion:1,kind:'keigo-assist-learner-hypotheses',reviewStatus:'learner-hypothesis',generatedAt:new Date().toISOString(),
+    text:state.passage,context:state.context,items:state.items.map(o=>({...o,answer:state.answers[o.id]??{},hypothesis:deriveHypothesis(o,state.context,state.answers[o.id]??{})}))};
+  const url=URL.createObjectURL(new Blob([JSON.stringify(doc,null,2)],{type:'application/json'}));
+  const link=document.createElement('a');link.href=url;link.download='keigo-hypothesis.json';link.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+
+/**
+ * Same-origin embedding contract. No user text is sent to an external origin.
+ * The parent page may post {type:'keigo-assist:load', payload:{text,selectedStart?,selectedEnd?,layer?,speaker?,listener?}}.
+ */
+window.addEventListener('message',event=>{
+  if(event.source!==window.parent || event.origin!==window.location.origin)return;
+  if(event.data?.type!=='keigo-assist:load')return;
+  const p=event.data.payload;
+  if(!p||typeof p.text!=='string'||p.text.length>10000)return;
+  loadExample(p.text);
+  for(const key of ['layer','speaker','listener']){
+    if(typeof p[key]==='string' && p[key].length<=200){
+      state.context[key]=p[key];$(key).value=p[key];
+    }
+  }
+  if(Number.isInteger(p.selectedStart)&&Number.isInteger(p.selectedEnd)){
+    const next=addManualCandidate(state.items,state.passage,p.selectedStart,p.selectedEnd);
+    if(next.length>state.items.length){state.items=next;state.activeId=`manual-${p.selectedStart}-${p.selectedEnd}`;}
+    else{const found=state.items.find(o=>o.start<=p.selectedStart&&o.end>=p.selectedEnd);if(found)state.activeId=found.id;}
+  }
+  render();
+});
+loadExample($('passage').value);
+
+</script>
+</body></html>
