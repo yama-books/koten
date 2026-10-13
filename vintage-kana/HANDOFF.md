@@ -901,3 +901,13 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - 最新mainはPR #94（解読）・PR #95（iPhoneキーボード修正）まで反映済み。VK-01の正式入口 `index.html` をmain正本へ8箇所の変更を適用する形で統合し、両PRの仕様・データ・演出前処理を維持。
 - このHANDOFFはmainで並行して追記された内容を正として、VK-01の一連の監査・試験結果を末尾へ追補した。過去の「マージ・公開禁止」は公開許可前の履歴記録であり、現在のユーザー公開指示によりゲートが解除された。
 - 実機Safariでの人による映像印象・描画負荷の評価は未実施であり、公開後の確認項目として引き続き保持。
+
+## 2026-10-13 17:58 JST VK-01 公開完了・作業停止チェックポイント
+- **本件の状態: 公開反映完了、ユーザー指示により作業停止。** この節は公開許可後の最終記録。前節までの「未公開」「マージ禁止」は当時の履歴であり現時点には適用しない。
+- **対象:** 変体仮名メーカーの第1・2相→第4相、および第4相→閃光（第5相）の動きの境界連続補間、全10モード。修正先は `vintage-kana/index.html`、`motion-seam.js` 等。検査の詳細は [VK01_MOTION_CONTINUITY_2026-10-13.md](./VK01_MOTION_CONTINUITY_2026-10-13.md)。
+- **正本とマージ:** [PR #93](https://github.com/yama-books/koten/pull/93) を `main` にマージ済み。マージコミット `a1c031dea8a1393701443522193ef22f0b540cc0`。PR #94（解読）・#95（iPhoneキーボード修正）との `index.html` 競合を先に解消して両機能を保持。VK-01のソース/資料はこのマージコミットに含まれる。
+- **公開証跡:** [Deploy Pages run 38314811317](https://github.com/yama-books/koten/actions/runs/38314811317) は **completed/success**、build・deployとも **success**、head SHAは `a1c031de...`。[共通CI run 38314811259](https://github.com/yama-books/koten/actions/runs/38314811259) も **completed/success**。公開URL: https://yama-books.github.io/koten/vintage-kana/ 。ただし公開HTMLの独立直接取得による突合までは実施していない。
+- **機械QA:** [run 38312939198](https://github.com/yama-books/koten/actions/runs/38312939198)で Chromium 50/50、WebKit 50/50、全100ケースPASS（両相境界）。最初80ms未満のdx最大112.91px、dy最大112.98px、閾値130px以下。習熟度回帰 [38312939203](https://github.com/yama-books/koten/actions/runs/38312939203) SUCCESS。字形差替え `p>.88` と `ensureMotionTargetFont()` を保持。
+- **17:58 JST 時点のリポジトリ:** `main` は別作業のPR #96まで進み `7792859cbdab0f5e63da4b5eaabd6bf859c83864`。この最新状態を巻き戻さず、VK-01は完了案件として扱う。ローカルの未コミット変更はこのセッションでは検証していない。
+- **残る実機観察（新規コード変更を意味しない）:** iPhone/iPad Safariでの動きの自然さ、白背景での字形可読性、fps/フレーム落ち、スキップ・文字入力への復帰、iPhoneキーボードの挙動。WebKitヘッドレスの成功は実機保証ではない。
+- **再開時:** まずその時点の `main` と本節以降のHANDOFFを確認する。実機で退行を確認した場合のみ別タスク・別ブランチで修正し、CI/Pagesの証跡を残す。**本セッションではここで停止し、追加の実装・デプロイは行わない。**
