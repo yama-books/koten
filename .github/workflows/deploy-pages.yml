@@ -1,7 +1,7 @@
 name: Deploy Pages
 on:
   push:
-    branches: [checkpoint-main]
+    branches: [main]
   workflow_dispatch:
 
 # The repository name decides the Pages sub-path, so it is read from the event
@@ -71,6 +71,7 @@ jobs:
           path: _site
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:
