@@ -308,7 +308,7 @@ for(const [width,height] of [[320,640],[390,844]]){
  assert.equal(geom.placeholder,"ひらがな");
  for(let i=0;i<5;i++){
    // On the second question, submit its actual reading to check both outcomes.
-   const answer=i===1?await page.evaluate(()=>decipherQuestion.phrase.reading):"まちがい";
+   const answer=i===1?await page.evaluate("decipherQuestion.phrase.reading"):"まちがい";
    await page.locator("#quizFreeInput").fill(answer);
    await page.locator('#quizFreeAnswer button[type="submit"]').click();
    const review=page.locator('#decipherBreakdown .decipherGlyphCard');
