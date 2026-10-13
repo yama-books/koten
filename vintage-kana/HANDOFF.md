@@ -931,3 +931,11 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - 検査: `tests/unit/vintage-kana-video-export.test.ts` を追加。録画APIの形式判定/非対応/取消・UI非混入等の回帰を登録。**実ブラウザで実動画を生成したという意味ではない**。
 - 設計・検証ゲート・未実施項目: [VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md](./VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md)。本番の10モードに対する動画録画は**未実装**、公開HTML変更なし、`main`への統合・Pages公開なし。
 - 再開時はまずこのブランチと最新 `main` のSHA・競合を確認 → 新設Nodeテストと実ブラウザ PoC（Chromium/WebKit） → DOM/Canvas映像一致を検証してからUI統合。録画失敗時の復帰、実機Safari、動画ファイル本体の再生を優先。
+
+
+### 2026-10-13 VK-02 実ブラウザ初回合格・DOMミラー試験着手
+- 隔離Canvas録画PoCの[専用QA 38379301233](https://github.com/yama-books/koten/actions/runs/38379301233) は SUCCESS。ChromiumでMP4 forward/reverse とキャンセルに成功。WebKit LinuxではMediaRecorderが使えず、非対応表示を確認。
+- 720×405pxが720×404pxで符号化されたため768×432pxに改めた。[再検証 38380791924](https://github.com/yama-books/koten/actions/runs/38380791924) SUCCESS。両方向とも768×432/2.81秒のMP4を生成し、デコードした異なる動画フレーム・保存・キャンセルまで確認。
+- 次の段階として現行本番アプリを無変更のiframeで読み込み、そこからDOMの文字ポーズをCanvas2Dに再描画する **低忠実度ミラーPoC** を追加した。 `tools/vintage-kana-video-poc/dom-mirror.js` / `dom-mirror.html` / `check-dom-mirror.mjs` とユニットテストを参照。**3D透視・閃光・刻印の正確な映像化は未実装。**
+- 実DOMミラーのブラウザ検査と画質差の監査は未判定/継続中。詳細は [VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md](./VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md) 最終節。
+- **本番は未変更。** 作業ブランチ `vintage-kana-video-export-vk02-poc-20261013`、[ドラフトPR #98](https://github.com/yama-books/koten/pull/98)。`main`にマージせず公開もしない。次は実DOMミラーのCI結果→画像差分・FPSの実測→レンダラ方式の再判定。
