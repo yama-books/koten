@@ -289,23 +289,20 @@ for(const [width,height] of [[320,640],[390,844]]){
  await page.locator('[data-quiz-mode="decipher"]').click();
  await page.locator("#decipherLevel").selectOption("5");
  const geom=await page.evaluate(()=>{
-   const label=document.querySelector<HTMLElement>("#decipherInputLabel")!;
    const input=document.querySelector<HTMLElement>("#quizFreeInput")!;
    const button=document.querySelector<HTMLElement>("#quizFreeAnswer .btn")!;
-   const l=label.getBoundingClientRect(),i=input.getBoundingClientRect(),b=button.getBoundingClientRect();
+   const i=input.getBoundingClientRect(),b=button.getBoundingClientRect();
    return {
-     labelVisible:!label.hidden,
-     labelFits:label.scrollWidth<=label.clientWidth+1,
-     labelAbove:l.bottom<=i.top+1,
+     labelAbsent:!document.querySelector("#decipherInputLabel"),
      inputFits:i.left>=0&&i.right<=document.documentElement.clientWidth+1,
      buttonFits:b.left>=i.right-1&&b.right<=document.documentElement.clientWidth+1,
      placeholder:(input as HTMLInputElement).placeholder,
      hasOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1
    };
  });
- assert.ok(geom.labelVisible&&geom.labelFits&&geom.labelAbove&&geom.inputFits&&geom.buttonFits&&!geom.hasOverflow,
+ assert.ok(geom.labelAbsent&&geom.inputFits&&geom.buttonFits&&!geom.hasOverflow,
    "decipher input "+width+": "+JSON.stringify(geom));
- assert.equal(geom.placeholder,"ひらがな");
+ assert.equal(geom.placeholder,"ひらがなで入力");
  for(let i=0;i<5;i++){
    // On the second question, submit its actual reading to check both outcomes.
    const answer=i===1?await page.evaluate("decipherQuestion.phrase.reading"):"まちがい";
@@ -329,6 +326,19 @@ for(const [width,height] of [[320,640],[390,844]]){
  assert.ok(await gallery.count()>0);
  const names=await gallery.evaluateAll(cards=>cards.map(c=>(c as HTMLElement).dataset.character));
  assert.equal(names.length,new Set(names).size,"set review has no duplicate glyph shapes");
+ 
+ const filters=page.locator(".decipherSummaryFilter");
+ assert.equal(await filters.count(),3);
+ const shownBefore=await page.locator("#setResultGlyphs .decipherGlyphCard:visible").count();
+ await filters.nth(1).click(); // At least one correct phrase gives at least one learned shape.
+ const readVisible=await page.locator("#setResultGlyphs .decipherGlyphCard:visible").count();
+ assert.ok(readVisible>=1&&readVisible<=shownBefore);
+ await filters.nth(2).click();
+ const wrongVisible=await page.locator("#setResultGlyphs .decipherGlyphCard:visible").count();
+ assert.equal(readVisible+wrongVisible,shownBefore);
+ await filters.nth(0).click();
+ assert.equal(await page.locator("#setResultGlyphs .decipherGlyphCard:visible").count(),shownBefore);
+
  await gallery.first().click();
  assert.equal(await page.locator("#glyphInfoDialog").evaluate((el:any)=>el.open),true);
  results.push("decipher "+width+"px: label fits, wrong/right glyph reviews and five-question gallery");

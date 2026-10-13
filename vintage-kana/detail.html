@@ -438,9 +438,25 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 .decipherResultSummary__header span{font-size:11px;font-weight:500;color:var(--muted)}
 .decipherResultSummary__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;max-height:340px;overflow-y:auto;padding:3px 2px 4px;overscroll-behavior:contain}
 @media(max-width:480px){.decipherResultSummary__grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Shared quiz motion and circular startup indication. */
+.vkm-character{display:inline-block;transform-origin:50% 90%;backface-visibility:hidden;white-space:pre}
+.vkm-boot{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;background:rgba(251,247,245,.93);pointer-events:auto;transition:opacity .22s ease}
+.vkm-boot[hidden]{display:none!important}
+.vkm-boot__ring{width:62px;height:62px;border:4px solid #e9ded9;border-top-color:#a45a76;border-radius:50%;animation:vkm-spin 1.04s linear infinite}
+@keyframes vkm-spin{to{transform:rotate(360deg)}}
+.decipherInputLabel{display:none!important}
+.decipherBreakdown__hint{display:none!important}
+.decipherSummaryFilters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:10px 0 12px}
+.decipherSummaryFilter{border:1px solid var(--line);border-radius:13px;min-height:47px;padding:6px 3px;background:#fff;color:var(--muted);font:700 11px/1.5 var(--font-ui);white-space:normal}
+.decipherSummaryFilter.active{background:var(--accent2);border-color:var(--accent);color:var(--accent)}
+.decipherSummaryFilter strong{font-size:11px}
+.decipherResultSummary__grid>.decipherGlyphCard[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){.vkm-boot__ring{animation-duration:2.5s}.vkm-boot{transition:none}}
 </style>
 </head>
 <body>
+<div id="vkmBoot" class="vkm-boot" role="status" aria-label="読み込み中"><div class="vkm-boot__ring" aria-hidden="true"></div></div>
 <div class="wrap">
 <header class="pageHeader">
   <h1>変体仮名メーカー</h1>
@@ -561,7 +577,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
         </div>
         <div id="choices" class="choices"></div>
         <form id="quizFreeAnswer" class="quizFreeAnswer" hidden>
-          <label id="decipherInputLabel" class="decipherInputLabel" for="quizFreeInput" hidden>読みをひらがなで入力</label>
+          
           <input id="quizFreeInput" autocomplete="off" autocapitalize="off" spellcheck="false">
           <button class="btn primary" type="submit">答える</button>
         </form>
@@ -668,6 +684,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 
 <script src="./mastery-summary.js"></script>
 <script src="./decipher-engine.js"></script>
+<script src="./quiz-motion.js"></script>
 <script>
 const KANA_ORDER=[..."あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん"];
 const STANDARD_HIRAGANA_JIBO={
@@ -1277,7 +1294,7 @@ function showQuizScreen(screen){
  }else{
    stopRecordMotion();
    record.hidden=true;
-   if(quizSet.answered>=QUIZ_SET_SIZE){practice.hidden=true;result.hidden=false;renderQuizResult();}
+   if(quizSet.answered>=QUIZ_SET_SIZE){practice.hidden=true;result.hidden=false;renderQuizResult();playResultWaveOnce();}
    else{result.hidden=true;practice.hidden=false;}
  }
 }
@@ -1303,6 +1320,35 @@ function renderQuizResult(){
  if(pts)pts.textContent="+"+formatPoints(points);
  if(meta)meta.textContent=QUIZ_SET_SIZE+"問中 "+quizSet.correct+"問正解";
 }
+let decipherSummaryFilter="all";
+let lastWavedSetId=null;
+function filterDecipherGallery(kind){
+ if(!["all","read","wrong"].includes(kind))return;
+ decipherSummaryFilter=kind;
+ const grid=document.querySelector("#setResultGlyphs .decipherResultSummary__grid");
+ if(!grid)return;
+ document.querySelectorAll(".decipherSummaryFilter").forEach(btn=>{
+   const selected=btn.dataset.filter===kind;
+   btn.classList.toggle("active",selected);
+   btn.setAttribute("aria-pressed",String(selected));
+ });
+ VintageKanaQuizMotion.reflow(grid,button=>kind==="all"||button.dataset.group===kind);
+}
+function bindDecipherFilters(){
+ document.querySelectorAll(".decipherSummaryFilter").forEach(btn=>{
+   btn.addEventListener("click",()=>filterDecipherGallery(btn.dataset.filter));
+ });
+}
+function playResultWaveOnce(){
+ if(lastWavedSetId===quizSet.id)return;
+ lastWavedSetId=quizSet.id;
+ requestAnimationFrame(()=>{
+   const grid=quizSet.mode==="decipher"
+     ?document.querySelector("#setResultGlyphs .decipherResultSummary__grid")
+     :document.getElementById("setResultGlyphs");
+   VintageKanaQuizMotion.wave(grid);
+ });
+}
 function renderQuizResultGlyphs(){
  const root=document.getElementById("setResultGlyphs");
  if(!root)return;
@@ -1315,11 +1361,18 @@ function renderQuizResultGlyphs(){
        '<div class="decipherResultRow"><strong>'+escapeHtml(r.reading)+'</strong><em>'+(r.correct?"正解":"要復習")+'</em></div>'
      ).join("")+'</div>'+
      '<div class="decipherResultSummary__header">今回出会った字形 <span>'+glyphs.length+'字</span></div>'+
-     '<p class="decipherResultSummary__note">正誤を問わず今回登場した字形です。押すと詳細を確認できます。習熟度への加点は正解した問題のみです。</p>'+
+     '<div class="decipherSummaryFilters" role="group" aria-label="今回出会った字形の絞り込み">'+
+       [['all','すべて',glyphs.length],['read','読めた字',glyphs.filter(x=>x.inCorrectPhrase).length],
+        ['wrong','読めなかった字',glyphs.filter(x=>!x.inCorrectPhrase).length]].map(([kind,label,count])=>
+         '<button type="button" class="decipherSummaryFilter'+(decipherSummaryFilter===kind?' active':'')+
+         '" data-filter="'+kind+'" aria-pressed="'+(decipherSummaryFilter===kind)+'">'+label+' <strong>'+count+'</strong></button>'
+       ).join("")+'</div>'+
      '<div class="decipherResultSummary__grid">'+glyphs.map(t=>
-       decipherGlyphCardHtml(t.character,t.base,t.readings.join("・"),t.jibo)
+       decipherGlyphCardHtml(t.character,t.base,t.readings.join("・"),t.jibo,t.inCorrectPhrase?"read":"wrong")
      ).join("")+'</div>';
    bindGlyphInfoCards(root);
+   bindDecipherFilters();
+   if(decipherSummaryFilter!=="all")filterDecipherGallery(decipherSummaryFilter);
    return;
  }
  const results=quizSet.results||[];
@@ -1342,9 +1395,11 @@ function showQuizResult(){
  document.getElementById("quizRecord").hidden=true;
  document.getElementById("quizResult").hidden=false;
  renderQuizResult();
+ playResultWaveOnce();
 }
 function restartQuizSet(){
  quizSet=newQuizSet();
+ decipherSummaryFilter="all";
  activeQuizScreen="practice";
  recordReturnScreen="practice";
  document.getElementById("quizResult").hidden=true;
@@ -1666,8 +1721,8 @@ function pickQuizWeighted(list){
  }
  return list[list.length-1];
 }
-function decipherGlyphCardHtml(character,base,kana,jibo){
- return '<button type="button" class="decipherGlyphCard" data-glyph-info data-character="'+escapeHtml(character)+
+function decipherGlyphCardHtml(character,base,kana,jibo,group=""){
+ return '<button type="button" class="decipherGlyphCard"'+(group?' data-group="'+group+'"':'')+' data-glyph-info data-character="'+escapeHtml(character)+
    '" data-kana="'+escapeHtml(base)+'" data-jibo="'+escapeHtml(jibo||"")+
    '" aria-label="'+escapeHtml("読み "+kana+"、字母 "+jibo+"。詳細を見る")+'">'+
    '<span class="decipherGlyphCard__glyph">'+escapeHtml(character)+'</span>'+
@@ -1681,7 +1736,7 @@ function renderDecipherBreakdown(tokens,correct){
  }))}]);
  root.innerHTML=
    '<div class="decipherBreakdown__title">'+(correct?"この問題で登場した字形":"字形と字母を確認")+'</div>'+
-   (!correct?'<p class="decipherBreakdown__hint">誤答時も字形を復習できます。各字形を一律に誤答扱いしたり、減点したりはしません。</p>':"")+
+
    '<div class="decipherBreakdown__grid">'+glyphs.map(t=>
      decipherGlyphCardHtml(t.character,t.base,t.readings.join("・"),t.jibo)
    ).join("")+'</div>';
@@ -1701,7 +1756,7 @@ function newDecipherQuiz(){
  const breakdown=document.getElementById("decipherBreakdown");
  tool.hidden=false;note.hidden=false;breakdown.hidden=true;breakdown.innerHTML="";
  form.classList.add("isDecipherAnswer");
- document.getElementById("decipherInputLabel").hidden=false;
+ 
  document.getElementById("decipherLevel").value=String(decipherLevel);
  document.getElementById("quizMethodHint").hidden=true;
  document.getElementById("jiboPrompt").hidden=true;
@@ -1711,7 +1766,7 @@ function newDecipherQuiz(){
  form.hidden=false;
  question.hidden=false;question.textContent="このことばは何と読む？";
  glyph.hidden=false;glyph.classList.add("isDecipher");
- input.value="";input.readOnly=false;input.placeholder="ひらがな";
+ input.value="";input.readOnly=false;input.placeholder="ひらがなで入力";
  input.setAttribute("aria-label",input.placeholder);
  input.classList.remove("correct","wrong");
  if(!decipherPhrases.length){
@@ -1726,6 +1781,7 @@ function newDecipherQuiz(){
  decipherQuestion={phrase,tokens,level:decipherLevel};
  quizSet.phraseIds.push(phrase.id);
  glyph.textContent=tokens.map(t=>t.display).join("");
+ requestAnimationFrame(()=>VintageKanaQuizMotion.appearGlyphs(glyph));
  let composing=false;
  input.oncompositionstart=()=>{composing=true};
  input.oncompositionend=()=>{composing=false};
@@ -1740,6 +1796,7 @@ function newDecipherQuiz(){
    input.classList.toggle("correct",correct);
    input.classList.toggle("wrong",!correct);
    feedback.textContent=correct?"正解です。":"正解は「"+phrase.reading+"」です。";
+   VintageKanaQuizMotion.answer(glyph,correct);
    const now=new Date();
    const attempt={
      id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random()),
@@ -1774,7 +1831,7 @@ function newQuiz(){
  document.getElementById("decipherNote").hidden=true;
  document.getElementById("decipherBreakdown").hidden=true;
  document.getElementById("quizFreeAnswer").classList.remove("isDecipherAnswer");
- document.getElementById("decipherInputLabel").hidden=true;
+ 
  document.getElementById("quizGlyph").classList.remove("isDecipher");
  if(quizSet.answered>=QUIZ_SET_SIZE){showQuizResult();return}
  answered=false;
@@ -1832,8 +1889,12 @@ function newQuiz(){
    if(jiboAnswerReading){jiboAnswerReading.textContent=quizEntry.kana;jiboAnswerReading.hidden=false;}
    if(jiboPromptSource)jiboPromptSource.textContent=quizEntry.jibo;
  }
- function finishAnswer(correct,feedback){
+ function finishAnswer(correct,feedback,answerNode=null){
    revealJiboAnswer();
+   const visualTarget=quizMode==="jibo"
+      ?(answerNode||jiboPromptGlyph)
+      :(quizGlyph.hidden?(answerNode||root):quizGlyph);
+   VintageKanaQuizMotion.answer(visualTarget,correct);
    recordLearningAttempt(quizMode,correct,quizQuestionMethod,currentQuestionType);
    document.getElementById("feedback").textContent=feedback;
    if(next){
@@ -1874,7 +1935,7 @@ function newQuiz(){
            : quizQuestionMethod==="jibo-reverse"
              ? (correct?"正解です。":"正解は「"+quizEntry.character+"」です。")
              : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
-       finishAnswer(correct,feedback);
+       finishAnswer(correct,feedback,b);
      };
      root.appendChild(b);
    });
@@ -1942,6 +2003,11 @@ function newQuiz(){
      : (correct?"正解です。":"字母は「"+quizEntry.jibo+"」です。");
    finishAnswer(correct,feedback);
  };
+ requestAnimationFrame(()=>{
+   VintageKanaQuizMotion.appearGlyphs(quizGlyph.hidden?jiboPromptGlyph:quizGlyph);
+   if(quizMode==="jibo"&&quizQuestionMethod==="jibo-reverse")VintageKanaQuizMotion.appearGlyphs(jiboPromptSource);
+   VintageKanaQuizMotion.appearButtons(root);
+ });
 }
 
 // おまかせの抽選重み。
@@ -2387,7 +2453,18 @@ function openRecordFromUrl(){
  if(window.location.hash==="#record")showRecordFromNavigation();
 }
 let recordRouteReady=false;
-loadData().then(()=>{
+function closeBootLoader(){
+ const overlay=document.getElementById("vkmBoot");
+ if(overlay)overlay.hidden=true;
+}
+const fontReady=Promise.race([
+ document.fonts?.load?.('400 32px "Noto Serif Hentaigana"',"𛁷")?.catch(()=>{})||Promise.resolve(),
+ new Promise(resolve=>setTimeout(resolve,5000))
+]);
+const dataReady=loadData();
+Promise.race([Promise.allSettled([dataReady,fontReady]),new Promise(resolve=>setTimeout(resolve,8000))])
+ .finally(closeBootLoader);
+dataReady.then(()=>{
  recordRouteReady=true;
  refreshMasteryTabRing();
  if(activeQuizScreen==="record"&&window.location.hash!=="#record")showQuizScreen("record");
