@@ -39,12 +39,13 @@ test("VK-02 isolated mirror reads actual DOM bounding pose and transformed text"
 });
 test("VK-02 experimental canvas renderer draws glyphs but does not claim 3D fidelity",()=>{
   const calls:string[]=[];
+  const alphaStack:number[]=[];
   const ctx:any={
     globalAlpha:1,fillStyle:"",font:"",textAlign:"",textBaseline:"",
     clearRect(){calls.push("clear")},
     fillRect(){calls.push("fillRect")},
     createRadialGradient(){return {addColorStop(){}}},
-    save(){calls.push("save")},restore(){calls.push("restore")},
+    save(){calls.push("save");alphaStack.push(this.globalAlpha)},restore(){calls.push("restore");this.globalAlpha=alphaStack.pop()??1},
     translate(){calls.push("translate")},rotate(){calls.push("rotate")},
     scale(){calls.push("scale")},fillText(text:string){calls.push("text:"+text)}
   };
