@@ -578,7 +578,7 @@
         </a>
       </div>
       <div class="composer">
-        <textarea id="input" maxlength="80" rows="2" aria-label="変換する文字列">あさきゆめみし</textarea>
+        <textarea id="input" maxlength="80" rows="2" aria-label="変換する文字列">そら</textarea>
       </div>
       <div class="convert-row">
         <button id="convert" type="button">変換する</button>
@@ -606,6 +606,7 @@
   </div>
 </div>
 <script src="./mastery-summary.js"></script>
+<script src="./decipher-engine.js"></script>
 <script src="./motion-seam.js"></script>
 <script>
 const firstVariant = {
@@ -642,6 +643,7 @@ const stampDirectionInputs=[...document.querySelectorAll('input[name="stampDirec
 const conversionModeInputs=[...document.querySelectorAll('input[name="conversionMode"]')];
 
 let running=false,timers=[],playToken=0,nextPreset=null,lastSource="";
+let initialPhraseEdited=false;
 let convertPointerFromInput=false,lastInputBlurAt=-Infinity;
 const keyboardNotice=document.getElementById("keyboardNotice");
 const sleep=ms=>new Promise(r=>{const t=setTimeout(r,ms);timers.push(t)});
@@ -995,7 +997,7 @@ async function play(){
   }
   if(token!==playToken)return;
   const mode=getConversionMode();
-  const src=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
+  const src=(input.value.replace(/\r\n?/g,"\n").trim()||"そら");
   lastSource=src;
   const motionSrc=src.replace(/\n/g,"");
   const out=transformText(src,mode);
@@ -3037,7 +3039,7 @@ async function play(){
     console.error("[hentaigana-motion] playback error",err);
     // Never strand the user behind an opaque white stage.
     const fallbackMode=getConversionMode();
-    const fallbackSrc=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
+    const fallbackSrc=(input.value.replace(/\r\n?/g,"\n").trim()||"そら");
     const fallbackOut=transformText(fallbackSrc,fallbackMode);
     playToken++;
     resetVisuals();
@@ -3053,13 +3055,14 @@ async function play(){
 input.addEventListener("blur",()=>{lastInputBlurAt=performance.now()});
 btn.addEventListener("pointerdown",()=>{convertPointerFromInput=document.activeElement===input});
 btn.addEventListener("pointercancel",()=>{convertPointerFromInput=false});
-input.addEventListener("input",()=>{keyboardNotice.hidden=true});
-btn.addEventListener("click",()=>{nextPreset=null;play()});
+input.addEventListener("input",()=>{initialPhraseEdited=true;keyboardNotice.hidden=true});
+btn.addEventListener("click",()=>{initialPhraseEdited=true;nextPreset=null;play()});
 playAgain.addEventListener("click",backToInput);
-conversionModeInputs.forEach(el=>el.addEventListener("change",updateConversionUi));
+conversionModeInputs.forEach(el=>el.addEventListener("change",()=>{initialPhraseEdited=true;updateConversionUi()}));
 input.addEventListener("keydown",e=>{
   if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){
     e.preventDefault();
+    initialPhraseEdited=true;
     nextPreset=null;
     play();
   }
@@ -3084,6 +3087,16 @@ function refreshMasteryShortcut(){
  masteryShortcutRing.style.setProperty("--p",value);
  masteryShortcut.setAttribute("aria-label",untouched?"習熟度 未着手。記録を見る":"習熟度 "+value+"%。記録を見る");
 }
+async function loadInitialPhrase(){
+ try{
+   const response=await fetch("./data/decipher-phrases.json",{cache:"no-store"});
+   if(!response.ok)throw new Error("phrase catalogue HTTP "+response.status);
+   const bank=await response.json();
+   const phrase=VintageKanaDecipher.pickInitialPhrase(bank.phrases);
+   // Do not overwrite typing, a mode switch, restored input or playback.
+   if(phrase&&!initialPhraseEdited&&!running&&getConversionMode()==="forward"&&input.value==="そら"&&document.activeElement!==input)input.value=phrase.reading;
+ }catch(err){console.warn("initial phrase unavailable; using fallback",err)}
+}
 async function loadMasteryShortcut(){
  try{
    const response=await fetch("./data/ui-glyph-master.json",{cache:"no-store"});
@@ -3099,7 +3112,8 @@ const initialFont=Promise.race([
  new Promise(resolve=>setTimeout(resolve,4800))
 ]);
 const shortcutLoad=loadMasteryShortcut();
-Promise.race([Promise.allSettled([shortcutLoad,initialFont]),new Promise(resolve=>setTimeout(resolve,7500))])
+const phraseReady=loadInitialPhrase();
+Promise.race([Promise.allSettled([shortcutLoad,phraseReady,initialFont]),new Promise(resolve=>setTimeout(resolve,7500))])
  .finally(()=>{const el=document.getElementById("vkmStartup");if(el)el.hidden=true;});
 window.addEventListener("pageshow",refreshMasteryShortcut);
 window.addEventListener("storage",e=>{
@@ -3109,7 +3123,7 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshMas
 skip.addEventListener("click",()=>{
   if(!running||stage.classList.contains("result"))return;
   const mode=getConversionMode();
-  const src=(input.value.replace(/\r\n?/g,"\n").trim()||"あさきゆめみし");
+  const src=(input.value.replace(/\r\n?/g,"\n").trim()||"そら");
   const out=transformText(src,mode);
   playToken++;
   input.style.color="";

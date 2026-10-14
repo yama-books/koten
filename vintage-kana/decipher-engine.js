@@ -31,7 +31,19 @@
  function validPhrase(p){
    return p&&typeof p.id==="string"&&typeof p.reading==="string"
      &&/^[ぁ-ゖゐゑ]+$/u.test(p.reading)
-     &&!/[ぁぃぅぇぉゃゅょっゎ]/u.test(p.reading)&&lengthOf(p)>=2;
+     // Small ゃ/ゅ/ょ/っ have no historical glyph of their own in this
+     // catalogue: preserve them as ordinary small hiragana, never award
+     // a fabricated glyph mastery event for the position.
+     &&!/[ぁぃぅぇぉゎ]/u.test(p.reading)&&lengthOf(p)>=2;
+ }
+ // Initial composition samples uniformly from the approved quiz corpus.
+ // Do not use the quiz level or learning history for the initial sentence.
+ function pickInitialPhrase(phrases,rng=Math.random){
+   const pool=Array.isArray(phrases)?phrases.filter(validPhrase):[];
+   if(!pool.length)return null;
+   const value=Number(rng());
+   const fraction=Number.isFinite(value)?Math.max(0,Math.min(.999999999999,value)):0;
+   return pool[Math.floor(fraction*pool.length)];
  }
  function countKana(history){
    const result=new Map();
@@ -185,7 +197,7 @@
    try{root.localStorage.setItem(LEVEL_KEY,String(levelConfig(level).level))}catch(e){}
  }
  root.VintageKanaDecipher=Object.freeze({
-   HISTORY_KEY,LEVEL_KEY,LEVELS,kanaInfo,baseKana,validPhrase,countKana,
+   HISTORY_KEY,LEVEL_KEY,LEVELS,kanaInfo,baseKana,validPhrase,pickInitialPhrase,countKana,
    pickPhrase,candidatesFor,generateTokens,uniqueGlyphTokens,collectSetGlyphs,normalizedReading,
    isCorrectAnswer,glyphEvents,nextLevel,safeHistory,readHistory,storeHistory,readLevel,storeLevel
  });

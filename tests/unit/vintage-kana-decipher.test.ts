@@ -13,15 +13,38 @@ runInNewContext(engine,context);
 const d=context.VintageKanaDecipher;
 const phrases=phraseData.phrases;
 
-test("371 approved phrases retain exact categories, no duplicates or small kana",()=>{
- assert.equal(phrases.length,371);
- assert.equal(new Set(phrases.map((x:any)=>x.id)).size,371);
- assert.equal(new Set(phrases.map((x:any)=>x.reading)).size,371);
+test("374 approved phrases retain exact categories and unique readings",()=>{
+ assert.equal(phrases.length,374);
+ assert.equal(new Set(phrases.map((x:any)=>x.id)).size,374);
+ assert.equal(new Set(phrases.map((x:any)=>x.reading)).size,374);
  assert.ok(phrases.every((x:any)=>d.validPhrase(x)));
  const counts=Object.fromEntries([...new Set(phrases.map((x:any)=>x.category))].map(k=>[k,phrases.filter((x:any)=>x.category===k).length]));
- assert.deepEqual(Object.values(counts).sort((a:any,b:any)=>a-b),[19,20,25,30,33,40,40,45,59,60]);
+ assert.deepEqual(Object.values(counts).sort((a:any,b:any)=>a-b),[19,20,25,30,33,40,40,45,61,61]);
  for(const x of ["なんとかなる","だめよだめだめ","むげんのかなたへ","ひとのゆめはおわらねえ","むだむだむだ"])assert.ok(!phrases.some((p:any)=>p.reading===x));
  for(const x of ["きみのなは","となりのととろ","あきらめたらしあいおわり","すきすぎてめつ"])assert.ok(phrases.some((p:any)=>p.reading===x));
+});
+test("initial messages sample the complete quiz corpus without duplicates",()=>{
+ const requested=["つきがきれいですね","ねこにこばん","ぶたにしんじゅ","うまのみみにねんぶつ","にわのわに"];
+ for(const reading of requested)assert.equal(phrases.filter((p:any)=>p.reading===reading).length,1);
+ assert.equal(d.pickInitialPhrase(phrases,()=>0).reading,phrases[0].reading);
+ assert.equal(d.pickInitialPhrase(phrases,()=>.999999).reading,phrases.at(-1).reading);
+ assert.equal(d.pickInitialPhrase([],()=>0),null);
+ assert.equal(d.pickInitialPhrase([{id:"invalid",reading:"ABC"},phrases[0]],()=>0).reading,phrases[0].reading);
+ assert.match(index,/VintageKanaDecipher\.pickInitialPhrase\(bank\.phrases\)/);
+ assert.match(html,/VintageKanaDecipher\.pickInitialPhrase\(decipherPhrases\)/);
+ assert.match(index,/!initialPhraseEdited&&!running/);
+ assert.match(html,/source\.dataset\.userEdited!=="true"/);
+});
+test("a small kana in an approved phrase keeps its spelling without fictitious glyph credit",()=>{
+ const phrase=phrases.find((p:any)=>p.reading==="ぶたにしんじゅ");
+ assert.ok(phrase);
+ assert.equal(d.validPhrase(phrase),true);
+ const tokens=d.generateTokens(phrase,master.glyphs,5);
+ const small=tokens.find((t:any)=>t.kana==="ゅ");
+ assert.equal(small?.display,"ゅ");
+ assert.equal(small?.character,"");
+ assert.equal(small?.glyphId,"");
+ assert.ok(d.uniqueGlyphTokens(tokens).every((t:any)=>t.kana!=="ゅ"));
 });
 test("five levels have words and glyph candidates conform to the master",()=>{
  for(const l of d.LEVELS){
@@ -32,7 +55,7 @@ test("five levels have words and glyph candidates conform to the master",()=>{
    assert.equal(tokens.length,p.reading.length);
    tokens.forEach((t:any,i:number)=>{
      assert.equal(t.position,i);
-     if(!t.character){assert.equal(t.kana,"ん");return}
+     if(!t.character){assert.ok(["ん","ゃ","ゅ","ょ","っ"].includes(t.kana));return}
      assert.ok(master.glyphs.some((g:any)=>g.glyph_id===t.glyphId&&g.kana===t.base&&g.character===t.character));
    });
  }

@@ -517,7 +517,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
   </dialog>
 
   <div id="compose" class="view active">
-    <textarea id="sourceText" placeholder="ひらがなを入力">きょうはいいてんきですね</textarea>
+    <textarea id="sourceText" placeholder="ひらがなを入力">そら</textarea>
     <div class="composeModeLine">
       <span class="composeModeLabel">仮名設定</span>
       <div class="composeModes">
@@ -536,7 +536,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
           <button class="previewDirBtn" type="button" data-writing="vertical">縦書き</button>
         </div>
       </div>
-      <div id="floatingOriginal" class="floatingOriginal"><b>もとの文</b>　きょうはいいてんきですね</div>
+      <div id="floatingOriginal" class="floatingOriginal"><b>もとの文</b>　そら</div>
       <div id="preview" class="preview"></div>
     </div>
     <div class="composeActions">
@@ -1491,6 +1491,10 @@ async function loadData(){
        decipherPhrases=Array.isArray(bank.phrases)?bank.phrases.filter(VintageKanaDecipher.validPhrase):[];
      }
    }catch(e){console.warn("decipher phrase data unavailable",e)}
+   // The initial composer message reuses the validated decipher quiz corpus.
+   const initialPhrase=VintageKanaDecipher.pickInitialPhrase(decipherPhrases);
+   const source=document.getElementById("sourceText");
+   if(initialPhrase&&source&&source.dataset.userEdited!=="true"&&source.value==="そら"&&document.activeElement!==source)source.value=initialPhrase.reading;
    renderFilters(); renderCards(); newQuiz(); renderCompose();
 
  }catch(err){
@@ -2445,6 +2449,7 @@ document.getElementById("smallKanaToggle").addEventListener("change",e=>{
 document.getElementById("rerollCompose").onclick=randomizeCompose;
 document.getElementById("saveImage").onclick=savePreviewImage;
 document.getElementById("sourceText").addEventListener("input",()=>{
+ document.getElementById("sourceText").dataset.userEdited="true";
  // おまかせでも、一度決まった字はそのままにする。
  // renderCompose は未割当の字にだけ字体を割り当てる。
  // 全部引き直すのは「もう一度」を押したときだけ。
