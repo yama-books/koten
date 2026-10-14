@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>変体仮名メーカー｜実際の動きの比較テスト</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css?family=Noto+Serif+Hentaigana:400,600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}body{font:14px/1.65 system-ui,sans-serif;background:#f7f1ea;color:#292722;margin:0 auto;max-width:1700px;padding:16px}
@@ -26,7 +27,7 @@ button{cursor:pointer}button:disabled{opacity:.45;cursor:default}a[hidden],video
 <p class="warning"><strong>映像一致は未達成です。</strong> 本番の文字座標・文字列・透明度を読み、2D Canvasで近似表示します。CSSの3D透視・発光・ぼかし・フラッシュ・刻印は再現していません。本番画面にこの実験コードは読み込まれません。</p>
 <div class="controls">
 <label>変換方向 <select id="direction"><option value="forward">ひらがな → 変体仮名</option><option value="reverse">変体仮名 → ひらがな</option></select></label>
-<button id="start">本番演出の座標を読み込む</button>
+<button id="start" disabled>本番演出の座標を読み込む</button>
 <a id="download" href="#" hidden>近似動画を保存（検証用）</a>
 </div>
 <p id="status" role="status" aria-live="polite">「本番演出の座標を読み込む」を押してください。左側は実アプリ、右側は近似映像です。</p>
@@ -38,6 +39,7 @@ button{cursor:pointer}button:disabled{opacity:.45;cursor:default}a[hidden],video
 <p><small>iframeは本番アプリの現行コードを無変更で読みます。元のサイトのCSS 3DとCanvasの差を比較するための実験であり、画面一致・iPhone対応・全相の再現を保証しません。自動生成した動画を一般公開しないでください。</small></p>
 <script src="./video-capability.js"></script>
 <script src="./dom-mirror.js"></script>
+<script src="./font-loader.js"></script>
 <script>
 (()=>{
 "use strict";
@@ -66,9 +68,13 @@ async function run(){
   const mode=direction.value;
   let stream=null,recorder=null;
   try{
+    // The parent Canvas and child app have separate FontFaceSet instances.
+    // Each must resolve the glyph-bearing face before animation begins.
+    await window.VintageKanaPreviewFont.ensure(document);
     const win=frame.contentWindow;
     const doc=win?.document;
     if(!doc||!doc.getElementById("stage"))throw new Error("iframeが同一オリジンでありません。HTTPサーバで開いてください。");
+    await window.VintageKanaPreviewFont.ensure(doc);
     if(win.running)throw new Error("本番アニメーションを実行中です。ページを再読込してください。");
     const inp=doc.getElementById("input");
     inp.value=mode==="reverse"?"𛀂":"あ";
@@ -123,6 +129,14 @@ async function run(){
   }
 }
 start.addEventListener("click",run);
+say("変体仮名フォントを読み込み中です...");
+window.VintageKanaPreviewFont.ensure(document).then(()=>{
+  start.disabled=false;
+  say("フォント読込完了。「本番演出の座標を読み込む」を押してください。左が実画面、右が近似画像です。");
+}).catch(err=>{
+  start.disabled=true;
+  say("変体仮名フォントを読み込めませんでした。ネット接続やコンテンツブロッカーを確認してください。("+String(err?.message||err)+")");
+});
 window.VK02MirrorStats=()=>({...stats});
 })();
 </script>
