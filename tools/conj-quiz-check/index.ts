@@ -135,46 +135,6 @@ try{
   assert.deepEqual(await real.evaluate('quizRecords.map(r=>r.exampleId)'),published.map((r:any)=>r.exampleId),'all published examples resolve at runtime');
   assert.equal(await real.evaluate("quizRecords.some(r=>r.exampleId==='aux-289'||r.exampleId==='aux-290')"),false,'未確認 examples stay held');
   await chooseMode(real,'form');
-  // Terminal-form text grading is independently recorded, with a visible kana-only warning.
-  await chooseMode(empty,'lemma');
-  async function setTerminalQuestion(id:string){
-    await empty.evaluate((itemId:string)=>{
-      const ex=quizMasterPractice.lemma.find((entry:any)=>entry.itemId===itemId);
-      if(!ex)throw Error('missing cleared master lemma example for '+itemId);
-      current={...ex.tableItem};answers={};selected=null;answered=false;blankSlots=new Set();
-      quizState=quizEngine.createQuizState({example:ex,quizMode:'lemma',choiceScope:'near',supportLevel:0,rowMode:'omitted'});
-      quizState.masteryStage=0;quizChoices=[];render();
-    },id);
-    assert.equal(await empty.locator('#quizLemmaInput').isVisible(),true,'typed lemma input shown');
-    assert.equal(await empty.locator('#quizChoices').isVisible(),false,'classification choices hidden');
-  }
-  await setTerminalQuestion('nu_verb');
-  assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'寝 must warn 漢字不可');
-  assert.equal(await empty.locator('#quizLemmaKanjiBan').innerText(),'漢字不可');
-  await empty.locator('#reveal').click();
-  assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked with hint');
-  await empty.locator('#reveal').click();
-  assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked after second hint');
-  assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'kana-only warning stays present after hints');
-  await empty.locator('#quizLemmaInput').fill('寝');await empty.locator('#check').click();
-  assert.match(await empty.locator('#feedback').innerText(),/^不正解/,'bare 寝 is insufficient');
-  await setTerminalQuestion('nu_verb');
-  await empty.locator('#quizLemmaInput').fill('ぬ');await empty.locator('#check').click();
-  assert.match(await empty.locator('#feedback').innerText(),/^正解/);
-  assert.equal(await empty.evaluate('stats.quiz.events.at(-1).quizMode'),'lemma');
-  await setTerminalQuestion('ku');
-  assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'来 must warn 漢字不可');
-  await empty.locator('#quizLemmaInput').fill('来');await empty.locator('#check').click();
-  assert.match(await empty.locator('#feedback').innerText(),/^不正解/);
-  await setTerminalQuestion('ku');
-  await empty.locator('#quizLemmaInput').fill('く');await empty.locator('#check').click();
-  assert.match(await empty.locator('#feedback').innerText(),/^正解/);
-  await setTerminalQuestion('kohu');
-  assert.equal(await empty.locator('#quizLemmaKanjiBan').isHidden(),true,'ordinary inflected kanji spelling is allowed');
-  await empty.locator('#quizLemmaInput').fill('こふ');
-  await empty.locator('#quizLemmaInput').press('Enter');
-  assert.match(await empty.locator('#feedback').innerText(),/^正解/,'historical hiragana is accepted by Enter');
-  assert.equal(await empty.evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true,'lemma input does not overflow mobile viewport');
   for(const pos of ['verb','adj','adjv','aux']){
     await setPos(real,pos);
     await real.locator('#quizPrompt').waitFor({state:'visible'});
@@ -235,6 +195,46 @@ try{
   assert.match(await empty.locator('#feedback').innerText(),/^正解/);
   assert.match(await empty.evaluate('stats.quiz.events.at(-1).exampleId'),/^master:type:/);
   if(output)await empty.screenshot({path:path.join(output,'master-type-mobile.png'),fullPage:true,timeout:15000});
+  // Terminal-form text grading is independently recorded, with a visible kana-only warning.
+  await chooseMode(empty,'lemma');
+  async function setTerminalQuestion(id:string){
+    await empty.evaluate((itemId:string)=>{
+      const ex=quizMasterPractice.lemma.find((entry:any)=>entry.itemId===itemId);
+      if(!ex)throw Error('missing cleared master lemma example for '+itemId);
+      current={...ex.tableItem};answers={};selected=null;answered=false;blankSlots=new Set();
+      quizState=quizEngine.createQuizState({example:ex,quizMode:'lemma',choiceScope:'near',supportLevel:0,rowMode:'omitted'});
+      quizState.masteryStage=0;quizChoices=[];render();
+    },id);
+    assert.equal(await empty.locator('#quizLemmaInput').isVisible(),true,'typed lemma input shown');
+    assert.equal(await empty.locator('#quizChoices').isVisible(),false,'classification choices hidden');
+  }
+  await setTerminalQuestion('nu_verb');
+  assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'寝 must warn 漢字不可');
+  assert.equal(await empty.locator('#quizLemmaKanjiBan').innerText(),'漢字不可');
+  await empty.locator('#reveal').click();
+  assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked with hint');
+  await empty.locator('#reveal').click();
+  assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked after second hint');
+  assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'kana-only warning stays present after hints');
+  await empty.locator('#quizLemmaInput').fill('寝');await empty.locator('#check').click();
+  assert.match(await empty.locator('#feedback').innerText(),/^不正解/,'bare 寝 is insufficient');
+  await setTerminalQuestion('nu_verb');
+  await empty.locator('#quizLemmaInput').fill('ぬ');await empty.locator('#check').click();
+  assert.match(await empty.locator('#feedback').innerText(),/^正解/);
+  assert.equal(await empty.evaluate('stats.quiz.events.at(-1).quizMode'),'lemma');
+  await setTerminalQuestion('ku');
+  assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'来 must warn 漢字不可');
+  await empty.locator('#quizLemmaInput').fill('来');await empty.locator('#check').click();
+  assert.match(await empty.locator('#feedback').innerText(),/^不正解/);
+  await setTerminalQuestion('ku');
+  await empty.locator('#quizLemmaInput').fill('く');await empty.locator('#check').click();
+  assert.match(await empty.locator('#feedback').innerText(),/^正解/);
+  await setTerminalQuestion('kohu');
+  assert.equal(await empty.locator('#quizLemmaKanjiBan').isHidden(),true,'ordinary inflected kanji spelling is allowed');
+  await empty.locator('#quizLemmaInput').fill('こふ');
+  await empty.locator('#quizLemmaInput').press('Enter');
+  assert.match(await empty.locator('#feedback').innerText(),/^正解/,'historical hiragana is accepted by Enter');
+  assert.equal(await empty.evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true,'lemma input does not overflow mobile viewport');
   for(const pos of ['verb','adj','adjv','aux']){
     await setPos(empty,pos);
     for(const mode of ['form','type']){
