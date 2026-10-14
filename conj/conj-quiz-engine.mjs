@@ -466,12 +466,21 @@ export function buildHintMask({
   hintLevel,
   example,
   tableRows,
+  answerRevealed = false,
   hintProfile,
   masteryStage=0,
 }) {
   const rows = Array.isArray(tableRows) ? tableRows : [];
   const visible = new Set();
 
+  // 終止形入力では、未回答の間、終止形と同形になり得る連体形の行も
+  // ヒントで直接明かさない。採点後のみ6行すべてを表示する。
+  if (quizMode === QUIZ_MODE.LEMMA && !answerRevealed) {
+    const indexes = hintLevel >= SUPPORT_LEVEL.FULL ? [0,1,4,5]
+      : hintLevel >= SUPPORT_LEVEL.PARTIAL ? [0,4] : [];
+    const visibleIndexes = indexes.filter(i=>i<rows.length);
+    return {visibleIndexes,hiddenIndexes:rows.map((_,i)=>i).filter(i=>!visibleIndexes.includes(i))};
+  }
   if (hintLevel >= SUPPORT_LEVEL.FULL) {
     rows.forEach((_, i) => visible.add(i));
     return { visibleIndexes: [...visible], hiddenIndexes: [] };
