@@ -238,8 +238,6 @@
   }
   .card.is-quiz.quiz-example-layout.quiz-lemma-layout #quizAnswerPanel{
     grid-area:quiz!important;
-    grid-column:1!important;
-    grid-row:auto!important;
     width:min(100%,320px)!important;
     max-width:100%!important;
     margin:0 auto!important;
@@ -248,8 +246,6 @@
   }
   .card.is-quiz.quiz-example-layout.quiz-lemma-layout #tablePanel{
     grid-area:table!important;
-    grid-column:1!important;
-    grid-row:auto!important;
     justify-self:center!important;
     max-width:100%!important;
     margin:0 auto!important;
