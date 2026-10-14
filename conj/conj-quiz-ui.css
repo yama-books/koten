@@ -377,11 +377,11 @@
 @media(max-width:700px) and (max-height:700px){
   /* Four tabs replace the short-screen shortcut. Reclaim the added row's
      height without shrinking the conjugation cells below their 44px floor. */
-  .quiz-mode-tabs{display:grid;margin-bottom:1px}
+  .quiz-mode-tabs{display:grid;margin-bottom:0}
   .quiz-mode-tabs button{min-height:28px;padding:2px;font-size:10px;line-height:1.1}
   .quiz-mode-shortcut:not([hidden]){display:none!important}
-  header{margin-bottom:1px}
-  .toolbar{padding-top:3px;padding-bottom:3px;margin-bottom:2px}
-  .card{padding-top:3px;padding-bottom:3px}
-  .card:not(.is-quiz) .study-layout{margin-top:2px}
+  header{margin-bottom:0}
+  .toolbar{padding-top:1px;padding-bottom:1px;margin-bottom:0}
+  .card{padding-top:2px;padding-bottom:2px}
+  .card:not(.is-quiz) .study-layout{margin-top:0}
 }
