@@ -3216,7 +3216,7 @@ body.review-modal-open{overflow:hidden}
       <section id="quizAnswerPanel" aria-label="解答" hidden>
         <div class="quiz-choices" id="quizChoices" role="group" aria-label="選択肢"></div>
         <div class="quiz-lemma-answer" id="quizLemmaAnswer" hidden>
-          <label for="quizLemmaInput">終止形</label>
+          <div class="quiz-lemma-heading"><label for="quizLemmaInput">終止形</label><span class="quiz-lemma-kanji-ban" id="quizLemmaKanjiBan" hidden>漢字不可</span></div>
           <input type="text" id="quizLemmaInput" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" maxlength="40" placeholder="終止形を入力" aria-describedby="quizLemmaNote">
           <small id="quizLemmaNote">歴史的仮名遣いのひらがなでも正解</small>
           <p id="quizLemmaHint" class="quiz-lemma-hint" aria-live="polite"></p>
