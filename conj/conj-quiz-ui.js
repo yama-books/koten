@@ -165,6 +165,12 @@ function applyQuizTableMask(){
   document.getElementById('trackHeads').setAttribute('aria-hidden','true');
 }
 
+// Full-lemma headings with no written inflection cannot be graded from kanji alone.
+ // e.g. 来（く）/寝（ぬ）: the single kanji says nothing about the terminal form.
+function lemmaKanjiOnly(item){
+  const written=String(item?.lemma||'').replace(/[（(][^）)]*[）)]/gu,'').trim();
+  return /^[一-龯々]+$/u.test(written) && /^[ぁ-ゖ]+$/u.test(lemmaHeadingText(item));
+}
 function renderQuizUI(){
   const active=isIdentificationMode();
   const card=document.querySelector('main.card');
@@ -209,6 +215,11 @@ function renderQuizUI(){
   if(lemmaMode){
     const input=document.getElementById('quizLemmaInput');
     const hint=document.getElementById('quizLemmaHint');
+    const kanaOnly=lemmaKanjiOnly(current);
+    document.getElementById('quizLemmaKanjiBan').hidden=!kanaOnly;
+    document.getElementById('quizLemmaNote').textContent=kanaOnly
+      ?'ひらがなで入力してください（歴史的仮名遣い）'
+      :'歴史的仮名遣いのひらがなでも正解';
     const stage=quizState.masteryStage;
     hint.textContent=quizState.answered?''
       :stage===0?'ヒント：'+current.label+'・'+current.kind
@@ -383,7 +394,7 @@ function gradeQuiz(){
   const choice=isLemma?null:quizChoices.find(c=>c.canonical===quizState.selectedAnswer);
   if((isLemma?!String(quizState.selectedAnswer||'').trim():!choice)
     || (quizState.quizMode==='type' && quizState.rowMode!=='omitted' && choice.rowRequired && !String(quizState.selectedRow||'').trim()))return;
-  const kanjiAllowed=!/[（(][^）)]*[）)]/.test(String(current.lemma||''));
+  const kanjiAllowed=!lemmaKanjiOnly(current);
   const evaluation=quizEngine.evaluateAnswer({
     quizMode:quizState.quizMode,example:quizState.example,selectedForm:quizState.selectedAnswer,
     selectedType:quizState.selectedAnswer,selectedLemma:quizState.selectedAnswer,
