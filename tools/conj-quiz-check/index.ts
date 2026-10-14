@@ -422,9 +422,10 @@ try{
     await page.addInitScript(()=>localStorage.setItem('conjInstallNoticeDismissed','true'));
     await page.goto(`http://127.0.0.1:${port}/conj/`);
     await page.waitForFunction("!document.getElementById('quizMode').disabled");
-    if(viewport.height>700 || viewport.width>700){
-      assert.deepEqual(await page.locator('.quiz-mode-tabs button:visible').allTextContents(),['活用表','活用形','活用の種類','終止形']);
-    }else assert.equal(await page.locator('#openQuizModes').isVisible(),true);
+    // The four short names are visible at every viewport, including short SE screens.
+    assert.deepEqual(await page.locator('.quiz-mode-tabs button:visible').allTextContents(),['活用表','活用形','活用の種類','終止形']);
+    if(viewport.width<=700 && viewport.height<=700)
+      assert.equal(await page.locator('#openQuizModes').isVisible(),false,'short-screen shortcut is replaced by the four tabs');
     if(output && viewport.width===375 && viewport.height===812){
       await mkdir(output,{recursive:true});await page.screenshot({path:path.join(output,'mode-entry-mobile.png'),fullPage:true,timeout:15000});
     }
