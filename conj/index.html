@@ -4862,7 +4862,7 @@ function syncStudyHeightsAtCurrentZoom(){
     // 終止形の自由入力は例文・入力欄・活用表を縦積みにする。
     // 活用表6行の高さで例文枠を広げると、iPhone SE2では余白が過大になる。
     examplePanel.style.paddingTop="0px";
-    const chars=(text.textContent||"").replace(/\\s/gu,"").length;
+    const chars=(text.textContent||"").replace(/\s/gu,"").length;
     const columns=chars>62?4:chars>32?3:2;
     const maxHeight=window.innerWidth<=700?310:350;
     const h=Math.min(maxHeight,Math.max(156,Math.ceil(chars/columns)*16));
