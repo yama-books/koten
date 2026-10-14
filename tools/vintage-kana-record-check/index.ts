@@ -267,7 +267,8 @@ for (const [w, h] of [[320, 640], [340, 700], [360, 640], [375, 812], [390, 844]
     numbers: ['recordPoints', 'recordSets', 'recordAttempts', 'recordCorrect', 'recordMasteryValue'].map(id => document.getElementById(id)!.textContent),
     opacity: [...new Set([...document.querySelectorAll('#quizRecord .recordGlide')].map(el => getComputedStyle(el).opacity))],
     draw: [...new Set([...document.querySelectorAll('.ringMeter')].map(el => getComputedStyle(el).getPropertyValue('--record-draw').trim()))],
-    running: document.getAnimations().filter(a => a instanceof CSSAnimation && a.playState === 'running').length,
+    // 記録画面の外（作字欄など）で動くアニメーションは、この検査の対象外。
+    running: document.getElementById('quizRecord')!.getAnimations({ subtree: true }).filter(a => a instanceof CSSAnimation && a.playState === 'running').length,
   }));
   assert.deepEqual(state.numbers, reference.numbers);
   assert.deepEqual(state.opacity, ['1']);
