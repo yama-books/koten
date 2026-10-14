@@ -5,6 +5,7 @@
 export const QUIZ_MODE = Object.freeze({
   FORM: "form",
   TYPE: "type",
+  LEMMA: "lemma",
 });
 
 export const CHOICE_SCOPE = Object.freeze({
@@ -178,9 +179,9 @@ export function isPublicQuizEligible(example, quizMode) {
   if (example.quotationStatus !== "approved" || example.finalComplianceStatus !== "approved" || example.releaseQaStatus !== "approved") return false;
   if (!["standard", "attention"].includes(example.bucket ?? example.classification)) return false;
   if (quizMode === QUIZ_MODE.FORM && example.formQuizEligible !== true) return false;
-  if (quizMode === QUIZ_MODE.TYPE && example.typeQuizEligible !== true) return false;
+  if ((quizMode === QUIZ_MODE.TYPE || quizMode === QUIZ_MODE.LEMMA) && example.typeQuizEligible !== true) return false;
   if (quizMode === QUIZ_MODE.FORM && !FORMS.includes(example.form)) return false;
-  if (quizMode === QUIZ_MODE.TYPE && !example.conjugationType) return false;
+  if ((quizMode === QUIZ_MODE.TYPE || quizMode === QUIZ_MODE.LEMMA) && !example.conjugationType) return false;
   return true;
 }
 
@@ -394,14 +395,34 @@ export function buildRowChoicesForTypes(masterEntries, typeChoices) {
   return [...rows.values()].sort((a, b) => rank(a.canonical) - rank(b.canonical) || a.canonical.localeCompare(b.canonical, "ja"));
 }
 
+// Accept the attested historical-kana heading or the complete kanji lemma.
+ // Single-character ambiguous headings (来（く）, 寝（ぬ）) deliberately allow kana only.
+export function lemmaAnswerCandidates({ lemma, historicalKana, kanjiAllowed = true }) {
+  const clean = value => String(value ?? "").normalize("NFKC").trim().replace(/[\\s　]+/gu, "");
+  const kana = clean(historicalKana);
+  const written = clean(lemma);
+  return [...new Set([kana, ...(kanjiAllowed ? [written] : [])].filter(Boolean))];
+}
+
 export function evaluateAnswer({
   quizMode,
   example,
   selectedType,
   selectedForm,
+  selectedLemma,
+  expectedLemma,
+  historicalKana,
+  kanjiAllowed = true,
   selectedRow,
   rowMode = ROW_MODE.OMITTED,
 }) {
+  if (quizMode === QUIZ_MODE.LEMMA) {
+    const input = String(selectedLemma ?? "").normalize("NFKC").trim().replace(/[\\s　]+/gu, "");
+    const correct = Boolean(input) && lemmaAnswerCandidates({
+      lemma: expectedLemma, historicalKana, kanjiAllowed
+    }).includes(input);
+    return { correct, formCorrect: null, typeCorrect: null, rowCorrect: null };
+  }
   if (quizMode === QUIZ_MODE.FORM) {
     const correct = selectedForm === example.form;
     return {
