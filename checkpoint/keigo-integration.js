@@ -47,8 +47,9 @@
     const validRange = range && rangeOrNull(range.selectedStart, range.selectedEnd, text.length);
     if (validRange) Object.assign(pending, validRange);
 
-    previousFocus = document.activeElement;
-    if (document.getElementById("drawer").classList.contains("open")) closeDrawer();
+    const fromDrawer = document.getElementById("drawer").classList.contains("open");
+    previousFocus = fromDrawer ? launch : document.activeElement;
+    if (fromDrawer) closeDrawer();
     dialog.hidden = false;
     dialog.setAttribute("aria-hidden", "false");
     document.body.classList.add("keigo-open");
