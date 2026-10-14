@@ -256,3 +256,120 @@
   }
   .card.is-quiz.quiz-example-layout.quiz-lemma-layout .example-panel::after{display:none}
 }
+
+/* iPhone SE2 regression: terminal-answer mode is a vertical, centred composition.
+   The general identification layout uses three side-by-side columns. In lemma mode
+   that layout creates implicit columns as soon as a hint reveals the table. */
+.card.is-quiz.quiz-lemma-layout .study-layout:not(.review-modal-study-layout){
+  display:grid;
+  width:100%;
+  max-width:100%;
+  margin:8px auto 0;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-areas:"example" "quiz" "table"!important;
+  justify-content:center;
+  justify-items:center;
+  align-items:start;
+  gap:12px;
+}
+.card.is-quiz.quiz-lemma-layout .example-panel{
+  grid-area:example;
+  justify-self:center!important;
+  width:fit-content!important;
+  min-width:0!important;
+  max-width:min(100%,270px)!important;
+  margin:0 auto;
+  padding:6px 10px!important;
+  background:var(--surface-faint);
+  border-radius:10px;
+}
+.card.is-quiz.quiz-lemma-layout .example-panel::after{display:none}
+.card.is-quiz.quiz-lemma-layout .example-body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:auto!important;
+  max-width:100%;
+  padding:0!important;
+  margin-inline:auto;
+}
+.card.is-quiz.quiz-lemma-layout .example-text{
+  flex:0 1 auto!important;
+  min-width:0;
+  min-height:0!important;
+  max-width:100%!important;
+  font-size:clamp(13px,3.4vw,17px)!important;
+}
+.card.is-quiz.quiz-lemma-layout .example-foot{align-self:flex-end!important}
+.card.is-quiz.quiz-lemma-layout #quizAnswerPanel{
+  grid-area:quiz!important;
+  grid-row:auto!important;
+  grid-column:auto!important;
+  display:block;
+  width:min(100%,340px)!important;
+  min-width:0!important;
+  max-width:100%!important;
+  margin:0 auto!important;
+  justify-self:center!important;
+  align-self:start!important;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-answer{
+  width:100%;
+  max-width:340px;
+}
+.card.is-quiz.quiz-lemma-layout #tablePanel{
+  grid-area:table;
+  grid-row:auto;
+  grid-column:auto;
+  justify-self:center!important;
+  align-self:start;
+  margin:0 auto!important;
+  max-width:100%;
+}
+.card.is-quiz.quiz-lemma-layout #tablePanel[data-support="hidden"]{
+  display:none!important;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-input-wrap{
+  position:relative;
+  width:100%;
+  max-width:340px;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-input-wrap input{
+  width:100%;
+  max-width:none;
+  padding-inline:40px;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-result-icon{
+  position:absolute;
+  display:block;
+  width:30px;
+  height:30px;
+  top:50%;
+  right:6px;
+  transform:translateY(-50%);
+  object-fit:contain;
+  pointer-events:none;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-result-icon[hidden],
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-result-text[hidden]{display:none!important}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-result-text{
+  font-size:12px;
+  font-weight:700;
+  color:var(--ink);
+  text-align:center;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-answer[data-graded="correct"] input{border-color:var(--accent-strong);background:var(--good)}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-answer[data-graded="wrong"] input{border-color:var(--danger-ink);background:var(--bad)}
+@media(max-width:700px){
+  .card.is-quiz.quiz-lemma-layout .study-layout:not(.review-modal-study-layout){
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-areas:"example" "quiz" "table"!important;
+    gap:10px;
+  }
+  .card.is-quiz.quiz-lemma-layout #quizAnswerPanel{
+    width:min(100%,300px)!important;
+  }
+  .card.is-quiz.quiz-lemma-layout .example-panel{
+    max-width:min(100%,250px)!important;
+  }
+}
