@@ -197,6 +197,7 @@ try{
   if(output)await empty.screenshot({path:path.join(output,'master-type-mobile.png'),fullPage:true,timeout:15000});
   // Terminal-form text grading is independently recorded, with a visible kana-only warning.
   await chooseMode(empty,'lemma');
+  await empty.setViewportSize({width:375,height:667}); // iPhone SE2 CSS viewport
   assert.equal(await empty.evaluate("lemmaHeadingText({lemma:'死ぬ'})"),'しぬ','approved verb must retain its kana-only answer alternative');
   assert.equal(await empty.evaluate("lemmaHeadingText({lemma:'蹴る'})"),'ける','approved verb must retain its kana-only answer alternative');
   assert.equal(await empty.evaluate("quizEngine.evaluateAnswer({quizMode:'lemma',example:{},selectedLemma:'しぬ',expectedLemma:'死ぬ',historicalKana:lemmaHeadingText({lemma:'死ぬ'})}).correct"),true,'死ぬ and しぬ must both be accepted');
@@ -269,6 +270,7 @@ try{
   await empty.locator('#quizLemmaInput').press('Enter');
   assert.match(await empty.locator('#feedback').innerText(),/^正解/,'historical hiragana is accepted by Enter');
   assert.equal(await empty.evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true,'lemma input does not overflow mobile viewport');
+  await empty.setViewportSize({width:375,height:812});
   for(const pos of ['verb','adj','adjv','aux']){
     await setPos(empty,pos);
     for(const mode of ['form','type']){
