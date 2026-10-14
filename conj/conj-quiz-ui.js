@@ -232,6 +232,7 @@ function renderQuizUI(){
     const resultText=document.getElementById('quizLemmaResultText');
     const wasGraded=!!quizState.answered;
     const correct=!!quizState.evaluation?.correct;
+    document.getElementById('quizLemmaAnswer').dataset.graded=wasGraded?(correct?'correct':'wrong'):'';
     resultIcon.hidden=!wasGraded;
     resultText.hidden=!wasGraded;
     if(wasGraded){
