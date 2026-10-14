@@ -1525,3 +1525,15 @@ WebKit計算値46pxでPASS。
 
 再開短句:
 **「checkpoint-main HANDOFF最終節から再開。final delta照合→production統合→物理iPhone smoke」**
+
+## 2026-10-15: 敬語訳アシスト v0.4 の公開接続（PR #107）
+
+- production `main` の 387f6f0a を起点に `feat/checkpoint-keigo-link-20261015` を作成。履歴の異なる `checkpoint-main` はマージしない。
+- `checkpoint-main:checkpoint/keigo-assist/index.html` の単一HTML試作をファイル単位で取り込む。
+- `checkpoint/index.html`: 本文入力欄から「敬語の訳し方」、敬語ポイント詳細から「この敬語の訳を考える」。
+- `checkpoint/keigo-integration.js`: 同一オリジン `postMessage` で本文と選択範囲を渡す。10,000文字上限。入力はURLへ入れず自動保存もしない。
+- `checkpoint/ui2.js`, `styles.css`: 敬語ポイント時だけ入口を表示、PCモーダル・モバイル全画面。
+- `tests/unit/checkpoint-keigo-integration.test.ts`: UI入口、受け渡し契約、Pages収録、main専用deploy権限を検査。
+- **他アプリ・公開ワークフローは未変更。** Pages は main 以外から公開しない。
+- 敬語の解釈・翻訳は未監査の学習用仮説であり、正答として断定しない。物理iPhoneでの結合実機検証は未実施。
+- 本番反映の前提: PR差分が `checkpoint/` と本テストのみであること、CI通過、mainからのPages公開成功を確認する。

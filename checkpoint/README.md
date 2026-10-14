@@ -71,3 +71,11 @@ Playwright WebKitのmobile emulationでも公開βの主要操作を確認済み
 
 GitHub Actions run 35482145135 は PASS。
 ただし、物理iPhone Safariはproduction統合後の最終確認として別に行います。
+
+## 敬語訳アシストとの連携（2026-10-15）
+
+- `/koten/checkpoint/` の本文欄から「敬語の訳し方」を開ける。
+- 敬語のポイント詳細では「この敬語の訳を考える」から選択語と本文を渡す。
+- 受け渡しは同一オリジンの `postMessage`。入力本文は URL に含めず、学習履歴にも自動保存しない。
+- `checkpoint/keigo-assist/index.html` は文法用法の未監査PoCであり、正解を自動保証しない。
+- feature branch から Pages の直接公開は禁止。production `main` への限定差分PRで統合する。

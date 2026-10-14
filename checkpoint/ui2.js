@@ -61,6 +61,7 @@ function renderOverview(){
 
 function renderCurrentFocus(){
   const h=currentPoint(); if(!h) return;
+  document.getElementById("openKeigoFromPoint").hidden = h.type !== "honorific";
   renderOverview();
   document.getElementById("focusMeta").textContent="";
   document.getElementById("focusMeta").style.display="none";

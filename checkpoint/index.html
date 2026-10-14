@@ -26,6 +26,7 @@
     <div class="row main-actions">
       <button class="primary" id="analyze">見る</button>
       <button class="ghost" id="clear">消す</button>
+      <button class="secondary" id="openKeigo" type="button">敬語の訳し方</button>
     </div>
     <details class="sample-picker">
       <summary>例文</summary>
@@ -88,6 +89,7 @@
       <div class="focus-question" id="focusQuestion"></div>
 
       <button class="primary focus-main-action" id="focusMainAction" type="button"></button>
+      <button class="secondary keigo-point-action" id="openKeigoFromPoint" type="button" hidden>この敬語の訳を考える</button>
 
       <div class="focus-guidance" id="focusGuidance"></div>
       <div class="focus-tools" id="focusTools"></div>
@@ -97,6 +99,19 @@
     <div class="focus-footer">
       <button class="known-btn" id="markPointKnown" type="button">✓ わかる</button>
     </div>
+  </div>
+</div>
+
+<div class="keigo-overlay" id="keigoDialog" role="dialog" aria-modal="true" aria-labelledby="keigoTitle" aria-hidden="true" hidden>
+  <div class="keigo-panel">
+    <div class="keigo-panel-head">
+      <div>
+        <div class="label" id="keigoTitle">敬語訳アシスト（試作）</div>
+        <div class="keigo-status" id="keigoStatus" role="status">本文を引き継ぎます。</div>
+      </div>
+      <button class="ghost keigo-close" id="closeKeigo" type="button" aria-label="敬語訳アシストを閉じる">閉じる ×</button>
+    </div>
+    <iframe id="keigoFrame" title="敬語訳アシスト" referrerpolicy="no-referrer"></iframe>
   </div>
 </div>
 
@@ -111,5 +126,7 @@
 <script src="ui1.js"></script>
 <script src="ui2.js"></script>
 <script src="ui3.js"></script>
-<script src="events.js"></script></body>
+<script src="events.js"></script>
+<script src="keigo-integration.js"></script>
+</body>
 </html>
