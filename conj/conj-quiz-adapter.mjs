@@ -1,4 +1,4 @@
-import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs?v=20261008-01';
+import { FORMS, isPublicQuizEligible, buildTypeCatalog } from './conj-quiz-engine.mjs?v=20261015-lemma-01';
 
 const POS = { verb:'動詞', adj:'形容詞', adjv:'形容動詞', aux:'助動詞' };
 const POS_KEYS = { verb:'verb', adjective:'adj', adjectivalVerb:'adjv', adjectival_noun:'adjv', auxiliary:'aux', ...Object.fromEntries(Object.entries(POS).map(([k,v])=>[v,k])), adj:'adj', adjv:'adjv', aux:'aux' };
@@ -29,7 +29,7 @@ export function masterFromItems(items) {
 // The practice pool uses texts already present in the published drill or
 // individually cleared public-text records. Never synthesize a sentence.
 export function buildMasterPractice(items,{publicAdjvRecords=[],auxExampleRecords=[]}={}) {
-  const result={form:[],type:[]};
+  const result={form:[],type:[],lemma:[]};
   const byId=new Map(items.map(item=>[item.id,item]));
   const rows=item=>item.forms.map((main,i)=>[
     ...(Array.isArray(main)?main:[]),...(Array.isArray(item.forms2?.[i])?item.forms2[i]:[])
@@ -49,6 +49,7 @@ export function buildMasterPractice(items,{publicAdjvRecords=[],auxExampleRecord
       conjugationType:item.kind,bucket:'standard',work:record.work,sourceLabel:record.sourceLabel,
       sourceUrl:record.sourceUrl??null,sourceLicense:record.sourceLicense,tableItem};
     result.type.push({...base,exampleId:'master:type:'+record.id,form:null});
+    result.lemma.push({...base,exampleId:'master:lemma:'+record.id,form:null});
     if(Number.isInteger(formIndex) && formIndex>=0 && formIndex<6 && tableValue)
       result.form.push({...base,exampleId:'master:form:'+record.id,form:FORMS[formIndex],tableValue});
   };
@@ -208,7 +209,7 @@ function addToTotals(totals,entry) {
 // Until then totals stay null so that the migration is not done without items.
 export function normalizeHistory(raw,{resolveItemId=null}={}) {
   const history = raw && typeof raw === 'object' ? raw : {};
-  const events = (Array.isArray(history.events) ? history.events : []).filter(e=>e && ['form','type'].includes(e.quizMode) && typeof e.exampleId === 'string').slice(-1000).map(e=>({
+  const events = (Array.isArray(history.events) ? history.events : []).filter(e=>e && ['form','type','lemma'].includes(e.quizMode) && typeof e.exampleId === 'string').slice(-1000).map(e=>({
     exampleId:boundedText(e.exampleId),itemId:boundedText(e.itemId),quizMode:e.quizMode,partOfSpeech:boundedText(e.partOfSpeech),
     conjugationType:boundedText(e.conjugationType),form:boundedText(e.form),
     choiceScope:['near','part_of_speech','cross_pos','all'].includes(e.choiceScope) ? e.choiceScope : 'near',
@@ -222,7 +223,7 @@ export function normalizeHistory(raw,{resolveItemId=null}={}) {
     responseTimeMs:number(e.responseTimeMs),masteryEvidenceWeight:Math.min(1,number(e.masteryEvidenceWeight)),
     standardOrAttention:e.standardOrAttention === 'attention' ? 'attention' : 'standard',answeredAt:boundedText(e.answeredAt),
   }));
-  const byMode = Object.fromEntries(['form','type'].map(mode=>{
+  const byMode = Object.fromEntries(['form','type','lemma'].map(mode=>{
     const source=history.byMode?.[mode] || {};
     const count = key => Math.max(number(source[key]),events.filter(e=>e.quizMode === mode && (key === 'total' || (key === 'correct' ? e.correct : key === 'independent' ? e.correct && e.maxHintLevel === 0 : e.hintCount > 0))).length);
     const total = count('total');

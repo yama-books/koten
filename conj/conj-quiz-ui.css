@@ -2,7 +2,7 @@
 .quiz-controls[hidden],#quizAnswerPanel[hidden],#quizEmpty[hidden],#quizPrompt[hidden],#levelMeters[hidden]{display:none!important}
 .mode-control{display:flex;align-items:center;gap:5px;font-size:12px}
 .mode-control select{max-width:100%;min-height:34px}
-.quiz-mode-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-bottom:9px}
+.quiz-mode-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-bottom:9px}
 .quiz-mode-tabs button{min-width:0;min-height:38px;padding:5px 4px;border:1px solid var(--line);border-radius:10px;background:var(--toolbar-bg);color:var(--ink);font:inherit;font-size:12px;cursor:pointer}
 .quiz-mode-tabs button[aria-pressed="true"]{border-color:var(--accent-strong);background:var(--good);font-weight:700}
 .quiz-mode-tabs button:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
@@ -183,3 +183,23 @@
 .stage-list{list-style:none;margin:10px 0 0;padding-left:0}
 .stage-list li{display:flex;align-items:center;gap:6px;margin:5px 0}
 .table-level-badge.level-badge{min-height:0;padding:2px 9px;border-radius:999px;font-size:11px}
+
+/* Typed terminal-form question: reuse the quiz panel and its five theme colors. */
+.quiz-choices[hidden],.quiz-lemma-answer[hidden]{display:none!important}
+.quiz-lemma-answer{display:flex;flex-direction:column;align-items:center;gap:7px;width:min(100%,260px);min-width:0;margin:auto}
+.quiz-lemma-answer label{font-size:12px;font-weight:700;color:var(--ink)}
+.quiz-lemma-answer input{box-sizing:border-box;width:100%;max-width:260px;min-height:46px;border:1px solid var(--line-strong);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;font-size:17px;text-align:center;padding:8px 10px}
+.quiz-lemma-answer input:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+.quiz-lemma-answer input:disabled{opacity:1;background:var(--soft)}
+.quiz-lemma-answer small{font-size:10px;color:var(--muted);text-align:center}
+.quiz-lemma-hint{margin:0;min-height:1em;font-size:12px;color:var(--muted);text-align:center}
+.card.is-quiz.quiz-example-layout:has(.quiz-lemma-answer:not([hidden])) #quizAnswerPanel{width:min(100%,260px)!important;min-width:0!important;max-width:100%!important}
+@media(max-width:700px){
+  .card.is-quiz.quiz-example-layout:has(.quiz-lemma-answer:not([hidden])) .study-layout:not(.review-modal-study-layout){grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"example" "quiz"!important;justify-items:center}
+  .card.is-quiz.quiz-example-layout:has(.quiz-lemma-answer:not([hidden])) #quizAnswerPanel{justify-self:center!important;grid-area:quiz!important}
+}
+
+/* Show a compact, legible constraint badge only for kana-only terminal forms. */
+.quiz-lemma-heading{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.quiz-lemma-kanji-ban{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--toolbar-bg);color:var(--ink);font-size:11px;font-weight:700;line-height:1.5;white-space:nowrap}
+.quiz-lemma-kanji-ban[hidden]{display:none!important}
