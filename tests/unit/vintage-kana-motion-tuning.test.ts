@@ -16,14 +16,18 @@ test("the approved help placement remains outside the menu",()=>{
   assert.match(nav,/data-view="quiz"/);
 });
 
-test("record cards glide slowly and progress drawing remains coordinated",()=>{
-  assert.match(main,/\.recordGlide\.isIn\{animation:recordGlide 1\.16s/);
-  assert.match(main,/\.recordRowGroup\.isDrawing \.ringMeter\{animation:recordDraw 1\.03s/);
-  assert.match(main,/\.recordMastery\.isDrawing \.recordMastery__fill\{animation:recordBarGrow 1\.03s/);
-  assert.match(main,/staggerRecordGlide\(cards,85\)/);
-  assert.match(main,/staggerRecordGlide\(visible,90\)/);
-  assert.match(main,/\(now-startTime\)\/990/);
-  assert.match(main,/@media\(prefers-reduced-motion:reduce\)/);
+test("approved slide-in runs on Browse and manual glyph picker, not record cards",()=>{
+  assert.match(main,/@keyframes vkhSlowSlideIn\{/);
+  assert.match(main,/translate3d\(35px,0,0\)/);
+  assert.match(main,/#browse\.view\.active,#composeRows:not\(\.autoHidden\)\{\s*animation:vkhSlowSlideIn 1100ms/);
+  assert.match(main,/#browse,#compose\{overflow-x:clip\}/);
+  assert.match(main,/#browse\.view\.active,#composeRows:not\(\.autoHidden\)\{animation:none\}/);
+  assert.match(main,/rows\.classList\.toggle\("autoHidden",composeMode==="auto"\)/);
+  assert.match(main,/document\.getElementById\(b\.dataset\.view\)\.classList\.add\("active"\)/);
+  assert.match(main,/\.recordGlide\.isIn\{animation:recordGlide \.86s/);
+  assert.match(main,/staggerRecordGlide\(cards,70\)/);
+  assert.match(main,/staggerRecordGlide\(visible,75\)/);
+  assert.match(main,/\(now-startTime\)\/780/);
 });
 
 test("question glyphs and choice buttons now enter slower with discernible movement",()=>{
