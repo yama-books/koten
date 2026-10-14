@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { evaluateAnswer, lemmaAnswerCandidates, quizMasteryStage, QUIZ_MODE } from '../../conj/conj-quiz-engine.mjs';
+import { evaluateAnswer, lemmaAnswerCandidates, quizMasteryStage, buildHintMask, QUIZ_MODE } from '../../conj/conj-quiz-engine.mjs';
 
 const grade=(lemma:string, historicalKana:string, answer:string, kanjiAllowed=true)=>
   evaluateAnswer({quizMode:QUIZ_MODE.LEMMA, example:{},expectedLemma:lemma,
@@ -39,4 +39,16 @@ test('terminal-form stage advancement does not alter classification-mode mastery
   assert.equal(quizMasteryStage({events},'動詞','lemma'),3);
   assert.equal(quizMasteryStage({events},'動詞','form'),0);
   assert.equal(quizMasteryStage({events},'動詞','type'),0);
+});
+
+test('terminal-form hints never reveal the terminal/concurrent attributive rows until grading',()=>{
+  for(const hintLevel of [0,1,2]){
+    const mask=buildHintMask({quizMode:QUIZ_MODE.LEMMA,hintLevel,
+      tableRows:['か','き','く','く','け','け']});
+    assert.ok(mask.hiddenIndexes.includes(2),'the terminal row must stay hidden');
+    assert.ok(mask.hiddenIndexes.includes(3),'the identical attributive row must stay hidden');
+  }
+  const graded=buildHintMask({quizMode:QUIZ_MODE.LEMMA,hintLevel:2,answerRevealed:true,
+    tableRows:['か','き','く','く','け','け']});
+  assert.deepEqual(graded.visibleIndexes,[0,1,2,3,4,5]);
 });
