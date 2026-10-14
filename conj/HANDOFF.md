@@ -2929,3 +2929,18 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 - `conj-quiz-ui.js?v=20261015-lemma-02` / `conj-quiz-ui.css?v=20261015-lemma-02` がともにHTTP 200で配信され、検証済みHEADのファイルとバイト一致。JS SHA256: `7df2c8f250e6c0206781243268e9820a1175c4eb6ec54c89842092ba6bb19913`、CSS SHA256: `e4121fdd309abf9a62f8a0e2514e2834fb2826c292861fe9b0125f40fd37d139`。
 - GitHubを正本とし、ローカル `D:\dev\koten\conj` と既存未コミット／未追跡変更は未変更。独立checkoutで検証した。
 - 44pxの活用表行高下限と4モード表示を維持。用例の読みの全件監査は別の未完了課題として維持する。
+
+
+## 50. PR #109 公開完了・終止形の全件かな採点と正解表示（2026-10-15 JST・Codex）
+
+- 検証済みHEAD: `b6eca5d9e72e3024dd4e6a51a9ada961dab71fa3`。PR: https://github.com/yama-books/koten/pull/109 。
+- 最新HEADの全CI成功: PR [#38646128001](https://github.com/yama-books/koten/actions/runs/38646128001) / push [#38646122650](https://github.com/yama-books/koten/actions/runs/38646122650)。Chromium / WebKitそれぞれ2000/2000公開用例画面、320/320 fixture、80/80 master cases。活用表レイアウト全件合格、scan:publish違反0。
+- 組み込み問題と公開125用例から、重複を除いた全246語の読みを洗い出した。読み不足53語を補い、形容動詞の語幹のみ9語に「なり／たり」を補った。全246語のかな採点を実エンジンで検査し、「御覧ず→ごらんず」は実入力の回帰検査を追加した。§48・49で残していた今回の出題語の読み全件洗い出しを実施済み。
+- 正解後は用例の右に表を配置し、入力欄をその下に置く。終止形の行を黄色で強調。例文は基本18px・縮小下限16pxで折り返し表示する。4モード常時表示と44pxの表行高下限を維持。
+- Jev監査は今回ユーザーの明示指定で省略し、公開承認を受けた。今後のJev監査についても、このチャットでユーザー承認あり。今回のJev監査が実行・合格したとは扱わない。
+- 検証済みHEADを指定してsquash merge。マージSHA: `c89ba64c3f55d4073066ecfef542ff7850efb082`。
+- マージSHA対応の [Deploy Pages #38649740250](https://github.com/yama-books/koten/actions/runs/38649740250): build / deployともsuccess。
+- 2026-10-15 07:46 JSTに https://yama-books.github.io/koten/conj/ を直接検証。4モード名、`20261015-lemma-03` のJS/CSSをHTTP 200で取得し、マージSHAのGitHub上のファイルとバイト一致。
+- 公開実画面の375×667 / 320×568で「御覧ず→ごらんず」の正解、用例18px、表が用例の右側、終止形行の強調、4モード表示、横はみ出しなしを確認。
+- JS SHA256: `c8f4ce3895b36b5392bbf525816efa9a5314f057e481acb3dd490247d0e7791b`。CSS SHA256: `09883c6d6e008ac4ec65abb8dc9161ef9eb276c995045ceaeb6a21dd6a8a9804`。
+- GitHubを正本として作業し、`D:\dev\koten\conj` と既存ローカル変更は未変更。
