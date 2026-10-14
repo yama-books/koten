@@ -22,13 +22,26 @@ const root="http://127.0.0.1:"+server.address().port+"/vintage-kana/video-previe
 async function check(type){
  const browser=await type.launch({headless:true});
  const page=await browser.newPage({viewport:{width:390,height:844},acceptDownloads:true});
- const errors=[];
+ const errors=[],requestsFailed=[];
  page.on("pageerror",e=>errors.push(e.message));
+ page.on("requestfailed",req=>requestsFailed.push({url:req.url(),failure:req.failure()}));
  try{
   await page.goto(root);
   assert.match(await page.locator("h1").innerText(),/動画保存お試し/);
   assert.equal(await page.locator("a[href='./dom-mirror.html']").count(),1);
-  await page.waitForFunction(()=>document.querySelector("#status").textContent.includes("フォント読込完了"),null,{timeout:25000});
+
+  try {
+    await page.waitForFunction(()=>document.querySelector("#status").textContent.includes("フォント読込完了"),null,{timeout:22000});
+  } catch(err) {
+    const info=await page.evaluate(()=>({
+      status:document.querySelector("#status")?.textContent,
+      fontStatus:document.fonts?.status,
+      faces:[...document.fonts].map(f=>({family:f.family,status:f.status,weight:f.weight})),
+      cssLink:document.querySelector('link[href*="Noto+Serif+Hentaigana"]')?.href
+    }));
+    console.log("PREVIEW_FONT_DIAGNOSTIC",JSON.stringify({engine:type.name(),info,requestsFailed,errors}));
+    throw err;
+  }
   const loaded=await page.evaluate(()=>{
     const faceList=[...document.fonts].filter(f=>f.family==="Noto Serif Hentaigana"&&f.status==="loaded");
     return {css:!!document.querySelector('link[href*="Noto+Serif+Hentaigana"]'),
