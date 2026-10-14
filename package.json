@@ -25,6 +25,7 @@
     "check:conj-layout": "node --experimental-strip-types tools/conj-layout-check/index.ts",
     "check:conj-quiz": "node --experimental-strip-types tools/conj-quiz-check/index.ts",
     "check:vintage-kana-record": "node --experimental-strip-types tools/vintage-kana-record-check/index.ts",
+    "check:vintage-kana-compose": "node --experimental-strip-types tools/vintage-kana-compose-check/index.ts",
     "chunks:build": "node --experimental-strip-types tools/blank-chunks/build.ts"
   },
   "devDependencies": {

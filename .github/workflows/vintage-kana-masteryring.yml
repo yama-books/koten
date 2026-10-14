@@ -8,6 +8,7 @@ on:
       - 'vintage-kana/**'
       - 'tools/vintage-kana-mastery-ring-check/**'
       - 'tools/vintage-kana-record-check/**'
+      - 'tools/vintage-kana-compose-check/**'
       - 'tests/unit/vintage-kana*.test.ts'
       - '.github/workflows/vintage-kana-masteryring.yml'
   pull_request:
@@ -15,6 +16,7 @@ on:
       - 'vintage-kana/**'
       - 'tools/vintage-kana-mastery-ring-check/**'
       - 'tools/vintage-kana-record-check/**'
+      - 'tools/vintage-kana-compose-check/**'
       - 'tests/unit/vintage-kana*.test.ts'
       - '.github/workflows/vintage-kana-masteryring.yml'
 
@@ -36,5 +38,7 @@ jobs:
       - run: npx playwright install --with-deps chromium webkit
       - run: npm run check:vintage-kana-record
       - run: npm run check:vintage-kana-record -- --webkit
+      - run: npm run check:vintage-kana-compose
+      - run: npm run check:vintage-kana-compose -- --webkit
       - run: node tools/vintage-kana-mastery-ring-check/index.mjs
       - run: node tools/vintage-kana-mastery-ring-check/index.mjs --webkit
