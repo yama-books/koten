@@ -11,10 +11,9 @@
   function ensure(doc){
     if(!doc||!doc.fonts||typeof doc.fonts.load!=="function")
       return Promise.reject(new Error("FontFaceSet unavailable"));
+    let timer;
     const timeout=new Promise((_,reject)=>{
-      const timer=setTimeout(()=>reject(new Error("font loading timed out")),TIMEOUT_MS);
-      // Timer is also cleared by Promise.finally below (including failures).
-      pendingTimers.set(timeout,timer);
+      timer=setTimeout(()=>reject(new Error("font loading timed out")),TIMEOUT_MS);
     });
     const ready=Promise.resolve(doc.fonts.ready)
       .then(()=>doc.fonts.load(FACE,SAMPLE))
@@ -25,11 +24,7 @@
       });
     // No user content or font bytes leave the page: the font is fetched
     // through the matching Google Fonts CSS stylesheet on this page.
-    return Promise.race([ready,timeout]).finally(()=>{
-      clearTimeout(pendingTimers.get(timeout));
-      pendingTimers.delete(timeout);
-    });
+    return Promise.race([ready,timeout]).finally(()=>clearTimeout(timer));
   }
-  const pendingTimers=new Map();
   root.VintageKanaPreviewFont=Object.freeze({ensure,FAMILY,FACE,SAMPLE});
 })(typeof window!=="undefined"?window:globalThis);
