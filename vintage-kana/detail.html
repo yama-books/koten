@@ -239,9 +239,12 @@ textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:1
 .composeModeBtn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:8px 14px;font-size:12px;font-weight:700}
 .composeModeBtn.active{background:var(--accent2);border-color:var(--accent);color:var(--accent)}
 .smallKanaOption{display:none;margin:-1px 0 9px;font-size:12px;color:var(--muted)}
-.smallKanaOption.show{display:block}
+.smallKanaOption.show{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
 .smallKanaOption label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
 .smallKanaOption input{width:16px;height:16px;accent-color:var(--accent)}
+.perCharBadge{min-height:28px;padding:3px 11px;border:1px solid var(--line);border-radius:999px;background:var(--paper2);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer}
+.perCharBadge[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.composePos{display:block;font-size:10px;color:var(--muted);line-height:1.2;margin-top:2px}
 .composeRows{display:grid;gap:10px;margin-top:14px}
 .composeRows.autoHidden{display:none}
 .composeRow{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:start;background:var(--paper2);border:1px solid var(--line);border-radius:13px;padding:10px}
@@ -527,6 +530,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     </div>
     <div id="smallKanaOption" class="smallKanaOption">
       <label><input id="smallKanaToggle" type="checkbox"> ぁ・ぃ・ゅ などを小さく表示</label>
+      <button id="perCharToggle" class="perCharBadge" type="button" aria-pressed="false">一字ずつ設定する</button>
     </div>
     <div id="previewDock" class="previewDock">
       <div class="previewHead">
@@ -728,16 +732,21 @@ function composeInfo(ch){
  if(SMALL_BASE[ch]) return {input:ch,base:SMALL_BASE[ch],mark:"",small:true};
  return {input:ch,base:ch,mark:"",small:false};
 }
+// 「ん」には専用の字形データがないため、Unicode で ん・む・も に当たる
+// N-MU-MO（字母「无」）を候補にする。おまかせで普通のひらがなに残さないため。
+const N_GLYPH_CHARACTERS=new Set(["\u{1B11D}","\u{1B11E}"]);
+function glyphChoicesFor(info){
+ return GLYPHS.filter(x=>x.kana===info.base || (info.base==="ん" && N_GLYPH_CHARACTERS.has(x.character)));
+}
 function hasGlyphChoices(ch){
- const info=composeInfo(ch);
- return GLYPHS.some(x=>x.kana===info.base);
+ return glyphChoicesFor(composeInfo(ch)).length>0;
 }
 function previewCell(inner){return '<span class="pvCell">'+inner+'</span>'}
-function renderSelectedToken(ch){
+function renderSelectedToken(ch,index){
  // 改行は字ではないので枠に入れず、そのまま改行として出す。
  // 包んでしまうと空白に潰れ、画像だけ改行されて画面と食い違う。
  if(ch==="\n") return "<br>";
- const sel=selected[ch];
+ const sel=selectionFor(ch,index);
  const togglesSmall=SMALL_TOGGLE_KANA.has(ch);
  if(!sel || sel.keep){
    if(togglesSmall && !smallKanaEnabled) return previewCell(escapeHtml(SMALL_BASE[ch]));
@@ -765,6 +774,16 @@ let quizQuestionMethod="choice";
 let activeQuizScreen="practice";
 let recordReturnScreen="practice";
 const selected={};
+// 「一字ずつ設定する」：同じ字でも位置ごとに選ぶ。selectedAt[i]={ch,keep,text,small}
+let perCharEnabled=false;
+let selectedAt=[];
+function selectionFor(ch,index){
+ if(perCharEnabled && composeMode==="manual" && Number.isInteger(index)){
+   const own=selectedAt[index];
+   if(own && own.ch===ch) return own;
+ }
+ return selected[ch];
+}
 
 const LEARNING_RECORD_KEY="vintage-kana:learning-events:v1";
 // RC25のポイント規則: 正答10、誤答も挑戦として1。ポイントと習熟度は分離する。
@@ -2036,7 +2055,7 @@ function newQuiz(){
  });
 }
 
-// おまかせの抽選重み。
+// 字体の頻度重み（出題の習熟度集計で使う。おまかせの「もう一度」は一様に選ぶ）。
 // 出現回数をそのまま重みにすると、同じ仮名の中で最多の字体が他を潰してしまう。
 // 「る」は 3848 回と 28 回で137倍あり、生の比率では事実上1種類しか出なくなる。
 // 平方根で均すと約12倍に収まり、主要な字体が優勢なまま変化も残る。
@@ -2046,28 +2065,22 @@ const AUTO_WEIGHT_FLOOR=2;
 function autoWeight(entry){
  return Math.sqrt(Math.max(0,entry?.totalObserved||0))+AUTO_WEIGHT_FLOOR;
 }
-function pickWeighted(list){
- let total=0;
- for(const e of list) total+=autoWeight(e);
- let r=Math.random()*total;
- for(const e of list){
-   r-=autoWeight(e);
-   if(r<=0) return e;
- }
- return list[list.length-1];
-}
+// 「もう一度」は頻度の低い字体も同じ確率で選ぶ。いま表示中の字は外し、必ず別の字にする。
 function pickAutomatic(ch){
  const info=composeInfo(ch);
- const choices=GLYPHS.filter(x=>x.kana===info.base);
+ const choices=glyphChoicesFor(info);
  if(!choices.length) return {keep:true,text:ch,small:false};
- const e=pickWeighted(choices);
+ const current=selected[ch]?.keep?null:selected[ch]?.text;
+ const others=choices.filter(e=>e.character+info.mark!==current);
+ const pool=others.length?others:choices;
+ const e=pool[Math.floor(Math.random()*pool.length)];
  return {keep:false,text:e.character+info.mark,small:info.small};
 }
 // おまかせの初期表示は「もっとも頻度が高い字」を既定にする。
-// ばらつきは「もう一度」(randomizeCompose)の重み付きランダムに任せる。
+// ばらつきは「もう一度」(randomizeCompose)の一様ランダムに任せる。
 function pickDefault(ch){
  const info=composeInfo(ch);
- const choices=GLYPHS.filter(x=>x.kana===info.base);
+ const choices=glyphChoicesFor(info);
  if(!choices.length) return {keep:true,text:ch,small:false};
  const e=choices.slice().sort(compareGlyphBrowseOrder)[0];
  return {keep:false,text:e.character+info.mark,small:info.small};
@@ -2079,6 +2092,41 @@ function randomizeCompose(){
    selected[ch]=pickAutomatic(ch);
  });
  renderCompose();
+}
+
+// 「自分で選ぶ」の1行：普通のひらがな（現代の仮名）と変体仮名の候補を並べる。
+function composeChoiceRow(k,current,positionLabel,onPick){
+ const info=composeInfo(k);
+ const row=document.createElement("div");row.className="composeRow";
+ const left=document.createElement("div");left.className="composeKana";left.textContent=k;
+ if(positionLabel){
+   const pos=document.createElement("small");pos.className="composePos";pos.textContent=positionLabel;
+   left.appendChild(pos);
+ }
+ const cand=document.createElement("div");cand.className="candidates";
+
+ const standard=document.createElement("button");
+ const standardText=SMALL_TOGGLE_KANA.has(k) && !smallKanaEnabled ? info.base : k;
+ standard.className="glyphChoice standardChoice"+(current?.keep?" active":"");
+ standard.innerHTML='<span class="g">'+escapeHtml(standardText)+'</span><small>普通のひらがな</small>';
+ standard.onclick=()=>onPick({keep:true,text:k,small:false});
+ cand.appendChild(standard);
+
+ glyphChoicesFor(info).forEach(e=>{
+   const out=e.character+info.mark;
+   const active=!current?.keep && current?.text===out && !!current?.small===info.small;
+   const b=document.createElement("button");
+   b.className="glyphChoice"+(active?" active":"");
+   const showSmall=info.small && (!SMALL_TOGGLE_KANA.has(k) || smallKanaEnabled);
+   b.innerHTML='<span class="g'+(showSmall?' smallGlyph':'')+'">'+escapeHtml(out)+'</span><small>'+
+     '字母 '+escapeHtml(e.jibo)+
+     (info.mark==="\u3099"?' / 濁点':info.mark==="\u309A"?' / 半濁点':'')+
+     '</small>';
+   b.onclick=()=>onPick({keep:false,text:out,small:info.small});
+   cand.appendChild(b);
+ });
+ row.append(left,cand);
+ return row;
 }
 
 function renderCompose(){
@@ -2093,35 +2141,22 @@ function renderCompose(){
      if(!(k in selected) || selected[k]?.keep) selected[k]=pickDefault(k);
    });
  }else{
+   // 自分で選ぶでは「普通のひらがな」も選択として残す（未割当の字だけ既定の字体にする）。
    needed.forEach(k=>{
-     const info=composeInfo(k);
-     if(!(k in selected) || selected[k]?.keep) selected[k]=pickDefault(k);
-
-     const row=document.createElement("div");row.className="composeRow";
-     const left=document.createElement("div");left.className="composeKana";left.textContent=k;
-     const cand=document.createElement("div");cand.className="candidates";
-
-     const standard=document.createElement("button");
-     const standardText=SMALL_TOGGLE_KANA.has(k) && !smallKanaEnabled ? info.base : k;
-     standard.className="glyphChoice standardChoice"+(selected[k]?.keep?" active":"");
-     standard.innerHTML='<span class="g">'+escapeHtml(standardText)+'</span><small>普通のひらがな</small>';
-     standard.onclick=()=>{selected[k]={keep:true,text:k,small:false};renderCompose()};
-     cand.appendChild(standard);
-
-     GLYPHS.filter(x=>x.kana===info.base).forEach(e=>{
-       const out=e.character+info.mark;
-       const active=!selected[k]?.keep && selected[k]?.text===out && !!selected[k]?.small===info.small;
-       const b=document.createElement("button");
-       b.className="glyphChoice"+(active?" active":"");
-       const showSmall=info.small && (!SMALL_TOGGLE_KANA.has(k) || smallKanaEnabled);
-       b.innerHTML='<span class="g'+(showSmall?' smallGlyph':'')+'">'+escapeHtml(out)+'</span><small>'+
-         '字母 '+escapeHtml(e.jibo)+
-         (info.mark==="\u3099"?' / 濁点':info.mark==="\u309A"?' / 半濁点':'')+
-         '</small>';
-       b.onclick=()=>{selected[k]={keep:false,text:out,small:info.small};renderCompose()};cand.appendChild(b);
-     });
-     row.append(left,cand);rows.appendChild(row);
+     if(!(k in selected)) selected[k]=pickDefault(k);
    });
+   if(perCharEnabled){
+     // 同じ字でも出てくる位置ごとに1行。未設定の位置は一括の選択を引き継いで表示する。
+     [...text].forEach((k,i)=>{
+       if(!hasGlyphChoices(k)) return;
+       const own=selectedAt[i]?.ch===k?selectedAt[i]:null;
+       rows.appendChild(composeChoiceRow(k,own||selected[k],(i+1)+"字目",choice=>{selectedAt[i]={...choice,ch:k};renderCompose()}));
+     });
+   }else{
+     needed.forEach(k=>{
+       rows.appendChild(composeChoiceRow(k,selected[k],"",choice=>{selected[k]=choice;renderCompose()}));
+     });
+   }
  }
 
  const floatingOriginal=document.getElementById("floatingOriginal");
@@ -2132,7 +2167,7 @@ function renderCompose(){
  if(previewDock) previewDock.classList.toggle("manualSticky",composeMode==="manual");
  const previewEl=document.getElementById("preview");
  previewEl.classList.toggle("vertical",verticalWriting);
- previewEl.innerHTML=[...text].map(ch=>renderSelectedToken(ch)).join("");
+ previewEl.innerHTML=[...text].map((ch,i)=>renderSelectedToken(ch,i)).join("");
  requestAnimationFrame(updateStickyState);
  const reroll=document.getElementById("rerollCompose");
  if(reroll) reroll.style.display=composeMode==="auto"?"inline-flex":"none";
@@ -2144,8 +2179,8 @@ function isHentaiganaText(text){
  const cp=first.codePointAt(0);
  return cp>=0x1B000 && cp<=0x1B11E;
 }
-function outputTokenFor(ch){
- const sel=selected[ch];
+function outputTokenFor(ch,index){
+ const sel=selectionFor(ch,index);
  const togglesSmall=SMALL_TOGGLE_KANA.has(ch);
  if(!sel || sel.keep){
    if(togglesSmall && !smallKanaEnabled) return {text:SMALL_BASE[ch],small:false,hentaigana:false};
@@ -2438,6 +2473,9 @@ document.querySelectorAll(".composeModeBtn").forEach(b=>b.addEventListener("clic
  document.querySelectorAll(".composeModeBtn").forEach(x=>x.classList.toggle("active",x===b));
  if(composeMode==="auto"){
    smallKanaEnabled=false;
+   perCharEnabled=false;
+   selectedAt=[];
+   document.getElementById("perCharToggle")?.setAttribute("aria-pressed","false");
    const toggle=document.getElementById("smallKanaToggle");
    if(toggle) toggle.checked=false;
    randomizeCompose();
@@ -2450,6 +2488,13 @@ document.querySelectorAll(".previewDirBtn").forEach(b=>b.addEventListener("click
  document.querySelectorAll(".previewDirBtn").forEach(x=>x.classList.toggle("active",x===b));
  renderCompose();
 }));
+document.getElementById("perCharToggle").addEventListener("click",e=>{
+ perCharEnabled=!perCharEnabled;
+ // 一括設定に戻すときは、位置ごとの選択を捨てて一括の選択だけを使う。
+ if(!perCharEnabled) selectedAt=[];
+ e.currentTarget.setAttribute("aria-pressed",String(perCharEnabled));
+ renderCompose();
+});
 document.getElementById("smallKanaToggle").addEventListener("change",e=>{
  smallKanaEnabled=e.target.checked;
  renderCompose();

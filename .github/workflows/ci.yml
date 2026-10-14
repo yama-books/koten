@@ -33,6 +33,8 @@ jobs:
       - run: npm run check:conj-quiz -- --webkit
       # 変体仮名の記録画面：全体の習熟度の値、描画前後の一致、横スクロールなし、reduced motion。
       - run: npm run check:vintage-kana-record
+      # 変体仮名の変換：濁点・小書き・んの変体仮名化、もう1回の引き直し、くわしい版の一字ずつ設定。
+      - run: npm run check:vintage-kana-compose
       # H-21: check:storage は「未知 product の拒否」シナリオで止まる（2026-09-04 に特定）。
       # 改名より前から壊れており、watchdog を入れて有限時間で失敗するようにしたうえで CI から外した。
       # 常に落ちる検査は、検査が無いより悪い（誰も出力を見なくなる）。原因が分かり次第ここへ戻す。

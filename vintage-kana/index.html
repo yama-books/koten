@@ -602,7 +602,7 @@
   <button class="skip" id="skip">演出を飛ばす</button>
   <div class="result-actions" id="resultActions" hidden>
     <button class="again" id="playAgain" type="button">もう1回</button>
-    <a class="more" href="./detail.html">変体仮名をもっと見る</a>
+    <a class="more" href="./detail.html">くわしく</a>
   </div>
 </div>
 <script src="./mastery-summary.js"></script>
@@ -624,6 +624,70 @@ const firstVariant = {
 const reverseVariant=Object.fromEntries(
   Object.entries(firstVariant).map(([hiragana,hentaigana])=>[hentaigana,hiragana])
 );
+// 小書きの仮名は大きい仮名として変体仮名にする（ゃ→や）。
+const SMALL_KANA_BASE={"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お","っ":"つ","ゃ":"や","ゅ":"ゆ","ょ":"よ","ゎ":"わ","ゕ":"か","ゖ":"け"};
+const VOICING_MARK=/^[\u3099\u309A]$/;
+// 「ん」は Unicode の N-MU-MO（字母「无」）を使う。
+const N_VARIANTS=["\u{1B11D}","\u{1B11E}"];
+const isHentaiganaChar=ch=>{const cp=ch.codePointAt(0);return cp>=0x1B000&&cp<=0x1B11F};
+// 濁点・半濁点は前の字と一つの単位にする。アニメーションでは単位ごとに字が動く。
+function kanaUnits(text){
+  const units=[];
+  for(const ch of String(text)){
+    if(VOICING_MARK.test(ch)&&units.length&&units[units.length-1]!=="\n")units[units.length-1]+=ch;
+    else units.push(ch);
+  }
+  return units;
+}
+// 一単位を「大きい清音の仮名」と「濁点・半濁点」に分ける（で→て＋゛、ゃ→や）。
+function splitKanaUnit(unit){
+  const d=unit.normalize("NFD");
+  const head=[...d][0]||"";
+  const mark=d.slice(head.length);
+  return {base:SMALL_KANA_BASE[head]||head,mark:VOICING_MARK.test(mark)?mark:""};
+}
+// 仮名ごとの変体仮名の候補（字形データ。読み込み前は既定の一字だけ）。
+let variantPool=null,variantReverse=null;
+function setVariantGlyphs(glyphs){
+  const pool={},reverse={};
+  for(const g of glyphs||[]){
+    if(!g||typeof g.character!=="string"||typeof g.kana!=="string"||!isHentaiganaChar(g.character))continue;
+    // N-MU-MO は「ん」専用にして、逆変換でも「ん」に戻す。
+    if(N_VARIANTS.includes(g.character))continue;
+    (pool[g.kana]||(pool[g.kana]=[])).push(g.character);
+    reverse[g.character]=g.kana;
+  }
+  pool["ん"]=N_VARIANTS.slice();
+  for(const ch of N_VARIANTS)reverse[ch]="ん";
+  variantPool=pool;variantReverse=reverse;
+}
+function variantsFor(base){
+  const list=variantPool?.[base]||[];
+  const first=firstVariant[base];
+  return first&&!list.includes(first)?[first,...list]:list;
+}
+// 変換のたびに引く字体。初回は既定の字、2回目以降は前回と別の字を一様に選ぶ。
+const lastVariantUsed={};
+function rollVariants(units){
+  const chosen={};
+  for(const unit of units){
+    const {base}=splitKanaUnit(unit);
+    if(base in chosen)continue;
+    const list=variantsFor(base);
+    if(!list.length)continue;
+    const prev=lastVariantUsed[base];
+    let next;
+    if(!prev)next=firstVariant[base]||list[0];
+    else{
+      const others=list.filter(v=>v!==prev);
+      const pool=others.length?others:list;
+      next=pool[Math.floor(Math.random()*pool.length)];
+    }
+    chosen[base]=next;
+    lastVariantUsed[base]=next;
+  }
+  return chosen;
+}
 const stage=document.getElementById("stage"),
 core=document.getElementById("core"),
 flash=document.getElementById("flash"),
@@ -642,7 +706,7 @@ playAgain=document.getElementById("playAgain");
 const stampDirectionInputs=[...document.querySelectorAll('input[name="stampDirection"]')];
 const conversionModeInputs=[...document.querySelectorAll('input[name="conversionMode"]')];
 
-let running=false,timers=[],playToken=0,nextPreset=null,lastSource="";
+let running=false,timers=[],playToken=0,nextPreset=null,lastSource="",lastOut=null;
 let initialPhraseEdited=false;
 let convertPointerFromInput=false,lastInputBlurAt=-Infinity;
 const keyboardNotice=document.getElementById("keyboardNotice");
@@ -703,9 +767,23 @@ function getConversionMode(){
   const checked=conversionModeInputs.find(el=>el.checked);
   return checked?checked.value:"forward";
 }
-function transformText(text,mode=getConversionMode()){
-  const table=mode==="reverse"?reverseVariant:firstVariant;
-  return [...text].map(ch=>ch==="\n"?"\n":(table[ch]||ch)).join("");
+// 返り値は単位の配列（濁点つきの字も一単位）。forward は変換のたびに字体を引き直す。
+function transformUnits(text,mode=getConversionMode()){
+  const units=kanaUnits(text);
+  if(mode==="reverse"){
+    return units.map(unit=>{
+      if(unit==="\n")return unit;
+      const head=[...unit][0];
+      const kana=reverseVariant[head]||variantReverse?.[head];
+      return kana?(kana+unit.slice(head.length)).normalize("NFC"):unit;
+    });
+  }
+  const chosen=rollVariants(units);
+  return units.map(unit=>{
+    if(unit==="\n")return unit;
+    const {base,mark}=splitKanaUnit(unit);
+    return chosen[base]?chosen[base]+mark:unit;
+  });
 }
 function targetFontFor(mode){
   return mode==="reverse"
@@ -726,7 +804,7 @@ function getLayoutLines(text,direction=getStampDirection()){
   const source=String(text).replace(/\r\n?/g,"\n").split("\n");
   const lines=[];
   source.forEach(line=>{
-    const chars=[...line];
+    const chars=kanaUnits(line);
     if(!chars.length){
       lines.push([]);
       return;
@@ -843,7 +921,7 @@ function measureOrigins(text){
     fontWeight:cs.fontWeight,letterSpacing:cs.letterSpacing,lineHeight:cs.lineHeight
   });
   const spans=[];
-  [...text].forEach(ch=>{
+  kanaUnits(text).forEach(ch=>{
     if(ch==="\n"){
       wrap.appendChild(document.createElement("br"));
     }else{
@@ -862,7 +940,7 @@ function measureOrigins(text){
   return {pts,fontSize:parseFloat(cs.fontSize)||32,color:cs.color,fontFamily:cs.fontFamily};
 }
 function makeGlyphs(text){
-  return [...text].map((ch,i)=>{
+  return kanaUnits(text).map((ch,i)=>{
     const e=document.createElement("div");
     e.className="glyph";
     e.textContent=ch;
@@ -899,7 +977,7 @@ function clearStage(cancel=true){
   btn.disabled=false;
 }
 function sourceFontFor(text){
-  return [...text].some(ch=>reverseVariant[ch])?targetFontFor("forward"):"";
+  return [...text].some(isHentaiganaChar)?targetFontFor("forward"):"";
 }
 // After the final stamp: keep the result on stage and offer the two next steps.
 function showResult(){
@@ -1000,8 +1078,11 @@ async function play(){
   const src=(input.value.replace(/\r\n?/g,"\n").trim()||"そら");
   lastSource=src;
   const motionSrc=src.replace(/\n/g,"");
-  const out=transformText(src,mode);
-  const motionOut=out.replace(/\n/g,"");
+  const outUnits=transformUnits(src,mode);
+  const out=outUnits.join("");
+  lastOut={src,mode,out};
+  const motionOutUnits=outUnits.filter(unit=>unit!=="\n");
+  const motionOut=motionOutUnits.join("");
   const targetFontFamily=targetFontFor(mode);
   label.textContent=mode==="reverse"?"HIRAGANA":"HENTAIGANA";
 
@@ -2005,7 +2086,7 @@ async function play(){
       if(p>.88&&!el.dataset.converted){
         el.style.opacity="0";
         el.style.fontFamily=targetFontFamily;
-        el.textContent=[...motionOut][i]||el.textContent;
+        el.textContent=motionOutUnits[i]||el.textContent;
         el.dataset.converted="1";
       }
     });
@@ -3040,7 +3121,7 @@ async function play(){
     // Never strand the user behind an opaque white stage.
     const fallbackMode=getConversionMode();
     const fallbackSrc=(input.value.replace(/\r\n?/g,"\n").trim()||"そら");
-    const fallbackOut=transformText(fallbackSrc,fallbackMode);
+    const fallbackOut=lastOut&&lastOut.src===fallbackSrc&&lastOut.mode===fallbackMode?lastOut.out:transformUnits(fallbackSrc,fallbackMode).join("");
     playToken++;
     resetVisuals();
     input.value=fallbackOut;
@@ -3114,6 +3195,7 @@ async function loadMasteryShortcut(){
    const data=await response.json();
    if(!Array.isArray(data.glyphs)||!data.glyphs.length)throw new Error("empty glyph catalogue");
    masteryGlyphs=data.glyphs;
+   setVariantGlyphs(data.glyphs);
  }catch(err){console.warn("mastery summary unavailable",err)}
  refreshMasteryShortcut();
 }
@@ -3134,7 +3216,7 @@ skip.addEventListener("click",()=>{
   if(!running||stage.classList.contains("result"))return;
   const mode=getConversionMode();
   const src=(input.value.replace(/\r\n?/g,"\n").trim()||"そら");
-  const out=transformText(src,mode);
+  const out=lastOut&&lastOut.src===src&&lastOut.mode===mode?lastOut.out:transformUnits(src,mode).join("");
   playToken++;
   input.style.color="";
   input.style.caretColor="";

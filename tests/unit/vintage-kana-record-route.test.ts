@@ -31,7 +31,7 @@ test("mastery formula is shared and learning-record deep link still resolves aft
 });
 test("reverse conversion and flash safeguards are preserved",()=>{
  assert.match(simple,/name="conversionMode" value="reverse"/);
- assert.match(simple,/function transformText\(text,mode=getConversionMode\(\)\)/);
+ assert.match(simple,/function transformUnits\(text,mode=getConversionMode\(\)\)/);
  assert.match(simple,/if\(p>\.88&&!el\.dataset\.converted\)/);
  assert.match(simple,/await ensureMotionTargetFont\(mode,motionOut\);/);
 });
