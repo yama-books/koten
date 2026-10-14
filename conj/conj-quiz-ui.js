@@ -53,7 +53,7 @@ async function initQuizUI(){
   });
   document.getElementById('quizMode').addEventListener('change',()=>{
     const mode=document.getElementById('quizMode').value;
-    shortcut.textContent={table:'活用表 ▾',form:'活用形 ▾',type:'活用種類 ▾',lemma:'終止形 ▾'}[mode];
+    shortcut.textContent={table:'活用表 ▾',form:'活用形 ▾',type:'活用の種類 ▾',lemma:'終止形 ▾'}[mode];
     document.querySelectorAll('[data-quiz-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.quizMode===mode)));
     if(quizPreviousMode==='table')quizExamplePreference=document.getElementById('showExample').checked;
     if(mode==='table')document.getElementById('showExample').checked=quizExamplePreference;
@@ -178,6 +178,7 @@ function renderQuizUI(){
   // Every identification question (table practice or a quoted example) shows its sentence in the
   // centred, wrapped panel while the table is hidden; the drill's narrow column cannot hold prose.
   card.classList.toggle('quiz-example-layout',active && !!quizState);
+  card.classList.toggle('quiz-lemma-layout',active && quizState?.quizMode==='lemma');
   document.getElementById('levelMeters').hidden=active;
   document.getElementById('showExample').closest('.example-toggle').hidden=active;
   updateQuizStageUI();
@@ -226,6 +227,22 @@ function renderQuizUI(){
       :stage===1?'ヒント：'+current.label:'';
     input.value=quizState.selectedAnswer||'';
     input.disabled=quizState.answered;
+    input.classList.toggle('is-graded',quizState.answered);
+    const resultIcon=document.getElementById('quizLemmaResultIcon');
+    const resultText=document.getElementById('quizLemmaResultText');
+    const wasGraded=!!quizState.answered;
+    const correct=!!quizState.evaluation?.correct;
+    resultIcon.hidden=!wasGraded;
+    resultText.hidden=!wasGraded;
+    if(wasGraded){
+      resultIcon.src=correct?'./img/result-ok.png':'./img/result-ng.png';
+      resultIcon.alt=correct?'正解':'不正解';
+      resultText.dataset.correct=String(correct);
+      resultText.textContent=correct?'正解':'不正解。正答：'+lemmaHeadingText(current);
+    }else{
+      resultText.textContent='';
+      delete resultText.dataset.correct;
+    }
     document.getElementById('quizRowAnswer').hidden=true;
   }else{
     renderQuizChoices();renderQuizRowAnswer();
@@ -460,6 +477,9 @@ function placeQuizTable(){
 // below a short screen. Scroll just enough to keep them reachable, and return
 // to the top when the next question starts.
 function revealQuizActions(){
+  // In terminal-form mode the result appears beside the typed answer.
+  // Keep the viewport anchored there instead of jumping below the newly shown table.
+  if(quizState?.quizMode==='lemma')return;
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     const actions=document.querySelector('main.card .actions');
     const over=actions?actions.getBoundingClientRect().bottom+12-window.innerHeight:0;
