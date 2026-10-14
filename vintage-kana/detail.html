@@ -96,6 +96,20 @@ details.moreInfo summary{cursor:pointer;font-weight:700;font-size:12px}
   letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums;
 }
 .view{display:none}.view.active{display:block}
+/* Approved 2026-10-14 prototype: a gentle 1.1s slide from the right for Browse
+   and the first reveal of the manual glyph-picker. Do not reanimate each pick. */
+@keyframes vkhSlowSlideIn{
+  from{opacity:0;transform:translate3d(35px,0,0)}
+  65%{opacity:1}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+#browse.view.active,#composeRows:not(.autoHidden){
+  animation:vkhSlowSlideIn 1100ms cubic-bezier(.18,.75,.2,1) both;
+}
+#browse,#compose{overflow-x:clip}
+@media(prefers-reduced-motion:reduce){
+  #browse.view.active,#composeRows:not(.autoHidden){animation:none}
+}
 .label{font-weight:700;font-size:13px;margin:0 0 8px}
 .kanaFilters{display:grid;gap:5px;margin-bottom:14px;padding:2px}
 .kanaFilterAll{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-start;margin-bottom:2px}
@@ -354,7 +368,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 .quizBox:has(#quizRecord:not([hidden])){overflow-x:clip}
 @supports not (overflow:clip){.quizBox:has(#quizRecord:not([hidden])){overflow-x:hidden}}
 .recordGlide{opacity:0}
-.recordGlide.isIn{animation:recordGlide 1.16s cubic-bezier(.16,.82,.20,1) var(--record-glide-delay,0ms) both}
+.recordGlide.isIn{animation:recordGlide .86s cubic-bezier(.16,.82,.20,1) var(--record-glide-delay,0ms) both}
 @keyframes recordGlide{
   0%{opacity:.04;transform:translate3d(78vw,0,0) scale(.988)}
   72%{opacity:1;transform:translate3d(-2px,0,0) scale(1.001)}
@@ -365,8 +379,8 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 @property --record-draw{syntax:"<number>";inherits:false;initial-value:1}
 .recordRowGroup.isWaiting .ringMeter{--record-draw:0}
 .recordMastery.isWaiting .recordMastery__fill{transform:scaleX(0)}
-.recordRowGroup.isDrawing .ringMeter{animation:recordDraw 1.03s cubic-bezier(.22,.72,.18,1) calc(var(--record-glide-delay,0ms) + 80ms) both}
-.recordMastery.isDrawing .recordMastery__fill{animation:recordBarGrow 1.03s cubic-bezier(.22,.72,.18,1) calc(var(--record-glide-delay,0ms) + 80ms) both}
+.recordRowGroup.isDrawing .ringMeter{animation:recordDraw .82s cubic-bezier(.22,.72,.18,1) calc(var(--record-glide-delay,0ms) + 80ms) both}
+.recordMastery.isDrawing .recordMastery__fill{animation:recordBarGrow .82s cubic-bezier(.22,.72,.18,1) calc(var(--record-glide-delay,0ms) + 80ms) both}
 .rowGlyphMastery.isDrawing .glyphMasteryRing{animation:recordDraw .82s cubic-bezier(.22,.72,.18,1) calc(40ms + var(--i,0) * 24ms) both}
 @keyframes recordDraw{from{--record-draw:0}to{--record-draw:1}}
 @keyframes recordBarGrow{from{transform:scaleX(0)}to{transform:none}}
@@ -1201,7 +1215,7 @@ function countRecordNumbers(motion){
    const startTime=performance.now()+180+i*28;
    const tick=now=>{
      if(recordMotion!==motion || el.textContent!==counter.written)return;
-     const p=Math.max(0,Math.min(1,(now-startTime)/990));
+     const p=Math.max(0,Math.min(1,(now-startTime)/780));
      counter.written=p<1?format(Math.round(target*(1-Math.pow(1-p,4)))):text;
      el.textContent=counter.written;
      if(p<1)motion.frames.push(requestAnimationFrame(tick));
@@ -1255,7 +1269,7 @@ function playRecordMotion(){
    motion.frames.push(requestAnimationFrame(()=>{
      motion.frames.push(requestAnimationFrame(()=>{
        if(recordMotion!==motion)return;
-       staggerRecordGlide(cards,85);
+       staggerRecordGlide(cards,70);
        countRecordNumbers(motion);
      }));
    }));
@@ -1267,7 +1281,7 @@ function playRecordMotion(){
  const cardObserver=new IntersectionObserver((entries,observer)=>{
    const visible=entries.filter(entry=>entry.isIntersecting).map(entry=>entry.target);
    visible.forEach(card=>observer.unobserve(card));
-   staggerRecordGlide(visible,90);
+   staggerRecordGlide(visible,75);
  },options);
  cards.forEach(card=>cardObserver.observe(card));
  const numberObserver=new IntersectionObserver((entries,observer)=>{
