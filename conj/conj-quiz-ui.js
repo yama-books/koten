@@ -157,8 +157,8 @@ function applyQuizTableMask(){
   document.querySelectorAll('#formBody > tr').forEach((tr,i)=>{
     const hidden=!mask.visibleIndexes.includes(i);
     tr.classList.toggle('quiz-masked',hidden);
-    tr.classList.toggle('quiz-answer',quizState.answered && names[i]===quizState.example.form);
-    tr.classList.toggle('quiz-lemma-terminal-answer',quizState.quizMode==='lemma' && quizState.answered && !!quizState.evaluation?.correct && names[i]==='終止形');
+    tr.classList.toggle('quiz-answer',quizState.quizMode!=='lemma' && quizState.answered && names[i]===quizState.example.form);
+    tr.classList.toggle('quiz-lemma-terminal-answer',quizState.quizMode==='lemma' && quizState.answered && names[i]==='終止形');
     tr.querySelectorAll('td>*').forEach(e=>hidden?e.setAttribute('aria-hidden','true'):e.removeAttribute('aria-hidden'));
   });
   // Table title/column headings are never the answer type, and the correct row is
@@ -180,7 +180,7 @@ function renderQuizUI(){
   // centred, wrapped panel while the table is hidden; the drill's narrow column cannot hold prose.
   card.classList.toggle('quiz-example-layout',active && !!quizState);
   card.classList.toggle('quiz-lemma-layout',active && quizState?.quizMode==='lemma');
-  card.classList.toggle('quiz-lemma-correct',active && quizState?.quizMode==='lemma' && !!quizState.answered && !!quizState.evaluation?.correct);
+  card.classList.toggle('quiz-lemma-graded',active && quizState?.quizMode==='lemma' && !!quizState.answered);
   document.getElementById('levelMeters').hidden=active;
   document.getElementById('showExample').closest('.example-toggle').hidden=active;
   updateQuizStageUI();
@@ -191,6 +191,16 @@ function renderQuizUI(){
   for(const id of ['lemma','lemmaAid','kind','posTag']) document.getElementById(id).style.display=active&&!quizState?'none':'';
   placeQuizTable();
   const lemmaMode=active&&quizState?.quizMode==='lemma';
+  // A wrapped vertical example needs a separate source line, not a flex column
+  // that can shrink into the sentence. Restore the original placement in other modes.
+  const examplePanel=document.getElementById('examplePanel');
+  const exampleBody=examplePanel.querySelector('.example-body');
+  const exampleFoot=document.getElementById('exampleFoot');
+  const sourceParent=lemmaMode?examplePanel:exampleBody;
+  if(exampleFoot.parentElement!==sourceParent){
+    if(lemmaMode)sourceParent.append(exampleFoot);
+    else sourceParent.prepend(exampleFoot);
+  }
   document.getElementById('quizChoices').hidden=!!lemmaMode;
   document.getElementById('quizLemmaAnswer').hidden=!lemmaMode;
   if(!active){
@@ -221,8 +231,8 @@ function renderQuizUI(){
     const kanaOnly=lemmaKanjiOnly(current);
     document.getElementById('quizLemmaKanjiBan').hidden=!kanaOnly;
     document.getElementById('quizLemmaNote').textContent=kanaOnly
-      ?'ひらがなで入力してください（歴史的仮名遣い）'
-      :'歴史的仮名遣いのひらがなでも正解';
+      ?'歴史的仮名遣いの平仮名で入力'
+      :'歴史的仮名遣いの平仮名でもOK';
     const stage=quizState.masteryStage;
     hint.textContent=quizState.answered?''
       :stage===0?'ヒント：'+current.label+'・'+current.kind

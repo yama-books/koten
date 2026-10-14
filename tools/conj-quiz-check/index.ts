@@ -229,14 +229,16 @@ try{
     const rects=await page.evaluate(()=>{
       const box=(selector:string)=>{const r=document.querySelector(selector)!.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,center:(r.left+r.right)/2};};
       const card=box('main.card'),example=box('#examplePanel'),input=box('#quizLemmaInput'),table=box('#tablePanel');
-      return {card,example,input,table,tableVisible:getComputedStyle(document.getElementById('tablePanel')!).display!=='none',
+      return {card,example,input,table,text:box('#exampleText'),source:box('#exampleFoot'),
+        sourceWritingMode:getComputedStyle(document.getElementById('exampleFoot')!).writingMode,
+        tableVisible:getComputedStyle(document.getElementById('tablePanel')!).display!=='none',
         areas:getComputedStyle(document.querySelector('main.card .study-layout')!).gridTemplateAreas,
         overflow:document.documentElement.scrollWidth>window.innerWidth+1,
-        correct:document.querySelector('main.card')!.classList.contains('quiz-lemma-correct'),
+        graded:document.querySelector('main.card')!.classList.contains('quiz-lemma-graded'),
         fontSize:parseFloat(getComputedStyle(document.getElementById('exampleText')!).fontSize)};
     });
-    if(rects.correct){
-      assert.match(rects.areas,/"example table".*"quiz quiz"/s,phase+' correct table must be next to example');
+    if(rects.graded){
+      assert.match(rects.areas,/"example table".*"quiz quiz"/s,phase+' graded table must be next to example');
       assert.ok(rects.table.left>=rects.example.right-1,phase+' table must be on the right');
       assert.equal(await page.locator('#formBody > tr.quiz-lemma-terminal-answer').count(),1,'terminal answer is highlighted');
       assert.ok((await page.locator('#formBody > tr').nth(2).getAttribute('class'))?.includes('quiz-lemma-terminal-answer'));
@@ -245,8 +247,10 @@ try{
       assert.ok(Math.abs(rects.example.center-rects.card.center)<5,phase+' example must be centered');
     }
     assert.ok(rects.fontSize>=16,phase+' example must stay readable');
+    assert.equal(rects.sourceWritingMode,'horizontal-tb',phase+' source must have a separate horizontal line');
+    assert.ok(rects.source.top>=rects.text.bottom-1,phase+' source must not overlap the example');
     assert.ok(Math.abs(rects.input.center-rects.card.center)<5,phase+' input must be centered');
-    if(rects.tableVisible && !rects.correct){
+    if(rects.tableVisible && !rects.graded){
       assert.ok(Math.abs(rects.table.center-rects.card.center)<5,phase+' conjugation table must be centered');
       assert.ok(rects.table.top>=rects.input.bottom-1,phase+' table must follow the input');
     }
@@ -303,6 +307,8 @@ try{
   assert.match(await empty.locator('#feedback').innerText(),/^正解/);
   await setTerminalQuestion('kohu');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isHidden(),true,'ordinary inflected kanji spelling is allowed');
+  assert.equal(await empty.locator('#quizLemmaNote').innerText(),'歴史的仮名遣いの平仮名でもOK');
+  assert.match(await empty.locator('#quizLemmaNote').evaluate(el=>getComputedStyle(el).fontFamily),/Zen Maru Gothic/);
   await empty.locator('#quizLemmaInput').fill('こふ');
   await empty.locator('#quizLemmaInput').press('Enter');
   assert.match(await empty.locator('#feedback').innerText(),/^正解/,'historical hiragana is accepted by Enter');
