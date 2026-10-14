@@ -117,7 +117,7 @@ async function chooseMode(page:any,mode:string){
     await page.selectOption('#quizMode',mode);
   }
   assert.equal(await page.locator(`[data-quiz-mode="${mode}"]`).getAttribute('aria-pressed'),'true');
-  if(await page.locator('#openQuizModes').isVisible())assert.match(await page.locator('#openQuizModes').innerText(),{table:/活用表/,form:/活用形/,type:/活用種類/,lemma:/終止形/}[mode]);
+  if(await page.locator('#openQuizModes').isVisible())assert.match(await page.locator('#openQuizModes').innerText(),{table:/活用表/,form:/活用形/,type:/活用の種類/,lemma:/終止形/}[mode]);
 }
 async function setAdvanced(page:any,id:string,value:string){
   await page.locator('#openSettings').click();
