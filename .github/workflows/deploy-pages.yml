@@ -6,10 +6,9 @@ on:
 
 # The repository name decides the Pages sub-path, so it is read from the event
 # rather than written down here. Renaming the repository must not need an edit.
+# Least privilege: building never receives Pages publishing credentials.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -17,6 +16,9 @@ concurrency:
 
 jobs:
   build:
+    # Guard manual workflow_dispatch as well as push. Preview branches must never
+    # assemble or upload artifacts for the shared production Pages site.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -74,8 +76,15 @@ jobs:
           path: _site
 
   deploy:
+    # Defense in depth: a future change to the build job must not enable
+    # deployment from checkpoint-main or any other feature branch.
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
