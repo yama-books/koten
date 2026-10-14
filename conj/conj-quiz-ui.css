@@ -203,3 +203,56 @@
 .quiz-lemma-heading{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
 .quiz-lemma-kanji-ban{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--toolbar-bg);color:var(--ink);font-size:11px;font-weight:700;line-height:1.5;white-space:nowrap}
 .quiz-lemma-kanji-ban[hidden]{display:none!important}
+
+/* Terminal-form answers: a persistent grade mark, not a change to the table cells. */
+.quiz-lemma-input-wrap{position:relative;width:100%;min-width:0}
+.quiz-lemma-input-wrap .quiz-lemma-result-icon{position:absolute;right:8px;top:50%;width:36px;height:36px;transform:translateY(-50%);object-fit:contain;pointer-events:none}
+.quiz-lemma-input-wrap .quiz-lemma-result-icon[hidden],.quiz-lemma-result-text[hidden]{display:none!important}
+.quiz-lemma-answer input.is-graded{padding-left:48px;padding-right:48px}
+.quiz-lemma-result-text{font-size:12px;font-weight:700;line-height:1.5;color:var(--ink);text-align:center}
+.quiz-lemma-result-text[data-correct="false"]{color:var(--danger-ink)}
+
+/* Unlike the other identification modes, the terminal-form answer is typed.
+   On narrow devices, put example, input and table in ONE centered column,
+   including after hints/grading reveal the six-row table. */
+@media(max-width:700px){
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout .study-layout:not(.review-modal-study-layout){
+    box-sizing:border-box;
+    width:min(100%,460px)!important;
+    max-width:100%!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-areas:"example" "quiz" "table"!important;
+    justify-content:center!important;
+    justify-items:center!important;
+    align-items:start!important;
+    gap:12px 0!important;
+    margin:8px auto 0!important;
+  }
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout .study-layout:not(.review-modal-study-layout) .example-panel{
+    grid-area:example!important;
+    width:max-content;
+    min-width:0!important;
+    max-width:100%!important;
+    justify-self:center!important;
+    padding-right:0;
+  }
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout #quizAnswerPanel{
+    grid-area:quiz!important;
+    grid-column:1!important;
+    grid-row:auto!important;
+    width:min(100%,320px)!important;
+    max-width:100%!important;
+    margin:0 auto!important;
+    justify-self:center!important;
+    align-self:start!important;
+  }
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout #tablePanel{
+    grid-area:table!important;
+    grid-column:1!important;
+    grid-row:auto!important;
+    justify-self:center!important;
+    max-width:100%!important;
+    margin:0 auto!important;
+  }
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout .example-panel::after{display:none}
+}
