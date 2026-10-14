@@ -151,6 +151,11 @@ try{
   await setTerminalQuestion('nu_verb');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'寝 must warn 漢字不可');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').innerText(),'漢字不可');
+  await empty.locator('#reveal').click();
+  assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked with hint');
+  await empty.locator('#reveal').click();
+  assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked after second hint');
+  assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'kana-only warning stays present after hints');
   await empty.locator('#quizLemmaInput').fill('寝');await empty.locator('#check').click();
   assert.match(await empty.locator('#feedback').innerText(),/^不正解/,'bare 寝 is insufficient');
   await setTerminalQuestion('nu_verb');
