@@ -43,6 +43,18 @@
    const fraction=Number.isFinite(value)?Math.max(0,Math.min(.999999999999,value)):0;
    return pool[Math.floor(fraction*pool.length)];
  }
+ // Two-stage category sampling keeps classical poems from overwhelming modern phrases.
+ // "simple" reserves a minimum of five kana for the animated display.
+ // "detail" samples all lengths. The quiz's weighted pickPhrase is unchanged.
+ function pickComposerPhrase(modernPhrases,historicalPhrases,variant="simple",rng=Math.random){
+   const allModern=Array.isArray(modernPhrases)?modernPhrases.filter(validPhrase):[];
+   const modern=variant==="simple"?allModern.filter(p=>lengthOf(p)>=5):allModern;
+   const historical=Array.isArray(historicalPhrases)?historicalPhrases.filter(validPhrase):[];
+   if(!modern.length&&!historical.length)return null;
+   const probability=variant==="simple"?1/7:1/10;
+   const useHistorical=historical.length>0&&(!modern.length||Number(rng())<probability);
+   return pickInitialPhrase(useHistorical?historical:(modern.length?modern:historical),rng);
+ }
  function countKana(history){
    const result=new Map();
    // 累積偏差ではなく最近の出題を評価。中断・再開を繰り返しても硬直しない。
@@ -195,7 +207,7 @@
    try{root.localStorage.setItem(LEVEL_KEY,String(levelConfig(level).level))}catch(e){}
  }
  root.VintageKanaDecipher=Object.freeze({
-   HISTORY_KEY,LEVEL_KEY,LEVELS,kanaInfo,baseKana,validPhrase,pickInitialPhrase,countKana,
+   HISTORY_KEY,LEVEL_KEY,LEVELS,kanaInfo,baseKana,validPhrase,pickInitialPhrase,pickComposerPhrase,countKana,
    pickPhrase,candidatesFor,generateTokens,uniqueGlyphTokens,collectSetGlyphs,normalizedReading,
    isCorrectAnswer,glyphEvents,nextLevel,safeHistory,readHistory,storeHistory,readLevel,storeLevel
  });
