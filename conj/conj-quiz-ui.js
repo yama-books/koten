@@ -147,7 +147,7 @@ function applyQuizTableMask(){
   const panel=document.getElementById('tablePanel');
   if(!quizState || !isIdentificationMode()){
     delete panel.dataset.support;
-    panel.querySelectorAll('.quiz-masked,.quiz-answer').forEach(e=>e.classList.remove('quiz-masked','quiz-answer'));
+    panel.querySelectorAll('.quiz-masked,.quiz-answer,.quiz-lemma-terminal-answer').forEach(e=>e.classList.remove('quiz-masked','quiz-answer','quiz-lemma-terminal-answer'));
     panel.querySelectorAll('[aria-hidden]').forEach(e=>{if(e.matches('td>*'))e.removeAttribute('aria-hidden');});
     return;
   }
@@ -158,6 +158,7 @@ function applyQuizTableMask(){
     const hidden=!mask.visibleIndexes.includes(i);
     tr.classList.toggle('quiz-masked',hidden);
     tr.classList.toggle('quiz-answer',quizState.answered && names[i]===quizState.example.form);
+    tr.classList.toggle('quiz-lemma-terminal-answer',quizState.quizMode==='lemma' && quizState.answered && !!quizState.evaluation?.correct && names[i]==='終止形');
     tr.querySelectorAll('td>*').forEach(e=>hidden?e.setAttribute('aria-hidden','true'):e.removeAttribute('aria-hidden'));
   });
   // Table title/column headings are never the answer type, and the correct row is
@@ -168,7 +169,7 @@ function applyQuizTableMask(){
 // Full-lemma headings with no written inflection cannot be graded from kanji alone.
  // e.g. 来（く）/寝（ぬ）: the single kanji says nothing about the terminal form.
 function lemmaKanjiOnly(item){
-  const written=String(item?.lemma||'').replace(/[（(][^）)]*[）)]/gu,'').trim();
+  const written=lemmaTerminalWritten(item).replace(/[（(][^）)]*[）)]/gu,'').trim();
   return /^[一-龯々]+$/u.test(written) && /^[ぁ-ゖ]+$/u.test(lemmaHeadingText(item));
 }
 function renderQuizUI(){
@@ -179,6 +180,7 @@ function renderQuizUI(){
   // centred, wrapped panel while the table is hidden; the drill's narrow column cannot hold prose.
   card.classList.toggle('quiz-example-layout',active && !!quizState);
   card.classList.toggle('quiz-lemma-layout',active && quizState?.quizMode==='lemma');
+  card.classList.toggle('quiz-lemma-correct',active && quizState?.quizMode==='lemma' && !!quizState.answered && !!quizState.evaluation?.correct);
   document.getElementById('levelMeters').hidden=active;
   document.getElementById('showExample').closest('.example-toggle').hidden=active;
   updateQuizStageUI();
@@ -422,7 +424,7 @@ function gradeQuiz(){
   const evaluation=quizEngine.evaluateAnswer({
     quizMode:quizState.quizMode,example:quizState.example,selectedForm:quizState.selectedAnswer,
     selectedType:quizState.selectedAnswer,selectedLemma:quizState.selectedAnswer,
-    expectedLemma:current.lemma,historicalKana:lemmaHeadingText(current),kanjiAllowed,
+    expectedLemma:lemmaTerminalWritten(current),historicalKana:lemmaHeadingText(current),kanjiAllowed,
     selectedRow:quizState.selectedRow,rowMode:quizState.rowMode
   });
   const event=quizEngine.buildLearningEvent({...quizState,evaluation,responseTimeMs:Math.round(performance.now()-quizState.startedAt)});
