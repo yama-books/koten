@@ -22,13 +22,38 @@ const root="http://127.0.0.1:"+server.address().port+"/vintage-kana/video-previe
 async function check(type){
  const browser=await type.launch({headless:true});
  const page=await browser.newPage({viewport:{width:390,height:844},acceptDownloads:true});
- const errors=[];
+ const errors=[],requestsFailed=[];
  page.on("pageerror",e=>errors.push(e.message));
+ page.on("requestfailed",req=>requestsFailed.push({url:req.url(),failure:req.failure()}));
  try{
   await page.goto(root);
   assert.match(await page.locator("h1").innerText(),/動画保存お試し/);
   assert.equal(await page.locator("a[href='./dom-mirror.html']").count(),1);
-  const support=await page.evaluate(()=>VintageKanaVideoProbe.detect(document.querySelector("#movie"),MediaRecorder).supported).catch(()=>false);
+
+  try {
+    await page.waitForFunction(()=>document.querySelector("#status").textContent.includes("フォント読込完了"),null,{timeout:22000});
+  } catch(err) {
+    const info=await page.evaluate(()=>({
+      status:document.querySelector("#status")?.textContent,
+      fontStatus:document.fonts?.status,
+      faces:[...document.fonts].map(f=>({family:f.family,status:f.status,weight:f.weight})),
+      cssLink:document.querySelector('link[href*="Noto+Serif+Hentaigana"]')?.href
+    }));
+    console.log("PREVIEW_FONT_DIAGNOSTIC",JSON.stringify({engine:type.name(),info,requestsFailed,errors}));
+    throw err;
+  }
+  const loaded=await page.evaluate(()=>{
+    const faceList=[...document.fonts].filter(f=>f.family==="Noto Serif Hentaigana"&&f.status==="loaded");
+    return {css:!!document.querySelector('link[href*="Noto+Serif+Hentaigana"]'),
+      faces:faceList.length,
+      checked:document.fonts.check('600 115px "Noto Serif Hentaigana"',"𛀂")};
+  });
+  assert.equal(loaded.css,true,"font stylesheet must be linked");
+  assert.ok(loaded.faces>0,"actual Hentaigana font face must be downloaded");
+  assert.equal(loaded.checked,true,"supplementary Hentaigana glyph must be ready");
+  await page.locator("#direction").selectOption("reverse");
+  await page.waitForTimeout(100);
+  const support=await page.evaluate(()=>VintageKanaVideoProbe.detect(document.querySelector("#movie"),window.MediaRecorder).supported);
   if(support){
    await page.locator("#record").click();
    await page.locator("#download").waitFor({state:"visible",timeout:18000});
@@ -44,13 +69,16 @@ async function check(type){
   assert.match(await page.locator("h1").innerText(),/実際の変換演出/);
   const appLoaded=await page.frameLocator("#source").locator("#stage").count();
   assert.equal(appLoaded,1,"iframe should open production app in preview");
+  await page.waitForFunction(()=>document.querySelector("#status").textContent.includes("フォント読込完了"),null,{timeout:25000});
+  const mirrorFont=await page.evaluate(()=>[...document.fonts].filter(f=>f.family==="Noto Serif Hentaigana"&&f.status==="loaded").length);
+  assert.ok(mirrorFont>0,"mirror Canvas must have downloaded Hentaigana font");
   await page.locator("#start").click();
   await page.waitForFunction(()=>window.VK02MirrorStats?.().frames>15,null,{timeout:15000});
   await page.waitForFunction(()=>!document.querySelector("#start").disabled,null,{timeout:15000});
   const stats=await page.evaluate(()=>window.VK02MirrorStats());
   assert.ok(stats.maxGlyphs>0,"actual glyphs should be mirrored");
   assert.deepEqual(errors,[]);
-  console.log("PREVIEW_OK",JSON.stringify({browser:type.name(),supported:support,mirrorFrames:stats.frames,maxGlyphs:stats.maxGlyphs}));
+  console.log("PREVIEW_OK",JSON.stringify({browser:type.name(),supported:support,loadedFonts:loaded.faces,mirrorFonts:mirrorFont,mirrorFrames:stats.frames,maxGlyphs:stats.maxGlyphs}));
  }finally{await browser.close()}
 }
 try{for(const engine of [chromium,webkit])await check(engine)}

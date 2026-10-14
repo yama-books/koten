@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - vk02-public-preview-20261014
+      - 'vk02-preview-font-fix-*'
     paths:
       - 'vintage-kana/video-preview/**'
       - 'tools/vintage-kana-video-preview-smoke.mjs'

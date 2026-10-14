@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>変体仮名メーカー｜動画保存お試しページ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+Hentaigana:400,600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}body{background:#f6f1ea;color:#302a26;font:15px/1.7 system-ui,sans-serif;margin:0 auto;max-width:850px;padding:22px}
 h1{font-size:21px}p{margin:10px 0 18px}canvas,video{display:block;width:100%;aspect-ratio:16/9;border-radius:14px;background:#fff;border:1px solid #dccfc0}
@@ -22,7 +25,7 @@ button{cursor:pointer}button.primary{background:#302a26;color:#fff}button:disabl
 <canvas id="movie" width="768" height="432" role="img" aria-label="録画テスト用の文字と光の簡易動作"></canvas>
 <div class="controls">
 <label>方向 <select id="direction"><option value="forward">ひらがな → 変体仮名</option><option value="reverse">変体仮名 → ひらがな</option></select></label>
-<button id="record" class="primary" type="button">試験動画を作る</button>
+<button id="record" class="primary" type="button" disabled>試験動画を作る</button>
 <button id="cancel" type="button" disabled>録画を取り消す</button>
 <a class="save" id="download" href="#" hidden>保存する</a>
 </div>
@@ -30,6 +33,7 @@ button{cursor:pointer}button.primary{background:#302a26;color:#fff}button:disabl
 <video id="preview" controls playsinline hidden aria-label="録画した動画のプレビュー"></video>
 <p class="note">録画範囲はCanvas内部だけです。再現元のDOMには触れません。録画は端末内で完結し、外部送信しません。対応形式はMediaRecorder.isTypeSupportedで実行時に選択します。</p>
 <script src="./video-capability.js"></script>
+<script src="./font-loader.js"></script>
 <script>
 (()=>{
 "use strict";
@@ -37,7 +41,7 @@ const canvas=document.getElementById("movie"),ctx=canvas.getContext("2d");
 const direction=document.getElementById("direction"),record=document.getElementById("record"),cancel=document.getElementById("cancel");
 const status=document.getElementById("status"),download=document.getElementById("download"),preview=document.getElementById("preview");
 const api=window.VintageKanaVideoProbe;
-let session=null,oldUrl=null;
+let session=null,oldUrl=null,fontReady=false;
 const say=text=>{status.textContent=text};
 function clearDownload(){
   download.hidden=true;download.removeAttribute("download");download.removeAttribute("href");
@@ -55,7 +59,7 @@ function draw(progress,mode){
   ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(t*14)*.12*(1-t));
   ctx.fillStyle="#312822";ctx.textAlign="center";ctx.textBaseline="middle";
   const initial=mode==="reverse"?"𛀂":"あ",final=mode==="reverse"?"あ":"𛀂";
-  ctx.font='bold 115px "Noto Serif Hentaigana",serif';
+  ctx.font='600 115px "Noto Serif Hentaigana",serif';
   ctx.fillText(t>.65?final:initial,0,0);
   ctx.restore();
   ctx.fillStyle="rgba(255,255,255,"+Math.min(1,flash*.98)+")";ctx.fillRect(0,0,w,h);
@@ -75,7 +79,7 @@ function stop(s){
   if(s.recorder.state!=="inactive")s.recorder.stop();
 }
 function begin(){
-  if(session)return;
+  if(session||!fontReady)return;
   clearDownload();
   const support=api.detect(canvas,window.MediaRecorder);
   if(!support.supported){say("動画録画に非対応: "+support.reason);return}
@@ -121,11 +125,26 @@ function begin(){
 record.addEventListener("click",begin);
 cancel.addEventListener("click",()=>{const s=session;if(!s)return;s.cancelled=true;stop(s)});
 window.addEventListener("pagehide",()=>{if(session){session.cancelled=true;stop(session)}clearDownload()});
-draw(0,direction.value);
-direction.addEventListener("change",()=>{if(!session)draw(0,direction.value)});
-const support=api.detect(canvas,window.MediaRecorder);
-if(!support.supported){record.disabled=true;say("動画録画に非対応: "+support.reason)}
-else say("対応形式: "+support.format.label+"。実行後に動画を再生して内容を確認できます。");
+
+function waitingFrame(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#f4eee5";ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.font="20px system-ui";ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillStyle="#534639";ctx.fillText("変体仮名フォントを読み込み中...",canvas.width/2,canvas.height/2);
+}
+waitingFrame();
+say("変体仮名フォントを読み込み中です...");
+direction.addEventListener("change",()=>{if(!session&&fontReady)draw(0,direction.value)});
+window.VintageKanaPreviewFont.ensure(document).then(()=>{
+  fontReady=true;
+  draw(0,direction.value);
+  const support=api.detect(canvas,window.MediaRecorder);
+  if(!support.supported){record.disabled=true;say("フォント読込完了。動画録画に非対応: "+support.reason)}
+  else{record.disabled=false;say("変体仮名フォント読込完了。対応形式: "+support.format.label+"。動画を作成できます。")}
+}).catch(err=>{
+  record.disabled=true;
+  say("変体仮名フォントを読み込めませんでした。ネット接続・フォント配信のブロックを確認してページを再読み込みしてください。("+String(err?.message||err)+")");
+});
 })();
 </script>
 </body>
