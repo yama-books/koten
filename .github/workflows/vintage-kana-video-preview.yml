@@ -1,0 +1,26 @@
+name: Vintage kana VK-02 preview preflight
+on:
+  push:
+    branches:
+      - vk02-public-preview-20261014
+    paths:
+      - 'vintage-kana/video-preview/**'
+      - 'tools/vintage-kana-video-preview-smoke.mjs'
+      - '.github/workflows/vintage-kana-video-preview.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Test recorder and real-app mirror preview pages
+        run: node tools/vintage-kana-video-preview-smoke.mjs
