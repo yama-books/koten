@@ -86,7 +86,9 @@ test("initial sampling separates modern and historical phrase frequencies",()=>{
  const short={id:"short",reading:"そら"};
  const long={id:"long",reading:"やまがわらう"};
  assert.equal(d.pickComposerPhrase([short,long],waka,"simple",()=>.9).reading,long.reading);
- assert.equal(d.pickComposerPhrase([short,long],waka,"detail",()=>.9).reading,short.reading);
+ assert.equal(d.pickComposerPhrase([short,long],waka,"detail",()=>.9).reading,long.reading);
+ const useFirstModern=(()=>{const draws=[.9,0];return ()=>draws.shift()})();
+ assert.equal(d.pickComposerPhrase([short,long],waka,"detail",useFirstModern).reading,short.reading);
  assert.equal(d.pickComposerPhrase([short],waka,"simple",()=>.9).category,"百人一首・下の句");
  assert.equal(d.pickComposerPhrase([],[], "simple",()=>0),null);
  // Deterministic fractions: 1/7 in simple, 1/10 in detail.
