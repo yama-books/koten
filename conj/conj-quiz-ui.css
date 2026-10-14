@@ -295,6 +295,7 @@
   min-height:0!important;
   max-width:100%!important;
   font-size:18px;
+  white-space:normal!important;
 }
 .card.is-quiz.quiz-lemma-layout .example-foot{align-self:flex-end!important}
 .card.is-quiz.quiz-lemma-layout #quizAnswerPanel{
@@ -375,7 +376,7 @@
    Keep the typed answer below the pair so it remains readable on 320px screens. */
 .card.is-quiz.quiz-example-layout.quiz-lemma-layout.quiz-lemma-correct:has(#quizLemmaAnswer:not([hidden])) .study-layout:not(.review-modal-study-layout){
   width:100%!important;
-  grid-template-columns:minmax(0,max-content) max-content!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
   grid-template-areas:"example table" "quiz quiz"!important;
   gap:12px 10px!important;
 }
@@ -411,3 +412,4 @@
   .card{padding-top:2px;padding-bottom:2px}
   .card:not(.is-quiz) .study-layout{margin-top:0}
 }
+
