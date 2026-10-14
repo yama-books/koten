@@ -11,7 +11,7 @@ const server=createServer(async(req,res)=>{
   const url=new URL(req.url,"http://localhost");
   let p=resolve(repo,"."+decodeURIComponent(url.pathname));
   if(!(p===repo||p.startsWith(repo+sep))){res.writeHead(403).end();return}
-  if(p.endsWith(sep))p+="index.html";
+  if(url.pathname.endsWith("/"))p=resolve(p,"index.html");
   if(!(await stat(p)).isFile()){res.writeHead(404).end();return}
   res.writeHead(200,{"content-type":mime[extname(p)]||"application/octet-stream"});
   res.end(await readFile(p));
