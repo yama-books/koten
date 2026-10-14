@@ -196,7 +196,7 @@
 .card.is-quiz.quiz-example-layout:has(.quiz-lemma-answer:not([hidden])) #quizAnswerPanel{width:min(100%,260px)!important;min-width:0!important;max-width:100%!important}
 @media(max-width:700px){
   .card.is-quiz.quiz-example-layout:has(.quiz-lemma-answer:not([hidden])) .study-layout:not(.review-modal-study-layout){grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"example" "quiz"!important;justify-items:center}
-  .card.is-quiz.quiz-example-layout:has(.quiz-lemma-answer:not([hidden])) #quizAnswerPanel{justify-self:center!important}
+  .card.is-quiz.quiz-example-layout:has(.quiz-lemma-answer:not([hidden])) #quizAnswerPanel{justify-self:center!important;grid-area:quiz!important}
 }
 
 /* Show a compact, legible constraint badge only for kana-only terminal forms. */
