@@ -203,3 +203,185 @@
 .quiz-lemma-heading{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
 .quiz-lemma-kanji-ban{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:var(--toolbar-bg);color:var(--ink);font-size:11px;font-weight:700;line-height:1.5;white-space:nowrap}
 .quiz-lemma-kanji-ban[hidden]{display:none!important}
+
+/* Terminal-form answers: a persistent grade mark, not a change to the table cells. */
+.quiz-lemma-input-wrap{position:relative;width:100%;min-width:0}
+.quiz-lemma-input-wrap .quiz-lemma-result-icon{position:absolute;right:8px;top:50%;width:36px;height:36px;transform:translateY(-50%);object-fit:contain;pointer-events:none}
+.quiz-lemma-input-wrap .quiz-lemma-result-icon[hidden],.quiz-lemma-result-text[hidden]{display:none!important}
+.quiz-lemma-answer input.is-graded{padding-left:48px;padding-right:48px}
+.quiz-lemma-result-text{font-size:12px;font-weight:700;line-height:1.5;color:var(--ink);text-align:center}
+.quiz-lemma-result-text[data-correct="false"]{color:var(--danger-ink)}
+
+/* Unlike the other identification modes, the terminal-form answer is typed.
+   On narrow devices, put example, input and table in ONE centered column,
+   including after hints/grading reveal the six-row table. */
+@media(max-width:700px){
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout:has(#quizLemmaAnswer:not([hidden])) .study-layout:not(.review-modal-study-layout){
+    box-sizing:border-box;
+    width:min(100%,460px)!important;
+    max-width:100%!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-areas:"example" "quiz" "table"!important;
+    justify-content:center!important;
+    justify-items:center!important;
+    align-items:start!important;
+    gap:12px 0!important;
+    margin:8px auto 0!important;
+  }
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout .study-layout:not(.review-modal-study-layout) .example-panel{
+    grid-area:example!important;
+    width:max-content;
+    min-width:0!important;
+    max-width:100%!important;
+    justify-self:center!important;
+    padding-right:0;
+  }
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout #quizAnswerPanel{
+    grid-area:quiz!important;
+    width:min(100%,320px)!important;
+    max-width:100%!important;
+    margin:0 auto!important;
+    justify-self:center!important;
+    align-self:start!important;
+  }
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout #tablePanel{
+    grid-area:table!important;
+    justify-self:center!important;
+    max-width:100%!important;
+    margin:0 auto!important;
+  }
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout .example-panel::after{display:none}
+}
+
+/* iPhone SE2 regression: terminal-answer mode is a vertical, centred composition.
+   The general identification layout uses three side-by-side columns. In lemma mode
+   that layout creates implicit columns as soon as a hint reveals the table. */
+.card.is-quiz.quiz-lemma-layout .study-layout:not(.review-modal-study-layout){
+  display:grid;
+  width:100%;
+  max-width:100%;
+  margin:8px auto 0;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-areas:"example" "quiz" "table"!important;
+  justify-content:center;
+  justify-items:center;
+  align-items:start;
+  gap:12px;
+}
+.card.is-quiz.quiz-lemma-layout .example-panel{
+  grid-area:example;
+  justify-self:center!important;
+  width:fit-content!important;
+  min-width:0!important;
+  max-width:min(100%,270px)!important;
+  margin:0 auto;
+  padding:6px 10px!important;
+  background:var(--surface-faint);
+  border-radius:10px;
+}
+.card.is-quiz.quiz-lemma-layout .example-panel::after{display:none}
+.card.is-quiz.quiz-lemma-layout .example-body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:auto!important;
+  max-width:100%;
+  padding:0!important;
+  margin-inline:auto;
+}
+.card.is-quiz.quiz-example-layout.quiz-lemma-layout .study-layout:not(.review-modal-study-layout) .example-text{
+  flex:0 1 auto!important;
+  min-width:0;
+  min-height:0!important;
+  max-width:100%!important;
+  font-size:clamp(13px,3.4vw,17px);
+}
+.card.is-quiz.quiz-lemma-layout .example-foot{align-self:flex-end!important}
+.card.is-quiz.quiz-lemma-layout #quizAnswerPanel{
+  grid-area:quiz!important;
+  grid-row:auto!important;
+  grid-column:auto!important;
+  display:block;
+  width:min(100%,340px)!important;
+  min-width:0!important;
+  max-width:100%!important;
+  margin:0 auto!important;
+  justify-self:center!important;
+  align-self:start!important;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-answer{
+  width:100%;
+  max-width:340px;
+}
+.card.is-quiz.quiz-lemma-layout #tablePanel{
+  grid-area:table;
+  grid-row:auto;
+  grid-column:auto;
+  justify-self:center!important;
+  align-self:start;
+  margin:0 auto!important;
+  max-width:100%;
+}
+.card.is-quiz.quiz-lemma-layout #tablePanel[data-support="hidden"]{
+  display:none!important;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-input-wrap{
+  position:relative;
+  width:100%;
+  max-width:340px;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-input-wrap input{
+  width:100%;
+  max-width:none;
+  padding-inline:40px;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-result-icon{
+  position:absolute;
+  display:block;
+  width:30px;
+  height:30px;
+  top:50%;
+  right:6px;
+  transform:translateY(-50%);
+  object-fit:contain;
+  pointer-events:none;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-result-icon[hidden],
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-result-text[hidden]{display:none!important}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-result-text{
+  font-size:12px;
+  font-weight:700;
+  color:var(--ink);
+  text-align:center;
+}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-answer[data-graded="correct"] input{border-color:var(--accent-strong);background:var(--good)}
+.card.is-quiz.quiz-lemma-layout .quiz-lemma-answer[data-graded="wrong"] input{border-color:var(--danger-ink);background:var(--bad)}
+@media(max-width:700px){
+  .card.is-quiz.quiz-lemma-layout .study-layout:not(.review-modal-study-layout){
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-areas:"example" "quiz" "table"!important;
+    gap:10px;
+  }
+  .card.is-quiz.quiz-lemma-layout #quizAnswerPanel{
+    width:min(100%,300px)!important;
+  }
+  .card.is-quiz.quiz-lemma-layout .example-panel{
+    max-width:min(100%,250px)!important;
+  }
+}
+
+/* Four short, single-line mode names remain accessible on iPhone SE height. */
+@media(max-width:700px){
+  .quiz-mode-tabs button{white-space:nowrap}
+}
+@media(max-width:700px) and (max-height:700px){
+  /* Four tabs replace the short-screen shortcut. Reclaim the added row's
+     height without shrinking the conjugation cells below their 44px floor. */
+  .quiz-mode-tabs{display:grid;margin-bottom:0}
+  .quiz-mode-tabs button{min-height:28px;padding:2px;font-size:10px;line-height:1.1}
+  .quiz-mode-shortcut:not([hidden]){display:none!important}
+  header{margin-bottom:0}
+  .toolbar{padding-top:1px;padding-bottom:1px;margin-bottom:0}
+  .card{padding-top:2px;padding-bottom:2px}
+  .card:not(.is-quiz) .study-layout{margin-top:0}
+}

@@ -117,7 +117,7 @@ async function chooseMode(page:any,mode:string){
     await page.selectOption('#quizMode',mode);
   }
   assert.equal(await page.locator(`[data-quiz-mode="${mode}"]`).getAttribute('aria-pressed'),'true');
-  if(await page.locator('#openQuizModes').isVisible())assert.match(await page.locator('#openQuizModes').innerText(),{table:/活用表/,form:/活用形/,type:/活用種類/,lemma:/終止形/}[mode]);
+  if(await page.locator('#openQuizModes').isVisible())assert.match(await page.locator('#openQuizModes').innerText(),{table:/活用表/,form:/活用形/,type:/活用の種類/,lemma:/終止形/}[mode]);
 }
 async function setAdvanced(page:any,id:string,value:string){
   await page.locator('#openSettings').click();
@@ -197,6 +197,28 @@ try{
   if(output)await empty.screenshot({path:path.join(output,'master-type-mobile.png'),fullPage:true,timeout:15000});
   // Terminal-form text grading is independently recorded, with a visible kana-only warning.
   await chooseMode(empty,'lemma');
+  await empty.setViewportSize({width:375,height:667}); // iPhone SE2 CSS viewport
+  assert.equal(await empty.evaluate("lemmaHeadingText({lemma:'死ぬ'})"),'しぬ','approved verb must retain its kana-only answer alternative');
+  assert.equal(await empty.evaluate("lemmaHeadingText({lemma:'蹴る'})"),'ける','approved verb must retain its kana-only answer alternative');
+  assert.equal(await empty.evaluate("quizEngine.evaluateAnswer({quizMode:'lemma',example:{},selectedLemma:'しぬ',expectedLemma:'死ぬ',historicalKana:lemmaHeadingText({lemma:'死ぬ'})}).correct"),true,'死ぬ and しぬ must both be accepted');
+  async function assertLemmaCenter(page:any,phase:string){
+    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+    const rects=await page.evaluate(()=>{
+      const box=(selector:string)=>{const r=document.querySelector(selector)!.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,center:(r.left+r.right)/2};};
+      const card=box('main.card'),example=box('#examplePanel'),input=box('#quizLemmaInput'),table=box('#tablePanel');
+      return {card,example,input,table,tableVisible:getComputedStyle(document.getElementById('tablePanel')!).display!=='none',
+        areas:getComputedStyle(document.querySelector('main.card .study-layout')!).gridTemplateAreas,
+        overflow:document.documentElement.scrollWidth>window.innerWidth+1};
+    });
+    assert.match(rects.areas,/"example".*"quiz".*"table"/s,phase+' layout must be vertically stacked');
+    assert.ok(Math.abs(rects.example.center-rects.card.center)<5,phase+' example must be centered');
+    assert.ok(Math.abs(rects.input.center-rects.card.center)<5,phase+' input must be centered');
+    if(rects.tableVisible){
+      assert.ok(Math.abs(rects.table.center-rects.card.center)<5,phase+' conjugation table must be centered');
+      assert.ok(rects.table.top>=rects.input.bottom-1,phase+' table must follow the input');
+    }
+    assert.equal(rects.overflow,false,phase+' must not cause horizontal scroll');
+  }
   async function setTerminalQuestion(id:string){
     await empty.evaluate((itemId:string)=>{
       const ex=quizMasterPractice.lemma.find((entry:any)=>entry.itemId===itemId);
@@ -209,18 +231,31 @@ try{
     assert.equal(await empty.locator('#quizChoices').isVisible(),false,'classification choices hidden');
   }
   await setTerminalQuestion('nu_verb');
+  await assertLemmaCenter(empty,'initial mobile lemma');
+  assert.equal(await empty.locator('#quizLemmaResultIcon').isHidden(),true,'grade mark begins hidden');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'寝 must warn 漢字不可');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').innerText(),'漢字不可');
   await empty.locator('#reveal').click();
+  await assertLemmaCenter(empty,'first hint');
   assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked with hint');
   await empty.locator('#reveal').click();
   assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked after second hint');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'kana-only warning stays present after hints');
   await empty.locator('#quizLemmaInput').fill('寝');await empty.locator('#check').click();
   assert.match(await empty.locator('#feedback').innerText(),/^不正解/,'bare 寝 is insufficient');
+  assert.equal(await empty.locator('#quizLemmaResultIcon').isVisible(),true,'grade mark should appear after wrong answer');
+  assert.equal(await empty.locator('#quizLemmaResultIcon').getAttribute('alt'),'不正解');
+  assert.match(await empty.locator('#quizLemmaResultText').innerText(),/^不正解/);
+  await assertLemmaCenter(empty,'graded wrong');
+  await empty.setViewportSize({width:320,height:568});
+  await assertLemmaCenter(empty,'iPhone SE compact graded');
+  await empty.setViewportSize({width:375,height:812});
   await setTerminalQuestion('nu_verb');
   await empty.locator('#quizLemmaInput').fill('ぬ');await empty.locator('#check').click();
   assert.match(await empty.locator('#feedback').innerText(),/^正解/);
+  assert.equal(await empty.locator('#quizLemmaResultIcon').isVisible(),true);
+  assert.equal(await empty.locator('#quizLemmaResultIcon').getAttribute('alt'),'正解');
+  assert.equal(await empty.locator('#quizLemmaResultText').innerText(),'正解');
   assert.equal(await empty.evaluate('stats.quiz.events.at(-1).quizMode'),'lemma');
   await setTerminalQuestion('ku');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'来 must warn 漢字不可');
@@ -235,6 +270,7 @@ try{
   await empty.locator('#quizLemmaInput').press('Enter');
   assert.match(await empty.locator('#feedback').innerText(),/^正解/,'historical hiragana is accepted by Enter');
   assert.equal(await empty.evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true,'lemma input does not overflow mobile viewport');
+  await empty.setViewportSize({width:375,height:812});
   for(const pos of ['verb','adj','adjv','aux']){
     await setPos(empty,pos);
     for(const mode of ['form','type']){
@@ -386,9 +422,10 @@ try{
     await page.addInitScript(()=>localStorage.setItem('conjInstallNoticeDismissed','true'));
     await page.goto(`http://127.0.0.1:${port}/conj/`);
     await page.waitForFunction("!document.getElementById('quizMode').disabled");
-    if(viewport.height>700 || viewport.width>700){
-      assert.deepEqual(await page.locator('.quiz-mode-tabs button:visible').allTextContents(),['活用表','活用形を判別','活用の種類を判別','終止形を答える']);
-    }else assert.equal(await page.locator('#openQuizModes').isVisible(),true);
+    // The four short names are visible at every viewport, including short SE screens.
+    assert.deepEqual(await page.locator('.quiz-mode-tabs button:visible').allTextContents(),['活用表','活用形','活用の種類','終止形']);
+    if(viewport.width<=700 && viewport.height<=700)
+      assert.equal(await page.locator('#openQuizModes').isVisible(),false,'short-screen shortcut is replaced by the four tabs');
     if(output && viewport.width===375 && viewport.height===812){
       await mkdir(output,{recursive:true});await page.screenshot({path:path.join(output,'mode-entry-mobile.png'),fullPage:true,timeout:15000});
     }

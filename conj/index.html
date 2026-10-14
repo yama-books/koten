@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-lemma-01">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-lemma-02">
 </head>
 <body>
 <div class="wrap">
@@ -3179,9 +3179,9 @@ body.review-modal-open{overflow:hidden}
   <main class="card">
     <div class="quiz-mode-tabs" role="group" aria-label="学習モード">
       <button type="button" data-quiz-mode="table" aria-pressed="true" disabled>活用表</button>
-      <button type="button" data-quiz-mode="form" aria-pressed="false" disabled>活用形を判別</button>
-      <button type="button" data-quiz-mode="type" aria-pressed="false" disabled>活用の種類を判別</button>
-      <button type="button" data-quiz-mode="lemma" aria-pressed="false" disabled>終止形を答える</button>
+      <button type="button" data-quiz-mode="form" aria-label="活用形を判別" aria-pressed="false" disabled>活用形</button>
+      <button type="button" data-quiz-mode="type" aria-label="活用の種類を判別" aria-pressed="false" disabled>活用の種類</button>
+      <button type="button" data-quiz-mode="lemma" aria-label="終止形を答える" aria-pressed="false" disabled>終止形</button>
     </div>
     <p id="quizPrompt" hidden></p>
     <p id="quizEmpty" role="status" hidden></p>
@@ -3217,7 +3217,11 @@ body.review-modal-open{overflow:hidden}
         <div class="quiz-choices" id="quizChoices" role="group" aria-label="選択肢"></div>
         <div class="quiz-lemma-answer" id="quizLemmaAnswer" hidden>
           <div class="quiz-lemma-heading"><label for="quizLemmaInput">終止形</label><span class="quiz-lemma-kanji-ban" id="quizLemmaKanjiBan" hidden>漢字不可</span></div>
-          <input type="text" id="quizLemmaInput" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" maxlength="40" placeholder="終止形を入力" aria-describedby="quizLemmaNote">
+          <div class="quiz-lemma-input-wrap">
+            <input type="text" id="quizLemmaInput" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" maxlength="40" placeholder="終止形を入力" aria-describedby="quizLemmaNote quizLemmaResultText">
+            <img id="quizLemmaResultIcon" class="quiz-lemma-result-icon" alt="" src="./img/result-ok.png" hidden>
+          </div>
+          <span id="quizLemmaResultText" class="quiz-lemma-result-text" role="status" hidden></span>
           <small id="quizLemmaNote">歴史的仮名遣いのひらがなでも正解</small>
           <p id="quizLemmaHint" class="quiz-lemma-hint" aria-live="polite"></p>
         </div>
@@ -3273,9 +3277,9 @@ body.review-modal-open{overflow:hidden}
         <label class="mode-control">学習
           <select id="quizMode" disabled>
             <option value="table">活用表ドリル</option>
-            <option value="form">活用形を判別</option>
-            <option value="type">活用の種類を判別</option>
-            <option value="lemma">終止形を答える</option>
+            <option value="form">活用形</option>
+            <option value="type">活用の種類</option>
+            <option value="lemma">終止形</option>
           </select>
         </label>
       </div>
@@ -3484,7 +3488,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
-<script src="./conj-quiz-ui.js?v=20261015-lemma-01"></script>
+<script src="./conj-quiz-ui.js?v=20261015-lemma-02"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4854,6 +4858,23 @@ function syncStudyHeightsAtCurrentZoom(){
   // 行も答える問題のスマホ幅では表をダイアログへ移すので、例文は表を隠しているときと同じに組む。
   const quizHidden=isIdentificationMode() && (tablePanel.dataset.support==="hidden" || !!tablePanel.closest("#quizTableDialog"));
   text.classList.remove("is-quiz-poem");
+  if(isIdentificationMode() && quizState?.quizMode==="lemma"){
+    // 終止形の自由入力は例文・入力欄・活用表を縦積みにする。
+    // 活用表6行の高さで例文枠を広げると、iPhone SE2では余白が過大になる。
+    examplePanel.style.paddingTop="0px";
+    const chars=(text.textContent||"").replace(/\s/gu,"").length;
+    const columns=chars>62?4:chars>32?3:2;
+    const maxHeight=window.innerWidth<=700?310:350;
+    const h=Math.min(maxHeight,Math.max(156,Math.ceil(chars/columns)*16));
+    body.style.height=h+"px";
+    text.style.height=h+"px";
+    fitExampleText(text);
+    if(!text.classList.contains("is-prose") && parseFloat(text.style.fontSize)<QUIZ_POEM_WRAP_BELOW_PX){
+      text.classList.add("is-quiz-poem");
+      fitExampleText(text);
+    }
+    return;
+  }
   if(quizHidden){
     // 表を隠している間は、例文を左の選択肢の高さいっぱいに伸ばして一行で書く。
     // 一行では読めない大きさまで縮むときだけ二行書きにする。
@@ -5243,6 +5264,7 @@ function revealGlossWithAnswers(){
 
 const HISTORICAL_KANA_HEADINGS={
   "鳴く":"なく","思ふ":"おもふ","見る":"みる","寝（ぬ）":"ぬ","恋ふ":"こふ",
+  "死ぬ":"しぬ","蹴る":"ける","得（う）":"う","居る（ゐる）":"ゐる","率る（ゐる）":"ゐる",
   "知る":"しる","暮る":"くる","忘る":"わする","絶ゆ":"たゆ","聞こゆ":"きこゆ",
   "出づ":"いづ","行く":"ゆく","来（く）":"く","逢ふ":"あふ","祈る":"いのる",
   "濡る":"ぬる","過ぐ":"すぐ","過ぐす":"すぐす","聞く":"きく","置く":"おく","吹く":"ふく",
