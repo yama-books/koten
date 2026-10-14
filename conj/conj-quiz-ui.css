@@ -289,12 +289,12 @@
   padding:0!important;
   margin-inline:auto;
 }
-.card.is-quiz.quiz-lemma-layout .example-text{
+.card.is-quiz.quiz-example-layout.quiz-lemma-layout .study-layout:not(.review-modal-study-layout) .example-text{
   flex:0 1 auto!important;
   min-width:0;
   min-height:0!important;
   max-width:100%!important;
-  font-size:clamp(13px,3.4vw,17px)!important;
+  font-size:clamp(13px,3.4vw,17px);
 }
 .card.is-quiz.quiz-lemma-layout .example-foot{align-self:flex-end!important}
 .card.is-quiz.quiz-lemma-layout #quizAnswerPanel{
@@ -368,4 +368,13 @@
   .card.is-quiz.quiz-lemma-layout .example-panel{
     max-width:min(100%,250px)!important;
   }
+}
+
+/* Four short, single-line mode names remain accessible on iPhone SE height. */
+@media(max-width:700px){
+  .quiz-mode-tabs button{white-space:nowrap}
+}
+@media(max-width:700px) and (max-height:700px){
+  .quiz-mode-tabs{display:grid}
+  .quiz-mode-shortcut:not([hidden]){display:none!important}
 }
