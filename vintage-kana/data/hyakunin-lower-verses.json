@@ -1,0 +1,1009 @@
+{
+  "schemaVersion": 1,
+  "corpus": "ogura-hyakunin-isshu-lower-verses",
+  "orthography": "historical-kana",
+  "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md",
+  "description": "既存の歴史的仮名遣い読みの第四句・第五句を連結。出題用の現代創作語句プールとは分離し、初期表示に使う。",
+  "phrases": [
+    {
+      "id": "hy-0001",
+      "number": 1,
+      "fourth": "わがころもでは",
+      "fifth": "つゆにぬれつつ",
+      "reading": "わがころもではつゆにぬれつつ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0002",
+      "number": 2,
+      "fourth": "ころもほすてふ",
+      "fifth": "あまのかぐやま",
+      "reading": "ころもほすてふあまのかぐやま",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0003",
+      "number": 3,
+      "fourth": "ながながしよを",
+      "fifth": "ひとりかもねむ",
+      "reading": "ながながしよをひとりかもねむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0004",
+      "number": 4,
+      "fourth": "ふじのたかねに",
+      "fifth": "ゆきはふりつつ",
+      "reading": "ふじのたかねにゆきはふりつつ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0005",
+      "number": 5,
+      "fourth": "こゑきくときぞ",
+      "fifth": "あきはかなしき",
+      "reading": "こゑきくときぞあきはかなしき",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0006",
+      "number": 6,
+      "fourth": "しろきをみれば",
+      "fifth": "よぞふけにける",
+      "reading": "しろきをみればよぞふけにける",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0007",
+      "number": 7,
+      "fourth": "みかさのやまに",
+      "fifth": "いでしつきかも",
+      "reading": "みかさのやまにいでしつきかも",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0008",
+      "number": 8,
+      "fourth": "よをうぢやまと",
+      "fifth": "ひとはいふなり",
+      "reading": "よをうぢやまとひとはいふなり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0009",
+      "number": 9,
+      "fourth": "わがみよにふる",
+      "fifth": "ながめせしまに",
+      "reading": "わがみよにふるながめせしまに",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0010",
+      "number": 10,
+      "fourth": "しるもしらぬも",
+      "fifth": "あふさかのせき",
+      "reading": "しるもしらぬもあふさかのせき",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0011",
+      "number": 11,
+      "fourth": "ひとにはつげよ",
+      "fifth": "あまのつりぶね",
+      "reading": "ひとにはつげよあまのつりぶね",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0012",
+      "number": 12,
+      "fourth": "をとめのすがた",
+      "fifth": "しばしとどめむ",
+      "reading": "をとめのすがたしばしとどめむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0013",
+      "number": 13,
+      "fourth": "こひぞつもりて",
+      "fifth": "ふちとなりぬる",
+      "reading": "こひぞつもりてふちとなりぬる",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0014",
+      "number": 14,
+      "fourth": "みだれそめにし",
+      "fifth": "われならなくに",
+      "reading": "みだれそめにしわれならなくに",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0015",
+      "number": 15,
+      "fourth": "わがころもでに",
+      "fifth": "ゆきはふりつつ",
+      "reading": "わがころもでにゆきはふりつつ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0016",
+      "number": 16,
+      "fourth": "まつとしきかば",
+      "fifth": "いまかへりこむ",
+      "reading": "まつとしきかばいまかへりこむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0017",
+      "number": 17,
+      "fourth": "からくれなゐに",
+      "fifth": "みづくくるとは",
+      "reading": "からくれなゐにみづくくるとは",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0018",
+      "number": 18,
+      "fourth": "ゆめのかよひぢ",
+      "fifth": "ひとめよくらむ",
+      "reading": "ゆめのかよひぢひとめよくらむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0019",
+      "number": 19,
+      "fourth": "あはでこのよを",
+      "fifth": "すぐしてよとや",
+      "reading": "あはでこのよをすぐしてよとや",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0020",
+      "number": 20,
+      "fourth": "みをつくしても",
+      "fifth": "あはむとぞおもふ",
+      "reading": "みをつくしてもあはむとぞおもふ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0021",
+      "number": 21,
+      "fourth": "ありあけのつきを",
+      "fifth": "まちいでつるかな",
+      "reading": "ありあけのつきをまちいでつるかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0022",
+      "number": 22,
+      "fourth": "むべやまかぜを",
+      "fifth": "あらしといふらむ",
+      "reading": "むべやまかぜをあらしといふらむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0023",
+      "number": 23,
+      "fourth": "わがみひとつの",
+      "fifth": "あきにはあらねど",
+      "reading": "わがみひとつのあきにはあらねど",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0024",
+      "number": 24,
+      "fourth": "もみぢのにしき",
+      "fifth": "かみのまにまに",
+      "reading": "もみぢのにしきかみのまにまに",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0025",
+      "number": 25,
+      "fourth": "ひとにしられで",
+      "fifth": "くるよしもがな",
+      "reading": "ひとにしられでくるよしもがな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0026",
+      "number": 26,
+      "fourth": "いまひとたびの",
+      "fifth": "みゆきまたなむ",
+      "reading": "いまひとたびのみゆきまたなむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0027",
+      "number": 27,
+      "fourth": "いつみきとてか",
+      "fifth": "こひしかるらむ",
+      "reading": "いつみきとてかこひしかるらむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0028",
+      "number": 28,
+      "fourth": "ひとめもくさも",
+      "fifth": "かれぬとおもへば",
+      "reading": "ひとめもくさもかれぬとおもへば",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0029",
+      "number": 29,
+      "fourth": "おきまどはせる",
+      "fifth": "しらぎくのはな",
+      "reading": "おきまどはせるしらぎくのはな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0030",
+      "number": 30,
+      "fourth": "あかつきばかり",
+      "fifth": "うきものはなし",
+      "reading": "あかつきばかりうきものはなし",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0031",
+      "number": 31,
+      "fourth": "よしののさとに",
+      "fifth": "ふれるしらゆき",
+      "reading": "よしののさとにふれるしらゆき",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0032",
+      "number": 32,
+      "fourth": "ながれもあへぬ",
+      "fifth": "もみぢなりけり",
+      "reading": "ながれもあへぬもみぢなりけり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0033",
+      "number": 33,
+      "fourth": "しづごころなく",
+      "fifth": "はなのちるらむ",
+      "reading": "しづごころなくはなのちるらむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0034",
+      "number": 34,
+      "fourth": "まつもむかしの",
+      "fifth": "ともならなくに",
+      "reading": "まつもむかしのともならなくに",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0035",
+      "number": 35,
+      "fourth": "はなぞむかしの",
+      "fifth": "かににほひける",
+      "reading": "はなぞむかしのかににほひける",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0036",
+      "number": 36,
+      "fourth": "くものいづこに",
+      "fifth": "つきやどるらむ",
+      "reading": "くものいづこにつきやどるらむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0037",
+      "number": 37,
+      "fourth": "つらぬきとめぬ",
+      "fifth": "たまぞちりける",
+      "reading": "つらぬきとめぬたまぞちりける",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0038",
+      "number": 38,
+      "fourth": "ひとのいのちの",
+      "fifth": "をしくもあるかな",
+      "reading": "ひとのいのちのをしくもあるかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0039",
+      "number": 39,
+      "fourth": "あまりてなどか",
+      "fifth": "ひとのこひしき",
+      "reading": "あまりてなどかひとのこひしき",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0040",
+      "number": 40,
+      "fourth": "ものやおもふと",
+      "fifth": "ひとのとふまで",
+      "reading": "ものやおもふとひとのとふまで",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0041",
+      "number": 41,
+      "fourth": "ひとしれずこそ",
+      "fifth": "おもひそめしか",
+      "reading": "ひとしれずこそおもひそめしか",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0042",
+      "number": 42,
+      "fourth": "すゑのまつやま",
+      "fifth": "なみこさじとは",
+      "reading": "すゑのまつやまなみこさじとは",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0043",
+      "number": 43,
+      "fourth": "むかしはものを",
+      "fifth": "おもはざりけり",
+      "reading": "むかしはものをおもはざりけり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0044",
+      "number": 44,
+      "fourth": "ひとをもみをも",
+      "fifth": "うらみざらまし",
+      "reading": "ひとをもみをもうらみざらまし",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0045",
+      "number": 45,
+      "fourth": "みのいたづらに",
+      "fifth": "なりぬべきかな",
+      "reading": "みのいたづらになりぬべきかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0046",
+      "number": 46,
+      "fourth": "ゆくへもしらぬ",
+      "fifth": "こひのみちかな",
+      "reading": "ゆくへもしらぬこひのみちかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0047",
+      "number": 47,
+      "fourth": "ひとこそみえね",
+      "fifth": "あきはきにけり",
+      "reading": "ひとこそみえねあきはきにけり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0048",
+      "number": 48,
+      "fourth": "くだけてものを",
+      "fifth": "おもふころかな",
+      "reading": "くだけてものをおもふころかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0049",
+      "number": 49,
+      "fourth": "ひるはきえつつ",
+      "fifth": "ものをこそおもへ",
+      "reading": "ひるはきえつつものをこそおもへ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0050",
+      "number": 50,
+      "fourth": "ながくもがなと",
+      "fifth": "おもひけるかな",
+      "reading": "ながくもがなとおもひけるかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0051",
+      "number": 51,
+      "fourth": "さしもしらじな",
+      "fifth": "もゆるおもひを",
+      "reading": "さしもしらじなもゆるおもひを",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0052",
+      "number": 52,
+      "fourth": "なほうらめしき",
+      "fifth": "あさぼらけかな",
+      "reading": "なほうらめしきあさぼらけかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0053",
+      "number": 53,
+      "fourth": "いかにひさしき",
+      "fifth": "ものとかはしる",
+      "reading": "いかにひさしきものとかはしる",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0054",
+      "number": 54,
+      "fourth": "けふをかぎりの",
+      "fifth": "いのちともがな",
+      "reading": "けふをかぎりのいのちともがな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0055",
+      "number": 55,
+      "fourth": "なこそながれて",
+      "fifth": "なほきこえけれ",
+      "reading": "なこそながれてなほきこえけれ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0056",
+      "number": 56,
+      "fourth": "いまひとたびの",
+      "fifth": "あふこともがな",
+      "reading": "いまひとたびのあふこともがな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0057",
+      "number": 57,
+      "fourth": "くもがくれにし",
+      "fifth": "よはのつきかな",
+      "reading": "くもがくれにしよはのつきかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0058",
+      "number": 58,
+      "fourth": "いでそよひとを",
+      "fifth": "わすれやはする",
+      "reading": "いでそよひとをわすれやはする",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0059",
+      "number": 59,
+      "fourth": "かたぶくまでの",
+      "fifth": "つきをみしかな",
+      "reading": "かたぶくまでのつきをみしかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0060",
+      "number": 60,
+      "fourth": "まだふみもみず",
+      "fifth": "あまのはしだて",
+      "reading": "まだふみもみずあまのはしだて",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0061",
+      "number": 61,
+      "fourth": "けふここのへに",
+      "fifth": "にほひぬるかな",
+      "reading": "けふここのへににほひぬるかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0062",
+      "number": 62,
+      "fourth": "よにあふさかの",
+      "fifth": "せきはゆるさじ",
+      "reading": "よにあふさかのせきはゆるさじ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0063",
+      "number": 63,
+      "fourth": "ひとづてならで",
+      "fifth": "いふよしもがな",
+      "reading": "ひとづてならでいふよしもがな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0064",
+      "number": 64,
+      "fourth": "あらはれわたる",
+      "fifth": "せぜのあじろぎ",
+      "reading": "あらはれわたるせぜのあじろぎ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0065",
+      "number": 65,
+      "fourth": "こひにくちなむ",
+      "fifth": "なこそをしけれ",
+      "reading": "こひにくちなむなこそをしけれ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0066",
+      "number": 66,
+      "fourth": "はなよりほかに",
+      "fifth": "しるひともなし",
+      "reading": "はなよりほかにしるひともなし",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0067",
+      "number": 67,
+      "fourth": "かひなくたたむ",
+      "fifth": "なこそをしけれ",
+      "reading": "かひなくたたむなこそをしけれ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0068",
+      "number": 68,
+      "fourth": "こひしかるべき",
+      "fifth": "よはのつきかな",
+      "reading": "こひしかるべきよはのつきかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0069",
+      "number": 69,
+      "fourth": "たつたのかはの",
+      "fifth": "にしきなりけり",
+      "reading": "たつたのかはのにしきなりけり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0070",
+      "number": 70,
+      "fourth": "いづこもおなじ",
+      "fifth": "あきのゆふぐれ",
+      "reading": "いづこもおなじあきのゆふぐれ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0071",
+      "number": 71,
+      "fourth": "あしのまろやに",
+      "fifth": "あきかぜぞふく",
+      "reading": "あしのまろやにあきかぜぞふく",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0072",
+      "number": 72,
+      "fourth": "かけじやそでの",
+      "fifth": "ぬれもこそすれ",
+      "reading": "かけじやそでのぬれもこそすれ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0073",
+      "number": 73,
+      "fourth": "とやまのかすみ",
+      "fifth": "たたずもあらなむ",
+      "reading": "とやまのかすみたたずもあらなむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0074",
+      "number": 74,
+      "fourth": "はげしかれとは",
+      "fifth": "いのらぬものを",
+      "reading": "はげしかれとはいのらぬものを",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0075",
+      "number": 75,
+      "fourth": "あはれことしの",
+      "fifth": "あきもいぬめり",
+      "reading": "あはれことしのあきもいぬめり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0076",
+      "number": 76,
+      "fourth": "くもゐにまがふ",
+      "fifth": "おきつしらなみ",
+      "reading": "くもゐにまがふおきつしらなみ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0077",
+      "number": 77,
+      "fourth": "われてもすゑに",
+      "fifth": "あはむとぞおもふ",
+      "reading": "われてもすゑにあはむとぞおもふ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0078",
+      "number": 78,
+      "fourth": "いくよねざめぬ",
+      "fifth": "すまのせきもり",
+      "reading": "いくよねざめぬすまのせきもり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0079",
+      "number": 79,
+      "fourth": "もれいづるつきの",
+      "fifth": "かげのさやけさ",
+      "reading": "もれいづるつきのかげのさやけさ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0080",
+      "number": 80,
+      "fourth": "みだれてけさは",
+      "fifth": "ものをこそおもへ",
+      "reading": "みだれてけさはものをこそおもへ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0081",
+      "number": 81,
+      "fourth": "ただありあけの",
+      "fifth": "つきぞのこれる",
+      "reading": "ただありあけのつきぞのこれる",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0082",
+      "number": 82,
+      "fourth": "うきにたへぬは",
+      "fifth": "なみだなりけり",
+      "reading": "うきにたへぬはなみだなりけり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0083",
+      "number": 83,
+      "fourth": "やまのおくにも",
+      "fifth": "しかぞなくなる",
+      "reading": "やまのおくにもしかぞなくなる",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0084",
+      "number": 84,
+      "fourth": "うしとみしよぞ",
+      "fifth": "いまはこひしき",
+      "reading": "うしとみしよぞいまはこひしき",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0085",
+      "number": 85,
+      "fourth": "ねやのひまさへ",
+      "fifth": "つれなかりけり",
+      "reading": "ねやのひまさへつれなかりけり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0086",
+      "number": 86,
+      "fourth": "かこちがほなる",
+      "fifth": "わがなみだかな",
+      "reading": "かこちがほなるわがなみだかな",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0087",
+      "number": 87,
+      "fourth": "きりたちのぼる",
+      "fifth": "あきのゆふぐれ",
+      "reading": "きりたちのぼるあきのゆふぐれ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0088",
+      "number": 88,
+      "fourth": "みをつくしてや",
+      "fifth": "こひわたるべき",
+      "reading": "みをつくしてやこひわたるべき",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0089",
+      "number": 89,
+      "fourth": "しのぶることの",
+      "fifth": "よはりもぞする",
+      "reading": "しのぶることのよはりもぞする",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0090",
+      "number": 90,
+      "fourth": "ぬれにぞぬれし",
+      "fifth": "いろはかはらず",
+      "reading": "ぬれにぞぬれしいろはかはらず",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0091",
+      "number": 91,
+      "fourth": "ころもかたしき",
+      "fifth": "ひとりかもねむ",
+      "reading": "ころもかたしきひとりかもねむ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0092",
+      "number": 92,
+      "fourth": "ひとこそしらね",
+      "fifth": "かわくまもなし",
+      "reading": "ひとこそしらねかわくまもなし",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0093",
+      "number": 93,
+      "fourth": "あまのをぶねの",
+      "fifth": "つなでかなしも",
+      "reading": "あまのをぶねのつなでかなしも",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0094",
+      "number": 94,
+      "fourth": "ふるさとさむく",
+      "fifth": "ころもうつなり",
+      "reading": "ふるさとさむくころもうつなり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0095",
+      "number": 95,
+      "fourth": "わがたつそまに",
+      "fifth": "すみぞめのそで",
+      "reading": "わがたつそまにすみぞめのそで",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0096",
+      "number": 96,
+      "fourth": "ふりゆくものは",
+      "fifth": "わがみなりけり",
+      "reading": "ふりゆくものはわがみなりけり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0097",
+      "number": 97,
+      "fourth": "やくやもしほの",
+      "fifth": "みもこがれつつ",
+      "reading": "やくやもしほのみもこがれつつ",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0098",
+      "number": 98,
+      "fourth": "みそぎぞなつの",
+      "fifth": "しるしなりける",
+      "reading": "みそぎぞなつのしるしなりける",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0099",
+      "number": 99,
+      "fourth": "よをおもふゆゑに",
+      "fifth": "ものおもふみは",
+      "reading": "よをおもふゆゑにものおもふみは",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    },
+    {
+      "id": "hy-0100",
+      "number": 100,
+      "fourth": "なほあまりある",
+      "fifth": "むかしなりけり",
+      "reading": "なほあまりあるむかしなりけり",
+      "category": "百人一首・下の句",
+      "orthography": "historical",
+      "source": "百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md"
+    }
+  ]
+}

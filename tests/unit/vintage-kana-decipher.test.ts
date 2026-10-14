@@ -7,44 +7,103 @@ const html=readFileSync(new URL("../../vintage-kana/detail.html",import.meta.url
 const index=readFileSync(new URL("../../vintage-kana/index.html",import.meta.url),"utf8");
 const engine=readFileSync(new URL("../../vintage-kana/decipher-engine.js",import.meta.url),"utf8");
 const phraseData=JSON.parse(readFileSync(new URL("../../vintage-kana/data/decipher-phrases.json",import.meta.url),"utf8"));
+const wakaData=JSON.parse(readFileSync(new URL("../../vintage-kana/data/hyakunin-lower-verses.json",import.meta.url),"utf8"));
+const wakaSource=readFileSync(new URL("../../百人一首_読み_歴史的仮名遣い_作者訂正版_v2.md",import.meta.url),"utf8");
 const master=JSON.parse(readFileSync(new URL("../../vintage-kana/data/ui-glyph-master.json",import.meta.url),"utf8"));
 const context=runInNewContext("globalThis", {Math,Set,Map,JSON,String,Number,Boolean,Array,Object,RegExp});
 runInNewContext(engine,context);
 const d=context.VintageKanaDecipher;
 const phrases=phraseData.phrases;
 
-test("374 approved phrases retain exact categories and unique readings",()=>{
- assert.equal(phrases.length,374);
- assert.equal(new Set(phrases.map((x:any)=>x.id)).size,374);
- assert.equal(new Set(phrases.map((x:any)=>x.reading)).size,374);
+test("367 approved modern phrases retain exact categories and unique readings",()=>{
+ assert.equal(phrases.length,367);
+ assert.equal(new Set(phrases.map((x:any)=>x.id)).size,367);
+ assert.equal(new Set(phrases.map((x:any)=>x.reading)).size,367);
  assert.ok(phrases.every((x:any)=>d.validPhrase(x)));
  const counts=Object.fromEntries([...new Set(phrases.map((x:any)=>x.category))].map(k=>[k,phrases.filter((x:any)=>x.category===k).length]));
- assert.deepEqual(Object.values(counts).sort((a:any,b:any)=>a-b),[19,20,25,30,33,40,40,45,61,61]);
+ assert.deepEqual(Object.values(counts).sort((a:any,b:any)=>a-b),[19,20,25,29,33,40,40,50,50,61]);
  for(const x of ["なんとかなる","だめよだめだめ","むげんのかなたへ","ひとのゆめはおわらねえ","むだむだむだ"])assert.ok(!phrases.some((p:any)=>p.reading===x));
  for(const x of ["きみのなは","となりのととろ","あきらめたらしあいおわり","すきすぎてめつ"])assert.ok(phrases.some((p:any)=>p.reading===x));
 });
-test("initial messages sample the complete quiz corpus without duplicates",()=>{
- const requested=["つきがきれいですね","ねこにこばん","ぶたにしんじゅ","うまのみみにねんぶつ","にわのわに"];
+test("initial composition and quiz sources remain independent",()=>{
+ const requested=["つきがきれいですね","ねこにこばん","ぶたにしんじゆ","うまのみみにねんぶつ","にわのわに"];
  for(const reading of requested)assert.equal(phrases.filter((p:any)=>p.reading===reading).length,1);
  assert.equal(d.pickInitialPhrase(phrases,()=>0).reading,phrases[0].reading);
  assert.equal(d.pickInitialPhrase(phrases,()=>.999999).reading,phrases.at(-1).reading);
  assert.equal(d.pickInitialPhrase([],()=>0),null);
  assert.equal(d.pickInitialPhrase([{id:"invalid",reading:"ABC"},phrases[0]],()=>0).reading,phrases[0].reading);
- assert.match(index,/VintageKanaDecipher\.pickInitialPhrase\(bank\.phrases\)/);
- assert.match(html,/VintageKanaDecipher\.pickInitialPhrase\(decipherPhrases\)/);
+ assert.match(index,/VintageKanaDecipher\.pickComposerPhrase\(modern,historical,"simple"\)/);
+ assert.match(html,/VintageKanaDecipher\.pickComposerPhrase\(decipherPhrases,historicalPhrases,"detail"\)/);
+ assert.match(index,/hyakunin-lower-verses\.json/);
+ assert.match(html,/hyakunin-lower-verses\.json/);
  assert.match(index,/!initialPhraseEdited&&!running/);
  assert.match(html,/source\.dataset\.userEdited!=="true"/);
 });
-test("a small kana in an approved phrase keeps its spelling without fictitious glyph credit",()=>{
- const phrase=phrases.find((p:any)=>p.reading==="ぶたにしんじゅ");
- assert.ok(phrase);
+test("curated phrases use full-sized kana; removed phrases stay absent",()=>{
+ const removed=["ねこがなく","さんぽみち","ぶたにしんじゅ"];
+ const added=["こんなんはぶんかつせよ","めろすはげきどした",
+   "せきたんをばはやつみはてつ","なまえはまだない","わがはいはねこである"];
+ for(const reading of removed)assert.equal(phrases.filter((p:any)=>p.reading===reading).length,0);
+ for(const reading of added)assert.equal(phrases.filter((p:any)=>p.reading===reading).length,1);
+ assert.ok(phrases.every((p:any)=>!/[ぁぃぅぇぉゃゅょっゎ]/u.test(p.reading)));
+ const phrase=phrases.find((p:any)=>p.id==="dc-0373");
+ assert.equal(phrase?.reading,"ぶたにしんじゆ");
  assert.equal(d.validPhrase(phrase),true);
  const tokens=d.generateTokens(phrase,master.glyphs,5);
- const small=tokens.find((t:any)=>t.kana==="ゅ");
- assert.equal(small?.display,"ゅ");
- assert.equal(small?.character,"");
- assert.equal(small?.glyphId,"");
- assert.ok(d.uniqueGlyphTokens(tokens).every((t:any)=>t.kana!=="ゅ"));
+ const yu=tokens.find((t:any)=>t.kana==="ゆ");
+ assert.equal(yu?.base,"ゆ");
+ assert.ok(yu?.character,"ゆ is converted to a hentaigana glyph");
+ assert.ok(d.uniqueGlyphTokens(tokens).some((t:any)=>t.kana==="ゆ"));
+});
+test("ten flat sentences removed, but seasonal phrases retained",()=>{
+ const removed=["とりがなく","あめがふる","ゆきがふる","かぜがふく",
+  "ねこがねる","ねこがのびる","いぬがはしる","くまがねむる",
+  "うみがひかる","ほしがきえる"];
+ for(const reading of removed)assert.ok(!phrases.some((p:any)=>p.reading===reading));
+ for(const reading of ["やまがわらう","はるがきた"])assert.ok(phrases.some((p:any)=>p.reading===reading));
+});
+test("100 waka lower verses match the canonical historical-kana five-phrase source",()=>{
+ const rows=[...wakaSource.matchAll(/^\|\s*(\d{1,3})\s*\|\s*([^|]+)\|\s*([^|]+)\|\s*([^|]+)\|\s*([^|]+)\|\s*([^|]+)\|\s*([^|]+)\|/gm)];
+ const waka=wakaData.phrases;
+ assert.equal(rows.length,100);
+ assert.equal(waka.length,100);
+ assert.equal(new Set(waka.map((p:any)=>p.id)).size,100);
+ assert.equal(new Set(waka.map((p:any)=>p.reading)).size,100);
+ waka.forEach((p:any,i:number)=>{
+   assert.equal(p.number,i+1);
+   assert.equal(p.id,"hy-"+String(i+1).padStart(4,"0"));
+   assert.equal(p.fourth,rows[i][6].trim());
+   assert.equal(p.fifth,rows[i][7].trim());
+   assert.equal(p.reading,p.fourth+p.fifth);
+   assert.equal(p.orthography,"historical");
+   assert.ok(d.validPhrase(p));
+ });
+ assert.equal(waka[0].reading,"わがころもではつゆにぬれつつ");
+ assert.equal(waka[99].reading,"なほあまりあるむかしなりけり");
+});
+test("initial sampling separates modern and historical phrase frequencies",()=>{
+ const waka=wakaData.phrases;
+ const short={id:"short",reading:"そら"};
+ const long={id:"long",reading:"やまがわらう"};
+ assert.equal(d.pickComposerPhrase([short,long],waka,"simple",()=>.9).reading,long.reading);
+ assert.equal(d.pickComposerPhrase([short,long],waka,"detail",()=>.9).reading,long.reading);
+ const useFirstModern=(()=>{const draws=[.9,0];return ()=>draws.shift()})();
+ assert.equal(d.pickComposerPhrase([short,long],waka,"detail",useFirstModern).reading,short.reading);
+ assert.equal(d.pickComposerPhrase([short],waka,"simple",()=>.9).category,"百人一首・下の句");
+ assert.equal(d.pickComposerPhrase([],[], "simple",()=>0),null);
+ // Deterministic fractions: 1/7 in simple, 1/10 in detail.
+ const categoryPick=(variant:string,value:number)=>d.pickComposerPhrase([long],waka,variant,()=>value).category;
+ assert.equal(categoryPick("simple",.14),"百人一首・下の句");
+ assert.equal(categoryPick("simple",.15),long.category);
+ assert.equal(categoryPick("detail",.09),"百人一首・下の句");
+ assert.equal(categoryPick("detail",.11),long.category);
+ for(const variant of ["simple","detail"]){
+   const chance=variant==="simple"?1/7:1/10;
+   const n=7000;
+   const classical=Array.from({length:n},(_,i)=>categoryPick(variant,(i+.5)/n))
+     .filter(c=>c==="百人一首・下の句").length;
+   assert.ok(Math.abs(classical/n-chance)<.001);
+ }
 });
 test("five levels have words and glyph candidates conform to the master",()=>{
  for(const l of d.LEVELS){
@@ -55,7 +114,7 @@ test("five levels have words and glyph candidates conform to the master",()=>{
    assert.equal(tokens.length,p.reading.length);
    tokens.forEach((t:any,i:number)=>{
      assert.equal(t.position,i);
-     if(!t.character){assert.ok(["ん","ゃ","ゅ","ょ","っ"].includes(t.kana));return}
+     if(!t.character){assert.equal(t.kana,"ん");return}
      assert.ok(master.glyphs.some((g:any)=>g.glyph_id===t.glyphId&&g.kana===t.base&&g.character===t.character));
    });
  }

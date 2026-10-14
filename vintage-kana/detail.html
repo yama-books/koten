@@ -1491,8 +1491,16 @@ async function loadData(){
        decipherPhrases=Array.isArray(bank.phrases)?bank.phrases.filter(VintageKanaDecipher.validPhrase):[];
      }
    }catch(e){console.warn("decipher phrase data unavailable",e)}
-   // The initial composer message reuses the validated decipher quiz corpus.
-   const initialPhrase=VintageKanaDecipher.pickInitialPhrase(decipherPhrases);
+   // Classical poems are sampled separately; quiz levels and history are unchanged.
+   let historicalPhrases=[];
+   try{
+     const response=await fetch("./data/hyakunin-lower-verses.json",{cache:"no-store"});
+     if(response.ok){
+       const bank=await response.json();
+       historicalPhrases=Array.isArray(bank.phrases)?bank.phrases.filter(VintageKanaDecipher.validPhrase):[];
+     }
+   }catch(e){console.warn("historical phrase data unavailable",e)}
+   const initialPhrase=VintageKanaDecipher.pickComposerPhrase(decipherPhrases,historicalPhrases,"detail");
    const source=document.getElementById("sourceText");
    if(initialPhrase&&source&&source.dataset.userEdited!=="true"&&source.value==="そら"&&document.activeElement!==source)source.value=initialPhrase.reading;
    renderFilters(); renderCards(); newQuiz(); renderCompose();

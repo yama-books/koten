@@ -3089,10 +3089,20 @@ function refreshMasteryShortcut(){
 }
 async function loadInitialPhrase(){
  try{
-   const response=await fetch("./data/decipher-phrases.json",{cache:"no-store"});
-   if(!response.ok)throw new Error("phrase catalogue HTTP "+response.status);
-   const bank=await response.json();
-   const phrase=VintageKanaDecipher.pickInitialPhrase(bank.phrases);
+   const loadBank=async path=>{
+     const response=await fetch(path,{cache:"no-store"});
+     if(!response.ok)throw new Error("phrase catalogue HTTP "+response.status);
+     return (await response.json()).phrases||[];
+   };
+   const [modernResult,historicalResult]=await Promise.allSettled([
+     loadBank("./data/decipher-phrases.json"),
+     loadBank("./data/hyakunin-lower-verses.json")
+   ]);
+   if(modernResult.status==="rejected")console.warn("modern phrase data unavailable",modernResult.reason);
+   if(historicalResult.status==="rejected")console.warn("historical phrase data unavailable",historicalResult.reason);
+   const modern=modernResult.status==="fulfilled"?modernResult.value:[];
+   const historical=historicalResult.status==="fulfilled"?historicalResult.value:[];
+   const phrase=VintageKanaDecipher.pickComposerPhrase(modern,historical,"simple");
    // Do not overwrite typing, a mode switch, restored input or playback.
    if(phrase&&!initialPhraseEdited&&!running&&getConversionMode()==="forward"&&input.value==="そら"&&document.activeElement!==input)input.value=phrase.reading;
  }catch(err){console.warn("initial phrase unavailable; using fallback",err)}
