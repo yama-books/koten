@@ -2914,3 +2914,18 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 - モード表示: `活用表` / `活用形` / `活用の種類` / `終止形` に統一。説明的な名称はボタンの aria-label に残した。
 - テスト: `tools/conj-quiz-check/index.ts` で、375px初期・ヒント・採点後・320px採点後の縦積み/各要素中央揃え/横はみ出しを検査。正誤アイコン、漢字不可、ひらがな判定を回帰確認。公開マージは CI で成功確認後に実施する。
 - 非対象: 活用表ドリル・活用形判別・種類判別の共通レイアウトは維持する。
+
+
+
+## 49. PR #106 公開完了（2026-10-15 06:50 JST・Codex）
+
+- 検証済みPR HEAD: `cd2307bef85603ea1293e940b2f79096bde7edac`。branch: `codex/conj-lemma-mobile-se2-20261015`。
+- 最新HEADの全CI成功: PR run [#38639914636](https://github.com/yama-books/koten/actions/runs/38639914636)、push run [#38639907955](https://github.com/yama-books/koten/actions/runs/38639907955)。check:conj-layout、check:conj-quiz（Chromium / WebKit）、後続check:vintage-kana-record・scan:publishも成功。
+- 375×667 / 320×568: 終止形モードの例文→入力→活用表の単列中央配置、横はみ出しなし、4モード表示、ヒントの終止形遮蔽、採点の正解／不正解画像を確認。寝→ぬ・恋ふ→こふの操作、死ぬ→しぬの実エンジン判定を確認。アプリ本体への追加変更なし。
+- 全CI成功後にReadyへ変更し、上記HEADをexpected_head_shaに指定してsquash merge。
+- マージSHA: `08dc2cbbc63c637f3a71e3ef219d392392d39f7c`。
+- マージSHAの[Deploy Pages #38643175457](https://github.com/yama-books/koten/actions/runs/38643175457): build / deployともsuccess。
+- 2026-10-15 06:50:46 JST、[公開URL](https://yama-books.github.io/koten/conj/)を直接HTTP取得して200確認。4モード名「活用表／活用形／活用の種類／終止形」、終止形入力・正誤アイコン用HTMLを確認。
+- `conj-quiz-ui.js?v=20261015-lemma-02` / `conj-quiz-ui.css?v=20261015-lemma-02` がともにHTTP 200で配信され、検証済みHEADのファイルとバイト一致。JS SHA256: `7df2c8f250e6c0206781243268e9820a1175c4eb6ec54c89842092ba6bb19913`、CSS SHA256: `e4121fdd309abf9a62f8a0e2514e2834fb2826c292861fe9b0125f40fd37d139`。
+- GitHubを正本とし、ローカル `D:\dev\koten\conj` と既存未コミット／未追跡変更は未変更。独立checkoutで検証した。
+- 44pxの活用表行高下限と4モード表示を維持。用例の読みの全件監査は別の未完了課題として維持する。
