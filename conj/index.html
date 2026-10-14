@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261008-01">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-lemma-01">
 </head>
 <body>
 <div class="wrap">
@@ -3181,6 +3181,7 @@ body.review-modal-open{overflow:hidden}
       <button type="button" data-quiz-mode="table" aria-pressed="true" disabled>活用表</button>
       <button type="button" data-quiz-mode="form" aria-pressed="false" disabled>活用形を判別</button>
       <button type="button" data-quiz-mode="type" aria-pressed="false" disabled>活用の種類を判別</button>
+      <button type="button" data-quiz-mode="lemma" aria-pressed="false" disabled>終止形を答える</button>
     </div>
     <p id="quizPrompt" hidden></p>
     <p id="quizEmpty" role="status" hidden></p>
@@ -3214,6 +3215,12 @@ body.review-modal-open{overflow:hidden}
 
       <section id="quizAnswerPanel" aria-label="解答" hidden>
         <div class="quiz-choices" id="quizChoices" role="group" aria-label="選択肢"></div>
+        <div class="quiz-lemma-answer" id="quizLemmaAnswer" hidden>
+          <label for="quizLemmaInput">終止形</label>
+          <input type="text" id="quizLemmaInput" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" maxlength="40" placeholder="終止形を入力" aria-describedby="quizLemmaNote">
+          <small id="quizLemmaNote">歴史的仮名遣いのひらがなでも正解</small>
+          <p id="quizLemmaHint" class="quiz-lemma-hint" aria-live="polite"></p>
+        </div>
         <div class="quiz-row-answer" id="quizRowAnswer" hidden></div>
       </section>
       <dl class="gloss" id="gloss" aria-live="polite" hidden></dl>
@@ -3268,6 +3275,7 @@ body.review-modal-open{overflow:hidden}
             <option value="table">活用表ドリル</option>
             <option value="form">活用形を判別</option>
             <option value="type">活用の種類を判別</option>
+            <option value="lemma">終止形を答える</option>
           </select>
         </label>
       </div>
@@ -3303,7 +3311,7 @@ body.review-modal-open{overflow:hidden}
         <p class="settings-note" id="tableLevelNote"></p>
       </div>
       <div class="settings-section">
-        <h3>判別（活用形・活用の種類）</h3>
+        <h3>判別（活用形・活用の種類・終止形）</h3>
         <div class="settings-difficulty-grid">
           <label>活用表
             <select id="supportLevel"><option value="0">ヒントで表示</option><option value="2">常に表示</option></select>
@@ -3476,7 +3484,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
-<script src="./conj-quiz-ui.js?v=20261008-01"></script>
+<script src="./conj-quiz-ui.js?v=20261015-lemma-01"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
