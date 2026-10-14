@@ -216,7 +216,7 @@
    On narrow devices, put example, input and table in ONE centered column,
    including after hints/grading reveal the six-row table. */
 @media(max-width:700px){
-  .card.is-quiz.quiz-example-layout.quiz-lemma-layout .study-layout:not(.review-modal-study-layout){
+  .card.is-quiz.quiz-example-layout.quiz-lemma-layout:has(#quizLemmaAnswer:not([hidden])) .study-layout:not(.review-modal-study-layout){
     box-sizing:border-box;
     width:min(100%,460px)!important;
     max-width:100%!important;
