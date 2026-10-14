@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-lemma-02">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-lemma-03">
 </head>
 <body>
 <div class="wrap">
@@ -3488,7 +3488,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
-<script src="./conj-quiz-ui.js?v=20261015-lemma-02"></script>
+<script src="./conj-quiz-ui.js?v=20261015-lemma-03"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4865,7 +4865,7 @@ function syncStudyHeightsAtCurrentZoom(){
     const chars=(text.textContent||"").replace(/\s/gu,"").length;
     const columns=chars>62?4:chars>32?3:2;
     const maxHeight=window.innerWidth<=700?310:350;
-    const h=Math.min(maxHeight,Math.max(156,Math.ceil(chars/columns)*16));
+    const h=Math.min(maxHeight,Math.max(190,Math.ceil(chars/columns)*22));
     body.style.height=h+"px";
     text.style.height=h+"px";
     fitExampleText(text);
@@ -4942,8 +4942,9 @@ function fitExampleText(text){
     const inkOutside=[...range.getClientRects()].some(r=>r.width&&r.height&&(r.top<box.top-1||r.bottom>box.bottom+1));
     return inkOutside || text.scrollHeight>text.clientHeight+1 || text.scrollWidth>text.clientWidth+1;
   };
-  while(overflowing() && size>MIN_EXAMPLE_FONT_PX){
-    size=Math.max(MIN_EXAMPLE_FONT_PX,size-0.5);
+  const minSize=isIdentificationMode() && quizState?.quizMode==='lemma'?16:MIN_EXAMPLE_FONT_PX;
+  while(overflowing() && size>minSize){
+    size=Math.max(minSize,size-0.5);
     text.style.fontSize=size+"px";
   }
 }
@@ -5288,10 +5289,32 @@ const HISTORICAL_KANA_HEADINGS={
   "閑かなり":"しづかなり","稀なり":"まれなり","愚かなり":"おろかなり","更なり":"さらなり",
   "若やかなり":"わかやかなり","静かなり":"しづかなり","絶え絶えなり":"たえだえなり",
   "然様なり":"さやうなり","大きなり":"おほきなり","同様なり":"どうやうなり",
-  "忍びやかなり":"しのびやかなり","平なり":"たひらなり","和らかなり":"やはらかなり"
+  "忍びやかなり":"しのびやかなり","平なり":"たひらなり","和らかなり":"やはらかなり",
+  // Quoted questions may borrow a table of the same type but have a different lemma.
+  "養ふ":"やしなふ","切る":"きる","乱れる":"みだる","覚ゆ":"おぼゆ",
+  "思ひ出づ":"おもひいづ","御覧ず":"ごらんず","見渡す":"みわたす","求む":"もとむ",
+  "落ちる":"おつ","頼む":"たのむ","偲ぶ":"しのぶ","上ぐ":"あぐ","分ける":"わく",
+  "急ぐ":"いそぐ","違ふ":"たがふ","慰む":"なぐさむ","破る":"やぶる",
+  "着る":"きる","起く":"おく","見す":"みす","捨つ":"すつ","似る":"にる",
+  "射る":"いる","悔ゆ":"くゆ","懲る":"こる","植う":"うう",
+  "危うし":"あやふし","高し":"たかし","知り難し":"しりがたし","面白し":"おもしろし",
+  "逸早し":"いちはやし","遅し":"おそし","白し":"しろし","無し":"なし","強し":"つよし",
+  "読み据え難し":"よみすゑがたし","夜深し":"よぶかし","美し":"うつくし",
+  "麗し":"うるはし","空し":"むなし","同じ":"おなじ","頼もし":"たのもし",
+  "忌まわし":"いまはし","古めかし":"ふるめかし",
+  "瀼々":"じやうじやう","漫々":"まんまん","渺茫":"べうばう",
+  "静か":"しづか","大き":"おほき","神妙":"しんめう","愚か":"おろか",
+  "和らか":"やはらか","妙":"めう"
 };
+function lemmaTerminalWritten(item){
+  const lemma=String(item.lemma||'');
+  const suffix=item.adjv?(String(item.kind||'').includes('タリ')?'たり':'なり'):'';
+  return suffix && !lemma.endsWith(suffix)?lemma+suffix:lemma;
+}
 function lemmaHeadingText(item){
-  return item.headingKana||HISTORICAL_KANA_HEADINGS[item.lemma]||item.lemma;
+  const heading=item.headingKana||HISTORICAL_KANA_HEADINGS[item.lemma]||item.lemma;
+  const suffix=item.adjv?(String(item.kind||'').includes('タリ')?'たり':'なり'):'';
+  return suffix && !heading.endsWith(suffix)?heading+suffix:heading;
 }
 function lemmaAidText(item){
   const heading=lemmaHeadingText(item);

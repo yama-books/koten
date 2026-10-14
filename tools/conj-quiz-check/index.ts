@@ -132,6 +132,29 @@ try{
   await real.waitForFunction("!document.getElementById('quizMode').disabled");
   const published=JSON.parse(readFileSync(path.join(root,'conj/data/conjugation-quiz-examples.json'),'utf8')).records;
   assert.equal(published.length,125);
+  const readingAudit=await real.evaluate(()=>{
+    const entries=[...quizMasterPractice.lemma,...quizRecords];
+    return [...new Map(entries.map(entry=>{
+      const item=entry.tableItem,kana=lemmaHeadingText(item),written=lemmaTerminalWritten(item);
+      return [item.lemma,{lemma:item.lemma,kana,written,
+        correct:quizEngine.evaluateAnswer({quizMode:'lemma',example:entry,selectedLemma:kana,
+          expectedLemma:written,historicalKana:kana,kanjiAllowed:!lemmaKanjiOnly(item)}).correct}];
+    })).values()];
+  });
+  assert.equal(readingAudit.length,246,'audit every distinct master and published lemma');
+  for(const row of readingAudit){assert.match(row.kana,/^[ぁ-ゖ]+$/u,row.lemma+' must have historical hiragana');assert.equal(row.correct,true,row.lemma+' kana is accepted');}
+  assert.equal(readingAudit.find(row=>row.lemma==='御覧ず')?.kana,'ごらんず');
+  assert.equal(readingAudit.find(row=>row.lemma==='神妙')?.kana,'しんめうなり');
+  assert.equal(readingAudit.find(row=>row.lemma==='渺茫')?.kana,'べうばうたり');
+  await chooseMode(real,'lemma');
+  await real.evaluate(()=>{
+    const ex=quizRecords.find(entry=>entry.lemma==='御覧ず');
+    current={...ex.tableItem};answered=false;answers={};blankSlots=new Set();
+    quizState=quizEngine.createQuizState({example:ex,quizMode:'lemma',choiceScope:'near',supportLevel:0,rowMode:'omitted'});
+    quizState.masteryStage=0;quizChoices=[];render();
+  });
+  await real.locator('#quizLemmaInput').fill('ごらんず');await real.locator('#check').click();
+  assert.match(await real.locator('#feedback').innerText(),/^正解/,'quoted 御覧ず accepts ごらんず through the actual UI');
   assert.deepEqual(await real.evaluate('quizRecords.map(r=>r.exampleId)'),published.map((r:any)=>r.exampleId),'all published examples resolve at runtime');
   assert.equal(await real.evaluate("quizRecords.some(r=>r.exampleId==='aux-289'||r.exampleId==='aux-290')"),false,'未確認 examples stay held');
   await chooseMode(real,'form');
@@ -208,12 +231,22 @@ try{
       const card=box('main.card'),example=box('#examplePanel'),input=box('#quizLemmaInput'),table=box('#tablePanel');
       return {card,example,input,table,tableVisible:getComputedStyle(document.getElementById('tablePanel')!).display!=='none',
         areas:getComputedStyle(document.querySelector('main.card .study-layout')!).gridTemplateAreas,
-        overflow:document.documentElement.scrollWidth>window.innerWidth+1};
+        overflow:document.documentElement.scrollWidth>window.innerWidth+1,
+        correct:document.querySelector('main.card')!.classList.contains('quiz-lemma-correct'),
+        fontSize:parseFloat(getComputedStyle(document.getElementById('exampleText')!).fontSize)};
     });
-    assert.match(rects.areas,/"example".*"quiz".*"table"/s,phase+' layout must be vertically stacked');
-    assert.ok(Math.abs(rects.example.center-rects.card.center)<5,phase+' example must be centered');
+    if(rects.correct){
+      assert.match(rects.areas,/"example table".*"quiz quiz"/s,phase+' correct table must be next to example');
+      assert.ok(rects.table.left>=rects.example.right-1,phase+' table must be on the right');
+      assert.equal(await page.locator('#formBody > tr.quiz-lemma-terminal-answer').count(),1,'terminal answer is highlighted');
+      assert.ok((await page.locator('#formBody > tr').nth(2).getAttribute('class'))?.includes('quiz-lemma-terminal-answer'));
+    }else{
+      assert.match(rects.areas,/"example".*"quiz".*"table"/s,phase+' unanswered/wrong layout must stay stacked');
+      assert.ok(Math.abs(rects.example.center-rects.card.center)<5,phase+' example must be centered');
+    }
+    assert.ok(rects.fontSize>=16,phase+' example must stay readable');
     assert.ok(Math.abs(rects.input.center-rects.card.center)<5,phase+' input must be centered');
-    if(rects.tableVisible){
+    if(rects.tableVisible && !rects.correct){
       assert.ok(Math.abs(rects.table.center-rects.card.center)<5,phase+' conjugation table must be centered');
       assert.ok(rects.table.top>=rects.input.bottom-1,phase+' table must follow the input');
     }
@@ -256,6 +289,10 @@ try{
   assert.equal(await empty.locator('#quizLemmaResultIcon').isVisible(),true);
   assert.equal(await empty.locator('#quizLemmaResultIcon').getAttribute('alt'),'正解');
   assert.equal(await empty.locator('#quizLemmaResultText').innerText(),'正解');
+  await assertLemmaCenter(empty,'graded correct');
+  await empty.setViewportSize({width:320,height:568});
+  await assertLemmaCenter(empty,'compact graded correct');
+  await empty.setViewportSize({width:375,height:812});
   assert.equal(await empty.evaluate('stats.quiz.events.at(-1).quizMode'),'lemma');
   await setTerminalQuestion('ku');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'来 must warn 漢字不可');
