@@ -31,7 +31,10 @@
  function validPhrase(p){
    return p&&typeof p.id==="string"&&typeof p.reading==="string"
      &&/^[ぁ-ゖゐゑ]+$/u.test(p.reading)
-     &&!/[ぁぃぅぇぉゃゅょっゎ]/u.test(p.reading)&&lengthOf(p)>=2;
+     // Small ゃ/ゅ/ょ/っ have no historical glyph of their own in this
+     // catalogue: preserve them as ordinary small hiragana, never award
+     // a fabricated glyph mastery event for the position.
+     &&!/[ぁぃぅぇぉゎ]/u.test(p.reading)&&lengthOf(p)>=2;
  }
  // Initial composition samples uniformly from the approved quiz corpus.
  // Do not use the quiz level or learning history for the initial sentence.
