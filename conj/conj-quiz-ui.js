@@ -298,6 +298,9 @@ function initQuizLemmaInput(){
   input.addEventListener('keydown',event=>{
     if(event.key!=='Enter'||event.isComposing||event.keyCode===229)return;
     event.preventDefault();
+    // The document-wide Enter shortcut would otherwise see answered=true and
+    // advance immediately, erasing the freshly rendered grading feedback.
+    event.stopPropagation();
     if(!input.value.trim())return;
     quizState.selectedAnswer=input.value;
     gradeQuiz();
