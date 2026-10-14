@@ -6379,7 +6379,8 @@ document.addEventListener("keydown",e=>{
   // Native select/button activation must not also grade or draw a new quiz.
   if(isIdentificationMode() && e.key==="Enter"){
     if(e.target.closest('.toolbar,.quiz-controls') || e.target.tagName==='BUTTON') return;
-    if(e.isComposing) return;
+    // The text field handles its own Enter. Never grade while IME is converting.
+    if(e.isComposing || e.keyCode===229 || e.target.id==='quizLemmaInput') return;
     e.preventDefault();answered?nextQuestion():gradeQuiz();return;
   }
   if(e.key==="Enter" && !document.querySelector(".editor input")){
