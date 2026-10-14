@@ -396,9 +396,9 @@ export function buildRowChoicesForTypes(masterEntries, typeChoices) {
 }
 
 // Accept the attested historical-kana heading or the complete kanji lemma.
- // Single-character ambiguous headings (来（く）, 寝（ぬ）) deliberately allow kana only.
+// Single-character ambiguous headings (来（く）, 寝（ぬ）) deliberately allow kana only.
 export function lemmaAnswerCandidates({ lemma, historicalKana, kanjiAllowed = true }) {
-  const clean = value => String(value ?? "").normalize("NFKC").trim().replace(/[\\s　]+/gu, "");
+  const clean = value => String(value ?? "").normalize("NFKC").trim().replace(/[\s　]+/gu, "");
   const kana = clean(historicalKana);
   const written = clean(lemma);
   return [...new Set([kana, ...(kanjiAllowed ? [written] : [])].filter(Boolean))];
@@ -417,7 +417,7 @@ export function evaluateAnswer({
   rowMode = ROW_MODE.OMITTED,
 }) {
   if (quizMode === QUIZ_MODE.LEMMA) {
-    const input = String(selectedLemma ?? "").normalize("NFKC").trim().replace(/[\\s　]+/gu, "");
+    const input = String(selectedLemma ?? "").normalize("NFKC").trim().replace(/[\s　]+/gu, "");
     const correct = Boolean(input) && lemmaAnswerCandidates({
       lemma: expectedLemma, historicalKana, kanjiAllowed
     }).includes(input);
