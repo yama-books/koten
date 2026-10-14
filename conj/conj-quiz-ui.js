@@ -153,7 +153,7 @@ function applyQuizTableMask(){
   }
   const level=quizState.answered?2:quizState.hintLevel;
   panel.dataset.support=quizState.answered?'answered':['hidden','partial','full'][level];
-  const mask=quizEngine.buildHintMask({quizMode:quizState.quizMode,hintLevel:level,example:quizState.example,tableRows:current.forms.map(display),masteryStage:quizState.masteryStage});
+  const mask=quizEngine.buildHintMask({quizMode:quizState.quizMode,hintLevel:level,example:quizState.example,tableRows:current.forms.map(display),answerRevealed:quizState.answered,masteryStage:quizState.masteryStage});
   document.querySelectorAll('#formBody > tr').forEach((tr,i)=>{
     const hidden=!mask.visibleIndexes.includes(i);
     tr.classList.toggle('quiz-masked',hidden);
@@ -230,7 +230,10 @@ function renderQuizUI(){
   }else{
     renderQuizChoices();renderQuizRowAnswer();
   }
-  if(quizTableInDialog()){
+  if(lemmaMode){
+    document.getElementById('reveal').textContent=quizState.hintLevel===0?'ヒントを見る':'別のヒントを見る';
+    document.getElementById('reveal').style.display=quizState.answered||quizState.hintLevel>=2?'none':'inline-block';
+  }else if(quizTableInDialog()){
     // 表はダイアログで見せるので、ヒントを使い切ったあとや回答後も「表を見る」で開き直せる。
     document.getElementById('reveal').textContent=quizState.hintLevel===0&&!quizState.answered?'ヒントを見る':'表を見る';
     document.getElementById('reveal').style.display='inline-block';
