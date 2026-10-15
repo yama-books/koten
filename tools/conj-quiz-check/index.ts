@@ -189,7 +189,12 @@ try{
   assert.equal(await empty.locator('#quizChoices button').count(),6);
   assert.equal(await empty.evaluate('quizRecords.length'),0,'withheld payload leaves no quoted records');
   assert.equal(await empty.evaluate('quizState.example.origin'),'master');
-  assert.match(await empty.locator('#quizPrompt').innerText(),/例文で強調した部分は何形/);
+  assert.equal(await empty.locator('#quizPrompt').innerText(),'例文の部分の活用形を答えなさい。');
+  assert.equal(await empty.locator('#quizPrompt .quiz-target-swatch').innerText(),'','shading sample contains no answer text');
+  assert.equal(await empty.getByRole('img',{name:'網掛け',exact:true}).count(),1,'shading sample has an accessible description');
+  assert.equal(await empty.locator('#quizPrompt .quiz-target-swatch').evaluate(el=>getComputedStyle(el).backgroundImage),
+    await empty.locator('#exampleText mark').evaluate(el=>getComputedStyle(el).backgroundImage),
+    'prompt sample matches the marked example');
   assert.equal(await empty.locator('#examplePanel').isVisible(),true,'original sentence is visible '+JSON.stringify(await empty.evaluate('({example:current.example,target:current.target,display:document.getElementById("examplePanel").style.display,rect:document.getElementById("examplePanel").getBoundingClientRect().toJSON()})')));
   assert.equal(await empty.locator('#exampleText mark').count(),1,'one marked target');
   assert.equal(await empty.locator('#tablePanel').isVisible(),false,'table begins hidden without leaving a blank frame');

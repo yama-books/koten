@@ -218,8 +218,8 @@ function renderQuizUI(){
     for(const id of ['check','reveal','next']) document.getElementById(id).style.display='none';
     return;
   }
-  document.getElementById('quizPrompt').textContent=lemmaMode?'例文で強調した部分の終止形は？'
-    :quizState.quizMode==='form'?'例文で強調した部分は何形？':'例文で強調した部分の活用の種類は？';
+  document.getElementById('quizPromptAnswer').textContent=lemmaMode?'終止形'
+    :quizState.quizMode==='form'?'活用形':'活用の種類';
   if(!quizState.answered){
     // Remove the hidden answer text from accessibility APIs as well as sight.
     document.getElementById('kind').textContent='';

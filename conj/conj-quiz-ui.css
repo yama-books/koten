@@ -52,7 +52,15 @@
 .quiz-choice.is-wrong::after{content:"×";color:var(--danger-ink)}
 .card.is-quiz #exampleText.is-quiz-poem{white-space:normal!important}
 .card.is-quiz #exampleText.is-quiz-poem mark{white-space:nowrap}
-.card.is-quiz #exampleText mark{background:var(--example-mark-bg);border-radius:4px;outline:1px solid var(--accent-strong);outline-offset:1px;font-weight:700}
+.quiz-target-swatch,.card.is-quiz #exampleText mark{
+  background-color:var(--example-mark-bg);
+  background-image:repeating-linear-gradient(135deg,transparent 0 3px,color-mix(in srgb,var(--accent-strong) 15%,transparent) 3px 4px);
+  border-radius:4px;
+  outline:1px solid var(--accent-strong);
+  outline-offset:1px;
+}
+.quiz-target-swatch{display:inline-block;width:1.5em;height:1em;margin:0 .35em;vertical-align:-.1em}
+.card.is-quiz #exampleText mark{font-weight:700}
 .quiz-choice:disabled{opacity:1;color:var(--ink);cursor:default}
 .quiz-choice:focus-visible,.quiz-row-choice:focus-visible{outline:2px solid var(--accent-strong);outline-offset:1px}
 .quiz-row-answer{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;margin-top:6px;font-size:12px}
