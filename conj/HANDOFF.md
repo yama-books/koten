@@ -2990,3 +2990,18 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 - 2026-10-15 14:16:38 JST、https://yama-books.github.io/koten/conj/ を直接確認。4モードとJS/CSS `20261015-vertical-01` はHTTP200で、マージSHAとバイト一致。
 - 公開Chromiumの375×667・320×568でも初期・正解・不正解とモード復帰をPASS確認。公開WebKitは実行環境の証明書制約から未確認（両ブラウザのCIは成功）。
 - 4モード常時表示・44px行高下限を維持。用例の読み全件監査は別の未完了課題として維持。
+
+
+## 54. PR #116 公開完了・長い終止形例文の高さ制限（2026-10-15 15:10 JST）
+
+- PR: https://github.com/yama-books/koten/pull/116 。検証済みHEAD: `faf992a13e9fc3c2f10a22c90ee304b751c1993e`。
+- 前回の一列表示で長文が過度に伸びる問題を修正。短文は自然高の一列を維持し、長文はスマホ310px・PC350px以内の縦書き複数列にする。網掛け語は途中分割せず、出典の縦書き・単一の正誤表示・黄色の解答・右の表を維持。
+- 画像と同じ「悔ゆ」の長い公開用例に対し、310px以内・網掛け1矩形・ページ横はみ出しなしの回帰検査を追加。
+- 旧HEADのpush CIでは、今昔物語集の片仮名を平仮名に変換する既存表示仕様とテスト期待値の差（ず/ズ）を検出。該当出典だけ表示仕様に合わせるテスト修正を追加し、最新HEADで全CIを再実行した。
+- 最新HEADの全CI成功: PR [#38688166448](https://github.com/yama-books/koten/actions/runs/38688166448) / push [#38688161421](https://github.com/yama-books/koten/actions/runs/38688161421)。434テスト成功、check:conj-layout違反0、Chromium / WebKit各2000/2000公開用例画面・320/320 fixture・80/80 master、scan:publish 767件違反0。旧HEADの成功を根拠にしていない。
+- Chromium / WebKitの375×667・320×568で短文の初期/正解、長文の初期/不正解とモード復帰を確認、すべてexit 0。長文310px、短文241px、網掛け1矩形、縦の切れなし、ページ横はみ出しなし。簡易クイズ検査もexit 0（250/250・40/40・10/10）。
+- Jev verify: 表示の3項目すべてverified（reviewについて実測・画面を確認して受け入れ）。今昔のテスト期待値修正もverified1、contradicted0、unsupported0。
+- 検証済みHEADを指定してReady→squash merge。マージSHA: `83b8841a2e63e9f19813cc77d6e254703dc5e746`。
+- [Deploy Pages #38690649737](https://github.com/yama-books/koten/actions/runs/38690649737): build / deployともsuccess。
+- 2026-10-15 15:09:51 JST、https://yama-books.github.io/koten/conj/ を直接確認。4モードとJS/CSS `20261015-long-01` はHTTP200でマージSHAとバイト一致。公開Chromiumの両スマホサイズでも長文310px・短文一列・網掛け非分割・出典と本文の分離・単一正誤表示・モード復帰をPASS確認（exit 0）。公開WebKitは既知の環境の証明書制約により再実行せず、CIとブラウザ確認の成功を記録。
+- 4モード常時表示・44px行高下限を維持。用例の読み全件監査は別の未完了課題として維持。
