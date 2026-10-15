@@ -252,8 +252,8 @@ try{
       assert.ok(Math.abs(rects.example.center-rects.card.center)<5,phase+' example must be centered');
     }
     assert.ok(rects.fontSize>=16,phase+' example must stay readable');
-    assert.equal(rects.sourceWritingMode,'horizontal-tb',phase+' source must have a separate horizontal line');
-    assert.ok(rects.source.top>=rects.text.bottom-1,phase+' source must not overlap the example');
+    assert.equal(rects.sourceWritingMode,'vertical-rl',phase+' source must be vertical');
+    assert.ok(rects.source.right<=rects.text.left-1,phase+' source must stay beside the example without overlap');
     assert.ok(Math.abs(rects.input.center-rects.card.center)<5,phase+' input must be centered');
     if(rects.tableVisible && !rects.graded){
       assert.ok(Math.abs(rects.table.center-rects.card.center)<5,phase+' conjugation table must be centered');
@@ -298,6 +298,7 @@ try{
   assert.equal(await empty.locator('#quizLemmaResultIcon').isVisible(),true);
   assert.equal(await empty.locator('#quizLemmaResultIcon').getAttribute('alt'),'正解');
   assert.equal(await empty.locator('#quizLemmaResultText').innerText(),'正解');
+  assert.equal(await empty.locator('#feedback').isVisible(),false,'terminal mode uses only the input status');
   assert.equal(await empty.locator('.quiz-lemma-heading label').isVisible(),false,'redundant terminal heading is hidden');
   assert.equal(await empty.getByLabel('終止形の解答').count(),1,'answer retains its accessible name');
   assert.equal(await empty.locator('#quizLemmaInput').evaluate(el=>getComputedStyle(el).backgroundColor),

@@ -61,6 +61,7 @@
 }
 .quiz-target-swatch{display:inline-block;width:1.5em;height:1em;margin:0 .35em;vertical-align:-.1em}
 .card.is-quiz #exampleText mark{font-weight:700}
+.card.is-quiz #exampleText mark{white-space:nowrap}
 .quiz-choice:disabled{opacity:1;color:var(--ink);cursor:default}
 .quiz-choice:focus-visible,.quiz-row-choice:focus-visible{outline:2px solid var(--accent-strong);outline-offset:1px}
 .quiz-row-answer{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;margin-top:6px;font-size:12px}
@@ -293,29 +294,33 @@
 .card.is-quiz.quiz-lemma-layout .example-panel::after{display:none}
 .card.is-quiz.quiz-lemma-layout .example-body{
   display:flex;
+  gap:6px!important;
   justify-content:center;
   align-items:center;
   width:auto!important;
   max-width:100%;
   padding:0!important;
   margin-inline:auto;
+  height:auto!important;
 }
 .card.is-quiz.quiz-example-layout.quiz-lemma-layout .study-layout:not(.review-modal-study-layout) .example-text{
-  flex:0 1 auto!important;
+  flex:none!important;
   min-width:0;
   min-height:0!important;
   max-width:100%!important;
   font-size:18px;
-  white-space:normal!important;
+  height:max-content!important;
+  max-height:none!important;
+  white-space:nowrap!important;
 }
 .card.is-quiz.quiz-lemma-layout .example-foot{
-  writing-mode:horizontal-tb!important;
-  text-orientation:mixed;
-  align-self:center!important;
+  writing-mode:vertical-rl!important;
+  text-orientation:upright;
+  align-self:flex-end!important;
   flex:none;
-  max-width:100%;
-  margin:8px 0 0!important;
-  white-space:normal;
+  max-width:none;
+  margin:0!important;
+  white-space:nowrap;
   text-align:center;
   font-size:11px!important;
   line-height:1.6;
