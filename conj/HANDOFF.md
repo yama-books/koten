@@ -3005,3 +3005,13 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 - [Deploy Pages #38690649737](https://github.com/yama-books/koten/actions/runs/38690649737): build / deployともsuccess。
 - 2026-10-15 15:09:51 JST、https://yama-books.github.io/koten/conj/ を直接確認。4モードとJS/CSS `20261015-long-01` はHTTP200でマージSHAとバイト一致。公開Chromiumの両スマホサイズでも長文310px・短文一列・網掛け非分割・出典と本文の分離・単一正誤表示・モード復帰をPASS確認（exit 0）。公開WebKitは既知の環境の証明書制約により再実行せず、CIとブラウザ確認の成功を記録。
 - 4モード常時表示・44px行高下限を維持。用例の読み全件監査は別の未完了課題として維持。
+
+
+## 55. 終止形モード・例文の活用形に吹き出し（2026-10-15・ChatGPT、検証待ち）
+
+- 正本：GitHub `yama-books/koten` main `304af9f8226671321d2bc5ad6a316211f90bceba`。作業 branch `codex/conj-lemma-example-bubble-20261015`。
+- 終止形の黄色強調は従来どおり終止形の行だけ。例文の実際の活用形（`quizState.example.form`）を別判定し、見出しセルの外に「例文はこれ」白系統の小さな縦長吹き出しを表示。例文が終止形の場合は同じ行に両方を表示。
+- 初回は控えめな pop-scale、続いて微細な breathing。reduced motion は静止。表の幅・行高・6行・五テーマを維持し、Safari の縦書きセル寸法問題を避けて1文字幅の横書き折返しで縦積みにする。320pxでは吹き出しを細くする。
+- 採点前・他モード・次問では吹き出し無し。DOMを再描画しない限り呼吸アニメーションは再起動しない。
+- `tools/conj-quiz-check/index.ts` に採点前非表示、採点後の表示行と文言、終止形と例文活用形の独立、320px横はみ出し回帰を追加。
+- **現時点で未実行**：Nodeテスト、Chromium / WebKit、各テーマ実機。CI成功・マージ・公開反映までは完了扱いにしない。PRをdraftで用意して継続検証する。
