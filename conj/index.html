@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-vertical-01">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-long-01">
 </head>
 <body>
 <div class="wrap">
@@ -3488,7 +3488,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
-<script src="./conj-quiz-ui.js?v=20261015-vertical-01"></script>
+<script src="./conj-quiz-ui.js?v=20261015-long-01"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
@@ -4859,12 +4859,19 @@ function syncStudyHeightsAtCurrentZoom(){
   const quizHidden=isIdentificationMode() && (tablePanel.dataset.support==="hidden" || !!tablePanel.closest("#quizTableDialog"));
   text.classList.remove("is-quiz-poem");
   if(isIdentificationMode() && quizState?.quizMode==="lemma"){
-    // 終止形の例文は語や文の途中で折り返さず、自然な縦の長さで表示する。
-    // 長い文はページを縦にスクロールし、出典の独立した縦書き欄を保つ。
+    // 短い例文は一列を保ち、長文だけ高さを制限した縦書きの複数列にする。
+    // 網掛け語はCSSのnowrapで分割せず、長文で入力欄を遠ざけない。
     examplePanel.style.paddingTop="0px";
     body.style.height="auto";
     text.style.height="max-content";
     text.style.fontSize="";
+    text.style.setProperty("--lemma-example-height","max-content");
+    text.style.setProperty("white-space","nowrap","important");
+    const naturalHeight=text.getBoundingClientRect().height;
+    text.style.removeProperty("white-space");
+    const maxHeight=window.innerWidth<=700?310:350;
+    text.style.height=Math.min(maxHeight,Math.ceil(naturalHeight)+2)+"px";
+    text.style.setProperty("--lemma-example-height",text.style.height);
     return;
   }
   if(quizHidden){

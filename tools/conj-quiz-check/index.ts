@@ -147,6 +147,16 @@ try{
   assert.equal(readingAudit.find(row=>row.lemma==='神妙')?.kana,'しんめうなり');
   assert.equal(readingAudit.find(row=>row.lemma==='渺茫')?.kana,'べうばうたり');
   await chooseMode(real,'lemma');
+  await real.setViewportSize({width:375,height:667});
+  await real.evaluate(()=>{
+    const ex=quizRecords.find(entry=>entry.lemma==='悔ゆ');
+    current={...ex.tableItem};answered=false;answers={};blankSlots=new Set();
+    quizState=quizEngine.createQuizState({example:ex,quizMode:'lemma',choiceScope:'near',supportLevel:0,rowMode:'omitted'});
+    quizState.masteryStage=0;quizChoices=[];render();
+  });
+  assert.ok(await real.locator('#exampleText').evaluate(el=>el.getBoundingClientRect().height<=312),'long terminal example must stay within its mobile height budget');
+  assert.equal(await real.locator('#exampleText mark').evaluate(el=>el.getClientRects().length),1,'long example keeps the marked word together');
+  assert.equal(await real.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,'long terminal example must not widen the page');
   await real.evaluate(()=>{
     const ex=quizRecords.find(entry=>entry.lemma==='御覧ず');
     current={...ex.tableItem};answered=false;answers={};blankSlots=new Set();

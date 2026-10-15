@@ -304,14 +304,14 @@
   height:auto!important;
 }
 .card.is-quiz.quiz-example-layout.quiz-lemma-layout .study-layout:not(.review-modal-study-layout) .example-text{
-  flex:none!important;
+  flex:0 1 auto!important;
   min-width:0;
   min-height:0!important;
   max-width:100%!important;
   font-size:18px;
-  height:max-content!important;
+  height:var(--lemma-example-height,310px)!important;
   max-height:none!important;
-  white-space:nowrap!important;
+  white-space:normal!important;
 }
 .card.is-quiz.quiz-lemma-layout .example-foot{
   writing-mode:vertical-rl!important;
