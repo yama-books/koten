@@ -173,7 +173,13 @@ try{
     await real.locator('#quizPrompt').waitFor({state:'visible'});
     assert.notEqual(await real.evaluate('quizState.example.origin'),'master',`published example is used for ${pos}`);
     assert.equal(await real.locator('#exampleText mark').count(),1,`one marked target for ${pos}`);
-    assert.equal(await real.locator('#exampleText mark').innerText(),await real.evaluate('quizState.example.originalTarget'),`marked text is the target for ${pos}`);
+    const displayedTarget=await real.evaluate(()=>{
+      const ex=quizState.example;
+      return ex.source==='今昔物語集'
+        ?ex.originalTarget.replace(/[ァ-ヶヽヾ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))
+        :ex.originalTarget;
+    });
+    assert.equal(await real.locator('#exampleText mark').innerText(),displayedTarget,`marked text is the displayed target for ${pos}`);
     assert.equal(await real.locator('#exampleFoot').innerText(),await real.evaluate('quizState.example.source'),`work name only under the example for ${pos}`);
   }
   // Repeated targets keep the reviewed occurrence (aux-013 and aux-055 use the second match).
