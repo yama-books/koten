@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-lemma-04">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-prompt-01">
 </head>
 <body>
 <div class="wrap">
@@ -3183,7 +3183,7 @@ body.review-modal-open{overflow:hidden}
       <button type="button" data-quiz-mode="type" aria-label="活用の種類を判別" aria-pressed="false" disabled>活用の種類</button>
       <button type="button" data-quiz-mode="lemma" aria-label="終止形を答える" aria-pressed="false" disabled>終止形</button>
     </div>
-    <p id="quizPrompt" hidden></p>
+    <p id="quizPrompt" hidden>例文の<span class="quiz-target-swatch" role="img" aria-label="網掛け"></span>部分の<span id="quizPromptAnswer"></span>を答えなさい。</p>
     <p id="quizEmpty" role="status" hidden></p>
     <div class="meta">
       <span class="tag" id="posTag"></span>
@@ -3488,7 +3488,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
-<script src="./conj-quiz-ui.js?v=20261015-lemma-04"></script>
+<script src="./conj-quiz-ui.js?v=20261015-prompt-01"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
