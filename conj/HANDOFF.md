@@ -2944,3 +2944,19 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 - 公開実画面の375×667 / 320×568で「御覧ず→ごらんず」の正解、用例18px、表が用例の右側、終止形行の強調、4モード表示、横はみ出しなしを確認。
 - JS SHA256: `c8f4ce3895b36b5392bbf525816efa9a5314f057e481acb3dd490247d0e7791b`。CSS SHA256: `09883c6d6e008ac4ec65abb8dc9161ef9eb276c995045ceaeb6a21dd6a8a9804`。
 - GitHubを正本として作業し、`D:\dev\koten\conj` と既存ローカル変更は未変更。
+
+
+## 51. PR #111 公開完了・出典の分離と終止形の黄色統一（2026-10-15 09:42 JST・Codex）
+
+- 検証済みHEAD: `f383e27cd5d0f4dddaec8c78aff7fb5803616cca`。PR: https://github.com/yama-books/koten/pull/111 。起点はPR #110を含むGitHub main `3f57c8809e22f6a9d93eb3debd30dcce59ca0af4`。
+- 最新HEADの全CI成功: PR [#38658909459](https://github.com/yama-books/koten/actions/runs/38658909459) / push [#38658905087](https://github.com/yama-books/koten/actions/runs/38658905087)。check:conj-layout違反0、Chromium / WebKit各2000/2000公開用例画面・320/320 fixture・80/80 master、scan:publish 767件違反0。旧HEADの結果を合格根拠にしていない。
+- 終止形モードの出典を本文から独立した横書きの下段に移動。別モードは従来の位置へ戻す。正解・不正解とも表を用例の右側へ配置し、解答欄はその下に置く。
+- 表の終止形を黄色で強調し、例文の活用形を緑に強調する共通処理は終止形モードでは適用しない。正解した解答欄も同じCSS変数の黄色に統一。不正解欄は従来の赤系を維持。
+- 解答欄の上の「終止形」を非表示にし、入力のaria-labelは「終止形の解答」を保持。必要な「漢字不可」の表示は維持。案内は「歴史的仮名遣いの平仮名でもOK」のZen Maru Gothic丸型バッジ。
+- 独立checkoutのChromium / WebKit、375×667・320×568で初期・正解・不正解と他モード復帰の確認がexit 0。出典が本文と非重複、採点後の表が右側、終止形行だけの黄色強調、正解欄と表セルの背景色一致、見出し非表示、横はみ出しなし。
+- ユーザーの継続承認に基づくTypeSafe Jev verify: verified 4、contradicted 0、unsupported 0。表の右配置の1項目のみconfidence 0.79のreview。ホストで全寸法記録と画面を確認して受け入れ、同じ判定の再実行なし。
+- Ready化後、上記検証済みSHAを指定してsquash merge。マージSHA: `9379013410e852882d70f5036b0e399f38ee7c94`。
+- [Deploy Pages #38661365803](https://github.com/yama-books/koten/actions/runs/38661365803): build / deployともsuccess。
+- 2026-10-15 09:41:59 JSTに https://yama-books.github.io/koten/conj/ を直接取得。4モード名とJS/CSS `20261015-lemma-04` をHTTP 200確認し、マージSHAのファイルとバイト一致。JS SHA256 `e3f733bbb09cbaa3bcd5ac7a0e171a0cc2a94d96bb181b9832d061500cb4f19a`、CSS SHA256 `a09c7351eb740285e9605a2f88ef077eb502356fed69e7de6d6594513c6a7680`。
+- 公開画面Chromiumの375×667・320×568でも初期・正解・不正解・モード復帰をPASS確認。公開WebKitは実行環境の証明書エラー（SSL peer certificate or SSH remote key was not OK）で確認できず、証明書検証を無効化せず終了。WebKitのローカル確認と最新HEADのGitHub CIは成功済み。
+- 4モード常時表示・44px表行高下限を維持。GitHubを正本とし、既存ローカル変更をstashに保護。`D:\dev\koten\conj` は未変更。用例の読み全件監査は引き続き別の未完了課題。
