@@ -263,6 +263,13 @@ try{
       assert.ok(rects.table.left>=rects.example.right-1,phase+' table must be on the right');
       assert.equal(await page.locator('#formBody > tr.quiz-lemma-terminal-answer').count(),1,'terminal answer is highlighted');
       assert.ok((await page.locator('#formBody > tr').nth(2).getAttribute('class'))?.includes('quiz-lemma-terminal-answer'));
+      const markers=page.locator('#formBody > tr.quiz-lemma-example-form .quiz-example-form-bubble');
+      assert.equal(await markers.count(),1,phase+' shows exactly one example-form bubble');
+      assert.equal(await markers.innerText(),'例文はこれ',phase+' shows the requested marker text');
+      const actualRow=await page.locator('#formBody > tr.quiz-lemma-example-form').evaluate(tr=>Array.from(tr.parentElement!.children).indexOf(tr));
+      const expectedForm=await page.evaluate('quizState.example.form');
+      assert.equal(actualRow,['未然形','連用形','終止形','連体形','已然形','命令形'].indexOf(expectedForm),
+        phase+' bubble points to the form used in the example, not automatically the terminal form');
     }else{
       assert.match(rects.areas,/"example".*"quiz".*"table"/s,phase+' unanswered/wrong layout must stay stacked');
       assert.ok(Math.abs(rects.example.center-rects.card.center)<5,phase+' example must be centered');
@@ -289,6 +296,7 @@ try{
     assert.equal(await empty.locator('#quizChoices').isVisible(),false,'classification choices hidden');
   }
   await setTerminalQuestion('nu_verb');
+  assert.equal(await empty.locator('.quiz-example-form-bubble').count(),0,'bubble is absent before grading');
   await assertLemmaCenter(empty,'initial mobile lemma');
   assert.equal(await empty.locator('#quizLemmaResultIcon').isHidden(),true,'grade mark begins hidden');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'寝 must warn 漢字不可');
@@ -321,6 +329,11 @@ try{
     await empty.locator('#formBody > tr').nth(2).locator('td').first().evaluate(el=>getComputedStyle(el).backgroundColor),
     'correct input and terminal answer row share the yellow background');
   await assertLemmaCenter(empty,'graded correct');
+  // Simulate a sentence in the 連体形: the yellow terminal row must remain separate.
+  await empty.evaluate(()=>{quizState.example.form='連体形';renderQuizUI();});
+  await assertLemmaCenter(empty,'example form differs from terminal form');
+  assert.equal(await empty.locator('#formBody > tr.quiz-lemma-terminal-answer.quiz-lemma-example-form').count(),0,
+    'the terminal highlight and the sentence-form marker are independent');
   await empty.setViewportSize({width:320,height:568});
   await assertLemmaCenter(empty,'compact graded correct');
   await empty.setViewportSize({width:375,height:812});
@@ -333,12 +346,15 @@ try{
   await empty.locator('#quizLemmaInput').fill('く');await empty.locator('#check').click();
   assert.match(await empty.locator('#feedback').innerText(),/^正解/);
   await setTerminalQuestion('kohu');
+  // The already-approved example has an ambiguous suffix; never invent a row.
+  assert.equal(await empty.evaluate('quizState.example.form'),null,'unknown example form stays unlabelled');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isHidden(),true,'ordinary inflected kanji spelling is allowed');
   assert.equal(await empty.locator('#quizLemmaNote').innerText(),'歴史的仮名遣いの平仮名でもOK');
   assert.match(await empty.locator('#quizLemmaNote').evaluate(el=>getComputedStyle(el).fontFamily),/Zen Maru Gothic/);
   await empty.locator('#quizLemmaInput').fill('こふ');
   await empty.locator('#quizLemmaInput').press('Enter');
   assert.match(await empty.locator('#feedback').innerText(),/^正解/,'historical hiragana is accepted by Enter');
+  assert.equal(await empty.locator('.quiz-example-form-bubble').count(),0,'unverified form receives no misleading bubble');
   assert.equal(await empty.evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true,'lemma input does not overflow mobile viewport');
   await empty.setViewportSize({width:375,height:812});
   for(const pos of ['verb','adj','adjv','aux']){

@@ -7,7 +7,7 @@ function isIdentificationMode(){return document.getElementById('quizMode').value
 
 async function initQuizUI(){
   try{
-    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261015-lemma-01'),import('./conj-quiz-adapter.mjs?v=20261015-lemma-01')]);
+    [quizEngine,quizAdapter]=await Promise.all([import('./conj-quiz-engine.mjs?v=20261015-lemma-01'),import('./conj-quiz-adapter.mjs?v=20261015-example-bubble-01')]);
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz);
     quizMaster=quizAdapter.masterFromItems(items);
     const optionalRecords=async url=>{try{const response=await fetch(url);return response.ok?(await response.json()).records||[]:[];}catch(_error){return[];}};
@@ -147,7 +147,8 @@ function applyQuizTableMask(){
   const panel=document.getElementById('tablePanel');
   if(!quizState || !isIdentificationMode()){
     delete panel.dataset.support;
-    panel.querySelectorAll('.quiz-masked,.quiz-answer,.quiz-lemma-terminal-answer').forEach(e=>e.classList.remove('quiz-masked','quiz-answer','quiz-lemma-terminal-answer'));
+    panel.querySelectorAll('.quiz-masked,.quiz-answer,.quiz-lemma-terminal-answer,.quiz-lemma-example-form').forEach(e=>e.classList.remove('quiz-masked','quiz-answer','quiz-lemma-terminal-answer','quiz-lemma-example-form'));
+    panel.querySelectorAll('.quiz-example-form-bubble').forEach(e=>e.remove());
     panel.querySelectorAll('[aria-hidden]').forEach(e=>{if(e.matches('td>*'))e.removeAttribute('aria-hidden');});
     return;
   }
@@ -159,6 +160,27 @@ function applyQuizTableMask(){
     tr.classList.toggle('quiz-masked',hidden);
     tr.classList.toggle('quiz-answer',quizState.quizMode!=='lemma' && quizState.answered && names[i]===quizState.example.form);
     tr.classList.toggle('quiz-lemma-terminal-answer',quizState.quizMode==='lemma' && quizState.answered && names[i]==='終止形');
+    // The terminal row alone stays yellow. The sentence's actual inflection is identified
+    // independently by a small, out-of-flow label attached to its row heading.
+    const exampleForm=quizState.quizMode==='lemma' && quizState.answered && names[i]===quizState.example.form;
+    tr.classList.toggle('quiz-lemma-example-form',exampleForm);
+    const heading=tr.querySelector('th.label');
+    const existing=heading?.querySelector('.quiz-example-form-bubble');
+    if(exampleForm && heading && !existing){
+      const bubble=document.createElement('span');
+      bubble.className='quiz-example-form-bubble';
+      bubble.setAttribute('role','note');
+      const body=document.createElement('span');
+      body.className='quiz-example-form-bubble-body';
+      const text=document.createElement('span');
+      text.className='quiz-example-form-bubble-text';
+      text.textContent='例文はこれ';
+      body.append(text);
+      bubble.append(body);
+      heading.append(bubble);
+    }else if(!exampleForm){
+      existing?.remove();
+    }
     tr.querySelectorAll('td>*').forEach(e=>hidden?e.setAttribute('aria-hidden','true'):e.removeAttribute('aria-hidden'));
   });
   // Table title/column headings are never the answer type, and the correct row is

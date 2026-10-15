@@ -49,7 +49,12 @@ export function buildMasterPractice(items,{publicAdjvRecords=[],auxExampleRecord
       conjugationType:item.kind,bucket:'standard',work:record.work,sourceLabel:record.sourceLabel,
       sourceUrl:record.sourceUrl??null,sourceLicense:record.sourceLicense,tableItem};
     result.type.push({...base,exampleId:'master:type:'+record.id,form:null});
-    result.lemma.push({...base,exampleId:'master:lemma:'+record.id,form:null});
+    // A uniquely matched, already-audited form may be shown beside the table
+    // after terminal-form grading. Ambiguous master examples stay unlabelled:
+    // inventing a conjugation form would misteach the grammar.
+    const knownForm=Number.isInteger(formIndex) && formIndex>=0 && formIndex<6 && tableValue
+      ? FORMS[formIndex] : null;
+    result.lemma.push({...base,exampleId:'master:lemma:'+record.id,form:knownForm});
     if(Number.isInteger(formIndex) && formIndex>=0 && formIndex<6 && tableValue)
       result.form.push({...base,exampleId:'master:form:'+record.id,form:FORMS[formIndex],tableValue});
   };
