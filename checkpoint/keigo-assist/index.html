@@ -31,9 +31,6 @@ textarea:focus,input:focus{border-color:var(--accent);outline:2px solid #b8d2c1;
 .toolbar button:hover,.nav button:hover,.again:hover{filter:brightness(.97)}
 #candidateArea{border-top:1px solid var(--line);margin-top:17px;padding-top:16px}
 .prompt-label{font-size:12px;color:var(--sub);font-weight:750;margin:0 0 8px}
-.marked{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:19px;line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
-.word-mark{padding:0 3px;border-radius:5px;background:#e5efe8;color:#31594d;border-bottom:2px solid #9abcaa}
-.word-mark.active{background:#cfe5d8;border-color:#4e7665}
 .words{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
 .word-choice{background:#f4f5f1;color:#4d544c;padding:7px 12px;border:1px solid #e5e8e1;border-radius:999px;min-height:39px;font-weight:700}
 .word-choice[aria-pressed="true"]{background:var(--soft);border-color:#88a999;color:#355e50}
@@ -68,7 +65,6 @@ textarea:focus,input:focus{border-color:var(--accent);outline:2px solid #b8d2c1;
  .toolbar button{flex:1 1 auto}
  .summary-grid{gap:7px}
  .fact{padding:9px 11px}
- .marked{font-size:18px}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
@@ -85,7 +81,6 @@ textarea:focus,input:focus{border-color:var(--accent);outline:2px solid #b8d2c1;
   </div>
   <div id="candidateArea" hidden>
     <div class="prompt-label">考えたい敬語を選ぶ</div>
-    <div class="marked" id="marked"></div>
     <div class="words" id="candidates"></div>
     <p class="empty" id="noCandidates" hidden>見つからない場合は、本文中の語を選択してください。</p>
   </div>
@@ -316,14 +311,10 @@ function renderWords(){
   const has=state.passage.length>0;
   $('candidateArea').hidden=!has;
   if(!has)return;
-  let at=0,html='';
-  for(const o of state.items){
-    html+=esc(state.passage.slice(at,o.start));
-    html+='<button type="button" class="word-mark'+(o.id===state.activeId?' active':'')+'" data-id="'+esc(o.id)+'">'+esc(state.passage.slice(o.start,o.end))+'</button>';
-    at=o.end;
-  }
-  $('marked').innerHTML=html+esc(state.passage.slice(at));
-  $('candidates').innerHTML=state.items.map(o=>'<button type="button" class="word-choice" aria-pressed="'+(o.id===state.activeId)+'" data-id="'+esc(o.id)+'">'+esc(o.form)+'</button>').join('');
+  $('candidates').innerHTML=state.items.map((o,i)=>
+    '<button type="button" class="word-choice" aria-pressed="'+(o.id===state.activeId)+'" data-id="'+esc(o.id)+'">'+
+    (state.items.filter(x=>x.form===o.form).length>1?(i+1)+'. ':'')+esc(o.form)+'</button>'
+  ).join('');
   $('noCandidates').hidden=state.items.length>0;
 }
 function choices(items,selected){
@@ -400,7 +391,6 @@ function render(){
 }
 $('analyze').addEventListener('click',analyze);
 $('add-selection').addEventListener('click',addSelection);
-$('marked').addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(b)useItem(b.dataset.id);});
 $('candidates').addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(b)useItem(b.dataset.id);});
 $('choices').addEventListener('click',e=>{
   const b=e.target.closest('button[data-value]');if(!b)return;
