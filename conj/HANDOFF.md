@@ -2960,3 +2960,17 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 - 2026-10-15 09:41:59 JSTに https://yama-books.github.io/koten/conj/ を直接取得。4モード名とJS/CSS `20261015-lemma-04` をHTTP 200確認し、マージSHAのファイルとバイト一致。JS SHA256 `e3f733bbb09cbaa3bcd5ac7a0e171a0cc2a94d96bb181b9832d061500cb4f19a`、CSS SHA256 `a09c7351eb740285e9605a2f88ef077eb502356fed69e7de6d6594513c6a7680`。
 - 公開画面Chromiumの375×667・320×568でも初期・正解・不正解・モード復帰をPASS確認。公開WebKitは実行環境の証明書エラー（SSL peer certificate or SSH remote key was not OK）で確認できず、証明書検証を無効化せず終了。WebKitのローカル確認と最新HEADのGitHub CIは成功済み。
 - 4モード常時表示・44px表行高下限を維持。GitHubを正本とし、既存ローカル変更をstashに保護。`D:\dev\koten\conj` は未変更。用例の読み全件監査は引き続き別の未完了課題。
+
+
+## 52. PR #114 公開完了・網掛け見本付きの簡略な質問（2026-10-15 10:15 JST・Codex）
+
+- 検証済みHEAD: `4e4baed70999b69a55bb2ad6abd49bd7d06db841`。PR: https://github.com/yama-books/koten/pull/114 。GitHub main `48aa53ad160effea5f19764b4ed0036379d9a19f`から変更。
+- 活用形・活用の種類・終止形の質問を「例文の［文字のない網掛け見本］部分の○○を答えなさい。」に統一。見本と例文の対象語に同じ背景・斜線・枠線を適用し、見本には読み上げ用の「網掛け」を付けた。活用表モード・採点・4モード常時表示・44pxの行高下限を維持。
+- 最新HEADの全CI成功: PR [#38661940298](https://github.com/yama-books/koten/actions/runs/38661940298) / push [#38661934397](https://github.com/yama-books/koten/actions/runs/38661934397)。434テスト、check:conj-layout違反0、Chromium / WebKit各2000/2000公開用例画面・320/320 fixture・80/80 master、scan:publish 767件違反0。
+- ローカルChromium / WebKitの375×667・320×568で3モードの指示文、文字のない見本、見本と対象部分の背景・斜線・枠線一致、4モード表示と横はみ出しなしをexit 0で確認。簡易クイズ検査もexit 0（250/250公開用例画面・40/40 fixture・10/10 master）。
+- TypeSafe Jev: 初回の図形・寸法2項目はverified。スラッシュ列記で曖昧だった文言の1主張はcontradictedとなったため撤回し、各モードの実測textContentを正確な別々の3主張に修正。修正後は3項目verified / contradicted 0 / unsupported 0。活用形の1項目だけreview（confidence 0.48）をホストが実測文字列・空spanの位置・画面から確認して受け入れ。信頼度を上げるための同一呼出しは行っていない。
+- 検証済みHEADを指定してReady→squash merge。マージSHA: `543402254d733e2ed2eb9b08e7ba8fa0f507737e`。
+- [Deploy Pages #38664400888](https://github.com/yama-books/koten/actions/runs/38664400888): build / deployともsuccess。
+- 2026-10-15 10:14:18 JSTに https://yama-books.github.io/koten/conj/ を直接HTTP確認。4モードとJS/CSS `20261015-prompt-01` はHTTP200で、マージSHAとバイト一致。JS SHA256 `7a9207ee45aa0eaa6ecda645086d01e6b85351255d7523fd1d3b3a71655c6d5a`、CSS SHA256 `4f8d3bb307498f411bf39a0da103e75725eec027727f5f9df9636b8f58a76b2a`。
+- 公開Chromiumの375×667・320×568で3モードの指示文・見本と例文の一致・4モード表示・横はみ出しなしをPASS（exit 0）。WebKitの公開実画面は前回判明した環境の証明書制約から再実行せず、ローカルと最新HEADのCI成功を記録。
+- 既存ローカル4ファイルをstash `preserve-local-pr111-before-prompt-change` に保護。GitHubを正本とし、`D:\dev\koten\conj` は未変更。用例の読み全件監査は別の未完了課題として維持。
