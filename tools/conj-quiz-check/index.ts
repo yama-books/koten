@@ -293,6 +293,11 @@ try{
   assert.equal(await empty.locator('#quizLemmaResultIcon').isVisible(),true);
   assert.equal(await empty.locator('#quizLemmaResultIcon').getAttribute('alt'),'正解');
   assert.equal(await empty.locator('#quizLemmaResultText').innerText(),'正解');
+  assert.equal(await empty.locator('.quiz-lemma-heading label').isVisible(),false,'redundant terminal heading is hidden');
+  assert.equal(await empty.getByLabel('終止形の解答').count(),1,'answer retains its accessible name');
+  assert.equal(await empty.locator('#quizLemmaInput').evaluate(el=>getComputedStyle(el).backgroundColor),
+    await empty.locator('#formBody > tr').nth(2).locator('td').first().evaluate(el=>getComputedStyle(el).backgroundColor),
+    'correct input and terminal answer row share the yellow background');
   await assertLemmaCenter(empty,'graded correct');
   await empty.setViewportSize({width:320,height:568});
   await assertLemmaCenter(empty,'compact graded correct');
