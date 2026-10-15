@@ -2974,3 +2974,19 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 - 2026-10-15 10:14:18 JSTに https://yama-books.github.io/koten/conj/ を直接HTTP確認。4モードとJS/CSS `20261015-prompt-01` はHTTP200で、マージSHAとバイト一致。JS SHA256 `7a9207ee45aa0eaa6ecda645086d01e6b85351255d7523fd1d3b3a71655c6d5a`、CSS SHA256 `4f8d3bb307498f411bf39a0da103e75725eec027727f5f9df9636b8f58a76b2a`。
 - 公開Chromiumの375×667・320×568で3モードの指示文・見本と例文の一致・4モード表示・横はみ出しなしをPASS（exit 0）。WebKitの公開実画面は前回判明した環境の証明書制約から再実行せず、ローカルと最新HEADのCI成功を記録。
 - 既存ローカル4ファイルをstash `preserve-local-pr111-before-prompt-change` に保護。GitHubを正本とし、`D:\dev\koten\conj` は未変更。用例の読み全件監査は別の未完了課題として維持。
+
+
+## 53. PR #115 公開完了（2026-10-15 14:17 JST）
+
+- PR: https://github.com/yama-books/koten/pull/115
+- 検証済みHEAD: `13211f3e36fec0927bbbab2943c899c755b41a07`。
+- 出典を本文の左の独立した縦書き欄に戻し、6pxの間隔を確保。終止形の正誤表示は解答欄の直下だけに統一。
+- 終止形の例文は折り返さない一列の縦書きとし、長文はページを縦にスクロール。網掛け語の途中分割を防止。
+- 最新HEADの全CI成功: PR [#38665307161](https://github.com/yama-books/koten/actions/runs/38665307161) / push [#38665298746](https://github.com/yama-books/koten/actions/runs/38665298746)。434テスト、レイアウト違反0、Chromium / WebKit各2000/2000公開用例画面・320/320 fixture・80/80 master、scan:publish 767件違反0。
+- 375×667・320×568の両ブラウザ確認成功。出典と本文の分離、例文の切れなし、単一の正解表示、黄色の一致、表の右配置と横はみ出しなしを確認。
+- TypeSafe Jev verify: verified 4 / contradicted 0 / unsupported 0。黄色と右配置の1項目はreviewとなり、実測値と画面を確認して受け入れ。
+- 上記HEADを指定してsquash merge。マージSHA: `43f1b97325d180f23c2d02fe81e7c5f96dc6b934`。
+- [Deploy Pages #38685774202](https://github.com/yama-books/koten/actions/runs/38685774202): build / deployともsuccess。
+- 2026-10-15 14:16:38 JST、https://yama-books.github.io/koten/conj/ を直接確認。4モードとJS/CSS `20261015-vertical-01` はHTTP200で、マージSHAとバイト一致。
+- 公開Chromiumの375×667・320×568でも初期・正解・不正解とモード復帰をPASS確認。公開WebKitは実行環境の証明書制約から未確認（両ブラウザのCIは成功）。
+- 4モード常時表示・44px行高下限を維持。用例の読み全件監査は別の未完了課題として維持。
