@@ -29,7 +29,7 @@
   function sendToKeigo() {
     if (!frameLoaded || !pending || dialog.hidden || !frame.contentWindow) return;
     frame.contentWindow.postMessage({type: "keigo-assist:load", payload: pending}, window.location.origin);
-    status.textContent = "本文を引き継ぎました。敬語の種類や敬意の方向は仮説として検討してください。";
+    status.textContent = "";
   }
 
   function openWithRange(range) {
