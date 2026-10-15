@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-lemma-03">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-lemma-04">
 </head>
 <body>
 <div class="wrap">
@@ -3218,11 +3218,11 @@ body.review-modal-open{overflow:hidden}
         <div class="quiz-lemma-answer" id="quizLemmaAnswer" hidden>
           <div class="quiz-lemma-heading"><label for="quizLemmaInput">終止形</label><span class="quiz-lemma-kanji-ban" id="quizLemmaKanjiBan" hidden>漢字不可</span></div>
           <div class="quiz-lemma-input-wrap">
-            <input type="text" id="quizLemmaInput" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" maxlength="40" placeholder="終止形を入力" aria-describedby="quizLemmaNote quizLemmaResultText">
+            <input type="text" id="quizLemmaInput" aria-label="終止形の解答" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" maxlength="40" placeholder="終止形を入力" aria-describedby="quizLemmaNote quizLemmaResultText">
             <img id="quizLemmaResultIcon" class="quiz-lemma-result-icon" alt="" src="./img/result-ok.png" hidden>
           </div>
           <span id="quizLemmaResultText" class="quiz-lemma-result-text" role="status" hidden></span>
-          <small id="quizLemmaNote">歴史的仮名遣いのひらがなでも正解</small>
+          <small id="quizLemmaNote">歴史的仮名遣いの平仮名でもOK</small>
           <p id="quizLemmaHint" class="quiz-lemma-hint" aria-live="polite"></p>
         </div>
         <div class="quiz-row-answer" id="quizRowAnswer" hidden></div>
@@ -3488,7 +3488,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
-<script src="./conj-quiz-ui.js?v=20261015-lemma-03"></script>
+<script src="./conj-quiz-ui.js?v=20261015-lemma-04"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
 const F=a=>a;
