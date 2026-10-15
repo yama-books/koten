@@ -3019,3 +3019,4 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 - PR #117 最初のCIは `check:conj-quiz` の `graded wrong shows exactly one example-form bubble` で失敗。原因は既存の `buildMasterPractice` が教材由来 `lemma` 用例の `form` を、活用形が一意に確定していても意図的に `null` に捨てていたこと。描画不具合ではない。
 - 修正: `conj-quiz-adapter.mjs` の `lemma` 問題に、一意に判定できている `formIndex/tableValue` を `form` として継承。曖昧で未確定の例文は推定せず吹き出しを出さない。型判別モードの挙動は変更しない。既存の活用形出題の正答判定および公開データの承認条件は不変更。テストには未確定例の吹き出し非表示も追加。
 - 最新CIの再実行結果は、変更のコミット後に確認すること。成功未確認ならdraft維持・未公開。
+- 公開キャッシュ注意: adapter 変更がブラウザキャッシュで旧 `form:null` に戻らないよう、`conj-quiz-ui.js` のアダプター import query を `20261015-example-bubble-01` に更新。
