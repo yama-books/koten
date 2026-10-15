@@ -191,16 +191,8 @@ function renderQuizUI(){
   for(const id of ['lemma','lemmaAid','kind','posTag']) document.getElementById(id).style.display=active&&!quizState?'none':'';
   placeQuizTable();
   const lemmaMode=active&&quizState?.quizMode==='lemma';
-  // A wrapped vertical example needs a separate source line, not a flex column
-  // that can shrink into the sentence. Restore the original placement in other modes.
-  const examplePanel=document.getElementById('examplePanel');
-  const exampleBody=examplePanel.querySelector('.example-body');
-  const exampleFoot=document.getElementById('exampleFoot');
-  const sourceParent=lemmaMode?examplePanel:exampleBody;
-  if(exampleFoot.parentElement!==sourceParent){
-    if(lemmaMode)sourceParent.append(exampleFoot);
-    else sourceParent.prepend(exampleFoot);
-  }
+  // The input's status is the single grading message in terminal-answer mode.
+  document.getElementById('feedback').hidden=lemmaMode;
   document.getElementById('quizChoices').hidden=!!lemmaMode;
   document.getElementById('quizLemmaAnswer').hidden=!lemmaMode;
   if(!active){
