@@ -346,12 +346,15 @@ try{
   await empty.locator('#quizLemmaInput').fill('く');await empty.locator('#check').click();
   assert.match(await empty.locator('#feedback').innerText(),/^正解/);
   await setTerminalQuestion('kohu');
+  // The already-approved example has an ambiguous suffix; never invent a row.
+  assert.equal(await empty.evaluate('quizState.example.form'),null,'unknown example form stays unlabelled');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isHidden(),true,'ordinary inflected kanji spelling is allowed');
   assert.equal(await empty.locator('#quizLemmaNote').innerText(),'歴史的仮名遣いの平仮名でもOK');
   assert.match(await empty.locator('#quizLemmaNote').evaluate(el=>getComputedStyle(el).fontFamily),/Zen Maru Gothic/);
   await empty.locator('#quizLemmaInput').fill('こふ');
   await empty.locator('#quizLemmaInput').press('Enter');
   assert.match(await empty.locator('#feedback').innerText(),/^正解/,'historical hiragana is accepted by Enter');
+  assert.equal(await empty.locator('.quiz-example-form-bubble').count(),0,'unverified form receives no misleading bubble');
   assert.equal(await empty.evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true,'lemma input does not overflow mobile viewport');
   await empty.setViewportSize({width:375,height:812});
   for(const pos of ['verb','adj','adjv','aux']){
