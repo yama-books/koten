@@ -3015,3 +3015,7 @@ UI・自動Lvが残っており、ここからが利用者に見える実装の�
 - 採点前・他モード・次問では吹き出し無し。DOMを再描画しない限り呼吸アニメーションは再起動しない。
 - `tools/conj-quiz-check/index.ts` に採点前非表示、採点後の表示行と文言、終止形と例文活用形の独立、320px横はみ出し回帰を追加。
 - **現時点で未実行**：Nodeテスト、Chromium / WebKit、各テーマ実機。CI成功・マージ・公開反映までは完了扱いにしない。PRをdraftで用意して継続検証する。
+
+- PR #117 最初のCIは `check:conj-quiz` の `graded wrong shows exactly one example-form bubble` で失敗。原因は既存の `buildMasterPractice` が教材由来 `lemma` 用例の `form` を、活用形が一意に確定していても意図的に `null` に捨てていたこと。描画不具合ではない。
+- 修正: `conj-quiz-adapter.mjs` の `lemma` 問題に、一意に判定できている `formIndex/tableValue` を `form` として継承。曖昧で未確定の例文は推定せず吹き出しを出さない。型判別モードの挙動は変更しない。既存の活用形出題の正答判定および公開データの承認条件は不変更。テストには未確定例の吹き出し非表示も追加。
+- 最新CIの再実行結果は、変更のコミット後に確認すること。成功未確認ならdraft維持・未公開。
