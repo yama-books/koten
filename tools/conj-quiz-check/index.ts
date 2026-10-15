@@ -147,6 +147,16 @@ try{
   assert.equal(readingAudit.find(row=>row.lemma==='神妙')?.kana,'しんめうなり');
   assert.equal(readingAudit.find(row=>row.lemma==='渺茫')?.kana,'べうばうたり');
   await chooseMode(real,'lemma');
+  await real.setViewportSize({width:375,height:667});
+  await real.evaluate(()=>{
+    const ex=quizRecords.find(entry=>entry.lemma==='悔ゆ');
+    current={...ex.tableItem};answered=false;answers={};blankSlots=new Set();
+    quizState=quizEngine.createQuizState({example:ex,quizMode:'lemma',choiceScope:'near',supportLevel:0,rowMode:'omitted'});
+    quizState.masteryStage=0;quizChoices=[];render();
+  });
+  assert.ok(await real.locator('#exampleText').evaluate(el=>el.getBoundingClientRect().height<=312),'long terminal example must stay within its mobile height budget');
+  assert.equal(await real.locator('#exampleText mark').evaluate(el=>el.getClientRects().length),1,'long example keeps the marked word together');
+  assert.equal(await real.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,'long terminal example must not widen the page');
   await real.evaluate(()=>{
     const ex=quizRecords.find(entry=>entry.lemma==='御覧ず');
     current={...ex.tableItem};answered=false;answers={};blankSlots=new Set();
@@ -163,7 +173,13 @@ try{
     await real.locator('#quizPrompt').waitFor({state:'visible'});
     assert.notEqual(await real.evaluate('quizState.example.origin'),'master',`published example is used for ${pos}`);
     assert.equal(await real.locator('#exampleText mark').count(),1,`one marked target for ${pos}`);
-    assert.equal(await real.locator('#exampleText mark').innerText(),await real.evaluate('quizState.example.originalTarget'),`marked text is the target for ${pos}`);
+    const displayedTarget=await real.evaluate(()=>{
+      const ex=quizState.example;
+      return ex.source==='今昔物語集'
+        ?ex.originalTarget.replace(/[ァ-ヶヽヾ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))
+        :ex.originalTarget;
+    });
+    assert.equal(await real.locator('#exampleText mark').innerText(),displayedTarget,`marked text is the displayed target for ${pos}`);
     assert.equal(await real.locator('#exampleFoot').innerText(),await real.evaluate('quizState.example.source'),`work name only under the example for ${pos}`);
   }
   // Repeated targets keep the reviewed occurrence (aux-013 and aux-055 use the second match).
