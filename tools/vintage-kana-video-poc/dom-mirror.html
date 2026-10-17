@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VK-02 本番DOM→Canvasミラー実験（録画品質未承認）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+Hentaigana:400,600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{font:14px/1.65 system-ui,sans-serif;background:#f7f1ea;color:#292722;margin:0 auto;max-width:1700px;padding:16px}
+h1{font-size:21px}p{max-width:900px}.panes{display:flex;flex-wrap:wrap;gap:16px}.pane{width:min(100%,768px)}
+iframe,canvas,video{display:block;width:100%;aspect-ratio:16/9;border:1px solid #d9d0c7;background:#fff;border-radius:12px}
+iframe{height:432px;width:768px;max-width:none;transform-origin:top left}
+.scroll{width:100%;overflow-x:auto}canvas{width:768px;max-width:none}
+label,button,a{font:inherit}button,select,a{min-height:44px;padding:9px 14px;border-radius:11px;border:1px solid #9b9087;background:white;color:inherit}
+button{cursor:pointer}button:disabled{opacity:.45;cursor:default}a[hidden],video[hidden]{display:none}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0}
+.warning{border-left:4px solid #9c8067;padding:9px 14px;background:#fff9f3}
+#status{min-height:2.5em;overflow-wrap:anywhere}small{color:#71655b}
+</style>
+</head>
+<body>
+<h1>実際のDOM演出 → Canvasミラー（先頭約3.2秒のみ）</h1>
+<p class="warning"><strong>映像一致は未達成です。</strong> 本番の文字座標・文字列・透明度を読み、2D Canvasで近似表示します。CSSの3D透視・発光・ぼかし・フラッシュ・刻印は再現していません。本番画面にこの実験コードは読み込まれません。</p>
+<div class="controls">
+<label>変換方向 <select id="direction"><option value="forward">ひらがな → 変体仮名</option><option value="reverse">変体仮名 → ひらがな</option></select></label>
+<button id="start">本番演出の座標を読み込む</button>
+<a id="download" href="#" hidden>近似動画を保存（検証用）</a>
+</div>
+<p id="status" role="status" aria-live="polite">同一オリジンのHTTPサーバから実行してください。file://ではiframeの中身を読み取れません。</p>
+<div class="panes">
+<section class="pane"><h2>元のDOM表示（操作用）</h2><div class="scroll"><iframe id="source" title="本番変体仮名アプリ" src="../../vintage-kana/index.html" width="768" height="432"></iframe></div></section>
+<section class="pane"><h2>Canvasミラー（録画対象）</h2><div class="scroll"><canvas id="mirror" width="768" height="432"></canvas></div></section>
+</div>
+<video id="preview" controls playsinline hidden aria-label="近似録画のプレビュー"></video>
+<p><small>iframeは本番アプリの現行コードを無変更で読みます。元のサイトのCSS 3DとCanvasの差を比較するための実験であり、画面一致・iPhone対応・全相の再現を保証しません。自動生成した動画を一般公開しないでください。</small></p>
+<script src="./video-capability.js"></script>
+<script src="./dom-mirror.js"></script>
+<script>
+(()=>{
+"use strict";
+const frame=document.getElementById("source"),canvas=document.getElementById("mirror");
+const direction=document.getElementById("direction"),start=document.getElementById("start"),status=document.getElementById("status");
+const download=document.getElementById("download"),preview=document.getElementById("preview");
+let running=false,oldUrl=null,stats={frames:0,maxGlyphs:0,renderMs:0,mode:"forward"};
+const say=s=>status.textContent=s;
+function clearDownload(){
+  download.hidden=true;download.removeAttribute("href");
+  preview.hidden=true;preview.removeAttribute("src");preview.load();
+  if(oldUrl){URL.revokeObjectURL(oldUrl);oldUrl=null}
+}
+const nextPaint=()=>new Promise(resolve=>requestAnimationFrame(resolve));
+async function waitFor(predicate,maxMs){
+  const started=performance.now();
+  while(performance.now()-started<maxMs){
+    if(predicate())return true;
+    await nextPaint();
+  }
+  return false;
+}
+async function run(){
+  if(running)return;
+  running=true;start.disabled=true;direction.disabled=true;clearDownload();
+  const mode=direction.value;
+  let stream=null,recorder=null;
+  try{
+    const win=frame.contentWindow;
+    const doc=win?.document;
+    if(!doc||!doc.getElementById("stage"))throw new Error("iframeが同一オリジンでありません。HTTPサーバで開いてください。");
+    if(win.running)throw new Error("本番アニメーションを実行中です。ページを再読込してください。");
+    const inp=doc.getElementById("input");
+    inp.value=mode==="reverse"?"𛀂":"あ";
+    doc.querySelector('input[name="conversionMode"][value="'+mode+'"]').checked=true;
+    // A deterministic QA preset already supported by the production player.
+    win.eval('nextPreset="front-orbit"');
+    win.play();
+    if(!await waitFor(()=>doc.querySelectorAll("#stage .glyph").length>0,11000)){
+      throw new Error("本番側の文字生成が始まりませんでした");
+    }
+    const support=window.VintageKanaVideoProbe.detect(canvas,window.MediaRecorder);
+    let parts=[],stopping=false,aborted=false;
+    if(support.supported){
+      stream=canvas.captureStream(30);
+      recorder=new MediaRecorder(stream,{mimeType:support.format.mimeType,videoBitsPerSecond:2600000});
+      recorder.ondataavailable=e=>{if(e.data&&e.data.size)parts.push(e.data)};
+      recorder.onerror=()=>{aborted=true;say("録画でエラーが発生しました")};
+      recorder.onstop=()=>{
+        stream?.getTracks().forEach(t=>t.stop());
+        if(aborted)return;
+        const actualMime=recorder.mimeType||support.format.mimeType;
+        const type=/mp4/i.test(actualMime)?"mp4":/webm/i.test(actualMime)?"webm":null;
+        const blob=new Blob(parts,{type:actualMime});
+        if(!type||!blob.size){say("出力Blobが無効でした");return}
+        oldUrl=URL.createObjectURL(blob);
+        download.href=oldUrl;
+        download.download="vk02-partial-"+window.VintageKanaVideoProbe.filename(mode,type);
+        download.hidden=false;
+        preview.src=oldUrl;preview.hidden=false;
+        say("前半3.2秒の近似映像 "+(blob.size/1024).toFixed(1)+"KiB。元のDOMとの画質差を確認してください。文字要素最大 "+stats.maxGlyphs+" 件、フレーム "+stats.frames+" 枚。");
+      };
+      recorder.start(200);
+    }
+    stats={frames:0,maxGlyphs:0,renderMs:0,mode};
+    const started=performance.now();
+    while(performance.now()-started<3200){
+      const t0=performance.now();
+      const shot=window.VintageKanaDomMirror.snapshot(doc.getElementById("stage"),canvas.width,canvas.height);
+      window.VintageKanaDomMirror.draw(canvas,shot);
+      stats.frames++;
+      stats.maxGlyphs=Math.max(stats.maxGlyphs,shot.glyphs.length);
+      stats.renderMs+=performance.now()-t0;
+      if(stats.frames%30===0)say("本番DOMをミラー中: "+stats.frames+"フレーム、平均描画 "+(stats.renderMs/stats.frames).toFixed(1)+"ms。録画コンテナ: "+(support.format?.label||"非対応"));
+      await nextPaint();
+    }
+    if(recorder&&recorder.state!=="inactive")recorder.stop();
+    if(!support.supported)say("Canvasミラーの描画は実行しましたが、このブラウザは録画に非対応です ("+support.reason+")。文字要素 "+stats.maxGlyphs+" 件。");
+  }catch(err){say("検証を中止しました: "+String(err?.message||err));if(recorder&&recorder.state!=="inactive")recorder.stop();}
+  finally{
+    if(!recorder)stream?.getTracks().forEach(t=>t.stop());
+    running=false;start.disabled=false;direction.disabled=false;
+  }
+}
+start.addEventListener("click",run);
+window.VK02MirrorStats=()=>({...stats});
+})();
+</script>
+</body>
+</html>
