@@ -649,6 +649,15 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
           <div id="weakGlyphs" class="glyphStrip"></div>
         </section>
 
+        <section class="recordSection" aria-label="記録のバックアップと復元">
+          <h3>記録のバックアップ</h3>
+          <div class="actions">
+            <button id="vintageExportRecord" class="btn" type="button">記録を書き出す</button>
+            <button id="vintageImportRecord" class="btn" type="button">記録を読み込む</button>
+            <input id="vintageImportRecordFile" type="file" accept=".json,application/json" hidden>
+          </div>
+          <p id="vintageRecordTransferStatus" class="note" role="status" aria-live="polite"></p>
+        </section>
         <div class="actions"><button id="backToPractice" class="btn">練習に戻る</button></div>
       </div>
     </div>
@@ -702,6 +711,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 
 <script src="./mastery-summary.js"></script>
 <script src="./decipher-engine.js"></script>
+<script src="./record-transfer.js"></script>
 <script src="./quiz-motion.js"></script>
 <script>
 const KANA_ORDER=[..."あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん"];
@@ -2429,6 +2439,39 @@ function reloadMasteryRecord(){
    renderRecordScreen();
  }
 }
+document.getElementById("vintageExportRecord")?.addEventListener("click",()=>{
+ try {
+  const record=VintageKanaRecordTransfer.exportRecord(localStorage);
+  const blob=new Blob([record],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="vintage-kana-record-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  document.getElementById("vintageRecordTransferStatus").textContent="記録を書き出しました。";
+ } catch(error) {
+  document.getElementById("vintageRecordTransferStatus").textContent="書き出しに失敗しました。"+error.message;
+ }
+});
+document.getElementById("vintageImportRecord")?.addEventListener("click",()=>{
+ document.getElementById("vintageImportRecordFile").click();
+});
+document.getElementById("vintageImportRecordFile")?.addEventListener("change",async event=>{
+ const input=event.currentTarget, file=input.files?.[0];input.value="";
+ if(!file)return;
+ const status=document.getElementById("vintageRecordTransferStatus");
+ try {
+  if(file.size>5*1024*1024)throw new Error("ファイルが大きすぎます。");
+  const preview=VintageKanaRecordTransfer.previewImport(localStorage,await file.text());
+  const question="既存の記録は残し、読み・字母 "+preview.addedLearning+"件、解読 "+preview.addedDecipher+"件を追加します。よろしいですか？";
+  if(!window.confirm(question))return;
+  VintageKanaRecordTransfer.commitImport(localStorage,preview);
+  decipherLevel=VintageKanaDecipher.readLevel();
+  reloadMasteryRecord();
+  status.textContent="記録を統合しました。";
+ }catch(error){status.textContent="読み込みに失敗しました。"+error.message;}
+});
 window.addEventListener("pageshow",reloadMasteryRecord);
 window.addEventListener("storage",e=>{
  if(e.key===VintageKanaMastery.recordKey||e.key===VintageKanaDecipher.HISTORY_KEY||e.key===null)reloadMasteryRecord();
