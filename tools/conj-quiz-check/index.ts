@@ -258,9 +258,14 @@ try{
         graded:document.querySelector('main.card')!.classList.contains('quiz-lemma-graded'),
         fontSize:parseFloat(getComputedStyle(document.getElementById('exampleText')!).fontSize)};
     });
-    if(rects.graded){
-      assert.match(rects.areas,/"example table".*"quiz quiz"/s,phase+' graded table must be next to example');
-      assert.ok(rects.table.left>=rects.example.right-1,phase+' table must be on the right');
+    if(rects.tableVisible){
+      assert.match(rects.areas,/"example table".*"quiz quiz"/s,phase+' revealed table must be next to example');
+      assert.ok(rects.table.left>=rects.example.right-1,phase+' revealed table must be on the right');
+      if(!rects.graded){
+        assert.equal(await page.locator('.quiz-example-form-bubble').count(),0,phase+' hint does not show grading bubble');
+        assert.equal(await page.locator('#formBody > tr.quiz-lemma-terminal-answer').count(),0,phase+' hint does not reveal yellow answer');
+        assert.ok(rects.table.bottom<=rects.input.top+1,phase+' input follows side-by-side hint table');
+      }else{
       assert.equal(await page.locator('#formBody > tr.quiz-lemma-terminal-answer').count(),1,'terminal answer is highlighted');
       assert.ok((await page.locator('#formBody > tr').nth(2).getAttribute('class'))?.includes('quiz-lemma-terminal-answer'));
       const markers=page.locator('#formBody > tr.quiz-lemma-example-form .quiz-example-form-bubble');
@@ -270,18 +275,15 @@ try{
       const expectedForm=await page.evaluate('quizState.example.form');
       assert.equal(actualRow,['未然形','連用形','終止形','連体形','已然形','命令形'].indexOf(expectedForm),
         phase+' bubble points to the form used in the example, not automatically the terminal form');
+      }
     }else{
-      assert.match(rects.areas,/"example".*"quiz".*"table"/s,phase+' unanswered/wrong layout must stay stacked');
+      assert.match(rects.areas,/"example".*"quiz".*"table"/s,phase+' initial hidden table must stay stacked');
       assert.ok(Math.abs(rects.example.center-rects.card.center)<5,phase+' example must be centered');
     }
     assert.ok(rects.fontSize>=16,phase+' example must stay readable');
     assert.equal(rects.sourceWritingMode,'vertical-rl',phase+' source must be vertical');
     assert.ok(rects.source.right<=rects.text.left-1,phase+' source must stay beside the example without overlap');
     assert.ok(Math.abs(rects.input.center-rects.card.center)<5,phase+' input must be centered');
-    if(rects.tableVisible && !rects.graded){
-      assert.ok(Math.abs(rects.table.center-rects.card.center)<5,phase+' conjugation table must be centered');
-      assert.ok(rects.table.top>=rects.input.bottom-1,phase+' table must follow the input');
-    }
     assert.equal(rects.overflow,false,phase+' must not cause horizontal scroll');
   }
   async function setTerminalQuestion(id:string){
@@ -305,6 +307,7 @@ try{
   await assertLemmaCenter(empty,'first hint');
   assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked with hint');
   await empty.locator('#reveal').click();
+  await assertLemmaCenter(empty,'second hint');
   assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked after second hint');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'kana-only warning stays present after hints');
   await empty.locator('#quizLemmaInput').fill('寝');await empty.locator('#check').click();
