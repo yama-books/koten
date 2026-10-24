@@ -5,6 +5,9 @@ import { SyncSettings } from '../../packages/hyakunin/src/ui/screens/SyncSetting
 import { initialSettings } from '../../packages/hyakunin/src/ui/settings.ts';
 import type { UserSettings } from '../../packages/shared/src/domain/event.ts';
 
+const syncJsdom = (globalThis as typeof globalThis & { jsdom?: { window: Window } }).jsdom;
+if (syncJsdom) Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: syncJsdom.window.localStorage });
+
 vi.mock('@koten/shared/sync/client', () => ({ readSettings: async () => ({ enc: 'enc:fixture' }) }));
 vi.mock('@koten/shared/sync/group-client', () => ({ createGroup: async () => {}, hyakuninGroupMode: async () => 'legacy' }));
 vi.mock('@koten/shared/sync/crypto', async (importOriginal) => ({
