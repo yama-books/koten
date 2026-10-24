@@ -3,24 +3,34 @@
 // Task 4(ルール試験)とTask 9(engine.tsの結合試験、依存注入でこのモジュールを差し替える)が
 // この層を経由して検証する。
 import { appConfig } from '../app-config.ts';
-import { firebaseApp, startAppCheck } from '../app-check.ts';
+import { firebaseApp, startAppCheck, appSyncPreview } from '../app-check.ts';
 import type { SyncKind } from './codec.ts';
 
 export type RemoteRecord = { id: string; payload: unknown };
 
 let firestorePromise: Promise<unknown> | null = null;
 const devicePreview = typeof import.meta.env !== 'undefined' && import.meta.env.VITE_QR_SYNC_EMULATOR === '1';
+const authorizedHouseholds = new Map<string, string>();
+export function authorizeHousehold(houseId: string, capability: string): void { authorizedHouseholds.set(houseId, capability); }
+function collectionPath(houseId: string, kind: string): [string, ...string[]] {
+  const capability = authorizedHouseholds.get(houseId);
+  return capability ? ['sharedGroups', capability, 'apps', 'hyakunin', kind] : ['households', houseId, kind];
+}
 
-async function getFirestore(): Promise<import('firebase/firestore').Firestore> {
+export async function getFirestore(): Promise<import('firebase/firestore').Firestore> {
   // **App Check は Firestore より先に起こす。** あとからでは既に張った接続にトークンが乗らない。
   const [firestoreModule, app] = await Promise.all([
     import('firebase/firestore'),
     firebaseApp(),
   ]);
   await startAppCheck();
-  if (!firestorePromise) firestorePromise = Promise.resolve(devicePreview
-    ? firestoreModule.initializeFirestore(app as never, { host: window.location.host, ssl: window.location.protocol === 'https:', experimentalForceLongPolling: true })
-    : firestoreModule.getFirestore(app as never));
+  if (!firestorePromise) {
+    const db = devicePreview || appSyncPreview
+    ? firestoreModule.initializeFirestore(app as never, { ...(devicePreview ? { host: window.location.host, ssl: window.location.protocol === 'https:' } : {}), experimentalForceLongPolling: true })
+    : firestoreModule.getFirestore(app as never);
+    if (appSyncPreview) firestoreModule.connectFirestoreEmulator(db, '127.0.0.1', 8088);
+    firestorePromise = Promise.resolve(db);
+  }
   return firestorePromise as Promise<import('firebase/firestore').Firestore>;
 }
 
@@ -32,7 +42,7 @@ export async function createRecord(
 ): Promise<'created' | 'already-exists' | 'error'> {
   const { doc, getDoc, setDoc } = await import('firebase/firestore');
   const db = await getFirestore();
-  const reference = doc(db, 'households', houseId, kind, id);
+  const reference = doc(db, ...collectionPath(houseId, kind), id);
   try {
     await setDoc(reference, payload);
     return 'created';
@@ -57,7 +67,7 @@ export async function createRecords(houseId: string, items: readonly Readonly<{ 
   const db = await getFirestore();
   try {
     const batch = writeBatch(db);
-    for (const item of items) batch.set(doc(db, 'households', houseId, item.kind, item.id), item.payload);
+    for (const item of items) batch.set(doc(db, ...collectionPath(houseId, item.kind), item.id), item.payload);
     await batch.commit();
     return 'ok';
   } catch {
@@ -75,13 +85,13 @@ export async function deleteAllRecords(houseId: string): Promise<'ok' | 'error'>
   const db = await getFirestore();
   try {
     for (const kind of ['events', 'sessions', 'reports'] as const) {
-      const snapshot = await getDocs(collection(db, 'households', houseId, kind));
+      const snapshot = await getDocs(collection(db, ...collectionPath(houseId, kind)));
       const ids = snapshot.docs.map((entry) => entry.id);
       for (let start = 0; start < ids.length; start += 200) {
         const chunk = ids.slice(start, start + 200);
-        if (chunk.length === 1) { await deleteDoc(doc(db, 'households', houseId, kind, chunk[0]!)); continue; }
+        if (chunk.length === 1) { await deleteDoc(doc(db, ...collectionPath(houseId, kind), chunk[0]!)); continue; }
         const batch = writeBatch(db);
-        for (const id of chunk) batch.delete(doc(db, 'households', houseId, kind, id));
+        for (const id of chunk) batch.delete(doc(db, ...collectionPath(houseId, kind), id));
         await batch.commit();
       }
     }
@@ -95,7 +105,7 @@ export async function putSettings(houseId: string, payload: { enc: string }): Pr
   const { doc, setDoc } = await import('firebase/firestore');
   const db = await getFirestore();
   try {
-    await setDoc(doc(db, 'households', houseId, 'settings', 'current'), payload);
+    await setDoc(doc(db, ...collectionPath(houseId, 'settings'), 'current'), payload);
     return 'ok';
   } catch {
     return 'error';
@@ -105,7 +115,7 @@ export async function putSettings(houseId: string, payload: { enc: string }): Pr
 export async function readSettings(houseId: string): Promise<unknown | null> {
   const { doc, getDoc } = await import('firebase/firestore');
   const db = await getFirestore();
-  const snapshot = await getDoc(doc(db, 'households', houseId, 'settings', 'current'));
+  const snapshot = await getDoc(doc(db, ...collectionPath(houseId, 'settings'), 'current'));
   return snapshot.exists() ? snapshot.data() : null;
 }
 
@@ -116,7 +126,7 @@ export function watchCollection(houseId: string, kind: SyncKind, onRecords: (rec
     if (unsubscribed) return;
     const { collection, onSnapshot } = await import('firebase/firestore');
     if (unsubscribed) return;
-    unsubscribe = onSnapshot(collection(db, 'households', houseId, kind), { includeMetadataChanges: true }, (snapshot) => {
+    unsubscribe = onSnapshot(collection(db, ...collectionPath(houseId, kind)), { includeMetadataChanges: true }, (snapshot) => {
       onRecords(snapshot.docChanges().filter((change) => change.type !== 'removed').map(({ doc: docSnap }) => ({ id: docSnap.id, payload: docSnap.data() })), !snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites);
     }, onError);
   }).catch(onError);
@@ -133,7 +143,7 @@ export function watchSettings(houseId: string, onSettings: (payload: unknown | n
     if (unsubscribed) return;
     const { doc, onSnapshot } = await import('firebase/firestore');
     if (unsubscribed) return;
-    unsubscribe = onSnapshot(doc(db, 'households', houseId, 'settings', 'current'), (snapshot) => {
+    unsubscribe = onSnapshot(doc(db, ...collectionPath(houseId, 'settings'), 'current'), (snapshot) => {
       onSettings(snapshot.exists() ? snapshot.data() : null);
     }, onError);
   }).catch(onError);

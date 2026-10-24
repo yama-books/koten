@@ -164,6 +164,7 @@ try{
     quizState.masteryStage=0;quizChoices=[];render();
   });
   await real.locator('#quizLemmaInput').fill('ごらんず');await real.locator('#check').click();
+  await real.waitForFunction(()=>!window.ConjRecordSaving&&document.getElementById('feedback')?.textContent?.startsWith('正解'));
   assert.match(await real.locator('#feedback').innerText(),/^正解/,'quoted 御覧ず accepts ごらんず through the actual UI');
   assert.deepEqual(await real.evaluate('quizRecords.map(r=>r.exampleId)'),published.map((r:any)=>r.exampleId),'all published examples resolve at runtime');
   assert.equal(await real.evaluate("quizRecords.some(r=>r.exampleId==='aux-289'||r.exampleId==='aux-290')"),false,'未確認 examples stay held');
@@ -217,6 +218,7 @@ try{
   if(output){await mkdir(output,{recursive:true});await empty.screenshot({path:path.join(output,'master-form-mobile.png'),fullPage:true,timeout:15000});}
   const formAnswer=await empty.evaluate('quizState.example.form');
   await empty.locator('#quizChoices button').evaluateAll((buttons,value)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical===value) as HTMLButtonElement).click();},formAnswer);
+  await empty.waitForFunction(()=>!window.ConjRecordSaving);
   assert.match(await empty.locator('#feedback').innerText(),/^正解/);
   assert.equal(await empty.locator('#quizChoices .is-correct').count(),1);
   assert.match(await empty.evaluate('stats.quiz.events.at(-1).exampleId'),/^master:form:/);
@@ -236,6 +238,7 @@ try{
   assert.equal(await empty.locator('#exampleText mark').count(),1);
   const typeAnswer=await empty.evaluate('quizChoices.find(c=>c.canonicals.includes(quizState.example.conjugationType)).canonical');
   await empty.locator('#quizChoices button').evaluateAll((buttons,value)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical===value) as HTMLButtonElement).click();},typeAnswer);
+  await empty.waitForFunction(()=>!window.ConjRecordSaving);
   assert.match(await empty.locator('#feedback').innerText(),/^正解/);
   assert.match(await empty.evaluate('stats.quiz.events.at(-1).exampleId'),/^master:type:/);
   if(output)await empty.screenshot({path:path.join(output,'master-type-mobile.png'),fullPage:true,timeout:15000});
@@ -310,7 +313,13 @@ try{
   await assertLemmaCenter(empty,'second hint');
   assert.equal(await empty.locator('#formBody > tr').nth(2).getAttribute('class').then(s=>s?.includes('quiz-masked')),true,'terminal row stays masked after second hint');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'kana-only warning stays present after hints');
+  await empty.evaluate(()=>{void navigator.locks.request('koten:conj-record',()=>new Promise<void>(resolve=>{window.syntheticReleaseAnswer=resolve;}));});
+  await empty.waitForFunction(()=>typeof window.syntheticReleaseAnswer==='function');
   await empty.locator('#quizLemmaInput').fill('寝');await empty.locator('#check').click();
+  await empty.waitForFunction(()=>window.ConjRecordSaving===true);
+  assert.equal(await empty.evaluate(()=>{const before=current.id;nextQuestion();return current.id===before;}),true,'next question waits for the answer to be persisted');
+  await empty.evaluate(()=>window.syntheticReleaseAnswer());
+  await empty.waitForFunction(()=>!window.ConjRecordSaving&&document.getElementById('feedback')?.textContent?.startsWith('不正解'));
   assert.match(await empty.locator('#feedback').innerText(),/^不正解/,'bare 寝 is insufficient');
   assert.equal(await empty.locator('#quizLemmaResultIcon').isVisible(),true,'grade mark should appear after wrong answer');
   assert.equal(await empty.locator('#quizLemmaResultIcon').getAttribute('alt'),'不正解');
@@ -321,6 +330,7 @@ try{
   await empty.setViewportSize({width:375,height:812});
   await setTerminalQuestion('nu_verb');
   await empty.locator('#quizLemmaInput').fill('ぬ');await empty.locator('#check').click();
+  await empty.waitForFunction(()=>!window.ConjRecordSaving&&document.getElementById('feedback')?.textContent?.startsWith('正解'));
   assert.match(await empty.locator('#feedback').innerText(),/^正解/);
   assert.equal(await empty.locator('#quizLemmaResultIcon').isVisible(),true);
   assert.equal(await empty.locator('#quizLemmaResultIcon').getAttribute('alt'),'正解');
@@ -344,9 +354,11 @@ try{
   await setTerminalQuestion('ku');
   assert.equal(await empty.locator('#quizLemmaKanjiBan').isVisible(),true,'来 must warn 漢字不可');
   await empty.locator('#quizLemmaInput').fill('来');await empty.locator('#check').click();
+  await empty.waitForFunction(()=>!window.ConjRecordSaving&&document.getElementById('feedback')?.textContent?.startsWith('不正解'));
   assert.match(await empty.locator('#feedback').innerText(),/^不正解/);
   await setTerminalQuestion('ku');
   await empty.locator('#quizLemmaInput').fill('く');await empty.locator('#check').click();
+  await empty.waitForFunction(()=>!window.ConjRecordSaving&&document.getElementById('feedback')?.textContent?.startsWith('正解'));
   assert.match(await empty.locator('#feedback').innerText(),/^正解/);
   await setTerminalQuestion('kohu');
   // The already-approved example has an ambiguous suffix; never invent a row.
@@ -356,6 +368,7 @@ try{
   assert.match(await empty.locator('#quizLemmaNote').evaluate(el=>getComputedStyle(el).fontFamily),/Zen Maru Gothic/);
   await empty.locator('#quizLemmaInput').fill('こふ');
   await empty.locator('#quizLemmaInput').press('Enter');
+  await empty.waitForFunction(()=>!window.ConjRecordSaving&&document.getElementById('feedback')?.textContent?.startsWith('正解'));
   assert.match(await empty.locator('#feedback').innerText(),/^正解/,'historical hiragana is accepted by Enter');
   assert.equal(await empty.locator('.quiz-example-form-bubble').count(),0,'unverified form receives no misleading bubble');
   assert.equal(await empty.evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true,'lemma input does not overflow mobile viewport');
@@ -552,6 +565,7 @@ try{
           assert.equal(await page.evaluate('window.__quizTableBefore===document.querySelector("#formBody > tr")'),true,tag+' renderer replaced');
           const correct=await page.evaluate('quizState.example.'+(mode==='form'?'form':'conjugationType'));
           await page.locator('#quizChoices button').evaluateAll((buttons,value)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical===value) as HTMLButtonElement).click();},correct);
+          await page.waitForFunction(()=>!window.ConjRecordSaving);
           await page.waitForTimeout(50);
           assert.match(await page.locator('#feedback').innerText(),/^正解/,tag);
           assert.equal(await page.locator('#quizChoices .is-correct').count(),1,tag);
@@ -579,17 +593,21 @@ try{
     // Independent response does not count the answer-feedback table as a hint.
     await chooseMode(page,'form');await setPos(page,'verb');await setAdvanced(page,'supportLevel','0');
     await page.locator('#quizChoices button').evaluateAll((buttons)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical==='終止形') as HTMLButtonElement).click();});
+    await page.waitForFunction(()=>!window.ConjRecordSaving);
     assert.equal(await page.evaluate('stats.quiz.events.at(-1).maxHintLevel'),0);
     // Type/row correctness, text input and stable row-button order.
     await chooseMode(page,'type');await setAdvanced(page,'rowMode','select');
     await page.locator('#quizChoices button').evaluateAll((buttons)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical==='カ行四段活用') as HTMLButtonElement).click();});
+    await page.waitForFunction(()=>!window.ConjRecordSaving);
     const order=await page.locator('#quizRowAnswer button').allTextContents();
     await page.locator('#quizRowAnswer button').filter({hasText:/^ガ$/}).click();assert.deepEqual(await page.locator('#quizRowAnswer button').allTextContents(),order);
+    await page.waitForFunction(()=>!window.ConjRecordSaving);
     assert.equal(await page.evaluate('stats.quiz.events.at(-1).typeCorrect'),true);assert.equal(await page.evaluate('stats.quiz.events.at(-1).rowCorrect'),false);
     // Row first, then type: either order grades once both are chosen (the text-input row mode is retired).
     await page.evaluate('nextQuestion()');
     await page.locator('#quizRowAnswer button').filter({hasText:/^カ$/}).click();
     await page.locator('#quizChoices button').evaluateAll((buttons)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical==='カ行四段活用') as HTMLButtonElement).click();});
+    await page.waitForFunction(()=>!window.ConjRecordSaving);
     assert.equal(await page.evaluate('stats.quiz.events.at(-1).correct'),true);
     const counts=[];
     for(const scope of ['near','part_of_speech','cross_pos','all']){await setAdvanced(page,'choiceScope',scope);counts.push(await page.locator('#quizChoices button').count());}
@@ -612,6 +630,7 @@ try{
     await setPos(page,'aux');
     assert.ok(await page.locator('#quizChoices button').evaluateAll(buttons=>buttons.every(button=>button.textContent?.includes('助動詞') || !button.querySelector('small'))));
     const beforeRowRegression=await page.evaluate('JSON.stringify(stats)');
+    const beforeRowLedger=await page.evaluate(()=>localStorage.getItem('katsuyoProtoV37'));
     for(const pos of ['verb','adj','adjv','aux']){
       await setPos(page,pos);
       for(const stage of [2,3])for(const requested of ['auto','select']){
@@ -626,15 +645,17 @@ try{
           // A wrong verb choice must also grade immediately instead of waiting for a hidden row.
           const answer=await page.evaluate('quizChoices.find(c=>c.rowRequired)?.canonical ?? quizChoices[0].canonical');
           await page.locator('#quizChoices button').evaluateAll((buttons,value)=>{(buttons.find(b=>(b as HTMLElement).dataset.canonical===value) as HTMLButtonElement).click();},answer);
+          await page.waitForFunction(()=>!window.ConjRecordSaving);
           assert.equal(await page.evaluate('quizState.answered'),true);
           assert.equal(await page.evaluate('quizState.evaluation.rowCorrect'),null);
         }
       }
     }
-    await page.evaluate(saved=>{stats=JSON.parse(saved);nextQuizQuestion();},beforeRowRegression);
+    await page.evaluate(({saved,ledger})=>{localStorage.setItem('katsuyoProtoV37',ledger);stats=JSON.parse(saved);nextQuizQuestion();},{saved:beforeRowRegression,ledger:beforeRowLedger});
     // Saved old data and new event fields survive importing/exporting the existing envelope.
     const saved=await page.evaluate('JSON.stringify(stats)');
-    await page.evaluate(`importRecordFromText(${JSON.stringify(JSON.stringify({stats:JSON.parse(saved)}))})`);
+    page.once('dialog',dialog=>dialog.accept());
+    await page.evaluate(()=>importRecordFromText(ConjRecordTransfer.exportRecord(localStorage)));
     assert.equal(await page.evaluate('JSON.stringify(stats)'),saved);
     await page.reload();await page.waitForFunction("!document.getElementById('quizMode').disabled");assert.equal(await page.evaluate('JSON.stringify(stats)'),saved);
     await chooseMode(page,'table');assert.equal(await page.locator('#quizAnswerPanel').isHidden(),true);

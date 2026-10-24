@@ -3,11 +3,12 @@ import assert from 'node:assert/strict';
 import type { Event, Report, Session, UserSettings } from '../../../packages/shared/src/domain/event.ts';
 import { makeExportDocument } from '../../../packages/shared/src/storage/export.ts';
 import { applyImport, type ImportPlan } from '../../../packages/shared/src/storage/import.ts';
+import type { SyncOutboxItem } from '../../../packages/shared/src/storage/repo/sync-outbox.ts';
 
 const initialSession: Session = { sessionId: 'before-session', product: 'hyakunin', from: 1, to: 1, entry: 'learn', order: 'number', startedOn: '2026-08-31', completed: true, questionCount: 1 };
 const initialEvent = event('before-event');
 const initialReport: Report = { reportId: 'before-report', product: 'hyakunin', kind: 'text', createdOn: '2026-08-31', status: 'local' };
-const initialSettings: UserSettings = { key: 'user', reading: 'no-ruby', writing: 'vertical', order: 'number', soundEnabled: false, noticeConfirmed: true, deviceId: 'local-device' };
+const initialSettings: UserSettings = { key: 'user', reading: 'no-ruby', writing: 'vertical', order: 'number', soundEnabled: false, noticeConfirmed: true, deviceId: 'local-device', statsOptOut: true, syncEnabled: true, syncProtocol: 'shared-v1', syncCode: 'synthetic-only' };
 
 function event(eventId: string): Event {
   return { eventId, product: 'hyakunin', poemId: 'p1', sessionId: 'imported-session', itemKey: 'p1:text', kind: 'answer', method: 'free-input', outcome: 'correct', hintUsed: false, effectiveMethod: 'free-input', delta: 9, localDate: '2026-08-31', sameSessionRepeat: false, appVersion: '0.1.0', dataVersion: 1, masteryRulesVersion: 1 };
@@ -25,14 +26,15 @@ const plan: ImportPlan = {
 };
 
 function initialRecords() {
-  return { sessions: [initialSession], events: [initialEvent], reports: [initialReport], settings: [initialSettings] };
+  return { sessions: [initialSession], events: [initialEvent], reports: [initialReport], settings: [initialSettings], syncOutbox: [] as SyncOutboxItem[] };
 }
 
-test('storage import: commits all four stores in one write transaction', async () => {
+test('storage import: commits records, preserved settings and sync outbox atomically', async () => {
   const database = createAtomicDatabase(initialRecords());
   const result = await applyImport(database, plan);
   assert.equal(result.ok, true);
   assert.equal(database.writeTransactions, 1);
+  assert.equal(database.records.syncOutbox.length, 5);
   assert.deepEqual(database.records.sessions.map((record) => record.sessionId).sort(), ['before-session', 'imported-session']);
   assert.deepEqual(database.records.events.map((record) => record.eventId).sort(), ['before-event', 'import-event-1', 'import-event-2', 'import-event-3']);
   assert.deepEqual(database.records.reports.map((record) => record.reportId).sort(), ['before-report', 'import-report']);
@@ -87,7 +89,7 @@ test('storage import: reports failure when the commit itself fails', async () =>
   assert.deepEqual(database.records, before);
 });
 
-type Records = { sessions: Session[]; events: Event[]; reports: Report[]; settings: UserSettings[] };
+type Records = { sessions: Session[]; events: Event[]; reports: Report[]; settings: UserSettings[]; syncOutbox: SyncOutboxItem[] };
 type Failure = { store: keyof Records; put: number };
 type CommitFailure = { failAtCommit: true };
 
@@ -104,6 +106,7 @@ function createAtomicDatabase(seed: Records, failure?: Failure | CommitFailure):
       const workspace = structuredClone(records) as Records;
       let aborted = false;
       let finished = false;
+      let pending = 0;
       const putCounts: Partial<Record<keyof Records, number>> = {};
       const transaction = {
         error: null,
@@ -115,7 +118,7 @@ function createAtomicDatabase(seed: Records, failure?: Failure | CommitFailure):
           if (!storeNames.includes(name)) throw new Error(`Store ${name} was not included in this transaction`);
           const storeName = name as keyof Records;
           const complete = () => queueMicrotask(() => {
-            if (finished || aborted) return;
+            if (finished || aborted || pending > 0) return;
             finished = true;
             if (writable && 'failAtCommit' in (failure ?? {})) {
               aborted = true;
@@ -127,6 +130,7 @@ function createAtomicDatabase(seed: Records, failure?: Failure | CommitFailure):
             transaction.oncomplete?.(new globalThis.Event('complete'));
           });
           const request = <T>(result: T, fail = false): IDBRequest<T> => {
+            pending += 1;
             const value = { result, error: null, onsuccess: null, onerror: null } as unknown as IDBRequest<T>;
             queueMicrotask(() => {
               if (fail) {
@@ -138,6 +142,7 @@ function createAtomicDatabase(seed: Records, failure?: Failure | CommitFailure):
                 return;
               }
               value.onsuccess?.(new globalThis.Event('success'));
+              pending -= 1;
               complete();
             });
             return value;
@@ -164,6 +169,7 @@ function createAtomicDatabase(seed: Records, failure?: Failure | CommitFailure):
 }
 
 function keyFor(store: keyof Records, value: Records[keyof Records][number]): string {
+  if (store === 'syncOutbox') return (value as SyncOutboxItem).syncOutboxId;
   if (store === 'sessions') return (value as Session).sessionId;
   if (store === 'events') return (value as Event).eventId;
   if (store === 'reports') return (value as Report).reportId;

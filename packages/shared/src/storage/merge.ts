@@ -16,5 +16,13 @@ function mergeById<T>(existing: T[], incoming: T[], key: keyof T & string): Merg
 }
 
 export function mergeEvents(existing: Event[], incoming: Event[]): MergeResult<Event> { return mergeById(existing, incoming, 'eventId'); }
-export function mergeSessions(existing: Session[], incoming: Session[]): MergeResult<Session> { return mergeById(existing, incoming, 'sessionId'); }
+export function mergeSessions(existing: Session[], incoming: Session[]): MergeResult<Session> {
+  const merged = mergeById(existing, incoming, 'sessionId');
+  const completions = new Map(incoming.filter(session => session.completed).map(session => [session.sessionId, session]));
+  merged.records = merged.records.map(session => {
+    const complete = completions.get(session.sessionId);
+    return !session.completed && complete?.product === session.product ? complete : session;
+  });
+  return merged;
+}
 export function mergeReports(existing: Report[], incoming: Report[]): MergeResult<Report> { return mergeById(existing, incoming, 'reportId'); }

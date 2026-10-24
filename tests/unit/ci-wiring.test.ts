@@ -68,3 +68,15 @@ test('CI のポート表に conj-layout の既定ポートがある', () => {
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
+test('independent app sync has a demo-only Auth/Firestore and two-browser CI job', () => {
+  const workflow = readFileSync(path.join(root, '.github/workflows/app-sync.yml'), 'utf8');
+  const runner = readFileSync(path.join(root, 'tools/app-sync-validation.mjs'), 'utf8');
+  assert.match(workflow, /VITE_APP007_EMULATOR: '1'/);
+  assert.match(workflow, /run: npm run build/);
+  assert.match(workflow, /run: npm run test:app-sync/);
+  assert.match(workflow, /playwright install --with-deps chromium webkit/);
+  assert.match(runner, /demo-koten-rules/);
+  assert.match(runner, /app-sync-check.mjs','--webkit'/);
+  assert.ok('test:app-sync' in scripts);
+});

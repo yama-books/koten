@@ -42,12 +42,16 @@ tools/font-check/**
 tools/font-weight-check/**
 tools/overflow-check/**
 tools/pages-assemble/**
+tools/build-app-sync.mjs
+tools/app-sync-check.mjs
+tools/app-sync-validation.mjs
 tools/review-approve/**
 tools/scan-publish/**
 tests/**
 firebase/firestore.rules
 firebase/firestore.indexes.json
 firebase/firebase.json
+firebase/firebase.app007.json
 .github/workflows/ci.yml
 .github/workflows/deploy-pages.yml
 assets/feedback/**
@@ -69,6 +73,7 @@ conj/branding.css
 conj/conj-quiz-engine.mjs
 conj/conj-quiz-adapter.mjs
 conj/conj-quiz-ui.js
+conj/record-transfer.js
 conj/conj-quiz-ui.css
 conj/data/conjugation-quiz-bank-127.meta.json
 conj/icon.svg

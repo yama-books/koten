@@ -3361,6 +3361,7 @@ body.review-modal-open{overflow:hidden}
           <button class="ghost" id="exportRecord" type="button">記録を書き出す</button>
           <button class="ghost" id="importRecordTrigger" type="button">記録を読み込む</button>
           <input type="file" id="importRecordFile" accept="application/json,.json" hidden>
+          <div data-koten-sync="conj"></div>
           <button class="ghost settings-danger" id="eraseRecord" type="button">記録を消去する</button>
         </div>
         <div class="settings-erase-confirm" id="eraseConfirm" hidden>
@@ -3488,6 +3489,7 @@ body.review-modal-open{overflow:hidden}
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
 <script src="./conj-range.js?v=20261006-1"></script>
+<script src="./record-transfer.js?v=app007-1"></script>
 <script src="./conj-quiz-ui.js?v=20261015-example-bubble-01"></script>
 <script>
 document.querySelector("#perfectResult img")?.setAttribute("alt","はなまる");
@@ -5403,9 +5405,12 @@ function focusFirstBlank(){
   openEditor(first, first.dataset.row, Number(first.dataset.i));
 }
 
-function grade(revealOnly=false){
+async function grade(revealOnly=false){
+  if(!window.ConjRecordReady){setSettingsRecordStatus('記録の準備中です。少し待ってからお試しください。');return;}
+  const recordBefore=structuredClone(stats);
   if(isIdentificationMode()){revealOnly?hintQuiz():gradeQuiz();return;}
   if(answered)return;
+  answered=true;
   if(selected)commitEditor(false);
 
   let gradedCount=0;
@@ -5470,7 +5475,8 @@ function grade(revealOnly=false){
     stats.total++;
     stats.byPos[current.pos]=(stats.byPos[current.pos]||0)+1;
     if(perfectAll) stats.correct++;
-    localStorage.setItem("katsuyoProtoV37", JSON.stringify(stats));
+    try{stats=normalizeStats(await ConjRecordTransfer.recordAnswer(localStorage,recordBefore,stats));}
+    catch{stats=recordBefore;setSettingsRecordStatus("記録を保存できませんでした。既存記録は保持しています。","danger");}
   }
 
   answered=true;
@@ -5848,13 +5854,7 @@ function resetEraseRecordArm(){
   document.getElementById("eraseConfirm").hidden=true;
 }
 function exportRecord(){
-  const envelope={
-    app:"conj-katsuyo-record",
-    exportVersion:1,
-    exportedAt:new Date().toISOString(),
-    stats
-  };
-  const blob=new Blob([JSON.stringify(envelope,null,2)],{type:"application/json"});
+  const blob=new Blob([ConjRecordTransfer.exportRecord(localStorage)],{type:"application/json"});
   const url=URL.createObjectURL(blob);
   const stamp=new Date().toISOString().slice(0,10);
   const a=document.createElement("a");
@@ -5866,21 +5866,20 @@ function exportRecord(){
   URL.revokeObjectURL(url);
   setSettingsRecordStatus("記録を書き出しました。");
 }
-function importRecordFromText(text){
-  const parsed=JSON.parse(text);
-  const rawStats=parsed && typeof parsed==="object" && parsed.stats && typeof parsed.stats==="object"
-    ? parsed.stats
-    : parsed;
-  stats=normalizeStats(rawStats);
-  localStorage.setItem(RECORD_STORAGE_KEY,JSON.stringify(stats));
+async function importRecordFromText(text){
+  const plan=await ConjRecordTransfer.previewImport(localStorage,text);
+  if(!window.confirm(`活用表の解答記録 ${plan.total}件のうち、新規 ${plan.added}件を追加します。ファイルの移行前累計は解答 ${plan.baselineAnswers}件・${plan.baselinePoints}ポイントです。別系統の旧累計 ${plan.backups}件はバックアップとして保持し、加算しません。よろしいですか？`))return;
+  stats=normalizeStats(await ConjRecordTransfer.commitImport(localStorage,plan));
   refreshAfterRecordChange();
-  setSettingsRecordStatus("記録を読み込みました。");
+  window.dispatchEvent(new Event('koten:record-saved'));
+  setSettingsRecordStatus("記録を統合しました。旧累計のバックアップも書き出しに含まれます。");
 }
 function armEraseRecord(){
   document.getElementById("eraseRecord").hidden=true;
   document.getElementById("eraseConfirm").hidden=false;
 }
 function confirmEraseRecord(){
+  if(window.KotenSyncActive?.()){setSettingsRecordStatus("先にこのアプリの端末間同期を停止してください。","danger");return;}
   resetEraseRecordArm();
   localStorage.removeItem(RECORD_STORAGE_KEY);
   stats=normalizeStats({});
@@ -5922,7 +5921,8 @@ document.getElementById("importRecordFile").addEventListener("change",async even
   event.target.value="";
   if(!file) return;
   try{
-    importRecordFromText(await file.text());
+    if(file.size>8*1024*1024)throw Error('ファイルが大きすぎます。');
+    await importRecordFromText(await file.text());
   }catch(error){
     console.warn("記録の読み込みに失敗しました。",error);
     setSettingsRecordStatus("読み込みに失敗しました。ファイルを確認してください。","danger");
@@ -6264,6 +6264,7 @@ function pickWeightedQuestion(list){
   return weighted[weighted.length-1].item;
 }
 function nextQuestion(){
+  if(window.ConjRecordSaving)return;
   refreshTableLevel();
   closeEditor(false);
   if(isIdentificationMode()){nextQuizQuestion();return;}
@@ -6729,6 +6730,11 @@ async function bootConj(){
   await Promise.all([loadAdjvRuntimeItems(),loadAuxExamples()]);
   refreshSourceCredits();
   await initQuizUI();
+  try{
+    stats=normalizeStats(ConjRecordTransfer.initialize(localStorage,stats));
+    window.ConjRecordReady=true;
+    window.dispatchEvent(new Event('koten:conj-ready'));
+  }catch{setSettingsRecordStatus('記録を読み込めません。既存データを保全して停止しています。','danger');}
   if(current && current.pos==="aux" && !answered){
     assignAuxExample(current);
     render();
@@ -6736,8 +6742,11 @@ async function bootConj(){
   refreshCurrentGloss();
   if(document.fonts?.ready) document.fonts.ready.then(()=>requestAnimationFrame(()=>{syncStudyHeights();placePerfectStamp();}));
 }
+window.addEventListener('koten:remote-records',()=>{stats=loadStats();refreshAfterRecordChange();});
+window.addEventListener('storage',event=>{if(event.key===RECORD_STORAGE_KEY){stats=loadStats();refreshAfterRecordChange();}});
 bootConj();
 
 </script>
+<script src="./sync.bundle.js?v=app007-1"></script>
 </body>
 </html>

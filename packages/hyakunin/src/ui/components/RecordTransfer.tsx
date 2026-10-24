@@ -77,9 +77,12 @@ export function RecordTransfer({ port, onChanged, syncEnabled = false, onDeleteR
     input.value = "";
     if (!file) return;
     setBusy(true);
-    const outcome = await port.previewImport!(await file.text());
-    setBusy(false);
-    setStage(outcome.ok ? { kind: "previewing", plan: outcome.plan } : { kind: "failed", message: outcome.message });
+    try {
+      if (file.size > 8 * 1024 * 1024) { setStage({ kind: "failed", message: "ファイルが大きすぎます。" }); return; }
+      const outcome = await port.previewImport!(await file.text());
+      setStage(outcome.ok ? { kind: "previewing", plan: outcome.plan } : { kind: "failed", message: outcome.message });
+    } catch { setStage({ kind: "failed", message: "ファイルを読み取れませんでした。記録は変更していません。" }); }
+    finally { setBusy(false); }
   }
 
   async function commit(plan: ImportPlan) {

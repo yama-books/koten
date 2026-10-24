@@ -584,6 +584,7 @@
         <button id="convert" type="button">変換する</button>
       </div>
       <p class="keyboard-notice" id="keyboardNotice" role="status" aria-live="polite" hidden>キーボードを閉じてから、もう一度「変換する」を押してください。</p>
+      <div data-koten-sync="vintage-kana"></div>
     </section>
   </main>
 </div>
@@ -3208,6 +3209,7 @@ const phraseReady=loadInitialPhrase();
 Promise.race([Promise.allSettled([shortcutLoad,phraseReady,initialFont]),new Promise(resolve=>setTimeout(resolve,7500))])
  .finally(()=>{const el=document.getElementById("vkmStartup");if(el)el.hidden=true;});
 window.addEventListener("pageshow",refreshMasteryShortcut);
+window.addEventListener("koten:remote-records",refreshMasteryShortcut);
 window.addEventListener("storage",e=>{
  if(e.key===VintageKanaMastery.recordKey||e.key==="vintage-kana:decipher-history:v1"||e.key===null)refreshMasteryShortcut();
 });
@@ -3225,5 +3227,7 @@ skip.addEventListener("click",()=>{
   timers.push(setTimeout(showResult,700));
 });
 </script>
+<script src="./record-transfer.js?v=app007-1"></script>
+<script src="./sync.bundle.js?v=app007-1"></script>
 </body>
 </html>

@@ -1,11 +1,12 @@
 import { render } from 'preact';
 import { act } from 'preact/test-utils';
-import { afterEach, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { SyncSettings } from '../../packages/hyakunin/src/ui/screens/SyncSettings.tsx';
 import { initialSettings } from '../../packages/hyakunin/src/ui/settings.ts';
 import type { UserSettings } from '../../packages/shared/src/domain/event.ts';
 
 vi.mock('@koten/shared/sync/client', () => ({ readSettings: async () => ({ enc: 'enc:fixture' }) }));
+vi.mock('@koten/shared/sync/group-client', () => ({ createGroup: async () => {}, hyakuninGroupMode: async () => 'legacy' }));
 vi.mock('@koten/shared/sync/crypto', async (importOriginal) => ({
   ...await importOriginal<object>(),
   houseIdFor: async () => 'a'.repeat(64),
@@ -13,6 +14,7 @@ vi.mock('@koten/shared/sync/crypto', async (importOriginal) => ({
 }));
 
 let root: HTMLDivElement | null = null;
+beforeEach(() => window.localStorage.clear());
 afterEach(() => { if (root) { render(null, root); root.remove(); root = null; } });
 const button = (text: string) => Array.from(root!.querySelectorAll('button')).find((item) => item.textContent === text);
 const mount = (settings: UserSettings, onChange: (value: UserSettings) => Promise<boolean>) => {
@@ -53,7 +55,7 @@ test('停止は確認を挟み、記録を残して合言葉だけ外す', async
 
 // ---- 端末名（依頼者・2026-09-22） ----
 
-test('端末名は推測を初期値に出し、作成時に一緒に保存する', () => {
+test('端末名は推測を初期値に出し、作成時に一緒に保存する', async () => {
   // **機種名は取れない。** 推測を初期値として出し、利用者が直せる形にしてある。
   const saved: UserSettings[] = [];
   mount(initialSettings, async (value) => { saved.push(value); return true; });
@@ -62,17 +64,17 @@ test('端末名は推測を初期値に出し、作成時に一緒に保存す�
   expect(field.value.length, '初期値が空である').toBeGreaterThan(0);
   expect(root!.querySelector('.sync-device-name')?.textContent).toContain('端末名（任意・共有先端末からの確認用）');
   act(() => { field.value = 'わたしのスマホ'; field.dispatchEvent(new Event('input', { bubbles: true })); });
-  act(() => { button('新しい同期グループを作る')!.click(); });
+  await act(async () => { button('新しい同期グループを作る')!.click(); });
   expect(saved).toHaveLength(1);
   expect(saved[0].syncDeviceName).toBe('わたしのスマホ');
 });
 
-test('端末名が空なら名前なしで作る', () => {
+test('端末名が空なら名前なしで作る', async () => {
   const saved: UserSettings[] = [];
   mount(initialSettings, async (value) => { saved.push(value); return true; });
   const field = root!.querySelector<HTMLInputElement>('.sync-device-name input')!;
   act(() => { field.value = '   '; field.dispatchEvent(new Event('input', { bubbles: true })); });
-  act(() => { button('新しい同期グループを作る')!.click(); });
+  await act(async () => { button('新しい同期グループを作る')!.click(); });
   expect(saved[0].syncDeviceName).toBeUndefined();
 });
 

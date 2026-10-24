@@ -96,9 +96,16 @@ test('AA-20 transfer: reports が配列でなければ import を弾く', () => 
 test('AA-21 transfer: 最上位キーが余分でも欠けても import を弾く', () => {
   const extra = { ...document, extra: true };
   const missing = { ...document } as Record<string, unknown>;
-  delete missing.deviceId;
+  delete missing.events;
   assert.equal(parseImport(JSON.stringify(extra), 100).ok, false);
   assert.equal(parseImport(JSON.stringify(missing), 100).ok, false);
+});
+
+test('transfer: own archives without a device ID are readable; app isolation rejects kanazukai', () => {
+  const without = { ...document } as Record<string, unknown>;
+  delete without.deviceId;
+  assert.equal(parseImport(JSON.stringify(without), 100, 'hyakunin').ok, true);
+  assert.equal(parseImport(JSON.stringify({ ...document, events: [{ ...event, product: 'kanazukai' }] }), 100, 'hyakunin').ok, false);
 });
 
 // 種別: 弁別的
