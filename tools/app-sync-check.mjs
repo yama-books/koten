@@ -35,6 +35,7 @@ async function pageFor(app,code){
     await page.waitForFunction(()=>window.ConjRecordReady===true);
     if(!code){await page.locator('#openSettings').click();await page.locator('[data-settings-tab="record"]').click();}
   }
+  if(app==='vintage-kana'&&!code)await page.getByRole('button',{name:'設定',exact:true}).click();
   if(app!=='100'&&!code)await page.locator('[data-koten-sync] button').click();
   return {page,context};
 }
@@ -43,9 +44,10 @@ const selected=(page,app)=>page.evaluate(a=>a==='100'?new Promise(resolve=>{
 }):localStorage.getItem('koten:sync-app:'+a+':v1'),app);
 async function waitConnected(page,app){
   if(app==='100')await page.waitForFunction(()=>document.querySelector('.sync-status--active')!==null,{},{timeout:30000});
-  else await page.waitForFunction(()=>Array.from(document.querySelectorAll('.koten-sync-dialog [role="status"]')).some(e=>e.textContent.startsWith('同期しました')),{},{timeout:30000});
+  else await page.waitForFunction(()=>Array.from(document.querySelectorAll('.koten-sync-dialog [role="status"]')).some(e=>e.textContent.startsWith('端末間同期が有効です')),{},{timeout:30000});
 }
 async function join(page,app,code,qr){
+  if(app!=='100'){await page.locator('.koten-sync-dialog .koten-sync-panel').filter({has:page.locator('summary', {hasText:'別の端末のQRを読み取る'})}).evaluate(e=>e.open=true);}
   if(qr){
     await page.locator(app==='100'?'input[type="file"]':'.koten-sync-dialog input[type="file"]').setInputFiles({name:'synthetic-invitation.png',mimeType:'image/png',buffer:qr});
     await page.getByRole('button',{name:'確認して参加する',exact:true}).click();
@@ -53,8 +55,9 @@ async function join(page,app,code,qr){
     await page.locator('.sync-join-input').fill(code);await page.getByRole('button',{name:'同期先を確認',exact:true}).click();
     await page.getByRole('button',{name:'確認して参加する',exact:true}).click();
   }else{
-    await page.locator('.koten-sync-dialog input:not([type="file"])').fill(code);
-    await page.getByRole('button',{name:'すでに共有しているグループに参加する',exact:true}).click();
+    await page.locator('.koten-sync-dialog .sync-join-input').evaluate(e=>e.closest('details').open=true);
+    await page.locator('.koten-sync-dialog .sync-join-input').fill(code);
+    await page.getByRole('button',{name:'同期先を確認',exact:true}).click();
     await page.getByRole('button',{name:'確認して参加する',exact:true}).click();
   }
   await waitConnected(page,app);assert.ok(await selected(page,app)===code,'confirmed group selection');checks++;
@@ -89,17 +92,17 @@ try{
   for(const creator of ['100','vintage-kana','conj']){
     stage='create '+creator;
     const source=await pageFor(creator);
-    await source.page.getByRole('button',{name:creator==='100'?'新しい同期グループを作る':'新しい共有グループを作る',exact:true}).click();
+    await source.page.getByRole('button',{name:creator==='100'?'新しい同期グループを作る':'新しい同期グループを作る',exact:true}).click();
     await waitConnected(source.page,creator);
     const code=await source.page.evaluate(()=>JSON.parse(localStorage.getItem('koten:shared-group:v1')).code);
-    if(creator!=='100')await source.page.getByRole('button',{name:'共有QR・コードを表示する',exact:true}).click();
+    if(creator!=='100')await source.page.getByRole('button',{name:'別の端末にも共有する',exact:true}).click();
     await source.page.waitForFunction(app=>{const c=document.querySelector(app==='100'?'.sync-qr canvas':'.koten-sync-dialog canvas');return c?.width===(app==='100'?288:256);},creator);
     const qr=Buffer.from((await source.page.locator(creator==='100'?'.sync-qr canvas':'.koten-sync-dialog canvas').evaluate(c=>c.toDataURL())).split(',')[1],'base64');
     if(creator==='100'){
       stage='same browser discovery';const peer=await source.context.newPage();await peer.goto(url('conj'));await peer.waitForFunction(()=>window.ConjRecordReady===true);
       await peer.locator('#openSettings').click();await peer.locator('[data-settings-tab="record"]').click();await peer.locator('[data-koten-sync] button').click();
-      await peer.getByRole('button',{name:/見つかった共有グループを使う/}).waitFor();
-      assert.ok(await peer.getByRole('button',{name:'新しい共有グループを作る',exact:true}).isHidden());checks++;
+      await peer.getByRole('button',{name:/見つかった同期グループを使う/}).waitFor();
+      assert.ok(await peer.getByRole('button',{name:'新しい同期グループを作る',exact:true}).isHidden());checks++;
       await peer.close();
     }
     await source.context.close();contexts.splice(contexts.indexOf(source.context),1);
@@ -110,14 +113,15 @@ try{
       // Cancel a newly proposed invitation without changing the active group.
       if(receiver!=='100'){
         const before=await selected(target.page,receiver);
-        await target.page.locator('.koten-sync-dialog input:not([type="file"])').fill(code);
-        await target.page.getByRole('button',{name:'すでに共有しているグループに参加する',exact:true}).click();
-        await target.page.getByRole('button',{name:'参加を取り消す',exact:true}).click();
+        await target.page.locator('.koten-sync-dialog .sync-join-input').evaluate(e=>{e.closest('details').open=true;e.closest('details').parentElement.open=true;});
+        await target.page.locator('.koten-sync-dialog .sync-join-input').fill(code);
+        await target.page.getByRole('button',{name:'同期先を確認',exact:true}).click();
+        await target.page.getByRole('button',{name:'取り消す',exact:true}).click();
         assert.ok(await selected(target.page,receiver)===before);checks++;
         await target.page.evaluate(()=>{
           Object.defineProperty(navigator,'mediaDevices',{configurable:true,value:{getUserMedia:()=>new Promise(resolve=>{window.syntheticCameraResolve=()=>resolve({getTracks:()=>[{stop(){window.syntheticCameraStopped=true;}}]});})}});
         });
-        await target.page.getByRole('button',{name:'QRをカメラで読み取る',exact:true}).click();
+        await target.page.getByRole('button',{name:'カメラを開く',exact:true}).click();
         await target.page.locator('.koten-sync-dialog').getByRole('button',{name:'閉じる',exact:true}).click();
         await target.page.evaluate(()=>window.syntheticCameraResolve());
         await target.page.waitForFunction(()=>window.syntheticCameraStopped===true);
@@ -130,7 +134,7 @@ try{
   }
   for(const app of ['conj','vintage-kana']){
     stage='parallel/offline '+app;
-    const a=await pageFor(app);await a.page.getByRole('button',{name:'新しい共有グループを作る',exact:true}).click();await waitConnected(a.page,app);
+    const a=await pageFor(app);await a.page.getByRole('button',{name:'新しい同期グループを作る',exact:true}).click();await waitConnected(a.page,app);
     const code=await selected(a.page,app);const b=await pageFor(app);await join(b.page,app,code);
     await Promise.all([a.context.setOffline(true),b.context.setOffline(true)]);
     if(app==='conj')await Promise.all([conjAnswer(a.page),conjAnswer(b.page)]);
@@ -148,6 +152,12 @@ try{
         const text=api.exportRecord(localStorage);
         for(let i=0;i<2;i++)await api.commitImport(localStorage,await api.previewImport(localStorage,text));
       },app);checks++;
+      await device.page.locator('.koten-sync-dialog summary').filter({hasText:/^同期を停止$/}).click();
+      await device.page.getByRole('button',{name:'停止する',exact:true}).click();
+      assert.equal(await selected(device.page,app),null);
+      assert.ok(await device.page.getByRole('button',{name:/見つかった同期グループを使う/}).isVisible());
+      assert.equal(await device.page.evaluate(app=>app==='conj'?ConjRecordTransfer.read(localStorage).events.length:JSON.parse(VintageKanaRecordTransfer.exportRecord(localStorage)).learningEvents.length,app),2);
+      checks++;
     }
     for(const context of contexts.splice(0))await context.close();
   }

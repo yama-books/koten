@@ -34,6 +34,8 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
+      # Settings UI mounts the generated sync entry before testing its controls.
+      - run: npm run build:app-sync
       - run: node --experimental-strip-types --test tests/unit/vintage-kana*.test.ts
       - run: npx playwright install --with-deps chromium webkit
       - run: npm run check:vintage-kana-record
