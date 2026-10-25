@@ -25,9 +25,13 @@ export async function getFirestore(): Promise<import('firebase/firestore').Fires
   ]);
   await startAppCheck();
   if (!firestorePromise) {
-    const db = devicePreview || appSyncPreview
-    ? firestoreModule.initializeFirestore(app as never, { ...(devicePreview ? { host: window.location.host, ssl: window.location.protocol === 'https:' } : {}), experimentalForceLongPolling: true })
-    : firestoreModule.getFirestore(app as never);
+    // Streaming responses can remain buffered in WebKit/network intermediaries
+    // even when automatic long-poll detection is enabled. Close each response
+    // after data arrives in production as well as previews; storage is unchanged.
+    const db = firestoreModule.initializeFirestore(app as never, {
+      ...(devicePreview ? { host: window.location.host, ssl: window.location.protocol === 'https:' } : {}),
+      experimentalForceLongPolling: true,
+    });
     if (appSyncPreview) firestoreModule.connectFirestoreEmulator(db, '127.0.0.1', 8088);
     firestorePromise = Promise.resolve(db);
   }

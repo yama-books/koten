@@ -20,6 +20,8 @@
 
 本番利用には匿名認証の有効化、ルールの承認・適用、App Check設定と実際の接続確認が必要です。ソースの `appCheckEnabled` やエミュレータ成功だけでは、本番の有効状態を証明できません。通常のビルドとデプロイにエミュレータ設定を混ぜないでください。
 
+接続には3アプリ共通でFirestoreのlong-pollingを使用します。WebKitや通信経路でストリーミング応答が滞留し、自動検出でも接続待ちが続く場合への対処です。通常のストリーミングより通信の往復が増えます。認証・暗号・保存先・記録形式は変更しません。設定の根拠は [Firebase公式仕様](https://firebase.google.com/docs/reference/js/firestore.firestoresettings#firestoresettingsexperimentalforcelongpolling) です。
+
 ## 記録の統合
 
 - 百人一首は既存JSON形式を維持し、製品と記録IDを検証します。端末固有の共有・同意・匿名統計の設定を保持し、取込と送信待ち登録を同一IndexedDBトランザクションで行います。
