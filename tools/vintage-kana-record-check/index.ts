@@ -2,6 +2,7 @@
 // 学習記録は検査の中で作る決定的なもので、利用者の記録や教材データは書き換えない。
 //   node --experimental-strip-types tools/vintage-kana-record-check/index.ts [--webkit]
 import assert from 'node:assert/strict';
+import { checkSettings } from './settings.mjs';
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
@@ -112,6 +113,7 @@ const horizontalOverflow = (page: Page) => page.evaluate(() => document.document
 async function checkApprovedHeader(page: Page, w: number) {
  const geometry = await page.evaluate(() => {
    const rect = (selector: string) => document.querySelector<HTMLElement>(selector)!.getBoundingClientRect();
+   const gear = rect('[data-vintage-settings]');
    const title = rect('.pageHeader h1'), help = rect('#openHelp'), simple = rect('.pageHeader .modeLink');
    const panel = rect('section.panel'), nav = rect('.panelTop .utilityTabs'), header = rect('.pageHeader');
    const actions = [...document.querySelectorAll<HTMLElement>('.panelTop .utilityTabs > .tab, .panelTop .utilityTabs > .quizTabCluster')];
@@ -120,7 +122,7 @@ async function checkApprovedHeader(page: Page, w: number) {
    return {
      helpOutside: !document.querySelector('section.panel #openHelp') && help.bottom < panel.top + 1,
      titleAbove: title.bottom <= help.top + 1,
-     helpRightOfTitle: help.left >= title.right - 1,
+     gearFits: gear.left >= title.right - 1 && gear.width >= 44 && gear.height >= 44 && gear.right <= inner + 1,
      linksFit: help.right < simple.left + 1 && simple.right <= inner + 1,
      headerFits: header.left >= -1 && header.right <= inner + 1,
      navFits: nav.left >= panel.left - 1 && nav.right <= panel.right + 1,
@@ -134,8 +136,7 @@ async function checkApprovedHeader(page: Page, w: number) {
  assert.ok(geometry.helpOutside, `${w}: help must be outside panel ${JSON.stringify(geometry)}`);
  assert.ok(geometry.linksFit && geometry.headerFits && geometry.navFits && geometry.menuFits && geometry.noOverflow,
    `${w}: header/menu geometry ${JSON.stringify(geometry)}`);
- if (w <= 680) assert.ok(geometry.titleAbove, `${w}: title above header links`);
- else assert.ok(geometry.helpRightOfTitle, `${w}: desktop inline header links`);
+ assert.ok(geometry.titleAbove && geometry.gearFits, `${w}: settings at upper right; help below title`);
  assert.deepEqual(geometry.modeNames, ['書いてみる','一覧','習得する'], `${w}: menu order`);
  const dialogWorks = await page.evaluate(() => {
    document.getElementById('openHelp')!.click();
@@ -149,6 +150,7 @@ async function checkApprovedHeader(page: Page, w: number) {
 
 
 const results: string[] = [];
+results.push('settings: '+await checkSettings(browser,base)+' checks passed');
 const errors: string[] = [];
 const partial = partialRecord();
 

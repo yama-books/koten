@@ -55,37 +55,79 @@ function adapterFor(app){
 }
 export function mount(app,target=document.querySelector('[data-koten-sync]')){
   if(!target)return;
-  const style=element('style');style.textContent='.koten-sync-dialog{box-sizing:border-box;width:min(30rem,calc(100% - 24px));max-height:90dvh;overflow:auto;border:1px solid #aaa;border-radius:12px;padding:20px;background:var(--paper,#fff);color:var(--ink,#222);font:inherit;line-height:1.7}.koten-sync-dialog button,.koten-sync-dialog input{font:inherit;box-sizing:border-box;min-height:44px;max-width:100%;margin:5px 0}.koten-sync-dialog button{padding:6px 12px;margin-right:8px}.koten-sync-dialog input{width:100%}.koten-sync-dialog canvas,.koten-sync-dialog video{display:block;max-width:100%;height:auto;margin:auto}.koten-sync-dialog [hidden]{display:none!important}.koten-sync-dialog code{overflow-wrap:anywhere}.koten-sync-dialog::backdrop{background:#0006}';document.head.append(style);
+  const style=element('style');style.textContent=`
+.koten-sync-dialog{box-sizing:border-box;width:min(30rem,calc(100% - 24px));max-height:90dvh;overflow:auto;border:1px solid var(--line,#ddd);border-radius:18px;padding:20px;background:var(--paper,#fff);color:var(--ink,#222);font:inherit;line-height:1.7}
+.koten-sync-dialog button,.koten-sync-dialog input{font:inherit;box-sizing:border-box;min-height:44px;max-width:100%;margin:5px 0}
+.koten-sync-dialog button{width:auto;padding:8px 12px;margin-right:8px;border:1px solid var(--line,#ccc);border-radius:10px;background:var(--paper,#fff);color:inherit;box-shadow:none;cursor:pointer}
+.koten-sync-dialog input{width:100%;padding:8px;border:1px solid var(--line,#ccc);border-radius:8px}
+.koten-sync-dialog button:focus-visible,.koten-sync-dialog summary:focus-visible{outline:2px solid var(--accent,#356b9e);outline-offset:2px}
+.koten-sync-dialog canvas,.koten-sync-dialog video{display:block;max-width:100%;height:auto;margin:auto}
+.koten-sync-dialog [hidden]{display:none!important}.koten-sync-dialog code{overflow-wrap:anywhere}.koten-sync-dialog::backdrop{background:#0006}
+.koten-sync-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.koten-sync-heading h2{font-size:1.2rem;margin:0;white-space:nowrap}.koten-sync-heading button{margin:0;flex:none;border:0;background:transparent}
+.koten-sync-panel{border-top:1px solid var(--line,#ddd);padding:14px 0}.koten-sync-panel h3{font-size:1rem;margin:0 0 6px}.koten-sync-panel p{margin:6px 0}
+.koten-sync-dialog summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}.koten-sync-dialog summary::before{content:'＋';font-size:1rem}.koten-sync-dialog details[open]>summary::before{content:'−'}
+.koten-sync-dialog .koten-sync-note{font-size:.78rem;color:var(--muted,#666);margin:10px 0}.koten-sync-current{font-size:.85rem;color:var(--muted,#666)}
+.koten-sync-file{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid var(--line,#ccc);border-radius:10px;cursor:pointer}.koten-sync-file:focus-within{outline:2px solid var(--accent,#356b9e);outline-offset:2px}.koten-sync-file input{position:absolute;width:1px;height:1px;opacity:0;min-height:0}
+`;document.head.append(style);
   const open=element('button','端末間同期',target);open.type='button';open.style.cssText='min-height:44px;padding:6px 12px;border:1px solid var(--line,#ccc);border-radius:12px;background:var(--paper,#fff);color:inherit;font:inherit;cursor:pointer';
   const dialog=element('dialog',null,document.body);dialog.className='koten-sync-dialog';
-  element('h2','端末間同期',dialog);
-  element('p','3アプリで同じQR・共有コードを使えます。学習記録とポイントはアプリごとに保存します。',dialog);
-  element('p','Safariとホーム画面のアプリは別の保存場所になることがあります。すでに共有中なら、新しく作らずQRか共有コードで参加してください。',dialog);
-  const status=element('p','同期はオフです',dialog);status.setAttribute('role','status');
-  const current=element('p','',dialog), choices=element('div',null,dialog);
-  const currentQr=element('canvas',null,dialog);currentQr.hidden=true;currentQr.setAttribute('aria-label','共有グループのQR');
-  const showQr=element('button','共有QR・コードを表示する',dialog);
-  const secret=element('code','',dialog);secret.hidden=true;
-  const leave=element('button','このアプリの同期を停止',dialog);
-  const label=element('label','招待リンク・共有コード',dialog), input=element('input',null,label);input.autocomplete='off';input.spellcheck=false;
-  const check=element('button','すでに共有しているグループに参加する',dialog);
-  const camera=element('button','QRをカメラで読み取る',dialog), video=element('video',null,dialog);video.muted=true;video.playsInline=true;video.hidden=true;
-  const imageLabel=element('label','QR画像を選ぶ',dialog), file=element('input',null,imageLabel);file.type='file';file.accept='image/*';
-  const candidate=element('section',null,dialog);candidate.hidden=true;
-  const candidateText=element('p','',candidate), confirm=element('button','確認して参加する',candidate), cancel=element('button','参加を取り消す',candidate);
-  const create=element('button','新しい共有グループを作る',dialog);
+  const heading=element('div',null,dialog);heading.className='koten-sync-heading';
+  const title=element('h2','端末間同期',heading);title.id='koten-sync-title';dialog.setAttribute('aria-labelledby',title.id);
+  const close=element('button','閉じる',heading);
+  element('p','複数の端末で記録を共有できるようにします。',dialog);
+  const status=element('p','端末間同期はオフです',dialog);status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+  const current=element('p','',dialog);current.className='koten-sync-current';
+  const choices=element('section',null,dialog);choices.className='koten-sync-panel';choices.hidden=true;
+  element('h3','このブラウザの同期グループ',choices);
+  const choiceButtons=element('div',null,choices);
+  const active=element('section',null,dialog);active.className='koten-sync-panel';
+  const showQr=element('button','別の端末にも共有する',active);
+  const qrPanel=element('div',null,active);qrPanel.hidden=true;
+  element('h3','この端末の QR',qrPanel);element('p','共有する端末で読み取ってください。',qrPanel);
+  const currentQr=element('canvas',null,qrPanel);currentQr.setAttribute('aria-label','同期用の QR');
+  const shareAlternative=element('details',null,qrPanel);element('summary','リンク・共有コードを使う',shareAlternative);
+  const inviteLabel=element('label','招待リンク',shareAlternative), inviteInput=element('input',null,inviteLabel);inviteInput.readOnly=true;
+  const copy=element('button','リンクをコピー',shareAlternative);
+  const secret=element('code','',element('p','共有コード ',shareAlternative));
+  const createPanel=element('section',null,dialog);createPanel.className='koten-sync-panel';
+  element('h3','この端末で QR を作る',createPanel);element('p','共有する端末で読み取って設定します。',createPanel);
+  const create=element('button','新しい同期グループを作る',createPanel);
   create.disabled=true;
+  const receive=element('details',null,dialog);receive.className='koten-sync-panel';receive.open=true;
+  element('summary','別の端末のQRを読み取る',receive);
+  const camera=element('button','カメラを開く',receive), imageLabel=element('label','画像を選ぶ',receive), file=element('input',null,imageLabel);imageLabel.className='koten-sync-file';file.type='file';file.accept='image/*';
+  const video=element('video',null,receive);video.muted=true;video.playsInline=true;video.hidden=true;
+  const alternative=element('details',null,receive);element('summary','リンク・共有コードを使う',alternative);
+  const label=element('label','招待リンク・共有コード',alternative), input=element('input',null,label);input.className='sync-join-input';input.autocomplete='off';input.spellcheck=false;
+  const check=element('button','同期先を確認',alternative);
+  const candidate=element('section',null,receive);candidate.hidden=true;
+  element('h3','参加の確認',candidate);
+  const candidateText=element('p','',candidate), confirm=element('button','確認して参加する',candidate), cancel=element('button','取り消す',candidate);
+  const syncNow=element('button','今すぐ同期する',dialog);
+  const stop=element('details',null,dialog);stop.className='koten-sync-panel';element('summary','同期を停止',stop);
+  element('p','同期を停止します。この端末の記録は残ります。',stop);
+  const leave=element('button','停止する',stop);
   const replace=element('details',null,dialog);replace.hidden=true;
-  element('summary','別の共有グループを新しく作る',replace);
-  element('p','すでに使っているグループとは別の共有先を作ります。この端末の記録を新しい共有先にも追加します。以前のグループは削除・統合しません。',replace);
+  element('summary','別の同期グループを新しく作る',replace);
+  element('p','現在とは別の共有先を作り、この端末の記録を追加します。以前のグループの記録は残ります。',replace);
   const createAnother=element('button','確認して新規グループを作成',replace);
-  const syncNow=element('button','今すぐ同期する',dialog), close=element('button','閉じる',dialog);
+  const note=element('p',app==='conj'?'「百人一首練習帳」「変体仮名ノート」で同期を設定済みの場合も、同じQR・招待リンクを使えます。':'「百人一首練習帳」「古典文法活用ノート」で同期を設定済みの場合も、同じQR・招待リンクを使えます。',dialog);note.className='koten-sync-note';
+  const help=element('details',null,dialog);element('summary','同期について',help);
+  element('p','QRや招待リンクは、共有する相手だけに渡してください。',help);
+  element('p','Safariとホーム画面のアプリで記録が別々に見える場合は、同じQR・招待リンクで設定してください。',help);
   const selectionKey=`koten:sync-app:${app}:v1`;
-  let code=localStorage.getItem(selectionKey), proposed=null, generation=0, request=0, stream=null, frame=0, busy=false, remote=null, nextRetry=0, failures=0;
+  let code=localStorage.getItem(selectionKey), knownCodes=[], proposed=null, generation=0, request=0, stream=null, frame=0, busy=false, remote=null, nextRetry=0, failures=0;
   const adapter=adapterFor(app);
   const say=message=>{status.textContent=message;};
-  function stopCamera(){request++;cancelAnimationFrame(frame);stream?.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null;video.hidden=true;}
-  function update(){showQr.hidden=leave.hidden=syncNow.hidden=!code;current.textContent=code?'現在の共有グループ：コード末尾 '+code.slice(-4):'このアプリはまだ共有していません。';}
+  function stopCamera(){request++;cancelAnimationFrame(frame);stream?.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null;video.hidden=true;camera.textContent='カメラを開く';}
+  function update(){
+    active.hidden=stop.hidden=syncNow.hidden=!code;current.hidden=!code;current.textContent=code?'共有コードの末尾: '+code.slice(-4):'';
+    createPanel.hidden=create.hidden=!!code||knownCodes.length>0;replace.hidden=!code&&!knownCodes.length;receive.open=!code;
+    qrPanel.hidden=true;showQr.textContent='別の端末にも共有する';secret.textContent=inviteInput.value='';stop.open=false;
+    choiceButtons.replaceChildren();
+    for(const known of knownCodes.filter(c=>c!==code)){const b=element('button','見つかった同期グループを使う（末尾 '+known.slice(-4)+'）',choiceButtons);b.onclick=()=>{void propose(known);};}
+    choices.hidden=!choiceButtons.children.length;
+  }
   async function run(){
     if(!code||busy||Date.now()<nextRetry)return;
     if(!navigator.onLine){say('オフラインです。記録は端末に保存し、再接続後に同期します。');return;}
@@ -96,11 +138,11 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
       if(epoch!==generation)return;
       failures=0;nextRetry=0;
       const backups=app==='conj'?window.ConjRecordTransfer.read(localStorage).backups.length:0;
-      say(backups?'同期しました。別系統の旧累計はバックアップとして保持し、加算していません。':'同期しました。記録はこのアプリだけで共有しています。');
+      say(backups?'端末間同期が有効です。旧累計のバックアップがあります。':'端末間同期が有効です');
     }catch(error){if(epoch===generation){
       const reason=error?.code==='permission-denied'?'permission':String(error?.code||'').startsWith('auth/')?'authentication':error?.name==='OperationError'?'decryption':'other';
       window.dispatchEvent(new CustomEvent('koten:sync-failed',{detail:{reason}}));
-      failures++;nextRetry=Date.now()+Math.min(300000,15000*2**Math.min(failures,4));say('同期できません。記録は端末に残っています。通信・Firebaseの設定を確認してください。');
+      failures++;nextRetry=Date.now()+Math.min(300000,15000*2**Math.min(failures,4));say('同期できません。接続を確認してください。記録は端末に残っています。');
     }}
     finally{busy=false;}
   }
@@ -112,7 +154,7 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
       if(isNew)await createGroup(next);else await joinGroup(next);
       if(id!==request)return;
       saveGroup(localStorage,next,expected);localStorage.setItem(selectionKey,next);
-      generation++;code=next;remote=null;nextRetry=0;candidate.hidden=true;proposed=null;update();void run();
+      generation++;code=next;knownCodes=[...new Set([...knownCodes,next])];remote=null;nextRetry=0;candidate.hidden=true;proposed=null;update();void run();
     }catch{say('参加設定を保存できませんでした。現在の接続先を確認してください。');}
     finally{confirm.disabled=create.disabled=createAnother.disabled=false;}
   }
@@ -124,9 +166,9 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
     try{
       if(!await verifyGroup(next))throw Error();
       if(id!==request)return;
-      proposed=next;candidate.hidden=false;
-      candidateText.textContent=`コード末尾 ${next.slice(-4)} のグループへ参加します。${code&&code!==next?'現在と異なるグループです。この端末の記録を新しい共有先にも追加します。既存のグループは自動統合しません。':'この端末の学習記録を共有先に追加します。'}`;
-      say('参加ボタンを押すまで接続先は変わりません。');
+      proposed=next;receive.open=true;candidate.hidden=false;
+      candidateText.textContent=`共有コードの末尾: ${next.slice(-4)}。${code&&code!==next?'現在と異なる同期先です。この端末の記録を追加します。以前のグループは自動統合しません。':'この端末の記録を同期グループと共有します。'}`;
+      say('同期先を確認できました。');
     }catch{if(id===request)say('共有先を確認できません。コードと通信を確認してください。');}
   }
   async function readImage(source){
@@ -141,7 +183,7 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
     if(stream){stopCamera();return;}const id=++request;
     try{
       const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});
-      if(id!==request){s.getTracks().forEach(t=>t.stop());return;}stream=s;video.srcObject=s;video.hidden=false;await video.play();
+      if(id!==request){s.getTracks().forEach(t=>t.stop());return;}stream=s;video.srcObject=s;video.hidden=false;camera.textContent='カメラを閉じる';await video.play();
       const scan=async()=>{if(id!==request)return;try{const result=video.readyState>=2?await readImage(video):null;if(id!==request)return;if(result){void propose(result);return;}frame=requestAnimationFrame(()=>{void scan();});}catch{stopCamera();say('QRを読み取れませんでした。画像か共有コードを使ってください。');}};void scan();
     }catch{stopCamera();say('カメラを開けません。画像か共有コードを使ってください。');}
   };
@@ -154,11 +196,13 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
   check.onclick=()=>{void propose(input.value);};
   create.onclick=()=>{void accept(makePairingCode(),true);};
   createAnother.onclick=()=>{void accept(makePairingCode(),true,true);};
-  showQr.onclick=async()=>{if(!code)return;const {default:QRCode}=await import('qrcode');await QRCode.toCanvas(currentQr,makePortableInvite(code,location.href),{width:256,margin:4});currentQr.hidden=false;secret.textContent=code;secret.hidden=false;};
-  leave.onclick=()=>{generation++;request++;code=null;remote=null;localStorage.removeItem(selectionKey);currentQr.hidden=secret.hidden=true;update();say('このアプリの同期を停止しました。端末の記録は残っています。');};
+  showQr.onclick=async()=>{if(!code)return;if(!qrPanel.hidden){qrPanel.hidden=true;showQr.textContent='別の端末にも共有する';return;}const {default:QRCode}=await import('qrcode');await QRCode.toCanvas(currentQr,makePortableInvite(code,location.href),{width:256,margin:4});inviteInput.value=makePortableInvite(code,location.href);secret.textContent=code;qrPanel.hidden=false;showQr.textContent='共有QRを閉じる';};
+  copy.onclick=()=>{if(!navigator.clipboard?.writeText){inviteInput.select();say('リンクを選択してコピーしてください。');return;}void navigator.clipboard.writeText(inviteInput.value).then(()=>say('招待リンクをコピーしました。'),()=>say('コピーできませんでした。リンクを選択してコピーしてください。'));};
+  leave.onclick=()=>{generation++;request++;code=null;remote=null;localStorage.removeItem(selectionKey);update();say('同期を停止しました。この端末の記録は残ります。');};
   syncNow.onclick=()=>{nextRetry=0;void run();};close.onclick=()=>dialog.close();
-  dialog.addEventListener('close',()=>{stopCamera();candidate.hidden=true;proposed=null;currentQr.hidden=secret.hidden=true;});
-  open.onclick=()=>{dialog.showModal();};
+  let settingsDialog=null;
+  dialog.addEventListener('close',()=>{stopCamera();candidate.hidden=true;proposed=null;qrPanel.hidden=true;showQr.textContent='別の端末にも共有する';if(settingsDialog){settingsDialog.showModal();settingsDialog=null;}});
+  open.onclick=()=>{const parent=open.closest('dialog');if(parent?.open){settingsDialog=parent;parent.close();}dialog.showModal();};
   window.addEventListener('online',()=>{nextRetry=0;void run();});
   window.addEventListener('koten:record-saved',()=>{nextRetry=0;void run();});
   window.addEventListener('storage',e=>{
@@ -170,9 +214,7 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
   window.KotenSyncActive=()=>!!localStorage.getItem(selectionKey);
   update();
   void discover().then(codes=>{
-    create.hidden=!!code||codes.length>0;
-    create.disabled=false;replace.hidden=!code&&codes.length===0;
-    for(const known of codes){const b=element('button','見つかった共有グループを使う（末尾 '+known.slice(-4)+'）',choices);b.onclick=()=>{void propose(known);};}
+    knownCodes=codes;create.disabled=false;update();
     if(codes.length>1)say('異なる共有グループが見つかりました。接続先を確認して選んでください。');
   }).catch(()=>{create.disabled=true;say('保存済みの共有設定を読めません。設定を上書きせず停止しました。');});
   const invite=new URL(location.href);if(invite.searchParams.has('join')){dialog.showModal();void propose(location.href);invite.searchParams.delete('join');invite.searchParams.delete('r');history.replaceState(null,'',invite.href);}

@@ -221,11 +221,11 @@ export function SyncSettings({ settings, status, onChange, onBack, onOpenHistory
 
   return <main class="sync-settings">
     <header class="nav-edge"><h1>端末間同期</h1><button type="button" onClick={onBack}>{backLabel}</button></header>
-    <div class="sync-overview"><p class={`sync-status ${status === 'connected' ? 'sync-status--active' : ''}`} role="status" aria-live="polite"><span class="sync-status__dot" aria-hidden="true" />{statusText[status]}</p><p>複数の端末で記録を共有できるようにします。<br />QR と<span class="sync-nowrap">招待リンク</span>には<span class="sync-nowrap">共有コード</span>が含まれるため、<span class="sync-nowrap">取り扱いに注意</span>してください。</p></div>
+    <div class="sync-overview"><p class={`sync-status ${status === 'connected' ? 'sync-status--active' : ''}`} role="status" aria-live="polite"><span class="sync-status__dot" aria-hidden="true" />{statusText[status]}</p><p>複数の端末で記録を共有できるようにします。</p></div>
     {message && !joined && <p class="sync-notice" role="status" aria-live="polite">{message}</p>}
     {commonGroup && commonGroup !== code && <section class="sync-panel">
       <h2>{code ? '異なる共有グループが見つかりました' : 'このブラウザの共有グループ'}</h2>
-      <p>コード末尾 {commonGroup.slice(-4)}。3アプリは同じ共有コードを使えます。記録とポイントはアプリごとに保持します。自動変更はしません。</p>
+      <p>共有コードの末尾: {commonGroup.slice(-4)}。この設定を使って同期できます。</p>
       <button type="button" onClick={() => { void verify(commonGroup); }}>既存グループへの参加を確認</button>
     </section>}
     {code && candidate && <section class="sync-panel"><h2>共有先の変更を確認</h2><p>コード末尾 {candidate.slice(-4)} へ、この端末の百人一首の記録を追加します。現在とは異なるグループの場合も、双方のグループを自動統合しません。</p><button type="button" disabled={!verified || checking || joining} onClick={() => { void join(); }}>確認して参加する</button><button type="button" onClick={() => { verifyRef.current += 1; setCandidate(null); setVerified(false); }}>取り消す</button></section>}
@@ -247,6 +247,8 @@ export function SyncSettings({ settings, status, onChange, onBack, onOpenHistory
         {candidate && <div class="sync-confirm"><h3>参加の確認</h3><p>この端末の記録を<span class="sync-nowrap">同期グループ</span>と共有します。<br />{candidateName ? <>同期グループを作成した端末: <span class="sync-nowrap">{candidateName}</span></> : <span class="sync-nowrap">共有コードの末尾: {candidate.slice(-4)}</span>}</p><button type="button" disabled={!verified || checking || joining} onClick={() => { void join(); }}>確認して参加する</button><button type="button" disabled={joining} onClick={() => { setCandidate(null); setVerified(false); setMessage('参加を取り消しました。'); }}>取り消す</button></div>}
       </section>
     </div>}
+    <p class="sync-license">「変体仮名ノート」「古典文法活用ノート」で同期を設定済みの場合も、同じQR・招待リンクを使えます。</p>
+    <p class="sync-license">QRや招待リンクは、共有する相手だけに渡してください。</p>
     <p class="sync-license">QR ライブラリ: <a href={`${import.meta.env.BASE_URL}licenses/qrcode-LICENSE.txt`}>qrcode (MIT)</a>・<a href={`${import.meta.env.BASE_URL}licenses/jsqr-LICENSE.txt`}>jsQR (Apache 2.0)</a></p>
   </main>;
 }
