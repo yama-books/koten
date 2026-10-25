@@ -624,6 +624,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
           <div class="recordSummary__title">これまでの記録</div>
           <div class="recordSummary__points"><strong id="recordPoints">0</strong><span>ポイント</span><img class="recordSummary__cat" src="./cat-mascot.webp" alt="" aria-hidden="true"></div>
         </div>
+        <div data-koten-points hidden></div>
         <div class="recordStats">
           <span>5問セット <strong id="recordSets">0</strong>回</span>
           <span>取り組んだ問題 <strong id="recordAttempts">0</strong>問</span>
@@ -704,6 +705,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 <script src="./mastery-summary.js"></script>
 <script src="./decipher-engine.js"></script>
 <script src="./record-transfer.js"></script>
+<script src="./points.js"></script>
 <script src="./settings.js?v=app007-ui1"></script>
 <script src="./quiz-motion.js"></script>
 <script>
@@ -898,23 +900,18 @@ function completedSetIds(){
  return new Set([...counts.entries()].filter(([,n])=>n>=QUIZ_SET_SIZE).map(([id])=>id));
 }
 function learningSummary(){
- const completed=completedSetIds();
  const basic=learningEvents.reduce((s,e)=>{
    s.attempts+=1;
    if(e.outcome==="correct")s.correct+=1;
    if(e.mode==="reading")s.reading+=1;
    if(e.mode==="jibo")s.jibo+=1;
-   if(e.setId && completed.has(e.setId)){
-     s.points+=e.outcome==="correct"?QUIZ_CORRECT_POINTS:QUIZ_ATTEMPT_POINTS;
-   }
    return s;
  },{attempts:0,points:0,correct:0,reading:0,jibo:0});
- const decipherCompleted=decipherCompletedIds();
  for(const e of decipherHistory){
    basic.attempts+=1;
    if(e.correct)basic.correct+=1;
-   if(e.setId&&decipherCompleted.has(e.setId))basic.points+=e.correct?QUIZ_CORRECT_POINTS:QUIZ_ATTEMPT_POINTS;
  }
+ basic.points=VintageKanaPoints.total(learningEvents,decipherHistory);
  return basic;
 }
 function completedSetCount(){
@@ -2651,6 +2648,6 @@ document.getElementById("installGuideAction")?.addEventListener("click",async()=
 });
 renderInstallGuide();
 </script>
-<script src="./sync.bundle.js?v=app007-4"></script>
+<script src="./sync.bundle.js?v=app007-5"></script>
 </body>
 </html>

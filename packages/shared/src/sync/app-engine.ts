@@ -40,3 +40,15 @@ export async function syncApp(app: AppId, code: string, adapter: AppAdapter, rem
   }
   return { received: incoming.length, sent };
 }
+
+/** Read-only projection: never merge another application's records locally. */
+export async function readAppRecords(app: AppId, code: string, remote: AppRemote): Promise<AppRecord[]> {
+  const records: AppRecord[] = [];
+  for (const item of await remote.list()) {
+    if (!isCiphertext(item.enc)) throw Error('同期データの暗号形式が違います。');
+    const record = await decryptField(`app:${app}:${item.id}`, code, item.enc) as AppRecord;
+    if (!record || typeof record.id !== 'string' || typeof record.type !== 'string' || await recordKey(record) !== item.id) throw Error('同期データの識別子が一致しません。');
+    records.push(record);
+  }
+  return records;
+}

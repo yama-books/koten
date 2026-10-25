@@ -75,6 +75,27 @@ export async function createGroup(code: string, legacyJoin = false): Promise<voi
   }
 }
 export async function joinGroup(code: string): Promise<void> { await createGroup(code, true); }
+/** Server-only reads keep an absent/offline app distinct from a zero balance.
+ * Existing group membership and encryption apply; no aggregate is published. */
+export async function groupHyakuninEvents(code: string): Promise<unknown[]> {
+  const [{ db, capability }, f, mode] = await Promise.all([groupRef(code), import('firebase/firestore'), hyakuninGroupMode(code)]);
+  const records = mode === 'shared-v1' ? f.collection(db, 'sharedGroups', capability, 'apps', 'hyakunin', 'events') : f.collection(db, 'households', await houseIdFor(code), 'events');
+  const events: unknown[] = [];
+  let cursor: import('firebase/firestore').QueryDocumentSnapshot | undefined;
+  for (;;) {
+    const page = await f.getDocsFromServer(f.query(records, f.orderBy(f.documentId()), ...(cursor ? [f.startAfter(cursor)] : []), f.limit(200)));
+    for (const doc of page.docs) {
+      const enc = doc.data().enc;
+      if (!isCiphertext(enc)) throw Error('百人一首の暗号形式が違います。');
+      const event = await decryptField('events', code, enc) as { eventId?: string };
+      if (event?.eventId !== doc.id) throw Error('百人一首の記録IDが一致しません。');
+      events.push(event);
+    }
+    if (events.length > 50000) throw Error('集計件数が上限を超えました。');
+    if (page.size < 200) return events;
+    cursor = page.docs.at(-1);
+  }
+}
 export async function appRemote(code: string, app: AppId): Promise<AppRemote> {
   const { db, capability } = await groupRef(code);
   const f = await import('firebase/firestore');
