@@ -3,6 +3,7 @@ import { PoemRowHead, PoemRow, PoemOverlay, type PoemRowData } from '../componen
 import { RingMeter } from '../components/RingMeter.tsx';
 import { RecordTransfer, canTransferRecords } from '../components/RecordTransfer.tsx';
 import { CatMascot } from '../components/CatMascot.tsx';
+import { GroupPoints } from '../components/GroupPoints.tsx';
 import type { ApplicationPort } from '../adapters/indexeddb-port.ts';
 import { playHistoryMotion } from '../history-motion.ts';
 import { measurePlaces, slideRowsIn, slideRowsOut, slideToNewPlaces } from '../list-motion.ts';
@@ -11,7 +12,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
 /** タブの並び（依頼者・2026-09-16）。**一覧が既定である。** */
 const TABS = ['一覧', '要確認', 'データ管理'] as const;
 type Tab = typeof TABS[number];
-type Props = { summary: HistorySummary; onHome: () => void; port?: ApplicationPort; onChanged?: () => void; initialTab?: Tab; onOpenSync?: () => void; syncEnabled?: boolean; onDeleteRemote?: () => Promise<boolean>; onStopSync?: () => Promise<boolean>; onPauseSync?: () => void; onResumeSync?: () => void };
+type Props = { summary: HistorySummary; onHome: () => void; port?: ApplicationPort; onChanged?: () => void; initialTab?: Tab; onOpenSync?: () => void; syncEnabled?: boolean; syncCode?: string; onDeleteRemote?: () => Promise<boolean>; onStopSync?: () => Promise<boolean>; onPauseSync?: () => void; onResumeSync?: () => void };
 
 /**
  * 出すタブ。**持ち出しの口が無いポートでは、そのタブごと出さない**
@@ -73,7 +74,7 @@ function Group({ group, onOpen }: { group: HistoryGroup; onOpen?: (row: PoemRowD
   );
 }
 
-export function History({ summary, onHome, port, onChanged, initialTab = '一覧', onOpenSync, syncEnabled = false, onDeleteRemote, onStopSync, onPauseSync, onResumeSync }: Props) {
+export function History({ summary, onHome, port, onChanged, initialTab = '一覧', onOpenSync, syncEnabled = false, syncCode, onDeleteRemote, onStopSync, onPauseSync, onResumeSync }: Props) {
   const [tab, setTab] = useState<Tab>(initialTab);
   // 押した歌を暗転の上に出す（依頼者・2026-09-22）。null なら閉じている。
   const [openPoem, setOpenPoem] = useState<PoemRowData | null>(null);
@@ -100,6 +101,7 @@ export function History({ summary, onHome, port, onChanged, initialTab = '一覧
         </section>
         <p class="history-touched">着手した歌: <span data-history-count>{summary.touchedCount}</span>首</p>
       </>}
+      <GroupPoints port={port} code={syncEnabled ? syncCode : undefined} />
       <nav class="history-tabs" role="tablist" aria-label="記録の見かた">
         {tabsFor(port, onOpenSync).map((name) => (
           <button key={name} type="button" role="tab" aria-selected={tab === name} onClick={() => setTab(name)}>{name}</button>

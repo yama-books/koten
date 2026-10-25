@@ -6,6 +6,8 @@ import { createGroup, joinGroup, verifyGroup, appRemote } from './group-client.t
 import { syncApp } from './app-engine.ts';
 import { openDatabase } from '../storage/db.ts';
 import { getSettings } from '../storage/repo/settings.ts';
+import { mountPoints } from './points-view.ts';
+import { appPoints } from './points-projection.ts';
 
 function element(tag,text,parent){const e=document.createElement(tag);if(text)e.textContent=text;if(parent)parent.append(e);return e;}
 async function discover(){
@@ -132,6 +134,12 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
   const selectionKey=`koten:sync-app:${app}:v1`;
   let code=localStorage.getItem(selectionKey), knownCodes=[], proposed=null, generation=0, request=0, stream=null, frame=0, busy=false, remote=null, nextRetry=0, failures=0;
   const adapter=adapterFor(app);
+  const pointsTarget=document.querySelector('[data-koten-points]');
+  const points=pointsTarget?mountPoints(pointsTarget,app,async()=>{
+    if(app==='conj'){const api=window.ConjRecordTransfer;return api.project(api.read(localStorage)).points;}
+    return appPoints(app,await adapter.read()).points??0;
+  }):null;
+  points?.select(code);
   const say=message=>{status.textContent=message;};
   function stopCamera(){request++;cancelAnimationFrame(frame);stream?.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null;video.hidden=true;camera.textContent='カメラを開く';}
   function update(){
@@ -168,7 +176,7 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
       if(isNew)await createGroup(next);else await joinGroup(next);
       if(id!==request)return;
       saveGroup(localStorage,next,expected);localStorage.setItem(selectionKey,next);
-      generation++;code=next;knownCodes=[...new Set([...knownCodes,next])];remote=null;nextRetry=0;candidate.hidden=true;proposed=null;update();void run();
+      generation++;code=next;points?.select(code);knownCodes=[...new Set([...knownCodes,next])];remote=null;nextRetry=0;candidate.hidden=true;proposed=null;update();void run();
     }catch{say('参加設定を保存できませんでした。現在の接続先を確認してください。');}
     finally{confirm.disabled=create.disabled=createAnother.disabled=false;}
   }
@@ -212,15 +220,15 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
   createAnother.onclick=()=>{void accept(makePairingCode(),true,true);};
   showQr.onclick=async()=>{if(!code)return;if(!qrPanel.hidden){qrPanel.hidden=true;showQr.textContent='別の端末にも共有する';return;}const {default:QRCode}=await import('qrcode');await QRCode.toCanvas(currentQr,makePortableInvite(code,location.href),{width:256,margin:4});inviteInput.value=makePortableInvite(code,location.href);secret.textContent=code;qrPanel.hidden=false;showQr.textContent='共有QRを閉じる';};
   copy.onclick=()=>{if(!navigator.clipboard?.writeText){inviteInput.select();say('リンクを選択してコピーしてください。');return;}void navigator.clipboard.writeText(inviteInput.value).then(()=>say('招待リンクをコピーしました。'),()=>say('コピーできませんでした。リンクを選択してコピーしてください。'));};
-  leave.onclick=()=>{generation++;request++;code=null;remote=null;localStorage.removeItem(selectionKey);update();say('同期を停止しました。この端末の記録は残ります。');};
-  syncNow.onclick=()=>{nextRetry=0;void run();};close.onclick=()=>dialog.close();
+  leave.onclick=()=>{generation++;request++;code=null;points?.select(null);remote=null;localStorage.removeItem(selectionKey);update();say('同期を停止しました。この端末の記録は残ります。');};
+  syncNow.onclick=()=>{nextRetry=0;void run().then(()=>points?.refresh());};close.onclick=()=>dialog.close();
   let settingsDialog=null;
   dialog.addEventListener('close',()=>{stopCamera();candidate.hidden=true;proposed=null;qrPanel.hidden=true;showQr.textContent='別の端末にも共有する';if(settingsDialog){settingsDialog.showModal();settingsDialog=null;}});
   open.onclick=()=>{const parent=open.closest('dialog');if(parent?.open){settingsDialog=parent;parent.close();}dialog.showModal();};
   window.addEventListener('online',()=>{nextRetry=0;void run();});
   window.addEventListener('koten:record-saved',()=>{nextRetry=0;void run();});
   window.addEventListener('storage',e=>{
-    if(e.key===selectionKey&&localStorage.getItem(selectionKey)!==code){generation++;request++;code=null;remote=null;update();say('別の画面でこのアプリの共有先が変更されました。誤送信を避けるため同期を停止しました。画面を開き直して確認してください。');}
+    if(e.key===selectionKey&&localStorage.getItem(selectionKey)!==code){generation++;request++;code=null;points?.select(null);remote=null;update();say('別の画面でこのアプリの共有先が変更されました。誤送信を避けるため同期を停止しました。画面を開き直して確認してください。');}
     else if(e.key===GROUP_KEY&&savedGroup(localStorage)!==code)say('別の画面で異なるグループが選ばれました。自動変更せず、現在のグループを維持します。');
   });
   const timer=setInterval(()=>{if(!document.hidden)void run();},60000);

@@ -284,7 +284,7 @@ function AppScreens({ port }: { port: ApplicationPort }) {
   if (screen === 'result-loading') return <main class="loading" aria-live="polite">結果を読み込んでいます。</main>;
   if (screen === 'review-error') return <main class="session"><p role="alert">この問題は表示できません。ホームに戻ってやり直してください。</p><button type="button" onClick={() => setScreen('home')}>ホームへ戻る</button></main>;
   if (screen === 'history-loading') return <main class="loading" aria-live="polite">記録を読み込んでいます。</main>;
-  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} onChanged={reloadHistory} initialTab={historyInitialTab} onOpenSync={appConfig.features.sync ? () => { setHistoryInitialTab('データ管理'); setSyncReturn('history'); setScreen('sync'); } : undefined} syncEnabled={settings.syncEnabled} onDeleteRemote={deleteRemoteRecords} onStopSync={stopSync} onPauseSync={pauseSync} onResumeSync={resumeSync} />;
+  if (screen === 'history' && history) return <History summary={history} onHome={() => setScreen('home')} port={port} onChanged={reloadHistory} initialTab={historyInitialTab} onOpenSync={appConfig.features.sync ? () => { setHistoryInitialTab('データ管理'); setSyncReturn('history'); setScreen('sync'); } : undefined} syncEnabled={settings.syncEnabled} syncCode={settings.syncCode} onDeleteRemote={deleteRemoteRecords} onStopSync={stopSync} onPauseSync={pauseSync} onResumeSync={resumeSync} />;
   if (screen === 'result' && result && selected) {
     // 結果に残った問題でも、壊れた穴埋めは再確認画面を作れない。押すと必ず失敗する
     // 導線を出さず、作者問題は既存の選択式 UI で再確認へ通す（発注074 工程16）。

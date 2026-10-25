@@ -45,6 +45,8 @@ tools/pages-assemble/**
 tools/build-app-sync.mjs
 tools/app-sync-check.mjs
 tools/app-sync-validation.mjs
+tools/points-total-check.mjs
+vintage-kana/points.js
 tools/review-approve/**
 tools/scan-publish/**
 tests/**
