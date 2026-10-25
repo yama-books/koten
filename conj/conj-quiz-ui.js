@@ -24,7 +24,9 @@ async function initQuizUI(){
     quizResolveItemId=exampleId=>itemIds.get(exampleId)??null;
     const pending=!stats.quiz?.totals;
     stats.quiz=quizAdapter.normalizeHistory(stats.quiz,{resolveItemId:quizResolveItemId});
-    if(pending){try{localStorage.setItem(RECORD_STORAGE_KEY,JSON.stringify(stats));}catch(_error){}}
+    // Unmigrated quiz totals are normalized in memory. The first answer records
+    // only its increment, so old aggregates are never counted a second time.
+    if(pending) updateScore();
     updateScore();
     try{
       const saved=JSON.parse(localStorage.getItem('conjQuizPreferences')||'{}');
@@ -438,8 +440,10 @@ function renderQuizRowAnswer(){
   box.append(grid);
 }
 
-function gradeQuiz(){
+async function gradeQuiz(){
+  if(!window.ConjRecordReady)return;
   if(!quizState || quizState.answered)return;
+  const recordBefore=structuredClone(stats);
   const isLemma=quizState.quizMode==='lemma';
   const choice=isLemma?null:quizChoices.find(c=>c.canonical===quizState.selectedAnswer);
   if((isLemma?!String(quizState.selectedAnswer||'').trim():!choice)
@@ -460,7 +464,7 @@ function gradeQuiz(){
   stats.points+=pointsForCell(evaluation.correct,3,{c:before.c,w:before.n-before.c});
   stats.recent=(stats.recent+(evaluation.correct?'1':'0')).slice(-RECENT_WINDOW);
   stats.quiz=quizAdapter.recordLearningEvent(stats.quiz,{...event,itemId},{resolveItemId:quizResolveItemId});
-  try{localStorage.setItem(RECORD_STORAGE_KEY,JSON.stringify(stats));}catch(_error){setSettingsRecordStatus('記録を保存できませんでした。書き出して保管してください。');}
+  try{stats=normalizeStats(await ConjRecordTransfer.recordAnswer(localStorage,recordBefore,stats));}catch(_error){stats=recordBefore;setSettingsRecordStatus('記録を保存できませんでした。既存記録は保持しています。');}
   updateScore();
   document.querySelector('main.card').classList.add('is-answered');
   renderKindText(document.getElementById('kind'),current);

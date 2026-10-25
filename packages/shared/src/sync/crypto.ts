@@ -22,7 +22,17 @@ export async function houseIdFor(code: string): Promise<string> {
   return sha256Hex(normalizeCode(code));
 }
 
-async function deriveKey(code: string): Promise<CryptoKey> {
+const keyCache = new Map<string, Promise<CryptoKey>>();
+function deriveKey(code: string): Promise<CryptoKey> {
+  const normalized = normalizeCode(code);
+  const cached = keyCache.get(normalized);
+  if (cached) return cached;
+  if (keyCache.size >= 3) keyCache.delete(keyCache.keys().next().value!);
+  const pending = deriveUncachedKey(normalized).catch(error => { keyCache.delete(normalized); throw error; });
+  keyCache.set(normalized, pending);
+  return pending;
+}
+async function deriveUncachedKey(code: string): Promise<CryptoKey> {
   const normalized = normalizeCode(code);
   const saltDigest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`koten.e2ee.salt.v1|${normalized}`));
   const material = await crypto.subtle.importKey('raw', new TextEncoder().encode(normalized), 'PBKDF2', false, ['deriveKey']);

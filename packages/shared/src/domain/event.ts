@@ -103,6 +103,8 @@ export type UserSettings = {
   /** 端末内だけに保存する同期の合言葉。書き出しと遠隔設定には含めない。 */
   syncCode?: string;
   syncEnabled?: boolean;
+  /** Existing groups keep their legacy paths. New groups use membership rules. */
+  syncProtocol?: 'shared-v1' | 'legacy';
   /** 初回参加時に既存記録を送信待ちへ積んだ同期先。 */
   syncSeededFor?: string;
   /**

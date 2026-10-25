@@ -1,0 +1,30 @@
+name: Independent app sync
+on:
+  pull_request:
+    paths: ['packages/shared/**', 'packages/hyakunin/**', 'conj/**', 'vintage-kana/**', 'firebase/**', 'tests/rules/**', 'tools/*app-sync*.mjs', 'package.json', '.github/workflows/app-sync.yml']
+  push:
+    paths: ['packages/shared/**', 'packages/hyakunin/**', 'conj/**', 'vintage-kana/**', 'firebase/**', 'tests/rules/**', 'tools/*app-sync*.mjs', 'package.json', '.github/workflows/app-sync.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  emulator-browsers:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      VITE_APP007_EMULATOR: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm ci --prefix tests/rules
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npm run build
+      - run: npm run test:app-sync

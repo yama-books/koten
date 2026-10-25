@@ -6,6 +6,8 @@ import { isPairingCode, pairingPayload, parsePairingPayload } from '@koten/share
 import { guessDeviceName, normalizeDeviceName } from '@koten/shared/sync/device-name';
 import { validPreferences, type SyncStatus } from '../../sync/runtime.ts';
 import { SyncInstallGuide } from '../components/SyncInstallGuide.tsx';
+import { savedGroup, saveGroup } from '@koten/shared/sync/group-store';
+import { createGroup, hyakuninGroupMode } from '@koten/shared/sync/group-client';
 
 type Props = {
   settings: UserSettings;
@@ -33,7 +35,9 @@ export function SyncSettings({ settings, status, onChange, onBack, onOpenHistory
   const [deviceName, setDeviceName] = useState(() => settings.syncDeviceName ?? guessDeviceName(navigator.userAgent));
   const [checking, setChecking] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [candidateProtocol, setCandidateProtocol] = useState<'legacy' | 'shared-v1'>('legacy');
   const [message, setMessage] = useState('');
+  const [commonGroup, setCommonGroup] = useState<string | null>(null);
   const [scanning, setScanning] = useState(false);
   const [stopConfirm, setStopConfirm] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -41,11 +45,20 @@ export function SyncSettings({ settings, status, onChange, onBack, onOpenHistory
   const frameRef = useRef<number>(0);
   const verifyRef = useRef(0);
   const cameraRequestRef = useRef(0);
+  const creatingRef = useRef(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const qrRef = useRef<HTMLCanvasElement>(null);
   const code = settings.syncEnabled ? settings.syncCode : undefined;
   const completed = joined && !settings.syncJoinRequest;
   const inviteUrl = useMemo(() => code ? pairingPayload(code, window.location.href) : '', [code]);
+
+  useEffect(() => {
+    try {
+      const common = savedGroup(window.localStorage);
+      setCommonGroup(common);
+      if (code && !common) { saveGroup(window.localStorage, code, null); setCommonGroup(code); }
+    } catch { setMessage('共有設定を読み取れません。既存の設定は変更していません。'); }
+  }, [code]);
 
   useEffect(() => {
     const raw = new URL(window.location.href).searchParams.get('join');
@@ -78,6 +91,7 @@ export function SyncSettings({ settings, status, onChange, onBack, onOpenHistory
   async function verify(nextCode: string) {
     const requestId = ++verifyRef.current;
     setCandidate(nextCode);
+    setCandidateName(undefined);
     setVerified(false);
     setChecking(true);
     setMessage('同期先を確認しています…');
@@ -88,7 +102,9 @@ export function SyncSettings({ settings, status, onChange, onBack, onOpenHistory
       if (!isCiphertext(enc)) { setMessage('この共有コードの同期先はまだ作られていません。作成側の接続を確認してください。'); return; }
       const decoded = await decryptField('settings', nextCode, enc);
       if (!validPreferences(decoded)) { setMessage('共有コードを確認できませんでした。'); return; }
+      const protocol = await hyakuninGroupMode(nextCode);
       if (requestId !== verifyRef.current) return;
+      setCandidateProtocol(protocol);
       // 作った端末の呼び名。**無ければ共有コードの末尾で示す**——以前からの手がかりを失わない。
       setCandidateName((decoded as { syncDeviceName?: unknown }).syncDeviceName as string | undefined);
       setVerified(true);
@@ -98,25 +114,40 @@ export function SyncSettings({ settings, status, onChange, onBack, onOpenHistory
     } finally { if (requestId === verifyRef.current) setChecking(false); }
   }
 
-  async function beginNew() {
+  async function beginNew(forceNew = false) {
+    if (creatingRef.current) return;
+    let expected: string | null;
+    try { expected = savedGroup(window.localStorage); }
+    catch { setMessage('共有設定を読み取れません。設定を変更せず停止しました。'); return; }
+    if (expected && !forceNew) { void verify(expected); return; }
+    creatingRef.current = true;
+    setJoining(true);
     const nextCode = makePairingCode();
-    if (!await onChange({ ...settings, syncCode: nextCode, syncEnabled: true, syncSeededFor: undefined, syncPairingReceipt: undefined, syncJoinRequest: undefined, syncDeviceName: normalizeDeviceName(deviceName) })) {
+    try { await createGroup(nextCode); }
+    catch { creatingRef.current = false; setJoining(false); setMessage('共有グループを作れませんでした。通信・Firebaseの設定を確認してください。'); return; }
+    if (savedGroup(window.localStorage) !== expected) { creatingRef.current = false; setJoining(false); setMessage('別の画面で共有先が変わりました。新規作成の適用を停止しました。'); return; }
+    if (!await onChange({ ...settings, syncCode: nextCode, syncEnabled: true, syncProtocol: 'shared-v1', syncSeededFor: undefined, syncPairingReceipt: undefined, syncJoinRequest: undefined, syncDeviceName: normalizeDeviceName(deviceName) })) {
       setMessage('同期設定を保存できませんでした。');
     } else {
+      saveGroup(window.localStorage, nextCode, expected);
       setJoined(false);
       setJoining(false);
       setShowQr(false);
     }
+    creatingRef.current = false;
+    setJoining(false);
   }
 
   async function join() {
     if (!candidate || !verified || joining) return;
+    const expected = savedGroup(window.localStorage);
     setJoining(true);
-    if (!await onChange({ ...settings, syncCode: candidate, syncEnabled: true, syncSeededFor: undefined, syncJoinRequest: crypto.randomUUID() })) {
+    if (!await onChange({ ...settings, syncCode: candidate, syncEnabled: true, syncProtocol: candidateProtocol, syncSeededFor: undefined, syncJoinRequest: crypto.randomUUID() })) {
       setJoining(false);
       setMessage('同期設定を保存できませんでした。'); return;
     }
     setJoined(true);
+    saveGroup(window.localStorage, candidate, expected);
     setCandidate(null);
     setVerified(false);
     const url = new URL(window.location.href);
@@ -192,6 +223,13 @@ export function SyncSettings({ settings, status, onChange, onBack, onOpenHistory
     <header class="nav-edge"><h1>端末間同期</h1><button type="button" onClick={onBack}>{backLabel}</button></header>
     <div class="sync-overview"><p class={`sync-status ${status === 'connected' ? 'sync-status--active' : ''}`} role="status" aria-live="polite"><span class="sync-status__dot" aria-hidden="true" />{statusText[status]}</p><p>複数の端末で記録を共有できるようにします。<br />QR と<span class="sync-nowrap">招待リンク</span>には<span class="sync-nowrap">共有コード</span>が含まれるため、<span class="sync-nowrap">取り扱いに注意</span>してください。</p></div>
     {message && !joined && <p class="sync-notice" role="status" aria-live="polite">{message}</p>}
+    {commonGroup && commonGroup !== code && <section class="sync-panel">
+      <h2>{code ? '異なる共有グループが見つかりました' : 'このブラウザの共有グループ'}</h2>
+      <p>コード末尾 {commonGroup.slice(-4)}。3アプリは同じ共有コードを使えます。記録とポイントはアプリごとに保持します。自動変更はしません。</p>
+      <button type="button" onClick={() => { void verify(commonGroup); }}>既存グループへの参加を確認</button>
+    </section>}
+    {code && candidate && <section class="sync-panel"><h2>共有先の変更を確認</h2><p>コード末尾 {candidate.slice(-4)} へ、この端末の百人一首の記録を追加します。現在とは異なるグループの場合も、双方のグループを自動統合しません。</p><button type="button" disabled={!verified || checking || joining} onClick={() => { void join(); }}>確認して参加する</button><button type="button" onClick={() => { verifyRef.current += 1; setCandidate(null); setVerified(false); }}>取り消す</button></section>}
+    {(code || commonGroup) && <details class="sync-panel"><summary>別の共有グループを新しく作る</summary><p>現在とは別の共有先を作り、この端末の百人一首の記録を追加します。以前のグループは削除・統合しません。</p><button type="button" disabled={joining} onClick={() => { void beginNew(true); }}>確認して新規グループを作成</button></details>}
     {code && joined && <section class="sync-panel sync-completion" aria-live="polite">
       <h2>{completed ? '同期が完了しました' : '記録を同期しています'}</h2>
       {completed ? <><p>この端末でも同じ学習記録を使えます。これからの記録も自動で同期します。</p><div class="sync-actions"><button class="primary" type="button" onClick={() => { void onOpenHistory?.().catch(() => setMessage('記録を開けませんでした。もう一度お試しください。')); }}>記録を見る</button><button type="button" onClick={onBack}>あとで見る</button></div><SyncInstallGuide code={code} /><button type="button" onClick={() => setShowQr(!showQr)}>{showQr ? '共有QRを閉じる' : '別の端末にも共有する'}</button></> : <p>{status === 'offline' || status === 'error' ? statusText[status] : '記録の読み込みと送信が終わるまで、このままお待ちください。'}</p>}

@@ -21,7 +21,10 @@ export function parsePairingPayload(value: string, baseUrl: string): string | nu
   try {
     const source = new URL(value);
     const expected = new URL(baseUrl);
-    if (source.origin !== expected.origin || source.pathname !== expected.pathname) return null;
+    const apps = /^(.*\/)(?:100|vintage-kana|conj)(?:\/|\/index\.html|\/detail\.html)$/;
+    const sourceApp = apps.exec(source.pathname), expectedApp = apps.exec(expected.pathname);
+    if (source.origin !== expected.origin || (source.pathname !== expected.pathname && (!sourceApp || !expectedApp || sourceApp[1] !== expectedApp[1]))) return null;
+    if (source.searchParams.getAll('join').length !== 1) return null;
     const normalized = normalizeCode(source.searchParams.get('join') ?? '');
     return isPairingCode(normalized) ? normalized : null;
   } catch { return null; }

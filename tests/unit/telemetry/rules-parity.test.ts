@@ -40,7 +40,8 @@ function packageSourceFiles(directory: string): string[] {
 }
 
 test('R-1 rules: hasOnly は外側の許可リストに1回だけ現れる', () => {
-  assert.equal((rulesText().match(/data\.keys\(\)\.hasOnly/g) ?? []).length, 1, 'R-1: outer hasOnly must occur exactly once');
+  const telemetry = rulesText().split('function isCiphertextPayload')[0];
+  assert.equal((telemetry.match(/data\.keys\(\)\.hasOnly/g) ?? []).length, 1, 'R-1: telemetry outer hasOnly must occur exactly once');
 });
 
 test('R-2 rules: hasOnly の許可キーが STATS_KEYS と一致する', () => {
@@ -80,7 +81,7 @@ test('R-6 rules: 両方の統計コレクションで create のみを許可す�
 test('R-7 rules: 包括 match と認証内容による分岐を置かない', () => {
   const text = rulesText();
   assert.equal(text.includes('document=**'), false, 'R-7: catch-all match must not exist');
-  assert.equal(text.includes('request.auth'), false, 'R-7: request.auth branching must not exist');
+  assert.equal(text.split('function isCiphertextPayload')[0].includes('request.auth'), false, 'R-7: anonymous telemetry must not depend on authentication');
 });
 
 test('R-8 static: packages 全体に Analytics 実装を置かない', () => {

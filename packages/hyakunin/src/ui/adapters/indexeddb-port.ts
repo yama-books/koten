@@ -114,12 +114,12 @@ export function createIndexedDbPort(): ApplicationPort {
     async exportRecords(exportedAt) {
       const opened = await database;
       if (!opened.ok) return null;
-      const result = await createExport(opened.value, exportedAt);
+      const result = await createExport(opened.value, exportedAt, 'hyakunin');
       if (!result.ok) return null;
       return { text: serializeExport(result.value), summary: summarizeExport(result.value) };
     },
     async previewImport(text) {
-      const outcome = parseImport(text, IMPORT_RECORD_LIMIT);
+      const outcome = parseImport(text, IMPORT_RECORD_LIMIT, 'hyakunin');
       return outcome.ok ? { ok: true, plan: outcome.value } : { ok: false, message: outcome.message };
     },
     async commitImport(plan) {

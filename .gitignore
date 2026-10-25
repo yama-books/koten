@@ -21,6 +21,9 @@ build/
 .cache/
 coverage/
 *.tsbuildinfo
+# Generated from packages/shared/src/sync/static-sync.js during build.
+conj/sync.bundle.js
+vintage-kana/sync.bundle.js
 
 # ---- 環境設定・秘密情報 ----
 # .env.example だけは追跡する（設定項目の一覧として必要）。

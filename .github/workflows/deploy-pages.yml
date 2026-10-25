@@ -37,6 +37,7 @@ jobs:
         run: |
           VITE_BASE_PATH="/$REPO/100/" npm run build --workspace=@koten/hyakunin
           VITE_BASE_PATH="/$REPO/kana/" npm run build --workspace=@koten/kanazukai
+          npm run build:app-sync
       - name: Refuse to publish anything the manifest does not allow
         run: npm run scan:publish
       - name: Assemble the site

@@ -579,12 +579,12 @@ test('conj: work4 settings screen hosts the theme picker plus record export/impo
   assert.ok(scriptMatch);
   const script = scriptMatch[1];
 
-  // export bundles the in-memory stats object, not a copy re-read from localStorage
-  assert.match(script, /function exportRecord\(\)\{[\s\S]*?app:"conj-katsuyo-record",[\s\S]*?stats\s*\};/);
+  // Export the canonical ledger, including protected legacy baselines.
+  assert.match(script, /function exportRecord\(\)\{[\s\S]*?ConjRecordTransfer\.exportRecord\(localStorage\)/);
   assert.match(script, /a\.download=`katsuyo-record-\$\{stamp\}\.json`;/);
 
-  // import runs the parsed payload through the same normalizeStats() sanitizer used on every app load
-  assert.match(script, /function importRecordFromText\(text\)\{[\s\S]*?stats=normalizeStats\(rawStats\);[\s\S]*?localStorage\.setItem\(RECORD_STORAGE_KEY,JSON\.stringify\(stats\)\);/);
+  // Preview and explicit confirmation precede the non-destructive commit.
+  assert.match(script, /async function importRecordFromText\(text\)\{[\s\S]*?previewImport\(localStorage,text\)[\s\S]*?window\.confirm\([\s\S]*?commitImport\(localStorage,plan\)/);
 
   // erase is a two-step flow: the first click only reveals the confirm panel, a second explicit click on eraseConfirmYes performs it
   assert.match(script, /function armEraseRecord\(\)\{\s*document\.getElementById\("eraseRecord"\)\.hidden=true;\s*document\.getElementById\("eraseConfirm"\)\.hidden=false;\s*\}/);

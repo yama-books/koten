@@ -15,6 +15,7 @@ export type AppCheckPlan = 'start' | 'skip-disabled' | 'skip-emulator';
 
 /** 端末確認用ビルド（同一 origin のエミュレータへ繋ぐ版）かどうか。 */
 export const devicePreview = typeof import.meta.env !== 'undefined' && import.meta.env.VITE_QR_SYNC_EMULATOR === '1';
+export const appSyncPreview = typeof import.meta.env !== 'undefined' && import.meta.env.VITE_APP007_EMULATOR === '1';
 
 /**
  * App Check を起こすかどうかだけを決める。**実際の初期化から切り離してあるのは、
@@ -40,7 +41,7 @@ export function firebaseApp(): Promise<unknown> {
   if (!appPromise) {
     appPromise = (async () => {
       const { initializeApp, getApps } = await import('firebase/app');
-      return getApps()[0] ?? initializeApp(devicePreview ? { ...appConfig.firebase, projectId: 'demo-koten-device' } : appConfig.firebase);
+      return getApps()[0] ?? initializeApp(appSyncPreview ? { ...appConfig.firebase, projectId: 'demo-koten-rules' } : devicePreview ? { ...appConfig.firebase, projectId: 'demo-koten-device' } : appConfig.firebase);
     })();
   }
   return appPromise;
@@ -53,7 +54,7 @@ export function firebaseApp(): Promise<unknown> {
 function appCheck(): Promise<unknown | null> {
   if (!appCheckPromise) {
     appCheckPromise = (async () => {
-      if (appCheckPlan({ devicePreview }) !== 'start') return null;
+      if (appCheckPlan({ devicePreview: devicePreview || appSyncPreview }) !== 'start') return null;
       try {
         const [{ initializeAppCheck, ReCaptchaEnterpriseProvider }, app] = await Promise.all([
           import('firebase/app-check'),

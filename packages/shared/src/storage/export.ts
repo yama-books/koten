@@ -19,7 +19,7 @@ export function summarizeExport(document: ExportDocument): ExportSummary {
   return { counts: { sessions: document.sessions.length, events: document.events.length, reports: document.reports.length }, characters: serializeExport(document).length };
 }
 
-export async function createExport(database: IDBDatabase, exportedAt: string): Promise<StorageResult<ExportDocument>> {
+export async function createExport(database: IDBDatabase, exportedAt: string, product?: string): Promise<StorageResult<ExportDocument>> {
   const [sessions, events, reports, settings] = await Promise.all([listSessions(database), listEvents(database), listReports(database), getSettings(database)]);
   if (!sessions.ok) return sessions;
   if (!events.ok) return events;
@@ -29,5 +29,5 @@ export async function createExport(database: IDBDatabase, exportedAt: string): P
   const safeSettings: ExportSettings = value
     ? { reading: value.reading, writing: value.writing, order: value.order, soundEnabled: value.soundEnabled, ...(value.grade === undefined ? {} : { grade: value.grade }) }
     : { reading: 'no-ruby', writing: 'vertical', order: 'number', soundEnabled: false };
-  return { ok: true, value: makeExportDocument({ exportedAt, deviceId: value?.deviceId, settings: safeSettings, sessions: sessions.value, events: events.value, reports: reports.value }) };
+  return { ok: true, value: makeExportDocument({ exportedAt, deviceId: value?.deviceId, settings: safeSettings, sessions: sessions.value.filter(record => !product || record.product === product), events: events.value.filter(record => !product || record.product === product), reports: reports.value.filter(record => !product || record.product === product) }) };
 }

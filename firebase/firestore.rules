@@ -83,6 +83,56 @@ service cloud.firestore {
         && payload.enc.matches('^enc:.+$');
     }
 
+    // New app data uses a separate invitation capability, not the legacy public
+    // houseId. There is no group directory. Knowing the invitation is the grant
+    // to enroll one's own anonymous UID; UIDs alone grant no record access.
+    match /sharedGroups/{capability} {
+      function signedIn() { return request.auth != null; }
+      function member() {
+        return signedIn() && exists(/databases/$(database)/documents/sharedGroups/$(capability)/members/$(request.auth.uid));
+      }
+      allow get: if signedIn() && capability.matches('^[a-f0-9]{64}$');
+      allow create: if signedIn() && capability.matches('^[a-f0-9]{64}$')
+        && request.resource.data.keys().hasOnly(['version','enc'])
+        && request.resource.data.version == 1
+        && request.resource.data.enc is string && request.resource.data.enc.matches('^enc:.+$')
+        && request.resource.data.enc.size() <= 4096;
+      allow list, update, delete: if false;
+      match /members/{uid} {
+        allow get: if signedIn() && uid == request.auth.uid;
+        allow create: if signedIn() && uid == request.auth.uid
+          && exists(/databases/$(database)/documents/sharedGroups/$(capability))
+          && request.resource.data.keys().hasOnly(['version']) && request.resource.data.version == 1;
+        allow list, update, delete: if false;
+      }
+      match /apps/{appId}/records/{recordId} {
+        allow get: if member() && appId in ['vintage-kana','conj'];
+        allow list: if member() && appId in ['vintage-kana','conj']
+          && request.query.limit != null && request.query.limit <= 200;
+        allow create: if member() && appId in ['vintage-kana','conj']
+          && recordId.matches('^[a-f0-9]{64}$')
+          && request.resource.data.keys().hasOnly(['enc','createdAt'])
+          && request.resource.data.enc is string && request.resource.data.enc.matches('^enc:.+$')
+          && request.resource.data.createdAt == request.time
+          && request.resource.data.enc.size() <= 750000;
+        allow update, delete: if false;
+      }
+      match /apps/hyakunin/{kind}/{id} {
+        allow get, list: if member() && kind in ['events','sessions','reports'];
+        allow create: if member() && kind in ['events','sessions','reports']
+          && isCiphertextPayload(request.resource.data) && request.resource.data.enc.size() <= 750000;
+        allow update: if member() && kind == 'sessions' && isCiphertextPayload(request.resource.data);
+        allow delete: if member() && kind in ['events','sessions','reports'];
+      }
+      match /apps/hyakunin/settings/current {
+        allow get: if member();
+        allow create, update: if member() && isCiphertextPayload(request.resource.data);
+        allow list, delete: if false;
+      }
+    }
+
+    // Legacy hyakunin clients retain their original paths and permissions.
+    // This compatibility block does not provide membership authorization.
     match /households/{houseId} {
       match /{recordKind}/{recordId} {
         allow create: if recordKind in ['sessions', 'events', 'reports']

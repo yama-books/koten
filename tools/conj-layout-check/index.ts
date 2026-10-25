@@ -31,7 +31,7 @@ declare function updateLevelUI(): void;
 declare function closeEditor(commit?: boolean): void;
 declare function chooseBlankSlots(): void;
 declare function render(): void;
-declare function grade(revealOnly?: boolean): void;
+declare function grade(revealOnly?: boolean): Promise<void>;
 declare function assignAuxExample(item: unknown): void;
 declare function placePerfectStamp(): Promise<void>;
 declare function targetFor(row: string | undefined, index: number): string[] | undefined;
@@ -314,6 +314,7 @@ async function sweepEnterFlow(page: any): Promise<{ total: number; bad: string[]
         visited.push(cell.key);
         await page.keyboard.type(cell.answer);
         await page.keyboard.press('Enter');
+        await page.waitForFunction(() => !window.ConjRecordSaving);
       }
       const last = await page.evaluate(() => ({ answered, editor: !!document.querySelector('.editor input'), perfect: document.getElementById('perfectResult')!.classList.contains('show'), id: current.id }));
       await page.keyboard.press('Enter');
@@ -398,7 +399,7 @@ async function fillAndGrade(): Promise<void> {
     const target = targetFor(td.dataset.row, Number(td.dataset.i));
     answers[key(td.dataset.row, Number(td.dataset.i))] = (target && target[0]) || '';
   });
-  grade(false);
+  await grade(false);
   await placePerfectStamp();
   await Promise.all([...document.querySelectorAll<HTMLImageElement>('main.card img')].map((img) => img.complete ? null : new Promise((resolve) => { img.addEventListener('load', resolve, { once: true }); img.addEventListener('error', resolve, { once: true }); })));
   await new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 50)));
@@ -458,7 +459,7 @@ function sweepAdjvStamps(page: any): Promise<{ total: number; bad: Array<{ id: s
         const target = targetFor(td.dataset.row, Number(td.dataset.i));
         answers[key(td.dataset.row, Number(td.dataset.i))] = (target && target[0]) || '';
       });
-      grade(false);
+      await grade(false);
       await placePerfectStamp();
       const s = stamp.getBoundingClientRect();
       const c = card.getBoundingClientRect();

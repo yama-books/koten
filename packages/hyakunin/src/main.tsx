@@ -114,7 +114,7 @@ function AppScreens({ port }: { port: ApplicationPort }) {
     return () => { syncStopRef.current = null; stop(); };
     // `settings === null` も依存に要る。`syncEnabled` を持たない設定では
     // 読み込み前後でどちらも undefined になり、読み終えたことを依存の変化として拾えない。
-  }, [port, settings === null, settings?.syncEnabled, settings?.syncCode, syncEpoch]);
+  }, [port, settings === null, settings?.syncEnabled, settings?.syncCode, settings?.syncProtocol, syncEpoch]);
 
   /**
    * 購読だけ止める。設定は変えない。**記録を消すあいだの書き戻しを防ぐ。**

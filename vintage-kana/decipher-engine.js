@@ -189,14 +189,22 @@
  }
  function safeHistory(raw){
    return Array.isArray(raw)?raw.filter(q=>q&&typeof q.id==="string"&&typeof q.phraseId==="string"
-     &&typeof q.reading==="string"&&typeof q.correct==="boolean"&&Array.isArray(q.glyphs)).slice(-2000):[];
+     &&typeof q.reading==="string"&&typeof q.correct==="boolean"&&Array.isArray(q.glyphs)):[];
  }
  function readHistory(){
    try{return safeHistory(JSON.parse(root.localStorage.getItem(HISTORY_KEY)||"[]"))}
    catch(e){return []}
  }
  function storeHistory(history){
-   try{root.localStorage.setItem(HISTORY_KEY,JSON.stringify(safeHistory(history)));return true}
+   if(history.length>20000)return false;
+   try{
+     const old=JSON.parse(root.localStorage.getItem(HISTORY_KEY)||'[]');
+     if(!Array.isArray(old)||safeHistory(old).length!==old.length||safeHistory(history).length!==history.length)return false;
+     const merged=root.VintageKanaRecordTransfer?root.VintageKanaRecordTransfer.mergeById(old,history):[...new Map([...old,...history].map(e=>[e.id,e])).values()];
+     if(merged.length>20000)return false;
+     root.localStorage.setItem(HISTORY_KEY,JSON.stringify(merged));
+     root.dispatchEvent?.(new Event('koten:record-saved'));return true;
+   }
    catch(e){console.warn("decipher history save failed",e);return false}
  }
  function readLevel(){

@@ -3,7 +3,8 @@ import { openDatabase } from '@koten/shared/storage/db';
 import { houseIdFor, decryptField, encryptField, isCiphertext } from '@koten/shared/sync/crypto';
 import { seedSyncOutbox } from '@koten/shared/sync/seed';
 import { flushOutbox, applyRemoteRecords } from '@koten/shared/sync/engine';
-import { createRecord, createRecords, putSettings, watchCollection, watchSettings } from '@koten/shared/sync/client';
+import { createRecord, createRecords, putSettings, watchCollection, watchSettings, authorizeHousehold } from '@koten/shared/sync/client';
+import { groupCapability, joinGroup } from '@koten/shared/sync/group-client';
 import type { SyncKind } from '@koten/shared/sync/codec';
 import type { ApplicationPort } from '../ui/adapters/indexeddb-port.ts';
 
@@ -89,6 +90,8 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
     if (stopped || !db || flushing || !navigator.onLine) return;
     flushing = true;
     try {
+      const current = await port.loadSettings();
+      if (stopped || !current?.syncEnabled || current.syncCode !== code) return;
       const result = await flushOutbox(db, code!, houseId, { createRecord, createRecords });
       if (result.failed) { sentInitial = false; fail(); }
       else { sentInitial = true; await completeInitial(); }
@@ -163,6 +166,8 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
       unsubscribers.push(watchCollection(houseId, kind, (records, fromServer) => {
         received[kind] = received[kind].then(async () => {
           if (stopped || !db || currentGeneration !== generation) return;
+          const current = await port.loadSettings();
+          if (stopped || !current?.syncEnabled || current.syncCode !== code) return;
           ready.delete(kind);
           const result = await applyRemoteRecords(db, code!, kind, records);
           if (stopped || currentGeneration !== generation) return;
@@ -201,6 +206,11 @@ export function startSync(settings: UserSettings, port: ApplicationPort, onSetti
   void (async () => {
     try {
       houseId = await houseIdFor(code);
+      if (settings.syncProtocol === 'shared-v1') {
+        await joinGroup(code);
+        if (stopped) return;
+        authorizeHousehold(houseId, await groupCapability(code));
+      }
       const opened = await openDatabase();
       if (stopped) { if (opened.ok) opened.value.close(); return; }
       if (!opened.ok) { fail(); return; }

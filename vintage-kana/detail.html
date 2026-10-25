@@ -482,6 +482,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
     <a class="modeLink" href="./">シンプル？版</a>
   </div>
 </header>
+<div data-koten-sync="vintage-kana"></div>
 
 <section class="panel">
   <div class="panelTop">
@@ -649,6 +650,15 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
           <div id="weakGlyphs" class="glyphStrip"></div>
         </section>
 
+        <section class="recordSection" aria-label="記録のバックアップと復元">
+          <h3>記録のバックアップ</h3>
+          <div class="actions">
+            <button id="vintageExportRecord" class="btn" type="button">記録を書き出す</button>
+            <button id="vintageImportRecord" class="btn" type="button">記録を読み込む</button>
+            <input id="vintageImportRecordFile" type="file" accept=".json,application/json" hidden>
+          </div>
+          <p id="vintageRecordTransferStatus" class="note" role="status" aria-live="polite"></p>
+        </section>
         <div class="actions"><button id="backToPractice" class="btn">練習に戻る</button></div>
       </div>
     </div>
@@ -702,6 +712,7 @@ footer{color:var(--muted);font-size:11px;line-height:1.8;padding:5px 3px}
 
 <script src="./mastery-summary.js"></script>
 <script src="./decipher-engine.js"></script>
+<script src="./record-transfer.js"></script>
 <script src="./quiz-motion.js"></script>
 <script>
 const KANA_ORDER=[..."あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん"];
@@ -1465,7 +1476,11 @@ function recordLearningAttempt(mode,correct,masteryMethod,questionType){
  });
  quizSet.answered+=1;
  if(correct)quizSet.correct+=1;
- try{localStorage.setItem(LEARNING_RECORD_KEY,JSON.stringify(learningEvents))}catch(e){console.warn("learning record save failed",e)}
+ try{
+   learningEvents=VintageKanaRecordTransfer.mergeById(JSON.parse(localStorage.getItem(LEARNING_RECORD_KEY)||'[]'),learningEvents);
+   localStorage.setItem(LEARNING_RECORD_KEY,JSON.stringify(learningEvents));
+   window.dispatchEvent(new Event('koten:record-saved'));
+ }catch(e){document.getElementById('vintageRecordTransferStatus').textContent='今回の解答を保存できませんでした。既存記録は保持しています。';}
  refreshMasteryTabRing();
  renderSetProgress();
 }
@@ -1852,7 +1867,8 @@ function newDecipherQuiz(){
      }))
    };
    decipherHistory.push(attempt);
-   VintageKanaDecipher.storeHistory(decipherHistory);
+   const historySaved=VintageKanaDecipher.storeHistory(decipherHistory);
+   if(!historySaved)feedback.textContent+=' 今回の記録を保存できませんでした。既存記録は保持しています。';
    quizSet.answered+=1;if(correct)quizSet.correct+=1;
    quizSet.decipherResults.push({reading:phrase.reading,correct,glyphs:attempt.glyphs.map(g=>({
      ...g,kana:tokens[g.position]?.kana||g.base
@@ -1861,7 +1877,7 @@ function newDecipherQuiz(){
    renderDecipherBreakdown(tokens,correct);
    const previous=decipherLevel;
    decipherLevel=VintageKanaDecipher.nextLevel(decipherHistory,decipherLevel);
-   VintageKanaDecipher.storeLevel(decipherLevel);
+   if(historySaved)VintageKanaDecipher.storeLevel(decipherLevel);
    if(previous!==decipherLevel)feedback.textContent+=" レベルが"+decipherLevel+"になりました。";
    document.getElementById("decipherLevel").value=String(decipherLevel);
    refreshMasteryTabRing();renderSetProgress();
@@ -2424,12 +2440,49 @@ document.getElementById("masteryRingAction").addEventListener("click",showRecord
 function reloadMasteryRecord(){
  learningEvents=VintageKanaMastery.readLearningEvents();
  decipherHistory=VintageKanaDecipher.readHistory();
+ decipherLevel=VintageKanaDecipher.readLevel();
  refreshMasteryTabRing();
  if(activeQuizScreen==="record"&&document.getElementById("quizRecord")?.hidden===false){
    renderRecordScreen();
  }
 }
+document.getElementById("vintageExportRecord")?.addEventListener("click",()=>{
+ try {
+  const record=VintageKanaRecordTransfer.exportRecord(localStorage);
+  const blob=new Blob([record],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="vintage-kana-record-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  document.getElementById("vintageRecordTransferStatus").textContent="記録を書き出しました。";
+ } catch(error) {
+  document.getElementById("vintageRecordTransferStatus").textContent="書き出しに失敗しました。"+error.message;
+ }
+});
+document.getElementById("vintageImportRecord")?.addEventListener("click",()=>{
+ document.getElementById("vintageImportRecordFile").click();
+});
+document.getElementById("vintageImportRecordFile")?.addEventListener("change",async event=>{
+ const input=event.currentTarget, file=input.files?.[0];input.value="";
+ if(!file)return;
+ const status=document.getElementById("vintageRecordTransferStatus");
+ try {
+  if(file.size>5*1024*1024)throw new Error("ファイルが大きすぎます。");
+  const preview=VintageKanaRecordTransfer.previewImport(localStorage,await file.text());
+  const question="既存の記録は残し、読み・字母 "+preview.addedLearning+"件、解読 "+preview.addedDecipher+"件を追加します。よろしいですか？";
+  if(!window.confirm(question))return;
+  const commit=()=>VintageKanaRecordTransfer.commitImport(localStorage,preview);
+  if(navigator.locks)await navigator.locks.request('koten:vintage-kana-record',commit);else commit();
+  window.dispatchEvent(new Event('koten:record-saved'));
+  decipherLevel=VintageKanaDecipher.readLevel();
+  reloadMasteryRecord();
+  status.textContent="記録を統合しました。";
+ }catch(error){status.textContent="読み込みに失敗しました。"+error.message;}
+});
 window.addEventListener("pageshow",reloadMasteryRecord);
+window.addEventListener("koten:remote-records",reloadMasteryRecord);
 window.addEventListener("storage",e=>{
  if(e.key===VintageKanaMastery.recordKey||e.key===VintageKanaDecipher.HISTORY_KEY||e.key===null)reloadMasteryRecord();
 });
@@ -2641,5 +2694,6 @@ document.getElementById("installGuideAction")?.addEventListener("click",async()=
 });
 renderInstallGuide();
 </script>
+<script src="./sync.bundle.js?v=app007-1"></script>
 </body>
 </html>
