@@ -56,26 +56,37 @@ function adapterFor(app){
 export function mount(app,target=document.querySelector('[data-koten-sync]')){
   if(!target)return;
   const style=element('style');style.textContent=`
-.koten-sync-dialog{box-sizing:border-box;width:min(30rem,calc(100% - 24px));max-height:90dvh;overflow:auto;border:1px solid var(--line,#ddd);border-radius:18px;padding:20px;background:var(--paper,#fff);color:var(--ink,#222);font:inherit;line-height:1.7}
-.koten-sync-dialog button,.koten-sync-dialog input{font:inherit;box-sizing:border-box;min-height:44px;max-width:100%;margin:5px 0}
-.koten-sync-dialog button{width:auto;padding:8px 12px;margin-right:8px;border:1px solid var(--line,#ccc);border-radius:10px;background:var(--paper,#fff);color:inherit;box-shadow:none;cursor:pointer}
-.koten-sync-dialog input{width:100%;padding:8px;border:1px solid var(--line,#ccc);border-radius:8px}
-.koten-sync-dialog button:focus-visible,.koten-sync-dialog summary:focus-visible{outline:2px solid var(--accent,#356b9e);outline-offset:2px}
+.koten-sync-dialog{--sync-bg:var(--bg,var(--paper,#fff));--sync-card:var(--card,var(--paper,#fff));--sync-soft:var(--accent-soft,var(--paper2,#f4f1ec));--sync-accent:var(--accent-strong,var(--accent,var(--ink,#222)));--sync-line:var(--line-strong,var(--line,#d6cfc5));box-sizing:border-box;width:min(36rem,calc(100% - 24px));max-height:92dvh;overflow:auto;overscroll-behavior:contain;border:1px solid var(--sync-line);border-radius:20px;padding:24px;background:var(--sync-bg);color:var(--ink,#222);font-family:inherit;font-size:16px;line-height:1.7}
+.koten-sync-dialog *{box-sizing:border-box}
+.koten-sync-dialog button,.koten-sync-dialog input{font:inherit;min-height:44px;max-width:100%;margin:0}
+.koten-sync-dialog button{width:auto;padding:10px 14px;border:1px solid var(--sync-line);border-radius:9px;background:var(--sync-card);color:inherit;box-shadow:none;cursor:pointer;line-height:1.5}
+.koten-sync-dialog button:disabled{opacity:.5;cursor:default}
+.koten-sync-dialog input{display:block;width:100%;padding:10px 12px;border:1px solid var(--sync-line);border-radius:9px;background:var(--sync-card);color:inherit}
+.koten-sync-dialog button:focus-visible,.koten-sync-dialog input:focus-visible,.koten-sync-dialog summary:focus-visible{outline:2px solid var(--sync-accent);outline-offset:3px}
 .koten-sync-dialog canvas,.koten-sync-dialog video{display:block;max-width:100%;height:auto;margin:auto}
 .koten-sync-dialog [hidden]{display:none!important}.koten-sync-dialog code{overflow-wrap:anywhere}.koten-sync-dialog::backdrop{background:#0006}
-.koten-sync-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.koten-sync-heading h2{font-size:1.2rem;margin:0;white-space:nowrap}.koten-sync-heading button{margin:0;flex:none;border:0;background:transparent}
-.koten-sync-panel{border-top:1px solid var(--line,#ddd);padding:14px 0}.koten-sync-panel h3{font-size:1rem;margin:0 0 6px}.koten-sync-panel p{margin:6px 0}
+.koten-sync-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--sync-line)}.koten-sync-heading h2{font-size:1.35em;margin:0;white-space:nowrap}.koten-sync-heading button{flex:none;font-size:.85em}
+.koten-sync-status{display:table;max-width:100%;margin:16px 0 8px;padding:7px 14px;border-radius:999px;background:var(--sync-soft);font-size:.9em;font-weight:700;overflow-wrap:anywhere}.koten-sync-status::before{content:'●';margin-right:8px}
+.koten-sync-intro{margin:0 0 20px;color:var(--muted,#666);font-size:.85em}
+.koten-sync-panel{border-top:1px solid var(--sync-line);padding:16px 0}.koten-sync-panel h3{font-size:1.1em;margin:0}.koten-sync-panel p{margin:12px 0 16px}
+.koten-sync-card{margin:16px 0;padding:22px;border:1px solid var(--sync-line);border-radius:20px;background:var(--sync-card)}.koten-sync-receive{background:var(--sync-soft)}
+.koten-sync-step{display:flex;align-items:center;gap:12px;font-weight:700;line-height:1.5}.koten-sync-number{display:inline-grid;place-items:center;flex:none;width:36px;height:36px;border-radius:50%;background:var(--sync-accent);color:var(--on-accent,#fff);font-size:1.15em;font-weight:700}
+.koten-sync-dialog .koten-sync-primary{display:block;width:100%;background:var(--sync-accent);border-color:var(--sync-accent);color:var(--on-accent,#fff);font-weight:700}
+.koten-sync-scan-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}.koten-sync-scan-actions>button,.koten-sync-scan-actions>label{width:100%;text-align:center;justify-content:center}
+.koten-sync-join label{display:block;font-weight:700;margin:14px 0 10px}.koten-sync-join input{margin-top:8px}.koten-sync-join>button{display:block;width:100%}
 .koten-sync-dialog summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}.koten-sync-dialog summary::before{content:'＋';font-size:1rem}.koten-sync-dialog details[open]>summary::before{content:'−'}
-.koten-sync-dialog .koten-sync-note{font-size:.78rem;color:var(--muted,#666);margin:10px 0}.koten-sync-current{font-size:.85rem;color:var(--muted,#666)}
-.koten-sync-file{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid var(--line,#ccc);border-radius:10px;cursor:pointer}.koten-sync-file:focus-within{outline:2px solid var(--accent,#356b9e);outline-offset:2px}.koten-sync-file input{position:absolute;width:1px;height:1px;opacity:0;min-height:0}
+.koten-sync-dialog .koten-sync-step{gap:12px;list-style:none}.koten-sync-dialog .koten-sync-receive>.koten-sync-step::before{content:none}.koten-sync-step::-webkit-details-marker{display:none}
+.koten-sync-dialog .koten-sync-note{font-size:.75em;color:var(--muted,#666);margin:18px 4px 10px}.koten-sync-current{font-size:.85em;color:var(--muted,#666)}
+.koten-sync-file{display:inline-flex;align-items:center;min-height:44px;padding:10px 8px;border:1px solid var(--sync-line);border-radius:9px;background:var(--sync-card);cursor:pointer;line-height:1.5}.koten-sync-file:focus-within{outline:2px solid var(--sync-accent);outline-offset:3px}.koten-sync-file input{position:absolute;width:1px;height:1px;opacity:0;min-height:0;padding:0}
+@media(max-width:420px){.koten-sync-dialog{padding:16px;font-size:14px}.koten-sync-card{padding:18px 16px}.koten-sync-heading{gap:8px}.koten-sync-heading button{padding:9px 10px}.koten-sync-number{width:32px;height:32px}}
 `;document.head.append(style);
   const open=element('button','端末間同期',target);open.type='button';open.style.cssText='min-height:44px;padding:6px 12px;border:1px solid var(--line,#ccc);border-radius:12px;background:var(--paper,#fff);color:inherit;font:inherit;cursor:pointer';
   const dialog=element('dialog',null,document.body);dialog.className='koten-sync-dialog';
   const heading=element('div',null,dialog);heading.className='koten-sync-heading';
   const title=element('h2','端末間同期',heading);title.id='koten-sync-title';dialog.setAttribute('aria-labelledby',title.id);
-  const close=element('button','閉じる',heading);
-  element('p','複数の端末で記録を共有できるようにします。',dialog);
-  const status=element('p','端末間同期はオフです',dialog);status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+  const close=element('button','設定へ戻る',heading);
+  const status=element('p','端末間同期はオフです',dialog);status.className='koten-sync-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+  element('p','複数の端末で記録を共有できるようにします。',dialog).className='koten-sync-intro';
   const current=element('p','',dialog);current.className='koten-sync-current';
   const choices=element('section',null,dialog);choices.className='koten-sync-panel';choices.hidden=true;
   element('h3','このブラウザの同期グループ',choices);
@@ -89,15 +100,18 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
   const inviteLabel=element('label','招待リンク',shareAlternative), inviteInput=element('input',null,inviteLabel);inviteInput.readOnly=true;
   const copy=element('button','リンクをコピー',shareAlternative);
   const secret=element('code','',element('p','共有コード ',shareAlternative));
-  const createPanel=element('section',null,dialog);createPanel.className='koten-sync-panel';
-  element('h3','この端末で QR を作る',createPanel);element('p','共有する端末で読み取って設定します。',createPanel);
-  const create=element('button','新しい同期グループを作る',createPanel);
+  const createPanel=element('section',null,dialog);createPanel.className='koten-sync-panel koten-sync-card';
+  const createHeading=element('div',null,createPanel);createHeading.className='koten-sync-step';
+  element('span','1',createHeading).className='koten-sync-number';element('h3','この端末で QR を作る',createHeading);element('p','共有する端末で読み取って設定します。',createPanel);
+  const create=element('button','新しい同期グループを作る',createPanel);create.className='koten-sync-primary';
   create.disabled=true;
-  const receive=element('details',null,dialog);receive.className='koten-sync-panel';receive.open=true;
-  element('summary','別の端末のQRを読み取る',receive);
-  const camera=element('button','カメラを開く',receive), imageLabel=element('label','画像を選ぶ',receive), file=element('input',null,imageLabel);imageLabel.className='koten-sync-file';file.type='file';file.accept='image/*';
+  const receive=element('details',null,dialog);receive.className='koten-sync-panel koten-sync-card koten-sync-receive';receive.open=true;
+  const receiveHeading=element('summary',null,receive);receiveHeading.className='koten-sync-step';
+  element('span','2',receiveHeading).className='koten-sync-number';element('span','別の端末のQRを読み取る',receiveHeading);
+  const scanActions=element('div',null,receive);scanActions.className='koten-sync-scan-actions';
+  const camera=element('button','カメラを開く',scanActions), imageLabel=element('label','画像を選ぶ',scanActions), file=element('input',null,imageLabel);imageLabel.className='koten-sync-file';file.type='file';file.accept='image/*';
   const video=element('video',null,receive);video.muted=true;video.playsInline=true;video.hidden=true;
-  const alternative=element('details',null,receive);element('summary','リンク・共有コードを使う',alternative);
+  const alternative=element('div',null,receive);alternative.className='koten-sync-join';
   const label=element('label','招待リンク・共有コード',alternative), input=element('input',null,label);input.className='sync-join-input';input.autocomplete='off';input.spellcheck=false;
   const check=element('button','同期先を確認',alternative);
   const candidate=element('section',null,receive);candidate.hidden=true;

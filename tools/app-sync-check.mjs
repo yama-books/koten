@@ -122,7 +122,7 @@ try{
           Object.defineProperty(navigator,'mediaDevices',{configurable:true,value:{getUserMedia:()=>new Promise(resolve=>{window.syntheticCameraResolve=()=>resolve({getTracks:()=>[{stop(){window.syntheticCameraStopped=true;}}]});})}});
         });
         await target.page.getByRole('button',{name:'カメラを開く',exact:true}).click();
-        await target.page.locator('.koten-sync-dialog').getByRole('button',{name:'閉じる',exact:true}).click();
+        await target.page.locator('.koten-sync-dialog').getByRole('button',{name:'設定へ戻る',exact:true}).click();
         await target.page.evaluate(()=>window.syntheticCameraResolve());
         await target.page.waitForFunction(()=>window.syntheticCameraStopped===true);
         assert.ok(await selected(target.page,receiver)===before);checks++;
