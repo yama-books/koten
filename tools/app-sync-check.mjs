@@ -20,6 +20,7 @@ const server=http.createServer(async(req,res)=>{
 });
 await new Promise(resolve=>server.listen(4199,'127.0.0.1',resolve));
 const base='http://127.0.0.1:4199';
+const layoutOnly=process.argv.includes('--layout-only');
 const browser=await (process.argv.includes('--webkit')?webkit:chromium).launch({headless:true});
 let stage='start',checks=0;
 const deadline=setTimeout(()=>{console.error('app-sync browser: TIMEOUT at '+stage);process.exit(1);},300000);deadline.unref();
@@ -83,11 +84,13 @@ try{
     stage='layout '+app;const target=await pageFor(app);
     for(const width of [320,375,414,768]){
       await target.page.setViewportSize({width,height:812});
-      assert.ok(await target.page.locator('.koten-sync-dialog').evaluate(d=>d.scrollWidth<=d.clientWidth+1),'dialog fits viewport');checks++;
+      const layout=await target.page.locator('.koten-sync-dialog').evaluate(d=>({client:d.clientWidth,scroll:d.scrollWidth,overflow:[...d.querySelectorAll('*')].filter(e=>e.getBoundingClientRect().right>d.getBoundingClientRect().right||e.scrollWidth>e.clientWidth+1).map(e=>({tag:e.tagName,cls:e.className,right:Math.round(e.getBoundingClientRect().right),client:e.clientWidth,scroll:e.scrollWidth}))}));
+      assert.ok(layout.scroll<=layout.client+1,`dialog fits viewport: ${app} ${width}px ${JSON.stringify(layout)}`);checks++;
       if(width===375){await mkdir(path.join(root,'.cache/qa'),{recursive:true});await target.page.screenshot({path:path.join(root,'.cache/qa',app+(process.argv.includes('--webkit')?'-webkit':'-chromium')+'.png')});}
     }
     await target.context.close();contexts.splice(contexts.indexOf(target.context),1);
   }
+  if(!layoutOnly){
   // Every creator is tested against all three independent receiving apps.
   for(const creator of ['100','vintage-kana','conj']){
     stage='create '+creator;
@@ -161,7 +164,8 @@ try{
     }
     for(const context of contexts.splice(0))await context.close();
   }
-  console.log(`app-sync browser: PASS ${checks} checks; ${process.argv.includes('--webkit')?'WebKit':'Chromium'}; synthetic, no physical-device claim`);
+  }
+  console.log(`app-sync ${layoutOnly?'layout':'browser'}: PASS ${checks} checks; ${process.argv.includes('--webkit')?'WebKit':'Chromium'}; synthetic, no physical-device claim`);
 }catch(error){
   const message=String(error.message).split('\n')[0].replace(/[a-zA-Z0-9_-]{16,}/g,'[redacted]');
   console.error('app-sync browser: FAIL at '+stage+': '+message+' (invitation and storage values omitted)');process.exitCode=1;

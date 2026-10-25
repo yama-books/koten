@@ -5,6 +5,11 @@ on:
   push:
     paths: ['packages/shared/**', 'packages/hyakunin/**', 'conj/**', 'vintage-kana/**', 'firebase/**', 'tests/rules/**', 'tools/*app-sync*.mjs', 'package.json', '.github/workflows/app-sync.yml']
   workflow_dispatch:
+    inputs:
+      layout_only:
+        description: 'WebKitの同期画面幅だけを確認する（同期先作成なし）'
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -20,11 +25,22 @@ jobs:
           node-version: 26
           cache: npm
       - uses: actions/setup-java@v5
+        if: inputs.layout_only != true
         with:
           distribution: temurin
           java-version: 21
       - run: npm ci
       - run: npm ci --prefix tests/rules
+        if: inputs.layout_only != true
       - run: npx playwright install --with-deps chromium webkit
+        if: inputs.layout_only != true
+      - run: npx playwright install --with-deps webkit
+        if: inputs.layout_only == true
       - run: npm run build
+        if: inputs.layout_only != true
+      - run: npm run build --workspace=@koten/hyakunin && npm run build:app-sync
+        if: inputs.layout_only == true
       - run: npm run test:app-sync
+        if: inputs.layout_only != true
+      - run: node tools/app-sync-check.mjs --webkit --layout-only
+        if: inputs.layout_only == true
