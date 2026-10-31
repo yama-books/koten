@@ -1,6 +1,6 @@
 {
-  "name": "変体仮名ノート",
-  "short_name": "変体仮名",
+  "name": "変体仮名メーカー",
+  "short_name": "変体仮名メーカー",
   "description": "変体仮名の字形を選んで書いてみるアプリ",
   "start_url": "./",
   "scope": "./",
