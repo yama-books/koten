@@ -3106,7 +3106,7 @@ body.review-modal-open{overflow:hidden}
   .gloss .note-bubble::after{bottom:auto;top:-7px;transform:rotate(225deg)}
 }
 </style>
-<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261015-lemma-hint-pair-01">
+<link rel="stylesheet" href="./conj-quiz-ui.css?v=20261031-lemma-layout-01">
 </head>
 <body>
 <div class="wrap">
@@ -4755,6 +4755,9 @@ function syncStudyHeights(){
     if(typeof fitQuizFormChoices==="function") fitQuizFormChoices();
     return;
   }
+  // 終止形入力は、例文・入力欄・ヒントの表で複数行のグリッドになる。
+  // Safariで入力欄と後続ボタンが重ならないよう、表ドリル用の拡大は適用しない。
+  if(isIdentificationMode() && quizState?.quizMode==="lemma") return;
   const actions=card && card.querySelector(".actions");
   if(!card || !actions) return;
   let m=measureStudyZoom(layout,card,gloss);
@@ -6748,6 +6751,6 @@ window.addEventListener('storage',event=>{if(event.key===RECORD_STORAGE_KEY){sta
 bootConj();
 
 </script>
-<script src="./sync.bundle.js?v=app007-6"></script>
+<script src="./sync.bundle.js?v=app007-7"></script>
 </body>
 </html>

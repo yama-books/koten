@@ -39,7 +39,7 @@ test("reverse conversion and flash safeguards are preserved",()=>{
 test("approved header: help link moved outside the menu panel without losing the three navigation actions",()=>{
  const header=detail.match(/<header class="pageHeader">([\s\S]*?)<\/header>/)?.[1]||"";
  const nav=detail.match(/<section class="panel">\s*<div class="panelTop">([\s\S]*?)<\/nav>/)?.[1]||"";
- assert.match(header,/<h1>変体仮名ノート<\/h1>/);
+ assert.match(header,/<h1>変体仮名メーカー<\/h1>/);
  assert.match(header,/id="openHelp" class="headerHelp"/);
  assert.match(header,/>変体仮名とは？<\/span>/);
  assert.match(header,/class="modeLink" href="\.\/"[^>]*>シンプル？版<\/a>/);

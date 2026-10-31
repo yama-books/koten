@@ -247,7 +247,7 @@ export function SyncSettings({ settings, status, onChange, onBack, onOpenHistory
         {candidate && <div class="sync-confirm"><h3>参加の確認</h3><p>この端末の記録を<span class="sync-nowrap">同期グループ</span>と共有します。<br />{candidateName ? <>同期グループを作成した端末: <span class="sync-nowrap">{candidateName}</span></> : <span class="sync-nowrap">共有コードの末尾: {candidate.slice(-4)}</span>}</p><button type="button" disabled={!verified || checking || joining} onClick={() => { void join(); }}>確認して参加する</button><button type="button" disabled={joining} onClick={() => { setCandidate(null); setVerified(false); setMessage('参加を取り消しました。'); }}>取り消す</button></div>}
       </section>
     </div>}
-    <p class="sync-license">「変体仮名ノート」「古典文法活用ノート」で同期を設定済みの場合も、同じQR・招待リンクを使えます。</p>
+    <p class="sync-license">「変体仮名メーカー」「古典文法活用ノート」で同期を設定済みの場合も、同じQR・招待リンクを使えます。</p>
     <p class="sync-license">QRや招待リンクは、共有する相手だけに渡してください。</p>
     <p class="sync-license">QR ライブラリ: <a href={`${import.meta.env.BASE_URL}licenses/qrcode-LICENSE.txt`}>qrcode (MIT)</a>・<a href={`${import.meta.env.BASE_URL}licenses/jsqr-LICENSE.txt`}>jsQR (Apache 2.0)</a></p>
   </main>;

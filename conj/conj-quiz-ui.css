@@ -343,8 +343,6 @@
 }
 .card.is-quiz.quiz-lemma-layout #quizAnswerPanel{
   grid-area:quiz!important;
-  grid-row:auto!important;
-  grid-column:auto!important;
   display:block;
   width:min(100%,340px)!important;
   min-width:0!important;
@@ -357,10 +355,13 @@
   width:100%;
   max-width:340px;
 }
+/* 採点・ヒントは、入力欄と採点結果を含むグリッドの下に間隔を確保する。 */
+.card.is-quiz.quiz-lemma-layout:has(#quizLemmaAnswer) .actions{
+  margin-top:16px;
+  flex-wrap:wrap;
+}
 .card.is-quiz.quiz-lemma-layout #tablePanel{
   grid-area:table;
-  grid-row:auto;
-  grid-column:auto;
   justify-self:center!important;
   align-self:start;
   margin:0 auto!important;

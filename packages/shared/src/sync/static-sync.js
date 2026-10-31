@@ -127,7 +127,7 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
   element('summary','別の同期グループを新しく作る',replace);
   element('p','現在とは別の共有先を作り、この端末の記録を追加します。以前のグループの記録は残ります。',replace);
   const createAnother=element('button','確認して新規グループを作成',replace);
-  const note=element('p',app==='conj'?'「百人一首練習帳」「変体仮名ノート」で同期を設定済みの場合も、同じQR・招待リンクを使えます。':'「百人一首練習帳」「古典文法活用ノート」で同期を設定済みの場合も、同じQR・招待リンクを使えます。',dialog);note.className='koten-sync-note';
+  const note=element('p',app==='conj'?'「百人一首練習帳」「変体仮名メーカー」で同期を設定済みの場合も、同じQR・招待リンクを使えます。':'「百人一首練習帳」「古典文法活用ノート」で同期を設定済みの場合も、同じQR・招待リンクを使えます。',dialog);note.className='koten-sync-note';
   const help=element('details',null,dialog);element('summary','同期について',help);
   element('p','QRや招待リンクは、共有する相手だけに渡してください。',help);
   element('p','Safariとホーム画面のアプリで記録が別々に見える場合は、同じQR・招待リンクで設定してください。',help);
