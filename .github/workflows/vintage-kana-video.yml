@@ -1,0 +1,40 @@
+name: Vintage kana VK-02 video export PoC QA
+on:
+  push:
+    branches:
+      - vintage-kana-video-export-vk02-poc-*
+    paths:
+      - 'tools/vintage-kana-video-poc/**'
+      - 'tests/unit/vintage-kana-video-export.test.ts'
+      - 'tests/unit/vintage-kana-video-dom-mirror.test.ts'
+      - '.github/workflows/vintage-kana-video.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  video-poc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      - run: node --experimental-strip-types --test tests/unit/vintage-kana-video-export.test.ts tests/unit/vintage-kana-video-dom-mirror.test.ts
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify recording, playback blob, cancellation in browser
+        run: node tools/vintage-kana-video-poc/check.mjs
+      - name: Verify actual-app DOM-to-Canvas sampling proof in browser
+        run: node tools/vintage-kana-video-poc/check-dom-mirror.mjs
+      - name: Quantify frozen-frame visual fidelity against production DOM
+        run: node tools/vintage-kana-video-poc/check-visual-fidelity.mjs
+      - name: Keep visual comparison screenshots for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vk02-dom-canvas-comparison
+          path: vk02-fidelity-evidence/
+          if-no-files-found: ignore
+          retention-days: 7

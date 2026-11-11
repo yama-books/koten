@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VK-02 動画保存技術PoC（本番アプリには未接続）</title>
+<style>
+*{box-sizing:border-box}body{background:#f6f1ea;color:#302a26;font:15px/1.7 system-ui,sans-serif;margin:0 auto;max-width:850px;padding:22px}
+h1{font-size:21px}p{margin:10px 0 18px}canvas,video{display:block;width:100%;aspect-ratio:16/9;border-radius:14px;background:#fff;border:1px solid #dccfc0}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0}button,select,a.save{min-height:44px;border-radius:12px;border:1px solid #a7998b;font:inherit;padding:8px 16px;color:inherit;background:#fff}
+button{cursor:pointer}button.primary{background:#302a26;color:#fff}button:disabled{opacity:.45;cursor:not-allowed}a.save{display:inline-flex;align-items:center;text-decoration:none}
+#download[hidden],#preview[hidden]{display:none}#status{min-height:28px;overflow-wrap:anywhere}
+.note{font-size:13px;color:#685e57}a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid #bf9768}
+</style>
+</head>
+<body>
+<h1>VK-02 録画技術PoC</h1>
+<p>Canvas → MediaRecorder → 動画プレビュー・保存を検証する独立した実験ページです。<strong>本番の3D文字演出は録画していません。</strong></p>
+<canvas id="movie" width="768" height="432" role="img" aria-label="録画テスト用の文字と光の簡易動作"></canvas>
+<div class="controls">
+<label>方向 <select id="direction"><option value="forward">ひらがな → 変体仮名</option><option value="reverse">変体仮名 → ひらがな</option></select></label>
+<button id="record" class="primary" type="button">試験動画を作る</button>
+<button id="cancel" type="button" disabled>録画を取り消す</button>
+<a class="save" id="download" href="#" hidden>保存する</a>
+</div>
+<p id="status" role="status" aria-live="polite">対応形式を調査しています。</p>
+<video id="preview" controls playsinline hidden aria-label="録画した動画のプレビュー"></video>
+<p class="note">録画範囲はCanvas内部だけです。再現元のDOMには触れません。録画は端末内で完結し、外部送信しません。対応形式はMediaRecorder.isTypeSupportedで実行時に選択します。</p>
+<script src="./video-capability.js"></script>
+<script>
+(()=>{
+"use strict";
+const canvas=document.getElementById("movie"),ctx=canvas.getContext("2d");
+const direction=document.getElementById("direction"),record=document.getElementById("record"),cancel=document.getElementById("cancel");
+const status=document.getElementById("status"),download=document.getElementById("download"),preview=document.getElementById("preview");
+const api=window.VintageKanaVideoProbe;
+let session=null,oldUrl=null;
+const say=text=>{status.textContent=text};
+function clearDownload(){
+  download.hidden=true;download.removeAttribute("download");download.removeAttribute("href");
+  preview.hidden=true;preview.removeAttribute("src");preview.load();
+  if(oldUrl){URL.revokeObjectURL(oldUrl);oldUrl=null}
+}
+function draw(progress,mode){
+  const t=Math.min(1,Math.max(0,progress)),w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  const grad=ctx.createRadialGradient(w*.5,h*.48,8,w*.5,h*.48,w*.7);
+  grad.addColorStop(0,t>.64?"#fff":"#f4eee5");grad.addColorStop(1,t>.64?"#f3eee7":"#e8dece");
+  ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+  const flash=Math.max(0,1-Math.abs(t-.65)/.09);
+  const x=w/2+Math.sin(t*Math.PI*4)*175*(1-t),y=h/2+Math.cos(t*Math.PI*3)*55*(1-t);
+  ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(t*14)*.12*(1-t));
+  ctx.fillStyle="#312822";ctx.textAlign="center";ctx.textBaseline="middle";
+  const initial=mode==="reverse"?"𛀂":"あ",final=mode==="reverse"?"あ":"𛀂";
+  ctx.font='bold 115px "Noto Serif Hentaigana",serif';
+  ctx.fillText(t>.65?final:initial,0,0);
+  ctx.restore();
+  ctx.fillStyle="rgba(255,255,255,"+Math.min(1,flash*.98)+")";ctx.fillRect(0,0,w,h);
+  ctx.fillStyle="#534639";ctx.font="18px system-ui";ctx.textAlign="center";
+  ctx.fillText(t<.65?"変換中":mode==="reverse"?"HIRAGANA":"HENTAIGANA",w/2,h-30);
+}
+function disposeSession(s){
+  if(s.raf)cancelAnimationFrame(s.raf);
+  s.stream?.getTracks().forEach(track=>track.stop());
+  if(session===s)session=null;
+  record.disabled=false;cancel.disabled=true;direction.disabled=false;
+}
+function stop(s){
+  if(s.stopped)return;
+  s.stopped=true;
+  if(s.raf)cancelAnimationFrame(s.raf);
+  if(s.recorder.state!=="inactive")s.recorder.stop();
+}
+function begin(){
+  if(session)return;
+  clearDownload();
+  const support=api.detect(canvas,window.MediaRecorder);
+  if(!support.supported){say("動画録画に非対応: "+support.reason);return}
+  const mode=direction.value;
+  try{
+    const stream=canvas.captureStream(30);
+    const rec=new MediaRecorder(stream,{mimeType:support.format.mimeType,videoBitsPerSecond:2500000});
+    const s={stream,recorder:rec,parts:[],cancelled:false,stopped:false,raf:0,mode,format:support.format};
+    session=s;record.disabled=true;cancel.disabled=false;direction.disabled=true;
+    rec.ondataavailable=e=>{if(e.data&&e.data.size)s.parts.push(e.data)};
+    rec.onerror=e=>{s.cancelled=true;say("録画に失敗: "+String(e.error?.name||"MediaRecorder error"));stop(s)};
+    rec.onstop=()=>{
+      const mime=rec.mimeType||s.format.mimeType;
+      const ext=/mp4/i.test(mime)?"mp4":/webm/i.test(mime)?"webm":null;
+      const blob=new Blob(s.parts,{type:mime});
+      disposeSession(s);
+      if(s.cancelled){say("録画を取り消しました。ファイルは作成していません。");return}
+      if(!ext||!blob.size){say("有効な動画を作成できませんでした。");return}
+      oldUrl=URL.createObjectURL(blob);
+      download.href=oldUrl;
+      download.download=api.filename(mode,ext);
+      download.hidden=false;
+      preview.src=oldUrl;preview.hidden=false;
+      say("録画完了: "+(blob.size/1024).toFixed(1)+" KiB、"+mime+"。再生を確認してから保存してください。");
+    };
+    rec.start(200);
+    const start=performance.now();
+    function step(now){
+      if(session!==s||s.cancelled||s.stopped)return;
+      const fraction=Math.min(1,(now-start)/2800);
+      draw(fraction,mode);
+      if(fraction>=1){stop(s);return}
+      s.raf=requestAnimationFrame(step);
+    }
+    draw(0,mode);
+    s.raf=requestAnimationFrame(step);
+    say("録画中です。ファイルに操作ボタンは入りません。");
+  }catch(err){
+    if(session){disposeSession(session)}
+    say("録画を開始できません: "+String(err?.message||err));
+  }
+}
+record.addEventListener("click",begin);
+cancel.addEventListener("click",()=>{const s=session;if(!s)return;s.cancelled=true;stop(s)});
+window.addEventListener("pagehide",()=>{if(session){session.cancelled=true;stop(session)}clearDownload()});
+draw(0,direction.value);
+direction.addEventListener("change",()=>{if(!session)draw(0,direction.value)});
+const support=api.detect(canvas,window.MediaRecorder);
+if(!support.supported){record.disabled=true;say("動画録画に非対応: "+support.reason)}
+else say("対応形式: "+support.format.label+"。実行後に動画を再生して内容を確認できます。");
+})();
+</script>
+</body>
+</html>

@@ -978,3 +978,29 @@ main を触らずに専用ブランチの現行UIを確認するため、branch�
 - **17:58 JST 時点のリポジトリ:** `main` は別作業のPR #96まで進み `7792859cbdab0f5e63da4b5eaabd6bf859c83864`。この最新状態を巻き戻さず、VK-01は完了案件として扱う。ローカルの未コミット変更はこのセッションでは検証していない。
 - **残る実機観察（新規コード変更を意味しない）:** iPhone/iPad Safariでの動きの自然さ、白背景での字形可読性、fps/フレーム落ち、スキップ・文字入力への復帰、iPhoneキーボードの挙動。WebKitヘッドレスの成功は実機保証ではない。
 - **再開時:** まずその時点の `main` と本節以降のHANDOFFを確認する。実機で退行を確認した場合のみ別タスク・別ブランチで修正し、CI/Pagesの証跡を残す。**本セッションではここで停止し、追加の実装・デプロイは行わない。**
+
+## 2026-10-13 VK-02 実装再開（技術検証PoC、未公開）
+- **前件VK-01は完了済み**。2026-10-13 17:58 JSTの停止チェックポイントを踏まえ、新しいユーザー指示「次に進めてください」に従い**計画Step C / VK-02 動画保存**へ進んだ。VK-01再実装は行わない。
+- 正本基点: `main` `039063230233037973f5db5f1cfee43b6d45d1a7`（PR #97まで）。作業ブランチ `vintage-kana-video-export-vk02-poc-20261013`。
+- `vintage-kana/index.html` は DOM要素・CSS/WAAPIで動作し、そのままCanvas/MediaRecorder録画できないことを静的に確認。画面共有はiOS Safari非対応。ブラウザの選択を曖昧にせず、両方向のCanvas録画・拡張子判定・キャンセルを**隔離PoC**として `tools/vintage-kana-video-poc/` に実装。
+- 検査: `tests/unit/vintage-kana-video-export.test.ts` を追加。録画APIの形式判定/非対応/取消・UI非混入等の回帰を登録。**実ブラウザで実動画を生成したという意味ではない**。
+- 設計・検証ゲート・未実施項目: [VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md](./VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md)。本番の10モードに対する動画録画は**未実装**、公開HTML変更なし、`main`への統合・Pages公開なし。
+- 再開時はまずこのブランチと最新 `main` のSHA・競合を確認 → 新設Nodeテストと実ブラウザ PoC（Chromium/WebKit） → DOM/Canvas映像一致を検証してからUI統合。録画失敗時の復帰、実機Safari、動画ファイル本体の再生を優先。
+
+
+### 2026-10-13 VK-02 実ブラウザ初回合格・DOMミラー試験着手
+- 隔離Canvas録画PoCの[専用QA 38379301233](https://github.com/yama-books/koten/actions/runs/38379301233) は SUCCESS。ChromiumでMP4 forward/reverse とキャンセルに成功。WebKit LinuxではMediaRecorderが使えず、非対応表示を確認。
+- 720×405pxが720×404pxで符号化されたため768×432pxに改めた。[再検証 38380791924](https://github.com/yama-books/koten/actions/runs/38380791924) SUCCESS。両方向とも768×432/2.81秒のMP4を生成し、デコードした異なる動画フレーム・保存・キャンセルまで確認。
+- 次の段階として現行本番アプリを無変更のiframeで読み込み、そこからDOMの文字ポーズをCanvas2Dに再描画する **低忠実度ミラーPoC** を追加した。 `tools/vintage-kana-video-poc/dom-mirror.js` / `dom-mirror.html` / `check-dom-mirror.mjs` とユニットテストを参照。**3D透視・閃光・刻印の正確な映像化は未実装。**
+- 実DOMミラーのブラウザ検査と画質差の監査は未判定/継続中。詳細は [VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md](./VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md) 最終節。
+- **本番は未変更。** 作業ブランチ `vintage-kana-video-export-vk02-poc-20261013`、[ドラフトPR #98](https://github.com/yama-books/koten/pull/98)。`main`にマージせず公開もしない。次は実DOMミラーのCI結果→画像差分・FPSの実測→レンダラ方式の再判定。
+
+
+### 2026-10-14 VK-02 DOM/Canvas定量検証完走・再開チェックポイント
+- **現在地:** [ドラフトPR #98](https://github.com/yama-books/koten/pull/98) に、隔離の動画録画PoC・実アプリDOMミラー・画素差の自動測定を実装済み。**本番用の動画保存機能は未完成・未公開**。公開済みVK-01とは別タスクであり、前件は再実装しない。
+- **確定QA:** [VK-02 run 38485884694](https://github.com/yama-books/koten/actions/runs/38485884694) **SUCCESS**、Node単体7/7 PASS、ChromiumとWebKitで実DOMミラーと画像比較の検証が通過。Chromiumでは両方向のMP4作成/再生/ダウンロード/キャンセルPASS、WebKit LinuxではMediaRecorder非対応表示PASS。WebKitでのMP4録画成功ではない。
+- **定量比較:** 同一オリジンiframe上の実アプリに「あ」1文字・front-orbitを与え、比較中のみ入力UIとskipを非表示。768×432へ比較用画像を正規化し、0.9秒/5.5秒をChromium・WebKitで比較。暗部IoUは前半 **0.284 / 0.321**、白化移行 **0.292 / 0.222**（順序 Chromium / WebKit）。初期の入力画面透過による汚染とCanvas/iframeの撮影枠差を除外した数値。それでも文字形状の忠実度は不足。画面全体のRGB誤差だけで合格としない。
+- **証跡:** [比較画像とJSON artifact #11860282062](https://github.com/yama-books/koten/actions/runs/38485884694/artifacts/11860282062)（7日保持）。詳細な測定表・処理境界は [VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md](./VK02_VIDEO_EXPORT_FEASIBILITY_2026-10-13.md) 最終節。
+- **暫定裁定:** 現行Canvas2Dミラーは**位置・字形データの転送と録画APIの縦断PoCとしてのみ採用**。3D透視、X/Y/Z回転、発光・白化、WAAPI刻印の映像一致を実証できていないため、録画ボタンを本番へ統合しない。まず文字テクスチャ/4×4透視変換を扱う限定WebGLレンダラ等を現行コードから隔離して比較する。全10モード・後半全相への拡張やプロダクション実装はその後。
+- **差分管理:** 本記録時のmain `cb6a43ac841bbfa64d4e18033473a8dcc9076d6a` は別作業で進行しており、作業枝の基点 `03906323...` と異なる。main/既存別担当の変更を戻さず、PR #98をドラフトのまま保持する。ローカル `C:\Users\user\AI開発\koten` はこのチャットから直接変更していない。
+- **再開順:** PR #98と最新mainの差分確認 → 次の技術的実験（1文字限定の4×4透視・字形ラスタライズ）→ staticでのCanvas/DOM視覚差とfpsの再計測 → 機能採否。WebKitとiPhone Safariを混同せず、実機確認なしに互換性を保証しない。
