@@ -130,3 +130,31 @@ test('range: autoTableLevel follows the §42-4 mastery thresholds',()=>{
   // slots outside the selection are ignored
   assert.equal(range.autoTableLevel({'y:main:0':{c:5,w:0}},keys),1);
 });
+
+test('teacher range code: every individual and all 41 flags roundtrip, fixed catalog order',()=>{
+  const all=range.normalize({preset:'all'},items);
+  assert.equal(all.auxiliaryItemIds.length,28);
+  const code=range.encodeRangeCode(all,items);
+  const decoded=range.decodeRangeCode(code,[...items].reverse());
+  for(const key of ['verbFamilies','adjectiveFamilies','auxiliaryItemIds'])assert.deepEqual(new Set(decoded.selection[key]),new Set(all[key]));
+  assert.equal(range.encodeRangeCode(decoded.selection,items),code);
+  assert.match(code,/^[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{3}$/);
+  for(const key of ['verbFamilies','adjectiveFamilies','auxiliaryItemIds']){
+    for(const id of all[key]){
+      const input={preset:'custom',verbFamilies:[],adjectiveFamilies:[],auxiliaryItemIds:[],[key]:[id]};
+      const one=range.decodeRangeCode(range.encodeRangeCode(input,items),items).selection;
+      assert.deepEqual(one[key],[id]);
+      assert.equal(one.verbFamilies.length+one.adjectiveFamilies.length+one.auxiliaryItemIds.length,1);
+    }
+  }
+});
+test('teacher range code: invalid, empty, checksum, future version and absent ids rejected',()=>{
+  const selection={preset:'custom',verbFamilies:['yodan'],adjectiveFamilies:[],auxiliaryItemIds:['nari_assert_aux']};
+  const code=range.encodeRangeCode(selection,items);
+  assert.deepEqual(range.decodeRangeCode(code.toLowerCase().replaceAll('-',' '),items).selection.auxiliaryItemIds,['nari_assert_aux']);
+  assert.throws(()=>range.decodeRangeCode(code.slice(0,-1)+(code.endsWith('0')?'1':'0'),items));
+  assert.throws(()=>range.decodeRangeCode(code,items.filter((x:any)=>x.id!=='nari_assert_aux')));
+  assert.throws(()=>range.encodeRangeCode({preset:'custom'},items));
+  assert.throws(()=>range.encodeRangeCode({...selection,auxiliaryItemIds:['future_aux']},items));
+  assert.throws(()=>range.decodeRangeCode('invalid',items));
+});

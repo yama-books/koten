@@ -242,6 +242,13 @@ export function mount(app,target=document.querySelector('[data-koten-sync]')){
   const invite=new URL(location.href);if(invite.searchParams.has('join')){dialog.showModal();void propose(location.href);invite.searchParams.delete('join');invite.searchParams.delete('r');history.replaceState(null,'',invite.href);}
   if(code&&isPairingCode(code))void run();
 }
+// Draw only the supplied public range URL; no sync-group lookup or network request.
+if(document.getElementById('rangeQRCanvas')){
+  window.KotenDrawRangeQR=async(canvas,url)=>{
+    const {default:QRCode}=await import('qrcode');
+    return QRCode.toCanvas(canvas,url,{width:256,margin:4,errorCorrectionLevel:'M'});
+  };
+}
 const target=document.querySelector('[data-koten-sync]');
 if(target){
   const app=target.dataset.kotenSync;

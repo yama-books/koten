@@ -464,6 +464,43 @@ select{margin-left:4px;padding:7px 8px;background:var(--card);border:1px solid v
 .range-group{border:1px solid var(--line-strong);border-radius:6px;margin:8px 0 0;padding:6px 8px;min-width:0}
 .range-group legend{font-size:11px;color:var(--muted);padding:0 4px}
 .range-list{display:flex;flex-wrap:wrap;gap:4px 12px}
+.range-presets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.range-presets label,.range-list label{position:relative;min-height:44px;box-sizing:border-box;justify-content:flex-start;padding:6px 9px;border:1px solid var(--line);border-radius:10px;background:var(--toolbar-bg);cursor:pointer;transition:background-color .16s,border-color .16s,transform .16s;overflow-wrap:anywhere}
+.range-presets label:has(input:checked),.range-list label:has(input:checked){background:var(--accent-soft);border-color:var(--accent-strong);font-weight:700}
+.range-presets label:active,.range-list label:active{transform:scale(.97)}
+.range-presets input,.range-list input{accent-color:var(--accent-strong);flex:none}
+.range-presets label:has(input:disabled),.range-list label:has(input:disabled){cursor:default;opacity:.75}
+.range-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+#rangeAdjList{grid-template-columns:repeat(2,minmax(0,1fr))}
+#rangeAuxList{grid-template-columns:repeat(3,minmax(0,1fr))}
+.range-list label{font-size:12px;padding:5px 6px}
+.range-group{padding:8px;border-radius:10px}
+.range-group legend{font-weight:700}
+.range-group-tools{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 5px}
+.range-group-tools button{min-height:34px;font-size:11px;padding:4px 8px}
+.range-count{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.range-overview{display:flex;align-items:center;gap:8px;margin:8px 0;color:var(--muted);font-size:12px}
+.range-progress{height:5px;flex:1;border-radius:8px;background:var(--line);overflow:hidden}
+.range-progress span{display:block;height:100%;background:var(--accent-strong);border-radius:8px;transition:width .22s ease}
+.teacher-range{border:1px solid var(--line-strong);border-radius:12px;padding:10px;background:var(--toolbar-bg)}
+.teacher-range h3{color:var(--ink);font-size:13px}
+.teacher-range-row{display:flex;align-items:center;gap:6px;margin:8px 0}
+.teacher-range-row input{flex:1;min-width:0;width:100%;min-height:44px;font:inherit;text-align:center;letter-spacing:.06em;text-transform:uppercase}
+.teacher-range-row button,.teacher-range-actions button{min-height:44px;white-space:nowrap}
+.teacher-range-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.teacher-range-actions button{flex:1}
+.teacher-range summary{cursor:pointer;min-height:44px;display:flex;align-items:center;color:var(--ink);font-size:13px}
+.teacher-range output{display:block;padding:12px 5px;text-align:center;background:var(--accent-soft);border-radius:9px;font:700 18px/1.4 monospace;letter-spacing:.08em;user-select:all;animation:range-pop .2s ease-out}
+.teacher-range canvas{display:block;width: min(224px,100%);height:auto;margin:10px auto;max-width:100%}
+.teacher-range [hidden]{display:none!important}
+#teacherRangeActive{border-radius:9px;padding:8px;background:var(--accent-soft)}
+#rangeChip[data-teacher="true"]{background:var(--accent-soft);border-color:var(--accent-strong);font-weight:700}
+#rangeCodeMessage[data-error="true"]{color:var(--ink);font-weight:700}
+#tableRangeEmpty{padding:16px;text-align:center;color:var(--muted)}
+main.card[data-range-empty="true"]>:not(.quiz-mode-tabs):not(#tableRangeEmpty){display:none!important}
+@keyframes range-pop{from{opacity:.5;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@media(max-width:360px){.range-list,#rangeAuxList{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.range-presets label,.range-list label,.range-progress span,.teacher-range output{transition:none;animation:none}.range-presets label:active,.range-list label:active{transform:none}}
 .settings-difficulty-grid{display:grid;gap:9px}
 .settings-difficulty-grid label{display:grid;grid-template-columns:7.5em minmax(0,1fr);align-items:center;gap:8px}
 .settings-difficulty-grid select{min-height:34px;min-width:0}
@@ -3185,6 +3222,7 @@ body.review-modal-open{overflow:hidden}
     </div>
     <p id="quizPrompt" hidden>例文の<span class="quiz-target-swatch" role="img" aria-label="網掛け"></span>部分の<span id="quizPromptAnswer"></span>を答えなさい。</p>
     <p id="quizEmpty" role="status" hidden></p>
+    <p id="tableRangeEmpty" role="status" hidden>この範囲には出題できる活用表がありません。範囲を変更するか、データの読み込み後にお試しください。</p>
     <div class="meta">
       <span class="tag" id="posTag"></span>
     </div>
@@ -3298,7 +3336,37 @@ body.review-modal-open{overflow:hidden}
           <fieldset class="range-group"><legend>形容詞・形容動詞</legend><div id="rangeAdjList" class="range-list"></div></fieldset>
           <fieldset class="range-group"><legend>助動詞</legend><div id="rangeAuxList" class="range-list"></div></fieldset>
         </details>
+        <div class="range-overview"><span id="rangeCount" class="range-count"></span><div class="range-progress" aria-hidden="true"><span id="rangeProgress"></span></div></div>
         <p class="settings-note" id="rangeMessage" role="status"></p>
+        <section class="teacher-range" aria-labelledby="teacherRangeTitle">
+          <h3 id="teacherRangeTitle">先生の範囲</h3>
+          <div id="teacherRangeActive" hidden>
+            <strong>先生の範囲を使用中</strong>
+            <p id="teacherRangeSummary" class="settings-note"></p>
+            <button class="ghost" id="teacherRangeRelease" type="button">解除して元の範囲に戻る</button>
+          </div>
+          <label class="settings-note" for="rangeCodeInput">配布された範囲コードを入力</label>
+          <div class="teacher-range-row">
+            <input id="rangeCodeInput" type="text" maxlength="32" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="0000-0000-000">
+            <button class="primary" id="rangeCodeApply" type="button">適用</button>
+          </div>
+          <details id="rangeShareDetails">
+            <summary>この範囲を配布する</summary>
+            <p class="settings-note">上で選んだ範囲を共有します。学習モードや難しさ、学習記録は含まれません。</p>
+            <button class="ghost" id="rangeCodeGenerate" type="button">範囲コードを作成</button>
+            <div id="rangeShareResult" hidden>
+              <output id="rangeCodeOutput"></output>
+              <div class="teacher-range-actions">
+                <button class="ghost" id="rangeCopyCode" type="button">コードをコピー</button>
+                <button class="ghost" id="rangeCopyLink" type="button">URLをコピー</button>
+                <button class="ghost" id="rangeShowQR" type="button">QR</button>
+              </div>
+              <input id="rangeShareLink" aria-label="範囲共有URL" type="url" readonly style="width:100%;box-sizing:border-box;font-size:12px">
+              <canvas id="rangeQRCanvas" aria-label="範囲共有QRコード" role="img" hidden></canvas>
+            </div>
+          </details>
+          <p class="settings-note" id="rangeCodeMessage" role="status"></p>
+        </section>
       </div>
     </section>
     <section class="settings-panel" id="settingsPanelDifficulty" role="tabpanel" aria-labelledby="settingsTabDifficulty" data-settings-panel="difficulty" hidden>
@@ -3489,7 +3557,7 @@ body.review-modal-open{overflow:hidden}
 </div>
 
 <script src="./adjv-runtime-adapter.js?v=20260928-aux-examples"></script>
-<script src="./conj-range.js?v=20261006-1"></script>
+<script src="./conj-range.js?v=20261127-range-01"></script>
 <script src="./record-transfer.js?v=app007-1"></script>
 <script src="./conj-quiz-ui.js?v=20261015-example-bubble-01"></script>
 <script>
@@ -3921,6 +3989,7 @@ const items=[
 
 ];
 let rangeSelection=window.ConjRange.load(localStorage,items);
+let teacherRangeCode=null, freeRangeSelection=rangeSelection;
 window.__conjRangeSelection=rangeSelection;
 function setRangeSelection(next,{persist=true,syncLegacy=true}={}){
   rangeSelection=window.ConjRange.normalize(next,items);
@@ -5410,6 +5479,7 @@ function focusFirstBlank(){
 }
 
 async function grade(revealOnly=false){
+  if(!current)return;
   if(!window.ConjRecordReady){setSettingsRecordStatus('記録の準備中です。少し待ってからお試しください。');return;}
   const recordBefore=structuredClone(stats);
   if(isIdentificationMode()){revealOnly?hintQuiz():gradeQuiz();return;}
@@ -6271,9 +6341,18 @@ function nextQuestion(){
   if(window.ConjRecordSaving)return;
   refreshTableLevel();
   closeEditor(false);
+  const card=document.querySelector("main.card");
+  delete card.dataset.rangeEmpty;
+  document.getElementById("tableRangeEmpty").hidden=true;
   if(isIdentificationMode()){nextQuizQuestion();return;}
   quizState=null;
-  const p=pool(); if(!p.length)return;
+  const p=pool();
+  if(!p.length){
+    current=null;answered=false;answers={};selected=null;blankSlots=new Set();
+    card.dataset.rangeEmpty="true";
+    document.getElementById("tableRangeEmpty").hidden=false;
+    return;
+  }
   let q=p.filter(x=>!current||x.id!==current.id); if(!q.length)q=p;
   current=pickWeightedQuestion(q);
   if(current.pos==="aux") assignAuxExample(current);
@@ -6286,6 +6365,7 @@ document.getElementById("check").onclick=()=>grade(false);
 document.getElementById("reveal").onclick=()=>grade(true);
 document.getElementById("next").onclick=nextQuestion;
 document.getElementById("pos").onchange=()=>{
+  if(teacherRangeCode){syncRangeUI();return;}
   setRangeSelection(window.ConjRange.fromLegacyPos(document.getElementById("pos").value,items),{syncLegacy:false});
   updateLevelUI();
   nextQuestion();
@@ -6331,6 +6411,16 @@ function buildRangeChecks(){
   const fill=(id,group,entries)=>{
     const box=document.getElementById(id);
     box.textContent="";
+    const tools=document.createElement("div");tools.className="range-group-tools";
+    const count=document.createElement("span");count.className="range-count";count.dataset.rangeCount=group;
+    const toggle=document.createElement("button");toggle.type="button";toggle.className="ghost";toggle.dataset.rangeToggle=group;toggle.textContent="まとめて選ぶ";
+    tools.append(count,toggle);box.before(tools);
+    toggle.addEventListener("click",()=>{
+      if(teacherRangeCode)return;
+      const checks=[...box.querySelectorAll("input")], checked=!checks.every(c=>c.checked);
+      checks.forEach(c=>{c.checked=checked;});
+      checks[0]?.dispatchEvent(new Event("change",{bubbles:true}));
+    });
     for(const [value,label] of entries){
       const wrap=document.createElement("label");
       const input=document.createElement("input");
@@ -6346,19 +6436,43 @@ function buildRangeChecks(){
 function syncRangeUI(){
   const sel=rangeSelection;
   const chip=document.getElementById("rangeChip");
-  if(chip) chip.textContent="範囲："+window.ConjRange.presetLabel(sel);
-  document.querySelectorAll('input[name="rangePreset"]').forEach(r=>{ r.checked=r.value===sel.preset; });
+  if(chip){chip.textContent="範囲："+(teacherRangeCode?"先生指定":window.ConjRange.presetLabel(sel));chip.dataset.teacher=String(!!teacherRangeCode);}
+  document.querySelectorAll('input[name="rangePreset"]').forEach(r=>{ r.checked=r.value===sel.preset; r.disabled=!!teacherRangeCode; });
   const groups={verb:sel.verbFamilies,adj:sel.adjectiveFamilies,aux:sel.auxiliaryItemIds};
   document.querySelectorAll("input[data-range-group]").forEach(c=>{
-    c.checked=groups[c.dataset.rangeGroup].includes(c.value);
+    c.checked=groups[c.dataset.rangeGroup].includes(c.value);c.disabled=!!teacherRangeCode;
   });
+  for(const id of ["rangeCheckAll","rangeUncheckAll"])document.getElementById(id).disabled=!!teacherRangeCode;
+  syncRangeCounts();
+  document.getElementById("teacherRangeActive").hidden=!teacherRangeCode;
+  document.getElementById("teacherRangeSummary").textContent=rangeDescription(sel);
+  document.getElementById("rangeShareResult").hidden=true;
+  document.getElementById("rangeQRCanvas").hidden=true;
+}
+function rangeDescription(sel){
+  return [...sel.verbFamilies.map(v=>RANGE_VERB_NAMES[v]),...sel.adjectiveFamilies.map(v=>RANGE_ADJ_NAMES[v]),...sel.auxiliaryItemIds.map(id=>window.ConjRange.auxLabel(items.find(x=>x.id===id)||{id}))].join("・");
+}
+function syncRangeCounts(){
+  const all=[...document.querySelectorAll("input[data-range-group]")];
+  const count=all.filter(c=>c.checked).length;
+  document.getElementById("rangeCount").textContent=count+" / "+all.length+" 項目";
+  document.getElementById("rangeProgress").style.width=(all.length?count/all.length*100:0)+"%";
+  document.getElementById("rangeCodeGenerate").disabled=!count;
+  for(const group of ["verb","adj","aux"]){
+    const checks=all.filter(c=>c.dataset.rangeGroup===group), n=checks.filter(c=>c.checked).length;
+    const label=document.querySelector('[data-range-count="'+group+'"]');
+    if(label)label.textContent=n+" / "+checks.length;
+    const toggle=document.querySelector('[data-range-toggle="'+group+'"]');
+    if(toggle){toggle.disabled=!!teacherRangeCode;toggle.textContent=n===checks.length?"まとめて外す":"まとめて選ぶ";}
+  }
 }
 function setRangeMessage(text){
   const el=document.getElementById("rangeMessage");
   if(el) el.textContent=text||"";
 }
 function applyRangeFromUI(next){
-  setRangeSelection(next);
+  if(teacherRangeCode){syncRangeUI();return;}
+  setRangeSelection(next);freeRangeSelection=rangeSelection;
   setRangeMessage("");
   nextQuestion();
 }
@@ -6373,6 +6487,7 @@ document.getElementById("rangeDetails").addEventListener("change",event=>{
   // 全部外した状態は保存せず（直前の範囲で出題を続け）、1つ以上選んだ時点で反映する。
   if(!next.verbFamilies.length && !next.adjectiveFamilies.length && !next.auxiliaryItemIds.length){
     setRangeMessage("範囲を1つ以上選ぶと反映されます");
+    syncRangeCounts();document.getElementById("rangeShareResult").hidden=true;document.getElementById("rangeQRCanvas").hidden=true;
     return;
   }
   applyRangeFromUI(next);
@@ -6397,6 +6512,82 @@ document.getElementById("tableManualLevel").addEventListener("change",event=>{
   nextQuestion();
 });
 syncRangeUI();
+
+function rangeCodeMessage(message,error=false){
+  const el=document.getElementById("rangeCodeMessage");el.textContent=message;el.dataset.error=String(error);
+}
+function teacherRangeApply(raw,{draw=true}={}){
+  if(draw&&window.ConjRecordSaving)throw new Error("記録の保存中です。保存が終わってから適用してください。");
+  const result=window.ConjRange.decodeRangeCode(raw,items);
+  if(!teacherRangeCode)freeRangeSelection=rangeSelection;
+  teacherRangeCode=result.code;
+  let saved=true;
+  try{localStorage.setItem(window.ConjRange.TEACHER_KEY,result.code);}catch(_error){saved=false;}
+  setRangeSelection(result.selection,{persist:false});
+  document.getElementById("rangeCodeInput").value=result.code;
+  rangeCodeMessage(saved?"先生の範囲を設定しました。":"設定しましたが、端末への保存はできませんでした。",!saved);
+  if(draw)nextQuestion();
+  return saved;
+}
+document.getElementById("rangeCodeApply").onclick=()=>{
+  try{
+    if(teacherRangeApply(document.getElementById("rangeCodeInput").value)){
+      const url=new URL(location.href);
+      if(url.searchParams.has("range")){url.searchParams.delete("range");history.replaceState(null,"",url.href);}
+    }
+  }catch(error){rangeCodeMessage(error.message,true);}
+};
+document.getElementById("rangeCodeInput").addEventListener("keydown",event=>{
+  if(event.key==="Enter"&&!event.isComposing){event.preventDefault();event.stopPropagation();document.getElementById("rangeCodeApply").click();}
+});
+document.getElementById("teacherRangeRelease").onclick=()=>{
+  if(window.ConjRecordSaving){rangeCodeMessage("記録の保存中です。保存が終わってから解除してください。",true);return;}
+  try{localStorage.removeItem(window.ConjRange.TEACHER_KEY);}catch(_error){rangeCodeMessage("保存済みの指定範囲を解除できませんでした。",true);return;}
+  teacherRangeCode=null;
+  const url=new URL(location.href);
+  if(url.searchParams.has("range")){url.searchParams.delete("range");history.replaceState(null,"",url.href);}
+  setRangeSelection(freeRangeSelection,{persist:false});
+  document.getElementById("rangeCodeInput").value="";
+  rangeCodeMessage("元の学習範囲に戻しました。");nextQuestion();
+};
+function restoreTeacherRange(){
+  const url=new URL(location.href), incoming=url.searchParams.get("range");
+  let saved=null;
+  try{saved=localStorage.getItem(window.ConjRange.TEACHER_KEY);}catch(_error){}
+  if(saved){try{teacherRangeApply(saved,{draw:false});}catch(error){rangeCodeMessage("保存済みの範囲を読み込めません："+error.message,true);document.getElementById("openSettings").click();}}
+  if(incoming!==null){
+    try{
+      if(teacherRangeApply(incoming,{draw:false})){url.searchParams.delete("range");history.replaceState(null,"",url.href);}
+    }catch(error){rangeCodeMessage(error.message,true);document.getElementById("rangeCodeInput").value=incoming.slice(0,32);document.getElementById("openSettings").click();}
+  }
+}
+document.getElementById("rangeCodeGenerate").onclick=()=>{
+  try{
+    const code=window.ConjRange.encodeRangeCode(rangeSelection,items), url=new URL(location.pathname,location.origin);
+    url.searchParams.set("range",code);
+    document.getElementById("rangeCodeOutput").textContent=code;
+    document.getElementById("rangeShareLink").value=url.href;
+    document.getElementById("rangeQRCanvas").hidden=true;
+    document.getElementById("rangeShareResult").hidden=false;
+    rangeCodeMessage("範囲コードを作成しました。");
+  }catch(error){rangeCodeMessage(error.message,true);}
+};
+async function copyRangeText(value){
+  try{await navigator.clipboard.writeText(value);rangeCodeMessage("コピーしました。");}
+  catch(_error){rangeCodeMessage("コピーできませんでした。コードまたはURLを選択してコピーしてください。",true);}
+}
+document.getElementById("rangeCopyCode").onclick=()=>copyRangeText(document.getElementById("rangeCodeOutput").textContent);
+document.getElementById("rangeCopyLink").onclick=()=>copyRangeText(document.getElementById("rangeShareLink").value);
+document.getElementById("rangeShowQR").onclick=async()=>{
+  const canvas=document.getElementById("rangeQRCanvas"), link=document.getElementById("rangeShareLink").value;
+  if(!canvas.hidden){canvas.hidden=true;return;}
+  try{
+    if(!window.KotenDrawRangeQR)throw new Error("QRの準備ができていません。");
+    const draft=document.createElement("canvas");await window.KotenDrawRangeQR(draft,link);
+    if(document.getElementById("rangeShareResult").hidden||link!==document.getElementById("rangeShareLink").value)return;
+    canvas.width=draft.width;canvas.height=draft.height;canvas.getContext("2d").drawImage(draft,0,0);canvas.hidden=false;
+  }catch(error){rangeCodeMessage("QRを表示できません。URLまたはコードをご利用ください。",true);}
+};
 
 function bindLevelMeter(name, setter){
   const input=document.getElementById(name+"Level");
@@ -6728,18 +6919,20 @@ function initThemeSwitcher(){
 
 async function bootConj(){
   initThemeSwitcher();
+  restoreTeacherRange();
   nextQuestion();
   initInstallGuide();
   loadStampMask();
   await Promise.all([loadAdjvRuntimeItems(),loadAuxExamples()]);
   refreshSourceCredits();
   await initQuizUI();
+  if(!current)nextQuestion();
   try{
     stats=normalizeStats(ConjRecordTransfer.initialize(localStorage,stats));
     window.ConjRecordReady=true;
     window.dispatchEvent(new Event('koten:conj-ready'));
   }catch{setSettingsRecordStatus('記録を読み込めません。既存データを保全して停止しています。','danger');}
-  if(current && current.pos==="aux" && !answered){
+  if(current && current.pos==="aux" && !answered && !isIdentificationMode()){
     assignAuxExample(current);
     render();
   }
@@ -6751,6 +6944,6 @@ window.addEventListener('storage',event=>{if(event.key===RECORD_STORAGE_KEY){sta
 bootConj();
 
 </script>
-<script src="./sync.bundle.js?v=app007-7"></script>
+<script src="./sync.bundle.js?v=app007-8"></script>
 </body>
 </html>
