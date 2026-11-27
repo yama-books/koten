@@ -6517,6 +6517,7 @@ function rangeCodeMessage(message,error=false){
   const el=document.getElementById("rangeCodeMessage");el.textContent=message;el.dataset.error=String(error);
 }
 function teacherRangeApply(raw,{draw=true}={}){
+  if(draw&&window.ConjRecordSaving)throw new Error("記録の保存中です。保存が終わってから適用してください。");
   const result=window.ConjRange.decodeRangeCode(raw,items);
   if(!teacherRangeCode)freeRangeSelection=rangeSelection;
   teacherRangeCode=result.code;
@@ -6529,14 +6530,22 @@ function teacherRangeApply(raw,{draw=true}={}){
   return saved;
 }
 document.getElementById("rangeCodeApply").onclick=()=>{
-  try{teacherRangeApply(document.getElementById("rangeCodeInput").value);}catch(error){rangeCodeMessage(error.message,true);}
+  try{
+    if(teacherRangeApply(document.getElementById("rangeCodeInput").value)){
+      const url=new URL(location.href);
+      if(url.searchParams.has("range")){url.searchParams.delete("range");history.replaceState(null,"",url.href);}
+    }
+  }catch(error){rangeCodeMessage(error.message,true);}
 };
 document.getElementById("rangeCodeInput").addEventListener("keydown",event=>{
   if(event.key==="Enter"&&!event.isComposing){event.preventDefault();event.stopPropagation();document.getElementById("rangeCodeApply").click();}
 });
 document.getElementById("teacherRangeRelease").onclick=()=>{
+  if(window.ConjRecordSaving){rangeCodeMessage("記録の保存中です。保存が終わってから解除してください。",true);return;}
   try{localStorage.removeItem(window.ConjRange.TEACHER_KEY);}catch(_error){rangeCodeMessage("保存済みの指定範囲を解除できませんでした。",true);return;}
   teacherRangeCode=null;
+  const url=new URL(location.href);
+  if(url.searchParams.has("range")){url.searchParams.delete("range");history.replaceState(null,"",url.href);}
   setRangeSelection(freeRangeSelection,{persist:false});
   document.getElementById("rangeCodeInput").value="";
   rangeCodeMessage("元の学習範囲に戻しました。");nextQuestion();
@@ -6545,7 +6554,7 @@ function restoreTeacherRange(){
   const url=new URL(location.href), incoming=url.searchParams.get("range");
   let saved=null;
   try{saved=localStorage.getItem(window.ConjRange.TEACHER_KEY);}catch(_error){}
-  if(saved){try{teacherRangeApply(saved,{draw:false});}catch(error){rangeCodeMessage("保存済みの範囲を読み込めません："+error.message,true);}}
+  if(saved){try{teacherRangeApply(saved,{draw:false});}catch(error){rangeCodeMessage("保存済みの範囲を読み込めません："+error.message,true);document.getElementById("openSettings").click();}}
   if(incoming!==null){
     try{
       if(teacherRangeApply(incoming,{draw:false})){url.searchParams.delete("range");history.replaceState(null,"",url.href);}
@@ -6923,7 +6932,7 @@ async function bootConj(){
     window.ConjRecordReady=true;
     window.dispatchEvent(new Event('koten:conj-ready'));
   }catch{setSettingsRecordStatus('記録を読み込めません。既存データを保全して停止しています。','danger');}
-  if(current && current.pos==="aux" && !answered){
+  if(current && current.pos==="aux" && !answered && !isIdentificationMode()){
     assignAuxExample(current);
     render();
   }

@@ -126,6 +126,69 @@ async function setAdvanced(page:any,id:string,value:string){
   await page.locator('#closeSettings').click();
 }
 try{
+  // Range sharing uses real UI, separate contexts, and the same four quiz modes.
+  // A 320px viewport covers the narrowest UI and a tablet covers the roomy grid.
+  for(const width of [320,820]){
+    const context=await browser.newContext({viewport:{width,height:width===320?568:1180},reducedMotion:'reduce'});
+    const teacher=await context.newPage();
+    await teacher.goto(`http://127.0.0.1:${port}/conj/`);
+    await teacher.waitForFunction("window.ConjRecordReady && !document.getElementById('quizMode').disabled");
+    await teacher.locator('#rangeChip').click();
+    await teacher.locator('#rangeDetails summary').click();
+    await teacher.locator('#rangeUncheckAll').click();
+    assert.equal(await teacher.locator('#rangeCodeGenerate').isDisabled(),true);
+    await teacher.locator('input[data-range-group="verb"][value="yodan"]').check();
+    assert.match(await teacher.locator('#rangeCount').innerText(),/^1 \/ 41/);
+    assert.ok(await teacher.locator('#rangeVerbList label').evaluateAll(labels=>labels.every(el=>el.getBoundingClientRect().height>=44)));
+    assert.equal(await teacher.locator('#rangeProgress').evaluate(el=>getComputedStyle(el).transitionDuration),'0s');
+    await teacher.locator('#rangeShareDetails summary').click();
+    await teacher.locator('#rangeCodeGenerate').click();
+    const code=await teacher.locator('#rangeCodeOutput').innerText();
+    const url=await teacher.locator('#rangeShareLink').inputValue();
+    assert.equal(new URL(url).searchParams.get('range'),code);
+    await teacher.locator('#rangeShowQR').click();
+    await teacher.locator('#rangeQRCanvas').waitFor({state:'visible'});
+    const qr=await teacher.locator('#rangeQRCanvas').evaluate(el=>{
+      const c=el as HTMLCanvasElement;
+      return {width:c.width,height:c.height,pixels:Array.from(c.getContext('2d')!.getImageData(0,0,c.width,c.height).data)};
+    });
+    const {default:jsQR}=await import('jsqr');
+    assert.equal(jsQR(new Uint8ClampedArray(qr.pixels),qr.width,qr.height)?.data,url,'range QR contains only the share URL');
+    assert.ok(await teacher.locator('#settingsDialog').evaluate(el=>el.scrollWidth<=el.clientWidth+1),'range dialog no horizontal overflow');
+    const studentContext=await browser.newContext({viewport:{width,height:width===320?568:1180}});
+    const student=await studentContext.newPage();
+    await student.goto(`http://127.0.0.1:${port}/conj/`);
+    await student.waitForFunction("window.ConjRecordReady && !document.getElementById('quizMode').disabled");
+    await setPos(student,'aux');
+    const before=await student.evaluate(()=>({range:localStorage.getItem('conjRangePreferences'),record:localStorage.getItem('katsuyoProtoV37')}));
+    await student.goto(url);
+    await student.waitForFunction("window.ConjRecordReady && !document.getElementById('quizMode').disabled");
+    assert.match(await student.locator('#rangeChip').innerText(),/先生指定/);
+    for(const mode of ['table','form','type','lemma']){
+      await chooseMode(student,mode);
+      assert.equal(await student.evaluate("!!current && ConjRange.verbFamily(current)==='yodan'"),true,mode+' stays inside assigned range');
+    }
+    await student.locator('#rangeChip').click();
+    assert.equal(await student.locator('input[data-range-group="verb"][value="yodan"]').isDisabled(),true);
+    await student.locator('#rangeCodeInput').fill('wrong');
+    await student.locator('#rangeCodeApply').click();
+    assert.equal(await student.locator('#rangeCodeMessage').getAttribute('data-error'),'true');
+    assert.equal(await student.evaluate(()=>localStorage.getItem('conjTeacherRangeCode')),code);
+    await student.locator('#closeSettings').click();
+    await student.reload();
+    await student.waitForFunction("window.ConjRecordReady && !document.getElementById('quizMode').disabled");
+    assert.match(await student.locator('#rangeChip').innerText(),/先生指定/);
+    await student.locator('#rangeChip').click();
+    await student.locator('#teacherRangeRelease').click();
+    assert.match(await student.locator('#rangeChip').innerText(),/助動詞/);
+    assert.deepEqual(await student.evaluate(()=>({range:localStorage.getItem('conjRangePreferences'),record:localStorage.getItem('katsuyoProtoV37')})),before);
+    await student.locator('#rangeCodeInput').fill(code);
+    await student.locator('#rangeCodeApply').click();
+    assert.match(await student.locator('#rangeChip').innerText(),/先生指定/);
+    await student.locator('#teacherRangeRelease').click();
+    await studentContext.close();await context.close();
+    console.log('teacher range: code, URL, QR, restore, four modes, layout and reduced motion '+width+'px PASS');
+  }
   // The 125 published representative examples: every one links to the renderer, highlights its
   // reviewed occurrence, and their CHJ works join the single source list.
   const real=await browser.newPage({viewport:{width:375,height:812}});await real.goto(`http://127.0.0.1:${port}/conj/`);
