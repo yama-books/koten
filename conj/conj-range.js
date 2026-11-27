@@ -232,8 +232,60 @@
     return AUX_LABELS[item?.id] || String(item?.lemma||item?.id||"");
   }
 
+  // V1 wire order is immutable, independent of catalog order or additions.
+  const CODE_VERBS=["yodan","kami_ichidan","kami_nidan","shimo_ichidan","shimo_nidan","ka_hen","sa_hen","na_hen","ra_hen"];
+  const CODE_ADJECTIVES=["ku","shiku","nari","tari"];
+  const CODE_AUX=["ru_aux","raru_aux","su_aux","sasu_aux","shimu_aux","zu","mu_aux","muzu_aux","ji_aux","mashi_aux","mahoshi_aux","ki_aux","keri","tsu_aux","nu_aux","tari_comp_aux","ri_aux","kemu_aux","ramu_aux","beshi_aux","maji_aux","rashi_aux","meri_aux","nari_hearsay_aux","nari_assert_aux","tari_assert_aux","tashi_aux","gotoshi_aux"];
+  const CODE_GROUPS=[["verbFamilies",CODE_VERBS],["adjectiveFamilies",CODE_ADJECTIVES],["auxiliaryItemIds",CODE_AUX]];
+  const CODE_ALPHABET="0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+  const TEACHER_KEY="conjTeacherRangeCode";
+  const MASK=(1n<<41n)-1n;
+  // CRC-10/ATM polynomial. Detects accidental edits, not authentication.
+  function rangeChecksum(payload){
+    let crc=0;
+    for(let bit=44;bit>=0;bit--){
+      const feedback=((crc>>9)&1)^Number((payload>>BigInt(bit))&1n);
+      crc=(crc<<1)&1023;
+      if(feedback) crc^=0x233;
+    }
+    return crc;
+  }
+  function formatRangeCode(raw){return raw.slice(0,4)+"-"+raw.slice(4,8)+"-"+raw.slice(8);}
+  function encodeRangeCode(selection,items=[]){
+    const value=normalize(selection,items);
+    let bits=0n, index=0n;
+    for(const [key,ids] of CODE_GROUPS){
+      if(value[key].some(id=>!ids.includes(id))) throw new Error("この版では共有できない範囲があります。");
+      for(const id of ids){if(value[key].includes(id))bits|=1n<<index;index++;}
+    }
+    if(!bits)throw new Error("範囲を1つ以上選んでください。");
+    const payload=(1n<<41n)|bits;
+    let data=(payload<<10n)|BigInt(rangeChecksum(payload)), raw="";
+    for(let i=0;i<11;i++){raw=CODE_ALPHABET[Number(data&31n)]+raw;data>>=5n;}
+    return formatRangeCode(raw);
+  }
+  function decodeRangeCode(input,items=[]){
+    const raw=String(input||"").normalize("NFKC").toUpperCase().replace(/[\s-]/g,"").replace(/O/g,"0").replace(/[IL]/g,"1");
+    if(raw.length!==11||[...raw].some(c=>!CODE_ALPHABET.includes(c)))throw new Error("範囲コードは英数字11文字です。");
+    let data=0n;
+    for(const c of raw)data=(data<<5n)|BigInt(CODE_ALPHABET.indexOf(c));
+    const payload=data>>10n;
+    if(Number(payload>>41n)!==1)throw new Error("対応していない範囲コードです。アプリを更新してください。");
+    if(Number(data&1023n)!==rangeChecksum(payload))throw new Error("コードが正しくありません。入力を確認してください。");
+    const bits=payload&MASK;
+    if(!bits)throw new Error("範囲が選ばれていません。");
+    let index=0n;
+    const selection={version:VERSION,preset:"custom"};
+    for(const [key,ids] of CODE_GROUPS)selection[key]=ids.filter(()=>{const selected=!!(bits&(1n<<index));index++;return selected;});
+    if(diagnostics(selection,items).unknownAuxiliaryItemIds.length)throw new Error("このアプリにない助動詞が含まれます。アプリを更新してください。");
+    return {code:formatRangeCode(raw),selection};
+  }
+
   global.ConjRange={
     STORAGE_KEY,
+    TEACHER_KEY,
+    encodeRangeCode,
+    decodeRangeCode,
     VERSION,
     PRESETS:[...PRESETS],
     VERB_FAMILIES:[...VERB_FAMILIES],

@@ -71,6 +71,7 @@ packages/kanazukai/**
 # conj/data/adjectival-noun-public-examples.json の本文は CC BY-SA（THIRD_PARTY_NOTICES.md）。
 conj/index.html
 conj/adjv-runtime-adapter.js
+conj/conj-range.js
 conj/branding.css
 conj/conj-quiz-engine.mjs
 conj/conj-quiz-adapter.mjs
